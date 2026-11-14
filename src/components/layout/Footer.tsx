@@ -526,6 +526,7 @@ export const Footer: React.FC<FooterProps> = ({
                         const isActive = cardStyle === preset.id;
                         const isNeon = preset.id === 'glassmorphism-neon';
                         const isLeather = preset.id === 'cowhide-leather';
+                        const isGlossy = preset.id === 'glossy-glass';
                         const presetName = t(preset.name);
                         const presetModeLabel = t(preset.modeLabel);
                         return (
@@ -548,7 +549,9 @@ export const Footer: React.FC<FooterProps> = ({
                                   ? 'bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 text-white shadow-xs'
                                   : isLeather
                                     ? 'bg-gradient-to-r from-[#8B5A2B] via-[#653A17] to-[#7A4A20] text-[#FFF8DC] border border-dashed border-[#F5DEB3]/70 shadow-xs'
-                                    : 'bg-indigo-600 text-white shadow-xs'
+                                    : isGlossy
+                                      ? 'bg-gradient-to-r from-[#0284C7] to-[#2563EB] text-white shadow-xs border border-white/50'
+                                      : 'bg-indigo-600 text-white shadow-xs'
                                 : 'hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-800 dark:text-slate-100'
                             }`}
                           >
@@ -560,7 +563,9 @@ export const Footer: React.FC<FooterProps> = ({
                                     ? { background: 'linear-gradient(135deg, #06B6D4 0%, #8B5CF6 50%, #EC4899 100%)' }
                                     : isLeather
                                       ? { background: 'linear-gradient(135deg, #8B5A2B 0%, #522E10 100%)', border: '1px dashed rgba(245, 222, 179, 0.6)' }
-                                      : { backgroundColor: preset.color }
+                                      : isGlossy
+                                        ? { background: 'linear-gradient(135deg, #38BDF8 0%, #0284C7 100%)', border: '1px solid rgba(255, 255, 255, 0.6)' }
+                                        : { backgroundColor: preset.color }
                                 }
                               >
                                 <WebIcon name={preset.icon} className="w-3.5 h-3.5" />

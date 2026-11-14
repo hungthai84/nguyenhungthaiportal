@@ -6,7 +6,8 @@ export type CardStyleMode =
   | 'mica-fluent'
   | 'pastel-bento'
   | 'glassmorphism-neon'
-  | 'cowhide-leather';
+  | 'cowhide-leather'
+  | 'glossy-glass';
 
 export interface CardStyleConfig {
   id: CardStyleMode;

@@ -43,6 +43,14 @@ function normalizeCardStyle(raw: string | null): CardStyleMode {
   ) {
     return 'pastel-bento';
   }
+  if (
+    raw === 'glossy-glass' ||
+    raw === 'glossy' ||
+    raw === 'guong-bong' ||
+    raw === 'glass-glossy'
+  ) {
+    return 'glossy-glass';
+  }
   if (VALID_CARD_STYLES.includes(raw as CardStyleMode)) {
     return raw as CardStyleMode;
   }

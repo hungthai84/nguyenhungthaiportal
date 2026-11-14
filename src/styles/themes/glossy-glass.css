@@ -1,0 +1,262 @@
+/* ========================================================================= */
+/* THEME: GLOSSY GLASS – GƯƠNG BÓNG (GLOSS-SHEEN • HIGHLIGHT SPEC)           */
+/* ========================================================================= */
+
+html[data-card-style="glossy-glass"] {
+  --bg-blur: 14px;
+  --glass-blur: 14px;
+
+  --radius-main: 20px;
+  --radius-card: 14px;
+  --radius-subcard: 12px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+  --card-border-width: 1.5px;
+
+  /* Bảng màu Neutral chuẩn WCAG tương phản cao trên bề mặt kính bóng */
+  --color-bg: #EEF2F6;
+  --color-bg-soft: #F1F5F9;
+  --color-bg-blue: #E0F2FE;
+  --color-surface: rgba(255, 255, 255, 0.88);
+  --color-surface-elevated: #FFFFFF;
+
+  --color-heading: #0F172A;
+  --color-text: #1E293B;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748B;
+  --color-link: #0284C7;
+  --text-primary: #0F172A;
+  --text-secondary: #1E293B;
+  --text-muted: #64748B;
+  --text-heading: #0F172A;
+
+  /* Điểm nhấn thương hiệu pha lê phản quang */
+  --color-primary: #0284C7;
+  --color-secondary: #2563EB;
+  --color-tertiary: #4F46E5;
+  --color-focus-ring: #0284C7;
+
+  /* Bề mặt Gương bóng (Glossy Glass Surface) */
+  --bg-main: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.22) 100%);
+  --bg-header: linear-gradient(135deg, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0.20) 50%, rgba(255, 255, 255, 0.40) 100%);
+  --bg-footer: linear-gradient(135deg, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0.20) 50%, rgba(255, 255, 255, 0.40) 100%);
+  --bg-card: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.22) 100%);
+  --bg-subcard: linear-gradient(135deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.16) 100%);
+  --bg-nested-card: rgba(255, 255, 255, 0.75);
+
+  --bg-button-primary: linear-gradient(135deg, #0284C7 0%, #2563EB 55%, #4F46E5 100%);
+  --bg-button-secondary: rgba(255, 255, 255, 0.85);
+  --bg-popup: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.86) 100%);
+  --bg-modal: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.88) 100%);
+  --bg-dropdown: rgba(255, 255, 255, 0.98);
+  --bg-navigation: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.35) 100%);
+  --bg-tab: linear-gradient(135deg, rgba(255, 255, 255, 0.50) 0%, rgba(255, 255, 255, 0.20) 100%);
+  --bg-table: rgba(255, 255, 255, 0.85);
+
+  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.22) 100%);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --border-color: rgba(255, 255, 255, 0.55);
+  --color-border: rgba(255, 255, 255, 0.55);
+  --color-border-soft: rgba(255, 255, 255, 0.40);
+  --bg-nav-button-opaque: #FFFFFF;
+
+  /* Bóng đổ đa tầng kính gương bóng */
+  --shadow-card: rgba(0, 0, 0, 0.35) 0px 20px 45px, rgba(255, 255, 255, 0.85) 0px 2px 4px inset;
+  --shadow-popup: rgba(0, 0, 0, 0.45) 0px 25px 55px, rgba(255, 255, 255, 0.95) 0px 2px 6px inset;
+
+  /* Nav Pill Tokens */
+  --bg-nav-pill: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.62) 100%);
+  --shadow-nav-pill: 0 8px 24px -4px rgba(0, 0, 0, 0.22), inset 0 1.5px 3px rgba(255, 255, 255, 0.95);
+  --blur-nav-pill: 14px;
+  --divider-nav-pill: rgba(2, 132, 199, 0.35);
+
+  /* Subcard Tokens */
+  --border-subcard: rgba(255, 255, 255, 0.65);
+  --shadow-subcard: 0 10px 25px -5px rgba(0, 0, 0, 0.18), inset 0 1.5px 2px rgba(255, 255, 255, 0.9);
+  --blur-subcard: 12px;
+  --bg-nested-badge: rgba(255, 255, 255, 0.92);
+  --border-nested-badge: rgba(255, 255, 255, 0.80);
+
+  /* Pillars & Core Values Tokens */
+  --pillar-heading: #0F172A;
+  --pillar-sub: #0284C7;
+  --pillar-body: #1E293B;
+  --pillar-badge-bg: rgba(2, 132, 199, 0.12);
+  --pillar-badge-text: #0369A1;
+  --pillar-divider: rgba(255, 255, 255, 0.60);
+  --pillar-progress-track: rgba(255, 255, 255, 0.70);
+  --pillar-progress-fill: linear-gradient(90deg, #38BDF8 0%, #0284C7 50%, #2563EB 100%);
+
+  /* Banner & Banner Controls */
+  --banner-border: rgba(255, 255, 255, 0.75);
+  --banner-shadow: rgba(0, 0, 0, 0.30) 0px 20px 45px, rgba(255, 255, 255, 0.90) 0px 2px 4px inset;
+  --bg-banner-pill: linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.68) 100%);
+  --text-banner-pill: #0F172A;
+  --border-banner-pill: rgba(255, 255, 255, 0.85);
+  --shadow-banner-pill: 0 8px 24px -4px rgba(0, 0, 0, 0.18), inset 0 1.5px 3px rgba(255, 255, 255, 0.95);
+  --bg-banner-cta: linear-gradient(135deg, #0284C7 0%, #2563EB 55%, #4F46E5 100%);
+  --text-banner-cta: #FFFFFF;
+  --border-banner-cta: rgba(255, 255, 255, 0.85);
+  --shadow-banner-cta: 0 10px 24px -6px rgba(2, 132, 199, 0.40);
+  --bg-nav-arrow: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.65) 100%);
+  --border-nav-arrow: rgba(255, 255, 255, 0.85);
+  --text-nav-arrow: #0F172A;
+  --shadow-nav-arrow: 0 8px 20px -4px rgba(0, 0, 0, 0.18), inset 0 1.5px 3px rgba(255, 255, 255, 0.95);
+}
+
+/* ========================================================================= */
+/* GLOSSY GLASS CARD SURFACES WITH SPECULAR SHEEN HIGHLIGHT (::before -12°)  */
+/* ========================================================================= */
+
+html[data-card-style="glossy-glass"] .main-card,
+html[data-card-style="glossy-glass"] [id$="-page-container"],
+html[data-card-style="glossy-glass"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card),
+html[data-card-style="glossy-glass"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card),
+html[data-card-style="glossy-glass"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card) {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.22) 100%) !important;
+  backdrop-filter: blur(14px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 20px 45px, rgba(255, 255, 255, 0.85) 0px 2px 4px inset !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Lớp phủ Highlight ánh sáng góc chéo -12° đặc trưng của Glossy Glass */
+html[data-card-style="glossy-glass"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.project-card)::before,
+html[data-card-style="glossy-glass"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.project-card)::before,
+html[data-card-style="glossy-glass"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(.project-card)::before,
+html[data-card-style="glossy-glass"] .card-glossy-glass::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -20%;
+  width: 140%;
+  height: 75%;
+  background: linear-gradient(rgba(255, 255, 255, 0.45) 0%, transparent 100%);
+  transform: rotate(-12deg);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hover State với phản quang sâu hơn */
+html[data-card-style="glossy-glass"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):hover,
+html[data-card-style="glossy-glass"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):hover,
+html[data-card-style="glossy-glass"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(0, 0, 0, 0.42) 0px 25px 55px, rgba(255, 255, 255, 0.95) 0px 2px 6px inset !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* Subcards & Detail Panels trong Gương Bóng */
+html[data-card-style="glossy-glass"] [data-subcard="true"],
+html[data-card-style="glossy-glass"] .sub-card,
+html[data-card-style="glossy-glass"] .about-info-subcard,
+html[data-card-style="glossy-glass"] .exp-detail-subcard,
+html[data-card-style="glossy-glass"] .education-subcard,
+html[data-card-style="glossy-glass"] .letter-subcard,
+html[data-card-style="glossy-glass"] .project-detail-subcard {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.16) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.16), inset 0 1.5px 2px rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(12px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* SWOT Quadrant Cards */
+html[data-card-style="glossy-glass"] .swot-quadrant-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.15) 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.65) !important;
+  box-shadow: 0 14px 32px -6px rgba(0, 0, 0, 0.22), inset 0 1.5px 3px rgba(255, 255, 255, 0.90) !important;
+}
+
+html[data-card-style="glossy-glass"] .swot-quadrant-card[data-swot="S"] {
+  border-top: 3px solid #0284C7 !important;
+}
+html[data-card-style="glossy-glass"] .swot-quadrant-card[data-swot="W"] {
+  border-top: 3px solid #10B981 !important;
+}
+html[data-card-style="glossy-glass"] .swot-quadrant-card[data-swot="O"] {
+  border-top: 3px solid #F59E0B !important;
+}
+html[data-card-style="glossy-glass"] .swot-quadrant-card[data-swot="T"] {
+  border-top: 3px solid #F43F5E !important;
+}
+
+html[data-card-style="glossy-glass"] .skill-swot-subcard {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.22) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.9) !important;
+}
+
+/* 3 Operating Pillars & Core Values */
+html[data-card-style="glossy-glass"] .pillar-gradient-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.50) 0%, rgba(255, 255, 255, 0.20) 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.70) !important;
+  box-shadow: 0 14px 34px -6px rgba(0, 0, 0, 0.24), inset 0 1.5px 3px rgba(255, 255, 255, 0.90) !important;
+}
+
+html[data-card-style="glossy-glass"] .pillar-gradient-card[data-accent="blue"] {
+  border-top: 3px solid #0284C7 !important;
+}
+html[data-card-style="glossy-glass"] .pillar-gradient-card[data-accent="rose"] {
+  border-top: 3px solid #F43F5E !important;
+}
+html[data-card-style="glossy-glass"] .pillar-gradient-card[data-accent="emerald"] {
+  border-top: 3px solid #10B981 !important;
+}
+html[data-card-style="glossy-glass"] .pillar-gradient-card[data-accent="amber"] {
+  border-top: 3px solid #F59E0B !important;
+}
+html[data-card-style="glossy-glass"] .pillar-gradient-card[data-accent="pink"] {
+  border-top: 3px solid #EC4899 !important;
+}
+html[data-card-style="glossy-glass"] .pillar-gradient-card[data-accent="purple"] {
+  border-top: 3px solid #8B5CF6 !important;
+}
+
+/* Popups & Dropdown Menus */
+html[data-card-style="glossy-glass"] #ai-assistant-droptop-menu-list,
+html[data-card-style="glossy-glass"] #ai-assistant-center-questions-modal,
+html[data-card-style="glossy-glass"] #interview-question-filter-listbox,
+html[data-card-style="glossy-glass"] #skills-filter-dropdown,
+html[data-card-style="glossy-glass"] #services-filter-dropdown,
+html[data-card-style="glossy-glass"] .banner-dropdown-menu,
+html[data-card-style="glossy-glass"] #footer-theme-popup,
+html[data-card-style="glossy-glass"] #footer-lang-popup {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.86) 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1.5px 3px rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+}
+
+/* Inputs, Textareas & Selects */
+html[data-card-style="glossy-glass"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+html[data-card-style="glossy-glass"] textarea,
+html[data-card-style="glossy-glass"] select {
+  background: rgba(255, 255, 255, 0.80) !important;
+  border: 1px solid rgba(255, 255, 255, 0.70) !important;
+  color: #0F172A !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+html[data-card-style="glossy-glass"] input::placeholder,
+html[data-card-style="glossy-glass"] textarea::placeholder {
+  color: #64748B !important;
+}
+
+/* Project Cards in Glossy Glass */
+html[data-card-style="glossy-glass"] .project-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.40) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0.28) 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.65) !important;
+  box-shadow: rgba(0, 0, 0, 0.32) 0px 18px 42px, rgba(255, 255, 255, 0.85) 0px 2px 4px inset !important;
+}
+
+html[data-card-style="glossy-glass"] .project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(0, 0, 0, 0.40) 0px 24px 50px, rgba(255, 255, 255, 0.95) 0px 2px 5px inset !important;
+  border-color: rgba(255, 255, 255, 0.85) !important;
+}

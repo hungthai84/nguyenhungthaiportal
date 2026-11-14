@@ -10,6 +10,7 @@ export const VALID_CARD_STYLES: CardStyleMode[] = [
   'pastel-bento',
   'glassmorphism-neon',
   'cowhide-leather',
+  'glossy-glass',
 ];
 
 export const CARD_STYLES_MAP: Record<CardStyleMode, CardStyleConfig> = {
@@ -203,6 +204,46 @@ export const CARD_STYLES_MAP: Record<CardStyleMode, CardStyleConfig> = {
     },
     badgeColorClass: 'bg-[#522E10]/90 text-[#FFF8DC] border-[#F5DEB3]/50',
   },
+  'glossy-glass': {
+    id: 'glossy-glass',
+    name: 'Gương bóng',
+    label: 'Gương bóng (Glossy Glass – gloss-sheen • highlight)',
+    shortBadge: 'Gương Bóng',
+    tagLabel: 'Gương bóng · Glossy Glass',
+    modeLabel: 'Gương bóng kính cao cấp',
+    isDark: false,
+    icon: 'sparkles',
+    color: '#0284C7',
+    desc: 'Bề mặt bóng loáng phản chiếu ánh sáng với dải highlight góc nghiêng -12°, viền sáng 1.5px và bóng đổ đa tầng kính cao cấp.',
+    cardSampleStyle: {
+      background:
+        'linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.22) 100%)',
+      backdropFilter: 'blur(14px) saturate(160%)',
+      WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+      border: '1.5px solid rgba(255, 255, 255, 0.55)',
+      boxShadow:
+        'rgba(0, 0, 0, 0.35) 0px 20px 45px, rgba(255, 255, 255, 0.85) 0px 2px 4px inset',
+      position: 'relative',
+      overflow: 'hidden',
+    },
+    miniPreviewWrapStyle: {
+      background:
+        'linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.15) 100%)',
+      borderColor: 'rgba(255, 255, 255, 0.75)',
+      boxShadow:
+        '0 8px 24px -4px rgba(0, 0, 0, 0.25), inset 0 1.5px 3px rgba(255, 255, 255, 0.95)',
+    },
+    miniTabStyle: {
+      background: 'rgba(255, 255, 255, 0.85)',
+      color: '#0F172A',
+      borderColor: 'rgba(255, 255, 255, 0.8)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #0284C7 0%, #2563EB 55%, #4F46E5 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-sky-500/15 text-sky-900 border-sky-300/80 shadow-2xs',
+  },
 };
 
 export const CARD_STYLE_PRESETS_LIST: CardStyleConfig[] = VALID_CARD_STYLES.map(id => CARD_STYLES_MAP[id]);
@@ -240,6 +281,14 @@ export function normalizeCardStyle(raw: string | null): CardStyleMode {
     raw === 'pastel-bento'
   ) {
     return 'pastel-bento';
+  }
+  if (
+    raw === 'glossy-glass' ||
+    raw === 'glossy' ||
+    raw === 'guong-bong' ||
+    raw === 'glass-glossy'
+  ) {
+    return 'glossy-glass';
   }
   if (VALID_CARD_STYLES.includes(raw as CardStyleMode)) {
     return raw as CardStyleMode;

@@ -14,4 +14,5 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'pastel-bento': 'css-pastel-bento-soft',         // Hình nền Pastel Bento Dịu Nhẹ
   'glassmorphism-neon': 'custom-wp-1790261424372', // Hình nền #88
   'cowhide-leather': 'css-cowhide-leather-craft',  // Hình nền Da nâu bò thủ công #82
+  'glossy-glass': 'custom-wp-1788245365255',       // Hình nền Gương bóng kính phản quang
 };

@@ -105,6 +105,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
           const sampleProps = getCardStyleProperties(preset.id);
           const isNeonDark = preset.id === 'glassmorphism-neon';
           const isLeather = preset.id === 'cowhide-leather';
+          const isGlossy = preset.id === 'glossy-glass';
 
           return (
             <motion.div
@@ -139,7 +140,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         ? '0 12px 32px rgba(6, 182, 212, 0.35), 0 0 0 3px #22D3EE'
                         : isLeather
                           ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #F5DEB3`
-                          : `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px var(--color-indigo)`,
+                          : isGlossy
+                            ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #0284C7`
+                            : `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px var(--color-indigo)`,
                     }
                   : {}),
               }}
@@ -152,9 +155,13 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     ? isActive
                       ? 'border-[#F5DEB3]'
                       : 'border-[#522E10] hover:border-[#D4A373]'
-                    : isActive
-                      ? 'border-indigo-600 shadow-xl'
-                      : 'border-white/80 hover:border-indigo-400'
+                    : isGlossy
+                      ? isActive
+                        ? 'border-sky-500 shadow-[0_12px_36px_rgba(2,132,199,0.35)]'
+                        : 'border-white/80 hover:border-sky-400'
+                      : isActive
+                        ? 'border-indigo-600 shadow-xl'
+                        : 'border-white/80 hover:border-indigo-400'
               }`}
             >
               <div className="flex flex-col gap-3">
@@ -166,7 +173,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           ? 'bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 text-white border-cyan-300'
                           : isLeather
                             ? 'bg-gradient-to-r from-[#D97706] to-[#92400E] text-[#FFF8DC] border-[#F5DEB3]/80'
-                            : 'bg-indigo-600 text-white border-indigo-700'
+                            : isGlossy
+                              ? 'bg-gradient-to-r from-[#0284C7] to-[#2563EB] text-white border-sky-300'
+                              : 'bg-indigo-600 text-white border-indigo-700'
                         : preset.badgeColorClass
                     }`}
                   >
@@ -306,12 +315,16 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         ? 'bg-gradient-to-r from-cyan-500 to-fuchsia-500 text-white shadow-xs'
                         : isLeather
                           ? 'bg-gradient-to-r from-[#D97706] to-[#92400E] text-[#FFF8DC] shadow-xs border border-[#F5DEB3]/60'
-                          : 'bg-indigo-600 text-white shadow-xs'
+                          : isGlossy
+                            ? 'bg-gradient-to-r from-[#0284C7] to-[#2563EB] text-white shadow-xs'
+                            : 'bg-indigo-600 text-white shadow-xs'
                       : isNeonDark
                         ? 'bg-slate-800/90 text-cyan-100 hover:bg-slate-700'
                         : isLeather
                           ? 'bg-[#522E10]/90 text-[#FFF8DC] hover:bg-[#3D210B] border border-[#F5DEB3]/35'
-                          : 'bg-slate-100 text-slate-700 hover:bg-indigo-50'
+                          : isGlossy
+                            ? 'bg-sky-50 text-sky-800 hover:bg-sky-100 border border-sky-200'
+                            : 'bg-slate-100 text-slate-700 hover:bg-indigo-50'
                   }`}
                 >
                   {isActive ? 'Đang sử dụng' : 'Chọn phong cách'}
@@ -323,7 +336,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         ? 'bg-cyan-500'
                         : isLeather
                           ? 'bg-[#D97706] text-[#FFF8DC]'
-                          : 'bg-indigo-600'
+                          : isGlossy
+                            ? 'bg-sky-600'
+                            : 'bg-indigo-600'
                     }`}
                   >
                     ✓

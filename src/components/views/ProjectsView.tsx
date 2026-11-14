@@ -642,10 +642,11 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                   }`}
                   style={{
                     borderColor: `${cfg.accentColor}45`,
+                    padding: 0,
                   }}
                 >
                   {/* Khối Hình Ảnh Banner Card Dự Án (Lắp đầy phần top thẻ) */}
-                  <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#0B1220]/70 shrink-0 group/img rounded-t-[14px]">
+                  <div className="project-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[#0B1220]/70 shrink-0 group/img rounded-t-[14px] m-0 p-0">
                     <img
                       src={bannerInfo.primaryUrl}
                       alt={proj.title}
@@ -660,7 +661,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png';
                         }
                       }}
-                      className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 block m-0 p-0"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />
 
@@ -673,8 +674,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                     </div>
                   </div>
 
-                  {/* Phần Thân Card: Padding 15px chuẩn hóa */}
-                  <div className="p-[15px] flex-1 flex flex-col justify-between space-y-2">
+                  {/* Phần Thân Card: Nội dung cách thẻ dự án padding 10px */}
+                  <div className="project-card-body p-[10px] flex-1 flex flex-col justify-between space-y-2">
                     <div>
                       <h3
                         className="typo-h4 line-clamp-2 min-h-[2.85rem] leading-snug break-words transition-colors text-[17px] font-bold font-play"

@@ -29,6 +29,7 @@
 @import "./styles/themes/pastel-bento.css";
 @import "./styles/themes/glassmorphism-neon.css";
 @import "./styles/themes/cowhide-leather.css";
+@import "./styles/themes/glossy-glass.css";
 
 /* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection */
 .typo-h1 { font-size: var(--fs-h1); line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }

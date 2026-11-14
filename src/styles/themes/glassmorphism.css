@@ -67,6 +67,7 @@ html[data-card-style="glassmorphism"] {
   --glass-border: rgba(255, 255, 255, 0.86);
   --border-color: rgba(255, 255, 255, 0.84);
   --color-border-soft: rgba(199, 210, 254, 0.55);
+  --bg-nav-button-opaque: #FFFFFF;
 
   --shadow-card: 0 12px 32px -6px rgba(99, 102, 241, 0.14),
     0 6px 20px -4px rgba(14, 165, 233, 0.10),
@@ -186,7 +187,7 @@ html[data-card-style="glassmorphism"] #skills-filter-dropdown {
   -webkit-backdrop-filter: blur(26px) saturate(185%) !important;
 }
 
-/* Specific Multicolor Frosted Tints Across All Pages */
+/* Specific & Automatic Multicolor Frosted Tints Across All 17 Pages */
 [data-card-style="glassmorphism"] #home-intro-card,
 [data-card-style="glassmorphism"] #letter-card-0,
 [data-card-style="glassmorphism"] #about-unified-bento-card,
@@ -195,9 +196,15 @@ html[data-card-style="glassmorphism"] #skills-filter-dropdown {
 [data-card-style="glassmorphism"] #service-card-telecom,
 [data-card-style="glassmorphism"] #projects-info-card,
 [data-card-style="glassmorphism"] #skills-management-card,
+[data-card-style="glassmorphism"] #systems-admin-card,
+[data-card-style="glassmorphism"] #interview-answers-card,
 [data-card-style="glassmorphism"] #contact-info-container,
-[data-card-style="glassmorphism"] #contact-info-card {
+[data-card-style="glassmorphism"] #contact-info-card,
+[data-card-style="glassmorphism"] #education-courses-grid > .education-card:nth-of-type(5n+1),
+[data-card-style="glassmorphism"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(5n+1),
+[data-card-style="glassmorphism"] [id$="-page-container"] .grid > .bento-card:nth-of-type(5n+1) {
   --bg-card: var(--glass-sky);
+  --border-color: rgba(186, 230, 253, 0.88);
 }
 
 [data-card-style="glassmorphism"] #home-stats-card,
@@ -208,9 +215,15 @@ html[data-card-style="glassmorphism"] #skills-filter-dropdown {
 [data-card-style="glassmorphism"] #experience-title-card,
 [data-card-style="glassmorphism"] #service-card-esports,
 [data-card-style="glassmorphism"] #skills-tech-card,
+[data-card-style="glassmorphism"] #systems-tech-card,
+[data-card-style="glassmorphism"] #horoscope-lookup-card,
 [data-card-style="glassmorphism"] #ai-assistant-chat-container,
-[data-card-style="glassmorphism"] #contact-email-card {
+[data-card-style="glassmorphism"] #contact-email-card,
+[data-card-style="glassmorphism"] #education-courses-grid > .education-card:nth-of-type(5n+2),
+[data-card-style="glassmorphism"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(5n+2),
+[data-card-style="glassmorphism"] [id$="-page-container"] .grid > .bento-card:nth-of-type(5n+2) {
   --bg-card: var(--glass-lavender);
+  --border-color: rgba(221, 214, 254, 0.88);
 }
 
 [data-card-style="glassmorphism"] #home-capabilities-card,
@@ -221,9 +234,14 @@ html[data-card-style="glassmorphism"] #skills-filter-dropdown {
 [data-card-style="glassmorphism"] #service-card-insurance,
 [data-card-style="glassmorphism"] #skills-ops-card,
 [data-card-style="glassmorphism"] #skills-languages-section,
+[data-card-style="glassmorphism"] #systems-workflow-card,
 [data-card-style="glassmorphism"] #projects-results-card,
-[data-card-style="glassmorphism"] #contact-phone-card {
+[data-card-style="glassmorphism"] #contact-phone-card,
+[data-card-style="glassmorphism"] #education-courses-grid > .education-card:nth-of-type(5n+3),
+[data-card-style="glassmorphism"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(5n+3),
+[data-card-style="glassmorphism"] [id$="-page-container"] .grid > .bento-card:nth-of-type(5n+3) {
   --bg-card: var(--glass-mint);
+  --border-color: rgba(167, 243, 208, 0.88);
 }
 
 [data-card-style="glassmorphism"] #home-achievements-card,
@@ -233,6 +251,21 @@ html[data-card-style="glassmorphism"] #skills-filter-dropdown {
 [data-card-style="glassmorphism"] #service-card-ecommerce,
 [data-card-style="glassmorphism"] #skills-leadership-card,
 [data-card-style="glassmorphism"] #memories-grid-card,
-[data-card-style="glassmorphism"] #contact-address-card {
+[data-card-style="glassmorphism"] #contact-address-card,
+[data-card-style="glassmorphism"] #education-courses-grid > .education-card:nth-of-type(5n+4),
+[data-card-style="glassmorphism"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(5n+4),
+[data-card-style="glassmorphism"] [id$="-page-container"] .grid > .bento-card:nth-of-type(5n+4) {
   --bg-card: var(--glass-peach);
+  --border-color: rgba(253, 230, 138, 0.88);
+}
+
+[data-card-style="glassmorphism"] #service-card-ewallet,
+[data-card-style="glassmorphism"] #service-card-cx-ops,
+[data-card-style="glassmorphism"] #projects-tech-card,
+[data-card-style="glassmorphism"] #contact-form-card,
+[data-card-style="glassmorphism"] #education-courses-grid > .education-card:nth-of-type(5n+5),
+[data-card-style="glassmorphism"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(5n+5),
+[data-card-style="glassmorphism"] [id$="-page-container"] .grid > .bento-card:nth-of-type(5n+5) {
+  --bg-card: var(--glass-rose);
+  --border-color: rgba(251, 207, 232, 0.88);
 }

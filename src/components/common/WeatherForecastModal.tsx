@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { WEATHER_PRESETS_DATA, WeatherItemData } from '../../data/weatherData';
 import { Weather3DIcon } from './Weather3DIcon';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface WeatherForecastModalProps {
   isOpen: boolean;
@@ -9,13 +10,58 @@ interface WeatherForecastModalProps {
   onSelectWeather: (item: WeatherItemData) => void;
 }
 
+const WEATHER_CONDITION_EN: Record<string, string> = {
+  'cloudy-sun': 'Cloudy',
+  storm: 'Thunder Storm',
+  overcast: 'Overcast',
+  sunny: 'Sunny',
+  rain: 'Heavy Rain',
+  lightning: 'Lightning',
+};
+
 export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
   isOpen,
   onClose,
   selectedWeather,
   onSelectWeather,
 }) => {
+  const { language } = useLanguage();
+  const isEn = language === 'en';
+  const [now, setNow] = useState<Date>(() => new Date());
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setNow(new Date());
+    const timer = setInterval(() => setNow(new Date()), 1000);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
+
+  const days = isEn
+    ? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    : ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+  const monthsEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const dayName = days[now.getDay()];
+  const dd = String(now.getDate()).padStart(2, '0');
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const yyyy = now.getFullYear();
+  const hh = String(now.getHours()).padStart(2, '0');
+  const min = String(now.getMinutes()).padStart(2, '0');
+  const ss = String(now.getSeconds()).padStart(2, '0');
+  const fullDateHeader = isEn
+    ? `${dayName}, ${monthsEn[now.getMonth()]} ${now.getDate()}, ${yyyy}`
+    : `${dayName}, ngày ${now.getDate()} tháng ${now.getMonth() + 1} năm ${yyyy}`;
+  const liveTime24 = `${hh}:${min}:${ss}`;
+  const liveTimeShort24 = `${hh}:${min}`;
+  const shortDate = isEn ? `${dayName}, ${monthsEn[now.getMonth()]} ${dd}, ${yyyy}` : `${dayName}, ${dd}/${mm}/${yyyy}`;
 
   return (
     <div
@@ -33,17 +79,17 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
         {/* Modal Header matching reference title */}
         <div className="relative z-10 flex flex-col items-center justify-center text-center pb-5 mb-5 border-b border-slate-200/80 dark:border-slate-800">
           <h2 className="typo-h2 font-bold font-play tracking-wide text-slate-900 dark:text-white">
-            Dự Báo Thời Tiết
+            {isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}
           </h2>
-          <p className="typo-body-sm font-semibold text-slate-600 dark:text-slate-300 mt-1">
-            Thứ Sáu, ngày 6 tháng 11 năm 2026
+          <p className="typo-body-sm font-semibold text-slate-600 dark:text-slate-300 mt-1" suppressHydrationWarning>
+            {fullDateHeader} • <span className="font-mono font-bold text-indigo-700 dark:text-cyan-300">{liveTime24} (24h)</span>
           </p>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Đóng"
+            aria-label={isEn ? 'Close' : 'Đóng'}
             className="absolute right-0 top-0 w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-colors cursor-pointer text-sm font-bold shadow-xs"
-            title="Đóng"
+            title={isEn ? 'Close' : 'Đóng'}
           >
             ✕
           </button>
@@ -54,6 +100,8 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
           {WEATHER_PRESETS_DATA.map((item) => {
             const isSelected = selectedWeather.id === item.id;
             const isIconRight = item.id === 'storm' || item.id === 'overcast' || item.id === 'lightning';
+            const conditionText = isEn ? WEATHER_CONDITION_EN[item.id] || item.condition : item.condition;
+            const locationText = isEn && item.location === 'Hồ Chí Minh' ? 'Ho Chi Minh City' : item.location;
 
             return (
               <div
@@ -98,12 +146,12 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
                       {item.temp}°<span className="typo-h4 font-bold">C</span>
                     </span>
                     <span className={`typo-h5 font-bold ${item.textColor} drop-shadow-xs`}>
-                      {item.condition}
+                      {conditionText}
                     </span>
                   </div>
                   <div className={`typo-caption font-semibold ${item.textColor} opacity-90 mt-1 leading-snug`}>
-                    <p>{item.location} • {item.time}</p>
-                    <p>{item.date}</p>
+                    <p suppressHydrationWarning>{locationText} • {liveTimeShort24} (24h)</p>
+                    <p suppressHydrationWarning>{shortDate}</p>
                   </div>
                 </div>
 
@@ -142,13 +190,17 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
 
         {/* Footer Hint */}
         <div className="relative z-10 pt-4 mt-3 flex items-center justify-between typo-caption text-[#475569] dark:text-[#94A3B8]">
-          <span>Chạm vào thẻ bất kỳ để đổi thời tiết hiển thị ở Footer</span>
+          <span>
+            {isEn
+              ? 'Tap any card to update the weather widget in the Footer'
+              : 'Chạm vào thẻ bất kỳ để đổi thời tiết hiển thị ở Footer'}
+          </span>
           <button
             type="button"
             onClick={onClose}
             className="px-4 py-1.5 rounded-[14px] bg-[#1E1B4B] dark:bg-[#F8FAFC] text-white dark:text-[#1E1B4B] typo-button hover:opacity-90 transition cursor-pointer"
           >
-            Đóng
+            {isEn ? 'Close' : 'Đóng'}
           </button>
         </div>
       </div>

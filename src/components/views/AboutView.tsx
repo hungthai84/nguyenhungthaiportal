@@ -570,14 +570,8 @@ export function AboutView({
     };
   }, []);
 
-  // Yêu cầu 3: Thuyết minh AI cho 3 Trụ Cột Vận Hành (Card 3.1)
-  const [isPillarsNarrating, setIsPillarsNarrating] = useState(false);
-
   // Yêu cầu 4: Hiệu ứng lật thẻ nhân khẩu học (Card 2.1)
   const [isDemographicFlipped, setIsDemographicFlipped] = useState(false);
-
-  // Tính năng 1: Hologram lật thẻ tương tác 3D cho 3 Giá Trị Cốt Lõi (Mặt sau hiển thị Case Study CSKH)
-  const [flippedCoreValues, setFlippedCoreValues] = useState<Record<string, boolean>>({});
 
   // Tính năng 5: Chế độ đối chiếu tương quan Trụ Cột & Giá Trị khi hover (Cross-Highlight Connection)
   const [hoveredPillarOrValue, setHoveredPillarOrValue] = useState<string | null>(null);
@@ -678,55 +672,7 @@ export function AboutView({
     { id: 'horoscope', top: 40, left: 41 },  // 144° Mid-Left (Tử vi: Giáp Tý)
   ]);
 
-  // AI voice narration for Card 3.1 (3 Trụ Cột Vận Hành) - Dùng giọng PUCK MC Nam Sài Gòn chuyên nghiệp
-  const handleNarrateThreePillars = useCallback((e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    SoundEngine.playTap();
 
-    if (isPillarsNarrating) {
-      stopActiveSpeech();
-      setIsPillarsNarrating(false);
-      showToast('Đã dừng thuyết trình 3 Trụ Cột Vận Hành.');
-      return;
-    }
-
-    const text =
-      'Trải qua hơn 22 năm điều hành và quản trị dịch vụ khách hàng, chuyên gia Nguyễn Hùng Thái luôn kiên định với 3 trụ cột cốt lõi: ' +
-      'Thứ nhất, Hiệu quả và Quy trình tạo nền tảng vững chắc, chuẩn hóa chất lượng và tối ưu kết quả vận hành. ' +
-      'Thứ hai, Nhân văn và Con người tạo giá trị, thấu hiểu từ tâm qua sự lắng nghe và đồng cảm kịp thời. ' +
-      'Thứ ba, Bền vững và Công nghệ tạo đòn bẩy đột phá với CRM, Dashboard và tự động hóa AI. ' +
-      'Sự hài lòng của khách hàng không đến từ sự hoàn hảo, mà đến từ sự đồng cảm kịp thời.';
-
-    showToast('Đang kết nối giọng PUCK MC Nam Sài Gòn thuyết trình 3 Trụ Cột...');
-    setIsPillarsNarrating(true);
-
-    speakSiteText(text, {
-      speakingStyle: 'professional',
-      rate: 1.0,
-      pitch: 1.0,
-      onStart: () => {
-        setIsPillarsNarrating(true);
-        showToast('AI PUCK MC Nam Sài Gòn đang thuyết trình 3 Trụ Cột... 🎙️');
-      },
-      onEnd: () => {
-        setIsPillarsNarrating(false);
-      },
-      onError: (err) => {
-        setIsPillarsNarrating(false);
-        showToast(err || 'Không thể phát âm thanh thuyết trình.');
-      },
-    });
-  }, [isPillarsNarrating, showToast]);
-
-  // Handler lật thẻ 3D Hologram cho Giá Trị Cốt Lõi
-  const toggleFlipCoreValue = useCallback((valId: string, e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    SoundEngine.playCardFlip();
-    setFlippedCoreValues((prev) => ({
-      ...prev,
-      [valId]: !prev[valId],
-    }));
-  }, []);
 
   // Handler nghe thuyết trình AI ngắn gọn cho từng Trụ Cột / Giá Trị bằng giọng PUCK MC Nam Sài Gòn
   const handleSpeakItem = useCallback((id: string, text: string, title: string, e?: React.MouseEvent) => {
@@ -1125,19 +1071,6 @@ export function AboutView({
               <span className="text-xs text-slate-600 dark:text-slate-300 font-medium">
                 3 nguyên lý vận hành cốt lõi qua hơn 22 năm điều hành hệ thống dịch vụ khách hàng:
               </span>
-              <button
-                type="button"
-                onClick={handleNarrateThreePillars}
-                className={cn(
-                  'px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 border transition cursor-pointer',
-                  isPillarsNarrating
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-emerald-300 shadow-sm animate-pulse'
-                    : 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-cyan-300 border-blue-200 dark:border-blue-800 hover:bg-blue-100'
-                )}
-              >
-                <WebIcon name="volume" className={cn('w-4 h-4', isPillarsNarrating && 'animate-spin')} />
-                <span>{isPillarsNarrating ? 'Dừng đọc...' : 'Nghe AI PUCK Thuyết Trình'}</span>
-              </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -1749,35 +1682,9 @@ export function AboutView({
                             <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
                               <BarChart3 className="w-4 h-4 text-white" />
                             </div>
-                            <div className="flex items-center gap-1.5">
-                              <button
-                                type="button"
-                                onClick={(e) =>
-                                  handleSpeakItem(
-                                    'pillar-1',
-                                    'Trụ cột một, Hiệu quả vận hành. Chuẩn hóa quy trình SLAs, tối ưu hiệu suất và kiến tạo kết quả đo lường rõ ràng.',
-                                    'Trụ cột 01: Hiệu Quả',
-                                    e
-                                  )
-                                }
-                                className={cn(
-                                  'w-6 h-6 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md',
-                                  activeSpeechId === 'pillar-1'
-                                    ? 'bg-amber-400 text-slate-900 animate-pulse shadow-sm'
-                                    : 'bg-white/20 hover:bg-white/35 text-white'
-                                )}
-                                title="Nghe AI PUCK thuyết trình Trụ cột 01"
-                              >
-                                {activeSpeechId === 'pillar-1' ? (
-                                  <VolumeX className="w-3 h-3" />
-                                ) : (
-                                  <Volume2 className="w-3 h-3" />
-                                )}
-                              </button>
-                              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                                01
-                              </span>
-                            </div>
+                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                              01
+                            </span>
                           </div>
 
                           <div className="my-1.5 relative z-10">
@@ -1821,35 +1728,9 @@ export function AboutView({
                             <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
                               <Heart className="w-4 h-4 text-white" />
                             </div>
-                            <div className="flex items-center gap-1.5">
-                              <button
-                                type="button"
-                                onClick={(e) =>
-                                  handleSpeakItem(
-                                    'pillar-2',
-                                    'Trụ cột hai, Nhân văn con người. Lắng nghe chân thành từ tâm, thấu cảm sâu sắc và lấy con người làm trọng tâm phụng sự.',
-                                    'Trụ cột 02: Nhân Văn',
-                                    e
-                                  )
-                                }
-                                className={cn(
-                                  'w-6 h-6 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md',
-                                  activeSpeechId === 'pillar-2'
-                                    ? 'bg-amber-400 text-slate-900 animate-pulse shadow-sm'
-                                    : 'bg-white/20 hover:bg-white/35 text-white'
-                                )}
-                                title="Nghe AI PUCK thuyết trình Trụ cột 02"
-                              >
-                                {activeSpeechId === 'pillar-2' ? (
-                                  <VolumeX className="w-3 h-3" />
-                                ) : (
-                                  <Volume2 className="w-3 h-3" />
-                                )}
-                              </button>
-                              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                                02
-                              </span>
-                            </div>
+                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                              02
+                            </span>
                           </div>
 
                           <div className="my-1.5 relative z-10">
@@ -1893,35 +1774,9 @@ export function AboutView({
                             <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
                               <Leaf className="w-4 h-4 text-white" />
                             </div>
-                            <div className="flex items-center gap-1.5">
-                              <button
-                                type="button"
-                                onClick={(e) =>
-                                  handleSpeakItem(
-                                    'pillar-3',
-                                    'Trụ cột ba, Bền vững dài hạn. Xây dựng niềm tin bền bỉ, ứng dụng công nghệ CRM hiện đại và đồng hành phát triển dài lâu.',
-                                    'Trụ cột 03: Bền Vững',
-                                    e
-                                  )
-                                }
-                                className={cn(
-                                  'w-6 h-6 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md',
-                                  activeSpeechId === 'pillar-3'
-                                    ? 'bg-amber-400 text-slate-900 animate-pulse shadow-sm'
-                                    : 'bg-white/20 hover:bg-white/35 text-white'
-                                )}
-                                title="Nghe AI PUCK thuyết trình Trụ cột 03"
-                              >
-                                {activeSpeechId === 'pillar-3' ? (
-                                  <VolumeX className="w-3 h-3" />
-                                ) : (
-                                  <Volume2 className="w-3 h-3" />
-                                )}
-                              </button>
-                              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                                03
-                              </span>
-                            </div>
+                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                              03
+                            </span>
                           </div>
 
                           <div className="my-1.5 relative z-10">
@@ -1961,7 +1816,7 @@ export function AboutView({
                           </h4>
                         </div>
                         <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400">
-                          3 Cam kết vàng · Nhấp lật xem Case Study
+                          3 Cam kết vàng chuẩn mực
                         </span>
                       </div>
 
@@ -1970,130 +1825,41 @@ export function AboutView({
                         <div
                           onMouseEnter={() => setHoveredPillarOrValue('val-1')}
                           onMouseLeave={() => setHoveredPillarOrValue(null)}
+                          onClick={() => {
+                            SoundEngine.playPop();
+                            showToast('Giá trị 01: Sự Tận Tâm - Dốc trọn tâm sức');
+                          }}
                           className={cn(
-                            'relative min-h-[168px] sm:min-h-[175px] perspective-[1000px] transition-all duration-300',
-                            isValueHighlighted('val-1') && 'scale-[1.02] -translate-y-1'
+                            'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 dark:from-amber-600 dark:via-amber-700 dark:to-orange-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                            isValueHighlighted('val-1') &&
+                              'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
                           )}
                         >
-                          <div
-                            className={cn(
-                              'w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d]',
-                              flippedCoreValues['val-1'] ? '[transform:rotateY(180deg)]' : ''
-                            )}
-                          >
-                            <div
-                              onClick={() => toggleFlipCoreValue('val-1')}
-                              className={cn(
-                                'pillar-gradient-card layered-card absolute inset-0 [backface-visibility:hidden] rounded-[14px] bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 dark:from-amber-600 dark:via-amber-700 dark:to-orange-700 text-white p-3.5 shadow-md flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
-                                isValueHighlighted('val-1') &&
-                                  'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)]'
-                              )}
-                            >
-                              <div className="absolute -right-6 -top-6 w-24 h-24 bg-amber-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
-                              <div className="flex items-center justify-between relative z-10">
-                                <div className="flex items-center justify-center shrink-0">
-                                  <Award className="w-5 h-5 text-white shrink-0" />
-                                </div>
-                                <div className="flex items-center gap-1.5">
-                                  <button
-                                    type="button"
-                                    onClick={(e) =>
-                                      handleSpeakItem(
-                                        'val-1',
-                                        'Giá trị cốt lõi một, Sự tận tâm. Dốc trọn tâm sức, phụng sự chu đáo từng trải nghiệm với tinh thần trách nhiệm cao nhất.',
-                                        'Giá trị 01: Sự Tận Tâm',
-                                        e
-                                      )
-                                    }
-                                    className={cn(
-                                      'w-6 h-6 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md',
-                                      activeSpeechId === 'val-1'
-                                        ? 'bg-white text-slate-900 animate-pulse shadow-sm'
-                                        : 'bg-white/20 hover:bg-white/35 text-white'
-                                    )}
-                                    title="Nghe AI PUCK thuyết trình Giá trị 01"
-                                  >
-                                    {activeSpeechId === 'val-1' ? (
-                                      <VolumeX className="w-3 h-3" />
-                                    ) : (
-                                      <Volume2 className="w-3 h-3" />
-                                    )}
-                                  </button>
-                                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                                    01
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="my-1 relative z-10">
-                                <h5 className="text-xs sm:text-sm font-black font-play !text-white">Sự tận tâm</h5>
-                                <span className="text-[10px] text-amber-100 font-semibold block">Trách nhiệm &amp; Hết lòng</span>
-                                <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
-                                  Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.
-                                </p>
-                              </div>
-
-                              <div className="pt-1.5 border-t border-white/20 relative z-10">
-                                <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-amber-100 mb-0.5">
-                                  <span>FCR Cam kết</span>
-                                  <span className="text-white font-black">94.5%</span>
-                                </div>
-                                <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                                  <div className="h-full bg-white rounded-full" style={{ width: '94.5%' }} />
-                                </div>
-                              </div>
-
-                              <div className="flex items-center justify-between pt-1 relative z-10">
-                                <span className="text-[9.5px] font-mono text-amber-200">Case Study ➜</span>
-                                <div
-                                  onClick={(e) => toggleFlipCoreValue('val-1', e)}
-                                  className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/35 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
-                                  title="Lật xem tình huống thực tế Case Study CSKH"
-                                >
-                                  <RotateCw className="w-3 h-3 text-white" />
-                                </div>
-                              </div>
+                          <div className="absolute -right-6 -top-6 w-24 h-24 bg-amber-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
+                          <div className="flex items-center justify-between relative z-10">
+                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
+                              <Award className="w-4 h-4 text-white" />
                             </div>
+                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                              01
+                            </span>
+                          </div>
 
-                            {/* Back */}
-                            <div
-                              onClick={() => toggleFlipCoreValue('val-1')}
-                              className={cn(
-                                'absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-[14px] bg-gradient-to-br from-amber-700 via-orange-800 to-amber-900 dark:from-amber-800 dark:via-orange-900 dark:to-amber-950 text-white p-3 sm:p-3.5 shadow-md flex flex-col justify-between overflow-hidden border border-white/30 text-left cursor-pointer group',
-                                isValueHighlighted('val-1') &&
-                                  'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)]'
-                              )}
-                            >
-                              <div>
-                                <div className="flex items-center justify-between pb-1.5 border-b border-white/20">
-                                  <span className="text-[9px] font-mono font-bold uppercase tracking-wider bg-white/20 px-1.5 py-0.5 rounded text-amber-100">
-                                    Case Study CSKH 01
-                                  </span>
-                                  <div
-                                    onClick={(e) => toggleFlipCoreValue('val-1', e)}
-                                    className="w-5 h-5 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center cursor-pointer text-white"
-                                    title="Quay lại mặt trước"
-                                  >
-                                    <RotateCcw className="w-3 h-3" />
-                                  </div>
-                                </div>
-                                <h6 className="text-[11.5px] sm:text-xs font-black font-play text-white mt-1.5 leading-tight">
-                                  Hỗ trợ sự cố bão số 9 xuyên đêm
-                                </h6>
-                                <p className="text-[10px] sm:text-[10.5px] text-amber-100/90 leading-tight mt-1">
-                                  Chủ động thiết lập đường dây nóng 24/7, gọi trực tiếp trấn an 100% khách hàng doanh nghiệp bị gián đoạn kết nối.
-                                </p>
-                              </div>
+                          <div className="my-1.5 relative z-10">
+                            <h5 className="text-xs sm:text-sm font-black font-play !text-white">Sự tận tâm</h5>
+                            <span className="text-[10px] text-amber-100 font-semibold block">Trách nhiệm &amp; Hết lòng</span>
+                            <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                              Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.
+                            </p>
+                          </div>
 
-                              <div className="pt-1.5 border-t border-white/20">
-                                <div className="flex items-center justify-between text-[9px] font-mono text-amber-200">
-                                  <span>Kết quả: FCR 94.5%</span>
-                                  <span className="text-white font-bold">CSAT 99.2%</span>
-                                </div>
-                                <span className="text-[9px] text-amber-100/80 block mt-0.5">
-                                  0 phát sinh khiếu nại sau phục hồi
-                                </span>
-                              </div>
+                          <div className="pt-1.5 border-t border-white/20 relative z-10">
+                            <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-amber-100 mb-0.5">
+                              <span>FCR Cam kết</span>
+                              <span className="text-white font-black">94.5%</span>
+                            </div>
+                            <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+                              <div className="h-full bg-white rounded-full" style={{ width: '94.5%' }} />
                             </div>
                           </div>
                         </div>
@@ -2102,130 +1868,41 @@ export function AboutView({
                         <div
                           onMouseEnter={() => setHoveredPillarOrValue('val-2')}
                           onMouseLeave={() => setHoveredPillarOrValue(null)}
+                          onClick={() => {
+                            SoundEngine.playPop();
+                            showToast('Giá trị 02: Kịp Thời - Nhanh nhạy & Đúng lúc');
+                          }}
                           className={cn(
-                            'relative min-h-[168px] sm:min-h-[175px] perspective-[1000px] transition-all duration-300',
-                            isValueHighlighted('val-2') && 'scale-[1.02] -translate-y-1'
+                            'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-orange-500 via-rose-500 to-pink-600 dark:from-orange-600 dark:via-rose-600 dark:to-pink-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                            isValueHighlighted('val-2') &&
+                              'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
                           )}
                         >
-                          <div
-                            className={cn(
-                              'w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d]',
-                              flippedCoreValues['val-2'] ? '[transform:rotateY(180deg)]' : ''
-                            )}
-                          >
-                            <div
-                              onClick={() => toggleFlipCoreValue('val-2')}
-                              className={cn(
-                                'pillar-gradient-card layered-card absolute inset-0 [backface-visibility:hidden] rounded-[14px] bg-gradient-to-br from-orange-500 via-rose-500 to-pink-600 dark:from-orange-600 dark:via-rose-600 dark:to-pink-700 text-white p-3.5 shadow-md flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
-                                isValueHighlighted('val-2') &&
-                                  'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)]'
-                              )}
-                            >
-                              <div className="absolute -right-6 -top-6 w-24 h-24 bg-rose-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
-                              <div className="flex items-center justify-between relative z-10">
-                                <div className="flex items-center justify-center shrink-0">
-                                  <Clock className="w-5 h-5 text-white shrink-0" />
-                                </div>
-                                <div className="flex items-center gap-1.5">
-                                  <button
-                                    type="button"
-                                    onClick={(e) =>
-                                      handleSpeakItem(
-                                        'val-2',
-                                        'Giá trị cốt lõi hai, Kịp thời nhanh nhạy. Phản ứng tốc độ dưới mười lăm phút, hiện diện đúng lúc giải quyết dứt điểm mọi vướng mắc.',
-                                        'Giá trị 02: Kịp Thời',
-                                        e
-                                      )
-                                    }
-                                    className={cn(
-                                      'w-6 h-6 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md',
-                                      activeSpeechId === 'val-2'
-                                        ? 'bg-white text-slate-900 animate-pulse shadow-sm'
-                                        : 'bg-white/20 hover:bg-white/35 text-white'
-                                    )}
-                                    title="Nghe AI PUCK thuyết trình Giá trị 02"
-                                  >
-                                    {activeSpeechId === 'val-2' ? (
-                                      <VolumeX className="w-3 h-3" />
-                                    ) : (
-                                      <Volume2 className="w-3 h-3" />
-                                    )}
-                                  </button>
-                                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                                    02
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="my-1 relative z-10">
-                                <h5 className="text-xs sm:text-sm font-black font-play !text-white">Kịp thời nhanh nhạy</h5>
-                                <span className="text-[10px] text-rose-100 font-semibold block">Tốc độ &amp; Đúng lúc</span>
-                                <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
-                                  Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng mắc.
-                                </p>
-                              </div>
-
-                              <div className="pt-1.5 border-t border-white/20 relative z-10">
-                                <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-rose-100 mb-0.5">
-                                  <span>SLA Phản hồi (&lt;15p)</span>
-                                  <span className="text-white font-black">98.8%</span>
-                                </div>
-                                <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                                  <div className="h-full bg-white rounded-full" style={{ width: '98.8%' }} />
-                                </div>
-                              </div>
-
-                              <div className="flex items-center justify-between pt-1 relative z-10">
-                                <span className="text-[9.5px] font-mono text-rose-200">Case Study ➜</span>
-                                <div
-                                  onClick={(e) => toggleFlipCoreValue('val-2', e)}
-                                  className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/35 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
-                                  title="Lật xem tình huống thực tế Case Study CSKH"
-                                >
-                                  <RotateCw className="w-3 h-3 text-white" />
-                                </div>
-                              </div>
+                          <div className="absolute -right-6 -top-6 w-24 h-24 bg-rose-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
+                          <div className="flex items-center justify-between relative z-10">
+                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
+                              <Clock className="w-4 h-4 text-white" />
                             </div>
+                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                              02
+                            </span>
+                          </div>
 
-                            {/* Back */}
-                            <div
-                              onClick={() => toggleFlipCoreValue('val-2')}
-                              className={cn(
-                                'absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-[14px] bg-gradient-to-br from-rose-700 via-pink-800 to-rose-900 dark:from-rose-800 dark:via-pink-900 dark:to-rose-950 text-white p-3 sm:p-3.5 shadow-md flex flex-col justify-between overflow-hidden border border-white/30 text-left cursor-pointer group',
-                                isValueHighlighted('val-2') &&
-                                  'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)]'
-                              )}
-                            >
-                              <div>
-                                <div className="flex items-center justify-between pb-1.5 border-b border-white/20">
-                                  <span className="text-[9px] font-mono font-bold uppercase tracking-wider bg-white/20 px-1.5 py-0.5 rounded text-rose-100">
-                                    Case Study CSKH 02
-                                  </span>
-                                  <div
-                                    onClick={(e) => toggleFlipCoreValue('val-2', e)}
-                                    className="w-5 h-5 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center cursor-pointer text-white"
-                                    title="Quay lại mặt trước"
-                                  >
-                                    <RotateCcw className="w-3 h-3" />
-                                  </div>
-                                </div>
-                                <h6 className="text-[11.5px] sm:text-xs font-black font-play text-white mt-1.5 leading-tight">
-                                  Fast-Track dập khiếu nại nóng 24/7
-                                </h6>
-                                <p className="text-[10px] sm:text-[10.5px] text-rose-100/90 leading-tight mt-1">
-                                  Định tuyến trực tiếp khiếu nại nóng tới Trưởng bộ phận trong 3 phút, đưa giải pháp bước đầu dưới 12 phút.
-                                </p>
-                              </div>
+                          <div className="my-1.5 relative z-10">
+                            <h5 className="text-xs sm:text-sm font-black font-play !text-white">Kịp thời nhanh nhạy</h5>
+                            <span className="text-[10px] text-rose-100 font-semibold block">Tốc độ &amp; Đúng lúc</span>
+                            <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                              Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng mắc.
+                            </p>
+                          </div>
 
-                              <div className="pt-1.5 border-t border-white/20">
-                                <div className="flex items-center justify-between text-[9px] font-mono text-rose-200">
-                                  <span>Tốc độ: &lt; 12 Phút</span>
-                                  <span className="text-white font-bold">Đúng hẹn 99.5%</span>
-                                </div>
-                                <span className="text-[9px] text-rose-100/80 block mt-0.5">
-                                  Ngăn ngừa 100% rủi ro leo thang khiếu kiện
-                                </span>
-                              </div>
+                          <div className="pt-1.5 border-t border-white/20 relative z-10">
+                            <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-rose-100 mb-0.5">
+                              <span>SLA Phản hồi (&lt;15p)</span>
+                              <span className="text-white font-black">98.8%</span>
+                            </div>
+                            <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+                              <div className="h-full bg-white rounded-full" style={{ width: '98.8%' }} />
                             </div>
                           </div>
                         </div>
@@ -2234,130 +1911,41 @@ export function AboutView({
                         <div
                           onMouseEnter={() => setHoveredPillarOrValue('val-3')}
                           onMouseLeave={() => setHoveredPillarOrValue(null)}
+                          onClick={() => {
+                            SoundEngine.playPop();
+                            showToast('Giá trị 03: Đồng Cảm Chân Thành - Lắng nghe & Thấu cảm');
+                          }}
                           className={cn(
-                            'relative min-h-[168px] sm:min-h-[175px] perspective-[1000px] transition-all duration-300',
-                            isValueHighlighted('val-3') && 'scale-[1.02] -translate-y-1'
+                            'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-700 dark:from-pink-600 dark:via-purple-700 dark:to-indigo-800 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                            isValueHighlighted('val-3') &&
+                              'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
                           )}
                         >
-                          <div
-                            className={cn(
-                              'w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d]',
-                              flippedCoreValues['val-3'] ? '[transform:rotateY(180deg)]' : ''
-                            )}
-                          >
-                            <div
-                              onClick={() => toggleFlipCoreValue('val-3')}
-                              className={cn(
-                                'pillar-gradient-card layered-card absolute inset-0 [backface-visibility:hidden] rounded-[14px] bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-700 dark:from-pink-600 dark:via-purple-700 dark:to-indigo-800 text-white p-3.5 shadow-md flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
-                                isValueHighlighted('val-3') &&
-                                  'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)]'
-                              )}
-                            >
-                              <div className="absolute -right-6 -top-6 w-24 h-24 bg-purple-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
-                              <div className="flex items-center justify-between relative z-10">
-                                <div className="flex items-center justify-center shrink-0">
-                                  <HeartHandshake className="w-5 h-5 text-white shrink-0" />
-                                </div>
-                                <div className="flex items-center gap-1.5">
-                                  <button
-                                    type="button"
-                                    onClick={(e) =>
-                                      handleSpeakItem(
-                                        'val-3',
-                                        'Giá trị cốt lõi ba, Đồng cảm chân thành. Đặt trọn trái tim lắng nghe không phán xét, kết nối sâu sắc và thấu cảm từng khách hàng.',
-                                        'Giá trị 03: Đồng Cảm Chân Thành',
-                                        e
-                                      )
-                                    }
-                                    className={cn(
-                                      'w-6 h-6 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md',
-                                      activeSpeechId === 'val-3'
-                                        ? 'bg-white text-slate-900 animate-pulse shadow-sm'
-                                        : 'bg-white/20 hover:bg-white/35 text-white'
-                                    )}
-                                    title="Nghe AI PUCK thuyết trình Giá trị 03"
-                                  >
-                                    {activeSpeechId === 'val-3' ? (
-                                      <VolumeX className="w-3 h-3" />
-                                    ) : (
-                                      <Volume2 className="w-3 h-3" />
-                                    )}
-                                  </button>
-                                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                                    03
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="my-1 relative z-10">
-                                <h5 className="text-xs sm:text-sm font-black font-play !text-white">Đồng cảm chân thành</h5>
-                                <span className="text-[10px] text-purple-100 font-semibold block">Lắng nghe &amp; Thấu cảm</span>
-                                <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
-                                  Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng khách hàng.
-                                </p>
-                              </div>
-
-                              <div className="pt-1.5 border-t border-white/20 relative z-10">
-                                <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-purple-100 mb-0.5">
-                                  <span>Chỉ số CSAT Hài lòng</span>
-                                  <span className="text-white font-black">98.6%</span>
-                                </div>
-                                <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                                  <div className="h-full bg-white rounded-full" style={{ width: '98.6%' }} />
-                                </div>
-                              </div>
-
-                              <div className="flex items-center justify-between pt-1 relative z-10">
-                                <span className="text-[9.5px] font-mono text-purple-200">Case Study ➜</span>
-                                <div
-                                  onClick={(e) => toggleFlipCoreValue('val-3', e)}
-                                  className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/35 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
-                                  title="Lật xem tình huống thực tế Case Study CSKH"
-                                >
-                                  <RotateCw className="w-3 h-3 text-white" />
-                                </div>
-                              </div>
+                          <div className="absolute -right-6 -top-6 w-24 h-24 bg-purple-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
+                          <div className="flex items-center justify-between relative z-10">
+                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
+                              <HeartHandshake className="w-4 h-4 text-white" />
                             </div>
+                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                              03
+                            </span>
+                          </div>
 
-                            {/* Back */}
-                            <div
-                              onClick={() => toggleFlipCoreValue('val-3')}
-                              className={cn(
-                                'absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-[14px] bg-gradient-to-br from-purple-800 via-indigo-800 to-purple-900 text-white p-3 sm:p-3.5 shadow-md flex flex-col justify-between overflow-hidden border border-white/30 text-left cursor-pointer group',
-                                isValueHighlighted('val-3') &&
-                                  'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)]'
-                              )}
-                            >
-                              <div>
-                                <div className="flex items-center justify-between pb-1.5 border-b border-white/20">
-                                  <span className="text-[9px] font-mono font-bold uppercase tracking-wider bg-white/20 px-1.5 py-0.5 rounded text-purple-100">
-                                    Case Study CSKH 03
-                                  </span>
-                                  <div
-                                    onClick={(e) => toggleFlipCoreValue('val-3', e)}
-                                    className="w-5 h-5 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center cursor-pointer text-white"
-                                    title="Quay lại mặt trước"
-                                  >
-                                    <RotateCcw className="w-3 h-3" />
-                                  </div>
-                                </div>
-                                <h6 className="text-[11.5px] sm:text-xs font-black font-play text-white mt-1.5 leading-tight">
-                                  Biến bức xúc thành Đại sứ thương hiệu
-                                </h6>
-                                <p className="text-[10px] sm:text-[10.5px] text-purple-100/90 leading-tight mt-1">
-                                  Lắng nghe không phán xét, thư tay tri ân &amp; chính sách bù đắp cá nhân hóa cho khách hàng VIP bức xúc.
-                                </p>
-                              </div>
+                          <div className="my-1.5 relative z-10">
+                            <h5 className="text-xs sm:text-sm font-black font-play !text-white">Đồng cảm chân thành</h5>
+                            <span className="text-[10px] text-purple-100 font-semibold block">Lắng nghe &amp; Thấu cảm</span>
+                            <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                              Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng khách hàng.
+                            </p>
+                          </div>
 
-                              <div className="pt-1.5 border-t border-white/20">
-                                <div className="flex items-center justify-between text-[9px] font-mono text-purple-200">
-                                  <span>Gắn kết: 96%</span>
-                                  <span className="text-white font-bold">CSAT 98.6%</span>
-                                </div>
-                                <span className="text-[9px] text-purple-100/80 block mt-0.5">
-                                  Khách hàng tái ký hợp đồng 3 năm liên tiếp
-                                </span>
-                              </div>
+                          <div className="pt-1.5 border-t border-white/20 relative z-10">
+                            <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-purple-100 mb-0.5">
+                              <span>Chỉ số CSAT Hài lòng</span>
+                              <span className="text-white font-black">98.6%</span>
+                            </div>
+                            <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+                              <div className="h-full bg-white rounded-full" style={{ width: '98.6%' }} />
                             </div>
                           </div>
                         </div>

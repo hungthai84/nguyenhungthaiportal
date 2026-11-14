@@ -19,6 +19,7 @@ html[data-card-style="frosted-glass"] {
   --bg-tab: var(--color-surface-indigo);
   --bg-table: var(--color-surface);
   --border-color: var(--color-border-soft);
+  --bg-nav-button-opaque: #FFFFFF;
 }
 
 html[data-card-style="frosted-glass"] #ai-assistant-droptop-menu-list,

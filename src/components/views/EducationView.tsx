@@ -6,6 +6,7 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { SkillsView } from './SkillsView';
 import { cn } from '@/lib/utils';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+import { useLanguage } from '@/context/LanguageContext';
 
 // Helper map skill tag to appropriate icon
 const getSkillTagIcon = (tag: string): string => {
@@ -147,6 +148,8 @@ function renderCategoryIcon(category: string, className = 'w-3.5 h-3.5 shrink-0'
 
 export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
+  const { language, t } = useLanguage();
+  const isEn = language === 'en';
   const isDark = themeIsDark || currentTheme === 'dark-neon';
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
@@ -510,7 +513,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
         >
           {filteredCourses.map((course, idx) => {
-            const displayTitle = formatFourWordTitle(course.title);
+            const localizedCourseTitle = t(course.title);
+            const displayTitle = formatFourWordTitle(localizedCourseTitle);
             const cardColor = getCourseColor(course, idx);
             const titleIcon = getCourseTitleIcon(course.title, course.category);
 
@@ -537,7 +541,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 <div className="relative w-full aspect-[16/9] rounded-[10px] overflow-hidden bg-slate-950/50 shrink-0 border-0 shadow-xs mb-3 group/img">
                   <img
                     src={course.image}
-                    alt={course.title}
+                    alt={localizedCourseTitle}
                     className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                     referrerPolicy="no-referrer"
@@ -562,7 +566,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       </h3>
                     </div>
                     <span className="text-xs font-mono font-bold shrink-0 px-2.5 py-0.5 rounded-full" style={{ backgroundColor: `${cardColor}20`, color: cardColor }}>
-                      Năm {course.year}
+                      {isEn ? `Year ${course.year}` : `Năm ${course.year}`}
                     </span>
                   </div>
 
@@ -753,14 +757,14 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 <motion.h3
                   layoutId={`education-title-${course.id}`}
                   className="text-[18px] sm:text-[20px] font-black font-play leading-snug tracking-tight truncate flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400"
-                  title={course.title}
+                  title={t(course.title)}
                 >
-                  <span>{formatCardTitle(course.title)}</span>
+                  <span>{formatCardTitle(t(course.title))}</span>
                   <WebIcon name="chevron-right" className="w-4 h-4 opacity-70 shrink-0" />
                 </motion.h3>
 
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-bold border shadow-2xs bg-emerald-100/90 dark:bg-slate-800/90 border-emerald-300/80 dark:border-white/15 text-emerald-800 dark:text-emerald-300 shrink-0">
-                  <span>Năm {course.year} • {course.code}</span>
+                  <span>{isEn ? `Year ${course.year}` : `Năm ${course.year}`} • {course.code}</span>
                 </span>
               </div>
 
@@ -785,7 +789,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 className="grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-[15px] items-stretch content-start w-full"
                 style={{ gap: '15px' }}
               >
-                {/* 1. THẺ THÔNG TIN KHÓA HỌC (Nền Xanh Dương Sapphire - Chứa Sub-card: Tên, Năm, Đơn vị, Hình thức, Hình ảnh & Văn bằng chứng nhận) */}
+                {/* 1. THẺ THÔNG TIN KHÓA HỌC (Chỉ chứa 4 Sub-card thông tin: Tên, Năm & Mã, Đơn vị đào tạo, Hình thức đào tạo) */}
                 <div
                   id="education-school-card"
                   data-element-type="card"
@@ -809,24 +813,24 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     </span>
                   </div>
 
-                  {/* Sub-card Bento Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs sm:text-sm my-auto">
+                  {/* 4 Metadata Sub-cards */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs sm:text-sm my-auto">
                     {/* Sub-card 1: Tên khóa học */}
-                    <div className="h-fit flex flex-col justify-between gap-1.5 p-3 rounded-[14px] bg-white/85 dark:bg-slate-900/75 border border-blue-200/80 dark:border-blue-500/30 shadow-2xs transition-all hover:border-blue-400">
+                    <div className="h-full flex flex-col justify-between gap-1.5 p-3 rounded-[14px] bg-white/85 dark:bg-slate-900/75 border border-blue-200/80 dark:border-blue-500/30 shadow-2xs transition-all hover:border-blue-400">
                       <div className="flex items-center gap-1.5 text-blue-600 dark:text-sky-400">
-                        <WebIcon name="graduation" className="w-3.5 h-3.5 shrink-0 text-blue-600 dark:text-sky-400" />
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Tên khóa học</span>
+                        <WebIcon name="graduation" className="w-4 h-4 shrink-0 text-blue-600 dark:text-sky-400" />
+                        <span className="text-[12px] font-bold tracking-normal text-blue-600 dark:text-sky-400">Tên khóa học</span>
                       </div>
                       <span className="font-bold text-slate-900 dark:text-white text-[14px] sm:text-[15px] leading-snug break-words">
                         {course.title}
                       </span>
                     </div>
 
-                    {/* Sub-card 2: Năm học */}
-                    <div className="h-fit flex flex-col justify-between gap-1.5 p-3 rounded-[14px] bg-sky-50/90 dark:bg-sky-950/45 border border-sky-200/80 dark:border-sky-500/30 shadow-2xs transition-all hover:border-sky-400">
+                    {/* Sub-card 2: Năm học và mã */}
+                    <div className="h-full flex flex-col justify-between gap-1.5 p-3 rounded-[14px] bg-sky-50/90 dark:bg-sky-950/45 border border-sky-200/80 dark:border-sky-500/30 shadow-2xs transition-all hover:border-sky-400">
                       <div className="flex items-center gap-1.5 text-sky-600 dark:text-sky-400">
-                        <WebIcon name="clock" className="w-3.5 h-3.5 shrink-0 text-sky-600 dark:text-sky-400" />
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Năm học &amp; Mã hồ sơ</span>
+                        <WebIcon name="clock" className="w-4 h-4 shrink-0 text-sky-600 dark:text-sky-400" />
+                        <span className="text-[12px] font-bold tracking-normal text-sky-600 dark:text-sky-400">Năm học và mã</span>
                       </div>
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-black text-sky-700 dark:text-sky-300 text-[15px]">
@@ -841,74 +845,114 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     </div>
 
                     {/* Sub-card 3: Đơn vị đào tạo */}
-                    <div className="h-fit flex flex-col justify-between gap-1.5 p-3 rounded-[14px] bg-indigo-50/90 dark:bg-indigo-950/45 border border-indigo-200/80 dark:border-indigo-500/30 shadow-2xs transition-all hover:border-indigo-400">
+                    <div className="h-full flex flex-col justify-between gap-1.5 p-3 rounded-[14px] bg-indigo-50/90 dark:bg-indigo-950/45 border border-indigo-200/80 dark:border-indigo-500/30 shadow-2xs transition-all hover:border-indigo-400">
                       <div className="flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400">
-                        <WebIcon name="building" className="w-3.5 h-3.5 shrink-0 text-indigo-600 dark:text-indigo-400" />
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Đơn vị đào tạo</span>
+                        <WebIcon name="building" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
+                        <span className="text-[12px] font-bold tracking-normal text-indigo-600 dark:text-indigo-400">Đơn vị đào tạo</span>
                       </div>
                       <span className="font-bold text-slate-900 dark:text-white text-[13px] sm:text-[14px] leading-snug break-words">
                         {course.issuer}
                       </span>
                     </div>
 
-                    {/* Sub-card 4: Hình thức */}
-                    <div className="h-fit flex flex-col justify-between gap-1.5 p-3 rounded-[14px] bg-teal-50/90 dark:bg-teal-950/45 border border-teal-200/80 dark:border-teal-500/30 shadow-2xs transition-all hover:border-teal-400">
+                    {/* Sub-card 4: Hình thức đào tạo */}
+                    <div className="h-full flex flex-col justify-between gap-1.5 p-3 rounded-[14px] bg-teal-50/90 dark:bg-teal-950/45 border border-teal-200/80 dark:border-teal-500/30 shadow-2xs transition-all hover:border-teal-400">
                       <div className="flex items-center gap-1.5 text-teal-600 dark:text-teal-400">
-                        <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0 text-teal-600 dark:text-teal-400" />
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Hình thức đào tạo</span>
+                        <WebIcon name="sparkles" className="w-4 h-4 shrink-0 text-teal-600 dark:text-teal-400" />
+                        <span className="text-[12px] font-bold tracking-normal text-teal-600 dark:text-teal-400">Hình thức đào tạo</span>
                       </div>
                       <span className="font-bold text-teal-700 dark:text-teal-300 text-[13px] sm:text-[14px] leading-snug break-words">
                         {course.type || 'Chuyên sâu thực chiến'}
                       </span>
                     </div>
-
-                    {/* Sub-card 5: Hình ảnh khóa học */}
-                    <div
-                      onClick={() => handleOpenLightbox(course.courseImg || course.image, `Hình ảnh khóa học: ${course.title}`)}
-                      className="h-fit flex flex-col justify-between gap-2 p-3 rounded-[14px] bg-purple-50/90 dark:bg-purple-950/45 border border-purple-200/80 dark:border-purple-500/30 shadow-2xs transition-all hover:border-purple-400 cursor-pointer group/photo"
-                    >
-                      <div className="flex items-center justify-between text-purple-600 dark:text-purple-400">
-                        <div className="flex items-center gap-1.5">
-                          <WebIcon name="image" className="w-3.5 h-3.5 shrink-0 text-purple-600 dark:text-purple-400" />
-                          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Hình ảnh khóa học</span>
-                        </div>
-                        <span className="text-[10px] font-bold text-purple-600 dark:text-purple-300 group-hover/photo:underline">Phóng to 🔍</span>
-                      </div>
-                      <div className="relative aspect-[16/9] w-full rounded-[10px] overflow-hidden bg-slate-950 border border-purple-200/40">
-                        <img
-                          src={course.courseImg || course.image}
-                          alt={course.title}
-                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/photo:scale-105"
-                          loading="lazy"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Sub-card 6: Văn bằng chứng nhận */}
-                    <div
-                      onClick={() => handleOpenLightbox(course.certImg || course.image, `Bằng cấp: ${course.title}`)}
-                      className="h-fit flex flex-col justify-between gap-2 p-3 rounded-[14px] bg-rose-50/90 dark:bg-rose-950/45 border border-rose-200/80 dark:border-rose-500/30 shadow-2xs transition-all hover:border-rose-400 cursor-pointer group/cert"
-                    >
-                      <div className="flex items-center justify-between text-rose-600 dark:text-rose-400">
-                        <div className="flex items-center gap-1.5">
-                          <WebIcon name="shield" className="w-3.5 h-3.5 shrink-0 text-rose-600 dark:text-rose-400" />
-                          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Văn bằng chứng nhận</span>
-                        </div>
-                        <span className="text-[10px] font-bold text-rose-600 dark:text-rose-300 group-hover/cert:underline">Xem bằng 🔍</span>
-                      </div>
-                      <div className="relative aspect-[16/9] w-full rounded-[10px] overflow-hidden bg-slate-950 border border-rose-200/40">
-                        <img
-                          src={course.certImg || course.image}
-                          alt="Chứng nhận bằng cấp"
-                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/cert:scale-105"
-                          loading="lazy"
-                        />
-                      </div>
-                    </div>
                   </div>
                 </div>
 
-                {/* 2. THẺ KẾT QUẢ ĐẠT ĐƯỢC (Nền Xanh Ngọc Emerald - Thành tựu, Ứng dụng thực tế & Kỹ năng bồi dưỡng) */}
+                {/* 2. THẺ HÌNH ẢNH KHÓA HỌC ĐỘC LẬP (Đã tách khỏi thẻ Thông tin khóa học) */}
+                <div
+                  id="education-photo-card"
+                  data-element-type="card"
+                  data-section-card="true"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleOpenLightbox(course.courseImg || course.image, `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${t(course.title)}`)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleOpenLightbox(course.courseImg || course.image, `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${t(course.title)}`);
+                    }
+                  }}
+                  className={`bento-card glass-card bento-view-card col-span-1 md:col-span-4 lg:col-span-6 h-full p-[10px] rounded-[14px] border shadow-sm flex flex-col justify-between gap-3 transition-all duration-300 cursor-pointer group/photo ${
+                    isDark
+                      ? 'bg-gradient-to-br from-purple-950/70 via-slate-900/90 to-fuchsia-950/60 border-purple-500/40 text-purple-100 hover:border-purple-400'
+                      : 'bg-gradient-to-br from-purple-50/90 via-fuchsia-50/70 to-indigo-50/80 border-purple-200/90 text-purple-950 hover:border-purple-400'
+                  }`}
+                  style={{ borderRadius: '14px', padding: '10px' }}
+                >
+                  <div className="flex items-center justify-between gap-2 pb-2 border-b border-purple-200/70 dark:border-purple-500/30">
+                    <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400">
+                      <WebIcon name="image" className="w-5 h-5 shrink-0 text-purple-600 dark:text-purple-400" />
+                      <h3 className="card-title text-[16px] font-bold font-play text-purple-600 dark:text-purple-400 m-0 p-0">
+                        Hình ảnh khóa học
+                      </h3>
+                    </div>
+                    <span className="text-[11px] font-bold text-purple-700 dark:text-purple-300 group-hover/photo:underline">
+                      Phóng to 🔍
+                    </span>
+                  </div>
+                  <div className="relative aspect-[16/9] w-full rounded-[12px] overflow-hidden bg-slate-950 border border-purple-200/40 my-auto">
+                    <img
+                      src={course.courseImg || course.image}
+                      alt={course.title}
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/photo:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
+                {/* 3. THẺ VĂN BẰNG CHỨNG NHẬN ĐỘC LẬP (Đã tách khỏi thẻ Thông tin khóa học) */}
+                <div
+                  id="education-diploma-card"
+                  data-element-type="card"
+                  data-section-card="true"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleOpenLightbox(course.certImg || course.image, `${isEn ? 'Credential' : 'Bằng cấp'}: ${t(course.title)}`)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleOpenLightbox(course.certImg || course.image, `${isEn ? 'Credential' : 'Bằng cấp'}: ${t(course.title)}`);
+                    }
+                  }}
+                  className={`bento-card glass-card bento-view-card col-span-1 md:col-span-4 lg:col-span-6 h-full p-[10px] rounded-[14px] border shadow-sm flex flex-col justify-between gap-3 transition-all duration-300 cursor-pointer group/cert ${
+                    isDark
+                      ? 'bg-gradient-to-br from-rose-950/70 via-slate-900/90 to-pink-950/60 border-rose-500/40 text-rose-100 hover:border-rose-400'
+                      : 'bg-gradient-to-br from-rose-50/90 via-pink-50/70 to-orange-50/70 border-rose-200/90 text-rose-950 hover:border-rose-400'
+                  }`}
+                  style={{ borderRadius: '14px', padding: '10px' }}
+                >
+                  <div className="flex items-center justify-between gap-2 pb-2 border-b border-rose-200/70 dark:border-rose-500/30">
+                    <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400">
+                      <WebIcon name="shield" className="w-5 h-5 shrink-0 text-rose-600 dark:text-rose-400" />
+                      <h3 className="card-title text-[16px] font-bold font-play text-rose-600 dark:text-rose-400 m-0 p-0">
+                        Văn bằng chứng nhận
+                      </h3>
+                    </div>
+                    <span className="text-[11px] font-bold text-rose-700 dark:text-rose-300 group-hover/cert:underline">
+                      Xem bằng 🔍
+                    </span>
+                  </div>
+                  <div className="relative aspect-[16/9] w-full rounded-[12px] overflow-hidden bg-slate-950 border border-rose-200/40 my-auto">
+                    <img
+                      src={course.certImg || course.image}
+                      alt="Chứng nhận bằng cấp"
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/cert:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
+                {/* 4. THẺ KẾT QUẢ ĐẠT ĐƯỢC (Nền Xanh Ngọc Emerald - Thành tựu, Ứng dụng thực tế & Kỹ năng bồi dưỡng) */}
                 <div
                   id="education-major-card"
                   data-element-type="card"
@@ -936,8 +980,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   <div className="space-y-2.5 my-auto">
                     <div className="h-fit p-3 rounded-[14px] bg-white/85 dark:bg-slate-900/75 border border-emerald-200/80 dark:border-emerald-500/30 shadow-2xs space-y-1">
                       <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
-                        <WebIcon name="check-circle-02" className="w-3.5 h-3.5 shrink-0 text-emerald-700 dark:text-emerald-400" />
-                        <span className="text-[11px] font-bold uppercase tracking-wider">Chứng nhận &amp; Đánh giá</span>
+                        <WebIcon name="check-circle-02" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
+                        <span className="text-[12px] font-bold tracking-normal text-emerald-700 dark:text-emerald-400">Chứng nhận đánh giá</span>
                       </div>
                       <p className="text-[13px] font-bold text-slate-800 dark:text-slate-100 leading-snug break-words">
                         {course.result || 'Đã hoàn thành xuất sắc toàn diện khóa học'}
@@ -947,8 +991,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     {course.application && (
                       <div className="h-fit p-3 rounded-[14px] bg-teal-50/90 dark:bg-teal-950/45 border border-teal-200/80 dark:border-teal-500/30 shadow-2xs space-y-1">
                         <div className="flex items-center gap-1.5 text-teal-700 dark:text-teal-400">
-                          <WebIcon name="target" className="w-3.5 h-3.5 shrink-0 text-teal-700 dark:text-teal-400" />
-                          <span className="text-[11px] font-bold uppercase tracking-wider">Ứng dụng thực tiễn vận hành</span>
+                          <WebIcon name="target" className="w-4 h-4 shrink-0 text-teal-700 dark:text-teal-400" />
+                          <span className="text-[12px] font-bold tracking-normal text-teal-700 dark:text-teal-400">Ứng dụng thực tiễn</span>
                         </div>
                         <p className="text-[12px] sm:text-[13px] font-medium text-slate-700 dark:text-slate-200 leading-relaxed break-words">
                           {course.application}
@@ -974,7 +1018,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   </div>
                 </div>
 
-                {/* 3. THẺ DANH SÁCH CHUYÊN ĐỀ (Cùng hàng với Kết quả đạt được - Nền Vàng Cam Amber) */}
+                {/* 5. THẺ DANH SÁCH CHUYÊN ĐỀ (Hiển thị dạng danh sách dọc List View chuẩn mực) */}
                 <div
                   id="education-certificates-card"
                   data-element-type="card"
@@ -995,7 +1039,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="px-3 py-0.5 rounded-full bg-amber-600 text-white text-[12px] font-bold shadow-xs">
-                        {course.modules.length} Chuyên đề
+                        {course.modules.length} {isEn ? 'Modules' : 'Chuyên đề'}
                       </span>
                     </div>
                   </div>
@@ -1007,21 +1051,21 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     </div>
                   )}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2.5 my-auto">
+                  <ul className="flex flex-col gap-2 my-auto list-none p-0 m-0">
                     {course.modules.map((mod, idx) => (
-                      <div
+                      <li
                         key={idx}
-                        className="h-fit flex items-start gap-2.5 p-3 rounded-[14px] bg-white/90 dark:bg-slate-800/85 border border-amber-200/80 dark:border-amber-500/25 shadow-2xs transition-all hover:border-amber-400 hover:shadow-xs group/mod"
+                        className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-[14px] bg-white/90 dark:bg-slate-800/85 border border-amber-200/80 dark:border-amber-500/25 shadow-2xs transition-all hover:border-amber-400 hover:shadow-xs group/mod"
                       >
-                        <div className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center text-[11px] font-mono font-black shrink-0 mt-0.5 group-hover/mod:bg-amber-500 group-hover/mod:text-white transition-colors">
+                        <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center text-[11px] font-mono font-black shrink-0 group-hover/mod:bg-amber-500 group-hover/mod:text-white transition-colors">
                           {idx + 1}
-                        </div>
-                        <span className="text-[13px] leading-snug font-semibold text-slate-800 dark:text-slate-100 break-words">
+                        </span>
+                        <span className="text-[13px] sm:text-[14px] leading-snug font-semibold text-slate-800 dark:text-slate-100 break-words flex-1 min-w-0">
                           {mod}
                         </span>
-                      </div>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               </div>
             </div>

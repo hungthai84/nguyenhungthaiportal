@@ -1,32 +1,191 @@
 /* ========================================================================= */
-/* THEME: MICA FLUENT -> MODERN MATERIAL DESIGN                              */
+/* THEME: FLUENT MICA (MÀU SÁNG) -> WINDOWS 11 LIGHT MODE MICA SURFACE        */
 /* ========================================================================= */
 
 html[data-card-style="mica-fluent"] {
-  --bg-blur: 24px;
-  --bg-header: rgba(248, 250, 252, 0.82);
-  --bg-footer: rgba(248, 250, 252, 0.82);
-  --bg-main: var(--color-bg);
-  --bg-card: rgba(255, 255, 255, 0.78);
-  --bg-subcard: rgba(241, 245, 249, 0.85);
-  --bg-nested-card: rgba(248, 250, 252, 0.88);
-  --bg-button-primary: var(--color-blue);
-  --bg-button-secondary: rgba(226, 232, 240, 0.85);
-  --bg-popup: rgba(255, 255, 255, 0.92);
-  --bg-modal: rgba(255, 255, 255, 0.94);
+  --fluent-accent: #0067C0;
+  --fluent-accent-hover: #005A9E;
+  --fluent-accent-active: #004578;
+  --fluent-accent-light: rgba(0, 103, 192, 0.08);
+
+  --bg-blur: 36px;
+  --glass-blur: 36px;
+
+  --color-bg: #F3F3F3;
+  --color-bg-soft: #F9F9F9;
+  --color-surface: rgba(243, 243, 243, 0.86);
+  --color-surface-elevated: #FFFFFF;
+
+  --color-heading: #0F172A;
+  --color-text: #1E293B;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748B;
+  --color-link: #0067C0;
+
+  --bg-main: #F3F3F3;
+  --bg-header: rgba(243, 243, 243, 0.88);
+  --bg-footer: rgba(243, 243, 243, 0.88);
+  --bg-card: rgba(243, 243, 243, 0.86);
+  --bg-subcard: rgba(255, 255, 255, 0.72);
+  --bg-nested-card: rgba(255, 255, 255, 0.82);
+
+  --bg-button-primary: #0067C0;
+  --bg-button-secondary: rgba(255, 255, 255, 0.76);
+  --bg-popup: rgba(246, 246, 246, 0.95);
+  --bg-modal: rgba(246, 246, 246, 0.96);
   --bg-dropdown: rgba(255, 255, 255, 0.96);
-  --bg-navigation: rgba(255, 255, 255, 0.82);
-  --bg-tab: rgba(239, 246, 255, 0.85);
-  --bg-table: var(--color-surface);
-  --border-color: var(--color-border-soft);
+  --bg-navigation: rgba(243, 243, 243, 0.88);
+  --bg-tab: rgba(255, 255, 255, 0.70);
+  --bg-table: rgba(243, 243, 243, 0.90);
+
+  --glass-bg: rgba(243, 243, 243, 0.86);
+  --glass-border: rgba(255, 255, 255, 0.92);
+  --border-color: rgba(255, 255, 255, 0.92);
+  --color-border: rgba(255, 255, 255, 0.92);
+  --color-border-soft: rgba(0, 0, 0, 0.08);
+  --color-focus-ring: #0067C0;
+  --bg-nav-button-opaque: #F3F3F3;
+
+  --shadow-card: 0 8px 24px -4px rgba(0, 0, 0, 0.06),
+    0 2px 6px -1px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+  --shadow-popup: 0 16px 36px -4px rgba(0, 0, 0, 0.10),
+    0 4px 12px -2px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+
+  /* Fluent Mica Light Tint Variants for Cards */
+  --mica-tint-blue: linear-gradient(135deg, rgba(238, 246, 255, 0.90) 0%, rgba(243, 243, 243, 0.86) 100%);
+  --mica-tint-cyan: linear-gradient(135deg, rgba(236, 254, 255, 0.90) 0%, rgba(243, 243, 243, 0.86) 100%);
+  --mica-tint-purple: linear-gradient(135deg, rgba(245, 243, 255, 0.90) 0%, rgba(243, 243, 243, 0.86) 100%);
+  --mica-tint-emerald: linear-gradient(135deg, rgba(236, 253, 245, 0.90) 0%, rgba(243, 243, 243, 0.86) 100%);
+  --mica-tint-amber: linear-gradient(135deg, rgba(255, 247, 237, 0.92) 0%, rgba(243, 243, 243, 0.86) 100%);
 }
 
+/* Subtle Windows 11 Mica Refraction Veil over wallpaper */
+html[data-card-style="mica-fluent"] #global-wallpaper-layer::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 15%, rgba(0, 103, 192, 0.05) 0%, transparent 45%),
+    radial-gradient(circle at 82% 85%, rgba(0, 120, 212, 0.04) 0%, transparent 45%),
+    rgba(243, 243, 243, 0.35);
+}
+
+/* Header & Footer Fluent Mica Styling */
+html[data-card-style="mica-fluent"] #app-header {
+  background: var(--bg-header) !important;
+  border-color: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.04) !important;
+  backdrop-filter: blur(36px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(125%) !important;
+}
+
+html[data-card-style="mica-fluent"] #app-footer {
+  background: var(--bg-footer) !important;
+  border-color: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 -4px 18px -2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(36px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(125%) !important;
+}
+
+html[data-card-style="mica-fluent"] #footer-nav-capsule {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border-color: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(28px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(120%) !important;
+}
+
+/* Card Surfaces in Fluent Mica Light */
+html[data-card-style="mica-fluent"] [id$="-page-container"],
+html[data-card-style="mica-fluent"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-destiny-card):not(#el-p10-div-114):not(#el-p10-div-170),
+html[data-card-style="mica-fluent"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
+html[data-card-style="mica-fluent"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card) {
+  background: rgba(243, 243, 243, 0.86) !important;
+  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(36px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(125%) !important;
+}
+
+/* Hover elevation in Fluent Mica */
+html[data-card-style="mica-fluent"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-destiny-card):not(#el-p10-div-114):not(#el-p10-div-170):hover,
+html[data-card-style="mica-fluent"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 14px 32px -4px rgba(0, 0, 0, 0.09), 0 4px 10px -2px rgba(0, 0, 0, 0.05), inset 0 1px 1.5px #FFFFFF !important;
+}
+
+/* Sub-cards inside Fluent Mica */
+html[data-card-style="mica-fluent"] [data-subcard="true"],
+html[data-card-style="mica-fluent"] .sub-card {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+/* Modals & Popups in Fluent Mica */
 html[data-card-style="mica-fluent"] #ai-assistant-droptop-menu-list,
 html[data-card-style="mica-fluent"] #ai-assistant-center-questions-modal,
 html[data-card-style="mica-fluent"] #interview-question-filter-listbox,
 html[data-card-style="mica-fluent"] #skills-filter-dropdown {
-  background: rgba(255, 255, 255, 0.92) !important;
-  backdrop-filter: blur(26px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(150%) !important;
+  background: rgba(246, 246, 246, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 20px 48px -6px rgba(0, 0, 0, 0.12), 0 4px 14px -2px rgba(0, 0, 0, 0.06), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(36px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(125%) !important;
 }
 
+/* High Contrast WCAG Text Assurance */
+html[data-card-style="mica-fluent"] h1,
+html[data-card-style="mica-fluent"] h2,
+html[data-card-style="mica-fluent"] h3,
+html[data-card-style="mica-fluent"] h4,
+html[data-card-style="mica-fluent"] .card-heading__title,
+html[data-card-style="mica-fluent"] .card-title {
+  color: #0F172A !important;
+}
+
+html[data-card-style="mica-fluent"] p:not([class*="text-"]),
+html[data-card-style="mica-fluent"] span:not([class*="text-"]):not([class*="bg-"]) {
+  color: #1E293B;
+}
+
+/* Fluent Action Buttons */
+html[data-card-style="mica-fluent"] button:not(.btn-ghost):not([class*="bg-transparent"]) {
+  transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+
+html[data-card-style="mica-fluent"] button:focus-visible,
+html[data-card-style="mica-fluent"] a:focus-visible,
+html[data-card-style="mica-fluent"] input:focus-visible {
+  outline: 2px solid var(--fluent-accent) !important;
+  outline-offset: 2px !important;
+}
+
+/* Bento Tones harmonized for Fluent Mica Light */
+html[data-card-style="mica-fluent"] .bento-tone-indigo {
+  background: linear-gradient(135deg, rgba(238, 242, 255, 0.88) 0%, rgba(243, 243, 243, 0.86) 100%) !important;
+  border: 1px solid rgba(199, 210, 254, 0.6) !important;
+}
+html[data-card-style="mica-fluent"] .bento-tone-cyan {
+  background: linear-gradient(135deg, rgba(236, 254, 255, 0.88) 0%, rgba(243, 243, 243, 0.86) 100%) !important;
+  border: 1px solid rgba(165, 243, 252, 0.6) !important;
+}
+html[data-card-style="mica-fluent"] .bento-tone-purple {
+  background: linear-gradient(135deg, rgba(245, 243, 255, 0.88) 0%, rgba(243, 243, 243, 0.86) 100%) !important;
+  border: 1px solid rgba(221, 214, 254, 0.6) !important;
+}
+html[data-card-style="mica-fluent"] .bento-tone-emerald {
+  background: linear-gradient(135deg, rgba(236, 253, 245, 0.88) 0%, rgba(243, 243, 243, 0.86) 100%) !important;
+  border: 1px solid rgba(167, 243, 208, 0.6) !important;
+}
+html[data-card-style="mica-fluent"] .bento-tone-amber {
+  background: linear-gradient(135deg, rgba(255, 247, 237, 0.88) 0%, rgba(243, 243, 243, 0.86) 100%) !important;
+  border: 1px solid rgba(253, 230, 138, 0.6) !important;
+}

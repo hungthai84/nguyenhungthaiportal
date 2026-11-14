@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SiteTheme } from '@/types';
+import { useLanguage } from '@/context/LanguageContext';
 
 export interface ClockProps {
   isLight?: boolean;
@@ -7,6 +8,7 @@ export interface ClockProps {
 }
 
 export const Clock: React.FC<ClockProps> = ({ isLight = true, currentTheme }) => {
+  const { language } = useLanguage();
   const [timeStr, setTimeStr] = useState<string>('--:--');
   const [dateStr, setDateStr] = useState<string>('');
 
@@ -17,7 +19,10 @@ export const Clock: React.FC<ClockProps> = ({ isLight = true, currentTheme }) =>
       const minutes = String(now.getMinutes()).padStart(2, '0');
       setTimeStr(`${hours}:${minutes}`);
 
-      const dayNames = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+      const dayNames =
+        language === 'en'
+          ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+          : ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
       const dName = dayNames[now.getDay()];
       const d = String(now.getDate()).padStart(2, '0');
       const m = String(now.getMonth() + 1).padStart(2, '0');
@@ -27,7 +32,7 @@ export const Clock: React.FC<ClockProps> = ({ isLight = true, currentTheme }) =>
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [language]);
 
   const isDark = currentTheme === 'dark-neon' || !isLight;
 

@@ -13,6 +13,7 @@ import { DataFlowMatrixModal } from '@/components/ui/DataFlowMatrixModal';
 import { EcosystemDiagramModal } from '@/components/common/EcosystemDiagramModal';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { speakSiteText, stopActiveSpeech } from '@/utils/speechVoice';
+import { useLanguage } from '@/context/LanguageContext';
 
 export interface SystemsViewProps {
   currentTheme?: SiteTheme;
@@ -303,6 +304,7 @@ const SYSTEM_6_WORDS_TITLE: Record<string, string> = {
 
 export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNotification }) => {
   const { showToast } = useToast();
+  const { language, t, translateText } = useLanguage();
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const rawCardStyle = getCardStyleProperties(cardStyle);
   const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cardSampleStyle } = rawCardStyle as any;
@@ -310,6 +312,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSystem, setSelectedSystem] = useState<SystemData | null>(null);
+  const [postcardSystem, setPostcardSystem] = useState<SystemData | null>(null);
+  const [isPostcardSpeaking, setIsPostcardSpeaking] = useState<boolean>(false);
+  const [isPostcardVoiceLoading, setIsPostcardVoiceLoading] = useState<boolean>(false);
+  const postcardSessionRef = useRef<number>(0);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
   const [isAuthorModalOpen, setIsAuthorModalOpen] = useState<boolean>(false);
   const [isPinned, setIsPinned] = useState<boolean>(false);
@@ -672,6 +678,137 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
     };
   }, [isFilterDropdownOpen]);
   const isDark = themeIsDark || currentTheme === 'dark-neon';
+
+  const buildSystemPostcardNarration = useCallback(
+    (item: SystemData): string => {
+      const spec = SYSTEM_TECH_SPECS_MAP[item.id] || SYSTEM_TECH_SPECS_MAP.sdp;
+      const featuresList =
+        language === 'en'
+          ? (item.featuresEn && item.featuresEn.length > 0
+              ? item.featuresEn
+              : (item.featuresVi || item.features || []).map((f) => translateText(f)))
+          : item.featuresVi || item.features || [];
+      const topFeatures = featuresList.slice(0, 3).join('. ');
+
+      if (language === 'en') {
+        const name = item.nameEn || item.name || item.abbr;
+        const overview = item.descEn || translateText(item.descVi || item.description || '');
+        return `Hello, I am Tri Nhan, AI Support Assistant for Nguyen Hung Thai. Introducing the ${name} system, abbreviated ${item.abbr}. ${overview} Technical commitment: ${spec.slaCommitment}, ${spec.uptimePct} uptime, ${spec.isoSecurity}. Key highlights: ${topFeatures}.`;
+      }
+
+      const name = item.nameVi || item.name || item.abbr;
+      const overview = item.descVi || item.description || '';
+      return `Xin chào, tôi là Trí Nhân, Trợ lý AI hỗ trợ của chuyên gia Nguyễn Hùng Thái. Xin giới thiệu hệ thống ${name}, mã phân hệ ${item.abbr}. ${overview} Cam kết vận hành: ${spec.slaCommitment}, độ ổn định ${spec.uptimePct}, chuẩn bảo mật ${spec.isoSecurity}. Điểm nổi bật: ${topFeatures}.`;
+    },
+    [language, translateText]
+  );
+
+  const speakSystemPostcard = useCallback(
+    (item: SystemData) => {
+      postcardSessionRef.current += 1;
+      const sessionId = postcardSessionRef.current;
+      stopActiveSpeech();
+      setIsPostcardVoiceLoading(true);
+      setIsPostcardSpeaking(false);
+
+      const narration = buildSystemPostcardNarration(item);
+      speakSiteText(narration, {
+        lang: language,
+        useGeminiTts: true,
+        rate: 1.0,
+        onStart: () => {
+          if (postcardSessionRef.current !== sessionId) return;
+          setIsPostcardVoiceLoading(false);
+          setIsPostcardSpeaking(true);
+          showToast(
+            t(
+              `🎧 Trợ lý AI Trí Nhân đang giới thiệu hệ thống ${item.abbr}`,
+              `🎧 AI Assistant Tri Nhan is presenting ${item.abbr}`
+            )
+          );
+        },
+        onEnd: () => {
+          if (postcardSessionRef.current !== sessionId) return;
+          setIsPostcardVoiceLoading(false);
+          setIsPostcardSpeaking(false);
+        },
+        onError: () => {
+          if (postcardSessionRef.current !== sessionId) return;
+          setIsPostcardVoiceLoading(false);
+          setIsPostcardSpeaking(false);
+          showToast(
+            t(
+              '⚠️ Không thể phát âm thanh thuyết minh AI',
+              '⚠️ Unable to play AI voice narration'
+            )
+          );
+        },
+      });
+    },
+    [buildSystemPostcardNarration, language, showToast, t]
+  );
+
+  const handleOpenSystemPostcard = useCallback(
+    (item: SystemData, e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      SoundEngine.playTechChimeExpand();
+      setPostcardSystem(item);
+      speakSystemPostcard(item);
+    },
+    [speakSystemPostcard]
+  );
+
+  const handleStopPostcardVoice = useCallback(() => {
+    postcardSessionRef.current += 1;
+    stopActiveSpeech();
+    setIsPostcardVoiceLoading(false);
+    setIsPostcardSpeaking(false);
+  }, []);
+
+  const handleCloseSystemPostcard = useCallback(() => {
+    handleStopPostcardVoice();
+    setPostcardSystem(null);
+  }, [handleStopPostcardVoice]);
+
+  useEffect(() => {
+    return () => {
+      stopActiveSpeech();
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      if (postcardSystem) {
+        handleCloseSystemPostcard();
+        return;
+      }
+      if (selectedSystem) {
+        setSelectedSystem(null);
+        return;
+      }
+      if (isVideoModalOpen) {
+        setIsVideoModalOpen(false);
+        return;
+      }
+      if (isAuthorModalOpen) {
+        setIsAuthorModalOpen(false);
+        return;
+      }
+      if (isFilterDropdownOpen) {
+        setIsFilterDropdownOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [
+    postcardSystem,
+    selectedSystem,
+    isVideoModalOpen,
+    isAuthorModalOpen,
+    isFilterDropdownOpen,
+    handleCloseSystemPostcard,
+  ]);
 
   const handleFlipToggle = (id: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
@@ -1057,10 +1194,16 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
 
   // Format date string for live clock
   const formattedTime = currentTime ? currentTime.toTimeString().split(' ')[0] : '--:--:--';
-  const dayNames = ['CHỦ NHẬT', 'THỨ 2', 'THỨ 3', 'THỨ 4', 'THỨ 5', 'THỨ 6', 'THỨ 7'];
-  const formattedDate = currentTime ? `${dayNames[currentTime.getDay()]}, ${currentTime.getDate()} THG ${
-    currentTime.getMonth() + 1
-  }` : '--';
+  const dayNames =
+    language === 'en'
+      ? ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+      : ['CHỦ NHẬT', 'THỨ 2', 'THỨ 3', 'THỨ 4', 'THỨ 5', 'THỨ 6', 'THỨ 7'];
+  const monthNamesEn = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  const formattedDate = currentTime
+    ? language === 'en'
+      ? `${dayNames[currentTime.getDay()]}, ${currentTime.getDate()} ${monthNamesEn[currentTime.getMonth()]}`
+      : `${dayNames[currentTime.getDay()]}, ${currentTime.getDate()} THG ${currentTime.getMonth() + 1}`
+    : '--';
 
   // Icon mapping for each system
   const systemIconMap: Record<string, string> = {
@@ -1711,15 +1854,29 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                              </h3>
                           </div>
 
+                            {/* Nút Mở Postcard & Nghe AI Trí Nhân giới thiệu */}
+                            <button
+                              type="button"
+                              onClick={(e) => handleOpenSystemPostcard(item, e)}
+                              className="bento-card px-3.5 py-1.5 rounded-[14px] text-xs font-bold text-indigo-700 dark:text-cyan-300 shadow-sm transition flex items-center gap-1.5 cursor-pointer bg-indigo-50/90 dark:bg-indigo-950/60 hover:brightness-105 border border-indigo-300/70 dark:border-cyan-400/35 active:scale-95"
+                              title={t(
+                                `Mở Postcard giới thiệu hệ thống ${item.abbr} & nghe giọng AI`,
+                                `Open ${item.abbr} intro postcard & play AI voice`
+                              )}
+                            >
+                              <WebIcon name="volume-2" className="w-3.5 h-3.5" />
+                              <span>{t('Postcard & Giọng AI', 'AI Voice Postcard')}</span>
+                            </button>
+
                             {/* Nút 1: Mở hệ thống ở tab khác */}
                             {item.url && item.url !== '#' && (
                               <button
                                 type="button"
                                 onClick={(e) => handleOpenUrl(e, item.url)}
                                 className="bento-card px-3.5 py-1.5 rounded-[14px] text-xs font-bold text-slate-800 dark:text-white shadow-sm transition flex items-center gap-1.5 cursor-pointer bg-white/85 dark:bg-white/15 hover:brightness-105 border border-slate-300/70 dark:border-white/25 active:scale-95"
-                                title={`Mở hệ thống ${item.abbr} ở tab khác`}
+                                title={t(`Mở hệ thống ${item.abbr} ở tab khác`, `Open ${item.abbr} in new tab`)}
                               >
-                                <span>Mở tab mới</span>
+                                <span>{t('Mở tab mới', 'Open Tab')}</span>
                                 <WebIcon name="external-link" className="w-3.5 h-3.5" />
                               </button>
                             )}
@@ -1994,22 +2151,18 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               <WebIcon name="external-link" className="w-3.5 h-3.5" />
                             </button>
 
-                            {/* Nút Speak */}
+                            {/* Nút Speak — Mở Postcard giới thiệu hệ thống & đọc bằng giọng AI hỗ trợ */}
                             <button
                               type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                SoundEngine.playTap();
-                                stopActiveSpeech();
-                                const textToRead = `Hệ thống ${item.nameVi || item.abbr}. ${item.description || config.displayTitle}`;
-                                speakSiteText(textToRead, {
-                                  rate: 1.0,
-                                  onStart: () => showToast(`🎧 Đang đọc thuyết minh hệ thống ${item.abbr}`),
-                                  onEnd: () => {},
-                                  onError: () => showToast('⚠️ Không thể phát âm thanh thuyết minh'),
-                                });
-                              }}
-                              title={`Đọc giọng nói thuyết minh hệ thống (${item.abbr})`}
+                              onClick={(e) => handleOpenSystemPostcard(item, e)}
+                              title={t(
+                                `Mở Postcard giới thiệu ${item.abbr} với giọng đọc AI Trí Nhân`,
+                                `Open ${item.abbr} Intro Postcard with AI Support Voice`
+                              )}
+                              aria-label={t(
+                                `Mở Postcard giới thiệu ${item.abbr} với giọng đọc AI`,
+                                `Open ${item.abbr} Intro Postcard with AI Voice`
+                              )}
                               className="w-6.5 h-6.5 rounded-[7px] flex items-center justify-center text-slate-700 dark:text-white/90 hover:text-indigo-600 dark:hover:text-cyan-300 bg-white/60 dark:bg-white/15 hover:bg-white dark:hover:bg-white/30 active:scale-90 transition-all cursor-pointer border border-white/30 shadow-xs"
                             >
                               <WebIcon name="volume-2" className="w-3.5 h-3.5" />
@@ -2646,6 +2799,281 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
         onClose={() => setIsEcosystemDiagramOpen(false)}
         onShowNotification={showToast}
       />
+
+      {/* POSTCARD GIỚI THIỆU HỆ THỐNG & GIỌNG ĐỌC AI HỖ TRỢ TRÍ NHÂN */}
+      <AnimatePresence>
+        {postcardSystem && (() => {
+          const pcConfig = SYSTEM_DESIGN_MAP[postcardSystem.id] || {
+            displayTitle: formatCardTitle(postcardSystem.nameVi || postcardSystem.name || ''),
+            subtitle: postcardSystem.nameEn || postcardSystem.descVi || '',
+            gradient: postcardSystem.gradient,
+            lightBg: 'linear-gradient(135deg, rgba(239, 246, 255, 0.95) 0%, rgba(219, 234, 254, 0.88) 100%)',
+            lightBorder: 'rgba(96, 165, 250, 0.55)',
+            lightAccent: '#1d4ed8',
+            darkAccent: '#60a5fa',
+            iconName: systemIconMap[postcardSystem.id] || 'cog',
+            illustrationSrc: postcardSystem.imageUrl || '',
+            cardTheme: postcardSystem.themeColor || '#3B72E2',
+          };
+          const pcSpec = SYSTEM_TECH_SPECS_MAP[postcardSystem.id] || SYSTEM_TECH_SPECS_MAP.sdp;
+          const pcTitle =
+            language === 'en'
+              ? postcardSystem.nameEn || postcardSystem.name || postcardSystem.abbr
+              : postcardSystem.nameVi || postcardSystem.name || postcardSystem.abbr;
+          const pcSub =
+            language === 'en'
+              ? `${postcardSystem.abbr} · ${postcardSystem.nameVi || ''}`
+              : `${postcardSystem.abbr} · ${postcardSystem.nameEn || pcConfig.subtitle}`;
+          const pcDesc =
+            language === 'en'
+              ? postcardSystem.descEn || translateText(postcardSystem.descVi || postcardSystem.description || '')
+              : postcardSystem.descVi || postcardSystem.description || '';
+          const pcFeatures =
+            language === 'en'
+              ? postcardSystem.featuresEn && postcardSystem.featuresEn.length > 0
+                ? postcardSystem.featuresEn
+                : (postcardSystem.featuresVi || postcardSystem.features || []).map((f) => translateText(f))
+              : postcardSystem.featuresVi || postcardSystem.features || [];
+          const pcNarration = buildSystemPostcardNarration(postcardSystem);
+          const pcAccent = isDark ? pcConfig.darkAccent : pcConfig.lightAccent;
+
+          return (
+            <motion.div
+              key={`system-postcard-${postcardSystem.id}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={handleCloseSystemPostcard}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="system-postcard-title"
+              className="fixed inset-0 z-[70] bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto"
+            >
+              <motion.article
+                initial={{ opacity: 0, y: 18, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 14, scale: 0.96 }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                onClick={(e) => e.stopPropagation()}
+                className="bento-card glass-card w-full max-w-2xl rounded-[14px] overflow-hidden border border-slate-200/90 dark:border-slate-700/80 bg-white/95 dark:bg-[#0F172A]/95 text-slate-900 dark:text-slate-100 shadow-2xl font-play flex flex-col max-h-[90vh]"
+                style={{ borderRadius: '14px' }}
+              >
+                {/* Postcard Top Editorial Accent Strip */}
+                <div className="h-1.5 w-full shrink-0" style={{ background: pcConfig.gradient }} />
+
+                {/* Postcard Header */}
+                <div className="p-[15px] border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-3 shrink-0">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div
+                      className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80"
+                      style={{ color: pcAccent }}
+                    >
+                      <WebIcon name={pcConfig.iconName} className="w-5 h-5" style={{ color: pcAccent }} />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-[11px] font-mono font-bold tracking-wider uppercase block text-slate-500 dark:text-slate-400">
+                        {t('Postcard Giới Thiệu Hệ Thống', 'System Introduction Postcard')}
+                      </span>
+                      <h3
+                        id="system-postcard-title"
+                        className="text-base sm:text-lg font-bold truncate leading-tight"
+                        style={{ color: pcAccent }}
+                      >
+                        {pcTitle}
+                      </h3>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 truncate">
+                        {pcSub}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleCloseSystemPostcard}
+                    aria-label={t('Đóng postcard', 'Close postcard')}
+                    className="w-8 h-8 rounded-[10px] bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center transition cursor-pointer shrink-0"
+                  >
+                    <WebIcon name="cancel" className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Postcard Body */}
+                <div className="p-[15px] overflow-y-auto glass-scrollbar space-y-[15px]">
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] items-stretch">
+                    {/* Left Visual Stamp Panel */}
+                    <div className="md:col-span-5 rounded-[14px] p-[15px] border border-slate-200/80 dark:border-slate-700/80 bg-slate-50/90 dark:bg-slate-900/80 flex flex-col justify-between gap-3">
+                      <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                        <span className="font-bold" style={{ color: pcAccent }}>
+                          {postcardSystem.abbr}
+                        </span>
+                        <span>{pcSpec.uptimePct} SLA</span>
+                      </div>
+
+                      <div className="w-full h-36 sm:h-40 flex items-center justify-center overflow-hidden bg-transparent">
+                        {(pcConfig.illustrationSrc || postcardSystem.imageUrl) ? (
+                          <img
+                            src={pcConfig.illustrationSrc || postcardSystem.imageUrl}
+                            alt={pcTitle}
+                            className="max-w-full max-h-full w-auto h-full object-contain bg-transparent select-none"
+                          />
+                        ) : (
+                          <WebIcon name={pcConfig.iconName} className="w-14 h-14" style={{ color: pcAccent }} />
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200/80 dark:border-slate-800 text-[11px]">
+                        <div>
+                          <span className="text-slate-500 dark:text-slate-400 block">
+                            {t('Bảo mật', 'Security')}
+                          </span>
+                          <span className="font-bold text-emerald-700 dark:text-emerald-400 truncate block">
+                            ISO 27001
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 dark:text-slate-400 block">
+                            {t('Cam kết', 'Latency')}
+                          </span>
+                          <span className="font-bold text-slate-800 dark:text-slate-200 truncate block">
+                            {pcSpec.slaCommitment.split('(')[0].trim()}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Postcard Editorial Content */}
+                    <div className="md:col-span-7 flex flex-col justify-between gap-3">
+                      <div className="rounded-[14px] p-[15px] border border-slate-200/80 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/60 space-y-2.5 flex-1">
+                        <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                          {t('Tổng quan hệ thống', 'System Overview')}
+                        </div>
+                        <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-200 font-medium break-words">
+                          {pcDesc}
+                        </p>
+
+                        {pcFeatures.length > 0 && (
+                          <div className="pt-2 border-t border-slate-200/70 dark:border-slate-800 space-y-1.5">
+                            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                              {t('Tính năng trọng tâm', 'Core Capabilities')}
+                            </div>
+                            <ul className="space-y-1.5 list-none p-0 m-0">
+                              {pcFeatures.slice(0, 3).map((feat: string, fIdx: number) => (
+                                <li
+                                  key={fIdx}
+                                  className="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 leading-snug"
+                                >
+                                  <WebIcon
+                                    name="check"
+                                    className="w-3.5 h-3.5 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400"
+                                  />
+                                  <span className="break-words">{feat}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* AI Support Voice Script & Player Panel */}
+                  <div className="rounded-[14px] p-[15px] border border-indigo-200/90 dark:border-indigo-500/35 bg-indigo-50/75 dark:bg-indigo-950/35 space-y-2.5">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="w-7 h-7 rounded-[9px] bg-indigo-600 text-white flex items-center justify-center shrink-0">
+                          <WebIcon name="bot" className="w-4 h-4" />
+                        </div>
+                        <div className="min-w-0">
+                          <span className="text-xs font-bold text-indigo-900 dark:text-indigo-200 block truncate">
+                            {t('Giọng đọc AI Hỗ trợ Trí Nhân', 'Tri Nhan AI Support Voice')}
+                          </span>
+                          <span className="text-[11px] text-indigo-700/80 dark:text-indigo-300/80 block">
+                            {isPostcardVoiceLoading
+                              ? t('Đang tổng hợp giọng nói AI...', 'Synthesizing AI voice...')
+                              : isPostcardSpeaking
+                              ? t('Đang phát thuyết minh giới thiệu', 'Playing system introduction')
+                              : t('Sẵn sàng phát lại thuyết minh', 'Ready to replay narration')}
+                          </span>
+                        </div>
+                      </div>
+
+                      {isPostcardSpeaking && (
+                        <div className="flex items-end gap-0.5 h-4 px-2" aria-hidden="true">
+                          <span className="w-1 h-2.5 bg-indigo-600 dark:bg-cyan-400 rounded-full animate-pulse" />
+                          <span className="w-1 h-4 bg-indigo-500 dark:bg-cyan-300 rounded-full animate-pulse" />
+                          <span className="w-1 h-3 bg-indigo-600 dark:bg-cyan-400 rounded-full animate-pulse" />
+                          <span className="w-1 h-2 bg-indigo-500 dark:bg-cyan-300 rounded-full animate-pulse" />
+                        </div>
+                      )}
+                    </div>
+
+                    <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-300 bg-white/70 dark:bg-slate-900/60 p-2.5 rounded-[10px] border border-indigo-100 dark:border-indigo-500/20 break-words">
+                      &ldquo;{pcNarration}&rdquo;
+                    </p>
+                  </div>
+                </div>
+
+                {/* Postcard Footer Controls */}
+                <div className="p-[15px] border-t border-slate-200/80 dark:border-slate-800 bg-slate-50/90 dark:bg-slate-900/90 flex flex-wrap items-center justify-between gap-2 shrink-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => speakSystemPostcard(postcardSystem)}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-xs font-bold text-white shadow-sm transition cursor-pointer hover:brightness-110 active:scale-95"
+                      style={{ background: pcConfig.gradient }}
+                    >
+                      <WebIcon name="volume-2" className="w-3.5 h-3.5" />
+                      <span>
+                        {isPostcardSpeaking
+                          ? t('Đọc lại từ đầu', 'Replay AI Voice')
+                          : t('Nghe AI giới thiệu', 'Play AI Voice')}
+                      </span>
+                    </button>
+
+                    {(isPostcardSpeaking || isPostcardVoiceLoading) && (
+                      <button
+                        type="button"
+                        onClick={handleStopPostcardVoice}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white transition cursor-pointer active:scale-95"
+                      >
+                        <WebIcon name="volume-x" className="w-3.5 h-3.5" />
+                        <span>{t('Dừng đọc', 'Stop Voice')}</span>
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 ml-auto">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const targetId = postcardSystem.id;
+                        handleCloseSystemPostcard();
+                        setExpandedSystemId(targetId);
+                      }}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-xs font-bold bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-300/80 dark:border-slate-600 transition cursor-pointer"
+                    >
+                      <WebIcon name="maximize-2" className="w-3.5 h-3.5" />
+                      <span>{t('Chi tiết kỹ thuật', 'Full Specs')}</span>
+                    </button>
+
+                    {postcardSystem.url && postcardSystem.url !== '#' && (
+                      <button
+                        type="button"
+                        onClick={(e) => handleOpenUrl(e, postcardSystem.url)}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-xs font-bold bg-slate-900 dark:bg-cyan-400 text-white dark:text-slate-950 hover:opacity-90 transition cursor-pointer"
+                      >
+                        <span>{t('Mở hệ thống', 'Open Portal')}</span>
+                        <WebIcon name="external-link" className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </motion.article>
+            </motion.div>
+          );
+        })()}
+      </AnimatePresence>
 
       {/* ========================================================================= */}
       {/* VÒNG TRÒN NỔI AVATAR VIDEO VÀ BONG BÓNG LỜI NHẮC Ở GÓC TRÊN BÊN PHẢI      */}

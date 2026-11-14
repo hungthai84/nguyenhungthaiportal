@@ -7,8 +7,9 @@ import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/domains';
 import { DomainData, SiteTheme } from '@/types';
 import { TechStackExplorerModal } from '@/components/domains/TechStackExplorerModal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { formatCardTitle } from '@/lib/utils';
+import { formatCardTitle, formatSentenceFourWords } from '@/lib/utils';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+import { useLanguage } from '@/context/LanguageContext';
 
 export interface ServicesViewProps {
   currentTheme?: SiteTheme;
@@ -212,6 +213,8 @@ const SERVICES_DATA_DETAILS: Record<string, {
 
 export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'light-glass' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
+  const { language, t } = useLanguage();
+  const isEn = language === 'en';
   const rawCardStyle = getCardStyleProperties(cardStyle);
   const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cardSampleStyle } = rawCardStyle as any;
   const isDark = themeIsDark || currentTheme === 'dark-neon';
@@ -237,13 +240,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
 
   // Danh sách bộ lọc phân hệ dịch vụ (6.1 - 6.6)
   const filterCategories = [
-    { id: 'ALL', label: 'Tất cả dịch vụ (6)', icon: 'grid' },
-    { id: '01', label: '6.1 · Dịch vụ viễn thông', icon: 'phone' },
-    { id: '02', label: '6.2 · Thương mại điện tử', icon: 'shopping-cart' },
-    { id: '03', label: '6.3 · Tài chính bảo hiểm', icon: 'shield-check' },
-    { id: '04', label: '6.4 · Thể thao điện tử', icon: 'gamepad-2' },
-    { id: '05', label: '6.5 · Thanh toán điện tử', icon: 'credit-card' },
-    { id: '06', label: '6.6 · Xây dựng hệ thống', icon: 'layers' },
+    { id: 'ALL', label: isEn ? 'All Services (6)' : 'Tất cả dịch vụ (6)', icon: 'grid' },
+    { id: '01', label: isEn ? '6.1 · Telecom Services' : '6.1 · Dịch vụ viễn thông', icon: 'phone' },
+    { id: '02', label: isEn ? '6.2 · E-Commerce' : '6.2 · Thương mại điện tử', icon: 'shopping-cart' },
+    { id: '03', label: isEn ? '6.3 · Finance & Insurance' : '6.3 · Tài chính bảo hiểm', icon: 'shield-check' },
+    { id: '04', label: isEn ? '6.4 · Esports & Gaming' : '6.4 · Thể thao điện tử', icon: 'gamepad-2' },
+    { id: '05', label: isEn ? '6.5 · Digital Payments' : '6.5 · Thanh toán điện tử', icon: 'credit-card' },
+    { id: '06', label: isEn ? '6.6 · System Architecture' : '6.6 · Xây dựng hệ thống', icon: 'layers' },
   ];
 
   const filteredDomains =
@@ -635,9 +638,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                       <h3
                         className={`text-[18px] font-bold font-play leading-snug tracking-tight transition-colors truncate`}
                         style={{ fontSize: '18px', fontWeight: 700, color: cfg.accentColor }}
-                        title={domain.title}
+                        title={domain.titleEn && language === 'en' ? domain.titleEn : domain.title}
                       >
-                        {domain.title}
+                        {language === 'en' && domain.titleEn ? domain.titleEn : domain.title}
                       </h3>
                     </div>
                   </div>
@@ -658,9 +661,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                           WebkitBoxOrient: 'vertical',
                           overflow: 'hidden',
                         }}
-                        title={domain.desc || domain.professionalMessage}
+                        title={(language === 'en' && domain.descEn ? domain.descEn : domain.desc) || domain.professionalMessage}
                       >
-                        {domain.desc || domain.professionalMessage}
+                        {(language === 'en' && domain.descEn ? domain.descEn : domain.desc) || domain.professionalMessage}
                       </p>
                     </div>
                     <div className="w-24 h-20 sm:w-28 sm:h-24 shrink-0 flex items-center justify-center relative">
@@ -677,25 +680,28 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     </div>
                   </div>
 
-                  {/* 3. BOTTOM: Chứa hình logo công ty nằm center, hình logo lắp đầy hình tròn logo (Không dùng ảnh GIF) */}
+                  {/* 3. BOTTOM: Logo công ty nền trong suốt, căn giữa gọn gàng */}
                   <div className="relative z-20 pt-2 border-t border-black/5 dark:border-white/10 flex items-center justify-center shrink-0">
                     {domain.companyLogos && domain.companyLogos.length > 0 ? (
-                      <div className="flex items-center justify-center gap-2 flex-wrap">
+                      <div className="flex items-center justify-center gap-2.5 flex-wrap">
                         {domain.companyLogos
-                          .filter((partner) => !partner.logo.toLowerCase().includes('.gif'))
                           .slice(0, 5)
                           .map((partner, pIdx) => (
                           <div
                             key={pIdx}
-                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden p-0 border border-slate-200/80 dark:border-white/20 shadow-xs bg-white flex items-center justify-center shrink-0"
+                            className="w-8 h-8 sm:w-9 sm:h-9 bg-transparent border-0 p-0 shadow-none flex items-center justify-center shrink-0 transition-transform duration-200 hover:scale-110"
                             title={partner.name}
                           >
                             <img
                               src={partner.logo}
                               alt={partner.name}
-                              className="w-full h-full object-cover rounded-full p-0"
+                              className="w-full h-full object-contain bg-transparent"
                               onError={(e) => {
-                                e.currentTarget.style.display = 'none';
+                                if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
+                                  e.currentTarget.src = partner.fallbackLogo;
+                                } else {
+                                  e.currentTarget.style.display = 'none';
+                                }
                               }}
                             />
                           </div>
@@ -760,11 +766,15 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                           {detailInfo.kicker}
                         </span>
                         <span className="text-[11px] font-bold text-[#475569] dark:text-[#94A3B8]">
-                          {detailInfo.num} · Phân hệ {selectedDomain.serviceCode || '6.1'}
+                          {detailInfo.num} · {isEn ? 'Module' : 'Phân hệ'} {selectedDomain.serviceCode || '6.1'}
                         </span>
                       </div>
-                      <h2 className="text-xl sm:text-2xl md:text-3xl font-black font-play text-[#1E1B4B] dark:text-[#F8FAFC] tracking-tight">
-                        {selectedDomain.title}
+                      <h2
+                        className="text-xl sm:text-2xl md:text-3xl font-black font-play tracking-tight"
+                        style={{ color: detailInfo.accent }}
+                        title={isEn && selectedDomain.titleEn ? selectedDomain.titleEn : selectedDomain.title}
+                      >
+                        {formatSentenceFourWords(isEn && selectedDomain.titleEn ? selectedDomain.titleEn : selectedDomain.title)}
                       </h2>
                       <p className="mt-1 text-xs sm:text-sm text-[#334155] dark:text-[#E2E8F0] max-w-3xl leading-relaxed font-semibold">
                         {detailInfo.summary}
@@ -816,12 +826,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                 {/* 3. TOP INFO CARDS (Partners & Role) */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 shrink-0">
                   {/* Partners Card */}
-                  <div className="p-4 rounded-[14px] bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between">
-                    <div className="flex items-center gap-2 text-xs font-black text-slate-900 dark:text-white mb-2.5 font-play">
-                      <div className="w-6 h-6 rounded-[14px] flex items-center justify-center bg-teal-500/20 text-teal-600 dark:text-teal-300">
-                        <WebIcon name="users" className="w-3.5 h-3.5" />
-                      </div>
-                      <span>Đối tác</span>
+                  <div data-subcard="true" className="p-4 rounded-[14px] border border-slate-200/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between">
+                    <div className="flex items-center gap-2 text-[14px] font-bold text-teal-600 dark:text-teal-400 mb-2.5 font-play">
+                      <WebIcon name="users" className="w-4 h-4 shrink-0 text-teal-600 dark:text-teal-400" />
+                      <span className="text-teal-600 dark:text-teal-400">Đối tác tiêu biểu</span>
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                       {detailInfo.partners.map((p, i) => (
@@ -837,12 +845,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   </div>
 
                   {/* Role Card */}
-                  <div className="p-4 rounded-[14px] bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between">
-                    <div className="flex items-center gap-2 text-xs font-black text-slate-900 dark:text-white mb-2 font-play">
-                      <div className="w-6 h-6 rounded-[14px] flex items-center justify-center bg-purple-500/20 text-purple-600 dark:text-purple-300">
-                        <WebIcon name="award" className="w-3.5 h-3.5" />
-                      </div>
-                      <span>Vai trò & Trách nhiệm chuyên môn</span>
+                  <div data-subcard="true" className="p-4 rounded-[14px] border border-slate-200/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between">
+                    <div className="flex items-center gap-2 text-[14px] font-bold text-purple-600 dark:text-purple-400 mb-2 font-play">
+                      <WebIcon name="award" className="w-4 h-4 shrink-0 text-purple-600 dark:text-purple-400" />
+                      <span className="text-purple-600 dark:text-purple-400">Vai trò chuyên môn</span>
                     </div>
                     <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-semibold font-play">
                       {detailInfo.role}
@@ -854,24 +860,20 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 shrink-0">
                   {/* Left Column (2 cols): Solution & Architecture */}
                   <div className="lg:col-span-2 space-y-3">
-                    <div className="p-4 rounded-[14px] bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-white/10 backdrop-blur-md">
-                      <div className="flex items-center gap-2 text-xs font-black text-slate-900 dark:text-white mb-2 font-play">
-                        <div className="w-6 h-6 rounded-[14px] flex items-center justify-center bg-sky-500/20 text-sky-600 dark:text-sky-300">
-                          <WebIcon name="activity" className="w-3.5 h-3.5" />
-                        </div>
-                        <span>Tổng quan giải pháp kỹ thuật</span>
+                    <div data-subcard="true" className="p-4 rounded-[14px] border border-slate-200/80 dark:border-white/10 backdrop-blur-md">
+                      <div className="flex items-center gap-2 text-[14px] font-bold text-sky-600 dark:text-sky-400 mb-2 font-play">
+                        <WebIcon name="activity" className="w-4 h-4 shrink-0 text-sky-600 dark:text-sky-400" />
+                        <span className="text-sky-600 dark:text-sky-400">Tổng quan giải pháp</span>
                       </div>
                       <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium font-play">
                         {detailInfo.overview}
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-[14px] bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-white/10 backdrop-blur-md">
-                      <div className="flex items-center gap-2 text-xs font-black text-slate-900 dark:text-white mb-2.5 font-play">
-                        <div className="w-6 h-6 rounded-[14px] flex items-center justify-center bg-orange-500/20 text-orange-600 dark:text-orange-300">
-                          <WebIcon name="cpu" className="w-3.5 h-3.5" />
-                        </div>
-                        <span>Đặc điểm kiến trúc cốt lõi</span>
+                    <div data-subcard="true" className="p-4 rounded-[14px] border border-slate-200/80 dark:border-white/10 backdrop-blur-md">
+                      <div className="flex items-center gap-2 text-[14px] font-bold text-orange-600 dark:text-orange-400 mb-2.5 font-play">
+                        <WebIcon name="cpu" className="w-4 h-4 shrink-0 text-orange-600 dark:text-orange-400" />
+                        <span className="text-orange-600 dark:text-orange-400">Kiến trúc cốt lõi</span>
                       </div>
                       <ul className="space-y-2">
                         {detailInfo.architecture.map((arch, i) => (
@@ -889,12 +891,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
 
                   {/* Right Column (1 col): Tech Stack Tags */}
                   <div className="lg:col-span-1">
-                    <div className="h-full p-4 rounded-[14px] bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between">
-                      <div className="flex items-center gap-2 text-xs font-black text-slate-900 dark:text-white mb-3 font-play">
-                        <div className="w-6 h-6 rounded-[14px] flex items-center justify-center bg-emerald-500/20 text-emerald-600 dark:text-emerald-300">
-                          <WebIcon name="settings" className="w-3.5 h-3.5" />
-                        </div>
-                        <span>Công nghệ & Công cụ sử dụng</span>
+                    <div data-subcard="true" className="h-full p-4 rounded-[14px] border border-slate-200/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between">
+                      <div className="flex items-center gap-2 text-[14px] font-bold text-emerald-600 dark:text-emerald-400 mb-3 font-play">
+                        <WebIcon name="settings" className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                        <span className="text-emerald-600 dark:text-emerald-400">Công nghệ sử dụng</span>
                       </div>
                       <div className="flex flex-wrap gap-1.5 my-auto">
                         {detailInfo.technologies.map((tech, i) => {
@@ -931,12 +931,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     className="absolute inset-0 w-full h-full object-cover object-bottom opacity-60 mix-blend-screen pointer-events-none"
                   />
                   <div className="relative z-10 flex items-center gap-3 px-3 py-1 shrink-0">
-                    <div className="w-9 h-9 rounded-full bg-blue-500/30 border border-blue-300/60 flex items-center justify-center text-white shrink-0 shadow-xs">
-                      <WebIcon name="building" className="w-4.5 h-4.5" />
-                    </div>
+                    <WebIcon name="building" className="w-5 h-5 text-sky-200 shrink-0" />
                     <div className="flex flex-col text-left leading-tight">
-                      <span className="text-[10px] font-black text-sky-200 uppercase tracking-wider font-play">
-                        ĐỐI TÁC & THƯƠNG HIỆU TIÊU BIỂU
+                      <span className="text-[11px] font-bold text-sky-200 font-play">
+                        Đối tác tiêu biểu
                       </span>
                       <span className="text-sm sm:text-base font-black text-white whitespace-normal sm:whitespace-nowrap font-play">
                         {primaryCompany}
@@ -951,17 +949,24 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     </span>
                   </div>
 
-                  <div className="relative z-10 bg-white rounded-r-xl rounded-l-3xl px-5 sm:px-8 py-2 h-full flex items-center justify-center shadow-lg shrink-0 ml-auto border-l-4 border-rose-600 overflow-hidden">
-                    <div className="absolute left-0 top-0 bottom-0 w-2.5 bg-gradient-to-b from-rose-600 via-red-500 to-rose-700 rounded-l-3xl" />
-                    <div className="flex items-center gap-2 pl-2">
+                  <div className="relative z-10 bg-white/15 backdrop-blur-md rounded-[14px] px-4 sm:px-6 py-2 h-full flex items-center justify-center border border-white/25 shadow-sm shrink-0 ml-auto overflow-hidden">
+                    <div className="flex items-center gap-2.5">
                       {primaryLogo && (
                         <img
                           src={primaryLogo}
                           alt={primaryCompany}
-                          className="h-7 sm:h-8 object-contain"
+                          className="h-7 sm:h-8 object-contain bg-transparent"
+                          onError={(e) => {
+                            const fallback = selectedDomain.companyLogos?.[0]?.fallbackLogo;
+                            if (fallback && e.currentTarget.src !== fallback) {
+                              e.currentTarget.src = fallback;
+                            } else {
+                              e.currentTarget.style.display = 'none';
+                            }
+                          }}
                         />
                       )}
-                      <span className="font-play font-black text-slate-800 tracking-wider text-xs sm:text-sm">
+                      <span className="font-play font-black text-white tracking-wider text-xs sm:text-sm drop-shadow-xs">
                         {primaryCompany}
                       </span>
                     </div>

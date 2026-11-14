@@ -6,6 +6,7 @@ import { WeatherPreset, SiteTheme } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useToast } from '@/components/ui/Toast';
 import { Modal } from '@/components/ui/Modal';
+import { useLanguage, Language } from '@/context/LanguageContext';
 
 export interface WeatherWidgetProps {
   currentPreset?: WeatherPreset;
@@ -171,19 +172,28 @@ export const WEATHER_CARD_STYLES: Record<string, WeatherCardStyleConfig> = {
   },
 };
 
-const formatVietnameseDateInfo = (date: Date) => {
-  const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+const formatLocalizedDateInfo = (date: Date, lang: Language = 'vi') => {
+  const days =
+    lang === 'en'
+      ? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      : ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+  const monthsEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const dayName = days[date.getDay()];
   const dd = String(date.getDate()).padStart(2, '0');
   const mm = String(date.getMonth() + 1).padStart(2, '0');
   const yyyy = date.getFullYear();
   const hh = String(date.getHours()).padStart(2, '0');
   const min = String(date.getMinutes()).padStart(2, '0');
+  const ss = String(date.getSeconds()).padStart(2, '0');
   return {
     dayName,
-    shortDate: `${dayName}, ${dd}/${mm}/${yyyy}`,
-    fullDateHeader: `${dayName}, ngày ${date.getDate()} tháng ${date.getMonth() + 1} năm ${yyyy}`,
+    shortDate: lang === 'en' ? `${dayName}, ${monthsEn[date.getMonth()]} ${dd}, ${yyyy}` : `${dayName}, ${dd}/${mm}/${yyyy}`,
+    fullDateHeader:
+      lang === 'en'
+        ? `${dayName}, ${monthsEn[date.getMonth()]} ${date.getDate()}, ${yyyy}`
+        : `${dayName}, ngày ${date.getDate()} tháng ${date.getMonth() + 1} năm ${yyyy}`,
     timeStr: `${hh}:${min}`,
+    timeStr24Full: `${hh}:${min}:${ss}`,
   };
 };
 
@@ -405,6 +415,8 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
   currentTheme,
 }) => {
   const { showToast } = useToast();
+  const { language } = useLanguage();
+  const isEn = language === 'en';
   const [now, setNow] = useState<Date>(() => new Date());
   const [liveWeather, setLiveWeather] = useState<WeatherPreset | null>(null);
   const [isLoadingGeo, setIsLoadingGeo] = useState<boolean>(false);
@@ -429,7 +441,11 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
     setIsLoadingGeo(true);
     if (!silent) {
       SoundEngine.playClockTick();
-      showToast('Đang cập nhật thời tiết thực tế theo múi giờ... 🛰️');
+      showToast(
+        isEn
+          ? 'Updating live weather for your timezone... 🛰️'
+          : 'Đang cập nhật thời tiết thực tế theo múi giờ... 🛰️'
+      );
     }
 
     const fetchFromCoords = async (lat: number, lon: number, locName: string) => {
@@ -474,12 +490,16 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
         setManualOverride(null);
         if (!silent) {
           SoundEngine.playWeatherFeedback(condition);
-          showToast(`Đã đồng bộ thời tiết thực: ${tempVal}°C • ${conditionVi}`);
-          onShowNotification?.(`Đã đồng bộ thời tiết thực: ${tempVal}°C • ${conditionVi}`);
+          const condDisplay = isEn ? condition : conditionVi;
+          const msg = isEn
+            ? `Live weather synced: ${tempVal}°C • ${condDisplay}`
+            : `Đã đồng bộ thời tiết thực: ${tempVal}°C • ${condDisplay}`;
+          showToast(msg);
+          onShowNotification?.(msg);
         }
       } catch {
         if (!silent) {
-          showToast('Đang hiển thị chế độ thời tiết tiêu chuẩn.');
+          showToast(isEn ? 'Showing standard weather mode.' : 'Đang hiển thị chế độ thời tiết tiêu chuẩn.');
         }
       } finally {
         setIsLoadingGeo(false);
@@ -500,10 +520,13 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
   const activePreset = manualOverride || liveWeather || currentPreset;
   const cardCfg =
     WEATHER_CARD_STYLES[activePreset.condition] || WEATHER_CARD_STYLES.Sunny;
-  const dateInfo = formatVietnameseDateInfo(now);
+  const dateInfo = formatLocalizedDateInfo(now, language);
   const displayTemp = activePreset.temp || cardCfg.defaultTemp;
-  const displayLabel = cardCfg.labelVi;
-  const isOvercast = cardCfg.condition === 'Overcast';
+  const displayLabel = isEn ? cardCfg.condition : cardCfg.labelVi;
+  const displayLocation =
+    isEn && (!activePreset.location || activePreset.location === 'Hồ Chí Minh')
+      ? 'Ho Chi Minh City'
+      : activePreset.location || 'Hồ Chí Minh';
 
   const handleCycleCard = () => {
     setManualOverride(null);
@@ -521,7 +544,11 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           data-element-type="card"
           data-section-card="true"
           onClick={handleCycleCard}
-          title={`Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${activePreset.location || 'Hồ Chí Minh'} • ${dateInfo.timeStr} (24h) • ${dateInfo.shortDate}`}
+          title={
+            isEn
+              ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} (24h) • ${dateInfo.shortDate}`
+              : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} (24h) • ${dateInfo.shortDate}`
+          }
           className="relative h-[64px] px-2 py-1 rounded-[12px] border-0 bg-transparent flex items-center justify-between gap-2 md:gap-2.5 lg:gap-3.5 cursor-pointer transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none group overflow-hidden"
           style={{
             height: '64px',
@@ -538,12 +565,15 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           }}
         >
           {/* 1. BÊN TRÁI: ĐỒNG HỒ 24H HH:MM */}
-          <div className="relative z-20 flex items-baseline gap-1 shrink-0">
+          <div className="relative z-20 flex flex-col items-start justify-center shrink-0">
             <span
               suppressHydrationWarning
               className="text-[18px] sm:text-[19px] md:text-[21px] lg:text-[23px] font-mono font-black leading-none text-slate-900 dark:text-yellow-300 tracking-tight tabular-nums"
             >
               {dateInfo.timeStr}
+            </span>
+            <span className="text-[10px] font-mono font-bold leading-none text-slate-600 dark:text-yellow-200/80 mt-0.5 tracking-wider">
+              24h
             </span>
           </div>
 
@@ -599,7 +629,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
         <Modal
           isOpen={isForecastOpen}
           onClose={() => setIsForecastOpen(false)}
-          title="Dự Báo Thời Tiết Trực Quan"
+          title={isEn ? 'Visual Weather Forecast' : 'Dự Báo Thời Tiết Trực Quan'}
           maxWidth="4xl"
         >
           <div
@@ -607,10 +637,10 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           >
             <div className="text-center mb-7">
               <h2 className="typo-h2 font-bold text-slate-900 dark:text-white tracking-wide">
-                Dự Báo Thời Tiết
+                {isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}
               </h2>
               <p className="typo-body-sm font-medium text-slate-700 dark:text-slate-300 mt-1" suppressHydrationWarning>
-                {dateInfo.fullDateHeader}
+                {dateInfo.fullDateHeader} • <span className="font-mono font-bold">{dateInfo.timeStr24Full} (24h)</span>
               </p>
             </div>
 
@@ -664,11 +694,11 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
                         </span>
                         <span className="text-lg font-bold text-white/95 -translate-y-3">°C</span>
                         <span className="text-lg sm:text-xl font-bold text-white ml-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
-                          {cfg.labelVi}
+                          {isEn ? cfg.condition : cfg.labelVi}
                         </span>
                       </div>
                       <div className="typo-caption font-medium text-white/95 mt-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.18)]">
-                        Hồ Chí Minh • {dateInfo.timeStr}
+                        {isEn ? 'Ho Chi Minh City' : 'Hồ Chí Minh'} • {dateInfo.timeStr} (24h)
                       </div>
                       <div className="typo-caption font-medium text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.18)]">
                         {dateInfo.shortDate}

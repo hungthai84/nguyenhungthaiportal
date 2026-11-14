@@ -371,13 +371,13 @@ export const DOMAINS_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'Garena',
-        logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793265515/Garena.png',
-        fallbackLogo: 'https://i.ibb.co/h1Md65yV/Garena.png',
+        logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842328/Kinh%20nghi%E1%BB%87m/Logo_VED.png',
+        fallbackLogo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842328/Kinh%20nghi%E1%BB%87m/Logo_VED.png',
         url: 'https://www.garena.vn',
       },
       {
         name: 'VED',
-        logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842328/Kinh%20nghi%E1%BB%87m/Logo_VED.png',
+        logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794653958/Logo-VED.gif',
         fallbackLogo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842328/Kinh%20nghi%E1%BB%87m/Logo_VED.png',
         url: 'https://www.garena.vn',
       },
@@ -577,8 +577,8 @@ export const DOMAINS_DATA: DomainData[] = [
       },
       {
         name: 'Các doanh nghiệp đối tác',
-        logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842336/K%E1%BB%B7%20ni%E1%BB%87m/Icon_Ky_niem.png',
-        fallbackLogo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842336/K%E1%BB%B7%20ni%E1%BB%87m/Icon_Ky_niem.png',
+        logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794653958/Logo-VED.gif',
+        fallbackLogo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794653958/Logo-VED.gif',
         url: 'https://www.garena.vn',
       },
     ],

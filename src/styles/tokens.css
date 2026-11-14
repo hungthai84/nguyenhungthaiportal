@@ -102,6 +102,7 @@
 
   /* 2. MÀU CARD VÀ SURFACE */
   --color-surface: #FFFFFF;
+  --bg-nav-button-opaque: #FFFFFF;
   --color-surface-elevated: #F8FAFC;
   --color-surface-indigo: #EEF2FF;
   --color-surface-cyan: #ECFEFF;
@@ -269,6 +270,7 @@ html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-
   --border-strong: #475569;
   --bg-page: #0B1220;
   --bg-disabled: #1E293B;
+  --bg-nav-button-opaque: #0D152E;
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
   --shadow-md: 0 10px 30px -6px rgba(0, 0, 0, 0.45);
   --shadow-lg: 0 20px 32px -6px rgba(0, 0, 0, 0.6);
@@ -277,25 +279,40 @@ html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-
 /* Tablet Typography Scale (768px – 1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
   :root {
-    --fs-h1: 26px;
-    --fs-h2: 22px;
+    --fs-h1: 25px;
+    --fs-h2: 21px;
     --fs-h3: 18px;
-    --fs-h4: 17px;
-    --fs-h5: 16px;
-    --fs-kpi: 24px;
+    --fs-h4: 16px;
+    --fs-h5: 15px;
+    --fs-body-lg: 15px;
+    --fs-body: 14px;
+    --fs-body-sm: 13px;
+    --fs-caption: 12px;
+    --fs-label: 11px;
+    --fs-badge: 11px;
+    --fs-button: 13px;
+    --fs-input: 15px;
+    --fs-kpi: 23px;
   }
 }
 
 /* Mobile Typography Scale (<= 767px) */
 @media (max-width: 767px) {
   :root {
-    --fs-h1: 24px;
-    --fs-h2: 21px;
-    --fs-h3: 18px;
-    --fs-h4: 16px;
-    --fs-h5: 15px;
+    --fs-h1: 22px;
+    --fs-h2: 19px;
+    --fs-h3: 17px;
+    --fs-h4: 15px;
+    --fs-h5: 14px;
+    --fs-body-lg: 15px;
+    --fs-body: 14px;
+    --fs-body-sm: 13px;
+    --fs-caption: 12px;
+    --fs-label: 11px;
+    --fs-badge: 11px;
+    --fs-button: 13px;
     --fs-input: 16px;
-    --fs-kpi: 22px;
+    --fs-kpi: 20px;
   }
 }
 

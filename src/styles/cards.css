@@ -2,12 +2,20 @@
 /* BASE CARDS STYLING & COMMON CARD CONTAINER PROPORTIONS                  */
 /* ========================================================================= */
 
+:root {
+  --radius-main: 20px;
+  --radius-card: 14px;
+  --radius-subcard: 12px;
+  --space-card-padding: 20px;
+  --space-card-gap: 15px;
+}
+
 .hero-banner,
 #contact-hero-banner,
 #contact-info-card,
 #ai-assistant-hero-banner,
 #interview-video-banner {
-  border-radius: 14px !important;
+  border-radius: var(--radius-card) !important;
 }
 
 .hero-banner {
@@ -19,27 +27,35 @@
   isolation: isolate;
 }
 
-[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
-[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
-[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
+[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card),
+[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card),
+[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card),
 article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card),
-.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
-.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
+.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card),
+.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card),
 .system-item:not(#app-header):not(#app-footer),
 #about-unified-bento-card,
 #about-hero-video-container,
 #about-personal-info-card-right,
+#about-core-values-card,
+#about-philosophy-card,
 #experience-job-detail-card,
+#systems-admin-card,
+#systems-workflow-card,
+#systems-tech-card,
+#projects-tech-card,
+#horoscope-lookup-card,
 #wallpaper-grid-section,
 #contact-calendar-card,
 #contact-info-card,
 #contact-form-card {
   background: var(--bg-card) !important;
-  border: var(--card-border-width) solid var(--border-color) !important;
+  border: var(--card-border-width, 1px) solid var(--border-color) !important;
   box-shadow: var(--shadow-card) !important;
   backdrop-filter: blur(var(--bg-blur)) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
   border-radius: var(--radius-card) !important;
+  padding: var(--space-card-padding, 15px) !important;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -53,25 +69,50 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   transform: none !important;
+  padding: 0 !important;
 }
 
-[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
-[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
-[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
+[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
+[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
+[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
 article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):hover,
-.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
-.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
+.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
+.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
 .system-item:not(#app-header):not(#app-footer):hover,
 #about-unified-bento-card:hover,
 #about-hero-video-container:hover,
 #about-personal-info-card-right:hover,
+#about-core-values-card:hover,
+#about-philosophy-card:hover,
 #experience-job-detail-card:hover,
+#systems-admin-card:hover,
+#systems-workflow-card:hover,
+#systems-tech-card:hover,
+#projects-tech-card:hover,
+#horoscope-lookup-card:hover,
 #wallpaper-grid-section:hover,
 #contact-calendar-card:hover,
 #contact-info-card:hover,
 #contact-form-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-popup) !important;
+}
+
+/* MEMORIES PAGE: FULL-BLEED PHOTO CARDS (HÌNH LẮP ĐẦY 100% CARD) */
+#memories-page-container [id^="memory-card-"],
+.memory-photo-item {
+  padding: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+}
+
+.memory-photo-item > img.memory-crisp-img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* Golden Card Anti-Overflow & Box Containment Rules */
@@ -99,10 +140,11 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 
 /* MULTICOLOR MICA FLUENT BENTO CARDS (EXPERIENCE DETAIL & MEMORIES) */
 [data-multicolor-bento="true"] {
-  border-radius: 14px !important;
+  border-radius: var(--radius-card) !important;
   backdrop-filter: blur(var(--bg-blur, 20px)) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur, 20px)) !important;
   box-shadow: var(--shadow-card);
+  padding: var(--space-card-padding, 18px) !important;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
 }
 
@@ -197,32 +239,32 @@ html.dark .bento-tone-sky {
   background: var(--bg-subcard);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-subcard);
+  padding: 12px;
 }
 
 #app-header {
   background: var(--bg-header) !important;
-  border-bottom: var(--card-border-width) solid var(--border-color) !important;
-  border-left: var(--card-border-width) solid var(--border-color) !important;
-  border-right: var(--card-border-width) solid var(--border-color) !important;
+  border-bottom: var(--card-border-width, 1px) solid var(--border-color) !important;
+  border-left: var(--card-border-width, 1px) solid var(--border-color) !important;
+  border-right: var(--card-border-width, 1px) solid var(--border-color) !important;
   box-shadow: var(--shadow-card) !important;
   backdrop-filter: blur(var(--bg-blur)) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
-  border-radius: var(--radius-header) !important;
+  border-radius: var(--radius-header, 0 0 14px 14px) !important;
 }
 
 #app-footer {
   background: var(--bg-footer) !important;
-  border-top: var(--card-border-width) solid var(--border-color) !important;
-  border-left: var(--card-border-width) solid var(--border-color) !important;
-  border-right: var(--card-border-width) solid var(--border-color) !important;
+  border-top: var(--card-border-width, 1px) solid var(--border-color) !important;
+  border-left: var(--card-border-width, 1px) solid var(--border-color) !important;
+  border-right: var(--card-border-width, 1px) solid var(--border-color) !important;
   box-shadow: var(--shadow-card) !important;
   backdrop-filter: blur(var(--bg-blur)) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
-  border-radius: var(--radius-footer) !important;
+  border-radius: var(--radius-footer, 14px 14px 0 0) !important;
 }
 
-
-/* WEATHER CARD & HOROSCOPE SLIDE 1/2/3 CONTAINERS 100% TRANSPARENT BACKGROUND ACROSS ALL THEMES & MODES */
+/* WEATHER CARD & HOROSCOPE SLIDE CONTAINERS 100% TRANSPARENT */
 #weather-card,
 .weather-card,
 #horoscope-destiny-card,
@@ -269,21 +311,14 @@ button,
 
 #app-footer #footer-nav-capsule {
   background: var(--bg-card) !important;
-  border: var(--card-border-width) solid var(--border-color) !important;
+  border: var(--card-border-width, 1px) solid var(--border-color) !important;
   box-shadow: var(--shadow-card) !important;
   backdrop-filter: blur(var(--bg-blur)) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
   border-radius: 999px !important;
 }
 
-/* LAYERED CARD EFFECT (REMOVED) */
-.layered-card::before,
-.layered-card::after {
-  display: none !important;
-  content: none !important;
-}
-
-/* GLOBAL CARD TITLE H3 FORMAT (H3 in đậm, màu tiêu đề cùng màu icon đứng trước tiêu đề) */
+/* GLOBAL CARD TITLE H3 FORMAT */
 .card-heading {
   display: flex !important;
   align-items: center !important;
@@ -328,14 +363,12 @@ h3.card-title,
   color: inherit;
 }
 
-/* Tự động đồng bộ màu tiêu đề theo màu icon đứng cùng khối */
 .card-header-bar:has(svg) h3,
 .card-title-wrap:has(svg) h3,
 .card-header:has(svg) h3 {
   color: inherit !important;
 }
 
-/* XÓA TOÀN BỘ CÁC SUB TIÊU ĐỀ CARD TRÊN TOÀN WEBSITE */
 .card-subtitle,
 .card-sub-title,
 .sub-title,
@@ -356,7 +389,7 @@ h3.card-title,
 .main-card,
 [id$="-page-container"] {
   background: var(--bg-header) !important;
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: var(--radius-main, 20px) !important;
   border: var(--card-border-width, 1px) solid var(--border-color, var(--glass-border)) !important;
   backdrop-filter: blur(var(--bg-blur, var(--glass-blur))) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur, var(--glass-blur))) !important;
@@ -382,4 +415,73 @@ h3.card-title,
     padding: 15px !important;
   }
 }
+
+/* ========================================================================= */
+/* MULTICOLOR GLASSMORPHISM CARDS (LIGHT & DARK NEON)                        */
+/* ========================================================================= */
+.card-multicolor-dark-neon {
+  background: rgba(10, 13, 22, 0.78);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), -6px -6px 24px rgba(0, 240, 255, 0.25), 6px -4px 24px rgba(255, 0, 127, 0.25);
+  border: 1px solid rgba(0, 240, 255, 0.28);
+  border-radius: var(--radius-card, 14px);
+}
+
+.card-multicolor-light-glass {
+  background:
+    radial-gradient(circle at 12% 15%, rgba(56, 189, 248, 0.28) 0%, transparent 48%),
+    radial-gradient(circle at 88% 18%, rgba(244, 114, 182, 0.28) 0%, transparent 48%),
+    radial-gradient(circle at 52% 90%, rgba(167, 139, 250, 0.26) 0%, transparent 52%),
+    rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(22px) saturate(165%);
+  -webkit-backdrop-filter: blur(22px) saturate(165%);
+  box-shadow: 0 18px 42px -10px rgba(99, 102, 241, 0.18), inset 0 1.5px 2px rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: var(--radius-card, 14px);
+}
+
+/* ========================================================================= */
+/* FLUENT MICA (MÀU SÁNG) - WINDOWS 11 LIGHT MODE MICA SURFACE               */
+/* ========================================================================= */
+.card-fluent-mica-light {
+  background: rgba(243, 243, 243, 0.86);
+  backdrop-filter: blur(36px) saturate(125%);
+  -webkit-backdrop-filter: blur(36px) saturate(125%);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04), inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-card, 14px);
+  color: #0F172A;
+}
+
+/* ========================================================================= */
+/* NỀN KHÔNG TRONG SUỐT THEO NỀN GIAO DIỆN CHO NÚT HEADER VÀ FOOTER         */
+/* ========================================================================= */
+#app-header nav button.nav-pill:not(.active),
+#header-btn-hungthai-avatar:not(.active),
+#footer-lang-btn:not(.active),
+#footer-appearance-btn:not(.active),
+#footer-wallpaper-btn:not(.active),
+#footer-ai-btn:not(.active) {
+  background-color: var(--bg-nav-button-opaque, #FFFFFF) !important;
+  background-image: none !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.dark #app-header nav button.nav-pill:not(.active),
+html.dark #header-btn-hungthai-avatar:not(.active),
+html.dark #footer-lang-btn:not(.active),
+html.dark #footer-appearance-btn:not(.active),
+html.dark #footer-wallpaper-btn:not(.active),
+html.dark #footer-ai-btn:not(.active) {
+  background-color: var(--bg-nav-button-opaque, #0D152E) !important;
+  background-image: none !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+
 

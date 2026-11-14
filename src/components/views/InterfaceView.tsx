@@ -6,6 +6,7 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme, getCardStyleProperties, CARD_STYLE_PRESETS_LIST } from '@/hooks/useTheme';
 import { CardStyleMode } from '@/config/ui/theme.types';
 import { motion } from 'motion/react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export interface InterfaceViewProps {
   onShowNotification?: (msg: string) => void;
@@ -13,12 +14,16 @@ export interface InterfaceViewProps {
 
 export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification }) => {
   const { cardStyle, setCardStyle } = useTheme();
+  const { language, t } = useLanguage();
+  const isEn = language === 'en';
 
   const handleSelectTheme = (mode: CardStyleMode, label: string) => {
     SoundEngine.playGlassChime();
     setCardStyle(mode);
     if (onShowNotification) {
-      onShowNotification(`✓ Đã áp dụng giao diện: ${label}`);
+      onShowNotification(
+        isEn ? `✓ Applied theme: ${t(label)}` : `✓ Đã áp dụng giao diện: ${label}`
+      );
     }
   };
 

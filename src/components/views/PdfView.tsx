@@ -625,16 +625,19 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                     <span className="font-semibold text-slate-700 dark:text-slate-300 shrink-0">Đơn vị:</span>
                     <div className="flex items-center justify-end gap-1.5 flex-wrap">
                       {domain.companyLogos && domain.companyLogos.length > 0 ? (
-                        domain.companyLogos
-                          .filter((partner) => !partner.logo.toLowerCase().includes('.gif'))
-                          .map((partner, pIdx) => (
+                        domain.companyLogos.map((partner, pIdx) => {
+                          const logoSrc =
+                            partner.logo.toLowerCase().includes('.gif') && partner.fallbackLogo
+                              ? partner.fallbackLogo
+                              : partner.logo;
+                          return (
                             <div
                               key={pIdx}
                               className="w-7 h-7 rounded-full overflow-hidden p-0 border border-slate-200/80 dark:border-white/20 shadow-xs bg-white flex items-center justify-center shrink-0"
                               title={partner.name}
                             >
                               <img
-                                src={partner.logo}
+                                src={logoSrc}
                                 alt={partner.name}
                                 className="w-full h-full object-cover rounded-full p-0"
                                 onError={(e) => {
@@ -646,7 +649,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                                 }}
                               />
                             </div>
-                          ))
+                          );
+                        })
                       ) : (
                         <span className="font-medium text-blue-600 dark:text-cyan-400 text-right break-words">
                           {domain.typicalEntitiesLine}

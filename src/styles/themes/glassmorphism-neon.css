@@ -25,7 +25,7 @@ html.dark[data-card-style="glassmorphism-neon"] {
   --bg-main: #050816;
   --bg-header: linear-gradient(90deg, rgba(7, 13, 32, 0.84) 0%, rgba(22, 12, 46, 0.84) 50%, rgba(7, 24, 42, 0.84) 100%);
   --bg-footer: linear-gradient(90deg, rgba(7, 22, 40, 0.86) 0%, rgba(22, 12, 46, 0.86) 50%, rgba(8, 13, 32, 0.86) 100%);
-  --bg-card: linear-gradient(145deg, rgba(10, 16, 38, 0.78) 0%, rgba(22, 14, 48, 0.74) 52%, rgba(8, 26, 44, 0.78) 100%);
+  --bg-card: rgba(10, 13, 22, 0.78);
   --bg-subcard: rgba(13, 21, 46, 0.80);
   --bg-nested-card: rgba(9, 15, 34, 0.86);
   --bg-button-primary: linear-gradient(135deg, #0891B2 0%, #7C3AED 55%, #DB2777 100%);
@@ -37,19 +37,20 @@ html.dark[data-card-style="glassmorphism-neon"] {
   --bg-tab: rgba(20, 27, 58, 0.84);
   --bg-table: rgba(10, 16, 38, 0.82);
 
-  --glass-bg: rgba(10, 16, 38, 0.78);
-  --glass-border: rgba(56, 189, 248, 0.36);
-  --border-color: rgba(56, 189, 248, 0.38);
-  --color-border: rgba(56, 189, 248, 0.34);
-  --color-border-soft: rgba(192, 132, 252, 0.24);
-  --color-focus-ring: #22D3EE;
+  --glass-bg: rgba(10, 13, 22, 0.78);
+  --glass-border: rgba(0, 240, 255, 0.32);
+  --border-color: rgba(0, 240, 255, 0.35);
+  --color-border: rgba(0, 240, 255, 0.32);
+  --color-border-soft: rgba(255, 0, 127, 0.26);
+  --color-focus-ring: #00F0FF;
+  --bg-nav-button-opaque: #0D152E;
 
-  --shadow-card: 0 12px 34px -6px rgba(0, 0, 0, 0.65),
-    0 0 22px -6px rgba(34, 211, 238, 0.22),
-    0 0 28px -10px rgba(236, 72, 153, 0.20);
-  --shadow-popup: 0 20px 44px -6px rgba(0, 0, 0, 0.78),
-    0 0 28px -4px rgba(192, 132, 252, 0.34),
-    0 0 34px -8px rgba(34, 211, 238, 0.28);
+  --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.75),
+    -6px -6px 24px rgba(0, 240, 255, 0.25),
+    6px -4px 24px rgba(255, 0, 127, 0.25);
+  --shadow-popup: 0 24px 60px rgba(0, 0, 0, 0.85),
+    -8px -8px 30px rgba(0, 240, 255, 0.35),
+    8px -6px 30px rgba(255, 0, 127, 0.35);
 
   /* Multicolor Neon Glass Tint Variants */
   --neon-glass-cyan: linear-gradient(145deg, rgba(8, 34, 52, 0.80) 0%, rgba(10, 18, 42, 0.84) 100%);

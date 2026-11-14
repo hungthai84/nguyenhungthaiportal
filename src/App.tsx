@@ -453,22 +453,11 @@ export default function App() {
         ) : (
           <div
             key={activeWallpaper.id}
-            className="w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-500 relative"
+            className="w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-500"
             style={{
               backgroundImage: `url('${getCleanImageUrl(activeWallpaper.value || activeWallpaper.bg || '')}')`,
             }}
-          >
-            <img
-              key={getCleanImageUrl(activeWallpaper.value || activeWallpaper.bg || '')}
-              src={getCleanImageUrl(activeWallpaper.value || activeWallpaper.bg || '')}
-              alt={activeWallpaper.name}
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-            />
-          </div>
+          />
         )}
       </div>
 

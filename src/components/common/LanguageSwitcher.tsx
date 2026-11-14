@@ -16,8 +16,17 @@ export const LanguageSwitcher: React.FC = () => {
         setIsOpen(false);
       }
     };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   const handleSelect = (lang: Language) => {
@@ -37,6 +46,8 @@ export const LanguageSwitcher: React.FC = () => {
           SoundEngine.playTap();
           setIsOpen(!isOpen);
         }}
+        aria-expanded={isOpen}
+        aria-haspopup="menu"
         title="Chuyển đổi ngôn ngữ / Language Switcher"
         className="nav-pill relative inline-flex items-center justify-between w-[110px] sm:w-[120px] h-[42px] rounded-[999px] px-2.5 py-0.5 gap-1.5 bg-sky-50/90 dark:bg-sky-950/75 border-2 border-sky-400/80 dark:border-sky-500/80 hover:border-sky-500 dark:hover:border-sky-400 shadow-sm transition-all duration-300 cursor-pointer select-none group/lang"
       >
@@ -45,7 +56,7 @@ export const LanguageSwitcher: React.FC = () => {
         </div>
         <div className="w-[1.5px] h-4 bg-sky-300/80 dark:bg-sky-400/40 shrink-0 mx-0.5 rounded-[999px]" />
         <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
-          <span className="text-[13px] leading-tight font-bold font-play text-sky-950 dark:text-sky-100 truncate">
+          <span data-no-translate="true" className="text-[13px] leading-tight font-bold font-play text-sky-950 dark:text-sky-100 truncate">
             {language === 'en' ? 'English' : 'Tiếng Việt'}
           </span>
           <span className="text-[11px] leading-none font-bold mt-0.5 text-sky-700 dark:text-sky-400 font-play uppercase tracking-wider truncate">
@@ -64,7 +75,7 @@ export const LanguageSwitcher: React.FC = () => {
           style={{ transformOrigin: 'top right' }}
         >
           <div className="px-3 py-1.5 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800">
-            Chọn ngôn ngữ / Select Language
+            {language === 'en' ? 'Select Language' : 'Chọn ngôn ngữ'}
           </div>
 
           <button

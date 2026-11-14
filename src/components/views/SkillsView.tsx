@@ -230,7 +230,7 @@ export interface SkillsViewProps {
 
 export function Skills({ currentTheme }: SkillsViewProps = {}) {
   void currentTheme;
-  const { language: lang } = useLanguage();
+  const { language: lang, t } = useLanguage();
   const { cardStyle, isDark } = useTheme();
   const rawCardStyle = getCardStyleProperties(cardStyle);
   const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cleanCardStyle } = rawCardStyle as any;
@@ -269,14 +269,14 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
 
   // Bộ lọc 14 màu chuẩn
   const swotFilterOptions = [
-    { id: null, label: "Tất cả năng lực (#SWOT)", badge: "#ALL", color: "text-[#1480C0]" },
-    { id: "S", label: "#S · Điểm mạnh (Strengths)", badge: "#S", color: "text-[#1480C0]" },
-    { id: "W", label: "#W · Hoàn thiện (Weaknesses)", badge: "#W", color: "text-[#50B347]" },
-    { id: "O", label: "#O · Cơ hội (Opportunities)", badge: "#O", color: "text-[#EC7D21]" },
-    { id: "T", label: "#T · Thách thức (Threats)", badge: "#T", color: "text-[#E64C72]" },
+    { id: null, label: isVi ? "Tất cả năng lực (#SWOT)" : "All Competencies (#SWOT)", badge: "#ALL", color: "text-[#1480C0]" },
+    { id: "S", label: isVi ? "#S · Điểm mạnh (Strengths)" : "#S · Core Strengths", badge: "#S", color: "text-[#1480C0]" },
+    { id: "W", label: isVi ? "#W · Hoàn thiện (Weaknesses)" : "#W · Growth Areas", badge: "#W", color: "text-[#50B347]" },
+    { id: "O", label: isVi ? "#O · Cơ hội (Opportunities)" : "#O · Opportunities", badge: "#O", color: "text-[#EC7D21]" },
+    { id: "T", label: isVi ? "#T · Thách thức (Threats)" : "#T · Threats & Risks", badge: "#T", color: "text-[#E64C72]" },
   ];
 
-  // Cấu hình 4 thẻ SWOT: Thêm icon trước tiêu đề, tiêu đề 4 chữ tiếng Việt (viết Hoa chữ đầu còn lại viết thường)
+  // Cấu hình 4 thẻ SWOT
   const QUADRANTS: Array<{
     key: "S" | "W" | "O" | "T";
     id: string;
@@ -289,6 +289,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
     innerColor: string;
     outerColor: string;
     descVi: string;
+    descEn: string;
     bulletColor: string;
     cornerPosition: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
     data: SwotSkillItem[];
@@ -298,10 +299,11 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
       id: "skills-management-card",
       elementName: "Thẻ kỹ năng Thế mạnh cốt lõi",
       icon: "award",
-      title: "Thế mạnh cốt lõi",
+      title: isVi ? "Thế mạnh cốt lõi" : "Core Operational Strengths",
       subVi: "",
       subEn: "Core Operational CX Strengths",
       descVi: "Những năng lực cốt lõi đã được chứng minh qua thực tiễn quản lý, vận hành và phát triển hệ thống Dịch vụ Khách hàng.",
+      descEn: "Core competencies proven through hands-on Customer Service management, operations, and system scaling.",
       titleColor: "#1480C0",
       innerColor: "#1480C0",
       outerColor: "#BAE6FD",
@@ -314,10 +316,11 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
       id: "skills-tech-card",
       elementName: "Thẻ kỹ năng Khía cạnh hoàn thiện",
       icon: "target",
-      title: "Khía cạnh hoàn thiện",
+      title: isVi ? "Khía cạnh hoàn thiện" : "Strategic Refinements",
       subVi: "",
       subEn: "Strategic Refinement Areas",
       descVi: "Những năng lực cần tiếp tục hoàn thiện để nâng tầm vai trò quản lý từ vận hành hiệu quả sang quản trị chiến lược và phát triển bền vững.",
+      descEn: "Capabilities being refined to elevate leadership from operational efficiency to strategic governance and sustainable growth.",
       titleColor: "#50B347",
       innerColor: "#50B347",
       outerColor: "#D9F99D",
@@ -330,10 +333,11 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
       id: "skills-ops-card",
       elementName: "Thẻ kỹ năng Cơ hội phát triển",
       icon: "rocket",
-      title: "Cơ hội phát triển",
+      title: isVi ? "Cơ hội phát triển" : "Growth Opportunities",
       subVi: "",
       subEn: "AI & Digital Leap Opportunities",
       descVi: "Những năng lực tạo đòn bẩy để nâng cao hiệu quả vận hành, tối ưu nguồn lực và chuyển đổi mô hình Dịch vụ Khách hàng trong thời đại số.",
+      descEn: "Leveraged capabilities to boost operational efficiency, optimize resources, and transform Customer Service in the digital era.",
       titleColor: "#EC7D21",
       innerColor: "#EC7D21",
       outerColor: "#FEF08A",
@@ -346,10 +350,11 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
       id: "skills-leadership-card",
       elementName: "Thẻ kỹ năng Thách thức thích ứng",
       icon: "shield",
-      title: "Thách thức thích ứng",
+      title: isVi ? "Thách thức thích ứng" : "Adaptive Challenges",
       subVi: "",
       subEn: "External Pressure & Adaptation Risks",
       descVi: "Những yếu tố bên ngoài tác động trực tiếp đến chất lượng dịch vụ, nhân sự và hiệu quả vận hành, đòi hỏi khả năng thích ứng và quản trị chủ động.",
+      descEn: "External factors impacting service quality, staffing, and operational efficiency that require proactive adaptation and risk governance.",
       titleColor: "#E64C72",
       innerColor: "#E64C72",
       outerColor: "#FBCFE8",
@@ -411,38 +416,38 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                 className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
                 style={{ color: '#38bdf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
               />
-              <h1
-                id="skills-hero-banner-title"
-                className="text-[22px] font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] whitespace-nowrap"
-                style={{ color: '#38bdf8', fontSize: '22px', fontWeight: 700, textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+                <h1
+                  id="skills-hero-banner-title"
+                  className="text-[22px] font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] whitespace-nowrap"
+                  style={{ color: '#38bdf8', fontSize: '22px', fontWeight: 700, textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+                >
+                  {isVi ? "Kỹ năng cốt lõi (SWOT)" : "Core Skills (SWOT)"}
+                </h1>
+              </div>
+
+              <p
+                id="skills-hero-banner-quote"
+                className="font-handwriting font-italianno not-italic text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-right ml-auto whitespace-nowrap overflow-hidden text-ellipsis max-w-[65%]"
+                style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '28px', fontWeight: 700, fontStyle: 'normal' }}
               >
-                Kỹ năng cốt lõi (SWOT)
-              </h1>
+                {isVi ? '"Kỹ năng là nền tảng nâng tầm dịch vụ ♡"' : '"Skills are the foundation that elevates service ♡"'}
+              </p>
             </div>
 
-            <p
-              id="skills-hero-banner-quote"
-              className="font-handwriting font-italianno not-italic text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-right ml-auto whitespace-nowrap overflow-hidden text-ellipsis max-w-[65%]"
-              style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '28px', fontWeight: 700, fontStyle: 'normal' }}
-            >
-              &quot;Kỹ năng là nền tảng nâng tầm dịch vụ ♡&quot;
-            </p>
-          </div>
-
-          {/* Nhóm các nút lại thành 1 filter icon bên dưới banner bên trái - Giao diện sáng */}
-          <div id="skills-hero-banner-filter-row" className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto" ref={filterMenuRef}>
-            <div className="relative inline-block text-left">
-              <button
-                id="skills-filter-toggle-btn"
-                type="button"
-                onClick={() => setIsFilterOpen((prev) => !prev)}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-[#334155] dark:text-[#E2E8F0] border border-slate-200/90 dark:border-[#334155] shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
-                title="Bộ lọc năng lực"
-                aria-expanded={isFilterOpen}
-                aria-haspopup="listbox"
-              >
-                <WebIcon name="sliders" className="w-4 h-4 text-[#1480C0] dark:text-sky-400 transition-transform group-hover:rotate-45 shrink-0" />
-                <span>Bộ lọc năng lực</span>
+            {/* Nhóm các nút lại thành 1 filter icon bên dưới banner bên trái - Giao diện sáng */}
+            <div id="skills-hero-banner-filter-row" className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto" ref={filterMenuRef}>
+              <div className="relative inline-block text-left">
+                <button
+                  id="skills-filter-toggle-btn"
+                  type="button"
+                  onClick={() => setIsFilterOpen((prev) => !prev)}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-[#334155] dark:text-[#E2E8F0] border border-slate-200/90 dark:border-[#334155] shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
+                  title={isVi ? "Bộ lọc năng lực" : "Skill Filter"}
+                  aria-expanded={isFilterOpen}
+                  aria-haspopup="listbox"
+                >
+                  <WebIcon name="sliders" className="w-4 h-4 text-[#1480C0] dark:text-sky-400 transition-transform group-hover:rotate-45 shrink-0" />
+                  <span>{isVi ? "Bộ lọc năng lực" : "Skill Filter"}</span>
                 {selectedSwot && (
                   <span className="px-2 py-0.2 rounded-full bg-sky-100 dark:bg-sky-900/70 border border-sky-300 dark:border-sky-600/60 text-[10px] font-mono text-sky-900 dark:text-sky-200 font-bold">
                     #{selectedSwot}
@@ -617,15 +622,15 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                 setSelectedSwot(null);
                               }}
                               className="px-2.5 py-1 rounded-[14px] text-xs font-bold font-play border border-slate-300 dark:border-slate-700 bg-white/90 dark:bg-slate-800 hover:bg-slate-100 text-slate-700 dark:text-slate-200 transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
-                              title="Hiển thị tất cả (#ALL)"
+                              title={isVi ? "Hiển thị tất cả (#ALL)" : "Show all (#ALL)"}
                             >
                               <WebIcon name="cancel" className="w-3.5 h-3.5" />
-                              <span>Hiển thị tất cả (#ALL)</span>
+                              <span>{isVi ? "Hiển thị tất cả (#ALL)" : "Show All (#ALL)"}</span>
                             </button>
                           )}
                         </div>
                         <p className={cn("text-[13px] text-slate-600 dark:text-slate-300 mt-2 leading-relaxed w-full", !isSelected && (quad.key === "W" || quad.key === "T") ? "text-right" : "text-left")}>
-                          {quad.descVi}
+                          {isVi ? quad.descVi : quad.descEn}
                         </p>
                       </div>
 
@@ -633,11 +638,19 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                       <ul id={`${quad.id}-list`} className="flex flex-col gap-2 list-none p-0 m-0 my-auto">
                         {quad.data.map((item, idx) => {
                           const skillIcon = getWebSkillIconName(item.iconName);
-                          // Tên kỹ năng giữ nguyên vẹn đầy đủ chuẩn
-                          const formattedName = item.labelVi || '';
+                          const formattedName = isVi ? (item.labelVi || '') : (item.labelEn || t(item.labelVi || ''));
                           const isThreat = quad.key === 'T';
-                          const percentLabel = isThreat ? `Mức độ tác động: ${item.percent}%` : `Mức độ kỹ năng: ${item.percent}%`;
+                          const percentLabel = isVi
+                            ? isThreat
+                              ? `Mức độ tác động: ${item.percent}%`
+                              : `Mức độ kỹ năng: ${item.percent}%`
+                            : isThreat
+                            ? `Impact Level: ${item.percent}%`
+                            : `Proficiency Level: ${item.percent}%`;
                           const isExpanded = expandedSkillIds.has(item.id);
+                          const itemDesc = isVi
+                            ? item.descVi
+                            : item.descEn || (item.descVi ? t(item.descVi) : '');
 
                           return (
                             <li
@@ -660,7 +673,15 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                   : "border-slate-200/60 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 hover:shadow-xs active:scale-[0.995]"
                               )}
                               style={{ backgroundColor: `${quad.titleColor}10` }}
-                              title={isExpanded ? "Nhấp để thu gọn mô tả kỹ năng" : "Nhấp để xem chi tiết mô tả kỹ năng"}
+                              title={
+                                isExpanded
+                                  ? isVi
+                                    ? "Nhấp để thu gọn mô tả kỹ năng"
+                                    : "Click to collapse skill description"
+                                  : isVi
+                                  ? "Nhấp để xem chi tiết mô tả kỹ năng"
+                                  : "Click to expand skill description"
+                              }
                             >
                               <div className="flex flex-nowrap items-center justify-between gap-1.5 sm:gap-2 w-full min-w-0">
                                 <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
@@ -683,7 +704,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                   <span
                                     className="text-[14px] sm:text-[15px] font-bold leading-snug font-play flex-1 min-w-0 truncate"
                                     style={{ color: quad.titleColor }}
-                                    title={item.labelVi}
+                                    title={formattedName}
                                   >
                                     {formattedName}
                                   </span>
@@ -737,7 +758,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
 
                               {/* Accordion (Disclosure) hiển thị mô tả kỹ năng khi click */}
                               <AnimatePresence initial={false}>
-                                {isExpanded && item.descVi && (
+                                {isExpanded && itemDesc && (
                                   <motion.div
                                     id={`skill-disclosure-${item.id}`}
                                     initial={{ opacity: 0, height: 0 }}
@@ -754,10 +775,10 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                       />
                                       <div className="flex-1 min-w-0">
                                         <span className="text-[11px] font-mono font-bold uppercase tracking-wider block opacity-75 mb-0.5" style={{ color: quad.bulletColor }}>
-                                          Mô tả kỹ năng thực chiến
+                                          {isVi ? "Mô tả kỹ năng thực chiến" : "Practical Skill Description"}
                                         </span>
                                         <p className="text-[13px] sm:text-[14px] text-slate-800 dark:text-slate-100 font-medium leading-relaxed">
-                                          {item.descVi}
+                                          {itemDesc}
                                         </p>
                                       </div>
                                     </div>

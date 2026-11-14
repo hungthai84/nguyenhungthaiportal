@@ -185,7 +185,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = ({ currentTheme = 'li
         data-element-type="card"
         data-section-card="true"
         style={{
-          ...cardSampleStyle,
           borderRadius: '14px',
           padding: '0px',
           gap: '15px',
@@ -201,62 +200,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = ({ currentTheme = 'li
           maxWidth: '100%',
           maxHeight: '100%',
         }}
-        className="w-full h-full max-w-full max-h-full flex-shrink-0 overflow-y-auto no-scrollbar flex flex-col justify-start rounded-[14px] p-0 gap-[15px] text-left font-play transition-all relative bg-transparent border-0 shadow-none"
+        className="w-full h-full max-w-full max-h-full flex-shrink-0 overflow-y-auto no-scrollbar flex flex-col justify-start rounded-[14px] p-0 gap-[15px] text-left font-play transition-all relative !bg-transparent !border-0 !shadow-none"
       >
-        {/* Banner Card chèn vào Slide 1 */}
-        <motion.div
-          id="horoscope-hero-banner"
-          data-element-name="Banner card"
-          data-element-type="banner-card"
-          data-element-page="horoscope"
-          data-section-card="true"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
-          className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-hidden relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-20 backdrop-blur-xl"
-          style={{ padding: '15px', width: '100%', maxWidth: '100%', height: '200px', minHeight: '200px', maxHeight: '200px', borderRadius: '14px' }}
-        >
-          <div
-            className="absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
-            style={{
-              background: 'linear-gradient(135deg, #2e1065 0%, #581c87 50%, #0f172a 100%)',
-              borderRadius: '14px',
-            }}
-          >
-            <img
-              src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
-              alt="Bản đồ tử vi"
-              referrerPolicy="no-referrer"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-              className="w-full h-full object-cover object-center opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/25 to-slate-950/55 pointer-events-none" />
-          </div>
 
-          <div className="relative z-10 flex flex-row items-center justify-between gap-2 sm:gap-4 w-full">
-            <div className="flex items-center gap-2 shrink-0">
-              <WebIcon
-                name="compass"
-                className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
-                style={{ color: '#38bdf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
-              />
-              <h1
-                className="text-[22px] font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] whitespace-nowrap"
-                style={{ color: '#38bdf8', fontSize: '22px', fontWeight: 700, textTransform: 'none', fontStyle: 'normal' }}
-              >
-                Bản đồ tử vi
-              </h1>
-            </div>
-            <p
-              className="font-handwriting font-italianno not-italic text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-right ml-auto whitespace-nowrap overflow-hidden text-ellipsis max-w-[65%]"
-              style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '28px', fontWeight: 700, fontStyle: 'normal' }}
-            >
-              &quot;Thấu hiểu định mệnh, chủ động kiến tạo tương lai ♡&quot;
-            </p>
-          </div>
-        </motion.div>
 
 
         {/* Nội dung Card 1 hoặc Sân khấu Video Giới Thiệu (khi bấm nút phát video) */}
@@ -793,12 +739,20 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = ({ currentTheme = 'li
         data-element-type="card"
         data-section-card="true"
         style={{
-          ...cardSampleStyle,
           borderRadius: '14px',
-          padding: '15px',
+          padding: '0px',
           gap: '15px',
+          backgroundColor: 'transparent',
+          background: 'transparent',
+          backgroundImage: 'none',
+          border: 'none',
+          boxShadow: 'none',
+          backdropFilter: 'none',
+          WebkitBackdropFilter: 'none',
+          width: '100%',
+          height: '100%',
         }}
-        className="bento-card glass-card w-full h-full flex-shrink-0 overflow-y-auto no-scrollbar flex flex-col justify-start rounded-[14px] p-[15px] gap-[15px] text-left font-play transition-all"
+        className="w-full h-full flex-shrink-0 overflow-y-auto no-scrollbar flex flex-col justify-start rounded-[14px] p-0 gap-[15px] text-left font-play transition-all bg-transparent border-0 shadow-none"
       >
         {/* 2-Column Zodiac Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 flex-1 min-h-0 items-stretch">
@@ -992,7 +946,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = ({ currentTheme = 'li
   };
 
   const [activeCardIndex, setActiveCardIndex] = useState<number>(0);
-  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (activeCardIndex !== 0 && isCircleVideoPlaying) {
@@ -1026,21 +979,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = ({ currentTheme = 'li
       }}
       className="bento-card glass-card relative w-full h-full flex flex-col justify-between p-[15px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px]"
     >
-      {/* Horizontal Track */}
-      <div className="relative w-full h-full overflow-hidden">
-        <div
-          ref={trackRef}
-          className="flex flex-row h-full transition-transform duration-300 ease-in-out items-stretch"
-          style={{
-            transform: `translateX(calc(-${activeCardIndex * 100}% - ${activeCardIndex * 15}px))`,
-            gap: '15px',
-          }}
-        >
-          {HOROSCOPE_CARDS.map((card) => (
-            <React.Fragment key={card.id}>{card.render()}</React.Fragment>
-          ))}
-        </div>
-      </div>
+      {/* Nội dung Card hiển thị trực tiếp trong container */}
+      {HOROSCOPE_CARDS[activeCardIndex].render()}
 
       {/* Nút LÙI TRANG (Chevron Left) hình tròn nổi ở chính giữa cạnh trái trực tiếp của #horoscope-page-container */}
       <button

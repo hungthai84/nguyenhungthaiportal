@@ -7,7 +7,9 @@ import { useToast } from '@/components/ui/Toast';
 import { SiteTheme } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+import { cn } from '@/lib/utils';
 import { speakSiteText, stopActiveSpeech } from '@/utils/speechVoice';
+import { useLanguage } from '@/context/LanguageContext';
 
 export interface HomeViewProps {
   slideIndex?: number;
@@ -45,6 +47,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onShowNotification,
 }) => {
   const { showToast } = useToast();
+  const { language } = useLanguage();
+  const isEn = language === 'en';
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const rawCardStyle = getCardStyleProperties(cardStyle);
   const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cardSampleStyle } = rawCardStyle as any;
@@ -56,56 +60,62 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const VIDEO_SCREENS: VideoScreenItem[] = [
     {
       id: 1,
-      label: 'Màn hình 1',
+      label: isEn ? 'Screen 1' : 'Màn hình 1',
       badge: 'Video 1',
       url: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302419/Man_hinh_cho_4.mp4',
       idleUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302419/Man_hinh_cho_4.mp4',
       transitionUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793541875/M%C3%A0n_h%C3%ACnh_chuy%E1%BB%83n.mp4',
       playUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302434/Thuyet_trinh_4.mp4',
       introUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302434/Thuyet_trinh_4.mp4',
-      title: 'Phong Thái Lãnh Đạo & Tầm Nhìn',
-      description: 'Phong thái chuyên gia quản trị trải nghiệm khách hàng cao cấp',
+      title: isEn ? 'Leadership Presence & Vision' : 'Phong Thái Lãnh Đạo & Tầm Nhìn',
+      description: isEn
+        ? 'Executive presence in premier customer experience management'
+        : 'Phong thái chuyên gia quản trị trải nghiệm khách hàng cao cấp',
       accentColor: '#38BDF8',
       gradientFrom: '#1E40AF',
       gradientVia: '#38BDF8',
       gradientTo: '#22D3EE',
-      heroBadge: 'Tầm Nhìn Lãnh Đạo',
+      heroBadge: isEn ? 'Leadership Vision' : 'Tầm Nhìn Lãnh Đạo',
       heroIcon: 'target',
     },
     {
       id: 2,
-      label: 'Màn hình 2',
-      badge: 'Video 2 (Gốc)',
+      label: isEn ? 'Screen 2' : 'Màn hình 2',
+      badge: isEn ? 'Video 2 (Default)' : 'Video 2 (Gốc)',
       url: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302150/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_Ma_thu%C3%A2t_1.mp4',
       idleUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302150/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_Ma_thu%C3%A2t_1.mp4',
       transitionUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793303029/Man_hinh_2_chuyen_sang_man_hinh_1.mp4',
       playUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793541818/Chinh_sua.mp4',
       introUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793541818/Chinh_sua.mp4',
-      title: 'Chân Dung Chuyên Gia & Lời Chào',
-      description: 'Chân dung điều hành dịch vụ khách hàng 22+ năm kinh nghiệm',
+      title: isEn ? 'Executive Portrait & Greeting' : 'Chân Dung Chuyên Gia & Lời Chào',
+      description: isEn
+        ? 'Customer Service executive profile with 22+ years of hands-on experience'
+        : 'Chân dung điều hành dịch vụ khách hàng 22+ năm kinh nghiệm',
       accentColor: '#F125D6',
       gradientFrom: '#4E56F6',
       gradientVia: '#8938F8',
       gradientTo: '#F125D6',
-      heroBadge: 'Hồ Sơ Điều Hành',
+      heroBadge: isEn ? 'Senior Executive Profile' : 'Hồ Sơ Lãnh Đạo',
       heroIcon: 'user',
     },
     {
       id: 3,
-      label: 'Màn hình 3',
+      label: isEn ? 'Screen 3' : 'Màn hình 3',
       badge: 'Video 3',
       url: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793301974/beauty_stable_1783711951686.mp4',
       idleUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793301974/beauty_stable_1783711951686.mp4',
       transitionUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793623270/Chuyen_man_hinh_cho_1.mp4',
       playUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793542148/Thuy%E1%BA%BFt_tr%C3%ACnh_b%E1%BA%A3n_m%E1%BB%9Bi_2.mp4',
       introUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793542148/Thuy%E1%BA%BFt_tr%C3%ACnh_b%E1%BA%A3n_m%E1%BB%9Bi_2.mp4',
-      title: 'Không Gian Số Hóa & Hệ Sinh Thái',
-      description: 'Hạ tầng công nghệ tự động hóa và kiến trúc giải pháp hiện đại',
+      title: isEn ? 'Digital Space & Ecosystem' : 'Không Gian Số Hóa & Hệ Sinh Thái',
+      description: isEn
+        ? 'Automated technology infrastructure and modern solution architecture'
+        : 'Hạ tầng công nghệ tự động hóa và kiến trúc giải pháp hiện đại',
       accentColor: '#10B981',
       gradientFrom: '#065F46',
       gradientVia: '#10B981',
       gradientTo: '#34D399',
-      heroBadge: 'Hệ Sinh Thái Số',
+      heroBadge: isEn ? 'Digital Ecosystem' : 'Hệ Sinh Thái Số',
       heroIcon: 'layers',
     },
   ];
@@ -136,22 +146,29 @@ export const HomeView: React.FC<HomeViewProps> = ({
     if (isSpeaking) {
       stopActiveSpeech();
       setIsSpeaking(false);
-      showToast('🔴 Đã tắt đọc thuyết minh giọng nói');
+      showToast(isEn ? '🔴 Voice narration stopped' : '🔴 Đã tắt đọc thuyết minh giọng nói');
     } else {
       stopActiveSpeech();
-      const textToRead = `Giới thiệu ${currentScreen.title}. ${currentScreen.description}. Tận tâm phụng sự, dẫn dắt bằng kết quả.`;
+      const textToRead = isEn
+        ? `Introducing ${currentScreen.title}. ${currentScreen.description}. Dedicated service, driven by measurable results.`
+        : `Giới thiệu ${currentScreen.title}. ${currentScreen.description}. Tận tâm phụng sự, dẫn dắt bằng kết quả.`;
       speakSiteText(textToRead, {
+        lang: language,
         rate: 1.0,
         onStart: () => {
           setIsSpeaking(true);
-          showToast(`🔊 Đang đọc thuyết minh: ${currentScreen.title}`);
+          showToast(
+            isEn
+              ? `🔊 Playing narration: ${currentScreen.title}`
+              : `🔊 Đang đọc thuyết minh: ${currentScreen.title}`
+          );
         },
         onEnd: () => {
           setIsSpeaking(false);
         },
         onError: () => {
           setIsSpeaking(false);
-          showToast('⚠️ Không thể phát âm thanh thuyết minh');
+          showToast(isEn ? '⚠️ Unable to play voice narration' : '⚠️ Không thể phát âm thanh thuyết minh');
         },
       });
     }
@@ -194,7 +211,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
     setIsIntroMode(false);
     setActiveVideoScreen(nextScreenId);
     const target = VIDEO_SCREENS[nextScreenId - 1];
-    showToast(`Đang chuyển sang ${target.label} · ${target.title}`);
+    showToast(
+      isEn
+        ? `Switching to ${target.label} · ${target.title}`
+        : `Đang chuyển sang ${target.label} · ${target.title}`
+    );
 
     // Mở màn hình trực tiếp, không phát video chuyển cảnh
     setPlaybackMode('idle');
@@ -252,7 +273,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
     video.muted = false;
     video.currentTime = 0;
     video.play().catch(() => {});
-    showToast(`Đang phát video thuyết minh: ${currentScreen.title} 🔊`);
+    showToast(
+      isEn
+        ? `Playing presentation video: ${currentScreen.title} 🔊`
+        : `Đang phát video thuyết minh: ${currentScreen.title} 🔊`
+    );
   };
 
   const handleCancelIntro = () => {
@@ -287,7 +312,15 @@ export const HomeView: React.FC<HomeViewProps> = ({
     const nextMuted = !isMuted;
     setIsMuted(nextMuted);
     video.muted = nextMuted;
-    showToast(nextMuted ? 'Đã tắt tiếng video' : 'Đã bật âm thanh video');
+    showToast(
+      nextMuted
+        ? isEn
+          ? 'Video muted'
+          : 'Đã tắt tiếng video'
+        : isEn
+        ? 'Video sound enabled'
+        : 'Đã bật âm thanh video'
+    );
   };
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -380,16 +413,18 @@ export const HomeView: React.FC<HomeViewProps> = ({
           <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-[#334155]">
             <div className="flex items-center gap-2">
               <span className="text-xs font-black font-play text-[#1E1B4B] dark:text-[#F8FAFC]">
-                Đang phát: Lời Chào Giới Thiệu Chuyên Gia ({currentScreen.label})
+                {isEn
+                  ? `Now Playing: Executive Introduction (${currentScreen.label})`
+                  : `Đang phát: Lời Chào Giới Thiệu Chuyên Gia (${currentScreen.label})`}
               </span>
             </div>
             <button
               type="button"
               onClick={handleCancelIntro}
-              title="Hủy phát video"
+              title={isEn ? 'Stop Video' : 'Hủy phát video'}
               className="px-2.5 py-1 rounded-full text-xs font-bold transition cursor-pointer bg-rose-50 dark:bg-rose-500/20 hover:bg-rose-100 dark:hover:bg-rose-500/30 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-500/40 flex items-center gap-1"
             >
-              <span>✕ Hủy</span>
+              <span>{isEn ? '✕ Stop' : '✕ Hủy'}</span>
             </button>
           </div>
 
@@ -417,7 +452,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               style={{ background: currentScreen.gradientFrom }}
             >
               {isPlaying ? <WebIcon name="pause" className="w-3.5 h-3.5 fill-current" /> : <WebIcon name="play" className="w-3.5 h-3.5 fill-current" />}
-              <span>{isPlaying ? 'Tạm dừng' : 'Phát tiếp'}</span>
+              <span>{isPlaying ? (isEn ? 'Pause' : 'Tạm dừng') : isEn ? 'Resume' : 'Phát tiếp'}</span>
             </button>
 
             <button
@@ -426,7 +461,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               className="px-4 py-1.5 rounded-[999px] font-bold typo-button flex items-center gap-2 shadow-2xs transition cursor-pointer active:scale-95 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
             >
               {isMuted ? <WebIcon name="volume-x" className="w-3.5 h-3.5 text-rose-500" /> : <WebIcon name="volume-2" className="w-3.5 h-3.5 text-emerald-500" />}
-              <span>{isMuted ? 'Bật tiếng' : 'Tắt tiếng'}</span>
+              <span>{isMuted ? (isEn ? 'Unmute' : 'Bật tiếng') : isEn ? 'Mute' : 'Tắt tiếng'}</span>
             </button>
 
             <button
@@ -435,7 +470,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               className="px-4 py-1.5 rounded-[999px] bg-rose-600 hover:bg-rose-700 text-white font-bold typo-button transition cursor-pointer active:scale-95 flex items-center gap-2 shadow-md"
             >
               <WebIcon name="cancel" className="w-3.5 h-3.5" />
-              <span>Hủy phát video</span>
+              <span>{isEn ? 'Stop Video' : 'Hủy phát video'}</span>
             </button>
           </div>
         </div>
@@ -466,8 +501,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 <div className="relative z-10 space-y-2.5 w-fit">
                   <div className="flex items-center justify-between gap-3">
                     <div
-                      className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border typo-badge font-extrabold tracking-wider shadow-xs"
-                      style={{ borderColor: `${currentScreen.accentColor}50`, backgroundColor: `${currentScreen.accentColor}14`, color: currentScreen.accentColor }}
+                      className={cn(
+                        "inline-flex items-center gap-1.5 typo-badge font-extrabold tracking-wider",
+                        activeVideoScreen === 2 ? "px-0 py-0 border-0 bg-transparent shadow-none" : "px-2.5 py-0.5 rounded-full border shadow-xs"
+                      )}
+                      style={activeVideoScreen === 2 ? { color: currentScreen.accentColor } : { borderColor: `${currentScreen.accentColor}50`, backgroundColor: `${currentScreen.accentColor}14`, color: currentScreen.accentColor }}
                     >
                       <WebIcon name={currentScreen.heroIcon} className="shrink-0" />
                       <span>{currentScreen.heroBadge}</span>
@@ -550,7 +588,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                           )}
                         </span>
                         <span className="drop-shadow-sm font-black typo-button text-white truncate font-play text-left" style={{ textAlign: 'left' }}>
-                          {isIntroMode ? 'Dừng phát' : 'Phát Video'}
+                          {isIntroMode ? (isEn ? 'Stop Video' : 'Dừng phát') : isEn ? 'Play Video' : 'Phát Video'}
                         </span>
                       </button>
                     </div>
@@ -562,7 +600,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
       )}
 
-      {/* 5. Bottom Center Bar: Dock chuyển đổi 3 màn hình dạng Glassmorphism cao cấp - Ẩn khi đang phát video */}
+      {/* 5. Bottom Center Bar: Dock chuyển đổi 3 màn hình dạng Kính đa sắc cao cấp - Ẩn khi đang phát video */}
       {!isIntroMode && (
         <div className="relative z-30 w-full flex items-center justify-center pointer-events-auto shrink-0 pt-1">
           <div

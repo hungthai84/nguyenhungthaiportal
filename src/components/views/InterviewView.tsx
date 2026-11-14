@@ -34,27 +34,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
 
   const currentQ = INTERVIEW_QUESTIONS[currentQIdx] || INTERVIEW_QUESTIONS[0];
 
-  const getCapsuleGradient = () => {
-    if (!isVideoPlaying) {
-      return 'bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 shadow-[0_4px_20px_rgba(79,70,229,0.45)] hover:shadow-[0_6px_24px_rgba(79,70,229,0.6)]';
-    }
-    switch (currentQ.categoryKey) {
-      case 'intro':
-        return 'bg-gradient-to-r from-amber-600 via-rose-600 to-pink-600 hover:from-amber-500 hover:to-pink-500 shadow-[0_4px_20px_rgba(225,29,72,0.5)] hover:shadow-[0_6px_24px_rgba(225,29,72,0.7)]';
-      case 'management':
-        return 'bg-gradient-to-r from-blue-700 via-indigo-600 to-sky-500 hover:from-blue-600 hover:to-sky-400 shadow-[0_4px_20px_rgba(14,165,233,0.5)] hover:shadow-[0_6px_24px_rgba(14,165,233,0.7)]';
-      case 'tech':
-        return 'bg-gradient-to-r from-emerald-700 via-teal-600 to-cyan-500 hover:from-emerald-600 hover:to-cyan-400 shadow-[0_4px_20px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_24px_rgba(16,185,129,0.7)]';
-      case 'strategy':
-        return 'bg-gradient-to-r from-purple-700 via-violet-600 to-indigo-500 hover:from-purple-600 hover:to-indigo-400 shadow-[0_4px_20px_rgba(147,51,234,0.5)] hover:shadow-[0_6px_24px_rgba(147,51,234,0.7)]';
-      case 'inquiry':
-        return 'bg-gradient-to-r from-red-700 via-rose-600 to-orange-500 hover:from-red-600 hover:to-orange-400 shadow-[0_4px_20px_rgba(239,68,68,0.5)] hover:shadow-[0_6px_24px_rgba(239,68,68,0.7)]';
-      case 'closing':
-        return 'bg-gradient-to-r from-amber-600 via-yellow-500 to-orange-500 hover:from-amber-500 hover:to-orange-400 shadow-[0_4px_20px_rgba(245,158,11,0.5)] hover:shadow-[0_6px_24px_rgba(245,158,11,0.7)]';
-      default:
-        return 'bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 shadow-[0_4px_20px_rgba(79,70,229,0.45)] hover:shadow-[0_6px_24px_rgba(79,70,229,0.6)]';
-    }
-  };
+
 
   const filteredQuestions = INTERVIEW_QUESTIONS.filter((q) => {
     if (activeFilter === 'all') return true;
@@ -323,10 +303,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               <div
                 id="interview-play-video-capsule"
                 data-element-type="card"
-                className={cn(
-                  'relative z-10 inline-flex items-center gap-2.5 px-3 py-1.5 rounded-[999px] text-white transition-all duration-500 cursor-pointer pointer-events-auto border border-white/35 active:scale-98 select-none',
-                  getCapsuleGradient()
-                )}
+                className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-[999px] bg-gradient-to-r from-rose-600 via-purple-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white shadow-[0_4px_20px_rgba(225,29,72,0.5)] hover:shadow-[0_6px_24px_rgba(225,29,72,0.7)] transition-all duration-300 cursor-pointer pointer-events-auto border border-white/35 active:scale-98 select-none"
               >
                 {/* Speaker Toggle Button */}
                 <button

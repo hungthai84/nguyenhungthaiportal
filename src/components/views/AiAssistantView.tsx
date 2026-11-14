@@ -5,6 +5,7 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { SiteTheme } from '@/types';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+import { useLanguage } from '@/context/LanguageContext';
 import {
   AssistantVoiceLanguage,
   speakSiteText,
@@ -494,6 +495,8 @@ export interface AiAssistantViewProps {
 export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   onShowNotification,
 }) => {
+  const { language, t } = useLanguage();
+  const isEn = language === 'en';
   const { cardStyle } = useTheme();
   const rawCardStyle = getCardStyleProperties(cardStyle);
   const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cleanCardStyle } = rawCardStyle as any;
@@ -509,9 +512,13 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const [mobileMenuStep, setMobileMenuStep] = useState<1 | 2 | 3>(1);
 
   // Trạng thái giọng đọc AI Puck Nam giới (Hỗ trợ Tiếng Việt Miền Nam Việt Nam & Tiếng Anh)
-  const [voiceLanguage, setVoiceLanguage] = useState<AssistantVoiceLanguage>('vi');
+  const [voiceLanguage, setVoiceLanguage] = useState<AssistantVoiceLanguage>(language);
   const [isAutoVoiceEnabled, setIsAutoVoiceEnabled] = useState<boolean>(true);
   const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setVoiceLanguage(language);
+  }, [language]);
 
   const chatMessagesEndRef = useRef<HTMLDivElement>(null);
   const dropTopMenuRef = useRef<HTMLDivElement>(null);
@@ -711,7 +718,11 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
       };
       setMessages((prev) => [...prev, aiMsg]);
       setIsLoading(false);
-      showToast(`✓ Trí Nhân đã trả lời: ${item.title}`);
+      showToast(
+        isEn
+          ? `✓ Tri Nhan answered: ${t(item.title)}`
+          : `✓ Trí Nhân đã trả lời: ${item.title}`
+      );
 
       if (isAutoVoiceEnabled) {
         speakWithPuckVoice(aiMsgId, finalAnswer, voiceLanguage);
@@ -742,14 +753,16 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         sender: 'ai',
         title: matched.title
           ? voiceLanguage === 'en'
-            ? `Tri Nhan • ${matched.title}`
+            ? `Tri Nhan • ${t(matched.title)}`
             : `Trí Nhân trả lời • ${matched.title}`
+          : isEn
+          ? 'Tri Nhan • AI Assistant'
           : 'Trí Nhân • AI Hỗ Trợ',
         text: finalAnswer,
       };
       setMessages((prev) => [...prev, aiMsg]);
       setIsLoading(false);
-      showToast('✓ Trí Nhân đã giải đáp câu hỏi!');
+      showToast(isEn ? '✓ Tri Nhan answered your question!' : '✓ Trí Nhân đã giải đáp câu hỏi!');
 
       if (isAutoVoiceEnabled) {
         speakWithPuckVoice(aiMsgId, finalAnswer, voiceLanguage);
@@ -866,7 +879,16 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           id="ai-assistant-messages-viewport"
           className="flex-1 overflow-y-auto no-scrollbar space-y-3.5 pr-1 text-xs sm:text-sm min-h-0"
         >
-          {messages.map((m) => (
+          {messages.map((m) => {
+            const displayTitle =
+              m.id === 'msg-welcome' && isEn
+                ? 'Tri Nhan • AI Assistant'
+                : m.title;
+            const displayText =
+              m.id === 'msg-welcome' && isEn
+                ? INITIAL_GREETING_TEXT_EN
+                : m.text;
+            return (
             <div
               key={m.id}
               id={`ai-chat-msg-${m.id}`}
@@ -880,7 +902,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                     : 'ai-assistant-bubble bento-card glass-card bg-slate-100 dark:bg-slate-800/90 text-slate-800 dark:text-slate-100 rounded-bl-none border border-purple-200/80 dark:border-purple-900/60 shadow-xs'
                 }`}
               >
-                {m.title && (
+                {displayTitle && (
                   <div
                     className={`flex items-center justify-between gap-2 pb-1.5 mb-1.5 border-b text-[16px] font-bold ${
                       m.sender === 'user'
@@ -888,11 +910,11 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                         : 'border-purple-200/70 dark:border-purple-800/60 text-purple-700 dark:text-purple-300'
                     }`}
                   >
-                    <span>{m.title}</span>
+                    <span>{displayTitle}</span>
                     {m.sender === 'ai' && (
                       <button
                         type="button"
-                        onClick={() => speakWithPuckVoice(m.id, m.text)}
+                        onClick={() => speakWithPuckVoice(m.id, displayText)}
                         className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-purple-600/15 hover:bg-purple-600/25 text-purple-700 dark:text-purple-200 text-[12px] font-bold cursor-pointer transition shrink-0"
                         title={
                           voiceLanguage === 'en'
@@ -903,7 +925,9 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                         <WebIcon name={speakingMessageId === m.id ? 'pause' : 'volume'} className="w-3.5 h-3.5" />
                         <span>
                           {speakingMessageId === m.id
-                            ? 'Dừng đọc'
+                            ? isEn
+                              ? 'Stop'
+                              : 'Dừng đọc'
                             : voiceLanguage === 'en'
                             ? 'Read (Puck)'
                             : 'Đọc giọng Puck'}
@@ -912,16 +936,21 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                     )}
                   </div>
                 )}
-                <p className="text-[15px] sm:text-[15px] leading-relaxed">{m.text}</p>
+                <p className="text-[15px] sm:text-[15px] leading-relaxed">{displayText}</p>
               </div>
             </div>
-          ))}
+            );
+          })}
 
           {isLoading && (
             <div id="ai-assistant-loading-indicator" className="flex justify-start">
               <div className="ai-assistant-bubble bento-card glass-card bg-slate-100 dark:bg-slate-800 p-3 rounded-[14px] text-slate-600 dark:text-slate-300 flex items-center gap-2 text-[15px] font-bold font-play">
                 <WebIcon name="bot" className="w-5 h-5 text-purple-600 animate-spin" />
-                <span>Trí Nhân đang tổng hợp thông tin về anh Hùng Thái...</span>
+                <span>
+                  {isEn
+                    ? 'Tri Nhan is compiling insights about Mr. Nguyen Hung Thai...'
+                    : 'Trí Nhân đang tổng hợp thông tin về anh Hùng Thái...'}
+                </span>
               </div>
             </div>
           )}
@@ -1257,7 +1286,11 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Hỏi Trí Nhân về anh Nguyễn Hùng Thái hoặc chọn mục câu hỏi bên trái..."
+            placeholder={
+              isEn
+                ? 'Ask Tri Nhan about Mr. Nguyen Hung Thai or pick a question category...'
+                : 'Hỏi Trí Nhân về anh Nguyễn Hùng Thái hoặc chọn mục câu hỏi bên trái...'
+            }
             className="flex-1 h-10 px-4 rounded-[14px] border border-purple-300 dark:border-[#334155] bg-white/95 dark:bg-[#111827] text-xs sm:text-sm focus:outline-none focus:border-purple-600 text-[#334155] dark:text-[#E2E8F0] shadow-inner"
           />
           <button
@@ -1269,7 +1302,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             type="submit"
             className="h-10 px-5 rounded-[14px] bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs sm:text-sm shadow-md cursor-pointer transition active:scale-95 flex items-center gap-2 shrink-0 border border-white/20"
           >
-            <span>Gửi câu hỏi</span>
+            <span>{isEn ? 'Send' : 'Gửi câu hỏi'}</span>
             <WebIcon name="send" className="w-3.5 h-3.5 text-white" />
           </button>
         </form>

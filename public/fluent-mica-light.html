@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fluent Mica (Màu Sáng) - Windows 11 Light Mode Mica Surface</title>
+
+  <!-- Google Fonts: Play & Segoe UI / Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            play: ['Play', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            fluentBlue: {
+              DEFAULT: '#0067C0',
+              hover: '#005A9E',
+              active: '#004578',
+              light: '#E5F1FB',
+            },
+            fluentBase: '#F3F3F3',
+            fluentText: '#0F172A',
+            fluentSubtext: '#475569',
+            fluentBorder: 'rgba(255, 255, 255, 0.92)',
+          },
+          boxShadow: {
+            'fluent-card': '0 8px 24px -4px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04), inset 0 1px 1.5px rgba(255, 255, 255, 0.95)',
+            'fluent-hover': '0 14px 32px -4px rgba(0, 0, 0, 0.09), 0 4px 10px -2px rgba(0, 0, 0, 0.05), inset 0 1px 1.5px #FFFFFF',
+            'fluent-flyout': '0 20px 48px -6px rgba(0, 0, 0, 0.12), 0 4px 14px -2px rgba(0, 0, 0, 0.06), inset 0 1px 1.5px rgba(255, 255, 255, 0.95)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS Tuân Thủ Chính Xác Thông Số Yêu Cầu -->
+  <style>
+    /* ========================================================================= */
+    /* THÔNG SỐ CSS THAM CHIẾU THEO ĐÚNG YÊU CẦU                                 */
+    /* ========================================================================= */
+    .card-fluent-mica-light {
+      background: rgba(243, 243, 243, 0.86);
+      backdrop-filter: blur(36px) saturate(125%);
+      -webkit-backdrop-filter: blur(36px) saturate(125%);
+      border: 1px solid rgba(255, 255, 255, 0.92);
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04), inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      transition: all 0.28s cubic-bezier(0.1, 0.9, 0.2, 1);
+    }
+
+    .card-fluent-mica-light:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px -4px rgba(0, 0, 0, 0.09), 0 4px 10px -2px rgba(0, 0, 0, 0.05), inset 0 1px 1.5px #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.98);
+    }
+
+    /* Sub-card Acrylic Surface */
+    .card-fluent-subcard {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    }
+
+    /* Primary Fluent Button */
+    .btn-fluent-primary {
+      background-color: #0067C0;
+      color: #FFFFFF;
+      font-weight: 600;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2px 4px rgba(0, 103, 192, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+    }
+    .btn-fluent-primary:hover {
+      background-color: #005A9E;
+      box-shadow: 0 4px 10px rgba(0, 103, 192, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transform: translateY(-1px);
+    }
+    .btn-fluent-primary:active {
+      background-color: #004578;
+      transform: translateY(0);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Secondary Fluent Sub-button */
+    .btn-fluent-secondary {
+      background: rgba(255, 255, 255, 0.76);
+      color: #0F172A;
+      font-weight: 600;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 999px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+    }
+    .btn-fluent-secondary:hover {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(0, 0, 0, 0.14);
+      color: #0067C0;
+      transform: translateY(-1px);
+    }
+    .btn-fluent-secondary:active {
+      background: rgba(240, 240, 240, 0.9);
+      transform: translateY(0);
+    }
+
+    /* Focus Rings for Accessibility */
+    button:focus-visible, a:focus-visible, input:focus-visible {
+      outline: 2px solid #0067C0 !important;
+      outline-offset: 2px !important;
+    }
+
+    /* Windows 11 Fluent Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F3F3F3;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.22);
+      border-radius: 999px;
+      border: 2px solid #F3F3F3;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.35);
+    }
+  </style>
+</head>
+<body class="bg-fluentBase text-fluentText font-play min-h-screen relative overflow-x-hidden selection:bg-blue-100 selection:text-fluentBlue">
+
+  <!-- ========================================================================= -->
+  <!-- LỚP NỀN WINDOWS 11 MICA REFRACTION CHUẨN MỰC                              -->
+  <!-- ========================================================================= -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <!-- Vùng khúc xạ xanh lam Fluent mềm mại góc trên bên trái -->
+    <div class="absolute -top-[12%] -left-[8%] w-[50vw] h-[50vw] rounded-full bg-blue-400/10 blur-[130px]"></div>
+    <!-- Vùng khúc xạ tím nhạt Windows Bloom góc trên bên phải -->
+    <div class="absolute -top-[10%] -right-[8%] w-[48vw] h-[48vw] rounded-full bg-indigo-300/10 blur-[140px]"></div>
+    <!-- Vùng khúc xạ ngọc bích êm dịu góc dưới -->
+    <div class="absolute bottom-[2%] left-[28%] w-[52vw] h-[52vw] rounded-full bg-teal-300/8 blur-[150px]"></div>
+    
+    <!-- Lưới vi hạt Windows 11 tinh tế -->
+    <div class="absolute inset-0 bg-[radial-gradient(#CBD5E1_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+  </div>
+
+  <!-- MAIN CONTAINER (1250px Max Width Chuẩn Mực Hệ Thống) -->
+  <div class="relative z-10 max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col gap-6">
+
+    <!-- ========================================================================= -->
+    <!-- 1. THANH ĐIỀU HƯỚNG (HEADER) THEO CHUẨN WINDOWS 11 MICA                   -->
+    <!-- ========================================================================= -->
+    <header class="card-fluent-mica-light px-5 py-3.5 flex items-center justify-between gap-4">
+      <!-- Brand & Icon -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-sky-500 to-indigo-600 p-[1.5px] shadow-sm">
+          <div class="w-full h-full bg-white/95 rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-fluentBlue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2">
+            <span>PowerService</span>
+            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-100/80 text-blue-800 border border-blue-200">
+              MICA LIGHT
+            </span>
+          </h1>
+          <p class="text-[11px] text-slate-500 font-sans">Kiến Trúc Vận Hành Dịch Vụ Khách Hàng CX</p>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-1.5 text-xs font-semibold font-sans">
+        <a href="#overview" class="px-3.5 py-1.5 rounded-full bg-white/95 text-fluentBlue border border-blue-200/80 shadow-2xs transition">Tổng Quan</a>
+        <a href="#modules" class="px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 hover:bg-white/60 transition">12 Phân Hệ</a>
+        <a href="#metrics" class="px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 hover:bg-white/60 transition">Chỉ Số SLA</a>
+        <a href="#ai-engine" class="px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 hover:bg-white/60 transition">Trí Tuệ AI</a>
+        <a href="#contact" class="px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 hover:bg-white/60 transition">Liên Hệ</a>
+      </nav>
+
+      <!-- Action Cluster -->
+      <div class="flex items-center gap-3">
+        <!-- System Health Pill -->
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 border border-emerald-300 text-[11px] font-mono text-emerald-800 shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>99.98% Uptime SLA</span>
+        </div>
+
+        <!-- Primary CTA -->
+        <button class="btn-fluent-primary px-4 py-2 text-xs font-bold tracking-wide cursor-pointer font-sans">
+          Trải Nghiệm Live
+        </button>
+      </div>
+    </header>
+
+    <!-- ========================================================================= -->
+    <!-- 2. THẺ THỐNG KÊ NỔI BẬT & HERO BANNER (HERO & STATS)                      -->
+    <!-- ========================================================================= -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+      <!-- Hero Banner (8 Cột) -->
+      <div class="lg:col-span-8 card-fluent-mica-light p-6 sm:p-7 flex flex-col justify-between gap-6 relative overflow-hidden">
+        <!-- Quầng sáng dịu nhẹ phong cách Windows Bloom -->
+        <div class="absolute -right-12 -top-12 w-64 h-64 rounded-full bg-gradient-to-br from-blue-200/40 via-sky-100/30 to-transparent blur-3xl pointer-events-none"></div>
+
+        <div>
+          <!-- Tag Header -->
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-fluentBlue text-xs font-bold font-sans mb-3.5 shadow-2xs">
+            <span class="w-2 h-2 rounded-full bg-fluentBlue"></span>
+            <span>CHUYÊN GIA QUẢN TRỊ VẬN HÀNH CX &amp; CONTACT CENTER</span>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight leading-snug">
+            Kiến Tạo Trải Nghiệm Khách Hàng Đỉnh Cao Với 
+            <span class="text-fluentBlue">
+              Hệ Thống Số &amp; Tự Động Hóa AI
+            </span>
+          </h2>
+
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed mt-3 max-w-2xl font-sans">
+            Hơn 22 năm dẫn dắt và chuẩn hóa quy trình Contact Center quy mô hàng đầu tại MobiFone, Viễn Liên V247, VED (Garena / Shopee), Prudential, Ví MoMo và Finviet. Xây dựng kiến trúc 12 phân hệ tích hợp toàn diện, tối ưu chi phí vận hành và gia tăng mức độ hài lòng khách hàng bền vững.
+          </p>
+        </div>
+
+        <!-- Action Row -->
+        <div class="flex flex-wrap items-center gap-3 pt-3.5 border-t border-slate-200/80">
+          <button class="btn-fluent-primary px-5 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer font-sans">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Xem Video Thuyết Minh</span>
+          </button>
+
+          <button class="btn-fluent-secondary px-4 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer font-sans">
+            <svg class="w-4 h-4 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span>Tải Hồ Sơ Năng Lực (PDF)</span>
+          </button>
+
+          <div class="ml-auto text-xs text-slate-500 font-mono hidden sm:block">
+            Nguyễn Hùng Thái · Lead CX Specialist
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Side Card (4 Cột) -->
+      <div class="lg:col-span-4 card-fluent-mica-light p-6 flex flex-col justify-between gap-4">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-700 font-sans">Chỉ Số Vận Hành Cốt Lõi</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-blue-100 text-blue-800 border border-blue-200">Realtime</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 mt-4">
+            <!-- Stat 1 -->
+            <div class="card-fluent-subcard p-3.5">
+              <span class="text-[10px] font-mono uppercase text-slate-500 block">Thực Chiến</span>
+              <span class="text-2xl font-bold text-slate-900 font-mono block mt-0.5">22+ Năm</span>
+              <span class="text-[11px] text-slate-600 font-sans">Quản trị CX</span>
+            </div>
+
+            <!-- Stat 2 -->
+            <div class="card-fluent-subcard p-3.5">
+              <span class="text-[10px] font-mono uppercase text-slate-500 block">Chỉ Số CSAT</span>
+              <span class="text-2xl font-bold text-fluentBlue font-mono block mt-0.5">98.6%</span>
+              <span class="text-[11px] text-slate-600 font-sans">Khách hài lòng</span>
+            </div>
+
+            <!-- Stat 3 -->
+            <div class="card-fluent-subcard p-3.5">
+              <span class="text-[10px] font-mono uppercase text-slate-500 block">Hệ Sinh Thái</span>
+              <span class="text-2xl font-bold text-indigo-700 font-mono block mt-0.5">12 Hệ</span>
+              <span class="text-[11px] text-slate-600 font-sans">Phân hệ chuẩn</span>
+            </div>
+
+            <!-- Stat 4 -->
+            <div class="card-fluent-subcard p-3.5">
+              <span class="text-[10px] font-mono uppercase text-slate-500 block">Quy Mô Nhân Sự</span>
+              <span class="text-2xl font-bold text-emerald-700 font-mono block mt-0.5">1,250+</span>
+              <span class="text-[11px] text-slate-600 font-sans">Chuyên viên CSKH</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress SLA Bar -->
+        <div class="pt-3 border-t border-slate-200">
+          <div class="flex items-center justify-between text-xs font-sans text-slate-600 mb-1.5">
+            <span>SLA Cam Kết: 99.98%</span>
+            <span class="text-emerald-700 font-bold font-mono">Đạt 100%</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-slate-200/80 overflow-hidden p-0.5 border border-slate-300/50">
+            <div class="h-full rounded-full bg-gradient-to-r from-blue-600 to-sky-500 w-[99.98%] shadow-2xs"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 3. LƯỚI THẺ NỘI DUNG 4 CỘT (CONTENT CARDS BENTO GRID)                      -->
+    <!-- ========================================================================= -->
+    <div>
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-fluentBlue"></span>
+            <span>Phân Hệ Vận Hành Tiêu Biểu</span>
+          </h3>
+          <p class="text-xs text-slate-500 font-sans mt-0.5">Kiến trúc Microservices mở rộng độc lập, kết nối API chuẩn mực</p>
+        </div>
+        <div class="text-xs font-mono text-slate-600 bg-white/80 px-3 py-1 rounded-full border border-slate-200 shadow-2xs">
+          Tiêu Chuẩn: ISO/IEC 27001
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Card 1: SDP -->
+        <article class="card-fluent-mica-light p-5 flex flex-col justify-between gap-4">
+          <div>
+            <div class="flex items-center justify-between pb-2.5 border-b border-slate-200">
+              <span class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-blue-100 text-fluentBlue border border-blue-200">SDP-01</span>
+              <span class="text-[10px] font-mono text-emerald-700 flex items-center gap-1 font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Active</span>
+              </span>
+            </div>
+
+            <div class="w-11 h-11 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-fluentBlue mt-3 shadow-2xs">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+              </svg>
+            </div>
+
+            <h4 class="text-base font-bold text-slate-900 mt-3">Cổng Dịch Vụ Số SDP</h4>
+            <p class="text-xs text-slate-600 leading-relaxed mt-1.5 font-sans">
+              Bàn làm việc hợp nhất (Single Agent Workspace), chuẩn hóa luồng xử lý yêu cầu và tự động hóa điều hướng ticket đa kênh.
+            </p>
+          </div>
+
+          <div class="pt-3 border-t border-slate-200 text-[11px] font-mono text-slate-500 flex items-center justify-between">
+            <span>Latency: &lt; 12ms</span>
+            <span class="text-fluentBlue font-bold">340 Agents</span>
+          </div>
+        </article>
+
+        <!-- Card 2: CSC -->
+        <article class="card-fluent-mica-light p-5 flex flex-col justify-between gap-4">
+          <div>
+            <div class="flex items-center justify-between pb-2.5 border-b border-slate-200">
+              <span class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-pink-100 text-pink-700 border border-pink-200">CSC-02</span>
+              <span class="text-[10px] font-mono text-emerald-700 flex items-center gap-1 font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Active</span>
+              </span>
+            </div>
+
+            <div class="w-11 h-11 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center text-pink-600 mt-3 shadow-2xs">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/>
+              </svg>
+            </div>
+
+            <h4 class="text-base font-bold text-slate-900 mt-3">Trung Tâm CSKH Đa Kênh</h4>
+            <p class="text-xs text-slate-600 leading-relaxed mt-1.5 font-sans">
+              Hệ thống Contact Center VoIP/SIP Trunk, ghi âm cuộc gọi tự động, phân luồng ACD thông minh và giám sát FCR theo thời gian thực.
+            </p>
+          </div>
+
+          <div class="pt-3 border-t border-slate-200 text-[11px] font-mono text-slate-500 flex items-center justify-between">
+            <span>WebRTC / SIP</span>
+            <span class="text-pink-700 font-bold">295 Agents</span>
+          </div>
+        </article>
+
+        <!-- Card 3: CRM -->
+        <article class="card-fluent-mica-light p-5 flex flex-col justify-between gap-4">
+          <div>
+            <div class="flex items-center justify-between pb-2.5 border-b border-slate-200">
+              <span class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-indigo-100 text-indigo-700 border border-indigo-200">CRM-03</span>
+              <span class="text-[10px] font-mono text-emerald-700 flex items-center gap-1 font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Active</span>
+              </span>
+            </div>
+
+            <div class="w-11 h-11 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 mt-3 shadow-2xs">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+            </div>
+
+            <h4 class="text-base font-bold text-slate-900 mt-3">Quản Trị Quan Hệ CRM 360°</h4>
+            <p class="text-xs text-slate-600 leading-relaxed mt-1.5 font-sans">
+              Hồ sơ khách hàng hợp nhất đa điểm chạm, bảo mật mã hóa PII AES-256, phân tích hành vi và đo lường giá trị vòng đời (LTV).
+            </p>
+          </div>
+
+          <div class="pt-3 border-t border-slate-200 text-[11px] font-mono text-slate-500 flex items-center justify-between">
+            <span>Sync: &lt; 15ms</span>
+            <span class="text-indigo-700 font-bold">210 Agents</span>
+          </div>
+        </article>
+
+        <!-- Card 4: AI Engine -->
+        <article class="card-fluent-mica-light p-5 flex flex-col justify-between gap-4">
+          <div>
+            <div class="flex items-center justify-between pb-2.5 border-b border-slate-200">
+              <span class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-emerald-100 text-emerald-700 border border-emerald-200">AI-12</span>
+              <span class="text-[10px] font-mono text-emerald-700 flex items-center gap-1 font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Active</span>
+              </span>
+            </div>
+
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mt-3 shadow-2xs">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+
+            <h4 class="text-base font-bold text-slate-900 mt-3">Trí Tuệ Nhân Tạo AI 24/7</h4>
+            <p class="text-xs text-slate-600 leading-relaxed mt-1.5 font-sans">
+              Agent Assist gợi ý câu trả lời chuẩn SOP theo ngữ cảnh cuộc gọi, trợ lý ảo giọng đọc tự nhiên và tóm tắt phiếu ghi tự động.
+            </p>
+          </div>
+
+          <div class="pt-3 border-t border-slate-200 text-[11px] font-mono text-slate-500 flex items-center justify-between">
+            <span>RAG Vector DB</span>
+            <span class="text-emerald-700 font-bold">&lt; 400ms Token</span>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- 4. KHỐI TƯƠNG TÁC ĐIỀU HÀNH VÀ PHẢN HỒI (INTERACTION & FOOTER)             -->
+    <!-- ========================================================================= -->
+    <footer class="card-fluent-mica-light p-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-2.5 rounded-full bg-fluentBlue"></div>
+        <p class="text-slate-600">
+          Thiết kế theo chuẩn <strong class="text-slate-900">Windows 11 Light Mode Mica Surface</strong> · Nguyễn Hùng Thái © 2026
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3 font-mono">
+        <span class="text-slate-500">Theme: Fluent Mica (Màu Sáng)</span>
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="btn-fluent-secondary px-3.5 py-1 text-xs cursor-pointer font-sans">
+          ↑ Đầu Trang
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

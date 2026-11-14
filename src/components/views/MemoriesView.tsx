@@ -375,16 +375,15 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
               <div
                 id={`memory-card-${item.id}`}
                 data-element-name={`Thẻ kỷ niệm: ${item.titleVi}`}
-                data-multicolor-bento="true"
                 key={item.id}
                 onClick={() => setActiveLightboxIdx(idx)}
-                style={{ animationDelay: `${(idx % 16) * 35}ms` }}
-                className="memory-photo-item break-inside-avoid mb-[15px] block w-full relative rounded-[14px] overflow-hidden p-0 border-0 cursor-pointer group bg-[#0B1220]"
+                style={{ animationDelay: `${(idx % 16) * 35}ms`, padding: 0 }}
+                className="memory-photo-item break-inside-avoid mb-[15px] block w-full relative rounded-[14px] overflow-hidden p-0 m-0 border-0 cursor-pointer group bg-[#0B1220]"
               >
                 <img
                   src={item.imageUrl}
                   alt={item.titleVi}
-                  className="memory-crisp-img w-full h-auto min-h-[180px] object-cover transition-transform duration-500 block group-hover:scale-105"
+                  className="memory-crisp-img w-full h-full min-h-[200px] object-cover transition-transform duration-500 block m-0 p-0 group-hover:scale-105"
                   loading="lazy"
                   onError={(e) => {
                     e.currentTarget.style.opacity = '0';

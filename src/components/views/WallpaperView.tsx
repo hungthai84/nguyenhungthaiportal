@@ -22,6 +22,7 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { Modal } from '@/components/ui/Modal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme, CardStyleMode, getCardStyleConfig } from '@/hooks/useTheme';
+import { useLanguage } from '@/context/LanguageContext';
 
 export interface WallpaperViewProps {
   activeWallpaper: WallpaperPreset;
@@ -37,6 +38,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
   onClose,
 }) => {
   const { cardStyle, setCardStyle } = useTheme();
+  const { language, t } = useLanguage();
+  const isEn = language === 'en';
 
   // Danh sách hình nền lưu trữ lâu dài trong localStorage kết hợp danh sách mặc định (loại bỏ các hình nền dạng CodePen)
   const [customWallpapers, setCustomWallpapers] = useState<WallpaperPreset[]>(() => {
@@ -157,9 +160,17 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     }
     if (onShowNotification) {
       if (wp.id === 'none') {
-        onShowNotification('✓ Đã đặt hình nền Mặc định (Kính trong suốt Mica) & lưu lâu dài!');
+        onShowNotification(
+          isEn
+            ? '✓ Set Default Wallpaper (Plain Mica Glass) & saved permanently!'
+            : '✓ Đã đặt hình nền Mặc định (Kính trong suốt Mica) & lưu lâu dài!'
+        );
       } else {
-        onShowNotification(`✓ Đã áp dụng & lưu mặc định lâu dài: ${wp.name}`);
+        onShowNotification(
+          isEn
+            ? `✓ Applied & saved permanently: ${t(wp.name)}`
+            : `✓ Đã áp dụng & lưu mặc định lâu dài: ${wp.name}`
+        );
       }
     }
   };
@@ -169,17 +180,21 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     e.preventDefault();
     const trimmedVal = newValue.trim();
     if (!trimmedVal) {
-      onShowNotification?.('⚠️ Vui lòng nhập đường dẫn Link Video, Link Hình hoặc mã CSS!');
+      onShowNotification?.(
+        isEn
+          ? '⚠️ Please enter a Video URL, Image URL, or CSS code!'
+          : '⚠️ Vui lòng nhập đường dẫn Link Video, Link Hình hoặc mã CSS!'
+      );
       return;
     }
 
     const nameLabel =
       newName.trim() ||
       (newType === 'video'
-        ? `Hình nền Video #${allWallpapers.length + 1}`
+        ? `${isEn ? 'Video Wallpaper' : 'Hình nền Video'} #${allWallpapers.length + 1}`
         : newType === 'css'
-        ? `Hình nền CSS #${allWallpapers.length + 1}`
-        : `Hình nền #${allWallpapers.length + 1}`);
+        ? `${isEn ? 'CSS Wallpaper' : 'Hình nền CSS'} #${allWallpapers.length + 1}`
+        : `${isEn ? 'Wallpaper' : 'Hình nền'} #${allWallpapers.length + 1}`);
 
     let previewStyle: React.CSSProperties = {};
     if (newType === 'image') {
@@ -208,7 +223,11 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     if (setAsDefaultImmediately) {
       handleApplyWallpaper(createdWp);
     } else {
-      onShowNotification?.(`✓ Đã thêm "${createdWp.name}" vào kho lưu trữ lâu dài!`);
+      onShowNotification?.(
+        isEn
+          ? `✓ Added "${createdWp.name}" to permanent library!`
+          : `✓ Đã thêm "${createdWp.name}" vào kho lưu trữ lâu dài!`
+      );
     }
 
     setNewName('');
@@ -237,10 +256,14 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      onShowNotification?.('✓ Đã xuất tệp JSON kho hình nền thành công!');
+      onShowNotification?.(
+        isEn ? '✓ Exported wallpaper library JSON file!' : '✓ Đã xuất tệp JSON kho hình nền thành công!'
+      );
     } catch (e) {
       navigator.clipboard?.writeText(jsonStr);
-      onShowNotification?.('✓ Đã sao chép JSON kho hình nền vào bộ nhớ tạm!');
+      onShowNotification?.(
+        isEn ? '✓ Copied wallpaper JSON to clipboard!' : '✓ Đã sao chép JSON kho hình nền vào bộ nhớ tạm!'
+      );
     }
   };
 
@@ -261,7 +284,11 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
       }
 
       if (list.length === 0) {
-        onShowNotification?.('⚠️ Định dạng JSON không chứa danh sách hình nền hợp lệ!');
+        onShowNotification?.(
+          isEn
+            ? '⚠️ JSON format does not contain a valid wallpaper list!'
+            : '⚠️ Định dạng JSON không chứa danh sách hình nền hợp lệ!'
+        );
         return;
       }
 
@@ -285,10 +312,18 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         handleApplyWallpaper(parsed.defaultActiveWallpaper);
       }
 
-      onShowNotification?.(`✓ Đã nhập thành công ${validItems.length} hình nền từ JSON & lưu lâu dài!`);
+      onShowNotification?.(
+        isEn
+          ? `✓ Imported ${validItems.length} wallpapers from JSON & saved permanently!`
+          : `✓ Đã nhập thành công ${validItems.length} hình nền từ JSON & lưu lâu dài!`
+      );
       setJsonText('');
     } catch (err) {
-      onShowNotification?.('⚠️ Lỗi cú pháp JSON! Vui lòng kiểm tra lại dữ liệu nhập.');
+      onShowNotification?.(
+        isEn
+          ? '⚠️ JSON syntax error! Please check your input data.'
+          : '⚠️ Lỗi cú pháp JSON! Vui lòng kiểm tra lại dữ liệu nhập.'
+      );
     }
   };
 
@@ -308,13 +343,15 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
   const handleDeleteCustomWallpaper = (wp: WallpaperPreset, e: React.MouseEvent) => {
     e.stopPropagation();
     setCustomWallpapers((prev) => prev.filter((item) => item.id !== wp.id));
-    onShowNotification?.(`Đã xóa hình nền tùy chỉnh: ${wp.name}`);
+    onShowNotification?.(
+      isEn ? `Removed custom wallpaper: ${wp.name}` : `Đã xóa hình nền tùy chỉnh: ${wp.name}`
+    );
   };
 
   const filterCategories = [
-    { id: 'all', label: 'Tất cả hình nền', count: allWallpapers.length },
-    { id: 'image', label: 'Link Hình Ảnh', count: allWallpapers.filter((w) => w.type === 'image').length },
-    { id: 'video', label: 'Link Video 4K', count: allWallpapers.filter((w) => w.type === 'video').length },
+    { id: 'all', label: isEn ? 'All Wallpapers' : 'Tất cả hình nền', count: allWallpapers.length },
+    { id: 'image', label: isEn ? 'Image URLs' : 'Link Hình Ảnh', count: allWallpapers.filter((w) => w.type === 'image').length },
+    { id: 'video', label: isEn ? '4K Video URLs' : 'Link Video 4K', count: allWallpapers.filter((w) => w.type === 'video').length },
     {
       id: 'css',
       label: 'CSS & Glass Flat',
@@ -544,7 +581,11 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 e.preventDefault();
                 const link = newValue.trim();
                 if (!link) {
-                  onShowNotification?.('⚠️ Vui lòng nhập đường dẫn Link Hình ảnh, Video hoặc CSS!');
+                  onShowNotification?.(
+                    isEn
+                      ? '⚠️ Please enter an Image, Video, or CSS URL!'
+                      : '⚠️ Vui lòng nhập đường dẫn Link Hình ảnh, Video hoặc CSS!'
+                  );
                   return;
                 }
 
@@ -555,7 +596,11 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   detectedType = 'video';
                   if (!autoName) autoName = `Video Background #${allWallpapers.length + 1}`;
                 } else if (link.includes('codepen.io')) {
-                  onShowNotification?.('⚠️ Hệ thống không còn hỗ trợ hình nền dạng CodePen!');
+                  onShowNotification?.(
+                    isEn
+                      ? '⚠️ CodePen wallpapers are no longer supported!'
+                      : '⚠️ Hệ thống không còn hỗ trợ hình nền dạng CodePen!'
+                  );
                   return;
                 } else if (link.includes('gradient') || link.includes('linear-gradient') || link.startsWith('#') || link.startsWith('rgb')) {
                   detectedType = 'css';
@@ -565,7 +610,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   if (!autoName) {
                     const segments = link.split('/');
                     const lastSeg = segments[segments.length - 1]?.split('?')[0];
-                    autoName = lastSeg && lastSeg.length > 3 ? decodeURIComponent(lastSeg).replace(/\.[^/.]+$/, '') : `Hình nền #${allWallpapers.length + 1}`;
+                    autoName = lastSeg && lastSeg.length > 3 ? decodeURIComponent(lastSeg).replace(/\.[^/.]+$/, '') : `${isEn ? 'Wallpaper' : 'Hình nền'} #${allWallpapers.length + 1}`;
                   }
                 }
 
@@ -596,7 +641,11 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 setNewValue('');
                 setNewName('');
                 setIsAddModalOpen(false);
-                onShowNotification?.(`✓ Đã tự động nhận diện và thêm: "${autoName}"!`);
+                onShowNotification?.(
+                  isEn
+                    ? `✓ Auto-detected and added: "${autoName}"!`
+                    : `✓ Đã tự động nhận diện và thêm: "${autoName}"!`
+                );
               }}
               className="p-[15px] rounded-[14px] bg-slate-50/90 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-3"
             >
@@ -713,18 +762,23 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
 
       {/* LƯỚI HÌNH NỀN THU NHỎ */}
       <div id="wallpaper-cards-grid" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[15px] items-stretch flex-1">
-          {filteredWallpapers.map((wp, index) => {
+          {filteredWallpapers.map((wp) => {
             const isSelected = activeWallpaper?.id === wp.id;
             const isCustomAdded = customWallpapers.some((c) => c.id === wp.id);
-            const titleWords = wp.name.trim().split(/\s+/);
-            const title4Words = titleWords.length <= 4 ? wp.name : titleWords.slice(0, 4).join(' ');
+            const localizedName = t(wp.name);
+            const titleWords = localizedName.trim().split(/\s+/);
+            const title4Words = titleWords.length <= 4 ? localizedName : titleWords.slice(0, 4).join(' ');
 
             return (
               <div
                 id={`wallpaper-card-${wp.id}`}
                 key={wp.id}
                 onClick={() => handleApplyWallpaper(wp)}
-                title={`${wp.name} (Nhấp chuột để áp dụng làm hình nền mặc định)`}
+                title={
+                  isEn
+                    ? `${localizedName} (Click to apply as default wallpaper)`
+                    : `${wp.name} (Nhấp chuột để áp dụng làm hình nền mặc định)`
+                }
                 data-element-type="card"
                 style={{
                   borderRadius: '14px',

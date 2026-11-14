@@ -8,9 +8,8 @@ import { EXPERIENCE_MILESTONES } from '@/data/experience';
 import { MEMORIES_DATA } from '@/data/memories';
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { cn, formatCardTitle } from '@/lib/utils';
+import { cn, formatCardTitle, formatSentenceFourWords } from '@/lib/utils';
 import { getCategoryTheme } from '@/utils/categoryTheme';
-import { GlassmorphicIconFrame } from '@/components/ui/GlassmorphicIconFrame';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 
@@ -1527,10 +1526,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                 <h3
                   className="typo-h3 font-bold font-play leading-snug tracking-tight text-[#4338CA] dark:text-[#A5B4FC] flex items-center gap-1.5 whitespace-normal break-words"
-                  title={activeMilestone.company}
+                  title={`Chi tiết công tác — ${activeMilestone.company}`}
                 >
-                  <span>{formatCardTitle(`Chi tiết công tác — ${activeMilestone.company}`)}</span>
+                  <span>Chi tiết công tác</span>
                 </h3>
+
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold border bg-[#EEF2FF] dark:bg-[#1F2937] border-[#CBD5E1] dark:border-[#334155] text-[#4338CA] dark:text-[#A5B4FC] shrink-0">
+                  <span>{activeMilestone.company}</span>
+                </span>
 
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold border bg-[#EEF2FF] dark:bg-[#1F2937] border-[#CBD5E1] dark:border-[#334155] text-[#1E1B4B] dark:text-[#E2E8F0] shrink-0">
                   <span>{activeMilestone.period} • {activeMilestone.headcount ? `${activeMilestone.headcount} nhân sự` : activeMilestone.scaleDesc}</span>
@@ -1565,9 +1568,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 >
                   <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#4338CA]/15 dark:border-[#A5B4FC]/20">
                     <div className="flex items-center gap-2 min-w-0 text-[#4338CA] dark:text-[#A5B4FC]">
-                      <WebIcon name="building-2" className="w-4.5 h-4.5 shrink-0" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight break-words">
-                        01. Thông tin tổng quan
+                      <WebIcon name="building-2" className="w-4.5 h-4.5 shrink-0 text-[#4338CA] dark:text-[#A5B4FC]" />
+                      <h3 className="typo-h3 font-bold font-play leading-tight break-words text-[#4338CA] dark:text-[#A5B4FC]">
+                        Thông tin tổng quan
                       </h3>
                     </div>
                     {activeMilestone.code && (
@@ -1652,9 +1655,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 >
                   <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#0E7490]/15 dark:border-[#67E8F9]/20">
                     <div className="flex items-center gap-2 min-w-0 text-[#0E7490] dark:text-[#67E8F9]">
-                      <WebIcon name="flag" className="w-4.5 h-4.5 shrink-0" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight break-words">
-                        Banner nhận diện đơn vị
+                      <WebIcon name="flag" className="w-4.5 h-4.5 shrink-0 text-[#0E7490] dark:text-[#67E8F9]" />
+                      <h3 className="typo-h3 font-bold font-play leading-tight break-words text-[#0E7490] dark:text-[#67E8F9]">
+                        Nhận diện đơn vị
                       </h3>
                     </div>
                     <span className="px-2.5 py-0.5 rounded-full bg-white/85 dark:bg-[#1F2937] text-[#0E7490] dark:text-[#67E8F9] border border-[#0E7490]/25 dark:border-[#67E8F9]/30 typo-badge font-mono font-bold shrink-0">
@@ -1696,9 +1699,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 >
                   <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#0369A1]/15 dark:border-[#7DD3FC]/20">
                     <div className="flex items-center gap-2 min-w-0 text-[#0369A1] dark:text-[#7DD3FC]">
-                      <WebIcon name="image" className="w-4.5 h-4.5 shrink-0" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight break-words">
-                        Hình ảnh kỷ niệm công tác
+                      <WebIcon name="image" className="w-4.5 h-4.5 shrink-0 text-[#0369A1] dark:text-[#7DD3FC]" />
+                      <h3 className="typo-h3 font-bold font-play leading-tight break-words text-[#0369A1] dark:text-[#7DD3FC]">
+                        Hình ảnh kỷ niệm
                       </h3>
                     </div>
                     {photosList.length > 0 && (
@@ -1788,28 +1791,26 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   className="bento-tone-purple md:col-span-6 lg:col-span-7 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0"
                 >
                   <div className="flex items-center gap-2 pb-2 border-b border-[#6D28D9]/15 dark:border-[#A5B4FC]/20 text-[#6D28D9] dark:text-[#C4B5FD]">
-                    <WebIcon name="shield" className="w-4.5 h-4.5 shrink-0" />
-                    <h3 className="typo-h3 font-bold font-play leading-tight break-words">
-                      02. Vai trò, Trách nhiệm &amp; Triết lý vận hành
+                    <WebIcon name="shield" className="w-4.5 h-4.5 shrink-0 text-[#6D28D9] dark:text-[#C4B5FD]" />
+                    <h3 className="typo-h3 font-bold font-play leading-tight break-words text-[#6D28D9] dark:text-[#C4B5FD]">
+                      Vai trò trách nhiệm
                     </h3>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 flex-1 items-stretch">
                     {introPillars.map((item: { title: string; desc: string }, pIdx: number) => {
                       const styleConfigs = [
-                        { icon: 'user-check', color: 'text-[#BE185D] dark:text-[#FDA4AF]', bg: 'bg-white/85 dark:bg-[#1F2937]/85 border-[#F9A8D4]/50 dark:border-[#334155]', hex: '#BE185D', glow: 'rgba(190,24,93,0.35)' },
-                        { icon: 'headphones', color: 'text-[#075985] dark:text-[#7DD3FC]', bg: 'bg-white/85 dark:bg-[#1F2937]/85 border-[#93C5FD]/50 dark:border-[#334155]', hex: '#075985', glow: 'rgba(7,89,133,0.35)' },
-                        { icon: 'shield', color: 'text-[#047857] dark:text-[#6EE7B7]', bg: 'bg-white/85 dark:bg-[#1F2937]/85 border-[#6EE7B7]/50 dark:border-[#334155]', hex: '#047857', glow: 'rgba(4,120,87,0.35)' },
+                        { icon: 'user-check', color: 'text-[#BE185D] dark:text-[#FDA4AF]', bg: 'bg-white/85 dark:bg-[#1F2937]/85 border-[#F9A8D4]/50 dark:border-[#334155]' },
+                        { icon: 'headphones', color: 'text-[#075985] dark:text-[#7DD3FC]', bg: 'bg-white/85 dark:bg-[#1F2937]/85 border-[#93C5FD]/50 dark:border-[#334155]' },
+                        { icon: 'shield', color: 'text-[#047857] dark:text-[#6EE7B7]', bg: 'bg-white/85 dark:bg-[#1F2937]/85 border-[#6EE7B7]/50 dark:border-[#334155]' },
                       ];
                       const cfg = styleConfigs[pIdx % styleConfigs.length];
                       return (
                         <div key={pIdx} className={`flex flex-col gap-1.5 p-3 rounded-[12px] border ${cfg.bg} min-w-0`}>
                           <div className="flex items-center gap-2">
-                            <GlassmorphicIconFrame size="sm" color={cfg.hex} glowColor={cfg.glow} springBounce>
-                              <WebIcon name={cfg.icon} className="w-3.5 h-3.5" />
-                            </GlassmorphicIconFrame>
-                            <span className={`typo-body-sm font-bold font-play leading-snug break-words ${cfg.color}`}>
-                              {item.title}
+                            <WebIcon name={cfg.icon} className={cn('w-4 h-4 shrink-0', cfg.color)} />
+                            <span className={`typo-body-sm font-bold font-play leading-snug break-words ${cfg.color}`} title={item.title}>
+                              {formatSentenceFourWords(item.title)}
                             </span>
                           </div>
                           <p className="typo-caption text-[#334155] dark:text-[#E2E8F0] leading-relaxed break-words">
@@ -1822,14 +1823,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                   {(() => {
                     const activeCategoryTheme = getCategoryTheme(activeMilestone?.company || 'MobiFone');
+                    const philosophyColor = isDark ? '#C4B5FD' : activeCategoryTheme.color;
                     return (
                       <div className="p-3 rounded-[12px] bg-white/85 dark:bg-[#1F2937]/90 border border-[#C4B5FD]/60 dark:border-[#334155] flex items-start gap-2.5">
-                        <GlassmorphicIconFrame size="sm" color={activeCategoryTheme.color} glowColor={activeCategoryTheme.glow} springBounce>
-                          <WebIcon name="heart-handshake" className="w-3.5 h-3.5" />
-                        </GlassmorphicIconFrame>
+                        <WebIcon name="heart-handshake" className="w-4 h-4 shrink-0 mt-0.5" style={{ color: philosophyColor }} />
                         <div className="min-w-0 flex-1">
-                          <span className="typo-body-sm font-bold font-play block" style={{ color: isDark ? '#C4B5FD' : activeCategoryTheme.color }}>
-                            Triết lý quản trị &amp; Định hướng phụng sự
+                          <span className="typo-body-sm font-bold font-play block" style={{ color: philosophyColor }}>
+                            Triết lý quản trị
                           </span>
                           <p className="typo-body-sm text-[#334155] dark:text-[#E2E8F0] font-medium leading-relaxed mt-0.5 break-words">
                             {philosophyText}
@@ -1848,9 +1848,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 >
                   <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#047857]/15 dark:border-[#6EE7B7]/20">
                     <div className="flex items-center gap-2 text-[#047857] dark:text-[#6EE7B7]">
-                      <WebIcon name="chart" className="w-4.5 h-4.5 shrink-0" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight">
-                        03. Thành tựu &amp; Chỉ số KPI
+                      <WebIcon name="chart" className="w-4.5 h-4.5 shrink-0 text-[#047857] dark:text-[#6EE7B7]" />
+                      <h3 className="typo-h3 font-bold font-play leading-tight text-[#047857] dark:text-[#6EE7B7]">
+                        Thành tựu đạt được
                       </h3>
                     </div>
                   </div>
@@ -1890,9 +1890,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   className="bento-tone-blue md:col-span-3 lg:col-span-4 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0"
                 >
                   <div className="flex items-center gap-2 pb-2 border-b border-[#075985]/15 dark:border-[#7DD3FC]/20 text-[#075985] dark:text-[#7DD3FC]">
-                    <WebIcon name="briefcase" className="w-4.5 h-4.5 shrink-0" />
-                    <h3 className="typo-h3 font-bold font-play leading-tight">
-                      04. Công việc đã triển khai
+                    <WebIcon name="briefcase" className="w-4.5 h-4.5 shrink-0 text-[#075985] dark:text-[#7DD3FC]" />
+                    <h3 className="typo-h3 font-bold font-play leading-tight text-[#075985] dark:text-[#7DD3FC]">
+                      Công việc triển khai
                     </h3>
                   </div>
 
@@ -1918,10 +1918,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 >
                   <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#92400E]/15 dark:border-[#FCD34D]/20">
                     <div className="flex items-center gap-2 text-[#92400E] dark:text-[#FCD34D] min-w-0">
-                      <WebIcon name="folder" className="w-4.5 h-4.5 shrink-0" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight truncate">
-                        05. Dự án trọng điểm ({projectsList.length})
+                      <WebIcon name="folder" className="w-4.5 h-4.5 shrink-0 text-[#92400E] dark:text-[#FCD34D]" />
+                      <h3 className="typo-h3 font-bold font-play leading-tight truncate text-[#92400E] dark:text-[#FCD34D]">
+                        Dự án trọng điểm
                       </h3>
+                      <span className="px-2 py-0.5 rounded-full bg-white/80 dark:bg-[#1F2937] text-[#92400E] dark:text-[#FCD34D] border border-[#92400E]/20 dark:border-[#FCD34D]/30 typo-badge font-mono font-bold shrink-0">
+                        {projectsList.length}
+                      </span>
                     </div>
                     <button
                       type="button"
@@ -1971,9 +1974,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 >
                   <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#BE185D]/15 dark:border-[#FDA4AF]/20">
                     <div className="flex items-center gap-2 text-[#BE185D] dark:text-[#FDA4AF] min-w-0">
-                      <WebIcon name="package" className="w-4.5 h-4.5 shrink-0" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight truncate">
-                        06. Sản phẩm &amp; Cam kết
+                      <WebIcon name="package" className="w-4.5 h-4.5 shrink-0 text-[#BE185D] dark:text-[#FDA4AF]" />
+                      <h3 className="typo-h3 font-bold font-play leading-tight truncate text-[#BE185D] dark:text-[#FDA4AF]">
+                        Sản phẩm cam kết
                       </h3>
                     </div>
                     <button

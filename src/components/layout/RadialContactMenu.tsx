@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface ContactPillItem {
   id: string;
@@ -44,6 +45,8 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
   align = position === 'top' ? 'right' : 'left',
   anchorRef,
 }) => {
+  const { language } = useLanguage();
+  const isEn = language === 'en';
   const containerRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState<{ top?: number; bottom?: number; left?: number; right?: number } | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -102,15 +105,22 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
         if (onClose) onClose();
       }
     };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && onClose) onClose();
+    };
     document.addEventListener('mousedown', handleOutsideClick);
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen, onClose, anchorRef]);
 
   const items: ContactPillItem[] = [
     {
       id: 'booking',
-      title: 'Đặt lịch',
-      sub: 'Liên hệ & Hẹn gặp',
+      title: isEn ? 'Booking' : 'Đặt lịch',
+      sub: isEn ? 'Contact & Schedule' : 'Liên hệ & Hẹn gặp',
       iconName: 'calendar',
       gradient: 'from-[#312E81] via-[#4338CA] to-[#6366F1]',
       circleBg: 'bg-indigo-600 text-white',
@@ -121,7 +131,9 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       textColor: 'text-indigo-950 dark:text-indigo-100',
       action: () => {
         onSelectTab(12);
-        onShowNotification?.('✓ Đã mở trang Đặt lịch hẹn & Liên hệ');
+        onShowNotification?.(
+          isEn ? '✓ Opened Booking & Contact page' : '✓ Đã mở trang Đặt lịch hẹn & Liên hệ'
+        );
       },
     },
     {
@@ -140,7 +152,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
     },
     {
       id: 'phone',
-      title: 'Điện thoại',
+      title: isEn ? 'Phone' : 'Điện thoại',
       sub: '+84 0909097882',
       iconName: 'phone',
       gradient: 'from-[#0369A1] via-[#0284C7] to-[#0EA5E9]',
@@ -273,7 +285,9 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
                     rel={item.isExternal ? 'noopener noreferrer' : undefined}
                     onClick={() => {
                       if (item.id === 'phone' || item.id === 'email') {
-                        onShowNotification?.(`Đã mở kết nối: ${item.sub}`);
+                        onShowNotification?.(
+                          isEn ? `Opened connection: ${item.sub}` : `Đã mở kết nối: ${item.sub}`
+                        );
                       }
                       if (onClose) onClose();
                     }}

@@ -5,13 +5,14 @@ export type Language = 'vi' | 'en';
 export type LanguagePreference = 'auto' | 'vi' | 'en';
 
 const LANG_MODE_STORAGE_KEY = 'portfolio_lang_mode';
-const EN_CACHE_STORAGE_KEY = 'portfolio_en_cache_v1';
+const EN_CACHE_STORAGE_KEY = 'portfolio_en_cache_v2';
 
 const VIETNAMESE_DIACRITIC_REGEX =
   /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]/;
 
 const NON_TRANSLATABLE_REGEX = /^[\d\s.,:%+\-–—/()[\]{}•·|✓✕⚙°CF#@!&*?~="'`<>\\]+$/;
-const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEXTAREA', 'INPUT', 'SELECT', 'OPTION', 'CODE', 'PRE']);
+// Allow SELECT and OPTION to be translated cleanly too
+const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEXTAREA', 'INPUT', 'CODE', 'PRE']);
 const TRANSLATABLE_ATTRS = ['placeholder', 'title', 'aria-label'] as const;
 
 function getRawBrowserLocale(): string {
@@ -45,7 +46,14 @@ function loadPersistedCache(baseMap: Map<string, string>): Map<string, string> {
       const parsed = JSON.parse(raw);
       if (parsed && typeof parsed === 'object') {
         Object.entries(parsed).forEach(([k, v]) => {
-          if (typeof k === 'string' && typeof v === 'string' && k.trim() && v.trim() && !merged.has(k)) {
+          if (
+            typeof k === 'string' &&
+            typeof v === 'string' &&
+            k.trim() &&
+            v.trim() &&
+            !VIETNAMESE_DIACRITIC_REGEX.test(v) &&
+            !merged.has(k)
+          ) {
             merged.set(k, v);
           }
         });
@@ -63,7 +71,7 @@ function savePersistedCache(cacheMap: Map<string, string>, baseMap: Map<string, 
     const diff: Record<string, string> = {};
     let count = 0;
     cacheMap.forEach((v, k) => {
-      if (!baseMap.has(k) && v !== k && count < 1500) {
+      if (!baseMap.has(k) && v !== k && !VIETNAMESE_DIACRITIC_REGEX.test(v) && count < 1500) {
         diff[k] = v;
         count++;
       }
@@ -96,11 +104,232 @@ function splitWhitespace(str: string): { leading: string; core: string; trailing
   return { leading: match[1] || '', core: match[2] || '', trailing: match[3] || '' };
 }
 
+function normalizeLookupKey(text: string): string {
+  return text
+    .replace(/\s+/g, ' ')
+    .replace(/[“”]/g, '"')
+    .replace(/[‘’]/g, "'")
+    .trim();
+}
+
+const WEEKDAY_MAP: Record<string, string> = {
+  'chủ nhật': 'Sunday',
+  'thứ hai': 'Monday',
+  'thứ 2': 'Monday',
+  'thứ ba': 'Tuesday',
+  'thứ 3': 'Tuesday',
+  'thứ tư': 'Wednesday',
+  'thứ 4': 'Wednesday',
+  'thứ năm': 'Thursday',
+  'thứ 5': 'Thursday',
+  'thứ sáu': 'Friday',
+  'thứ 6': 'Friday',
+  'thứ bảy': 'Saturday',
+  'thứ 7': 'Saturday',
+};
+
+const MONTH_ABBR_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+export function translateDynamicPattern(core: string, dictionary: Map<string, string>): string | null {
+  const c = normalizeLookupKey(core);
+  if (!c) return null;
+
+  // Date headers: "Thứ Sáu, ngày 06 tháng 11 năm 2026" or "Thứ Sáu, 06/11/2026"
+  const fullDateMatch = c.match(
+    /^(chủ nhật|thứ\s*(?:hai|ba|tư|năm|sáu|bảy|[2-7]))\s*,\s*(?:ngày\s*)?(\d{1,2})\s*(?:tháng|thg|\/)\s*(\d{1,2})(?:\s*(?:năm|\/)\s*(\d{4}))?$/i
+  );
+  if (fullDateMatch) {
+    const dayEn = WEEKDAY_MAP[fullDateMatch[1].toLowerCase().replace(/\s+/g, ' ')] || fullDateMatch[1];
+    const dd = fullDateMatch[2].padStart(2, '0');
+    const mmNum = parseInt(fullDateMatch[3], 10);
+    const monthEn = MONTH_ABBR_EN[mmNum - 1] || fullDateMatch[3];
+    const yyyy = fullDateMatch[4];
+    return yyyy ? `${dayEn}, ${monthEn} ${dd}, ${yyyy}` : `${dayEn}, ${monthEn} ${dd}`;
+  }
+
+  // "Từ năm 2003 đến năm 2007" / "Từ năm 2023 đến 2024" / "2018 – hiện tại"
+  const yearRangeMatch = c.match(/^Từ năm\s+(\d{4})\s+đến(?:\s+năm)?\s+(\d{4}|hiện tại)$/i);
+  if (yearRangeMatch) {
+    const end = yearRangeMatch[2].toLowerCase() === 'hiện tại' ? 'Present' : yearRangeMatch[2];
+    return `${yearRangeMatch[1]} – ${end}`;
+  }
+
+  // "Năm 2016"
+  const singleYearMatch = c.match(/^Năm\s+(\d{4})$/i);
+  if (singleYearMatch) {
+    return `Year ${singleYearMatch[1]}`;
+  }
+
+  // "Mức độ kỹ năng: 98%" / "Mức độ tác động: 94%"
+  const percentMatch = c.match(/^(Mức độ kỹ năng|Mức độ tác động|Độ ổn định|Tỷ lệ hài lòng)\s*:\s*(.+)$/i);
+  if (percentMatch) {
+    const labelMap: Record<string, string> = {
+      'mức độ kỹ năng': 'Proficiency Level',
+      'mức độ tác động': 'Impact Level',
+      'độ ổn định': 'Stability',
+      'tỷ lệ hài lòng': 'Satisfaction Rate',
+    };
+    const translatedLabel = labelMap[percentMatch[1].toLowerCase()] || percentMatch[1];
+    return `${translatedLabel}: ${percentMatch[2]}`;
+  }
+
+  // "Trang 1 / 14" or "Câu 1 / 12" or "Dự án số 1 / 21"
+  const pageCountMatch = c.match(/^(Trang|Câu|Dự án số|Ảnh|Mục)\s+(\d+)\s*\/\s*(\d+)$/i);
+  if (pageCountMatch) {
+    const unitMap: Record<string, string> = {
+      'trang': 'Page',
+      'câu': 'Question',
+      'dự án số': 'Project',
+      'ảnh': 'Photo',
+      'mục': 'Item',
+    };
+    const unit = unitMap[pageCountMatch[1].toLowerCase()] || pageCountMatch[1];
+    return `${unit} ${pageCountMatch[2]} / ${pageCountMatch[3]}`;
+  }
+
+  // "Tất cả (14 chứng chỉ)" / "Tất cả (21 Dự án)" / "Tất cả (12 hệ thống)"
+  const allParenMatch = c.match(/^Tất cả\s*\(([^)]+)\)$/i);
+  if (allParenMatch) {
+    const inner = allParenMatch[1]
+      .replace(/dự án/gi, 'Projects')
+      .replace(/chứng chỉ/gi, 'Credentials')
+      .replace(/hệ thống/gi, 'Systems')
+      .replace(/câu hỏi/gi, 'Questions')
+      .replace(/kỷ niệm/gi, 'Memories')
+      .replace(/hình ảnh/gi, 'Images');
+    return `All (${inner})`;
+  }
+
+  // "Phân hệ 9.1" / "Nhóm 1" / "Dự án 1.1" / "Bước 1" / "Giai đoạn 2"
+  const numberedLabelMatch = c.match(/^(Phân hệ|Nhóm|Dự án|Bước|Giai đoạn|Hạng mục|Trụ cột|Giá trị|Màn hình)\s+([0-9.]+)$/i);
+  if (numberedLabelMatch) {
+    const prefixMap: Record<string, string> = {
+      'phân hệ': 'Module',
+      'nhóm': 'Group',
+      'dự án': 'Project',
+      'bước': 'Step',
+      'giai đoạn': 'Phase',
+      'hạng mục': 'Workstream',
+      'trụ cột': 'Pillar',
+      'giá trị': 'Value',
+      'màn hình': 'Screen',
+    };
+    const enPrefix = prefixMap[numberedLabelMatch[1].toLowerCase()] || numberedLabelMatch[1];
+    return `${enPrefix} ${numberedLabelMatch[2]}`;
+  }
+
+  // "Đã áp dụng giao diện: ..." / "Đã chọn ngôn ngữ..." / "Ngôn ngữ mặc định trình duyệt..."
+  if (/^Đã áp dụng giao diện:\s*/i.test(c)) {
+    const rest = c.replace(/^Đã áp dụng giao diện:\s*/i, '').trim();
+    const restEn = dictionary.get(rest) || rest;
+    return `Applied theme: ${restEn}`;
+  }
+  if (/^Ngôn ngữ mặc định trình duyệt/i.test(c)) {
+    return c.includes('English') ? 'Browser default: English' : 'Browser default: Vietnamese';
+  }
+  if (/^Đang hiển thị chi tiết\s+/i.test(c)) {
+    const rest = c.replace(/^Đang hiển thị chi tiết\s+/i, '').trim();
+    return `Showing details for ${rest}`;
+  }
+  if (/^Nhấp để mở rộng chi tiết thẻ:\s*/i.test(c)) {
+    const rest = c.replace(/^Nhấp để mở rộng chi tiết thẻ:\s*/i, '').trim();
+    return `Click to expand card details: ${rest}`;
+  }
+
+  // Wallpaper numbered presets: "Hình nền #41", "Hình nền Video #23", "Hình nền #30 (Bản 2)", "Hình nền #47 (Ảnh)"
+  const wpVideoMatch = c.match(/^Hình nền Video #(\d+)(.*)$/i);
+  if (wpVideoMatch) {
+    const tail = wpVideoMatch[2].replace(/\(Bản\s*(\d+)\)/gi, '(V$1)').replace(/\(Ảnh\)/gi, '(Image)');
+    return `Video Wallpaper #${wpVideoMatch[1]}${tail}`;
+  }
+  const wpImgMatch = c.match(/^Hình nền #(\d+)(.*)$/i);
+  if (wpImgMatch) {
+    const tail = wpImgMatch[2].replace(/\(Bản\s*(\d+)\)/gi, '(V$1)').replace(/\(Ảnh\)/gi, '(Image)');
+    return `Wallpaper #${wpImgMatch[1]}${tail}`;
+  }
+
+  // PUCK voice narration toasts
+  const stopNarMatch = c.match(/^Đã dừng thuyết trình\s+(.+?)\.?$/i);
+  if (stopNarMatch) {
+    const subj = dictionary.get(stopNarMatch[1]) || stopNarMatch[1];
+    return `Stopped narration: ${subj}.`;
+  }
+  const connNarMatch = c.match(/^Đang kết nối giọng PUCK MC Nam Sài Gòn:\s*(.+?)\.\.\.$/i);
+  if (connNarMatch) {
+    const subj = dictionary.get(connNarMatch[1]) || connNarMatch[1];
+    return `Connecting Puck AI Voice: ${subj}...`;
+  }
+  const playNarMatch = c.match(/^AI PUCK MC Sài Gòn đang thuyết trình:\s*(.+?)\.\.\.(\s*🎙️)?$/i);
+  if (playNarMatch) {
+    const subj = dictionary.get(playNarMatch[1]) || playNarMatch[1];
+    return `Puck AI Voice is presenting: ${subj}...${playNarMatch[2] || ''}`;
+  }
+
+  // Split "Label: Value" if Label exists in dictionary
+  const colonIdx = c.indexOf(':');
+  if (colonIdx > 1 && colonIdx < c.length - 1) {
+    const left = c.slice(0, colonIdx).trim();
+    const right = c.slice(colonIdx + 1).trim();
+    const leftEn = dictionary.get(`${left}:`) || dictionary.get(left);
+    if (leftEn) {
+      const cleanLeftEn = leftEn.endsWith(':') ? leftEn.slice(0, -1) : leftEn;
+      const rightEn = dictionary.get(right) || translateDynamicPattern(right, dictionary) || right;
+      if (!VIETNAMESE_DIACRITIC_REGEX.test(rightEn) || rightEn !== right) {
+        return `${cleanLeftEn}: ${rightEn}`;
+      }
+    }
+  }
+
+  return null;
+}
+
+export function lookupEnglish(core: string, dictionary: Map<string, string>): string | undefined {
+  if (!core) return undefined;
+
+  const direct = dictionary.get(core);
+  if (direct) return direct;
+
+  const normalized = normalizeLookupKey(core);
+  const normHit = dictionary.get(normalized);
+  if (normHit) return normHit;
+
+  // Strip wrapper icons/punctuation (✓, ⚠️, 🔴, 🔊, 🎧, 📍, •, trailing colon/ellipsis)
+  const wrapperMatch = normalized.match(/^([✓✔✕✖⚠️🔴🟡🟢🔊🎧📍🎯💡🌟💛💙💚💖💜🚫↻‹›]+\s*)?([\s\S]*?)(\s*(?::|\.{3}|!|\?|🔊|✓))?$/);
+  if (wrapperMatch && (wrapperMatch[1] || wrapperMatch[3])) {
+    const pfx = wrapperMatch[1] || '';
+    const inner = (wrapperMatch[2] || '').trim();
+    const sfx = wrapperMatch[3] || '';
+    if (inner) {
+      const innerHit =
+        dictionary.get(inner) ||
+        dictionary.get(normalizeLookupKey(inner)) ||
+        translateDynamicPattern(inner, dictionary);
+      if (innerHit) {
+        const cleanedInner = sfx === ':' && innerHit.endsWith(':') ? innerHit.slice(0, -1) : innerHit;
+        return `${pfx}${cleanedInner}${sfx}`;
+      }
+    }
+  }
+
+  // Strip surrounding parentheses "(...)"
+  const parenMatch = normalized.match(/^\(([\s\S]+)\)$/);
+  if (parenMatch) {
+    const innerHit = lookupEnglish(parenMatch[1], dictionary);
+    if (innerHit) return `(${innerHit})`;
+  }
+
+  // Dynamic pattern translation
+  const dynamicHit = translateDynamicPattern(normalized, dictionary);
+  if (dynamicHit) return dynamicHit;
+
+  return undefined;
+}
+
 function isCandidateVietnamese(core: string, dictionary: Map<string, string>): boolean {
   if (!core || core.length > 2500) return false;
   if (NON_TRANSLATABLE_REGEX.test(core)) return false;
   if (/^(https?:\/\/|www\.|mailto:|tel:|data:)/i.test(core)) return false;
-  if (dictionary.has(core)) return true;
+  if (dictionary.has(core) || dictionary.has(normalizeLookupKey(core))) return true;
   return VIETNAMESE_DIACRITIC_REGEX.test(core);
 }
 
@@ -118,17 +347,21 @@ interface LanguageContextType {
   setLanguage: (lang: Language) => void;
   setLanguageMode: (mode: LanguagePreference) => void;
   toggleLanguage: () => void;
+  t: (viText: string, enFallback?: string) => string;
+  translateText: (text: string) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType>({
   language: 'vi',
-  languageMode: 'auto',
+  languageMode: 'vi',
   browserLocale: 'vi-VN',
   browserLanguage: 'vi',
   isTranslating: false,
   setLanguage: () => {},
   setLanguageMode: () => {},
   toggleLanguage: () => {},
+  t: (viText: string) => viText,
+  translateText: (text: string) => text,
 });
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -143,11 +376,15 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         if (savedMode === 'auto' || savedMode === 'vi' || savedMode === 'en') {
           return savedMode;
         }
+        const savedLegacy = localStorage.getItem('portfolio_lang');
+        if (savedLegacy === 'vi' || savedLegacy === 'en') {
+          return savedLegacy;
+        }
       } catch {
         // ignore storage access issues
       }
     }
-    return 'auto';
+    return 'vi';
   });
 
   const language: Language = languageMode === 'auto' ? browserLanguage : languageMode;
@@ -170,8 +407,27 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const trackedAttrElsRef = useRef<Set<Element>>(new Set());
   const inFlightKeysRef = useRef<Set<string>>(new Set());
   const failedKeysRef = useRef<Set<string>>(new Set());
+  const batchApiUnavailableRef = useRef<boolean>(false);
   const isApplyingRef = useRef<boolean>(false);
   const originalTitleRef = useRef<string | null>(null);
+
+  const translateText = useCallback((text: string): string => {
+    if (!text || languageRef.current !== 'en') return text;
+    const { leading, core, trailing } = splitWhitespace(text);
+    const hit = lookupEnglish(core, cacheMapRef.current!);
+    return hit ? `${leading}${hit}${trailing}` : text;
+  }, []);
+
+  const t = useCallback(
+    (viText: string, enFallback?: string): string => {
+      if (language !== 'en') return viText;
+      if (enFallback) return enFallback;
+      const { leading, core, trailing } = splitWhitespace(viText);
+      const hit = lookupEnglish(core, cacheMapRef.current!);
+      return hit ? `${leading}${hit}${trailing}` : viText;
+    },
+    [language]
+  );
 
   const scanAndTranslateToEnglish = useCallback(() => {
     if (typeof document === 'undefined' || !document.body) return;
@@ -191,10 +447,14 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         originalTitleRef.current = document.title;
       }
       if (originalTitleRef.current && VIETNAMESE_DIACRITIC_REGEX.test(originalTitleRef.current)) {
-        const cachedTitle = cache.get(originalTitleRef.current.trim());
+        const cachedTitle = lookupEnglish(originalTitleRef.current.trim(), cache);
         if (cachedTitle) {
           document.title = cachedTitle;
-        } else if (!inFlightKeysRef.current.has(originalTitleRef.current.trim()) && !failedKeysRef.current.has(originalTitleRef.current.trim())) {
+        } else if (
+          !batchApiUnavailableRef.current &&
+          !inFlightKeysRef.current.has(originalTitleRef.current.trim()) &&
+          !failedKeysRef.current.has(originalTitleRef.current.trim())
+        ) {
           pendingStrings.add(originalTitleRef.current.trim());
         }
       }
@@ -206,11 +466,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         const val = currentNode.nodeValue;
         if (val && val.trim() && !shouldSkipElement(currentNode.parentElement)) {
           const existing = textRecords.get(currentNode);
-          // Skip if node already displays our exact translated English output
           if (!existing || val !== existing.en) {
             const { leading, core, trailing } = splitWhitespace(val);
             if (isCandidateVietnamese(core, cache)) {
-              const translatedCore = cache.get(core);
+              const translatedCore = lookupEnglish(core, cache);
               if (translatedCore) {
                 const nextFull = `${leading}${translatedCore}${trailing}`;
                 textRecords.set(currentNode, { vi: val, en: nextFull });
@@ -218,7 +477,11 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
                 if (val !== nextFull) {
                   currentNode.nodeValue = nextFull;
                 }
-              } else if (!inFlightKeysRef.current.has(core) && !failedKeysRef.current.has(core)) {
+              } else if (
+                !batchApiUnavailableRef.current &&
+                !inFlightKeysRef.current.has(core) &&
+                !failedKeysRef.current.has(core)
+              ) {
                 pendingStrings.add(core);
               }
             }
@@ -239,7 +502,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           if (prev && rawAttr === prev.en) return;
           const { leading, core, trailing } = splitWhitespace(rawAttr);
           if (isCandidateVietnamese(core, cache)) {
-            const translatedCore = cache.get(core);
+            const translatedCore = lookupEnglish(core, cache);
             if (translatedCore) {
               const nextAttr = `${leading}${translatedCore}${trailing}`;
               if (!recMap) {
@@ -251,7 +514,11 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
               if (rawAttr !== nextAttr) {
                 el.setAttribute(attr, nextAttr);
               }
-            } else if (!inFlightKeysRef.current.has(core) && !failedKeysRef.current.has(core)) {
+            } else if (
+              !batchApiUnavailableRef.current &&
+              !inFlightKeysRef.current.has(core) &&
+              !failedKeysRef.current.has(core)
+            ) {
               pendingStrings.add(core);
             }
           }
@@ -261,7 +528,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       isApplyingRef.current = false;
     }
 
-    // 3. Batch translate uncached Vietnamese strings via /api/translate-batch
+    // 3. Batch translate uncached Vietnamese strings via /api/translate-batch (if backend translation key is configured)
+    if (batchApiUnavailableRef.current) return;
     const toFetch = Array.from(pendingStrings);
     if (toFetch.length === 0) return;
 
@@ -277,6 +545,11 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     const runWorker = async () => {
       while (chunkCursor < chunks.length) {
+        if (batchApiUnavailableRef.current) {
+          const skipped = chunks[chunkCursor++];
+          skipped.forEach((src) => inFlightKeysRef.current.delete(src));
+          continue;
+        }
         const myIndex = chunkCursor++;
         const batch = chunks[myIndex];
         try {
@@ -287,12 +560,20 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           });
           if (res.ok) {
             const data = await res.json();
+            if (data?.fallback) {
+              batchApiUnavailableRef.current = true;
+              batch.forEach((src) => {
+                inFlightKeysRef.current.delete(src);
+                failedKeysRef.current.add(src);
+              });
+              continue;
+            }
             const list: unknown = data?.translations;
-            if (Array.isArray(list) && !data?.fallback) {
+            if (Array.isArray(list)) {
               let updatedCount = 0;
               batch.forEach((src, i) => {
                 const tr = list[i];
-                if (typeof tr === 'string' && tr.trim()) {
+                if (typeof tr === 'string' && tr.trim() && !VIETNAMESE_DIACRITIC_REGEX.test(tr)) {
                   cache.set(src, tr.trim());
                   updatedCount++;
                 }
@@ -387,7 +668,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       return;
     }
 
-    // Apply English immediately + observe dynamic DOM updates (tab switches, modals, filters)
+    // Apply English immediately + observe dynamic DOM updates (tab switches, modals, filters, attributes)
     failedKeysRef.current.clear();
     let rafId: number | null = null;
     const scheduleScan = () => {
@@ -411,7 +692,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           hasRelevantChange = true;
           break;
         }
-        if (m.type === 'characterData') {
+        if (m.type === 'characterData' || m.type === 'attributes') {
           hasRelevantChange = true;
           break;
         }
@@ -426,6 +707,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         childList: true,
         subtree: true,
         characterData: true,
+        attributes: true,
+        attributeFilter: [...TRANSLATABLE_ATTRS],
       });
     }
 
@@ -486,6 +769,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setLanguage,
         setLanguageMode,
         toggleLanguage,
+        t,
+        translateText,
       }}
     >
       {children}

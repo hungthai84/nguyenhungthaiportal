@@ -23,27 +23,24 @@
       (function() {
         try {
           var cardStyle = localStorage.getItem('hungthai_card_style');
-          var validStyles = ['frosted-glass', 'glassmorphism', 'mica-fluent'];
+          var validStyles = ['frosted-glass', 'glassmorphism', 'mica-fluent', 'glassmorphism-neon'];
           if (cardStyle && validStyles.indexOf(cardStyle) !== -1) {
             document.documentElement.setAttribute('data-card-style', cardStyle);
           } else {
-            document.documentElement.setAttribute('data-card-style', 'glassmorphism');
-            localStorage.setItem('hungthai_card_style', 'glassmorphism');
+            cardStyle = 'glassmorphism';
+            document.documentElement.setAttribute('data-card-style', cardStyle);
+            localStorage.setItem('hungthai_card_style', cardStyle);
           }
-          var themeMode = localStorage.getItem('theme_mode');
-          var validModes = ['system', 'light', 'dark'];
-          if (!themeMode || validModes.indexOf(themeMode) === -1) {
-            themeMode = 'system';
-            localStorage.setItem('theme_mode', 'system');
-          }
-          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          var isDarkInit = themeMode === 'dark' || (themeMode === 'system' && prefersDark);
+          var isDarkInit = cardStyle === 'glassmorphism-neon';
           if (isDarkInit) {
             document.documentElement.classList.add('dark');
+            document.documentElement.setAttribute('data-theme', 'dark-neon');
+            document.documentElement.setAttribute('data-theme-mode', 'dark');
           } else {
             document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.setAttribute('data-theme-mode', 'light');
           }
-          document.documentElement.setAttribute('data-theme-mode', themeMode);
         } catch (e) {}
       })();
     </script>

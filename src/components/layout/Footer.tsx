@@ -32,7 +32,7 @@ export const Footer: React.FC<FooterProps> = ({
   const langMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isThemeMenuOpen && !isLangMenuOpen) return;
+    if (!isThemeMenuOpen && !isLangMenuOpen && !isPdfModalOpen) return;
     const handleOutsideClick = (e: MouseEvent) => {
       if (isThemeMenuOpen && themeMenuRef.current && !themeMenuRef.current.contains(e.target as Node)) {
         setIsThemeMenuOpen(false);
@@ -41,11 +41,23 @@ export const Footer: React.FC<FooterProps> = ({
         setIsLangMenuOpen(false);
       }
     };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsThemeMenuOpen(false);
+        setIsLangMenuOpen(false);
+        setIsPdfModalOpen(false);
+      }
+    };
     document.addEventListener('mousedown', handleOutsideClick);
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
-  }, [isThemeMenuOpen, isLangMenuOpen]);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isThemeMenuOpen, isLangMenuOpen, isPdfModalOpen]);
 
-  const { language, languageMode, browserLocale, browserLanguage, setLanguageMode } = useLanguage();
+  const { language, languageMode, browserLocale, browserLanguage, setLanguageMode, t } = useLanguage();
+  const isEn = language === 'en';
 
   const handleSelectLanguageMode = (mode: LanguagePreference) => {
     SoundEngine.playGlassChime();
@@ -53,7 +65,11 @@ export const Footer: React.FC<FooterProps> = ({
     setIsLangMenuOpen(false);
     if (mode === 'auto') {
       const resolvedLabel = browserLanguage === 'vi' ? 'Tiếng Việt' : 'English';
-      onShowNotification(`✓ Ngôn ngữ mặc định theo trình duyệt (${resolvedLabel} · ${browserLocale})`);
+      onShowNotification(
+        isEn
+          ? `✓ Browser default language (${resolvedLabel} · ${browserLocale})`
+          : `✓ Ngôn ngữ mặc định theo trình duyệt (${resolvedLabel} · ${browserLocale})`
+      );
     } else if (mode === 'vi') {
       onShowNotification('✓ Đã chuyển ngôn ngữ sang Tiếng Việt');
     } else {
@@ -65,7 +81,9 @@ export const Footer: React.FC<FooterProps> = ({
     if (onOpenWallpaper) {
       onOpenWallpaper();
     } else {
-      onShowNotification('Mở trang Quản lý Hình Nền & Giao diện!');
+      onShowNotification(
+        isEn ? 'Opening Wallpaper & Theme Settings!' : 'Mở trang Quản lý Hình Nền & Giao diện!'
+      );
     }
   };
 
@@ -87,9 +105,9 @@ export const Footer: React.FC<FooterProps> = ({
   const activeLangTitle = language === 'en' ? 'English' : 'Tiếng Việt';
   const activeLangSub =
     languageMode === 'auto'
-      ? `${language.toUpperCase()} · Trình duyệt`
-      : `${language.toUpperCase()} · Đã chọn`;
-  const browserLangDisplay = browserLanguage === 'vi' ? 'Tiếng Việt' : 'English';
+      ? `${language.toUpperCase()} · ${isEn ? 'Browser' : 'Trình duyệt'}`
+      : `${language.toUpperCase()} · ${isEn ? 'Selected' : 'Đã chọn'}`;
+  const browserLangDisplay = browserLanguage === 'vi' ? (isEn ? 'Vietnamese' : 'Tiếng Việt') : 'English';
 
   const footerElement = (
     <footer
@@ -136,7 +154,7 @@ export const Footer: React.FC<FooterProps> = ({
         <div
           id="footer-nav-capsule"
           role="navigation"
-          aria-label="Điều hướng trang"
+          aria-label={isEn ? 'Page Navigation' : 'Điều hướng trang'}
           data-element-type="button"
           data-section-card="true"
           style={{ borderRadius: '999px' }}
@@ -147,7 +165,7 @@ export const Footer: React.FC<FooterProps> = ({
             id="footer-prev-btn"
             role="button"
             tabIndex={0}
-            aria-label="Trang trước"
+            aria-label={isEn ? 'Previous Page' : 'Trang trước'}
             onClick={(e) => {
               e.stopPropagation();
               onNavigate(-1);
@@ -158,7 +176,7 @@ export const Footer: React.FC<FooterProps> = ({
                 onNavigate(-1);
               }
             }}
-            title="Trang trước"
+            title={isEn ? 'Previous Page' : 'Trang trước'}
             className="w-8.5 h-8.5 rounded-[999px] flex items-center justify-center bg-white/90 dark:bg-slate-800 hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600 text-slate-800 dark:text-slate-100 cursor-pointer shrink-0 transition shadow-xs border border-white/80 dark:border-slate-700 active:scale-95"
           >
             <WebIcon name="chevron-left" className="w-3.5 h-3.5" />
@@ -180,7 +198,7 @@ export const Footer: React.FC<FooterProps> = ({
             id="footer-next-btn"
             role="button"
             tabIndex={0}
-            aria-label="Trang sau"
+            aria-label={isEn ? 'Next Page' : 'Trang sau'}
             onClick={(e) => {
               e.stopPropagation();
               onNavigate(1);
@@ -191,7 +209,7 @@ export const Footer: React.FC<FooterProps> = ({
                 onNavigate(1);
               }
             }}
-            title="Trang sau"
+            title={isEn ? 'Next Page' : 'Trang sau'}
             className="w-8.5 h-8.5 rounded-[999px] flex items-center justify-center bg-white/90 dark:bg-slate-800 hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600 text-slate-800 dark:text-slate-100 cursor-pointer shrink-0 transition shadow-xs border border-white/80 dark:border-slate-700 active:scale-95"
           >
             <WebIcon name="chevron-right" className="w-3.5 h-3.5" />
@@ -240,14 +258,19 @@ export const Footer: React.FC<FooterProps> = ({
                       setIsThemeMenuOpen(false);
                       setIsLangMenuOpen((prev) => !prev);
                     }}
-                    title={`Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`}
+                    title={
+                      isEn
+                        ? `Language: ${activeLangTitle} (${activeLangSub})`
+                        : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
+                    }
                     aria-expanded={isLangMenuOpen}
                     className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-2 py-0.5 gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
                       isSelected
                         ? 'bg-gradient-to-r from-[#047857] via-[#059669] to-[#10B981] border-white/80 active shadow-[0_0_25px_rgba(16,185,129,0.45)]'
-                        : 'bg-emerald-50/90 dark:bg-emerald-950/75 border-emerald-400/80 dark:border-emerald-400/70'
+                        : 'border-emerald-400/80 dark:border-emerald-400/70'
                     }`}
                     style={{
+                      backgroundColor: isSelected ? undefined : 'var(--bg-nav-button-opaque, #FFFFFF)',
                       boxShadow: isSelected
                         ? '0 0 30px rgba(16, 185, 129, 0.45), inset 0 0 12px rgba(255,255,255,0.4)'
                         : '0 4px 14px rgba(0,0,0,0.06)',
@@ -290,7 +313,7 @@ export const Footer: React.FC<FooterProps> = ({
                 {isLangMenuOpen && (
                   <div className="absolute bottom-[calc(100%+12px)] left-0 sm:left-auto sm:right-0 w-64 rounded-[14px] bg-white/[0.98] dark:bg-[#0A1024]/[0.98] backdrop-blur-2xl border border-emerald-200 dark:border-cyan-400/40 shadow-[0_16px_48px_rgba(0,0,0,0.35)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.75),0_0_24px_rgba(34,211,238,0.22)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto">
                     <div className="px-2.5 py-1 typo-label font-bold tracking-wide text-emerald-700 dark:text-emerald-300 border-b border-slate-200 dark:border-white/15 flex items-center justify-between">
-                      <span>Chọn ngôn ngữ</span>
+                      <span>{isEn ? 'Select Language' : 'Chọn ngôn ngữ'}</span>
                       <span className="typo-badge font-normal text-slate-500 dark:text-slate-400">
                         {browserLocale}
                       </span>
@@ -315,13 +338,15 @@ export const Footer: React.FC<FooterProps> = ({
                           />
                         </div>
                         <div className="flex flex-col min-w-0">
-                          <span className="truncate">Theo trình duyệt (Mặc định)</span>
+                          <span className="truncate">
+                            {isEn ? 'Browser Default (Auto)' : 'Theo trình duyệt (Mặc định)'}
+                          </span>
                           <span
                             className={`typo-label truncate ${
                               languageMode === 'auto' ? 'text-white/90' : 'text-slate-500 dark:text-slate-400'
                             }`}
                           >
-                            Tự động: {browserLangDisplay}
+                            {isEn ? `Auto: ${browserLangDisplay}` : `Tự động: ${browserLangDisplay}`}
                           </span>
                         </div>
                       </div>
@@ -420,14 +445,19 @@ export const Footer: React.FC<FooterProps> = ({
                       setIsLangMenuOpen(false);
                       setIsThemeMenuOpen((prev) => !prev);
                     }}
-                    title={`Giao diện (${activeThemeConfig.shortBadge})`}
+                    title={
+                      isEn
+                        ? `Theme (${t(activeThemeConfig.shortBadge)})`
+                        : `Giao diện (${activeThemeConfig.shortBadge})`
+                    }
                     aria-expanded={isThemeMenuOpen}
                     className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-2 py-0.5 gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
                       isSelected
                         ? 'bg-gradient-to-r from-[#4338CA] via-[#6366F1] to-[#818CF8] border-white/80 active shadow-[0_0_25px_rgba(99,102,241,0.45)]'
-                        : 'bg-indigo-50/90 dark:bg-indigo-950/75 border-indigo-400/80 dark:border-indigo-500/80'
+                        : 'border-indigo-400/80 dark:border-indigo-500/80'
                     }`}
                     style={{
+                      backgroundColor: isSelected ? undefined : 'var(--bg-nav-button-opaque, #FFFFFF)',
                       boxShadow: isSelected
                         ? '0 0 30px rgba(99, 102, 241, 0.45), inset 0 0 12px rgba(255,255,255,0.4)'
                         : '0 4px 14px rgba(0,0,0,0.06)',
@@ -452,14 +482,14 @@ export const Footer: React.FC<FooterProps> = ({
                           isSelected ? 'text-white' : 'text-indigo-950 dark:text-indigo-100'
                         }`}
                       >
-                        Giao diện
+                        {isEn ? 'Theme' : 'Giao diện'}
                       </span>
                       <span
                         className={`text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
                           isSelected ? 'text-white/90' : 'text-indigo-700 dark:text-cyan-300'
                         }`}
                       >
-                        {activeThemeConfig.shortBadge}
+                        {t(activeThemeConfig.shortBadge)}
                       </span>
                     </div>
                   </button>
@@ -469,13 +499,21 @@ export const Footer: React.FC<FooterProps> = ({
                 {isThemeMenuOpen && (
                   <div className="absolute bottom-[calc(100%+12px)] left-[-42px] sm:left-auto sm:right-0 w-72 rounded-[14px] bg-white/[0.98] dark:bg-[#0A1024]/[0.98] backdrop-blur-2xl border border-indigo-200 dark:border-cyan-400/40 shadow-[0_16px_48px_rgba(0,0,0,0.4)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.75),0_0_24px_rgba(236,72,153,0.22)] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto">
                     <div className="px-2.5 py-1 typo-label font-bold tracking-wide text-[#4338CA] dark:text-cyan-300 border-b border-[#E2E8F0] dark:border-white/15 flex items-center justify-between">
-                      <span>Danh sách Giao diện ({CARD_STYLE_PRESETS_LIST.length})</span>
-                      <span className="typo-badge font-normal text-[#475569] dark:text-slate-400">Độc lập</span>
+                      <span>
+                        {isEn
+                          ? `Theme Presets (${CARD_STYLE_PRESETS_LIST.length})`
+                          : `Danh sách Giao diện (${CARD_STYLE_PRESETS_LIST.length})`}
+                      </span>
+                      <span className="typo-badge font-normal text-[#475569] dark:text-slate-400">
+                        {isEn ? 'Independent' : 'Độc lập'}
+                      </span>
                     </div>
 
                     <div className="max-h-[300px] overflow-y-auto no-scrollbar flex flex-col gap-1">
                       {CARD_STYLE_PRESETS_LIST.map((preset) => {
                         const isActive = cardStyle === preset.id;
+                        const presetName = t(preset.name);
+                        const presetModeLabel = t(preset.modeLabel);
                         return (
                           <button
                             key={preset.id}
@@ -484,7 +522,11 @@ export const Footer: React.FC<FooterProps> = ({
                               SoundEngine.playGlassChime();
                               setCardStyle(preset.id);
                               setIsThemeMenuOpen(false);
-                              onShowNotification(`✓ Đã áp dụng giao diện: ${preset.name}`);
+                              onShowNotification(
+                                isEn
+                                  ? `✓ Applied theme: ${presetName}`
+                                  : `✓ Đã áp dụng giao diện: ${preset.name}`
+                              );
                             }}
                             className={`w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-body-sm font-bold transition cursor-pointer text-left group ${
                               isActive
@@ -506,13 +548,13 @@ export const Footer: React.FC<FooterProps> = ({
                                 <WebIcon name={preset.icon} className="w-3.5 h-3.5" />
                               </div>
                               <div className="flex flex-col min-w-0">
-                                <span className="truncate">{preset.name}</span>
+                                <span className="truncate">{presetName}</span>
                                 <span
                                   className={`typo-label truncate ${
                                     isActive ? 'text-white/95' : 'text-[#475569] dark:text-slate-400'
                                   }`}
                                 >
-                                  {preset.modeLabel}
+                                  {presetModeLabel}
                                 </span>
                               </div>
                             </div>
@@ -528,13 +570,15 @@ export const Footer: React.FC<FooterProps> = ({
                         onClick={() => {
                           setIsThemeMenuOpen(false);
                           onSelectTab(15);
-                          onShowNotification('✓ Chuyển đến trang Cấu hình Giao diện');
+                          onShowNotification(
+                            isEn ? '✓ Switched to Theme Settings' : '✓ Chuyển đến trang Cấu hình Giao diện'
+                          );
                         }}
                         className="w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-button font-bold text-indigo-600 dark:text-cyan-300 hover:bg-indigo-50 dark:hover:bg-slate-800/80 transition cursor-pointer text-left"
                       >
                         <div className="flex items-center gap-2">
                           <WebIcon name="settings" className="w-3.5 h-3.5" />
-                          <span>Cấu hình giao diện ⚙</span>
+                          <span>{isEn ? 'Theme Settings ⚙' : 'Cấu hình giao diện ⚙'}</span>
                         </div>
                         <WebIcon name="arrow-right" className="w-3.5 h-3.5" />
                       </button>
@@ -579,13 +623,14 @@ export const Footer: React.FC<FooterProps> = ({
                       setIsThemeMenuOpen(false);
                       handleWallpaperClick();
                     }}
-                    title="Hình Nền (Tùy chỉnh)"
+                    title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
                     className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-2 py-0.5 gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
                       isSelected
                         ? 'bg-gradient-to-r from-[#BE123C] via-[#E11D48] to-[#FB7185] border-white/80 active shadow-[0_0_25px_rgba(244,63,94,0.45)]'
-                        : 'bg-rose-50/90 dark:bg-rose-950/70 border-rose-400/80 dark:border-rose-500/80'
+                        : 'border-rose-400/80 dark:border-rose-500/80'
                     }`}
                     style={{
+                      backgroundColor: isSelected ? undefined : 'var(--bg-nav-button-opaque, #FFFFFF)',
                       boxShadow: isSelected
                         ? '0 0 30px rgba(244, 63, 94, 0.45), inset 0 0 12px rgba(255,255,255,0.4)'
                         : '0 4px 14px rgba(0,0,0,0.06)',
@@ -610,14 +655,14 @@ export const Footer: React.FC<FooterProps> = ({
                           isSelected ? 'text-white' : 'text-rose-950 dark:text-rose-100'
                         }`}
                       >
-                        Hình Nền
+                        {isEn ? 'Wallpaper' : 'Hình Nền'}
                       </span>
                       <span
                         className={`text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
                           isSelected ? 'text-white/90' : 'text-rose-700 dark:text-rose-400'
                         }`}
                       >
-                        Tùy chỉnh
+                        {isEn ? 'Customize' : 'Tùy chỉnh'}
                       </span>
                     </div>
                   </button>
@@ -660,13 +705,14 @@ export const Footer: React.FC<FooterProps> = ({
                       setIsThemeMenuOpen(false);
                       onOpenAiAssistant();
                     }}
-                    title="AI hỗ trợ (Trợ lý 24/7)"
+                    title={isEn ? 'AI Assistant (24/7 Support)' : 'AI hỗ trợ (Trợ lý 24/7)'}
                     className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-2 py-0.5 gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
                       isSelected
                         ? 'bg-gradient-to-r from-[#6B21A8] via-[#7E22CE] to-[#A855F7] border-white/80 active shadow-[0_0_25px_rgba(168,85,247,0.5)]'
-                        : 'bg-purple-50/90 dark:bg-purple-950/70 border-purple-400/80 dark:border-purple-500/80'
+                        : 'border-purple-400/80 dark:border-purple-500/80'
                     }`}
                     style={{
+                      backgroundColor: isSelected ? undefined : 'var(--bg-nav-button-opaque, #FFFFFF)',
                       boxShadow: isSelected
                         ? '0 0 30px rgba(168, 85, 247, 0.5), inset 0 0 12px rgba(255,255,255,0.4)'
                         : '0 4px 14px rgba(0,0,0,0.06)',
@@ -680,7 +726,7 @@ export const Footer: React.FC<FooterProps> = ({
                     >
                       <img
                         src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550149/Avata_AI_h%E1%BB%97_tr%E1%BB%A3.gif"
-                        alt="AI hỗ trợ"
+                        alt={isEn ? 'AI Assistant' : 'AI hỗ trợ'}
                         className="w-full h-full object-cover rounded-full"
                         onError={(e) => {
                           (e.target as HTMLElement).style.display = 'none';
@@ -698,14 +744,14 @@ export const Footer: React.FC<FooterProps> = ({
                           isSelected ? 'text-white' : 'text-purple-950 dark:text-purple-100'
                         }`}
                       >
-                        AI hỗ trợ
+                        {isEn ? 'AI Assistant' : 'AI hỗ trợ'}
                       </span>
                       <span
                         className={`text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
                           isSelected ? 'text-white/90' : 'text-purple-700 dark:text-purple-300'
                         }`}
                       >
-                        Trợ lý 24/7
+                        {isEn ? '24/7 Support' : 'Trợ lý 24/7'}
                       </span>
                     </div>
                   </button>
@@ -727,8 +773,14 @@ export const Footer: React.FC<FooterProps> = ({
                   <WebIcon name="file-text" className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="typo-h3 font-bold text-slate-900 dark:text-white">Tải Hồ Sơ CV — Nguyễn Hùng Thái</h3>
-                  <p className="typo-caption text-slate-500 dark:text-slate-400">Định dạng PDF / Chuyên gia Vận hành CSKH &amp; Chuyển đổi số</p>
+                  <h3 className="typo-h3 font-bold text-slate-900 dark:text-white">
+                    {isEn ? 'Download CV Resume — Nguyễn Hùng Thái' : 'Tải Hồ Sơ CV — Nguyễn Hùng Thái'}
+                  </h3>
+                  <p className="typo-caption text-slate-500 dark:text-slate-400">
+                    {isEn
+                      ? 'PDF Format / Customer Service Operations & Digital Transformation Expert'
+                      : 'Định dạng PDF / Chuyên gia Vận hành CSKH & Chuyển đổi số'}
+                  </p>
                 </div>
               </div>
               <button
@@ -745,11 +797,15 @@ export const Footer: React.FC<FooterProps> = ({
               <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="space-y-1">
                   <span className="inline-block px-2.5 py-0.5 rounded-full typo-badge font-bold bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">
-                    Bản chính thức 2026
+                    {isEn ? 'Official 2026 Edition' : 'Bản chính thức 2026'}
                   </span>
-                  <h4 className="typo-h4 font-bold text-slate-900 dark:text-white">Hồ Sơ Năng Lực &amp; Kinh Nghiệm Công Tác</h4>
+                  <h4 className="typo-h4 font-bold text-slate-900 dark:text-white">
+                    {isEn ? 'Capability Profile & Work Experience' : 'Hồ Sơ Năng Lực & Kinh Nghiệm Công Tác'}
+                  </h4>
                   <p className="typo-caption text-slate-600 dark:text-slate-400">
-                    Dung lượng: ~2.4 MB • Cập nhật lần cuối: Tháng 11/2026
+                    {isEn
+                      ? 'Size: ~2.4 MB • Last updated: Nov 2026'
+                      : 'Dung lượng: ~2.4 MB • Cập nhật lần cuối: Tháng 11/2026'}
                   </p>
                 </div>
                 <a
@@ -758,48 +814,70 @@ export const Footer: React.FC<FooterProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => {
-                    onShowNotification('✓ Đang tải xuống file Hồ sơ CV...');
+                    onShowNotification(
+                      isEn ? '✓ Downloading CV Resume file...' : '✓ Đang tải xuống file Hồ sơ CV...'
+                    );
                   }}
                   className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold typo-button shadow-md inline-flex items-center gap-2 transition cursor-pointer shrink-0"
                 >
                   <WebIcon name="file-text" className="w-4 h-4 text-white" />
-                  <span>Tải Xuống PDF</span>
+                  <span>{isEn ? 'Download PDF' : 'Tải Xuống PDF'}</span>
                 </a>
               </div>
 
               {/* Overview content preview inside modal */}
               <div className="border border-[#E2E8F0] dark:border-[#334155] rounded-xl p-4 bg-white dark:bg-[#1F2937]/60 space-y-3">
                 <div className="flex items-center justify-between border-b border-[#E2E8F0] dark:border-[#334155] pb-2">
-                  <span className="typo-label font-bold text-[#475569] dark:text-[#94A3B8] uppercase">Tóm tắt thông tin hồ sơ</span>
+                  <span className="typo-label font-bold text-[#475569] dark:text-[#94A3B8] uppercase">
+                    {isEn ? 'Profile Summary' : 'Tóm tắt thông tin hồ sơ'}
+                  </span>
                   <span className="typo-badge font-bold text-[#047857] dark:text-[#6EE7B7] flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-[#047857] dark:bg-[#6EE7B7] animate-pulse"></span>
-                    Đã xác thực
+                    {isEn ? 'Verified' : 'Đã xác thực'}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 typo-body-sm">
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">Họ &amp; Tên:</span>
+                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                      {isEn ? 'Full Name:' : 'Họ & Tên:'}
+                    </span>
                     <span className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC] typo-body-sm">Nguyễn Hùng Thái</span>
                   </div>
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">Chức danh chính:</span>
-                    <span className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC] typo-body-sm">Trưởng Phòng Vận Hành CSKH</span>
+                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                      {isEn ? 'Primary Title:' : 'Chức danh chính:'}
+                    </span>
+                    <span className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC] typo-body-sm">
+                      {isEn ? 'Head of Customer Service Operations' : 'Trưởng Phòng Vận Hành CSKH'}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">Kinh nghiệm:</span>
-                    <span className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC]">22+ Năm Quản Lý CSKH</span>
+                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                      {isEn ? 'Experience:' : 'Kinh nghiệm:'}
+                    </span>
+                    <span className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC]">
+                      {isEn ? '22+ Years in CS Management' : '22+ Năm Quản Lý CSKH'}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">Trình độ:</span>
-                    <span className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC]">Thạc Sĩ Quản Trị Kinh Doanh</span>
+                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                      {isEn ? 'Education:' : 'Trình độ:'}
+                    </span>
+                    <span className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC]">
+                      {isEn ? 'Master of Business Administration (MBA)' : 'Thạc Sĩ Quản Trị Kinh Doanh'}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">Email liên hệ:</span>
+                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                      {isEn ? 'Contact Email:' : 'Email liên hệ:'}
+                    </span>
                     <span className="font-bold text-[#4338CA] dark:text-[#A5B4FC]">hungthai84@gmail.com</span>
                   </div>
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">Điện thoại / Zalo:</span>
+                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                      {isEn ? 'Phone / Zalo:' : 'Điện thoại / Zalo:'}
+                    </span>
                     <span className="font-bold text-[#4338CA] dark:text-[#A5B4FC]">+84 0909097882</span>
                   </div>
                 </div>
@@ -816,7 +894,7 @@ export const Footer: React.FC<FooterProps> = ({
                 className="px-4 py-2 rounded-xl typo-button font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition cursor-pointer flex items-center gap-2"
               >
                 <WebIcon name="file-text" className="w-4 h-4" />
-                <span>In PDF / Print</span>
+                <span>{isEn ? 'Print / Save PDF' : 'In PDF / Print'}</span>
               </button>
 
               <button
@@ -824,7 +902,7 @@ export const Footer: React.FC<FooterProps> = ({
                 onClick={() => setIsPdfModalOpen(false)}
                 className="px-5 py-2 rounded-xl typo-button font-bold bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition cursor-pointer"
               >
-                Đóng cửa sổ
+                {isEn ? 'Close' : 'Đóng cửa sổ'}
               </button>
             </div>
           </div>

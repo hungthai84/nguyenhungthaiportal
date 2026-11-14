@@ -201,6 +201,9 @@ html[data-card-style="glassmorphism"] #skills-filter-dropdown {
 [data-card-style="glassmorphism"] #contact-info-container,
 [data-card-style="glassmorphism"] #contact-info-card,
 [data-card-style="glassmorphism"] #education-courses-grid > .education-card:nth-of-type(5n+1),
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+1) .system-item,
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+1) .system-flip-front,
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+1) .system-flip-back,
 [data-card-style="glassmorphism"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(5n+1),
 [data-card-style="glassmorphism"] [id$="-page-container"] .grid > .bento-card:nth-of-type(5n+1) {
   --bg-card: var(--glass-sky);
@@ -220,6 +223,9 @@ html[data-card-style="glassmorphism"] #skills-filter-dropdown {
 [data-card-style="glassmorphism"] #ai-assistant-chat-container,
 [data-card-style="glassmorphism"] #contact-email-card,
 [data-card-style="glassmorphism"] #education-courses-grid > .education-card:nth-of-type(5n+2),
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+2) .system-item,
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+2) .system-flip-front,
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+2) .system-flip-back,
 [data-card-style="glassmorphism"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(5n+2),
 [data-card-style="glassmorphism"] [id$="-page-container"] .grid > .bento-card:nth-of-type(5n+2) {
   --bg-card: var(--glass-lavender);
@@ -239,6 +245,9 @@ html[data-card-style="glassmorphism"] #skills-filter-dropdown {
 [data-card-style="glassmorphism"] #projects-results-card,
 [data-card-style="glassmorphism"] #contact-phone-card,
 [data-card-style="glassmorphism"] #education-courses-grid > .education-card:nth-of-type(5n+3),
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+3) .system-item,
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+3) .system-flip-front,
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+3) .system-flip-back,
 [data-card-style="glassmorphism"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(5n+3),
 [data-card-style="glassmorphism"] [id$="-page-container"] .grid > .bento-card:nth-of-type(5n+3) {
   --bg-card: var(--glass-mint);
@@ -254,6 +263,9 @@ html[data-card-style="glassmorphism"] #skills-filter-dropdown {
 [data-card-style="glassmorphism"] #memories-grid-card,
 [data-card-style="glassmorphism"] #contact-address-card,
 [data-card-style="glassmorphism"] #education-courses-grid > .education-card:nth-of-type(5n+4),
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+4) .system-item,
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+4) .system-flip-front,
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+4) .system-flip-back,
 [data-card-style="glassmorphism"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(5n+4),
 [data-card-style="glassmorphism"] [id$="-page-container"] .grid > .bento-card:nth-of-type(5n+4) {
   --bg-card: var(--glass-peach);
@@ -265,6 +277,9 @@ html[data-card-style="glassmorphism"] #skills-filter-dropdown {
 [data-card-style="glassmorphism"] #projects-tech-card,
 [data-card-style="glassmorphism"] #contact-form-card,
 [data-card-style="glassmorphism"] #education-courses-grid > .education-card:nth-of-type(5n+5),
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+5) .system-item,
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+5) .system-flip-front,
+[data-card-style="glassmorphism"] #systems-page-container .grid > div:nth-of-type(5n+5) .system-flip-back,
 [data-card-style="glassmorphism"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(5n+5),
 [data-card-style="glassmorphism"] [id$="-page-container"] .grid > .bento-card:nth-of-type(5n+5) {
   --bg-card: var(--glass-rose);

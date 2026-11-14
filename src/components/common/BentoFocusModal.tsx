@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface BentoFocusModalProps {
   cardKey: string | null;
@@ -9,6 +9,15 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
   cardKey,
   onClose,
 }) => {
+  useEffect(() => {
+    if (!cardKey) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [cardKey, onClose]);
+
   if (!cardKey) return null;
 
   return (
@@ -17,6 +26,9 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
       onClick={onClose}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="3 Trụ Cột Vận Hành Chiến Lược"
         className="relative w-full max-w-4xl bg-white dark:bg-[#111827] border border-[#CBD5E1] dark:border-[#334155] p-5 sm:p-6 rounded-[14px] shadow-2xl z-10 flex flex-col gap-4 text-[#334155] dark:text-[#E2E8F0] font-play overflow-y-auto no-scrollbar max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
@@ -75,7 +87,7 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2 rounded-[14px] bg-[#1E1B4B] dark:bg-[#F8FAFC] text-white dark:text-[#1E1B4B] typo-button hover:opacity-90 cursor-pointer"
+            className="px-5 py-2 rounded-full bg-[#1E1B4B] dark:bg-[#F8FAFC] text-white dark:text-[#1E1B4B] typo-button hover:opacity-90 cursor-pointer"
           >
             Đóng
           </button>

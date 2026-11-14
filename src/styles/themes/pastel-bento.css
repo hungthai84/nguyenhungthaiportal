@@ -1,0 +1,285 @@
+/* ========================================================================= */
+/* THEME: BENTO PASTEL DỊU NHẸ (SOFT GRADIENT PASTEL BENTO BOX UI)           */
+/* ========================================================================= */
+
+html[data-card-style="pastel-bento"] {
+  --bg-blur: 18px;
+  --glass-blur: 18px;
+
+  --radius-main: 24px;
+  --radius-card: 20px;
+  --radius-subcard: 16px;
+  --radius-header: 0 0 20px 20px;
+  --radius-footer: 20px 20px 0 0;
+  --card-border-width: 1.5px;
+
+  --color-bg: #f5f3ff;
+  --color-bg-soft: #fdf2f8;
+  --color-bg-blue: #eff6ff;
+  --color-surface: #fdf2f8;
+  --color-surface-elevated: #ffffff;
+
+  --color-heading: #1e1b4b;
+  --color-text: #1e1b4b;
+  --color-text-secondary: #312e81;
+  --color-text-muted: #475569;
+  --color-link: #4f46e5;
+  --text-primary: #1e1b4b;
+  --text-secondary: #312e81;
+  --text-muted: #475569;
+  --text-heading: #1e1b4b;
+
+  --bg-main: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);
+  --bg-header: linear-gradient(155deg, rgba(253, 242, 248, 0.94) 0%, rgba(245, 243, 255, 0.94) 50%, rgba(239, 246, 255, 0.94) 100%);
+  --bg-footer: linear-gradient(155deg, rgba(239, 246, 255, 0.94) 0%, rgba(245, 243, 255, 0.94) 50%, rgba(253, 242, 248, 0.94) 100%);
+  --bg-card: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);
+  --bg-subcard: linear-gradient(155deg, rgba(255, 255, 255, 0.88) 0%, rgba(245, 243, 255, 0.82) 52%, rgba(239, 246, 255, 0.88) 100%);
+  --bg-nested-card: rgba(255, 255, 255, 0.85);
+
+  --bg-button-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 52%, #db2777 100%);
+  --bg-button-secondary: rgba(255, 255, 255, 0.92);
+  --bg-popup: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);
+  --bg-modal: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);
+  --bg-dropdown: rgba(255, 255, 255, 0.96);
+  --bg-navigation: linear-gradient(155deg, rgba(253, 242, 248, 0.92) 0%, rgba(245, 243, 255, 0.92) 50%, rgba(239, 246, 255, 0.92) 100%);
+  --bg-tab: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);
+  --bg-table: rgba(255, 255, 255, 0.88);
+
+  --glass-bg: linear-gradient(155deg, rgba(253, 242, 248, 0.92) 0%, rgba(245, 243, 255, 0.92) 50%, rgba(239, 246, 255, 0.92) 100%);
+  --glass-border: #ffffff;
+  --border-color: #ffffff;
+  --color-border: #ffffff;
+  --color-border-soft: rgba(255, 255, 255, 0.95);
+  --color-focus-ring: #6366f1;
+  --bg-nav-button-opaque: #ffffff;
+
+  --bg-nav-pill: linear-gradient(155deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 243, 255, 0.92) 55%, rgba(239, 246, 255, 0.94) 100%);
+  --shadow-nav-pill: 0 10px 24px -6px rgba(99, 102, 241, 0.16),
+    inset 0 2px 4px #ffffff;
+  --blur-nav-pill: 14px;
+  --divider-nav-pill: rgba(99, 102, 241, 0.22);
+
+  --border-subcard: #ffffff;
+  --shadow-subcard: 0 10px 24px -8px rgba(99, 102, 241, 0.14),
+    inset 0 2px 4px #ffffff;
+  --blur-subcard: 12px;
+  --bg-nested-badge: rgba(255, 255, 255, 0.94);
+  --border-nested-badge: #ffffff;
+
+  --pillar-heading: #1e1b4b;
+  --pillar-sub: #4f46e5;
+  --pillar-body: #312e81;
+  --pillar-badge-bg: rgba(255, 255, 255, 0.86);
+  --pillar-badge-text: #1e1b4b;
+  --pillar-divider: rgba(99, 102, 241, 0.16);
+  --pillar-progress-track: rgba(255, 255, 255, 0.80);
+  --pillar-progress-fill: linear-gradient(90deg, #6366f1 0%, #8b5cf6 52%, #ec4899 100%);
+
+  --shadow-card: 0 18px 36px -10px rgba(99, 102, 241, 0.16),
+    inset 0 2px 4px #ffffff;
+  --shadow-popup: 0 24px 48px -10px rgba(99, 102, 241, 0.24),
+    inset 0 2px 4px #ffffff;
+
+  /* Soft Gradient Pastel Bento Surface Variants */
+  --pastel-bento-main: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);
+  --pastel-bento-pink: linear-gradient(155deg, #fdf2f8 0%, #fce7f3 55%, #f5f3ff 100%);
+  --pastel-bento-lavender: linear-gradient(155deg, #f5f3ff 0%, #ede9fe 52%, #eff6ff 100%);
+  --pastel-bento-sky: linear-gradient(155deg, #eff6ff 0%, #e0f2fe 52%, #f5f3ff 100%);
+  --pastel-bento-reverse: linear-gradient(155deg, #eff6ff 0%, #f5f3ff 50%, #fdf2f8 100%);
+
+  /* Banner & Nav Arrow Tokens */
+  --banner-border: #ffffff;
+  --banner-shadow: 0 18px 36px -10px rgba(99, 102, 241, 0.20), inset 0 2px 4px #ffffff;
+  --bg-banner-pill: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);
+  --text-banner-pill: #1e1b4b;
+  --border-banner-pill: #ffffff;
+  --shadow-banner-pill: 0 10px 24px -6px rgba(99, 102, 241, 0.16), inset 0 2px 4px #ffffff;
+  --bg-banner-cta: linear-gradient(135deg, #4f46e5 0%, #7c3aed 52%, #db2777 100%);
+  --text-banner-cta: #ffffff;
+  --border-banner-cta: #ffffff;
+  --shadow-banner-cta: 0 10px 24px -6px rgba(99, 102, 241, 0.35);
+  --bg-nav-arrow: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);
+  --border-nav-arrow: #ffffff;
+  --text-nav-arrow: #1e1b4b;
+  --shadow-nav-arrow: 0 10px 22px -6px rgba(99, 102, 241, 0.16), inset 0 2px 4px #ffffff;
+}
+
+/* Soft Pastel Backdrop Veil */
+html[data-card-style="pastel-bento"] #global-wallpaper-layer::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(251, 207, 232, 0.32) 0%, transparent 48%),
+    radial-gradient(circle at 86% 18%, rgba(196, 181, 253, 0.30) 0%, transparent 48%),
+    radial-gradient(circle at 52% 88%, rgba(186, 230, 253, 0.34) 0%, transparent 52%);
+}
+
+/* Core Card Surfaces implementing exact .card-pastel-bento formula */
+html[data-card-style="pastel-bento"] #app-header,
+html[data-card-style="pastel-bento"] #app-footer,
+html[data-card-style="pastel-bento"] [id$="-page-container"],
+html[data-card-style="pastel-bento"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170),
+html[data-card-style="pastel-bento"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
+html[data-card-style="pastel-bento"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card) {
+  background: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%) !important;
+  border: 1.5px solid #ffffff !important;
+  box-shadow: 0 18px 36px -10px rgba(99, 102, 241, 0.16), inset 0 2px 4px #ffffff !important;
+  color: #1e1b4b !important;
+}
+
+/* Bento Cards Cycling Soft Pink -> Lavender -> Sky Tints */
+html[data-card-style="pastel-bento"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(3n+1),
+html[data-card-style="pastel-bento"] [id$="-page-container"] .grid > .bento-card:nth-of-type(3n+1),
+html[data-card-style="pastel-bento"] #education-courses-grid > .education-card:nth-of-type(3n+1),
+html[data-card-style="pastel-bento"] #systems-page-container .grid > div:nth-of-type(3n+1) .system-item,
+html[data-card-style="pastel-bento"] .project-detail-section-card:nth-of-type(3n+1) {
+  background: var(--pastel-bento-pink) !important;
+}
+
+html[data-card-style="pastel-bento"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(3n+2),
+html[data-card-style="pastel-bento"] [id$="-page-container"] .grid > .bento-card:nth-of-type(3n+2),
+html[data-card-style="pastel-bento"] #education-courses-grid > .education-card:nth-of-type(3n+2),
+html[data-card-style="pastel-bento"] #systems-page-container .grid > div:nth-of-type(3n+2) .system-item,
+html[data-card-style="pastel-bento"] .project-detail-section-card:nth-of-type(3n+2) {
+  background: var(--pastel-bento-lavender) !important;
+}
+
+html[data-card-style="pastel-bento"] [id$="-page-container"] .grid > [data-section-card="true"]:nth-of-type(3n+3),
+html[data-card-style="pastel-bento"] [id$="-page-container"] .grid > .bento-card:nth-of-type(3n+3),
+html[data-card-style="pastel-bento"] #education-courses-grid > .education-card:nth-of-type(3n+3),
+html[data-card-style="pastel-bento"] #systems-page-container .grid > div:nth-of-type(3n+3) .system-item,
+html[data-card-style="pastel-bento"] .project-detail-section-card:nth-of-type(3n+3) {
+  background: var(--pastel-bento-sky) !important;
+}
+
+/* Sub-cards inside Bento Pastel Dịu Nhẹ */
+html[data-card-style="pastel-bento"] [data-subcard="true"],
+html[data-card-style="pastel-bento"] .sub-card,
+html[data-card-style="pastel-bento"] .about-info-subcard,
+html[data-card-style="pastel-bento"] .experience-milestone-card,
+html[data-card-style="pastel-bento"] .exp-detail-card,
+html[data-card-style="pastel-bento"] .exp-detail-subcard,
+html[data-card-style="pastel-bento"] .pillar-gradient-card,
+html[data-card-style="pastel-bento"] .skill-swot-subcard,
+html[data-card-style="pastel-bento"] .project-detail-subcard,
+html[data-card-style="pastel-bento"] .education-subcard,
+html[data-card-style="pastel-bento"] .letter-subcard,
+html[data-card-style="pastel-bento"] .letter-header-subcard,
+html[data-card-style="pastel-bento"] .letter-footer-subcard {
+  background: linear-gradient(155deg, rgba(253, 242, 248, 0.92) 0%, rgba(245, 243, 255, 0.92) 50%, rgba(239, 246, 255, 0.92) 100%) !important;
+  border: 1.5px solid #ffffff !important;
+  box-shadow: 0 12px 26px -8px rgba(99, 102, 241, 0.14), inset 0 2px 4px #ffffff !important;
+  color: #1e1b4b !important;
+  border-radius: 16px !important;
+}
+
+/* Cycling Subcard Pastel Tints */
+html[data-card-style="pastel-bento"] .about-info-subcard:nth-of-type(3n+1),
+html[data-card-style="pastel-bento"] .exp-detail-subcard:nth-of-type(3n+1),
+html[data-card-style="pastel-bento"] .project-detail-subcard:nth-of-type(3n+1),
+html[data-card-style="pastel-bento"] .education-subcard:nth-of-type(3n+1),
+html[data-card-style="pastel-bento"] .skill-swot-subcard[data-swot="T"] {
+  background: var(--pastel-bento-pink) !important;
+}
+
+html[data-card-style="pastel-bento"] .about-info-subcard:nth-of-type(3n+2),
+html[data-card-style="pastel-bento"] .exp-detail-subcard:nth-of-type(3n+2),
+html[data-card-style="pastel-bento"] .project-detail-subcard:nth-of-type(3n+2),
+html[data-card-style="pastel-bento"] .education-subcard:nth-of-type(3n+2),
+html[data-card-style="pastel-bento"] .skill-swot-subcard[data-swot="O"] {
+  background: var(--pastel-bento-lavender) !important;
+}
+
+html[data-card-style="pastel-bento"] .about-info-subcard:nth-of-type(3n+3),
+html[data-card-style="pastel-bento"] .exp-detail-subcard:nth-of-type(3n+3),
+html[data-card-style="pastel-bento"] .project-detail-subcard:nth-of-type(3n+3),
+html[data-card-style="pastel-bento"] .education-subcard:nth-of-type(3n+3),
+html[data-card-style="pastel-bento"] .skill-swot-subcard[data-swot="S"],
+html[data-card-style="pastel-bento"] .skill-swot-subcard[data-swot="W"] {
+  background: var(--pastel-bento-sky) !important;
+}
+
+/* Multicolor Bento Tones aligned to Soft Gradient Pastel Bento UI */
+html[data-card-style="pastel-bento"] .bento-tone-indigo,
+html[data-card-style="pastel-bento"] .bento-tone-purple {
+  background: var(--pastel-bento-lavender) !important;
+  border: 1.5px solid #ffffff !important;
+  box-shadow: 0 18px 36px -10px rgba(99, 102, 241, 0.16), inset 0 2px 4px #ffffff !important;
+  color: #1e1b4b !important;
+}
+
+html[data-card-style="pastel-bento"] .bento-tone-pink,
+html[data-card-style="pastel-bento"] .bento-tone-amber {
+  background: var(--pastel-bento-pink) !important;
+  border: 1.5px solid #ffffff !important;
+  box-shadow: 0 18px 36px -10px rgba(99, 102, 241, 0.16), inset 0 2px 4px #ffffff !important;
+  color: #1e1b4b !important;
+}
+
+html[data-card-style="pastel-bento"] .bento-tone-cyan,
+html[data-card-style="pastel-bento"] .bento-tone-blue,
+html[data-card-style="pastel-bento"] .bento-tone-sky,
+html[data-card-style="pastel-bento"] .bento-tone-teal,
+html[data-card-style="pastel-bento"] .bento-tone-emerald {
+  background: var(--pastel-bento-sky) !important;
+  border: 1.5px solid #ffffff !important;
+  box-shadow: 0 18px 36px -10px rgba(99, 102, 241, 0.16), inset 0 2px 4px #ffffff !important;
+  color: #1e1b4b !important;
+}
+
+/* Popups, Dropdowns & Navigation Pills */
+html[data-card-style="pastel-bento"] #footer-theme-popup,
+html[data-card-style="pastel-bento"] #footer-lang-popup,
+html[data-card-style="pastel-bento"] #ai-assistant-droptop-menu-list,
+html[data-card-style="pastel-bento"] #ai-assistant-center-questions-modal,
+html[data-card-style="pastel-bento"] #interview-question-filter-listbox,
+html[data-card-style="pastel-bento"] #skills-filter-dropdown,
+html[data-card-style="pastel-bento"] #services-filter-dropdown,
+html[data-card-style="pastel-bento"] .banner-dropdown-menu,
+html[data-card-style="pastel-bento"] #systems-filter-listbox,
+html[data-card-style="pastel-bento"] #memories-filter-listbox,
+html[data-card-style="pastel-bento"] #horoscope-filter-listbox {
+  background: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%) !important;
+  border: 1.5px solid #ffffff !important;
+  box-shadow: 0 22px 44px -10px rgba(99, 102, 241, 0.24), inset 0 2px 4px #ffffff !important;
+  color: #1e1b4b !important;
+}
+
+html[data-card-style="pastel-bento"] #footer-nav-capsule,
+html[data-card-style="pastel-bento"] .banner-control-pill,
+html[data-card-style="pastel-bento"] .nav-arrow-btn,
+html[data-card-style="pastel-bento"] .theme-prev-next-btn,
+html[data-card-style="pastel-bento"] .theme-back-to-top-btn {
+  background: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%) !important;
+  color: #1e1b4b !important;
+  border: 1.5px solid #ffffff !important;
+  box-shadow: 0 12px 26px -8px rgba(99, 102, 241, 0.18), inset 0 2px 4px #ffffff !important;
+}
+
+/* Smooth Hover & WCAG Focus-Visible States */
+html[data-card-style="pastel-bento"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(.hero-banner):not(.banner-card):hover,
+html[data-card-style="pastel-bento"] .bento-card:not(#app-header):not(#app-footer):not(.hero-banner):not(.banner-card):hover,
+html[data-card-style="pastel-bento"] .sub-card:hover {
+  box-shadow: 0 22px 44px -10px rgba(99, 102, 241, 0.24), inset 0 2px 6px #ffffff !important;
+}
+
+html[data-card-style="pastel-bento"] button:focus-visible,
+html[data-card-style="pastel-bento"] a:focus-visible,
+html[data-card-style="pastel-bento"] [role="button"]:focus-visible {
+  outline: 2px solid #6366f1 !important;
+  outline-offset: 2px !important;
+}
+
+/* WCAG High Contrast Body Text */
+html[data-card-style="pastel-bento"] p:not([class*="text-"]),
+html[data-card-style="pastel-bento"] span:not([class*="text-"]):not([class*="bg-"]) {
+  color: #1e1b4b;
+}
+
+html[data-card-style="pastel-bento"] .themed-image-card {
+  border: 1.5px solid #ffffff !important;
+  box-shadow: 0 18px 36px -10px rgba(99, 102, 241, 0.18), inset 0 2px 4px #ffffff !important;
+}

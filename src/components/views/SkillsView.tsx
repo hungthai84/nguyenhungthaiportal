@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { WebIcon } from "@/components/ui/WebIcon";
 import { cn } from "@/lib/utils";
 import { SoundEngine } from "@/components/ui/SoundEngine";
-import { useTheme, getCardStyleProperties } from "@/hooks/useTheme";
 import { 
   STRENGTHS_DATA, 
   WEAKNESSES_DATA, 
@@ -86,9 +85,19 @@ const SwotCornerQuadrant: React.FC<SwotCornerQuadrantProps> = ({
   // R_inner = 92, R_outer = 126
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-pressed={!!isActive}
+      aria-label={`Lọc nhóm SWOT ${letter}`}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && onClick) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       className={cn(
-        "absolute w-28 h-28 sm:w-36 sm:h-36 z-20 cursor-pointer select-none transition-transform duration-300 hover:scale-105",
+        "absolute w-20 h-20 sm:w-32 sm:h-32 z-20 cursor-pointer select-none transition-transform duration-300 hover:scale-105",
         position === 'bottom-right' && "bottom-0 right-0",
         position === 'bottom-left' && "bottom-0 left-0",
         position === 'top-right' && "top-0 right-0",
@@ -107,11 +116,13 @@ const SwotCornerQuadrant: React.FC<SwotCornerQuadrantProps> = ({
             {/* Vành ngoài màu nhạt */}
             <path
               d="M 0 100 A 100 100 0 0 1 100 0 L 100 24 A 76 76 0 0 0 24 100 Z"
+              className="swot-corner-outer"
               fill={outerColor}
             />
             {/* Cung góc trong màu đậm */}
             <path
               d="M 28 100 A 72 72 0 0 1 100 28 L 100 100 Z"
+              className="swot-corner-inner"
               fill={innerColor}
             />
             {/* Ký tự S */}
@@ -137,11 +148,13 @@ const SwotCornerQuadrant: React.FC<SwotCornerQuadrantProps> = ({
             {/* Vành ngoài màu nhạt */}
             <path
               d="M 0 0 A 100 100 0 0 1 100 100 L 76 100 A 76 76 0 0 0 0 24 Z"
+              className="swot-corner-outer"
               fill={outerColor}
             />
             {/* Cung góc trong màu đậm */}
             <path
               d="M 0 28 A 72 72 0 0 1 72 100 L 0 100 Z"
+              className="swot-corner-inner"
               fill={innerColor}
             />
             {/* Ký tự W */}
@@ -167,11 +180,13 @@ const SwotCornerQuadrant: React.FC<SwotCornerQuadrantProps> = ({
             {/* Vành ngoài màu nhạt */}
             <path
               d="M 100 100 A 100 100 0 0 1 0 0 L 24 0 A 76 76 0 0 0 100 76 Z"
+              className="swot-corner-outer"
               fill={outerColor}
             />
             {/* Cung góc trong màu đậm */}
             <path
               d="M 100 72 A 72 72 0 0 1 28 0 L 100 0 Z"
+              className="swot-corner-inner"
               fill={innerColor}
             />
             {/* Ký tự O */}
@@ -197,11 +212,13 @@ const SwotCornerQuadrant: React.FC<SwotCornerQuadrantProps> = ({
             {/* Vành ngoài màu nhạt */}
             <path
               d="M 100 0 A 100 100 0 0 1 0 100 L 0 76 A 76 76 0 0 0 76 0 Z"
+              className="swot-corner-outer"
               fill={outerColor}
             />
             {/* Cung góc trong màu đậm */}
             <path
               d="M 72 0 A 72 72 0 0 1 0 72 L 0 0 Z"
+              className="swot-corner-inner"
               fill={innerColor}
             />
             {/* Ký tự T */}
@@ -231,9 +248,6 @@ export interface SkillsViewProps {
 export function Skills({ currentTheme }: SkillsViewProps = {}) {
   void currentTheme;
   const { language: lang, t } = useLanguage();
-  const { cardStyle, isDark } = useTheme();
-  const rawCardStyle = getCardStyleProperties(cardStyle);
-  const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cleanCardStyle } = rawCardStyle as any;
   const isVi = lang === "vi";
   const [selectedSwot, setSelectedSwot] = useState<string | null>(null);
   const [expandedSkillIds, setExpandedSkillIds] = useState<Set<string>>(new Set());
@@ -383,7 +397,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-hidden relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
+          className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
           style={{ padding: "15px", width: "100%", maxWidth: "100%", height: "200px", minHeight: "200px", maxHeight: "200px", borderRadius: "14px" }}
         >
           {/* Lớp nền hình ảnh và gradient phủ */}
@@ -441,7 +455,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                   id="skills-filter-toggle-btn"
                   type="button"
                   onClick={() => setIsFilterOpen((prev) => !prev)}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-[#334155] dark:text-[#E2E8F0] border border-slate-200/90 dark:border-[#334155] shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
+                  className="swot-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-slate-800 dark:text-[#E2E8F0] border border-slate-200/90 dark:border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
                   title={isVi ? "Bộ lọc năng lực" : "Skill Filter"}
                   aria-expanded={isFilterOpen}
                   aria-haspopup="listbox"
@@ -471,7 +485,8 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    className="bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] bg-white/98 dark:bg-[#111827]/98 text-[#334155] dark:text-[#E2E8F0] border border-slate-200 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1"
+                    style={{ background: 'var(--bg-popup)' }}
+                    className="bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] text-[#334155] dark:text-[#E2E8F0] border border-slate-200 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1"
                   >
                     {swotFilterOptions.map((opt) => {
                       const isActive = selectedSwot === opt.id;
@@ -512,6 +527,25 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                 )}
               </AnimatePresence>
             </div>
+
+              <button
+                id="skills-expand-all-btn"
+                type="button"
+                onClick={() => {
+                  SoundEngine.playTap();
+                  const allIds = QUADRANTS.flatMap((q) => q.data.map((d) => d.id));
+                  setExpandedSkillIds((prev) => (prev.size > 0 ? new Set() : new Set(allIds)));
+                }}
+                className="swot-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-slate-800 dark:text-[#E2E8F0] border border-slate-200/90 dark:border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-all cursor-pointer text-xs font-bold font-play active:scale-95"
+                title={expandedSkillIds.size > 0 ? (isVi ? "Thu gọn tất cả mô tả" : "Collapse all details") : (isVi ? "Mở rộng tất cả mô tả" : "Expand all details")}
+              >
+                <WebIcon name={expandedSkillIds.size > 0 ? "minimize" : "maximize-2"} className="w-3.5 h-3.5 text-[#1480C0] dark:text-sky-400 shrink-0" />
+                <span>
+                  {expandedSkillIds.size > 0
+                    ? isVi ? "Thu gọn mô tả" : "Collapse All"
+                    : isVi ? "Mở rộng mô tả" : "Expand All"}
+                </span>
+              </button>
           </div>
         </motion.div>
         )}
@@ -537,27 +571,16 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                     id={quad.id}
                     data-element-name={quad.elementName}
                     data-element-type="card"
+                    data-section-card="true"
                     data-element-page="skills"
+                    data-swot={quad.key}
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.35, delay: qIdx * 0.05 }}
                     className={cn(
-                      "w-full rounded-[14px] relative text-[#334155] dark:text-[#E2E8F0] shadow-[0_8px_30px_rgba(15,23,42,0.08)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.55)] border border-slate-200/90 dark:border-white/15 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between overflow-hidden p-5 sm:p-6 min-h-[300px]",
+                      "swot-quadrant-card bento-card glass-card w-full rounded-[14px] relative text-[#334155] dark:text-[#E2E8F0] transition-all duration-300 flex flex-col justify-between overflow-hidden p-5 sm:p-6 min-h-[300px]",
                       isSelected && "md:col-span-2 ring-2 ring-cyan-500"
                     )}
-                    style={{
-                      ...cleanCardStyle,
-                      background: isDark
-                        ? `linear-gradient(145deg, ${quad.titleColor}26 0%, rgba(10, 16, 38, 0.84) 100%)`
-                        : cardStyle === 'frosted-glass'
-                        ? `linear-gradient(145deg, ${quad.titleColor}14 0%, rgba(255, 255, 255, 0.96) 100%)`
-                        : cardStyle === 'mica-fluent'
-                        ? `linear-gradient(145deg, ${quad.titleColor}18 0%, rgba(248, 250, 252, 0.84) 100%)`
-                        : `linear-gradient(145deg, ${quad.titleColor}1e 0%, rgba(255, 255, 255, 0.72) 55%, rgba(236, 254, 255, 0.68) 100%)`,
-                      borderColor: isDark ? `${quad.titleColor}55` : `${quad.titleColor}40`,
-                      backdropFilter: cardStyle === 'frosted-glass' ? 'none' : 'blur(var(--bg-blur, 22px)) saturate(170%)',
-                      WebkitBackdropFilter: cardStyle === 'frosted-glass' ? 'none' : 'blur(var(--bg-blur, 22px)) saturate(170%)',
-                    }}
                   >
                     {/* Corner Quadrant Arc matching the exact model vector */}
                     <SwotCornerQuadrant
@@ -574,10 +597,10 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                       id={`${quad.id}-content`}
                       className={cn(
                         "relative z-10 flex flex-col justify-between w-full h-full",
-                        quad.key === "S" && (isSelected ? "pr-14 sm:pr-20" : "pr-10 sm:pr-14 md:pr-18"),
-                        quad.key === "W" && (isSelected ? "pl-14 sm:pl-20" : "pl-10 sm:pl-14 md:pl-18"),
-                        quad.key === "O" && (isSelected ? "pr-14 sm:pr-20" : "pr-10 sm:pr-14 md:pr-18"),
-                        quad.key === "T" && (isSelected ? "pl-14 sm:pl-20" : "pl-10 sm:pl-14 md:pl-18")
+                        quad.key === "S" && (isSelected ? "pr-12 sm:pr-20" : "pr-8 sm:pr-14 md:pr-18"),
+                        quad.key === "W" && (isSelected ? "pl-12 sm:pl-20" : "pl-8 sm:pl-14 md:pl-18"),
+                        quad.key === "O" && (isSelected ? "pr-12 sm:pr-20" : "pr-8 sm:pr-14 md:pr-18"),
+                        quad.key === "T" && (isSelected ? "pl-12 sm:pl-20" : "pl-8 sm:pl-14 md:pl-18")
                       )}
                     >
                       {/* Tiêu đề & phụ đề: Thêm icon trước tiêu đề, tiêu đề 4 chữ tiếng Việt (viết Hoa chữ đầu còn lại viết thường) */}
@@ -603,13 +626,13 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                           <div className="flex items-center gap-2.5">
                             <WebIcon
                               name={quad.icon}
-                              className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                              style={{ color: quad.titleColor, width: '18px', height: '18px' }}
+                              className="swot-quadrant-icon w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                              style={{ width: '18px', height: '18px' }}
                             />
                             <h2
                               id={`${quad.id}-title`}
-                              className="text-[18px] font-bold font-play tracking-tight leading-tight"
-                              style={{ color: quad.titleColor, fontSize: '18px', fontWeight: 700, textTransform: "none" }}
+                              className="swot-quadrant-title text-[18px] font-bold font-play tracking-tight leading-tight"
+                              style={{ fontSize: '18px', fontWeight: 700, textTransform: "none" }}
                             >
                               {quad.title}
                             </h2>
@@ -621,7 +644,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                 e.stopPropagation();
                                 setSelectedSwot(null);
                               }}
-                              className="px-2.5 py-1 rounded-[14px] text-xs font-bold font-play border border-slate-300 dark:border-slate-700 bg-white/90 dark:bg-slate-800 hover:bg-slate-100 text-slate-700 dark:text-slate-200 transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                              className="swot-control-pill px-3 py-1 rounded-full text-xs font-bold font-play border border-slate-300 dark:border-white/20 text-slate-700 dark:text-slate-200 transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
                               title={isVi ? "Hiển thị tất cả (#ALL)" : "Show all (#ALL)"}
                             >
                               <WebIcon name="cancel" className="w-3.5 h-3.5" />
@@ -629,7 +652,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                             </button>
                           )}
                         </div>
-                        <p className={cn("text-[13px] text-slate-600 dark:text-slate-300 mt-2 leading-relaxed w-full", !isSelected && (quad.key === "W" || quad.key === "T") ? "text-right" : "text-left")}>
+                        <p className={cn("swot-quadrant-desc text-[13px] text-slate-600 dark:text-slate-300 mt-2 leading-relaxed w-full", !isSelected && (quad.key === "W" || quad.key === "T") ? "text-right" : "text-left")}>
                           {isVi ? quad.descVi : quad.descEn}
                         </p>
                       </div>
@@ -658,6 +681,9 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                               key={item.id}
                               role="button"
                               tabIndex={0}
+                              data-subcard="true"
+                              data-swot={quad.key}
+                              data-expanded={isExpanded ? "true" : "false"}
                               aria-expanded={isExpanded}
                               onClick={() => toggleSkillAccordion(item.id)}
                               onKeyDown={(e) => {
@@ -667,12 +693,11 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                 }
                               }}
                               className={cn(
-                                "group/item flex flex-col gap-1.5 rounded-[14px] p-2.5 transition-all duration-200 border cursor-pointer select-none",
+                                "skill-swot-subcard group/item flex flex-col gap-1.5 rounded-[12px] p-2.5 transition-all duration-200 cursor-pointer select-none",
                                 isExpanded
-                                  ? "border-slate-400/70 dark:border-white/30 shadow-xs ring-1 ring-slate-400/30 dark:ring-white/15"
-                                  : "border-slate-200/60 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 hover:shadow-xs active:scale-[0.995]"
+                                  ? "shadow-xs"
+                                  : "hover:shadow-xs active:scale-[0.995]"
                               )}
-                              style={{ backgroundColor: `${quad.titleColor}10` }}
                               title={
                                 isExpanded
                                   ? isVi
@@ -686,24 +711,19 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                               <div className="flex flex-nowrap items-center justify-between gap-1.5 sm:gap-2 w-full min-w-0">
                                 <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
                                   {/* Số thứ tự & "." */}
-                                  <span
-                                    className="text-xs sm:text-[13px] font-mono font-black shrink-0 w-4 sm:w-5 text-right"
-                                    style={{ color: quad.bulletColor }}
-                                  >
+                                  <span className="swot-skill-index text-xs sm:text-[13px] font-mono font-black shrink-0 w-4 sm:w-5 text-right">
                                     {idx + 1}.
                                   </span>
 
                                   {/* Icon kỹ năng */}
                                   <WebIcon
                                     name={skillIcon}
-                                    className="w-4 h-4 shrink-0"
-                                    style={{ color: quad.bulletColor }}
+                                    className="swot-skill-icon w-4 h-4 shrink-0"
                                   />
 
                                   {/* Tên kỹ năng: 1 dòng, truncate khi quá dài */}
                                   <span
-                                    className="text-[14px] sm:text-[15px] font-bold leading-snug font-play flex-1 min-w-0 truncate"
-                                    style={{ color: quad.titleColor }}
+                                    className="swot-skill-name text-[14px] sm:text-[15px] font-bold leading-snug font-play flex-1 min-w-0 truncate"
                                     title={formattedName}
                                   >
                                     {formattedName}
@@ -714,24 +734,20 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                   {/* Thanh màu % hiển thị khi kích thước đảm bảo hiển thị được */}
                                   <div
                                     className={cn(
-                                      "h-2 rounded-full bg-slate-200/90 dark:bg-slate-700/80 overflow-hidden shrink-0 shadow-inner",
+                                      "swot-skill-track h-2 rounded-full overflow-hidden shrink-0 shadow-inner",
                                       isSelected ? "block w-20 sm:w-28" : "hidden sm:block w-16 lg:w-20"
                                     )}
                                     title={percentLabel}
                                   >
                                     <div
-                                      className="h-full rounded-full transition-all duration-500"
-                                      style={{
-                                        width: `${item.percent}%`,
-                                        backgroundColor: quad.bulletColor,
-                                      }}
+                                      className="swot-skill-fill h-full rounded-full transition-all duration-500"
+                                      style={{ width: `${item.percent}%` }}
                                     />
                                   </div>
 
                                   {/* Số % đảm bảo luôn hiển thị */}
                                   <span
-                                    className="text-[11px] sm:text-xs font-mono font-black shrink-0 w-8 sm:w-9 text-right"
-                                    style={{ color: quad.bulletColor }}
+                                    className="swot-skill-percent text-[11px] sm:text-xs font-mono font-black shrink-0 w-8 sm:w-9 text-right"
                                     title={percentLabel}
                                   >
                                     {item.percent}%
@@ -739,18 +755,15 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
 
                                   {/* Icon mũi tên Accordion (Disclosure) xoay 180 độ khi mở */}
                                   <div
-                                    className="w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 ml-0.5"
-                                    style={{
-                                      backgroundColor: isExpanded ? `${quad.bulletColor}22` : 'transparent',
-                                    }}
+                                    className="swot-skill-chevron-wrap w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 ml-0.5"
+                                    data-expanded={isExpanded ? "true" : "false"}
                                   >
                                     <WebIcon
                                       name="chevron-down"
                                       className={cn(
-                                        "w-3.5 h-3.5 transition-transform duration-300",
-                                        isExpanded ? "rotate-180" : "opacity-60 group-hover/item:opacity-100"
+                                        "swot-skill-chevron w-3.5 h-3.5 transition-transform duration-300",
+                                        isExpanded ? "rotate-180" : "opacity-65 group-hover/item:opacity-100"
                                       )}
-                                      style={{ color: quad.bulletColor }}
                                     />
                                   </div>
                                 </div>
@@ -767,17 +780,16 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                     transition={{ duration: 0.28, ease: [0.04, 0.62, 0.23, 0.98] }}
                                     className="overflow-hidden"
                                   >
-                                    <div className="mt-2 pt-2 border-t border-slate-200/80 dark:border-white/15 text-left flex items-start gap-2 bg-white/60 dark:bg-slate-900/60 p-2 rounded-[10px]">
+                                    <div className="swot-skill-disclosure mt-2 pt-2 text-left flex items-start gap-2 p-2.5 rounded-[10px]">
                                       <WebIcon
                                         name="info"
-                                        className="w-4 h-4 shrink-0 mt-0.5 opacity-90"
-                                        style={{ color: quad.bulletColor }}
+                                        className="swot-skill-icon w-4 h-4 shrink-0 mt-0.5 opacity-90"
                                       />
                                       <div className="flex-1 min-w-0">
-                                        <span className="text-[11px] font-mono font-bold uppercase tracking-wider block opacity-75 mb-0.5" style={{ color: quad.bulletColor }}>
+                                        <span className="swot-skill-disclosure-label text-[11px] font-mono font-bold tracking-wide block opacity-85 mb-0.5">
                                           {isVi ? "Mô tả kỹ năng thực chiến" : "Practical Skill Description"}
                                         </span>
-                                        <p className="text-[13px] sm:text-[14px] text-slate-800 dark:text-slate-100 font-medium leading-relaxed">
+                                        <p className="swot-skill-disclosure-text text-[13px] sm:text-[14px] text-slate-800 dark:text-slate-100 font-medium leading-relaxed">
                                           {itemDesc}
                                         </p>
                                       </div>
@@ -809,7 +821,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="bento-card glass-card w-full p-5 sm:p-6 border border-slate-200/90 dark:border-[#334155] rounded-[14px] bg-white/95 dark:bg-[#111827]/90 text-[#334155] dark:text-[#E2E8F0] shadow-[0_8px_30px_rgba(15,23,42,0.06)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.55)] backdrop-blur-xl flex flex-col gap-4 text-left"
+            className="bento-card glass-card w-full p-5 sm:p-6 rounded-[14px] text-[#334155] dark:text-[#E2E8F0] flex flex-col gap-4 text-left"
             style={{ borderRadius: '14px' }}
           >
             <div id="skills-languages-header" className="flex items-center justify-between border-b border-slate-200/70 dark:border-white/15 pb-3">
@@ -827,10 +839,10 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                   <div 
                     id={`skills-language-card-${langItem.id}`}
                     key={langItem.id}
+                    data-subcard="true"
                     data-element-name={`Thẻ ngôn ngữ: ${langItem.nameVi}`}
-                    data-element-type="card"
                     data-element-page="skills"
-                    className="bento-card glass-card w-full h-full min-w-0 flex items-center gap-4 p-4 rounded-[14px] border border-slate-200/90 dark:border-[#334155] bg-white/85 dark:bg-slate-900/85 transition-all duration-300 hover:scale-[1.012] hover:shadow-md"
+                    className="exp-detail-subcard w-full h-full min-w-0 flex items-center gap-4 p-4 rounded-[12px] transition-all duration-300 hover:scale-[1.012] hover:shadow-md"
                   >
                     <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
                       <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
@@ -844,16 +856,16 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" 
                         />
                       </svg>
-                      <span className="absolute text-xs font-mono font-black text-slate-800 dark:text-[#F8FAFC]">
+                      <span className="about-info-value absolute text-xs font-mono font-black text-slate-800 dark:text-[#F8FAFC]">
                         {langItem.percent}%
                       </span>
                     </div>
 
                     <div className="flex flex-col min-w-0 text-left">
-                      <h3 className="font-bold text-base text-slate-900 dark:text-[#F8FAFC] font-play">
+                      <h3 className={cn("font-bold text-base font-play", langItem.color)}>
                         {isVi ? langItem.nameVi : langItem.nameEn}
                       </h3>
-                      <span className="text-xs text-slate-700 dark:text-slate-300 font-medium mt-0.5">
+                      <span className="about-info-label text-xs text-slate-700 dark:text-slate-300 font-medium mt-0.5">
                         {isVi ? langItem.roleVi : langItem.roleEn}
                       </span>
                       {(isVi ? langItem.levelVi : langItem.levelEn) && langItem.id !== "ai" && langItem.id !== "vi" && (

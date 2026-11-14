@@ -128,17 +128,22 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
         setIsFilterDropdownOpen(false);
       }
     };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isFilterDropdownOpen) {
+        setIsFilterDropdownOpen(false);
+      }
+    };
     if (isFilterDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+      window.addEventListener('keydown', handleKeyDown);
     }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isFilterDropdownOpen]);
 
-  // Silence unused state warnings while keeping exact structure
   void currentTheme;
-  void setActiveFilter;
-  void INTERVIEW_TABS;
-  void filteredQuestions;
 
   return (
     <div
@@ -158,7 +163,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-name="Banner Video Phỏng Vấn"
           data-element-type="banner-card"
           data-section-card="true"
-          className="lg:w-[70%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden border border-white/80 dark:border-[#334155] shadow-xl p-[15px] text-white shrink-0 z-30 flex flex-col justify-between bg-[#0B1220] group"
+          className="lg:w-[70%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-visible border border-white/80 dark:border-[#334155] shadow-xl p-[15px] text-white shrink-0 z-30 flex flex-col justify-between bg-[#0B1220] group"
           style={{ padding: '15px', borderRadius: '14px' }}
         >
           {/* Nền Video phỏng vấn trực tiếp lắp đầy 100% banner */}
@@ -228,7 +233,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                   className="w-4 h-4 text-indigo-600 dark:text-indigo-400 transition-transform group-hover:rotate-45 shrink-0"
                 />
                 <span className="shrink-0">Bộ lọc câu hỏi</span>
-                <span className="px-2.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950/80 border border-indigo-300 dark:border-indigo-500/50 text-[11px] font-mono text-indigo-900 dark:text-indigo-200 font-bold max-w-[200px] sm:max-w-[340px] md:max-w-[420px] lg:max-w-[500px] truncate">
+                <span className="px-2.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950/80 border border-indigo-300 dark:border-indigo-500/50 text-[11px] font-mono text-indigo-900 dark:text-indigo-200 font-bold max-w-[140px] sm:max-w-[340px] md:max-w-[420px] lg:max-w-[500px] truncate">
                   Câu {String(currentQ.stt).padStart(2, '0')}: {currentQ.questionVi.replace(/^Câu hỏi\s*\d+:\s*/i, '')}
                 </span>
                 <WebIcon
@@ -244,17 +249,40 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 <div
                   id="interview-question-filter-listbox"
                   role="listbox"
-                  className="bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-72 sm:w-96 max-h-60 overflow-y-auto no-scrollbar rounded-[14px] bg-white/95 dark:bg-[#111827]/95 border border-indigo-200/90 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.25)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-[#1E1B4B] dark:text-[#F8FAFC]"
+                  className="bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-72 sm:w-96 max-h-72 overflow-y-auto no-scrollbar rounded-[14px] bg-white/95 dark:bg-[#111827]/95 border border-indigo-200/90 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.25)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-[#1E1B4B] dark:text-[#F8FAFC]"
                   style={cardSampleStyle}
                 >
-                  <div className="px-2.5 py-1 text-[11px] font-mono font-bold text-[#475569] dark:text-[#94A3B8] border-b border-black/5 dark:border-[#334155] flex items-center justify-between sticky top-0 bg-white/95 dark:bg-[#111827]/95 z-10">
-                    <span>Danh sách {INTERVIEW_QUESTIONS.length} câu hỏi phỏng vấn</span>
-                    <span className="text-indigo-600 dark:text-indigo-400">
-                      {String(currentQIdx + 1).padStart(2, '0')}/{String(INTERVIEW_QUESTIONS.length).padStart(2, '0')}
-                    </span>
+                  <div className="px-2 py-1.5 border-b border-black/5 dark:border-[#334155] flex flex-col gap-1.5 sticky top-0 bg-white/95 dark:bg-[#111827]/95 z-10">
+                    <div className="flex items-center justify-between text-[11px] font-mono font-bold text-[#475569] dark:text-[#94A3B8]">
+                      <span>Hiển thị {filteredQuestions.length}/{INTERVIEW_QUESTIONS.length} câu hỏi</span>
+                      <span className="text-indigo-600 dark:text-indigo-400">
+                        {String(currentQIdx + 1).padStart(2, '0')}/{String(INTERVIEW_QUESTIONS.length).padStart(2, '0')}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {INTERVIEW_TABS.map((tab) => {
+                        const isTabActive = activeFilter === tab.key;
+                        return (
+                          <button
+                            key={tab.key}
+                            type="button"
+                            onClick={() => setActiveFilter(tab.key)}
+                            className={cn(
+                              'px-2 py-0.5 rounded-full text-[10.5px] font-bold transition-all cursor-pointer border',
+                              isTabActive
+                                ? 'bg-indigo-600 text-white border-indigo-600 shadow-2xs'
+                                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-indigo-50 dark:hover:bg-slate-700'
+                            )}
+                          >
+                            {tab.labelVi}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
-                  {INTERVIEW_QUESTIONS.map((q, idx) => {
-                    const isSelected = idx === currentQIdx;
+                  {filteredQuestions.map((q) => {
+                    const origIdx = INTERVIEW_QUESTIONS.findIndex((item) => item.stt === q.stt);
+                    const isSelected = origIdx === currentQIdx;
                     return (
                       <button
                         key={q.stt}
@@ -262,7 +290,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                         role="option"
                         aria-selected={isSelected}
                         onClick={() => {
-                          selectQuestion(idx);
+                          selectQuestion(origIdx !== -1 ? origIdx : 0);
                           setIsFilterDropdownOpen(false);
                         }}
                         className={cn(
@@ -302,7 +330,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
             <div className="flex items-center justify-end gap-3 pointer-events-auto">
               <div
                 id="interview-play-video-capsule"
-                data-element-type="card"
+                onClick={() => togglePlay()}
                 className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-[999px] bg-gradient-to-r from-rose-600 via-purple-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white shadow-[0_4px_20px_rgba(225,29,72,0.5)] hover:shadow-[0_6px_24px_rgba(225,29,72,0.7)] transition-all duration-300 cursor-pointer pointer-events-auto border border-white/35 active:scale-98 select-none"
               >
                 {/* Speaker Toggle Button */}
@@ -346,9 +374,16 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                     title="Bấm để phát video phỏng vấn"
                   >
                     <span className="flex items-center justify-center">
-                      <WebIcon name="play" className="w-4 h-4 fill-white text-white shrink-0" style={{ fontSize: '15px', height: '16px', width: '16px' }} />
+                      <WebIcon
+                        name="play"
+                        className="w-4 h-4 fill-white text-white shrink-0"
+                        style={{ fontSize: '15px', height: '16px', width: '16px' }}
+                      />
                     </span>
-                    <span className="drop-shadow-sm font-black text-[15px] text-white truncate font-play text-left" style={{ fontSize: '15px', textAlign: 'left' }}>
+                    <span
+                      className="drop-shadow-sm font-black text-[15px] text-white truncate font-play text-left"
+                      style={{ fontSize: '15px', textAlign: 'left' }}
+                    >
                       Phát Video
                     </span>
                   </button>
@@ -364,9 +399,16 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                     title="Bấm để hủy phát video"
                   >
                     <span className="flex items-center justify-center">
-                      <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-white shrink-0" style={{ fontSize: '15px', height: '16px', width: '16px' }} />
+                      <WebIcon
+                        name="cancel"
+                        className="w-4 h-4 stroke-[2.8] text-white shrink-0"
+                        style={{ fontSize: '15px', height: '16px', width: '16px' }}
+                      />
                     </span>
-                    <span className="drop-shadow-sm font-black text-[15px] text-white truncate font-play text-left" style={{ fontSize: '15px', textAlign: 'left' }}>
+                    <span
+                      className="drop-shadow-sm font-black text-[15px] text-white truncate font-play text-left"
+                      style={{ fontSize: '15px', textAlign: 'left' }}
+                    >
                       Hủy Phát
                     </span>
                   </button>
@@ -382,17 +424,18 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-name="Thẻ Chi Tiết Trả Lời Phỏng Vấn"
           data-element-type="card"
           data-section-card="true"
-          className="lg:w-[30%] w-full min-h-[360px] lg:min-h-0 lg:h-full flex flex-col rounded-[14px] bg-white/85 dark:bg-[#111827]/90 border border-[#CBD5E1] dark:border-[#334155] p-[15px] backdrop-blur-2xl transition-all duration-300 text-left justify-between gap-[15px] relative overflow-hidden"
+          className="lg:w-[30%] w-full min-h-[360px] lg:min-h-0 lg:h-full flex flex-col rounded-[14px] exp-detail-card border p-[15px] transition-all duration-300 text-left justify-between gap-[15px] relative overflow-hidden"
+          style={cardSampleStyle}
         >
           <div className="space-y-2.5 flex-1 flex flex-col min-h-0 relative z-10">
             {/* Header Tiêu đề thẻ */}
             <div className="space-y-1.5 shrink-0">
               <div className="flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
-                  <h3 className="card-title text-pink-600 dark:text-pink-400">
-                    <svg className="w-4.5 h-4.5 stroke-[2] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <h3 className="card-title flex items-center gap-2 text-[17px] sm:text-[18px] font-bold text-pink-600 dark:text-pink-400">
+                    <svg className="w-[18px] h-[18px] stroke-[2] shrink-0 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
-                    <span>Chi Tiết Trả Lời</span>
+                    <span className="text-pink-600 dark:text-pink-400">Chi Tiết Trả Lời</span>
                   </h3>
               </div>
 
@@ -403,14 +446,15 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
             <div
               id="interview-progress-card"
               data-element-type="card"
-              className="bento-card flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shrink-0 text-xs font-semibold"
+              data-subcard="true"
+              className="exp-detail-subcard bento-card flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] border shrink-0 text-xs font-semibold"
             >
               <div className="flex items-center gap-1 text-slate-600 dark:text-slate-300 font-mono text-[11px]">
                 <WebIcon name="clock" className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
                 <span>{currentQ.timestamp}</span>
               </div>
               <div className="flex items-center gap-2 flex-1 min-w-0">
-                <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                <div className="w-full h-1.5 rounded-full bg-slate-200/80 dark:bg-slate-700/80 overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-pink-500 to-indigo-600 rounded-full transition-all duration-200"
                     style={{ width: `${progressPct}%` }}
@@ -428,22 +472,23 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               <div
                 id="interview-asker-card"
                 data-element-type="card"
-                className="bento-card p-3 rounded-[14px] bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-1"
+                data-subcard="true"
+                className="exp-detail-subcard bento-card p-3 rounded-[14px] border space-y-1"
               >
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-[14px] font-mono font-black text-indigo-700 dark:text-indigo-300 tracking-wide shrink-0" style={{ fontSize: '14px' }}>
+                <div className="flex items-center gap-1.5 flex-wrap text-indigo-600 dark:text-indigo-400">
+                  <span className="text-[15px] sm:text-[16px] font-mono font-black tracking-wide shrink-0">
                     Q{String(currentQ.stt).padStart(2, '0')}:
                   </span>
-                  <WebIcon name="building" className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" style={{ fontWeight: 'bold' }} />
-                  <span className="text-[14px] font-black text-indigo-950 dark:text-indigo-200 tracking-wide" style={{ fontSize: '14px' }}>
+                  <WebIcon name="building" className="w-4 h-4 shrink-0" style={{ fontWeight: 'bold' }} />
+                  <span className="text-[15px] sm:text-[16px] font-black tracking-wide">
                     {currentQ.askerVi}
                   </span>
                 </div>
                 <h3
                   id="interview-question-title"
-                  className="card-title text-slate-900 dark:text-white"
+                  className="text-slate-900 dark:text-white font-normal m-0"
                 >
-                  <span className="text-[14px] font-normal" style={{ fontSize: '14px', fontWeight: 'normal' }}>
+                  <span className="text-[14px] font-normal">
                     {currentQ.questionVi.replace(/^Câu hỏi\s*\d+:\s*/, '')}
                   </span>
                 </h3>
@@ -453,15 +498,16 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               <div
                 id="interview-answerer-card"
                 data-element-type="card"
-                className="bento-card p-3 rounded-[14px] bg-indigo-50/50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-800/60 space-y-1"
+                data-subcard="true"
+                className="exp-detail-subcard bento-card p-3 rounded-[14px] border space-y-1"
               >
-                <div className="flex items-center gap-1.5">
-                  <WebIcon name="user" className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  <span className="text-[14px] font-black text-emerald-950 dark:text-emerald-200 tracking-wide" style={{ fontSize: '14px' }}>
+                <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+                  <WebIcon name="user" className="w-4 h-4 shrink-0" />
+                  <span className="text-[15px] sm:text-[16px] font-black tracking-wide">
                     {currentQ.answererVi}
                   </span>
                 </div>
-                <p className="text-[14px] text-slate-700 dark:text-slate-200 leading-relaxed font-normal" style={{ fontSize: '14px' }}>
+                <p className="text-[14px] text-slate-700 dark:text-slate-200 leading-relaxed font-normal">
                   {currentQ.answerVi}
                 </p>
               </div>
@@ -470,12 +516,13 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               <div
                 id="interview-insights-card"
                 data-element-type="card"
-                className="bento-card p-3 rounded-[14px] bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex items-start gap-2 shrink-0"
+                data-subcard="true"
+                className="exp-detail-subcard bento-card p-3 rounded-[14px] border flex items-start gap-2 shrink-0"
               >
-                <WebIcon name="trophy" className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                <div className="text-[14px] text-amber-950 dark:text-amber-200 font-medium leading-relaxed" style={{ fontSize: '14px' }}>
-                  <span className="font-extrabold text-amber-800 dark:text-amber-300 inline-flex items-center gap-1 mr-1">
-                    <WebIcon name="target" className="w-3 h-3 text-amber-700 dark:text-amber-400" />
+                <WebIcon name="trophy" className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-1" />
+                <div className="text-[14px] text-slate-700 dark:text-slate-200 font-medium leading-relaxed">
+                  <span className="text-[15px] sm:text-[16px] font-extrabold text-amber-600 dark:text-amber-400 inline-flex items-center gap-1.5 mr-1.5">
+                    <WebIcon name="target" className="w-4 h-4 shrink-0" />
                     <span>Trọng tâm:</span>
                   </span>
                   <span>{currentQ.keyTakeawayVi}</span>

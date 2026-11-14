@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-neon"], [data-theme="dark-neon"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-neon"], [data-theme="dark-neon"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -26,7 +26,9 @@
 @import "./styles/themes/frosted-glass.css";
 @import "./styles/themes/glassmorphism.css";
 @import "./styles/themes/mica-fluent.css";
+@import "./styles/themes/pastel-bento.css";
 @import "./styles/themes/glassmorphism-neon.css";
+@import "./styles/themes/cowhide-leather.css";
 
 /* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection */
 .typo-h1 { font-size: var(--fs-h1); line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }

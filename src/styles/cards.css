@@ -41,6 +41,7 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 #about-core-values-card,
 #about-philosophy-card,
 #experience-job-detail-card,
+#experience-timeline-track-card,
 #systems-admin-card,
 #systems-workflow-card,
 #systems-tech-card,
@@ -62,15 +63,7 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 
 #experience-timeline-track-card,
 #experience-timeline-track-card:hover {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
   transform: none !important;
-  padding: 0 !important;
 }
 
 [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
@@ -239,9 +232,92 @@ html.dark .bento-tone-sky {
 [data-subcard="true"],
 .sub-card {
   background: var(--bg-subcard);
-  border: 1px solid var(--color-border-soft);
+  border: 1px solid var(--border-subcard, var(--color-border-soft));
   border-radius: var(--radius-subcard);
+  box-shadow: var(--shadow-subcard);
+  backdrop-filter: blur(var(--blur-subcard, 0px));
+  -webkit-backdrop-filter: blur(var(--blur-subcard, 0px));
+  outline: var(--outline-subcard, none);
+  outline-offset: var(--outline-offset-subcard, 0px);
   padding: 12px;
+}
+
+.exp-icon-badge {
+  background: var(--bg-nested-badge, #FFFFFF) !important;
+  border-color: var(--border-nested-badge, #CBD5E1) !important;
+}
+
+.pillar-gradient-card {
+  background: var(--bg-subcard);
+  border: 1px solid var(--border-subcard, var(--color-border-soft));
+  box-shadow: var(--shadow-subcard);
+  backdrop-filter: blur(var(--blur-subcard, 0px));
+  -webkit-backdrop-filter: blur(var(--blur-subcard, 0px));
+  outline: var(--outline-subcard, none);
+  outline-offset: var(--outline-offset-subcard, 0px);
+  color: var(--pillar-body);
+}
+
+.pillar-gradient-card[data-accent="blue"] .pillar-heading {
+  color: #2563EB;
+}
+html.dark .pillar-gradient-card[data-accent="blue"] .pillar-heading {
+  color: #7DD3FC;
+}
+.pillar-gradient-card[data-accent="rose"] .pillar-heading {
+  color: #E11D48;
+}
+html.dark .pillar-gradient-card[data-accent="rose"] .pillar-heading {
+  color: #FDA4AF;
+}
+.pillar-gradient-card[data-accent="emerald"] .pillar-heading {
+  color: #059669;
+}
+html.dark .pillar-gradient-card[data-accent="emerald"] .pillar-heading {
+  color: #6EE7B7;
+}
+.pillar-gradient-card[data-accent="amber"] .pillar-heading {
+  color: #D97706;
+}
+html.dark .pillar-gradient-card[data-accent="amber"] .pillar-heading {
+  color: #FCD34D;
+}
+.pillar-gradient-card[data-accent="pink"] .pillar-heading {
+  color: #DB2777;
+}
+html.dark .pillar-gradient-card[data-accent="pink"] .pillar-heading {
+  color: #F9A8D4;
+}
+.pillar-gradient-card[data-accent="purple"] .pillar-heading {
+  color: #9333EA;
+}
+html.dark .pillar-gradient-card[data-accent="purple"] .pillar-heading {
+  color: #D8B4FE;
+}
+
+.pillar-gradient-card .pillar-sub {
+  color: var(--pillar-sub);
+}
+
+.pillar-gradient-card .pillar-body {
+  color: var(--pillar-body);
+}
+
+.pillar-gradient-card .pillar-badge {
+  background: var(--pillar-badge-bg);
+  color: var(--pillar-badge-text);
+}
+
+.pillar-gradient-card .pillar-divider {
+  border-color: var(--pillar-divider);
+}
+
+.pillar-gradient-card .pillar-progress-track {
+  background: var(--pillar-progress-track);
+}
+
+.pillar-gradient-card .pillar-progress-fill {
+  background: var(--pillar-progress-fill);
 }
 
 #app-header {
@@ -266,17 +342,41 @@ html.dark .bento-tone-sky {
   border-radius: var(--radius-footer, 14px 14px 0 0) !important;
 }
 
-/* WEATHER CARD & HOROSCOPE SLIDE CONTAINERS 100% TRANSPARENT */
+/* WEATHER CARD & HOROSCOPE SLIDE CONTAINERS 100% TRANSPARENT & MAX FULL SIZE */
 #weather-card,
 .weather-card,
+#el-p10-div-114,
+#el-p10-div-170 {
+  background-color: transparent !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
 #horoscope-destiny-card,
 #horoscope-destiny-card:hover,
 #horoscope-pillars-container,
 #horoscope-pillars-container:hover,
 #horoscope-slide-3,
 #horoscope-slide-3:hover,
-#el-p10-div-114,
-#el-p10-div-170 {
+#horoscope-lookup-card,
+#horoscope-lookup-card:hover,
+div#horoscope-page-container > div#horoscope-destiny-card,
+div#horoscope-page-container > div#horoscope-pillars-container,
+div#horoscope-page-container > div#horoscope-slide-3,
+div#horoscope-page-container > div#horoscope-lookup-card,
+div#horoscope-page-container > div[data-element-type="card"],
+div#horoscope-page-container > div[data-section-card="true"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  flex: 1 1 100% !important;
+  flex-grow: 1 !important;
   background-color: transparent !important;
   background: transparent !important;
   background-image: none !important;
@@ -457,7 +557,36 @@ h3.card-title,
 }
 
 /* ========================================================================= */
-/* NỀN KHÔNG TRONG SUỐT THEO NỀN GIAO DIỆN CHO NÚT HEADER VÀ FOOTER         */
+/* #82 DA NÂU BÒ THỦ CÔNG - FULL-GRAIN COWHIDE LEATHER WITH STITCHED BORDER  */
+/* ========================================================================= */
+.card-cowhide-leather {
+  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%);
+  border: 2px solid #522E10;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.45), inset 0 2px 4px rgba(255, 220, 180, 0.25), inset 0 -3px 6px rgba(0, 0, 0, 0.6);
+  color: #FFF8DC;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.55);
+  outline-offset: -7px;
+}
+
+/* ========================================================================= */
+/* BENTO PASTEL DỊU NHẸ - SOFT GRADIENT PASTEL BENTO BOX UI                  */
+/* ========================================================================= */
+.card-pastel-bento {
+  background: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 18px 36px -10px rgba(99, 102, 241, 0.16), inset 0 2px 4px #ffffff;
+  color: #1e1b4b;
+  border-radius: 20px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-pastel-bento:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 42px -10px rgba(99, 102, 241, 0.24), inset 0 2px 5px #ffffff;
+}
+
+/* ========================================================================= */
+/* NỀN & CHẤT LIỆU THEO GIAO DIỆN CHO NÚT MENU HEADER VÀ FOOTER BÊN PHẢI     */
 /* ========================================================================= */
 #app-header nav button.nav-pill:not(.active),
 #header-btn-hungthai-avatar:not(.active),
@@ -465,25 +594,298 @@ h3.card-title,
 #footer-appearance-btn:not(.active),
 #footer-wallpaper-btn:not(.active),
 #footer-ai-btn:not(.active) {
-  background-color: var(--bg-nav-button-opaque, #FFFFFF) !important;
-  background-image: none !important;
+  background: var(--bg-nav-pill, var(--bg-nav-button-opaque, #FFFFFF)) !important;
+  box-shadow: var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08)) !important;
+  backdrop-filter: blur(var(--blur-nav-pill, 0px)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--blur-nav-pill, 0px)) saturate(160%) !important;
+  outline: var(--outline-nav-pill, none);
+  outline-offset: var(--outline-offset-nav-pill, 0px);
   opacity: 1 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
 }
 
-html.dark #app-header nav button.nav-pill:not(.active),
-html.dark #header-btn-hungthai-avatar:not(.active),
-html.dark #footer-lang-btn:not(.active),
-html.dark #footer-appearance-btn:not(.active),
-html.dark #footer-wallpaper-btn:not(.active),
-html.dark #footer-ai-btn:not(.active) {
-  background-color: var(--bg-nav-button-opaque, #0D152E) !important;
-  background-image: none !important;
-  opacity: 1 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+#app-header nav button.nav-pill:not(.active) .nav-pill-divider,
+#header-btn-hungthai-avatar:not(.active) .nav-pill-divider,
+#footer-lang-btn:not(.active) .nav-pill-divider,
+#footer-appearance-btn:not(.active) .nav-pill-divider,
+#footer-wallpaper-btn:not(.active) .nav-pill-divider,
+#footer-ai-btn:not(.active) .nav-pill-divider {
+  background-color: var(--divider-nav-pill, rgba(148, 163, 184, 0.55)) !important;
 }
 
+/* ========================================================================= */
+/* SWOT SKILLS QUADRANT & SKILL SUBCARD THEME SYSTEM                         */
+/* ========================================================================= */
+[data-swot="S"] {
+  --swot-accent: #1480C0;
+  --swot-accent-soft: rgba(20, 128, 192, 0.12);
+  --swot-accent-border: rgba(20, 128, 192, 0.34);
+}
+[data-swot="W"] {
+  --swot-accent: #16A34A;
+  --swot-accent-soft: rgba(22, 163, 74, 0.12);
+  --swot-accent-border: rgba(22, 163, 74, 0.34);
+}
+[data-swot="O"] {
+  --swot-accent: #EA580C;
+  --swot-accent-soft: rgba(234, 88, 12, 0.12);
+  --swot-accent-border: rgba(234, 88, 12, 0.34);
+}
+[data-swot="T"] {
+  --swot-accent: #E11D48;
+  --swot-accent-soft: rgba(225, 29, 72, 0.12);
+  --swot-accent-border: rgba(225, 29, 72, 0.34);
+}
 
+.swot-quadrant-icon,
+.swot-quadrant-title {
+  color: var(--swot-accent);
+}
+
+.skill-swot-subcard {
+  padding: 10px 12px !important;
+  background: var(--bg-subcard);
+  border: 1px solid var(--border-subcard, var(--color-border-soft));
+  border-radius: var(--radius-subcard, 12px);
+  box-shadow: var(--shadow-subcard);
+  backdrop-filter: blur(var(--blur-subcard, 0px));
+  -webkit-backdrop-filter: blur(var(--blur-subcard, 0px));
+  outline: var(--outline-subcard, none);
+  outline-offset: var(--outline-offset-subcard, 0px);
+}
+
+.skill-swot-subcard .swot-skill-index,
+.skill-swot-subcard .swot-skill-icon,
+.skill-swot-subcard .swot-skill-name,
+.skill-swot-subcard .swot-skill-percent,
+.skill-swot-subcard .swot-skill-chevron,
+.skill-swot-subcard .swot-skill-disclosure-label {
+  color: var(--swot-accent);
+}
+
+.skill-swot-subcard .swot-skill-track {
+  background: var(--pillar-progress-track, rgba(148, 163, 184, 0.25));
+}
+
+.skill-swot-subcard .swot-skill-fill {
+  background: var(--swot-accent);
+}
+
+.skill-swot-subcard .swot-skill-chevron-wrap[data-expanded="true"] {
+  background: var(--swot-accent-soft);
+}
+
+.skill-swot-subcard .swot-skill-disclosure {
+  background: var(--bg-nested-badge, rgba(255, 255, 255, 0.72));
+  border: 1px solid var(--border-nested-badge, rgba(148, 163, 184, 0.28));
+}
+
+.swot-control-pill {
+  background: var(--bg-nav-pill, #FFFFFF) !important;
+  box-shadow: var(--shadow-nav-pill, 0 4px 14px rgba(15, 23, 42, 0.12)) !important;
+  backdrop-filter: blur(var(--blur-nav-pill, 12px)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--blur-nav-pill, 12px)) saturate(160%) !important;
+  outline: var(--outline-nav-pill, none);
+  outline-offset: var(--outline-offset-nav-pill, 0px);
+}
+
+/* ========================================================================= */
+/* BANNER & BANNER CONTROLS THEME SYNCHRONIZATION (ALL PAGES)                */
+/* ========================================================================= */
+.hero-banner,
+.banner-card,
+#project-detail-banner {
+  border-color: var(--banner-border, var(--border-color)) !important;
+  box-shadow: var(--banner-shadow, var(--shadow-card)) !important;
+  outline: var(--banner-outline, none);
+  outline-offset: var(--banner-outline-offset, 0px);
+}
+
+.banner-control-pill {
+  background: var(--bg-banner-pill, var(--bg-nav-pill, #FFFFFF)) !important;
+  color: var(--text-banner-pill, var(--text-primary)) !important;
+  border: 1px solid var(--border-banner-pill, var(--border-color)) !important;
+  box-shadow: var(--shadow-banner-pill, var(--shadow-nav-pill)) !important;
+  backdrop-filter: blur(var(--blur-nav-pill, 12px)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--blur-nav-pill, 12px)) saturate(160%) !important;
+  outline: var(--outline-banner-pill, none);
+  outline-offset: -3px;
+}
+
+.banner-primary-cta {
+  background: var(--bg-banner-cta, var(--bg-button-primary)) !important;
+  color: var(--text-banner-cta, #FFFFFF) !important;
+  border: 1px solid var(--border-banner-cta, rgba(255, 255, 255, 0.35)) !important;
+  box-shadow: var(--shadow-banner-cta, var(--shadow-card)) !important;
+  outline: var(--outline-banner-pill, none);
+  outline-offset: -3px;
+}
+
+.banner-search-input {
+  background: var(--bg-banner-input, var(--bg-input)) !important;
+  color: var(--text-banner-input, var(--text-primary)) !important;
+  border-color: var(--border-banner-input, var(--border-color)) !important;
+}
+
+.banner-count-pill {
+  background: var(--bg-nested-badge, rgba(255, 255, 255, 0.85)) !important;
+  border-color: var(--border-nested-badge, rgba(148, 163, 184, 0.35)) !important;
+  color: var(--text-banner-pill, var(--text-primary)) !important;
+}
+
+.banner-dropdown-menu {
+  background: var(--bg-popup, var(--bg-card)) !important;
+  border: var(--card-border-width, 1px) solid var(--border-color) !important;
+  box-shadow: var(--shadow-popup) !important;
+  backdrop-filter: blur(var(--bg-blur, 18px)) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur, 18px)) saturate(165%) !important;
+  outline: var(--outline-subcard, none);
+  outline-offset: var(--outline-offset-subcard, 0px);
+}
+
+/* ========================================================================= */
+/* PREV / NEXT PAGE BUTTONS & PDF BACK TO TOP BUTTON THEME SYNC              */
+/* ========================================================================= */
+.nav-arrow-btn,
+.theme-prev-next-btn,
+#footer-nav-capsule #footer-prev-btn,
+#footer-nav-capsule #footer-next-btn {
+  background: var(--bg-nav-arrow, var(--bg-nav-pill, #FFFFFF)) !important;
+  border: 1px solid var(--border-nav-arrow, var(--border-color)) !important;
+  color: var(--text-nav-arrow, var(--text-primary)) !important;
+  box-shadow: var(--shadow-nav-arrow, var(--shadow-sm)) !important;
+  outline: var(--outline-nav-arrow, none);
+  outline-offset: -3px;
+}
+
+.nav-arrow-btn:hover,
+.theme-prev-next-btn:hover,
+#footer-nav-capsule #footer-prev-btn:hover,
+#footer-nav-capsule #footer-next-btn:hover {
+  background: var(--bg-button-primary) !important;
+  color: #FFFFFF !important;
+  border-color: transparent !important;
+}
+
+.theme-back-to-top-btn {
+  background: var(--bg-nav-pill, var(--bg-card)) !important;
+  border: var(--card-border-width, 1px) solid var(--border-nav-arrow, var(--border-color)) !important;
+  color: var(--text-nav-arrow, var(--color-primary)) !important;
+  box-shadow: var(--shadow-popup, var(--shadow-nav-arrow)) !important;
+  backdrop-filter: blur(var(--blur-nav-pill, 16px)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--blur-nav-pill, 16px)) saturate(160%) !important;
+  outline: var(--outline-nav-pill, none);
+  outline-offset: -4px;
+}
+
+.theme-back-to-top-btn:hover {
+  background: var(--bg-button-primary) !important;
+  color: #FFFFFF !important;
+}
+
+.theme-back-to-top-icon {
+  color: inherit !important;
+}
+
+/* ========================================================================= */
+/* IMAGE CARDS THEME SYNC (MEMORIES & WALLPAPERS)                            */
+/* ========================================================================= */
+.themed-image-card {
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: var(--card-border-width, 1px) solid var(--border-image-card, var(--border-color)) !important;
+  box-shadow: var(--shadow-image-card, var(--shadow-card)) !important;
+  border-radius: var(--radius-card, 14px) !important;
+  outline: var(--outline-image-card, none);
+  outline-offset: var(--outline-offset-image-card, 0px);
+}
+
+#wallpaper-page-container [id^="wallpaper-card-"] {
+  padding: 0 !important;
+}
+
+/* ========================================================================= */
+/* PROJECT DETAIL BANNER, CARDS 1–10 & SUBCARDS THEME SYNC                   */
+/* ========================================================================= */
+.project-detail-banner-inner {
+  background: var(--bg-card) !important;
+  border: var(--card-border-width, 1px) solid var(--border-color) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(var(--bg-blur, 18px)) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur, 18px)) saturate(165%) !important;
+  outline: var(--outline-subcard, none);
+  outline-offset: -6px;
+}
+
+.project-detail-toc-btn[data-active="false"] {
+  background: var(--bg-subcard) !important;
+  border: 1px solid var(--border-subcard, var(--color-border-soft)) !important;
+  color: var(--text-primary) !important;
+}
+
+.project-detail-toc-btn[data-active="true"] {
+  background: var(--bg-button-primary) !important;
+  color: #FFFFFF !important;
+  border-color: transparent !important;
+}
+
+.project-detail-section-card {
+  background: var(--bg-card) !important;
+  border: var(--card-border-width, 1px) solid var(--border-color) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(var(--bg-blur, 18px)) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur, 18px)) saturate(165%) !important;
+  border-radius: var(--radius-card, 14px) !important;
+}
+
+.project-detail-subcard,
+.education-subcard,
+.letter-subcard {
+  background: var(--bg-subcard) !important;
+  border: 1px solid var(--border-subcard, var(--color-border-soft)) !important;
+  border-radius: var(--radius-subcard, 12px) !important;
+  box-shadow: var(--shadow-subcard) !important;
+  backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
+  outline: var(--outline-subcard, none);
+  outline-offset: var(--outline-offset-subcard, 0px);
+}
+
+.project-detail-chip,
+.education-skill-chip,
+.project-card-tag {
+  background: var(--bg-nested-badge, rgba(255, 255, 255, 0.86)) !important;
+  border: 1px solid var(--border-nested-badge, var(--color-border-soft)) !important;
+  color: var(--text-primary) !important;
+}
+
+.project-card-order-badge {
+  background: var(--bg-nested-badge, rgba(255, 255, 255, 0.9)) !important;
+  border: 1px solid var(--border-nested-badge, var(--color-border-soft)) !important;
+}
+
+.project-card-btn-secondary {
+  background: var(--bg-button-secondary, var(--bg-subcard)) !important;
+  border: 1px solid var(--border-subcard, var(--color-border-soft)) !important;
+  color: var(--text-primary) !important;
+}
+
+.project-card-btn-primary {
+  background: var(--bg-button-primary) !important;
+  color: #FFFFFF !important;
+  border: 1px solid var(--border-banner-cta, transparent) !important;
+  box-shadow: var(--shadow-subcard) !important;
+}
+
+/* ========================================================================= */
+/* SERVICES PAGE GIF TRANSPARENT BACKGROUND                                  */
+/* ========================================================================= */
+.service-gif-transparent {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+}
 

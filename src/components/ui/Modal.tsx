@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { LucideIcon, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -34,6 +34,15 @@ export const Modal: React.FC<ModalProps> = ({
   maxWidth = '4xl',
   children,
 }) => {
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const maxWidthClass = MAX_WIDTH_MAP[maxWidth] || 'max-w-4xl';
@@ -50,6 +59,9 @@ export const Modal: React.FC<ModalProps> = ({
         />
 
         <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label={title}
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 15 }}

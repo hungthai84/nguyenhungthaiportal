@@ -269,12 +269,14 @@ export const Footer: React.FC<FooterProps> = ({
                         ? 'bg-gradient-to-r from-[#047857] via-[#059669] to-[#10B981] border-white/80 active shadow-[0_0_25px_rgba(16,185,129,0.45)]'
                         : 'border-emerald-400/80 dark:border-emerald-400/70'
                     }`}
-                    style={{
-                      backgroundColor: isSelected ? undefined : 'var(--bg-nav-button-opaque, #FFFFFF)',
-                      boxShadow: isSelected
-                        ? '0 0 30px rgba(16, 185, 129, 0.45), inset 0 0 12px rgba(255,255,255,0.4)'
-                        : '0 4px 14px rgba(0,0,0,0.06)',
-                    }}
+                    style={
+                      isSelected
+                        ? {
+                            boxShadow:
+                              '0 0 30px rgba(16, 185, 129, 0.45), inset 0 0 12px rgba(255,255,255,0.4)',
+                          }
+                        : undefined
+                    }
                   >
                     <div
                       className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
@@ -285,21 +287,21 @@ export const Footer: React.FC<FooterProps> = ({
                       <WebIcon name="languages" className="w-4 h-4 text-white shrink-0" />
                     </div>
                     <div
-                      className={`w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
+                      className={`nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
                         isSelected ? 'bg-white/50' : 'bg-slate-300/80 dark:bg-white/30'
                       }`}
                     />
                     <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
                       <span
                         data-no-translate="true"
-                        className={`text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
+                        className={`nav-pill-title text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
                           isSelected ? 'text-white' : 'text-emerald-950 dark:text-emerald-100'
                         }`}
                       >
                         {activeLangTitle}
                       </span>
                       <span
-                        className={`text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
+                        className={`nav-pill-sub text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
                           isSelected ? 'text-white/90' : 'text-emerald-700 dark:text-emerald-300'
                         }`}
                       >
@@ -311,7 +313,11 @@ export const Footer: React.FC<FooterProps> = ({
 
                 {/* Popup Danh sách Ngôn Ngữ (Mặc định theo trình duyệt / Tiếng Việt / English) */}
                 {isLangMenuOpen && (
-                  <div className="absolute bottom-[calc(100%+12px)] left-0 sm:left-auto sm:right-0 w-64 rounded-[14px] bg-white/[0.98] dark:bg-[#0A1024]/[0.98] backdrop-blur-2xl border border-emerald-200 dark:border-cyan-400/40 shadow-[0_16px_48px_rgba(0,0,0,0.35)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.75),0_0_24px_rgba(34,211,238,0.22)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto">
+                  <div
+                    id="footer-lang-popup"
+                    style={{ background: 'var(--bg-popup)' }}
+                    className="absolute bottom-[calc(100%+12px)] left-0 sm:left-auto sm:right-0 w-64 rounded-[14px] bg-white/[0.98] dark:bg-[#0A1024]/[0.98] backdrop-blur-2xl border border-emerald-200 dark:border-cyan-400/40 shadow-[0_16px_48px_rgba(0,0,0,0.35)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.75),0_0_24px_rgba(34,211,238,0.22)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto"
+                  >
                     <div className="px-2.5 py-1 typo-label font-bold tracking-wide text-emerald-700 dark:text-emerald-300 border-b border-slate-200 dark:border-white/15 flex items-center justify-between">
                       <span>{isEn ? 'Select Language' : 'Chọn ngôn ngữ'}</span>
                       <span className="typo-badge font-normal text-slate-500 dark:text-slate-400">
@@ -456,12 +462,14 @@ export const Footer: React.FC<FooterProps> = ({
                         ? 'bg-gradient-to-r from-[#4338CA] via-[#6366F1] to-[#818CF8] border-white/80 active shadow-[0_0_25px_rgba(99,102,241,0.45)]'
                         : 'border-indigo-400/80 dark:border-indigo-500/80'
                     }`}
-                    style={{
-                      backgroundColor: isSelected ? undefined : 'var(--bg-nav-button-opaque, #FFFFFF)',
-                      boxShadow: isSelected
-                        ? '0 0 30px rgba(99, 102, 241, 0.45), inset 0 0 12px rgba(255,255,255,0.4)'
-                        : '0 4px 14px rgba(0,0,0,0.06)',
-                    }}
+                    style={
+                      isSelected
+                        ? {
+                            boxShadow:
+                              '0 0 30px rgba(99, 102, 241, 0.45), inset 0 0 12px rgba(255,255,255,0.4)',
+                          }
+                        : undefined
+                    }
                   >
                     <div
                       className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
@@ -472,20 +480,20 @@ export const Footer: React.FC<FooterProps> = ({
                       <WebIcon name="layers" className="w-4 h-4 text-white shrink-0" />
                     </div>
                     <div
-                      className={`w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
+                      className={`nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
                         isSelected ? 'bg-white/50' : 'bg-slate-300/80 dark:bg-white/30'
                       }`}
                     />
                     <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
                       <span
-                        className={`text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
+                        className={`nav-pill-title text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
                           isSelected ? 'text-white' : 'text-indigo-950 dark:text-indigo-100'
                         }`}
                       >
                         {isEn ? 'Theme' : 'Giao diện'}
                       </span>
                       <span
-                        className={`text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
+                        className={`nav-pill-sub text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
                           isSelected ? 'text-white/90' : 'text-indigo-700 dark:text-cyan-300'
                         }`}
                       >
@@ -497,7 +505,11 @@ export const Footer: React.FC<FooterProps> = ({
 
                 {/* Popup Menu Danh Sách Giao Diện Tự Động từ Theme Registry */}
                 {isThemeMenuOpen && (
-                  <div className="absolute bottom-[calc(100%+12px)] left-[-42px] sm:left-auto sm:right-0 w-72 rounded-[14px] bg-white/[0.98] dark:bg-[#0A1024]/[0.98] backdrop-blur-2xl border border-indigo-200 dark:border-cyan-400/40 shadow-[0_16px_48px_rgba(0,0,0,0.4)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.75),0_0_24px_rgba(236,72,153,0.22)] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto">
+                  <div
+                    id="footer-theme-popup"
+                    style={{ background: 'var(--bg-popup)' }}
+                    className="absolute bottom-[calc(100%+12px)] left-[-42px] sm:left-auto sm:right-0 w-72 rounded-[14px] bg-white/[0.98] dark:bg-[#0A1024]/[0.98] backdrop-blur-2xl border border-indigo-200 dark:border-cyan-400/40 shadow-[0_16px_48px_rgba(0,0,0,0.4)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.75),0_0_24px_rgba(236,72,153,0.22)] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
+                  >
                     <div className="px-2.5 py-1 typo-label font-bold tracking-wide text-[#4338CA] dark:text-cyan-300 border-b border-[#E2E8F0] dark:border-white/15 flex items-center justify-between">
                       <span>
                         {isEn
@@ -512,6 +524,8 @@ export const Footer: React.FC<FooterProps> = ({
                     <div className="max-h-[300px] overflow-y-auto no-scrollbar flex flex-col gap-1">
                       {CARD_STYLE_PRESETS_LIST.map((preset) => {
                         const isActive = cardStyle === preset.id;
+                        const isNeon = preset.id === 'glassmorphism-neon';
+                        const isLeather = preset.id === 'cowhide-leather';
                         const presetName = t(preset.name);
                         const presetModeLabel = t(preset.modeLabel);
                         return (
@@ -530,9 +544,11 @@ export const Footer: React.FC<FooterProps> = ({
                             }}
                             className={`w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-body-sm font-bold transition cursor-pointer text-left group ${
                               isActive
-                                ? preset.isDark
+                                ? isNeon
                                   ? 'bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 text-white shadow-xs'
-                                  : 'bg-indigo-600 text-white shadow-xs'
+                                  : isLeather
+                                    ? 'bg-gradient-to-r from-[#8B5A2B] via-[#653A17] to-[#7A4A20] text-[#FFF8DC] border border-dashed border-[#F5DEB3]/70 shadow-xs'
+                                    : 'bg-indigo-600 text-white shadow-xs'
                                 : 'hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-800 dark:text-slate-100'
                             }`}
                           >
@@ -540,9 +556,11 @@ export const Footer: React.FC<FooterProps> = ({
                               <div
                                 className="w-6 h-6 rounded-[14px] flex items-center justify-center text-white shrink-0 shadow-2xs"
                                 style={
-                                  preset.isDark
+                                  isNeon
                                     ? { background: 'linear-gradient(135deg, #06B6D4 0%, #8B5CF6 50%, #EC4899 100%)' }
-                                    : { backgroundColor: preset.color }
+                                    : isLeather
+                                      ? { background: 'linear-gradient(135deg, #8B5A2B 0%, #522E10 100%)', border: '1px dashed rgba(245, 222, 179, 0.6)' }
+                                      : { backgroundColor: preset.color }
                                 }
                               >
                                 <WebIcon name={preset.icon} className="w-3.5 h-3.5" />
@@ -629,12 +647,14 @@ export const Footer: React.FC<FooterProps> = ({
                         ? 'bg-gradient-to-r from-[#BE123C] via-[#E11D48] to-[#FB7185] border-white/80 active shadow-[0_0_25px_rgba(244,63,94,0.45)]'
                         : 'border-rose-400/80 dark:border-rose-500/80'
                     }`}
-                    style={{
-                      backgroundColor: isSelected ? undefined : 'var(--bg-nav-button-opaque, #FFFFFF)',
-                      boxShadow: isSelected
-                        ? '0 0 30px rgba(244, 63, 94, 0.45), inset 0 0 12px rgba(255,255,255,0.4)'
-                        : '0 4px 14px rgba(0,0,0,0.06)',
-                    }}
+                    style={
+                      isSelected
+                        ? {
+                            boxShadow:
+                              '0 0 30px rgba(244, 63, 94, 0.45), inset 0 0 12px rgba(255,255,255,0.4)',
+                          }
+                        : undefined
+                    }
                   >
                     <div
                       className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
@@ -645,20 +665,20 @@ export const Footer: React.FC<FooterProps> = ({
                       <WebIcon name="image" className="w-4 h-4 text-white shrink-0" />
                     </div>
                     <div
-                      className={`w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
+                      className={`nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
                         isSelected ? 'bg-white/50' : 'bg-slate-300/80 dark:bg-white/30'
                       }`}
                     />
                     <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
                       <span
-                        className={`text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
+                        className={`nav-pill-title text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
                           isSelected ? 'text-white' : 'text-rose-950 dark:text-rose-100'
                         }`}
                       >
                         {isEn ? 'Wallpaper' : 'Hình Nền'}
                       </span>
                       <span
-                        className={`text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
+                        className={`nav-pill-sub text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
                           isSelected ? 'text-white/90' : 'text-rose-700 dark:text-rose-400'
                         }`}
                       >
@@ -711,12 +731,14 @@ export const Footer: React.FC<FooterProps> = ({
                         ? 'bg-gradient-to-r from-[#6B21A8] via-[#7E22CE] to-[#A855F7] border-white/80 active shadow-[0_0_25px_rgba(168,85,247,0.5)]'
                         : 'border-purple-400/80 dark:border-purple-500/80'
                     }`}
-                    style={{
-                      backgroundColor: isSelected ? undefined : 'var(--bg-nav-button-opaque, #FFFFFF)',
-                      boxShadow: isSelected
-                        ? '0 0 30px rgba(168, 85, 247, 0.5), inset 0 0 12px rgba(255,255,255,0.4)'
-                        : '0 4px 14px rgba(0,0,0,0.06)',
-                    }}
+                    style={
+                      isSelected
+                        ? {
+                            boxShadow:
+                              '0 0 30px rgba(168, 85, 247, 0.5), inset 0 0 12px rgba(255,255,255,0.4)',
+                          }
+                        : undefined
+                    }
                   >
                     <div
                       className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
@@ -734,20 +756,20 @@ export const Footer: React.FC<FooterProps> = ({
                       />
                     </div>
                     <div
-                      className={`w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
+                      className={`nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
                         isSelected ? 'bg-white/50' : 'bg-slate-300/80 dark:bg-white/30'
                       }`}
                     />
                     <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
                       <span
-                        className={`text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
+                        className={`nav-pill-title text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
                           isSelected ? 'text-white' : 'text-purple-950 dark:text-purple-100'
                         }`}
                       >
                         {isEn ? 'AI Assistant' : 'AI hỗ trợ'}
                       </span>
                       <span
-                        className={`text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
+                        className={`nav-pill-sub text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
                           isSelected ? 'text-white/90' : 'text-purple-700 dark:text-purple-300'
                         }`}
                       >

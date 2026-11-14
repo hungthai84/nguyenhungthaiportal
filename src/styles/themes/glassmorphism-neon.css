@@ -45,6 +45,32 @@ html.dark[data-card-style="glassmorphism-neon"] {
   --color-focus-ring: #00F0FF;
   --bg-nav-button-opaque: #0D152E;
 
+  --bg-nav-pill: linear-gradient(
+    135deg,
+    rgba(10, 17, 40, 0.94) 0%,
+    rgba(22, 12, 48, 0.94) 100%
+  );
+  --shadow-nav-pill: 0 8px 22px rgba(0, 0, 0, 0.65),
+    0 0 14px -4px rgba(34, 211, 238, 0.35);
+  --blur-nav-pill: 20px;
+  --divider-nav-pill: rgba(56, 189, 248, 0.36);
+
+  --border-subcard: rgba(56, 189, 248, 0.30);
+  --shadow-subcard: inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 6px 20px -6px rgba(34, 211, 238, 0.20);
+  --blur-subcard: 18px;
+  --bg-nested-badge: rgba(13, 21, 46, 0.92);
+  --border-nested-badge: rgba(56, 189, 248, 0.38);
+
+  --pillar-heading: #F8FAFC;
+  --pillar-sub: #38BDF8;
+  --pillar-body: #E2E8F0;
+  --pillar-badge-bg: rgba(34, 211, 238, 0.16);
+  --pillar-badge-text: #E0F2FE;
+  --pillar-divider: rgba(56, 189, 248, 0.22);
+  --pillar-progress-track: rgba(255, 255, 255, 0.14);
+  --pillar-progress-fill: linear-gradient(90deg, #22D3EE, #A855F7, #F472B6);
+
   --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.75),
     -6px -6px 24px rgba(0, 240, 255, 0.25),
     6px -4px 24px rgba(255, 0, 127, 0.25);
@@ -232,25 +258,197 @@ html[data-card-style="glassmorphism-neon"] .bento-tone-sky {
 
 /* Subcards, Popups & Inputs in Dark Neon */
 html[data-card-style="glassmorphism-neon"] [data-subcard="true"],
-html[data-card-style="glassmorphism-neon"] .sub-card {
-  background: var(--bg-subcard);
-  border-color: rgba(139, 92, 246, 0.34);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 4px 18px -6px rgba(34, 211, 238, 0.18);
+html[data-card-style="glassmorphism-neon"] .sub-card,
+html[data-card-style="glassmorphism-neon"] .about-info-subcard,
+html[data-card-style="glassmorphism-neon"] .experience-milestone-card,
+html[data-card-style="glassmorphism-neon"] .exp-detail-card,
+html[data-card-style="glassmorphism-neon"] .exp-detail-subcard,
+html[data-card-style="glassmorphism-neon"] .pillar-gradient-card,
+html[data-card-style="glassmorphism-neon"] .skill-swot-subcard {
+  background: var(--bg-subcard) !important;
+  border: 1px solid rgba(56, 189, 248, 0.32) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 6px 20px -6px rgba(34, 211, 238, 0.22) !important;
+  backdrop-filter: blur(18px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
+}
+
+/* Luminous SWOT Accents in Dark Neon for high contrast */
+html[data-card-style="glassmorphism-neon"] [data-swot="S"] {
+  --swot-accent: #38BDF8;
+  --swot-accent-soft: rgba(56, 189, 248, 0.18);
+  --swot-accent-border: rgba(56, 189, 248, 0.50);
+}
+html[data-card-style="glassmorphism-neon"] [data-swot="W"] {
+  --swot-accent: #4ADE80;
+  --swot-accent-soft: rgba(74, 222, 128, 0.18);
+  --swot-accent-border: rgba(74, 222, 128, 0.50);
+}
+html[data-card-style="glassmorphism-neon"] [data-swot="O"] {
+  --swot-accent: #FBBF24;
+  --swot-accent-soft: rgba(251, 191, 36, 0.18);
+  --swot-accent-border: rgba(251, 191, 36, 0.50);
+}
+html[data-card-style="glassmorphism-neon"] [data-swot="T"] {
+  --swot-accent: #F472B6;
+  --swot-accent-soft: rgba(244, 114, 182, 0.18);
+  --swot-accent-border: rgba(244, 114, 182, 0.50);
+}
+
+/* Cycling Multicolor Neon Borders & Tints */
+html[data-card-style="glassmorphism-neon"] .about-info-subcard:nth-of-type(4n+1),
+html[data-card-style="glassmorphism-neon"] .pillar-gradient-card[data-accent="blue"],
+html[data-card-style="glassmorphism-neon"] .skill-swot-subcard[data-swot="S"],
+html[data-card-style="glassmorphism-neon"] #experience-timeline-track-card > div:nth-of-type(4n+1) .experience-milestone-card,
+html[data-card-style="glassmorphism-neon"] .exp-detail-subcard:nth-of-type(4n+1) {
+  background: var(--neon-glass-cyan) !important;
+  border-color: rgba(34, 211, 238, 0.45) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .about-info-subcard:nth-of-type(4n+2),
+html[data-card-style="glassmorphism-neon"] .pillar-gradient-card[data-accent="rose"],
+html[data-card-style="glassmorphism-neon"] .pillar-gradient-card[data-accent="pink"],
+html[data-card-style="glassmorphism-neon"] .pillar-gradient-card[data-accent="purple"],
+html[data-card-style="glassmorphism-neon"] .skill-swot-subcard[data-swot="T"],
+html[data-card-style="glassmorphism-neon"] #experience-timeline-track-card > div:nth-of-type(4n+2) .experience-milestone-card,
+html[data-card-style="glassmorphism-neon"] .exp-detail-subcard:nth-of-type(4n+2) {
+  background: var(--neon-glass-magenta) !important;
+  border-color: rgba(244, 114, 182, 0.45) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .about-info-subcard:nth-of-type(4n+3),
+html[data-card-style="glassmorphism-neon"] .pillar-gradient-card[data-accent="emerald"],
+html[data-card-style="glassmorphism-neon"] .skill-swot-subcard[data-swot="W"],
+html[data-card-style="glassmorphism-neon"] #experience-timeline-track-card > div:nth-of-type(4n+3) .experience-milestone-card,
+html[data-card-style="glassmorphism-neon"] .exp-detail-subcard:nth-of-type(4n+3) {
+  background: var(--neon-glass-emerald) !important;
+  border-color: rgba(52, 211, 153, 0.45) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .about-info-subcard:nth-of-type(4n+4),
+html[data-card-style="glassmorphism-neon"] .pillar-gradient-card[data-accent="amber"],
+html[data-card-style="glassmorphism-neon"] .skill-swot-subcard[data-swot="O"],
+html[data-card-style="glassmorphism-neon"] #experience-timeline-track-card > div:nth-of-type(4n+4) .experience-milestone-card,
+html[data-card-style="glassmorphism-neon"] .exp-detail-subcard:nth-of-type(4n+4) {
+  background: var(--neon-glass-amber) !important;
+  border-color: rgba(251, 191, 36, 0.42) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .skill-swot-subcard:hover,
+html[data-card-style="glassmorphism-neon"] .skill-swot-subcard[data-expanded="true"] {
+  border-color: var(--swot-accent, #38BDF8) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 0 18px -4px var(--swot-accent-soft, rgba(34, 211, 238, 0.35)) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .skill-swot-subcard .swot-skill-track {
+  background: rgba(255, 255, 255, 0.16) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .skill-swot-subcard .swot-skill-disclosure {
+  background: rgba(6, 11, 28, 0.84) !important;
+  border-color: var(--swot-accent-border, rgba(56, 189, 248, 0.34)) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .service-card .service-ambient-glow {
+  opacity: 0.12 !important;
+}
+
+html[data-card-style="glassmorphism-neon"] #app-header nav button.nav-pill:not(.active),
+html[data-card-style="glassmorphism-neon"] #header-btn-hungthai-avatar:not(.active),
+html[data-card-style="glassmorphism-neon"] #footer-lang-btn:not(.active),
+html[data-card-style="glassmorphism-neon"] #footer-appearance-btn:not(.active),
+html[data-card-style="glassmorphism-neon"] #footer-wallpaper-btn:not(.active),
+html[data-card-style="glassmorphism-neon"] #footer-ai-btn:not(.active) {
+  border-color: rgba(56, 189, 248, 0.48) !important;
 }
 
 html[data-card-style="glassmorphism-neon"] #ai-assistant-droptop-menu-list,
 html[data-card-style="glassmorphism-neon"] #ai-assistant-center-questions-modal,
 html[data-card-style="glassmorphism-neon"] #interview-question-filter-listbox,
-html[data-card-style="glassmorphism-neon"] #skills-filter-dropdown {
+html[data-card-style="glassmorphism-neon"] #skills-filter-dropdown,
+html[data-card-style="glassmorphism-neon"] #services-filter-dropdown {
   background: var(--bg-popup) !important;
   border-color: rgba(56, 189, 248, 0.45) !important;
   box-shadow: var(--shadow-popup) !important;
 }
 
-html[data-card-style="glassmorphism-neon"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-destiny-card):not(#el-p10-div-114):not(#el-p10-div-170):hover,
+html[data-card-style="glassmorphism-neon"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):hover,
 html[data-card-style="glassmorphism-neon"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover {
   border-color: rgba(244, 114, 182, 0.62) !important;
   box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.78),
     0 0 28px -4px rgba(34, 211, 238, 0.34),
     0 0 32px -6px rgba(236, 72, 153, 0.28) !important;
 }
+
+/* Tối Neon: Banners, Nav Arrows, Image Cards, Project Detail 1–10 & All Subcards */
+html[data-card-style="glassmorphism-neon"] .hero-banner,
+html[data-card-style="glassmorphism-neon"] .banner-card,
+html[data-card-style="glassmorphism-neon"] #project-detail-banner {
+  border: 1px solid rgba(34, 211, 238, 0.50) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75),
+    0 0 24px -4px rgba(34, 211, 238, 0.32),
+    0 0 24px -6px rgba(244, 114, 182, 0.25) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .banner-control-pill,
+html[data-card-style="glassmorphism-neon"] .nav-arrow-btn,
+html[data-card-style="glassmorphism-neon"] .theme-prev-next-btn,
+html[data-card-style="glassmorphism-neon"] .theme-back-to-top-btn {
+  background: var(--bg-nav-pill) !important;
+  color: #E0F2FE !important;
+  border: 1px solid rgba(56, 189, 248, 0.55) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.65), 0 0 14px -3px rgba(34, 211, 238, 0.38) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .banner-search-input {
+  background: rgba(8, 13, 30, 0.90) !important;
+  color: #F8FAFC !important;
+  border-color: rgba(56, 189, 248, 0.45) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .banner-dropdown-menu,
+html[data-card-style="glassmorphism-neon"] #systems-filter-listbox,
+html[data-card-style="glassmorphism-neon"] #memories-filter-listbox,
+html[data-card-style="glassmorphism-neon"] #horoscope-filter-listbox {
+  background: var(--bg-popup) !important;
+  border-color: rgba(56, 189, 248, 0.48) !important;
+  box-shadow: var(--shadow-popup) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .project-detail-section-card {
+  background: rgba(10, 16, 38, 0.86) !important;
+  border: 1px solid rgba(56, 189, 248, 0.40) !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.72), 0 0 22px -6px rgba(34, 211, 238, 0.28) !important;
+}
+html[data-card-style="glassmorphism-neon"] .project-detail-section-card:nth-of-type(4n+1) {
+  background: var(--neon-glass-cyan) !important;
+  border-color: rgba(34, 211, 238, 0.48) !important;
+}
+html[data-card-style="glassmorphism-neon"] .project-detail-section-card:nth-of-type(4n+2) {
+  background: var(--neon-glass-magenta) !important;
+  border-color: rgba(244, 114, 182, 0.48) !important;
+}
+html[data-card-style="glassmorphism-neon"] .project-detail-section-card:nth-of-type(4n+3) {
+  background: var(--neon-glass-emerald) !important;
+  border-color: rgba(52, 211, 153, 0.48) !important;
+}
+html[data-card-style="glassmorphism-neon"] .project-detail-section-card:nth-of-type(4n+4) {
+  background: var(--neon-glass-amber) !important;
+  border-color: rgba(251, 191, 36, 0.45) !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .project-detail-subcard,
+html[data-card-style="glassmorphism-neon"] .education-subcard,
+html[data-card-style="glassmorphism-neon"] .letter-subcard,
+html[data-card-style="glassmorphism-neon"] .letter-header-subcard,
+html[data-card-style="glassmorphism-neon"] .letter-footer-subcard {
+  background: var(--bg-subcard) !important;
+  border: 1px solid rgba(56, 189, 248, 0.36) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 6px 20px -6px rgba(34, 211, 238, 0.24) !important;
+  color: #E2E8F0 !important;
+}
+
+html[data-card-style="glassmorphism-neon"] .themed-image-card {
+  border: 1.5px solid rgba(56, 189, 248, 0.52) !important;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.72), 0 0 22px -6px rgba(34, 211, 238, 0.32) !important;
+}
+

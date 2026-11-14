@@ -11,5 +11,7 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'frosted-glass': 'custom-wp-1788112774646',      // Hình nền #32
   'glassmorphism': 'custom-wp-1788245365255',      // Hình nền #51
   'mica-fluent': 'custom-wp-1788351856323',        // Hình nền #65
+  'pastel-bento': 'css-pastel-bento-soft',         // Hình nền Pastel Bento Dịu Nhẹ
   'glassmorphism-neon': 'custom-wp-1790261424372', // Hình nền #88
+  'cowhide-leather': 'css-cowhide-leather-craft',  // Hình nền Da nâu bò thủ công #82
 };

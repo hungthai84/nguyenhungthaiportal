@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MapLocation } from '../../data/about';
 
 interface MapModalProps {
@@ -7,6 +7,15 @@ interface MapModalProps {
 }
 
 export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
+  useEffect(() => {
+    if (!location) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [location, onClose]);
+
   if (!location) return null;
 
   return (
@@ -15,6 +24,9 @@ export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
       onClick={onClose}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={location.title}
         className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto no-scrollbar bg-white dark:bg-[#111827] border border-[#CBD5E1] dark:border-[#334155] p-4 sm:p-6 rounded-[14px] shadow-2xl z-10 flex flex-col gap-3 text-[#334155] dark:text-[#E2E8F0] font-play"
         onClick={(e) => e.stopPropagation()}
       >
@@ -60,25 +72,25 @@ export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
             allowFullScreen
           ></iframe>
         </div>
-        <div className="flex items-center justify-between gap-3 pt-1">
-          <span className="typo-label font-semibold text-[#475569] dark:text-[#94A3B8] truncate">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 pt-1">
+          <span className="typo-label font-semibold text-[#475569] dark:text-[#94A3B8] truncate max-w-full sm:max-w-[55%]">
             {location.address}
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 ml-auto">
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                 location.query
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-[14px] bg-indigo-600 hover:bg-indigo-700 text-white typo-button shadow-md"
+              className="px-3.5 py-1.5 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white typo-button shadow-md whitespace-nowrap"
             >
               Mở Google Maps
             </a>
             <button
               type="button"
               onClick={onClose}
-              className="px-3.5 py-1.5 rounded-[14px] bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 typo-button cursor-pointer"
+              className="px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 typo-button cursor-pointer whitespace-nowrap"
             >
               Đóng
             </button>

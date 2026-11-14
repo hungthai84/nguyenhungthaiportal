@@ -1,4 +1,5 @@
 import { ProjectData } from '@/types';
+import { ALL_PROJECT_DETAILED_SPECS } from './projectSpecs';
 
 /**
  * Bộ ánh xạ Hình Dự Án theo Cloudinary folder "Dự án / Banner card"
@@ -221,7 +222,7 @@ export function getProjectCloudinaryBanner(proj: ProjectData): {
 export const FEATURED_PROJECT_1_1: ProjectData = {
   id: "p1_1",
   code: "1.1",
-  number: "8.1",
+  number: "1.1",
   title: "1.1 · Xây dựng và vận hành Phòng CSKH chuyên nghiệp",
   subtitleEn: "Customer Service Department Establishment & Operations Management",
     tagline: "Xây dựng nền tảng vận hành vững chắc – Chuẩn hóa hệ thống – Phát triển đội ngũ – Nâng cao trải nghiệm khách hàng.",
@@ -481,13 +482,13 @@ export const FEATURED_PROJECT_1_1: ProjectData = {
     },
   };
 
-export const PROJECTS_DATA: ProjectData[] = [
+const RAW_PROJECTS_DATA: ProjectData[] = [
   FEATURED_PROJECT_1_1,
   // 8.2 - 1.2
   {
     id: "p1_2",
     code: "1.2",
-    number: "8.2",
+    number: "1.2",
     title: "1.2 · Thiết lập mục tiêu và hệ thống KPI/OKR phòng ban",
     groupTitle: "Chiến lược & Cấu trúc Vận hành CSKH",
     groupKey: "strategy",
@@ -520,7 +521,7 @@ export const PROJECTS_DATA: ProjectData[] = [
   {
     id: "p3_1",
     code: "3.1",
-    number: "8.3",
+    number: "3.1",
     title: "3.1 · Thiết kế hành trình và nâng cao trải nghiệm khách hàng",
     groupTitle: "Thiết kế Trải nghiệm Khách hàng (CX Design)",
     groupKey: "cx",
@@ -552,7 +553,7 @@ export const PROJECTS_DATA: ProjectData[] = [
   {
     id: "p3_2",
     code: "1.3",
-    number: "8.4",
+    number: "1.3",
     title: "1.3 · Quản trị dự án và cải tiến vận hành CSKH",
     groupTitle: "Chiến lược & Cấu trúc Vận hành CSKH",
     groupKey: "strategy",
@@ -587,7 +588,7 @@ export const PROJECTS_DATA: ProjectData[] = [
   {
     id: "p3_3",
     code: "3.2",
-    number: "8.5",
+    number: "3.2",
     title: "3.2 · Phân tích phản hồi và thúc đẩy cải tiến sản phẩm",
     groupTitle: "Thiết kế Trải nghiệm Khách hàng (CX Design)",
     groupKey: "cx",
@@ -619,7 +620,7 @@ export const PROJECTS_DATA: ProjectData[] = [
   {
     id: "p3_4",
     code: "3.3",
-    number: "8.6",
+    number: "3.3",
     title: "3.3 · Ứng phó khủng hoảng và kiểm soát khách hàng rời bỏ",
     groupTitle: "Thiết kế Trải nghiệm Khách hàng (CX Design)",
     groupKey: "cx",
@@ -650,7 +651,7 @@ export const PROJECTS_DATA: ProjectData[] = [
   {
     id: "p2_1",
     code: "2.1",
-    number: "8.7",
+    number: "2.1",
     title: "2.1 · Chuẩn hóa quy trình và tiêu chuẩn vận hành CSKH",
     groupTitle: "Chuẩn hóa Quy trình & Vận hành Xuất sắc (SOP & Operational Excellence)",
     groupKey: "sop",
@@ -681,7 +682,7 @@ export const PROJECTS_DATA: ProjectData[] = [
   {
     id: "p2_2",
     code: "2.2",
-    number: "8.8",
+    number: "2.2",
     title: "2.2 · Tích hợp và tối ưu hệ thống hỗ trợ đa kênh",
     groupTitle: "Chuẩn hóa Quy trình & Vận hành Xuất sắc (SOP & Operational Excellence)",
     groupKey: "sop",
@@ -712,7 +713,7 @@ export const PROJECTS_DATA: ProjectData[] = [
   {
     id: "p2_3",
     code: "4.3",
-    number: "8.9",
+    number: "4.3",
     title: "4.3 · Tự động hóa quy trình CSKH bằng công nghệ RPA",
     groupTitle: "Công nghệ, Dữ liệu & AI CSKH (CS Tech, Data & AI)",
     groupKey: "tech",
@@ -739,11 +740,10 @@ export const PROJECTS_DATA: ProjectData[] = [
       ],
     },
   },
-  // 8.10 - 2.4
   {
     id: "p2_4",
     code: "2.3",
-    number: "8.10",
+    number: "2.3",
     title: "2.3 · Điều hành chiến dịch Outbound chăm sóc khách hàng",
     groupTitle: "Chuẩn hóa Quy trình & Vận hành Xuất sắc (SOP & Operational Excellence)",
     groupKey: "sop",
@@ -770,12 +770,10 @@ export const PROJECTS_DATA: ProjectData[] = [
       ],
     },
   },
-
-  // 8.11 - 2.4
   {
     id: "p2_5",
     code: "2.4",
-    number: "8.11",
+    number: "2.4",
     title: "2.4 · Quản trị chất lượng và hiệu quả đối tác BPO",
     groupTitle: "Chuẩn hóa Quy trình & Vận hành Xuất sắc (SOP & Operational Excellence)",
     groupKey: "sop",
@@ -802,12 +800,10 @@ export const PROJECTS_DATA: ProjectData[] = [
       ],
     },
   },
-
-  // 8.12 - 4.1
   {
     id: "p4_1",
     code: "4.1",
-    number: "8.12",
+    number: "4.1",
     title: "4.1 · Xây dựng nền tảng CRM và hồ sơ khách hàng 360",
     groupTitle: "Công nghệ, Dữ liệu & AI CSKH (CS Tech, Data & AI)",
     groupKey: "tech",
@@ -834,11 +830,10 @@ export const PROJECTS_DATA: ProjectData[] = [
       ],
     },
   },
-  // 8.13 - 4.2
   {
     id: "p4_2",
     code: "4.2",
-    number: "8.13",
+    number: "4.2",
     title: "4.2 · Phân tích dữ liệu và xây dựng báo cáo BI",
     groupTitle: "Công nghệ, Dữ liệu & AI CSKH (CS Tech, Data & AI)",
     groupKey: "tech",
@@ -865,11 +860,10 @@ export const PROJECTS_DATA: ProjectData[] = [
       ],
     },
   },
-  // 8.14 - 4.3
   {
     id: "p4_3",
     code: "3.4",
-    number: "8.14",
+    number: "3.4",
     title: "3.4 · Đo lường trải nghiệm qua CSAT, NPS và CES",
     groupTitle: "Thiết kế Trải nghiệm Khách hàng (CX Design)",
     groupKey: "cx",
@@ -896,11 +890,10 @@ export const PROJECTS_DATA: ProjectData[] = [
       ],
     },
   },
-  // 8.15 - 4.4
   {
     id: "p4_4",
     code: "4.4",
-    number: "8.15",
+    number: "4.4",
     title: "4.4 · Phát triển Chatbot và Voicebot AI đa kênh",
     groupTitle: "Công nghệ, Dữ liệu & AI CSKH (CS Tech, Data & AI)",
     groupKey: "tech",
@@ -927,11 +920,10 @@ export const PROJECTS_DATA: ProjectData[] = [
       ],
     },
   },
-  // 8.16 - 5.1
   {
     id: "p5_1",
     code: "5.1",
-    number: "8.16",
+    number: "5.1",
     title: "5.1 · Phát triển CS Academy và hệ thống đào tạo trực tuyến",
     groupTitle: "Đào tạo, Phát triển & Văn hóa Dịch vụ (CS Learning & Culture)",
     groupKey: "learning",
@@ -958,11 +950,10 @@ export const PROJECTS_DATA: ProjectData[] = [
       ],
     },
   },
-  // 8.17 - 5.2
   {
     id: "p5_2",
     code: "5.2",
-    number: "8.17",
+    number: "5.2",
     title: "5.2 · Xây dựng khung năng lực ASK và lộ trình nghề nghiệp",
     groupTitle: "Đào tạo, Phát triển & Văn hóa Dịch vụ (CS Learning & Culture)",
     groupKey: "learning",
@@ -989,11 +980,10 @@ export const PROJECTS_DATA: ProjectData[] = [
       ],
     },
   },
-  // 8.18 - 5.3
   {
     id: "p5_3",
     code: "5.3",
-    number: "8.18",
+    number: "5.3",
     title: "5.3 · Xây dựng trung tâm hỗ trợ khách hàng tự phục vụ",
     groupTitle: "Đào tạo, Phát triển & Văn hóa Dịch vụ (CS Learning & Culture)",
     groupKey: "learning",
@@ -1020,11 +1010,10 @@ export const PROJECTS_DATA: ProjectData[] = [
       ],
     },
   },
-  // 8.19 - 5.4
   {
     id: "p5_4",
     code: "3.5",
-    number: "8.19",
+    number: "3.5",
     title: "3.5 · Xây dựng văn hóa khách hàng và chuẩn chất lượng COPC",
     groupTitle: "Thiết kế Trải nghiệm Khách hàng (CX Design)",
     groupKey: "cx",
@@ -1055,7 +1044,7 @@ export const PROJECTS_DATA: ProjectData[] = [
   {
     id: "p5_5",
     code: "2.5",
-    number: "8.20",
+    number: "2.5",
     title: "2.5 · Quản trị thay đổi và ứng phó khủng hoảng dịch vụ",
     groupTitle: "Chuẩn hóa Quy trình & Vận hành Xuất sắc (SOP & Operational Excellence)",
     groupKey: "sop",
@@ -1086,7 +1075,7 @@ export const PROJECTS_DATA: ProjectData[] = [
   {
     id: "p5_6",
     code: "4.5",
-    number: "8.21",
+    number: "4.5",
     title: "4.5 · Ứng dụng AI Copilot và Auto-QA nâng cao hiệu suất",
     groupTitle: "Công nghệ, Dữ liệu & AI CSKH (CS Tech, Data & AI)",
     groupKey: "tech",
@@ -1114,3 +1103,14 @@ export const PROJECTS_DATA: ProjectData[] = [
     },
   },
 ];
+
+export const PROJECTS_DATA: ProjectData[] = RAW_PROJECTS_DATA.map((project) => {
+  const spec = project.detailedSpec || ALL_PROJECT_DETAILED_SPECS[project.id];
+  if (!spec) return project;
+  return {
+    ...project,
+    subtitleEn: project.subtitleEn || spec.subtitleEn,
+    tagline: project.tagline || spec.tagline,
+    detailedSpec: spec,
+  };
+});

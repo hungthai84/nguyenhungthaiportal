@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CareerMilestoneItem } from '../../data/letterData';
 import { ExperienceMilestone } from '../../data/experience';
 
@@ -11,6 +11,15 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
   item,
   onClose,
 }) => {
+  useEffect(() => {
+    if (!item) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [item, onClose]);
+
   if (!item) return null;
 
   return (
@@ -19,10 +28,13 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
       onClick={onClose}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={item.company}
         className="bg-white dark:bg-[#111827] rounded-[14px] max-w-xl w-full max-h-[90vh] overflow-y-auto no-scrollbar p-4 sm:p-5 border border-[#CBD5E1] dark:border-[#334155] shadow-2xl relative text-left space-y-3"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-3">
             <img
               src={item.logo}

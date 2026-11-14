@@ -26,6 +26,101 @@ function getGeminiClient(): GoogleGenAI | null {
   });
 }
 
+const TEXT_TRANSLATION_MODELS = ['gemini-3.1-flash-lite', 'gemini-4-hydrogen'] as const;
+const TTS_MODEL = 'gemini-3.8-flash-lite-tts';
+const DEFAULT_QUOTA_COOLDOWN_MS = 15 * 60 * 1000;
+const MAX_QUOTA_COOLDOWN_MS = 60 * 60 * 1000;
+const MAX_SERVER_TRANSLATION_CACHE = 4000;
+
+const modelCooldownUntil = new Map<string, number>();
+const cooldownWarnedUntil = new Map<string, number>();
+const serverTranslationCache = new Map<string, string>();
+
+function getCachedTranslation(targetLang: 'vi' | 'en', text: string): string | undefined {
+  return serverTranslationCache.get(`${targetLang}::${text}`);
+}
+
+function setCachedTranslation(targetLang: 'vi' | 'en', source: string, translated: string): void {
+  if (!source || !translated) return;
+  const key = `${targetLang}::${source}`;
+  if (serverTranslationCache.size >= MAX_SERVER_TRANSLATION_CACHE && !serverTranslationCache.has(key)) {
+    const oldestKey = serverTranslationCache.keys().next().value;
+    if (oldestKey) {
+      serverTranslationCache.delete(oldestKey);
+    }
+  }
+  serverTranslationCache.set(key, translated);
+}
+
+function isModelInCooldown(model: string): boolean {
+  const until = modelCooldownUntil.get(model);
+  if (!until) return false;
+  if (Date.now() >= until) {
+    modelCooldownUntil.delete(model);
+    cooldownWarnedUntil.delete(model);
+    return false;
+  }
+  return true;
+}
+
+function getRemainingCooldownSec(models: readonly string[]): number {
+  const now = Date.now();
+  let minRemaining = 0;
+  for (const m of models) {
+    const until = modelCooldownUntil.get(m) || 0;
+    if (until > now) {
+      const rem = Math.ceil((until - now) / 1000);
+      minRemaining = minRemaining === 0 ? rem : Math.min(minRemaining, rem);
+    } else {
+      return 0;
+    }
+  }
+  return minRemaining;
+}
+
+function parseQuotaError(err: unknown): { isQuota: boolean; cooldownMs: number; message: string } {
+  const rawMessage =
+    err instanceof Error
+      ? err.message
+      : typeof err === 'string'
+        ? err
+        : JSON.stringify(err ?? 'Unknown Gemini error');
+
+  const status = (err as { status?: number; code?: number })?.status ?? (err as { code?: number })?.code;
+  const lower = rawMessage.toLowerCase();
+  const isQuota =
+    status === 429 ||
+    lower.includes('429') ||
+    lower.includes('resource_exhausted') ||
+    lower.includes('quota exceeded') ||
+    lower.includes('rate limit') ||
+    lower.includes('rate-limits');
+
+  let cooldownMs = DEFAULT_QUOTA_COOLDOWN_MS;
+  const retryMatch = rawMessage.match(/(\d+(?:\.\d+)?)s/);
+  if (retryMatch) {
+    const parsedSec = Number(retryMatch[1]);
+    if (Number.isFinite(parsedSec) && parsedSec > 0) {
+      cooldownMs = Math.min(Math.max(parsedSec * 1000, 60_000), MAX_QUOTA_COOLDOWN_MS);
+    }
+  }
+
+  return { isQuota, cooldownMs, message: rawMessage };
+}
+
+function markModelQuotaCooldown(model: string, cooldownMs: number, reason: string): void {
+  const until = Date.now() + cooldownMs;
+  modelCooldownUntil.set(model, until);
+  const lastWarned = cooldownWarnedUntil.get(model) || 0;
+  if (Date.now() >= lastWarned) {
+    cooldownWarnedUntil.set(model, until);
+    const mins = Math.max(1, Math.round(cooldownMs / 60000));
+    console.warn(
+      `[Gemini Quota Notice] Model ${model} đạt giới hạn lượt miễn phí, tạm chuyển sang từ điển/giọng đọc dự phòng trong ~${mins} phút. (${reason.slice(0, 140)})`
+    );
+  }
+}
+
 async function startServer() {
   const app = express();
   app.use(express.json({ limit: '2mb' }));
@@ -43,9 +138,19 @@ async function startServer() {
 
       const ai = getGeminiClient();
       if (!ai) {
-        res.status(503).json({
+        res.json({
           error: 'GEMINI_API_KEY chưa được cấu hình. Đang dùng giọng đọc trình duyệt dự phòng.',
           fallback: true,
+        });
+        return;
+      }
+
+      if (isModelInCooldown(TTS_MODEL)) {
+        res.json({
+          fallback: true,
+          quotaExhausted: true,
+          retryAfterSec: getRemainingCooldownSec([TTS_MODEL]),
+          error: 'Gemini TTS đang tạm nghỉ theo giới hạn lượt miễn phí, đang dùng giọng đọc trình duyệt.',
         });
         return;
       }
@@ -56,7 +161,7 @@ async function startServer() {
           : 'Warm, friendly, clear adult male voice speaking Vietnamese with a natural Southern Vietnamese (Miền Nam Việt Nam, Sài Gòn) accent.';
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.8-flash-lite-tts',
+        model: TTS_MODEL,
         contents: [
           {
             role: 'user',
@@ -85,7 +190,7 @@ async function startServer() {
       const mimeType = part?.inlineData?.mimeType || 'audio/wav';
 
       if (!base64Audio) {
-        res.status(502).json({ error: 'Không nhận được dữ liệu âm thanh từ Gemini TTS.', fallback: true });
+        res.json({ error: 'Không nhận được dữ liệu âm thanh từ Gemini TTS.', fallback: true });
         return;
       }
 
@@ -97,119 +202,208 @@ async function startServer() {
         lang,
       });
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Lỗi Gemini TTS';
-      console.error('[TTS Error]', message);
-      res.status(500).json({ error: message, fallback: true });
+      const { isQuota, cooldownMs, message } = parseQuotaError(err);
+      if (isQuota) {
+        markModelQuotaCooldown(TTS_MODEL, cooldownMs, message);
+        res.json({
+          fallback: true,
+          quotaExhausted: true,
+          retryAfterSec: Math.ceil(cooldownMs / 1000),
+          error: 'Đã chạm giới hạn lượt TTS miễn phí, đang chuyển sang giọng đọc trình duyệt.',
+        });
+        return;
+      }
+      console.warn('[TTS Fallback]', message);
+      res.json({ error: message, fallback: true });
     }
   });
 
   // Bilingual translation helper grounded strictly on existing Vietnamese CV data
   app.post('/api/assistant/translate', async (req, res) => {
-    try {
-      const text = typeof req.body?.text === 'string' ? req.body.text.trim() : '';
-      const targetLang = req.body?.targetLang === 'en' ? 'en' : 'vi';
+    const text = typeof req.body?.text === 'string' ? req.body.text.trim() : '';
+    const targetLang: 'vi' | 'en' = req.body?.targetLang === 'en' ? 'en' : 'vi';
 
-      if (!text) {
-        res.status(400).json({ error: 'Missing text' });
-        return;
-      }
-
-      const ai = getGeminiClient();
-      if (!ai) {
-        res.json({ translatedText: text, fallback: true });
-        return;
-      }
-
-      const instruction =
-        targetLang === 'en'
-          ? 'Translate the provided Vietnamese customer experience portfolio Q&A content accurately into clear, natural, professional English. Preserve every fact, number, company name, year, metric, and person name (Nguyễn Hùng Thái, Trí Nhân) without adding or altering any information. Return only the translated text.'
-          : 'Dịch chính xác nội dung sang tiếng Việt tự nhiên, giữ nguyên 100% số liệu, tên riêng và thông tin gốc. Chỉ trả về văn bản đã dịch.';
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-4-hydrogen',
-        contents: text,
-        config: {
-          systemInstruction: instruction,
-        },
-      });
-
-      const translatedText = response.text?.trim() || text;
-      res.json({ translatedText });
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Translate error';
-      console.error('[Translate Error]', message);
-      res.json({
-        translatedText: typeof req.body?.text === 'string' ? req.body.text : '',
-        fallback: true,
-        error: message,
-      });
+    if (!text) {
+      res.status(400).json({ error: 'Missing text' });
+      return;
     }
+
+    const cached = getCachedTranslation(targetLang, text);
+    if (cached) {
+      res.json({ translatedText: cached, cached: true });
+      return;
+    }
+
+    const ai = getGeminiClient();
+    if (!ai) {
+      res.json({ translatedText: text, fallback: true });
+      return;
+    }
+
+    const availableModels = TEXT_TRANSLATION_MODELS.filter((m) => !isModelInCooldown(m));
+    if (availableModels.length === 0) {
+      res.json({
+        translatedText: text,
+        fallback: true,
+        quotaExhausted: true,
+        retryAfterSec: getRemainingCooldownSec(TEXT_TRANSLATION_MODELS),
+      });
+      return;
+    }
+
+    const instruction =
+      targetLang === 'en'
+        ? 'Translate the provided Vietnamese customer experience portfolio Q&A content accurately into clear, natural, professional English. Preserve every fact, number, company name, year, metric, and person name (Nguyễn Hùng Thái, Trí Nhân) without adding or altering any information. Return only the translated text.'
+        : 'Dịch chính xác nội dung sang tiếng Việt tự nhiên, giữ nguyên 100% số liệu, tên riêng và thông tin gốc. Chỉ trả về văn bản đã dịch.';
+
+    let lastQuotaRetrySec = 0;
+    for (const model of availableModels) {
+      try {
+        const response = await ai.models.generateContent({
+          model,
+          contents: text,
+          config: {
+            systemInstruction: instruction,
+          },
+        });
+
+        const translatedText = response.text?.trim() || text;
+        if (translatedText !== text) {
+          setCachedTranslation(targetLang, text, translatedText);
+        }
+        res.json({ translatedText, model });
+        return;
+      } catch (err) {
+        const { isQuota, cooldownMs, message } = parseQuotaError(err);
+        if (isQuota) {
+          markModelQuotaCooldown(model, cooldownMs, message);
+          lastQuotaRetrySec = Math.ceil(cooldownMs / 1000);
+          continue;
+        }
+        console.warn('[Assistant Translate Fallback]', message);
+        break;
+      }
+    }
+
+    res.json({
+      translatedText: text,
+      fallback: true,
+      quotaExhausted: lastQuotaRetrySec > 0,
+      retryAfterSec: lastQuotaRetrySec || getRemainingCooldownSec(TEXT_TRANSLATION_MODELS),
+    });
   });
 
   // Batch translation endpoint for instant whole-website switching (VI <-> EN)
   app.post('/api/translate-batch', async (req, res) => {
-    try {
-      const rawTexts: unknown[] = Array.isArray(req.body?.texts) ? req.body.texts : [];
-      const texts = rawTexts
-        .filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
-        .slice(0, 45);
-      const targetLang = req.body?.targetLang === 'en' ? 'en' : 'vi';
+    const rawTexts: unknown[] = Array.isArray(req.body?.texts) ? req.body.texts : [];
+    const texts = rawTexts
+      .filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+      .slice(0, 45);
+    const targetLang: 'vi' | 'en' = req.body?.targetLang === 'en' ? 'en' : 'vi';
 
-      if (texts.length === 0) {
-        res.json({ translations: [] });
-        return;
-      }
-
-      const ai = getGeminiClient();
-      if (!ai) {
-        res.json({ translations: texts, fallback: true });
-        return;
-      }
-
-      const instruction =
-        targetLang === 'en'
-          ? 'You are translating an executive Customer Experience (CX) & Digital Transformation Portfolio website from Vietnamese to natural, concise, executive English. Input is a JSON array of strings. Return a JSON array of strings of the EXACT same length and order. CRITICAL RULES: Keep proper names unchanged (Nguyễn Hùng Thái, Trí Nhân, MobiFone, Shopee, Garena, Prudential Vietnam, MoMo, ShopeePay, Finviet, Power Service, etc.), preserve all numbers, years, percentages, currency, project codes (1.1, 8.1, Q01), and industry acronyms (CX, CSKH -> Customer Service/CS, SLA, KPI, OKR, CRM, SOP, RPA, BPO, BI, COPC, TQA, VoC, CJM, AI). Match concise button/label lengths cleanly. Return ONLY valid JSON array of strings.'
-          : 'Dịch mảng JSON chuỗi đầu vào sang tiếng Việt tự nhiên, giữ nguyên số lượng phần tử, thứ tự, tên riêng và số liệu. Chỉ trả về mảng JSON các chuỗi.';
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-4-hydrogen',
-        contents: JSON.stringify(texts),
-        config: {
-          systemInstruction: instruction,
-          responseMimeType: 'application/json',
-        },
-      });
-
-      const rawOutput = response.text?.trim() || '';
-      let parsed: unknown = null;
-      try {
-        parsed = JSON.parse(rawOutput);
-      } catch {
-        const match = rawOutput.match(/\[[\s\S]*\]/);
-        if (match) {
-          parsed = JSON.parse(match[0]);
-        }
-      }
-
-      if (Array.isArray(parsed) && parsed.length === texts.length) {
-        const translations = parsed.map((val, idx) =>
-          typeof val === 'string' && val.trim().length > 0 ? val : texts[idx]
-        );
-        res.json({ translations });
-        return;
-      }
-
-      res.json({ translations: texts, fallback: true });
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Batch translate error';
-      console.error('[Translate Batch Error]', message);
-      const safeTexts = Array.isArray(req.body?.texts) ? req.body.texts : [];
-      res.json({
-        translations: safeTexts,
-        fallback: true,
-        error: message,
-      });
+    if (texts.length === 0) {
+      res.json({ translations: [] });
+      return;
     }
+
+    // Resolve server-cached entries first and deduplicate remaining unique strings
+    const uncachedUnique: string[] = [];
+    const uncachedSet = new Set<string>();
+    for (const item of texts) {
+      if (!getCachedTranslation(targetLang, item) && !uncachedSet.has(item)) {
+        uncachedSet.add(item);
+        uncachedUnique.push(item);
+      }
+    }
+
+    if (uncachedUnique.length === 0) {
+      res.json({
+        translations: texts.map((item) => getCachedTranslation(targetLang, item) || item),
+        cached: true,
+      });
+      return;
+    }
+
+    const ai = getGeminiClient();
+    if (!ai) {
+      res.json({
+        translations: texts.map((item) => getCachedTranslation(targetLang, item) || item),
+        fallback: true,
+      });
+      return;
+    }
+
+    const availableModels = TEXT_TRANSLATION_MODELS.filter((m) => !isModelInCooldown(m));
+    if (availableModels.length === 0) {
+      res.json({
+        translations: texts.map((item) => getCachedTranslation(targetLang, item) || item),
+        fallback: true,
+        quotaExhausted: true,
+        retryAfterSec: getRemainingCooldownSec(TEXT_TRANSLATION_MODELS),
+      });
+      return;
+    }
+
+    const instruction =
+      targetLang === 'en'
+        ? 'You are translating an executive Customer Experience (CX) & Digital Transformation Portfolio website from Vietnamese to natural, concise, executive English. Input is a JSON array of strings. Return a JSON array of strings of the EXACT same length and order. CRITICAL RULES: Keep proper names unchanged (Nguyễn Hùng Thái, Trí Nhân, MobiFone, Shopee, Garena, Prudential Vietnam, MoMo, ShopeePay, Finviet, Power Service, etc.), preserve all numbers, years, percentages, currency, project codes (1.1, 8.1, Q01), and industry acronyms (CX, CSKH -> Customer Service/CS, SLA, KPI, OKR, CRM, SOP, RPA, BPO, BI, COPC, TQA, VoC, CJM, AI). Match concise button/label lengths cleanly. Return ONLY valid JSON array of strings.'
+        : 'Dịch mảng JSON chuỗi đầu vào sang tiếng Việt tự nhiên, giữ nguyên số lượng phần tử, thứ tự, tên riêng và số liệu. Chỉ trả về mảng JSON các chuỗi.';
+
+    let lastQuotaRetrySec = 0;
+
+    for (const model of availableModels) {
+      try {
+        const response = await ai.models.generateContent({
+          model,
+          contents: JSON.stringify(uncachedUnique),
+          config: {
+            systemInstruction: instruction,
+            responseMimeType: 'application/json',
+          },
+        });
+
+        const rawOutput = response.text?.trim() || '';
+        let parsed: unknown = null;
+        try {
+          parsed = JSON.parse(rawOutput);
+        } catch {
+          const match = rawOutput.match(/\[[\s\S]*\]/);
+          if (match) {
+            parsed = JSON.parse(match[0]);
+          }
+        }
+
+        if (Array.isArray(parsed) && parsed.length === uncachedUnique.length) {
+          uncachedUnique.forEach((src, idx) => {
+            const val = parsed[idx];
+            if (typeof val === 'string' && val.trim().length > 0) {
+              setCachedTranslation(targetLang, src, val.trim());
+            }
+          });
+          res.json({
+            translations: texts.map((item) => getCachedTranslation(targetLang, item) || item),
+            model,
+          });
+          return;
+        }
+      } catch (err) {
+        const { isQuota, cooldownMs, message } = parseQuotaError(err);
+        if (isQuota) {
+          markModelQuotaCooldown(model, cooldownMs, message);
+          lastQuotaRetrySec = Math.ceil(cooldownMs / 1000);
+          continue;
+        }
+        console.warn('[Translate Batch Fallback]', message);
+        break;
+      }
+    }
+
+    res.json({
+      translations: texts.map((item) => getCachedTranslation(targetLang, item) || item),
+      fallback: true,
+      quotaExhausted: lastQuotaRetrySec > 0,
+      retryAfterSec: lastQuotaRetrySec || getRemainingCooldownSec(TEXT_TRANSLATION_MODELS),
+    });
   });
 
   if (!isProduction) {

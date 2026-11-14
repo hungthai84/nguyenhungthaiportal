@@ -4,7 +4,9 @@ export type CardStyleMode =
   | 'frosted-glass'
   | 'glassmorphism'
   | 'mica-fluent'
-  | 'glassmorphism-neon';
+  | 'pastel-bento'
+  | 'glassmorphism-neon'
+  | 'cowhide-leather';
 
 export interface CardStyleConfig {
   id: CardStyleMode;

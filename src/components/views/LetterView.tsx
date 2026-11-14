@@ -1619,10 +1619,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
     }
   }, [companyDisplay, showToast]);
 
-  const renderInteractiveMiniTimeline = () => null;
-  const renderTopNavigationBar = () => null;
-  const renderSectionSwitcher = () => null;
-
   // Subcomponent to render each career milestone as a responsive Multi-Color Bento View Card
   const renderCareerCard = (
     item: CareerMilestoneItem,
@@ -1881,8 +1877,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
       style={{ background: 'var(--bg-header)', gap: '15px', rowGap: '15px', columnGap: '15px' }}
       className="main-card w-full h-full max-w-full flex-1 min-h-0 flex flex-col justify-start p-[15px] sm:p-[20px] lg:p-[25px] gap-[15px] relative z-10 text-slate-800 dark:text-slate-100 select-none overflow-hidden font-play text-left rounded-[20px] border border-white/80 dark:border-white/10 shadow-xl"
     >
-      {/* THANH ĐIỀU HƯỚNG 4 PHÂN ĐOẠN SLIDE SANG TRỌNG */}
-      {renderSectionSwitcher()}
 
 
 
@@ -2056,7 +2050,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       }`}
                     >
                       <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/70 dark:border-white/10 shrink-0 gap-2">
-                        <div className="inline-flex items-center gap-2 text-cyan-700 dark:text-cyan-300 leading-tight">
+                        <div className="inline-flex items-center gap-2 text-cyan-600 dark:text-cyan-300 leading-tight">
                           <WebIcon
                             name="book"
                             size={16}
@@ -2064,7 +2058,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                             style={{ width: '16px', height: '16px', fontSize: '16px' }}
                           />
                           <h2
-                            className="card-title text-[18px] font-bold font-play tracking-tight text-cyan-700 dark:text-cyan-300"
+                            className="card-title text-[18px] font-bold font-play tracking-tight text-cyan-600 dark:text-cyan-300"
                             style={{ fontSize: '18px', fontWeight: 700, lineHeight: 1.35 }}
                           >
                             Thông điệp hợp tác
@@ -2229,7 +2223,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                             style={{ width: '16px', height: '16px', fontSize: '16px' }}
                           />
                           <h3
-                            className="card-title text-[18px] font-bold font-play text-slate-800 dark:text-slate-100"
+                            className="card-title text-[18px] font-bold font-play text-blue-600 dark:text-cyan-400"
                             style={{ fontSize: '18px', fontWeight: 700, lineHeight: 1.35 }}
                           >
                             Thương hiệu đồng hành
@@ -2300,11 +2294,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           <WebIcon
                             name="sparkles"
                             size={16}
-                            className="w-[16px] h-[16px] shrink-0 card-title-icon text-amber-500 dark:text-amber-300"
+                            className="w-[16px] h-[16px] shrink-0 card-title-icon text-amber-600 dark:text-amber-300"
                             style={{ width: '16px', height: '16px', fontSize: '16px' }}
                           />
                           <h3
-                            className="card-title text-[18px] font-bold font-play text-slate-900 dark:text-white"
+                            className="card-title text-[18px] font-bold font-play text-amber-600 dark:text-amber-300"
                             style={{ fontSize: '18px', fontWeight: 700, lineHeight: 1.35 }}
                           >
                             Châm ngôn phụng sự
@@ -2324,7 +2318,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
               {currentSlide === 1 && (
                 <div className="w-full flex flex-col gap-[15px]">
-                  {renderInteractiveMiniTimeline()}
                   <div
                     id="letter-slide-2-grid"
                     className="w-full flex-1 grid grid-cols-1 md:grid-cols-2 auto-rows-fr gap-[15px] items-stretch"
@@ -2339,7 +2332,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
               {currentSlide === 2 && (
                 <div className="w-full flex flex-col gap-[15px]">
-                  {renderInteractiveMiniTimeline()}
                   <div
                     id="letter-slide-3-grid"
                     className="w-full flex-1 grid grid-cols-1 md:grid-cols-2 auto-rows-fr gap-[15px] items-stretch"
@@ -2541,7 +2533,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
       {/* ========================================================================= */}
       {isClientMounted && (
         <div
-          className="fixed top-[78px] sm:top-[88px] right-3 sm:right-6 md:right-8 z-50 flex items-center gap-2 sm:gap-3 select-none pointer-events-auto max-w-[calc(100vw-24px)]"
+          className="fixed top-[68px] sm:top-[88px] right-2 sm:right-6 md:right-8 z-50 flex items-center gap-2 sm:gap-3 select-none pointer-events-auto max-w-[calc(100vw-24px)]"
           role="region"
           aria-label="Video Giới Thiệu Chân Dung Nổi"
         >
@@ -2569,7 +2561,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
             {/* Vòng tròn avatar chân dung video lấp đầy 100% */}
             <div
               className={cn(
-                "relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden transition-all duration-300 group-hover/circle:scale-110 border-[3px] shadow-[0_0_25px_rgba(6,182,212,0.8),0_0_45px_rgba(37,99,235,0.6)]",
+                "relative w-14 h-14 sm:w-24 sm:h-24 rounded-full overflow-hidden transition-all duration-300 group-hover/circle:scale-110 border-[3px] shadow-[0_0_25px_rgba(6,182,212,0.8),0_0_45px_rgba(37,99,235,0.6)]",
                 isCircleVideoPlaying
                   ? "border-cyan-300 ring-4 ring-cyan-400/60 shadow-[0_0_35px_rgba(6,182,212,0.95),0_0_60px_rgba(37,99,235,0.8)]"
                   : "border-blue-400 dark:border-cyan-400 hover:border-cyan-300"

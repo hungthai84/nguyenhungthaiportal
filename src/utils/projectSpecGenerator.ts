@@ -7,6 +7,7 @@ export interface ProjectSpec {
   context: {
     intro: string;
     challenges: string[];
+    challengeTitles?: string[];
     conclusion: string;
   };
   objectives: {
@@ -60,23 +61,23 @@ export interface ProjectSpec {
 }
 
 export const CHALLENGE_PALETTES = [
-  { theme: 'from-rose-50/90 to-rose-100/40 dark:from-rose-950/40 dark:to-slate-800/80 border-rose-200/90 dark:border-rose-500/30 text-rose-600 dark:text-rose-400', icon: 'alert', fourWord: 'Nghẽn quy trình' },
-  { theme: 'from-amber-50/90 to-amber-100/40 dark:from-amber-950/40 dark:to-slate-800/80 border-amber-200/90 dark:border-amber-500/30 text-amber-600 dark:text-amber-400', icon: 'clock', fourWord: 'Thời gian xử lý' },
-  { theme: 'from-purple-50/90 to-purple-100/40 dark:from-purple-950/40 dark:to-slate-800/80 border-purple-200/90 dark:border-purple-500/30 text-purple-600 dark:text-purple-400', icon: 'users', fourWord: 'Kỹ năng đội ngũ' },
-  { theme: 'from-sky-50/90 to-sky-100/40 dark:from-sky-950/40 dark:to-slate-800/80 border-sky-200/90 dark:border-sky-500/30 text-sky-600 dark:text-sky-400', icon: 'database', fourWord: 'Dữ liệu phân tán' },
-  { theme: 'from-emerald-50/90 to-emerald-100/40 dark:from-emerald-950/40 dark:to-slate-800/80 border-emerald-200/90 dark:border-emerald-500/30 text-emerald-600 dark:text-emerald-400', icon: 'cog', fourWord: 'Công nghệ lạc hậu' },
-  { theme: 'from-cyan-50/90 to-cyan-100/40 dark:from-cyan-950/40 dark:to-slate-800/80 border-cyan-200/90 dark:border-cyan-500/30 text-cyan-600 dark:text-cyan-400', icon: 'shield-check', fourWord: 'Kiểm soát chất lượng' },
-  { theme: 'from-indigo-50/90 to-indigo-100/40 dark:from-indigo-950/40 dark:to-slate-800/80 border-indigo-200/90 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400', icon: 'trending-up', fourWord: 'Chi phí vận hành' }
+  { theme: 'border-rose-200/90 dark:border-rose-500/30 text-rose-600 dark:text-rose-400', icon: 'alert', fourWord: 'Nghẽn quy trình' },
+  { theme: 'border-amber-200/90 dark:border-amber-500/30 text-amber-600 dark:text-amber-400', icon: 'clock', fourWord: 'Thời gian xử lý' },
+  { theme: 'border-purple-200/90 dark:border-purple-500/30 text-purple-600 dark:text-purple-400', icon: 'users', fourWord: 'Kỹ năng đội ngũ' },
+  { theme: 'border-sky-200/90 dark:border-sky-500/30 text-sky-600 dark:text-sky-400', icon: 'database', fourWord: 'Dữ liệu phân tán' },
+  { theme: 'border-emerald-200/90 dark:border-emerald-500/30 text-emerald-600 dark:text-emerald-400', icon: 'cog', fourWord: 'Công nghệ lạc hậu' },
+  { theme: 'border-cyan-200/90 dark:border-cyan-500/30 text-cyan-600 dark:text-cyan-400', icon: 'shield-check', fourWord: 'Kiểm soát chất lượng' },
+  { theme: 'border-indigo-200/90 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400', icon: 'trending-up', fourWord: 'Chi phí vận hành' }
 ];
 
 export const SCOPE_PALETTES = [
-  { theme: 'from-sky-50/90 to-sky-100/40 dark:from-sky-950/40 dark:to-slate-800/80 border-sky-200/90 dark:border-sky-500/30 text-sky-600 dark:text-sky-400', icon: 'clipboard' },
-  { theme: 'from-emerald-50/90 to-emerald-100/40 dark:from-emerald-950/40 dark:to-slate-800/80 border-emerald-200/90 dark:border-emerald-500/30 text-emerald-600 dark:text-emerald-400', icon: 'workflow' },
-  { theme: 'from-purple-50/90 to-purple-100/40 dark:from-purple-950/40 dark:to-slate-800/80 border-purple-200/90 dark:border-purple-500/30 text-purple-600 dark:text-purple-400', icon: 'users' },
-  { theme: 'from-amber-50/90 to-amber-100/40 dark:from-amber-950/40 dark:to-slate-800/80 border-amber-200/90 dark:border-amber-500/30 text-amber-600 dark:text-amber-400', icon: 'database' },
-  { theme: 'from-rose-50/90 to-rose-100/40 dark:from-rose-950/40 dark:to-slate-800/80 border-rose-200/90 dark:border-rose-500/30 text-rose-600 dark:text-rose-400', icon: 'shield-check' },
-  { theme: 'from-cyan-50/90 to-cyan-100/40 dark:from-cyan-950/40 dark:to-slate-800/80 border-cyan-200/90 dark:border-cyan-500/30 text-cyan-600 dark:text-cyan-400', icon: 'headphones' },
-  { theme: 'from-indigo-50/90 to-indigo-100/40 dark:from-indigo-950/40 dark:to-slate-800/80 border-indigo-200/90 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400', icon: 'award' }
+  { theme: 'border-sky-200/90 dark:border-sky-500/30 text-sky-600 dark:text-sky-400', icon: 'clipboard' },
+  { theme: 'border-emerald-200/90 dark:border-emerald-500/30 text-emerald-600 dark:text-emerald-400', icon: 'workflow' },
+  { theme: 'border-purple-200/90 dark:border-purple-500/30 text-purple-600 dark:text-purple-400', icon: 'users' },
+  { theme: 'border-amber-200/90 dark:border-amber-500/30 text-amber-600 dark:text-amber-400', icon: 'database' },
+  { theme: 'border-rose-200/90 dark:border-rose-500/30 text-rose-600 dark:text-rose-400', icon: 'shield-check' },
+  { theme: 'border-cyan-200/90 dark:border-cyan-500/30 text-cyan-600 dark:text-cyan-400', icon: 'headphones' },
+  { theme: 'border-indigo-200/90 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400', icon: 'award' }
 ];
 
 export function getProjectDetailedSpec(project: ProjectData): ProjectSpec {

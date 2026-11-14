@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface AiAssistantModalProps {
   isOpen: boolean;
@@ -33,6 +33,15 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -72,7 +81,10 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg bg-white dark:bg-[#111827] border-2 border-purple-300 dark:border-[#334155] p-4 sm:p-5 rounded-[14px] shadow-2xl z-10 flex flex-col justify-between h-[520px] text-[#334155] dark:text-[#E2E8F0] font-play overflow-hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Trợ Lý AI Hùng Thái 24/7"
+        className="relative w-full max-w-lg bg-white dark:bg-[#111827] border-2 border-purple-300 dark:border-[#334155] p-4 sm:p-5 rounded-[14px] shadow-2xl z-10 flex flex-col justify-between h-[520px] max-h-[90vh] text-[#334155] dark:text-[#E2E8F0] font-play overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -101,6 +113,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
           <button
             type="button"
             onClick={onClose}
+            aria-label="Đóng"
             className="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500 font-bold cursor-pointer"
           >
             ✕
@@ -161,11 +174,11 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Hỏi AI về kinh nghiệm, dịch vụ, dự án..."
-            className="flex-1 px-3.5 py-2 rounded-[14px] border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 typo-input focus:outline-none focus:border-purple-600"
+            className="flex-1 min-w-0 px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 typo-input focus:outline-none focus:border-purple-600"
           />
           <button
             type="submit"
-            className="px-4 py-2 rounded-[14px] bg-purple-600 hover:bg-purple-700 text-white typo-button shadow-md cursor-pointer transition flex items-center gap-1"
+            className="px-4 py-2 rounded-full bg-purple-600 hover:bg-purple-700 text-white typo-button shadow-md cursor-pointer transition flex items-center gap-1 shrink-0"
           >
             <span>Gửi</span>
             <i className="fa-solid fa-paper-plane text-[12px]"></i>

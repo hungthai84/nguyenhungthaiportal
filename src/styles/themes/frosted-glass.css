@@ -20,13 +20,174 @@ html[data-card-style="frosted-glass"] {
   --bg-table: var(--color-surface);
   --border-color: var(--color-border-soft);
   --bg-nav-button-opaque: #FFFFFF;
+
+  --bg-nav-pill: #FFFFFF;
+  --shadow-nav-pill: 0 4px 14px rgba(15, 23, 42, 0.08);
+  --blur-nav-pill: 0px;
+  --outline-nav-pill: none;
+  --divider-nav-pill: rgba(148, 163, 184, 0.55);
+
+  --bg-subcard: #F8FAFC;
+  --border-subcard: #E2E8F0;
+  --shadow-subcard: 0 2px 8px rgba(30, 27, 75, 0.05);
+  --blur-subcard: 0px;
+  --outline-subcard: none;
+  --bg-nested-badge: #FFFFFF;
+  --border-nested-badge: #CBD5E1;
+
+  --pillar-heading: #1E1B4B;
+  --pillar-sub: #4338CA;
+  --pillar-body: #334155;
+  --pillar-badge-bg: rgba(67, 56, 202, 0.10);
+  --pillar-badge-text: #312E81;
+  --pillar-divider: rgba(148, 163, 184, 0.28);
+  --pillar-progress-track: rgba(148, 163, 184, 0.24);
+  --pillar-progress-fill: #4338CA;
 }
 
 html[data-card-style="frosted-glass"] #ai-assistant-droptop-menu-list,
 html[data-card-style="frosted-glass"] #ai-assistant-center-questions-modal,
 html[data-card-style="frosted-glass"] #interview-question-filter-listbox,
-html[data-card-style="frosted-glass"] #skills-filter-dropdown {
+html[data-card-style="frosted-glass"] #skills-filter-dropdown,
+html[data-card-style="frosted-glass"] #services-filter-dropdown {
   background: var(--color-surface) !important;
   border-color: var(--color-border-soft) !important;
+}
+
+/* Crisp Solid Subcards & Detail Panels in Giao diện Chuẩn */
+html[data-card-style="frosted-glass"] [data-subcard="true"],
+html[data-card-style="frosted-glass"] .sub-card,
+html[data-card-style="frosted-glass"] .about-info-subcard,
+html[data-card-style="frosted-glass"] .experience-milestone-card,
+html[data-card-style="frosted-glass"] .exp-detail-card,
+html[data-card-style="frosted-glass"] .exp-detail-subcard {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 4px 12px -2px rgba(30, 27, 75, 0.06) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="frosted-glass"] .exp-detail-subcard,
+html[data-card-style="frosted-glass"] .about-info-subcard {
+  background: #F8FAFC !important;
+}
+
+html[data-card-style="frosted-glass"] .about-info-subcard:hover,
+html[data-card-style="frosted-glass"] .exp-detail-subcard:hover {
+  background: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
+}
+
+/* 3 Pillars & Core Values in Giao diện Chuẩn */
+html[data-card-style="frosted-glass"] .pillar-gradient-card {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  box-shadow: 0 6px 18px -4px rgba(30, 27, 75, 0.08) !important;
+}
+
+html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="blue"] {
+  border-top: 3px solid #2563EB !important;
+}
+html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="rose"] {
+  border-top: 3px solid #E11D48 !important;
+}
+html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="emerald"] {
+  border-top: 3px solid #059669 !important;
+}
+html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="amber"] {
+  border-top: 3px solid #D97706 !important;
+}
+html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="pink"] {
+  border-top: 3px solid #DB2777 !important;
+}
+html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="purple"] {
+  border-top: 3px solid #7C3AED !important;
+}
+
+html[data-card-style="frosted-glass"] .service-card .service-ambient-glow {
+  opacity: 0.14 !important;
+}
+
+/* SWOT Quadrant Cards & Skill Subcards in Giao diện Chuẩn */
+html[data-card-style="frosted-glass"] .swot-quadrant-card[data-swot="S"] {
+  border-top: 3px solid #1480C0 !important;
+}
+html[data-card-style="frosted-glass"] .swot-quadrant-card[data-swot="W"] {
+  border-top: 3px solid #16A34A !important;
+}
+html[data-card-style="frosted-glass"] .swot-quadrant-card[data-swot="O"] {
+  border-top: 3px solid #EA580C !important;
+}
+html[data-card-style="frosted-glass"] .swot-quadrant-card[data-swot="T"] {
+  border-top: 3px solid #E11D48 !important;
+}
+
+html[data-card-style="frosted-glass"] .skill-swot-subcard {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="frosted-glass"] .skill-swot-subcard:hover,
+html[data-card-style="frosted-glass"] .skill-swot-subcard[data-expanded="true"] {
+  background: #FFFFFF !important;
+  border-color: var(--swot-accent-border, #CBD5E1) !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+}
+
+html[data-card-style="frosted-glass"] .skill-swot-subcard .swot-skill-disclosure {
+  background: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* Giao diện Chuẩn: Banners, Nav Arrows, Image Cards, Project Detail, Education, Letter Subcards */
+html[data-card-style="frosted-glass"] .hero-banner,
+html[data-card-style="frosted-glass"] .banner-card,
+html[data-card-style="frosted-glass"] #project-detail-banner {
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 10px 28px -6px rgba(15, 23, 42, 0.12) !important;
+}
+
+html[data-card-style="frosted-glass"] .banner-control-pill,
+html[data-card-style="frosted-glass"] .nav-arrow-btn,
+html[data-card-style="frosted-glass"] .theme-prev-next-btn,
+html[data-card-style="frosted-glass"] .theme-back-to-top-btn {
+  background: #FFFFFF !important;
+  color: #1E1B4B !important;
+  border: 1px solid #CBD5E1 !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+}
+
+html[data-card-style="frosted-glass"] .banner-dropdown-menu,
+html[data-card-style="frosted-glass"] #systems-filter-listbox,
+html[data-card-style="frosted-glass"] #memories-filter-listbox,
+html[data-card-style="frosted-glass"] #horoscope-filter-listbox {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 16px 36px -6px rgba(15, 23, 42, 0.14) !important;
+}
+
+html[data-card-style="frosted-glass"] .project-detail-section-card {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.08) !important;
+}
+
+html[data-card-style="frosted-glass"] .project-detail-subcard,
+html[data-card-style="frosted-glass"] .education-subcard,
+html[data-card-style="frosted-glass"] .letter-subcard,
+html[data-card-style="frosted-glass"] .letter-header-subcard,
+html[data-card-style="frosted-glass"] .letter-footer-subcard {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+
+html[data-card-style="frosted-glass"] .themed-image-card {
+  border: 1.5px solid #CBD5E1 !important;
+  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.12) !important;
 }
 

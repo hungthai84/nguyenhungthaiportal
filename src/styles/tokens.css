@@ -201,12 +201,63 @@
   --bg-table: var(--color-surface);
   --bg-blur: var(--glass-blur);
 
+  /* Component Theme Tokens: Nav Pills, Subcards & Pillar/Value Cards */
+  --bg-nav-pill: #FFFFFF;
+  --shadow-nav-pill: 0 4px 14px rgba(15, 23, 42, 0.08);
+  --blur-nav-pill: 0px;
+  --outline-nav-pill: none;
+  --outline-offset-nav-pill: 0px;
+  --divider-nav-pill: rgba(148, 163, 184, 0.55);
+  --bg-subcard-hover: #F1F5F9;
+  --border-subcard: var(--color-border-soft);
+  --shadow-subcard: 0 2px 8px rgba(30, 27, 75, 0.05);
+  --blur-subcard: 0px;
+  --outline-subcard: none;
+  --outline-offset-subcard: 0px;
+  --bg-nested-badge: #FFFFFF;
+  --border-nested-badge: #CBD5E1;
+  --pillar-heading: #1E1B4B;
+  --pillar-sub: #4338CA;
+  --pillar-body: #334155;
+  --pillar-badge-bg: rgba(67, 56, 202, 0.10);
+  --pillar-badge-text: #312E81;
+  --pillar-divider: rgba(148, 163, 184, 0.28);
+  --pillar-progress-track: rgba(148, 163, 184, 0.25);
+  --pillar-progress-fill: #4338CA;
+
+  /* Banner, Nav Arrow, Back-to-Top & Image Card Tokens */
+  --banner-border: rgba(255, 255, 255, 0.85);
+  --banner-shadow: 0 12px 32px -6px rgba(15, 23, 42, 0.16);
+  --banner-outline: none;
+  --banner-outline-offset: 0px;
+  --bg-banner-pill: rgba(255, 255, 255, 0.94);
+  --text-banner-pill: #1E1B4B;
+  --border-banner-pill: rgba(203, 213, 225, 0.9);
+  --shadow-banner-pill: 0 4px 14px rgba(15, 23, 42, 0.14);
+  --outline-banner-pill: none;
+  --bg-banner-cta: linear-gradient(135deg, #2563EB 0%, #4F46E5 55%, #06B6D4 100%);
+  --text-banner-cta: #FFFFFF;
+  --border-banner-cta: rgba(147, 197, 253, 0.55);
+  --shadow-banner-cta: 0 6px 18px rgba(37, 99, 235, 0.35);
+  --bg-banner-input: rgba(255, 255, 255, 0.94);
+  --text-banner-input: #0F172A;
+  --border-banner-input: rgba(203, 213, 225, 0.9);
+  --bg-nav-arrow: #FFFFFF;
+  --border-nav-arrow: rgba(203, 213, 225, 0.9);
+  --text-nav-arrow: #1E1B4B;
+  --shadow-nav-arrow: 0 4px 12px rgba(15, 23, 42, 0.10);
+  --outline-nav-arrow: none;
+  --border-image-card: rgba(255, 255, 255, 0.85);
+  --shadow-image-card: 0 10px 28px -6px rgba(15, 23, 42, 0.12);
+  --outline-image-card: none;
+  --outline-offset-image-card: 0px;
+
   /* Container Max Width */
   --container-max-w: 1250px;
 }
 
 /* Dark Mode Overrides (WCAG 2.2 AA Compliant) */
-html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-neon"], [data-theme="vivid-glass"] {
+html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-neon"], [data-theme="vivid-glass"], [data-theme="cowhide-leather"] {
   --color-bg: #0B1220;
   --color-bg-soft: #111827;
   --color-bg-blue: #1F2937;
@@ -274,6 +325,44 @@ html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
   --shadow-md: 0 10px 30px -6px rgba(0, 0, 0, 0.45);
   --shadow-lg: 0 20px 32px -6px rgba(0, 0, 0, 0.6);
+
+  --bg-nav-pill: #0D152E;
+  --shadow-nav-pill: 0 6px 18px rgba(0, 0, 0, 0.48);
+  --blur-nav-pill: 0px;
+  --divider-nav-pill: rgba(255, 255, 255, 0.28);
+  --bg-subcard-hover: rgba(30, 41, 59, 0.9);
+  --border-subcard: rgba(255, 255, 255, 0.14);
+  --shadow-subcard: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --bg-nested-badge: #111827;
+  --border-nested-badge: rgba(255, 255, 255, 0.18);
+  --pillar-heading: #F8FAFC;
+  --pillar-sub: #7DD3FC;
+  --pillar-body: #E2E8F0;
+  --pillar-badge-bg: rgba(255, 255, 255, 0.14);
+  --pillar-badge-text: #F8FAFC;
+  --pillar-divider: rgba(255, 255, 255, 0.16);
+  --pillar-progress-track: rgba(255, 255, 255, 0.18);
+  --pillar-progress-fill: #38BDF8;
+
+  /* Banner, Nav Arrow, Back-to-Top & Image Card Tokens (Dark) */
+  --banner-border: rgba(255, 255, 255, 0.20);
+  --banner-shadow: 0 14px 36px -6px rgba(0, 0, 0, 0.50);
+  --bg-banner-pill: rgba(17, 24, 39, 0.92);
+  --text-banner-pill: #F8FAFC;
+  --border-banner-pill: rgba(148, 163, 184, 0.35);
+  --shadow-banner-pill: 0 6px 18px rgba(0, 0, 0, 0.40);
+  --bg-banner-cta: linear-gradient(135deg, #0284C7 0%, #4F46E5 55%, #7C3AED 100%);
+  --text-banner-cta: #FFFFFF;
+  --border-banner-cta: rgba(56, 189, 248, 0.45);
+  --bg-banner-input: rgba(15, 23, 42, 0.92);
+  --text-banner-input: #F8FAFC;
+  --border-banner-input: rgba(148, 163, 184, 0.35);
+  --bg-nav-arrow: #1E293B;
+  --border-nav-arrow: rgba(148, 163, 184, 0.35);
+  --text-nav-arrow: #F8FAFC;
+  --shadow-nav-arrow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  --border-image-card: rgba(255, 255, 255, 0.18);
+  --shadow-image-card: 0 12px 32px -6px rgba(0, 0, 0, 0.45);
 }
 
 /* Tablet Typography Scale (768px – 1023px) */

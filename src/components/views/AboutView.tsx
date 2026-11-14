@@ -507,6 +507,22 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
           border-color: rgba(34, 211, 238, 0.95);
           box-shadow: 0 0 32px rgba(34, 211, 238, 0.7);
         }
+        html.dark .u306-ic {
+          background: rgba(15, 23, 42, 0.92);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(148, 163, 184, 0.28);
+        }
+        html.dark .u306-ic:hover,
+        html.dark .u306-ic.is-on {
+          background: rgba(30, 41, 59, 0.98);
+        }
+        @media (max-width: 440px) {
+          .u306 {
+            transform: scale(0.76);
+            transform-origin: top center;
+            height: 295px;
+            margin-bottom: -10px;
+          }
+        }
       `}</style>
     </div>
   );
@@ -973,20 +989,19 @@ export function AboutView({
               {PERSONAL_DEMOGRAPHICS.map((item) => (
                 <div
                   key={item.id}
+                  data-subcard="true"
                   className={cn(
-                    'p-2.5 rounded-[14px] border flex items-center gap-2.5 transition-all hover:scale-[1.02] cursor-default',
-                    item.colorTheme.bg,
-                    item.colorTheme.border
+                    'about-info-subcard p-2.5 rounded-[14px] border flex items-center gap-2.5 transition-all hover:scale-[1.02] cursor-default'
                   )}
                 >
-                  <div className={cn('w-9 h-9 rounded-[14px] flex items-center justify-center shrink-0', item.colorTheme.iconBg)}>
+                  <div className="exp-icon-badge w-9 h-9 rounded-[14px] border flex items-center justify-center shrink-0">
                     <WebIcon name={getWebIconName(item.iconName)} className={cn('w-4.5 h-4.5', item.colorTheme.iconColor)} />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <span className={cn('text-[10px] font-bold block truncate', item.colorTheme.labelColor)}>
+                    <span className="about-info-label text-[10px] font-bold text-[#475569] dark:text-[#CBD5E1] block truncate">
                       {item.labelVi}
                     </span>
-                    <span className={cn('text-xs font-black font-play block truncate', item.colorTheme.valueColor)}>
+                    <span className="about-info-value text-xs font-black font-play text-[#0F172A] dark:text-[#F8FAFC] block truncate">
                       {item.valueVi}
                     </span>
                   </div>
@@ -1001,7 +1016,7 @@ export function AboutView({
       case 'map':
         return (
           <div className="space-y-4 text-left">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -1009,7 +1024,7 @@ export function AboutView({
                   setActiveMapTab('tam_tru');
                 }}
                 className={cn(
-                  'px-3.5 py-1.5 rounded-[14px] text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border',
+                  'px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border',
                   activeMapTab === 'tam_tru'
                     ? 'bg-purple-600 text-white border-purple-500 shadow-sm'
                     : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
@@ -1025,7 +1040,7 @@ export function AboutView({
                   setActiveMapTab('cu_tru');
                 }}
                 className={cn(
-                  'px-3.5 py-1.5 rounded-[14px] text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border',
+                  'px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border',
                   activeMapTab === 'cu_tru'
                     ? 'bg-emerald-600 text-white border-emerald-500 shadow-sm'
                     : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
@@ -1075,71 +1090,89 @@ export function AboutView({
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {/* Pillar 1 */}
-              <div className="rounded-[14px] p-4 bg-gradient-to-br from-blue-600 to-sky-500 text-white shadow-md flex flex-col justify-between layered-card">
+              <div
+                data-subcard="true"
+                data-accent="blue"
+                className="pillar-gradient-card layered-card rounded-[14px] p-4 shadow-md flex flex-col justify-between"
+              >
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <WebIcon name="chart" className="w-5 h-5 text-white shrink-0" />
-                      <h4 className="text-base font-black font-play text-white">01. Hiệu quả</h4>
+                      <div className="exp-icon-badge w-7 h-7 rounded-full border flex items-center justify-center shrink-0 text-blue-600 dark:text-sky-300">
+                        <WebIcon name="chart" className="w-4 h-4 shrink-0" />
+                      </div>
+                      <h4 className="pillar-heading text-base font-black font-play">01. Hiệu quả</h4>
                     </div>
-                    <span className="text-xs font-mono font-bold bg-white/20 px-2 py-0.5 rounded-[14px]">Trụ cột 01</span>
+                    <span className="pillar-badge text-xs font-mono font-bold px-2 py-0.5 rounded-[14px]">Trụ cột 01</span>
                   </div>
-                  <p className="text-xs text-blue-100 font-semibold mt-1">Tối ưu quy trình &amp; Kết quả</p>
-                  <p className="text-xs text-white/90 leading-relaxed mt-2.5">
+                  <p className="pillar-sub text-xs font-semibold mt-1">Tối ưu quy trình &amp; Kết quả</p>
+                  <p className="pillar-body text-xs leading-relaxed mt-2.5">
                     Tối ưu hiệu suất vận hành, chuẩn hóa SOP, quản trị KPI, SLA, FCR và giải quyết triệt để rủi ro dịch vụ.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-white/20 text-[11px] text-blue-100 font-mono">
+                <div className="pillar-divider pillar-sub mt-4 pt-2 border-t text-[11px] font-mono">
                   ✓ Chuẩn hóa SOP &amp; Đo lường ROI
                 </div>
               </div>
 
               {/* Pillar 2 */}
-              <div className="rounded-[14px] p-4 bg-gradient-to-br from-rose-500 to-pink-500 text-white shadow-md flex flex-col justify-between layered-card">
+              <div
+                data-subcard="true"
+                data-accent="rose"
+                className="pillar-gradient-card layered-card rounded-[14px] p-4 shadow-md flex flex-col justify-between"
+              >
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <WebIcon name="heart" className="w-5 h-5 text-white shrink-0" />
-                      <h4 className="text-base font-black font-play text-white">02. Nhân văn</h4>
+                      <div className="exp-icon-badge w-7 h-7 rounded-full border flex items-center justify-center shrink-0 text-rose-600 dark:text-rose-300">
+                        <WebIcon name="heart" className="w-4 h-4 shrink-0" />
+                      </div>
+                      <h4 className="pillar-heading text-base font-black font-play">02. Nhân văn</h4>
                     </div>
-                    <span className="text-xs font-mono font-bold bg-white/20 px-2 py-0.5 rounded-[14px]">Trụ cột 02</span>
+                    <span className="pillar-badge text-xs font-mono font-bold px-2 py-0.5 rounded-[14px]">Trụ cột 02</span>
                   </div>
-                  <p className="text-xs text-rose-100 font-semibold mt-1">Đồng cảm &amp; Thấu hiểu</p>
-                  <p className="text-xs text-white/90 leading-relaxed mt-2.5">
+                  <p className="pillar-sub text-xs font-semibold mt-1">Đồng cảm &amp; Thấu hiểu</p>
+                  <p className="pillar-body text-xs leading-relaxed mt-2.5">
                     Lắng nghe thấu hiểu từ tâm, lấy con người làm gốc rễ, đào tạo đội ngũ tận tâm và xây dựng văn hóa gắn kết.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-white/20 text-[11px] text-rose-100 font-mono">
+                <div className="pillar-divider pillar-sub mt-4 pt-2 border-t text-[11px] font-mono">
                   ✓ Thấu cảm từ tâm &amp; Trao quyền
                 </div>
               </div>
 
               {/* Pillar 3 */}
-              <div className="rounded-[14px] p-4 bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-md flex flex-col justify-between layered-card">
+              <div
+                data-subcard="true"
+                data-accent="emerald"
+                className="pillar-gradient-card layered-card rounded-[14px] p-4 shadow-md flex flex-col justify-between"
+              >
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <WebIcon name="leaf" className="w-5 h-5 text-white shrink-0" />
-                      <h4 className="text-base font-black font-play text-white">03. Bền vững</h4>
+                      <div className="exp-icon-badge w-7 h-7 rounded-full border flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-300">
+                        <WebIcon name="leaf" className="w-4 h-4 shrink-0" />
+                      </div>
+                      <h4 className="pillar-heading text-base font-black font-play">03. Bền vững</h4>
                     </div>
-                    <span className="text-xs font-mono font-bold bg-white/20 px-2 py-0.5 rounded-[14px]">Trụ cột 03</span>
+                    <span className="pillar-badge text-xs font-mono font-bold px-2 py-0.5 rounded-[14px]">Trụ cột 03</span>
                   </div>
-                  <p className="text-xs text-emerald-100 font-semibold mt-1">Giá trị &amp; Tin cậy</p>
-                  <p className="text-xs text-white/90 leading-relaxed mt-2.5">
+                  <p className="pillar-sub text-xs font-semibold mt-1">Giá trị &amp; Tin cậy</p>
+                  <p className="pillar-body text-xs leading-relaxed mt-2.5">
                     Xây dựng niềm tin dài hạn, ứng dụng công nghệ CRM hiện đại, Data Analytics và tự động hóa AI tạo đòn bẩy.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-white/20 text-[11px] text-emerald-100 font-mono">
+                <div className="pillar-divider pillar-sub mt-4 pt-2 border-t text-[11px] font-mono">
                   ✓ Công nghệ AI CRM &amp; Tăng trưởng
                 </div>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-[14px] bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs text-slate-600 dark:text-slate-300">
+            <div data-subcard="true" className="exp-detail-subcard p-3.5 rounded-[14px] flex items-center justify-between text-xs text-slate-600 dark:text-slate-300">
               <span className="font-handwriting text-blue-600 dark:text-cyan-400 text-base font-bold">
                 Luôn bên bạn và tận tâm từng khoảnh khắc ♡
               </span>
-              <span className="font-mono text-[11px] text-slate-500">22+ Năm Phụng Sự Dịch Vụ Khách Hàng</span>
+              <span className="font-mono text-[11px] text-slate-500 dark:text-slate-300">22+ Năm Phụng Sự Dịch Vụ Khách Hàng</span>
             </div>
           </div>
         );
@@ -1149,30 +1182,30 @@ export function AboutView({
           <div className="space-y-4 text-left">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Khối 1: Giá trị cốt lõi */}
-              <div id="about-core-values-card" className="rounded-[14px] p-5 bg-gradient-to-br from-amber-50/90 to-orange-100/70 dark:from-amber-950/40 dark:to-orange-950/30 border border-amber-200/80 dark:border-amber-800/50 flex flex-col justify-between layered-card">
+              <div data-subcard="true" className="exp-detail-card rounded-[14px] p-5 flex flex-col justify-between layered-card">
                 <div>
-                  <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 mb-2">
+                  <div className="flex items-center gap-2 text-amber-600 dark:text-amber-300 mb-2">
                     <WebIcon name="star" className="w-5 h-5 fill-current" />
                     <h4 className="text-sm font-black font-play">Giá Trị Cốt Lõi: Khách Hàng Là Trung Tâm</h4>
                   </div>
                   <p className="text-xs text-slate-700 dark:text-slate-200 leading-relaxed font-medium">
-                    Sự hài lòng không đến từ sự hoàn hảo tuyệt đối, mà đến từ <strong className="text-amber-800 dark:text-amber-300 font-bold">sự tận tâm kịp thời</strong> và <strong className="text-amber-800 dark:text-amber-300 font-bold">đồng cảm chân thành</strong> trong từng điểm chạm (Touchpoint).
+                    Sự hài lòng không đến từ sự hoàn hảo tuyệt đối, mà đến từ <strong className="text-amber-700 dark:text-amber-300 font-bold">sự tận tâm kịp thời</strong> và <strong className="text-amber-700 dark:text-amber-300 font-bold">đồng cảm chân thành</strong> trong từng điểm chạm (Touchpoint).
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-amber-200/60 dark:border-amber-800/40 text-[11px] text-amber-700 dark:text-amber-300 font-handwriting text-base font-bold">
+                <div className="mt-4 pt-2 border-t border-amber-200/40 dark:border-amber-400/20 text-[11px] text-amber-700 dark:text-amber-300 font-handwriting text-base font-bold">
                   Tận tâm phụng sự ♡
                 </div>
               </div>
 
               {/* Khối 2: Triết lý tầm nhìn */}
-              <div id="about-philosophy-card" className="rounded-[14px] p-5 bg-gradient-to-br from-sky-50/90 to-cyan-100/70 dark:from-sky-950/40 dark:to-cyan-950/30 border border-sky-200/80 dark:border-sky-800/50 flex flex-col justify-between layered-card">
+              <div data-subcard="true" className="exp-detail-card rounded-[14px] p-5 flex flex-col justify-between layered-card">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2 text-blue-600 dark:text-sky-400">
+                    <div className="flex items-center gap-2 text-blue-600 dark:text-sky-300">
                       <Sparkles className="w-5 h-5" />
                       <h4 className="text-sm font-black font-play">Triết Lý Tầm Nhìn CX 2026+</h4>
                     </div>
-                    <span className="text-[10px] font-mono font-bold bg-white/90 dark:bg-slate-800 px-2 py-0.5 rounded-full text-slate-500">
+                    <span className="exp-icon-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border text-slate-600 dark:text-slate-200">
                       Kỷ Nguyên Mới
                     </span>
                   </div>
@@ -1183,7 +1216,7 @@ export function AboutView({
                     Kết hợp hài hòa giữa công nghệ chuyển đổi số (AI CRM, tự động hóa) và trái tim phụng sự nhân văn để tạo nên sự gắn kết thương hiệu bền lâu.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-sky-200/60 dark:border-sky-800/40 flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                <div className="mt-4 pt-2 border-t border-sky-200/40 dark:border-sky-400/20 flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-300">
                   <span>Nguyễn Hùng Thái</span>
                   <span className="text-blue-600 dark:text-cyan-400 font-bold">22+ Năm Vận Hành Thực Chiến</span>
                 </div>
@@ -1397,10 +1430,8 @@ export function AboutView({
                         label: 'Giới tính',
                         value: 'Nam giới',
                         icon: 'user',
-                        cardCls: 'bg-sky-50/95 dark:bg-sky-950/85 border-sky-200/90 dark:border-sky-700/80 hover:bg-sky-100 dark:hover:bg-sky-900/90',
-                        labelCls: 'text-sky-600/85 dark:text-sky-300/85',
-                        valueCls: 'text-sky-950 dark:text-sky-100',
-                        iconColorCls: 'text-sky-600 dark:text-sky-400',
+                        cardCls: '',
+                        iconColorCls: 'text-sky-600 dark:text-sky-300',
                         action: () => showToast('Giới tính: Nam giới'),
                       },
                       {
@@ -1408,10 +1439,8 @@ export function AboutView({
                         label: 'Dân tộc',
                         value: 'Kinh',
                         icon: 'globe',
-                        cardCls: 'bg-emerald-50/95 dark:bg-emerald-950/85 border-emerald-200/90 dark:border-emerald-700/80 hover:bg-emerald-100 dark:hover:bg-emerald-900/90',
-                        labelCls: 'text-emerald-600/85 dark:text-emerald-300/85',
-                        valueCls: 'text-emerald-950 dark:text-emerald-100',
-                        iconColorCls: 'text-emerald-600 dark:text-emerald-400',
+                        cardCls: '',
+                        iconColorCls: 'text-emerald-600 dark:text-emerald-300',
                         action: () => showToast('Dân tộc: Kinh'),
                       },
                       {
@@ -1419,10 +1448,8 @@ export function AboutView({
                         label: 'Hôn nhân',
                         value: 'Độc thân',
                         icon: 'heart',
-                        cardCls: 'bg-rose-50/95 dark:bg-rose-950/85 border-rose-200/90 dark:border-rose-700/80 hover:bg-rose-100 dark:hover:bg-rose-900/90',
-                        labelCls: 'text-rose-600/85 dark:text-rose-300/85',
-                        valueCls: 'text-rose-950 dark:text-rose-100',
-                        iconColorCls: 'text-rose-600 dark:text-rose-400',
+                        cardCls: '',
+                        iconColorCls: 'text-rose-600 dark:text-rose-300',
                         action: () => showToast('Hôn nhân: Độc thân'),
                       },
                       {
@@ -1430,10 +1457,8 @@ export function AboutView({
                         label: 'Sinh nhật',
                         value: '22/06/1984',
                         icon: 'calendar',
-                        cardCls: 'bg-amber-50/95 dark:bg-amber-950/85 border-amber-200/90 dark:border-amber-700/80 hover:bg-amber-100 dark:hover:bg-amber-900/90',
-                        labelCls: 'text-amber-600/85 dark:text-amber-300/85',
-                        valueCls: 'text-amber-950 dark:text-amber-100',
-                        iconColorCls: 'text-amber-600 dark:text-amber-400',
+                        cardCls: '',
+                        iconColorCls: 'text-amber-600 dark:text-amber-300',
                         action: () => showToast('Sinh nhật: 22/06/1984'),
                       },
                       {
@@ -1441,31 +1466,30 @@ export function AboutView({
                         label: 'Tử vi',
                         value: 'Giáp Tý',
                         icon: 'sparkles',
-                        cardCls: 'bg-purple-50/95 dark:bg-purple-950/85 border-purple-200/90 dark:border-purple-700/80 hover:bg-purple-100 dark:hover:bg-purple-900/90 col-span-1 sm:col-span-2',
-                        labelCls: 'text-purple-600/85 dark:text-purple-300/85',
-                        valueCls: 'text-purple-950 dark:text-purple-100',
-                        iconColorCls: 'text-purple-600 dark:text-purple-400',
+                        cardCls: 'col-span-1 sm:col-span-2',
+                        iconColorCls: 'text-purple-600 dark:text-purple-300',
                         action: () => showToast('Tử vi: Giáp Tý - Mệnh Hải Trung Kim'),
                       },
                     ].map((item) => (
                       <div
                         key={item.id}
+                        data-subcard="true"
                         onClick={() => {
                           SoundEngine.playPop();
                           item.action();
                         }}
                         className={cn(
-                          'p-2.5 rounded-[14px] border backdrop-blur-md transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border',
+                          'about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border',
                           item.cardCls
                         )}
                       >
                         <WebIcon name={item.icon} className={cn('w-4 h-4 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)} style={{ width: '16px', height: '16px' }} />
                         <div className="text-left min-w-0 flex-1">
-                          <span className={cn('text-[9.5px] font-bold block leading-tight truncate', item.labelCls)}>
+                          <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">
                             {item.label}
                           </span>
                           <span
-                            className={cn('text-[14px] sm:text-[15px] font-bold font-play block leading-tight truncate', item.valueCls)}
+                            className="about-info-value text-[14px] sm:text-[15px] font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate"
                             title={item.value}
                           >
                             {item.value}
@@ -1476,40 +1500,43 @@ export function AboutView({
 
                     {/* Sub Card: Tạm Trú (Cyan) */}
                     <div
+                      data-subcard="true"
                       onClick={() => {
                         SoundEngine.playPop();
                         setActiveHeroMedia('map');
                         setActiveHeroMapType('tam_tru');
                         showToast('📍 Hiển thị bản đồ Tạm trú tại Quận 7, TP.HCM');
                       }}
-                      className="p-2.5 rounded-[14px] bg-cyan-50/95 dark:bg-cyan-950/85 hover:bg-cyan-100 dark:hover:bg-cyan-900/90 border border-cyan-200/90 dark:border-cyan-700/80 backdrop-blur-md transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
+                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
                     >
-                      <MapPin className="w-4 h-4 shrink-0 text-cyan-600 dark:text-cyan-400 group-hover/subcard:scale-110 transition-transform" />
+                      <MapPin className="w-4 h-4 shrink-0 text-cyan-600 dark:text-cyan-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="text-[9.5px] font-bold text-cyan-600/85 dark:text-cyan-300/85 block leading-tight truncate">Tạm trú</span>
-                        <span className="text-[14px] sm:text-[15px] font-bold font-play text-cyan-950 dark:text-cyan-100 block leading-tight truncate">Quận 7, TP.HCM</span>
+                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">Tạm trú</span>
+                        <span className="about-info-value text-[14px] sm:text-[15px] font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">Quận 7, TP.HCM</span>
                       </div>
                     </div>
 
                     {/* Sub Card: Cư Trú (Teal) */}
                     <div
+                      data-subcard="true"
                       onClick={() => {
                         SoundEngine.playPop();
                         setActiveHeroMedia('map');
                         setActiveHeroMapType('cu_tru');
                         showToast('📍 Hiển thị bản đồ Cư trú tại Mỹ Tho, Tiền Giang');
                       }}
-                      className="p-2.5 rounded-[14px] bg-teal-50/95 dark:bg-teal-950/85 hover:bg-teal-100 dark:hover:bg-teal-900/90 border border-teal-200/90 dark:border-teal-700/80 backdrop-blur-md transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
+                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
                     >
-                      <Home className="w-4 h-4 shrink-0 text-teal-600 dark:text-teal-400 group-hover/subcard:scale-110 transition-transform" />
+                      <Home className="w-4 h-4 shrink-0 text-teal-600 dark:text-teal-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="text-[9.5px] font-bold text-teal-600/85 dark:text-teal-300/85 block leading-tight truncate">Cư trú</span>
-                        <span className="text-[14px] sm:text-[15px] font-bold font-play text-teal-950 dark:text-teal-100 block leading-tight truncate">TP. Mỹ Tho</span>
+                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">Cư trú</span>
+                        <span className="about-info-value text-[14px] sm:text-[15px] font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">TP. Mỹ Tho</span>
                       </div>
                     </div>
 
                     {/* Sub Card: Hộp Thư (Pink) */}
                     <div
+                      data-subcard="true"
                       onClick={() => {
                         SoundEngine.playPop();
                         if (typeof navigator !== 'undefined' && navigator.clipboard) {
@@ -1518,12 +1545,12 @@ export function AboutView({
                         }
                       }}
                       title="hungthai84@gmail.com"
-                      className="p-2.5 rounded-[14px] bg-pink-50/95 dark:bg-pink-950/85 hover:bg-pink-100 dark:hover:bg-pink-900/90 border border-pink-200/90 dark:border-pink-700/80 backdrop-blur-md transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border col-span-1 sm:col-span-2"
+                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border col-span-1 sm:col-span-2"
                     >
-                      <Mail className="w-4 h-4 shrink-0 text-pink-600 dark:text-pink-400 group-hover/subcard:scale-110 transition-transform" />
+                      <Mail className="w-4 h-4 shrink-0 text-pink-600 dark:text-pink-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="text-[9.5px] font-bold text-pink-600/85 dark:text-pink-300/85 block leading-tight truncate">Hộp thư</span>
-                        <span className="text-xs font-bold font-play text-pink-950 dark:text-pink-100 block leading-tight truncate">hungthai84@gmail.com</span>
+                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">Hộp thư</span>
+                        <span className="about-info-value text-xs font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">hungthai84@gmail.com</span>
                       </div>
                     </div>
 
@@ -1532,14 +1559,15 @@ export function AboutView({
                       href="https://zalo.me/0909097882"
                       target="_blank"
                       rel="noopener noreferrer"
+                      data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="+84 0909097882"
-                      className="p-2.5 rounded-[14px] bg-orange-50/95 dark:bg-orange-950/85 hover:bg-orange-100 dark:hover:bg-orange-900/90 border border-orange-200/90 dark:border-orange-700/80 backdrop-blur-md transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
+                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
                     >
-                      <Phone className="w-4 h-4 shrink-0 text-orange-600 dark:text-orange-400 group-hover/subcard:scale-110 transition-transform" />
+                      <Phone className="w-4 h-4 shrink-0 text-orange-600 dark:text-orange-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="text-[9.5px] font-bold text-orange-600/85 dark:text-orange-300/85 block leading-tight truncate">Điện thoại</span>
-                        <span className="text-xs font-bold font-play text-orange-950 dark:text-orange-100 block leading-tight truncate">+84 0909097882</span>
+                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">Điện thoại</span>
+                        <span className="about-info-value text-xs font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">+84 0909097882</span>
                       </div>
                     </a>
 
@@ -1548,14 +1576,15 @@ export function AboutView({
                       href="https://nguyenhungthai.powerservice.one/"
                       target="_blank"
                       rel="noopener noreferrer"
+                      data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="https://nguyenhungthai.powerservice.one/"
-                      className="p-2.5 rounded-[14px] bg-blue-50/95 dark:bg-blue-950/85 hover:bg-blue-100 dark:hover:bg-blue-900/90 border border-blue-200/90 dark:border-blue-700/80 backdrop-blur-md transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
+                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
                     >
-                      <Globe className="w-4 h-4 shrink-0 text-blue-600 dark:text-blue-400 group-hover/subcard:scale-110 transition-transform" />
+                      <Globe className="w-4 h-4 shrink-0 text-blue-600 dark:text-sky-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="text-[9.5px] font-bold text-blue-600/85 dark:text-blue-300/85 block leading-tight truncate">Website</span>
-                        <span className="text-xs font-bold font-play text-blue-700 dark:text-cyan-300 block leading-tight truncate">powerservice.one</span>
+                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">Website</span>
+                        <span className="about-info-value text-xs font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">powerservice.one</span>
                       </div>
                     </a>
 
@@ -1564,14 +1593,15 @@ export function AboutView({
                       href="https://www.linkedin.com/in/hungthai84/"
                       target="_blank"
                       rel="noopener noreferrer"
+                      data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="https://www.linkedin.com/in/hungthai84/"
-                      className="p-2.5 rounded-[14px] bg-indigo-50/95 dark:bg-indigo-950/85 hover:bg-indigo-100 dark:hover:bg-indigo-900/90 border border-indigo-200/90 dark:border-indigo-700/80 backdrop-blur-md transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border col-span-1 sm:col-span-2"
+                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border col-span-1 sm:col-span-2"
                     >
-                      <LinkedinIcon className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400 group-hover/subcard:scale-110 transition-transform" />
+                      <LinkedinIcon className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="text-[9.5px] font-bold text-indigo-600/85 dark:text-indigo-300/85 block leading-tight truncate">LinkedIn</span>
-                        <span className="text-xs font-bold font-play text-indigo-700 dark:text-cyan-300 block leading-tight truncate">linkedin.com/in/hungthai84</span>
+                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">LinkedIn</span>
+                        <span className="about-info-value text-xs font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">linkedin.com/in/hungthai84</span>
                       </div>
                     </a>
                   </div>
@@ -1659,139 +1689,175 @@ export function AboutView({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch flex-1">
                 {/* Pillar 1: Hiệu Quả */}
                 <div
+                  role="button"
+                  tabIndex={0}
+                  data-subcard="true"
+                  data-accent="blue"
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-1')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   onClick={() => {
                     SoundEngine.playPop();
                     showToast('Trụ cột 01: Hiệu Quả - Tối ưu kết quả thực chiến');
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      SoundEngine.playPop();
+                      showToast('Trụ cột 01: Hiệu Quả - Tối ưu kết quả thực chiến');
+                    }
+                  }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-blue-600 via-indigo-600 to-sky-600 dark:from-blue-700 dark:via-indigo-800 dark:to-sky-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isPillarHighlighted('pillar-1') &&
                       'ring-2 ring-cyan-300 dark:ring-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                      <BarChart3 className="w-4 h-4 text-white" />
+                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-blue-600 dark:text-sky-300 shadow-2xs">
+                      <BarChart3 className="w-4 h-4" />
                     </div>
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
                       01
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Hiệu quả vận hành</h5>
-                    <span className="text-[10px] text-blue-100 font-semibold block">Tối ưu &amp; Kết quả</span>
-                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Hiệu quả vận hành</h5>
+                    <span className="pillar-sub text-[10px] font-semibold block">Tối ưu &amp; Kết quả</span>
+                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
                       Chuẩn hóa SLAs, tối ưu hiệu suất quy trình và tạo kết quả đo lường rõ ràng.
                     </p>
                   </div>
 
                   <div className="self-end relative z-10">
-                    <div
+                    <button
+                      type="button"
+                      aria-label="Xem chi tiết trụ cột hiệu quả"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleOpenBentoFocus('pillars');
                       }}
-                      className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
+                      className="pillar-badge w-6 h-6 rounded-full flex items-center justify-center cursor-pointer transition hover:scale-110"
                       title="Xem chi tiết trụ cột hiệu quả"
                     >
-                      <ArrowRight className="w-3 h-3 text-white" />
-                    </div>
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
                   </div>
                 </div>
 
                 {/* Pillar 2: Nhân Văn */}
                 <div
+                  role="button"
+                  tabIndex={0}
+                  data-subcard="true"
+                  data-accent="rose"
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-2')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   onClick={() => {
                     SoundEngine.playPop();
                     showToast('Trụ cột 02: Nhân Văn - Đồng cảm và thấu hiểu');
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      SoundEngine.playPop();
+                      showToast('Trụ cột 02: Nhân Văn - Đồng cảm và thấu hiểu');
+                    }
+                  }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-rose-500 via-pink-600 to-rose-600 dark:from-rose-600 dark:via-pink-700 dark:to-rose-800 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isPillarHighlighted('pillar-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                      <Heart className="w-4 h-4 text-white" />
+                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-rose-600 dark:text-rose-300 shadow-2xs">
+                      <Heart className="w-4 h-4" />
                     </div>
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
                       02
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Nhân văn con người</h5>
-                    <span className="text-[10px] text-rose-100 font-semibold block">Đồng cảm &amp; Thấu hiểu</span>
-                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Nhân văn con người</h5>
+                    <span className="pillar-sub text-[10px] font-semibold block">Đồng cảm &amp; Thấu hiểu</span>
+                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
                       Lắng nghe chân thành, phục vụ từ tâm và lấy con người làm trọng tâm.
                     </p>
                   </div>
 
                   <div className="self-end relative z-10">
-                    <div
+                    <button
+                      type="button"
+                      aria-label="Xem chi tiết trụ cột nhân văn"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleOpenBentoFocus('pillars');
                       }}
-                      className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
+                      className="pillar-badge w-6 h-6 rounded-full flex items-center justify-center cursor-pointer transition hover:scale-110"
                       title="Xem chi tiết trụ cột nhân văn"
                     >
-                      <ArrowRight className="w-3 h-3 text-white" />
-                    </div>
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
                   </div>
                 </div>
 
                 {/* Pillar 3: Bền Vững */}
                 <div
+                  role="button"
+                  tabIndex={0}
+                  data-subcard="true"
+                  data-accent="emerald"
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-3')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   onClick={() => {
                     SoundEngine.playPop();
                     showToast('Trụ cột 03: Bền Vững - Giá trị dài hạn và tin cậy');
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      SoundEngine.playPop();
+                      showToast('Trụ cột 03: Bền Vững - Giá trị dài hạn và tin cậy');
+                    }
+                  }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 dark:from-emerald-700 dark:via-teal-800 dark:to-cyan-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isPillarHighlighted('pillar-3') &&
                       'ring-2 ring-emerald-300 dark:ring-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                      <Leaf className="w-4 h-4 text-white" />
+                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-emerald-600 dark:text-emerald-300 shadow-2xs">
+                      <Leaf className="w-4 h-4" />
                     </div>
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
                       03
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Bền vững dài hạn</h5>
-                    <span className="text-[10px] text-emerald-100 font-semibold block">Giá trị &amp; Tin cậy</span>
-                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Bền vững dài hạn</h5>
+                    <span className="pillar-sub text-[10px] font-semibold block">Giá trị &amp; Tin cậy</span>
+                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
                       Xây dựng niềm tin vững bền, bảo chứng chất lượng và đồng hành lâu dài.
                     </p>
                   </div>
 
                   <div className="self-end relative z-10">
-                    <div
+                    <button
+                      type="button"
+                      aria-label="Xem chi tiết trụ cột bền vững"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleOpenBentoFocus('pillars');
                       }}
-                      className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
+                      className="pillar-badge w-6 h-6 rounded-full flex items-center justify-center cursor-pointer transition hover:scale-110"
                       title="Xem chi tiết trụ cột bền vững"
                     >
-                      <ArrowRight className="w-3 h-3 text-white" />
-                    </div>
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1814,7 +1880,7 @@ export function AboutView({
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-slate-200/70 dark:border-white/10 shrink-0">
                 <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
-                  <Star className="w-4.5 h-4.5 text-amber-500 fill-current shrink-0" />
+                  <Star className="w-4.5 h-4.5 text-amber-600 dark:text-amber-400 fill-current shrink-0" />
                   <h3 className="text-[17px] sm:text-[18px] font-bold font-play text-amber-600 dark:text-amber-400 leading-tight">
                     {formatCardTitle('Giá trị cốt lõi')}
                   </h3>
@@ -1828,6 +1894,8 @@ export function AboutView({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch flex-1">
                 {/* Core Value 1: Sự tận tâm */}
                 <div
+                  data-subcard="true"
+                  data-accent="amber"
                   onMouseEnter={() => setHoveredPillarOrValue('val-1')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   onClick={() => {
@@ -1835,42 +1903,34 @@ export function AboutView({
                     showToast('Giá trị 01: Sự Tận Tâm - Dốc trọn tâm sức');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 dark:from-amber-600 dark:via-amber-700 dark:to-orange-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-1') &&
                       'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="absolute -right-6 -top-6 w-24 h-24 bg-amber-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                      <Award className="w-4 h-4 text-white" />
+                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-amber-600 dark:text-amber-300 shadow-2xs">
+                      <Award className="w-4 h-4" />
                     </div>
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
                       01
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Sự tận tâm</h5>
-                    <span className="text-[10px] text-amber-100 font-semibold block">Trách nhiệm &amp; Hết lòng</span>
-                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Sự tận tâm</h5>
+                    <span className="pillar-sub text-[10px] font-semibold block">Trách nhiệm &amp; Hết lòng</span>
+                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
                       Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.
                     </p>
                   </div>
 
-                  <div className="pt-1.5 border-t border-white/20 relative z-10">
-                    <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-amber-100 mb-0.5">
-                      <span>FCR Cam kết</span>
-                      <span className="text-white font-black">94.5%</span>
-                    </div>
-                    <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                      <div className="h-full bg-white rounded-full" style={{ width: '94.5%' }} />
-                    </div>
-                  </div>
                 </div>
 
                 {/* Core Value 2: Kịp thời */}
                 <div
+                  data-subcard="true"
+                  data-accent="pink"
                   onMouseEnter={() => setHoveredPillarOrValue('val-2')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   onClick={() => {
@@ -1878,42 +1938,34 @@ export function AboutView({
                     showToast('Giá trị 02: Kịp Thời - Nhanh nhạy & Đúng lúc');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-orange-500 via-rose-500 to-pink-600 dark:from-orange-600 dark:via-rose-600 dark:to-pink-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="absolute -right-6 -top-6 w-24 h-24 bg-rose-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                      <Clock className="w-4 h-4 text-white" />
+                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-pink-600 dark:text-pink-300 shadow-2xs">
+                      <Clock className="w-4 h-4" />
                     </div>
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
                       02
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Kịp thời nhanh nhạy</h5>
-                    <span className="text-[10px] text-rose-100 font-semibold block">Tốc độ &amp; Đúng lúc</span>
-                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Kịp thời nhanh nhạy</h5>
+                    <span className="pillar-sub text-[10px] font-semibold block">Tốc độ &amp; Đúng lúc</span>
+                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
                       Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng mắc.
                     </p>
                   </div>
 
-                  <div className="pt-1.5 border-t border-white/20 relative z-10">
-                    <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-rose-100 mb-0.5">
-                      <span>SLA Phản hồi (&lt;15p)</span>
-                      <span className="text-white font-black">98.8%</span>
-                    </div>
-                    <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                      <div className="h-full bg-white rounded-full" style={{ width: '98.8%' }} />
-                    </div>
-                  </div>
                 </div>
 
                 {/* Core Value 3: Đồng cảm chân thành */}
                 <div
+                  data-subcard="true"
+                  data-accent="purple"
                   onMouseEnter={() => setHoveredPillarOrValue('val-3')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   onClick={() => {
@@ -1921,38 +1973,28 @@ export function AboutView({
                     showToast('Giá trị 03: Đồng Cảm Chân Thành - Lắng nghe & Thấu cảm');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-700 dark:from-pink-600 dark:via-purple-700 dark:to-indigo-800 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-3') &&
                       'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="absolute -right-6 -top-6 w-24 h-24 bg-purple-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                      <HeartHandshake className="w-4 h-4 text-white" />
+                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-purple-600 dark:text-purple-300 shadow-2xs">
+                      <HeartHandshake className="w-4 h-4" />
                     </div>
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
                       03
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Đồng cảm chân thành</h5>
-                    <span className="text-[10px] text-purple-100 font-semibold block">Lắng nghe &amp; Thấu cảm</span>
-                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Đồng cảm chân thành</h5>
+                    <span className="pillar-sub text-[10px] font-semibold block">Lắng nghe &amp; Thấu cảm</span>
+                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
                       Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng khách hàng.
                     </p>
                   </div>
 
-                  <div className="pt-1.5 border-t border-white/20 relative z-10">
-                    <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-purple-100 mb-0.5">
-                      <span>Chỉ số CSAT Hài lòng</span>
-                      <span className="text-white font-black">98.6%</span>
-                    </div>
-                    <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                      <div className="h-full bg-white rounded-full" style={{ width: '98.6%' }} />
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

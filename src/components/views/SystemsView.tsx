@@ -312,10 +312,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSystem, setSelectedSystem] = useState<SystemData | null>(null);
-  const [postcardSystem, setPostcardSystem] = useState<SystemData | null>(null);
-  const [isPostcardSpeaking, setIsPostcardSpeaking] = useState<boolean>(false);
-  const [isPostcardVoiceLoading, setIsPostcardVoiceLoading] = useState<boolean>(false);
-  const postcardSessionRef = useRef<number>(0);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
   const [isAuthorModalOpen, setIsAuthorModalOpen] = useState<boolean>(false);
   const [isPinned, setIsPinned] = useState<boolean>(false);
@@ -679,97 +675,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
   }, [isFilterDropdownOpen]);
   const isDark = themeIsDark || currentTheme === 'dark-neon';
 
-  const buildSystemPostcardNarration = useCallback(
-    (item: SystemData): string => {
-      const spec = SYSTEM_TECH_SPECS_MAP[item.id] || SYSTEM_TECH_SPECS_MAP.sdp;
-      const featuresList =
-        language === 'en'
-          ? (item.featuresEn && item.featuresEn.length > 0
-              ? item.featuresEn
-              : (item.featuresVi || item.features || []).map((f) => translateText(f)))
-          : item.featuresVi || item.features || [];
-      const topFeatures = featuresList.slice(0, 3).join('. ');
-
-      if (language === 'en') {
-        const name = item.nameEn || item.name || item.abbr;
-        const overview = item.descEn || translateText(item.descVi || item.description || '');
-        return `Hello, I am Tri Nhan, AI Support Assistant for Nguyen Hung Thai. Introducing the ${name} system, abbreviated ${item.abbr}. ${overview} Technical commitment: ${spec.slaCommitment}, ${spec.uptimePct} uptime, ${spec.isoSecurity}. Key highlights: ${topFeatures}.`;
-      }
-
-      const name = item.nameVi || item.name || item.abbr;
-      const overview = item.descVi || item.description || '';
-      return `Xin chào, tôi là Trí Nhân, Trợ lý AI hỗ trợ của chuyên gia Nguyễn Hùng Thái. Xin giới thiệu hệ thống ${name}, mã phân hệ ${item.abbr}. ${overview} Cam kết vận hành: ${spec.slaCommitment}, độ ổn định ${spec.uptimePct}, chuẩn bảo mật ${spec.isoSecurity}. Điểm nổi bật: ${topFeatures}.`;
-    },
-    [language, translateText]
-  );
-
-  const speakSystemPostcard = useCallback(
-    (item: SystemData) => {
-      postcardSessionRef.current += 1;
-      const sessionId = postcardSessionRef.current;
-      stopActiveSpeech();
-      setIsPostcardVoiceLoading(true);
-      setIsPostcardSpeaking(false);
-
-      const narration = buildSystemPostcardNarration(item);
-      speakSiteText(narration, {
-        lang: language,
-        useGeminiTts: true,
-        rate: 1.0,
-        onStart: () => {
-          if (postcardSessionRef.current !== sessionId) return;
-          setIsPostcardVoiceLoading(false);
-          setIsPostcardSpeaking(true);
-          showToast(
-            t(
-              `🎧 Trợ lý AI Trí Nhân đang giới thiệu hệ thống ${item.abbr}`,
-              `🎧 AI Assistant Tri Nhan is presenting ${item.abbr}`
-            )
-          );
-        },
-        onEnd: () => {
-          if (postcardSessionRef.current !== sessionId) return;
-          setIsPostcardVoiceLoading(false);
-          setIsPostcardSpeaking(false);
-        },
-        onError: () => {
-          if (postcardSessionRef.current !== sessionId) return;
-          setIsPostcardVoiceLoading(false);
-          setIsPostcardSpeaking(false);
-          showToast(
-            t(
-              '⚠️ Không thể phát âm thanh thuyết minh AI',
-              '⚠️ Unable to play AI voice narration'
-            )
-          );
-        },
-      });
-    },
-    [buildSystemPostcardNarration, language, showToast, t]
-  );
-
-  const handleOpenSystemPostcard = useCallback(
-    (item: SystemData, e?: React.MouseEvent) => {
-      e?.stopPropagation();
-      SoundEngine.playTechChimeExpand();
-      setPostcardSystem(item);
-      speakSystemPostcard(item);
-    },
-    [speakSystemPostcard]
-  );
-
-  const handleStopPostcardVoice = useCallback(() => {
-    postcardSessionRef.current += 1;
-    stopActiveSpeech();
-    setIsPostcardVoiceLoading(false);
-    setIsPostcardSpeaking(false);
-  }, []);
-
-  const handleCloseSystemPostcard = useCallback(() => {
-    handleStopPostcardVoice();
-    setPostcardSystem(null);
-  }, [handleStopPostcardVoice]);
-
   useEffect(() => {
     return () => {
       stopActiveSpeech();
@@ -779,10 +684,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
-      if (postcardSystem) {
-        handleCloseSystemPostcard();
-        return;
-      }
       if (selectedSystem) {
         setSelectedSystem(null);
         return;
@@ -797,17 +698,20 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       }
       if (isFilterDropdownOpen) {
         setIsFilterDropdownOpen(false);
+        return;
+      }
+      if (expandedSystemId) {
+        setExpandedSystemId(null);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [
-    postcardSystem,
     selectedSystem,
     isVideoModalOpen,
     isAuthorModalOpen,
     isFilterDropdownOpen,
-    handleCloseSystemPostcard,
+    expandedSystemId,
   ]);
 
   const handleFlipToggle = (id: string, e?: React.MouseEvent) => {
@@ -1418,7 +1322,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.35 }}
-            className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-hidden relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
+            className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
             style={{ padding: '15px', width: '100%', maxWidth: '100%', height: '200px', minHeight: '200px', maxHeight: '200px', borderRadius: '14px' }}
           >
             <div
@@ -1478,6 +1382,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 <span className="px-1.5 py-0.2 rounded-full bg-white/20 text-white text-[10px] font-mono font-bold">
                   12 Phân hệ
                 </span>
+              </button>
+
+              {/* NÚT PHÁT VIDEO GIỚI THIỆU TRONG BANNER */}
+              <button
+                type="button"
+                onClick={handleToggleCircleVideo}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 hover:from-rose-500 hover:to-pink-500 text-white shadow-[0_4px_16px_rgba(225,29,72,0.45)] border border-rose-300/40 backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
+                title={isCircleVideoPlaying ? "Đóng video giới thiệu" : "Xem video giới thiệu hệ thống"}
+              >
+                <WebIcon name={isCircleVideoPlaying ? "cancel" : "play"} className="w-4 h-4 text-white animate-pulse shrink-0" />
+                <span>{isCircleVideoPlaying ? "Đóng video hệ thống" : "Xem video giới thiệu hệ thống"}</span>
               </button>
 
               <div className="relative inline-block text-left">
@@ -1703,7 +1618,15 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                     return (
                       <tr
                         key={item.id}
+                        tabIndex={0}
                         onClick={() => handleCardClick(item)}
+                        onKeyDown={(e) => {
+                          if (e.target !== e.currentTarget) return;
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleCardClick(item);
+                          }
+                        }}
                         className="hover:bg-sky-50/70 dark:hover:bg-white/5 transition-colors cursor-pointer"
                       >
                         {/* Cột 1: Mã & Tên 4 chữ */}
@@ -1847,33 +1770,20 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               {item.abbr}
                             </span>
                             <h3
-                               className="card-title text-[18px] font-bold sm:text-xl"
-                               style={{ color: isDark ? config.darkAccent : config.lightAccent, fontSize: '18px' }}
+                               className="card-title text-[17px] sm:text-[18px] font-bold font-play truncate m-0"
+                               style={{ color: isDark ? config.darkAccent : config.lightAccent }}
                              >
                                {item.nameVi}
                              </h3>
                           </div>
 
-                            {/* Nút Mở Postcard & Nghe AI Trí Nhân giới thiệu */}
-                            <button
-                              type="button"
-                              onClick={(e) => handleOpenSystemPostcard(item, e)}
-                              className="bento-card px-3.5 py-1.5 rounded-[14px] text-xs font-bold text-indigo-700 dark:text-cyan-300 shadow-sm transition flex items-center gap-1.5 cursor-pointer bg-indigo-50/90 dark:bg-indigo-950/60 hover:brightness-105 border border-indigo-300/70 dark:border-cyan-400/35 active:scale-95"
-                              title={t(
-                                `Mở Postcard giới thiệu hệ thống ${item.abbr} & nghe giọng AI`,
-                                `Open ${item.abbr} intro postcard & play AI voice`
-                              )}
-                            >
-                              <WebIcon name="volume-2" className="w-3.5 h-3.5" />
-                              <span>{t('Postcard & Giọng AI', 'AI Voice Postcard')}</span>
-                            </button>
-
+                          <div className="flex items-center gap-2 shrink-0">
                             {/* Nút 1: Mở hệ thống ở tab khác */}
                             {item.url && item.url !== '#' && (
                               <button
                                 type="button"
                                 onClick={(e) => handleOpenUrl(e, item.url)}
-                                className="bento-card px-3.5 py-1.5 rounded-[14px] text-xs font-bold text-slate-800 dark:text-white shadow-sm transition flex items-center gap-1.5 cursor-pointer bg-white/85 dark:bg-white/15 hover:brightness-105 border border-slate-300/70 dark:border-white/25 active:scale-95"
+                                className="bento-card px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 dark:text-white shadow-sm transition flex items-center gap-1.5 cursor-pointer bg-white/85 dark:bg-white/15 hover:brightness-105 border border-slate-300/70 dark:border-white/25 active:scale-95"
                                 title={t(`Mở hệ thống ${item.abbr} ở tab khác`, `Open ${item.abbr} in new tab`)}
                               >
                                 <span>{t('Mở tab mới', 'Open Tab')}</span>
@@ -1886,71 +1796,44 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               type="button"
                               onClick={(e) => handleToggleExpandCard(item.id, e)}
                               title="Đóng chi tiết hệ thống"
-                              className="px-3.5 py-1.5 rounded-[14px] text-xs font-bold font-play flex items-center gap-1.5 border border-rose-400/50 bg-rose-600 hover:bg-rose-500 text-white transition cursor-pointer shadow-sm active:scale-95 shrink-0"
+                              className="px-3.5 py-1.5 rounded-full text-xs font-bold font-play flex items-center gap-1.5 border border-rose-400/50 bg-rose-600 hover:bg-rose-500 text-white transition cursor-pointer shadow-sm active:scale-95 shrink-0"
                             >
                               <WebIcon name="minimize" className="w-3.5 h-3.5" />
                               <span>Đóng chi tiết</span>
                             </button>
                           </div>
+                        </div>
 
                         {/* Thân Thẻ Mở Rộng: Bento Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] py-[15px] flex-1 min-h-0 text-left items-stretch">
                           {/* Cột 1 (4/12): Media & Status */}
                           <div
                             id={`system-detail-media-${item.id}`}
-                            data-element-type="card"
-                            className="bento-card glass-card md:col-span-5 lg:col-span-4 flex flex-col justify-between rounded-[14px] overflow-hidden border border-slate-300/70 dark:border-white/20 p-[15px] shadow-sm bg-white/50 dark:bg-slate-900/50"
+                            data-subcard="true"
+                            className="exp-detail-card md:col-span-5 lg:col-span-4 flex flex-col justify-between rounded-[14px] overflow-hidden p-[15px] shadow-sm"
                             style={{ borderRadius: '14px' }}
                           >
-                            <div>
-                              <h4 className="text-[16px] font-bold mb-[15px]" style={{ color: isDark ? config.darkAccent : config.lightAccent }}>
-                                Mô tả hệ thống
+                            <div className="flex items-center gap-2 pb-2.5 border-b border-black/10 dark:border-white/10">
+                              <WebIcon name={config.iconName} className="w-4 h-4 shrink-0" style={{ color: isDark ? config.darkAccent : config.lightAccent }} />
+                              <h4 className="text-[15px] sm:text-[16px] font-bold font-play m-0" style={{ color: isDark ? config.darkAccent : config.lightAccent }}>
+                                Tổng quan hệ thống
                               </h4>
-                              {item.videoUrl && (
-                                <div className="relative aspect-video w-full rounded-[14px] overflow-hidden bg-black shadow-md border border-white/10 shrink-0 mb-3">
-                                  <video
-                                    ref={expandedVideoRef}
-                                    src={item.videoUrl}
-                                    autoPlay
-                                    loop
-                                    muted={isExpandedVideoMuted}
-                                    playsInline
-                                    className="w-full h-full object-cover"
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={(e) => handleToggleExpandedVideoMute(e)}
-                                    title={
-                                      isExpandedVideoMuted
-                                        ? 'Nhấp bật âm thanh thuyết minh'
-                                        : 'Tắt âm thanh thuyết minh'
-                                    }
-                                    className="play-video-card-btn absolute bottom-2 right-2 z-20 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md border transition cursor-pointer bg-black/60 text-white border-white/25"
-                                  >
-                                    {isExpandedVideoMuted ? (
-                                      <WebIcon name="volume-x" className="w-4 h-4" />
-                                    ) : (
-                                      <WebIcon name="volume-2" className="w-4 h-4 sparkle" />
-                                    )}
-                                  </button>
-                                </div>
-                              )}
                             </div>
 
-                            <div className="my-[15px] flex-1 flex flex-col items-center justify-center p-4 rounded-[14px] border border-slate-200/70 dark:border-white/15 bg-white/30 dark:bg-black/20" style={{ borderRadius: '14px' }}>
-                                <WebIcon name={config.iconName} className="w-12 h-12 text-white" style={{ color: isDark ? config.darkAccent : config.lightAccent }} />
+                            <div data-subcard="true" className="exp-detail-subcard my-[15px] flex-1 flex flex-col items-center justify-center p-4 rounded-[14px]" style={{ borderRadius: '14px' }}>
+                              <WebIcon name={config.iconName} className="w-14 h-14" style={{ color: isDark ? config.darkAccent : config.lightAccent }} />
                               <span
-                                className="text-[16px] font-bold font-play mt-1 text-center"
+                                className="text-[17px] font-bold font-play mt-2 text-center"
                                 style={{ color: isDark ? config.darkAccent : config.lightAccent }}
                               >
                                 {item.abbr} — {item.nameVi}
                               </span>
-                              <span className="text-xs text-slate-500 dark:text-slate-300 font-medium text-center mt-0.5">
+                              <span className="text-xs text-slate-500 dark:text-slate-300 font-medium text-center mt-1">
                                 {item.fullName}
                               </span>
                             </div>
 
-                            <div className="pt-2 border-t border-black/10 dark:border-white/15 flex items-center justify-between text-[15px] text-slate-700 dark:text-slate-200">
+                            <div className="pt-2.5 border-t border-black/10 dark:border-white/15 flex items-center justify-between text-[15px] text-slate-700 dark:text-slate-200">
                               <span className="flex items-center gap-1.5 font-bold text-emerald-600 dark:text-emerald-400">
                                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                                 <span>{systemStatusBadge[item.id]?.text || 'Trực tuyến'}</span>
@@ -1965,16 +1848,19 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           <div className="md:col-span-7 lg:col-span-5 flex flex-col justify-between space-y-[15px]">
                             <div
                               id={`system-detail-overview-${item.id}`}
-                              data-element-type="card"
-                              className="bento-card glass-card p-[15px] rounded-[14px] border border-slate-300/80 dark:border-[#334155] backdrop-blur-md bg-white/70 dark:bg-[#111827]/85 shadow-2xs"
+                              data-subcard="true"
+                              className="exp-detail-card p-[15px] rounded-[14px] shadow-2xs"
                               style={{ borderRadius: '14px' }}
                             >
-                              <h4
-                                className="text-[16px] font-bold mb-[10px]"
-                                style={{ color: isDark ? config.darkAccent : config.lightAccent }}
-                              >
-                                Mô tả kiến trúc
-                              </h4>
+                              <div className="flex items-center gap-2 mb-[10px]">
+                                <WebIcon name="layers" className="w-4 h-4 shrink-0" style={{ color: isDark ? config.darkAccent : config.lightAccent }} />
+                                <h4
+                                  className="text-[15px] sm:text-[16px] font-bold font-play m-0"
+                                  style={{ color: isDark ? config.darkAccent : config.lightAccent }}
+                                >
+                                  Mô tả kiến trúc
+                                </h4>
+                              </div>
                               <p className="text-[15px] text-slate-800 dark:text-[#E2E8F0] leading-relaxed font-medium">
                                 {item.descVi}
                               </p>
@@ -1983,21 +1869,25 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             {item.featuresVi && item.featuresVi.length > 0 && (
                               <div
                                 id={`system-detail-features-${item.id}`}
-                                data-element-type="card"
-                                className="bento-card glass-card p-[15px] rounded-[14px] border border-slate-300/80 dark:border-[#334155] backdrop-blur-md flex-1 flex flex-col bg-white/70 dark:bg-[#111827]/85 shadow-2xs"
+                                data-subcard="true"
+                                className="exp-detail-card p-[15px] rounded-[14px] flex-1 flex flex-col shadow-2xs"
                                 style={{ borderRadius: '14px' }}
                               >
-                                <h4
-                                  className="text-[16px] font-bold mb-[15px]"
-                                  style={{ color: isDark ? config.darkAccent : config.lightAccent }}
-                                >
-                                  Tính năng cốt lõi
-                                </h4>
+                                <div className="flex items-center gap-2 mb-[15px]">
+                                  <WebIcon name="sparkles" className="w-4 h-4 shrink-0" style={{ color: isDark ? config.darkAccent : config.lightAccent }} />
+                                  <h4
+                                    className="text-[15px] sm:text-[16px] font-bold font-play m-0"
+                                    style={{ color: isDark ? config.darkAccent : config.lightAccent }}
+                                  >
+                                    Tính năng cốt lõi
+                                  </h4>
+                                </div>
                                 <ul className="grid grid-cols-1 gap-[15px] text-[15px]">
                                   {item.featuresVi.map((feat: string, fIdx: number) => (
                                     <li
                                       key={fIdx}
-                                      className="flex items-start gap-2.5 p-[10px] rounded-[14px] border border-slate-200/90 dark:border-[#334155] text-slate-800 dark:text-[#E2E8F0] leading-snug bg-white/80 dark:bg-[#1F2937]/80 shadow-2xs"
+                                      data-subcard="true"
+                                      className="exp-detail-subcard flex items-start gap-2.5 p-[10px] rounded-[14px] text-slate-800 dark:text-[#E2E8F0] leading-snug shadow-2xs"
                                     >
                                       <span
                                         className="w-6 h-6 rounded-full text-white font-mono text-[12px] font-black flex items-center justify-center shrink-0 mt-0.5"
@@ -2016,65 +1906,39 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           {/* Cột 3 (3/12): Tech Specs */}
                           <div
                             id={`system-detail-specs-${item.id}`}
-                            data-element-type="card"
-                            className="bento-card glass-card md:col-span-12 lg:col-span-3 flex flex-col justify-between p-[15px] rounded-[14px] border border-slate-300/80 dark:border-[#334155] backdrop-blur-md bg-white/70 dark:bg-[#111827]/85 shadow-2xs"
+                            data-subcard="true"
+                            className="exp-detail-card md:col-span-12 lg:col-span-3 flex flex-col justify-between p-[15px] rounded-[14px] shadow-2xs"
                             style={{ borderRadius: '14px' }}
                           >
                             <div className="space-y-[15px]">
-                              <h4
-                                className="text-[16px] font-bold flex items-center gap-1.5"
-                                style={{ color: isDark ? config.darkAccent : config.lightAccent }}
-                              >
-                                <WebIcon name="database" className="w-4 h-4" />
-                                <span>Hạ tầng kỹ thuật</span>
-                              </h4>
+                              <div className="flex items-center gap-2">
+                                <WebIcon name="database" className="w-4 h-4 shrink-0" style={{ color: isDark ? config.darkAccent : config.lightAccent }} />
+                                <h4
+                                  className="text-[15px] sm:text-[16px] font-bold font-play m-0"
+                                  style={{ color: isDark ? config.darkAccent : config.lightAccent }}
+                                >
+                                  Hạ tầng kỹ thuật
+                                </h4>
+                              </div>
                               <div className="space-y-[10px] text-[15px]">
-                                <div className="bento-card p-[12px] rounded-[14px] border border-slate-200/90 dark:border-[#334155] bg-white/80 dark:bg-[#1F2937]/80 shadow-2xs">
+                                <div data-subcard="true" className="exp-detail-subcard p-[12px] rounded-[14px] shadow-2xs">
                                   <span className="text-[12px] text-slate-600 dark:text-[#94A3B8] block font-mono font-medium">Dữ liệu (DB):</span>
                                   <span className="font-bold text-slate-900 dark:text-[#F8FAFC] mt-0.5 block">{tech.database}</span>
                                 </div>
-                                <div className="bento-card p-[12px] rounded-[14px] border border-slate-200/90 dark:border-[#334155] bg-white/80 dark:bg-[#1F2937]/80 shadow-2xs">
+                                <div data-subcard="true" className="exp-detail-subcard p-[12px] rounded-[14px] shadow-2xs">
                                   <span className="text-[12px] text-slate-600 dark:text-[#94A3B8] block font-mono font-medium">Giao thức:</span>
                                   <span className="font-bold text-slate-900 dark:text-[#F8FAFC] mt-0.5 block">{tech.apiProtocol}</span>
                                 </div>
-                                <div className="bento-card p-[12px] rounded-[14px] border border-slate-200/90 dark:border-[#334155] bg-white/80 dark:bg-[#1F2937]/80 shadow-2xs">
+                                <div data-subcard="true" className="exp-detail-subcard p-[12px] rounded-[14px] shadow-2xs">
                                   <span className="text-[12px] text-slate-600 dark:text-[#94A3B8] block font-mono font-medium">Bảo mật:</span>
                                   <span className="font-bold text-emerald-700 dark:text-emerald-300 mt-0.5 block">{tech.isoSecurity}</span>
                                 </div>
-                                <div className="bento-card p-[12px] rounded-[14px] border border-slate-200/90 dark:border-[#334155] bg-white/80 dark:bg-[#1F2937]/80 shadow-2xs">
+                                <div data-subcard="true" className="exp-detail-subcard p-[12px] rounded-[14px] shadow-2xs">
                                   <span className="text-[12px] text-slate-600 dark:text-[#94A3B8] block font-mono font-medium">Phân hệ:</span>
                                   <span className="font-bold text-amber-700 dark:text-amber-300 mt-0.5 block">{tech.ecosystemLabel}</span>
                                 </div>
                               </div>
                             </div>
-
-
-                          </div>
-                        </div>
-
-                        {/* Footer Thao Tác Thẻ Mở Rộng */}
-                        <div className="flex items-center justify-between pt-[15px] border-t border-black/10 dark:border-white/20 shrink-0 text-[15px]">
-                          <span className="text-slate-600 dark:text-slate-300 font-mono text-[12px]">
-                            ✓ Đang hiển thị chi tiết {item.abbr}
-                          </span>
-                          <div className="flex items-center gap-2">
-                            {item.url && item.url !== '#' && (
-                              <button
-                                type="button"
-                                onClick={(e) => handleOpenUrl(e, item.url)}
-                                className="bento-card px-4 py-1.5 rounded-[14px] text-xs font-bold text-slate-800 dark:text-white border border-slate-300/80 dark:border-white/25 shadow-sm transition flex items-center gap-1.5 cursor-pointer active:scale-95 bg-white/50 dark:bg-white/10"
-                              >
-                                <span>Truy cập Cổng Vận Hành</span>
-                                <WebIcon name="external-link" className="w-3 h-3" />
-                              </button>
-                            )}
-                            <button
-                              type="button"
-                              onClick={(e) => handleToggleExpandCard(item.id, e)}
-                              className="px-4 py-1.5 rounded-[14px] text-xs font-bold border border-rose-400/50 bg-rose-600 hover:bg-rose-500 text-white transition cursor-pointer"
-                            >
-                              Đóng chi tiết
-                            </button>
                           </div>
                         </div>
                       </article>
@@ -2089,8 +1953,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           id={`systems-card-${item.id}`}
                           data-element-type="card"
                           data-section-card="true"
+                          role="button"
+                          tabIndex={0}
                           onClick={(e) => {
                             handleToggleExpandCard(item.id, e);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.target !== e.currentTarget) return;
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              handleToggleExpandCard(item.id);
+                            }
                           }}
                           onMouseEnter={() => setHoveredCardId(item.id)}
                           onMouseLeave={() => {
@@ -2098,16 +1971,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             setHoveredImgId(null);
                           }}
                           title={`Nhấp để mở rộng chi tiết thẻ: ${item.nameVi} (${item.abbr})`}
-                          className="system-flip-front system-item bento-card glass-card layered-card cursor-pointer relative overflow-hidden py-2.5 pr-2.5 pl-0 sm:py-3 sm:pr-3 sm:pl-0 flex flex-row items-center justify-between gap-2.5 select-none rounded-[14px] group transition-all duration-300 border min-h-[110px] h-full hover:-translate-y-0.5 hover:shadow-md"
+                           className="system-flip-front system-item bento-card glass-card layered-card cursor-pointer relative overflow-hidden p-3 sm:p-3.5 flex flex-row items-center justify-between gap-3 select-none rounded-[14px] group transition-all duration-300 border min-h-[110px] h-full hover:-translate-y-0.5 hover:shadow-md"
                           style={{
                             ...cardSampleStyle,
-                            background: 'var(--bg-card)',
-                            backgroundColor: 'var(--bg-card)',
                             borderRadius: '14px',
-                            borderColor: 'var(--border-color)',
-                            boxShadow: 'var(--shadow-card)',
-                            backdropFilter: 'blur(var(--bg-blur))',
-                            WebkitBackdropFilter: 'blur(var(--bg-blur))',
                             '--system-theme-color': config.cardTheme,
                             '--system-theme-glow': `${config.cardTheme}35`,
                           } as any}
@@ -2119,60 +1986,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             />
                           )}
 
-                          {/* KHU VỰC TRÁI (CHIỀU DÀI CHIẾM 10%): NHÓM NÚT MỞ TRANG VÀ NÚT SPEAK BÁM SÁT BÊN TRÁI */}
-                          <div
-                            onClick={(e) => e.stopPropagation()}
-                            className={`w-[10%] min-w-[36px] max-w-[44px] self-center h-fit shrink-0 z-30 flex flex-col items-center justify-center gap-1.5 py-1.5 px-1 rounded-l-none rounded-tr-[12px] rounded-br-[12px] border-l-0 border-t border-r border-b border-slate-300/80 dark:border-white/20 backdrop-blur-md transition-all duration-300 scale-[0.96] origin-left hover:scale-[0.94] ${
-                              isImgHovered && item.videoUrl ? 'opacity-0 pointer-events-none' : 'opacity-100'
-                            }`}
-                            style={{
-                              background: 'var(--bg-card)',
-                              borderColor: 'var(--border-color)',
-                              boxShadow: isDark
-                                ? 'inset 3px 3px 8px rgba(0, 0, 0, 0.88), inset -1px -1px 2px rgba(255, 255, 255, 0.12), 0 1px 0 rgba(255, 255, 255, 0.1)'
-                                : 'inset 3px 3px 7px rgba(15, 23, 42, 0.34), inset -1px -1px 3px rgba(255, 255, 255, 0.55), 0 1px 0 rgba(255, 255, 255, 0.8)',
-                            }}
-                          >
-                            {/* Nút Mở Trang */}
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                SoundEngine.playTap();
-                                if (item.url && item.url !== '#') {
-                                  window.open(item.url, '_blank', 'noopener,noreferrer');
-                                } else {
-                                  showToast(`Hệ thống ${item.abbr} (${item.nameVi}) đang được bảo mật API nội bộ!`);
-                                }
-                              }}
-                              title={`Mở trang hệ thống ${item.abbr} (${item.nameVi})`}
-                              className="w-6.5 h-6.5 rounded-[7px] flex items-center justify-center text-slate-700 dark:text-white/90 hover:text-indigo-600 dark:hover:text-cyan-300 bg-white/60 dark:bg-white/15 hover:bg-white dark:hover:bg-white/30 active:scale-90 transition-all cursor-pointer border border-white/30 shadow-xs"
-                            >
-                              <WebIcon name="external-link" className="w-3.5 h-3.5" />
-                            </button>
-
-                            {/* Nút Speak — Mở Postcard giới thiệu hệ thống & đọc bằng giọng AI hỗ trợ */}
-                            <button
-                              type="button"
-                              onClick={(e) => handleOpenSystemPostcard(item, e)}
-                              title={t(
-                                `Mở Postcard giới thiệu ${item.abbr} với giọng đọc AI Trí Nhân`,
-                                `Open ${item.abbr} Intro Postcard with AI Support Voice`
-                              )}
-                              aria-label={t(
-                                `Mở Postcard giới thiệu ${item.abbr} với giọng đọc AI`,
-                                `Open ${item.abbr} Intro Postcard with AI Voice`
-                              )}
-                              className="w-6.5 h-6.5 rounded-[7px] flex items-center justify-center text-slate-700 dark:text-white/90 hover:text-indigo-600 dark:hover:text-cyan-300 bg-white/60 dark:bg-white/15 hover:bg-white dark:hover:bg-white/30 active:scale-90 transition-all cursor-pointer border border-white/30 shadow-xs"
-                            >
-                              <WebIcon name="volume-2" className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-
-                          {/* KHU VỰC CENTER: HÀNG 1 ICON & TÊN VIẾT TẮT | HÀNG 2 SUB TIÊU ĐỀ TIẾNG ANH | HÀNG 3 TÊN TIẾNG VIỆT */}
+                          {/* KHU VỰC NỘI DUNG: HÀNG 1 ICON & TÊN VIẾT TẮT | HÀNG 2 SUB TIÊU ĐỀ TIẾNG ANH | HÀNG 3 TÊN TIẾNG VIỆT */}
                           <div
                             id="el-p8-div-100"
-                            className={`flex-1 min-w-0 z-20 flex flex-col justify-center gap-0.5 px-1 text-left transition-opacity duration-200 ${
+                            className={`flex-1 min-w-0 z-20 flex flex-col justify-center gap-0.5 text-left transition-opacity duration-200 ${
                               isImgHovered && item.videoUrl ? 'opacity-0 pointer-events-none' : 'opacity-100'
                             }`}
                           >
@@ -2180,11 +1997,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             <div className="flex items-center gap-1.5 min-w-0">
                               <WebIcon
                                 name={config.iconName}
-                                className="w-4 h-4 shrink-0 stroke-[2.4]"
-                                style={{ color: isDark ? config.darkAccent : config.lightAccent, width: '16px', height: '16px' }}
+                                className="w-[18px] h-[18px] shrink-0 stroke-[2.4]"
+                                style={{ color: isDark ? config.darkAccent : config.lightAccent, width: '18px', height: '18px' }}
                               />
                               <h3
-                                className="card-title text-[15px] sm:text-[16px] font-extrabold font-play leading-tight truncate m-0 p-0"
+                                className="card-title text-[17px] sm:text-[18px] font-extrabold font-play leading-tight truncate m-0 p-0"
                                 style={{ color: isDark ? config.darkAccent : config.lightAccent }}
                                 title={item.abbr}
                               >
@@ -2250,57 +2067,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           data-element-type="card"
                           data-section-card="true"
                           onClick={(e) => handleFlipToggle(item.id, e)}
-                          className="system-flip-back system-item bento-card glass-card layered-card cursor-pointer relative overflow-hidden p-2 pl-9 sm:pl-9 flex flex-col justify-between select-none border rounded-[14px] min-h-[90px] h-[90px]"
+                          className="system-flip-back system-item bento-card glass-card layered-card cursor-pointer relative overflow-hidden p-3 flex flex-col justify-between select-none border rounded-[14px] min-h-[90px] h-[90px]"
                           style={{
                             ...cardSampleStyle,
                             borderRadius: '14px',
                           }}
                         >
-                          <div
-                            onClick={(e) => e.stopPropagation()}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center justify-center gap-0.5 py-0.5 px-0.5 rounded-r-[10px] border-r border-y border-slate-300/60 dark:border-white/25 bg-slate-900/10 dark:bg-black/35 backdrop-blur-sm transition-all shadow-xs"
-                          >
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                SoundEngine.playTap();
-                                if (item.url && item.url !== '#') {
-                                  window.open(item.url, '_blank', 'noopener,noreferrer');
-                                } else {
-                                  showToast(`Hệ thống ${item.abbr} (${config.displayTitle}) đang được bảo mật API nội bộ!`);
-                                }
-                              }}
-                              title={`Nút 1: Mở hệ thống ${item.abbr} ở tab khác`}
-                              className="w-4.5 h-4.5 rounded-[8px] flex items-center justify-center text-slate-700 dark:text-white/90 hover:text-indigo-600 dark:hover:text-white bg-transparent hover:bg-black/10 dark:hover:bg-white/25 active:scale-90 transition-all cursor-pointer"
-                            >
-                              <WebIcon name="external-link" className="w-2.5 h-2.5" />
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleToggleExpandCard(item.id, e);
-                              }}
-                              title={`Nút 2: Mở chi tiết thẻ (${item.abbr})`}
-                              className="w-4.5 h-4.5 rounded-[8px] flex items-center justify-center text-slate-700 dark:text-white/90 hover:text-indigo-600 dark:hover:text-white bg-transparent hover:bg-black/10 dark:hover:bg-white/25 active:scale-90 transition-all cursor-pointer"
-                            >
-                              <WebIcon name="maximize-2" className="w-2.5 h-2.5" />
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleFlipToggle(item.id, e);
-                              }}
-                              title={`Nút 3: Quay về mặt trước (${item.abbr})`}
-                              className="w-4.5 h-4.5 rounded-[8px] flex items-center justify-center text-slate-700 dark:text-white/90 hover:text-indigo-600 dark:hover:text-white bg-transparent hover:bg-black/10 dark:hover:bg-white/25 active:scale-90 transition-all cursor-pointer"
-                            >
-                              <WebIcon name="rotate-cw" className="w-2.5 h-2.5" />
-                            </button>
-                          </div>
 
                           <div className="flex items-center justify-between gap-1 pb-1 border-b border-black/10 dark:border-white/15">
                             <span
@@ -2433,14 +2205,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
         >
           <div
             id={`system-detail-modal-${selectedSystem.id}`}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Chi tiết hệ thống ${selectedSystem.nameVi}`}
             data-element-type="card"
             data-section-card="true"
             onClick={(e) => e.stopPropagation()}
-            className="bento-card glass-card border border-slate-200/90 dark:border-white/15 rounded-[14px] overflow-hidden shadow-2xl flex flex-col relative z-50 text-left backdrop-blur-xl bg-transparent"
-            style={{ width: '100%', height: '100%', padding: '15px', background: 'transparent' }}
+            className="bento-card glass-card border rounded-[14px] overflow-hidden shadow-2xl flex flex-col relative z-50 text-left backdrop-blur-xl"
+            style={{ ...cardSampleStyle, width: '100%', height: '100%', padding: '15px' }}
           >
             {/* Modal Body with 3 Distinct Cards */}
-            <div className="p-3 sm:p-5 space-y-4 max-h-[75vh] overflow-y-auto glass-scrollbar font-play bg-white/95 dark:bg-[#0B1220]/95">
+            <div className="p-3 sm:p-5 space-y-4 max-h-[75vh] overflow-y-auto glass-scrollbar font-play flex-1">
               {(() => {
                 const specInfo = SYSTEM_TECH_SPECS_MAP[selectedSystem.id] || {
                   database: 'PostgreSQL HA + Redis Cluster',
@@ -2457,11 +2232,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 return (
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-start">
                     {/* 1. THẺ THÔNG TIN HỆ THỐNG */}
-                    <div id="systems-admin-card" className="lg:col-span-12 p-4 rounded-[14px] bg-white/95 dark:bg-[#111827]/95 text-slate-900 dark:text-[#F8FAFC] border border-sky-200 dark:border-sky-500/40 shadow-md space-y-3">
+                    <div id="systems-admin-card" data-subcard="true" className="exp-detail-card lg:col-span-12 p-4 rounded-[14px] text-slate-900 dark:text-[#F8FAFC] shadow-md space-y-3">
                       <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-white/10">
                         <div className="flex items-center gap-2 text-sky-600 dark:text-sky-400">
-                          <WebIcon name="info" className="w-4.5 h-4.5 text-sky-600 dark:text-sky-400 shrink-0" />
-                          <h4 className="text-base font-bold font-play text-sky-700 dark:text-sky-300">
+                          <WebIcon name="info" className="w-[18px] h-[18px] text-sky-600 dark:text-sky-400 shrink-0" />
+                          <h4 className="text-[17px] sm:text-[18px] font-bold font-play text-sky-600 dark:text-sky-400 m-0">
                             Thẻ Thông Tin Hệ Thống
                           </h4>
                         </div>
@@ -2470,44 +2245,18 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         </span>
                       </div>
 
-                      {/* Video Mô Tả Hệ Thống */}
-                      {selectedSystem.videoUrl && (
-                        <div className="rounded-[12px] overflow-hidden border border-slate-200 dark:border-[#334155] bg-[#0B1220] shadow-lg my-2">
-                          <div className="px-3 py-1.5 bg-slate-900 dark:bg-[#111827] border-b border-white/10 flex items-center justify-between text-white text-[11px] font-bold">
-                            <span className="flex items-center gap-2 text-cyan-300">
-                              <WebIcon name="play" className="w-3.5 h-3.5 text-cyan-400" />
-                              <span>Video Thuyết Minh Mô Tả Hệ Thống {selectedSystem.abbr}</span>
-                            </span>
-                            <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-500/15 px-2 py-0.5 rounded-full border border-emerald-500/30">
-                              Cloudinary MP4 HD
-                            </span>
-                          </div>
-                          <div className="relative w-full aspect-video bg-[#0B1220] flex items-center justify-center max-h-[280px]">
-                            <video
-                              key={selectedSystem.videoUrl}
-                              controls
-                              playsInline
-                              className="w-full h-full object-contain max-h-[280px]"
-                            >
-                              <source src={selectedSystem.videoUrl} type="video/mp4" />
-                              Trình duyệt của bạn không hỗ trợ video HTML5.
-                            </video>
-                          </div>
-                        </div>
-                      )}
-
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[15px] text-xs">
-                        <div className="p-2.5 rounded-[12px] bg-slate-50 dark:bg-[#1F2937]/85 border border-slate-200 dark:border-[#334155]">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px]">
                           <span className="text-[10.5px] font-bold text-slate-500 dark:text-[#94A3B8] block">Tên hệ thống:</span>
                           <span className="font-bold text-slate-900 dark:text-[#F8FAFC] text-[13.5px]">{selectedSystem.nameVi || selectedSystem.name}</span>
                         </div>
 
-                        <div className="p-2.5 rounded-[12px] bg-slate-50 dark:bg-[#1F2937]/85 border border-slate-200 dark:border-[#334155]">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px]">
                           <span className="text-[10.5px] font-bold text-slate-500 dark:text-[#94A3B8] block">Tên viết tắt &amp; Đầy đủ:</span>
                           <span className="font-bold text-sky-700 dark:text-[#67E8F9] text-[13px] font-mono">{selectedSystem.abbr} — {selectedSystem.fullName}</span>
                         </div>
 
-                        <div className="p-2.5 rounded-[12px] bg-slate-50 dark:bg-[#1F2937]/85 border border-slate-200 dark:border-[#334155]">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px]">
                           <span className="text-[10.5px] font-bold text-slate-500 dark:text-[#94A3B8] block">Tiêu chuẩn Bảo mật:</span>
                           <span className="font-bold text-emerald-700 dark:text-[#6EE7B7] text-[12.5px] flex items-center gap-1 mt-0.5">
                             <WebIcon name="shield" className="w-3.5 h-3.5 text-emerald-600 dark:text-[#6EE7B7] shrink-0" />
@@ -2516,36 +2265,20 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-[12px] bg-slate-50 dark:bg-[#1F2937]/75 border border-slate-200 dark:border-[#334155]">
-                        <span className="text-[11px] font-bold text-sky-700 dark:text-[#7DD3FC] block mb-1">Mô tả hệ thống chi tiết:</span>
+                      <div data-subcard="true" className="exp-detail-subcard p-3 rounded-[12px]">
+                        <span className="text-[15px] sm:text-[16px] font-bold text-sky-700 dark:text-[#7DD3FC] block mb-1">Mô tả hệ thống chi tiết:</span>
                         <p className="text-xs sm:text-sm text-slate-700 dark:text-[#E2E8F0] leading-relaxed font-medium">
                           {selectedSystem.descVi}
                         </p>
                       </div>
-
-                      {selectedSystem.url && selectedSystem.url !== '#' && (
-                        <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-[12px] bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/30">
-                          <div className="flex items-center gap-2 text-xs text-indigo-900 dark:text-indigo-200 truncate min-w-0">
-                            <WebIcon name="external-link" className="w-4 h-4 text-indigo-600 dark:text-cyan-400 shrink-0" />
-                            <span className="truncate">Cổng truy cập: <strong>{selectedSystem.url}</strong></span>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={(e) => handleOpenUrl(e, selectedSystem.url)}
-                            className="px-3 py-1 rounded-[12px] text-xs font-bold bg-sky-600 hover:bg-sky-700 dark:bg-[#67E8F9] dark:hover:bg-cyan-300 text-white dark:text-[#0B1220] transition cursor-pointer shrink-0 active:scale-95"
-                          >
-                            Truy cập ngay
-                          </button>
-                        </div>
-                      )}
                     </div>
 
                     {/* 2. THẺ TÍNH NĂNG CỐT LÕI */}
-                    <div id="systems-workflow-card" className="lg:col-span-6 p-4 rounded-[14px] bg-white/95 dark:bg-[#111827]/95 text-slate-900 dark:text-[#F8FAFC] border border-emerald-200 dark:border-emerald-500/40 shadow-md space-y-3 h-full">
+                    <div id="systems-workflow-card" data-subcard="true" className="exp-detail-card lg:col-span-6 p-4 rounded-[14px] text-slate-900 dark:text-[#F8FAFC] shadow-md space-y-3 h-full">
                       <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-white/10">
                         <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
-                          <WebIcon name="sparkles" className="w-4.5 h-4.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                          <h4 className="text-base font-bold font-play text-emerald-700 dark:text-emerald-300">
+                          <WebIcon name="sparkles" className="w-[18px] h-[18px] text-emerald-600 dark:text-emerald-400 shrink-0" />
+                          <h4 className="text-[17px] sm:text-[18px] font-bold font-play text-emerald-600 dark:text-emerald-400 m-0">
                             Thẻ Tính Năng Cốt Lõi
                           </h4>
                         </div>
@@ -2558,7 +2291,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         {(selectedSystem.featuresVi || selectedSystem.features || []).map((feat: string, idx: number) => (
                           <li
                             key={idx}
-                            className="flex items-start gap-2.5 text-xs text-slate-700 dark:text-[#E2E8F0] p-2.5 rounded-[12px] bg-slate-50 dark:bg-[#1F2937]/80 border border-slate-200 dark:border-[#334155]"
+                            data-subcard="true"
+                            className="exp-detail-subcard flex items-start gap-2.5 text-xs text-slate-700 dark:text-[#E2E8F0] p-2.5 rounded-[12px]"
                           >
                             <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
                               <WebIcon name="check" className="w-3 h-3 stroke-[3]" />
@@ -2570,11 +2304,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                     </div>
 
                     {/* 3. THẺ HẠ TẦNG KỸ THUẬT */}
-                    <div id="systems-tech-card" className="lg:col-span-6 p-4 rounded-[14px] bg-white/95 dark:bg-[#111827]/95 text-slate-900 dark:text-[#F8FAFC] border border-purple-200 dark:border-purple-500/40 shadow-md space-y-3 h-full">
+                    <div id="systems-tech-card" data-subcard="true" className="exp-detail-card lg:col-span-6 p-4 rounded-[14px] text-slate-900 dark:text-[#F8FAFC] shadow-md space-y-3 h-full">
                       <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-white/10">
                         <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400">
-                          <WebIcon name="cpu" className="w-4.5 h-4.5 text-purple-600 dark:text-purple-400 shrink-0" />
-                          <h4 className="text-base font-bold font-play text-purple-700 dark:text-purple-300">
+                          <WebIcon name="cpu" className="w-[18px] h-[18px] text-purple-600 dark:text-purple-400 shrink-0" />
+                          <h4 className="text-[17px] sm:text-[18px] font-bold font-play text-purple-600 dark:text-purple-400 m-0">
                             Thẻ Hạ Tầng Kỹ Thuật
                           </h4>
                         </div>
@@ -2584,27 +2318,27 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                       </div>
 
                       <div className="space-y-2 text-xs">
-                        <div className="p-2.5 rounded-[12px] bg-slate-50 dark:bg-[#1F2937]/80 border border-slate-200 dark:border-[#334155] flex items-center justify-between gap-2">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2">
                           <span className="text-slate-600 dark:text-[#94A3B8] font-medium">Cơ sở dữ liệu (Database):</span>
                           <span className="font-bold text-sky-700 dark:text-[#67E8F9] font-mono text-right">{specInfo.database}</span>
                         </div>
 
-                        <div className="p-2.5 rounded-[12px] bg-slate-50 dark:bg-[#1F2937]/80 border border-slate-200 dark:border-[#334155] flex items-center justify-between gap-2">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2">
                           <span className="text-slate-600 dark:text-[#94A3B8] font-medium">Giao thức kết nối API:</span>
                           <span className="font-bold text-purple-700 dark:text-purple-300 font-mono text-right">{specInfo.apiProtocol}</span>
                         </div>
 
-                        <div className="p-2.5 rounded-[12px] bg-slate-50 dark:bg-[#1F2937]/80 border border-slate-200 dark:border-[#334155] flex items-center justify-between gap-2">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2">
                           <span className="text-slate-600 dark:text-[#94A3B8] font-medium">Cam kết SLA &amp; Độ trễ:</span>
                           <span className="font-bold text-emerald-700 dark:text-[#6EE7B7] font-mono text-right">{specInfo.slaCommitment}</span>
                         </div>
 
-                        <div className="p-2.5 rounded-[12px] bg-slate-50 dark:bg-[#1F2937]/80 border border-slate-200 dark:border-[#334155] flex items-center justify-between gap-2">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2">
                           <span className="text-slate-600 dark:text-[#94A3B8] font-medium">Tỷ lệ Uptime hoạt động:</span>
                           <span className="font-bold text-amber-700 dark:text-[#FCD34D] font-mono text-right">{specInfo.uptimePct} Continuous</span>
                         </div>
 
-                        <div className="p-2.5 rounded-[12px] bg-slate-50 dark:bg-[#1F2937]/80 border border-slate-200 dark:border-[#334155] flex items-center justify-between gap-2">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2">
                           <span className="text-slate-600 dark:text-[#94A3B8] font-medium">Tải kết nối trực tuyến ({specInfo.onlineRoleLabel}):</span>
                           <span className="font-bold text-emerald-700 dark:text-[#6EE7B7] font-mono text-right">~{specInfo.baseOnlineUsers} Concurrent</span>
                         </div>
@@ -2616,7 +2350,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 bg-slate-50 dark:bg-[#111827] border-t border-slate-200 dark:border-[#334155] flex items-center justify-between gap-3">
+            <div className="p-4 border-t border-slate-200/70 dark:border-white/10 flex items-center justify-between gap-3">
               <span className="text-[11px] font-medium text-slate-600 dark:text-[#94A3B8] flex items-center gap-1.5">
                 <span
                   className={`w-2 h-2 rounded-full ${
@@ -2634,7 +2368,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 <button
                   type="button"
                   onClick={() => setSelectedSystem(null)}
-                  className="px-4 py-2 rounded-[14px] text-xs font-semibold text-slate-700 dark:text-[#E2E8F0] bg-slate-200 hover:bg-slate-300 dark:bg-[#1F2937] dark:hover:bg-[#334155] transition cursor-pointer"
+                  className="px-4 py-2 rounded-full text-xs font-semibold text-slate-700 dark:text-[#E2E8F0] bg-slate-200 hover:bg-slate-300 dark:bg-[#1F2937] dark:hover:bg-[#334155] transition cursor-pointer"
                 >
                   Đóng
                 </button>
@@ -2643,7 +2377,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                   <button
                     type="button"
                     onClick={(e) => handleOpenUrl(e, selectedSystem.url)}
-                    className="px-4 py-2 rounded-[14px] text-xs font-bold text-white flex items-center gap-1.5 shadow-md transition cursor-pointer hover:brightness-110 active:scale-95"
+                    className="px-4 py-2 rounded-full text-xs font-bold text-white flex items-center gap-1.5 shadow-md transition cursor-pointer hover:brightness-110 active:scale-95"
                     style={{
                       background:
                         SYSTEM_DESIGN_MAP[selectedSystem.id]?.gradient || selectedSystem.gradient,
@@ -2799,372 +2533,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
         onClose={() => setIsEcosystemDiagramOpen(false)}
         onShowNotification={showToast}
       />
-
-      {/* POSTCARD GIỚI THIỆU HỆ THỐNG & GIỌNG ĐỌC AI HỖ TRỢ TRÍ NHÂN */}
-      <AnimatePresence>
-        {postcardSystem && (() => {
-          const pcConfig = SYSTEM_DESIGN_MAP[postcardSystem.id] || {
-            displayTitle: formatCardTitle(postcardSystem.nameVi || postcardSystem.name || ''),
-            subtitle: postcardSystem.nameEn || postcardSystem.descVi || '',
-            gradient: postcardSystem.gradient,
-            lightBg: 'linear-gradient(135deg, rgba(239, 246, 255, 0.95) 0%, rgba(219, 234, 254, 0.88) 100%)',
-            lightBorder: 'rgba(96, 165, 250, 0.55)',
-            lightAccent: '#1d4ed8',
-            darkAccent: '#60a5fa',
-            iconName: systemIconMap[postcardSystem.id] || 'cog',
-            illustrationSrc: postcardSystem.imageUrl || '',
-            cardTheme: postcardSystem.themeColor || '#3B72E2',
-          };
-          const pcSpec = SYSTEM_TECH_SPECS_MAP[postcardSystem.id] || SYSTEM_TECH_SPECS_MAP.sdp;
-          const pcTitle =
-            language === 'en'
-              ? postcardSystem.nameEn || postcardSystem.name || postcardSystem.abbr
-              : postcardSystem.nameVi || postcardSystem.name || postcardSystem.abbr;
-          const pcSub =
-            language === 'en'
-              ? `${postcardSystem.abbr} · ${postcardSystem.nameVi || ''}`
-              : `${postcardSystem.abbr} · ${postcardSystem.nameEn || pcConfig.subtitle}`;
-          const pcDesc =
-            language === 'en'
-              ? postcardSystem.descEn || translateText(postcardSystem.descVi || postcardSystem.description || '')
-              : postcardSystem.descVi || postcardSystem.description || '';
-          const pcFeatures =
-            language === 'en'
-              ? postcardSystem.featuresEn && postcardSystem.featuresEn.length > 0
-                ? postcardSystem.featuresEn
-                : (postcardSystem.featuresVi || postcardSystem.features || []).map((f) => translateText(f))
-              : postcardSystem.featuresVi || postcardSystem.features || [];
-          const pcNarration = buildSystemPostcardNarration(postcardSystem);
-          const pcAccent = isDark ? pcConfig.darkAccent : pcConfig.lightAccent;
-
-          return (
-            <motion.div
-              key={`system-postcard-${postcardSystem.id}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={handleCloseSystemPostcard}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="system-postcard-title"
-              className="fixed inset-0 z-[70] bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto"
-            >
-              <motion.article
-                initial={{ opacity: 0, y: 18, scale: 0.96 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 14, scale: 0.96 }}
-                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                onClick={(e) => e.stopPropagation()}
-                className="bento-card glass-card w-full max-w-2xl rounded-[14px] overflow-hidden border border-slate-200/90 dark:border-slate-700/80 bg-white/95 dark:bg-[#0F172A]/95 text-slate-900 dark:text-slate-100 shadow-2xl font-play flex flex-col max-h-[90vh]"
-                style={{ borderRadius: '14px' }}
-              >
-                {/* Postcard Top Editorial Accent Strip */}
-                <div className="h-1.5 w-full shrink-0" style={{ background: pcConfig.gradient }} />
-
-                {/* Postcard Header */}
-                <div className="p-[15px] border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-3 shrink-0">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div
-                      className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80"
-                      style={{ color: pcAccent }}
-                    >
-                      <WebIcon name={pcConfig.iconName} className="w-5 h-5" style={{ color: pcAccent }} />
-                    </div>
-                    <div className="min-w-0">
-                      <span className="text-[11px] font-mono font-bold tracking-wider uppercase block text-slate-500 dark:text-slate-400">
-                        {t('Postcard Giới Thiệu Hệ Thống', 'System Introduction Postcard')}
-                      </span>
-                      <h3
-                        id="system-postcard-title"
-                        className="text-base sm:text-lg font-bold truncate leading-tight"
-                        style={{ color: pcAccent }}
-                      >
-                        {pcTitle}
-                      </h3>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 truncate">
-                        {pcSub}
-                      </p>
-                    </div>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={handleCloseSystemPostcard}
-                    aria-label={t('Đóng postcard', 'Close postcard')}
-                    className="w-8 h-8 rounded-[10px] bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center transition cursor-pointer shrink-0"
-                  >
-                    <WebIcon name="cancel" className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Postcard Body */}
-                <div className="p-[15px] overflow-y-auto glass-scrollbar space-y-[15px]">
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] items-stretch">
-                    {/* Left Visual Stamp Panel */}
-                    <div className="md:col-span-5 rounded-[14px] p-[15px] border border-slate-200/80 dark:border-slate-700/80 bg-slate-50/90 dark:bg-slate-900/80 flex flex-col justify-between gap-3">
-                      <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
-                        <span className="font-bold" style={{ color: pcAccent }}>
-                          {postcardSystem.abbr}
-                        </span>
-                        <span>{pcSpec.uptimePct} SLA</span>
-                      </div>
-
-                      <div className="w-full h-36 sm:h-40 flex items-center justify-center overflow-hidden bg-transparent">
-                        {(pcConfig.illustrationSrc || postcardSystem.imageUrl) ? (
-                          <img
-                            src={pcConfig.illustrationSrc || postcardSystem.imageUrl}
-                            alt={pcTitle}
-                            className="max-w-full max-h-full w-auto h-full object-contain bg-transparent select-none"
-                          />
-                        ) : (
-                          <WebIcon name={pcConfig.iconName} className="w-14 h-14" style={{ color: pcAccent }} />
-                        )}
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200/80 dark:border-slate-800 text-[11px]">
-                        <div>
-                          <span className="text-slate-500 dark:text-slate-400 block">
-                            {t('Bảo mật', 'Security')}
-                          </span>
-                          <span className="font-bold text-emerald-700 dark:text-emerald-400 truncate block">
-                            ISO 27001
-                          </span>
-                        </div>
-                        <div>
-                          <span className="text-slate-500 dark:text-slate-400 block">
-                            {t('Cam kết', 'Latency')}
-                          </span>
-                          <span className="font-bold text-slate-800 dark:text-slate-200 truncate block">
-                            {pcSpec.slaCommitment.split('(')[0].trim()}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Right Postcard Editorial Content */}
-                    <div className="md:col-span-7 flex flex-col justify-between gap-3">
-                      <div className="rounded-[14px] p-[15px] border border-slate-200/80 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/60 space-y-2.5 flex-1">
-                        <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                          {t('Tổng quan hệ thống', 'System Overview')}
-                        </div>
-                        <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-200 font-medium break-words">
-                          {pcDesc}
-                        </p>
-
-                        {pcFeatures.length > 0 && (
-                          <div className="pt-2 border-t border-slate-200/70 dark:border-slate-800 space-y-1.5">
-                            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                              {t('Tính năng trọng tâm', 'Core Capabilities')}
-                            </div>
-                            <ul className="space-y-1.5 list-none p-0 m-0">
-                              {pcFeatures.slice(0, 3).map((feat: string, fIdx: number) => (
-                                <li
-                                  key={fIdx}
-                                  className="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 leading-snug"
-                                >
-                                  <WebIcon
-                                    name="check"
-                                    className="w-3.5 h-3.5 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400"
-                                  />
-                                  <span className="break-words">{feat}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* AI Support Voice Script & Player Panel */}
-                  <div className="rounded-[14px] p-[15px] border border-indigo-200/90 dark:border-indigo-500/35 bg-indigo-50/75 dark:bg-indigo-950/35 space-y-2.5">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <div className="w-7 h-7 rounded-[9px] bg-indigo-600 text-white flex items-center justify-center shrink-0">
-                          <WebIcon name="bot" className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0">
-                          <span className="text-xs font-bold text-indigo-900 dark:text-indigo-200 block truncate">
-                            {t('Giọng đọc AI Hỗ trợ Trí Nhân', 'Tri Nhan AI Support Voice')}
-                          </span>
-                          <span className="text-[11px] text-indigo-700/80 dark:text-indigo-300/80 block">
-                            {isPostcardVoiceLoading
-                              ? t('Đang tổng hợp giọng nói AI...', 'Synthesizing AI voice...')
-                              : isPostcardSpeaking
-                              ? t('Đang phát thuyết minh giới thiệu', 'Playing system introduction')
-                              : t('Sẵn sàng phát lại thuyết minh', 'Ready to replay narration')}
-                          </span>
-                        </div>
-                      </div>
-
-                      {isPostcardSpeaking && (
-                        <div className="flex items-end gap-0.5 h-4 px-2" aria-hidden="true">
-                          <span className="w-1 h-2.5 bg-indigo-600 dark:bg-cyan-400 rounded-full animate-pulse" />
-                          <span className="w-1 h-4 bg-indigo-500 dark:bg-cyan-300 rounded-full animate-pulse" />
-                          <span className="w-1 h-3 bg-indigo-600 dark:bg-cyan-400 rounded-full animate-pulse" />
-                          <span className="w-1 h-2 bg-indigo-500 dark:bg-cyan-300 rounded-full animate-pulse" />
-                        </div>
-                      )}
-                    </div>
-
-                    <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-300 bg-white/70 dark:bg-slate-900/60 p-2.5 rounded-[10px] border border-indigo-100 dark:border-indigo-500/20 break-words">
-                      &ldquo;{pcNarration}&rdquo;
-                    </p>
-                  </div>
-                </div>
-
-                {/* Postcard Footer Controls */}
-                <div className="p-[15px] border-t border-slate-200/80 dark:border-slate-800 bg-slate-50/90 dark:bg-slate-900/90 flex flex-wrap items-center justify-between gap-2 shrink-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => speakSystemPostcard(postcardSystem)}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-xs font-bold text-white shadow-sm transition cursor-pointer hover:brightness-110 active:scale-95"
-                      style={{ background: pcConfig.gradient }}
-                    >
-                      <WebIcon name="volume-2" className="w-3.5 h-3.5" />
-                      <span>
-                        {isPostcardSpeaking
-                          ? t('Đọc lại từ đầu', 'Replay AI Voice')
-                          : t('Nghe AI giới thiệu', 'Play AI Voice')}
-                      </span>
-                    </button>
-
-                    {(isPostcardSpeaking || isPostcardVoiceLoading) && (
-                      <button
-                        type="button"
-                        onClick={handleStopPostcardVoice}
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white transition cursor-pointer active:scale-95"
-                      >
-                        <WebIcon name="volume-x" className="w-3.5 h-3.5" />
-                        <span>{t('Dừng đọc', 'Stop Voice')}</span>
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-2 ml-auto">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const targetId = postcardSystem.id;
-                        handleCloseSystemPostcard();
-                        setExpandedSystemId(targetId);
-                      }}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-xs font-bold bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-300/80 dark:border-slate-600 transition cursor-pointer"
-                    >
-                      <WebIcon name="maximize-2" className="w-3.5 h-3.5" />
-                      <span>{t('Chi tiết kỹ thuật', 'Full Specs')}</span>
-                    </button>
-
-                    {postcardSystem.url && postcardSystem.url !== '#' && (
-                      <button
-                        type="button"
-                        onClick={(e) => handleOpenUrl(e, postcardSystem.url)}
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[12px] text-xs font-bold bg-slate-900 dark:bg-cyan-400 text-white dark:text-slate-950 hover:opacity-90 transition cursor-pointer"
-                      >
-                        <span>{t('Mở hệ thống', 'Open Portal')}</span>
-                        <WebIcon name="external-link" className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </motion.article>
-            </motion.div>
-          );
-        })()}
-      </AnimatePresence>
-
-      {/* ========================================================================= */}
-      {/* VÒNG TRÒN NỔI AVATAR VIDEO VÀ BONG BÓNG LỜI NHẮC Ở GÓC TRÊN BÊN PHẢI      */}
-      {/* ========================================================================= */}
-      {isClientMounted && (
-        <div
-          className="fixed top-[78px] sm:top-[88px] right-3 sm:right-6 md:right-8 z-50 flex items-center gap-2 sm:gap-3 select-none pointer-events-auto max-w-[calc(100vw-24px)]"
-          role="region"
-          aria-label="Video Giới Thiệu Hệ Thống Nổi"
-        >
-          {/* Bong bóng tin nhắn xanh dương bên trái với đuôi nhọn hướng sang vòng tròn avatar */}
-          <div
-            onClick={handleToggleCircleVideo}
-            className="hidden sm:flex cursor-pointer group/bubble relative items-center bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-3.5 sm:px-5 py-2 sm:py-3 rounded-[14px] shadow-[0_8px_24px_rgba(37,99,235,0.4)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] border border-blue-300/40"
-            title={
-              isCircleVideoPlaying
-                ? 'Bấm để đóng video và hiện lại các thẻ hệ thống'
-                : 'Bấm vào để xem video giới thiệu hệ thống!'
-            }
-          >
-            <p className="text-[12.5px] sm:text-[14px] font-bold font-play leading-snug tracking-tight text-white m-0 text-left">
-              {isCircleVideoPlaying ? (
-                <>
-                  Đang phát giới thiệu<br />Bấm để quay lại thẻ!
-                </>
-              ) : (
-                <>
-                  Bấm vào để xem video<br />giới thiệu hệ thống!
-                </>
-              )}
-            </p>
-
-            {/* Đuôi nhọn của bubble hướng về avatar (bên phải) */}
-            <div
-              className="absolute -right-2 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[7px] sm:border-y-[8px] border-y-transparent border-l-[9px] sm:border-l-[10px] border-l-[#2563eb] pointer-events-none drop-shadow-xs"
-            />
-          </div>
-
-          {/* Vòng tròn Avatar video chờ (Video 1) phát sáng rực rỡ & nút Play/Close đè ở chính giữa cạnh dưới */}
-          <div className="relative group/circle cursor-pointer" onClick={handleToggleCircleVideo}>
-            {/* Vòng sáng Laser Glow Aura bao quanh phát sáng & chuyển động */}
-            <div className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-80 blur-md animate-pulse pointer-events-none" />
-
-            {/* Vòng tròn avatar video chờ (Video 1) lấp đầy 100% */}
-            <div
-              className={cn(
-                "relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden transition-all duration-300 group-hover/circle:scale-110 border-[3px] shadow-[0_0_25px_rgba(6,182,212,0.8),0_0_45px_rgba(37,99,235,0.6)]",
-                isCircleVideoPlaying
-                  ? "border-cyan-300 ring-4 ring-cyan-400/60 shadow-[0_0_35px_rgba(6,182,212,0.95),0_0_60px_rgba(37,99,235,0.8)]"
-                  : "border-blue-400 dark:border-cyan-400 hover:border-cyan-300"
-              )}
-              style={{ backgroundColor: '#1e3a5f' }}
-            >
-              {/* Video 1: Màn hình chờ hệ thống giới thiệu */}
-              <video
-                ref={circleVideoRef}
-                src={SYSTEM_FLOATING_IDLE_VIDEO_URL}
-                autoPlay
-                loop
-                playsInline
-                muted
-                className="w-full h-full min-w-full min-h-full object-cover object-center pointer-events-none scale-[1.08] rounded-full"
-              />
-
-              {/* Tag trạng thái nhỏ khi Video 2 đang phát */}
-              {isCircleVideoPlaying && (
-                <div className="absolute top-1 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-black/85 backdrop-blur-xs text-[8px] sm:text-[9px] font-mono text-cyan-300 font-bold border border-cyan-400/50 pointer-events-none shadow-xs whitespace-nowrap z-10">
-                  Đang phát 🔊
-                </div>
-              )}
-            </div>
-
-            {/* Nút Play / Đóng hình tròn màu đỏ NẰM CHÍNH GIỮA CẠNH DƯỚI HÌNH TRÒN */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleToggleCircleVideo();
-              }}
-              className="absolute -bottom-2 sm:-bottom-2.5 left-1/2 -translate-x-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#ef4444] hover:bg-[#dc2626] active:scale-95 text-white flex items-center justify-center shadow-[0_4px_16px_rgba(239,68,68,0.7),0_0_14px_rgba(239,68,68,0.9)] border-2 border-white dark:border-slate-900 transition-all duration-300 z-20 cursor-pointer group-hover/circle:scale-110"
-              title={isCircleVideoPlaying ? "Đóng video & hiện lại thẻ hệ thống" : "Xem video giới thiệu hệ thống"}
-            >
-              {isCircleVideoPlaying ? (
-                <WebIcon name="cancel" className="w-4 h-4 text-white" />
-              ) : (
-                <WebIcon name="play" className="w-4 h-4 fill-white text-white ml-0.5" />
-              )}
-            </button>
-          </div>
-        </div>
-      )}
 
     </div>
   );

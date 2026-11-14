@@ -69,6 +69,33 @@ html[data-card-style="glassmorphism"] {
   --color-border-soft: rgba(199, 210, 254, 0.55);
   --bg-nav-button-opaque: #FFFFFF;
 
+  --bg-nav-pill: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(238, 242, 255, 0.90) 52%,
+    rgba(236, 254, 255, 0.92) 100%
+  );
+  --shadow-nav-pill: 0 6px 18px -4px rgba(99, 102, 241, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  --blur-nav-pill: 18px;
+  --divider-nav-pill: rgba(99, 102, 241, 0.25);
+
+  --border-subcard: rgba(255, 255, 255, 0.88);
+  --shadow-subcard: 0 6px 20px -4px rgba(99, 102, 241, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --blur-subcard: 16px;
+  --bg-nested-badge: rgba(255, 255, 255, 0.88);
+  --border-nested-badge: rgba(255, 255, 255, 0.95);
+
+  --pillar-heading: #1E1B4B;
+  --pillar-sub: #4338CA;
+  --pillar-body: #334155;
+  --pillar-badge-bg: rgba(255, 255, 255, 0.72);
+  --pillar-badge-text: #312E81;
+  --pillar-divider: rgba(255, 255, 255, 0.75);
+  --pillar-progress-track: rgba(255, 255, 255, 0.65);
+  --pillar-progress-fill: linear-gradient(90deg, #4338CA, #0EA5E9);
+
   --shadow-card: 0 12px 32px -6px rgba(99, 102, 241, 0.14),
     0 6px 20px -4px rgba(14, 165, 233, 0.10),
     inset 0 1px 0 rgba(255, 255, 255, 0.92);
@@ -159,7 +186,7 @@ body[data-card-style="glassmorphism"]::after {
 html[data-card-style="glassmorphism"] #app-header,
 html[data-card-style="glassmorphism"] #app-footer,
 html[data-card-style="glassmorphism"] [id$="-page-container"],
-html[data-card-style="glassmorphism"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-destiny-card):not(#el-p10-div-114):not(#el-p10-div-170),
+html[data-card-style="glassmorphism"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170),
 html[data-card-style="glassmorphism"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
 html[data-card-style="glassmorphism"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card) {
   backdrop-filter: blur(22px) saturate(180%) !important;
@@ -168,19 +195,79 @@ html[data-card-style="glassmorphism"] .glass-card:not(#app-header):not(#app-foot
 
 /* Sub-cards inside Kính theme */
 html[data-card-style="glassmorphism"] [data-subcard="true"],
-html[data-card-style="glassmorphism"] .sub-card {
-  background: var(--bg-subcard);
-  border-color: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px) saturate(165%);
-  -webkit-backdrop-filter: blur(16px) saturate(165%);
-  box-shadow: 0 4px 16px -4px rgba(99, 102, 241, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.88);
+html[data-card-style="glassmorphism"] .sub-card,
+html[data-card-style="glassmorphism"] .about-info-subcard,
+html[data-card-style="glassmorphism"] .experience-milestone-card,
+html[data-card-style="glassmorphism"] .exp-detail-card,
+html[data-card-style="glassmorphism"] .exp-detail-subcard,
+html[data-card-style="glassmorphism"] .pillar-gradient-card {
+  background: var(--bg-subcard) !important;
+  border: 1px solid rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(18px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(170%) !important;
+  box-shadow: 0 6px 20px -4px rgba(99, 102, 241, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.92) !important;
+}
+
+/* Cycling Multicolor Frosted Tints for Subcards (About Info, Pillars, Values, Timeline, Experience Details, SWOT Skills) */
+html[data-card-style="glassmorphism"] .about-info-subcard:nth-of-type(5n+1),
+html[data-card-style="glassmorphism"] .pillar-gradient-card[data-accent="blue"],
+html[data-card-style="glassmorphism"] .skill-swot-subcard[data-swot="S"],
+html[data-card-style="glassmorphism"] #experience-timeline-track-card > div:nth-of-type(5n+1) .experience-milestone-card,
+html[data-card-style="glassmorphism"] .exp-detail-subcard:nth-of-type(5n+1) {
+  background: var(--glass-sky) !important;
+}
+
+html[data-card-style="glassmorphism"] .about-info-subcard:nth-of-type(5n+2),
+html[data-card-style="glassmorphism"] .pillar-gradient-card[data-accent="purple"],
+html[data-card-style="glassmorphism"] #experience-timeline-track-card > div:nth-of-type(5n+2) .experience-milestone-card,
+html[data-card-style="glassmorphism"] .exp-detail-subcard:nth-of-type(5n+2) {
+  background: var(--glass-lavender) !important;
+}
+
+html[data-card-style="glassmorphism"] .about-info-subcard:nth-of-type(5n+3),
+html[data-card-style="glassmorphism"] .pillar-gradient-card[data-accent="emerald"],
+html[data-card-style="glassmorphism"] .skill-swot-subcard[data-swot="W"],
+html[data-card-style="glassmorphism"] #experience-timeline-track-card > div:nth-of-type(5n+3) .experience-milestone-card,
+html[data-card-style="glassmorphism"] .exp-detail-subcard:nth-of-type(5n+3) {
+  background: var(--glass-mint) !important;
+}
+
+html[data-card-style="glassmorphism"] .about-info-subcard:nth-of-type(5n+4),
+html[data-card-style="glassmorphism"] .pillar-gradient-card[data-accent="amber"],
+html[data-card-style="glassmorphism"] .skill-swot-subcard[data-swot="O"],
+html[data-card-style="glassmorphism"] #experience-timeline-track-card > div:nth-of-type(5n+4) .experience-milestone-card,
+html[data-card-style="glassmorphism"] .exp-detail-subcard:nth-of-type(5n+4) {
+  background: var(--glass-peach) !important;
+}
+
+html[data-card-style="glassmorphism"] .about-info-subcard:nth-of-type(5n+5),
+html[data-card-style="glassmorphism"] .pillar-gradient-card[data-accent="rose"],
+html[data-card-style="glassmorphism"] .pillar-gradient-card[data-accent="pink"],
+html[data-card-style="glassmorphism"] .skill-swot-subcard[data-swot="T"],
+html[data-card-style="glassmorphism"] #experience-timeline-track-card > div:nth-of-type(5n+5) .experience-milestone-card,
+html[data-card-style="glassmorphism"] .exp-detail-subcard:nth-of-type(5n+5) {
+  background: var(--glass-rose) !important;
+}
+
+html[data-card-style="glassmorphism"] .skill-swot-subcard:hover,
+html[data-card-style="glassmorphism"] .skill-swot-subcard[data-expanded="true"] {
+  border-color: #FFFFFF !important;
+  box-shadow: 0 10px 24px -6px rgba(99, 102, 241, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+}
+
+html[data-card-style="glassmorphism"] .skill-swot-subcard .swot-skill-disclosure {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Popups & Modals inside Kính theme */
 html[data-card-style="glassmorphism"] #ai-assistant-droptop-menu-list,
 html[data-card-style="glassmorphism"] #ai-assistant-center-questions-modal,
 html[data-card-style="glassmorphism"] #interview-question-filter-listbox,
-html[data-card-style="glassmorphism"] #skills-filter-dropdown {
+html[data-card-style="glassmorphism"] #skills-filter-dropdown,
+html[data-card-style="glassmorphism"] #services-filter-dropdown {
   background: var(--bg-popup) !important;
   border-color: rgba(255, 255, 255, 0.92) !important;
   backdrop-filter: blur(26px) saturate(185%) !important;
@@ -285,3 +372,98 @@ html[data-card-style="glassmorphism"] #skills-filter-dropdown {
   --bg-card: var(--glass-rose);
   --border-color: rgba(251, 207, 232, 0.88);
 }
+
+/* Giao diện Kính: Banners, Nav Arrows, Image Cards, Project Detail 1–10 & All Subcards */
+html[data-card-style="glassmorphism"] .hero-banner,
+html[data-card-style="glassmorphism"] .banner-card,
+html[data-card-style="glassmorphism"] #project-detail-banner {
+  border-color: rgba(255, 255, 255, 0.88) !important;
+  box-shadow: 0 14px 36px -6px rgba(99, 102, 241, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.92) !important;
+}
+
+html[data-card-style="glassmorphism"] .banner-control-pill,
+html[data-card-style="glassmorphism"] .nav-arrow-btn,
+html[data-card-style="glassmorphism"] .theme-prev-next-btn,
+html[data-card-style="glassmorphism"] .theme-back-to-top-btn {
+  background: var(--bg-nav-pill) !important;
+  color: #1E1B4B !important;
+  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  backdrop-filter: blur(18px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(165%) !important;
+}
+
+html[data-card-style="glassmorphism"] .banner-dropdown-menu,
+html[data-card-style="glassmorphism"] #systems-filter-listbox,
+html[data-card-style="glassmorphism"] #memories-filter-listbox,
+html[data-card-style="glassmorphism"] #horoscope-filter-listbox {
+  background: var(--bg-popup) !important;
+  border-color: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(26px) saturate(185%) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(185%) !important;
+}
+
+html[data-card-style="glassmorphism"] .project-detail-section-card[data-glass-tone="sky"],
+html[data-card-style="glassmorphism"] .project-detail-section-card:nth-of-type(5n+1) {
+  background: var(--glass-sky) !important;
+  border: 1px solid rgba(186, 230, 253, 0.88) !important;
+}
+html[data-card-style="glassmorphism"] .project-detail-section-card[data-glass-tone="lavender"],
+html[data-card-style="glassmorphism"] .project-detail-section-card:nth-of-type(5n+2) {
+  background: var(--glass-lavender) !important;
+  border: 1px solid rgba(221, 214, 254, 0.88) !important;
+}
+html[data-card-style="glassmorphism"] .project-detail-section-card[data-glass-tone="mint"],
+html[data-card-style="glassmorphism"] .project-detail-section-card:nth-of-type(5n+3) {
+  background: var(--glass-mint) !important;
+  border: 1px solid rgba(167, 243, 208, 0.88) !important;
+}
+html[data-card-style="glassmorphism"] .project-detail-section-card[data-glass-tone="peach"],
+html[data-card-style="glassmorphism"] .project-detail-section-card:nth-of-type(5n+4) {
+  background: var(--glass-peach) !important;
+  border: 1px solid rgba(253, 230, 138, 0.88) !important;
+}
+html[data-card-style="glassmorphism"] .project-detail-section-card[data-glass-tone="rose"],
+html[data-card-style="glassmorphism"] .project-detail-section-card:nth-of-type(5n+5) {
+  background: var(--glass-rose) !important;
+  border: 1px solid rgba(251, 207, 232, 0.88) !important;
+}
+
+html[data-card-style="glassmorphism"] .project-detail-subcard,
+html[data-card-style="glassmorphism"] .education-subcard,
+html[data-card-style="glassmorphism"] .letter-subcard,
+html[data-card-style="glassmorphism"] .letter-header-subcard,
+html[data-card-style="glassmorphism"] .letter-footer-subcard {
+  background: var(--bg-subcard) !important;
+  border: 1px solid rgba(255, 255, 255, 0.90) !important;
+  backdrop-filter: blur(16px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(165%) !important;
+  box-shadow: 0 6px 18px -4px rgba(99, 102, 241, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.92) !important;
+}
+
+html[data-card-style="glassmorphism"] .project-detail-subcard:nth-of-type(5n+1),
+html[data-card-style="glassmorphism"] .education-subcard:nth-of-type(5n+1) {
+  background: var(--glass-sky) !important;
+}
+html[data-card-style="glassmorphism"] .project-detail-subcard:nth-of-type(5n+2),
+html[data-card-style="glassmorphism"] .education-subcard:nth-of-type(5n+2) {
+  background: var(--glass-lavender) !important;
+}
+html[data-card-style="glassmorphism"] .project-detail-subcard:nth-of-type(5n+3),
+html[data-card-style="glassmorphism"] .education-subcard:nth-of-type(5n+3) {
+  background: var(--glass-mint) !important;
+}
+html[data-card-style="glassmorphism"] .project-detail-subcard:nth-of-type(5n+4),
+html[data-card-style="glassmorphism"] .education-subcard:nth-of-type(5n+4) {
+  background: var(--glass-peach) !important;
+}
+html[data-card-style="glassmorphism"] .project-detail-subcard:nth-of-type(5n+5),
+html[data-card-style="glassmorphism"] .education-subcard:nth-of-type(5n+5) {
+  background: var(--glass-rose) !important;
+}
+
+html[data-card-style="glassmorphism"] .themed-image-card {
+  border: 1.5px solid rgba(255, 255, 255, 0.90) !important;
+  box-shadow: 0 12px 30px -6px rgba(99, 102, 241, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+}
+

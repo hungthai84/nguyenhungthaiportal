@@ -69,6 +69,9 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
       onClick={onClose}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}
         className="bg-[#EFF6FF] dark:bg-[#111827] rounded-[14px] max-w-3xl w-full max-h-[90vh] p-5 sm:p-7 border border-white/85 dark:border-[#334155] shadow-[0_20px_60px_rgba(0,0,0,0.3)] relative text-left select-none overflow-y-auto no-scrollbar"
         onClick={(e) => e.stopPropagation()}
       >
@@ -106,6 +109,15 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
             return (
               <div
                 key={item.id}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelectWeather(item);
+                    onClose();
+                  }
+                }}
                 onClick={() => {
                   onSelectWeather(item);
                   onClose();
@@ -189,7 +201,7 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
         </div>
 
         {/* Footer Hint */}
-        <div className="relative z-10 pt-4 mt-3 flex items-center justify-between typo-caption text-[#475569] dark:text-[#94A3B8]">
+        <div className="relative z-10 pt-4 mt-3 flex flex-wrap items-center justify-between gap-2 typo-caption text-[#475569] dark:text-[#94A3B8]">
           <span>
             {isEn
               ? 'Tap any card to update the weather widget in the Footer'
@@ -198,7 +210,7 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 rounded-[14px] bg-[#1E1B4B] dark:bg-[#F8FAFC] text-white dark:text-[#1E1B4B] typo-button hover:opacity-90 transition cursor-pointer"
+            className="px-4 py-1.5 rounded-full bg-[#1E1B4B] dark:bg-[#F8FAFC] text-white dark:text-[#1E1B4B] typo-button hover:opacity-90 transition cursor-pointer ml-auto"
           >
             {isEn ? 'Close' : 'Đóng'}
           </button>

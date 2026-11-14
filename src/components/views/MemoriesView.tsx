@@ -188,7 +188,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="banner-card hero-banner w-full max-w-full lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-hidden relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
+        className="banner-card hero-banner w-full max-w-full lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
         style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
       >
         <div
@@ -232,8 +232,9 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
           </p>
         </div>
 
-        {/* Nhóm các nút lại thành 1 filter icon ở bên dưới banner bên trái */}
-        <div className="relative z-30 flex flex-wrap items-center justify-start gap-2.5 mt-auto" ref={filterMenuRef}>
+        {/* Nhóm bộ lọc bên trái + Ô tìm kiếm nhanh bên phải */}
+        <div className="relative z-30 flex flex-wrap items-center justify-between gap-2.5 mt-auto w-full" ref={filterMenuRef}>
+          <div className="flex flex-wrap items-center gap-2">
           <div className="relative inline-block text-left">
             <button
               type="button"
@@ -336,15 +337,46 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
           </div>
 
           {/* Reset filter button nếu có filter */}
-          {(categoryFilter !== 'all' || companyFilter !== 'all') && (
+          {(categoryFilter !== 'all' || companyFilter !== 'all' || searchQuery.trim() !== '') && (
             <button
               type="button"
               onClick={handleResetFilters}
-              className="px-3 py-1 rounded-full bg-rose-500/90 hover:bg-rose-600 text-white text-[11px] font-bold font-play transition-all cursor-pointer shadow-xs active:scale-95"
+              className="px-3 py-1.5 rounded-full bg-rose-500/90 hover:bg-rose-600 text-white text-[11px] font-bold font-play transition-all cursor-pointer shadow-xs active:scale-95"
             >
               ✕ Đặt lại
             </button>
           )}
+          </div>
+
+          <div className="flex items-center gap-2 flex-1 sm:flex-initial justify-end max-w-full sm:max-w-[300px]">
+            <div className="relative flex-1 sm:w-52">
+              <WebIcon
+                name="search"
+                className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+              />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Tìm kỷ niệm, địa điểm, năm..."
+                aria-label="Tìm kiếm ảnh kỷ niệm"
+                className="w-full pl-8 pr-7 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 text-slate-800 dark:text-[#E2E8F0] placeholder:text-slate-400 border border-emerald-200 dark:border-[#334155] shadow-sm text-xs font-play focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  aria-label="Xóa từ khóa tìm kiếm"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white cursor-pointer"
+                >
+                  <WebIcon name="cancel" className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+            <span className="px-2.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/40 text-xs font-mono font-bold shadow-sm shrink-0">
+              {filteredMemories.length} ảnh
+            </span>
+          </div>
         </div>
       </motion.div>
 
@@ -364,7 +396,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
             <button
               type="button"
               onClick={handleResetFilters}
-              className="px-4 py-2 rounded-[14px] bg-rose-600 text-white font-bold text-xs shadow hover:bg-rose-700 transition-all flex items-center gap-1.5 cursor-pointer"
+              className="px-4 py-2 rounded-full bg-rose-600 text-white font-bold text-xs shadow hover:bg-rose-700 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <span>↻ Đặt lại bộ lọc</span>
             </button>
@@ -376,7 +408,15 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                 id={`memory-card-${item.id}`}
                 data-element-name={`Thẻ kỷ niệm: ${item.titleVi}`}
                 key={item.id}
+                role="button"
+                tabIndex={0}
                 onClick={() => setActiveLightboxIdx(idx)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActiveLightboxIdx(idx);
+                  }
+                }}
                 style={{ animationDelay: `${(idx % 16) * 35}ms`, padding: 0 }}
                 className="memory-photo-item break-inside-avoid mb-[15px] block w-full relative rounded-[14px] overflow-hidden p-0 m-0 border-0 cursor-pointer group bg-[#0B1220]"
               >
@@ -405,7 +445,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                   <span className="text-[10px] font-mono font-bold text-[#6EE7B7] uppercase tracking-wide block">
                     {item.companyId?.toUpperCase()}
                   </span>
-                  <h3 className="text-sm font-bold text-white leading-snug break-words mt-0.5 flex items-center gap-1.5">
+                  <h3 className="text-sm font-bold text-[#6EE7B7] leading-snug break-words mt-0.5 flex items-center gap-1.5">
                     <WebIcon name="camera" className="w-3.5 h-3.5 text-[#6EE7B7] shrink-0" />
                     <span>{formatCardTitle(item.titleVi)}</span>
                   </h3>
@@ -433,6 +473,9 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
       {/* 3. Lightbox Modal với Slideshow & Filmstrip */}
       {activePhoto && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Xem ảnh kỷ niệm: ${activePhoto.titleVi}`}
           className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-5 bg-[#0B1220]/95 backdrop-blur-md"
           onClick={() => {
             setActiveLightboxIdx(null);
@@ -521,6 +564,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
 
                   <button
                     type="button"
+                    aria-label="Đóng trình xem ảnh"
                     onClick={() => {
                       setActiveLightboxIdx(null);
                       setIsSlideshowPlaying(false);

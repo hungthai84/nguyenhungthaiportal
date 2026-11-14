@@ -31,8 +31,8 @@ export interface QaCategory {
 
 export const TRI_NHAN_CATEGORIES: QaCategory[] = [
   {
-    code: '13.1',
-    title: '13.1. Giới thiệu cá nhân',
+    code: '1',
+    title: '1. Giới thiệu cá nhân',
     icon: 'user',
     color: '#EC7D21',
     items: [
@@ -75,8 +75,8 @@ export const TRI_NHAN_CATEGORIES: QaCategory[] = [
     ],
   },
   {
-    code: '13.2',
-    title: '13.2. Tầm nhìn & Chiến lược',
+    code: '2',
+    title: '2. Tầm nhìn & Chiến lược',
     icon: 'target',
     color: '#E64C72',
     items: [
@@ -125,8 +125,8 @@ export const TRI_NHAN_CATEGORIES: QaCategory[] = [
     ],
   },
   {
-    code: '13.3',
-    title: '13.3. Quản lý & Đào tạo',
+    code: '3',
+    title: '3. Quản lý & Đào tạo',
     icon: 'users',
     color: '#1480C0',
     items: [
@@ -175,8 +175,8 @@ export const TRI_NHAN_CATEGORIES: QaCategory[] = [
     ],
   },
   {
-    code: '13.4',
-    title: '13.4. Tình huống & Khủng hoảng',
+    code: '4',
+    title: '4. Tình huống & Khủng hoảng',
     icon: 'shield-alert',
     color: '#0D9488',
     items: [
@@ -225,8 +225,8 @@ export const TRI_NHAN_CATEGORIES: QaCategory[] = [
     ],
   },
   {
-    code: '13.5',
-    title: '13.5. Công nghệ & Quy trình',
+    code: '5',
+    title: '5. Công nghệ & Quy trình',
     icon: 'database',
     color: '#3BB8E6',
     items: [
@@ -254,8 +254,8 @@ export const TRI_NHAN_CATEGORIES: QaCategory[] = [
     ],
   },
   {
-    code: '13.6',
-    title: '13.6. Văn hóa & Thấu cảm',
+    code: '6',
+    title: '6. Văn hóa & Thấu cảm',
     icon: 'heart',
     color: '#6353B5',
     items: [
@@ -311,8 +311,8 @@ export const TRI_NHAN_CATEGORIES: QaCategory[] = [
     ],
   },
   {
-    code: '13.7',
-    title: '13.7. Tổ chức & Phối hợp',
+    code: '7',
+    title: '7. Tổ chức & Phối hợp',
     icon: 'network',
     color: '#2563EB',
     items: [
@@ -354,8 +354,8 @@ export const TRI_NHAN_CATEGORIES: QaCategory[] = [
     ],
   },
   {
-    code: '13.8',
-    title: '13.8. Lãnh đạo & Tư duy khác biệt',
+    code: '8',
+    title: '8. Lãnh đạo & Tư duy khác biệt',
     icon: 'sparkles',
     color: '#A855F7',
     items: [
@@ -444,7 +444,7 @@ const MENU_LEVEL1_GROUPS: MenuLevel1Group[] = [
     subtitle: 'Giới thiệu cá nhân, Tầm nhìn CX',
     icon: 'user',
     color: '#EC7D21',
-    categoryCodes: ['13.1', '13.2'],
+    categoryCodes: ['1', '2'],
   },
   {
     id: 'grp-team-crisis',
@@ -452,7 +452,7 @@ const MENU_LEVEL1_GROUPS: MenuLevel1Group[] = [
     subtitle: 'Quản lý, Đào tạo, Xử lý sự cố & Phối hợp',
     icon: 'users',
     color: '#1480C0',
-    categoryCodes: ['13.3', '13.4', '13.7'],
+    categoryCodes: ['3', '4', '7'],
   },
   {
     id: 'grp-tech-culture',
@@ -460,7 +460,7 @@ const MENU_LEVEL1_GROUPS: MenuLevel1Group[] = [
     subtitle: 'Quy trình số, Văn hóa thấu cảm & Tư duy',
     icon: 'sparkles',
     color: '#A855F7',
-    categoryCodes: ['13.5', '13.6', '13.8'],
+    categoryCodes: ['5', '6', '8'],
   },
 ];
 
@@ -559,16 +559,31 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
     chatMessagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
 
-  // Đóng menu drop top khi click ra ngoài
+  // Đóng menu drop top khi click ra ngoài hoặc bấm Escape
   useEffect(() => {
     const handleOutside = (e: MouseEvent) => {
       if (dropTopMenuRef.current && !dropTopMenuRef.current.contains(e.target as Node)) {
         setIsCategoryDropTopOpen(false);
       }
     };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (selectedCenterCategory) {
+          setSelectedCenterCategory(null);
+          return;
+        }
+        if (isCategoryDropTopOpen) {
+          setIsCategoryDropTopOpen(false);
+        }
+      }
+    };
     document.addEventListener('mousedown', handleOutside);
-    return () => document.removeEventListener('mousedown', handleOutside);
-  }, []);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedCenterCategory, isCategoryDropTopOpen]);
 
   // Dừng giọng đọc khi rời trang
   useEffect(() => {
@@ -684,7 +699,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
     return {
       title: 'Trí Nhân chia sẻ về anh Nguyễn Hùng Thái',
       answer:
-        'Dạ Trí Nhân xin chia sẻ cùng Anh Chị: Anh Nguyễn Hùng Thái (sinh năm 1984) có hơn 22 năm kinh nghiệm thực chiến quản trị Dịch vụ & Trải nghiệm Khách hàng (CX) tại MobiFone, V247, HTVC, Garena/Shopee (VED), Prudential Việt Nam, Ví MoMo và Finviet. Anh Chị có thể bấm vào biểu tượng Menu danh mục câu hỏi (8 nhóm chủ đề từ 13.1 đến 13.8) ngay trước ô nhập tin nhắn để chọn câu hỏi chi tiết nha! Xin cám ơn Anh Chị.',
+        'Dạ Trí Nhân xin chia sẻ cùng Anh Chị: Anh Nguyễn Hùng Thái (sinh năm 1984) có hơn 22 năm kinh nghiệm thực chiến quản trị Dịch vụ & Trải nghiệm Khách hàng (CX) tại MobiFone, V247, HTVC, Garena/Shopee (VED), Prudential Việt Nam, Ví MoMo và Finviet. Anh Chị có thể bấm vào biểu tượng Menu danh mục câu hỏi (8 nhóm chủ đề từ 1 đến 8) ngay trước ô nhập tin nhắn để chọn câu hỏi chi tiết nha! Xin cám ơn Anh Chị.',
     };
   };
 
@@ -966,28 +981,34 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           >
             <div
               id="ai-assistant-center-questions-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-label={selectedCenterCategory.title}
               data-element-type="card"
+              data-section-card="true"
               onClick={(e) => e.stopPropagation()}
-              className="bento-card glass-card w-full max-w-2xl max-h-[82%] bg-white dark:bg-[#111827] border-2 border-purple-300 dark:border-[#334155] rounded-[14px] shadow-2xl flex flex-col overflow-hidden"
-              style={{ borderRadius: '14px' }}
+              className="bento-card glass-card w-full max-w-2xl max-h-[82%] rounded-[14px] shadow-2xl flex flex-col overflow-hidden"
+              style={{ ...cleanCardStyle, borderRadius: '14px' }}
             >
               {/* Header của Drop Center List */}
               <div
                 id="ai-assistant-center-questions-header"
-                className="p-3.5 sm:p-4 bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-800 text-white flex items-center justify-between gap-3 shrink-0"
+                className="p-3.5 sm:p-4 flex items-center justify-between gap-3 shrink-0 border-b border-slate-200/80 dark:border-white/10"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div
-                    className="w-8 h-8 rounded-[14px] flex items-center justify-center text-white shrink-0 shadow-xs"
-                    style={{ backgroundColor: selectedCenterCategory.color }}
-                  >
-                    <WebIcon name={selectedCenterCategory.icon} className="w-4 h-4" />
-                  </div>
+                  <WebIcon
+                    name={selectedCenterCategory.icon}
+                    className="w-[18px] h-[18px] shrink-0"
+                    style={{ color: selectedCenterCategory.color }}
+                  />
                   <div className="min-w-0">
-                    <h3 className="text-sm sm:text-base font-black font-play truncate">
+                    <h3
+                      className="text-[17px] sm:text-[18px] font-bold font-play truncate"
+                      style={{ color: selectedCenterCategory.color }}
+                    >
                       {selectedCenterCategory.title}
                     </h3>
-                    <p className="text-[11px] text-purple-200">
+                    <p className="text-[12px] text-slate-600 dark:text-slate-300">
                       Chọn câu hỏi bên dưới để Trí Nhân giải đáp ngay ({selectedCenterCategory.items.length} câu hỏi)
                     </p>
                   </div>
@@ -997,7 +1018,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                   id="ai-assistant-center-questions-close"
                   type="button"
                   onClick={() => setSelectedCenterCategory(null)}
-                  className="px-3 py-1 rounded-[14px] bg-white/15 hover:bg-rose-600 text-white text-xs font-bold flex items-center gap-1 cursor-pointer transition shrink-0"
+                  className="px-3.5 py-1.5 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold flex items-center gap-1 cursor-pointer transition shrink-0"
                 >
                   <WebIcon name="cancel" className="w-3.5 h-3.5" />
                   <span>Đóng</span>
@@ -1007,25 +1028,29 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
               {/* Danh sách câu hỏi trong mục */}
               <div
                 id="ai-assistant-center-questions-list"
-                className="flex-1 overflow-y-auto p-3.5 sm:p-4 space-y-2.5 divide-y divide-slate-100 dark:divide-slate-800"
+                className="flex-1 overflow-y-auto p-3.5 sm:p-4 space-y-2.5"
               >
                 {selectedCenterCategory.items.map((qItem) => (
                   <button
                     key={qItem.id}
                     id={`ai-center-question-btn-${qItem.id}`}
                     type="button"
+                    data-subcard="true"
                     onClick={() => handleSelectQuestionItem(qItem)}
-                    className="bento-card w-full text-left p-3 rounded-[14px] bg-slate-50 hover:bg-purple-50 dark:bg-slate-800/70 dark:hover:bg-purple-950/50 border border-slate-200/90 hover:border-purple-400 dark:border-slate-700 transition flex flex-col gap-1 cursor-pointer group"
+                    className="exp-detail-subcard w-full text-left p-3 rounded-[14px] hover:border-purple-400 transition flex flex-col gap-1 cursor-pointer group"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs sm:text-sm font-black font-play text-purple-800 dark:text-purple-300 group-hover:text-purple-600">
+                      <span
+                        className="text-[15px] sm:text-[16px] font-bold font-play"
+                        style={{ color: selectedCenterCategory.color }}
+                      >
                         {qItem.title}
                       </span>
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 dark:bg-purple-900/70 text-purple-700 dark:text-purple-200 shrink-0">
+                      <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-purple-100 dark:bg-purple-900/70 text-purple-700 dark:text-purple-200 shrink-0">
                         Hỏi Trí Nhân ➔
                       </span>
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-snug">
+                    <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-snug">
                       <strong className="text-slate-800 dark:text-slate-200">Câu hỏi:</strong> {qItem.question}
                     </p>
                   </button>
@@ -1064,7 +1089,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                   return next;
                 });
               }}
-              className="h-10 px-3.5 rounded-[14px] bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-600 hover:to-indigo-600 text-white font-bold text-xs shadow-md flex items-center gap-2 cursor-pointer transition active:scale-95 border border-purple-400/40"
+              className="h-10 px-3.5 rounded-full bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-600 hover:to-indigo-600 text-white font-bold text-xs shadow-md flex items-center gap-2 cursor-pointer transition active:scale-95 border border-purple-400/40"
               title="Mở Menu List 3 cấp (Nhóm chủ đề > 8 Danh mục > 47 Câu hỏi)"
               aria-expanded={isCategoryDropTopOpen}
             >
@@ -1094,8 +1119,9 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                 <div
                   id="ai-assistant-droptop-menu-list"
                   data-element-type="card"
-                  className="bento-card glass-card absolute left-0 right-0 bottom-[calc(100%+10px)] w-full max-w-[680px] rounded-[14px] bg-white dark:bg-[#111827] border-2 border-purple-300 dark:border-[#334155] shadow-[0_18px_45px_rgba(15,23,42,0.28)] p-3 z-50 flex flex-col gap-2.5 animate-fadeIn overflow-hidden"
-                  style={{ borderRadius: '14px' }}
+                  data-section-card="true"
+                  className="bento-card glass-card absolute left-0 right-0 bottom-[calc(100%+10px)] w-full max-w-[680px] rounded-[14px] shadow-[0_18px_45px_rgba(15,23,42,0.28)] p-3 z-50 flex flex-col gap-2.5 animate-fadeIn overflow-hidden"
+                  style={{ ...cleanCardStyle, borderRadius: '14px' }}
                 >
                   {/* Header thanh điều hướng Breadcrumb 3 cấp */}
                   <div className="px-1.5 pb-2 border-b border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2">
@@ -1153,7 +1179,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                             SoundEngine.playTap();
                             setMobileMenuStep((s) => (s === 3 ? 2 : 1));
                           }}
-                          className="px-2.5 py-1 rounded-[10px] text-[11px] font-bold bg-purple-100 dark:bg-purple-900/60 hover:bg-purple-200 dark:hover:bg-purple-800 text-purple-800 dark:text-purple-200 transition cursor-pointer"
+                          className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-purple-100 dark:bg-purple-900/60 hover:bg-purple-200 dark:hover:bg-purple-800 text-purple-800 dark:text-purple-200 transition cursor-pointer"
                         >
                           ← Quay lại cấp {mobileMenuStep - 1}
                         </button>
@@ -1161,7 +1187,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                       <button
                         type="button"
                         onClick={() => setIsCategoryDropTopOpen(false)}
-                        className="px-2.5 py-1 rounded-[10px] text-[11px] font-bold bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950/60 text-slate-600 dark:text-slate-300 hover:text-rose-600 transition cursor-pointer"
+                        className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950/60 text-slate-600 dark:text-slate-300 hover:text-rose-600 transition cursor-pointer"
                       >
                         Đóng
                       </button>
@@ -1189,6 +1215,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                             key={grp.id}
                             id={`ai-menu-l1-${grp.id}`}
                             type="button"
+                            data-subcard="true"
                             onClick={() => {
                               SoundEngine.playTap();
                               setActiveMenuLevel1Id(grp.id);
@@ -1197,23 +1224,18 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                               }
                               setMobileMenuStep(2);
                             }}
-                            className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-[12px] bg-slate-50/90 dark:bg-slate-800/80 hover:bg-purple-50 dark:hover:bg-purple-950/60 border border-slate-200/70 dark:border-slate-700/70 hover:border-purple-400 text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 cursor-pointer text-left transition"
+                            className="exp-detail-subcard w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-[12px] hover:border-purple-400 text-[15px] sm:text-[16px] font-bold cursor-pointer text-left transition"
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
-                              <span
-                                className="w-7 h-7 rounded-[10px] flex items-center justify-center text-white shrink-0 shadow-2xs"
-                                style={{ backgroundColor: grp.color }}
-                              >
-                                <WebIcon name={grp.icon} className="w-4 h-4" />
-                              </span>
+                              <WebIcon name={grp.icon} className="w-[16px] h-[16px] shrink-0" style={{ color: grp.color }} />
                               <div className="min-w-0">
-                                <div className="font-bold truncate">{grp.label}</div>
+                                <div className="font-bold truncate" style={{ color: grp.color }}>{grp.label}</div>
                                 <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate">
                                   {grp.categoryCodes.length} danh mục • {grpCount} câu hỏi
                                 </div>
                               </div>
                             </div>
-                            <WebIcon name="chevron-right" className="w-4 h-4 shrink-0 text-purple-600 dark:text-purple-300" />
+                            <WebIcon name="chevron-right" className="w-4 h-4 shrink-0" style={{ color: grp.color }} />
                           </button>
                         );
                       })}
@@ -1224,27 +1246,23 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                           key={cat.code}
                           id={`ai-droptop-item-${cat.code.replace('.', '-')}`}
                           type="button"
+                          data-subcard="true"
                           onClick={() => {
                             SoundEngine.playTap();
                             setActiveMenuLevel2Code(cat.code);
                             setMobileMenuStep(3);
                           }}
-                          className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-[12px] bg-slate-50/90 dark:bg-slate-800/80 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 border border-slate-200/70 dark:border-slate-700/70 hover:border-indigo-400 text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 cursor-pointer text-left transition"
+                          className="exp-detail-subcard w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-[12px] hover:border-indigo-400 text-[15px] sm:text-[16px] font-bold cursor-pointer text-left transition"
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <span
-                              className="w-7 h-7 rounded-[10px] flex items-center justify-center text-white shrink-0 shadow-2xs"
-                              style={{ backgroundColor: cat.color }}
-                            >
-                              <WebIcon name={cat.icon} className="w-4 h-4" />
-                            </span>
-                            <span className="truncate">{cat.title}</span>
+                            <WebIcon name={cat.icon} className="w-[16px] h-[16px] shrink-0" style={{ color: cat.color }} />
+                            <span className="truncate" style={{ color: cat.color }}>{cat.title}</span>
                           </div>
                           <div className="flex items-center gap-1.5 shrink-0">
                             <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300">
                               {cat.items.length} câu
                             </span>
-                            <WebIcon name="chevron-right" className="w-4 h-4 text-indigo-600 dark:text-indigo-300" />
+                            <WebIcon name="chevron-right" className="w-4 h-4" style={{ color: cat.color }} />
                           </div>
                         </button>
                       ))}
@@ -1255,11 +1273,15 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                           key={qItem.id}
                           id={`ai-menu-l3-q-${qItem.id}`}
                           type="button"
+                          data-subcard="true"
                           onClick={() => handleSelectQuestionItem(qItem)}
-                          className="w-full p-2.5 rounded-[12px] text-left bg-slate-50/90 hover:bg-purple-50 dark:bg-slate-800/80 dark:hover:bg-purple-950/60 border border-slate-200/80 dark:border-slate-700/80 hover:border-purple-400 transition cursor-pointer flex flex-col gap-0.5 group"
+                          className="exp-detail-subcard w-full p-2.5 rounded-[12px] text-left hover:border-purple-400 transition cursor-pointer flex flex-col gap-0.5 group"
                         >
                           <div className="flex items-center justify-between gap-2">
-                            <span className="text-xs sm:text-sm font-bold font-play text-purple-800 dark:text-purple-300 group-hover:text-purple-600 truncate">
+                            <span
+                              className="text-[15px] sm:text-[16px] font-bold font-play truncate"
+                              style={{ color: activeLevel2Category.color }}
+                            >
                               {qItem.title}
                             </span>
                             <span className="text-[11px] font-bold text-purple-600 dark:text-purple-400 shrink-0">
@@ -1291,7 +1313,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                 ? 'Ask Tri Nhan about Mr. Nguyen Hung Thai or pick a question category...'
                 : 'Hỏi Trí Nhân về anh Nguyễn Hùng Thái hoặc chọn mục câu hỏi bên trái...'
             }
-            className="flex-1 h-10 px-4 rounded-[14px] border border-purple-300 dark:border-[#334155] bg-white/95 dark:bg-[#111827] text-xs sm:text-sm focus:outline-none focus:border-purple-600 text-[#334155] dark:text-[#E2E8F0] shadow-inner"
+            className="flex-1 h-10 px-4 rounded-full border border-purple-300 dark:border-[#334155] bg-white/95 dark:bg-[#111827] text-xs sm:text-sm focus:outline-none focus:border-purple-600 text-[#334155] dark:text-[#E2E8F0] shadow-inner"
           />
           <button
             id="ai-assistant-submit-button"
@@ -1300,7 +1322,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             data-element-page="ai-assistant"
             data-element-parent="ai-assistant-input-form"
             type="submit"
-            className="h-10 px-5 rounded-[14px] bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs sm:text-sm shadow-md cursor-pointer transition active:scale-95 flex items-center gap-2 shrink-0 border border-white/20"
+            className="h-10 px-5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs sm:text-sm shadow-md cursor-pointer transition active:scale-95 flex items-center gap-2 shrink-0 border border-white/20"
           >
             <span>{isEn ? 'Send' : 'Gửi câu hỏi'}</span>
             <WebIcon name="send" className="w-3.5 h-3.5 text-white" />

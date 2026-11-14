@@ -6,6 +6,36 @@ export type LanguagePreference = 'auto' | 'vi' | 'en';
 
 const LANG_MODE_STORAGE_KEY = 'portfolio_lang_mode';
 const EN_CACHE_STORAGE_KEY = 'portfolio_en_cache_v2';
+const BATCH_COOLDOWN_STORAGE_KEY = 'portfolio_translate_cooldown_until';
+
+function isBatchTranslateCoolingDown(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    const raw = sessionStorage.getItem(BATCH_COOLDOWN_STORAGE_KEY);
+    if (!raw) return false;
+    const until = Number(raw);
+    if (Number.isFinite(until) && Date.now() < until) {
+      return true;
+    }
+    sessionStorage.removeItem(BATCH_COOLDOWN_STORAGE_KEY);
+  } catch {
+    // ignore storage errors
+  }
+  return false;
+}
+
+function setBatchTranslateCooldown(retryAfterSec?: number): void {
+  if (typeof window === 'undefined') return;
+  try {
+    const sec =
+      typeof retryAfterSec === 'number' && Number.isFinite(retryAfterSec) && retryAfterSec > 0
+        ? Math.min(Math.max(retryAfterSec, 60), 30 * 60)
+        : 15 * 60;
+    sessionStorage.setItem(BATCH_COOLDOWN_STORAGE_KEY, String(Date.now() + sec * 1000));
+  } catch {
+    // ignore storage errors
+  }
+}
 
 const VIETNAMESE_DIACRITIC_REGEX =
   /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]/;
@@ -407,7 +437,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const trackedAttrElsRef = useRef<Set<Element>>(new Set());
   const inFlightKeysRef = useRef<Set<string>>(new Set());
   const failedKeysRef = useRef<Set<string>>(new Set());
-  const batchApiUnavailableRef = useRef<boolean>(false);
+  const batchApiUnavailableRef = useRef<boolean>(isBatchTranslateCoolingDown());
   const isApplyingRef = useRef<boolean>(false);
   const originalTitleRef = useRef<string | null>(null);
 
@@ -528,86 +558,95 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       isApplyingRef.current = false;
     }
 
-    // 3. Batch translate uncached Vietnamese strings via /api/translate-batch (if backend translation key is configured)
-    if (batchApiUnavailableRef.current) return;
+    // 3. Batch translate uncached Vietnamese strings via /api/translate-batch (if backend translation quota is available)
+    if (batchApiUnavailableRef.current || isBatchTranslateCoolingDown()) {
+      batchApiUnavailableRef.current = true;
+      return;
+    }
     const toFetch = Array.from(pendingStrings);
     if (toFetch.length === 0) return;
 
     toFetch.forEach((s) => inFlightKeysRef.current.add(s));
     const chunks: string[][] = [];
-    for (let i = 0; i < toFetch.length; i += 35) {
-      chunks.push(toFetch.slice(i, i + 35));
+    for (let i = 0; i < toFetch.length; i += 45) {
+      chunks.push(toFetch.slice(i, i + 45));
     }
 
     setIsTranslating(true);
-    let activeWorkers = Math.min(3, chunks.length);
-    let chunkCursor = 0;
 
-    const runWorker = async () => {
-      while (chunkCursor < chunks.length) {
-        if (batchApiUnavailableRef.current) {
-          const skipped = chunks[chunkCursor++];
-          skipped.forEach((src) => inFlightKeysRef.current.delete(src));
-          continue;
-        }
-        const myIndex = chunkCursor++;
-        const batch = chunks[myIndex];
-        try {
-          const res = await fetch('/api/translate-batch', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ texts: batch, targetLang: 'en' }),
-          });
-          if (res.ok) {
-            const data = await res.json();
-            if (data?.fallback) {
+    const runSequential = async () => {
+      try {
+        for (let idx = 0; idx < chunks.length; idx++) {
+          const batch = chunks[idx];
+          if (batchApiUnavailableRef.current || languageRef.current !== 'en') {
+            batch.forEach((src) => inFlightKeysRef.current.delete(src));
+            continue;
+          }
+          try {
+            const res = await fetch('/api/translate-batch', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ texts: batch, targetLang: 'en' }),
+            });
+            if (res.status === 429) {
               batchApiUnavailableRef.current = true;
+              setBatchTranslateCooldown(900);
               batch.forEach((src) => {
                 inFlightKeysRef.current.delete(src);
                 failedKeysRef.current.add(src);
               });
               continue;
             }
-            const list: unknown = data?.translations;
-            if (Array.isArray(list)) {
+            if (res.ok) {
+              const data = await res.json();
+              const list: unknown = data?.translations;
               let updatedCount = 0;
-              batch.forEach((src, i) => {
-                const tr = list[i];
-                if (typeof tr === 'string' && tr.trim() && !VIETNAMESE_DIACRITIC_REGEX.test(tr)) {
-                  cache.set(src, tr.trim());
-                  updatedCount++;
-                }
-                inFlightKeysRef.current.delete(src);
-              });
+              if (Array.isArray(list)) {
+                batch.forEach((src, i) => {
+                  const tr = list[i];
+                  if (typeof tr === 'string' && tr.trim() && !VIETNAMESE_DIACRITIC_REGEX.test(tr)) {
+                    cache.set(src, tr.trim());
+                    updatedCount++;
+                  }
+                });
+              }
               if (updatedCount > 0) {
                 savePersistedCache(cache, baseDictRef.current!);
                 if (languageRef.current === 'en') {
                   scanAndTranslateToEnglish();
                 }
               }
+              if (data?.fallback || data?.quotaExhausted) {
+                batchApiUnavailableRef.current = true;
+                setBatchTranslateCooldown(data?.retryAfterSec);
+                batch.forEach((src) => {
+                  inFlightKeysRef.current.delete(src);
+                  failedKeysRef.current.add(src);
+                });
+                continue;
+              }
+              batch.forEach((src) => inFlightKeysRef.current.delete(src));
               continue;
             }
+            batch.forEach((src) => {
+              inFlightKeysRef.current.delete(src);
+              failedKeysRef.current.add(src);
+            });
+          } catch {
+            batch.forEach((src) => {
+              inFlightKeysRef.current.delete(src);
+              failedKeysRef.current.add(src);
+            });
           }
-          batch.forEach((src) => {
-            inFlightKeysRef.current.delete(src);
-            failedKeysRef.current.add(src);
-          });
-        } catch {
-          batch.forEach((src) => {
-            inFlightKeysRef.current.delete(src);
-            failedKeysRef.current.add(src);
-          });
         }
-      }
-      activeWorkers--;
-      if (activeWorkers <= 0 && inFlightKeysRef.current.size === 0) {
-        setIsTranslating(false);
+      } finally {
+        if (inFlightKeysRef.current.size === 0) {
+          setIsTranslating(false);
+        }
       }
     };
 
-    for (let w = 0; w < activeWorkers; w++) {
-      void runWorker();
-    }
+    void runSequential();
   }, []);
 
   const restoreVietnamese = useCallback(() => {
@@ -671,14 +710,21 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     // Apply English immediately + observe dynamic DOM updates (tab switches, modals, filters, attributes)
     failedKeysRef.current.clear();
     let rafId: number | null = null;
+    let debounceTimer: number | null = null;
     const scheduleScan = () => {
-      if (rafId !== null) return;
-      rafId = window.requestAnimationFrame(() => {
-        rafId = null;
-        if (languageRef.current === 'en') {
-          scanAndTranslateToEnglish();
-        }
-      });
+      if (debounceTimer !== null) {
+        window.clearTimeout(debounceTimer);
+      }
+      debounceTimer = window.setTimeout(() => {
+        debounceTimer = null;
+        if (rafId !== null) return;
+        rafId = window.requestAnimationFrame(() => {
+          rafId = null;
+          if (languageRef.current === 'en') {
+            scanAndTranslateToEnglish();
+          }
+        });
+      }, 90);
     };
 
     scanAndTranslateToEnglish();
@@ -714,6 +760,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     return () => {
       observer.disconnect();
+      if (debounceTimer !== null) {
+        window.clearTimeout(debounceTimer);
+      }
       if (rafId !== null) {
         window.cancelAnimationFrame(rafId);
       }

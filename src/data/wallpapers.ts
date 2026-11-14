@@ -1281,4 +1281,32 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     isCustom: true,
     createdAt: 1793305975641,
   },
+  {
+    id: 'css-cowhide-leather-craft',
+    name: 'Da nâu bò thủ công #82 (Full-Grain Leather)',
+    type: 'css',
+    value:
+      'background: radial-gradient(circle at 20% 20%, rgba(180, 115, 58, 0.35) 0%, transparent 52%), radial-gradient(circle at 80% 78%, rgba(139, 90, 43, 0.32) 0%, transparent 54%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%);',
+    bg: 'linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 25% 25%, rgba(180, 115, 58, 0.38) 0%, transparent 55%), linear-gradient(145deg, #522E10 0%, #2B1608 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794035601000,
+  },
+  {
+    id: 'css-pastel-bento-soft',
+    name: 'Bento Pastel Dịu Nhẹ (Hồng Phấn · Oải Hương · Thiên Thanh)',
+    type: 'css',
+    value:
+      'background: radial-gradient(circle at 14% 16%, rgba(251, 207, 232, 0.55) 0%, transparent 48%), radial-gradient(circle at 86% 20%, rgba(196, 181, 253, 0.50) 0%, transparent 48%), radial-gradient(circle at 52% 88%, rgba(186, 230, 253, 0.55) 0%, transparent 52%), linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);',
+    bg: 'linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 22% 20%, rgba(251, 207, 232, 0.65) 0%, transparent 52%), radial-gradient(circle at 82% 78%, rgba(186, 230, 253, 0.65) 0%, transparent 54%), linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794240000000,
+  },
 ];

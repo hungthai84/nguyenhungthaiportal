@@ -41,6 +41,7 @@ export interface ProjectDetailedSpec {
   context: {
     intro: string;
     challenges: string[];
+    challengeTitles?: string[];
     conclusion: string;
   };
   objectives: {

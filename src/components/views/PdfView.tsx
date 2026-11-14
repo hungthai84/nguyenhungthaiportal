@@ -223,7 +223,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           <div className="flex items-center gap-3 min-w-0">
             <WebIcon name="file-text" size={24} className="text-blue-600 dark:text-sky-400 shrink-0" />
             <div className="min-w-0">
-              <h1 className="typo-h3 font-bold font-play text-slate-900 dark:text-white leading-tight truncate">
+              <h1 className="typo-h3 font-bold font-play text-blue-600 dark:text-sky-400 leading-tight truncate">
                 Hồ sơ năng lực & CV Portfolio — Nguyễn Hùng Thái
               </h1>
               <p className="typo-label text-[#475569] dark:text-[#94A3B8] mt-0.5 truncate tracking-wide font-bold">
@@ -237,7 +237,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               type="button"
               onClick={() => handlePrintOrExport('download')}
               disabled={isExporting}
-              className="inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-[14px] typo-button font-bold bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-[0_4px_16px_rgba(2,132,199,0.35)] hover:shadow-[0_6px_20px_rgba(2,132,199,0.45)] transition-all duration-200 active:scale-95 cursor-pointer disabled:opacity-60"
+              className="inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-[0_4px_16px_rgba(2,132,199,0.35)] hover:shadow-[0_6px_20px_rgba(2,132,199,0.45)] transition-all duration-200 active:scale-95 cursor-pointer disabled:opacity-60"
               title="Tải tệp CV Portfolio dưới dạng PDF"
             >
               <WebIcon name="download" size={16} className="text-white animate-bounce" />
@@ -254,7 +254,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                   window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 0, slide: 0 } }));
                 }
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-[14px] typo-button font-bold bg-slate-700 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 cursor-pointer shrink-0 border border-slate-600/40"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full typo-button font-bold bg-slate-700 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 cursor-pointer shrink-0 border border-slate-600/40"
               title="Trở về Trang chủ"
             >
               <WebIcon name="arrow-left" size={15} className="text-white" />
@@ -262,6 +262,41 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             </button>
           </div>
         </div>
+
+        {/* Mục lục điều hướng nhanh 9 phần (ẩn khi in) */}
+        <nav
+          aria-label="Điều hướng nhanh các phần CV"
+          className="no-print flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2 border-t border-slate-200/70 dark:border-slate-700/60"
+        >
+          <span className="inline-flex items-center gap-1.5 px-2 py-1 text-[11px] font-bold font-play text-blue-600 dark:text-sky-400 whitespace-nowrap shrink-0">
+            <WebIcon name="list" size={14} className="text-blue-600 dark:text-sky-400 shrink-0" />
+            <span>Mục lục:</span>
+          </span>
+          {[
+            { id: 'cv-section-01-home', label: '01 · Tổng quan', icon: 'home' },
+            { id: 'cv-section-02-letter', label: '02 · Thư ngỏ', icon: 'mail' },
+            { id: 'cv-section-03-about', label: '03 · Giới thiệu', icon: 'user-round' },
+            { id: 'cv-section-04-education', label: '04 · Học vấn', icon: 'graduation' },
+            { id: 'cv-section-05-services', label: '05 · Dịch vụ', icon: 'heart-handshake' },
+            { id: 'cv-section-06-experience', label: '06 · Kinh nghiệm', icon: 'briefcase' },
+            { id: 'cv-section-07-skills', label: '07 · Kỹ năng', icon: 'brain' },
+            { id: 'cv-section-08-projects', label: '08 · Dự án', icon: 'folder' },
+            { id: 'cv-section-09-systems', label: '09 · Hệ thống', icon: 'server' },
+          ].map((sec) => (
+            <button
+              key={sec.id}
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                document.getElementById(sec.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold font-play whitespace-nowrap bg-slate-100/90 hover:bg-sky-100 dark:bg-slate-800/90 dark:hover:bg-sky-900/60 text-sky-700 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200 border border-slate-200/80 dark:border-slate-700 transition cursor-pointer shrink-0"
+            >
+              <WebIcon name={sec.icon} size={13} className="shrink-0" />
+              <span>{sec.label}</span>
+            </button>
+          ))}
+        </nav>
       </header>
 
       {/* PHẦN 01 – TỔNG QUAN NĂNG LỰC */}
@@ -272,7 +307,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               01/09
             </span>
             <WebIcon name="home" size={22} className="text-blue-600 dark:text-sky-400 shrink-0" />
-            <h2 className="typo-h2 font-bold font-play text-slate-900 dark:text-white shimmer-title">
+            <h2 className="typo-h2 font-bold font-play text-blue-600 dark:text-sky-400">
               Tổng quan năng lực
             </h2>
           </div>
@@ -347,7 +382,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               02/09
             </span>
             <WebIcon name="mail" size={22} className="text-cyan-600 dark:text-cyan-400 shrink-0" />
-            <h2 className="typo-h2 font-bold font-play text-slate-900 dark:text-white shimmer-title">
+            <h2 className="typo-h2 font-bold font-play text-cyan-600 dark:text-cyan-400">
               Thư ngỏ tâm huyết
             </h2>
           </div>
@@ -358,7 +393,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           style={cardSampleStyle}
           className="bento-card glass-card p-5 rounded-[14px] flex flex-col gap-4 print-card-bg"
         >
-          <h3 className="typo-h3 font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <h3 className="typo-h3 font-bold text-cyan-600 dark:text-cyan-400 flex items-center gap-2">
             <WebIcon name="mail" size={18} className="text-cyan-600 dark:text-cyan-400 shrink-0" />
             <span>Kính gửi Quý Ban Lãnh Đạo & Quý Đối Tác,</span>
           </h3>
@@ -370,7 +405,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             {OPERATIONAL_PRINCIPLES_DATA.map((pillar) => (
               <div key={pillar.id} data-subcard="true" className="sub-card p-3.5 rounded-[12px] shadow-sm print-card-bg">
                 <span className="typo-label font-bold uppercase text-blue-600 dark:text-sky-400">Trụ cột #{pillar.id}</span>
-                <h4 className="typo-h5 font-bold text-slate-900 dark:text-white mt-1 flex items-center gap-1.5">
+                <h4 className="typo-h5 font-bold text-blue-600 dark:text-sky-400 mt-1 flex items-center gap-1.5">
                   <WebIcon name="sparkles" size={15} className="text-blue-600 dark:text-sky-400 shrink-0" />
                   <span>{pillar.titleVi}</span>
                 </h4>
@@ -389,62 +424,9 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               03/09
             </span>
             <WebIcon name="user-round" size={22} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-            <h2 className="typo-h2 font-bold font-play text-slate-900 dark:text-white shimmer-title">
+            <h2 className="typo-h2 font-bold font-play text-emerald-600 dark:text-emerald-400">
               Giới thiệu bản thân
             </h2>
-          </div>
-        </div>
-
-        {/* Chi tiết giới thiệu bản thân & Triết lý nghề nghiệp */}
-        <div
-          data-section-card="true"
-          style={cardSampleStyle}
-          className="bento-card glass-card p-4 sm:p-5 rounded-[14px] flex flex-col gap-3.5 print-card-bg"
-        >
-          <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200/80 dark:border-slate-700/80">
-            <h3 className="typo-h3 font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <WebIcon name="user" size={17} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-              <span>Chân dung chuyên gia &amp; Triết lý phụng sự</span>
-            </h3>
-            <span className="typo-label font-semibold text-emerald-700 dark:text-emerald-300">
-              “Tận Tâm &amp; Đồng Hành Cùng Trải Nghiệm Khách Hàng”
-            </span>
-          </div>
-
-          <div className="space-y-2 typo-body-sm text-slate-700 dark:text-slate-300 leading-relaxed break-words">
-            <p>
-              Một chuyên gia dịch vụ khách hàng với hơn <strong>22 năm kinh nghiệm thực chiến</strong>. Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh khắc, dù là nhỏ nhất, đều là một cơ hội quý giá: để lắng nghe, để thấu hiểu, và để tạo ra những trải nghiệm vượt trên cả sự mong đợi.
-            </p>
-            <p>
-              Tôi tin rằng sự hài lòng không đến từ sự hoàn hảo tuyệt đối, mà đến từ <strong>sự tận tâm kịp thời</strong> và <strong>đồng cảm chân thành</strong>. Trong suốt sự nghiệp, tôi đã trực tiếp thiết kế và tối ưu hóa hàng chục quy trình, hệ thống Chăm Sóc Khách Hàng, luôn đặt trên nền tảng ba giá trị cốt lõi: <strong>Hiệu quả – Nhân văn – Bền vững</strong>.
-            </p>
-            <p>
-              Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: <em>họ luôn được lắng nghe</em>.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
-            {SERVICE_PHILOSOPHY_VALUES.map((val) => {
-              const meta = getPhilosophyMeta(val.id);
-              return (
-                <div
-                  key={val.id}
-                  data-subcard="true"
-                  className="sub-card p-3 rounded-[12px] shadow-sm print-card-bg flex flex-col gap-1 min-w-0 break-inside-avoid"
-                >
-                  <h4 className="typo-h5 font-bold flex items-center gap-1.5 min-w-0" style={{ color: meta.color }}>
-                    <WebIcon name={meta.icon} size={15} className="shrink-0" style={{ color: meta.color }} />
-                    <span className="truncate">{meta.title}</span>
-                  </h4>
-                  <span className="typo-label font-semibold text-slate-700 dark:text-slate-300">
-                    {val.subtitleVi}
-                  </span>
-                  <p className="typo-caption text-slate-600 dark:text-slate-400 leading-snug break-words">
-                    {val.descVi}
-                  </p>
-                </div>
-              );
-            })}
           </div>
         </div>
 
@@ -505,7 +487,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               04/09
             </span>
             <WebIcon name="graduation" size={22} className="text-purple-600 dark:text-purple-400 shrink-0" />
-            <h2 className="typo-h2 font-bold font-play text-slate-900 dark:text-white shimmer-title">
+            <h2 className="typo-h2 font-bold font-play text-purple-600 dark:text-purple-400">
               Học vấn bằng cấp
             </h2>
           </div>
@@ -572,7 +554,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               05/09
             </span>
             <WebIcon name="heart-handshake" size={22} className="text-amber-600 dark:text-amber-400 shrink-0" />
-            <h2 className="typo-h2 font-bold font-play text-slate-900 dark:text-white shimmer-title">
+            <h2 className="typo-h2 font-bold font-play text-amber-600 dark:text-amber-400">
               Dịch vụ trọng tâm
             </h2>
           </div>
@@ -590,18 +572,6 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 className="bento-card glass-card p-4 rounded-[14px] flex flex-col justify-between gap-3 break-inside-avoid shadow-sm print-card-bg min-w-0"
               >
                 <div className="min-w-0">
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span
-                      className="px-2 py-0.5 rounded-full typo-badge font-mono font-bold"
-                      style={{ backgroundColor: `${accentColor}1a`, color: accentColor }}
-                    >
-                      {domain.serviceCode}
-                    </span>
-                    <span className="typo-label font-bold text-slate-500 dark:text-slate-400 font-mono">
-                      Dịch vụ #{domain.id}
-                    </span>
-                  </div>
-
                   <div className="flex items-start gap-2 min-w-0">
                     <WebIcon
                       name={(domain.icon || 'briefcase').toLowerCase()}
@@ -675,7 +645,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               06/09
             </span>
             <WebIcon name="briefcase" size={22} className="text-blue-600 dark:text-sky-400 shrink-0" />
-            <h2 className="typo-h2 font-bold font-play text-slate-900 dark:text-white shimmer-title">
+            <h2 className="typo-h2 font-bold font-play text-blue-600 dark:text-sky-400">
               Kinh nghiệm công tác
             </h2>
           </div>
@@ -686,6 +656,24 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             const formattedPeriod = (m.cardYearLabel === '2003 - 2007' || m.year === '2003')
               ? 'Từ năm 2003 đến năm 2007'
               : m.period;
+            const rawColor = m.hexColor || '#2563EB';
+            const expAccentColor =
+              rawColor.toUpperCase() === '#FFB300'
+                ? '#d97706'
+                : rawColor.toUpperCase() === '#00C853'
+                ? '#059669'
+                : rawColor;
+            const rawFields = [
+              m.tag,
+              ...(m.industry ? m.industry.split('/').map((s) => s.trim()) : []),
+            ].filter(Boolean);
+            const seenFields = new Set<string>();
+            const fieldTags = rawFields.filter((item) => {
+              const norm = item.toLowerCase();
+              if (seenFields.has(norm)) return false;
+              seenFields.add(norm);
+              return true;
+            });
 
             return (
               <div
@@ -700,9 +688,6 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                     <span className="inline-block px-2.5 py-0.5 rounded-[8px] bg-blue-600 text-white font-bold font-play typo-badge">
                       {formattedPeriod}
                     </span>
-                    <span className="inline-block typo-label font-semibold px-2 py-0.5 rounded bg-slate-200/80 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
-                      Quy mô: {m.scaleDesc || `${m.headcount} nhân sự`}
-                    </span>
                   </div>
 
                   <div className="flex items-center gap-2.5 min-w-0">
@@ -711,36 +696,54 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                         <img src={m.logo} alt={m.company} className="w-full h-full object-contain rounded-[4px]" />
                       </div>
                     ) : (
-                      <WebIcon name="building" size={18} className="shrink-0" style={{ color: m.hexColor || '#2563EB' }} />
+                      <WebIcon name="building" size={18} className="shrink-0" style={{ color: expAccentColor }} />
                     )}
                     <div className="min-w-0 flex-1">
-                      <h3 className="typo-h4 font-bold leading-snug break-words" style={{ color: m.hexColor || '#2563EB' }}>
-                        {m.company} {m.subCompanies}
+                      <h3 className="typo-h4 font-bold leading-snug break-words" style={{ color: expAccentColor }}>
+                        {m.company}
                       </h3>
-                      {m.key !== '2003' && (
-                        <p className="typo-label text-slate-500 dark:text-slate-400 font-medium truncate">
-                          {m.tenure} · {m.location}
-                        </p>
-                      )}
                     </div>
                   </div>
                 </div>
 
-                {/* Sub-card 2: Vị trí, Lĩnh vực & Trách nhiệm dạng list format */}
+                {/* Sub-card 2: Vị trí & Quy mô nhân sự nằm dưới Vị trí */}
                 <ul data-subcard="true" className="sub-card p-3 rounded-[12px] flex flex-col gap-1.5 print-card-bg min-w-0 list-none m-0">
-                  <li className="typo-body-sm font-bold text-slate-900 dark:text-white leading-snug flex items-center gap-1.5 min-w-0">
-                    <WebIcon name="briefcase" size={14} className="shrink-0" style={{ color: m.hexColor || '#2563EB' }} />
+                  <li className="typo-body-sm font-bold leading-snug flex items-center gap-1.5 min-w-0" style={{ color: expAccentColor }}>
+                    <WebIcon name="briefcase" size={14} className="shrink-0" style={{ color: expAccentColor }} />
                     <span className="typo-body-sm break-words">Vị trí: {m.roleTitle}</span>
                   </li>
-                  <li className="typo-body-sm font-semibold text-slate-700 dark:text-slate-300 break-words">
-                    Lĩnh vực / Dịch vụ: <span className="typo-body-sm font-normal text-slate-600 dark:text-slate-400">{m.tag} — {m.industry}</span>
-                  </li>
-                  <li className="typo-body-sm font-medium text-purple-600 dark:text-purple-400 break-words">
-                    Quản lý &amp; Trách nhiệm: {m.scaleDesc || `${m.headcount} nhân sự trực tiếp`}
+                  <li className="typo-body-sm font-medium text-purple-600 dark:text-purple-400 leading-snug flex items-center gap-1.5 min-w-0">
+                    <WebIcon name="user-group" size={14} className="shrink-0 text-purple-600 dark:text-purple-400" />
+                    <span className="typo-body-sm break-words">Quy mô nhân sự: {m.scaleDesc || `${m.headcount} nhân sự trực tiếp`}</span>
                   </li>
                 </ul>
 
-                {/* Sub-card 3: Mô tả & Nhiệm vụ trọng tâm (List format với cỡ chữ đồng nhất) */}
+                {/* Sub-card 3: Thẻ Lĩnh vực riêng dạng tag */}
+                <div data-subcard="true" className="sub-card p-3 rounded-[12px] flex flex-col gap-2 print-card-bg min-w-0">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <WebIcon name="layers" size={14} className="shrink-0" style={{ color: expAccentColor }} />
+                    <span className="typo-body-sm font-bold leading-tight" style={{ color: expAccentColor }}>
+                      Lĩnh vực
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 min-w-0">
+                    {fieldTags.map((fieldTag, fIdx) => (
+                      <span
+                        key={fIdx}
+                        className="inline-flex items-center px-2.5 py-0.5 rounded-full typo-label font-semibold border"
+                        style={{
+                          backgroundColor: `${expAccentColor}14`,
+                          color: expAccentColor,
+                          borderColor: `${expAccentColor}35`,
+                        }}
+                      >
+                        {fieldTag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Sub-card 4: Mô tả & Nhiệm vụ trọng tâm (List format với cỡ chữ đồng nhất) */}
                 <ul data-subcard="true" className="sub-card p-3 rounded-[12px] flex-1 flex flex-col gap-1.5 print-card-bg min-w-0 list-none m-0">
                   <li className="typo-body-sm text-slate-700 dark:text-slate-300 leading-relaxed break-words flex items-start gap-2">
                     <span className="mt-2 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
@@ -777,7 +780,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               07/09
             </span>
             <WebIcon name="brain" size={22} className="text-rose-600 dark:text-rose-400 shrink-0" />
-            <h2 className="typo-h2 font-bold font-play text-slate-900 dark:text-white shimmer-title">
+            <h2 className="typo-h2 font-bold font-play text-rose-600 dark:text-rose-400">
               Kỹ năng chuyên môn
             </h2>
           </div>
@@ -897,7 +900,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               08/09
             </span>
             <WebIcon name="folder" size={22} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
-            <h2 className="typo-h2 font-bold font-play text-slate-900 dark:text-white shimmer-title truncate">
+            <h2 className="typo-h2 font-bold font-play text-indigo-600 dark:text-indigo-400 truncate">
               Dự án trọng điểm
             </h2>
           </div>
@@ -912,7 +915,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           className="bento-card glass-card p-4 rounded-[14px] flex flex-col print-card-bg min-w-0"
         >
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {PROJECTS_DATA.map((p, idx) => {
+            {PROJECTS_DATA.map((p) => {
               const projColor =
                 p.groupKey === 'strategy'
                   ? '#0284c7'
@@ -923,6 +926,16 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                   : p.groupKey === 'tech'
                   ? '#7c3aed'
                   : '#d97706';
+              const projIcon =
+                p.groupKey === 'strategy'
+                  ? 'target'
+                  : p.groupKey === 'cx'
+                  ? 'heart'
+                  : p.groupKey === 'sop'
+                  ? 'workflow'
+                  : p.groupKey === 'tech'
+                  ? 'cpu'
+                  : 'graduation';
 
               return (
                 <li
@@ -932,27 +945,16 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 >
                     <div className="min-w-0 flex-1">
                       <h3
-                        className="typo-h5 font-bold leading-snug flex flex-col items-start gap-1 min-w-0"
+                        className="typo-h5 font-bold leading-snug flex items-start gap-1.5 min-w-0"
                         style={{ color: projColor }}
                       >
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          <WebIcon name="folder" size={14} className="shrink-0" style={{ color: projColor }} />
-                          <span
-                            className="px-2 py-0.5 rounded-md text-white font-mono typo-badge font-black shrink-0 tabular-nums"
-                            style={{ backgroundColor: projColor }}
-                          >
-                            {p.code || `0${idx + 1}`}
-                          </span>
-                        </div>
+                        <WebIcon name={projIcon} size={15} className="shrink-0 mt-0.5" style={{ color: projColor }} />
                         <span className="break-words">{p.title}</span>
                       </h3>
                       <p className="typo-caption text-slate-600 dark:text-slate-300 mt-1 leading-relaxed break-words">
                         <span className="font-semibold text-slate-800 dark:text-slate-200">Vai trò: {p.role}</span> · {p.description}
                       </p>
                     </div>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 typo-badge font-bold shrink-0 mt-0.5 whitespace-nowrap">
-                    ✓ {typeof p.progressPercent === 'number' ? `${p.progressPercent}%` : (p.progressText || '100%')}
-                  </span>
                 </li>
               );
             })}
@@ -970,7 +972,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               09/09
             </span>
             <WebIcon name="server" size={22} className="text-teal-600 dark:text-teal-400 shrink-0" />
-            <h2 className="typo-h2 font-bold font-play text-slate-900 dark:text-white shimmer-title truncate">
+            <h2 className="typo-h2 font-bold font-play text-teal-600 dark:text-teal-400 truncate">
               Hệ thống công nghệ
             </h2>
           </div>
@@ -1022,11 +1024,6 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                       <p className="typo-caption text-slate-600 dark:text-slate-300 mt-1 leading-relaxed break-words">
                         {sys.descVi}
                       </p>
-                      <div className="mt-1 flex items-center gap-1.5 flex-wrap">
-                        <span className="typo-label font-mono font-bold text-teal-700 dark:text-teal-300 break-words">
-                          SLA / Metrics: {sys.metrics}
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </li>
@@ -1052,7 +1049,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         </div>
       </footer>
 
-      {/* Back to Top Floating Button (Portal ra body để cố định ở góc phải bên dưới trên mọi trình duyệt) */}
+      {/* Back to Top Floating Button (Portal ra body để cố định ở góc phải bên dưới website với định dạng chuẩn giao diện) */}
       {typeof document !== 'undefined' &&
         createPortal(
           <button
@@ -1063,7 +1060,11 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="no-print fixed bottom-[88px] right-4 sm:right-6 z-[9990] w-11 h-11 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-[0_8px_24px_rgba(37,99,235,0.45)] border-2 border-white/80 dark:border-slate-800 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer pointer-events-auto"
+            style={{
+              ...cardSampleStyle,
+              borderRadius: '999px',
+            }}
+            className="no-print fixed bottom-[88px] right-4 sm:right-6 z-[9990] w-12 h-12 rounded-[999px] bg-blue-600/90 hover:bg-blue-700 text-white shadow-[0_8px_24px_rgba(37,99,235,0.45)] border-2 border-white/80 dark:border-slate-800 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer pointer-events-auto"
             title="Lên đầu trang"
             aria-label="Lên đầu trang"
           >
@@ -1074,3 +1075,4 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
     </div>
   );
 };
+

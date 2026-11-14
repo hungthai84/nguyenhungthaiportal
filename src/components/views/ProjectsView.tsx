@@ -196,6 +196,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
   const isLight = !isDark;
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedGroup, setSelectedGroup] = useState<ProjectCardGroup | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<ProjectData | null>(null);
   const [mindmapProject, setMindmapProject] = useState<ProjectData | null>(null);
@@ -371,11 +372,17 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
     );
   };
 
-  // Lọc danh sách dự án theo danh mục
+  // Lọc danh sách dự án theo danh mục & từ khóa tìm kiếm
   const filteredProjects = useMemo(() => {
-    if (activeCategory === 'all') return PROJECTS_DATA;
-    return PROJECTS_DATA.filter((p) => p.groupKey === activeCategory);
-  }, [activeCategory]);
+    const q = searchQuery.trim().toLowerCase();
+    return PROJECTS_DATA.filter((p) => {
+      const matchCat = activeCategory === 'all' || p.groupKey === activeCategory;
+      if (!matchCat) return false;
+      if (!q) return true;
+      const haystack = `${p.title} ${p.code} ${p.role} ${p.description} ${(p.hashtags || []).join(' ')}`.toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [activeCategory, searchQuery]);
 
   const handleOpenGroup = (group: ProjectCardGroup, initialProject?: ProjectData) => {
     SoundEngine.playTap();
@@ -429,7 +436,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="banner-card hero-banner w-full max-w-full min-h-[200px] h-auto mx-auto rounded-[14px] overflow-hidden relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 backdrop-blur-xl"
+            className="banner-card hero-banner w-full max-w-full min-h-[200px] h-auto mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 backdrop-blur-xl"
             style={{ padding: '15px', width: '100%', maxWidth: '100%', minHeight: '200px', borderRadius: '14px' }}
           >
             <div
@@ -482,7 +489,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                     SoundEngine.playTap();
                     setIsFilterDropdownOpen((prev) => !prev);
                   }}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-purple-900 dark:text-purple-200 border border-purple-300 dark:border-purple-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group"
+                  className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-purple-900 dark:text-purple-200 border border-purple-300 dark:border-purple-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group"
                   title="Bộ lọc dự án"
                   aria-expanded={isFilterDropdownOpen}
                   aria-haspopup="listbox"
@@ -490,7 +497,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                   <WebIcon name="sliders" className="w-4 h-4 text-purple-700 dark:text-purple-300 transition-transform group-hover:rotate-45 shrink-0" />
                   <span>Bộ lọc dự án</span>
                   {activeCategory !== 'all' && (
-                    <span className="px-1.5 py-0.2 rounded-full bg-purple-100 dark:bg-purple-900/70 border border-purple-300 dark:border-purple-500/50 typo-badge font-mono text-purple-900 dark:text-purple-200 font-bold">
+                    <span className="banner-count-pill px-1.5 py-0.2 rounded-full bg-purple-100 dark:bg-purple-900/70 border border-purple-300 dark:border-purple-500/50 typo-badge font-mono text-purple-900 dark:text-purple-200 font-bold">
                       {PROJECT_CATEGORIES.find((c) => c.id === activeCategory)?.label}
                     </span>
                   )}
@@ -511,7 +518,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                       exit={{ opacity: 0, y: 6, scale: 0.96 }}
                       transition={{ duration: 0.16 }}
                       role="listbox"
-                      className="bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-60 rounded-[14px] bg-white/98 dark:bg-[#111827]/98 border border-purple-200 dark:border-purple-500/40 shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-[#334155] dark:text-[#E2E8F0]"
+                      className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-60 rounded-[14px] bg-white/98 dark:bg-[#111827]/98 border border-purple-200 dark:border-purple-500/40 shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-[#334155] dark:text-[#E2E8F0]"
                     >
                       {PROJECT_CATEGORIES.map((cat) => {
                         const isSelected = activeCategory === cat.id;
@@ -542,10 +549,64 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                   )}
                 </AnimatePresence>
               </div>
+
+              <div className="flex items-center gap-2 flex-1 sm:flex-initial justify-end max-w-full sm:max-w-[300px]">
+                <div className="relative flex-1 sm:w-56">
+                  <WebIcon
+                    name="search"
+                    className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                  />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Tìm tên, mã dự án..."
+                    aria-label="Tìm kiếm dự án"
+                    className="banner-search-input w-full pl-8 pr-7 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 text-slate-800 dark:text-[#E2E8F0] placeholder:text-slate-400 border border-slate-200 dark:border-[#334155] shadow-sm text-xs font-play focus:outline-none focus:ring-2 focus:ring-cyan-500/60"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery('')}
+                      aria-label="Xóa từ khóa tìm kiếm"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white cursor-pointer"
+                    >
+                      <WebIcon name="cancel" className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+                <span className="banner-count-pill px-2.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 text-cyan-800 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-500/40 text-xs font-mono font-bold shadow-sm shrink-0">
+                  {filteredProjects.length}/{PROJECTS_DATA.length}
+                </span>
+              </div>
             </div>
             </motion.section>
 
-          {/* NỘI DUNG CHÍNH: RESPONSIVE CARD GRID VIEW (LƯỚI 4 CỘT ĐỒNG BỘ 100%, BANNER CARD TỪ CLOUDINARY DỰ ÁN / BANNER CARD) */}
+          {/* NỘI DUNG CHÍNH: RESPONSIVE CARD GRID VIEW HOẶC EMPTY STATE */}
+          {filteredProjects.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center py-12 px-4 rounded-[14px] bg-white/80 dark:bg-[#111827]/80 border border-slate-200/80 dark:border-white/15 backdrop-blur-md">
+              <div className="w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-950/70 text-cyan-700 dark:text-cyan-300 flex items-center justify-center mb-3">
+                <WebIcon name="search" className="w-6 h-6" />
+              </div>
+              <p className="text-base font-bold text-slate-800 dark:text-white font-play">
+                Không tìm thấy dự án phù hợp
+              </p>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 max-w-md">
+                Hãy thử đổi bộ lọc danh mục hoặc nhập từ khóa khác như KPI, CRM, AI, SOP...
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  SoundEngine.playTap();
+                  setActiveCategory('all');
+                  setSearchQuery('');
+                }}
+                className="mt-4 px-5 py-2 rounded-full text-xs font-bold bg-cyan-600 hover:bg-cyan-700 text-white transition cursor-pointer shadow-sm"
+              >
+                Hiển thị tất cả {PROJECTS_DATA.length} dự án
+              </button>
+            </div>
+          ) : (
           <div
             id="projects-grid"
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-[15px] items-stretch p-0"
@@ -553,7 +614,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
             {filteredProjects.map((proj) => {
               const parentGroup = getParentGroupForProject(proj);
               const cfg = getVisualConfigForProject(proj);
-              const orderNumber = proj.number || (proj.title.match(/^[\d.]+/)?.[0]) || '';
+              const orderNumber = proj.code || proj.number || (proj.title.match(/^[\d.]+/)?.[0]) || '';
               const bannerInfo = getProjectCloudinaryBanner(proj);
               const cleanedTitle = proj.title.replace(/^[\d.]+\s*·\s*/, '').trim();
               const formattedCardTitle = `${proj.code || orderNumber ? `${proj.code || orderNumber} · ` : ''}${cleanedTitle}`;
@@ -564,7 +625,16 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                   key={proj.id}
                   data-element-type="card"
                   data-section-card="true"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => handleOpenGroup(parentGroup, proj)}
+                  onKeyDown={(e) => {
+                    if (e.target !== e.currentTarget) return;
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleOpenGroup(parentGroup, proj);
+                    }
+                  }}
                   className={`project-card bento-card glass-card layered-card group relative rounded-[14px] overflow-hidden p-0 flex flex-col justify-between border select-text transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play ${
                     isDark
                       ? 'bg-[#111827]/85 border-slate-700/70 hover:border-cyan-400/60 shadow-[0_4px_20px_rgba(0,0,0,0.5)] text-[#E2E8F0]'
@@ -607,11 +677,19 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                   <div className="p-[15px] flex-1 flex flex-col justify-between space-y-2">
                     <div>
                       <h3
-                        className="typo-h4 line-clamp-2 min-h-[2.85rem] leading-snug break-words group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors"
+                        className="typo-h4 line-clamp-2 min-h-[2.85rem] leading-snug break-words transition-colors text-[17px] font-bold font-play"
+                        style={{ color: cfg.accentColor, fontSize: '17px' }}
                         title={proj.title}
                       >
                         {orderNumber && (
-                          <span className="inline-flex items-center align-middle font-mono font-bold px-1.5 py-[1px] mr-1.5 -mt-0.5 rounded bg-cyan-500/15 text-cyan-600 dark:text-cyan-300 typo-badge leading-tight">
+                          <span
+                            className="project-card-order-badge inline-flex items-center align-middle font-mono font-bold px-1.5 py-[1px] mr-1.5 -mt-0.5 rounded typo-badge leading-tight border"
+                            style={{
+                              color: cfg.accentColor,
+                              backgroundColor: `${cfg.accentColor}18`,
+                              borderColor: `${cfg.accentColor}35`,
+                            }}
+                          >
                             {orderNumber}
                           </span>
                         )}
@@ -622,7 +700,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                             style={{ color: cfg.accentColor }}
                           />
                         </span>
-                        <span className="inline whitespace-normal">{cleanedTitle}</span>
+                        <span className="inline whitespace-normal" style={{ color: cfg.accentColor }}>{cleanedTitle}</span>
                       </h3>
 
                       <p
@@ -638,7 +716,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                         {proj.hashtags.slice(0, 3).map((tag, tIdx) => (
                           <span
                             key={tIdx}
-                            className="card-tag px-2 py-0.5 rounded-[999px] typo-badge font-semibold bg-cyan-50 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 border border-cyan-200/80 dark:border-cyan-800/60 shrink-0"
+                            className="project-card-tag card-tag px-2 py-0.5 rounded-[999px] typo-badge font-semibold bg-cyan-50 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 border border-cyan-200/80 dark:border-cyan-800/60 shrink-0"
                           >
                             #{tag.replace(/^#/, '')}
                           </span>
@@ -654,7 +732,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                             SoundEngine.playTap();
                             handleOpenGroup(parentGroup, proj);
                           }}
-                          className="flex-1 py-1.5 px-3 rounded-[999px] bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold typo-button flex items-center justify-center gap-1 shadow-sm hover:brightness-110 transition-all cursor-pointer"
+                          className="project-card-btn-primary flex-1 py-1.5 px-3 rounded-[999px] bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold typo-button flex items-center justify-center gap-1 shadow-sm hover:brightness-110 transition-all cursor-pointer"
                         >
                           <WebIcon name="external-link" className="w-3.5 h-3.5" />
                           <span>Chi Tiết</span>
@@ -666,7 +744,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                             SoundEngine.playTap();
                             setMindmapProject(proj);
                           }}
-                          className="py-1.5 px-3 rounded-[999px] bg-white/90 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold typo-button border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-1 shadow-2xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all cursor-pointer"
+                          className="project-card-btn-secondary py-1.5 px-3 rounded-[999px] bg-white/90 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold typo-button border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-1 shadow-2xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all cursor-pointer"
                           title="Xem sơ đồ tư duy dự án"
                         >
                           <WebIcon name="git-branch" className="w-3.5 h-3.5 text-cyan-500" />
@@ -679,6 +757,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
               );
             })}
           </div>
+          )}
         </>
       ) : (
         /* 3. CHI TIẾT DỰ ÁN & HỒ SƠ STAR TOÀN DIỆN */

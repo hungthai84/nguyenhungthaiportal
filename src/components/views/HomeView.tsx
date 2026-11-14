@@ -233,6 +233,22 @@ export const HomeView: React.FC<HomeViewProps> = ({
     handleSelectScreen(next);
   };
 
+  // Điều hướng 3 màn hình trang chủ bằng phím mũi tên Trái / Phải
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
+      if (isIntroMode) return;
+      if (e.key === 'ArrowLeft') {
+        handleSelectScreen(activeVideoScreen === 1 ? 3 : activeVideoScreen - 1);
+      } else if (e.key === 'ArrowRight') {
+        handleSelectScreen(activeVideoScreen === 3 ? 1 : activeVideoScreen + 1);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeVideoScreen, isIntroMode]);
+
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
     const s = Math.floor(seconds % 60);
@@ -479,7 +495,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
       {/* 4. Main Body: Hero Card Bottom Right (Giao diện Sáng) - Ẩn khi đang phát video */}
       {!isIntroMode && (
         <div className="relative z-20 w-full flex-1 min-h-0 flex items-end justify-end pointer-events-none px-2 sm:px-4 pb-2 sm:pb-4">
-          <div className="pointer-events-none flex items-end justify-end w-fit max-w-fit ml-auto">
+          <div className="pointer-events-none flex items-end justify-end w-fit max-w-full ml-auto">
             <AnimatePresence mode="wait">
               <motion.div
                 id={activeVideoScreen === 1 ? "home-intro-card" : activeVideoScreen === 2 ? "home-stats-card" : activeVideoScreen === 3 ? "home-capabilities-card" : "home-achievements-card"}
@@ -495,26 +511,31 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 style={{
                   ...cardSampleStyle,
                   borderRadius: '14px',
+                  border: 'none',
                 }}
-                className="layered-card pointer-events-auto p-4 sm:p-5 md:p-6 rounded-[14px] relative overflow-hidden group transition-all duration-500 w-fit max-w-fit text-left"
+                className="layered-card pointer-events-auto p-4 sm:p-5 md:p-6 rounded-[14px] relative overflow-hidden group transition-all duration-500 w-fit max-w-[calc(100vw-32px)] sm:max-w-fit text-left"
               >
-                <div className="relative z-10 space-y-2.5 w-fit">
+                <div className="relative z-10 space-y-2.5 w-full sm:w-fit">
                   <div className="flex items-center justify-between gap-3">
                     <div
-                      className={cn(
-                        "inline-flex items-center gap-1.5 typo-badge font-extrabold tracking-wider",
-                        activeVideoScreen === 2 ? "px-0 py-0 border-0 bg-transparent shadow-none" : "px-2.5 py-0.5 rounded-full border shadow-xs"
-                      )}
-                      style={activeVideoScreen === 2 ? { color: currentScreen.accentColor } : { borderColor: `${currentScreen.accentColor}50`, backgroundColor: `${currentScreen.accentColor}14`, color: currentScreen.accentColor }}
+                      className="inline-flex items-center gap-2 font-bold tracking-tight px-0 py-0 border-0 bg-transparent shadow-none"
+                      style={{ color: currentScreen.accentColor, fontSize: '18px' }}
                     >
-                      <WebIcon name={currentScreen.heroIcon} className="shrink-0" />
+                      <WebIcon
+                        name={currentScreen.heroIcon}
+                        className="w-[18px] h-[18px] shrink-0"
+                        style={{ color: currentScreen.accentColor, width: '18px', height: '18px' }}
+                      />
                       <span>{currentScreen.heroBadge}</span>
                     </div>
                   </div>
 
                   {/* Tiêu đề 1 hàng trên desktop, tự xuống dòng ở mobile */}
                   <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
-                    <h3 className="card-title typo-h3 font-bold font-play tracking-tight text-slate-900 dark:text-white leading-tight whitespace-normal sm:whitespace-nowrap" style={{ fontWeight: 750 }}>
+                    <h3
+                      className="card-title typo-h3 font-bold font-play tracking-tight leading-tight whitespace-normal sm:whitespace-nowrap"
+                      style={{ fontWeight: 750, fontSize: '18px', color: currentScreen.accentColor }}
+                    >
                       {currentScreen.title}
                     </h3>
                   </div>
@@ -527,18 +548,18 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   <div 
                     id="el-p0-group-container"
                     data-element-id="el-p0-group-container"
-                    data-element-name="Khung chứa toàn bộ trang web"
+                    data-element-name="Nhóm điều khiển phát video trang chủ"
                     data-element-type="container"
-                    data-element-page="global"
+                    data-element-page="home"
                     className="pt-0.5 flex flex-col items-end gap-2 w-full"
                   >
                     {/* Nút Giới Thiệu Video formatted theo chuẩn AboutView với màu sắc riêng biệt cho từng màn hình (1, 2, 3) */}
                     <div 
                       id="el-p0-div-78"
                       data-element-id="el-p0-div-78"
-                      data-element-name="Khung chứa toàn bộ trang web"
+                      data-element-name="Nút bật âm và phát video giới thiệu"
                       data-element-type="container"
-                      data-element-page="global"
+                      data-element-page="home"
                       className={`relative z-10 inline-flex items-center gap-2.5 px-3 py-1.5 rounded-[999px] text-white transition-all duration-500 cursor-pointer pointer-events-auto shrink-0 border border-white/35 active:scale-98 select-none ${
                         activeVideoScreen === 1
                           ? 'bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 hover:from-blue-600 hover:to-cyan-400 shadow-[0_4px_20px_rgba(14,165,233,0.5)] hover:shadow-[0_6px_24px_rgba(14,165,233,0.7)]'

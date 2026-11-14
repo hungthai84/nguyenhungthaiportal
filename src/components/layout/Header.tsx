@@ -397,7 +397,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   const headerCardStyle = getCardStyleProperties(cardStyle);
-  const { border, borderColor, borderWidth, borderStyle, borderRadius: _, ...cleanHeaderStyle } = headerCardStyle as any;
+  const { border, borderColor, borderWidth, borderStyle, borderRadius: _, background: _hb, backgroundColor: _hbc, backgroundImage: _hbi, ...cleanHeaderStyle } = headerCardStyle as any;
   const borderVal = (border as string) || (borderColor ? `1.5px solid ${borderColor}` : '1.5px solid rgba(255, 255, 255, 0.92)');
 
   // Tự động cuộn tới nút trang đang được chọn nếu bị khuất
@@ -523,12 +523,13 @@ export const Header: React.FC<HeaderProps> = ({
                       ? `bg-gradient-to-r ${styleCfg.gradient} border-white/80 active shadow-[0_0_25px_${styleCfg.glowColor}]`
                       : `${styleCfg.accentBorder}`
                   }`}
-                  style={{
-                    backgroundColor: isSelected ? undefined : 'var(--bg-nav-button-opaque, #FFFFFF)',
-                    boxShadow: isSelected 
-                      ? `0 0 30px ${styleCfg.glowColor}, inset 0 0 12px rgba(255,255,255,0.4)` 
-                      : `0 4px 14px rgba(0,0,0,0.06)`,
-                  }}
+                  style={
+                    isSelected
+                      ? {
+                          boxShadow: `0 0 30px ${styleCfg.glowColor}, inset 0 0 12px rgba(255,255,255,0.4)`,
+                        }
+                      : undefined
+                  }
                 >
                   {/* Round Circle Badge with Icon or Avatar */}
                   <div
@@ -559,7 +560,7 @@ export const Header: React.FC<HeaderProps> = ({
 
                   {/* Vertical Divider */}
                   <div
-                    className={`w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
+                    className={`nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
                       isSelected
                         ? 'bg-white/50'
                         : 'bg-slate-300/80 dark:bg-white/30'
@@ -568,14 +569,14 @@ export const Header: React.FC<HeaderProps> = ({
 
                   <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
                     <span
-                      className={`text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
+                      className={`nav-pill-title text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
                         isSelected ? 'text-white' : styleCfg.mainTextColor
                       }`}
                     >
                       {pageTitle}
                     </span>
                     <span
-                      className={`text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
+                      className={`nav-pill-sub text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
                         isSelected ? 'text-white/90' : styleCfg.subTextColor
                       }`}
                     >
@@ -639,9 +640,6 @@ export const Header: React.FC<HeaderProps> = ({
                       ? 'bg-indigo-100 dark:bg-indigo-900 text-indigo-950 dark:text-indigo-100 active'
                       : 'text-slate-900 dark:text-white'
                   } px-2 py-0.5 gap-1.5 shadow-sm cursor-pointer border-2 border-indigo-400/80 dark:border-indigo-500/80 transition-colors`}
-                  style={{
-                    backgroundColor: (currentPage === 12 || isRadialMenuOpen) ? undefined : 'var(--bg-nav-button-opaque, #FFFFFF)',
-                  }}
                 >
                   <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-xs bg-indigo-500 text-white leading-none p-0 overflow-hidden ring-1 ring-indigo-300">
                     <img
@@ -653,12 +651,12 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                     />
                   </div>
-                  <div className="w-[1.5px] h-4 bg-indigo-300/80 dark:bg-indigo-400/40 shrink-0 mx-0.5 rounded-[999px]"></div>
+                  <div className="nav-pill-divider w-[1.5px] h-4 bg-indigo-300/80 dark:bg-indigo-400/40 shrink-0 mx-0.5 rounded-[999px]"></div>
                   <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
-                    <span className="text-[14px] leading-tight font-bold font-play text-indigo-950 dark:text-indigo-100 truncate">
+                    <span className="nav-pill-title text-[14px] leading-tight font-bold font-play text-indigo-950 dark:text-indigo-100 truncate">
                       {language === 'en' ? 'Hung Thai' : 'Hùng Thái'}
                     </span>
-                    <span className="text-[12px] leading-none font-bold mt-0.5 text-indigo-700 dark:text-indigo-400 font-play truncate">
+                    <span className="nav-pill-sub text-[12px] leading-none font-bold mt-0.5 text-indigo-700 dark:text-indigo-400 font-play truncate">
                       {currentPage === 12
                         ? language === 'en'
                           ? 'Booking'

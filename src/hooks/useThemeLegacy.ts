@@ -35,6 +35,14 @@ function normalizeCardStyle(raw: string | null): CardStyleMode {
   ) {
     return DEFAULT_CARD_STYLE;
   }
+  if (
+    raw === 'pastel' ||
+    raw === 'bento-pastel' ||
+    raw === 'soft-pastel' ||
+    raw === 'pastel-bento'
+  ) {
+    return 'pastel-bento';
+  }
   if (VALID_CARD_STYLES.includes(raw as CardStyleMode)) {
     return raw as CardStyleMode;
   }
@@ -91,7 +99,7 @@ export function useThemeLegacy() {
     }
     if (isDark) {
       document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute('data-theme', 'dark-neon');
+      document.documentElement.setAttribute('data-theme', cardStyle === 'cowhide-leather' ? 'cowhide-leather' : 'dark-neon');
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
@@ -224,7 +232,7 @@ export function useThemeLegacy() {
     }
     if (nextDark) {
       document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute('data-theme', 'dark-neon');
+      document.documentElement.setAttribute('data-theme', normalized === 'cowhide-leather' ? 'cowhide-leather' : 'dark-neon');
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
       document.documentElement.classList.remove('dark');

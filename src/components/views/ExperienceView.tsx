@@ -8,8 +8,7 @@ import { EXPERIENCE_MILESTONES } from '@/data/experience';
 import { MEMORIES_DATA } from '@/data/memories';
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { cn, formatCardTitle, formatSentenceFourWords } from '@/lib/utils';
-import { getCategoryTheme } from '@/utils/categoryTheme';
+import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 
@@ -259,15 +258,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     );
   }, []);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && showJobCard) {
-        setShowJobCard(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [showJobCard]);
   const [hoveredMilestoneKey, setHoveredMilestoneKey] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [carouselSlideIdx, setCarouselSlideIdx] = useState<number>(0);
@@ -276,6 +266,26 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const [featuredProdPage, setFeaturedProdPage] = useState<number>(0);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (isPhotoLightboxOpen) {
+          setIsPhotoLightboxOpen(false);
+          return;
+        }
+        if (isFilterDropdownOpen) {
+          setIsFilterDropdownOpen(false);
+          return;
+        }
+        if (showJobCard) {
+          setShowJobCard(false);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showJobCard, isPhotoLightboxOpen, isFilterDropdownOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -839,6 +849,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       if (targetPage !== timelinePage && targetPage < totalTimelinePages) {
         setTimelinePage(targetPage);
       }
+      setTimeout(() => {
+        document.getElementById(`milestone-card-${nextCard.key}`)?.scrollIntoView({
+          behavior: 'smooth',
+          inline: 'center',
+          block: 'nearest',
+        });
+      }, 40);
     }
   };
 
@@ -853,6 +870,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       if (targetPage !== timelinePage && targetPage < totalTimelinePages) {
         setTimelinePage(targetPage);
       }
+      setTimeout(() => {
+        document.getElementById(`milestone-card-${prevCard.key}`)?.scrollIntoView({
+          behavior: 'smooth',
+          inline: 'center',
+          block: 'nearest',
+        });
+      }, 40);
     }
   };
 
@@ -913,7 +937,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-hidden relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
+            className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
             style={{ padding: '15px', width: '100%', maxWidth: '100%', height: '200px', minHeight: '200px', maxHeight: '200px', borderRadius: '14px' }}
           >
            <div
@@ -1170,20 +1194,17 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             </div>
           )}
 
-          <div
-            id="experience-timeline-track-card"
-            ref={horizontalTrackRef}
-            style={{
-              borderRadius: '14px',
-              backgroundColor: 'transparent',
-              background: 'transparent',
-              border: 'none',
-              boxShadow: 'none',
-              backdropFilter: 'none',
-              WebkitBackdropFilter: 'none',
-            }}
-            className="w-full flex-1 min-h-0 rounded-[14px] bg-transparent border-0 shadow-none overflow-x-auto overflow-y-auto custom-scrollbar pb-4 pt-2 px-3 relative flex flex-row gap-5 items-stretch transition-all duration-300 snap-x"
-          >
+          <div className="relative flex-1 min-h-0 flex flex-col">
+            <div
+              id="experience-timeline-track-card"
+              ref={horizontalTrackRef}
+              data-section-card="true"
+              style={{
+                ...cardSampleStyle,
+                borderRadius: '14px',
+              }}
+              className="w-full flex-1 min-h-0 rounded-[14px] overflow-x-auto overflow-y-auto custom-scrollbar pb-4 pt-2 px-3 relative flex flex-row gap-5 items-stretch transition-all duration-300 snap-x"
+            >
                 {filteredRoadmapCards.map((item) => {
                   const isSelected =
                     activeKey === item.key || (item.key === '2013' && is2013GroupActive);
@@ -1238,32 +1259,33 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         />
                       </div>
 
-                      {/* TIER 3: Soft Pastel Info Card (Banner is now inside at the top, replacing circular logo) */}
+                      {/* TIER 3: Themed Info Card (Banner is now inside at the top, replacing circular logo) */}
                       <div
+                        role="button"
+                        tabIndex={0}
+                        data-subcard="true"
                         onClick={() => handleOpenJobCard(item.key)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleOpenJobCard(item.key);
+                          }
+                        }}
                         style={{
-                          ...cardSampleStyle,
                           borderRadius: '14px',
                           padding: '12px',
-                          backgroundColor: isDark ? 'transparent' : undefined,
-                          backgroundImage: isDark
-                            ? `radial-gradient(circle at top right, ${item.primaryColor}22 0%, transparent 70%), linear-gradient(160deg, rgba(15, 23, 42, 0.94) 0%, rgba(2, 6, 23, 0.98) 100%)`
-                            : item.cardBg,
-                          borderColor: isDark
-                            ? isSelected
-                              ? item.primaryColor
-                              : 'rgba(255, 255, 255, 0.16)'
-                            : undefined,
                           ['--card-accent-color' as string]: item.primaryColor,
                         }}
-                        className={`theme-pastel-card w-full flex-1 rounded-[14px] p-3 border backdrop-blur-md transition-all duration-300 cursor-pointer flex flex-col items-stretch text-center justify-between gap-2.5 relative group ${
-                          !isDark ? item.borderColor : ''
-                        } ${
+                        className={`experience-milestone-card w-full flex-1 rounded-[14px] p-3 border transition-all duration-300 cursor-pointer flex flex-col items-stretch text-center justify-between gap-2.5 relative group ${
                           isSelected
                             ? `ring-2 ${item.activeRing} shadow-[0_14px_34px_-4px_rgba(30,27,75,0.18)] dark:shadow-[0_16px_36px_-4px_rgba(0,0,0,0.7),0_0_20px_${item.glowColor}] -translate-y-0.5`
-                            : 'shadow-[0_8px_24px_-4px_rgba(30,27,75,0.08),0_2px_8px_rgba(15,23,42,0.04)] dark:shadow-[0_12px_28px_-6px_rgba(0,0,0,0.65)] hover:shadow-[0_16px_36px_-4px_rgba(30,27,75,0.16)]'
+                            : 'hover:-translate-y-0.5'
                         } ${isHighlightedInStory ? 'ring-2 ring-amber-400 shadow-md' : ''}`}
                       >
+                        <div
+                          className="w-full h-1 rounded-full shrink-0"
+                          style={{ background: item.badgeBg }}
+                        />
                         {/* Company Banner inside card frame on top of company name */}
                         <div className="w-full h-[76px] rounded-[10px] overflow-hidden border border-white/80 dark:border-white/15 shadow-2xs relative shrink-0 bg-slate-900/10">
                           <img
@@ -1281,7 +1303,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         </div>
 
                         {/* Company Name (2 lines uniform) & Circular Logo */}
-                        <div className="w-full flex items-center justify-start gap-2.5 shrink-0 p-2.5 rounded-[12px] bg-white/75 dark:bg-slate-900/60 border border-black/5 dark:border-white/10 text-left">
+                        <div data-subcard="true" className="exp-detail-subcard w-full flex items-center justify-start gap-2.5 shrink-0 p-2.5 rounded-[12px] text-left">
                           <div
                             style={{ borderRadius: '50%', aspectRatio: '1 / 1' }}
                             className="w-12 h-12 rounded-full aspect-square overflow-hidden bg-white dark:bg-slate-800 p-0.5 border border-slate-200 dark:border-slate-700 shrink-0 flex items-center justify-center shadow-2xs"
@@ -1295,7 +1317,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           </div>
                           <div className="flex-1 min-w-0 min-h-[2.75rem] flex items-center">
                             <h4
-                              className="typo-body font-bold font-play tracking-tight line-clamp-2 whitespace-normal break-words leading-snug w-full"
+                              className="typo-body font-bold font-play tracking-tight line-clamp-2 whitespace-normal break-words leading-snug w-full text-[#0F172A] dark:text-[#F8FAFC]"
                               style={{ color: isDark ? (isSelected ? '#38bdf8' : '#f8fafc') : item.primaryColor, fontWeight: 700 }}
                               title={item.shortName}
                             >
@@ -1304,9 +1326,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           </div>
                         </div>
 
-                        <div className="w-full flex flex-col items-start gap-1 shrink-0 p-2.5 rounded-[12px] bg-white/75 dark:bg-slate-900/60 border border-black/5 dark:border-white/10">
-                          <div className="typo-body-sm font-bold text-[#475569] dark:text-[#94A3B8] flex items-center gap-1.5">
-                            <WebIcon name="shopping-bag" className="w-3.5 h-3.5 shrink-0 text-sky-500" />
+                        <div data-subcard="true" className="exp-detail-subcard w-full flex flex-col items-start gap-1 shrink-0 p-2.5 rounded-[12px]">
+                          <div className="text-[15px] sm:text-[16px] font-bold text-sky-500 dark:text-sky-300 flex items-center gap-1.5">
+                            <WebIcon name="shopping-bag" className="w-4 h-4 shrink-0 text-sky-500 dark:text-sky-300" />
                             <span>Sản phẩm & Dịch vụ</span>
                           </div>
                           <div className="w-full pt-1 flex items-center justify-start gap-2 flex-wrap shrink-0">
@@ -1328,14 +1350,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           </div>
                         </div>
 
-                        <div className="w-full flex flex-col items-start justify-start gap-1.5 shrink-0 p-2.5 rounded-[12px] bg-white/75 dark:bg-slate-900/60 border border-black/5 dark:border-white/10 text-left">
+                        <div data-subcard="true" className="exp-detail-subcard w-full flex flex-col items-start justify-start gap-1.5 shrink-0 p-2.5 rounded-[12px] text-left">
                           <div className="flex items-center justify-start gap-1.5 typo-body-sm font-bold text-slate-800 dark:text-slate-100 leading-tight truncate w-full text-left">
-                            <WebIcon name="briefcase" className="w-3.5 h-3.5 shrink-0" style={{ color: item.primaryColor }} />
+                            <WebIcon name="briefcase" className="w-3.5 h-3.5 shrink-0" style={{ color: isDark ? '#FDE68A' : item.primaryColor }} />
                             <span className="truncate">{item.roleSummary}</span>
                           </div>
 
                           <div className="flex items-center justify-start gap-1.5 typo-body-sm font-bold text-slate-800 dark:text-slate-100 leading-tight truncate w-full text-left">
-                            <WebIcon name="user-group" className="w-3.5 h-3.5 shrink-0" style={{ color: item.primaryColor }} />
+                            <WebIcon name="user-group" className="w-3.5 h-3.5 shrink-0" style={{ color: isDark ? '#FDE68A' : item.primaryColor }} />
                             <span className="truncate">Quản lý: {item.headcountLabel}</span>
                           </div>
                         </div>
@@ -1343,90 +1365,68 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     </div>
                   );
                 })}
+            </div>
+
+            {/* Nút LÙI TRANG (Chevron Left) hình tròn nổi ở chính giữa cạnh trái thẻ #experience-timeline-track-card */}
+            <button
+              type="button"
+              onClick={handleScrollPrevLogo}
+              title="Lùi mốc thời gian trước"
+              aria-label="Lùi trang"
+              className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-xl border flex items-center justify-center hover:scale-110 hover:-translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95"
+              style={{
+                background: 'var(--bg-header)',
+                borderColor: 'var(--border-color)',
+                boxShadow: 'var(--shadow-popup)',
+                backdropFilter: 'blur(var(--bg-blur))',
+                WebkitBackdropFilter: 'blur(var(--bg-blur))',
+              }}
+            >
+              <WebIcon
+                name="chevron-left"
+                className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform"
+                style={{ color: 'var(--color-primary)' }}
+              />
+            </button>
+
+            {/* Nút TỚI TRANG (Chevron Right) hình tròn nổi ở chính giữa cạnh phải thẻ #experience-timeline-track-card */}
+            <button
+              type="button"
+              onClick={handleScrollNextLogo}
+              title="Tới mốc thời gian tiếp theo"
+              aria-label="Tới trang"
+              className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-xl border flex items-center justify-center hover:scale-110 hover:translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95"
+              style={{
+                background: 'var(--bg-header)',
+                borderColor: 'var(--border-color)',
+                boxShadow: 'var(--shadow-popup)',
+                backdropFilter: 'blur(var(--bg-blur))',
+                WebkitBackdropFilter: 'blur(var(--bg-blur))',
+              }}
+            >
+              <WebIcon
+                name="chevron-right"
+                className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform"
+                style={{ color: 'var(--color-primary)' }}
+              />
+            </button>
           </div>
         </>
       )}
 
       {/* =====================================================================
-          5. THẺ CHI TIẾT CỘT MỐC ĐANG CHỌN (TỐI ƯU HÓA TOÀN DIỆN CHO TẤT CẢ CỘT MỐC)
+          5. THẺ CHI TIẾT CỘT MỐC ĐANG CHỌN (BỐ CỤC CHUẨN THEO HÌNH THAM CHIẾU)
           ===================================================================== */}
       {showJobCard && (() => {
-        const isVedMilestone = activeKey === '2013' || activeKey.startsWith('2013');
-        const contentKey = (activeKey === '2014' || activeKey === '2015' || activeKey.startsWith('2013') || activeKey === '2014-airpay') ? '2013' : activeKey;
+        const contentKey =
+          activeKey === '2014' ||
+          activeKey === '2015' ||
+          activeKey.startsWith('2013') ||
+          activeKey === '2014-airpay'
+            ? '2013'
+            : activeKey;
         const customContent = MILESTONE_CUSTOM_CONTENT[contentKey] || MILESTONE_CUSTOM_CONTENT['2013'];
-
-        // Lĩnh vực hoạt động lấy trực tiếp từ activeMilestone.industry (hoặc domains dự phòng)
-        const domainsList = activeMilestone.industry
-          ? activeMilestone.industry
-              .split('/')
-              .map((s) => s.trim())
-              .filter(Boolean)
-              .map((label) => {
-                const lower = label.toLowerCase();
-                const icon = lower.includes('game') || lower.includes('esport')
-                  ? '🎮'
-                  : lower.includes('tmđt') || lower.includes('e-commerce') || lower.includes('shopee')
-                  ? '🛒'
-                  : lower.includes('fintech') || lower.includes('ví') || lower.includes('tài chính') || lower.includes('thanh toán')
-                  ? '💳'
-                  : lower.includes('bảo hiểm')
-                  ? '🛡️'
-                  : lower.includes('viễn thông') || lower.includes('internet') || lower.includes('truyền hình') || lower.includes('truyền thông')
-                  ? '📡'
-                  : lower.includes('bưu chính')
-                  ? '📦'
-                  : lower.includes('công nghệ') || lower.includes('crm') || lower.includes('chuyển đổi số')
-                  ? '🤖'
-                  : '🎧';
-                return { icon, label };
-              })
-          : activeMilestone.domains && activeMilestone.domains.length > 0
-          ? activeMilestone.domains.slice(0, 6).map((d) => ({
-              icon: d.tag === 'TeleCom' ? '📡' : d.tag === 'Inbound' ? '🎧' : d.tag === 'Escalation' ? '⚡' : d.tag === 'FinTech' ? '💳' : d.tag === 'Coaching' ? '👥' : '🎯',
-              label: d.title,
-            }))
-          : [
-              { icon: '🎯', label: 'Chăm sóc khách hàng' },
-              { icon: '⚙️', label: 'Vận hành hệ thống' },
-              { icon: '📊', label: 'Kiểm soát chất lượng' },
-              { icon: '👥', label: 'Đào tạo đội ngũ' },
-            ];
-
-        interface BrandBadgeItem {
-          name: string;
-          logo?: string;
-          isCustomLogo?: boolean;
-          textBadge?: boolean;
-          textColor?: string;
-        }
-
-        // Các thương hiệu tiêu biểu & sản phẩm trực thuộc cột mốc
-        const matchedRoadmap = roadmapCards.find((r) => r.key === activeKey);
-        const milestoneProducts = (activeMilestone.products && activeMilestone.products.length > 0)
-          ? activeMilestone.products.map((p: any) => ({
-              name: p.name || p.alt || activeMilestone.company,
-              logo: p.logo || p.src || activeMilestone.logo,
-            }))
-          : (matchedRoadmap?.products || []);
-
-        const brandsList: BrandBadgeItem[] = isVedMilestone
-          ? [
-              { name: 'VED', logo: 'https://i.ibb.co/fYPJLfbw/VED.png', isCustomLogo: true },
-              { name: 'Garena', logo: 'https://i.ibb.co/h1Md65yV/Garena.png', isCustomLogo: true },
-              { name: 'Shopee', logo: 'https://i.ibb.co/BSVS4xf/Shopee.png', isCustomLogo: true },
-              { name: 'ShopeePay', logo: 'https://i.ibb.co/LdYv3TJy/Shopee-Paye.png', isCustomLogo: true },
-              { name: 'GCafe', logo: 'https://i.ibb.co/FkWk3s4W/GCafe.png', isCustomLogo: true },
-              { name: 'LMHT & LQMB', textBadge: true, textColor: 'text-amber-700 dark:text-amber-400' },
-            ]
-          : milestoneProducts.length > 0
-          ? milestoneProducts.map((p: any) => ({
-              name: p.name || activeMilestone.company,
-              logo: p.logo || activeMilestone.logo,
-              isCustomLogo: true,
-            }))
-          : [
-              { name: activeMilestone.company, logo: activeMilestone.logo, isCustomLogo: true },
-            ];
+        const narrationInfo = STORY_NARRATIONS[normalizedActiveKey];
 
         // Helper lọc bỏ logo công ty khỏi bộ sưu tập Hình ảnh kỷ niệm
         const isCompanyLogoAsset = (url?: string) => {
@@ -1437,9 +1437,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
         // Danh sách hình ảnh kỷ niệm thực tế (đã loại bỏ hoàn toàn logo công ty)
         const basePhotos = (activeMilestone.photos || []).filter((p) => !isCompanyLogoAsset(p.src));
-        const safeMemoryImg = activeMilestone.memoryImg && !isCompanyLogoAsset(activeMilestone.memoryImg)
-          ? activeMilestone.memoryImg
-          : '';
+        const safeMemoryImg =
+          activeMilestone.memoryImg && !isCompanyLogoAsset(activeMilestone.memoryImg)
+            ? activeMilestone.memoryImg
+            : '';
         const primaryMemoryPhoto = safeMemoryImg
           ? [
               {
@@ -1454,7 +1455,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           ...basePhotos.filter((p) => p.src !== safeMemoryImg),
         ];
 
-        // Danh sách Mô tả công việc lấy trực tiếp từ activeMilestone.tasks
+        // Danh sách Công việc lấy trực tiếp từ activeMilestone.tasks
         const tasksList =
           activeMilestone.tasks && activeMilestone.tasks.length > 0
             ? activeMilestone.tasks
@@ -1464,7 +1465,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 'Tối ưu hóa quy trình tiếp nhận và xử lý khiếu nại',
               ];
 
-        // Danh sách Dự án trọng điểm lấy trực tiếp từ activeMilestone.projects
+        // Danh sách Dự án lấy trực tiếp từ activeMilestone.projects
         const projectsList =
           activeMilestone.projects && activeMilestone.projects.length > 0
             ? activeMilestone.projects.map((p, idx) => {
@@ -1478,570 +1479,799 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 { title: '2. Ứng dụng giải pháp số hóa dịch vụ' },
               ];
 
-        // Danh sách Cam kết chất lượng lấy trực tiếp từ activeMilestone.commitments
+        // Danh sách Cam kết lấy trực tiếp từ activeMilestone.commitments
         const commitmentsList =
           activeMilestone.commitments && activeMilestone.commitments.length > 0
             ? activeMilestone.commitments
             : customContent.commitments.map((c) => `${c.title}: ${c.desc}`);
 
-        // Danh sách Kết quả KPI lấy trực tiếp từ activeMilestone.kpis
+        // Danh sách Kết quả & KPI lấy trực tiếp từ activeMilestone.kpis
         const kpisList =
           activeMilestone.kpis && activeMilestone.kpis.length > 0
-            ? activeMilestone.kpis.map((k, idx) => ({
+            ? activeMilestone.kpis.map((k) => ({
                 label: k.label,
                 percent: k.percent,
                 displayValue: k.displayValue || `${k.percent}%`,
-                barColor: idx === 2 ? 'bg-indigo-600' : 'bg-emerald-500',
               }))
             : [
-                { label: 'Tiêu chuẩn chất lượng SOP', percent: 100, displayValue: '100%', barColor: 'bg-emerald-500' },
-                { label: 'Tỷ lệ giải quyết FCR', percent: 92, displayValue: '92%', barColor: 'bg-emerald-500' },
-                { label: 'Mức độ hài lòng CSAT', percent: 98, displayValue: '98%', barColor: 'bg-indigo-600' },
+                { label: 'Tiêu chuẩn chất lượng SOP', percent: 100, displayValue: '100%' },
+                { label: 'Tỷ lệ giải quyết FCR', percent: 92, displayValue: '92%' },
+                { label: 'Mức độ hài lòng CSAT', percent: 98, displayValue: '98%' },
               ];
 
-        // Danh sách Giới thiệu (3 trụ cột + Triết Lý Quản Trị)
-        const introPillars =
-          activeMilestone.intro && activeMilestone.intro.length > 0
-            ? activeMilestone.intro
-            : customContent.pillars.slice(0, 3).map((p) => ({ title: p.title, desc: p.desc }));
+        const narrativeTitle = narrationInfo?.title
+          ? `Năm ${activeMilestone.year} – ${narrationInfo.title}`
+          : `Năm ${activeMilestone.year} – ${activeMilestone.company}`;
+
+        const storyParagraphs =
+          activeMilestone.paragraphs && activeMilestone.paragraphs.length > 0
+            ? activeMilestone.paragraphs
+            : activeMilestone.intro && activeMilestone.intro.length > 0
+            ? activeMilestone.intro.map((item: { title: string; desc: string }) => `${item.title}: ${item.desc}`)
+            : [];
 
         const philosophyText =
           activeMilestone.philosophy ||
           'Khách hàng là trung tâm — Kiến tạo giá trị dịch vụ bền vững và chuẩn hóa vận hành xuất sắc.';
 
+        const memoryPreviewSrc =
+          photosList[0]?.src || activeMilestone.bannerUrl || 'https://i.ibb.co/Xr7hKN4v/Kinh-nghi-m.png';
+
+        const currentRoadmapCard = roadmapCards.find(
+          (c) => c.key === activeMilestone.key || c.key === activeKey
+        );
+        const rawProductsList =
+          activeMilestone.products && activeMilestone.products.length > 0
+            ? activeMilestone.products.map((p) => ({
+                name: p.alt.replace(/^Logo\s+/i, '').trim() || activeMilestone.company,
+                src: p.src,
+              }))
+            : currentRoadmapCard?.products && currentRoadmapCard.products.length > 0
+              ? currentRoadmapCard.products.map((p) => ({
+                  name: p.name,
+                  src: p.logo,
+                }))
+              : [
+                  {
+                    name: activeMilestone.company,
+                    src: activeMilestone.logo,
+                  },
+                ];
+        const productSummaryText =
+          currentRoadmapCard?.productSummary ||
+          activeMilestone.subCompanies ||
+          activeMilestone.industry;
+
         return (
           <div
             id="experience-job-detail-card"
+            data-section-card="true"
             style={{
               ...cardSampleStyle,
               borderRadius: '14px',
               padding: '15px',
             }}
-            className="w-full h-full flex-1 min-h-0 flex flex-col justify-between rounded-[14px] border border-white/80 dark:border-white/15 shadow-xl backdrop-blur-xl relative overflow-hidden gap-[15px] text-left transition-all duration-300 animate-fadeIn font-play p-[15px]"
+            className="w-full h-full flex-1 min-h-0 flex flex-col justify-start rounded-[14px] border border-white/80 dark:border-white/15 shadow-xl backdrop-blur-xl relative overflow-y-auto glass-scrollbar gap-[15px] text-left transition-all duration-300 animate-fadeIn font-play p-[15px]"
           >
-            {/* Header Bar: Icon không đóng khung cùng màu H3 + Nhãn thời gian + Nút Đóng X */}
-            <div className="w-full flex items-center justify-between gap-3 shrink-0 pb-3 border-b border-[#E2E8F0] dark:border-[#334155] relative z-10 flex-wrap sm:flex-nowrap">
-              <div className="flex items-center gap-2.5 min-w-0 flex-wrap sm:flex-nowrap">
-                <WebIcon name="briefcase" className="w-5 h-5 text-[#4338CA] dark:text-[#A5B4FC] shrink-0" />
-
-                <h3
-                  className="typo-h3 font-bold font-play leading-snug tracking-tight text-[#4338CA] dark:text-[#A5B4FC] flex items-center gap-1.5 whitespace-normal break-words"
-                  title={`Chi tiết công tác — ${activeMilestone.company}`}
-                >
-                  <span>Chi tiết công tác</span>
-                </h3>
-
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold border bg-[#EEF2FF] dark:bg-[#1F2937] border-[#CBD5E1] dark:border-[#334155] text-[#4338CA] dark:text-[#A5B4FC] shrink-0">
-                  <span>{activeMilestone.company}</span>
-                </span>
-
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold border bg-[#EEF2FF] dark:bg-[#1F2937] border-[#CBD5E1] dark:border-[#334155] text-[#1E1B4B] dark:text-[#E2E8F0] shrink-0">
-                  <span>{activeMilestone.period} • {activeMilestone.headcount ? `${activeMilestone.headcount} nhân sự` : activeMilestone.scaleDesc}</span>
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
+            {/* Thanh điều hướng nhanh giữa các cột mốc + Nút quay lại Timeline */}
+            <div className="w-full flex flex-wrap items-center justify-between gap-2 shrink-0 pb-2 border-b border-indigo-200/50 dark:border-white/10">
+              <div className="flex items-center gap-1.5 flex-wrap">
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
+                  onClick={() => {
                     SoundEngine.playTap();
                     setShowJobCard(false);
                   }}
-                  className="w-8 h-8 rounded-full bg-[#E2E8F0]/90 dark:bg-[#1F2937] hover:bg-rose-600 hover:text-white dark:hover:bg-rose-600 text-[#334155] dark:text-[#E2E8F0] transition-all flex items-center justify-center cursor-pointer active:scale-95 shrink-0 border border-[#CBD5E1] dark:border-[#334155]"
-                  title="Đóng thẻ (Esc)"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 dark:bg-[#1F2937] hover:bg-indigo-50 dark:hover:bg-slate-800 text-[#4338CA] dark:text-[#A5B4FC] border border-indigo-200/80 dark:border-[#334155] typo-button font-bold shadow-2xs transition-all cursor-pointer active:scale-95"
                 >
-                  <WebIcon name="cancel" className="w-4 h-4" />
+                  <WebIcon name="arrow-left" className="w-3.5 h-3.5 shrink-0" />
+                  <span>Lịch sử công tác</span>
                 </button>
+
+                {prevKey && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      handleOpenJobCard(prevKey);
+                    }}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/85 dark:bg-[#1F2937] hover:bg-indigo-50 dark:hover:bg-slate-800 text-[#334155] dark:text-[#E2E8F0] border border-slate-200/80 dark:border-[#334155] typo-caption font-bold transition-all cursor-pointer active:scale-95"
+                    title={`Mốc trước: ${EXPERIENCE_MILESTONES[prevKey]?.company}`}
+                  >
+                    <WebIcon name="chevron-left" className="w-3.5 h-3.5 shrink-0" />
+                    <span>{EXPERIENCE_MILESTONES[prevKey]?.year}</span>
+                  </button>
+                )}
+
+                {nextKey && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      handleOpenJobCard(nextKey);
+                    }}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/85 dark:bg-[#1F2937] hover:bg-indigo-50 dark:hover:bg-slate-800 text-[#334155] dark:text-[#E2E8F0] border border-slate-200/80 dark:border-[#334155] typo-caption font-bold transition-all cursor-pointer active:scale-95"
+                    title={`Mốc tiếp theo: ${EXPERIENCE_MILESTONES[nextKey]?.company}`}
+                  >
+                    <span>{EXPERIENCE_MILESTONES[nextKey]?.year}</span>
+                    <WebIcon name="chevron-right" className="w-3.5 h-3.5 shrink-0" />
+                  </button>
+                )}
               </div>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  SoundEngine.playTap();
+                  setShowJobCard(false);
+                }}
+                aria-label="Đóng chi tiết công việc"
+                className="w-8 h-8 rounded-full bg-white/90 dark:bg-[#1F2937] hover:bg-rose-600 hover:text-white dark:hover:bg-rose-600 text-[#334155] dark:text-[#E2E8F0] transition-all flex items-center justify-center cursor-pointer active:scale-95 shrink-0 border border-slate-200/80 dark:border-[#334155]"
+                title="Đóng (Esc)"
+              >
+                <WebIcon name="cancel" className="w-4 h-4" />
+              </button>
             </div>
 
-            {/* Responsive Multicolor Bento Grid Container */}
-            <div className="w-full flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-0.5">
-              <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch">
+            {/* KHỐI 1: THẺ THÔNG TIN DOANH NGHIỆP & CARD KỶ NIỆM */}
+            <section
+              id="experience-info-card"
+              data-subcard="true"
+              className="exp-detail-card w-full rounded-[18px] p-4 sm:p-5 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 shrink-0"
+            >
+              {/* Cột trái: Thời gian, Logo tròn lớn, Tên công ty, Hệ sinh thái, Nhãn ngành */}
+              <div className="flex-1 min-w-0 flex flex-col gap-3">
+                <div className="inline-flex items-center gap-2 typo-body-sm font-semibold text-[#475569] dark:text-[#CBD5E1]">
+                  <WebIcon name="calendar" className="w-4 h-4 text-[#6366F1] dark:text-[#A5B4FC] shrink-0" />
+                  <span className="break-words">{activeMilestone.period}</span>
+                </div>
 
-                {/* BENTO 01: THÔNG TIN TỔNG QUAN (Indigo Pastel Mica) */}
-                <section
-                  id="experience-info-card"
-                  data-multicolor-bento="true"
-                  className="bento-tone-indigo md:col-span-6 lg:col-span-7 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0"
-                >
-                  <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#4338CA]/15 dark:border-[#A5B4FC]/20">
-                    <div className="flex items-center gap-2 min-w-0 text-[#4338CA] dark:text-[#A5B4FC]">
-                      <WebIcon name="building-2" className="w-4.5 h-4.5 shrink-0 text-[#4338CA] dark:text-[#A5B4FC]" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight break-words text-[#4338CA] dark:text-[#A5B4FC]">
-                        Thông tin tổng quan
-                      </h3>
-                    </div>
-                    {activeMilestone.code && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/85 dark:bg-[#1F2937] text-[#4338CA] dark:text-[#A5B4FC] border border-[#4338CA]/25 dark:border-[#A5B4FC]/30 typo-badge font-mono font-bold shrink-0">
-                        Mốc {activeMilestone.code}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3.5 min-w-0">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3.5 sm:gap-4 min-w-0">
+                  <div
+                    style={{ borderRadius: '50%', aspectRatio: '1 / 1' }}
+                    className="w-20 h-20 sm:w-[92px] sm:h-[92px] rounded-full p-1 bg-gradient-to-br from-sky-200 via-indigo-100 to-purple-200 dark:from-sky-500/35 dark:via-indigo-500/30 dark:to-purple-500/35 shadow-[0_8px_20px_rgba(79,70,229,0.14)] shrink-0"
+                  >
                     <div
-                      style={{ borderRadius: '50%', aspectRatio: '1 / 1' }}
-                      className="w-16 h-16 aspect-square rounded-full bg-white dark:bg-[#111827] border border-[#CBD5E1] dark:border-[#334155] shadow-sm p-1 overflow-hidden flex items-center justify-center shrink-0"
+                      style={{ borderRadius: '50%' }}
+                      className="w-full h-full rounded-full bg-white p-1.5 flex items-center justify-center overflow-hidden border border-white/80"
                     >
                       <img
                         src={activeMilestone.logo}
                         alt={activeMilestone.company}
                         style={{ borderRadius: '50%' }}
-                        className="w-full h-full object-cover rounded-full"
+                        className="w-full h-full object-contain rounded-full"
                       />
                     </div>
-                    <div className="min-w-0 flex-1 space-y-1">
-                      <h4 className="typo-h4 font-bold font-play text-[#1E1B4B] dark:text-[#F8FAFC] leading-snug break-words">
-                        {activeMilestone.company}
-                      </h4>
-                      {activeMilestone.subCompanies && (
-                        <p className="typo-caption font-semibold text-[#475569] dark:text-[#94A3B8] break-words">
-                          {activeMilestone.subCompanies}
-                        </p>
-                      )}
-                      <p className="typo-body-sm font-bold text-[#075985] dark:text-[#7DD3FC] flex items-center gap-1.5 flex-wrap break-words">
-                        <WebIcon name="briefcase" className="w-3.5 h-3.5 shrink-0" />
-                        <span>{activeMilestone.roleTitle}</span>
+                  </div>
+
+                  <div className="min-w-0 flex-1 space-y-1.5">
+                    <h2 className="text-[19px] sm:text-[22px] font-bold font-play text-[#1E1B4B] dark:text-[#F8FAFC] leading-snug break-words">
+                      {activeMilestone.company}
+                    </h2>
+                    {activeMilestone.subCompanies && (
+                      <p className="text-[15px] sm:text-[17px] font-semibold text-[#4F46E5] dark:text-[#A5B4FC] leading-snug break-words">
+                        {activeMilestone.subCompanies}
                       </p>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                    <div className="p-2.5 rounded-[12px] bg-white/80 dark:bg-[#1F2937]/85 border border-[#CBD5E1]/70 dark:border-[#334155] min-w-0">
-                      <span className="typo-label font-semibold text-[#475569] dark:text-[#94A3B8] block">Thời gian công tác</span>
-                      <span className="typo-body-sm font-bold text-[#1E1B4B] dark:text-[#F8FAFC] mt-0.5 block break-words">
-                        {activeMilestone.period}
-                      </span>
-                    </div>
-                    <div className="p-2.5 rounded-[12px] bg-white/80 dark:bg-[#1F2937]/85 border border-[#CBD5E1]/70 dark:border-[#334155] min-w-0">
-                      <span className="typo-label font-semibold text-[#475569] dark:text-[#94A3B8] block">Quy mô phụ trách</span>
-                      <span className="typo-body-sm font-bold text-[#1E1B4B] dark:text-[#F8FAFC] mt-0.5 block break-words">
-                        {activeMilestone.headcount ? `${activeMilestone.headcount} nhân sự` : activeMilestone.scaleDesc}
-                      </span>
-                    </div>
-                    <div className="p-2.5 rounded-[12px] bg-white/80 dark:bg-[#1F2937]/85 border border-[#CBD5E1]/70 dark:border-[#334155] min-w-0">
-                      <span className="typo-label font-semibold text-[#475569] dark:text-[#94A3B8] block">Địa điểm &amp; Thâm niên</span>
-                      <span className="typo-body-sm font-bold text-[#1E1B4B] dark:text-[#F8FAFC] mt-0.5 block break-words">
-                        {activeMilestone.location} • {activeMilestone.tenure}
+                    )}
+                    <div className="pt-0.5 flex flex-wrap items-center gap-2">
+                      <span className="exp-icon-badge inline-flex items-center px-3 py-0.5 rounded-full text-[#4338CA] dark:text-[#FDE68A] border typo-badge font-bold">
+                        {activeMilestone.tag}
                       </span>
                     </div>
                   </div>
+                </div>
+              </div>
 
-                  <div className="space-y-2">
-                    <p className="typo-body-sm text-[#334155] dark:text-[#E2E8F0] leading-relaxed break-words">
-                      {activeMilestone.highlightText || activeMilestone.cardDescription}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {domainsList.map((d, dIdx) => (
-                        <span
-                          key={dIdx}
-                          className="px-2.5 py-1 rounded-[12px] bg-white/85 dark:bg-[#1F2937] border border-[#CBD5E1]/80 dark:border-[#334155] flex items-center gap-1.5 typo-badge font-bold text-[#075985] dark:text-[#7DD3FC]"
-                        >
-                          <span className="shrink-0">{d.icon}</span>
-                          <span className="break-words">{d.label}</span>
-                        </span>
-                      ))}
-                    </div>
+              {/* Cột phải: Card Kỷ niệm (Mở Lightbox ảnh kỷ niệm) */}
+              <div
+                id="experience-memories-card"
+                data-subcard="true"
+                role="button"
+                tabIndex={0}
+                aria-label={`Mở Card Kỷ niệm (${photosList.length} hình ảnh)`}
+                onClick={() => {
+                  if (photosList.length > 0) {
+                    SoundEngine.playTap();
+                    setCarouselSlideIdx(0);
+                    setIsPhotoLightboxOpen(true);
+                  } else {
+                    showToast('Chưa có hình ảnh kỷ niệm cho cột mốc này');
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    if (photosList.length > 0) {
+                      SoundEngine.playTap();
+                      setCarouselSlideIdx(0);
+                      setIsPhotoLightboxOpen(true);
+                    }
+                  }
+                }}
+                className="exp-detail-subcard w-full lg:w-[270px] xl:w-[295px] shrink-0 rounded-[16px] p-2.5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group"
+              >
+                <div className="w-full h-24 sm:h-[94px] rounded-[12px] overflow-hidden bg-slate-900/10 relative border border-white/70 dark:border-white/10">
+                  <img
+                    src={memoryPreviewSrc}
+                    alt={`Kỷ niệm ${activeMilestone.company}`}
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      const fallback = 'https://i.ibb.co/Xr7hKN4v/Kinh-nghi-m.png';
+                      if (target.src !== fallback) target.src = fallback;
+                    }}
+                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-transparent pointer-events-none" />
+                </div>
+
+                <div className="flex items-center gap-2.5 pt-2.5 px-1 pb-0.5">
+                  <div className="exp-icon-badge w-8 h-8 rounded-[10px] text-rose-500 dark:text-rose-300 border flex items-center justify-center shrink-0">
+                    <WebIcon name="image" className="w-4 h-4" />
                   </div>
-                </section>
-
-                {/* BENTO CARD RIÊNG 01: BANNER NHẬN DIỆN ĐƠN VỊ CÔNG TÁC (Cyan Pastel Mica) */}
-                <section
-                  id="experience-banner-card"
-                  data-multicolor-bento="true"
-                  className="bento-tone-cyan md:col-span-6 lg:col-span-5 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0"
-                >
-                  <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#0E7490]/15 dark:border-[#67E8F9]/20">
-                    <div className="flex items-center gap-2 min-w-0 text-[#0E7490] dark:text-[#67E8F9]">
-                      <WebIcon name="flag" className="w-4.5 h-4.5 shrink-0 text-[#0E7490] dark:text-[#67E8F9]" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight break-words text-[#0E7490] dark:text-[#67E8F9]">
-                        Nhận diện đơn vị
-                      </h3>
-                    </div>
-                    <span className="px-2.5 py-0.5 rounded-full bg-white/85 dark:bg-[#1F2937] text-[#0E7490] dark:text-[#67E8F9] border border-[#0E7490]/25 dark:border-[#67E8F9]/30 typo-badge font-mono font-bold shrink-0">
-                      {activeMilestone.period}
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[15px] sm:text-[16px] font-bold text-rose-500 dark:text-rose-300 block leading-tight">
+                      Card Kỷ niệm
+                    </span>
+                    <span className="typo-caption text-[#64748B] dark:text-[#CBD5E1] block leading-tight mt-0.5 tabular-nums">
+                      {photosList.length > 0 ? `${photosList.length} hình ảnh` : 'Chưa có hình ảnh'}
                     </span>
                   </div>
-
-                  <div className="rounded-[12px] text-white p-4 shadow-md flex flex-col justify-end relative overflow-hidden flex-1 min-h-[200px] group/banner border border-white/25">
-                    <img
-                      src={activeMilestone.bannerUrl || 'https://i.ibb.co/Xr7hKN4v/Kinh-nghi-m.png'}
-                      alt={activeMilestone.company}
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        const fallback = 'https://i.ibb.co/Xr7hKN4v/Kinh-nghi-m.png';
-                        if (target.src !== fallback) target.src = fallback;
-                      }}
-                      className="absolute inset-0 w-full h-full object-cover object-center group-hover/banner:scale-105 transition-transform duration-700"
+                  {photosList.length > 0 && (
+                    <WebIcon
+                      name="maximize-2"
+                      className="w-3.5 h-3.5 text-rose-400 dark:text-rose-300 opacity-75 group-hover:opacity-100 shrink-0 transition-opacity"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/90 via-[#0B1220]/45 to-[#0B1220]/15" />
-                    <div className="relative z-10 space-y-1.5">
-                      <span className="inline-block px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md typo-badge font-mono font-bold text-white">
-                        {activeMilestone.period}
+                  )}
+                </div>
+              </div>
+            </section>
+
+            {/* KHỐI 2: CÂU CHUYỆN HÀNH TRÌNH (FULL WIDTH) */}
+            <section
+              id="experience-banner-card"
+              data-subcard="true"
+              className="exp-detail-card w-full rounded-[18px] p-4 sm:p-5 flex flex-col gap-3.5 shrink-0"
+            >
+              <div className="w-full space-y-3.5 min-w-0">
+                <div className="flex items-center gap-2.5">
+                  <div className="exp-icon-badge w-8 h-8 rounded-[10px] border text-[#4F46E5] dark:text-[#A5B4FC] flex items-center justify-center shrink-0">
+                    <WebIcon name="shield-check" className="w-4.5 h-4.5" />
+                  </div>
+                  <h3 className="card-title text-[17px] sm:text-[18px] font-bold font-play text-[#4F46E5] dark:text-[#A5B4FC] leading-snug break-words m-0">
+                    {narrativeTitle}
+                  </h3>
+                </div>
+
+                <div className="space-y-3 typo-body-sm sm:text-[14.5px] text-[#334155] dark:text-[#E2E8F0] leading-relaxed">
+                  {(activeMilestone.highlightText || activeMilestone.cardDescription) && (
+                    <p className="break-words">
+                      {activeMilestone.highlightText || activeMilestone.cardDescription}
+                    </p>
+                  )}
+
+                  {storyParagraphs.map((para: string, pIdx: number) => (
+                    <p key={pIdx} className="break-words">
+                      {para}
+                    </p>
+                  ))}
+
+                  <p className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC] break-words pt-0.5">
+                    {philosophyText}
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* KHỐI 3: HÀNG 3 THẺ (01 QUẢN LÝ · 02 KẾT QUẢ & KPI · 03 CÔNG VIỆC) */}
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-[15px] items-stretch shrink-0">
+              {/* 01 · Quản lý */}
+              <section
+                id="experience-management-card"
+                data-subcard="true"
+                className="exp-detail-card lg:col-span-4 rounded-[18px] p-4 shadow-sm flex flex-col gap-3 min-w-0"
+              >
+                <div className="flex items-center gap-2 pb-1 text-sky-600 dark:text-sky-400">
+                  <WebIcon name="user-group" className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0" />
+                  <span className="text-[18px] font-bold tabular-nums text-sky-600 dark:text-sky-400">01</span>
+                  <h3 className="card-title typo-h4 text-[17px] sm:text-[18px] font-bold font-play text-sky-600 dark:text-sky-400 m-0">
+                    Quản lý
+                  </h3>
+                </div>
+
+                <div className="space-y-2.5 flex-1 flex flex-col justify-start">
+                  {/* 1. Quy mô quản lý */}
+                  <div data-subcard="true" className="exp-detail-subcard rounded-[14px] p-3 flex items-center gap-3 min-w-0">
+                    <div className="exp-icon-badge w-9 h-9 rounded-full border text-sky-600 dark:text-sky-300 flex items-center justify-center shrink-0 shadow-2xs">
+                      <WebIcon name="user-group" className="w-4.5 h-4.5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[15px] sm:text-[16px] font-bold font-play text-sky-600 dark:text-sky-300 block">
+                        Quy mô quản lý
                       </span>
-                      <h4 className="typo-h4 font-bold font-play text-white leading-snug break-words">
-                        {activeMilestone.company}
-                      </h4>
-                      <p className="typo-caption text-white/90 font-medium break-words">
-                        {activeMilestone.scaleDesc}
+                      <div className="flex items-baseline gap-1.5 flex-wrap mt-0.5">
+                        <span className="text-[20px] font-black font-play tabular-nums text-sky-600 dark:text-sky-300 leading-none">
+                          {activeMilestone.headcount}
+                        </span>
+                        <span className="typo-caption font-medium text-[#334155] dark:text-[#CBD5E1]">
+                          nhân sự trực thuộc
+                        </span>
+                      </div>
+                      {activeMilestone.scaleDesc && (
+                        <span className="typo-caption text-[#475569] dark:text-[#CBD5E1] break-words block mt-0.5">
+                          {activeMilestone.scaleDesc}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* 2. Chức danh quản trị */}
+                  <div data-subcard="true" className="exp-detail-subcard p-3 rounded-[14px] flex items-center gap-3 min-w-0">
+                    <div className="exp-icon-badge w-9 h-9 rounded-full border text-purple-600 dark:text-purple-300 flex items-center justify-center shrink-0">
+                      <WebIcon name="star" className="w-4.5 h-4.5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[15px] sm:text-[16px] font-bold font-play text-purple-600 dark:text-purple-300 block">
+                        Chức danh quản trị
+                      </span>
+                      <span className="typo-body-sm font-bold text-[#1E1B4B] dark:text-[#F8FAFC] break-words block mt-0.5">
+                        {activeMilestone.roleTitle}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* 3. Lĩnh vực */}
+                  <div data-subcard="true" className="exp-detail-subcard rounded-[14px] p-3 flex items-center gap-3 min-w-0">
+                    <div className="exp-icon-badge w-9 h-9 rounded-full border text-indigo-600 dark:text-indigo-300 flex items-center justify-center shrink-0 shadow-2xs">
+                      <WebIcon name="game" className="w-4.5 h-4.5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[15px] sm:text-[16px] font-bold font-play text-indigo-600 dark:text-indigo-300 block">
+                        Lĩnh vực
+                      </span>
+                      <p className="typo-caption sm:typo-body-sm font-semibold text-[#1E1B4B] dark:text-[#E2E8F0] mt-0.5 break-words leading-snug">
+                        {activeMilestone.industry}
                       </p>
                     </div>
                   </div>
-                </section>
 
-                {/* BENTO CARD RIÊNG 02: HÌNH ẢNH KỶ NIỆM THỰC TẾ (Sky Pastel Mica - Tách riêng khỏi Banner) */}
-                <section
-                  id="experience-memories-card"
-                  data-multicolor-bento="true"
-                  className="bento-tone-sky md:col-span-6 lg:col-span-12 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0"
-                >
-                  <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#0369A1]/15 dark:border-[#7DD3FC]/20">
-                    <div className="flex items-center gap-2 min-w-0 text-[#0369A1] dark:text-[#7DD3FC]">
-                      <WebIcon name="image" className="w-4.5 h-4.5 shrink-0 text-[#0369A1] dark:text-[#7DD3FC]" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight break-words text-[#0369A1] dark:text-[#7DD3FC]">
-                        Hình ảnh kỷ niệm
-                      </h3>
-                    </div>
-                    {photosList.length > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCarouselSlideIdx(0);
-                          setIsPhotoLightboxOpen(true);
-                        }}
-                        className="px-3 py-1 rounded-full bg-white/90 dark:bg-[#1F2937] typo-button font-bold text-[#0369A1] dark:text-[#7DD3FC] border border-[#0369A1]/25 dark:border-[#7DD3FC]/30 hover:bg-[#0369A1] hover:text-white transition cursor-pointer shrink-0"
-                      >
-                        Phóng to ({photosList.length} ảnh)
-                      </button>
-                    )}
-                  </div>
-
-                  {photosList.length > 0 ? (
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
-                      <div
-                        onClick={() => {
-                          setCarouselSlideIdx(0);
-                          setIsPhotoLightboxOpen(true);
-                        }}
-                        className={cn(
-                          'rounded-[12px] overflow-hidden relative cursor-pointer group shadow-inner bg-[#0B1220] border border-[#CBD5E1]/60 dark:border-[#334155] min-h-[200px]',
-                          photosList.length > 1 ? 'lg:col-span-5 h-52 sm:h-60' : 'lg:col-span-12 h-56 sm:h-64'
-                        )}
-                      >
-                        <img
-                          src={photosList[0]?.src}
-                          alt={photosList[0]?.title || activeMilestone.company}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/85 via-[#0B1220]/20 to-transparent flex flex-col justify-end p-3">
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="typo-body-sm font-bold text-white font-play truncate">
-                              {photosList[0]?.title || activeMilestone.company}
-                            </span>
-                            <span className="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md typo-badge font-mono font-bold text-white shrink-0">
-                              1/{photosList.length}
-                            </span>
-                          </div>
-                          <span className="typo-caption text-[#E2E8F0] truncate">
-                            {photosList[0]?.desc || 'Khoảnh khắc kỷ niệm công tác'}
-                          </span>
-                        </div>
+                  {/* 4. Thời gian & Địa điểm */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div data-subcard="true" className="exp-detail-subcard rounded-[14px] p-3 flex items-center gap-2.5 min-w-0">
+                      <div className="exp-icon-badge w-8 h-8 rounded-full border text-violet-600 dark:text-violet-300 flex items-center justify-center shrink-0 shadow-2xs">
+                        <WebIcon name="calendar" className="w-4 h-4" />
                       </div>
-
-                      {photosList.length > 1 && (
-                        <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 content-start">
-                          {photosList.map((photo, pIdx) => (
-                            <button
-                              key={`${photo.src}-${pIdx}`}
-                              type="button"
-                              onClick={() => {
-                                SoundEngine.playTap();
-                                setCarouselSlideIdx(pIdx);
-                                setIsPhotoLightboxOpen(true);
-                              }}
-                              title={photo.title || `Ảnh kỷ niệm ${pIdx + 1}`}
-                              className="relative aspect-[4/3] rounded-[10px] overflow-hidden bg-[#0B1220] border border-white/50 dark:border-[#334155] hover:border-[#0369A1] dark:hover:border-[#7DD3FC] shadow-xs cursor-pointer group/thumb transition-all"
-                            >
-                              <img
-                                src={photo.src}
-                                alt={photo.title || `Ảnh kỷ niệm ${pIdx + 1}`}
-                                loading="lazy"
-                                className="w-full h-full object-cover transition-transform duration-300 group-hover/thumb:scale-110"
-                              />
-                              <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-[#0B1220]/75 text-white typo-badge font-mono font-bold">
-                                {pIdx + 1}
-                              </span>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="p-3 rounded-[12px] bg-white/80 dark:bg-[#1F2937]/80 border border-[#CBD5E1] dark:border-[#334155] typo-body-sm text-[#475569] dark:text-[#94A3B8]">
-                      Chưa có ảnh hoạt động tập thể riêng cho mốc này.
-                    </div>
-                  )}
-                </section>
-
-                {/* BENTO 02: VAI TRÒ, TRÁCH NHIỆM & TRIẾT LÝ QUẢN TRỊ (Purple Pastel Mica) */}
-                <section
-                  data-multicolor-bento="true"
-                  className="bento-tone-purple md:col-span-6 lg:col-span-7 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0"
-                >
-                  <div className="flex items-center gap-2 pb-2 border-b border-[#6D28D9]/15 dark:border-[#A5B4FC]/20 text-[#6D28D9] dark:text-[#C4B5FD]">
-                    <WebIcon name="shield" className="w-4.5 h-4.5 shrink-0 text-[#6D28D9] dark:text-[#C4B5FD]" />
-                    <h3 className="typo-h3 font-bold font-play leading-tight break-words text-[#6D28D9] dark:text-[#C4B5FD]">
-                      Vai trò trách nhiệm
-                    </h3>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 flex-1 items-stretch">
-                    {introPillars.map((item: { title: string; desc: string }, pIdx: number) => {
-                      const styleConfigs = [
-                        { icon: 'user-check', color: 'text-[#BE185D] dark:text-[#FDA4AF]', bg: 'bg-white/85 dark:bg-[#1F2937]/85 border-[#F9A8D4]/50 dark:border-[#334155]' },
-                        { icon: 'headphones', color: 'text-[#075985] dark:text-[#7DD3FC]', bg: 'bg-white/85 dark:bg-[#1F2937]/85 border-[#93C5FD]/50 dark:border-[#334155]' },
-                        { icon: 'shield', color: 'text-[#047857] dark:text-[#6EE7B7]', bg: 'bg-white/85 dark:bg-[#1F2937]/85 border-[#6EE7B7]/50 dark:border-[#334155]' },
-                      ];
-                      const cfg = styleConfigs[pIdx % styleConfigs.length];
-                      return (
-                        <div key={pIdx} className={`flex flex-col gap-1.5 p-3 rounded-[12px] border ${cfg.bg} min-w-0`}>
-                          <div className="flex items-center gap-2">
-                            <WebIcon name={cfg.icon} className={cn('w-4 h-4 shrink-0', cfg.color)} />
-                            <span className={`typo-body-sm font-bold font-play leading-snug break-words ${cfg.color}`} title={item.title}>
-                              {formatSentenceFourWords(item.title)}
-                            </span>
-                          </div>
-                          <p className="typo-caption text-[#334155] dark:text-[#E2E8F0] leading-relaxed break-words">
-                            {item.desc}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {(() => {
-                    const activeCategoryTheme = getCategoryTheme(activeMilestone?.company || 'MobiFone');
-                    const philosophyColor = isDark ? '#C4B5FD' : activeCategoryTheme.color;
-                    return (
-                      <div className="p-3 rounded-[12px] bg-white/85 dark:bg-[#1F2937]/90 border border-[#C4B5FD]/60 dark:border-[#334155] flex items-start gap-2.5">
-                        <WebIcon name="heart-handshake" className="w-4 h-4 shrink-0 mt-0.5" style={{ color: philosophyColor }} />
-                        <div className="min-w-0 flex-1">
-                          <span className="typo-body-sm font-bold font-play block" style={{ color: philosophyColor }}>
-                            Triết lý quản trị
-                          </span>
-                          <p className="typo-body-sm text-[#334155] dark:text-[#E2E8F0] font-medium leading-relaxed mt-0.5 break-words">
-                            {philosophyText}
-                          </p>
-                        </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[15px] sm:text-[16px] font-bold font-play text-violet-600 dark:text-violet-300 block">
+                          Thời gian
+                        </span>
+                        <p className="text-[14px] font-bold tabular-nums text-violet-600 dark:text-violet-300 mt-0.5 leading-tight break-words">
+                          {activeMilestone.cardYearLabel}
+                        </p>
+                        <span className="typo-caption text-[#475569] dark:text-[#CBD5E1] block">
+                          ({activeMilestone.tenure})
+                        </span>
                       </div>
-                    );
-                  })()}
-                </section>
-
-                {/* BENTO 04: THÀNH TỰU VÀ KPI (Emerald Pastel Mica) */}
-                <section
-                  id="experience-stats-card"
-                  data-multicolor-bento="true"
-                  className="bento-tone-emerald md:col-span-6 lg:col-span-5 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0"
-                >
-                  <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#047857]/15 dark:border-[#6EE7B7]/20">
-                    <div className="flex items-center gap-2 text-[#047857] dark:text-[#6EE7B7]">
-                      <WebIcon name="chart" className="w-4.5 h-4.5 shrink-0 text-[#047857] dark:text-[#6EE7B7]" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight text-[#047857] dark:text-[#6EE7B7]">
-                        Thành tựu đạt được
-                      </h3>
                     </div>
-                  </div>
 
-                  <div className="space-y-3 flex-1">
-                    {kpisList.map((kpi, kIdx) => (
-                      <div key={kIdx} className="p-2.5 rounded-[12px] bg-white/85 dark:bg-[#1F2937]/85 border border-[#6EE7B7]/45 dark:border-[#334155] space-y-1.5">
-                        <div className="flex items-center justify-between typo-body-sm font-semibold gap-2">
-                          <span className="text-[#334155] dark:text-[#E2E8F0] leading-tight break-words">{kpi.label}</span>
-                          <span className="font-mono font-black typo-h5 text-[#047857] dark:text-[#6EE7B7] shrink-0">
-                            {kpi.displayValue}
-                          </span>
-                        </div>
-                        <div className="w-full h-2 bg-[#E2E8F0] dark:bg-[#111827] rounded-full overflow-hidden">
-                          <div
-                            className={`h-full rounded-full transition-all duration-700 ${
-                              kIdx === 0
-                                ? 'bg-gradient-to-r from-[#047857] to-[#10B981]'
-                                : kIdx === 1
-                                ? 'bg-gradient-to-r from-[#0E7490] to-[#06B6D4]'
-                                : kIdx === 2
-                                ? 'bg-gradient-to-r from-[#4338CA] to-[#6D28D9]'
-                                : 'bg-gradient-to-r from-[#075985] to-[#0EA5E9]'
-                            }`}
-                            style={{ width: `${Math.min(100, Math.max(15, kpi.percent))}%` }}
-                          />
-                        </div>
+                    <div data-subcard="true" className="exp-detail-subcard rounded-[14px] p-3 flex items-center gap-2.5 min-w-0">
+                      <div className="exp-icon-badge w-8 h-8 rounded-full border text-pink-600 dark:text-pink-300 flex items-center justify-center shrink-0 shadow-2xs">
+                        <WebIcon name="map-pin" className="w-4 h-4" />
                       </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* BENTO 03: CÔNG VIỆC ĐÃ TRIỂN KHAI (Blue Pastel Mica) */}
-                <section
-                  id="experience-responsibility-card"
-                  data-multicolor-bento="true"
-                  className="bento-tone-blue md:col-span-3 lg:col-span-4 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0"
-                >
-                  <div className="flex items-center gap-2 pb-2 border-b border-[#075985]/15 dark:border-[#7DD3FC]/20 text-[#075985] dark:text-[#7DD3FC]">
-                    <WebIcon name="briefcase" className="w-4.5 h-4.5 shrink-0 text-[#075985] dark:text-[#7DD3FC]" />
-                    <h3 className="typo-h3 font-bold font-play leading-tight text-[#075985] dark:text-[#7DD3FC]">
-                      Công việc triển khai
-                    </h3>
-                  </div>
-
-                  <div className="space-y-2 flex-1">
-                    {tasksList.map((task, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5 p-2 rounded-[12px] bg-white/80 dark:bg-[#1F2937]/85 border border-[#93C5FD]/40 dark:border-[#334155]">
-                        <div className="w-5 h-5 rounded-full bg-[#EFF6FF] dark:bg-[#111827] text-[#075985] dark:text-[#7DD3FC] border border-[#93C5FD]/60 dark:border-[#334155] font-mono font-bold typo-badge flex items-center justify-center shrink-0 mt-0.5">
-                          {idx + 1}
-                        </div>
-                        <p className="typo-body-sm font-medium text-[#334155] dark:text-[#E2E8F0] leading-snug break-words">
-                          {task}
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[15px] sm:text-[16px] font-bold font-play text-pink-600 dark:text-pink-300 block">
+                          Địa điểm
+                        </span>
+                        <p className="typo-body-sm font-semibold text-[#1E1B4B] dark:text-[#F8FAFC] mt-0.5 break-words">
+                          {activeMilestone.location}
                         </p>
                       </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* BENTO 05: DỰ ÁN TRỌNG ĐIỂM ĐÃ THỰC HIỆN (Amber Pastel Mica) */}
-                <section
-                  id="experience-achievement-card"
-                  data-multicolor-bento="true"
-                  className="bento-tone-amber md:col-span-3 lg:col-span-4 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0"
-                >
-                  <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#92400E]/15 dark:border-[#FCD34D]/20">
-                    <div className="flex items-center gap-2 text-[#92400E] dark:text-[#FCD34D] min-w-0">
-                      <WebIcon name="folder" className="w-4.5 h-4.5 shrink-0 text-[#92400E] dark:text-[#FCD34D]" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight truncate text-[#92400E] dark:text-[#FCD34D]">
-                        Dự án trọng điểm
-                      </h3>
-                      <span className="px-2 py-0.5 rounded-full bg-white/80 dark:bg-[#1F2937] text-[#92400E] dark:text-[#FCD34D] border border-[#92400E]/20 dark:border-[#FCD34D]/30 typo-badge font-mono font-bold shrink-0">
-                        {projectsList.length}
-                      </span>
                     </div>
-                    <button
-                      type="button"
+                  </div>
+                </div>
+              </section>
+
+              {/* 02 · Kết quả & KPI */}
+              <section
+                id="experience-stats-card"
+                data-subcard="true"
+                className="exp-detail-card lg:col-span-4 rounded-[18px] p-4 shadow-sm flex flex-col gap-3 min-w-0"
+              >
+                <div className="flex items-center gap-2 pb-1 text-emerald-600 dark:text-emerald-400">
+                  <WebIcon name="trophy" className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  <span className="text-[18px] font-bold tabular-nums text-emerald-600 dark:text-emerald-400">02</span>
+                  <h3 className="card-title typo-h4 text-[17px] sm:text-[18px] font-bold font-play text-emerald-600 dark:text-emerald-400 m-0">
+                    Kết quả &amp; KPI
+                  </h3>
+                </div>
+
+                <div data-subcard="true" className="exp-detail-subcard p-3.5 rounded-[14px] space-y-3 flex-1">
+                  {kpisList.map((kpi, kIdx) => (
+                    <div key={kIdx} className="space-y-1.5">
+                      <div className="flex items-center justify-between gap-2 typo-body-sm font-semibold">
+                        <span className="text-[#1E293B] dark:text-[#E2E8F0] leading-snug break-words">
+                          {kpi.label}
+                        </span>
+                        <span className="font-mono font-bold tabular-nums text-emerald-600 dark:text-emerald-300 shrink-0">
+                          {kpi.displayValue}
+                        </span>
+                      </div>
+                      <div className="w-full h-2 bg-emerald-200/75 dark:bg-emerald-950/90 rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-700"
+                          style={{ width: `${Math.min(100, Math.max(15, kpi.percent))}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* 03 · Công việc */}
+              <section
+                id="experience-responsibility-card"
+                data-subcard="true"
+                className="exp-detail-card md:col-span-2 lg:col-span-4 rounded-[18px] p-4 shadow-sm flex flex-col gap-3 min-w-0"
+              >
+                <div className="flex items-center gap-2 pb-1 text-purple-600 dark:text-purple-400">
+                  <WebIcon name="briefcase" className="w-5 h-5 text-purple-600 dark:text-purple-400 shrink-0" />
+                  <span className="text-[18px] font-bold tabular-nums text-purple-600 dark:text-purple-400">03</span>
+                  <h3 className="card-title typo-h4 text-[17px] sm:text-[18px] font-bold font-play text-purple-600 dark:text-purple-400 m-0">
+                    Công việc
+                  </h3>
+                </div>
+
+                <div className="space-y-2 flex-1">
+                  {tasksList.map((task, idx) => {
+                    const cleanTask = task.replace(/^\d+\.\s*/, '');
+                    return (
+                      <div
+                        key={idx}
+                        data-subcard="true"
+                        className="exp-detail-subcard flex items-center gap-2.5 px-3 py-2 rounded-full"
+                      >
+                        <span className="exp-icon-badge w-5 h-5 rounded-full text-purple-600 dark:text-purple-300 border font-mono font-bold typo-badge flex items-center justify-center shrink-0 tabular-nums">
+                          {idx + 1}
+                        </span>
+                        <p className="typo-caption sm:typo-body-sm font-medium text-[#334155] dark:text-[#E2E8F0] leading-snug break-words min-w-0">
+                          {cleanTask}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            </div>
+
+            {/* KHỐI 4: HÀNG CUỐI (04 DỰ ÁN · 05 CAM KẾT · MINH HỌA CÚP TĂNG TRƯỞNG) */}
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-[15px] items-stretch shrink-0">
+              {/* 04 · Dự án */}
+              <section
+                id="experience-achievement-card"
+                data-subcard="true"
+                className="exp-detail-card lg:col-span-4 rounded-[18px] p-4 shadow-sm flex flex-col gap-3 min-w-0"
+              >
+                <div className="flex items-center justify-between gap-2 pb-1">
+                  <div className="flex items-center gap-2 min-w-0 text-amber-600 dark:text-amber-400">
+                    <WebIcon name="network" className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
+                    <span className="text-[18px] font-bold tabular-nums text-amber-600 dark:text-amber-400">04</span>
+                    <h3 className="card-title typo-h4 text-[17px] sm:text-[18px] font-bold font-play text-amber-600 dark:text-amber-400 truncate m-0">
+                      Dự án
+                    </h3>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      if (onNavigateTab) onNavigateTab(7);
+                      else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 7, slide: 0 } }));
+                    }}
+                    className="exp-icon-badge px-2.5 py-1 rounded-full hover:bg-amber-600 hover:text-white text-amber-800 dark:text-amber-300 font-bold typo-label border transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95"
+                    title="Chuyển đến trang Dự án"
+                  >
+                    <span>Xem Dự án</span>
+                    <WebIcon name="arrow-up-right" className="w-3 h-3" />
+                  </button>
+                </div>
+
+                <div className="space-y-1.5 flex-1">
+                  {projectsList.map((proj, idx) => (
+                    <div
+                      key={idx}
+                      data-subcard="true"
+                      role="button"
+                      tabIndex={0}
                       onClick={() => {
                         SoundEngine.playTap();
                         if (onNavigateTab) onNavigateTab(7);
                         else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 7, slide: 0 } }));
                       }}
-                      className="px-2.5 py-1 rounded-full bg-[#92400E] hover:bg-amber-700 text-white font-bold typo-label shadow-2xs transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95"
-                      title="Chuyển đến trang Dự án"
-                    >
-                      <span>Xem Dự án</span>
-                      <WebIcon name="arrow-up-right" className="w-3 h-3" />
-                    </button>
-                  </div>
-
-                  <div className="space-y-2 flex-1 max-h-[340px] overflow-y-auto pr-1 no-scrollbar">
-                    {projectsList.map((proj, idx) => (
-                      <div
-                        key={idx}
-                        onClick={() => {
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
                           SoundEngine.playTap();
                           if (onNavigateTab) onNavigateTab(7);
                           else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 7, slide: 0 } }));
-                        }}
-                        className="flex items-start gap-2 p-2.5 rounded-[12px] bg-white/85 dark:bg-[#1F2937]/85 border border-[#FCD34D]/50 dark:border-[#334155] hover:border-[#92400E]/50 transition-all cursor-pointer group/proj"
-                        title="Click để xem chi tiết trang Dự án"
-                      >
-                        <div className="w-5 h-5 rounded-[8px] bg-[#FFF7ED] dark:bg-[#111827] border border-[#FCD34D]/60 dark:border-[#334155] text-[#92400E] dark:text-[#FCD34D] flex items-center justify-center shrink-0 mt-0.5">
-                          <WebIcon name="folder" className="w-3 h-3" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h4 className="typo-body-sm font-bold font-play text-[#1E1B4B] dark:text-[#F8FAFC] leading-snug break-words group-hover/proj:text-[#92400E] dark:group-hover/proj:text-[#FCD34D]">
-                            {proj.title}
-                          </h4>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* BENTO 06: SẢN PHẨM, HỆ THỐNG & CAM KẾT CHẤT LƯỢNG (Pink Pastel Mica) */}
-                <section
-                  id="experience-commitments-card"
-                  data-multicolor-bento="true"
-                  className="bento-tone-pink md:col-span-6 lg:col-span-4 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0"
-                >
-                  <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#BE185D]/15 dark:border-[#FDA4AF]/20">
-                    <div className="flex items-center gap-2 text-[#BE185D] dark:text-[#FDA4AF] min-w-0">
-                      <WebIcon name="package" className="w-4.5 h-4.5 shrink-0 text-[#BE185D] dark:text-[#FDA4AF]" />
-                      <h3 className="typo-h3 font-bold font-play leading-tight truncate text-[#BE185D] dark:text-[#FDA4AF]">
-                        Sản phẩm cam kết
-                      </h3>
+                        }
+                      }}
+                      className="exp-detail-subcard flex items-center gap-2 px-3 py-1.5 rounded-[10px] hover:border-amber-500/60 transition-all cursor-pointer group/proj"
+                      title="Click để xem chi tiết trang Dự án"
+                    >
+                      <WebIcon name="folder" className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+                      <span className="typo-caption sm:typo-body-sm font-semibold text-[#334155] dark:text-[#E2E8F0] leading-snug break-words group-hover/proj:text-amber-600 dark:group-hover/proj:text-amber-300">
+                        {proj.title}
+                      </span>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => {
+                  ))}
+                </div>
+              </section>
+
+              {/* 05 · Cam kết */}
+              <section
+                id="experience-commitments-card"
+                data-subcard="true"
+                className="exp-detail-card lg:col-span-4 rounded-[18px] p-4 shadow-sm flex flex-col gap-3 min-w-0"
+              >
+                <div className="flex items-center gap-2 pb-1 text-cyan-600 dark:text-cyan-400">
+                  <WebIcon name="shield-check" className="w-5 h-5 text-cyan-600 dark:text-cyan-400 shrink-0" />
+                  <span className="text-[18px] font-bold tabular-nums text-cyan-600 dark:text-cyan-400">05</span>
+                  <h3 className="card-title typo-h4 text-[17px] sm:text-[18px] font-bold font-play text-cyan-600 dark:text-cyan-400 m-0">
+                    Cam kết
+                  </h3>
+                </div>
+
+                <div className="space-y-2.5 flex-1 flex flex-col justify-center">
+                  {commitmentsList.map((cmtText, cIdx) => (
+                    <div
+                      key={cIdx}
+                      data-subcard="true"
+                      className="exp-detail-subcard p-3 rounded-[14px] flex items-start gap-2.5"
+                    >
+                      <div className="exp-icon-badge w-7 h-7 rounded-full border text-sky-600 dark:text-sky-300 flex items-center justify-center shrink-0 mt-0.5">
+                        <WebIcon name="shield-check" className="w-4 h-4" />
+                      </div>
+                      <span className="typo-body-sm font-medium text-[#334155] dark:text-[#E2E8F0] leading-snug break-words">
+                        {cmtText}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Khối minh họa 3D Cúp Vàng & Bệ Tăng Trưởng (bên phải) */}
+              <div data-subcard="true" className="exp-detail-card md:col-span-2 lg:col-span-4 rounded-[18px] p-4 flex items-center justify-center relative overflow-hidden min-h-[210px]">
+                <svg
+                  viewBox="0 0 320 220"
+                  className="w-full max-w-[280px] h-auto drop-shadow-[0_14px_24px_rgba(37,99,235,0.18)]"
+                  aria-hidden="true"
+                >
+                  <defs>
+                    <radialGradient id="exp-trophy-glow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="#93C5FD" stopOpacity="0.45" />
+                      <stop offset="100%" stopColor="#93C5FD" stopOpacity="0" />
+                    </radialGradient>
+                    <linearGradient id="exp-trophy-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#FDE68A" />
+                      <stop offset="45%" stopColor="#F59E0B" />
+                      <stop offset="100%" stopColor="#B45309" />
+                    </linearGradient>
+                    <linearGradient id="exp-bar-top" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#E0F2FE" />
+                      <stop offset="100%" stopColor="#93C5FD" />
+                    </linearGradient>
+                    <linearGradient id="exp-bar-dark" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#2563EB" />
+                      <stop offset="100%" stopColor="#1E3A8A" />
+                    </linearGradient>
+                    <linearGradient id="exp-arrow-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#3B82F6" />
+                      <stop offset="100%" stopColor="#60A5FA" />
+                    </linearGradient>
+                  </defs>
+                  <ellipse cx="160" cy="186" rx="122" ry="22" fill="url(#exp-trophy-glow)" />
+                  {/* Cột 1 */}
+                  <rect x="64" y="142" width="44" height="44" rx="6" fill="url(#exp-bar-top)" opacity="0.85" />
+                  {/* Cột 2 */}
+                  <rect x="114" y="122" width="46" height="64" rx="6" fill="url(#exp-bar-top)" />
+                  {/* Cột 3 chính giữa */}
+                  <rect x="166" y="132" width="52" height="54" rx="6" fill="url(#exp-bar-dark)" />
+                  {/* Cột 4 */}
+                  <rect x="224" y="148" width="40" height="38" rx="6" fill="url(#exp-bar-top)" opacity="0.9" />
+                  {/* Mũi tên tăng trưởng */}
+                  <path
+                    d="M52 150 C96 144, 158 118, 246 72 L236 62 L272 58 L258 92 L250 82 C164 128, 102 152, 54 156 Z"
+                    fill="url(#exp-arrow-grad)"
+                    opacity="0.92"
+                  />
+                  {/* Đế cúp */}
+                  <rect x="142" y="114" width="38" height="12" rx="4" fill="#1E40AF" />
+                  <rect x="148" y="106" width="26" height="9" rx="3" fill="url(#exp-trophy-gold)" />
+                  {/* Thân & Quai cúp */}
+                  <path
+                    d="M138 56 C122 56, 120 82, 138 86"
+                    fill="none"
+                    stroke="url(#exp-trophy-gold)"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M184 56 C200 56, 202 82, 184 86"
+                    fill="none"
+                    stroke="url(#exp-trophy-gold)"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M136 44 H186 L181 78 C179 94, 169 102, 161 102 C153 102, 143 94, 141 78 Z"
+                    fill="url(#exp-trophy-gold)"
+                  />
+                  <ellipse cx="161" cy="44" rx="25" ry="5" fill="#FEF3C7" />
+                  <path d="M148 54 C149 70, 152 82, 155 88" stroke="#FFFBEB" strokeWidth="3" strokeLinecap="round" opacity="0.65" fill="none" />
+                </svg>
+              </div>
+            </div>
+
+            {/* KHỐI 4.5: CARD SẢN PHẨM & HỆ SINH THÁI DỊCH VỤ */}
+            <section
+              id="experience-products-card"
+              data-subcard="true"
+              className="exp-detail-card w-full rounded-[18px] p-4 shadow-sm flex flex-col gap-3 shrink-0 min-w-0"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-1">
+                <div className="flex items-center gap-2 min-w-0 flex-wrap text-indigo-600 dark:text-indigo-400">
+                  <WebIcon name="shopping-bag" className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                  <span className="text-[18px] font-bold tabular-nums text-indigo-600 dark:text-indigo-400">06</span>
+                  <h3 className="card-title typo-h4 text-[17px] sm:text-[18px] font-bold font-play text-indigo-600 dark:text-indigo-400 m-0">
+                    Sản phẩm
+                  </h3>
+                  <span className="exp-icon-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-indigo-700 dark:text-indigo-200 border typo-badge font-bold tabular-nums">
+                    {rawProductsList.length} sản phẩm
+                  </span>
+                  {productSummaryText && (
+                    <span className="typo-caption font-medium text-[#475569] dark:text-[#CBD5E1] break-words">
+                      · {productSummaryText}
+                    </span>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    SoundEngine.playTap();
+                    if (onNavigateTab) onNavigateTab(4);
+                    else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 4, slide: 0 } }));
+                  }}
+                  className="exp-icon-badge px-2.5 py-1 rounded-full hover:bg-indigo-600 hover:text-white text-indigo-800 dark:text-indigo-300 font-bold typo-label border transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95"
+                  title="Chuyển đến trang Lĩnh vực / Dịch vụ"
+                >
+                  <span>Xem Dịch vụ</span>
+                  <WebIcon name="arrow-up-right" className="w-3 h-3" />
+                </button>
+              </div>
+
+              <div
+                className={cn(
+                  'grid gap-2.5 w-full',
+                  rawProductsList.length === 1
+                    ? 'grid-cols-1 sm:grid-cols-2'
+                    : rawProductsList.length === 2
+                      ? 'grid-cols-1 sm:grid-cols-2'
+                      : rawProductsList.length <= 4
+                        ? 'grid-cols-2 sm:grid-cols-4'
+                        : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5'
+                )}
+              >
+                {rawProductsList.map((prod, pIdx) => (
+                  <div
+                    key={pIdx}
+                    data-subcard="true"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      if (onNavigateTab) onNavigateTab(4);
+                      else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 4, slide: 0 } }));
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
                         SoundEngine.playTap();
                         if (onNavigateTab) onNavigateTab(4);
                         else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 4, slide: 0 } }));
-                      }}
-                      className="px-2.5 py-1 rounded-full bg-[#BE185D] hover:bg-pink-700 text-white font-bold typo-label transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95"
-                      title="Chuyển đến trang Dịch vụ"
-                    >
-                      <span>Dịch vụ</span>
-                      <WebIcon name="arrow-up-right" className="w-3 h-3" />
-                    </button>
-                  </div>
-
-                  {/* Thương hiệu / Sản phẩm trực thuộc */}
-                  <div className="flex flex-wrap gap-2">
-                    {brandsList.map((b, bIdx) => (
-                      <div
-                        key={bIdx}
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          if (onNavigateTab) onNavigateTab(4);
-                          else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 4, slide: 0 } }));
+                      }
+                    }}
+                    title={`${prod.name} — Click để xem chi tiết lĩnh vực & dịch vụ`}
+                    className="exp-detail-subcard rounded-[14px] p-3 hover:border-indigo-500/70 hover:-translate-y-0.5 transition-all cursor-pointer flex items-center gap-3 min-w-0 group/prod"
+                  >
+                    <div className="w-11 h-11 rounded-[10px] bg-white border border-indigo-200/80 p-1.5 flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
+                      <img
+                        src={prod.src}
+                        alt={prod.name}
+                        className="w-full h-full object-contain group-hover/prod:scale-105 transition-transform"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src = activeMilestone.logo;
                         }}
-                        className="px-2.5 py-1.5 rounded-[12px] bg-white/85 dark:bg-[#1F2937]/85 border border-[#F9A8D4]/55 dark:border-[#334155] flex items-center gap-2 hover:scale-[1.02] transition-all cursor-pointer"
-                        title={`Xem chi tiết dịch vụ ${b.name}`}
-                      >
-                        {b.logo ? (
-                          <img
-                            src={b.logo}
-                            alt={b.name}
-                            style={{ borderRadius: '50%' }}
-                            className="w-6 h-6 rounded-full object-cover bg-white border border-[#CBD5E1] shrink-0"
-                          />
-                        ) : (
-                          <WebIcon name="shopping-bag" className="w-4 h-4 text-[#BE185D] dark:text-[#FDA4AF] shrink-0" />
-                        )}
-                        <span className="typo-label font-bold text-[#1E1B4B] dark:text-[#F8FAFC] truncate max-w-[120px]">
-                          {b.name}
-                        </span>
-                      </div>
-                    ))}
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="typo-body-sm font-bold text-[#1E1B4B] dark:text-[#F8FAFC] block leading-tight break-words group-hover/prod:text-indigo-700 dark:group-hover/prod:text-indigo-300">
+                        {prod.name}
+                      </span>
+                      <span className="typo-label text-[#475569] dark:text-[#CBD5E1] block leading-tight mt-0.5 truncate">
+                        {activeMilestone.tag}
+                      </span>
+                    </div>
                   </div>
+                ))}
 
-                  {/* Cam kết thực hiện */}
-                  <div className="space-y-2 flex-1">
-                    {commitmentsList.map((cmtText, cIdx) => (
-                      <div
-                        key={cIdx}
-                        className="p-2.5 rounded-[12px] bg-white/85 dark:bg-[#1F2937]/85 border border-[#F9A8D4]/50 dark:border-[#334155] flex items-start gap-2"
-                      >
-                        <WebIcon name="check-circle" className="w-4 h-4 text-[#047857] dark:text-[#6EE7B7] shrink-0 mt-0.5" />
-                        <span className="typo-body-sm font-medium text-[#334155] dark:text-[#E2E8F0] leading-snug break-words">
-                          {cmtText}
-                        </span>
-                      </div>
-                    ))}
+                {rawProductsList.length === 1 && (
+                  <div
+                    data-subcard="true"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      if (onNavigateTab) onNavigateTab(4);
+                      else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 4, slide: 0 } }));
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        SoundEngine.playTap();
+                        if (onNavigateTab) onNavigateTab(4);
+                        else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 4, slide: 0 } }));
+                      }
+                    }}
+                    className="exp-detail-subcard rounded-[14px] p-3 border-dashed hover:border-indigo-500 transition-all cursor-pointer flex items-center gap-3 min-w-0"
+                  >
+                    <div className="exp-icon-badge w-11 h-11 rounded-[10px] border text-indigo-600 dark:text-indigo-300 flex items-center justify-center shrink-0">
+                      <WebIcon name="layers" className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[15px] sm:text-[16px] font-bold font-play text-indigo-600 dark:text-indigo-300 block">
+                        Hệ sinh thái &amp; Lĩnh vực vận hành
+                      </span>
+                      <span className="typo-body-sm font-bold text-[#1E1B4B] dark:text-[#F8FAFC] block leading-snug break-words mt-0.5">
+                        {activeMilestone.industry}
+                      </span>
+                    </div>
                   </div>
-                </section>
-
+                )}
               </div>
-            </div>
+            </section>
+
+            {/* KHỐI 5: THANH TRÍCH DẪN TRIẾT LÝ QUẢN TRỊ Ở ĐÁY */}
+            <section data-subcard="true" className="exp-detail-card w-full rounded-[18px] px-4 py-3.5 sm:px-6 sm:py-4 flex items-center justify-between gap-4 relative overflow-hidden shrink-0">
+              <div className="flex items-center gap-3.5 min-w-0 flex-1">
+                <div className="w-11 h-11 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-md flex items-center justify-center shrink-0">
+                  <WebIcon name="quote" className="w-5 h-5" />
+                </div>
+                <p className="typo-body-sm sm:text-[15px] font-semibold text-[#312E81] dark:text-[#E0E7FF] leading-relaxed break-words min-w-0">
+                  {philosophyText}
+                </p>
+              </div>
+
+              <svg
+                viewBox="0 0 110 72"
+                className="w-20 h-14 shrink-0 hidden sm:block opacity-90"
+                aria-hidden="true"
+              >
+                <defs>
+                  <linearGradient id="exp-target-ring" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#818CF8" />
+                    <stop offset="100%" stopColor="#6366F1" />
+                  </linearGradient>
+                </defs>
+                <ellipse cx="44" cy="64" rx="34" ry="5" fill="#C7D2FE" opacity="0.45" />
+                <circle cx="44" cy="36" r="24" fill="url(#exp-target-ring)" />
+                <circle cx="44" cy="36" r="17" fill="#FFFFFF" />
+                <circle cx="44" cy="36" r="11" fill="#6366F1" />
+                <circle cx="44" cy="36" r="5" fill="#F43F5E" />
+                <path d="M44 36 L76 12" stroke="#312E81" strokeWidth="3" strokeLinecap="round" />
+                <path d="M72 10 L82 8 L78 18 Z" fill="#818CF8" />
+                <path d="M82 58 C84 44, 94 36, 98 32 C98 44, 90 54, 82 58 Z" fill="#A5B4FC" opacity="0.7" />
+              </svg>
+            </section>
           </div>
         );
       })()}
@@ -2074,6 +2304,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         if (!curPhoto) return null;
         return (
           <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Thư viện ảnh ${activeMilestone.company}`}
             onClick={() => setIsPhotoLightboxOpen(false)}
             className="fixed inset-0 z-[9999] bg-[#0B1220]/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
           >
@@ -2113,6 +2346,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 )}
                 <button
                   type="button"
+                  aria-label="Đóng trình xem ảnh"
                   onClick={() => setIsPhotoLightboxOpen(false)}
                   className="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#1F2937]/85 hover:bg-rose-600 text-white flex items-center justify-center font-bold text-sm cursor-pointer border border-white/15"
                 >
@@ -2139,6 +2373,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       <button
                         key={idx}
                         type="button"
+                        aria-label={`Chọn ảnh ${idx + 1}`}
                         onClick={() => setCarouselSlideIdx(idx)}
                         className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
                           idx === carouselSlideIdx ? 'bg-[#A5B4FC] scale-125' : 'bg-white/30 hover:bg-white/60'

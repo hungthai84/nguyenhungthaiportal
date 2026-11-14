@@ -68,11 +68,28 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         setIsFilterDropdownOpen(false);
       }
     };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (isFilterDropdownOpen) {
+          setIsFilterDropdownOpen(false);
+          return;
+        }
+        if (isAddModalOpen) {
+          setIsAddModalOpen(false);
+        }
+      }
+    };
     if (isFilterDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isFilterDropdownOpen]);
+    if (isFilterDropdownOpen || isAddModalOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isFilterDropdownOpen, isAddModalOpen]);
 
   const activeCardStyleMeta = getCardStyleConfig(cardStyle);
 
@@ -388,7 +405,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         data-element-page="wallpaper"
         data-element-parent="wallpaper-page-container"
         data-section-card="true"
-        className="banner-card hero-banner w-full max-w-full lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-hidden relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
+        className="banner-card hero-banner w-full max-w-full lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
         style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
       >
         <div
@@ -557,8 +574,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         >
           <div id="wallpaper-add-panel-header" className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
             <div className="flex items-center gap-2">
-              <WebIcon name="plus" className="w-4.5 h-4.5 text-rose-600" />
-              <h3 id="wallpaper-add-panel-title" className="card-title text-slate-900 dark:text-white">
+              <WebIcon name="plus" className="w-4.5 h-4.5 text-rose-600 dark:text-rose-400" />
+              <h3 id="wallpaper-add-panel-title" className="card-title text-rose-600 dark:text-rose-400">
                 Thêm Hình Nền Mới & Nhập / Xuất Dữ Liệu JSON
               </h3>
             </div>
@@ -688,7 +705,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 <button
                   id="wallpaper-add-submit-btn"
                   type="submit"
-                  className="px-5 py-2 rounded-[14px] text-xs font-black bg-gradient-to-r from-rose-600 to-indigo-600 text-white shadow-md hover:brightness-110 transition cursor-pointer"
+                  className="px-5 py-2 rounded-full text-xs font-black bg-gradient-to-r from-rose-600 to-indigo-600 text-white shadow-md hover:brightness-110 transition cursor-pointer"
                 >
                   Thêm & Áp Dụng Ngay
                 </button>
@@ -716,7 +733,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                       id="wallpaper-json-import-file-btn"
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
-                      className="px-3 py-1.5 rounded-[14px] text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                      className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
                     >
                       <WebIcon name="upload" className="w-3.5 h-3.5" />
                       <span>Nhập File JSON</span>
@@ -726,7 +743,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                       id="wallpaper-json-export-file-btn"
                       type="button"
                       onClick={handleExportJson}
-                      className="px-3 py-1.5 rounded-[14px] text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                      className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
                     >
                       <WebIcon name="download" className="w-3.5 h-3.5" />
                       <span>Xuất File JSON</span>
@@ -750,7 +767,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   type="button"
                   onClick={() => importFromJsonString(jsonText)}
                   disabled={!jsonText.trim()}
-                  className="px-4 py-1.5 rounded-[14px] text-xs font-bold bg-indigo-600 disabled:opacity-40 text-white hover:bg-indigo-700 transition cursor-pointer"
+                  className="px-4 py-1.5 rounded-full text-xs font-bold bg-indigo-600 disabled:opacity-40 text-white hover:bg-indigo-700 transition cursor-pointer"
                 >
                   Nhập Dữ Liệu Từ Ô JSON
                 </button>
@@ -760,7 +777,31 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         </section>
       )}
 
-      {/* LƯỚI HÌNH NỀN THU NHỎ */}
+      {/* LƯỚI HÌNH NỀN THU NHỎ HOẶC EMPTY STATE */}
+      {filteredWallpapers.length === 0 ? (
+        <div className="flex-1 flex flex-col items-center justify-center text-center py-12 px-4 rounded-[14px] bg-white/80 dark:bg-[#111827]/80 border border-slate-200/80 dark:border-white/15 backdrop-blur-md">
+          <div className="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 flex items-center justify-center mb-3">
+            <WebIcon name="image" className="w-6 h-6" />
+          </div>
+          <p className="text-base font-bold text-slate-800 dark:text-white font-play">
+            Không tìm thấy hình nền phù hợp
+          </p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 max-w-md">
+            Hãy thử thay đổi bộ lọc loại media hoặc xóa từ khóa tìm kiếm hiện tại.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              SoundEngine.playTap();
+              setFilterType('all');
+              setSearchQuery('');
+            }}
+            className="mt-4 px-5 py-2 rounded-full text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white transition cursor-pointer shadow-sm"
+          >
+            Xem lại tất cả hình nền
+          </button>
+        </div>
+      ) : (
       <div id="wallpaper-cards-grid" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[15px] items-stretch flex-1">
           {filteredWallpapers.map((wp) => {
             const isSelected = activeWallpaper?.id === wp.id;
@@ -773,7 +814,17 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
               <div
                 id={`wallpaper-card-${wp.id}`}
                 key={wp.id}
+                role="button"
+                tabIndex={0}
+                aria-pressed={isSelected}
                 onClick={() => handleApplyWallpaper(wp)}
+                onKeyDown={(e) => {
+                  if (e.target !== e.currentTarget) return;
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleApplyWallpaper(wp);
+                  }
+                }}
                 title={
                   isEn
                     ? `${localizedName} (Click to apply as default wallpaper)`
@@ -919,6 +970,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             );
           })}
       </div>
+      )}
     </div>
   );
 };

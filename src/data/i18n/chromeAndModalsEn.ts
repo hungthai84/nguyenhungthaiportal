@@ -95,6 +95,16 @@ export const CHROME_AND_MODALS_EN: Record<string, string> = {
   '✓ Đang tải xuống file Hồ sơ CV...': '✓ Downloading CV Profile PDF...',
 
   // Card styles / Themes
+  'Kính Trắng Tinh Khiết': 'Pure White Crystal Glass',
+  'Kính Trắng Tinh Khiết (Nền sáng)': 'Pure White Crystal Glass (Light)',
+  'Nền sáng chuẩn': 'Standard Light Base',
+  'Chất liệu mica sáng': 'Light Mica Material Surface',
+  'Fluent Mica Sáng': 'Fluent Light Mica',
+  'Kính tối màu neon': 'Dark Multicolor Neon Glass',
+  'Kính tối neon đa sắc': 'Multicolor Dark Neon Glass',
+  'Chất liệu da bò': 'Full-Grain Cowhide Leather',
+  'Cấu hình phong cách – Theme Presets': 'Style Configuration – Theme Presets',
+  'Chọn phong cách': 'Select Style',
   'Giao diện Chuẩn': 'Standard Light',
   'Giao diện Chuẩn (Giao diện sáng)': 'Standard Theme (Light Mode)',
   'Chuẩn': 'Standard',
@@ -122,6 +132,11 @@ export const CHROME_AND_MODALS_EN: Record<string, string> = {
   'Chỉ giao diện Sáng': 'Light Mode Only',
   'Giao diện Tối Neon đa sắc': 'Multicolor Dark Neon Mode',
   'Giao diện tối kính mờ đa màu sắc Neon (Cyan, Hồng Magenta, Tím điện, Ngọc lục bảo) với viền phát sáng rực rỡ.': 'Dark multicolor neon frosted glass theme (Cyan, Magenta, Electric Violet, Emerald) with glowing borders.',
+  '#82 Da Nâu Bò Thủ Công': '#82 Handcrafted Cowhide Leather',
+  'Da Bò · Thủ Công': 'Cowhide · Craft',
+  'Da nâu bò thủ công': 'Handcrafted Cowhide Leather',
+  '#82 Da Nâu Bò Thủ Công · Hand-Stitched': '#82 Full-Grain Cowhide · Hand-Stitched',
+  'Mô phỏng da bò thật màu nâu cổ điển (#8B5A2B → #653A17) với đường chỉ khâu tay viền đứt nét và sắc chữ kem #FFF8DC sang trọng.': 'Full-grain classic brown cowhide leather (#8B5A2B to #653A17) with hand-stitched dashed borders and warm cream #FFF8DC typography.',
 
   // PDF Quick Modal (Footer)
   'Tải Hồ Sơ CV — Nguyễn Hùng Thái': 'Download CV Profile — Nguyen Hung Thai',

@@ -238,6 +238,19 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isFilterOpen]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      if (isFilterOpen) {
+        setIsFilterOpen(false);
+      } else if (selectedDomain && !isTechModalOpen) {
+        setSelectedDomain(null);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isFilterOpen, selectedDomain, isTechModalOpen]);
+
   // Danh sách bộ lọc phân hệ dịch vụ (6.1 - 6.6)
   const filterCategories = [
     { id: 'ALL', label: isEn ? 'All Services (6)' : 'Tất cả dịch vụ (6)', icon: 'grid' },
@@ -426,7 +439,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-hidden relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
+          className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
           style={{ padding: '15px', width: '100%', maxWidth: '100%', height: '200px', minHeight: '200px', maxHeight: '200px', borderRadius: '14px' }}
         >
         <div
@@ -517,7 +530,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
+                  id="services-filter-dropdown"
                   role="listbox"
+                  style={{ background: 'var(--bg-popup)' }}
                   className="bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] bg-white/98 dark:bg-[#111827]/96 border border-teal-200 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-slate-800 dark:text-[#E2E8F0]"
                 >
                   {filterCategories.map((cat) => {
@@ -602,7 +617,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
               const cfg = getCardVisualConfig(domain.id);
               const bullets = (domain.details || domain.experienceItems || []).slice(0, 3);
               const rawServiceImg = domain.customIllustrationUrl || cfg.illustrationSrc;
-              const serviceImage = rawServiceImg?.toLowerCase().includes('.gif') ? cfg.fallbackIllustration : rawServiceImg;
+              const serviceImage = rawServiceImg;
 
               return (
                 <motion.div
@@ -610,24 +625,32 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   id={domain.id === '01' ? 'service-card-telecom' : domain.id === '02' ? 'service-card-ecommerce' : domain.id === '03' ? 'service-card-insurance' : domain.id === '05' ? 'service-card-ewallet' : domain.id === '04' ? 'service-card-esports' : 'service-card-cx-ops'}
                   data-element-type="card"
                   data-section-card="true"
+                  role="button"
+                  tabIndex={0}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.28, delay: idx * 0.04 }}
                   onClick={() => handleOpenDetail(domain)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleOpenDetail(domain);
+                    }
+                  }}
                   style={{
                     ...cardSampleStyle,
                     borderRadius: '14px',
                     padding: '15px',
                   }}
-                  className={`service-card bento-card glass-card layered-card theme-pastel-card group relative rounded-[14px] p-[15px] transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[230px] shadow-sm hover:shadow-xl hover:-translate-y-0.5`}
+                  className="service-card bento-card glass-card layered-card group relative rounded-[14px] p-[15px] transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[230px] shadow-sm hover:shadow-xl hover:-translate-y-0.5"
                 >
                   <div
-                    className="absolute inset-0 pointer-events-none opacity-40 transition-opacity duration-500 group-hover:opacity-75"
+                    className="service-ambient-glow absolute inset-0 pointer-events-none opacity-40 transition-opacity duration-500 group-hover:opacity-75"
                     style={{ background: cfg.ambientGlow }}
                   />
 
                   {/* 1. TOP: Tiêu đề tên dịch vụ và icon dịch vụ */}
-                  <div className="relative z-20 flex items-center justify-between pb-2 border-b border-black/5 dark:border-white/10 shrink-0">
+                  <div className="service-divider relative z-20 flex items-center justify-between pb-2 border-b border-black/5 dark:border-white/10 shrink-0">
                     <div className="flex items-center gap-2.5 min-w-0 flex-1">
                       <span
                         className="shrink-0 flex items-center justify-center bg-transparent border-0 p-0 shadow-none"
@@ -636,7 +659,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                         <WebIcon name={domain.icon?.toLowerCase() || 'briefcase'} className="w-[18px] h-[18px] stroke-[2.2]" style={{ width: '18px', height: '18px', color: cfg.accentColor }} />
                       </span>
                       <h3
-                        className={`text-[18px] font-bold font-play leading-snug tracking-tight transition-colors truncate`}
+                        className="service-title-text text-[18px] font-bold font-play leading-snug tracking-tight transition-colors truncate"
                         style={{ fontSize: '18px', fontWeight: 700, color: cfg.accentColor }}
                         title={domain.titleEn && language === 'en' ? domain.titleEn : domain.title}
                       >
@@ -661,12 +684,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                           WebkitBoxOrient: 'vertical',
                           overflow: 'hidden',
                         }}
-                        title={(language === 'en' && domain.descEn ? domain.descEn : domain.desc) || domain.professionalMessage}
+                        title={(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
                       >
-                        {(language === 'en' && domain.descEn ? domain.descEn : domain.desc) || domain.professionalMessage}
+                        {(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
                       </p>
                     </div>
-                    <div className="w-24 h-20 sm:w-28 sm:h-24 shrink-0 flex items-center justify-center relative">
+                    <div className="w-24 h-20 sm:w-28 sm:h-24 shrink-0 flex items-center justify-center relative bg-transparent">
                       <motion.img
                         src={serviceImage}
                         alt={domain.title}
@@ -675,13 +698,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                             e.currentTarget.src = cfg.fallbackIllustration;
                           }
                         }}
-                        className="w-full h-full object-contain drop-shadow-[0_8px_14px_rgba(0,0,0,0.12)] transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-full object-contain bg-transparent drop-shadow-[0_8px_14px_rgba(0,0,0,0.12)] transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                   </div>
 
                   {/* 3. BOTTOM: Logo công ty nền trong suốt, căn giữa gọn gàng */}
-                  <div className="relative z-20 pt-2 border-t border-black/5 dark:border-white/10 flex items-center justify-center shrink-0">
+                  <div className="service-divider relative z-20 pt-2 border-t border-black/5 dark:border-white/10 flex items-center justify-center shrink-0">
                     {domain.companyLogos && domain.companyLogos.length > 0 ? (
                       <div className="flex items-center justify-center gap-2.5 flex-wrap">
                         {domain.companyLogos
@@ -740,7 +763,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   duration: 0.4,
                   ease: [0.25, 1, 0.5, 1],
                 }}
-                className={`bento-card glass-card w-full h-full min-h-0 overflow-y-auto max-h-full rounded-[14px] p-4 sm:p-5 gap-3.5 sm:gap-4 relative flex flex-col justify-between text-left font-play transition-all duration-300 bg-white/90 dark:bg-[#111827]/90 backdrop-blur-2xl border border-white/90 dark:border-white/15 shadow-[0_12px_36px_rgba(100,110,140,0.12)] ${
+                className={`bento-card glass-card w-full h-full min-h-0 overflow-y-auto max-h-full rounded-[14px] p-4 sm:p-5 gap-3.5 sm:gap-4 relative flex flex-col justify-between text-left font-play transition-all duration-300 ${
                   isDark ? 'text-[#F8FAFC]' : 'text-[#1E1B4B]'
                 }`}
                 style={{
@@ -750,36 +773,25 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
               >
                 {/* 1. TOP HEADER BAR: Icon + Kicker + Title + Summary + Close Button */}
                 <div className="flex items-start justify-between gap-4 pb-3.5 border-b border-slate-200/80 dark:border-white/10 shrink-0">
-                  <div className="flex gap-3 sm:gap-4 min-w-0">
-                    <div 
-                      className="shrink-0 flex items-center justify-center bg-transparent border-0 p-0 shadow-none"
-                      style={{ color: detailInfo.accent }}
-                    >
-                      <WebIcon name={selectedDomain.icon?.toLowerCase() || 'shield-check'} className="w-6 h-6 sm:w-8 sm:h-8 stroke-[2]" style={{ width: '1.5em', height: '1.5em' }} />
-                    </div>
-                    <div className="flex flex-col min-w-0">
-                      <div className="flex items-center gap-2 mb-1 flex-wrap">
-                        <span 
-                          className="text-[10px] sm:text-[11px] font-black tracking-widest uppercase px-2.5 py-0.5 rounded-full border shadow-2xs"
-                          style={{ color: detailInfo.accentDeep, backgroundColor: `${detailInfo.accent}18`, borderColor: `${detailInfo.accent}35` }}
-                        >
-                          {detailInfo.kicker}
-                        </span>
-                        <span className="text-[11px] font-bold text-[#475569] dark:text-[#94A3B8]">
-                          {detailInfo.num} · {isEn ? 'Module' : 'Phân hệ'} {selectedDomain.serviceCode || '6.1'}
-                        </span>
+                  <div className="flex flex-col min-w-0">
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                      <div
+                        className="shrink-0 flex items-center justify-center bg-transparent border-0 p-0 shadow-none"
+                        style={{ color: detailInfo.accent }}
+                      >
+                        <WebIcon name={selectedDomain.icon?.toLowerCase() || 'shield-check'} className="w-6 h-6 sm:w-8 sm:h-8 stroke-[2]" style={{ width: '1.5em', height: '1.5em' }} />
                       </div>
                       <h2
-                        className="text-xl sm:text-2xl md:text-3xl font-black font-play tracking-tight"
+                        className="text-xl sm:text-2xl md:text-3xl font-black font-play tracking-tight min-w-0"
                         style={{ color: detailInfo.accent }}
                         title={isEn && selectedDomain.titleEn ? selectedDomain.titleEn : selectedDomain.title}
                       >
                         {formatSentenceFourWords(isEn && selectedDomain.titleEn ? selectedDomain.titleEn : selectedDomain.title)}
                       </h2>
-                      <p className="mt-1 text-xs sm:text-sm text-[#334155] dark:text-[#E2E8F0] max-w-3xl leading-relaxed font-semibold">
-                        {detailInfo.summary}
-                      </p>
                     </div>
+                    <p className="mt-1.5 text-xs sm:text-sm text-[#334155] dark:text-[#E2E8F0] max-w-3xl leading-relaxed font-semibold">
+                      {detailInfo.summary}
+                    </p>
                   </div>
 
                   <button
@@ -788,6 +800,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                       SoundEngine.playTap();
                       setSelectedDomain(null);
                     }}
+                    aria-label="Đóng chi tiết"
                     className="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-slate-200 dark:border-white/15 bg-white/90 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-xs"
                     title="Đóng chi tiết"
                   >
@@ -802,8 +815,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     const topColors = ['#FFDF25', '#E64C72', '#3BB8E6', '#A78BFA'];
                     return (
                       <div 
-                        key={idx} 
-                        className="relative overflow-hidden p-3 sm:p-4 rounded-[14px] bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-white/10 backdrop-blur-md shadow-xs flex flex-col justify-between"
+                        key={idx}
+                        data-subcard="true"
+                        className="exp-detail-subcard relative overflow-hidden p-3 sm:p-4 rounded-[14px] shadow-xs flex flex-col justify-between"
                       >
                         <div 
                           className="absolute top-0 left-0 right-0 h-1.5" 
@@ -811,11 +825,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                         />
                         <span 
                           className="block text-xl sm:text-2xl font-black tracking-tight font-play mt-1"
-                          style={{ color: detailInfo.accent }}
+                          style={{ color: cardStyle === 'cowhide-leather' ? '#FDE68A' : detailInfo.accent }}
                         >
                           {m.val}
                         </span>
-                        <span className="block mt-1 text-[11px] text-slate-600 dark:text-slate-300 font-bold leading-snug font-play">
+                        <span className="block mt-1 text-[11px] text-slate-600 dark:text-slate-200 font-bold leading-snug font-play">
                           {m.label}
                         </span>
                       </div>
@@ -826,31 +840,57 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                 {/* 3. TOP INFO CARDS (Partners & Role) */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 shrink-0">
                   {/* Partners Card */}
-                  <div data-subcard="true" className="p-4 rounded-[14px] border border-slate-200/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between">
-                    <div className="flex items-center gap-2 text-[14px] font-bold text-teal-600 dark:text-teal-400 mb-2.5 font-play">
-                      <WebIcon name="users" className="w-4 h-4 shrink-0 text-teal-600 dark:text-teal-400" />
-                      <span className="text-teal-600 dark:text-teal-400">Đối tác tiêu biểu</span>
+                  <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px] flex flex-col justify-between">
+                    <div className="flex items-center gap-2 text-[15px] sm:text-[16px] font-bold mb-2.5 font-play" style={{ color: '#0d9488' }}>
+                      <WebIcon name="users" className="w-4.5 h-4.5 shrink-0 text-teal-600 dark:text-teal-300" style={{ color: '#0d9488' }} />
+                      <span className="text-[15px] sm:text-[16px] font-bold font-play" style={{ color: '#0d9488' }}>Đối tác tiêu biểu</span>
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
-                      {detailInfo.partners.map((p, i) => (
-                        <div 
-                          key={i} 
-                          className="px-3 py-1.5 min-h-[36px] rounded-[12px] border border-teal-400/50 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-center text-xs font-bold text-slate-800 dark:text-slate-200 text-center leading-tight select-none"
-                          title={p}
-                        >
-                          <span>{p}</span>
-                        </div>
-                      ))}
+                      {selectedDomain.companyLogos && selectedDomain.companyLogos.length > 0 ? (
+                        selectedDomain.companyLogos.map((partner, i) => (
+                          <div
+                            key={i}
+                            data-subcard="true"
+                            className="exp-detail-subcard !px-2.5 !py-1.5 min-h-[38px] rounded-[12px] shadow-sm flex items-center justify-center gap-2 text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight select-none"
+                            title={partner.name}
+                          >
+                            <img
+                              src={partner.logo}
+                              alt={partner.name}
+                              className="w-6 h-6 sm:w-7 sm:h-7 object-contain bg-transparent shrink-0"
+                              onError={(e) => {
+                                if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
+                                  e.currentTarget.src = partner.fallbackLogo;
+                                } else {
+                                  e.currentTarget.style.display = 'none';
+                                }
+                              }}
+                            />
+                            <span>{partner.name}</span>
+                          </div>
+                        ))
+                      ) : (
+                        detailInfo.partners.map((p, i) => (
+                          <div
+                            key={i}
+                            data-subcard="true"
+                            className="exp-detail-subcard !px-3 !py-1.5 min-h-[36px] rounded-[12px] shadow-sm flex items-center justify-center text-xs font-bold text-slate-800 dark:text-slate-100 text-center leading-tight select-none"
+                            title={p}
+                          >
+                            <span>{p}</span>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
 
                   {/* Role Card */}
-                  <div data-subcard="true" className="p-4 rounded-[14px] border border-slate-200/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between">
-                    <div className="flex items-center gap-2 text-[14px] font-bold text-purple-600 dark:text-purple-400 mb-2 font-play">
-                      <WebIcon name="award" className="w-4 h-4 shrink-0 text-purple-600 dark:text-purple-400" />
-                      <span className="text-purple-600 dark:text-purple-400">Vai trò chuyên môn</span>
+                  <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px] flex flex-col justify-between">
+                    <div className="flex items-center gap-2 text-[15px] sm:text-[16px] font-bold mb-2 font-play" style={{ color: '#9333ea' }}>
+                      <WebIcon name="award" className="w-4.5 h-4.5 shrink-0 text-purple-600 dark:text-purple-300" style={{ color: '#9333ea' }} />
+                      <span className="text-[15px] sm:text-[16px] font-bold font-play" style={{ color: '#9333ea' }}>Vai trò chuyên môn</span>
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-semibold font-play">
+                    <p className="text-xs text-slate-600 dark:text-slate-200 leading-relaxed font-semibold font-play">
                       {detailInfo.role}
                     </p>
                   </div>
@@ -860,27 +900,27 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 shrink-0">
                   {/* Left Column (2 cols): Solution & Architecture */}
                   <div className="lg:col-span-2 space-y-3">
-                    <div data-subcard="true" className="p-4 rounded-[14px] border border-slate-200/80 dark:border-white/10 backdrop-blur-md">
-                      <div className="flex items-center gap-2 text-[14px] font-bold text-sky-600 dark:text-sky-400 mb-2 font-play">
-                        <WebIcon name="activity" className="w-4 h-4 shrink-0 text-sky-600 dark:text-sky-400" />
-                        <span className="text-sky-600 dark:text-sky-400">Tổng quan giải pháp</span>
+                    <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px]">
+                      <div className="flex items-center gap-2 text-[15px] sm:text-[16px] font-bold mb-2 font-play" style={{ color: '#0284c7' }}>
+                        <WebIcon name="activity" className="w-4.5 h-4.5 shrink-0 text-sky-600 dark:text-sky-300" style={{ color: '#0284c7' }} />
+                        <span className="text-[15px] sm:text-[16px] font-bold font-play" style={{ color: '#0284c7' }}>Tổng quan giải pháp</span>
                       </div>
-                      <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium font-play">
+                      <p className="text-xs text-slate-600 dark:text-slate-200 leading-relaxed font-medium font-play">
                         {detailInfo.overview}
                       </p>
                     </div>
 
-                    <div data-subcard="true" className="p-4 rounded-[14px] border border-slate-200/80 dark:border-white/10 backdrop-blur-md">
-                      <div className="flex items-center gap-2 text-[14px] font-bold text-orange-600 dark:text-orange-400 mb-2.5 font-play">
-                        <WebIcon name="cpu" className="w-4 h-4 shrink-0 text-orange-600 dark:text-orange-400" />
-                        <span className="text-orange-600 dark:text-orange-400">Kiến trúc cốt lõi</span>
+                    <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px]">
+                      <div className="flex items-center gap-2 text-[15px] sm:text-[16px] font-bold mb-2.5 font-play" style={{ color: '#ea580c' }}>
+                        <WebIcon name="cpu" className="w-4.5 h-4.5 shrink-0 text-orange-600 dark:text-orange-300" style={{ color: '#ea580c' }} />
+                        <span className="text-[15px] sm:text-[16px] font-bold font-play" style={{ color: '#ea580c' }}>Kiến trúc cốt lõi</span>
                       </div>
                       <ul className="space-y-2">
                         {detailInfo.architecture.map((arch, i) => (
-                          <li key={i} className="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-200 leading-normal font-medium font-play">
+                          <li key={i} className="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-100 leading-normal font-medium font-play">
                             <span 
                               className="w-2 h-2 rounded-full mt-1 shrink-0" 
-                              style={{ backgroundColor: detailInfo.accent }}
+                              style={{ backgroundColor: cardStyle === 'cowhide-leather' ? '#FDE68A' : detailInfo.accent }}
                             />
                             <span>{arch}</span>
                           </li>
@@ -891,10 +931,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
 
                   {/* Right Column (1 col): Tech Stack Tags */}
                   <div className="lg:col-span-1">
-                    <div data-subcard="true" className="h-full p-4 rounded-[14px] border border-slate-200/80 dark:border-white/10 backdrop-blur-md flex flex-col justify-between">
-                      <div className="flex items-center gap-2 text-[14px] font-bold text-emerald-600 dark:text-emerald-400 mb-3 font-play">
-                        <WebIcon name="settings" className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                        <span className="text-emerald-600 dark:text-emerald-400">Công nghệ sử dụng</span>
+                    <div data-subcard="true" className="exp-detail-subcard h-full p-4 rounded-[14px] flex flex-col justify-between">
+                      <div className="flex items-center gap-2 text-[15px] sm:text-[16px] font-bold mb-3 font-play" style={{ color: '#059669' }}>
+                        <WebIcon name="settings" className="w-4.5 h-4.5 shrink-0 text-emerald-600 dark:text-emerald-300" style={{ color: '#059669' }} />
+                        <span className="text-[15px] sm:text-[16px] font-bold font-play" style={{ color: '#059669' }}>Công nghệ sử dụng</span>
                       </div>
                       <div className="flex flex-wrap gap-1.5 my-auto">
                         {detailInfo.technologies.map((tech, i) => {
@@ -909,9 +949,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                               key={i} 
                               className="px-2.5 py-1 rounded-[14px] text-[10.5px] font-bold border font-play"
                               style={{ 
-                                color: tagColor === '#FFDF25' ? '#B45309' : tagColor,
-                                backgroundColor: `${tagColor}18`,
-                                borderColor: `${tagColor}35`
+                                color: cardStyle === 'cowhide-leather' ? '#FFF8DC' : tagColor === '#FFDF25' ? '#B45309' : tagColor,
+                                backgroundColor: cardStyle === 'cowhide-leather' ? 'rgba(61, 33, 11, 0.72)' : `${tagColor}18`,
+                                borderColor: cardStyle === 'cowhide-leather' ? 'rgba(245, 222, 179, 0.4)' : `${tagColor}35`
                               }}
                             >
                               {tech}
@@ -919,56 +959,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                           );
                         })}
                       </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 5. PANORAMIC BOTTOM BANNER */}
-                <div className="w-full rounded-[14px] overflow-hidden border border-blue-300/80 shadow-md relative flex flex-col md:flex-row items-center justify-between min-h-[64px] bg-gradient-to-r from-[#003B73] via-[#005B96] to-[#6497B1] shrink-0 p-1.5">
-                  <img
-                    src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
-                    alt="City Skyline"
-                    className="absolute inset-0 w-full h-full object-cover object-bottom opacity-60 mix-blend-screen pointer-events-none"
-                  />
-                  <div className="relative z-10 flex items-center gap-3 px-3 py-1 shrink-0">
-                    <WebIcon name="building" className="w-5 h-5 text-sky-200 shrink-0" />
-                    <div className="flex flex-col text-left leading-tight">
-                      <span className="text-[11px] font-bold text-sky-200 font-play">
-                        Đối tác tiêu biểu
-                      </span>
-                      <span className="text-sm sm:text-base font-black text-white whitespace-normal sm:whitespace-nowrap font-play">
-                        {primaryCompany}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="relative z-10 hidden md:flex items-center gap-3 px-4 flex-1 min-w-0">
-                    <div className="w-[1.5px] h-7 bg-white/35 shrink-0" />
-                    <span className="text-xs sm:text-[13px] font-semibold text-white/95 drop-shadow-sm font-play truncate">
-                      {DOMAINS_INTRO.quote}
-                    </span>
-                  </div>
-
-                  <div className="relative z-10 bg-white/15 backdrop-blur-md rounded-[14px] px-4 sm:px-6 py-2 h-full flex items-center justify-center border border-white/25 shadow-sm shrink-0 ml-auto overflow-hidden">
-                    <div className="flex items-center gap-2.5">
-                      {primaryLogo && (
-                        <img
-                          src={primaryLogo}
-                          alt={primaryCompany}
-                          className="h-7 sm:h-8 object-contain bg-transparent"
-                          onError={(e) => {
-                            const fallback = selectedDomain.companyLogos?.[0]?.fallbackLogo;
-                            if (fallback && e.currentTarget.src !== fallback) {
-                              e.currentTarget.src = fallback;
-                            } else {
-                              e.currentTarget.style.display = 'none';
-                            }
-                          }}
-                        />
-                      )}
-                      <span className="font-play font-black text-white tracking-wider text-xs sm:text-sm drop-shadow-xs">
-                        {primaryCompany}
-                      </span>
                     </div>
                   </div>
                 </div>

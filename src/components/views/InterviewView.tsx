@@ -308,7 +308,11 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 {/* Speaker Toggle Button */}
                 <button
                   type="button"
-                  onClick={toggleAudio}
+                  id="interview-btn-sound-toggle"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleAudio();
+                  }}
                   className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
                     isAudioOn
                       ? 'bg-white/25 hover:bg-white/40 text-white shadow-xs'
@@ -326,13 +330,18 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                   </span>
                 </button>
 
+                {/* Vertical Divider */}
                 <div className="w-[1px] h-4 bg-white/35 shrink-0 mx-0.5" />
 
                 {/* Play / Cancel Button */}
                 {!isVideoPlaying ? (
                   <button
                     type="button"
-                    onClick={togglePlay}
+                    id="interview-btn-play-toggle"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      togglePlay();
+                    }}
                     className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white font-black text-[15px] tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                     title="Bấm để phát video phỏng vấn"
                   >
@@ -346,7 +355,11 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 ) : (
                   <button
                     type="button"
-                    onClick={togglePlay}
+                    id="interview-btn-play-toggle"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      togglePlay();
+                    }}
                     className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white font-black text-[15px] tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                     title="Bấm để hủy phát video"
                   >

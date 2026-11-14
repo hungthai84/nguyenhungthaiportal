@@ -1579,407 +1579,434 @@ export function AboutView({
 
                 </div>
 
-            {/* CARD 3: CARD TRỤ CỘT VẬN HÀNH TRIẾT LÝ */}
+            {/* CARD 3: CARD GIỚI THIỆU BẢN THÂN (ABOUT ME) - ĐÃ XÓA HÌNH NỀN THẺ VIDEO */}
             <div
-              id="about-pillars-philosophy-bento-cell"
-              data-element-name="Card Trụ Cột Vận Hành Triết Lý"
+              id="about-career-goal-card"
+              data-element-name="Card Giới Thiệu Bản Thân Chuyên Gia"
               data-element-type="card"
               data-element-page="about"
-              data-element-parent="about-page-container"
+              data-element-parent="about-bento-grid"
               style={{
                 borderRadius: '14px',
                 padding: '15px',
                 ...cardSampleStyle,
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-12 xl:col-span-12 flex flex-col gap-3.5 text-left rounded-[14px] p-[15px] overflow-hidden"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
-                  {/* Header Cell 3 */}
-                  <div className="flex items-center justify-between pb-1 shrink-0">
-                    <div className="flex items-center gap-2.5 text-blue-600 dark:text-cyan-400">
-                      <Target className="w-5 h-5 stroke-[2.4] text-blue-600 dark:text-cyan-400 shrink-0" />
-                      <h3 className="text-[18px] font-bold font-play text-blue-600 dark:text-cyan-400 leading-tight" style={{ fontSize: '18px', fontWeight: 700 }}>
-                        {formatCardTitle('Trụ cột vận hành triết lý')}
-                      </h3>
+              <div className="relative z-10 flex flex-col justify-between h-full gap-3">
+                {/* Header */}
+                <div className="flex items-center justify-between pb-2 border-b border-blue-200/60 dark:border-white/10 shrink-0">
+                  <div className="flex items-center gap-2 text-blue-600 dark:text-cyan-400">
+                    <User className="w-4.5 h-4.5 text-blue-600 dark:text-cyan-400 shrink-0" />
+                    <h3 className="text-[17px] sm:text-[18px] font-bold font-play text-blue-600 dark:text-cyan-400 leading-tight">
+                      {formatCardTitle('Giới thiệu bản thân')}
+                    </h3>
+                  </div>
+                  <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    About Me
+                  </span>
+                </div>
+
+                {/* Body Text: Giữ nguyên 100% dữ liệu */}
+                <p className="text-xs sm:text-[13px] text-slate-700 dark:text-slate-200 font-medium leading-relaxed my-auto">
+                  Một chuyên gia dịch vụ khách hàng với hơn{' '}
+                  <strong className="font-bold text-slate-950 dark:text-white">22 năm kinh nghiệm</strong> thực chiến.
+                  Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh
+                  khắc, dù là nhỏ nhất, đều là một cơ hội quý giá để lắng nghe, để thấu hiểu, và để tạo ra những trải
+                  nghiệm vượt trên cả sự mong đợi.
+                </p>
+
+                {/* Footer Tag */}
+                <div className="flex items-center justify-between pt-2 border-t border-slate-200/60 dark:border-white/10 shrink-0">
+                  <span className="text-[11px] font-bold font-play text-blue-700 dark:text-cyan-300">
+                    Chuyên Gia Dịch Vụ Khách Hàng
+                  </span>
+                  <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                    22+ Năm Thực Chiến
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* CARD 4: CARD 3 TRỤ CỘT VẬN HÀNH (3 OPERATING PILLARS) - THẺ ĐỘC LẬP */}
+            <div
+              id="about-operating-pillars-card"
+              data-element-name="Card 3 Trụ Cột Vận Hành Chiến Lược"
+              data-element-type="card"
+              data-element-page="about"
+              data-element-parent="about-bento-grid"
+              style={{
+                borderRadius: '14px',
+                padding: '15px',
+                ...cardSampleStyle,
+              }}
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between pb-1.5 border-b border-slate-200/70 dark:border-white/10 shrink-0">
+                <div className="flex items-center gap-2 text-blue-600 dark:text-cyan-400">
+                  <Target className="w-4.5 h-4.5 text-blue-600 dark:text-cyan-400 shrink-0" />
+                  <h3 className="text-[17px] sm:text-[18px] font-bold font-play text-blue-600 dark:text-cyan-400 leading-tight">
+                    {formatCardTitle('3 Trụ cột vận hành')}
+                  </h3>
+                </div>
+                <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                  3 Operating Pillars
+                </span>
+              </div>
+
+              {/* 3 Pillars Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch flex-1">
+                {/* Pillar 1: Hiệu Quả */}
+                <div
+                  onMouseEnter={() => setHoveredPillarOrValue('pillar-1')}
+                  onMouseLeave={() => setHoveredPillarOrValue(null)}
+                  onClick={() => {
+                    SoundEngine.playPop();
+                    showToast('Trụ cột 01: Hiệu Quả - Tối ưu kết quả thực chiến');
+                  }}
+                  className={cn(
+                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-blue-600 via-indigo-600 to-sky-600 dark:from-blue-700 dark:via-indigo-800 dark:to-sky-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    isPillarHighlighted('pillar-1') &&
+                      'ring-2 ring-cyan-300 dark:ring-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.7)] scale-[1.02] -translate-y-1'
+                  )}
+                >
+                  <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
+                  <div className="flex items-center justify-between relative z-10">
+                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
+                      <BarChart3 className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-                      Triết lý &amp; Giá trị
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                      01
                     </span>
                   </div>
 
-                  {/* Sub Grid Row 1: Story GIF Card (5 cols) + 3 Pillars (7 cols) */}
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
-                    {/* Left: Giới thiệu bản thân tôi với hình GIF làm nền card */}
-                    <div
-                      id="about-career-goal-card"
-                      className="lg:col-span-5 rounded-[14px] border border-blue-100/90 dark:border-white/10 p-4 sm:p-4.5 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all duration-500 relative overflow-hidden group select-none min-h-[175px]"
-                    >
-                      {/* Prismatic Border Shimmer */}
-                      <div className="absolute inset-0 rounded-[14px] border border-transparent group-hover:border-cyan-400/80 dark:group-hover:border-cyan-300/80 transition-all duration-500 pointer-events-none z-20 shadow-[inset_0_0_18px_rgba(56,189,248,0.22)]" />
-                      <div className="absolute -inset-[1px] rounded-[14px] bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-500 opacity-0 group-hover:opacity-35 transition-opacity duration-700 blur-[2.5px] pointer-events-none z-0" />
-
-                      {/* GIF Animation Background Layer */}
-                      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-                        <img
-                          src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.gif"
-                          alt="Nguyễn Hùng Thái Avatar"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                          }}
-                          className="w-full h-full object-cover object-center opacity-30 dark:opacity-25 filter blur-[0.3px] scale-105 transition-transform duration-700 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/85 to-blue-50/80 dark:from-slate-900/95 dark:via-slate-900/85 dark:to-slate-950/80 backdrop-blur-[1px]" />
-                      </div>
-
-                      <div className="relative z-10">
-                        <div className="flex items-center gap-2 pb-2 border-b border-blue-200/60 dark:border-white/10">
-                          <User className="w-4.5 h-4.5 text-blue-600 dark:text-sky-400 shrink-0" />
-                          <h4 className="text-[18px] font-bold font-play text-blue-600 dark:text-sky-400" style={{ fontSize: '18px', fontWeight: 700 }}>
-                            {formatCardTitle('Giới thiệu bản thân')}
-                          </h4>
-                        </div>
-
-                        <p className="text-xs sm:text-[12.5px] text-slate-700 dark:text-slate-200 font-medium leading-relaxed mt-2.5">
-                          Một chuyên gia dịch vụ khách hàng với hơn{' '}
-                          <strong className="font-bold text-slate-950 dark:text-white">22 năm kinh nghiệm</strong> thực chiến.
-                          Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh
-                          khắc, dù là nhỏ nhất, đều là một cơ hội quý giá để lắng nghe, để thấu hiểu, và để tạo ra những trải
-                          nghiệm vượt trên cả sự mong đợi.
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Right: 3 Trụ Cột Vận Hành */}
-                    <div className="lg:col-span-7 flex flex-col justify-between gap-2.5">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Target className="w-4 h-4 text-blue-600 dark:text-cyan-400 shrink-0" />
-                          <h4 className="text-[18px] font-bold font-play text-blue-600 dark:text-cyan-400" style={{ fontSize: '18px', fontWeight: 700 }}>
-                            {formatCardTitle('3 Trụ cột vận')}
-                          </h4>
-                        </div>
-                        <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400">
-                          3 Trụ cột vận hành
-                        </span>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch flex-1">
-                        {/* Pillar 1: Hiệu Quả */}
-                        <div
-                          onMouseEnter={() => setHoveredPillarOrValue('pillar-1')}
-                          onMouseLeave={() => setHoveredPillarOrValue(null)}
-                          onClick={() => {
-                            SoundEngine.playPop();
-                            showToast('Trụ cột 01: Hiệu Quả - Tối ưu kết quả thực chiến');
-                          }}
-                          className={cn(
-                            'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-blue-600 via-indigo-600 to-sky-600 dark:from-blue-700 dark:via-indigo-800 dark:to-sky-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
-                            isPillarHighlighted('pillar-1') &&
-                              'ring-2 ring-cyan-300 dark:ring-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.7)] scale-[1.02] -translate-y-1'
-                          )}
-                        >
-                          <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
-                          <div className="flex items-center justify-between relative z-10">
-                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                              <BarChart3 className="w-4 h-4 text-white" />
-                            </div>
-                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                              01
-                            </span>
-                          </div>
-
-                          <div className="my-1.5 relative z-10">
-                            <h5 className="text-xs sm:text-sm font-black font-play !text-white">Hiệu quả vận hành</h5>
-                            <span className="text-[10px] text-blue-100 font-semibold block">Tối ưu &amp; Kết quả</span>
-                            <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
-                              Chuẩn hóa SLAs, tối ưu hiệu suất quy trình và tạo kết quả đo lường rõ ràng.
-                            </p>
-                          </div>
-
-                          <div className="self-end relative z-10">
-                            <div
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleOpenBentoFocus('pillars');
-                              }}
-                              className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
-                              title="Xem chi tiết trụ cột hiệu quả"
-                            >
-                              <ArrowRight className="w-3 h-3 text-white" />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Pillar 2: Nhân Văn */}
-                        <div
-                          onMouseEnter={() => setHoveredPillarOrValue('pillar-2')}
-                          onMouseLeave={() => setHoveredPillarOrValue(null)}
-                          onClick={() => {
-                            SoundEngine.playPop();
-                            showToast('Trụ cột 02: Nhân Văn - Đồng cảm và thấu hiểu');
-                          }}
-                          className={cn(
-                            'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-rose-500 via-pink-600 to-rose-600 dark:from-rose-600 dark:via-pink-700 dark:to-rose-800 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
-                            isPillarHighlighted('pillar-2') &&
-                              'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.7)] scale-[1.02] -translate-y-1'
-                          )}
-                        >
-                          <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
-                          <div className="flex items-center justify-between relative z-10">
-                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                              <Heart className="w-4 h-4 text-white" />
-                            </div>
-                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                              02
-                            </span>
-                          </div>
-
-                          <div className="my-1.5 relative z-10">
-                            <h5 className="text-xs sm:text-sm font-black font-play !text-white">Nhân văn con người</h5>
-                            <span className="text-[10px] text-rose-100 font-semibold block">Đồng cảm &amp; Thấu hiểu</span>
-                            <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
-                              Lắng nghe chân thành, phục vụ từ tâm và lấy con người làm trọng tâm.
-                            </p>
-                          </div>
-
-                          <div className="self-end relative z-10">
-                            <div
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleOpenBentoFocus('pillars');
-                              }}
-                              className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
-                              title="Xem chi tiết trụ cột nhân văn"
-                            >
-                              <ArrowRight className="w-3 h-3 text-white" />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Pillar 3: Bền Vững */}
-                        <div
-                          onMouseEnter={() => setHoveredPillarOrValue('pillar-3')}
-                          onMouseLeave={() => setHoveredPillarOrValue(null)}
-                          onClick={() => {
-                            SoundEngine.playPop();
-                            showToast('Trụ cột 03: Bền Vững - Giá trị dài hạn và tin cậy');
-                          }}
-                          className={cn(
-                            'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 dark:from-emerald-700 dark:via-teal-800 dark:to-cyan-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
-                            isPillarHighlighted('pillar-3') &&
-                              'ring-2 ring-emerald-300 dark:ring-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.7)] scale-[1.02] -translate-y-1'
-                          )}
-                        >
-                          <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
-                          <div className="flex items-center justify-between relative z-10">
-                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                              <Leaf className="w-4 h-4 text-white" />
-                            </div>
-                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                              03
-                            </span>
-                          </div>
-
-                          <div className="my-1.5 relative z-10">
-                            <h5 className="text-xs sm:text-sm font-black font-play !text-white">Bền vững dài hạn</h5>
-                            <span className="text-[10px] text-emerald-100 font-semibold block">Giá trị &amp; Tin cậy</span>
-                            <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
-                              Xây dựng niềm tin vững bền, bảo chứng chất lượng và đồng hành lâu dài.
-                            </p>
-                          </div>
-
-                          <div className="self-end relative z-10">
-                            <div
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleOpenBentoFocus('pillars');
-                              }}
-                              className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
-                              title="Xem chi tiết trụ cột bền vững"
-                            >
-                              <ArrowRight className="w-3 h-3 text-white" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="my-1.5 relative z-10">
+                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Hiệu quả vận hành</h5>
+                    <span className="text-[10px] text-blue-100 font-semibold block">Tối ưu &amp; Kết quả</span>
+                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                      Chuẩn hóa SLAs, tối ưu hiệu suất quy trình và tạo kết quả đo lường rõ ràng.
+                    </p>
                   </div>
 
-                  {/* Sub Grid Row 2: Giá trị cốt lõi (7 cols) + Triết lý tầm nhìn (5 cols) */}
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
-                    {/* Giá trị cốt lõi (7 cols) */}
-                    <div className="lg:col-span-7 flex flex-col justify-between gap-2.5">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Star className="w-4 h-4 text-amber-500 fill-current shrink-0" />
-                          <h4 className="text-[18px] font-bold font-play text-amber-600 dark:text-amber-400" style={{ fontSize: '18px', fontWeight: 700 }}>
-                            {formatCardTitle('Giá trị cốt lõi')}
-                          </h4>
-                        </div>
-                        <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400">
-                          3 Cam kết vàng chuẩn mực
-                        </span>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch flex-1">
-                        {/* Core Value 1: Sự tận tâm */}
-                        <div
-                          onMouseEnter={() => setHoveredPillarOrValue('val-1')}
-                          onMouseLeave={() => setHoveredPillarOrValue(null)}
-                          onClick={() => {
-                            SoundEngine.playPop();
-                            showToast('Giá trị 01: Sự Tận Tâm - Dốc trọn tâm sức');
-                          }}
-                          className={cn(
-                            'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 dark:from-amber-600 dark:via-amber-700 dark:to-orange-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
-                            isValueHighlighted('val-1') &&
-                              'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
-                          )}
-                        >
-                          <div className="absolute -right-6 -top-6 w-24 h-24 bg-amber-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
-                          <div className="flex items-center justify-between relative z-10">
-                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                              <Award className="w-4 h-4 text-white" />
-                            </div>
-                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                              01
-                            </span>
-                          </div>
-
-                          <div className="my-1.5 relative z-10">
-                            <h5 className="text-xs sm:text-sm font-black font-play !text-white">Sự tận tâm</h5>
-                            <span className="text-[10px] text-amber-100 font-semibold block">Trách nhiệm &amp; Hết lòng</span>
-                            <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
-                              Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.
-                            </p>
-                          </div>
-
-                          <div className="pt-1.5 border-t border-white/20 relative z-10">
-                            <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-amber-100 mb-0.5">
-                              <span>FCR Cam kết</span>
-                              <span className="text-white font-black">94.5%</span>
-                            </div>
-                            <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                              <div className="h-full bg-white rounded-full" style={{ width: '94.5%' }} />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Core Value 2: Kịp thời */}
-                        <div
-                          onMouseEnter={() => setHoveredPillarOrValue('val-2')}
-                          onMouseLeave={() => setHoveredPillarOrValue(null)}
-                          onClick={() => {
-                            SoundEngine.playPop();
-                            showToast('Giá trị 02: Kịp Thời - Nhanh nhạy & Đúng lúc');
-                          }}
-                          className={cn(
-                            'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-orange-500 via-rose-500 to-pink-600 dark:from-orange-600 dark:via-rose-600 dark:to-pink-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
-                            isValueHighlighted('val-2') &&
-                              'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
-                          )}
-                        >
-                          <div className="absolute -right-6 -top-6 w-24 h-24 bg-rose-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
-                          <div className="flex items-center justify-between relative z-10">
-                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                              <Clock className="w-4 h-4 text-white" />
-                            </div>
-                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                              02
-                            </span>
-                          </div>
-
-                          <div className="my-1.5 relative z-10">
-                            <h5 className="text-xs sm:text-sm font-black font-play !text-white">Kịp thời nhanh nhạy</h5>
-                            <span className="text-[10px] text-rose-100 font-semibold block">Tốc độ &amp; Đúng lúc</span>
-                            <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
-                              Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng mắc.
-                            </p>
-                          </div>
-
-                          <div className="pt-1.5 border-t border-white/20 relative z-10">
-                            <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-rose-100 mb-0.5">
-                              <span>SLA Phản hồi (&lt;15p)</span>
-                              <span className="text-white font-black">98.8%</span>
-                            </div>
-                            <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                              <div className="h-full bg-white rounded-full" style={{ width: '98.8%' }} />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Core Value 3: Đồng cảm chân thành */}
-                        <div
-                          onMouseEnter={() => setHoveredPillarOrValue('val-3')}
-                          onMouseLeave={() => setHoveredPillarOrValue(null)}
-                          onClick={() => {
-                            SoundEngine.playPop();
-                            showToast('Giá trị 03: Đồng Cảm Chân Thành - Lắng nghe & Thấu cảm');
-                          }}
-                          className={cn(
-                            'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-700 dark:from-pink-600 dark:via-purple-700 dark:to-indigo-800 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
-                            isValueHighlighted('val-3') &&
-                              'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
-                          )}
-                        >
-                          <div className="absolute -right-6 -top-6 w-24 h-24 bg-purple-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
-                          <div className="flex items-center justify-between relative z-10">
-                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
-                              <HeartHandshake className="w-4 h-4 text-white" />
-                            </div>
-                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
-                              03
-                            </span>
-                          </div>
-
-                          <div className="my-1.5 relative z-10">
-                            <h5 className="text-xs sm:text-sm font-black font-play !text-white">Đồng cảm chân thành</h5>
-                            <span className="text-[10px] text-purple-100 font-semibold block">Lắng nghe &amp; Thấu cảm</span>
-                            <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
-                              Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng khách hàng.
-                            </p>
-                          </div>
-
-                          <div className="pt-1.5 border-t border-white/20 relative z-10">
-                            <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-purple-100 mb-0.5">
-                              <span>Chỉ số CSAT Hài lòng</span>
-                              <span className="text-white font-black">98.6%</span>
-                            </div>
-                            <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                              <div className="h-full bg-white rounded-full" style={{ width: '98.6%' }} />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Triết lý và tầm nhìn (5 cols) */}
-                    <div className="lg:col-span-5 p-4 sm:p-5 rounded-[14px] bg-gradient-to-br from-sky-50/90 via-cyan-50/70 to-blue-100/60 dark:from-sky-950/40 dark:via-cyan-950/30 dark:to-blue-950/40 border border-sky-200/80 dark:border-sky-800/50 shadow-2xs flex flex-col justify-between relative hover:shadow-xs transition-all duration-300 min-h-[175px]">
-                      <div>
-                        <div className="flex items-center justify-between pb-2 border-b border-sky-200/60 dark:border-sky-800/40">
-                          <div className="flex items-center gap-2">
-                            <Target className="w-4 h-4 text-blue-600 dark:text-sky-400 shrink-0" />
-                            <h5 className="text-xs sm:text-sm font-black font-play text-blue-600 dark:text-sky-400">
-                              {formatCardTitle('Triết lý tầm nhìn')}
-                            </h5>
-                          </div>
-                          <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 bg-white/90 dark:bg-slate-800 px-2 py-0.5 rounded-full border border-slate-200 dark:border-white/10">
-                            CX 2026+
-                          </span>
-                        </div>
-
-                        <div className="my-2.5">
-                          <p className="text-xs sm:text-[12.5px] font-black text-blue-700 dark:text-cyan-300 font-play leading-snug">
-                            “ Tận Tâm &amp; Đồng Hành Cùng Trải Nghiệm Khách Hàng ”.
-                          </p>
-                          <p className="text-[11px] sm:text-[11.5px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed mt-1.5">
-                            Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi
-                            khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.
-                          </p>
-                        </div>
-                      </div>
+                  <div className="self-end relative z-10">
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenBentoFocus('pillars');
+                      }}
+                      className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
+                      title="Xem chi tiết trụ cột hiệu quả"
+                    >
+                      <ArrowRight className="w-3 h-3 text-white" />
                     </div>
                   </div>
                 </div>
+
+                {/* Pillar 2: Nhân Văn */}
+                <div
+                  onMouseEnter={() => setHoveredPillarOrValue('pillar-2')}
+                  onMouseLeave={() => setHoveredPillarOrValue(null)}
+                  onClick={() => {
+                    SoundEngine.playPop();
+                    showToast('Trụ cột 02: Nhân Văn - Đồng cảm và thấu hiểu');
+                  }}
+                  className={cn(
+                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-rose-500 via-pink-600 to-rose-600 dark:from-rose-600 dark:via-pink-700 dark:to-rose-800 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    isPillarHighlighted('pillar-2') &&
+                      'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.7)] scale-[1.02] -translate-y-1'
+                  )}
+                >
+                  <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
+                  <div className="flex items-center justify-between relative z-10">
+                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
+                      <Heart className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                      02
+                    </span>
+                  </div>
+
+                  <div className="my-1.5 relative z-10">
+                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Nhân văn con người</h5>
+                    <span className="text-[10px] text-rose-100 font-semibold block">Đồng cảm &amp; Thấu hiểu</span>
+                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                      Lắng nghe chân thành, phục vụ từ tâm và lấy con người làm trọng tâm.
+                    </p>
+                  </div>
+
+                  <div className="self-end relative z-10">
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenBentoFocus('pillars');
+                      }}
+                      className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
+                      title="Xem chi tiết trụ cột nhân văn"
+                    >
+                      <ArrowRight className="w-3 h-3 text-white" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pillar 3: Bền Vững */}
+                <div
+                  onMouseEnter={() => setHoveredPillarOrValue('pillar-3')}
+                  onMouseLeave={() => setHoveredPillarOrValue(null)}
+                  onClick={() => {
+                    SoundEngine.playPop();
+                    showToast('Trụ cột 03: Bền Vững - Giá trị dài hạn và tin cậy');
+                  }}
+                  className={cn(
+                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 dark:from-emerald-700 dark:via-teal-800 dark:to-cyan-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    isPillarHighlighted('pillar-3') &&
+                      'ring-2 ring-emerald-300 dark:ring-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.7)] scale-[1.02] -translate-y-1'
+                  )}
+                >
+                  <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
+                  <div className="flex items-center justify-between relative z-10">
+                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
+                      <Leaf className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                      03
+                    </span>
+                  </div>
+
+                  <div className="my-1.5 relative z-10">
+                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Bền vững dài hạn</h5>
+                    <span className="text-[10px] text-emerald-100 font-semibold block">Giá trị &amp; Tin cậy</span>
+                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                      Xây dựng niềm tin vững bền, bảo chứng chất lượng và đồng hành lâu dài.
+                    </p>
+                  </div>
+
+                  <div className="self-end relative z-10">
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenBentoFocus('pillars');
+                      }}
+                      className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md flex items-center justify-center cursor-pointer transition text-white"
+                      title="Xem chi tiết trụ cột bền vững"
+                    >
+                      <ArrowRight className="w-3 h-3 text-white" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* CARD 5: CARD GIÁ TRỊ CỐT LÕI (CORE VALUES) - THẺ ĐỘC LẬP */}
+            <div
+              id="about-core-values-card"
+              data-element-name="Card Giá Trị Cốt Lõi Vàng"
+              data-element-type="card"
+              data-element-page="about"
+              data-element-parent="about-bento-grid"
+              style={{
+                borderRadius: '14px',
+                padding: '15px',
+                ...cardSampleStyle,
+              }}
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between pb-1.5 border-b border-slate-200/70 dark:border-white/10 shrink-0">
+                <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
+                  <Star className="w-4.5 h-4.5 text-amber-500 fill-current shrink-0" />
+                  <h3 className="text-[17px] sm:text-[18px] font-bold font-play text-amber-600 dark:text-amber-400 leading-tight">
+                    {formatCardTitle('Giá trị cốt lõi')}
+                  </h3>
+                </div>
+                <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                  Core Values
+                </span>
+              </div>
+
+              {/* 3 Core Values Grid (Không có speaker, không lật thẻ) */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch flex-1">
+                {/* Core Value 1: Sự tận tâm */}
+                <div
+                  onMouseEnter={() => setHoveredPillarOrValue('val-1')}
+                  onMouseLeave={() => setHoveredPillarOrValue(null)}
+                  onClick={() => {
+                    SoundEngine.playPop();
+                    showToast('Giá trị 01: Sự Tận Tâm - Dốc trọn tâm sức');
+                  }}
+                  className={cn(
+                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 dark:from-amber-600 dark:via-amber-700 dark:to-orange-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    isValueHighlighted('val-1') &&
+                      'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
+                  )}
+                >
+                  <div className="absolute -right-6 -top-6 w-24 h-24 bg-amber-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
+                  <div className="flex items-center justify-between relative z-10">
+                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
+                      <Award className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                      01
+                    </span>
+                  </div>
+
+                  <div className="my-1.5 relative z-10">
+                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Sự tận tâm</h5>
+                    <span className="text-[10px] text-amber-100 font-semibold block">Trách nhiệm &amp; Hết lòng</span>
+                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                      Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.
+                    </p>
+                  </div>
+
+                  <div className="pt-1.5 border-t border-white/20 relative z-10">
+                    <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-amber-100 mb-0.5">
+                      <span>FCR Cam kết</span>
+                      <span className="text-white font-black">94.5%</span>
+                    </div>
+                    <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+                      <div className="h-full bg-white rounded-full" style={{ width: '94.5%' }} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Core Value 2: Kịp thời */}
+                <div
+                  onMouseEnter={() => setHoveredPillarOrValue('val-2')}
+                  onMouseLeave={() => setHoveredPillarOrValue(null)}
+                  onClick={() => {
+                    SoundEngine.playPop();
+                    showToast('Giá trị 02: Kịp Thời - Nhanh nhạy & Đúng lúc');
+                  }}
+                  className={cn(
+                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-orange-500 via-rose-500 to-pink-600 dark:from-orange-600 dark:via-rose-600 dark:to-pink-700 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    isValueHighlighted('val-2') &&
+                      'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
+                  )}
+                >
+                  <div className="absolute -right-6 -top-6 w-24 h-24 bg-rose-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
+                  <div className="flex items-center justify-between relative z-10">
+                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
+                      <Clock className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                      02
+                    </span>
+                  </div>
+
+                  <div className="my-1.5 relative z-10">
+                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Kịp thời nhanh nhạy</h5>
+                    <span className="text-[10px] text-rose-100 font-semibold block">Tốc độ &amp; Đúng lúc</span>
+                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                      Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng mắc.
+                    </p>
+                  </div>
+
+                  <div className="pt-1.5 border-t border-white/20 relative z-10">
+                    <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-rose-100 mb-0.5">
+                      <span>SLA Phản hồi (&lt;15p)</span>
+                      <span className="text-white font-black">98.8%</span>
+                    </div>
+                    <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+                      <div className="h-full bg-white rounded-full" style={{ width: '98.8%' }} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Core Value 3: Đồng cảm chân thành */}
+                <div
+                  onMouseEnter={() => setHoveredPillarOrValue('val-3')}
+                  onMouseLeave={() => setHoveredPillarOrValue(null)}
+                  onClick={() => {
+                    SoundEngine.playPop();
+                    showToast('Giá trị 03: Đồng Cảm Chân Thành - Lắng nghe & Thấu cảm');
+                  }}
+                  className={cn(
+                    'pillar-gradient-card layered-card rounded-[14px] bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-700 dark:from-pink-600 dark:via-purple-700 dark:to-indigo-800 text-white p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl border border-white/25 dark:border-white/20 text-left group cursor-pointer',
+                    isValueHighlighted('val-3') &&
+                      'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
+                  )}
+                >
+                  <div className="absolute -right-6 -top-6 w-24 h-24 bg-purple-300/20 rounded-full blur-lg pointer-events-none group-hover:scale-125 transition-transform duration-500" />
+                  <div className="flex items-center justify-between relative z-10">
+                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xs">
+                      <HeartHandshake className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white">
+                      03
+                    </span>
+                  </div>
+
+                  <div className="my-1.5 relative z-10">
+                    <h5 className="text-xs sm:text-sm font-black font-play !text-white">Đồng cảm chân thành</h5>
+                    <span className="text-[10px] text-purple-100 font-semibold block">Lắng nghe &amp; Thấu cảm</span>
+                    <p className="text-[11px] text-white/95 font-medium leading-snug mt-1">
+                      Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng khách hàng.
+                    </p>
+                  </div>
+
+                  <div className="pt-1.5 border-t border-white/20 relative z-10">
+                    <div className="flex items-center justify-between text-[9.5px] font-mono font-bold text-purple-100 mb-0.5">
+                      <span>Chỉ số CSAT Hài lòng</span>
+                      <span className="text-white font-black">98.6%</span>
+                    </div>
+                    <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+                      <div className="h-full bg-white rounded-full" style={{ width: '98.6%' }} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* CARD 6: CARD TRIẾT LÝ TẦM NHÌN (CX PHILOSOPHY) - THẺ ĐỘC LẬP */}
+            <div
+              id="about-philosophy-card"
+              data-element-name="Card Triết Lý Tầm Nhìn CX 2026+"
+              data-element-type="card"
+              data-element-page="about"
+              data-element-parent="about-bento-grid"
+              style={{
+                borderRadius: '14px',
+                padding: '15px',
+                ...cardSampleStyle,
+              }}
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+            >
+              <div className="relative z-10 flex flex-col justify-between h-full gap-3">
+                {/* Header */}
+                <div className="flex items-center justify-between pb-2 border-b border-sky-200/60 dark:border-sky-800/40 shrink-0">
+                  <div className="flex items-center gap-2 text-blue-600 dark:text-cyan-400">
+                    <Target className="w-4.5 h-4.5 text-blue-600 dark:text-cyan-400 shrink-0" />
+                    <h3 className="text-[17px] sm:text-[18px] font-bold font-play text-blue-600 dark:text-cyan-400 leading-tight">
+                      {formatCardTitle('Triết lý tầm nhìn')}
+                    </h3>
+                  </div>
+                  <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 bg-white/90 dark:bg-slate-800 px-2.5 py-0.5 rounded-full border border-slate-200 dark:border-white/10">
+                    CX 2026+
+                  </span>
+                </div>
+
+                {/* Nội dung */}
+                <div className="my-auto space-y-2">
+                  <p className="text-xs sm:text-[13px] font-black text-blue-700 dark:text-cyan-300 font-play leading-snug">
+                    “ Tận Tâm &amp; Đồng Hành Cùng Trải Nghiệm Khách Hàng ”.
+                  </p>
+                  <p className="text-[11.5px] sm:text-[12px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
+                    Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi
+                    khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.
+                  </p>
+                </div>
+
+                {/* Footer Tag */}
+                <div className="flex items-center justify-between pt-2 border-t border-slate-200/60 dark:border-white/10 shrink-0">
+                  <span className="text-[10.5px] font-bold text-slate-500 dark:text-slate-400">
+                    Định Hướng Dài Hạn
+                  </span>
+                  <span className="text-[10px] font-mono font-bold text-blue-600 dark:text-cyan-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-full border border-blue-200 dark:border-blue-800">
+                    Khách Hàng Là Trọng Tâm
+                  </span>
+                </div>
+              </div>
+            </div>
 
           </div>
       </div>

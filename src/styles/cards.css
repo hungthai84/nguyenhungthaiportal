@@ -1,0 +1,385 @@
+/* ========================================================================= */
+/* BASE CARDS STYLING & COMMON CARD CONTAINER PROPORTIONS                  */
+/* ========================================================================= */
+
+.hero-banner,
+#contact-hero-banner,
+#contact-info-card,
+#ai-assistant-hero-banner,
+#interview-video-banner {
+  border-radius: 14px !important;
+}
+
+.hero-banner {
+  overflow: visible !important;
+}
+
+.hero-banner,
+.banner-card {
+  isolation: isolate;
+}
+
+[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
+[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
+[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
+article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card),
+.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
+.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
+.system-item:not(#app-header):not(#app-footer),
+#about-unified-bento-card,
+#about-hero-video-container,
+#about-personal-info-card-right,
+#experience-job-detail-card,
+#wallpaper-grid-section,
+#contact-calendar-card,
+#contact-info-card,
+#contact-form-card {
+  background: var(--bg-card) !important;
+  border: var(--card-border-width) solid var(--border-color) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(var(--bg-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
+  border-radius: var(--radius-card) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#experience-timeline-track-card,
+#experience-timeline-track-card:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+}
+
+[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
+[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
+[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
+article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):hover,
+.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
+.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover,
+.system-item:not(#app-header):not(#app-footer):hover,
+#about-unified-bento-card:hover,
+#about-hero-video-container:hover,
+#about-personal-info-card-right:hover,
+#experience-job-detail-card:hover,
+#wallpaper-grid-section:hover,
+#contact-calendar-card:hover,
+#contact-info-card:hover,
+#contact-form-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-popup) !important;
+}
+
+/* Golden Card Anti-Overflow & Box Containment Rules */
+.bento-card,
+.glass-card,
+[data-section-card="true"],
+[data-subcard="true"],
+[data-multicolor-bento="true"],
+.sub-card {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.bento-card img,
+.glass-card img,
+[data-section-card="true"] img,
+[data-multicolor-bento="true"] img,
+.bento-card video,
+.glass-card video {
+  max-width: 100%;
+}
+
+/* MULTICOLOR MICA FLUENT BENTO CARDS (EXPERIENCE DETAIL & MEMORIES) */
+[data-multicolor-bento="true"] {
+  border-radius: 14px !important;
+  backdrop-filter: blur(var(--bg-blur, 20px)) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur, 20px)) !important;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+[data-multicolor-bento="true"]:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-popup);
+}
+
+.bento-tone-indigo {
+  background: linear-gradient(145deg, rgba(238, 242, 255, 0.88) 0%, rgba(224, 231, 255, 0.72) 100%) !important;
+  border: 1px solid rgba(165, 180, 252, 0.65) !important;
+}
+html.dark .bento-tone-indigo {
+  background: linear-gradient(145deg, rgba(30, 27, 75, 0.62) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  border: 1px solid rgba(165, 180, 252, 0.24) !important;
+}
+
+.bento-tone-cyan {
+  background: linear-gradient(145deg, rgba(236, 254, 255, 0.90) 0%, rgba(207, 250, 254, 0.72) 100%) !important;
+  border: 1px solid rgba(103, 232, 249, 0.65) !important;
+}
+html.dark .bento-tone-cyan {
+  background: linear-gradient(145deg, rgba(8, 51, 68, 0.58) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  border: 1px solid rgba(103, 232, 249, 0.24) !important;
+}
+
+.bento-tone-purple {
+  background: linear-gradient(145deg, rgba(245, 243, 255, 0.90) 0%, rgba(237, 233, 254, 0.74) 100%) !important;
+  border: 1px solid rgba(196, 181, 253, 0.65) !important;
+}
+html.dark .bento-tone-purple {
+  background: linear-gradient(145deg, rgba(46, 16, 101, 0.52) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  border: 1px solid rgba(196, 181, 253, 0.24) !important;
+}
+
+.bento-tone-emerald {
+  background: linear-gradient(145deg, rgba(236, 253, 245, 0.90) 0%, rgba(209, 250, 229, 0.72) 100%) !important;
+  border: 1px solid rgba(110, 231, 183, 0.65) !important;
+}
+html.dark .bento-tone-emerald {
+  background: linear-gradient(145deg, rgba(6, 78, 59, 0.52) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  border: 1px solid rgba(110, 231, 183, 0.24) !important;
+}
+
+.bento-tone-blue {
+  background: linear-gradient(145deg, rgba(239, 246, 255, 0.90) 0%, rgba(219, 234, 254, 0.74) 100%) !important;
+  border: 1px solid rgba(147, 197, 253, 0.65) !important;
+}
+html.dark .bento-tone-blue {
+  background: linear-gradient(145deg, rgba(23, 37, 84, 0.60) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  border: 1px solid rgba(125, 211, 252, 0.24) !important;
+}
+
+.bento-tone-amber {
+  background: linear-gradient(145deg, rgba(255, 247, 237, 0.92) 0%, rgba(254, 243, 199, 0.74) 100%) !important;
+  border: 1px solid rgba(252, 211, 77, 0.65) !important;
+}
+html.dark .bento-tone-amber {
+  background: linear-gradient(145deg, rgba(69, 26, 3, 0.52) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  border: 1px solid rgba(252, 211, 77, 0.24) !important;
+}
+
+.bento-tone-pink {
+  background: linear-gradient(145deg, rgba(253, 242, 248, 0.90) 0%, rgba(252, 231, 243, 0.74) 100%) !important;
+  border: 1px solid rgba(249, 168, 212, 0.65) !important;
+}
+html.dark .bento-tone-pink {
+  background: linear-gradient(145deg, rgba(80, 7, 36, 0.52) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  border: 1px solid rgba(253, 164, 175, 0.24) !important;
+}
+
+.bento-tone-teal {
+  background: linear-gradient(145deg, rgba(240, 253, 250, 0.90) 0%, rgba(204, 251, 241, 0.72) 100%) !important;
+  border: 1px solid rgba(94, 234, 212, 0.65) !important;
+}
+html.dark .bento-tone-teal {
+  background: linear-gradient(145deg, rgba(19, 78, 74, 0.52) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  border: 1px solid rgba(94, 234, 212, 0.24) !important;
+}
+
+.bento-tone-sky {
+  background: linear-gradient(145deg, rgba(240, 249, 255, 0.92) 0%, rgba(224, 242, 254, 0.76) 100%) !important;
+  border: 1px solid rgba(125, 211, 252, 0.65) !important;
+}
+html.dark .bento-tone-sky {
+  background: linear-gradient(145deg, rgba(12, 74, 110, 0.54) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.26) !important;
+}
+
+[data-subcard="true"],
+.sub-card {
+  background: var(--bg-subcard);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-subcard);
+}
+
+#app-header {
+  background: var(--bg-header) !important;
+  border-bottom: var(--card-border-width) solid var(--border-color) !important;
+  border-left: var(--card-border-width) solid var(--border-color) !important;
+  border-right: var(--card-border-width) solid var(--border-color) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(var(--bg-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
+  border-radius: var(--radius-header) !important;
+}
+
+#app-footer {
+  background: var(--bg-footer) !important;
+  border-top: var(--card-border-width) solid var(--border-color) !important;
+  border-left: var(--card-border-width) solid var(--border-color) !important;
+  border-right: var(--card-border-width) solid var(--border-color) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(var(--bg-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
+  border-radius: var(--radius-footer) !important;
+}
+
+
+/* WEATHER CARD & HOROSCOPE SLIDE 1/2/3 CONTAINERS 100% TRANSPARENT BACKGROUND ACROSS ALL THEMES & MODES */
+#weather-card,
+.weather-card,
+#horoscope-destiny-card,
+#horoscope-destiny-card:hover,
+#horoscope-pillars-container,
+#horoscope-pillars-container:hover,
+#horoscope-slide-3,
+#horoscope-slide-3:hover,
+#el-p10-div-114,
+#el-p10-div-170 {
+  background-color: transparent !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+#weather-widget-card,
+html[data-card-style] #weather-widget-card,
+html.dark #weather-widget-card,
+html.dark[data-card-style] #weather-widget-card {
+  height: 64px !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+  border-radius: 12px !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* BUTTON BORDER RADIUS 999PX FORMAT */
+button,
+[data-element-type="button"],
+.btn-pill,
+#app-footer #footer-nav-capsule {
+  border-radius: var(--radius-button, 999px);
+}
+
+#app-footer #footer-nav-capsule {
+  background: var(--bg-card) !important;
+  border: var(--card-border-width) solid var(--border-color) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(var(--bg-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
+  border-radius: 999px !important;
+}
+
+/* LAYERED CARD EFFECT (REMOVED) */
+.layered-card::before,
+.layered-card::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* GLOBAL CARD TITLE H3 FORMAT (H3 in đậm, màu tiêu đề cùng màu icon đứng trước tiêu đề) */
+.card-heading {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--card-heading-gap, 8px) !important;
+  min-width: 0 !important;
+  color: inherit !important;
+}
+
+.card-heading__icon,
+.card-title svg,
+h3.card-title svg,
+.card-header-bar svg,
+.card-title-wrap svg {
+  width: 1em !important;
+  height: 1em !important;
+  flex: 0 0 1em !important;
+  color: inherit !important;
+}
+
+.card-heading__title {
+  margin: 0 !important;
+  min-width: 0 !important;
+  color: inherit !important;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-heading);
+  font-weight: var(--fw-bold);
+  font-family: var(--font-family-heading);
+}
+
+.card-title,
+h3.card-title,
+[data-card-title] {
+  font-family: var(--font-family-heading);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+  letter-spacing: -0.015em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  color: inherit;
+}
+
+/* Tự động đồng bộ màu tiêu đề theo màu icon đứng cùng khối */
+.card-header-bar:has(svg) h3,
+.card-title-wrap:has(svg) h3,
+.card-header:has(svg) h3 {
+  color: inherit !important;
+}
+
+/* XÓA TOÀN BỘ CÁC SUB TIÊU ĐỀ CARD TRÊN TOÀN WEBSITE */
+.card-subtitle,
+.card-sub-title,
+.sub-title,
+.subtitle,
+[data-card-subtitle],
+.card-desc-subtitle,
+.section-subtitle {
+  display: none !important;
+}
+
+#global-content-viewport {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* ========================================================================= */
+/* MAIN CARD UNIFIED SYSTEM & RESPONSIVE PADDING                             */
+/* ========================================================================= */
+.main-card,
+[id$="-page-container"] {
+  background: var(--bg-header) !important;
+  border-radius: var(--radius-card, 14px) !important;
+  border: var(--card-border-width, 1px) solid var(--border-color, var(--glass-border)) !important;
+  backdrop-filter: blur(var(--bg-blur, var(--glass-blur))) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur, var(--glass-blur))) !important;
+}
+
+@media (min-width: 1024px) {
+  .main-card,
+  [id$="-page-container"] {
+    padding: 25px !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .main-card,
+  [id$="-page-container"] {
+    padding: 20px !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .main-card,
+  [id$="-page-container"] {
+    padding: 15px !important;
+  }
+}
+

@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f4f6fb" />
+  <title>Chân dung phong cách làm việc | Nguyễn Hùng Thái</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --ink: #161c33;
+      --muted: #5e6884;
+      --paper: #f0f3fa;
+      --white: #ffffff;
+      --line: rgba(226, 233, 246, 0.85);
+      --yellow: #ffc917;
+      --orange: #f2722b;
+      --pink: #eb4472;
+      --rose: #dc3e97;
+      --purple: #6a4ff5;
+      --blue: #1283e0;
+      --sky: #26b9f2;
+      --mint: #35c4a7;
+      --green: #29b27a;
+      --navy: #192044;
+      --glass-border: rgba(255, 255, 255, 0.85);
+      --glass-shadow: 0 16px 40px rgba(27, 36, 75, 0.07), 0 2px 6px rgba(27, 36, 75, 0.03);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: 'Play', Arial, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+    }
+    body {
+      overflow: hidden;
+      background: 
+        radial-gradient(circle at 12% 16%, rgba(106, 79, 245, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 86% 18%, rgba(38, 185, 242, 0.16) 0%, transparent 42%),
+        radial-gradient(circle at 50% 50%, rgba(235, 68, 114, 0.1) 0%, transparent 55%),
+        radial-gradient(circle at 82% 86%, rgba(53, 196, 167, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 14% 88%, rgba(255, 201, 23, 0.14) 0%, transparent 45%),
+        #f2f5fc;
+      background-attachment: fixed;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: 
+        radial-gradient(650px circle at 75% 25%, rgba(106, 79, 245, 0.05), transparent 70%),
+        radial-gradient(600px circle at 20% 75%, rgba(18, 131, 224, 0.05), transparent 70%);
+      z-index: 0;
+    }
+    button { font: inherit; }
+    .app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 22px 12px;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .topbar {
+      width: min(1250px, 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 42px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1888e6 0%, #684bf2 50%, #dc3e97 100%);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 15px;
+      box-shadow: 0 8px 18px rgba(104, 75, 242, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-size: 9.5px;
+      font-weight: 400;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .top-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .meta-pill {
+      padding: 6px 13px;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(27, 36, 75, 0.04), inset 0 1px 1px #fff;
+      font-weight: 700;
+      letter-spacing: .4px;
+      font-size: 11px;
+    }
+    .deck {
+      width: min(1250px, 100%);
+      margin: 0 auto;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stage {
+      width: 100%;
+      max-width: 1250px;
+      height: min(min(calc(100vh - 138px), 800px), calc((100vw - 44px) * .57));
+      min-height: 520px;
+      max-height: 800px;
+      background: rgba(255, 255, 255, 0.62);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      border-radius: 26px;
+      box-shadow: var(--glass-shadow), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: clamp(18px, 2.6vw, 32px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(36px) scale(.99);
+      transition: opacity .38s ease, transform .38s ease, visibility .38s;
+      overflow-y: auto;
+      background: transparent;
+    }
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0) scale(1);
+      z-index: 2;
+    }
+    .slide.prev {
+      transform: translateX(-36px) scale(.99);
+    }
+    .slide:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #ffc917, #f2722b, #eb4472, #6a4ff5, #1283e0, #26b9f2, #35c4a7);
+      box-shadow: 0 2px 10px rgba(106, 79, 245, 0.3);
+    }
+    .slide-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10.5px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #1283e0;
+      font-weight: 700;
+      margin-bottom: 5px;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: rgba(18, 131, 224, 0.08);
+      border: 1px solid rgba(18, 131, 224, 0.16);
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1 {
+      font-size: clamp(30px, 3.8vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -1.4px;
+    }
+    h2 {
+      font-size: clamp(21px, 2.3vw, 29px);
+      line-height: 1.15;
+      letter-spacing: -.5px;
+    }
+    h3 {
+      font-size: 15px;
+      line-height: 1.25;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: clamp(11.5px, 1.15vw, 14px);
+      line-height: 1.45;
+      max-width: 820px;
+      margin-top: 3px;
+    }
+    .slide-no {
+      font-size: 11px;
+      font-weight: 700;
+      color: #8c95ae;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+    }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+    }
+    .section-label:before {
+      content: "";
+      width: 15px;
+      height: 3px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #eb4472, #6a4ff5);
+    }
+
+    /* Lucide icon helper styles */
+    .lucide-icon, [data-lucide] {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .card-title-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    /* Bento Responsive Grid */
+    .bento-grid {
+      display: grid;
+      gap: 11px;
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+    }
+    .bento-hero {
+      grid-template-columns: 1.35fr .65fr;
+      align-items: stretch;
+    }
+    .bento-col-5 {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .bento-slide1-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 12px;
+      flex: 1;
+      min-height: 0;
+    }
+    .bento-traits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    /* Bento Card Base & Tones */
+    .bento-card {
+      border-radius: 14px;
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 8px 24px rgba(27, 36, 75, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.95);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .bento-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(27, 36, 75, 0.08), inset 0 1px 1px #fff;
+    }
+
+    .tone-blue {
+      background: linear-gradient(145deg, rgba(220, 240, 255, 0.95) 0%, rgba(235, 246, 255, 0.8) 100%);
+      border-color: rgba(160, 210, 255, 0.9);
+    }
+    .tone-purple {
+      background: linear-gradient(145deg, rgba(238, 232, 255, 0.95) 0%, rgba(246, 242, 255, 0.8) 100%);
+      border-color: rgba(205, 190, 255, 0.9);
+    }
+    .tone-pink {
+      background: linear-gradient(145deg, rgba(255, 232, 240, 0.95) 0%, rgba(255, 245, 248, 0.8) 100%);
+      border-color: rgba(252, 190, 210, 0.9);
+    }
+    .tone-yellow {
+      background: linear-gradient(145deg, rgba(255, 245, 215, 0.95) 0%, rgba(255, 250, 230, 0.8) 100%);
+      border-color: rgba(248, 220, 130, 0.9);
+    }
+    .tone-mint {
+      background: linear-gradient(145deg, rgba(220, 250, 240, 0.95) 0%, rgba(238, 253, 247, 0.8) 100%);
+      border-color: rgba(160, 232, 210, 0.9);
+    }
+    .tone-orange {
+      background: linear-gradient(145deg, rgba(255, 235, 220, 0.95) 0%, rgba(255, 245, 238, 0.8) 100%);
+      border-color: rgba(250, 200, 160, 0.9);
+    }
+    .tone-dark {
+      background: linear-gradient(145deg, #192044 0%, #2f386c 100%);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 14px 34px rgba(25, 32, 68, 0.22);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 7px;
+    }
+    .card-icon {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(6px);
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+      flex: none;
+    }
+    .tag {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+    .bento-card p, .bento-card li {
+      font-size: 11.5px;
+      line-height: 1.48;
+      color: #555d75;
+    }
+    .tone-dark p, .tone-dark li {
+      color: #d8e0fa;
+    }
+    .bento-card p strong, .bento-card li strong {
+      color: var(--ink);
+    }
+    .tone-dark p strong {
+      color: #fff;
+    }
+    .bento-card h3 {
+      margin: 2px 0 5px;
+    }
+
+    .profile-initial {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #1283e0 0%, #6a4ff5 60%, #dc3e97 100%);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      font-weight: 700;
+      box-shadow: 0 10px 20px rgba(106, 79, 245, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      position: relative;
+      z-index: 1;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-top: 10px;
+    }
+    .hero-stat {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: 11px;
+      padding: 7px 6px;
+      text-align: center;
+    }
+    .hero-stat b {
+      display: block;
+      font-size: 17px;
+      color: var(--navy);
+    }
+    .hero-stat span {
+      font-size: 8.5px;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .pill {
+      padding: 5px 9px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      color: #495475;
+      font-size: 9.5px;
+      font-weight: 700;
+    }
+
+    .profile-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      margin: 8px 0;
+    }
+    .profile-item {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(226, 234, 246, 0.9);
+      border-radius: 10px;
+      padding: 7px 9px;
+    }
+    .profile-item span {
+      display: block;
+      font-size: 8.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .7px;
+    }
+    .profile-item b {
+      display: block;
+      font-size: 11.5px;
+      margin-top: 2px;
+    }
+
+    .quote-box {
+      font-size: clamp(14px, 1.5vw, 18px);
+      line-height: 1.4;
+      font-weight: 400;
+      position: relative;
+      z-index: 1;
+    }
+    .quote-box::before {
+      content: "“";
+      font-size: 50px;
+      line-height: 0;
+      display: block;
+      margin-bottom: 12px;
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    .micro-tag {
+      font-size: 8.5px;
+      padding: 4px 7px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #555e78;
+      border: 1px solid rgba(231, 234, 242, 0.85);
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    .element-symbol {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .element-bar {
+      height: 4px;
+      border-radius: 8px;
+      margin-top: auto;
+      background: rgba(229, 233, 241, 0.7);
+      overflow: hidden;
+    }
+    .element-bar span {
+      display: block;
+      height: 100%;
+      border-radius: 6px;
+      width: 100%;
+    }
+
+    .footnote {
+      font-size: 9.5px;
+      color: #848c9f;
+      line-height: 1.35;
+    }
+
+    /* Controls Bar */
+    .controls {
+      width: min(1250px, 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 40px;
+    }
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      max-width: 510px;
+    }
+    .progress-track {
+      height: 6px;
+      border-radius: 10px;
+      background: rgba(227, 231, 240, 0.7);
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+      flex: 1;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+    .progress-fill {
+      height: 100%;
+      width: 25%;
+      background: linear-gradient(90deg, #6a4ff5, #1283e0, #35c4a7);
+      border-radius: 8px;
+      transition: width .3s ease;
+    }
+    .progress-text {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      font-weight: 700;
+    }
+    .dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .dot {
+      width: 7px;
+      height: 7px;
+      border: 0;
+      border-radius: 99px;
+      background: rgba(195, 203, 222, 0.7);
+      padding: 0;
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+    .dot.active {
+      width: 22px;
+      background: linear-gradient(90deg, #6a4ff5, #1283e0);
+    }
+    .nav-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .nav-btn {
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      color: var(--navy);
+      border-radius: 11px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 4px 12px rgba(27, 36, 75, 0.04);
+      transition: all .2s ease;
+    }
+    .nav-btn:hover {
+      transform: translateY(-1px);
+      background: #fff;
+      box-shadow: 0 6px 16px rgba(27, 36, 75, 0.08);
+    }
+    .nav-btn.primary {
+      background: linear-gradient(135deg, #192044 0%, #323d77 100%);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .nav-btn:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .keyboard-hint {
+      font-size: 9.5px;
+      color: #929bb0;
+    }
+
+    /* Zodiac Tool Layout */
+    .zodiac-layout {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 12px;
+      flex: 1;
+      min-height: 0;
+    }
+    .zodiac-picker {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      overflow-y: auto;
+    }
+    .year-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: end;
+    }
+    .year-field label {
+      display: block;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      color: #5d6783;
+      margin-bottom: 5px;
+    }
+    .year-field input {
+      width: 100%;
+      height: 38px;
+      border: 1px solid rgba(223, 229, 239, 0.85);
+      border-radius: 10px;
+      padding: 0 12px;
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--ink);
+      font: 700 14px 'Play', Arial, sans-serif;
+      outline: none;
+    }
+    .year-field input:focus {
+      border-color: #6a4ff5;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(106, 79, 245, 0.15);
+    }
+    .search-btn {
+      height: 38px;
+      border: 0;
+      border-radius: 10px;
+      padding: 0 15px;
+      background: linear-gradient(135deg, #1283e0 0%, #6a4ff5 100%);
+      color: #fff;
+      font: 700 11.5px 'Play', Arial, sans-serif;
+      cursor: pointer;
+      box-shadow: 0 5px 14px rgba(106, 79, 245, 0.28);
+    }
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .quick-chip {
+      padding: 4px 8px;
+      font-size: 9.5px;
+      font-weight: 700;
+      border-radius: 7px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--navy);
+      cursor: pointer;
+    }
+    .quick-chip:hover {
+      background: #fff;
+      border-color: #1283e0;
+      color: #1283e0;
+    }
+    .zodiac-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 6px;
+    }
+    .zodiac-option {
+      min-width: 0;
+      min-height: 58px;
+      border: 1px solid rgba(229, 233, 242, 0.85);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.75);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      cursor: pointer;
+      color: #565e77;
+      padding: 4px 2px;
+      transition: all .18s;
+    }
+    .zodiac-option:hover {
+      transform: translateY(-2px);
+      border-color: #6a4ff5;
+      background: #fff;
+    }
+    .zodiac-option[aria-pressed="true"] {
+      background: linear-gradient(145deg, #f1edff 0%, #faf8ff 100%);
+      border: 2px solid #6a4ff5;
+      color: #4936b8;
+    }
+    .zodiac-emoji { font-size: 18px; line-height: 1.1; }
+    .zodiac-name { font-size: 9.5px; font-weight: 700; }
+    .zodiac-result {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      background: linear-gradient(145deg, rgba(238, 247, 255, 0.85) 0%, rgba(246, 241, 255, 0.85) 55%, rgba(255, 243, 247, 0.9) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      overflow-y: auto;
+    }
+    .result-animal {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: #fff;
+      font-size: 26px;
+      flex: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    .result-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0 8px;
+    }
+    .result-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #fff;
+      font-size: 9.5px;
+      font-weight: 700;
+      border: 1px solid rgba(228, 222, 251, 0.9);
+    }
+    .collab-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-top: 7px;
+    }
+    .collab-box {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid #fff;
+      border-radius: 10px;
+      padding: 7px 9px;
+    }
+    .collab-box b {
+      display: block;
+      font-size: 9px;
+      color: #384164;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .collab-box p {
+      font-size: 10px;
+      line-height: 1.4;
+      color: #555d77;
+    }
+    .result-advice {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid #fff;
+      border-radius: 10px;
+      padding: 8px 10px;
+      margin-top: 6px;
+    }
+    .result-advice b {
+      display: block;
+      font-size: 9px;
+      color: #434d75;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .result-advice p {
+      font-size: 10px;
+      line-height: 1.4;
+      color: #555d77;
+    }
+
+    @media (max-width: 1024px) {
+      .bento-hero { grid-template-columns: 1fr; }
+      .bento-col-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .zodiac-layout { grid-template-columns: 1fr 1fr; }
+      .stage { height: calc(100vh - 130px); min-height: 560px; }
+    }
+
+    @media (max-width: 720px) {
+      body { overflow: auto; }
+      .app { padding: 10px; min-height: 100dvh; gap: 8px; }
+      .topbar { min-height: 36px; }
+      .stage { height: calc(100dvh - 110px); min-height: 600px; border-radius: 18px; }
+      .slide { padding: 16px 12px; gap: 10px; }
+      h1 { font-size: 32px; }
+      h2 { font-size: 22px; }
+      .bento-slide1-layout,
+      .bento-col-5,
+      .bento-hero,
+      .zodiac-layout {
+        display: flex;
+        flex-direction: column;
+      }
+      .bento-traits-grid { grid-template-columns: 1fr; }
+      .zodiac-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .controls { flex-wrap: wrap; }
+      .progress-wrap { order: 3; flex-basis: 100%; }
+      .dots, .keyboard-hint { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *:before, *:after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- Top Navigation Header -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">HT</div>
+      <div>
+        HỒ SƠ PHONG CÁCH LÀM VIỆC
+        <small>Executive Profile · 4-Slide Pitch</small>
+      </div>
+    </div>
+    <div class="top-meta">
+      <span class="meta-pill">TỬ VI ỨNG DỤNG TRONG CÔNG VIỆC</span>
+      <span class="meta-pill" id="topCount">01 / 04</span>
+    </div>
+  </header>
+
+  <!-- Presentation Stage (4 SLIDES ONLY) -->
+  <main class="deck">
+    <div class="stage" id="stage" aria-live="polite">
+      
+      <!-- ==========================================
+           SLIDE 1: DANH TÍNH & BẢN MỆNH NGHỀ NGHIỆP
+           ========================================== -->
+      <section class="slide active" data-title="Tổng quan & Bản mệnh">
+        <div class="slide-head">
+          <div>
+            <div class="eyebrow"><i data-lucide="sparkles" style="width:13px;height:13px"></i> 01 · Chân dung & Bản mệnh lãnh đạo</div>
+            <h2>Nguyễn Hùng Thái · Bản mệnh & Nhận diện nghề nghiệp</h2>
+            <p class="subtitle">Kết hợp góc nhìn văn hóa phương Đông với hơn 22 năm năng lực quản trị, điều hành dịch vụ khách hàng thực chiến.</p>
+          </div>
+          <div class="slide-no">01 / 04</div>
+        </div>
+
+        <div class="bento-slide1-layout">
+          <!-- Cột Trái: Identity + 3 Traits Card Grid -->
+          <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+            <!-- Thẻ Danh tính & Tổng quan -->
+            <div class="bento-card tone-blue" style="flex:1.2;justify-content:space-between">
+              <div class="card-top">
+                <div class="identity" style="display:flex;align-items:center;gap:12px">
+                  <div class="profile-initial">HT</div>
+                  <div>
+                    <h3 style="font-size:18px;margin:0;display:flex;align-items:center;gap:6px">
+                      Nguyễn Hùng Thái
+                      <i data-lucide="badge-check" style="width:17px;height:17px;color:#1283e0"></i>
+                    </h3>
+                    <p style="font-size:11.5px;color:var(--muted)">Customer Experience & Operations Director</p>
+                  </div>
+                </div>
+                <span class="tag"><i data-lucide="calendar" style="width:11px;height:11px;display:inline-block;margin-right:3px"></i>GIÁP TÝ 1984</span>
+              </div>
+              
+              <div class="profile-list">
+                <div class="profile-item"><span>Năm sinh</span><b>Giáp Tý · 1984</b></div>
+                <div class="profile-item"><span>Bản mệnh</span><b>Hải Trung Kim</b></div>
+                <div class="profile-item"><span>Cung mệnh</span><b>Đoài (Tây Tứ Mệnh)</b></div>
+                <div class="profile-item"><span>Giờ sinh</span><b>Quý Dậu · 17–19h</b></div>
+              </div>
+
+              <div class="hero-stats">
+                <div class="hero-stat"><b>22+</b><span>Năm kinh nghiệm</span></div>
+                <div class="hero-stat"><b>5</b><span>Trụ cột vận hành</span></div>
+                <div class="hero-stat"><b>6</b><span>Nguyên tắc hành động</span></div>
+              </div>
+            </div>
+
+            <!-- 3 Thẻ Đặc tính cốt lõi (Bento Sub-Grid 3 cột) -->
+            <div class="bento-traits-grid" style="flex:1">
+              <div class="bento-card tone-yellow" style="padding:11px 13px">
+                <div class="card-top">
+                  <div class="card-icon" style="color:#b28b05"><i data-lucide="search" style="width:15px;height:15px"></i></div>
+                  <span class="tag" style="color:#8f6d00">CHIỀU SÂU</span>
+                </div>
+                <h3 class="card-title-wrap" style="font-size:13px">Hiểu bản chất</h3>
+                <p style="font-size:10.5px">Đào sâu phân tích nguyên nhân gốc rễ (Root Cause) trước khi đưa ra quyết định.</p>
+              </div>
+
+              <div class="bento-card tone-pink" style="padding:11px 13px">
+                <div class="card-top">
+                  <div class="card-icon" style="color:#dc3e97"><i data-lucide="anchor" style="width:15px;height:15px"></i></div>
+                  <span class="tag" style="color:#dc3e97">KIÊN ĐỊNH</span>
+                </div>
+                <h3 class="card-title-wrap" style="font-size:13px">Theo đuổi dài hạn</h3>
+                <p style="font-size:10.5px">Giữ vững định hướng chiến lược và chất lượng thực thi nhất quán trước mọi biến động.</p>
+              </div>
+
+              <div class="bento-card tone-mint" style="padding:11px 13px">
+                <div class="card-top">
+                  <div class="card-icon" style="color:#1d997d"><i data-lucide="gem" style="width:15px;height:15px"></i></div>
+                  <span class="tag" style="color:#1d997d">UY TÍN</span>
+                </div>
+                <h3 class="card-title-wrap" style="font-size:13px">Giá trị nội tại</h3>
+                <p style="font-size:10.5px">Coi trọng năng lực chuyên môn, cam kết trung thực và hiệu quả thực tiễn hơn hình thức.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cột Phải: Triết lý lãnh đạo & Định vị Bento Card -->
+          <div class="bento-card tone-dark" style="justify-content:space-between">
+            <div>
+              <div class="section-label" style="color:#b2c1f7"><i data-lucide="compass" style="width:13px;height:13px"></i> Hải Trung Kim · Vàng trong biển</div>
+              <div class="quote-box" style="font-size:16px;line-height:1.45;margin:12px 0 10px">
+                “Thấu hiểu con người, làm chủ hệ thống, dẫn dắt bằng trí tuệ và xây dựng giá trị bằng sự tận tâm.”
+              </div>
+              <p style="font-size:11.5px;color:#cbd7fd;line-height:1.5">
+                Giá trị tích lũy qua thời gian; bản lĩnh thể hiện qua cách giữ vững nguyên tắc và tạo ra kết quả thực chất.
+              </p>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:10px 12px;margin:8px 0">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#aebce7;font-weight:700;display:flex;align-items:center;gap:5px">
+                <i data-lucide="target" style="width:13px;height:13px"></i> Cam kết định vị
+              </div>
+              <p style="font-size:11px;color:#e1e7ff;margin-top:4px;line-height:1.45">
+                Chuẩn hóa quy trình vận hành · Nâng tầm trải nghiệm khách hàng · Tối ưu hiệu quả chi phí qua CRM & AI.
+              </p>
+            </div>
+
+            <div>
+              <div class="pill-row">
+                <span class="pill" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i data-lucide="layers" style="width:10px;height:10px;display:inline-block;margin-right:4px"></i>TƯ DUY HỆ THỐNG</span>
+                <span class="pill" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i data-lucide="shield-check" style="width:10px;height:10px;display:inline-block;margin-right:4px"></i>CHÍNH TRỰC</span>
+                <span class="pill" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i data-lucide="trending-up" style="width:10px;height:10px;display:inline-block;margin-right:4px"></i>KIÊN ĐỊNH</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="footnote">Tử vi là góc nhìn văn hóa tham khảo, không phải công cụ kiểm định năng lực hoặc tiêu chí tuyển dụng cố định.</p>
+      </section>
+
+      <!-- =========================================================================
+           SLIDE 2: MÔ HÌNH QUẢN TRỊ VẬN HÀNH TOÀN DIỆN (HỢP NHẤT SLIDE 2, 3 & 4)
+           ========================================================================= -->
+      <section class="slide" data-title="Mô hình quản trị vận hành">
+        <div class="slide-head">
+          <div>
+            <div class="eyebrow"><i data-lucide="layers" style="width:13px;height:13px"></i> 02 · Mô hình vận hành toàn diện</div>
+            <h2>Năm Trụ Cột Quản Trị & Lục Cung Thực Chiến</h2>
+            <p class="subtitle">Chuyển hóa triết lý Ngũ Hành và biểu tượng Lục Cung thành mô hình điều hành dịch vụ khách hàng hiện đại: Quy trình, Công nghệ, Con người, Trải nghiệm và Nền tảng.</p>
+          </div>
+          <div class="slide-no">02 / 04</div>
+        </div>
+
+        <div class="bento-grid bento-col-5" style="flex:1">
+          <!-- Trụ Cột 1: KIM / QUAN LỘC -->
+          <article class="bento-card tone-blue">
+            <div>
+              <div class="card-top">
+                <span class="element-symbol" style="color:#1283e0">金</span>
+                <span class="tag" style="color:#1283e0">CUNG QUAN LỘC</span>
+              </div>
+              <h3 class="card-title-wrap"><i data-lucide="settings" style="width:16px;height:16px;color:#1283e0"></i> KIM · Quy trình & Chuẩn hóa</h3>
+              <p style="margin-top:6px">Thiết lập khung chuẩn mực vận hành, đảm bảo kỷ luật và kiểm soát chất lượng bằng dữ liệu.</p>
+              
+              <div style="margin-top:10px;background:rgba(255,255,255,0.8);padding:7px 9px;border-radius:9px;border:1px solid #e1eaf7">
+                <div style="font-size:9.5px;font-weight:700;color:#1283e0;text-transform:uppercase">Trọng tâm quản trị:</div>
+                <div style="font-size:10.5px;color:#39425a;margin-top:2px">SOP, KPI, SLA, Quality Assurance & Tuân thủ</div>
+              </div>
+            </div>
+            <div>
+              <div class="micro-tag" style="margin:8px 0 6px">Phong cách: Kỷ luật & Chính trực</div>
+              <div class="element-bar"><span style="background:#1283e0"></span></div>
+            </div>
+          </article>
+
+          <!-- Trụ Cột 2: THỦY / ĐỔI MỚI SỐ -->
+          <article class="bento-card tone-mint">
+            <div>
+              <div class="card-top">
+                <span class="element-symbol" style="color:#269e83">水</span>
+                <span class="tag" style="color:#1f9e80">CUNG THIÊN DI</span>
+              </div>
+              <h3 class="card-title-wrap"><i data-lucide="droplet" style="width:16px;height:16px;color:#269e83"></i> THỦY · Công nghệ & Tự động</h3>
+              <p style="margin-top:6px">Tận dụng CRM, AI và Omnichannel để tối ưu hóa quy trình, loại bỏ điểm nghẽn và nâng cao năng suất.</p>
+              
+              <div style="margin-top:10px;background:rgba(255,255,255,0.8);padding:7px 9px;border-radius:9px;border:1px solid #d8f4ea">
+                <div style="font-size:9.5px;font-weight:700;color:#1f9e80;text-transform:uppercase">Trọng tâm quản trị:</div>
+                <div style="font-size:10.5px;color:#39425a;margin-top:2px">CRM, AI Gen, Omnichannel, Data Analytics</div>
+              </div>
+            </div>
+            <div>
+              <div class="micro-tag" style="margin:8px 0 6px">Phong cách: Nhạy bén số & Tinh gọn</div>
+              <div class="element-bar"><span style="background:#35c4a7"></span></div>
+            </div>
+          </article>
+
+          <!-- Trụ Cột 3: MỘC / NÔ BỘC -->
+          <article class="bento-card tone-yellow">
+            <div>
+              <div class="card-top">
+                <span class="element-symbol" style="color:#9e8705">木</span>
+                <span class="tag" style="color:#8f6d00">CUNG NÔ BỘC</span>
+              </div>
+              <h3 class="card-title-wrap"><i data-lucide="sprout" style="width:16px;height:16px;color:#9e8705"></i> MỘC · Con người & Phát triển</h3>
+              <p style="margin-top:6px">Lãnh đạo bằng sự thấu cảm, huấn luyện đội ngũ kế thừa và xây dựng văn hóa gắn kết bền chặt.</p>
+              
+              <div style="margin-top:10px;background:rgba(255,255,255,0.8);padding:7px 9px;border-radius:9px;border:1px solid #fbf0b8">
+                <div style="font-size:9.5px;font-weight:700;color:#9e8705;text-transform:uppercase">Trọng tâm quản trị:</div>
+                <div style="font-size:10.5px;color:#39425a;margin-top:2px">Training, Coaching 1-on-1, Talent Succession</div>
+              </div>
+            </div>
+            <div>
+              <div class="micro-tag" style="margin:8px 0 6px">Phong cách: Thấu cảm & Phát triển</div>
+              <div class="element-bar"><span style="background:#ffc917"></span></div>
+            </div>
+          </article>
+
+          <!-- Trụ Cột 4: HỎA / TRẢI NGHIỆM CX -->
+          <article class="bento-card tone-pink">
+            <div>
+              <div class="card-top">
+                <span class="element-symbol" style="color:#dc3e97">火</span>
+                <span class="tag" style="color:#dc3e97">CUNG MỆNH</span>
+              </div>
+              <h3 class="card-title-wrap"><i data-lucide="flame" style="width:16px;height:16px;color:#dc3e97"></i> HỎA · Trải nghiệm khách hàng</h3>
+              <p style="margin-top:6px">Lấy khách hàng làm trọng tâm, phản hồi nhanh chóng và chuyển hóa khiếu nại thành cơ hội gắn kết.</p>
+              
+              <div style="margin-top:10px;background:rgba(255,255,255,0.8);padding:7px 9px;border-radius:9px;border:1px solid #fedae5">
+                <div style="font-size:9.5px;font-weight:700;color:#dc3e97;text-transform:uppercase">Trọng tâm quản trị:</div>
+                <div style="font-size:10.5px;color:#39425a;margin-top:2px">CSAT, NPS, FCR, Customer Journey Mapping</div>
+              </div>
+            </div>
+            <div>
+              <div class="micro-tag" style="margin:8px 0 6px">Phong cách: Quyết đoán & Tận tâm</div>
+              <div class="element-bar"><span style="background:#eb4472"></span></div>
+            </div>
+          </article>
+
+          <!-- Trụ Cột 5: THỔ / TÀI BẠCH & PHÚC ĐỨC -->
+          <article class="bento-card tone-orange">
+            <div>
+              <div class="card-top">
+                <span class="element-symbol" style="color:#db671a">土</span>
+                <span class="tag" style="color:#db671a">TÀI BẠCH · PHÚC ĐỨC</span>
+              </div>
+              <h3 class="card-title-wrap"><i data-lucide="landmark" style="width:16px;height:16px;color:#db671a"></i> THỔ · Tài chính & Nền tảng</h3>
+              <p style="margin-top:6px">Tối ưu chi phí phục vụ (Cost-to-Serve), quản trị rủi ro và giữ vững tính liên tục của hệ thống.</p>
+              
+              <div style="margin-top:10px;background:rgba(255,255,255,0.8);padding:7px 9px;border-radius:9px;border:1px solid #fdd8c3">
+                <div style="font-size:9.5px;font-weight:700;color:#db671a;text-transform:uppercase">Trọng tâm quản trị:</div>
+                <div style="font-size:10.5px;color:#39425a;margin-top:2px">Cost-to-Serve, BCP, Security & Risk Management</div>
+              </div>
+            </div>
+            <div>
+              <div class="micro-tag" style="margin:8px 0 6px">Phong cách: Điềm tĩnh & Bền vững</div>
+              <div class="element-bar"><span style="background:#f2722b"></span></div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Khối kết luận mô hình -->
+        <div class="bento-card tone-dark" style="padding:10px 16px;flex:0 0 auto">
+          <p style="color:#fff;font-size:11.5px;display:flex;align-items:center;gap:8px">
+            <i data-lucide="sparkles" style="width:16px;height:16px;color:#ffc917;flex:none"></i>
+            <span><b>Mô hình điều hành tích hợp:</b> Quy trình (Kim) tạo chuẩn mực · Công nghệ (Thủy) tạo hiệu suất · Con người (Mộc) tạo nội lực · Trải nghiệm (Hỏa) tạo giá trị · Nền tảng (Thổ) tạo sự trường tồn.</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- =========================================================================
+           SLIDE 3: NGUYÊN TẮC HÀNH ĐỘNG & BẰNG CHỨNG NĂNG LỰC (HỢP NHẤT SLIDE 5 & 6)
+           ========================================================================= -->
+      <section class="slide" data-title="Nguyên tắc & Bằng chứng">
+        <div class="slide-head">
+          <div>
+            <div class="eyebrow"><i data-lucide="check-circle-2" style="width:13px;height:13px"></i> 03 · Triết lý thực chiến & Bằng chứng</div>
+            <h2>Nguyên Tắc Hành Động & Khung Bằng Chứng Năng Lực</h2>
+            <p class="subtitle">Sự kết hợp giữa 6 nguyên tắc quản trị nhất quán và các bằng chứng thực chứng định lượng dành cho Hội đồng quản trị & Nhà tuyển dụng.</p>
+          </div>
+          <div class="slide-no">03 / 04</div>
+        </div>
+
+        <div class="bento-grid bento-hero" style="flex:1">
+          <!-- Cột Trái: 6 Nguyên tắc hành động & Môi trường phù hợp -->
+          <div class="bento-card tone-blue" style="justify-content:flex-start;gap:8px">
+            <div class="card-top" style="margin-bottom:3px">
+              <div class="section-label">Hệ quy chiếu quản trị thực tế</div>
+              <span class="tag"><i data-lucide="award" style="width:11px;height:11px;display:inline-block;margin-right:3px"></i>6 NGUYÊN TẮC HÀNH ĐỘNG</span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;flex:1">
+              <div style="background:rgba(255,255,255,0.88);border-radius:9px;padding:7px 9px;border:1px solid rgba(255,255,255,0.9)">
+                <div style="font-size:12px;font-weight:700;color:#1283e0;display:flex;align-items:center;gap:5px">
+                  <i data-lucide="target" style="width:14px;height:14px"></i> 01. Tư duy bằng chiến lược
+                </div>
+                <p style="font-size:10px;color:#555d77;margin-top:2px">Nhìn vấn đề hệ thống, hoạch định mục tiêu & lộ trình dài hạn.</p>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.88);border-radius:9px;padding:7px 9px;border:1px solid rgba(255,255,255,0.9)">
+                <div style="font-size:12px;font-weight:700;color:#a88200;display:flex;align-items:center;gap:5px">
+                  <i data-lucide="bar-chart-3" style="width:14px;height:14px"></i> 02. Dẫn dắt bằng dữ liệu
+                </div>
+                <p style="font-size:10px;color:#555d77;margin-top:2px">Sử dụng KPI & dữ kiện thực tế để đánh giá, ra quyết định.</p>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.88);border-radius:9px;padding:7px 9px;border:1px solid rgba(255,255,255,0.9)">
+                <div style="font-size:12px;font-weight:700;color:#d93666;display:flex;align-items:center;gap:5px">
+                  <i data-lucide="heart-handshake" style="width:14px;height:14px"></i> 03. Thấu cảm bằng trái tim
+                </div>
+                <p style="font-size:10px;color:#555d77;margin-top:2px">Lắng nghe khách hàng & nhân viên bằng sự chân thành, kịp thời.</p>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.88);border-radius:9px;padding:7px 9px;border:1px solid rgba(255,255,255,0.9)">
+                <div style="font-size:12px;font-weight:700;color:#6a4ff5;display:flex;align-items:center;gap:5px">
+                  <i data-lucide="scale" style="width:14px;height:14px"></i> 04. Lấy chính trực làm gốc
+                </div>
+                <p style="font-size:10px;color:#555d77;margin-top:2px">Minh bạch báo cáo, nhất quán cam kết & chịu trách nhiệm.</p>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.88);border-radius:9px;padding:7px 9px;border:1px solid rgba(255,255,255,0.9)">
+                <div style="font-size:12px;font-weight:700;color:#db671a;display:flex;align-items:center;gap:5px">
+                  <i data-lucide="rocket" style="width:14px;height:14px"></i> 05. Lấy hành động làm đường
+                </div>
+                <p style="font-size:10px;color:#555d77;margin-top:2px">Biến chiến lược thành kế hoạch, kiên trì cải tiến liên tục.</p>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.88);border-radius:9px;padding:7px 9px;border:1px solid rgba(255,255,255,0.9)">
+                <div style="font-size:12px;font-weight:700;color:#1d997d;display:flex;align-items:center;gap:5px">
+                  <i data-lucide="trophy" style="width:14px;height:14px"></i> 06. Lấy kết quả làm thước đo
+                </div>
+                <p style="font-size:10px;color:#555d77;margin-top:2px">Đo lường bằng CSAT, Cost-to-Serve, năng suất & sự trưởng thành.</p>
+              </div>
+            </div>
+
+            <!-- Khối bổ trợ hợp tác -->
+            <div style="display:flex;gap:7px;margin-top:3px">
+              <div style="flex:1;background:rgba(255,255,255,0.9);border-radius:8px;padding:6px 9px;border:1px solid #e1eaf5">
+                <span style="font-size:9.5px;font-weight:700;color:#6a4ff5;display:flex;align-items:center;gap:4px">
+                  <i data-lucide="puzzle" style="width:12px;height:12px"></i> Tam Hợp Thân–Tý–Thìn
+                </span>
+                <p style="font-size:9.5px;color:#555d77;margin-top:2px">Hợp tác bổ trợ thế mạnh: Tầm nhìn (Thìn) · Tổ chức (Tý) · Sáng kiến (Thân).</p>
+              </div>
+              <div style="flex:1;background:rgba(255,255,255,0.9);border-radius:8px;padding:6px 9px;border:1px solid #dff5ee">
+                <span style="font-size:9.5px;font-weight:700;color:#1d997d;display:flex;align-items:center;gap:4px">
+                  <i data-lucide="building-2" style="width:12px;height:12px"></i> Môi trường lý tưởng
+                </span>
+                <p style="font-size:9.5px;color:#555d77;margin-top:2px">Định hướng khách hàng, số hóa quy trình và văn hóa trao quyền minh bạch.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cột Phải: Bằng chứng năng lực dành cho Nhà tuyển dụng & Leadership statement -->
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <!-- 4 Thẻ Bằng chứng đối chiếu cốt lõi -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;flex:1">
+              <div class="bento-card tone-blue" style="padding:8px 10px">
+                <div style="font-size:11px;font-weight:700;color:#1283e0;display:flex;align-items:center;gap:5px">
+                  <i data-lucide="settings-2" style="width:13px;height:13px"></i> Quản trị hệ thống
+                </div>
+                <p style="font-size:9.5px;color:#353e56;margin:3px 0">Chuẩn hóa toàn diện quy trình vận hành dịch vụ.</p>
+                <div class="micro-tag">Proof: SOP, SLA, QA scoring</div>
+              </div>
+
+              <div class="bento-card tone-mint" style="padding:8px 10px">
+                <div style="font-size:11px;font-weight:700;color:#1d997d;display:flex;align-items:center;gap:5px">
+                  <i data-lucide="smile" style="width:13px;height:13px"></i> Trải nghiệm CX & CSAT
+                </div>
+                <p style="font-size:9.5px;color:#353e56;margin:3px 0">Nâng cao mức độ hài lòng và trung thành của khách hàng.</p>
+                <div class="micro-tag">Proof: CSAT > 90%, FCR, NPS</div>
+              </div>
+
+              <div class="bento-card tone-purple" style="padding:8px 10px">
+                <div style="font-size:11px;font-weight:700;color:#6a4ff5;display:flex;align-items:center;gap:5px">
+                  <i data-lucide="cpu" style="width:13px;height:13px"></i> Chuyển đổi số & AI
+                </div>
+                <p style="font-size:9.5px;color:#353e56;margin:3px 0">Tự động hóa kênh hỗ trợ, triển khai Omnichannel & CRM.</p>
+                <div class="micro-tag">Proof: Chatbot AI, CRM Deployment</div>
+              </div>
+
+              <div class="bento-card tone-orange" style="padding:8px 10px">
+                <div style="font-size:11px;font-weight:700;color:#db671a;display:flex;align-items:center;gap:5px">
+                  <i data-lucide="wallet" style="width:13px;height:13px"></i> Tối ưu chi phí phục vụ
+                </div>
+                <p style="font-size:9.5px;color:#353e56;margin:3px 0">Quản trị ngân sách, giảm Cost-to-Serve hiệu quả.</p>
+                <div class="micro-tag">Proof: Cost/Contact, P&L Vận hành</div>
+              </div>
+            </div>
+
+            <!-- Leadership statement card -->
+            <div class="bento-card tone-dark" style="padding:12px 14px;justify-content:space-between">
+              <div>
+                <div class="section-label" style="color:#b9c5f2"><i data-lucide="quote" style="width:12px;height:12px"></i> Leadership Statement</div>
+                <div style="font-size:14px;font-weight:700;line-height:1.3;margin-top:5px;color:#fff">
+                  Kỷ luật trong hệ thống · Thấu cảm trong con người · Hiệu quả trong kết quả.
+                </div>
+                <p style="font-size:10px;color:#cbd7fd;line-height:1.45;margin-top:4px">
+                  Hơn 22 năm tập trung xây dựng hệ thống vận hành vững chắc, phát triển đội ngũ kế thừa và kiến tạo giá trị khách hàng bền vững.
+                </p>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;border-top:1px solid rgba(255,255,255,0.14);padding-top:6px">
+                <span style="font-size:11px;font-weight:700;color:#fff">Nguyễn Hùng Thái</span>
+                <span style="font-size:9px;color:#b6c5f7;text-transform:uppercase">Customer Operations</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="footnote">Bằng chứng thực chứng và dữ liệu công việc là cơ sở đánh giá chính xác năng lực lãnh đạo và mức độ phù hợp văn hóa tổ chức.</p>
+      </section>
+
+      <!-- =========================================================================
+           SLIDE 4: TRA CỨU TUỔI HỢP TÁC (CÔNG CỤ TƯƠNG HỢP CAN CHI & NGŨ HÀNH)
+           ========================================================================= -->
+      <section class="slide" data-title="Tra cứu tuổi hợp tác">
+        <div class="slide-head">
+          <div>
+            <div class="eyebrow"><i data-lucide="search" style="width:13px;height:13px"></i> 04 · Công cụ tham khảo tương hợp</div>
+            <h2>Kiểm Tra Năm Sinh & Góc Nhìn Phối Hợp Công Việc</h2>
+            <p class="subtitle">Nhập năm sinh hoặc chọn nhanh con giáp để xem cách phối hợp theo Can Chi & Ngũ Hành Nạp Âm với Giáp Tý 1984 (Hải Trung Kim).</p>
+          </div>
+          <div class="slide-no">04 / 04</div>
+        </div>
+
+        <div class="zodiac-layout">
+          <!-- Cột Trái: Bộ chọn tuổi & Tìm kiếm -->
+          <div class="bento-card tone-blue zodiac-picker">
+            <div class="card-top">
+              <div>
+                <div class="section-label">Công cụ tra cứu phối hợp</div>
+                <h3 class="card-title-wrap" style="margin-top:3px"><i data-lucide="users-2" style="width:16px;height:16px;color:#1283e0"></i> Tra cứu tuổi làm việc chung</h3>
+              </div>
+              <span class="tag">GIÁP TÝ 1984 · KIM</span>
+            </div>
+
+            <!-- Quick suggest years -->
+            <div class="quick-chips-wrap">
+              <span style="font-size:9px;color:#66708a;font-weight:700;text-transform:uppercase">Năm sinh thường gặp:</span>
+              <div class="quick-chips" id="quickChips" style="margin-top:3px">
+                <button type="button" class="quick-chip" data-year="1992">1992 · Thân</button>
+                <button type="button" class="quick-chip" data-year="1988">1988 · Thìn</button>
+                <button type="button" class="quick-chip" data-year="1985">1985 · Sửu</button>
+                <button type="button" class="quick-chip" data-year="1990">1990 · Ngọ</button>
+                <button type="button" class="quick-chip" data-year="1989">1989 · Tỵ</button>
+                <button type="button" class="quick-chip" data-year="1995">1995 · Hợi</button>
+              </div>
+            </div>
+
+            <form class="year-form" id="zodiacForm">
+              <div class="year-field">
+                <label for="birthYear">Nhập năm sinh dương lịch</label>
+                <input id="birthYear" name="birthYear" type="number" min="1900" max="2100" inputmode="numeric" placeholder="Ví dụ: 1988, 1992..." autocomplete="off">
+              </div>
+              <button class="search-btn" type="submit"><i data-lucide="search" style="width:13px;height:13px;display:inline-block;margin-right:4px"></i>Tra cứu</button>
+            </form>
+
+            <div style="font-size:9px;color:#66708a;font-weight:700;text-transform:uppercase">Hoặc chọn nhanh 12 con giáp</div>
+            <div class="zodiac-grid" id="zodiacGrid" aria-label="Chọn con giáp">
+              <button class="zodiac-option" type="button" data-sign="rat" aria-pressed="false"><span class="zodiac-emoji">🐭</span><span class="zodiac-name">Tý</span></button>
+              <button class="zodiac-option" type="button" data-sign="ox" aria-pressed="false"><span class="zodiac-emoji">🐂</span><span class="zodiac-name">Sửu</span></button>
+              <button class="zodiac-option" type="button" data-sign="tiger" aria-pressed="false"><span class="zodiac-emoji">🐅</span><span class="zodiac-name">Dần</span></button>
+              <button class="zodiac-option" type="button" data-sign="rabbit" aria-pressed="false"><span class="zodiac-emoji">🐈</span><span class="zodiac-name">Mão</span></button>
+              <button class="zodiac-option" type="button" data-sign="dragon" aria-pressed="false"><span class="zodiac-emoji">🐉</span><span class="zodiac-name">Thìn</span></button>
+              <button class="zodiac-option" type="button" data-sign="snake" aria-pressed="false"><span class="zodiac-emoji">🐍</span><span class="zodiac-name">Tỵ</span></button>
+              <button class="zodiac-option" type="button" data-sign="horse" aria-pressed="false"><span class="zodiac-emoji">🐎</span><span class="zodiac-name">Ngọ</span></button>
+              <button class="zodiac-option" type="button" data-sign="goat" aria-pressed="false"><span class="zodiac-emoji">🐐</span><span class="zodiac-name">Mùi</span></button>
+              <button class="zodiac-option" type="button" data-sign="monkey" aria-pressed="false"><span class="zodiac-emoji">🐒</span><span class="zodiac-name">Thân</span></button>
+              <button class="zodiac-option" type="button" data-sign="rooster" aria-pressed="false"><span class="zodiac-emoji">🐓</span><span class="zodiac-name">Dậu</span></button>
+              <button class="zodiac-option" type="button" data-sign="dog" aria-pressed="false"><span class="zodiac-emoji">🐕</span><span class="zodiac-name">Tuất</span></button>
+              <button class="zodiac-option" type="button" data-sign="pig" aria-pressed="false"><span class="zodiac-emoji">🐖</span><span class="zodiac-name">Hợi</span></button>
+            </div>
+            <p class="footnote" id="zodiacSelectionHelp">Nhập năm sinh hoặc nhấp vào con giáp để xem phân tích phối hợp công việc chuyên sâu.</p>
+          </div>
+          
+          <!-- Cột Phải: Kết quả đối chiếu -->
+          <aside class="zodiac-result" id="zodiacResult" aria-live="polite">
+            <div class="section-label">Kết quả đối chiếu với Giáp Tý 1984</div>
+            <div class="result-empty" style="margin:auto 0;text-align:center;padding:12px">
+              <div style="display:flex;justify-content:center;margin-bottom:8px">
+                <div style="width:48px;height:48px;border-radius:14px;background:#fff;display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,0.06)">
+                  <i data-lucide="handshake" style="width:24px;height:24px;color:#1283e0"></i>
+                </div>
+              </div>
+              <h3>Tra cứu tuổi phối hợp công việc</h3>
+              <p style="font-size:11px;color:#6c7590;max-width:270px;margin:0 auto;line-height:1.5">
+                Nhập năm sinh hoặc chọn biểu tượng con giáp để xem phân tích cộng tác: Điểm mạnh, thế mạnh kết hợp và gợi ý phân bổ công việc.
+              </p>
+            </div>
+          </aside>
+        </div>
+        <p class="footnote">Lưu ý: Công cụ mang tính tham khảo văn hóa Á Đông để tăng cường thấu hiểu giao tiếp. Trong quản trị hiện đại, năng lực, thái độ, sự minh bạch và kết quả thực thi mới là nền tảng cốt lõi để đánh giá và phân bổ công việc.</p>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Controls & Navigation Bar -->
+  <footer class="controls">
+    <div class="progress-wrap">
+      <span class="progress-text" id="progressText">01 / 04</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <span class="keyboard-hint">← → để chuyển slide</span>
+    </div>
+    <div class="dots" id="dots" aria-label="Chọn slide"></div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="prevBtn" type="button"><i data-lucide="chevron-left" style="width:14px;height:14px"></i> <span>Trước</span></button>
+      <button class="nav-btn primary" id="nextBtn" type="button"><span>Tiếp theo</span> <i data-lucide="chevron-right" style="width:14px;height:14px"></i></button>
+    </div>
+  </footer>
+</div>
+
+<script>
+  (() => {
+    function refreshIcons() {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const topCount = document.getElementById('topCount');
+    const dotsWrap = document.getElementById('dots');
+    let current = 0;
+    let touchStartX = 0;
+
+    // Generate pagination dots (4 slides)
+    slides.forEach((slide, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Đến slide ${i + 1}: ${slide.dataset.title || ''}`);
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.children);
+
+    function goTo(index) {
+      const next = Math.max(0, Math.min(slides.length - 1, index));
+      if (next === current) return;
+      slides[current].classList.remove('active');
+      slides[current].classList.toggle('prev', next < current);
+      slides[next].classList.remove('prev');
+      slides[next].classList.add('active');
+      current = next;
+      update();
+    }
+
+    function update() {
+      const label = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      progressText.textContent = label;
+      topCount.textContent = label;
+      progressFill.style.width = `${((current + 1) / slides.length) * 100}%`;
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === slides.length - 1;
+      nextBtn.innerHTML = current === slides.length - 1 
+        ? '<span>Kết thúc</span> <i data-lucide="check" style="width:14px;height:14px"></i>' 
+        : '<span>Tiếp theo</span> <i data-lucide="chevron-right" style="width:14px;height:14px"></i>';
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === current);
+        dot.setAttribute('aria-current', i === current ? 'step' : 'false');
+      });
+      slides[current].scrollTop = 0;
+      refreshIcons();
+    }
+
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (event) => {
+      if (event.target.closest('input, textarea, select, button, [contenteditable="true"]')) return;
+      if (['ArrowRight', 'PageDown', ' '].includes(event.key)) {
+        event.preventDefault();
+        goTo(current + 1);
+      }
+      if (['ArrowLeft', 'PageUp'].includes(event.key)) {
+        event.preventDefault();
+        goTo(current - 1);
+      }
+      if (event.key === 'Home') goTo(0);
+      if (event.key === 'End') goTo(slides.length - 1);
+    });
+
+    // 12 Zodiac signs configuration
+    const zodiacSigns = [
+      {
+        key: 'rat',
+        name: 'Tý',
+        icon: '🐭',
+        type: 'Đồng Chi · Cùng chí hướng',
+        tone: 'neutral',
+        role: 'Phản biện & Tối ưu giải pháp',
+        detail: 'Cùng địa chi Tý mang lại tần số suy nghĩ và tốc độ nắm bắt vấn đề tương đồng. Thấu hiểu ý tưởng của nhau nhanh chóng, không mất nhiều thời gian giải thích.',
+        strength: 'Đồng điệu trong phân tích chi tiết, nhạy bén với cơ hội mới và hướng tới hiệu quả cao.',
+        caution: 'Dễ trùng góc nhìn hoặc cùng rơi vào trạng thái quá thận trọng khi rủi ro phát sinh.',
+        advice: 'Cần phân định ranh giới quyết định minh bạch (Owner rõ ràng); khuyến khích góc nhìn trái chiều để tránh điểm mù chung.'
+      },
+      {
+        key: 'ox',
+        name: 'Sửu',
+        icon: '🐂',
+        type: 'Lục Hợp · Trụ cột vận hành',
+        tone: 'positive',
+        role: 'Đối tác chiến lược - Thực thi',
+        detail: 'Thuộc quan hệ Lục Hợp (Tý - Sửu nhị hợp). Sự điềm đạm, kiên định và tỉ mỉ của Sửu là bệ đỡ hoàn hảo cho khả năng kiến tạo hệ thống và tư duy chiến lược của Giáp Tý.',
+        strength: 'Giáp Tý định hướng và thiết kế mô hình; Sửu đảm bảo tuân thủ, bám sát deadline và giữ vững vận hành.',
+        caution: 'Sửu ưa chuộng quy trình ổn định nên có thể cần thời gian thích nghi khi Giáp Tý muốn đột phá công nghệ nhanh.',
+        advice: 'Phân vai rõ ràng: một bên mở đường đổi mới, một bên giữ nhịp và bảo vệ chất lượng chuẩn mực.'
+      },
+      {
+        key: 'tiger',
+        name: 'Dần',
+        icon: '🐅',
+        type: 'Bình Hòa · Tiên phong bứt phá',
+        tone: 'neutral',
+        role: 'Mở rộng thị trường & Đột phá',
+        detail: 'Quan hệ bình hòa, không xung đột. Năng lượng tiên phong, quyết đoán và xông xáo của Dần có thể kích hoạt mạnh mẽ các ý tưởng mang tính chiến lược của Giáp Tý.',
+        strength: 'Kết hợp tốt giữa năng lực phân tích hệ thống (Tý) và tốc độ chiếm lĩnh mục tiêu mới (Dần).',
+        caution: 'Dần thường thích quyền tự chủ cao và nhịp độ nhanh, dễ nóng vội trước sự kiểm soát chặt chẽ của Tý.',
+        advice: 'Trao quyền theo mục tiêu cam kết (Outcome-based), đồng thuận trước về các chỉ số KPI/SLA cốt lõi.'
+      },
+      {
+        key: 'rabbit',
+        name: 'Mão',
+        icon: '🐈',
+        type: 'Tương Hình · Cần minh bạch quy trình',
+        tone: 'caution',
+        role: 'Phát triển dịch vụ & Chăm sóc',
+        detail: 'Quan niệm xưa xếp Tý - Mão vào thế tương hình vô lễ. Trong công việc, đây là lời nhắc nhở về phong cách giao tiếp và cách ứng xử khéo léo khi có sự khác biệt về quan điểm.',
+        strength: 'Mão mềm mỏng, tinh tế, giỏi xử lý giao tiếp khách hàng và chăm sóc đội ngũ tuyến đầu.',
+        caution: 'Mão nhạy cảm với cách phản hồi trực diện, trong khi Giáp Tý thường thẳng thắn và đề cao tính kỷ luật.',
+        advice: 'Giao tiếp rõ ràng bằng văn bản, thống nhất quy chuẩn làm việc từ đầu; phản hồi dựa trên số liệu khách quan thay vì cảm tính.'
+      },
+      {
+        key: 'dragon',
+        name: 'Thìn',
+        icon: '🐉',
+        type: 'Tam Hợp · Kiến tạo tầm nhìn',
+        tone: 'positive',
+        role: 'Mở rộng quy mô & Dẫn dắt',
+        detail: 'Nằm trong bộ Tam Hợp (Thân - Tý - Thìn). Thìn mang tầm vóc lớn, khả năng truyền cảm hứng và dẫn dắt tập thể, hòa hợp tự nhiên với năng lực tư duy kiến trúc hệ thống của Giáp Tý.',
+        strength: 'Tạo thành liên minh vững chắc: Thìn định hướng thị trường và tạo động lực, Tý thiết lập bộ máy quy trình và công nghệ vận hành chuẩn xác.',
+        caution: 'Cần một người đóng vai trò quản lý chi tiết nguồn lực tài chính để tránh mở rộng quá đà.',
+        advice: 'Cùng xây dựng Roadmap chiến lược dài hạn, tổ chức review định kỳ để kiểm soát ngân sách và tiến độ.'
+      },
+      {
+        key: 'snake',
+        name: 'Tỵ',
+        icon: '🐍',
+        type: 'Bình Hòa · Linh hoạt sắc bén',
+        tone: 'neutral',
+        role: 'Đàm phán & Quản trị rủi ro',
+        detail: 'Quan hệ bình hòa. Tỵ mang sự sâu sắc, tính toán cẩn trọng và khéo léo trong quan hệ đối ngoại, rất tương hợp với tính điềm tĩnh của Giáp Tý.',
+        strength: 'Phối hợp hiệu quả trong xử lý khủng hoảng truyền thông, đàm phán hợp đồng lớn và tối ưu chi phí.',
+        caution: 'Cả hai bên đều có xu hướng quan sát kỹ và ít bộc lộ suy nghĩ ban đầu, có thể làm chậm nhịp phối hợp thời gian đầu.',
+        advice: 'Tạo cơ chế chia sẻ thông tin hai chiều thường xuyên; thiết lập các điểm chạm ngắn gọn hàng tuần.'
+      },
+      {
+        key: 'horse',
+        name: 'Ngọ',
+        icon: '🐎',
+        type: 'Tương Xung · Bổ khuyết tương phản',
+        tone: 'caution',
+        role: 'Tốc độ & Thực chiến',
+        detail: 'Tý - Ngọ là cặp chính xung theo Can Chi (Thủy khắc Hỏa, Tĩnh đối Động). Tuy nhiên trong kinh doanh hiện đại, đây là cặp bổ trợ ngược cực kỳ mạnh mẽ nếu biết cách điều hòa.',
+        strength: 'Ngọ năng động, quyết liệt và hành động nhanh; Tý điềm tĩnh, suy xét sâu và quản trị rủi ro.',
+        caution: 'Khác biệt lớn về nhịp độ: Ngọ muốn làm ngay, Tý muốn chuẩn bị quy trình hoàn chỉnh.',
+        advice: 'Dùng dữ liệu và báo cáo tiến độ trung lập làm trọng tài; phân tách rõ mảng thực chiến bám thị trường (Ngọ) và mảng hậu phương điều phối (Tý).'
+      },
+      {
+        key: 'goat',
+        name: 'Mùi',
+        icon: '🐐',
+        type: 'Tương Hại · Cần rõ ràng trách nhiệm',
+        tone: 'caution',
+        role: 'Trải nghiệm khách hàng & Thiết kế',
+        detail: 'Cặp Tý - Mùi tương hại trong dân gian thực chất là cảnh báo về sự thiếu nhất quán trong mong đợi. Khi làm việc chung, cần minh bạch hóa mọi điều khoản hợp tác.',
+        strength: 'Mùi chu đáo, thấu cảm và có gu thẩm mỹ cao, phù hợp với các sáng kiến tối ưu trải nghiệm (CX).',
+        caution: 'Mùi dễ ngần ngại nêu thẳng vấn đề khó, trong khi Tý cần sự rõ ràng để tối ưu hệ thống.',
+        advice: 'Xây dựng môi trường tâm lý an toàn để Mùi thoải mái chia sẻ khó khăn; ghi nhận cam kết bằng biên bản và task management rõ ràng.'
+      },
+      {
+        key: 'monkey',
+        name: 'Thân',
+        icon: '🐒',
+        type: 'Tam Hợp · Đổi mới & Trí tuệ',
+        tone: 'positive',
+        role: 'Công nghệ & Giải pháp thông minh',
+        detail: 'Thuộc bộ Tam Hợp (Thân - Tý - Thìn). Thân nổi bật với sự thông minh, tháo vát và thích ứng cực nhanh với công nghệ mới, là cộng sự đắc lực trong chuyển đổi số của Giáp Tý.',
+        strength: 'Sự sáng tạo linh hoạt của Thân kết hợp với tư duy bài bản của Tý giúp biến ý tưởng công nghệ (CRM, AI) thành hệ thống vận hành thực tế.',
+        caution: 'Thân thích sự mới mẻ nên đôi khi giảm hứng thú với các công việc duy trì sự ổn định lặp đi lặp lại.',
+        advice: 'Giao cho Thân phụ trách các dự án đổi mới, cải tiến mô hình; Tý hỗ trợ chuẩn hóa quy trình chuyển giao.'
+      },
+      {
+        key: 'rooster',
+        name: 'Dậu',
+        icon: '🐓',
+        type: 'Tương Phá · Kỷ luật & Tiêu chuẩn',
+        tone: 'caution',
+        role: 'Kiểm soát chất lượng (QA/QC)',
+        detail: 'Quan hệ Tý - Dậu trong dân gian gọi là tương phá. Cả hai đều rất kỹ tính và cầu toàn về mặt kết quả, do đó dễ có tranh luận về phương pháp tiếp cận.',
+        strength: 'Cùng coi trọng tiêu chuẩn cao, không chấp nhận sự cẩu thả, tạo ra sản phẩm dịch vụ chất lượng vượt trội.',
+        caution: 'Dễ sa vào tranh cãi ai đúng ai sai về chi tiết nhỏ nếu thiếu người chốt quyền tối cao.',
+        advice: 'Thống nhất tiêu chí nghiệm thu (Acceptance Criteria) định lượng cụ thể trước khi bắt đầu dự án.'
+      },
+      {
+        key: 'dog',
+        name: 'Tuất',
+        icon: '🐕',
+        type: 'Bình Hòa · Trung thành & Trách nhiệm',
+        tone: 'neutral',
+        role: 'Bảo mật & Giám sát tuân thủ',
+        detail: 'Quan hệ bình hòa, vững chắc. Tuất mang tinh thần trung thực, trách nhiệm và bảo vệ tổ chức tuyệt đối, tạo nên môi trường làm việc đáng tin cậy cho Giáp Tý.',
+        strength: 'Tuất giữ vững hậu phương, đảm bảo tính liên tục của hệ thống và tuân thủ các quy tắc bảo mật.',
+        caution: 'Tuất có tính phòng vệ cao, đôi khi do dự trước những thay đổi mang tính đột phá toàn diện.',
+        advice: 'Cung cấp đầy đủ cơ sở lý luận và đánh giá rủi ro rõ ràng trước khi triển khai các cải tiến lớn.'
+      },
+      {
+        key: 'pig',
+        name: 'Hợi',
+        icon: '🐖',
+        type: 'Bình Hòa · Hài hòa & Kết nối',
+        tone: 'neutral',
+        role: 'Văn hóa doanh nghiệp & Hậu cần',
+        detail: 'Quan hệ bình hòa (cùng hành Thủy). Hợi mang đến không khí hòa nhã, bao dung và khéo léo xoa dịu những căng thẳng trong đội ngũ.',
+        strength: 'Hỗ trợ Giáp Tý xây dựng tinh thần đồng đội bền vững, giảm thiểu áp lực vận hành và giữ chân nhân tài.',
+        caution: 'Hợi dễ thỏa hiệp và ngại xung đột, cần sự thúc đẩy từ tính kỷ luật của Giáp Tý.',
+        advice: 'Phân công Hợi các mảng việc kết nối nhân sự, hỗ trợ hậu cần và duy trì gắn kết văn hóa nhóm.'
+      }
+    ];
+
+    const zodiacByKey = Object.fromEntries(zodiacSigns.map(sign => [sign.key, sign]));
+    const zodiacOrder = ['rat', 'ox', 'tiger', 'rabbit', 'dragon', 'snake', 'horse', 'goat', 'monkey', 'rooster', 'dog', 'pig'];
+    const canNames = ['Giáp', 'Ất', 'Bính', 'Đinh', 'Mậu', 'Kỷ', 'Canh', 'Tân', 'Nhâm', 'Quý'];
+    const chiNames = ['Tý', 'Sửu', 'Dần', 'Mão', 'Thìn', 'Tỵ', 'Ngọ', 'Mùi', 'Thân', 'Dậu', 'Tuất', 'Hợi'];
+
+    // Can-Chi & Ngũ Hành calculator
+    function getCanChiInfo(year) {
+      const canIndex = (year - 4) % 10 < 0 ? ((year - 4) % 10) + 10 : (year - 4) % 10;
+      const chiIndex = (year - 4) % 12 < 0 ? ((year - 4) % 12) + 12 : (year - 4) % 12;
+      const can = canNames[canIndex];
+      const chi = chiNames[chiIndex];
+      const signKey = zodiacOrder[chiIndex];
+
+      const canVal = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5][canIndex];
+      const chiVal = [0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2][chiIndex];
+      let sum = canVal + chiVal;
+      if (sum > 5) sum -= 5;
+      const elements = { 1: 'Kim', 2: 'Thủy', 3: 'Hỏa', 4: 'Thổ', 5: 'Mộc' };
+      const element = elements[sum] || 'Kim';
+
+      let elementRelation = 'Bình hòa';
+      if (element === 'Thổ') elementRelation = 'Thổ sinh Kim (Được tương trợ, bồi đắp)';
+      else if (element === 'Kim') elementRelation = 'Đồng hành Kim (Cộng hưởng, cùng tần số)';
+      else if (element === 'Thủy') elementRelation = 'Kim sinh Thủy (Chủ động hỗ trợ, trao quyền)';
+      else if (element === 'Hỏa') elementRelation = 'Hỏa khắc Kim (Cần dung hòa, tránh va chạm)';
+      else if (element === 'Mộc') elementRelation = 'Kim khắc Mộc (Cần điều phối khéo, tránh áp đặt)';
+
+      return {
+        can,
+        chi,
+        canChi: `${can} ${chi}`,
+        element,
+        elementRelation,
+        sign: zodiacByKey[signKey]
+      };
+    }
+
+    const zodiacForm = document.getElementById('zodiacForm');
+    const birthYearInput = document.getElementById('birthYear');
+    const zodiacGrid = document.getElementById('zodiacGrid');
+    const zodiacResult = document.getElementById('zodiacResult');
+    const zodiacSelectionHelp = document.getElementById('zodiacSelectionHelp');
+    const quickChips = document.getElementById('quickChips');
+    let selectedZodiac = null;
+
+    function setSelectedZodiac(key) {
+      selectedZodiac = key;
+      zodiacGrid.querySelectorAll('.zodiac-option').forEach(button => {
+        const selected = button.dataset.sign === key;
+        button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      });
+      const sign = zodiacByKey[key];
+      zodiacSelectionHelp.textContent = sign
+        ? `Đang chọn con giáp ${sign.name} (${sign.type}). Nhấn "Tra cứu ngay" để xem chi tiết phối hợp.`
+        : 'Nhập năm sinh hoặc nhấp vào con giáp để xem phân tích phối hợp công việc chuyên sâu.';
+    }
+
+    function signFromYear(year) {
+      const index = ((year - 4) % 12 + 12) % 12;
+      return zodiacByKey[zodiacOrder[index]];
+    }
+
+    function showZodiacResult(sign, year) {
+      let metaDetails = '';
+      let elementBadge = '';
+
+      if (year) {
+        const info = getCanChiInfo(year);
+        metaDetails = `Năm sinh ${year} (${info.canChi}) · Mệnh ${info.element}`;
+        elementBadge = `<span class="result-status" style="background:#f4f6fc;color:#2c3a63;border-color:#d7e0f3">Ngũ Hành: ${info.elementRelation}</span>`;
+      } else {
+        metaDetails = `Nhóm Địa chi ${sign.name} · Phối hợp với Giáp Tý`;
+        elementBadge = `<span class="result-status" style="background:#f4f6fc;color:#2c3a63;border-color:#d7e0f3">Vai trò: ${sign.role}</span>`;
+      }
+
+      const toneStyle = sign.tone === 'positive'
+        ? 'background:#e8f8f1;color:#187a58;border-color:#cfeee1'
+        : sign.tone === 'caution'
+          ? 'background:#fff4e6;color:#9b5e18;border-color:#f7dfbd'
+          : 'background:#edf3ff;color:#295bb8;border-color:#d4e3fc';
+
+      zodiacResult.innerHTML = `
+        <div class="section-label">KẾT QUẢ ĐỐI CHIẾU CÔNG VIỆC VỚI GIÁP TÝ 1984</div>
+        <div class="result-main">
+          <div class="result-animal">${sign.icon}</div>
+          <div>
+            <h3>Tuổi ${sign.name} ${year ? `(${year})` : ''}</h3>
+            <p>${metaDetails}</p>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0">
+          <span class="result-status" style="${toneStyle}"><i data-lucide="zap" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:3px"></i> ${sign.type}</span>
+          ${elementBadge}
+        </div>
+
+        <p style="font-size:11px;line-height:1.5;color:#4f5872;margin:6px 0">${sign.detail}</p>
+
+        <div class="collab-grid">
+          <div class="collab-box">
+            <b style="display:flex;align-items:center;gap:4px"><i data-lucide="check-circle" style="width:13px;height:13px;color:#187a58"></i> Điểm mạnh khi kết hợp</b>
+            <p>${sign.strength}</p>
+          </div>
+          <div class="collab-box">
+            <b style="display:flex;align-items:center;gap:4px"><i data-lucide="alert-triangle" style="width:13px;height:13px;color:#db671a"></i> Điểm nghẽn cần chú ý</b>
+            <p>${sign.caution}</p>
+          </div>
+        </div>
+
+        <div class="result-advice">
+          <b style="display:flex;align-items:center;gap:4px"><i data-lucide="target" style="width:13px;height:13px;color:#1283e0"></i> Gợi ý giao việc & điều phối thực tế</b>
+          <p>${sign.advice}</p>
+        </div>
+
+        <p class="footnote" style="margin-top:auto;padding-top:8px">
+          * Đánh giá hiệu suất thực tế luôn cần dựa trên năng lực chuyên môn, sự cam kết và các chỉ số đo lường KPI/SLA cụ thể.
+        </p>
+      `;
+      zodiacResult.setAttribute('data-result', sign.key);
+      refreshIcons();
+    }
+
+    zodiacGrid.addEventListener('click', (event) => {
+      const button = event.target.closest('.zodiac-option');
+      if (!button) return;
+      birthYearInput.value = '';
+      setSelectedZodiac(button.dataset.sign);
+      showZodiacResult(zodiacByKey[button.dataset.sign], null);
+    });
+
+    if (quickChips) {
+      quickChips.addEventListener('click', (event) => {
+        const chip = event.target.closest('.quick-chip');
+        if (!chip) return;
+        const year = Number(chip.dataset.year);
+        birthYearInput.value = year;
+        const sign = signFromYear(year);
+        setSelectedZodiac(sign.key);
+        showZodiacResult(sign, year);
+      });
+    }
+
+    birthYearInput.addEventListener('input', () => {
+      if (birthYearInput.value.trim()) setSelectedZodiac(null);
+    });
+
+    zodiacForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const rawYear = birthYearInput.value.trim();
+
+      if (rawYear) {
+        const year = Number(rawYear);
+        if (!Number.isInteger(year) || year < 1900 || year > 2100) {
+          birthYearInput.setCustomValidity('Vui lòng nhập năm sinh hợp lệ từ 1900 đến 2100.');
+          birthYearInput.reportValidity();
+          birthYearInput.setCustomValidity('');
+          return;
+        }
+        const sign = signFromYear(year);
+        setSelectedZodiac(sign.key);
+        showZodiacResult(sign, year);
+        return;
+      }
+
+      if (selectedZodiac) {
+        showZodiacResult(zodiacByKey[selectedZodiac], null);
+        return;
+      }
+
+      zodiacSelectionHelp.textContent = 'Vui lòng nhập năm sinh hoặc chọn một trong 12 con giáp trước khi nhấn tra cứu.';
+      birthYearInput.focus();
+    });
+
+    // Touch swipe support
+    const stage = document.getElementById('stage');
+    stage.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    stage.addEventListener('touchend', (e) => {
+      const delta = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(delta) > 55) {
+        goTo(current + (delta < 0 ? 1 : -1));
+      }
+    }, { passive: true });
+
+    update();
+    refreshIcons();
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+:root {
+  /* ========================================================================= */
+  /* LỚP 1: GLOBAL DESIGN SYSTEM – CẤU HÌNH CHUNG & COLOR TOKENS V1.0          */
+  /* ========================================================================= */
+
+  /* ========================================================================= */
+  /* GLOBAL TYPOGRAPHY SYSTEM – ONE SOURCE OF TRUTH (PLAY FONT)                */
+  /* ========================================================================= */
+  --font-primary: 'Play', sans-serif;
+  --font-family-primary: var(--font-primary);
+  --font-family-heading: var(--font-primary);
+  --font-family-body: var(--font-primary);
+  --font-family-numeric: var(--font-primary);
+  --font-main: var(--font-primary);
+  --font-quote: 'Italianno', cursive;
+
+  /* Desktop (>= 1024px) Target Matrix */
+  --fs-h1: 28px;
+  --fs-h2: 23px;
+  --fs-h3: 19px;
+  --fs-h4: 17px;
+  --fs-h5: 16px;
+
+  --fs-body-lg: 16px;
+  --fs-body: 15px;
+  --fs-body-sm: 14px;
+
+  --fs-caption: 13px;
+  --fs-label: 12px;
+  --fs-badge: 12px;
+  --fs-button: 14px;
+  --fs-input: 15px;
+  --fs-kpi: 26px;
+
+  /* Line Heights & Font Weights */
+  --lh-heading: 1.3;
+  --lh-body: 1.6;
+  --lh-compact: 1.4;
+  --lh-display: 1.25;
+  --lh-h1: var(--lh-heading);
+  --lh-h2: var(--lh-heading);
+  --lh-h3: var(--lh-heading);
+  --lh-h4: var(--lh-heading);
+  --lh-card-title: var(--lh-heading);
+  --lh-secondary: var(--lh-body);
+  --lh-caption: var(--lh-compact);
+  --lh-button: var(--lh-compact);
+  --lh-tight: 1.25;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* Legacy font-size aliases bridged cleanly onto --fs-* */
+  --text-micro: var(--fs-label);
+  --text-caption: var(--fs-caption);
+  --text-body: var(--fs-body);
+  --text-h5: var(--fs-h5);
+  --text-h4: var(--fs-h4);
+  --text-h3: var(--fs-h3);
+  --text-h2: var(--fs-h2);
+  --text-h1: var(--fs-h1);
+  --text-display: var(--fs-kpi);
+  --text-card-title: var(--fs-h3);
+  --text-card-body: var(--fs-body);
+  --text-button: var(--fs-button);
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Border Radius Tokens */
+  --radius-card: 14px;
+  --radius-subcard: 12px;
+  --radius-button: 999px;
+  --radius-input: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-banner: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+
+  /* Component Dimensions */
+  --card-padding: 15px;
+  --card-gap: 15px;
+  --card-content-gap: 15px;
+  --card-heading-gap: 8px;
+  --card-border-width: 1px;
+
+  /* 1. MÀU NỀN */
+  --color-bg: #F8FAFC;
+  --color-bg-soft: #F5F3FF;
+  --color-bg-blue: #EFF6FF;
+
+  /* 2. MÀU CARD VÀ SURFACE */
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #F8FAFC;
+  --color-surface-indigo: #EEF2FF;
+  --color-surface-cyan: #ECFEFF;
+  --color-surface-green: #ECFDF5;
+  --color-surface-orange: #FFF7ED;
+  --color-surface-pink: #FDF2F8;
+  --color-surface-purple: #F5F3FF;
+
+  /* 3. MÀU CHỮ */
+  --color-heading: #1E1B4B;
+  --color-text: #334155;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748B;
+  --color-text-inverse: #FFFFFF;
+
+  /* 4. MÀU NHẬN DIỆN */
+  --color-primary: #4338CA;
+  --color-secondary: #075985;
+  --color-tertiary: #0E7490;
+  --color-indigo: #4338CA;
+  --color-blue: #075985;
+  --color-cyan: #0E7490;
+  --color-green: #047857;
+  --color-amber: #92400E;
+  --color-pink: #BE185D;
+  --color-purple: #6D28D9;
+  --color-coral: #C2413B;
+
+  /* 5. MÀU TRẠNG THÁI */
+  --color-success: #047857;
+  --color-warning: #92400E;
+  --color-error: #B91C1C;
+  --color-info: #075985;
+
+  /* 6. MÀU VIỀN, FOCUS VÀ GLASS */
+  --color-border: #CBD5E1;
+  --color-border-soft: #E2E8F0;
+  --color-focus-ring: #4338CA;
+  --glass-bg: rgba(255,255,255,0.72);
+  --glass-border: rgba(255,255,255,0.85);
+  --glass-blur: 16px;
+
+  /* Legacy aliases for compatibility */
+  --color-muted: var(--color-text-muted);
+  --border-color: var(--color-border);
+  --shadow-card: 0 10px 30px -6px rgba(30, 27, 75, 0.08);
+  --shadow-popup: 0 20px 25px -5px rgba(30, 27, 75, 0.14);
+
+  /* Semantic Contrast Tokens (Light Mode) */
+  --text-primary: #1E1B4B;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --text-disabled: #94A3B8;
+  --text-inverse: #FFFFFF;
+  --text-link: #4338CA;
+  --text-heading: #1E1B4B;
+  --icon-primary: #334155;
+  --icon-secondary: #475569;
+  --icon-muted: #64748B;
+  --border-default: #CBD5E1;
+  --border-muted: #E2E8F0;
+  --border-strong: #94A3B8;
+  --bg-page: #F8FAFC;
+  --bg-disabled: #E2E8F0;
+  --shadow-sm: 0 2px 8px rgba(30, 27, 75, 0.06);
+  --shadow-md: 0 10px 30px -6px rgba(30, 27, 75, 0.08);
+  --shadow-lg: 0 20px 32px -6px rgba(30, 27, 75, 0.14);
+
+  /* Global Icon Config */
+  --icon-size-sm: 16px;
+  --icon-size-md: 20px;
+  --icon-size-lg: 24px;
+
+  /* ========================================================================= */
+  /* LỚP 2: THEME BACKGROUND TOKENS – NỀN GIAO DIỆN (Default values)           */
+  /* ========================================================================= */
+  --bg-header: var(--glass-bg);
+  --bg-footer: var(--glass-bg);
+  --bg-main: var(--color-bg);
+  --bg-card: var(--glass-bg);
+  --bg-subcard: var(--color-surface-indigo);
+  --bg-nested-card: var(--color-bg);
+  --bg-button-primary: var(--color-indigo);
+  --bg-button-secondary: var(--color-border-soft);
+  --bg-button-icon: transparent;
+  --bg-popup: var(--color-surface);
+  --bg-modal: var(--color-surface);
+  --bg-dropdown: var(--color-surface);
+  --bg-dropdown-item: transparent;
+  --bg-navigation: var(--color-surface);
+  --bg-tooltip: var(--color-heading);
+  --bg-toast: var(--color-surface);
+  --bg-input: var(--color-surface);
+  --bg-select: var(--color-surface);
+  --bg-tab: var(--color-surface-indigo);
+  --bg-table: var(--color-surface);
+  --bg-blur: var(--glass-blur);
+
+  /* Container Max Width */
+  --container-max-w: 1250px;
+}
+
+/* Dark Mode Overrides (WCAG 2.2 AA Compliant) */
+html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-neon"], [data-theme="vivid-glass"] {
+  --color-bg: #0B1220;
+  --color-bg-soft: #111827;
+  --color-bg-blue: #1F2937;
+  --color-surface: #111827;
+  --color-surface-elevated: #1F2937;
+  --color-surface-indigo: #1E293B;
+  --color-surface-cyan: #162436;
+  --color-surface-green: #112624;
+  --color-surface-orange: #241C17;
+  --color-surface-pink: #251929;
+  --color-surface-purple: #1D1B31;
+
+  --color-heading: #F8FAFC;
+  --color-text: #E2E8F0;
+  --color-text-secondary: #CBD5E1;
+  --color-text-muted: #94A3B8;
+  --color-text-inverse: #0B1220;
+
+  --color-primary: #A5B4FC;
+  --color-secondary: #7DD3FC;
+  --color-tertiary: #67E8F9;
+  --color-indigo: #A5B4FC;
+  --color-blue: #7DD3FC;
+  --color-cyan: #67E8F9;
+  --color-green: #6EE7B7;
+  --color-amber: #FCD34D;
+  --color-pink: #F472B6;
+  --color-purple: #C084FC;
+  --color-coral: #FDA4AF;
+
+  --color-success: #6EE7B7;
+  --color-warning: #FCD34D;
+  --color-error: #FDA4AF;
+  --color-info: #7DD3FC;
+
+  --color-border: #334155;
+  --color-border-soft: #1F2937;
+  --color-focus-ring: #A5B4FC;
+  --glass-bg: rgba(17,24,39,0.78);
+  --glass-border: rgba(255,255,255,0.12);
+  --glass-blur: 16px;
+
+  --color-muted: var(--color-text-muted);
+  --border-color: var(--color-border);
+  --shadow-card: 0 10px 30px -6px rgba(0, 0, 0, 0.45);
+  --shadow-popup: 0 20px 32px -6px rgba(0, 0, 0, 0.6);
+
+  /* Semantic Contrast Tokens (Dark Mode) */
+  --text-primary: #F8FAFC;
+  --text-secondary: #E2E8F0;
+  --text-muted: #94A3B8;
+  --text-disabled: #64748B;
+  --text-inverse: #0B1220;
+  --text-link: #A5B4FC;
+  --text-heading: #F8FAFC;
+  --icon-primary: #E2E8F0;
+  --icon-secondary: #CBD5E1;
+  --icon-muted: #94A3B8;
+  --border-default: #334155;
+  --border-muted: #1F2937;
+  --border-strong: #475569;
+  --bg-page: #0B1220;
+  --bg-disabled: #1E293B;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 10px 30px -6px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 20px 32px -6px rgba(0, 0, 0, 0.6);
+}
+
+/* Tablet Typography Scale (768px – 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --fs-h1: 26px;
+    --fs-h2: 22px;
+    --fs-h3: 18px;
+    --fs-h4: 17px;
+    --fs-h5: 16px;
+    --fs-kpi: 24px;
+  }
+}
+
+/* Mobile Typography Scale (<= 767px) */
+@media (max-width: 767px) {
+  :root {
+    --fs-h1: 24px;
+    --fs-h2: 21px;
+    --fs-h3: 18px;
+    --fs-h4: 16px;
+    --fs-h5: 15px;
+    --fs-input: 16px;
+    --fs-kpi: 22px;
+  }
+}
+
+
+

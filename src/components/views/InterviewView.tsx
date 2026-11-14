@@ -1,0 +1,530 @@
+'use client';
+
+import React, { useState, useRef, useEffect } from 'react';
+import {
+  INTERVIEW_QUESTIONS,
+  INTERVIEW_TABS,
+  INTERVIEW_VIDEO_1_URL,
+  INTERVIEW_VIDEO_2_URL,
+} from '@/data/interview';
+import { useToast } from '@/components/ui/Toast';
+import { WebIcon } from '@/components/ui/WebIcon';
+import { formatCardTitle, cn } from '@/lib/utils';
+import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+
+export interface InterviewViewProps {
+  currentTheme?: string;
+  onShowNotification?: (msg: string) => void;
+}
+
+export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'light-glass' }) => {
+  const { showToast } = useToast();
+  const { cardStyle } = useTheme();
+  const rawCardStyle = getCardStyleProperties(cardStyle);
+  const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cardSampleStyle } = rawCardStyle as any;
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const filterDropdownRef = useRef<HTMLDivElement>(null);
+
+  const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
+  const [currentQIdx, setCurrentQIdx] = useState<number>(0);
+  const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
+  const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
+  const [progressPct, setProgressPct] = useState<number>(0);
+
+  const currentQ = INTERVIEW_QUESTIONS[currentQIdx] || INTERVIEW_QUESTIONS[0];
+
+  const getCapsuleGradient = () => {
+    if (!isVideoPlaying) {
+      return 'bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 shadow-[0_4px_20px_rgba(79,70,229,0.45)] hover:shadow-[0_6px_24px_rgba(79,70,229,0.6)]';
+    }
+    switch (currentQ.categoryKey) {
+      case 'intro':
+        return 'bg-gradient-to-r from-amber-600 via-rose-600 to-pink-600 hover:from-amber-500 hover:to-pink-500 shadow-[0_4px_20px_rgba(225,29,72,0.5)] hover:shadow-[0_6px_24px_rgba(225,29,72,0.7)]';
+      case 'management':
+        return 'bg-gradient-to-r from-blue-700 via-indigo-600 to-sky-500 hover:from-blue-600 hover:to-sky-400 shadow-[0_4px_20px_rgba(14,165,233,0.5)] hover:shadow-[0_6px_24px_rgba(14,165,233,0.7)]';
+      case 'tech':
+        return 'bg-gradient-to-r from-emerald-700 via-teal-600 to-cyan-500 hover:from-emerald-600 hover:to-cyan-400 shadow-[0_4px_20px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_24px_rgba(16,185,129,0.7)]';
+      case 'strategy':
+        return 'bg-gradient-to-r from-purple-700 via-violet-600 to-indigo-500 hover:from-purple-600 hover:to-indigo-400 shadow-[0_4px_20px_rgba(147,51,234,0.5)] hover:shadow-[0_6px_24px_rgba(147,51,234,0.7)]';
+      case 'inquiry':
+        return 'bg-gradient-to-r from-red-700 via-rose-600 to-orange-500 hover:from-red-600 hover:to-orange-400 shadow-[0_4px_20px_rgba(239,68,68,0.5)] hover:shadow-[0_6px_24px_rgba(239,68,68,0.7)]';
+      case 'closing':
+        return 'bg-gradient-to-r from-amber-600 via-yellow-500 to-orange-500 hover:from-amber-500 hover:to-orange-400 shadow-[0_4px_20px_rgba(245,158,11,0.5)] hover:shadow-[0_6px_24px_rgba(245,158,11,0.7)]';
+      default:
+        return 'bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 shadow-[0_4px_20px_rgba(79,70,229,0.45)] hover:shadow-[0_6px_24px_rgba(79,70,229,0.6)]';
+    }
+  };
+
+  const filteredQuestions = INTERVIEW_QUESTIONS.filter((q) => {
+    if (activeFilter === 'all') return true;
+    return q.categoryKey === activeFilter;
+  });
+
+  const selectQuestion = (idx: number) => {
+    const clamped = Math.max(0, Math.min(INTERVIEW_QUESTIONS.length - 1, idx));
+    setCurrentQIdx(clamped);
+    const q = INTERVIEW_QUESTIONS[clamped];
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (!isVideoPlaying || video.src !== INTERVIEW_VIDEO_2_URL) {
+      setIsVideoPlaying(true);
+      setIsAudioOn(true);
+      video.src = INTERVIEW_VIDEO_2_URL;
+      video.loop = false;
+      video.muted = false;
+      video.currentTime = q.startSec;
+      video.play().catch(() => {});
+    } else {
+      video.currentTime = q.startSec;
+      if (video.paused) {
+        video.play().catch(() => {});
+      }
+    }
+    showToast(`Đã chọn Câu ${String(q.stt).padStart(2, '0')}: ${q.categoryVi}`);
+  };
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isVideoPlaying) {
+      setIsVideoPlaying(false);
+      video.src = INTERVIEW_VIDEO_1_URL;
+      video.loop = true;
+      video.muted = true;
+      video.play().catch(() => {});
+    } else {
+      setIsVideoPlaying(true);
+      setIsAudioOn(true);
+      video.src = INTERVIEW_VIDEO_2_URL;
+      video.loop = false;
+      video.muted = false;
+      video.currentTime = currentQ.startSec;
+      video.play().catch(() => {});
+    }
+  };
+
+  const toggleAudio = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    const nextAudio = !isAudioOn;
+    setIsAudioOn(nextAudio);
+    video.muted = !nextAudio;
+    showToast(nextAudio ? 'Đã bật tiếng video phỏng vấn' : 'Đã tắt tiếng video phỏng vấn');
+  };
+
+  const handleTimeUpdate = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    const time = video.currentTime;
+
+    if (isVideoPlaying) {
+      const matchedIdx = INTERVIEW_QUESTIONS.findIndex(
+        (item) => time >= item.startSec && time < item.endSec
+      );
+      if (matchedIdx !== -1 && matchedIdx !== currentQIdx) {
+        setCurrentQIdx(matchedIdx);
+      }
+    }
+
+    const qDuration = Math.max(1, currentQ.endSec - currentQ.startSec);
+    const elapsed = Math.max(0, Math.min(qDuration, time - currentQ.startSec));
+    const pct = isVideoPlaying ? (elapsed / qDuration) * 100 : 0;
+    setProgressPct(pct);
+  };
+
+  const handleEnded = () => {
+    if (isVideoPlaying) {
+      togglePlay();
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target as Node)) {
+        setIsFilterDropdownOpen(false);
+      }
+    };
+    if (isFilterDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isFilterDropdownOpen]);
+
+  // Silence unused state warnings while keeping exact structure
+  void currentTheme;
+  void setActiveFilter;
+  void INTERVIEW_TABS;
+  void filteredQuestions;
+
+  return (
+    <div
+      id="interview-page-container"
+      data-element-name="Trang Phỏng Vấn"
+      data-element-type="container"
+      data-element-page="interview"
+      className="w-full h-full flex-1 flex flex-col p-[15px] gap-[15px] max-w-full mx-auto justify-between select-none relative text-slate-800 dark:text-slate-100 overflow-y-auto no-scrollbar font-play text-left animate-fadeIn"
+      style={{ padding: '15px', gap: '15px' }}
+    >
+      {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
+      <div id="interview-main-content" className="w-full flex-1 flex flex-col lg:flex-row gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar">
+        
+        {/* 1. VIDEO BANNER SECTION (70% width on LG) */}
+        <section
+          id="interview-questions-card"
+          data-element-name="Banner Video Phỏng Vấn"
+          data-element-type="banner-card"
+          data-section-card="true"
+          className="lg:w-[70%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden border border-white/80 dark:border-[#334155] shadow-xl p-[15px] text-white shrink-0 z-30 flex flex-col justify-between bg-[#0B1220] group"
+          style={{ padding: '15px', borderRadius: '14px' }}
+        >
+          {/* Nền Video phỏng vấn trực tiếp lắp đầy 100% banner */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[14px] w-full h-full">
+            <video
+              ref={videoRef}
+              autoPlay
+              loop={!isVideoPlaying}
+              muted={!isAudioOn}
+              playsInline
+              src={isVideoPlaying ? INTERVIEW_VIDEO_2_URL : INTERVIEW_VIDEO_1_URL}
+              onTimeUpdate={handleTimeUpdate}
+              onEnded={handleEnded}
+              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500 select-none pointer-events-none"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-black/30 pointer-events-none" />
+          </div>
+
+          {/* Hàng trên: Icon + Tiêu đề bên trái, Câu nói chữ ký bên phải */}
+          <div className="relative z-10 flex flex-row items-center justify-between gap-2 sm:gap-4 w-full">
+            <div className="flex items-center gap-2 shrink-0">
+              <WebIcon
+                name="mic"
+                className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
+                style={{ color: '#38bdf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
+              />
+              <h1
+                id="interview-hero-banner-title"
+                className="text-[22px] font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] whitespace-nowrap"
+                style={{
+                  color: '#38bdf8',
+                  fontSize: '22px',
+                  fontWeight: 700,
+                  textTransform: 'none',
+                  fontStyle: 'normal',
+                  transform: 'none',
+                }}
+              >
+                Phỏng vấn &amp; Đối thoại
+              </h1>
+            </div>
+            <p
+              className="font-handwriting font-italianno not-italic text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-right ml-auto whitespace-nowrap overflow-hidden text-ellipsis max-w-[65%]"
+              style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '28px', fontWeight: 700, fontStyle: 'normal' }}
+            >
+              &quot;Giao lưu cởi mở để thấu hiểu và sẻ chia ♡&quot;
+            </p>
+          </div>
+
+          {/* Hàng dưới: 1 Nút Filter duy nhất bên trái + Cụm nút Laser Beam Phát Video bên phải */}
+          <div id="interview-video-banner-controls" className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto">
+            {/* Nhóm các câu hỏi ở banner vào 1 nút filter với menu xổ xuống */}
+            <div className="relative inline-block text-left" ref={filterDropdownRef}>
+              <button
+                id="interview-question-filter-btn"
+                type="button"
+                onClick={() => {
+                  setIsFilterDropdownOpen((prev) => !prev);
+                }}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-indigo-950 dark:text-indigo-200 border border-indigo-300 dark:border-indigo-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.18)] backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
+                title="Nhấp để chọn câu hỏi phỏng vấn"
+                aria-expanded={isFilterDropdownOpen}
+                aria-haspopup="listbox"
+              >
+                <WebIcon
+                  name="sliders"
+                  className="w-4 h-4 text-indigo-600 dark:text-indigo-400 transition-transform group-hover:rotate-45 shrink-0"
+                />
+                <span className="shrink-0">Bộ lọc câu hỏi</span>
+                <span className="px-2.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950/80 border border-indigo-300 dark:border-indigo-500/50 text-[11px] font-mono text-indigo-900 dark:text-indigo-200 font-bold max-w-[200px] sm:max-w-[340px] md:max-w-[420px] lg:max-w-[500px] truncate">
+                  Câu {String(currentQ.stt).padStart(2, '0')}: {currentQ.questionVi.replace(/^Câu hỏi\s*\d+:\s*/i, '')}
+                </span>
+                <WebIcon
+                  name="chevron-down"
+                  className={cn(
+                    'w-3.5 h-3.5 text-indigo-700 dark:text-indigo-400 transition-transform duration-200 shrink-0',
+                    isFilterDropdownOpen ? 'rotate-180' : ''
+                  )}
+                />
+              </button>
+
+              {isFilterDropdownOpen && (
+                <div
+                  id="interview-question-filter-listbox"
+                  role="listbox"
+                  className="bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-72 sm:w-96 max-h-60 overflow-y-auto no-scrollbar rounded-[14px] bg-white/95 dark:bg-[#111827]/95 border border-indigo-200/90 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.25)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-[#1E1B4B] dark:text-[#F8FAFC]"
+                  style={cardSampleStyle}
+                >
+                  <div className="px-2.5 py-1 text-[11px] font-mono font-bold text-[#475569] dark:text-[#94A3B8] border-b border-black/5 dark:border-[#334155] flex items-center justify-between sticky top-0 bg-white/95 dark:bg-[#111827]/95 z-10">
+                    <span>Danh sách {INTERVIEW_QUESTIONS.length} câu hỏi phỏng vấn</span>
+                    <span className="text-indigo-600 dark:text-indigo-400">
+                      {String(currentQIdx + 1).padStart(2, '0')}/{String(INTERVIEW_QUESTIONS.length).padStart(2, '0')}
+                    </span>
+                  </div>
+                  {INTERVIEW_QUESTIONS.map((q, idx) => {
+                    const isSelected = idx === currentQIdx;
+                    return (
+                      <button
+                        key={q.stt}
+                        type="button"
+                        role="option"
+                        aria-selected={isSelected}
+                        onClick={() => {
+                          selectQuestion(idx);
+                          setIsFilterDropdownOpen(false);
+                        }}
+                        className={cn(
+                          'w-full text-left px-3 py-2 rounded-[14px] transition-all cursor-pointer flex items-center justify-between gap-2 text-xs font-play',
+                          isSelected
+                            ? 'bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold shadow-xs'
+                            : 'hover:bg-indigo-50/80 dark:hover:bg-white/10 text-slate-800 dark:text-slate-100 font-semibold'
+                        )}
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span
+                            className={cn(
+                              'w-6 h-6 rounded-full flex items-center justify-center text-[10.5px] font-mono font-bold shrink-0',
+                              isSelected
+                                ? 'bg-white/25 text-white'
+                                : 'bg-indigo-100 dark:bg-slate-800 text-indigo-700 dark:text-indigo-300'
+                            )}
+                          >
+                            {String(q.stt).padStart(2, '0')}
+                          </span>
+                          <div className="flex flex-col min-w-0">
+                            <span className="truncate font-bold">{q.categoryVi}</span>
+                            <span className={cn('text-[10px] truncate', isSelected ? 'text-indigo-100' : 'text-[#475569] dark:text-[#94A3B8]')}>
+                              {q.questionVi.replace(/^Câu hỏi\s*\d+:\s*/i, '')}
+                            </span>
+                          </div>
+                        </div>
+                        {isSelected && <WebIcon name="check" className="w-3.5 h-3.5 text-white shrink-0" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Cụm phải: Nút Phát Video formatted theo chuẩn AboutView */}
+            <div className="flex items-center justify-end gap-3 pointer-events-auto">
+              <div
+                id="interview-play-video-capsule"
+                data-element-type="card"
+                className={cn(
+                  'relative z-10 inline-flex items-center gap-2.5 px-3 py-1.5 rounded-[999px] text-white transition-all duration-500 cursor-pointer pointer-events-auto border border-white/35 active:scale-98 select-none',
+                  getCapsuleGradient()
+                )}
+              >
+                {/* Speaker Toggle Button */}
+                <button
+                  type="button"
+                  onClick={toggleAudio}
+                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
+                    isAudioOn
+                      ? 'bg-white/25 hover:bg-white/40 text-white shadow-xs'
+                      : 'bg-red-600 hover:bg-red-500 text-white shadow-md'
+                  }`}
+                  title={isAudioOn ? 'Tắt tiếng video phỏng vấn' : 'Bật âm thanh video phỏng vấn'}
+                  aria-label={isAudioOn ? 'Tắt tiếng video phỏng vấn' : 'Bật âm thanh video phỏng vấn'}
+                >
+                  <span className="flex items-center justify-center">
+                    {isAudioOn ? (
+                      <WebIcon name="volume-2" className="w-3.5 h-3.5 text-white" />
+                    ) : (
+                      <WebIcon name="volume-x" className="w-3.5 h-3.5 text-white" />
+                    )}
+                  </span>
+                </button>
+
+                <div className="w-[1px] h-4 bg-white/35 shrink-0 mx-0.5" />
+
+                {/* Play / Cancel Button */}
+                {!isVideoPlaying ? (
+                  <button
+                    type="button"
+                    onClick={togglePlay}
+                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white font-black text-[15px] tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                    title="Bấm để phát video phỏng vấn"
+                  >
+                    <span className="flex items-center justify-center">
+                      <WebIcon name="play" className="w-4 h-4 fill-white text-white shrink-0" style={{ fontSize: '15px', height: '16px', width: '16px' }} />
+                    </span>
+                    <span className="drop-shadow-sm font-black text-[15px] text-white truncate font-play text-left" style={{ fontSize: '15px', textAlign: 'left' }}>
+                      Phát Video
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={togglePlay}
+                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white font-black text-[15px] tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                    title="Bấm để hủy phát video"
+                  >
+                    <span className="flex items-center justify-center">
+                      <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-white shrink-0" style={{ fontSize: '15px', height: '16px', width: '16px' }} />
+                    </span>
+                    <span className="drop-shadow-sm font-black text-[15px] text-white truncate font-play text-left" style={{ fontSize: '15px', textAlign: 'left' }}>
+                      Hủy Phát
+                    </span>
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 2. THẺ CHI TIẾT CÂU TRẢ LỜI (30% width on LG) */}
+        <div
+          id="interview-answers-card"
+          data-element-name="Thẻ Chi Tiết Trả Lời Phỏng Vấn"
+          data-element-type="card"
+          data-section-card="true"
+          className="lg:w-[30%] w-full min-h-[360px] lg:min-h-0 lg:h-full flex flex-col rounded-[14px] bg-white/85 dark:bg-[#111827]/90 border border-[#CBD5E1] dark:border-[#334155] p-[15px] backdrop-blur-2xl transition-all duration-300 text-left justify-between gap-[15px] relative overflow-hidden"
+        >
+          <div className="space-y-2.5 flex-1 flex flex-col min-h-0 relative z-10">
+            {/* Header Tiêu đề thẻ */}
+            <div className="space-y-1.5 shrink-0">
+              <div className="flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
+                  <h3 className="card-title text-pink-600 dark:text-pink-400">
+                    <svg className="w-4.5 h-4.5 stroke-[2] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    </svg>
+                    <span>Chi Tiết Trả Lời</span>
+                  </h3>
+              </div>
+
+              <div className="h-[2px] w-full rounded-full bg-gradient-to-r from-pink-500 via-indigo-500 to-cyan-400 shadow-2xs" />
+            </div>
+
+            {/* Segment Progress Bar */}
+            <div
+              id="interview-progress-card"
+              data-element-type="card"
+              className="bento-card flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shrink-0 text-xs font-semibold"
+            >
+              <div className="flex items-center gap-1 text-slate-600 dark:text-slate-300 font-mono text-[11px]">
+                <WebIcon name="clock" className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                <span>{currentQ.timestamp}</span>
+              </div>
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-pink-500 to-indigo-600 rounded-full transition-all duration-200"
+                    style={{ width: `${progressPct}%` }}
+                  />
+                </div>
+                <span className="text-[10px] font-mono font-bold text-[#475569] dark:text-[#94A3B8] shrink-0">
+                  {Math.round(currentQ.endSec - currentQ.startSec)}s
+                </span>
+              </div>
+            </div>
+
+            {/* Dialogue Bubble: Asker & Answerer & Key Takeaway */}
+            <div className="flex-1 space-y-2.5 overflow-y-auto pr-1 no-scrollbar min-h-0 text-xs">
+              {/* Asker (Hiển thị Câu hỏi số ở đầu câu hỏi) */}
+              <div
+                id="interview-asker-card"
+                data-element-type="card"
+                className="bento-card p-3 rounded-[14px] bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-1"
+              >
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="text-[14px] font-mono font-black text-indigo-700 dark:text-indigo-300 tracking-wide shrink-0" style={{ fontSize: '14px' }}>
+                    Q{String(currentQ.stt).padStart(2, '0')}:
+                  </span>
+                  <WebIcon name="building" className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" style={{ fontWeight: 'bold' }} />
+                  <span className="text-[14px] font-black text-indigo-950 dark:text-indigo-200 tracking-wide" style={{ fontSize: '14px' }}>
+                    {currentQ.askerVi}
+                  </span>
+                </div>
+                <h3
+                  id="interview-question-title"
+                  className="card-title text-slate-900 dark:text-white"
+                >
+                  <span className="text-[14px] font-normal" style={{ fontSize: '14px', fontWeight: 'normal' }}>
+                    {currentQ.questionVi.replace(/^Câu hỏi\s*\d+:\s*/, '')}
+                  </span>
+                </h3>
+              </div>
+
+              {/* Answerer */}
+              <div
+                id="interview-answerer-card"
+                data-element-type="card"
+                className="bento-card p-3 rounded-[14px] bg-indigo-50/50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-800/60 space-y-1"
+              >
+                <div className="flex items-center gap-1.5">
+                  <WebIcon name="user" className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  <span className="text-[14px] font-black text-emerald-950 dark:text-emerald-200 tracking-wide" style={{ fontSize: '14px' }}>
+                    {currentQ.answererVi}
+                  </span>
+                </div>
+                <p className="text-[14px] text-slate-700 dark:text-slate-200 leading-relaxed font-normal" style={{ fontSize: '14px' }}>
+                  {currentQ.answerVi}
+                </p>
+              </div>
+
+              {/* Takeaway */}
+              <div
+                id="interview-insights-card"
+                data-element-type="card"
+                className="bento-card p-3 rounded-[14px] bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex items-start gap-2 shrink-0"
+              >
+                <WebIcon name="trophy" className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                <div className="text-[14px] text-amber-950 dark:text-amber-200 font-medium leading-relaxed" style={{ fontSize: '14px' }}>
+                  <span className="font-extrabold text-amber-800 dark:text-amber-300 inline-flex items-center gap-1 mr-1">
+                    <WebIcon name="target" className="w-3 h-3 text-amber-700 dark:text-amber-400" />
+                    <span>Trọng tâm:</span>
+                  </span>
+                  <span>{currentQ.keyTakeawayVi}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation Footer */}
+          <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between mt-auto shrink-0 relative z-10">
+            <button
+              type="button"
+              disabled={currentQIdx === 0}
+              onClick={() => selectQuestion(currentQIdx - 1)}
+              className="text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 disabled:opacity-30 disabled:pointer-events-none cursor-pointer flex items-center gap-1 transition-colors py-1 px-2 rounded-[14px] border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+            >
+              <span>‹ Trước</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => selectQuestion(currentQIdx)}
+              className="text-[11px] font-bold text-indigo-700 dark:text-cyan-400 hover:underline flex items-center gap-1 cursor-pointer py-1 px-2 rounded-[14px]"
+            >
+              <WebIcon name="refresh" className="w-3.5 h-3.5" />
+              <span>Lại</span>
+            </button>
+
+            <button
+              type="button"
+              disabled={currentQIdx === INTERVIEW_QUESTIONS.length - 1}
+              onClick={() => selectQuestion(currentQIdx + 1)}
+              className="text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 disabled:opacity-30 disabled:pointer-events-none cursor-pointer flex items-center gap-1 transition-colors py-1 px-2 rounded-[14px] border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+            >
+              <span>Tiếp ›</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

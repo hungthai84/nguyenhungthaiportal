@@ -1,0 +1,1682 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  Users, Move, Sparkles, GraduationCap, Layers, KeyRound, 
+  GitMerge, Bot, Gauge, ExternalLink, LineChart, Cpu, 
+  Boxes, UserCog, GitBranch, Target, RotateCcw, Table, 
+  PlayCircle, GitFork, Activity, UserCheck, Headset, 
+  Award, ShoppingCart, Lock, ShieldCheck, X, CheckCircle, 
+  Copy, Play 
+} from 'lucide-react';
+
+const systemsData = {
+  SDP: {
+    code: '9.1',
+    name: 'Cổng làm việc CSKH',
+    abbr: 'SDP',
+    full: 'Service Delivery Platform',
+    category: 'core',
+    icon: Layers,
+    color: '#2563eb',
+    desc: 'Service Delivery Platform: Trang làm việc chính của Phòng CSKH, cổng truy cập tập trung để sử dụng toàn bộ các hệ thống nghiệp vụ.',
+    features: [
+      'Cổng đăng nhập và truy cập tập trung (Single Sign-On & Portal) vào toàn bộ hệ sinh thái công cụ CSKH.',
+      'Tích hợp bàn làm việc hợp nhất cho tư vấn viên (Single Agent Workspace & Omnichannel Interaction Hub).',
+      'Kết nối và chuyển tiếp dữ liệu linh hoạt giữa các hệ thống CRM, ERP, HRM, BPM, OKR, LMS và AI Assistant.',
+      'Quản lý phân quyền người dùng, điều phối luồng công việc và giám sát trạng thái vận hành thời gian thực.'
+    ],
+    url: 'https://www.sdpplatfrom.powerservice.one',
+    flows: [
+      { to: 'CRM', type: '2 Chiều', desc: 'Đồng bộ hồ sơ KH 360°, thông tin liên hệ và lịch sử tương tác' },
+      { to: 'CSC', type: '2 Chiều', desc: 'Nhận Ticket tổng đài, gán việc cho Agent & đẩy tiến độ xử lý' },
+      { to: 'CLP', type: '2 Chiều', desc: 'Tra cứu điểm thưởng, phát hành voucher ưu đãi trực tiếp' },
+      { to: 'POS', type: 'Nhận data', desc: 'Tra cứu đơn mua tại quầy, chi tiết hóa đơn & đối soát' },
+      { to: 'ERP', type: '2 Chiều', desc: 'Truy vấn công nợ, đối chiếu hóa đơn & kích hoạt xuất đổi hàng' },
+      { to: 'BPM', type: 'Gửi trigger', desc: 'Khởi tạo luồng phê duyệt ngoại lệ (bồi hoàn, bảo hành)' },
+      { to: 'HRM', type: 'Xác thực', desc: 'Đồng bộ danh sách tư vấn viên, ca trực & phân quyền tài khoản' },
+      { to: 'OKR', type: 'Gửi chỉ số', desc: 'Tự động tính điểm năng suất giải quyết ticket và SLA vào OKR' },
+      { to: 'LMS', type: 'Tra cứu', desc: 'Mở nhanh cẩm nang quy chuẩn nghiệp vụ & kiểm tra quy chuẩn' },
+      { to: 'AI Assistant', type: 'Real-time API', desc: 'Gợi ý câu trả lời thông minh, phân tích cảm xúc hội thoại' },
+      { to: 'BI Dashboard', type: 'Streaming', desc: 'Bơm dữ liệu KPI, thời lượng xử lý Ticket lên màn hình Wallboard' }
+    ]
+  },
+  ERP: {
+    code: '9.2',
+    name: 'Tài chính kế toán',
+    abbr: 'ERP',
+    full: 'Enterprise Resource Planning',
+    category: 'enterprise',
+    icon: Boxes,
+    color: '#9333ea',
+    desc: 'Quản lý nguồn lực doanh nghiệp, tài chính, kế toán, mua hàng, kho, sản xuất và tài sản.',
+    features: [
+      'Quản lý hoạch định nguồn lực doanh nghiệp và tài chính kế toán.',
+      'Tối ưu hóa quy trình mua hàng, quản lý kho và tài sản.'
+    ],
+    url: 'https://www.erpplatfrom.powerservice.one',
+    flows: [
+      { to: 'SDP', type: 'Đồng bộ', desc: 'Cung cấp dữ liệu tồn kho, tình trạng phiếu xuất hoàn tiền' },
+      { to: 'POS', type: '2 Chiều', desc: 'Đồng bộ tồn kho tức thì khi có giao dịch bán lẻ tại quầy' },
+      { to: 'BPM', type: '2 Chiều', desc: 'Tự động hạch toán sau khi quy trình duyệt chi hoàn tất' },
+      { to: 'CRM', type: '2 Chiều', desc: 'Đồng bộ hợp đồng B2B, hóa đơn điện tử VAT và công nợ' },
+      { to: 'HRM', type: 'Tài chính', desc: 'Tự động hạch toán quỹ lương, bảo hiểm và thưởng nhân sự' }
+    ]
+  },
+  CRM: {
+    code: '9.3',
+    name: 'Quản lý Quan hệ Khách hàng',
+    abbr: 'CRM',
+    full: 'Customer Relationship Management',
+    category: 'core_crm',
+    icon: UserCheck,
+    color: '#06b6d4',
+    desc: 'Quản lý thông tin khách hàng 360 độ, bán hàng, marketing và hành trình trải nghiệm người dùng.',
+    features: [
+      'Quản lý dữ liệu thông tin khách hàng 360 độ tập trung.',
+      'Tối ưu hóa chiến dịch marketing, bán hàng và chăm sóc khách hàng.'
+    ],
+    url: 'https://www.crmplatfrom.powerservice.one',
+    flows: [
+      { to: 'SDP', type: '2 Chiều', desc: 'Cung cấp lịch sử mua hàng, nhật ký tương tác và phân khúc KH' },
+      { to: 'CLP', type: '2 Chiều', desc: 'Đồng bộ điểm tích lũy và điều kiện nâng hạng VIP' },
+      { to: 'POS', type: '2 Chiều', desc: 'Nhận dữ liệu khách mua hàng tại quầy để cập nhật hồ sơ CRM' },
+      { to: 'ERP', type: '2 Chiều', desc: 'Đồng bộ hợp đồng bán lẻ, công nợ và hóa đơn điện tử' },
+      { to: 'BI', type: 'Streaming', desc: 'Đẩy dữ liệu phễu bán hàng, chuyển đổi và tỷ lệ rời bỏ (Churn)' }
+    ]
+  },
+  HRM: {
+    code: '9.4',
+    name: 'Quản lý Nguồn nhân lực',
+    abbr: 'HRM',
+    full: 'Human Resource Management',
+    category: 'enterprise',
+    icon: UserCog,
+    color: '#db2777',
+    desc: 'Quản lý toàn bộ vòng đời nhân viên từ tuyển dụng, chấm công, tính lương đến đào tạo phát triển.',
+    features: [
+      'Quản lý tuyển dụng, hồ sơ nhân sự, chấm công và tính lương.',
+      'Theo dõi đánh giá hiệu suất và lộ trình phát triển nhân viên.'
+    ],
+    url: 'https://www.hrmplatfrom.powerservice.one',
+    flows: [
+      { to: 'SDP', type: 'Master Identity', desc: 'Cung cấp thông tin danh tính, phòng ban và ca trực CSKH' },
+      { to: 'LMS', type: '2 Chiều', desc: 'Đồng bộ kết quả đào tạo nhân sự để phục vụ đánh giá nâng bậc' },
+      { to: 'ERP', type: 'Hạch toán', desc: 'Truyền dữ liệu bảng lương định kỳ để hạch toán chi phí sổ cái' },
+      { to: 'BPM', type: '2 Chiều', desc: 'Phê duyệt luồng tuyển dụng, bổ nhiệm và quản lý ngày phép' },
+      { to: 'OKR', type: 'Đánh giá', desc: 'Đối chiếu kết quả hoàn thành OKR phục vụ xếp loại nhân sự' }
+    ]
+  },
+  BPM: {
+    code: '9.5',
+    name: 'Quản lý Quy trình Nghiệp vụ',
+    abbr: 'BPM',
+    full: 'Business Process Management',
+    category: 'enterprise',
+    icon: GitBranch,
+    color: '#6366f1',
+    desc: 'Số hóa và tự động hóa quy trình nghiệp vụ nhằm nâng cao hiệu quả vận hành liên phòng ban.',
+    features: [
+      'Số hóa và thiết kế quy trình luồng công việc tự động.',
+      'Theo dõi và tối ưu hóa hiệu suất vận hành liên phòng ban.'
+    ],
+    url: 'https://www.bmpplatform.powerservice.one',
+    flows: [
+      { to: 'SDP', type: 'Workflow', desc: 'Điều phối phê duyệt yêu cầu bồi hoàn, bảo hành đặc biệt từ CSKH' },
+      { to: 'ERP', type: 'Trigger', desc: 'Kích hoạt hạch toán kế toán khi luồng duyệt hợp lệ' },
+      { to: 'HRM', type: 'Phê duyệt', desc: 'Số hóa quy trình duyệt tuyển dụng, công tác và nghỉ phép' }
+    ]
+  },
+  OKR: {
+    code: '9.6',
+    name: 'Quản lý Mục tiêu & Kết quả',
+    abbr: 'OKR',
+    full: 'Objectives & Key Results',
+    category: 'enterprise',
+    icon: Target,
+    color: '#f97316',
+    desc: 'Thiết lập mục tiêu chiến lược, theo dõi kết quả then chốt và đánh giá hiệu suất minh bạch.',
+    features: [
+      'Thiết lập và quản lý bộ mục tiêu OKR chiến lược toàn công ty.',
+      'Theo dõi tiến độ kết quả then chốt và đánh giá hiệu suất minh bạch.'
+    ],
+    url: 'https://www.okrplatfrom.powerservice.one',
+    flows: [
+      { to: 'SDP', type: 'Chỉ tiêu', desc: 'Hiển thị chỉ tiêu OKR (CSAT, FCR, SLA) trực tiếp lên trang làm việc' },
+      { to: 'BI', type: 'Đồng bộ', desc: 'Đối chiếu kết quả thực tế từ Wallboard với mục tiêu kế hoạch' },
+      { to: 'HRM', type: 'Hiệu suất', desc: 'Cung cấp điểm số hoàn thành OKR phục vụ xét thưởng nhân viên' }
+    ]
+  },
+  CLP: {
+    code: '9.7',
+    name: 'Khách hàng Thân thiết (Loyalty)',
+    abbr: 'CLP',
+    full: 'Customer Loyalty Program',
+    category: 'core_crm',
+    icon: Award,
+    color: '#eab308',
+    desc: 'Quản lý chương trình thành viên, tích điểm, ưu đãi voucher và chiến dịch gia tăng sự trung thành.',
+    features: [
+      'Quản lý phân hạng thành viên, chương trình tích điểm đổi quà.',
+      'Phát hành voucher ưu đãi và triển khai các chiến dịch chăm sóc khách hàng thân thiết.'
+    ],
+    url: 'https://www.clpplatform.powerservice.one',
+    flows: [
+      { to: 'SDP', type: 'Real-time API', desc: 'Nhân viên áp mã coupon đền bù hoặc cộng điểm ưu đãi tức thì' },
+      { to: 'CRM', type: '2 Chiều', desc: 'Cập nhật phân hạng và mức chi tiêu của từng khách' },
+      { to: 'POS', type: 'Tra cứu', desc: 'Xác thực voucher & giảm giá trực tiếp khi khách thanh toán tại quầy' },
+      { to: 'CSC', type: 'Đền bù', desc: 'Tự động phát hành voucher ưu đãi khi Agent giải quyết khiếu nại' }
+    ]
+  },
+  LMS: {
+    code: '9.8',
+    name: 'Quản lý Đào tạo (Learning)',
+    abbr: 'LMS',
+    full: 'Learning Management System',
+    category: 'intelligence',
+    icon: GraduationCap,
+    color: '#14b8a6',
+    desc: 'Xây dựng khóa học trực tuyến, kiểm tra đánh giá năng lực tự động và phát triển nguồn nhân lực.',
+    features: [
+      'Quản lý nội dung bài giảng, khóa học trực tuyến E-learning.',
+      'Tự động hóa bài kiểm tra sát hạch và theo dõi tiến trình học tập.'
+    ],
+    url: 'https://www.lmsplatfrom.powerservice.one',
+    flows: [
+      { to: 'SDP', type: 'Portal', desc: 'Nhúng khóa học quy trình xử lý khủng hoảng và cẩm nang hỗ trợ' },
+      { to: 'AI Assistant', type: 'Cơ sở tri thức', desc: 'Cung cấp giáo trình chuẩn để AI huấn luyện và giải đáp' },
+      { to: 'HRM', type: 'Đồng bộ', desc: 'Cập nhật chứng chỉ và điểm sát hạch vào hồ sơ nhân sự' }
+    ]
+  },
+  CSC: {
+    code: '9.9',
+    name: 'Trung tâm Chăm sóc Khách hàng',
+    abbr: 'CSC',
+    full: 'Customer Service Center',
+    category: 'core_crm',
+    icon: Headset,
+    color: '#6366f1',
+    desc: 'Quản lý tương tác đa kênh (Omnichannel), tiếp nhận và xử lý Ticket, giám sát SLA và Helpdesk.',
+    features: [
+      'Tiếp nhận và quản lý yêu cầu hỗ trợ (Ticketing System) đa kênh.',
+      'Theo dõi giám sát tuân thủ cam kết chất lượng dịch vụ SLA và Helpdesk.'
+    ],
+    url: 'https://www.cscplatform.powerservice.one',
+    flows: [
+      { to: 'SDP', type: 'Hub cốt lõi', desc: 'Truyền tải luồng Ticket từ Hotline, Livechat, Zalo về Agent Workspace' },
+      { to: 'CRM', type: 'Đồng bộ', desc: 'Ghi lại lịch sử tương tác cuộc gọi vào hồ sơ khách hàng 360°' },
+      { to: 'AI Assistant', type: 'Streaming', desc: 'Voice AI Copilot phân tích cảm xúc và gợi ý phản hồi tức thời' },
+      { to: 'CLP', type: 'API', desc: 'Yêu cầu kích hoạt voucher quà tặng xin lỗi khách hàng' }
+    ]
+  },
+  BI: {
+    code: '9.10',
+    name: 'Báo cáo & Phân tích',
+    abbr: 'BI Dashboard',
+    full: 'Business Intelligence Dashboard',
+    category: 'intelligence',
+    icon: LineChart,
+    color: '#22c55e',
+    desc: 'Trực quan hóa dữ liệu theo thời gian thực (Real-time Wallboard) hỗ trợ ra quyết định kinh doanh.',
+    features: [
+      'Tổng hợp và trực quan hóa các dữ liệu vận hành thời gian thực.',
+      'Cung cấp báo cáo phân tích thông minh cho ban quản lý và C-Level.'
+    ],
+    url: '(Đang hoàn thiện tích hợp)',
+    isPending: true,
+    flows: [
+      { to: 'SDP', type: 'Nhận dữ liệu', desc: 'Thu nạp toàn bộ Event log, thời gian thao tác và trạng thái của Agent' },
+      { to: 'Toàn hệ thống', type: 'ETL Pipeline', desc: 'Tổng hợp data từ CRM, ERP, POS, CSC và BPM phục vụ báo cáo BI' },
+      { to: 'OKR', type: 'Đối chiếu', desc: 'Hiển thị tiến độ hoàn thành các chỉ tiêu trọng yếu thời gian thực' },
+      { to: 'AI Assistant', type: 'Phân tích', desc: 'Nạp dữ liệu dự báo xu hướng khách hàng và rủi ro vận hành' }
+    ]
+  },
+  AI: {
+    code: '9.11',
+    name: 'Trợ lý Trí tuệ Nhân tạo',
+    abbr: 'AI Assistant',
+    full: 'Artificial Intelligence Assistant',
+    category: 'intelligence',
+    icon: Sparkles,
+    color: '#8b5cf6',
+    desc: 'Hỗ trợ người dùng bằng AI trong việc tìm kiếm tri thức, phân tích dữ liệu tự động và xử lý tác vụ 24/7.',
+    features: [
+      'Tìm kiếm và truy xuất cơ sở tri thức nghiệp vụ tự động 24/7.',
+      'Hỗ trợ tư vấn viên gợi ý câu trả lời và tự động hóa xử lý tác vụ.'
+    ],
+    url: 'https://www.aiplatfrom.powerservice.one',
+    flows: [
+      { to: 'SDP', type: 'Real-time Copilot', desc: 'Lắng nghe nội dung chat/thoại để đưa ra kịch bản trả lời mẫu tối ưu' },
+      { to: 'LMS', type: 'Đọc tài liệu', desc: 'Nạp cơ sở tri thức từ quy trình LMS để trả lời chuẩn nghiệp vụ' },
+      { to: 'CSC', type: 'Copilot', desc: 'Hỗ trợ tư vấn viên phân tích hội thoại và gợi ý câu trả lời theo thời gian thực' },
+      { to: 'BI', type: 'Dự báo', desc: 'Cung cấp mô hình phân tích hành vi và dự đoán churn rate' }
+    ]
+  },
+  POS: {
+    code: '9.12',
+    name: 'Quản lý Bán hàng tại Quầy',
+    abbr: 'POS',
+    full: 'Point of Sale',
+    category: 'core_crm',
+    icon: ShoppingCart,
+    color: '#10b981',
+    desc: 'Quản lý đơn hàng, thanh toán, hóa đơn, tồn kho và đồng bộ hóa dữ liệu trực tiếp với CRM/ERP.',
+    features: [
+      'Quản lý giao dịch bán hàng, tạo đơn và thanh toán hóa đơn tại quầy.',
+      'Đồng bộ dữ liệu đơn hàng và tồn kho trực tiếp với CRM/ERP.'
+    ],
+    url: 'https://www.posplatform.powerservice.one',
+    flows: [
+      { to: 'SDP', type: 'Tra cứu', desc: 'Cho phép CSKH kiểm tra hóa đơn mua trực tiếp tại quầy vật lý' },
+      { to: 'ERP', type: '2 Chiều', desc: 'Trừ tồn kho ngay lập tức và hạch toán doanh số bán lẻ' },
+      { to: 'CRM', type: '2 Chiều', desc: 'Tích điểm thành viên và lưu vết hành vi mua hàng tại cửa hàng' },
+      { to: 'CLP', type: 'Tra cứu', desc: 'Xác thực mã ưu đãi coupon và chiết khấu điểm loyalty tại quầy' }
+    ]
+  }
+};
+
+const sdpRoles = {
+  admin: {
+    title: 'Quản trị viên (Admin Toàn quyền)',
+    badge: 'Toàn bộ 12 Phân hệ',
+    accessibleNodes: ['CRM', 'CSC', 'CLP', 'POS', 'ERP', 'HRM', 'BPM', 'OKR', 'LMS', 'AI', 'BI']
+  },
+  lead: {
+    title: 'Trưởng nhóm CSKH (Team Lead)',
+    badge: 'CRM • CSC • CLP • BPM • OKR • BI • AI',
+    accessibleNodes: ['CRM', 'CSC', 'CLP', 'BPM', 'OKR', 'BI', 'AI']
+  },
+  agent: {
+    title: 'Tư vấn viên (Agent Workspace)',
+    badge: 'CRM • CSC • CLP • AI • LMS • POS',
+    accessibleNodes: ['CRM', 'CSC', 'CLP', 'AI', 'LMS', 'POS']
+  }
+};
+
+const matrixRows = [
+  { from: 'SDP (Cổng CSKH)', dir: '⇄ 2 Chiều', to: 'CRM (Khách hàng)', data: 'Hồ sơ 360°, thông tin liên hệ, lịch sử tương tác', proto: 'REST API / OAuth2', freq: 'Real-time (<100ms)' },
+  { from: 'SDP (Cổng CSKH)', dir: '⇄ 2 Chiều', to: 'CSC (Helpdesk)', data: 'Hàng đợi Ticket, Voice Call Event, SLA Counter', proto: 'WebSocket / WSS', freq: 'Streaming tức thời' },
+  { from: 'SDP (Cổng CSKH)', dir: '⇄ 2 Chiều', to: 'CLP (Loyalty)', data: 'Điểm tích lũy, phân hạng VIP, cấp voucher', proto: 'GraphQL / REST', freq: 'Theo giao dịch' },
+  { from: 'SDP (Cổng CSKH)', dir: '⇄ 2 Chiều', to: 'ERP (Tài chính)', data: 'Hóa đơn tài chính, đối soát hoàn tiền, tồn kho', proto: 'REST / JSON RPC', freq: 'Theo sự kiện' },
+  { from: 'SDP (Cổng CSKH)', dir: '→ Gửi trigger', to: 'BPM (Quy trình)', data: 'Yêu cầu phê duyệt ngoại lệ: đổi trả, miễn giảm cước', proto: 'Kafka Event / Webhook', freq: 'Bất đồng bộ' },
+  { from: 'HRM (Nhân sự)', dir: '→ 1 Chiều', to: 'SDP (Cổng CSKH)', data: 'Tài khoản Agent, quyền hạn, ca trực CSKH', proto: 'LDAP / SCIM / SSO', freq: 'Định kỳ & Khi đổi quyền' },
+  { from: 'SDP (Cổng CSKH)', dir: '⇄ 2 Chiều', to: 'AI Assistant', data: 'Nội dung chat/thoại ➔ Gợi ý câu trả lời & tri thức', proto: 'gRPC / SSE Stream', freq: 'Thời gian thực (<50ms)' },
+  { from: 'SDP (Cổng CSKH)', dir: '→ Đẩy metrics', to: 'OKR (Mục tiêu)', data: 'Chỉ số FCR, CSAT, vi phạm cam kết SLA', proto: 'RESTful API', freq: 'Cuối ca / Hàng ngày' },
+  { from: 'SDP (Cổng CSKH)', dir: '⇄ Tra cứu', to: 'LMS (Đào tạo)', data: 'Sổ tay quy trình CSKH, kịch bản trả lời mẫu', proto: 'REST / SSO Embed', freq: 'Theo nhu cầu Agent' },
+  { from: 'CSC (Tổng đài)', dir: '⇄ AI Copilot', to: 'AI Assistant', data: 'Voice Stream & Chat ➔ Gợi ý kịch bản trả lời tức thì', proto: 'gRPC / WebSocket', freq: 'Thời gian thực (<50ms)' },
+  { from: 'CRM (Khách hàng)', dir: '⇄ 2 Chiều', to: 'ERP (Tài chính)', data: 'Hợp đồng B2B, hóa đơn điện tử, công nợ khách', proto: 'RESTful / Webhook', freq: 'Theo phát sinh đơn' },
+  { from: 'POS (Quầy bán)', dir: '⇄ 2 Chiều', to: 'ERP & CRM', data: 'Doanh thu bán lẻ quầy, chiết khấu thẻ VIP, bill VAT', proto: 'RESTful / Message Queue', freq: 'Ngay khi in bill' },
+  { from: 'CLP (Loyalty)', dir: '⇄ Tra cứu', to: 'POS (Quầy bán)', data: 'Xác thực voucher ưu đãi & chiết khấu điểm loyalty tại quầy', proto: 'RESTful API', freq: 'Thời gian thực' },
+  { from: 'CSC (Tổng đài)', dir: '→ Cấp bù', to: 'CLP (Loyalty)', data: 'Tặng voucher ưu đãi, tích điểm đền bù khách hàng', proto: 'REST API', freq: 'Theo sự vụ' },
+  { from: 'ERP (Tài chính)', dir: '⇄ 2 Chiều', to: 'HRM (Nhân sự)', data: 'Hạch toán chi phí lương, bảo hiểm, thưởng nhân sự', proto: 'Batch Job / REST', freq: 'Cuối kỳ tính lương' },
+  { from: 'BPM (Quy trình)', dir: '⇄ 2 Chiều', to: 'HRM (Nhân sự)', data: 'Luồng phê duyệt tuyển dụng, thăng cấp, nghỉ phép', proto: 'Webhook / Kafka', freq: 'Theo yêu cầu duyệt' },
+  { from: 'HRM (Nhân sự)', dir: '⇄ Đối chiếu', to: 'OKR (Mục tiêu)', data: 'Dữ liệu kết quả OKR phục vụ xếp loại hiệu suất nhân sự', proto: 'RESTful API', freq: 'Theo quý / Năm' },
+  { from: 'AI Assistant', dir: '⇄ Đọc tri thức', to: 'LMS (Đào tạo)', data: 'Nạp bộ câu hỏi, cẩm nang CSKH phục vụ gợi ý trả lời', proto: 'Vector DB / Embedding', freq: 'Hàng ngày' },
+  { from: 'AI Assistant', dir: '→ Dự báo', to: 'BI Dashboard', data: 'Mô hình phân tích hành vi và dự đoán churn rate', proto: 'Python API / Kafka', freq: 'Near-Realtime' },
+  { from: 'CRM (Khách hàng)', dir: '→ Phân tích', to: 'BI Dashboard', data: 'Phễu chuyển đổi bán hàng, vòng đời khách hàng LTV', proto: 'ETL Pipeline', freq: 'Mỗi giờ' },
+  { from: 'Toàn bộ 11 phân hệ', dir: '→ Streaming', to: 'BI Dashboard', data: 'Toàn bộ event tương tác, thời gian phản hồi, wallboard', proto: 'Kafka / ClickHouse / SQL', freq: 'Near-Realtime (5s)' }
+];
+
+export default function App() {
+  const [showHubLines, setShowHubLines] = useState(true);
+  const [showInterSystemLines, setShowInterSystemLines] = useState(true);
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeLineGroup, setActiveLineGroup] = useState('all');
+  const [isAnimationActive, setIsAnimationActive] = useState(true);
+  const [currentRole, setCurrentRole] = useState('admin');
+  
+  // Card position offsets for dragging
+  const [offsets, setOffsets] = useState({});
+  
+  // Modals state
+  const [selectedSystem, setSelectedSystem] = useState(null);
+  const [isMatrixOpen, setIsMatrixOpen] = useState(false);
+  const [isSimOpen, setIsSimOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
+  // Svg connection lines state
+  const [lines, setLines] = useState({ hub: [], inter: [] });
+
+  const boardRef = useRef(null);
+  const nodeRefs = useRef({});
+
+  // Helper for Toast
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage('');
+    }, 2200);
+  };
+
+  // Reset positions
+  const handleResetPositions = () => {
+    setOffsets({});
+    showToast('Đã đưa vị trí các thẻ về mặc định');
+  };
+
+  // Role Selection Change
+  const handleRoleChange = (roleKey) => {
+    setCurrentRole(roleKey);
+    showToast(`Đã chuyển sang phân quyền: ${sdpRoles[roleKey].title}`);
+  };
+
+  // Line Group Filter Change
+  const handleLineGroupFilter = (groupKey) => {
+    setActiveLineGroup(groupKey);
+    const groupNames = {
+      all: 'Tất cả các tuyến line (28 lines)',
+      sdp_hub: 'Chỉ các tuyến kết nối SDP Hub (11 lines)',
+      crm_retail: 'Nhóm tuyến Bán Hàng & Khách Hàng',
+      enterprise: 'Nhóm tuyến Quản Trị & Vận Hành Doanh Nghiệp',
+      ai_bi: 'Nhóm tuyến Trí Tuệ AI & Phân Tích BI'
+    };
+    showToast(`Đã lọc: ${groupNames[groupKey]}`);
+  };
+
+  // Dragging logic
+  const handlePointerDown = (sysKey, e) => {
+    if (e.target.closest('button') || e.target.closest('select') || e.target.closest('a')) return;
+
+    const startX = e.clientX || (e.touches && e.touches[0].clientX);
+    const startY = e.clientY || (e.touches && e.touches[0].clientY);
+    const initialOffset = offsets[sysKey] || { x: 0, y: 0 };
+    let hasMoved = false;
+
+    const onPointerMove = (moveEvent) => {
+      const currentX = moveEvent.clientX || (moveEvent.touches && moveEvent.touches[0].clientX);
+      const currentY = moveEvent.clientY || (moveEvent.touches && moveEvent.touches[0].clientY);
+      const dx = currentX - startX;
+      const dy = currentY - startY;
+
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+        hasMoved = true;
+      }
+
+      setOffsets((prev) => ({
+        ...prev,
+        [sysKey]: {
+          x: initialOffset.x + dx,
+          y: initialOffset.y + dy
+        }
+      }));
+    };
+
+    const onPointerUp = () => {
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+
+      if (!hasMoved) {
+        setSelectedSystem(sysKey);
+      }
+    };
+
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+  };
+
+  // Recalculate connection lines
+  const recalculateLines = () => {
+    if (!boardRef.current) return;
+    const boardRect = boardRef.current.getBoundingClientRect();
+    const sdpEl = nodeRefs.current['SDP'];
+    if (!sdpEl) return;
+
+    const sdpRect = sdpEl.getBoundingClientRect();
+    const allowedNodes = sdpRoles[currentRole] ? sdpRoles[currentRole].accessibleNodes : [];
+
+    const sdpLeft = sdpRect.left - boardRect.left;
+    const sdpRight = sdpRect.right - boardRect.left;
+    const sdpTop = sdpRect.top - boardRect.top;
+    const sdpBottom = sdpRect.bottom - boardRect.top;
+    const sdpWidth = sdpRect.width;
+    const sdpHeight = sdpRect.height;
+    const sdpCenterX = sdpLeft + sdpWidth / 2;
+    const sdpCenterY = sdpTop + sdpHeight / 2;
+
+    const makeOrthogonalBusPath = (x1, y1, x2, y2, channelX, radius = 5) => {
+      if (Math.abs(x1 - x2) < 2 || Math.abs(y1 - y2) < 2) {
+        return `M ${x1} ${y1} L ${x2} ${y2}`;
+      }
+      const r = Math.max(1, Math.min(radius, Math.abs(channelX - x1) / 2, Math.abs(x2 - channelX) / 2, Math.abs(y2 - y1) / 2));
+      const dirY = y2 >= y1 ? 1 : -1;
+      const dirX1 = channelX >= x1 ? 1 : -1;
+      const dirX2 = x2 >= channelX ? 1 : -1;
+
+      return [
+        `M ${x1} ${y1}`,
+        `L ${channelX - dirX1 * r} ${y1}`,
+        `Q ${channelX} ${y1} ${channelX} ${y1 + dirY * r}`,
+        `L ${channelX} ${y2 - dirY * r}`,
+        `Q ${channelX} ${y2} ${channelX + dirX2 * r} ${y2}`,
+        `L ${x2} ${y2}`
+      ].join(' ');
+    };
+
+    const makeVerticalBusPath = (x1, y1, x2, y2, channelY, radius = 5) => {
+      if (Math.abs(x1 - x2) < 2 || Math.abs(y1 - y2) < 2) {
+        return `M ${x1} ${y1} L ${x2} ${y2}`;
+      }
+      const r = Math.max(1, Math.min(radius, Math.abs(channelY - y1) / 2, Math.abs(y2 - channelY) / 2, Math.abs(x2 - x1) / 2));
+      const dirX = x2 >= x1 ? 1 : -1;
+      const dirY1 = channelY >= y1 ? 1 : -1;
+      const dirY2 = y2 >= channelY ? 1 : -1;
+
+      return [
+        `M ${x1} ${y1}`,
+        `L ${x1} ${channelY - dirY1 * r}`,
+        `Q ${x1} ${channelY} ${x1 + dirX * r} ${channelY}`,
+        `L ${x2 - dirX * r} ${channelY}`,
+        `Q ${x2} ${channelY} ${x2} ${channelY + dirY2 * r}`,
+        `L ${x2} ${y2}`
+      ].join(' ');
+    };
+
+    const makeOuterDetourPath = (x1, y1, x2, y2, corridorX, radius = 5) => {
+      const r = Math.max(1, Math.min(radius, Math.abs(corridorX - x1) / 2, Math.abs(x2 - corridorX) / 2, Math.abs(y2 - y1) / 2));
+      const dirY = y2 >= y1 ? 1 : -1;
+      const dirX1 = corridorX >= x1 ? 1 : -1;
+      const dirX2 = x2 >= corridorX ? 1 : -1;
+
+      return [
+        `M ${x1} ${y1}`,
+        `L ${corridorX - dirX1 * r} ${y1}`,
+        `Q ${corridorX} ${y1} ${corridorX} ${y1 + dirY * r}`,
+        `L ${corridorX} ${y2 - dirY * r}`,
+        `Q ${corridorX} ${y2} ${corridorX + dirX2 * r} ${y2}`,
+        `L ${x2} ${y2}`
+      ].join(' ');
+    };
+
+    // Calculate Hub Lines
+    const calculatedHubLines = [];
+    if (showHubLines) {
+      const allSatelliteNodes = [
+        { code: 'CRM', category: 'core_crm', group: 'crm_retail', label: '360° Profile' },
+        { code: 'CSC', category: 'core_crm', group: 'crm_retail', label: 'Omni Tickets' },
+        { code: 'CLP', category: 'core_crm', group: 'crm_retail', label: 'Loyalty & Points' },
+        { code: 'POS', category: 'core_crm', group: 'crm_retail', label: 'POS In-store' },
+        { code: 'ERP', category: 'enterprise', group: 'enterprise', label: 'ERP Ledger' },
+        { code: 'HRM', category: 'enterprise', group: 'enterprise', label: 'HR Identity' },
+        { code: 'BPM', category: 'enterprise', group: 'enterprise', label: 'BPM Approvals' },
+        { code: 'OKR', category: 'enterprise', group: 'enterprise', label: 'OKR Metrics' },
+        { code: 'AI',  category: 'intelligence', group: 'ai_bi', label: 'AI Copilot' },
+        { code: 'LMS', category: 'intelligence', group: 'ai_bi', label: 'LMS Training' },
+        { code: 'BI',  category: 'intelligence', group: 'ai_bi', label: 'BI Telemetry' }
+      ];
+
+      const positionGroups = { left: [], right: [], top: [], bottom: [] };
+
+      allSatelliteNodes.forEach(item => {
+        const el = nodeRefs.current[item.code];
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        const nodeCenterX = r.left + r.width / 2 - boardRect.left;
+        const nodeCenterY = r.top + r.height / 2 - boardRect.top;
+
+        const dx = nodeCenterX - sdpCenterX;
+        const dy = nodeCenterY - sdpCenterY;
+
+        if (Math.abs(dx) >= Math.abs(dy) * 0.9) {
+          if (dx < 0) {
+            positionGroups.left.push({ ...item, r, nodeCenterX, nodeCenterY });
+          } else {
+            positionGroups.right.push({ ...item, r, nodeCenterX, nodeCenterY });
+          }
+        } else {
+          if (dy < 0) {
+            positionGroups.top.push({ ...item, r, nodeCenterX, nodeCenterY });
+          } else {
+            positionGroups.bottom.push({ ...item, r, nodeCenterX, nodeCenterY });
+          }
+        }
+      });
+
+      // Left Column
+      positionGroups.left.sort((a, b) => a.nodeCenterY - b.nodeCenterY);
+      const leftCount = positionGroups.left.length;
+      positionGroups.left.forEach((item, index) => {
+        const isCatMatch = activeFilter === 'all' || activeFilter === item.category;
+        const isRolePermitted = allowedNodes.includes(item.code);
+        const isGroupMatch = activeLineGroup === 'all' || activeLineGroup === 'sdp_hub' || activeLineGroup === item.group;
+        const isHighlighted = isCatMatch && isRolePermitted && isGroupMatch;
+
+        if (!isGroupMatch && activeLineGroup !== 'all' && activeLineGroup !== 'sdp_hub') return;
+
+        const targetPoint = {
+          x: item.r.right - boardRect.left,
+          y: item.r.top + item.r.height / 2 - boardRect.top
+        };
+        const sdpPortY = sdpTop + (sdpHeight * (index + 1)) / (leftCount + 1);
+        const sdpPortPoint = { x: sdpLeft, y: sdpPortY };
+        const gutterWidth = Math.max(20, sdpLeft - targetPoint.x);
+        const channelX = targetPoint.x + (gutterWidth * (index + 1)) / (leftCount + 1.2);
+        const pathData = makeOrthogonalBusPath(sdpPortPoint.x, sdpPortPoint.y, targetPoint.x, targetPoint.y, channelX, 6);
+
+        calculatedHubLines.push({
+          id: `hub-${item.code}`,
+          pathData,
+          p1: sdpPortPoint,
+          p2: targetPoint,
+          label: item.label,
+          labelX: channelX,
+          labelY: (sdpPortPoint.y + targetPoint.y) / 2,
+          isHighlighted
+        });
+      });
+
+      // Right Column
+      positionGroups.right.sort((a, b) => a.nodeCenterY - b.nodeCenterY);
+      const rightCount = positionGroups.right.length;
+      positionGroups.right.forEach((item, index) => {
+        const isCatMatch = activeFilter === 'all' || activeFilter === item.category;
+        const isRolePermitted = allowedNodes.includes(item.code);
+        const isGroupMatch = activeLineGroup === 'all' || activeLineGroup === 'sdp_hub' || activeLineGroup === item.group;
+        const isHighlighted = isCatMatch && isRolePermitted && isGroupMatch;
+
+        if (!isGroupMatch && activeLineGroup !== 'all' && activeLineGroup !== 'sdp_hub') return;
+
+        const targetPoint = {
+          x: item.r.left - boardRect.left,
+          y: item.r.top + item.r.height / 2 - boardRect.top
+        };
+        const sdpPortY = sdpTop + (sdpHeight * (index + 1)) / (rightCount + 1);
+        const sdpPortPoint = { x: sdpRight, y: sdpPortY };
+        const gutterWidth = Math.max(20, targetPoint.x - sdpRight);
+        const channelX = sdpRight + (gutterWidth * (rightCount - index)) / (rightCount + 1.2);
+        const pathData = makeOrthogonalBusPath(sdpPortPoint.x, sdpPortPoint.y, targetPoint.x, targetPoint.y, channelX, 6);
+
+        calculatedHubLines.push({
+          id: `hub-${item.code}`,
+          pathData,
+          p1: sdpPortPoint,
+          p2: targetPoint,
+          label: item.label,
+          labelX: channelX,
+          labelY: (sdpPortPoint.y + targetPoint.y) / 2,
+          isHighlighted
+        });
+      });
+
+      // Top Column
+      positionGroups.top.sort((a, b) => a.nodeCenterX - b.nodeCenterX);
+      const topCount = positionGroups.top.length;
+      positionGroups.top.forEach((item, index) => {
+        const isCatMatch = activeFilter === 'all' || activeFilter === item.category;
+        const isRolePermitted = allowedNodes.includes(item.code);
+        const isGroupMatch = activeLineGroup === 'all' || activeLineGroup === 'sdp_hub' || activeLineGroup === item.group;
+        const isHighlighted = isCatMatch && isRolePermitted && isGroupMatch;
+
+        if (!isGroupMatch && activeLineGroup !== 'all' && activeLineGroup !== 'sdp_hub') return;
+
+        const targetPoint = {
+          x: item.r.left + item.r.width / 2 - boardRect.left,
+          y: item.r.bottom - boardRect.top
+        };
+        const sdpPortX = sdpLeft + (sdpWidth * (index + 1)) / (topCount + 1);
+        const sdpPortPoint = { x: sdpPortX, y: sdpTop };
+        const channelY = sdpPortPoint.y - Math.max(12, (sdpPortPoint.y - targetPoint.y) * 0.5);
+        const pathData = makeVerticalBusPath(sdpPortPoint.x, sdpPortPoint.y, targetPoint.x, targetPoint.y, channelY, 6);
+
+        calculatedHubLines.push({
+          id: `hub-${item.code}`,
+          pathData,
+          p1: sdpPortPoint,
+          p2: targetPoint,
+          label: item.label,
+          labelX: (targetPoint.x + sdpPortPoint.x) / 2,
+          labelY: channelY,
+          isHighlighted
+        });
+      });
+
+      // Bottom Column
+      positionGroups.bottom.sort((a, b) => a.nodeCenterX - b.nodeCenterX);
+      const bottomCount = positionGroups.bottom.length;
+      positionGroups.bottom.forEach((item, index) => {
+        const isCatMatch = activeFilter === 'all' || activeFilter === item.category;
+        const isRolePermitted = allowedNodes.includes(item.code);
+        const isGroupMatch = activeLineGroup === 'all' || activeLineGroup === 'sdp_hub' || activeLineGroup === item.group;
+        const isHighlighted = isCatMatch && isRolePermitted && isGroupMatch;
+
+        if (!isGroupMatch && activeLineGroup !== 'all' && activeLineGroup !== 'sdp_hub') return;
+
+        const targetPoint = {
+          x: item.r.left + item.r.width / 2 - boardRect.left,
+          y: item.r.top - boardRect.top
+        };
+        const sdpPortX = sdpLeft + (sdpWidth * (index + 1)) / (bottomCount + 1);
+        const sdpPortPoint = { x: sdpPortX, y: sdpBottom };
+        const channelY = sdpPortPoint.y + Math.max(12, (targetPoint.y - sdpPortPoint.y) * 0.5);
+        const pathData = makeVerticalBusPath(sdpPortPoint.x, sdpPortPoint.y, targetPoint.x, targetPoint.y, channelY, 6);
+
+        calculatedHubLines.push({
+          id: `hub-${item.code}`,
+          pathData,
+          p1: sdpPortPoint,
+          p2: targetPoint,
+          label: item.label,
+          labelX: (targetPoint.x + sdpPortPoint.x) / 2,
+          labelY: channelY,
+          isHighlighted
+        });
+      });
+    }
+
+    // Inter-System Data Lines
+    const calculatedInterLines = [];
+    if (showInterSystemLines && activeLineGroup !== 'sdp_hub') {
+      const directInterLinks = [
+        { from: 'CRM', to: 'CSC', color: '#0284c7', offsetIdx: 1, side: 'left', group: 'crm_retail', label: 'Ticket 360°' },
+        { from: 'CRM', to: 'CLP', color: '#d97706', offsetIdx: 2, side: 'left', group: 'crm_retail', label: 'Tier & Points' },
+        { from: 'CRM', to: 'POS', color: '#059669', offsetIdx: 3, side: 'left', group: 'crm_retail', label: 'In-Store Trans' },
+        { from: 'CSC', to: 'CLP', color: '#4f46e5', offsetIdx: 4, side: 'left', group: 'crm_retail', label: 'Gift & Point' },
+        { from: 'CLP', to: 'POS', color: '#b45309', offsetIdx: 5, side: 'left', group: 'crm_retail', label: 'Voucher POS' },
+        { from: 'ERP', to: 'HRM', color: '#db2777', offsetIdx: 1, side: 'right', group: 'enterprise', label: 'Payroll Ledger' },
+        { from: 'BPM', to: 'ERP', color: '#7c3aed', offsetIdx: 2, side: 'right', group: 'enterprise', label: 'Auto Voucher' },
+        { from: 'BPM', to: 'HRM', color: '#4f46e5', offsetIdx: 3, side: 'right', group: 'enterprise', label: 'HR Approval' },
+        { from: 'HRM', to: 'OKR', color: '#ea580c', offsetIdx: 4, side: 'right', group: 'enterprise', label: 'Perf Review' },
+        { from: 'AI',  to: 'LMS', color: '#7c3aed', offsetIdx: 1, isTopDirect: true, group: 'ai_bi', label: 'SOP Docs' },
+        { from: 'CSC', to: 'AI',  color: '#8b5cf6', isTopCauseway: true, offsetIdx: 1, group: 'ai_bi', label: 'Voice AI Copilot' },
+        { from: 'CRM', to: 'ERP', color: '#0284c7', isTopCauseway: true, offsetIdx: 2, group: 'crm_retail', label: 'B2B Debt & Invoice' },
+        { from: 'POS', to: 'ERP', color: '#059669', isBottomCauseway: true, offsetIdx: 1, group: 'crm_retail', label: 'Sync Stock & Ledger' },
+        { from: 'OKR', to: 'BI',  color: '#ea580c', offsetIdx: 1, isRightToBottom: true, group: 'ai_bi', label: 'KPI Target' },
+        { from: 'CRM', to: 'BI',  color: '#06b6d4', offsetIdx: 1, isLeftToBottom: true, group: 'ai_bi', label: 'Funnel & Churn' },
+        { from: 'AI',  to: 'BI',  color: '#8b5cf6', offsetIdx: 2, isTopToBottom: true, group: 'ai_bi', label: 'Predictive BI' }
+      ];
+
+      directInterLinks.forEach((link, idx) => {
+        const fromEl = nodeRefs.current[link.from];
+        const toEl = nodeRefs.current[link.to];
+        if (!fromEl || !toEl) return;
+
+        if (activeLineGroup !== 'all' && link.group !== activeLineGroup) return;
+
+        const isRolePermitted = allowedNodes.includes(link.from) && allowedNodes.includes(link.to);
+        const isFilterPermitted = activeFilter === 'all';
+        const isVisible = isRolePermitted && isFilterPermitted;
+
+        const fromR = fromEl.getBoundingClientRect();
+        const toR = toEl.getBoundingClientRect();
+        let pathData = '';
+        let labelX = 0, labelY = 0;
+
+        if (link.isTopDirect) {
+          const p1 = { x: fromR.right - boardRect.left, y: fromR.top + fromR.height / 2 - boardRect.top };
+          const p2 = { x: toR.left - boardRect.left, y: toR.top + toR.height / 2 - boardRect.top };
+          pathData = `M ${p1.x} ${p1.y} L ${p2.x} ${p2.y}`;
+          labelX = (p1.x + p2.x) / 2;
+          labelY = p1.y - 7;
+        } else if (link.isTopCauseway) {
+          const p1 = { x: fromR.left + fromR.width / 2 - boardRect.left, y: fromR.top - boardRect.top };
+          const p2 = { x: toR.left + toR.width / 2 - boardRect.left, y: toR.top - boardRect.top };
+          const topY = Math.max(4, 5 + (link.offsetIdx || 1) * 7);
+
+          pathData = [
+            `M ${p1.x} ${p1.y}`,
+            `L ${p1.x} ${topY + 3}`,
+            `Q ${p1.x} ${topY} ${p1.x + 3 * (p2.x > p1.x ? 1 : -1)} ${topY}`,
+            `L ${p2.x - 3 * (p2.x > p1.x ? 1 : -1)} ${topY}`,
+            `Q ${p2.x} ${topY} ${p2.x} ${topY + 3}`,
+            `L ${p2.x} ${p2.y}`
+          ].join(' ');
+
+          labelX = (p1.x + p2.x) / 2;
+          labelY = topY;
+        } else if (link.isBottomCauseway) {
+          const p1 = { x: fromR.left + fromR.width / 2 - boardRect.left, y: fromR.bottom - boardRect.top };
+          const p2 = { x: toR.left + toR.width / 2 - boardRect.left, y: toR.bottom - boardRect.top };
+          const bottomY = Math.min(boardRect.height - 4, boardRect.height - (5 + (link.offsetIdx || 1) * 7));
+
+          pathData = [
+            `M ${p1.x} ${p1.y}`,
+            `L ${p1.x} ${bottomY - 3}`,
+            `Q ${p1.x} ${bottomY} ${p1.x + 3 * (p2.x > p1.x ? 1 : -1)} ${bottomY}`,
+            `L ${p2.x - 3 * (p2.x > p1.x ? 1 : -1)} ${bottomY}`,
+            `Q ${p2.x} ${bottomY} ${p2.x} ${bottomY - 3}`,
+            `L ${p2.x} ${p2.y}`
+          ].join(' ');
+
+          labelX = (p1.x + p2.x) / 2;
+          labelY = bottomY;
+        } else if (link.isRightToBottom) {
+          const p1 = { x: fromR.left - boardRect.left, y: fromR.bottom - boardRect.top };
+          const p2 = { x: toR.right - boardRect.left, y: toR.top + toR.height / 2 - boardRect.top };
+          pathData = makeVerticalBusPath(p1.x, p1.y, p2.x, p2.y, p2.y, 5);
+          labelX = (p1.x + p2.x) / 2;
+          labelY = p2.y;
+        } else if (link.isLeftToBottom) {
+          const p1 = { x: fromR.right - boardRect.left, y: fromR.bottom - boardRect.top };
+          const p2 = { x: toR.left - boardRect.left, y: toR.top + toR.height / 2 - boardRect.top };
+          pathData = makeVerticalBusPath(p1.x, p1.y, p2.x, p2.y, p2.y, 5);
+          labelX = (p1.x + p2.x) / 2;
+          labelY = p2.y;
+        } else if (link.isTopToBottom) {
+          const p1 = { x: fromR.left + 20 - boardRect.left, y: fromR.bottom - boardRect.top };
+          const p2 = { x: toR.left + 20 - boardRect.left, y: toR.top - boardRect.top };
+          const corridorX = Math.min(fromR.left, toR.left) - boardRect.left - (8 + (link.offsetIdx || 1) * 6);
+          pathData = makeOuterDetourPath(p1.x, p1.y, p2.x, p2.y, corridorX, 5);
+          labelX = corridorX;
+          labelY = (p1.y + p2.y) / 2;
+        } else if (link.side === 'left') {
+          const corridorX = Math.max(5, Math.min(fromR.left, toR.left) - boardRect.left - (6 + (link.offsetIdx % 6) * 6));
+          const p1 = { x: fromR.left - boardRect.left, y: fromR.top + fromR.height * 0.45 - boardRect.top };
+          const p2 = { x: toR.left - boardRect.left, y: toR.top + toR.height * 0.45 - boardRect.top };
+          pathData = makeOuterDetourPath(p1.x, p1.y, p2.x, p2.y, corridorX, 5);
+          labelX = corridorX;
+          labelY = (p1.y + p2.y) / 2;
+        } else {
+          const corridorX = Math.min(boardRect.width - 5, Math.max(fromR.right, toR.right) - boardRect.left + (6 + (link.offsetIdx % 6) * 6));
+          const p1 = { x: fromR.right - boardRect.left, y: fromR.top + fromR.height * 0.45 - boardRect.top };
+          const p2 = { x: toR.right - boardRect.left, y: toR.top + toR.height * 0.45 - boardRect.top };
+          pathData = makeOuterDetourPath(p1.x, p1.y, p2.x, p2.y, corridorX, 5);
+          labelX = corridorX;
+          labelY = (p1.y + p2.y) / 2;
+        }
+
+        const approxWidth = link.label ? link.label.length * 5.2 + 8 : 0;
+        let finalLabelX = labelX;
+        if (link.side === 'left') {
+          finalLabelX = labelX + approxWidth / 2 + 2;
+        } else if (link.side === 'right') {
+          finalLabelX = labelX - approxWidth / 2 - 2;
+        }
+
+        calculatedInterLines.push({
+          id: `inter-${idx}`,
+          pathData,
+          color: link.color,
+          label: link.label,
+          labelX: finalLabelX,
+          labelY,
+          isVisible
+        });
+      });
+    }
+
+    setLines({ hub: calculatedHubLines, inter: calculatedInterLines });
+  };
+
+  useEffect(() => {
+    recalculateLines();
+    const handleResize = () => recalculateLines();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [showHubLines, showInterSystemLines, activeFilter, activeLineGroup, currentRole, offsets]);
+
+  // Check element visibility based on filters & roles
+  const getNodeOpacity = (sysKey) => {
+    if (sysKey === 'SDP') return 1;
+
+    // Check Role
+    const allowed = sdpRoles[currentRole]?.accessibleNodes.includes(sysKey);
+    // Check Category Filter
+    const sysData = systemsData[sysKey];
+    const catMatch = activeFilter === 'all' || sysData?.category === activeFilter;
+
+    // Check Line Group Filter
+    const groupNodeMap = {
+      all: ['SDP', 'CRM', 'CSC', 'CLP', 'POS', 'ERP', 'HRM', 'BPM', 'OKR', 'LMS', 'AI', 'BI'],
+      sdp_hub: ['SDP', 'CRM', 'CSC', 'CLP', 'POS', 'ERP', 'HRM', 'BPM', 'OKR', 'LMS', 'AI', 'BI'],
+      crm_retail: ['SDP', 'CRM', 'CSC', 'CLP', 'POS', 'ERP'],
+      enterprise: ['SDP', 'ERP', 'HRM', 'BPM', 'OKR', 'LMS'],
+      ai_bi: ['SDP', 'AI', 'LMS', 'CSC', 'BI', 'OKR', 'CRM']
+    };
+    const groupMatch = groupNodeMap[activeLineGroup]?.includes(sysKey);
+
+    if (!allowed || !catMatch || !groupMatch) {
+      return 0.3;
+    }
+    return 1;
+  };
+
+  const currentSysModalData = selectedSystem ? systemsData[selectedSystem] : null;
+
+  return (
+    <div className="bg-gradient-to-br from-slate-200/80 via-sky-100/60 to-indigo-100/70 text-slate-900 h-screen w-screen overflow-hidden flex items-center justify-center p-2 sm:p-3 antialiased selection:bg-blue-600 selection:text-white font-sans">
+      
+      {/* SVG Animation keyframes */}
+      <style>{`
+        @keyframes dashStream {
+          to { stroke-dashoffset: -24; }
+        }
+        .flow-stream {
+          stroke-dasharray: 7, 5;
+          animation: dashStream 1.5s linear infinite;
+        }
+        .inter-sys-stream {
+          stroke-dasharray: 5, 4;
+          animation: dashStream 2s linear infinite;
+        }
+        .glass-flat {
+          background: rgba(255, 255, 255, 0.92);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+          border: 1.5px solid rgba(203, 213, 225, 0.95);
+          box-shadow: 0 10px 35px -4px rgba(71, 85, 105, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.98);
+          border-radius: 14px;
+        }
+        .glass-flat-hover {
+          transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-flat-hover:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 14px 30px -4px rgba(30, 41, 59, 0.22), inset 0 1px 2px rgba(255, 255, 255, 1);
+        }
+        .draggable-card {
+          user-select: none;
+          touch-action: none;
+          width: fit-content;
+          max-width: 100%;
+          min-width: 155px;
+          cursor: grab;
+          border-radius: 14px !important;
+        }
+        .draggable-card:active {
+          cursor: grabbing;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Multi-color Theme Gradients */
+        .theme-sdp { background: linear-gradient(135deg, rgba(239, 246, 255, 0.98) 0%, rgba(219, 234, 254, 0.95) 50%, rgba(191, 219, 254, 0.9) 100%); border: 2px solid #3b82f6; box-shadow: 0 6px 20px -2px rgba(37, 99, 235, 0.28); }
+        .theme-crm { background: linear-gradient(135deg, rgba(236, 254, 255, 0.98) 0%, rgba(207, 250, 254, 0.94) 100%); border: 2px solid #06b6d4; box-shadow: 0 5px 16px -2px rgba(6, 182, 212, 0.25); }
+        .theme-csc { background: linear-gradient(135deg, rgba(238, 242, 255, 0.98) 0%, rgba(224, 231, 255, 0.94) 100%); border: 2px solid #6366f1; box-shadow: 0 5px 16px -2px rgba(99, 102, 241, 0.25); }
+        .theme-clp { background: linear-gradient(135deg, rgba(254, 252, 232, 0.98) 0%, rgba(254, 240, 138, 0.92) 100%); border: 2px solid #eab308; box-shadow: 0 5px 16px -2px rgba(234, 179, 8, 0.28); }
+        .theme-pos { background: linear-gradient(135deg, rgba(236, 253, 245, 0.98) 0%, rgba(167, 243, 208, 0.92) 100%); border: 2px solid #10b981; box-shadow: 0 5px 16px -2px rgba(16, 185, 129, 0.25); }
+        .theme-erp { background: linear-gradient(135deg, rgba(250, 245, 255, 0.98) 0%, rgba(233, 213, 255, 0.94) 100%); border: 2px solid #a855f7; box-shadow: 0 5px 16px -2px rgba(168, 85, 247, 0.25); }
+        .theme-hrm { background: linear-gradient(135deg, rgba(253, 242, 248, 0.98) 0%, rgba(251, 207, 232, 0.94) 100%); border: 2px solid #ec4899; box-shadow: 0 5px 16px -2px rgba(236, 72, 153, 0.25); }
+        .theme-bpm { background: linear-gradient(135deg, rgba(240, 245, 255, 0.98) 0%, rgba(199, 210, 254, 0.94) 100%); border: 2px solid #6366f1; box-shadow: 0 5px 16px -2px rgba(99, 102, 241, 0.25); }
+        .theme-okr { background: linear-gradient(135deg, rgba(255, 247, 237, 0.98) 0%, rgba(254, 215, 170, 0.94) 100%); border: 2px solid #f97316; box-shadow: 0 5px 16px -2px rgba(249, 115, 22, 0.25); }
+        .theme-lms { background: linear-gradient(135deg, rgba(240, 253, 250, 0.98) 0%, rgba(153, 246, 228, 0.92) 100%); border: 2px solid #14b8a6; box-shadow: 0 5px 16px -2px rgba(20, 184, 166, 0.25); }
+        .theme-ai  { background: linear-gradient(135deg, rgba(245, 243, 255, 0.98) 0%, rgba(221, 214, 254, 0.95) 100%); border: 2px solid #8b5cf6; box-shadow: 0 5px 16px -2px rgba(139, 92, 246, 0.28); }
+        .theme-bi  { background: linear-gradient(135deg, rgba(240, 253, 244, 0.98) 0%, rgba(187, 247, 208, 0.94) 100%); border: 2px solid #22c55e; box-shadow: 0 5px 16px -2px rgba(34, 197, 94, 0.25); }
+      `}</style>
+
+      {/* MAIN WRAPPER CONTAINER */}
+      <div className="w-full max-w-[1250px] h-full rounded-[14px] overflow-hidden flex flex-col shadow-2xl border border-slate-300/90 bg-white/90 backdrop-blur-2xl relative">
+
+        {/* TOP HEADER */}
+        <header className="glass-flat border-b border-slate-300/80 px-3 py-1.5 flex items-center justify-between z-30 shrink-0 !rounded-none !border-t-0 !border-x-0 gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+            <div className="flex items-center gap-1 bg-slate-200/90 p-0.5 rounded-[10px] border border-slate-300 text-[11px]">
+              <button 
+                onClick={() => setShowHubLines(!showHubLines)} 
+                className={`px-2 py-0.5 rounded-[8px] font-black shadow-xs flex items-center gap-1 transition-all ${showHubLines ? 'bg-blue-600 text-white' : 'bg-slate-300 text-slate-700'}`}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-white inline-block"></span>
+                <span>Line vào SDP {showHubLines ? '' : '(Tắt)'}</span>
+              </button>
+              <button 
+                onClick={() => setShowInterSystemLines(!showInterSystemLines)} 
+                className={`px-2 py-0.5 rounded-[8px] font-black shadow-xs flex items-center gap-1 transition-all ${showInterSystemLines ? 'bg-indigo-600 text-white' : 'bg-slate-300 text-slate-700'}`}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-white inline-block"></span>
+                <span>Line Liên Hệ Thống {showInterSystemLines ? '' : '(Tắt)'}</span>
+              </button>
+            </div>
+
+            {/* Filter pills */}
+            <div className="flex items-center gap-0.5 bg-slate-200/90 p-0.5 rounded-[10px] border border-slate-300 text-[11px]">
+              {[
+                { id: 'all', label: 'Tất cả (12)' },
+                { id: 'core_crm', label: 'KH & Bán Hàng' },
+                { id: 'enterprise', label: 'Quản Trị' },
+                { id: 'intelligence', label: 'AI & Đào Tạo' }
+              ].map(f => (
+                <button 
+                  key={f.id}
+                  onClick={() => setActiveFilter(f.id)} 
+                  className={`px-2 py-0.5 rounded-[8px] transition-all ${activeFilter === f.id ? 'font-black bg-white text-blue-800 shadow-xs border border-slate-300' : 'font-bold text-slate-700 hover:text-slate-950'}`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            <button 
+              onClick={handleResetPositions} 
+              className="px-2 py-1 rounded-[10px] border border-slate-300 bg-white hover:bg-slate-100 text-[11px] font-bold text-slate-800 shadow-xs transition-all flex items-center gap-1"
+            >
+              <RotateCcw className="w-3 h-3 text-slate-700" />
+              <span className="hidden sm:inline">Khôi phục</span>
+            </button>
+
+            <button 
+              onClick={() => setIsMatrixOpen(true)} 
+              className="px-2.5 py-1 rounded-[10px] border border-slate-300 bg-white hover:bg-slate-100 text-[11px] font-bold text-slate-800 shadow-xs transition-all flex items-center gap-1"
+            >
+              <Table className="w-3 h-3 text-blue-700" />
+              <span>Ma Trận</span>
+            </button>
+
+            <button 
+              onClick={() => setIsSimOpen(true)} 
+              className="px-2.5 py-1 rounded-[10px] bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold shadow-xs transition-all flex items-center gap-1"
+            >
+              <PlayCircle className="w-3 h-3 text-white" />
+              <span>Mô Phỏng</span>
+            </button>
+          </div>
+        </header>
+
+        {/* SUB-BAR METRICS & LINE GROUP FILTER */}
+        <div className="bg-white/95 border-b border-slate-300/80 px-3.5 sm:px-4 py-1 text-[11px] text-slate-800 font-bold flex flex-wrap items-center justify-between shrink-0 gap-1.5">
+          <div className="flex items-center gap-1 flex-wrap">
+            <span className="text-[10px] font-black uppercase text-slate-700 flex items-center gap-1 mr-1">
+              <GitFork className="w-3.5 h-3.5 text-blue-700" /> Lọc Nhóm Line:
+            </span>
+            {[
+              { id: 'all', label: 'Tất cả (28 Lines)' },
+              { id: 'sdp_hub', label: 'Chỉ Trục SDP Hub (11)' },
+              { id: 'crm_retail', label: '🛍️ Bán Hàng & KH (CRM/POS)' },
+              { id: 'enterprise', label: '⚙️ Quản Trị (ERP/HRM/BPM)' },
+              { id: 'ai_bi', label: '🧠 Trí Tuệ & Báo Cáo (AI/BI)' }
+            ].map(g => (
+              <button
+                key={g.id}
+                onClick={() => handleLineGroupFilter(g.id)}
+                className={`px-2 py-0.5 rounded-[8px] text-[10.5px] transition-all border ${activeLineGroup === g.id ? 'font-black bg-blue-600 text-white border-blue-700 shadow-xs' : 'font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'}`}
+              >
+                {g.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3 text-slate-700">
+            <button 
+              onClick={() => setIsAnimationActive(!isAnimationActive)} 
+              className="text-blue-700 hover:underline flex items-center gap-1 font-extrabold text-[11px]"
+            >
+              <Activity className="w-3 h-3" /> Tín hiệu: <span>{isAnimationActive ? 'Đang chạy' : 'Tạm dừng'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* MAIN INTERACTIVE BOARD CONTAINER */}
+        <main className="flex-1 p-1.5 sm:p-2 lg:p-2.5 relative overflow-hidden flex flex-col justify-between min-h-0">
+          <div ref={boardRef} className="relative w-full h-full glass-flat rounded-[14px] p-2 sm:p-2.5 lg:p-3 flex flex-col justify-between overflow-hidden shadow-sm border border-slate-300/80 min-h-0">
+            
+            {/* Grid Dot Texture */}
+            <div className="absolute inset-0 bg-[radial-gradient(#94a3b8_1.2px,transparent_1.2px)] [background-size:22px_22px] opacity-45 pointer-events-none"></div>
+
+            {/* SVG Connection Lines */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" xmlns="http://www.w3.org/2000/svg">
+              <g id="svgInterSystemLinesGroup">
+                {lines.inter.map(line => (
+                  <path
+                    key={line.id}
+                    d={line.pathData}
+                    fill="none"
+                    stroke={line.color}
+                    strokeWidth={line.isVisible ? '1.8' : '1'}
+                    strokeOpacity={line.isVisible ? '0.85' : '0.12'}
+                    className={isAnimationActive && line.isVisible ? 'inter-sys-stream' : ''}
+                    strokeDasharray={!isAnimationActive || !line.isVisible ? '4, 4' : undefined}
+                  />
+                ))}
+              </g>
+
+              <g id="svgInterSystemLabelsGroup">
+                {lines.inter.map(line => line.isVisible && line.label && (
+                  <g key={`lbl-${line.id}`} transform={`translate(${line.labelX}, ${line.labelY})`}>
+                    <rect
+                      x={-(line.label.length * 5.2 + 8) / 2}
+                      y="-6.5"
+                      width={line.label.length * 5.2 + 8}
+                      height="13"
+                      rx="3.5"
+                      fill="#ffffff"
+                      stroke={line.color}
+                      strokeWidth="1.1"
+                      opacity="0.98"
+                    />
+                    <text x="0" y="3.2" textAnchor="middle" fill={linkFontColor(line.color)} fontSize="7.8px" fontWeight="900" fontFamily="Play, sans-serif">
+                      {line.label}
+                    </text>
+                  </g>
+                ))}
+              </g>
+
+              <g id="svgLinesGroup">
+                {lines.hub.map(line => (
+                  <g key={line.id}>
+                    <path
+                      d={line.pathData}
+                      fill="none"
+                      stroke={line.isHighlighted ? '#2563eb' : '#94a3b8'}
+                      strokeWidth={line.isHighlighted ? '2.2' : '1.2'}
+                      strokeOpacity={line.isHighlighted ? '0.95' : '0.22'}
+                      className={isAnimationActive && line.isHighlighted ? 'flow-stream' : ''}
+                      strokeDasharray={!isAnimationActive || !line.isHighlighted ? '5, 5' : undefined}
+                    />
+                    <circle cx={line.p1.x} cy={line.p1.y} r={line.isHighlighted ? '3.5' : '2.5'} fill={line.isHighlighted ? '#2563eb' : '#94a3b8'} />
+                    <circle cx={line.p2.x} cy={line.p2.y} r={line.isHighlighted ? '3.5' : '2.5'} fill={line.isHighlighted ? '#2563eb' : '#94a3b8'} />
+                  </g>
+                ))}
+              </g>
+
+              <g id="svgHubLabelsGroup">
+                {lines.hub.map(line => (
+                  <g key={`hlbl-${line.id}`} transform={`translate(${line.labelX}, ${line.labelY})`}>
+                    <rect
+                      x={-(line.label.length * 5.2 + 8) / 2}
+                      y="-6.5"
+                      width={line.label.length * 5.2 + 8}
+                      height="13"
+                      rx="3.5"
+                      fill="#ffffff"
+                      stroke={line.isHighlighted ? '#2563eb' : '#94a3b8'}
+                      strokeWidth="1.1"
+                      opacity="0.98"
+                    />
+                    <text x="0" y="3.2" textAnchor="middle" fill={line.isHighlighted ? '#2563eb' : '#64748b'} fontSize="7.8px" fontWeight="900" fontFamily="Play, sans-serif">
+                      {line.label}
+                    </text>
+                  </g>
+                ))}
+              </g>
+            </svg>
+
+            {/* 3-COLUMN LAYOUT */}
+            <div className="relative z-20 grid grid-cols-12 gap-2 sm:gap-3 lg:gap-4 h-full items-stretch min-h-0 overflow-y-auto md:overflow-hidden no-scrollbar">
+              
+              {/* WEST COLUMN: 4 Customer & Sales Systems */}
+              <div className="col-span-12 md:col-span-3 flex flex-col justify-between h-full py-0.5 sm:py-1 min-h-0">
+                <div className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-cyan-950 bg-cyan-200/90 px-2.5 py-0.5 sm:py-1 rounded-[10px] border border-cyan-400 flex items-center justify-between mb-1 sm:mb-1.5 pointer-events-none shrink-0 shadow-xs">
+                  <span className="flex items-center gap-1.5 font-extrabold">
+                    <Users className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-cyan-800" /> Khách hàng & Bán Hàng
+                  </span>
+                  <span className="text-[9px] sm:text-[10px] text-cyan-950 font-black font-mono">4 Phân hệ</span>
+                </div>
+
+                <div className="flex flex-col justify-between flex-1 gap-1.5 sm:gap-2 py-0.5 sm:py-1 min-h-0">
+                  {/* 9.3 CRM */}
+                  <NodeCard
+                    sysKey="CRM"
+                    ref={(el) => (nodeRefs.current['CRM'] = el)}
+                    opacity={getNodeOpacity('CRM')}
+                    offset={offsets['CRM']}
+                    onPointerDown={(e) => handlePointerDown('CRM', e)}
+                    icon={UserCheck}
+                    code="9.3"
+                    abbr="CRM"
+                    title="Customer Relationship Mgmt"
+                    themeClass="theme-crm"
+                    iconBg="bg-cyan-600"
+                    codeBg="bg-cyan-900"
+                    textColor="text-cyan-800"
+                  />
+
+                  {/* 9.9 CSC */}
+                  <NodeCard
+                    sysKey="CSC"
+                    ref={(el) => (nodeRefs.current['CSC'] = el)}
+                    opacity={getNodeOpacity('CSC')}
+                    offset={offsets['CSC']}
+                    onPointerDown={(e) => handlePointerDown('CSC', e)}
+                    icon={Headset}
+                    code="9.9"
+                    abbr="CSC"
+                    title="Customer Service Center"
+                    themeClass="theme-csc"
+                    iconBg="bg-indigo-600"
+                    codeBg="bg-indigo-900"
+                    textColor="text-indigo-800"
+                  />
+
+                  {/* 9.7 CLP */}
+                  <NodeCard
+                    sysKey="CLP"
+                    ref={(el) => (nodeRefs.current['CLP'] = el)}
+                    opacity={getNodeOpacity('CLP')}
+                    offset={offsets['CLP']}
+                    onPointerDown={(e) => handlePointerDown('CLP', e)}
+                    icon={Award}
+                    code="9.7"
+                    abbr="CLP"
+                    title="Customer Loyalty Program"
+                    themeClass="theme-clp"
+                    iconBg="bg-amber-600"
+                    codeBg="bg-amber-900"
+                    textColor="text-amber-800"
+                  />
+
+                  {/* 9.12 POS */}
+                  <NodeCard
+                    sysKey="POS"
+                    ref={(el) => (nodeRefs.current['POS'] = el)}
+                    opacity={getNodeOpacity('POS')}
+                    offset={offsets['POS']}
+                    onPointerDown={(e) => handlePointerDown('POS', e)}
+                    icon={ShoppingCart}
+                    code="9.12"
+                    abbr="POS"
+                    title="Point of Sale"
+                    themeClass="theme-pos"
+                    iconBg="bg-emerald-600"
+                    codeBg="bg-emerald-900"
+                    textColor="text-emerald-800"
+                  />
+                </div>
+              </div>
+
+              {/* CENTER COLUMN: SDP CORE HUB + NORTH & SOUTH NODES */}
+              <div className="col-span-12 md:col-span-6 flex flex-col justify-between items-center h-full py-0.5 sm:py-1 px-1 min-h-0">
+                
+                {/* NORTH LEVEL: AI ASSISTANT & LMS */}
+                <div className="w-full flex items-center justify-center gap-2 sm:gap-3 shrink-0">
+                  {/* 9.11 AI */}
+                  <div
+                    ref={(el) => (nodeRefs.current['AI'] = el)}
+                    style={{
+                      opacity: getNodeOpacity('AI'),
+                      filter: getNodeOpacity('AI') < 1 ? 'grayscale(80%)' : 'none',
+                      transform: offsets['AI'] ? `translate(${offsets['AI'].x}px, ${offsets['AI'].y}px)` : 'none'
+                    }}
+                    onPointerDown={(e) => handlePointerDown('AI', e)}
+                    className="system-node draggable-card theme-ai glass-flat-hover rounded-[14px] p-2 sm:p-2.5 flex items-center justify-between gap-2 shadow-md !max-w-[240px] w-full"
+                  >
+                    <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-violet-700 text-white flex items-center justify-center shrink-0 shadow-md border-2 border-white">
+                        <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[8.5px] sm:text-[9.5px] font-mono px-1 sm:px-1.5 py-0.2 bg-violet-950 text-white rounded font-extrabold">9.11</span>
+                          <h4 className="font-black text-slate-950 text-xs sm:text-xs tracking-tight">AI Assistant</h4>
+                        </div>
+                        <p className="text-[9px] sm:text-[9.5px] text-slate-900 truncate font-extrabold">Artificial Intelligence</p>
+                      </div>
+                    </div>
+                    <Move className="w-3 h-3 text-violet-800 shrink-0 opacity-75" />
+                  </div>
+
+                  {/* 9.8 LMS */}
+                  <div
+                    ref={(el) => (nodeRefs.current['LMS'] = el)}
+                    style={{
+                      opacity: getNodeOpacity('LMS'),
+                      filter: getNodeOpacity('LMS') < 1 ? 'grayscale(80%)' : 'none',
+                      transform: offsets['LMS'] ? `translate(${offsets['LMS'].x}px, ${offsets['LMS'].y}px)` : 'none'
+                    }}
+                    onPointerDown={(e) => handlePointerDown('LMS', e)}
+                    className="system-node draggable-card theme-lms glass-flat-hover rounded-[14px] p-2 sm:p-2.5 flex items-center justify-between gap-2 shadow-md !max-w-[240px] w-full"
+                  >
+                    <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-teal-700 text-white flex items-center justify-center shrink-0 shadow-md border-2 border-white">
+                        <GraduationCap className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[8.5px] sm:text-[9.5px] font-mono px-1 sm:px-1.5 py-0.2 bg-teal-950 text-white rounded font-extrabold">9.8</span>
+                          <h4 className="font-black text-slate-950 text-xs sm:text-xs tracking-tight">LMS</h4>
+                        </div>
+                        <p className="text-[9px] sm:text-[9.5px] text-slate-900 truncate font-extrabold">Learning Mgmt System</p>
+                      </div>
+                    </div>
+                    <Move className="w-3 h-3 text-teal-800 shrink-0 opacity-75" />
+                  </div>
+                </div>
+
+                {/* MIDDLE LEVEL: 9.1 SDP CENTER CORE */}
+                <div
+                  ref={(el) => (nodeRefs.current['SDP'] = el)}
+                  style={{
+                    transform: offsets['SDP'] ? `translate(${offsets['SDP'].x}px, ${offsets['SDP'].y}px)` : 'none'
+                  }}
+                  onPointerDown={(e) => handlePointerDown('SDP', e)}
+                  className="system-node draggable-card theme-sdp !max-w-[430px] !w-full relative group rounded-[14px] shadow-2xl p-2.5 sm:p-3 my-auto shrink-0 cursor-grab"
+                >
+                  <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 rounded-[16px] blur-md opacity-45 group-hover:opacity-75 transition duration-300 pointer-events-none"></div>
+
+                  <div className="relative flex flex-col items-center text-center">
+                    {/* Top Badge & Role Selector */}
+                    <div className="flex items-center justify-between w-full mb-1 gap-1.5 sm:gap-2">
+                      <span className="px-2 py-0.5 rounded-full bg-blue-700 text-white text-[9.5px] sm:text-[10px] font-black border border-blue-400 flex items-center gap-1 shadow-xs shrink-0">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span> 9.1 TRUNG TÂM
+                      </span>
+                      
+                      <div className="flex items-center gap-1 bg-white border-2 border-blue-500 px-1.5 py-0.5 rounded-[10px] shadow-xs" onClick={(e) => e.stopPropagation()}>
+                        <ShieldCheck className="w-3 h-3 text-blue-700 shrink-0" />
+                        <span className="text-[9px] sm:text-[10px] font-black text-slate-800 uppercase">Quyền:</span>
+                        <select 
+                          value={currentRole} 
+                          onChange={(e) => handleRoleChange(e.target.value)} 
+                          className="text-[9px] sm:text-[10px] font-black text-blue-950 bg-transparent border-0 outline-none cursor-pointer"
+                        >
+                          <option value="admin">Quản trị viên (Admin Toàn quyền)</option>
+                          <option value="lead">Trưởng nhóm CSKH (Lead)</option>
+                          <option value="agent">Tư vấn viên (Agent)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Main Identity */}
+                    <div className="flex items-center gap-2.5 sm:gap-3 my-0.5 sm:my-1">
+                      <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-lg shadow-blue-500/40 group-hover:scale-105 transition-transform p-1.5 shrink-0 border-2 border-white">
+                        <Layers className="w-5 h-5" />
+                      </div>
+                      <div className="text-left">
+                        <h2 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight leading-none">SDP</h2>
+                        <p className="text-[10px] sm:text-[11px] text-blue-900 font-black font-mono mt-0.5">Service Delivery Platform</p>
+                        <p className="text-[10px] sm:text-[11px] text-slate-900 font-extrabold">Cổng làm việc CSKH</p>
+                      </div>
+                    </div>
+
+                    <p className="text-[10px] sm:text-[11px] text-slate-900 font-bold mt-0.5 leading-tight px-1 hidden sm:block">
+                      Trang làm việc chính của Phòng CSKH, cổng truy cập tập trung để sử dụng toàn bộ các hệ thống nghiệp vụ (Single Agent Workspace & SSO).
+                    </p>
+
+                    {/* 4 Core Chips */}
+                    <div className="mt-1.5 grid grid-cols-2 gap-1 sm:gap-1.5 w-full text-left text-[9.5px] sm:text-[10.5px]">
+                      <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-blue-400 shadow-xs">
+                        <div className="font-black text-blue-900 flex items-center gap-1">
+                          <KeyRound className="w-2.5 h-2.5 text-blue-700" /> SSO & Portal
+                        </div>
+                        <span className="text-[8.5px] sm:text-[9.5px] text-slate-800 font-extrabold">Đăng nhập tập trung</span>
+                      </div>
+                      <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-cyan-400 shadow-xs">
+                        <div className="font-black text-cyan-900 flex items-center gap-1">
+                          <GitMerge className="w-2.5 h-2.5 text-cyan-700" /> Hub Tích Hợp
+                        </div>
+                        <span className="text-[8.5px] sm:text-[9.5px] text-slate-800 font-extrabold">Chuyển tiếp Data</span>
+                      </div>
+                      <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-indigo-400 shadow-xs">
+                        <div className="font-black text-indigo-900 flex items-center gap-1">
+                          <Bot className="w-2.5 h-2.5 text-indigo-700" /> AI Workspace
+                        </div>
+                        <span className="text-[8.5px] sm:text-[9.5px] text-slate-800 font-extrabold">Bàn làm việc Agent</span>
+                      </div>
+                      <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-emerald-400 shadow-xs">
+                        <div className="font-black text-emerald-900 flex items-center gap-1">
+                          <Gauge className="w-2.5 h-2.5 text-emerald-700" /> Giám Sát Realtime
+                        </div>
+                        <span className="text-[8.5px] sm:text-[9.5px] text-slate-800 font-extrabold">Điều phối luồng việc</span>
+                      </div>
+                    </div>
+
+                    {/* Current Active Permissions */}
+                    <div className="mt-1.5 w-full px-2 py-0.5 sm:py-1 bg-blue-100/95 border-2 border-blue-400 rounded-[10px] text-left text-[9px] sm:text-[10px] text-blue-950 flex items-center justify-between shadow-xs">
+                      <span className="flex items-center gap-1 font-black">
+                        <Lock className="w-2.5 h-2.5 text-blue-800" />
+                        <span>Quyền: {sdpRoles[currentRole].title}</span>
+                      </span>
+                      <span className="px-1.5 py-0.2 rounded bg-blue-800 text-white font-mono text-[8.5px] font-black">{sdpRoles[currentRole].badge}</span>
+                    </div>
+
+                    <div className="mt-1 pt-1 border-t border-blue-400/80 w-full flex items-center justify-between text-[9.5px] sm:text-[10.5px] text-blue-950 font-black">
+                      <span className="flex items-center gap-1 truncate">
+                        <ExternalLink className="w-2.5 h-2.5" /> sdp.powerservice.one
+                      </span>
+                      <span className="text-slate-900 font-extrabold text-[8.5px] sm:text-[9.5px] shrink-0">Bấm: Chi tiết | Kéo: Đổi chỗ</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* SOUTH LEVEL: 9.10 BI DASHBOARD */}
+                <div className="w-full flex items-center justify-center shrink-0">
+                  <div
+                    ref={(el) => (nodeRefs.current['BI'] = el)}
+                    style={{
+                      opacity: getNodeOpacity('BI'),
+                      filter: getNodeOpacity('BI') < 1 ? 'grayscale(80%)' : 'none',
+                      transform: offsets['BI'] ? `translate(${offsets['BI'].x}px, ${offsets['BI'].y}px)` : 'none'
+                    }}
+                    onPointerDown={(e) => handlePointerDown('BI', e)}
+                    className="system-node draggable-card theme-bi glass-flat-hover rounded-[14px] p-2 sm:p-2.5 flex items-center justify-between gap-2.5 shadow-md !max-w-[300px] w-full"
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md border-2 border-white">
+                        <LineChart className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[8.5px] sm:text-[9.5px] font-mono px-1 sm:px-1.5 py-0.2 bg-emerald-950 text-white rounded font-extrabold">9.10</span>
+                          <h4 className="font-black text-slate-950 text-xs sm:text-xs tracking-tight">BI Dashboard</h4>
+                        </div>
+                        <p className="text-[9px] sm:text-[10px] text-slate-900 truncate font-extrabold">Business Intelligence Wallboard</p>
+                      </div>
+                    </div>
+                    <Move className="w-3 h-3 text-emerald-800 shrink-0 opacity-75" />
+                  </div>
+                </div>
+
+              </div>
+
+              {/* EAST COLUMN: 4 Enterprise & Operation Systems */}
+              <div className="col-span-12 md:col-span-3 flex flex-col justify-between h-full py-0.5 sm:py-1 min-h-0">
+                <div className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-indigo-950 bg-indigo-200/90 px-2.5 py-0.5 sm:py-1 rounded-[10px] border border-indigo-400 flex items-center justify-between mb-1 sm:mb-1.5 pointer-events-none shrink-0 shadow-xs">
+                  <span className="flex items-center gap-1.5 font-extrabold">
+                    <Cpu className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-indigo-800" /> Quản Trị Doanh Nghiệp
+                  </span>
+                  <span className="text-[9px] sm:text-[10px] text-indigo-950 font-black font-mono">4 Phân hệ</span>
+                </div>
+
+                <div className="flex flex-col justify-between flex-1 gap-1.5 sm:gap-2 py-0.5 sm:py-1 min-h-0">
+                  {/* 9.2 ERP */}
+                  <NodeCard
+                    sysKey="ERP"
+                    ref={(el) => (nodeRefs.current['ERP'] = el)}
+                    opacity={getNodeOpacity('ERP')}
+                    offset={offsets['ERP']}
+                    onPointerDown={(e) => handlePointerDown('ERP', e)}
+                    icon={Boxes}
+                    code="9.2"
+                    abbr="ERP"
+                    title="Enterprise Resource Planning"
+                    themeClass="theme-erp"
+                    iconBg="bg-purple-600"
+                    codeBg="bg-purple-950"
+                    textColor="text-purple-800"
+                  />
+
+                  {/* 9.4 HRM */}
+                  <NodeCard
+                    sysKey="HRM"
+                    ref={(el) => (nodeRefs.current['HRM'] = el)}
+                    opacity={getNodeOpacity('HRM')}
+                    offset={offsets['HRM']}
+                    onPointerDown={(e) => handlePointerDown('HRM', e)}
+                    icon={UserCog}
+                    code="9.4"
+                    abbr="HRM"
+                    title="Human Resource Management"
+                    themeClass="theme-hrm"
+                    iconBg="bg-pink-600"
+                    codeBg="bg-pink-950"
+                    textColor="text-pink-800"
+                  />
+
+                  {/* 9.5 BPM */}
+                  <NodeCard
+                    sysKey="BPM"
+                    ref={(el) => (nodeRefs.current['BPM'] = el)}
+                    opacity={getNodeOpacity('BPM')}
+                    offset={offsets['BPM']}
+                    onPointerDown={(e) => handlePointerDown('BPM', e)}
+                    icon={GitBranch}
+                    code="9.5"
+                    abbr="BPM"
+                    title="Business Process Mgmt"
+                    themeClass="theme-bpm"
+                    iconBg="bg-indigo-600"
+                    codeBg="bg-indigo-950"
+                    textColor="text-indigo-800"
+                  />
+
+                  {/* 9.6 OKR */}
+                  <NodeCard
+                    sysKey="OKR"
+                    ref={(el) => (nodeRefs.current['OKR'] = el)}
+                    opacity={getNodeOpacity('OKR')}
+                    offset={offsets['OKR']}
+                    onPointerDown={(e) => handlePointerDown('OKR', e)}
+                    icon={Target}
+                    code="9.6"
+                    abbr="OKR"
+                    title="Objectives & Key Results"
+                    themeClass="theme-okr"
+                    iconBg="bg-orange-600"
+                    codeBg="bg-orange-950"
+                    textColor="text-orange-800"
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            {/* BOTTOM PROTOCOL FOOTPRINT */}
+            <div className="pt-2 border-t border-slate-300/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-900 font-bold z-20">
+              <div className="flex items-center gap-3">
+                <button onClick={() => setShowHubLines(!showHubLines)} className="flex items-center gap-1.5 text-blue-950 font-black hover:underline">
+                  <span className={`w-4 h-1.5 inline-block rounded-full shadow-xs ${showHubLines ? 'bg-blue-600' : 'bg-slate-300'}`}></span> 
+                  <span>Line Hệ Thống vào SDP (Đồng bộ chuẩn Hub)</span>
+                </button>
+                <button onClick={() => setShowInterSystemLines(!showInterSystemLines)} className="flex items-center gap-1.5 text-indigo-950 font-black hover:underline">
+                  <span className={`w-4 h-1.5 border-t-2 border-dashed inline-block ${showInterSystemLines ? 'border-indigo-700' : 'border-slate-300'}`}></span> 
+                  <span>Line Data Hệ thống (17 Tuyến Kết Nối Liên Phân Hệ)</span>
+                </button>
+              </div>
+              <div className="flex items-center gap-2 font-mono text-[10.5px]">
+                <span className="px-2 py-0.5 bg-slate-200 text-slate-950 font-extrabold rounded border border-slate-300">RESTful</span>
+                <span className="px-2 py-0.5 bg-slate-200 text-slate-950 font-extrabold rounded border border-slate-300">WebSocket</span>
+                <span className="px-2 py-0.5 bg-slate-200 text-slate-950 font-extrabold rounded border border-slate-300">Kafka Broker</span>
+                <span className="px-2 py-0.5 bg-slate-200 text-slate-950 font-extrabold rounded border border-slate-300">OAuth 2.0 SSO</span>
+              </div>
+            </div>
+
+          </div>
+        </main>
+      </div>
+
+      {/* MODAL: SYSTEM DETAILS */}
+      {selectedSystem && currentSysModalData && (
+        <div className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-md flex items-center justify-center p-3" onClick={() => setSelectedSystem(null)}>
+          <div className="bg-white/95 backdrop-blur-xl border border-slate-300 w-full max-w-xl rounded-[14px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+            <div className="p-4 border-b border-slate-200 bg-gradient-to-r from-blue-50/90 via-white to-slate-50 flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-md">
+                  {React.createElement(currentSysModalData.icon || Layers, { className: 'w-5 h-5' })}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-mono px-2 py-0.2 rounded bg-blue-100 text-blue-900 font-bold">{currentSysModalData.code}</span>
+                    <span className="text-xs text-slate-600 font-mono font-bold">{currentSysModalData.full}</span>
+                  </div>
+                  <h3 className="text-base font-black text-slate-950 mt-0.5">{currentSysModalData.abbr} - {currentSysModalData.name}</h3>
+                </div>
+              </div>
+              <button onClick={() => setSelectedSystem(null)} className="w-7 h-7 rounded-[10px] bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="p-4 space-y-3.5 text-xs overflow-y-auto no-scrollbar">
+              <div>
+                <label className="text-[10px] font-extrabold text-slate-600 uppercase tracking-wider block mb-1">Mô tả tổng quan</label>
+                <p className="text-slate-800 font-medium leading-relaxed bg-slate-50 p-2.5 rounded-[10px] border border-slate-200">{currentSysModalData.desc}</p>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-extrabold text-slate-600 uppercase tracking-wider block mb-1">Tính năng chính</label>
+                <ul className="space-y-1.5 text-slate-800">
+                  {currentSysModalData.features.map((feat, i) => (
+                    <li key={i} className="flex items-start gap-2 font-medium">
+                      <CheckCircle className="w-3.5 h-3.5 text-blue-700 mt-0.5 shrink-0" />
+                      <span className="text-slate-900 leading-normal">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-extrabold text-slate-600 uppercase tracking-wider block mb-1">Luồng Dữ Liệu Tương Tác Với SDP</label>
+                <div className="bg-blue-50/70 border border-blue-200 p-2.5 rounded-[10px] space-y-1.5">
+                  {currentSysModalData.flows?.map((fl, idx) => (
+                    <div key={idx} className="flex items-start gap-2 border-b border-blue-200 pb-1.5 last:border-b-0 last:pb-0">
+                      <span className="px-1.5 py-0.2 rounded bg-blue-200 text-blue-950 font-mono text-[9px] font-extrabold shrink-0">{fl.type}</span>
+                      <div>
+                        <span className="font-extrabold text-slate-900">{fl.to}:</span>
+                        <span className="text-slate-700 ml-1 font-medium">{fl.desc}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <span className="text-slate-600 text-[11px] font-bold">Đường dẫn hệ thống:</span>
+                  <div className="font-mono text-blue-800 font-bold select-all text-xs">
+                    {currentSysModalData.isPending ? (
+                      <span className="text-amber-700 font-bold italic">{currentSysModalData.url}</span>
+                    ) : (
+                      <a href={currentSysModalData.url} target="_blank" rel="noreferrer" className="hover:underline">{currentSysModalData.url}</a>
+                    )}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  {!currentSysModalData.isPending && (
+                    <>
+                      <button 
+                        onClick={() => {
+                          navigator.clipboard.writeText(currentSysModalData.url);
+                          showToast(`Đã sao chép: ${currentSysModalData.url}`);
+                        }} 
+                        className="px-3 py-1.5 rounded-[10px] bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold transition-colors flex items-center gap-1 border border-slate-300"
+                      >
+                        <Copy className="w-3.5 h-3.5" /> Sao chép URL
+                      </button>
+                      <a 
+                        href={currentSysModalData.url} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="px-3.5 py-1.5 rounded-[10px] bg-blue-600 hover:bg-blue-700 text-white font-extrabold transition-colors flex items-center gap-1 shadow-sm"
+                      >
+                        <span>Mở website</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: MATRIX VIEW */}
+      {isMatrixOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-md flex items-center justify-center p-3" onClick={() => setIsMatrixOpen(false)}>
+          <div className="bg-white/95 backdrop-blur-xl border border-slate-300 w-full max-w-4xl rounded-[14px] shadow-2xl overflow-hidden flex flex-col max-h-[88vh]" onClick={(e) => e.stopPropagation()}>
+            <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+              <div>
+                <h3 className="font-black text-slate-950 text-sm">Ma Trận Luồng Dữ Liệu & Giao Thức (12 Hệ Thống)</h3>
+                <p className="text-[11px] text-slate-600 font-bold">Mô tả đường truyền giữa SDP và các phân hệ vệ tinh</p>
+              </div>
+              <button onClick={() => setIsMatrixOpen(false)} className="w-7 h-7 rounded-[10px] bg-slate-200 hover:bg-slate-300 text-slate-700 flex items-center justify-center">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="p-4 overflow-y-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="border-b border-slate-300 bg-slate-100 text-slate-800 font-black uppercase text-[10px]">
+                    <th className="py-2.5 px-3">Hệ thống nguồn</th>
+                    <th className="py-2.5 px-3 text-center">Hướng</th>
+                    <th className="py-2.5 px-3">Hệ thống đích</th>
+                    <th className="py-2.5 px-3">Nội dung dữ liệu truyền tải</th>
+                    <th className="py-2.5 px-3">Giao thức</th>
+                    <th className="py-2.5 px-3">Tần suất</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 text-slate-800 font-medium">
+                  {matrixRows.map((row, idx) => (
+                    <tr key={idx} className="hover:bg-slate-100 transition-colors">
+                      <td className="py-2.5 px-3 font-bold text-slate-900 whitespace-nowrap">{row.from}</td>
+                      <td className="py-2.5 px-3 text-center font-mono text-blue-700 font-extrabold whitespace-nowrap">{row.dir}</td>
+                      <td className="py-2.5 px-3 font-bold text-slate-900 whitespace-nowrap">{row.to}</td>
+                      <td className="py-2.5 px-3 text-slate-700 font-medium">{row.data}</td>
+                      <td className="py-2.5 px-3 font-mono text-indigo-700 font-bold whitespace-nowrap">{row.proto}</td>
+                      <td className="py-2.5 px-3 text-slate-600 font-semibold whitespace-nowrap">{row.freq}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: SIMULATION */}
+      {isSimOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-md flex items-center justify-center p-3" onClick={() => setIsSimOpen(false)}>
+          <div className="bg-white/95 backdrop-blur-xl border border-slate-300 w-full max-w-lg rounded-[14px] p-4 sm:p-5 shadow-2xl space-y-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-[10px] bg-blue-100 text-blue-700 flex items-center justify-center">
+                  <Play className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-black text-slate-950 text-sm">Quy Trình Xử Lý Cuộc Gọi CSKH Khép Kín</h3>
+                  <p className="text-[10px] text-slate-600 font-bold">Chu trình luân chuyển dữ liệu thực tế</p>
+                </div>
+              </div>
+              <button onClick={() => setIsSimOpen(false)} className="text-slate-500 hover:text-slate-800">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-2 text-xs">
+              <div className="p-2.5 rounded-[10px] bg-slate-50 border-l-4 border-cyan-500">
+                <strong className="text-cyan-900 block text-[11px] font-black">Bước 1: Tiếp nhận cuộc gọi</strong>
+                <span className="text-slate-700 font-medium">Tư vấn viên đăng nhập SDP (SSO qua <strong>HRM</strong>). <strong>CSC</strong> tự động bật popup cuộc gọi và tạo Ticket tương tác.</span>
+              </div>
+              <div className="p-2.5 rounded-[10px] bg-slate-50 border-l-4 border-blue-600">
+                <strong className="text-blue-900 block text-[11px] font-black">Bước 2: Nạp hồ sơ khách hàng 360°</strong>
+                <span className="text-slate-700 font-medium">SDP kéo thông tin liên hệ từ <strong>CRM</strong>, thẻ VIP và voucher tích điểm từ <strong>CLP</strong>, đơn hàng gần nhất từ <strong>POS / ERP</strong>.</span>
+              </div>
+              <div className="p-2.5 rounded-[10px] bg-slate-50 border-l-4 border-violet-600">
+                <strong className="text-violet-900 block text-[11px] font-black">Bước 3: AI Assistant trợ lực</strong>
+                <span className="text-slate-700 font-medium"><strong>AI Assistant</strong> tra cứu sổ tay quy trình từ <strong>LMS</strong>, gợi ý kịch bản trả lời và phản hồi tối ưu trực tiếp cho Agent.</span>
+              </div>
+              <div className="p-2.5 rounded-[10px] bg-slate-50 border-l-4 border-indigo-600">
+                <strong className="text-indigo-900 block text-[11px] font-black">Bước 4: Điều phối quy trình & Báo cáo</strong>
+                <span className="text-slate-700 font-medium">Trường hợp đổi trả, SDP gửi lệnh duyệt sang <strong>BPM</strong> & kho <strong>ERP</strong>. Chỉ số CSAT/SLA tự động đẩy vào <strong>OKR</strong> và hiển thị lên <strong>BI Dashboard</strong>.</span>
+              </div>
+            </div>
+
+            <div className="pt-2 flex justify-end">
+              <button onClick={() => setIsSimOpen(false)} className="px-4 py-2 rounded-[14px] bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs transition-colors shadow-sm">
+                Đóng và xem sơ đồ
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TOAST NOTIFICATION */}
+      <div className={`fixed bottom-4 right-4 z-50 bg-slate-950/95 backdrop-blur text-white px-3.5 py-2 rounded-[14px] shadow-xl flex items-center gap-2 text-xs font-bold transition-all duration-300 ${toastMessage ? 'opacity-100 translate-y-0' : 'opacity-0 pointer-events-none translate-y-2'}`}>
+        <CheckCircle className="w-4 h-4 text-emerald-400" />
+        <span>{toastMessage}</span>
+      </div>
+
+    </div>
+  );
+}
+
+// Reusable Satellite Node Component
+const NodeCard = React.forwardRef(({ opacity, offset, onPointerDown, icon: Icon, code, abbr, title, themeClass, iconBg, codeBg, textColor }, ref) => {
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity,
+        filter: opacity < 1 ? 'grayscale(80%)' : 'none',
+        transform: offset ? `translate(${offset.x}px, ${offset.y}px)` : 'none'
+      }}
+      onPointerDown={onPointerDown}
+      className={`system-node draggable-card ${themeClass} glass-flat-hover rounded-[14px] p-2 sm:p-2.5 flex items-center justify-between gap-2 shadow-md`}
+    >
+      <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+        <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full ${iconBg} text-white flex items-center justify-center shrink-0 shadow-md border-2 border-white`}>
+          <Icon className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+        </div>
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5">
+            <span className={`text-[9px] sm:text-[9.5px] font-mono px-1 sm:px-1.5 py-0.2 ${codeBg} text-white rounded font-extrabold`}>{code}</span>
+            <h3 className="font-black text-slate-950 text-xs sm:text-sm tracking-tight">{abbr}</h3>
+          </div>
+          <p className="text-[9.5px] sm:text-[10.5px] text-slate-900 truncate font-extrabold">{title}</p>
+        </div>
+      </div>
+      <Move className={`w-3 h-3 ${textColor} shrink-0 opacity-75`} />
+    </div>
+  );
+});
+
+function linkFontColor(hex) {
+  return hex || '#2563eb';
+}

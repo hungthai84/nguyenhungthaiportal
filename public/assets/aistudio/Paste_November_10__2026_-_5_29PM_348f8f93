@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F8FAFF" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://i.ibb.co" crossorigin />
+  <link rel="dns-prefetch" href="//i.ibb.co" />
+  <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Lĩnh Vực Chuyên Môn | Nguyễn Hùng Thái</title>
+  <script>
+    window.handleImageFallback = function (img) {
+      if (!img || img.dataset.fallbackHandled === 'true') return;
+      img.dataset.fallbackHandled = 'true';
+      const frame = img.parentElement;
+      const label = (img.getAttribute('alt') || 'Hình ảnh')
+        .replace(/^Logo\s*/i, '').replace(/^Minh họa\s*/i, '');
+      if (!frame) { img.hidden = true; return; }
+      if (frame.classList.contains('service-partner-mark') || frame.classList.contains('partner-logo')) {
+        const fallback = document.createElement('span');
+        fallback.className = 'partner-fallback';
+        fallback.textContent = label;
+        frame.replaceChildren(fallback);
+        return;
+      }
+      if (frame.classList.contains('brand-logo')) {
+        frame.classList.add('image-load-error');
+        img.remove();
+        return;
+      }
+      if (frame.classList.contains('card-art') || frame.classList.contains('detail-art')) {
+        frame.classList.add('image-load-error');
+        img.remove();
+        return;
+      }
+      img.hidden = true;
+    };
+  </script>
+  <style>
+    :root {
+      --ink: #252344;
+      --muted: #777791;
+      --line: rgba(91, 88, 137, .12);
+      --surface: rgba(255,255,255,.82);
+      --shadow: 0 14px 38px rgba(77, 73, 125, .09);
+      --radius: 16px;
+      --ease: cubic-bezier(.22,.8,.2,1);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Play, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(ellipse at 7% 8%, rgba(255, 177, 205, .42), transparent 31%),
+        radial-gradient(ellipse at 92% 5%, rgba(130, 207, 255, .42), transparent 30%),
+        radial-gradient(ellipse at 80% 78%, rgba(183, 159, 255, .30), transparent 34%),
+        radial-gradient(ellipse at 18% 88%, rgba(134, 232, 202, .26), transparent 32%),
+        radial-gradient(ellipse at 52% 42%, rgba(255, 220, 158, .18), transparent 38%),
+        #f8f9ff;
+    }
+    button { font: inherit; }
+    .page-shell { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding: 48px 0 64px; }
+    .intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin: 0 2px 26px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: #7773a9; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 22px; height: 2px; border-radius: 9px; background: linear-gradient(90deg,#fb8fb2,#8d86ef); }
+    h1 { margin: 10px 0 8px; font-size: clamp(28px, 4vw, 42px); line-height: 1.12; letter-spacing: -.04em; font-weight: 800; }
+    .intro p { margin: 0; max-width: 760px; color: var(--muted); font-size: 14px; line-height: 1.75; }
+    .section-count { flex: 0 0 auto; display: flex; align-items: center; gap: 9px; padding: 10px 13px; border: 1px solid rgba(255,255,255,.82); border-radius: 999px; background: linear-gradient(120deg, rgba(255,255,255,.78), rgba(231,226,255,.54)); color: #6f6b9a; font-size: 12px; font-weight: 700; box-shadow: 0 8px 24px rgba(80,75,130,.08); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    .section-count strong { color: #514c8d; font-size: 15px; }
+
+    .service-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-auto-rows: minmax(235px, auto);
+      gap: 16px;
+      isolation: isolate;
+    }
+    .service-card {
+      --accent: #6d9df4; --accent-soft: #edf4ff; --accent-deep: #456fc0;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 21px 21px 18px;
+      border: 1px solid rgba(255,255,255,.82);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-align: left;
+      color: var(--ink);
+      background: linear-gradient(145deg, rgba(255,255,255,.82), color-mix(in srgb, var(--accent-soft) 76%, rgba(255,255,255,.58)));
+      box-shadow: 0 12px 30px rgba(77,73,125,.085), inset 0 1px 0 rgba(255,255,255,.9);
+      backdrop-filter: blur(20px) saturate(145%);
+      -webkit-backdrop-filter: blur(20px) saturate(145%);
+      cursor: pointer;
+      transition: transform .32s var(--ease), box-shadow .32s var(--ease), border-color .32s ease, opacity .28s ease, background .32s ease;
+      appearance: none;
+    }
+    .service-card::before {
+      content: ""; position: absolute; width: 210px; height: 210px; right: -92px; bottom: -126px;
+      border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 38%, white), transparent 68%);
+      opacity: .50; filter: blur(5px); pointer-events: none;
+    }
+    .service-card::after {
+      content: ""; position: absolute; width: 160px; height: 160px; left: -100px; top: -105px;
+      border-radius: 50%; background: var(--accent); opacity: .11; filter: blur(8px); pointer-events: none;
+    }
+    .card-art {
+      position: absolute; z-index: 1; right: 13px; top: 54px; width: 36%; height: 118px;
+      display: grid; place-items: center; pointer-events: none;
+    }
+    .card-art img {
+      display: block; width: 100%; height: 100%; max-width: 100%; max-height: 100%;
+      object-fit: contain; object-position: center; visibility: visible; opacity: 1;
+      filter: drop-shadow(0 10px 12px rgba(65,65,112,.12));
+    }
+    .card-art.image-load-error::after, .detail-art.image-load-error::after {
+      content: 'Hình minh họa đang tạm thời không khả dụng'; display: block; max-width: 150px;
+      color: #89869f; font-size: 10px; line-height: 1.45; text-align: center;
+    }
+    .card-art.is-logo {
+      top: 72px; width: 39%; height: 82px; padding: 12px; border-radius: 15px;
+      border: 1px solid rgba(255,255,255,.78); background: rgba(255,255,255,.44);
+      box-shadow: 0 8px 22px rgba(65,65,112,.06); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .card-art.is-logo img { filter: none; }
+    .service-card h2, .card-description { max-width: 58%; }
+    .service-card:hover { transform: translateY(-5px) scale(1.012); border-color: color-mix(in srgb, var(--accent) 42%, white); box-shadow: 0 19px 38px color-mix(in srgb, var(--accent) 18%, rgba(77,73,125,.10)), inset 0 1px 0 rgba(255,255,255,.96); }
+    .service-card:focus-visible, .close-button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 68%, white); outline-offset: 3px; }
+    .card-top { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 2; }
+    .card-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 0; color: var(--accent-deep); background: transparent; border: 0; box-shadow: none; }
+    .card-icon svg { width: 31px; height: 31px; stroke: currentColor; fill: none; stroke-width: 1.85; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 3px 5px color-mix(in srgb, var(--accent) 18%, transparent)); }
+    .card-number { color: var(--accent-deep); opacity: .82; font-size: 11px; font-weight: 800; letter-spacing: .12em; }
+    .service-card h2 { position: relative; z-index: 2; margin: 21px 0 7px; font-size: 19px; letter-spacing: -.025em; line-height: 1.25; font-weight: 800; }
+    .card-description { position: relative; z-index: 2; margin: 0; color: #73738d; font-size: 12.5px; line-height: 1.65; min-height: 42px; }
+    .metric-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 18px; position: relative; z-index: 2; }
+    .metric-pill { padding: 6px 9px; border-radius: 8px; color: var(--accent-deep); background: rgba(255,255,255,.60); border: 1px solid rgba(255,255,255,.78); box-shadow: inset 0 1px 0 rgba(255,255,255,.8); font-size: 10.5px; font-weight: 800; white-space: nowrap; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .card-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 17px; padding-top: 12px; border-top: 1px solid rgba(95,91,145,.10); color: var(--accent-deep); font-size: 11px; font-weight: 800; position: relative; z-index: 2; }
+    .card-bottom .arrow { display: grid; place-items: center; width: 25px; height: 25px; border-radius: 50%; color: var(--accent-deep); background: color-mix(in srgb, var(--accent) 13%, rgba(255,255,255,.72)); border: 1px solid rgba(255,255,255,.76); font-size: 16px; transition: transform .25s ease; }
+    .service-card:hover .arrow { transform: translateX(3px); }
+
+    /* Each service uses a distinct, muted accent while keeping one visual system. */
+    .service-card[data-id="telecom"] { --accent:#1480C0; --accent-soft:#EAF5FB; --accent-deep:#145B86; }
+    .service-card[data-id="commerce"] { --accent:#EC7D21; --accent-soft:#FFF3E8; --accent-deep:#A84F0E; }
+    .service-card[data-id="insurance"] { --accent:#E64C72; --accent-soft:#FFF0F3; --accent-deep:#A92F50; }
+    .service-card[data-id="esports"] { --accent:#6353B5; --accent-soft:#F1EFFB; --accent-deep:#40358A; }
+    .service-card[data-id="payments"] { --accent:#3BB8E6; --accent-soft:#EAF8FD; --accent-deep:#16799F; }
+    .service-card[data-id="systems"] { --accent:#50B347; --accent-soft:#EFF9ED; --accent-deep:#28752C; }
+
+    .service-detail {
+      --detail-accent: #5b9cf0;
+      --detail-soft: #edf5ff;
+      position: absolute;
+      z-index: 5;
+      left: 0; top: 0; width: 100%; height: 100%;
+      border: 1px solid rgba(255,255,255,.86);
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(255,255,255,.89), color-mix(in srgb, var(--detail-soft) 82%, rgba(255,255,255,.72)));
+      box-shadow: 0 25px 72px rgba(66,62,116,.17), inset 0 1px 0 rgba(255,255,255,.94);
+      backdrop-filter: blur(24px) saturate(150%);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+      transform-origin: top left;
+      transition: left .76s var(--ease), top .76s var(--ease), width .76s var(--ease), height .76s var(--ease), border-radius .76s var(--ease), box-shadow .76s ease;
+    }
+    .service-detail.is-morphing { border-radius: 15px; }
+    .detail-scroll { width: 100%; height: 100%; overflow: auto; padding: 25px 28px 28px; opacity: 0; transform: translateY(10px); transition: opacity .32s ease .35s, transform .42s var(--ease) .35s; }
+    .service-detail.content-visible .detail-scroll { opacity: 1; transform: translateY(0); }
+    .detail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid rgba(100,96,150,.12); }
+    .detail-heading { display: flex; gap: 15px; min-width: 0; flex: 1 1 auto; }
+    .detail-art { flex: 0 0 142px; width: 142px; height: 100px; display: grid; place-items: center; align-self: center; }
+    .detail-art img { display: block; max-width: 100%; max-height: 100%; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 10px 13px rgba(65,65,112,.12)); }
+    .detail-art.is-logo { padding: 12px; height: 74px; border-radius: 13px; background: rgba(255,255,255,.82); border: 1px solid rgba(112,108,158,.10); }
+    .detail-art.is-logo img { filter: none; }
+    .detail-icon { flex: 0 0 auto; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 0; color: var(--detail-accent); background: transparent; border: 0; box-shadow: none; }
+    .detail-icon svg { width: 35px; height: 35px; stroke: currentColor; fill: none; stroke-width: 1.85; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 4px 7px color-mix(in srgb, var(--detail-accent) 20%, transparent)); }
+    .detail-kicker { margin: 2px 0 6px; color: var(--detail-accent); font-size: 10px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+    .detail-head h2 { margin: 0; font-size: clamp(22px, 2.7vw, 30px); letter-spacing: -.04em; line-height: 1.15; }
+    .detail-summary { max-width: 850px; margin: 8px 0 0; color: #77758f; font-size: 12.5px; line-height: 1.65; }
+    .close-button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(105,101,153,.16); border-radius: 10px; padding: 9px 12px; color: #666481; background: rgba(255,255,255,.78); cursor: pointer; font-size: 11px; font-weight: 800; transition: background .2s ease, transform .2s ease; }
+    .close-button:hover { background: white; transform: translateY(-1px); }
+    .close-button svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    .detail-metrics { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin: 17px 0; }
+    .metric-card { padding: 13px 15px; min-height: 79px; border-radius: 12px; background: linear-gradient(145deg, rgba(255,255,255,.83), color-mix(in srgb, var(--detail-soft) 68%, rgba(255,255,255,.72))); border: 1px solid rgba(255,255,255,.86); box-shadow: 0 7px 18px rgba(74,70,125,.055), inset 0 1px 0 rgba(255,255,255,.9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+    .metric-value { display: block; color: var(--detail-accent); font-size: clamp(19px, 2.2vw, 25px); line-height: 1.15; font-weight: 900; letter-spacing: -.04em; }
+    .metric-label { display: block; margin-top: 5px; color: #77758f; font-size: 10.5px; line-height: 1.4; font-weight: 650; }
+
+    .detail-top-cards { display: grid; grid-template-columns: 1.05fr .95fr; gap: 12px; margin: 0 0 12px; }
+    .detail-columns { display: grid; grid-template-columns: 1.15fr .85fr; gap: 12px; align-items: stretch; }
+    .detail-stack { display: grid; gap: 12px; align-content: start; }
+    .sub-card { min-width: 0; padding: 16px 17px; border-radius: 13px; border: 1px solid rgba(255,255,255,.84); background: linear-gradient(145deg, rgba(255,255,255,.80), color-mix(in srgb, var(--detail-soft) 48%, rgba(255,255,255,.76))); box-shadow: 0 8px 22px rgba(74,70,125,.045), inset 0 1px 0 rgba(255,255,255,.86); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+    .sub-card-heading { display: flex; align-items: center; gap: 9px; margin: 0 0 11px; color: #343252; font-size: 12px; font-weight: 900; }
+    .sub-card-heading .mini-icon { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 8px; color: var(--detail-accent); background: color-mix(in srgb, var(--detail-accent) 12%, white); border: 1px solid rgba(255,255,255,.82); }
+    .mini-icon svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+    .sub-card p { margin: 0; color: #73728c; font-size: 11.5px; line-height: 1.7; }
+    .sub-card ul { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+    .sub-card li { position: relative; padding-left: 15px; color: #6f6e88; font-size: 11.5px; line-height: 1.55; }
+    .sub-card li::before { content: ""; position: absolute; left: 0; top: .55em; width: 6px; height: 6px; border-radius: 50%; background: var(--detail-accent); opacity: .75; }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tech-tag { padding: 6px 9px; border-radius: 8px; background: linear-gradient(135deg, color-mix(in srgb, var(--detail-accent) 13%, white), rgba(255,255,255,.82)); border: 1px solid rgba(255,255,255,.84); color: color-mix(in srgb, var(--detail-accent) 86%, #292747); font-size: 10px; font-weight: 800; }
+    .role-card { background: linear-gradient(135deg, white, var(--detail-soft)); }
+    .role-title { color: var(--detail-accent) !important; font-weight: 800; }
+    .partner-list { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; }
+    .partner-logo { display: inline-flex; align-items: center; justify-content: center; min-width: 76px; height: 38px; padding: 5px 9px; border-radius: 9px; border: 1px solid rgba(255,255,255,.88); background: rgba(255,255,255,.72); box-shadow: 0 5px 14px rgba(74,70,125,.045), inset 0 1px 0 rgba(255,255,255,.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .partner-logo img { max-width: 78px; max-height: 25px; object-fit: contain; }
+    .partner-fallback { color: #666582; font-size: 10px; font-weight: 800; }
+    .detail-footnote { margin: 13px 2px 0; color: #9391a8; font-size: 10px; line-height: 1.5; }
+
+    .grid-hint { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 18px; color: #9290a8; font-size: 11px; }
+    .grid-hint svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .footer-note { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 35px; padding-top: 17px; border-top: 1px solid rgba(111,107,157,.12); color: #9a98ae; font-size: 10px; }
+    .footer-note strong { color: #777493; }
+
+    @media (max-width: 900px) {
+      .page-shell { width: min(760px, calc(100% - 32px)); padding-top: 34px; }
+      .service-grid { grid-template-columns: repeat(2, minmax(0,1fr)); grid-auto-rows: minmax(225px, auto); }
+      .detail-columns { grid-template-columns: 1fr 1fr; }
+      .detail-scroll { padding: 21px; }
+    }
+    @media (max-width: 620px) {
+      .page-shell { width: min(440px, calc(100% - 24px)); padding: 28px 0 40px; }
+      .intro { display: block; margin-bottom: 19px; }
+      .section-count { display: inline-flex; margin-top: 15px; }
+      .service-grid { grid-template-columns: 1fr; grid-auto-rows: minmax(205px, auto); gap: 11px; }
+      .service-card { padding: 18px; }
+      .service-card h2 { margin-top: 15px; }
+      .card-art { right: 8px; top: 55px; width: 35%; height: 108px; }
+      .card-art.is-logo { top: 69px; width: 35%; height: 70px; }
+      .service-detail { border-radius: 14px; }
+      .detail-scroll { padding: 17px 14px 20px; }
+      .detail-head { gap: 9px; }
+      .detail-heading { gap: 10px; }
+      .detail-art { display: none; }
+      .detail-icon { width: 43px; height: 43px; border-radius: 0; }
+      .detail-head h2 { font-size: 20px; }
+      .detail-summary { font-size: 11px; }
+      .close-button { padding: 8px; font-size: 0; gap: 0; }
+      .close-button svg { width: 17px; height: 17px; }
+      .detail-metrics { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; margin: 12px 0; }
+      .metric-card { min-height: 68px; padding: 10px 11px; }
+      .detail-top-cards { grid-template-columns: 1fr; gap: 9px; margin-bottom: 9px; }
+      .detail-columns { grid-template-columns: 1fr; gap: 9px; }
+      .detail-stack { gap: 9px; }
+      .sub-card { padding: 13px; }
+      .footer-note { display: block; line-height: 1.8; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+
+
+    /* Glassmorphism Flat UI refresh: clean surfaces, soft color, restrained depth. */
+    :root {
+      --ink: #252344;
+      --muted: #74738d;
+      --line: rgba(103, 99, 151, .13);
+      --surface: rgba(255, 255, 255, .66);
+      --shadow: 0 8px 24px rgba(61, 58, 105, .065);
+      --radius: 12px;
+    }
+    body {
+      background:
+        radial-gradient(ellipse at 8% 7%, rgba(255, 190, 211, .29), transparent 30%),
+        radial-gradient(ellipse at 92% 9%, rgba(157, 213, 255, .30), transparent 29%),
+        radial-gradient(ellipse at 82% 82%, rgba(200, 183, 255, .24), transparent 32%),
+        radial-gradient(ellipse at 13% 88%, rgba(160, 235, 211, .22), transparent 31%),
+        #f7f8fd;
+    }
+    .page-shell { width: min(1240px, calc(100% - 48px)); }
+    .eyebrow { color: #7773a9; letter-spacing: .11em; }
+    h1 { letter-spacing: -.035em; }
+    .section-count {
+      border-color: rgba(255,255,255,.82);
+      border-radius: 12px;
+      background: rgba(255,255,255,.60);
+      box-shadow: 0 5px 16px rgba(61,58,105,.045);
+      backdrop-filter: blur(14px) saturate(125%);
+      -webkit-backdrop-filter: blur(14px) saturate(125%);
+    }
+    .service-grid { gap: 14px; }
+    .service-card {
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,.90);
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(255,255,255,.77), color-mix(in srgb, var(--accent-soft) 54%, rgba(255,255,255,.76)));
+      box-shadow: 0 7px 20px rgba(61,58,105,.055);
+      backdrop-filter: blur(16px) saturate(130%);
+      -webkit-backdrop-filter: blur(16px) saturate(130%);
+      transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease, opacity .2s ease;
+    }
+    .service-card::before,
+    .service-card::after { display: none; }
+    .service-card:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--accent) 40%, white);
+      box-shadow: 0 12px 25px color-mix(in srgb, var(--accent) 12%, rgba(61,58,105,.06));
+    }
+    .card-icon { color: var(--accent-deep); }
+    .card-icon svg { filter: none; }
+    .card-number { font-size: 10px; letter-spacing: .09em; opacity: .75; }
+    .service-card h2 { font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
+    .card-description { color: #72718a; }
+    .metric-pill {
+      padding: 6px 9px;
+      border: 1px solid color-mix(in srgb, var(--accent) 15%, white);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent-soft) 68%, rgba(255,255,255,.78));
+      box-shadow: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .card-bottom { border-top-color: rgba(95,91,145,.10); }
+    .card-bottom .arrow {
+      width: 26px; height: 26px; border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 10%, white);
+      border-color: color-mix(in srgb, var(--accent) 15%, white);
+    }
+    .service-detail {
+      border: 1px solid rgba(255,255,255,.92);
+      border-radius: 12px;
+      background: rgba(250,251,255,.90);
+      box-shadow: 0 16px 42px rgba(61,58,105,.11);
+      backdrop-filter: blur(20px) saturate(135%);
+      -webkit-backdrop-filter: blur(20px) saturate(135%);
+    }
+    .service-detail.is-morphing { border-radius: 12px; }
+    .detail-head { border-bottom-color: var(--line); }
+    .detail-icon svg { filter: none; }
+    .detail-summary { color: #74738d; }
+    .close-button {
+      border-color: rgba(105,101,153,.15);
+      border-radius: 9px;
+      background: rgba(255,255,255,.72);
+    }
+    .detail-metrics { gap: 9px; }
+    .metric-card {
+      min-height: 76px;
+      border: 1px solid rgba(255,255,255,.94);
+      border-radius: 11px;
+      background: color-mix(in srgb, var(--detail-soft) 58%, rgba(255,255,255,.84));
+      box-shadow: none;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .metric-value { font-weight: 800; }
+    .sub-card {
+      padding: 15px 16px;
+      border: 1px solid rgba(255,255,255,.94);
+      border-radius: 11px;
+      background: rgba(255,255,255,.65);
+      box-shadow: none;
+      backdrop-filter: blur(13px);
+      -webkit-backdrop-filter: blur(13px);
+    }
+    .sub-card-heading { color: #363451; font-size: 12px; }
+    .sub-card-heading .mini-icon {
+      width: 25px; height: 25px;
+      border: 0; border-radius: 7px;
+      background: color-mix(in srgb, var(--detail-accent) 12%, white);
+    }
+    .tech-tag {
+      border-radius: 7px;
+      background: color-mix(in srgb, var(--detail-accent) 9%, white);
+      border-color: color-mix(in srgb, var(--detail-accent) 14%, white);
+    }
+    .role-card { background: color-mix(in srgb, var(--detail-soft) 62%, rgba(255,255,255,.84)); }
+    .partner-logo {
+      min-width: 76px; height: 36px;
+      border-radius: 8px;
+      border-color: rgba(226,226,240,.75);
+      background: rgba(255,255,255,.78);
+      box-shadow: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .grid-hint { color: #82819a; }
+    .footer-note { border-top-color: var(--line); }
+    @media (max-width: 900px) {
+      .service-grid { gap: 12px; }
+    }
+    @media (max-width: 620px) {
+      .page-shell { width: min(440px, calc(100% - 24px)); }
+      .service-card { padding: 18px; }
+      .service-detail { border-radius: 12px; }
+      .detail-art { display: none; }
+    }
+
+  
+
+    /* Circular partner logo at the left side of each service-card header. */
+    .card-top-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .brand-logo {
+      position: relative;
+      display: grid;
+      place-items: center;
+      flex: 0 0 46px;
+      width: 46px;
+      height: 46px;
+      padding: 7px;
+      overflow: hidden;
+      border-radius: 50%;
+      border: 1px solid color-mix(in srgb, var(--accent) 24%, rgba(255,255,255,.95));
+      background: rgba(255,255,255,.88);
+      box-shadow: 0 4px 12px rgba(61,58,105,.07), inset 0 1px 0 rgba(255,255,255,.95);
+      backdrop-filter: blur(12px) saturate(125%);
+      -webkit-backdrop-filter: blur(12px) saturate(125%);
+    }
+    .brand-logo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+    .brand-fallback-mark {
+      display: none;
+      color: var(--accent-deep);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+    }
+    .brand-logo.image-load-error img { display: none; }
+    .brand-logo.image-load-error .brand-fallback-mark { display: block; }
+    @media (max-width: 620px) {
+      .card-top-left { gap: 8px; }
+      .brand-logo { flex-basis: 42px; width: 42px; height: 42px; padding: 6px; }
+    }
+
+  
+
+    /* Nguyễn Hùng Thái · Multicolor Glassmorphism palette (user supplied) */
+    :root {
+      --palette-yellow: #FFDF25;
+      --palette-orange: #EC7D21;
+      --palette-pink-red: #E64C72;
+      --palette-pink-purple: #DD4E9E;
+      --palette-purple: #6353B5;
+      --palette-blue: #1480C0;
+      --palette-sky: #3BB8E6;
+      --palette-teal: #5DC3C8;
+      --palette-green: #50B347;
+      --palette-lime: #A3D43A;
+      --palette-orange-2: #EC7D21;
+      --palette-lavender: #A78BFA;
+      --palette-navy: #1E266D;
+      --palette-silver: #94A3B8;
+      --ink: #1E266D;
+      --muted: #64748B;
+      --line: rgba(30, 38, 109, .12);
+      --surface: rgba(255,255,255,.70);
+    }
+    body {
+      color: var(--palette-navy);
+      background:
+        radial-gradient(ellipse at 4% 5%, rgba(255,223,37,.14), transparent 25%),
+        radial-gradient(ellipse at 92% 4%, rgba(236,125,33,.11), transparent 25%),
+        radial-gradient(ellipse at 100% 38%, rgba(230,76,114,.11), transparent 27%),
+        radial-gradient(ellipse at 82% 88%, rgba(221,78,158,.10), transparent 26%),
+        radial-gradient(ellipse at 57% 2%, rgba(99,83,181,.09), transparent 25%),
+        radial-gradient(ellipse at 15% 38%, rgba(20,128,192,.09), transparent 25%),
+        radial-gradient(ellipse at 6% 88%, rgba(59,184,230,.11), transparent 25%),
+        radial-gradient(ellipse at 46% 100%, rgba(93,195,200,.12), transparent 27%),
+        radial-gradient(ellipse at 33% 18%, rgba(80,179,71,.07), transparent 22%),
+        radial-gradient(ellipse at 76% 55%, rgba(163,212,58,.08), transparent 25%),
+        radial-gradient(ellipse at 25% 68%, rgba(167,139,250,.10), transparent 25%),
+        #F8FAFF;
+    }
+    .eyebrow { color: var(--palette-purple); }
+    .eyebrow::before {
+      width: 28px;
+      height: 4px;
+      background: linear-gradient(90deg,
+        var(--palette-yellow) 0 10%, var(--palette-orange) 10% 20%,
+        var(--palette-pink-red) 20% 30%, var(--palette-pink-purple) 30% 40%,
+        var(--palette-purple) 40% 50%, var(--palette-blue) 50% 60%,
+        var(--palette-sky) 60% 70%, var(--palette-teal) 70% 80%,
+        var(--palette-green) 80% 90%, var(--palette-lime) 90% 100%);
+    }
+    h1 { color: var(--palette-navy); }
+    .section-count {
+      color: var(--palette-purple);
+      border-color: rgba(255,255,255,.92);
+      background: linear-gradient(120deg, rgba(255,255,255,.82), rgba(167,139,250,.13));
+    }
+    .section-count strong { color: var(--palette-navy); }
+    .service-card {
+      background: linear-gradient(145deg,
+        rgba(255,255,255,.86),
+        color-mix(in srgb, var(--accent-soft) 68%, rgba(255,255,255,.84)));
+      border-color: rgba(255,255,255,.96);
+      box-shadow: 0 8px 22px rgba(30,38,109,.065), inset 0 1px 0 rgba(255,255,255,.92);
+    }
+    .service-card h2 { color: var(--palette-navy); }
+    .card-description { color: #64748B; }
+    .card-bottom { color: var(--accent-deep); border-top-color: color-mix(in srgb, var(--accent) 17%, white); }
+    .metric-pill {
+      color: var(--accent-deep);
+      background: color-mix(in srgb, var(--accent) 9%, rgba(255,255,255,.92));
+      border-color: color-mix(in srgb, var(--accent) 20%, white);
+    }
+    .brand-logo {
+      border-color: color-mix(in srgb, var(--accent) 34%, white);
+      box-shadow: 0 4px 13px rgba(30,38,109,.06), inset 0 1px 0 rgba(255,255,255,.98);
+    }
+    .service-detail {
+      background: linear-gradient(145deg, rgba(255,255,255,.96), color-mix(in srgb, var(--detail-soft) 66%, rgba(255,255,255,.94)));
+      border-color: rgba(255,255,255,.98);
+    }
+    .detail-head h2 { color: var(--palette-navy); }
+    .detail-kicker { color: var(--detail-accent); }
+    .detail-summary, .metric-label, .sub-card p, .sub-card li { color: #64748B; }
+    .metric-card {
+      position: relative;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--detail-soft) 48%, rgba(255,255,255,.96));
+    }
+    .metric-card::before {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 3px;
+      background: var(--metric-accent, var(--detail-accent));
+    }
+    .metric-card:nth-child(1) { --metric-accent: var(--palette-yellow); }
+    .metric-card:nth-child(2) { --metric-accent: var(--palette-pink-red); }
+    .metric-card:nth-child(3) { --metric-accent: var(--palette-sky); }
+    .metric-card:nth-child(4) { --metric-accent: var(--palette-lavender); }
+    .sub-card-heading { color: var(--palette-navy); }
+    .detail-top-cards .partner-card .mini-icon { color: #278A8F; background: rgba(93,195,200,.17); }
+    .detail-top-cards .role-card .mini-icon { color: #7058C7; background: rgba(167,139,250,.18); }
+    .detail-columns .detail-stack:first-child .sub-card:nth-child(1) .mini-icon { color: var(--palette-blue); background: rgba(20,128,192,.12); }
+    .detail-columns .detail-stack:first-child .sub-card:nth-child(2) .mini-icon { color: var(--palette-orange); background: rgba(236,125,33,.13); }
+    .detail-columns .detail-stack:last-child .sub-card:nth-child(1) .mini-icon { color: var(--palette-green); background: rgba(80,179,71,.14); }
+    .detail-columns .detail-stack:last-child .sub-card:nth-child(2) .mini-icon { color: var(--palette-purple); background: rgba(99,83,181,.13); }
+    .sub-card { border-color: rgba(255,255,255,.98); }
+    .tech-tag {
+      --tag-accent: var(--detail-accent);
+      color: color-mix(in srgb, var(--tag-accent) 80%, var(--palette-navy));
+      background: color-mix(in srgb, var(--tag-accent) 13%, white);
+      border-color: color-mix(in srgb, var(--tag-accent) 26%, white);
+    }
+    .tech-tag:nth-child(14n + 1) { --tag-accent: var(--palette-yellow); }
+    .tech-tag:nth-child(14n + 2) { --tag-accent: var(--palette-orange); }
+    .tech-tag:nth-child(14n + 3) { --tag-accent: var(--palette-pink-red); }
+    .tech-tag:nth-child(14n + 4) { --tag-accent: var(--palette-pink-purple); }
+    .tech-tag:nth-child(14n + 5) { --tag-accent: var(--palette-purple); }
+    .tech-tag:nth-child(14n + 6) { --tag-accent: var(--palette-blue); }
+    .tech-tag:nth-child(14n + 7) { --tag-accent: var(--palette-sky); }
+    .tech-tag:nth-child(14n + 8) { --tag-accent: var(--palette-teal); }
+    .tech-tag:nth-child(14n + 9) { --tag-accent: var(--palette-green); }
+    .tech-tag:nth-child(14n + 10) { --tag-accent: var(--palette-lime); }
+    .tech-tag:nth-child(14n + 11) { --tag-accent: var(--palette-orange-2); }
+    .tech-tag:nth-child(14n + 12) { --tag-accent: var(--palette-lavender); }
+    .tech-tag:nth-child(14n + 13) { --tag-accent: var(--palette-navy); }
+    .tech-tag:nth-child(14n + 14) { --tag-accent: var(--palette-silver); }
+    .partner-logo { border-color: rgba(148,163,184,.25); }
+    .grid-hint { color: var(--palette-silver); }
+    .footer-note { color: var(--palette-silver); border-top-color: rgba(30,38,109,.13); }
+    .footer-note strong { color: var(--palette-navy); }
+    @media (max-width: 620px) {
+      .service-card { background: linear-gradient(145deg, rgba(255,255,255,.92), color-mix(in srgb, var(--accent-soft) 62%, white)); }
+    }
+
+
+    /* Full Glassmorphism surface system — translucent content panels, not Liquid Glass controls. */
+    :root {
+      --glass-edge: rgba(255, 255, 255, .25);
+      --glass-fill: rgba(255, 255, 255, .12);
+      --glass-shadow: 0 20px 48px rgba(30, 38, 109, .14), 0 5px 16px rgba(30, 38, 109, .06);
+      --ink: #1E266D;
+      --muted: #536185;
+    }
+    body {
+      color: var(--palette-navy, #1E266D);
+      background-color: #edf3ff;
+      background-image:
+        radial-gradient(ellipse at 4% 3%, rgba(255, 223, 37, .36), transparent 24%),
+        radial-gradient(ellipse at 94% 5%, rgba(236, 125, 33, .30), transparent 25%),
+        radial-gradient(ellipse at 100% 39%, rgba(230, 76, 114, .28), transparent 27%),
+        radial-gradient(ellipse at 82% 88%, rgba(221, 78, 158, .25), transparent 27%),
+        radial-gradient(ellipse at 55% 0%, rgba(99, 83, 181, .24), transparent 26%),
+        radial-gradient(ellipse at 12% 38%, rgba(20, 128, 192, .27), transparent 26%),
+        radial-gradient(ellipse at 6% 92%, rgba(59, 184, 230, .30), transparent 26%),
+        radial-gradient(ellipse at 48% 100%, rgba(93, 195, 200, .30), transparent 28%),
+        radial-gradient(ellipse at 32% 20%, rgba(80, 179, 71, .20), transparent 23%),
+        radial-gradient(ellipse at 76% 54%, rgba(163, 212, 58, .22), transparent 25%),
+        radial-gradient(ellipse at 22% 70%, rgba(167, 139, 250, .25), transparent 26%),
+        linear-gradient(135deg, #f7f9ff 0%, #edf4ff 48%, #f8f2ff 100%);
+      background-attachment: fixed;
+    }
+    .page-shell { position: relative; isolation: isolate; }
+
+    .section-count {
+      color: #1E266D;
+      background: rgba(255, 255, 255, .16);
+      border: 1px solid var(--glass-edge);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+    }
+
+    .service-card {
+      background: linear-gradient(138deg,
+        rgba(255, 255, 255, .22) 0%,
+        color-mix(in srgb, var(--accent) 12%, rgba(255, 255, 255, .13)) 100%);
+      border: 1px solid var(--glass-edge);
+      box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,.18);
+      backdrop-filter: blur(16px) saturate(165%);
+      -webkit-backdrop-filter: blur(16px) saturate(165%);
+      isolation: isolate;
+    }
+    .service-card:hover {
+      border-color: rgba(255,255,255,.42);
+      box-shadow: 0 26px 58px color-mix(in srgb, var(--accent) 20%, rgba(30,38,109,.12)),
+                  inset 0 1px 0 rgba(255,255,255,.28);
+    }
+    .service-card h2 { color: #1E266D; text-shadow: 0 1px 0 rgba(255,255,255,.32); }
+    .card-description { color: #435477; }
+    .card-number { color: var(--accent-deep); }
+    .card-icon { color: var(--accent-deep); }
+    .brand-logo {
+      background: rgba(255,255,255,.28);
+      border: 1px solid var(--glass-edge);
+      box-shadow: 0 12px 26px rgba(30,38,109,.12), inset 0 1px 0 rgba(255,255,255,.34);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+    }
+    .metric-pill {
+      color: var(--accent-deep);
+      background: rgba(255,255,255,.18);
+      border: 1px solid var(--glass-edge);
+      box-shadow: 0 7px 18px rgba(30,38,109,.06);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+    }
+    .card-bottom { border-top-color: rgba(255,255,255,.34); }
+    .card-bottom .arrow {
+      background: rgba(255,255,255,.18);
+      border-color: var(--glass-edge);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .service-detail {
+      background: linear-gradient(140deg, rgba(255,255,255,.22), rgba(255,255,255,.12));
+      border: 1px solid var(--glass-edge);
+      box-shadow: 0 30px 84px rgba(30,38,109,.22), 0 8px 24px rgba(30,38,109,.10),
+                  inset 0 1px 0 rgba(255,255,255,.30);
+      backdrop-filter: blur(16px) saturate(165%);
+      -webkit-backdrop-filter: blur(16px) saturate(165%);
+      isolation: isolate;
+    }
+    .service-detail::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.13), rgba(255,255,255,.06));
+    }
+    .detail-scroll { position: relative; z-index: 0; }
+    .detail-head { border-bottom-color: rgba(255,255,255,.38); }
+    .detail-head h2, .sub-card-heading { color: #1E266D; }
+    .detail-summary, .metric-label, .sub-card p, .sub-card li { color: #435477; }
+    .close-button {
+      color: #1E266D;
+      background: rgba(255,255,255,.18);
+      border: 1px solid var(--glass-edge);
+      box-shadow: 0 10px 24px rgba(30,38,109,.09);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+    }
+    .close-button:hover { background: rgba(255,255,255,.28); }
+
+    .metric-card {
+      background: linear-gradient(135deg, rgba(255,255,255,.24), rgba(255,255,255,.13));
+      border: 1px solid var(--glass-edge);
+      box-shadow: 0 14px 30px rgba(30,38,109,.09), inset 0 1px 0 rgba(255,255,255,.24);
+      backdrop-filter: blur(16px) saturate(155%);
+      -webkit-backdrop-filter: blur(16px) saturate(155%);
+    }
+    .sub-card {
+      background: linear-gradient(135deg, rgba(255,255,255,.24), rgba(255,255,255,.12));
+      border: 1px solid var(--glass-edge);
+      box-shadow: 0 16px 34px rgba(30,38,109,.09), inset 0 1px 0 rgba(255,255,255,.25);
+      backdrop-filter: blur(16px) saturate(155%);
+      -webkit-backdrop-filter: blur(16px) saturate(155%);
+    }
+    .sub-card-heading .mini-icon {
+      background: rgba(255,255,255,.20);
+      border: 1px solid var(--glass-edge);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .tech-tag {
+      background: color-mix(in srgb, var(--tag-accent) 15%, rgba(255,255,255,.16));
+      border: 1px solid var(--glass-edge);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .partner-logo {
+      background: rgba(255,255,255,.18);
+      border: 1px solid var(--glass-edge);
+      box-shadow: 0 10px 24px rgba(30,38,109,.08);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+    }
+    .grid-hint { color: #435477; }
+    .footer-note { color: #5a678a; border-top-color: rgba(255,255,255,.40); }
+    .footer-note strong { color: #1E266D; }
+
+    .service-card:focus-visible, .close-button:focus-visible {
+      outline: 3px solid #1E266D;
+      outline-offset: 4px;
+      box-shadow: 0 0 0 5px rgba(255,255,255,.72), var(--glass-shadow);
+    }
+    button:focus-visible { scroll-margin: 20px; }
+
+    @supports not ((backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px))) {
+      .section-count, .service-card, .brand-logo, .metric-pill, .service-detail,
+      .close-button, .metric-card, .sub-card, .partner-logo, .tech-tag {
+        background-color: rgba(248,250,255,.90);
+      }
+    }
+
+    @media (prefers-reduced-transparency: reduce) {
+      .section-count, .service-card, .brand-logo, .metric-pill, .service-detail,
+      .close-button, .metric-card, .sub-card, .partner-logo, .tech-tag {
+        background: rgba(248,250,255,.96) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border-color: rgba(30,38,109,.16) !important;
+      }
+      .service-detail::before { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .service-card:hover { transform: none; }
+      .service-card, .service-detail, .close-button, .card-bottom .arrow { transition: none !important; }
+    }
+    @media (max-width: 620px) {
+      .service-card { background: linear-gradient(138deg, rgba(255,255,255,.28), color-mix(in srgb, var(--accent) 13%, rgba(255,255,255,.18))); }
+      .service-detail { background: rgba(255,255,255,.22); }
+    }
+
+
+    /* Partner logos centered at the bottom of each service card. */
+    .service-partners-strip {
+      position: relative; z-index: 2; display: flex; align-items: center;
+      justify-content: center; flex-wrap: nowrap; gap: 7px; width: 100%;
+      min-height: 31px; margin-top: 8px; padding-top: 7px;
+      border-top: 1px solid rgba(255,255,255,.48);
+    }
+    .service-partner-mark {
+      display: inline-flex; flex: 0 1 auto; align-items: center; justify-content: center;
+      width: 68px; height: 27px; min-width: 0; padding: 3px 6px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.72); border-radius: 7px;
+      background: rgba(255,255,255,.42); box-shadow: 0 3px 9px rgba(30,38,109,.04);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .service-partner-mark img { display:block; max-width:100%; max-height:18px; width:auto; height:auto; object-fit:contain; }
+    .service-partner-mark .partner-fallback { color:var(--accent-deep); font-size:9px; font-weight:800; }
+    .card-art.image-load-error, .detail-art.image-load-error {
+      display:grid; place-items:center; padding:10px; border-radius:14px;
+      border:1px dashed rgba(30,38,109,.20);
+      background:linear-gradient(145deg,rgba(255,255,255,.42),rgba(255,255,255,.16));
+    }
+    .card-art.image-load-error::after, .detail-art.image-load-error::after {
+      content:'Hình minh họa chưa tải được\A Kiểm tra quyền truy cập ảnh ngoài';
+      white-space:pre-line; display:block; max-width:165px; color:#64748B;
+      font-size:10px; font-weight:700; line-height:1.5; text-align:center;
+    }
+    @media (max-width:900px) { .service-partner-mark { width:62px; } .service-partners-strip { gap:5px; } }
+    @media (max-width:620px) { .service-partner-mark { width:66px; height:25px; } .service-partner-mark img { max-height:17px; } }
+  
+
+    /* Service card layout: icon + title / left copy + right illustration / centered circular partner logos. */
+    .service-grid {
+      grid-auto-rows: minmax(292px, auto);
+      align-items: stretch;
+    }
+    .service-card {
+      min-height: 292px;
+      padding: 18px 19px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .service-card .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 39px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+    .service-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+    .service-card .card-icon {
+      display: inline-grid;
+      flex: 0 0 34px;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      color: var(--accent-deep);
+      background: transparent !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    .service-card .card-icon svg {
+      display: block;
+      width: 29px;
+      height: 29px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.9;
+      filter: none;
+    }
+    .service-card h2 {
+      max-width: none;
+      min-width: 0;
+      margin: 0;
+      color: var(--palette-navy, #1E266D);
+      font-size: clamp(16px, 1.45vw, 18px);
+      line-height: 1.25;
+      letter-spacing: -.025em;
+      font-weight: 700;
+    }
+    .service-card .card-number {
+      flex: 0 0 auto;
+      margin-left: auto;
+      font-size: 10px;
+      white-space: nowrap;
+    }
+    .card-main-layout {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(112px, .88fr);
+      align-items: center;
+      gap: 9px;
+      flex: 1 1 auto;
+      min-height: 130px;
+      width: 100%;
+      margin: 11px 0 8px;
+    }
+    .card-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      min-width: 0;
+    }
+    .service-card .card-description {
+      max-width: none;
+      min-height: 0;
+      margin: 0;
+      color: #435477;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .service-card .metric-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+      padding-top: 0;
+      width: 100%;
+    }
+    .service-card .metric-pill {
+      padding: 5px 8px;
+      white-space: normal;
+      line-height: 1.25;
+      font-size: 9.5px;
+    }
+    .service-card .card-art {
+      position: relative;
+      inset: auto;
+      display: grid;
+      place-items: center;
+      justify-self: stretch;
+      align-self: center;
+      width: 100%;
+      height: 132px;
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      pointer-events: none;
+    }
+    .service-card .card-art img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center;
+      filter: drop-shadow(0 7px 12px rgba(30,38,109,.10));
+    }
+    .service-card .card-art.image-load-error {
+      border: 1px dashed color-mix(in srgb, var(--accent) 32%, white);
+      border-radius: 12px;
+      background: rgba(255,255,255,.18);
+    }
+    .service-card .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
+      margin: 2px 0 0;
+      padding: 8px 0 0;
+      min-height: 31px;
+      border-top: 1px solid rgba(255,255,255,.38);
+      font-size: 10px;
+    }
+    .service-card .card-bottom .arrow {
+      width: 22px;
+      height: 22px;
+      font-size: 14px;
+      border-radius: 50%;
+    }
+    .service-card .service-partners-strip {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      width: 100%;
+      min-height: 49px;
+      margin-top: 8px;
+      padding: 7px 2px 0;
+      border-top: 1px solid rgba(255,255,255,.38);
+    }
+    .service-card .service-partner-mark {
+      display: inline-flex;
+      flex: 0 0 39px;
+      align-items: center;
+      justify-content: center;
+      width: 39px;
+      height: 39px;
+      min-width: 39px;
+      padding: 5px;
+      overflow: hidden;
+      border: 1px solid color-mix(in srgb, var(--accent) 22%, rgba(255,255,255,.82));
+      border-radius: 50%;
+      background: rgba(255,255,255,.24);
+      box-shadow: 0 7px 17px rgba(30,38,109,.09), inset 0 1px 0 rgba(255,255,255,.38);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+    }
+    .service-card .service-partner-mark img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+    .service-card .service-partner-mark .partner-fallback {
+      color: var(--accent-deep);
+      font-size: 8px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    /* Sub-card headings: free-standing icons and matching colored titles. */
+    .sub-card--partner { --sub-heading-accent: #5DC3C8; }
+    .sub-card--role { --sub-heading-accent: #A78BFA; }
+    .sub-card--capability { --sub-heading-accent: #1480C0; }
+    .sub-card--challenge { --sub-heading-accent: #EC7D21; }
+    .sub-card--outcome { --sub-heading-accent: #50B347; }
+    .sub-card--technology { --sub-heading-accent: #6353B5; }
+    .sub-card .sub-card-heading {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 11px;
+      color: var(--sub-heading-accent, var(--detail-accent, #1E266D));
+      font-size: 12px;
+      line-height: 1.35;
+      font-weight: 800;
+    }
+    .sub-card .sub-card-heading .mini-icon {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      color: var(--sub-heading-accent, var(--detail-accent, #1E266D));
+      background: transparent !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    .sub-card .sub-card-heading .mini-icon svg {
+      display: block;
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.9;
+    }
+
+    @media (max-width: 900px) {
+      .service-grid { grid-auto-rows: minmax(286px, auto); }
+      .service-card { min-height: 286px; }
+      .card-main-layout { grid-template-columns: minmax(0, 1fr) minmax(102px, .78fr); }
+      .service-card .service-partner-mark { flex-basis: 36px; width: 36px; height: 36px; min-width: 36px; }
+    }
+    @media (max-width: 620px) {
+      .service-grid { grid-auto-rows: minmax(278px, auto); }
+      .service-card { min-height: 278px; padding: 16px; }
+      .card-main-layout { grid-template-columns: minmax(0, 1fr) minmax(100px, .76fr); min-height: 120px; gap: 5px; }
+      .service-card .card-art { height: 118px; }
+      .service-card .card-description { font-size: 11.5px; }
+      .service-card .metric-pill { font-size: 9px; }
+      .service-card .service-partner-mark { flex-basis: 35px; width: 35px; height: 35px; min-width: 35px; }
+    }
+    @media (max-width: 370px) {
+      .service-card h2 { font-size: 15px; }
+      .card-main-layout { grid-template-columns: minmax(0, 1fr) 96px; }
+      .service-card .card-art { height: 105px; }
+      .service-card .service-partners-strip { gap: 6px; }
+      .service-card .service-partner-mark { flex-basis: 32px; width: 32px; height: 32px; min-width: 32px; }
+    }
+
+  </style>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="intro">
+      <div>
+        <div class="eyebrow">Hồ sơ năng lực · 06 lĩnh vực</div>
+        <h1>Dịch Vụ &amp; Năng Lực Chuyên Môn</h1>
+        <p>Kinh nghiệm quản trị Chăm sóc Khách hàng đa ngành, từ vận hành Contact Center quy mô lớn đến xây dựng hệ thống, chuyển đổi số và tối ưu trải nghiệm khách hàng.</p>
+      </div>
+      <div class="section-count"><strong>06</strong> lĩnh vực chuyên môn</div>
+    </header>
+
+    <section class="service-grid" id="serviceGrid" aria-label="Danh sách sáu lĩnh vực dịch vụ">
+<button class="service-card" data-id="telecom" aria-label="Xem chi tiết Dịch Vụ Viễn Thông">
+      <div class="card-top">
+        <div class="service-title-group">
+          <span class="card-icon" data-icon="headset"></span>
+          <h2>Dịch Vụ Viễn Thông</h2>
+        </div>
+        <span class="card-number">01 / 06</span>
+      </div>
+      <div class="card-main-layout">
+        <div class="card-copy">
+          <p class="card-description">Quản trị Contact Center, chất lượng thoại và vận hành dịch vụ liên tục 24/7.</p>
+          <div class="metric-row"><span class="metric-pill">50–130+ nhân sự</span><span class="metric-pill">SLA &gt; 98%</span></div>
+        </div>
+        <div class="card-art"><img alt="Minh họa dịch vụ viễn thông" decoding="async" fetchpriority="high" loading="eager" onerror="window.handleImageFallback(this)" referrerpolicy="strict-origin-when-cross-origin" src="https://i.ibb.co/RG50DPgh/Vi-n-th-ng-di-ng.png"/></div>
+      </div>
+      <div class="card-bottom"><span>Khám phá năng lực</span><span class="arrow">↗</span></div>
+      <div class="service-partners-strip" aria-label="Logo đối tác tiêu biểu"></div>
+    </button>
+<button class="service-card" data-id="commerce" aria-label="Xem chi tiết Thương Mại Điện Tử">
+      <div class="card-top">
+        <div class="service-title-group">
+          <span class="card-icon" data-icon="shopping"></span>
+          <h2>Thương Mại Điện Tử</h2>
+        </div>
+        <span class="card-number">02 / 06</span>
+      </div>
+      <div class="card-main-layout">
+        <div class="card-copy">
+          <p class="card-description">Điều hành dịch vụ đa kênh, hỗ trợ giao dịch và kiểm soát rủi ro trong mùa cao điểm.</p>
+          <div class="metric-row"><span class="metric-pill">100+ nhân sự</span><span class="metric-pill">CSAT 96,5%</span></div>
+        </div>
+        <div class="card-art"><img alt="Minh họa thương mại điện tử" decoding="async" fetchpriority="high" loading="eager" onerror="window.handleImageFallback(this)" referrerpolicy="strict-origin-when-cross-origin" src="https://i.ibb.co/fdCQ8rpm/Th-ng-m-i-i-n-t.png"/></div>
+      </div>
+      <div class="card-bottom"><span>Khám phá năng lực</span><span class="arrow">↗</span></div>
+      <div class="service-partners-strip" aria-label="Logo đối tác tiêu biểu"></div>
+    </button>
+<button class="service-card" data-id="insurance" aria-label="Xem chi tiết Tài Chính Bảo Hiểm">
+      <div class="card-top">
+        <div class="service-title-group">
+          <span class="card-icon" data-icon="shield"></span>
+          <h2>Tài Chính Bảo Hiểm</h2>
+        </div>
+        <span class="card-number">03 / 06</span>
+      </div>
+      <div class="card-main-layout">
+        <div class="card-copy">
+          <p class="card-description">Kiểm soát chất lượng tư vấn, trải nghiệm hợp đồng và dịch vụ sau bán.</p>
+          <div class="metric-row"><span class="metric-pill">FCR &gt; 92%</span><span class="metric-pill">Retention +15%</span></div>
+        </div>
+        <div class="card-art"><img alt="Minh họa dịch vụ bảo hiểm" decoding="async" fetchpriority="high" loading="eager" onerror="window.handleImageFallback(this)" referrerpolicy="strict-origin-when-cross-origin" src="https://i.ibb.co/23ycNdsM/D-ch-v-b-o-hi-m.png"/></div>
+      </div>
+      <div class="card-bottom"><span>Khám phá năng lực</span><span class="arrow">↗</span></div>
+      <div class="service-partners-strip" aria-label="Logo đối tác tiêu biểu"></div>
+    </button>
+<button class="service-card" data-id="esports" aria-label="Xem chi tiết Thể Thao Điện Tử">
+      <div class="card-top">
+        <div class="service-title-group">
+          <span class="card-icon" data-icon="game"></span>
+          <h2>Thể Thao Điện Tử</h2>
+        </div>
+        <span class="card-number">04 / 06</span>
+      </div>
+      <div class="card-main-layout">
+        <div class="card-copy">
+          <p class="card-description">Quản trị Game Support, cộng đồng người chơi, an toàn tài khoản và Fraud.</p>
+          <div class="metric-row"><span class="metric-pill">130 nhân sự</span><span class="metric-pill">50.000+ ticket/ngày</span></div>
+        </div>
+        <div class="card-art"><img alt="Minh họa thể thao điện tử" decoding="async" fetchpriority="high" loading="eager" onerror="window.handleImageFallback(this)" referrerpolicy="strict-origin-when-cross-origin" src="https://i.ibb.co/JFcSyCjT/Th-thao-i-n-t.png"/></div>
+      </div>
+      <div class="card-bottom"><span>Khám phá năng lực</span><span class="arrow">↗</span></div>
+      <div class="service-partners-strip" aria-label="Logo đối tác tiêu biểu"></div>
+    </button>
+<button class="service-card" data-id="payments" aria-label="Xem chi tiết Thanh Toán Điện Tử">
+      <div class="card-top">
+        <div class="service-title-group">
+          <span class="card-icon" data-icon="wallet"></span>
+          <h2>Thanh Toán Điện Tử</h2>
+        </div>
+        <span class="card-number">05 / 06</span>
+      </div>
+      <div class="card-main-layout">
+        <div class="card-copy">
+          <p class="card-description">Vận hành dịch vụ tài chính số, tra soát giao dịch và tự động hóa quy trình.</p>
+          <div class="metric-row"><span class="metric-pill">CSAT 98,2%</span><span class="metric-pill">Hoàn tiền ~90 giây</span></div>
+        </div>
+        <div class="card-art"><img alt="Minh họa thanh toán điện tử" decoding="async" fetchpriority="high" loading="eager" onerror="window.handleImageFallback(this)" referrerpolicy="strict-origin-when-cross-origin" src="https://i.ibb.co/XfhGVsJk/Thanh-to-n-i-n-t.png"/></div>
+      </div>
+      <div class="card-bottom"><span>Khám phá năng lực</span><span class="arrow">↗</span></div>
+      <div class="service-partners-strip" aria-label="Logo đối tác tiêu biểu"></div>
+    </button>
+<button class="service-card" data-id="systems" aria-label="Xem chi tiết Xây Dựng Hệ Thống">
+      <div class="card-top">
+        <div class="service-title-group">
+          <span class="card-icon" data-icon="layers"></span>
+          <h2>Xây Dựng Hệ Thống</h2>
+        </div>
+        <span class="card-number">06 / 06</span>
+      </div>
+      <div class="card-main-layout">
+        <div class="card-copy">
+          <p class="card-description">Tư vấn CX, thiết kế Contact Center và chuyển đổi mô hình vận hành dịch vụ.</p>
+          <div class="metric-row"><span class="metric-pill">10–150+ vị trí</span><span class="metric-pill">Hiệu suất +40%</span></div>
+        </div>
+        <div class="card-art"><img alt="Minh họa xây dựng hệ thống" decoding="async" fetchpriority="high" loading="eager" onerror="window.handleImageFallback(this)" referrerpolicy="strict-origin-when-cross-origin" src="https://i.ibb.co/x8HBctc4/X-y-d-ng-h-th-ng.png"/></div>
+      </div>
+      <div class="card-bottom"><span>Khám phá năng lực</span><span class="arrow">↗</span></div>
+      <div class="service-partners-strip" aria-label="Logo đối tác tiêu biểu"></div>
+    </button>
+</section>
+
+    <div class="grid-hint"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/><path d="M12 3v12"/></svg> Chọn một lĩnh vực để mở rộng hồ sơ năng lực chi tiết</div>
+    <footer class="footer-note"><span><strong>NGUYỄN HÙNG THÁI</strong> · Customer Experience &amp; Service Operations</span><span>Hiệu quả · Nhân văn · Bền vững</span></footer>
+  </main>
+
+  <script>
+    const iconPaths = {
+      headset: '<path d="M3 13v-1a9 9 0 0 1 18 0v1"/><path d="M5 13h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H6a3 3 0 0 1-3-3v-2a2 2 0 0 1 2-2Z"/><path d="M19 13h-2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1a3 3 0 0 0 3-3v-2a2 2 0 0 0-2-2Z"/>',
+      shopping: '<path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.5L22 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/><path d="M10 8V5a2 2 0 0 1 4 0v3"/>',
+      shield: '<path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/>',
+      game: '<path d="M6 11h4m-2-2v4"/><path d="M16 10h.01M18 13h.01"/><path d="M7 6h10a4 4 0 0 1 3.8 2.8l1.1 3.7a3 3 0 0 1-4.8 3.2l-2-1.7H8.9l-2 1.7a3 3 0 0 1-4.8-3.2l1.1-3.7A4 4 0 0 1 7 6Z"/>',
+      wallet: '<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M16 14h2"/><path d="M7 5V3h10v2"/>',
+      layers: '<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 16 9 5 9-5"/>'
+    };
+    document.querySelectorAll('[data-icon]').forEach(node => {
+      node.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${iconPaths[node.dataset.icon] || ''}</svg>`;
+    });
+
+    const services = {
+      telecom: {
+        number: '01 / 06 · TELECOMMUNICATIONS', title: 'Dịch Vụ Viễn Thông',
+        accent: '#1480C0', soft: '#EAF5FB', icon: 'headset', image: 'https://i.ibb.co/RG50DPgh/Vi-n-th-ng-di-ng.png',
+        summary: 'Quản trị Contact Center và chất lượng dịch vụ viễn thông trong môi trường vận hành liên tục, lưu lượng lớn và yêu cầu kết nối thoại ổn định 24/7/365.',
+        metrics: [['10+ năm','Kinh nghiệm viễn thông'],['50–130+','Nhân sự vận hành'],['100.000+','Cuộc gọi & giao dịch/tháng'],['> 98%','SLA tiếp nhận cuộc gọi']],
+        capabilityTitle: 'Năng Lực Vận Hành', capabilities: ['Điều phối lưu lượng cuộc gọi và phân bổ nhân sự theo giờ cao điểm, ca kíp 24/7.','Giám sát chất lượng thoại, luồng kết nối trong nước và quốc tế; duy trì tính liên tục của dịch vụ.','Xử lý khiếu nại, tranh chấp cước viễn thông và các tình huống ảnh hưởng trực tiếp đến trải nghiệm thuê bao.','Thiết lập QA Call Scoring, SOP và cơ chế đào tạo nhằm ổn định chất lượng giữa các ca.'],
+        challengeTitle: 'Bài Toán Đặc Thù', challenge: 'Kiểm soát lưu lượng thoại tăng đột biến; giải quyết tranh chấp cước quốc tế phức tạp; duy trì chất lượng dịch vụ đồng nhất trong mô hình nhiều ca, nhiều nhóm và hoạt động xuyên suốt ngày đêm.',
+        outcomes: ['SLA tiếp nhận cuộc gọi duy trì trên 98%; CSAT đạt 96,5%.','Giảm 20% chi phí xử lý khiếu nại cước dịch vụ.','Kiểm soát tỷ lệ nghỉ việc dưới 3% thông qua chuẩn hóa môi trường làm việc và lộ trình đào tạo.'],
+        technology: ['Avaya Call Center','AICC System','Smart IVR','CRM Telecom','QA Call Scoring','SOP Matrix'], role: 'Trưởng phòng Chăm sóc Khách hàng · Giám sát Vận hành Contact Center · Quản trị Dịch vụ Viễn thông', partners: [['MobiFone','https://i.ibb.co/hxHm9TsZ/Mobifone.png'],['V247','https://i.ibb.co/QvtbdnfP/V247.png'],['LBC','https://i.ibb.co/R4YXWyzF/LBC.png'],['HTVC','https://i.ibb.co/1fNw0hBq/HTVC.png']]
+      },
+      commerce: {
+        number: '02 / 06 · E-COMMERCE', title: 'Thương Mại Điện Tử', accent: '#EC7D21', soft: '#FFF3E8', icon: 'shopping', image: 'https://i.ibb.co/fdCQ8rpm/Th-ng-m-i-i-n-t.png',
+        summary: 'Điều hành dịch vụ khách hàng đa kênh trong hệ sinh thái thương mại điện tử có tốc độ giao dịch cao, nhu cầu hỗ trợ biến động mạnh và nhiều bên tham gia.',
+        metrics: [['6+ năm','Kinh nghiệm vận hành'],['100+','Nhân sự CSKH & Fraud'],['< 30 giây','Thời gian chờ Chat'],['96,5%','CSAT sau cải thiện']],
+        capabilityTitle: 'Năng Lực Vận Hành', capabilities: ['Quản trị đội ngũ CSKH và Fraud, tổ chức nguồn lực đáp ứng các chiến dịch Mega-Sale.','Điều phối xử lý tranh chấp giữa Người mua – Người bán – Đơn vị vận chuyển.','Kiểm soát gian lận khuyến mãi, đơn hàng ảo và các dấu hiệu bất thường trong giao dịch.','Tối ưu Live Chat, phân luồng yêu cầu và phối hợp liên phòng ban để xử lý xuyên suốt hành trình mua sắm.'],
+        challengeTitle: 'Bài Toán Đặc Thù', challenge: 'Đáp ứng lưu lượng tương tác tăng đột biến trong thời gian ngắn; cân bằng tốc độ phản hồi, chất lượng giải quyết tranh chấp và kiểm soát rủi ro trong toàn bộ chuỗi giao dịch.',
+        outcomes: ['Giảm thời gian chờ Chat xuống dưới 30 giây.','Nâng CSAT từ 88% lên 96,5%; giảm 30% tỷ lệ hủy đơn do chậm hỗ trợ.','Tiết kiệm 25% chi phí phục vụ khách hàng (Cost-to-Serve).'],
+        technology: ['Zendesk Omnichannel','Shopee Admin CRM','Live Chat Auto-Router','Chatbot phân loại tự động','Power BI Dashboard'], role: 'Customer Service Operations Manager · Quản trị Vận hành CSKH & Fraud', partners: [['Shopee','https://i.ibb.co/BSVS4xf/Shopee.png'],['Finviet','https://i.ibb.co/7NtSSz4d/Finviet.png']]
+      },
+      insurance: {
+        number: '03 / 06 · INSURANCE & FINANCIAL SERVICES', title: 'Tài Chính Bảo Hiểm', accent: '#E64C72', soft: '#FFF0F3', icon: 'shield', image: 'https://i.ibb.co/23ycNdsM/D-ch-v-b-o-hi-m.png',
+        summary: 'Quản trị chất lượng tư vấn và trải nghiệm khách hàng trong lĩnh vực bảo hiểm – tài chính, nơi tính chính xác, minh bạch, bảo mật và tuân thủ là yêu cầu trọng yếu.',
+        metrics: [['12','Nhân sự trực tiếp'],['40+','Chuyên viên tư vấn'],['> 92%','Tỷ lệ FCR'],['+15%','Cải thiện Retention']],
+        capabilityTitle: 'Năng Lực Vận Hành', capabilities: ['Quản lý đội ngũ Call Center và kiểm soát chất lượng tư vấn trên từng điểm chạm.','Giám sát tính chính xác, minh bạch của thông tin hợp đồng và quy trình phục vụ khách hàng.','Điều phối xử lý yêu cầu quyền lợi bảo hiểm, khiếu nại và các trường hợp nhạy cảm.','Xây dựng cơ chế QA Voice Recording, kiểm soát tuân thủ và phương án duy trì hoạt động liên tục (BCP).'],
+        challengeTitle: 'Bài Toán Đặc Thù', challenge: 'Đảm bảo tư vấn đúng và nhất quán; xử lý thận trọng các yêu cầu liên quan đến hợp đồng và quyền lợi bảo hiểm; bảo vệ dữ liệu khách hàng và duy trì chất lượng dịch vụ trong các tình huống gián đoạn.',
+        outcomes: ['Rút ngắn 45% thời gian xử lý yêu cầu hợp đồng.','Duy trì FCR trên 92% và SLA đạt 95%.','Cải thiện tỷ lệ duy trì hợp đồng (Retention) thêm 15%.'],
+        technology: ['Prudential Life CRM','AS400','VideoCall','Voice Recording','QA Monitoring','BCP'], role: 'Call Center Project & Quality Manager · Quản trị Chất lượng và Trải nghiệm Khách hàng', partners: [['Prudential','https://i.ibb.co/XfpQphWF/Prudential.png']]
+      },
+      esports: {
+        number: '04 / 06 · ESPORTS & GAMING', title: 'Thể Thao Điện Tử', accent: '#6353B5', soft: '#F1EFFB', icon: 'game', image: 'https://i.ibb.co/JFcSyCjT/Th-thao-i-n-t.png',
+        summary: 'Quản trị Game Support, dịch vụ cộng đồng và an toàn tài khoản trong môi trường gaming có lượng người dùng lớn, nhịp độ tương tác nhanh và yêu cầu phản hồi tức thời.',
+        metrics: [['130','Nhân sự vận hành'],['80+','Game Support & Fraud'],['50.000+','Ticket mỗi ngày'],['96%','CSAT']],
+        capabilityTitle: 'Năng Lực Vận Hành', capabilities: ['Tổ chức và điều hành các nhóm Game Support, CSKH và Fraud với quy mô lớn.','Xử lý sự cố tài khoản, vật phẩm, giao dịch và các vấn đề ảnh hưởng đến trải nghiệm người chơi.','Điều phối nguồn lực khi ra mắt Game, giải đấu eSports và sự kiện có lưu lượng tăng cao.','Kiểm soát gian lận, chiếm đoạt tài khoản và phối hợp bảo vệ tài sản số của người dùng.'],
+        challengeTitle: 'Bài Toán Đặc Thù', challenge: 'Duy trì tốc độ hỗ trợ trong các đợt cao điểm; xử lý khẩn cấp sự cố tài khoản và vật phẩm; bảo đảm tính nhất quán của chính sách hỗ trợ trên cộng đồng người chơi quy mô lớn.',
+        outcomes: ['Tổ chức xử lý trên 50.000 yêu cầu hỗ trợ mỗi ngày.','Duy trì thời gian phản hồi ban đầu Ticket/Chat dưới 30 giây và CSAT đạt 96%.','Góp phần bảo vệ tài sản số, tăng mức độ gắn kết và khả năng duy trì người chơi (Retention/LTV).'],
+        technology: ['Garena Customer Desk','GCafe Management','AI Ticket Classifier','CS Academy LMS','Knowledge Base'], role: 'Head of Game Customer Support & Operations · Quản trị Game Support, CSKH và Fraud', partners: [['Garena','https://i.ibb.co/h1Md65yV/Garena.png'],['VED','https://i.ibb.co/fYPJLfbw/VED.png'],['GCafe','https://i.ibb.co/FkWk3s4W/GCafe.png'],['Liên Quân Mobile',null],['LMHT',null]]
+      },
+      payments: {
+        number: '05 / 06 · DIGITAL PAYMENTS & FINTECH', title: 'Thanh Toán Điện Tử', accent: '#3BB8E6', soft: '#EAF8FD', icon: 'wallet', image: 'https://i.ibb.co/XfhGVsJk/Thanh-to-n-i-n-t.png',
+        summary: 'Điều hành dịch vụ tài chính số, tra soát giao dịch và kiểm soát rủi ro thanh toán; kết hợp tự động hóa để rút ngắn thời gian xử lý và giảm sự cố vận hành.',
+        metrics: [['60–120+','Nhân sự nội bộ'],['150+','Vị trí BPO điều phối'],['98,2%','CSAT'],['~ 90 giây','Thời gian hoàn tiền']],
+        capabilityTitle: 'Năng Lực Vận Hành', capabilities: ['Quản lý đội ngũ CSKH nội bộ và điều phối chất lượng đối tác BPO.','Xử lý tra soát, khiếu nại giao dịch tài chính và các trường hợp ảnh hưởng trực tiếp đến dòng tiền khách hàng.','Phối hợp kiểm soát gian lận, giao dịch bất thường và sự cố kết nối Core Banking.','Tổ chức War-Room, phân công đầu mối và cập nhật thông tin trong các tình huống nghẽn lệnh hoặc gián đoạn dịch vụ.'],
+        challengeTitle: 'Bài Toán Đặc Thù', challenge: 'Xử lý nhanh nhưng chính xác các vấn đề liên quan đến tiền thật; kiểm soát rủi ro tài chính; phối hợp nhiều đơn vị để khôi phục dịch vụ và bảo đảm khách hàng được cập nhật minh bạch.',
+        outcomes: ['Ứng dụng RPA rút ngắn thời gian hoàn tiền từ 48 giờ xuống khoảng 90 giây.','Nâng CSAT lên 98,2%; duy trì SLA BPO đạt 98,6%.','Giảm 35% sự cố vận hành thông qua kiểm soát quy trình và tự động hóa.'],
+        technology: ['MoMo Admin CRM','Finviet CRM','Core Banking','RPA Automation','AI Bot RAG','War-Room Crisis Management'], role: 'Head of Customer Service · Operations Lead · Quản trị Vận hành Dịch vụ Tài chính số', partners: [['MoMo','https://i.ibb.co/k2QtrgTw/Momo.png'],['ShopeePay','https://i.ibb.co/LdYv3TJy/Shopee-Paye.png'],['Finviet','https://i.ibb.co/7NtSSz4d/Finviet.png']]
+      },
+      systems: {
+        number: '06 / 06 · CX & SERVICE TRANSFORMATION', title: 'Xây Dựng Hệ Thống', accent: '#50B347', soft: '#EFF9ED', icon: 'layers', image: 'https://i.ibb.co/x8HBctc4/X-y-d-ng-h-th-ng.png',
+        summary: 'Tư vấn chiến lược CX, thiết kế mô hình tổ chức và xây dựng hệ thống vận hành dịch vụ khách hàng có khả năng mở rộng, đo lường và cải tiến liên tục.',
+        metrics: [['22+ năm','Kinh nghiệm thực chiến'],['10–150+','Vị trí Contact Center'],['−65%','Thời gian Onboarding'],['+40%','Hiệu suất vận hành']],
+        capabilityTitle: 'Năng Lực Triển Khai', capabilities: ['Khảo sát hiện trạng, tái cấu trúc bộ phận CSKH và thiết kế mô hình tổ chức, chức năng nhiệm vụ, định biên nhân sự.','Xây dựng hệ thống KPI, SLA, SOP, QA, cơ chế kiểm soát hiệu suất và lộ trình đào tạo.','Thiết kế Customer Journey, Voice of Customer (VoC), quy trình đa kênh và tiêu chuẩn trải nghiệm.','Tư vấn CRM, tự động hóa và ứng dụng AI vào phân loại, hỗ trợ và kiểm soát chất lượng dịch vụ.'],
+        challengeTitle: 'Bài Toán Chuyển Đổi', challenge: 'Chuyển hoạt động CSKH từ mô hình xử lý sự vụ, phụ thuộc cá nhân thành hệ thống có quy trình, dữ liệu và cơ chế quản trị rõ ràng; từng bước chuyển Cost Center thành Value Center.',
+        outcomes: ['Chuẩn hóa hệ thống tài liệu SOP/KPI và nền tảng quản trị vận hành.','Rút ngắn 65% thời gian đào tạo và hội nhập nhân sự (Onboarding).','Cải thiện 40% hiệu suất vận hành nhờ chuẩn hóa quy trình và ứng dụng công nghệ.'],
+        technology: ['Zoho CRM','Salesforce CRM','AI Agent Copilot','Speech-to-Text Auto-QA','Notion SOP Matrix','Workflow Automation'], role: 'CX & Service System Consultant · Head of CX Strategy · Customer Service Transformation Lead', partners: [['Power Service','https://i.ibb.co/G4QnNzWb/Power-Service.png'],['VED','https://i.ibb.co/BKHcWL5R/Logo-VED.gif']]
+      }
+    };
+
+    document.addEventListener('error', (event) => {
+      if (event.target && event.target.tagName === 'IMG') window.handleImageFallback(event.target);
+    }, true);
+
+    const grid = document.getElementById('serviceGrid');
+    function bindImageFallback(scope) {
+      scope.querySelectorAll('.card-art img, .detail-art img, .brand-logo img').forEach((img) => {
+        img.addEventListener('error', () => {
+          const frame = img.parentElement;
+          if (frame) frame.classList.add('image-load-error');
+          img.remove();
+        }, { once: true });
+      });
+    }
+    bindImageFallback(grid);
+    const cardPartnersMarkup = (partners) => `<div class="service-partners-strip" aria-label="Logo đối tác tiêu biểu">${partners
+      .filter(([name, src]) => Boolean(src))
+      .map(([name, src]) => `<span class="service-partner-mark" title="${name}"><img referrerpolicy="strict-origin-when-cross-origin" src="${src}" alt="Logo ${name}" loading="eager" decoding="async" onerror="window.handleImageFallback(this)"></span>`)
+      .join('')}</div>`;
+    grid.querySelectorAll('.service-card').forEach((card) => {
+      const strip = card.querySelector('.service-partners-strip');
+      const data = services[card.dataset.id];
+      if (strip && data) strip.outerHTML = cardPartnersMarkup(data.partners);
+    });
+    let activeDetail = null;
+    let activeCard = null;
+    let isAnimating = false;
+    const svg = (paths) => `<svg viewBox="0 0 24 24" aria-hidden="true">${iconPaths[paths] || ''}</svg>`;
+    const bulletList = (items) => `<ul>${items.map(item => `<li>${item}</li>`).join('')}</ul>`;
+    const partnersMarkup = (partners) => `<div class="partner-list">${partners.map(([name, src]) => src
+      ? `<span class="partner-logo"><img referrerpolicy="strict-origin-when-cross-origin" src="${src}" alt="${name}" loading="eager" decoding="async" onerror="window.handleImageFallback(this)"></span>`
+      : `<span class="partner-logo"><span class="partner-fallback">${name}</span></span>`).join('')}</div>`;
+
+    function detailMarkup(data) {
+      return `
+        <div class="detail-scroll">
+          <div class="detail-head">
+            <div class="detail-heading">
+              <div class="detail-icon">${svg(data.icon)}</div>
+              <div>
+                <div class="detail-kicker">${data.number}</div>
+                <h2>${data.title}</h2>
+                <p class="detail-summary">${data.summary}</p>
+              </div>
+            </div>
+            ${data.image ? `<div class="detail-art ${data.imageIsLogo ? 'is-logo' : ''}"><img referrerpolicy="strict-origin-when-cross-origin" onerror="window.handleImageFallback(this)" src="${data.image}" alt="Minh họa ${data.title}" loading="eager" decoding="async" fetchpriority="high"></div>` : ''}
+            <button class="close-button" type="button" aria-label="Đóng chi tiết và quay lại danh sách">
+              <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg><span>Đóng chi tiết</span>
+            </button>
+          </div>
+          <div class="detail-metrics">${data.metrics.map(([value,label]) => `<div class="metric-card"><span class="metric-value">${value}</span><span class="metric-label">${label}</span></div>`).join('')}</div>
+          <div class="detail-top-cards">
+            <section class="sub-card partner-card sub-card--partner">
+              <h3 class="sub-card-heading"><span class="mini-icon">${svg('shopping')}</span>Đối Tác &amp; Hệ Sinh Thái</h3>
+              ${partnersMarkup(data.partners)}
+            </section>
+            <section class="sub-card role-card sub-card--role">
+              <h3 class="sub-card-heading"><span class="mini-icon">${svg('headset')}</span>Vai Trò Đảm Nhiệm</h3>
+              <p class="role-title">${data.role}</p>
+            </section>
+          </div>
+          <div class="detail-columns">
+            <div class="detail-stack">
+              <section class="sub-card sub-card--capability">
+                <h3 class="sub-card-heading"><span class="mini-icon">${svg('layers')}</span>${data.capabilityTitle}</h3>
+                ${bulletList(data.capabilities)}
+              </section>
+              <section class="sub-card sub-card--challenge">
+                <h3 class="sub-card-heading"><span class="mini-icon">${svg('shield')}</span>${data.challengeTitle}</h3>
+                <p>${data.challenge}</p>
+              </section>
+            </div>
+            <div class="detail-stack">
+              <section class="sub-card sub-card--outcome">
+                <h3 class="sub-card-heading"><span class="mini-icon">${svg('game')}</span>Kết Quả Vận Hành</h3>
+                ${bulletList(data.outcomes)}
+              </section>
+              <section class="sub-card sub-card--technology">
+                <h3 class="sub-card-heading"><span class="mini-icon">${svg('wallet')}</span>Công Nghệ &amp; Hệ Thống</h3>
+                <div class="tech-tags">${data.technology.map(tag => `<span class="tech-tag">${tag}</span>`).join('')}</div>
+              </section>
+            </div>
+          </div>
+          <p class="detail-footnote">Các chỉ số và quy mô được trình bày theo dữ liệu hồ sơ năng lực do ứng viên cung cấp.</p>
+        </div>`;
+    }
+
+    function rectWithinGrid(element) {
+      const rect = element.getBoundingClientRect();
+      const base = grid.getBoundingClientRect();
+      return { left: rect.left - base.left, top: rect.top - base.top, width: rect.width, height: rect.height };
+    }
+
+    function setOverlayGeometry(el, geometry) {
+      el.style.left = `${geometry.left}px`;
+      el.style.top = `${geometry.top}px`;
+      el.style.width = `${geometry.width}px`;
+      el.style.height = `${geometry.height}px`;
+    }
+
+    function openDetail(card) {
+      if (isAnimating || activeDetail) return;
+      isAnimating = true;
+      activeCard = card;
+      const data = services[card.dataset.id];
+      const start = rectWithinGrid(card);
+      const detail = document.createElement('article');
+      detail.className = 'service-detail is-morphing';
+      detail.style.setProperty('--detail-accent', data.accent);
+      detail.style.setProperty('--detail-soft', data.soft);
+      setOverlayGeometry(detail, start);
+      detail.innerHTML = detailMarkup(data);
+      bindImageFallback(detail);
+      grid.appendChild(detail);
+      activeDetail = detail;
+      grid.classList.add('is-expanded');
+      grid.querySelectorAll('.service-card').forEach(item => {
+        item.style.opacity = '0';
+        item.style.pointerEvents = 'none';
+      });
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        detail.style.left = '0px';
+        detail.style.top = '0px';
+        detail.style.width = `${grid.clientWidth}px`;
+        detail.style.height = `${grid.clientHeight}px`;
+        detail.style.borderRadius = '18px';
+      }));
+      const onExpanded = (event) => {
+        if (event.target !== detail || event.propertyName !== 'width') return;
+        detail.removeEventListener('transitionend', onExpanded);
+        detail.classList.remove('is-morphing');
+        detail.classList.add('content-visible');
+        isAnimating = false;
+      };
+      detail.addEventListener('transitionend', onExpanded);
+      // Fallback for reduced-motion / browsers that do not emit transitionend.
+      window.setTimeout(() => {
+        if (isAnimating && activeDetail === detail) { detail.classList.add('content-visible'); isAnimating = false; }
+      }, 900);
+      detail.querySelector('.close-button').addEventListener('click', closeDetail);
+      document.addEventListener('keydown', onEscape);
+    }
+
+    function closeDetail() {
+      if (!activeDetail || isAnimating || !activeCard) return;
+      isAnimating = true;
+      const detail = activeDetail;
+      const end = rectWithinGrid(activeCard);
+      detail.classList.remove('content-visible');
+      detail.classList.add('is-morphing');
+      detail.style.left = `${end.left}px`;
+      detail.style.top = `${end.top}px`;
+      detail.style.width = `${end.width}px`;
+      detail.style.height = `${end.height}px`;
+      detail.style.borderRadius = '15px';
+      const finish = (event) => {
+        if (event.target !== detail || event.propertyName !== 'width') return;
+        detail.removeEventListener('transitionend', finish);
+        detail.remove();
+        activeDetail = null;
+        activeCard = null;
+        grid.classList.remove('is-expanded');
+        grid.querySelectorAll('.service-card').forEach(item => {
+          item.style.opacity = '';
+          item.style.pointerEvents = '';
+        });
+        isAnimating = false;
+        document.removeEventListener('keydown', onEscape);
+      };
+      detail.addEventListener('transitionend', finish);
+      window.setTimeout(() => {
+        if (activeDetail === detail) {
+          detail.remove(); activeDetail = null; activeCard = null;
+          grid.classList.remove('is-expanded');
+          grid.querySelectorAll('.service-card').forEach(item => { item.style.opacity = ''; item.style.pointerEvents = ''; });
+          isAnimating = false; document.removeEventListener('keydown', onEscape);
+        }
+      }, 900);
+    }
+    function onEscape(event) { if (event.key === 'Escape') closeDetail(); }
+    grid.querySelectorAll('.service-card').forEach(card => card.addEventListener('click', () => openDetail(card)));
+
+    window.addEventListener('resize', () => {
+      if (activeDetail && !isAnimating) {
+        activeDetail.style.left = '0px'; activeDetail.style.top = '0px';
+        activeDetail.style.width = `${grid.clientWidth}px`; activeDetail.style.height = `${grid.clientHeight}px`;
+      }
+    });
+  </script>
+</body>
+</html>

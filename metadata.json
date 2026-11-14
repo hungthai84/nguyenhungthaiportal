@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Remix Remix Portal - Nguyễn Hùng Thái - cskh14.11",
+  "description": "Hồ sơ Chuyên gia CSKH, CX Director \u0026 Cố vấn Vận hành Dịch vụ Khách hàng với 22+ năm kinh nghiệm.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

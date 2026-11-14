@@ -1,0 +1,195 @@
+@layer base {
+  html {
+    font-family: var(--font-family-primary);
+    font-size: 16px;
+    line-height: var(--lh-body);
+  }
+
+  html, body, #root {
+    font-family: var(--font-family-primary);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: var(--fw-regular);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+  }
+
+  /* Kế thừa font Play đồng bộ cho toàn bộ trang, Portal, Modal, Popup, Form */
+  body *:not(.fa):not(.fas):not(.far):not(.fab):not(.fa-solid):not(.fa-regular):not(.fa-brands):not([class*="fa-"]):not(.font-italianno):not(.font-handwriting):not(.font-quote) {
+    font-family: var(--font-family-primary);
+  }
+
+  *, #website-root, #global-content-viewport {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-heading);
+    line-height: var(--lh-heading);
+    letter-spacing: -0.015em;
+  }
+
+  p, span, li, td, th, label, button, input, select, textarea {
+    font-family: var(--font-family-body);
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select {
+    font-size: var(--fs-input);
+    line-height: var(--lh-compact);
+  }
+
+  .tabular-nums,
+  .font-mono {
+    font-family: var(--font-family-numeric);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .font-italianno,
+  .font-handwriting,
+  .font-quote {
+    font-family: var(--font-quote) !important;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [role="button"]:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+/* ========================================================================= */
+/* UNIVERSAL SCROLLBAR HIDING – PRESERVE 100% SCROLLING FUNCTIONALITY        */
+/* ========================================================================= */
+/* 1. Global Reset across all HTML elements & pseudo-elements */
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+/* Chrome, Edge, Safari, Opera, Android WebView, iOS WebKit */
+*::-webkit-scrollbar,
+::-webkit-scrollbar {
+  width: 0px !important;
+  height: 0px !important;
+  display: none !important;
+  background: transparent !important;
+}
+
+*::-webkit-scrollbar-track,
+::-webkit-scrollbar-track,
+*::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-corner,
+::-webkit-scrollbar-corner {
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+  display: none !important;
+}
+
+/* 2. Neutralize any lingering class-based scrollbars */
+.no-scrollbar,
+.glass-scrollbar,
+.custom-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.glass-scrollbar::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0px !important;
+  height: 0px !important;
+  display: none !important;
+  background: transparent !important;
+}
+
+/* 3D Transform Utility Classes */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Marquee Scroll Animation */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Slide Transitions */
+@keyframes slideNext {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slidePrev {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-slide-next {
+  animation: slideNext 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-prev {
+  animation: slidePrev 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ========================================================================= */
+/* SCOPED SOLID THEMES: DISABLE GLASS BLUR ONLY FOR SOLID CARD PRESETS       */
+/* ========================================================================= */
+html[data-card-style="frosted-glass"] .glass-card,
+html[data-card-style="frosted-glass"] .bento-card,
+html[data-card-style="frosted-glass"] .glass-panel {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-pulse,
+  .animate-bounce,
+  .animate-ping,
+  .animate-spin {
+    animation: none !important;
+  }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

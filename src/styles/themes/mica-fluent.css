@@ -1,0 +1,32 @@
+/* ========================================================================= */
+/* THEME: MICA FLUENT -> MODERN MATERIAL DESIGN                              */
+/* ========================================================================= */
+
+html[data-card-style="mica-fluent"] {
+  --bg-blur: 24px;
+  --bg-header: rgba(248, 250, 252, 0.82);
+  --bg-footer: rgba(248, 250, 252, 0.82);
+  --bg-main: var(--color-bg);
+  --bg-card: rgba(255, 255, 255, 0.78);
+  --bg-subcard: rgba(241, 245, 249, 0.85);
+  --bg-nested-card: rgba(248, 250, 252, 0.88);
+  --bg-button-primary: var(--color-blue);
+  --bg-button-secondary: rgba(226, 232, 240, 0.85);
+  --bg-popup: rgba(255, 255, 255, 0.92);
+  --bg-modal: rgba(255, 255, 255, 0.94);
+  --bg-dropdown: rgba(255, 255, 255, 0.96);
+  --bg-navigation: rgba(255, 255, 255, 0.82);
+  --bg-tab: rgba(239, 246, 255, 0.85);
+  --bg-table: var(--color-surface);
+  --border-color: var(--color-border-soft);
+}
+
+html[data-card-style="mica-fluent"] #ai-assistant-droptop-menu-list,
+html[data-card-style="mica-fluent"] #ai-assistant-center-questions-modal,
+html[data-card-style="mica-fluent"] #interview-question-filter-listbox,
+html[data-card-style="mica-fluent"] #skills-filter-dropdown {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(26px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(150%) !important;
+}
+

@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-neon"], [data-theme="dark-neon"] *));
+
+@theme {
+  --font-play: "Play", sans-serif;
+  --font-sans: "Play", sans-serif;
+  --font-mono: "Play", sans-serif;
+  --font-italianno: "Italianno", cursive;
+}
+
+@keyframes vibrate {
+  0% { transform: translate(0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(1px, -1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 1px); }
+  100% { transform: translate(0); }
+}
+.vibrate { animation: vibrate 0.3s linear infinite; }
+
+/* UI Architecture Modular CSS Imports */
+@import "./styles/tokens.css";
+@import "./styles/base.css";
+@import "./styles/layout.css";
+@import "./styles/cards.css";
+@import "./styles/themes/frosted-glass.css";
+@import "./styles/themes/glassmorphism.css";
+@import "./styles/themes/mica-fluent.css";
+@import "./styles/themes/glassmorphism-neon.css";
+
+/* Unified Global Typography Semantic Utility Classes */
+.typo-h1 { font-size: var(--fs-h1); line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); }
+.typo-h2 { font-size: var(--fs-h2); line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); }
+.typo-h3 { font-size: var(--fs-h3); line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); }
+.typo-h4 { font-size: var(--fs-h4); line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); }
+.typo-h5 { font-size: var(--fs-h5); line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); }
+.typo-body-lg { font-size: var(--fs-body-lg); line-height: var(--lh-body); font-family: var(--font-family-body); }
+.typo-body { font-size: var(--fs-body); line-height: var(--lh-body); font-family: var(--font-family-body); }
+.typo-body-sm { font-size: var(--fs-body-sm); line-height: var(--lh-body); font-family: var(--font-family-body); }
+.typo-caption { font-size: var(--fs-caption); line-height: var(--lh-compact); font-family: var(--font-family-body); }
+.typo-label { font-size: var(--fs-label); line-height: var(--lh-compact); font-family: var(--font-family-body); }
+.typo-badge { font-size: var(--fs-badge); line-height: var(--lh-compact); font-family: var(--font-family-body); }
+.typo-button { font-size: var(--fs-button); line-height: var(--lh-compact); font-weight: var(--fw-bold); font-family: var(--font-family-body); }
+.typo-input { font-size: var(--fs-input); line-height: var(--lh-compact); font-family: var(--font-family-body); }
+.typo-kpi { font-size: var(--fs-kpi); line-height: 1.2; font-weight: var(--fw-bold); font-family: var(--font-family-numeric); font-variant-numeric: tabular-nums; }
+

@@ -1,0 +1,1116 @@
+import { ProjectData } from '@/types';
+
+/**
+ * Bộ ánh xạ Hình Dự Án theo Cloudinary folder "Dự án / Banner card"
+ * Dựa vào tên hình / tên dự án để lấy đúng Banner thẻ cho toàn bộ 20 dự án
+ */
+export const CLOUDINARY_PROJECT_BANNER_FOLDER =
+  'https://res.cloudinary.com/q5tpzaxk/image/upload/D%E1%BB%B1%20%C3%A1n/Banner%20card';
+
+export interface ProjectCloudinaryBannerEntry {
+  projectId: string;
+  code: string;
+  imageName: string;
+  folderUrl: string;
+  verifiedDirectUrl: string;
+}
+
+export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] = [
+  {
+    projectId: 'p1_1',
+    code: '1.1',
+    imageName: '1.1._Xây_dựng_Phòng_Dịch_vụ_Khách_hàng.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.1._X%C3%A2y_d%E1%BB%B1ng_Ph%C3%B2ng_D%E1%BB%8Bch_v%E1%BB%A5_Kh%C3%A1ch_h%C3%A0ng.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070191/1.1._X%C3%A2y_d%E1%BB%B1ng_Ph%C3%B2ng_D%E1%BB%8Bch_v%E1%BB%A5_Kh%C3%A1ch_h%C3%A0ng.png',
+  },
+  {
+    projectId: 'p1_2',
+    code: '1.2',
+    imageName: '1.2._Thiết_lập_mục_tiêu_phòng_ban.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.2._Thi%E1%BA%BFt_l%E1%BA%ADp_m%E1%BB%A5c_ti%C3%AAu_ph%C3%B2ng_ban.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070181/1.2._Thi%E1%BA%BFt_l%E1%BA%ADp_m%E1%BB%A5c_ti%C3%AAu_ph%C3%B2ng_ban.png',
+  },
+  {
+    projectId: 'p2_1',
+    code: '2.1',
+    imageName: '2.1._Chuẩn_hóa_quy_trình_CSKH.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/2.1._Chu%E1%BA%A9n_h%C3%B3a_quy_tr%C3%ACnh_CSKH.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070200/2.1._Chu%E1%BA%A9n_h%C3%B3a_quy_tr%C3%ACnh_CSKH.png',
+  },
+  {
+    projectId: 'p2_2',
+    code: '2.2',
+    imageName: '2.2._Tối_ưu_hóa_kênh_hỗ_trợ.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/2.2._T%E1%BB%91i_%C6%B0u_h%C3%B3a_k%C3%AAnh_h%E1%BB%97_tr%E1%BB%A3.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070202/2.2._T%E1%BB%91i_%C6%B0u_h%C3%B3a_k%C3%AAnh_h%E1%BB%97_tr%E1%BB%A3.png',
+  },
+  {
+    projectId: 'p2_3',
+    code: '2.3',
+    imageName: '2.3._Triển_khai_tự_động_hóa_2.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/2.3._Tri%E1%BB%83n_khai_t%E1%BB%B1_%C4%91%E1%BB%99ng_h%C3%B3a_2.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070208/2.3._Tri%E1%BB%83n_khai_t%E1%BB%B1_%C4%91%E1%BB%99ng_h%C3%B3a_2.png',
+  },
+  {
+    projectId: 'p2_4',
+    code: '2.4',
+    imageName: '2.4._Quản_lý_chiến_dịch_Outbound.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/2.4._Qu%E1%BA%A3n_l%C3%BD_chi%E1%BA%BFn_d%E1%BB%8Bch_Outbound.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070210/2.4._Qu%E1%BA%A3n_l%C3%BD_chi%E1%BA%BFn_d%E1%BB%8Bch_Outbound.png',
+  },
+  {
+    projectId: 'p3_1',
+    code: '3.1',
+    imageName: '1.3._Nâng_cao_trải_nghiệm_khách_hàng.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.3._N%C3%A2ng_cao_tr%E1%BA%A3i_nghi%E1%BB%87m_kh%C3%A1ch_h%C3%A0ng.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070183/1.3._N%C3%A2ng_cao_tr%E1%BA%A3i_nghi%E1%BB%87m_kh%C3%A1ch_h%C3%A0ng.png',
+  },
+  {
+    projectId: 'p3_2',
+    code: '3.2',
+    imageName: '1.4._Quản_lý_dự_án_CSKH.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.4._Qu%E1%BA%A3n_l%C3%BD_d%E1%BB%B1_%C3%A1n_CSKH.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070196/1.4._Qu%E1%BA%A3n_l%C3%BD_d%E1%BB%B1_%C3%A1n_CSKH.png',
+  },
+  {
+    projectId: 'p3_3',
+    code: '3.3',
+    imageName: '1.5._Thúc_đẩy_cải_tiến_sản_phẩm.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.5._Th%C3%BAc_%C4%91%E1%BA%A9y_c%E1%BA%A3i_ti%E1%BA%BFn_s%E1%BA%A3n_ph%E1%BA%A9m.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070197/1.5._Th%C3%BAc_%C4%91%E1%BA%A9y_c%E1%BA%A3i_ti%E1%BA%BFn_s%E1%BA%A3n_ph%E1%BA%A9m.png',
+  },
+  {
+    projectId: 'p3_4',
+    code: '3.4',
+    imageName: '1.6_Quản_lý_khủng_hoảng_và_giảm_khách_hàng_rời_bỏ.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.6_Qu%E1%BA%A3n_l%C3%BD_kh%E1%BB%A7ng_ho%E1%BA%A3ng_v%C3%A0_gi%E1%BA%A3m_kh%C3%A1ch_h%C3%A0ng_r%E1%BB%9Di_b%E1%BB%8F.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070199/1.6_Qu%E1%BA%A3n_l%C3%BD_kh%E1%BB%A7ng_ho%E1%BA%A3ng_v%C3%A0_gi%E1%BA%A3m_kh%C3%A1ch_h%C3%A0ng_r%E1%BB%9Di_b%E1%BB%8F.png',
+  },
+  {
+    projectId: 'p4_1',
+    code: '4.1',
+    imageName: '3.1._Xây_dựng_hệ_thống_CRM.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/3.1._X%C3%A2y_d%E1%BB%B1ng_h%E1%BB%87_th%E1%BB%91ng_CRM.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070278/3.1._X%C3%A2y_d%E1%BB%B1ng_h%E1%BB%87_th%E1%BB%91ng_CRM.png',
+  },
+  {
+    projectId: 'p4_2',
+    code: '4.2',
+    imageName: '3.2._Phân_tích_Báo_cáo.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/3.2._Ph%C3%A2n_t%C3%ADch_B%C3%A1o_c%C3%A1o.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070280/3.2._Ph%C3%A2n_t%C3%ADch_B%C3%A1o_c%C3%A1o.png',
+  },
+  {
+    projectId: 'p4_3',
+    code: '4.3',
+    imageName: '3.3._Khảo_sát_Đánh_giá_khách_hàng.jpg',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/3.3._Kh%E1%BA%A3o_s%C3%A1t_%C4%90%C3%A1nh_gi%C3%A1_kh%C3%A1ch_h%C3%A0ng.jpg`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070281/3.3._Kh%E1%BA%A3o_s%C3%A1t_%C4%90%C3%A1nh_gi%C3%A1_kh%C3%A1ch_h%C3%A0ng.jpg',
+  },
+  {
+    projectId: 'p4_4',
+    code: '4.4',
+    imageName: '3.4._Xây_dựng_AI_Bot.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/3.4._X%C3%A2y_d%E1%BB%B1ng_AI_Bot.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070283/3.4._X%C3%A2y_d%E1%BB%B1ng_AI_Bot.png',
+  },
+  {
+    projectId: 'p5_1',
+    code: '5.1',
+    imageName: '4.1._Phát_triển_đào_tạo_trực_tuyến.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/4.1._Ph%C3%A1t_tri%E1%BB%83n_%C4%91%C3%A0o_t%E1%BA%A1o_tr%E1%BB%B1c_tuy%E1%BA%BFn.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070284/4.1._Ph%C3%A1t_tri%E1%BB%83n_%C4%91%C3%A0o_t%E1%BA%A1o_tr%E1%BB%B1c_tuy%E1%BA%BFn.png',
+  },
+  {
+    projectId: 'p5_2',
+    code: '5.2',
+    imageName: '4.2_Xây_dựng_khung_năng_lực_và_lộ_trình_phát_triển.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/4.2_X%C3%A2y_d%E1%BB%B1ng_khung_n%C4%83ng_l%E1%BB%B1c_v%C3%A0_l%E1%BB%99_tr%C3%ACnh_ph%C3%A1t_tri%E1%BB%83n.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070287/4.2_X%C3%A2y_d%E1%BB%B1ng_khung_n%C4%83ng_l%E1%BB%B1c_v%C3%A0_l%E1%BB%99_tr%C3%ACnh_ph%C3%A1t_tri%E1%BB%83n.png',
+  },
+  {
+    projectId: 'p5_3',
+    code: '5.3',
+    imageName: '5.1._Thành_lập_trung_tâm_hỗ_trợ.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/5.1._Th%C3%A0nh_l%E1%BA%ADp_trung_t%C3%A2m_h%E1%BB%97_tr%E1%BB%A3.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070288/5.1._Th%C3%A0nh_l%E1%BA%ADp_trung_t%C3%A2m_h%E1%BB%97_tr%E1%BB%A3.png',
+  },
+  {
+    projectId: 'p5_4',
+    code: '5.4',
+    imageName: '6.1._Khách_hàng_là_trung_tâm.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/6.1._Kh%C3%A1ch_h%C3%A0ng_l%C3%A0_trung_t%C3%A2m.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070290/6.1._Kh%C3%A1ch_h%C3%A0ng_l%C3%A0_trung_t%C3%A2m.png',
+  },
+  {
+    projectId: 'p5_5',
+    code: '5.5',
+    imageName: '6.2_Quản_trị_sự_thay_đổi_và_khủng_hoảng_dịch_vụ.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/6.2_Qu%E1%BA%A3n_tr%E1%BB%8B_s%E1%BB%B1_thay_%C4%91%E1%BB%95i_v%C3%A0_kh%E1%BB%A7ng_ho%E1%BA%A3ng_d%E1%BB%8Bch_v%E1%BB%A5.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070291/6.2_Qu%E1%BA%A3n_tr%E1%BB%8B_s%E1%BB%B1_thay_%C4%91%E1%BB%95i_v%C3%A0_kh%E1%BB%A7ng_ho%E1%BA%A3ng_d%E1%BB%8Bch_v%E1%BB%A5.png',
+  },
+  {
+    projectId: 'p5_6',
+    code: '5.6',
+    imageName: '6.3_Ứng_dụng_trí_tuệ_nhân_tạo_nâng_cao_hiệu_suất_CSKH.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/6.3_%E1%BB%A8ng_d%E1%BB%A5ng_tr%C3%AD_tu%E1%BB%87_nh%C3%A2n_t%E1%BA%A1o_n%C3%A2ng_cao_hi%E1%BB%87u_su%E1%BA%A5t_CSKH.png`,
+    verifiedDirectUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070293/6.3_%E1%BB%A8ng_d%E1%BB%A5ng_tr%C3%AD_tu%E1%BB%87_nh%C3%A2n_t%E1%BA%A1o_n%C3%A2ng_cao_hi%E1%BB%87u_su%E1%BA%A5t_CSKH.png',
+  },
+];
+
+export function getProjectCloudinaryBanner(proj: ProjectData): {
+  primaryUrl: string;
+  folderUrl: string;
+  fallbackUrl: string;
+  imageName: string;
+} {
+  const normTitle = proj.title.toLowerCase().replace(/[\s_.-]+/g, ' ');
+  const matched =
+    CLOUDINARY_PROJECT_BANNER_BY_NAME.find(
+      (entry) => entry.projectId === proj.id || entry.code === proj.code
+    ) ||
+    CLOUDINARY_PROJECT_BANNER_BY_NAME.find((entry) => {
+      const cleanName = entry.imageName
+        .replace(/\.(png|jpg|jpeg|webp)$/i, '')
+        .replace(/^[\d._\s]+/, '')
+        .toLowerCase()
+        .replace(/_/g, ' ');
+      return cleanName && normTitle.includes(cleanName);
+    });
+
+  if (matched) {
+    return {
+      primaryUrl: matched.verifiedDirectUrl,
+      folderUrl: matched.folderUrl,
+      fallbackUrl: proj.mindmap || matched.verifiedDirectUrl,
+      imageName: matched.imageName,
+    };
+  }
+
+  const defaultFallback =
+    'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069894/Qu%C3%A3n_l%C3%BD_d%E1%BB%B1_%C3%A1n.png';
+
+  return {
+    primaryUrl: proj.image || proj.mindmap || defaultFallback,
+    folderUrl: proj.image || proj.mindmap || defaultFallback,
+    fallbackUrl: proj.mindmap || proj.image || defaultFallback,
+    imageName: `${proj.code}_${proj.title}.png`,
+  };
+}
+
+export const FEATURED_PROJECT_1_1: ProjectData = {
+  id: "p1_1",
+  code: "1.1",
+  number: "8.1",
+  title: "1.1 · Xây dựng và vận hành Phòng CSKH chuyên nghiệp",
+  subtitleEn: "Customer Service Department Establishment & Operations Management",
+    tagline: "Xây dựng nền tảng vận hành vững chắc – Chuẩn hóa hệ thống – Phát triển đội ngũ – Nâng cao trải nghiệm khách hàng.",
+    groupTitle: "Chiến lược & Cấu trúc Vận hành CSKH",
+    groupKey: "strategy",
+    description: "Dự án quản trị tổng thể nhằm hình thành một bộ phận CSKH có cơ cấu tổ chức rõ ràng, chức năng nhiệm vụ đầy đủ, quy trình vận hành thống nhất và hệ thống đo lường hiệu quả minh bạch; kết nối con người, quy trình, công nghệ và dữ liệu thành một mô hình vận hành thống nhất.",
+    phase: "Giai đoạn 1",
+    progressText: "Giai đoạn 1 - Đã hoàn thiện (100%)",
+    progressPercent: 100,
+    role: "Trưởng phòng Chăm sóc Khách hàng",
+    hashtags: ["#CS_Strategy", "#Structure", "#CấuTrúc", "#LãnhĐạo", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070191/1.1._X%C3%A2y_d%E1%BB%B1ng_Ph%C3%B2ng_D%E1%BB%8Bch_v%E1%BB%A5_Kh%C3%A1ch_h%C3%A0ng.png",
+    mindmap: "https://i.ibb.co/sdxtx0hR/1-1-X-y-d-ng-Ph-ng-D-ch-v-Kh-ch-h-ng.png",
+    quote: "Xây dựng hệ thống để vận hành hiệu quả, phát triển con người để phục vụ tốt hơn và lấy trải nghiệm khách hàng làm nền tảng cho sự phát triển bền vững.",
+    star: {
+      situation: "Khi doanh nghiệp phát triển về quy mô khách hàng, sản phẩm và kênh giao tiếp, hoạt động CSKH đối mặt với nhiều thách thức: cơ cấu tổ chức và trách nhiệm chưa phân định rõ; quy trình phụ thuộc kinh nghiệm cá nhân; lưu lượng tương tác tăng nhưng nhân sự chưa phân bổ tối ưu; thông tin phân tán; chất lượng chưa đồng đều; KPI/SLA/báo cáo chưa phản ánh đầy đủ hiệu quả và thiếu cơ chế phối hợp liên phòng ban.",
+      approach: "Giải quyết đồng thời ba bài toán cốt lõi: tổ chức đúng, vận hành chuẩn và kiểm soát bằng dữ liệu. Triển khai kết hợp quản trị dự án với cải tiến vận hành liên tục qua 5 giai đoạn và 7 hạng mục công việc trọng tâm.",
+      actions: [
+        { step: "Hạng mục 1", title: "Khảo sát và đánh giá hiện trạng", desc: "Đánh giá toàn diện cơ cấu tổ chức, lưu lượng tương tác, quy trình, hệ thống tổng đài/CRM và dữ liệu vận hành để xác định điểm nghẽn, rủi ro và đề xuất mô hình mục tiêu." },
+        { step: "Hạng mục 2", title: "Thiết kế cơ cấu tổ chức và chức năng nhiệm vụ", desc: "Thiết kế sơ đồ tổ chức, tuyến báo cáo, chức năng từng nhóm nghiệp vụ, bản mô tả công việc (JD), ma trận phân quyền và phương án nhân sự dự phòng." },
+        { step: "Hạng mục 3", title: "Xây dựng mô hình vận hành CSKH", desc: "Thiết lập quy trình tiếp nhận, phân loại, phân công, chuyển cấp (escalation), xử lý sự cố/khiếu nại, bàn giao ca và cơ chế giao ban báo cáo xuyên suốt." },
+        { step: "Hạng mục 4", title: "Chuẩn hóa quy trình và tiêu chuẩn phục vụ", desc: "Xây dựng bộ SOP trọng yếu, thư viện kịch bản giao tiếp, biểu mẫu, tiêu chuẩn bảo mật dữ liệu và checklist kiểm soát chất lượng tương tác." },
+        { step: "Hạng mục 5", title: "Hoạch định nhân sự và quản trị hiệu suất", desc: "Phân tích lưu lượng theo khung giờ, lập kế hoạch định biên, lịch trực, bộ KPI cấp phòng/nhóm/cá nhân, coaching và phát triển đội ngũ kế thừa." },
+        { step: "Hạng mục 6", title: "Thiết lập hệ thống công nghệ hỗ trợ", desc: "Chuẩn hóa yêu cầu tổng đài, nghiệp vụ CRM, kết nối đa kênh, báo cáo vận hành, cảnh báo SLA, phân quyền truy cập và kiểm thử nghiệm thu." },
+        { step: "Hạng mục 7", title: "Đào tạo và đưa vào vận hành", desc: "Đào tạo quy trình, sản phẩm, kỹ năng; thực hành tình huống; vận hành thử; theo dõi tuân thủ và hiệu chỉnh trước khi vận hành chính thức ổn định." },
+      ],
+      results: [
+        "Về tổ chức & vận hành: Cơ cấu rõ ràng, trách nhiệm minh bạch, quy trình thống nhất, kiểm soát tốt thời gian xử lý và giảm thiểu sai sót.",
+        "Về nhân sự & công nghệ: Năng lực chuẩn hóa, hiệu suất đo lường minh bạch, dữ liệu tập trung hỗ trợ truy xuất lịch sử và điều hành bằng báo cáo.",
+        "Về khách hàng & doanh nghiệp: Tăng tính nhất quán phục vụ, giảm nỗ lực khách hàng (CES) và hình thành nền tảng CSKH mở rộng bền vững, tối ưu chi phí.",
+      ],
+    },
+    detailedSpec: {
+      subtitleEn: "Customer Service Department Establishment & Operations Management",
+      tagline: "Xây dựng nền tảng vận hành vững chắc – Chuẩn hóa hệ thống – Phát triển đội ngũ – Nâng cao trải nghiệm khách hàng.",
+      overview: [
+        "Xây dựng và vận hành Phòng Dịch vụ Khách hàng là dự án quản trị tổng thể nhằm hình thành một bộ phận CSKH có cơ cấu tổ chức rõ ràng, chức năng nhiệm vụ đầy đủ, quy trình vận hành thống nhất và hệ thống đo lường hiệu quả minh bạch.",
+        "Dự án không chỉ tập trung vào việc tổ chức tổng đài hay bố trí nhân viên tiếp nhận yêu cầu, mà hướng đến xây dựng một hệ thống dịch vụ có khả năng vận hành ổn định, kiểm soát chất lượng, tối ưu chi phí và thích ứng với sự phát triển của doanh nghiệp.",
+        "Với vai trò Trưởng phòng Chăm sóc Khách hàng, trọng tâm là kết nối con người, quy trình, công nghệ và dữ liệu thành một mô hình vận hành thống nhất, trong đó mọi hoạt động đều hướng đến việc giải quyết nhu cầu khách hàng một cách hiệu quả, kịp thời và nhất quán.",
+      ],
+      context: {
+        intro: "Khi doanh nghiệp phát triển về quy mô khách hàng, sản phẩm và kênh giao tiếp, hoạt động CSKH thường đối mặt với nhiều thách thức:",
+        challenges: [
+          "Cơ cấu tổ chức và trách nhiệm giữa các vị trí chưa được phân định rõ ràng.",
+          "Quy trình xử lý phụ thuộc vào kinh nghiệm cá nhân, thiếu tính thống nhất và khả năng kế thừa.",
+          "Lưu lượng tương tác tăng nhưng nguồn lực nhân sự chưa được phân bổ tối ưu.",
+          "Thông tin khách hàng phân tán trên nhiều hệ thống, gây khó khăn trong việc tra cứu lịch sử và phối hợp xử lý.",
+          "Chất lượng phục vụ chưa đồng đều giữa nhân viên, nhóm nghiệp vụ và các kênh hỗ trợ.",
+          "Hệ thống KPI, SLA và báo cáo chưa phản ánh đầy đủ hiệu quả vận hành.",
+          "Việc phối hợp giữa CSKH với Kinh doanh, Marketing, Công nghệ và các phòng ban liên quan chưa có cơ chế rõ ràng.",
+        ],
+        conclusion: "Từ thực trạng đó, dự án được định hướng giải quyết đồng thời ba bài toán cốt lõi: tổ chức đúng, vận hành chuẩn và kiểm soát bằng dữ liệu.",
+      },
+      objectives: [
+        {
+          title: "3.1. Mục tiêu tổ chức",
+          items: [
+            "Xây dựng mô hình tổ chức phù hợp với quy mô và định hướng phát triển của doanh nghiệp.",
+            "Xác định rõ chức năng, nhiệm vụ, quyền hạn và trách nhiệm của từng vị trí.",
+            "Thiết lập cơ chế phối hợp liên phòng ban và quy trình chuyển cấp xử lý.",
+            "Phát triển đội ngũ nhân sự có năng lực chuyên môn và tinh thần phục vụ khách hàng.",
+          ],
+        },
+        {
+          title: "3.2. Mục tiêu vận hành",
+          items: [
+            "Chuẩn hóa quy trình tiếp nhận, phân loại, xử lý và hoàn tất yêu cầu khách hàng.",
+            "Thiết lập tiêu chuẩn phục vụ, KPI, SLA và cơ chế kiểm soát chất lượng.",
+            "Tối ưu nguồn lực theo lưu lượng tương tác và nhu cầu thực tế.",
+            "Tăng khả năng kiểm soát tiến độ, hạn chế tồn đọng và giảm sai sót nghiệp vụ.",
+          ],
+        },
+        {
+          title: "3.3. Mục tiêu phát triển",
+          items: [
+            "Xây dựng nền tảng để mở rộng quy mô dịch vụ khi doanh nghiệp tăng trưởng.",
+            "Tạo điều kiện tích hợp CRM, tổng đài, hệ thống báo cáo và tự động hóa.",
+            "Hình thành văn hóa cải tiến liên tục, lấy trải nghiệm khách hàng làm trọng tâm.",
+          ],
+        },
+      ],
+      scopeItems: [
+        {
+          code: "Hạng mục 1",
+          title: "Khảo sát và đánh giá hiện trạng",
+          intro: "Tiến hành đánh giá toàn diện hoạt động CSKH trước khi thiết kế mô hình vận hành.",
+          tasks: [
+            "Khảo sát cơ cấu tổ chức, chức năng nhiệm vụ và năng lực nhân sự.",
+            "Phân tích số lượng khách hàng, lưu lượng tương tác, thời gian phục vụ và khung giờ cao điểm.",
+            "Rà soát quy trình, kịch bản giao tiếp, phương pháp xử lý khiếu nại và cơ chế phối hợp.",
+            "Đánh giá hệ thống tổng đài, CRM, cơ sở tri thức và các công cụ hỗ trợ.",
+            "Phân tích dữ liệu vận hành để xác định điểm nghẽn, rủi ro và cơ hội cải tiến.",
+          ],
+          deliverable: "Báo cáo hiện trạng, danh mục vấn đề ưu tiên, phân tích khoảng cách và đề xuất mô hình mục tiêu.",
+        },
+        {
+          code: "Hạng mục 2",
+          title: "Thiết kế cơ cấu tổ chức và chức năng nhiệm vụ",
+          intro: "Xây dựng cơ cấu phòng ban theo nguyên tắc rõ trách nhiệm, phù hợp nghiệp vụ và thuận tiện trong quản lý.",
+          tasks: [
+            "Thiết kế sơ đồ tổ chức và tuyến báo cáo.",
+            "Xác định chức năng của từng nhóm nghiệp vụ.",
+            "Xây dựng bản mô tả công việc cho quản lý, trưởng nhóm, nhân viên, QA và đào tạo theo nhu cầu thực tế.",
+            "Thiết lập ma trận phân quyền và trách nhiệm phối hợp.",
+            "Xác định yêu cầu năng lực cho từng vị trí và phương án nhân sự dự phòng.",
+          ],
+          note: "Tùy mô hình doanh nghiệp, cơ cấu có thể bao gồm các nhóm tiếp nhận tương tác, xử lý yêu cầu chuyên sâu, quản lý khiếu nại, kiểm soát chất lượng, đào tạo và quản trị dữ liệu.",
+          deliverable: "Sơ đồ tổ chức, bộ mô tả công việc, ma trận trách nhiệm và định hướng phát triển nhân sự.",
+        },
+        {
+          code: "Hạng mục 3",
+          title: "Xây dựng mô hình vận hành CSKH",
+          intro: "Thiết kế mô hình hoạt động từ lúc khách hàng phát sinh nhu cầu đến khi vấn đề được giải quyết và kết quả được ghi nhận.",
+          tasks: [
+            "Xây dựng quy trình tiếp nhận và phân loại yêu cầu.",
+            "Thiết lập nguyên tắc phân công, chuyển cấp và phối hợp xử lý.",
+            "Xác định thời hạn phản hồi, thời hạn giải quyết và cơ chế cảnh báo.",
+            "Xây dựng quy trình xử lý trường hợp phức tạp, khiếu nại nghiêm trọng và sự cố dịch vụ.",
+            "Thiết lập quy trình bàn giao giữa các ca và theo dõi những yêu cầu chưa hoàn tất.",
+            "Xây dựng cơ chế báo cáo, giao ban và xử lý vấn đề vượt thẩm quyền.",
+          ],
+          deliverable: "Mô hình vận hành, sơ đồ luồng nghiệp vụ, ma trận escalation và cơ chế quản lý yêu cầu xuyên suốt.",
+        },
+        {
+          code: "Hạng mục 4",
+          title: "Chuẩn hóa quy trình và tiêu chuẩn phục vụ",
+          intro: "Chuyển kinh nghiệm vận hành thành các tiêu chuẩn có thể đào tạo, áp dụng và kiểm tra.",
+          tasks: [
+            "Xây dựng SOP cho những nghiệp vụ trọng yếu.",
+            "Chuẩn hóa kịch bản giao tiếp, hướng dẫn xử lý và biểu mẫu nghiệp vụ.",
+            "Xây dựng tiêu chuẩn xác minh thông tin và bảo vệ dữ liệu khách hàng.",
+            "Thiết lập checklist kiểm soát chất lượng tương tác.",
+            "Xác định tiêu chí hoàn tất yêu cầu và phương pháp kiểm tra tuân thủ.",
+            "Thiết lập quy trình cập nhật tài liệu khi sản phẩm hoặc chính sách thay đổi.",
+          ],
+          deliverable: "Bộ SOP, thư viện kịch bản, biểu mẫu, checklist và hệ thống tài liệu nghiệp vụ.",
+        },
+        {
+          code: "Hạng mục 5",
+          title: "Hoạch định nhân sự và quản trị hiệu suất",
+          intro: "Bảo đảm nguồn lực phù hợp với nhu cầu phục vụ và mục tiêu chất lượng.",
+          tasks: [
+            "Phân tích lưu lượng tương tác, thời gian xử lý và nhu cầu nhân sự theo từng khung giờ.",
+            "Xây dựng phương án định biên và lịch làm việc.",
+            "Thiết lập KPI theo cấp phòng, nhóm và cá nhân.",
+            "Xây dựng cơ chế theo dõi năng suất, chất lượng và mức độ tuân thủ.",
+            "Tổ chức họp đánh giá hiệu suất, coaching và cải thiện các chỉ số chưa đạt.",
+            "Xây dựng kế hoạch tuyển dụng, đào tạo và phát triển đội ngũ kế thừa.",
+          ],
+          deliverable: "Kế hoạch định biên, lịch trực, bộ KPI, dashboard hiệu suất và kế hoạch phát triển nhân sự.",
+        },
+        {
+          code: "Hạng mục 6",
+          title: "Thiết lập hệ thống công nghệ hỗ trợ",
+          intro: "Tổ chức các công cụ cần thiết để hoạt động CSKH được quản lý tập trung và có dữ liệu phục vụ điều hành.",
+          tasks: [
+            "Xác định yêu cầu sử dụng tổng đài và hệ thống quản lý tương tác.",
+            "Thiết kế yêu cầu nghiệp vụ CRM để quản lý hồ sơ, lịch sử và trạng thái yêu cầu.",
+            "Xây dựng phương án kết nối giữa các kênh hỗ trợ.",
+            "Thiết lập báo cáo vận hành và cơ chế cảnh báo SLA.",
+            "Chuẩn hóa quyền truy cập, quản lý dữ liệu và phương án dự phòng.",
+            "Phối hợp kiểm thử, đào tạo và nghiệm thu trước khi vận hành chính thức.",
+          ],
+          deliverable: "Bộ yêu cầu công nghệ, quy trình sử dụng hệ thống, danh mục báo cáo và kế hoạch triển khai.",
+        },
+        {
+          code: "Hạng mục 7",
+          title: "Đào tạo và đưa vào vận hành",
+          intro: "Bảo đảm nhân sự có đủ kiến thức và công cụ để thực hiện công việc theo mô hình mới.",
+          tasks: [
+            "Đào tạo quy trình, sản phẩm, chính sách và kỹ năng giao tiếp.",
+            "Tổ chức thực hành tình huống, kiểm tra kiến thức và đánh giá năng lực.",
+            "Vận hành thử để phát hiện lỗi quy trình và vấn đề hệ thống.",
+            "Thiết lập cơ chế hỗ trợ nhân viên trong giai đoạn đầu triển khai.",
+            "Theo dõi chất lượng, tiến độ xử lý và mức độ tuân thủ.",
+            "Điều chỉnh các điểm chưa phù hợp trước khi chuyển sang vận hành ổn định.",
+          ],
+          deliverable: "Kế hoạch đào tạo, kết quả đánh giá năng lực, biên bản nghiệm thu và kế hoạch vận hành chính thức.",
+        },
+      ],
+      methodology: {
+        intro: "Dự án được triển khai theo hướng kết hợp quản trị dự án với cải tiến vận hành liên tục.",
+        phases: [
+          {
+            stage: "Giai đoạn 1",
+            title: "Khảo sát và xác định yêu cầu",
+            desc: "Thu thập dữ liệu, phỏng vấn các bên liên quan, đánh giá hiện trạng và xác định ưu tiên.",
+          },
+          {
+            stage: "Giai đoạn 2",
+            title: "Thiết kế mô hình",
+            desc: "Xây dựng cơ cấu tổ chức, quy trình, tiêu chuẩn chất lượng, hệ thống chỉ số và phương án công nghệ.",
+          },
+          {
+            stage: "Giai đoạn 3",
+            title: "Triển khai và kiểm thử",
+            desc: "Phân công trách nhiệm, đào tạo nhân sự, cấu hình hệ thống và kiểm thử các tình huống nghiệp vụ.",
+          },
+          {
+            stage: "Giai đoạn 4",
+            title: "Vận hành và kiểm soát",
+            desc: "Theo dõi KPI, SLA, chất lượng tương tác, năng suất và các vấn đề phát sinh.",
+          },
+          {
+            stage: "Giai đoạn 5",
+            title: "Đánh giá và cải tiến",
+            desc: "Phân tích nguyên nhân gốc rễ, điều chỉnh quy trình và chuẩn hóa các giải pháp đã chứng minh hiệu quả.",
+          },
+        ],
+        outro: "Trong quá trình thực hiện, các bên liên quan cần thống nhất mục tiêu, phạm vi, trách nhiệm, tiêu chí nghiệm thu và cơ chế báo cáo nhằm bảo đảm dự án được triển khai đồng bộ.",
+      },
+      metrics: {
+        intro: "Hiệu quả của dự án cần được đo lường bằng các chỉ số phù hợp với mô hình dịch vụ và yêu cầu kinh doanh.",
+        table: [
+          { category: "Khả năng đáp ứng", indicators: "Service Level, ASA, tỷ lệ cuộc gọi nhỡ" },
+          { category: "Hiệu quả xử lý", indicators: "AHT, FCR, tỷ lệ xử lý đúng hạn" },
+          { category: "Chất lượng dịch vụ", indicators: "QA Score, tỷ lệ lỗi nghiệp vụ" },
+          { category: "Trải nghiệm khách hàng", indicators: "CSAT, NPS, CES" },
+          { category: "Quản trị tồn đọng", indicators: "Số yêu cầu tồn, tuổi tồn, tỷ lệ quá SLA" },
+          { category: "Hiệu quả nguồn lực", indicators: "Năng suất nhân viên, chi phí trên tương tác" },
+          { category: "Tuân thủ quy trình", indicators: "Tỷ lệ hoàn thành đào tạo, tỷ lệ tuân thủ SOP" },
+        ],
+        outro: "Các chỉ số cần có định nghĩa, công thức, nguồn dữ liệu, tần suất đo lường và người chịu trách nhiệm. Mục tiêu cụ thể được thiết lập dựa trên số liệu nền, năng lực nguồn lực và cam kết dịch vụ của doanh nghiệp.",
+      },
+      pmRoles: {
+        intro: "Trong vai trò Trưởng phòng Chăm sóc Khách hàng, trách nhiệm quản lý tập trung vào:",
+        items: [
+          { role: "Định hướng", desc: "Xác lập mục tiêu, phạm vi và mô hình tổ chức phù hợp." },
+          { role: "Tổ chức", desc: "Phân bổ nguồn lực, giao trách nhiệm và xây dựng cơ chế phối hợp." },
+          { role: "Điều hành", desc: "Kiểm soát tiến độ, chất lượng, ngân sách và các rủi ro vận hành." },
+          { role: "Kết nối", desc: "Phối hợp với Ban lãnh đạo và các phòng ban liên quan để xử lý các vấn đề liên chức năng." },
+          { role: "Phát triển", desc: "Đào tạo, đánh giá và xây dựng đội ngũ có khả năng vận hành độc lập." },
+          { role: "Cải tiến", desc: "Sử dụng dữ liệu và phản hồi khách hàng để xác định nguyên nhân và nâng cao hiệu quả." },
+          { role: "Duy trì", desc: "Bảo đảm các quy trình, tiêu chuẩn và công cụ tiếp tục được áp dụng sau khi dự án hoàn tất." },
+        ],
+      },
+      expectedOutcomes: {
+        intro: "Khi được triển khai đầy đủ và phù hợp với thực tế doanh nghiệp, dự án hướng đến các kết quả:",
+        items: [
+          { dimension: "Về tổ chức", desc: "Cơ cấu rõ ràng, trách nhiệm minh bạch, giảm chồng chéo và tăng khả năng phối hợp." },
+          { dimension: "Về vận hành", desc: "Quy trình thống nhất, kiểm soát tốt hơn thời gian xử lý, hạn chế sai sót và nâng cao khả năng đáp ứng." },
+          { dimension: "Về nhân sự", desc: "Năng lực được chuẩn hóa, hiệu suất được đo lường và hình thành nền tảng phát triển đội ngũ kế thừa." },
+          { dimension: "Về công nghệ", desc: "Dữ liệu tập trung hơn, tăng khả năng truy xuất lịch sử khách hàng và hỗ trợ điều hành bằng báo cáo." },
+          { dimension: "Về khách hàng", desc: "Tăng tính nhất quán trong phục vụ, giảm nỗ lực khi tìm kiếm hỗ trợ và cải thiện khả năng giải quyết vấn đề." },
+          { dimension: "Về doanh nghiệp", desc: "Hình thành nền tảng CSKH có thể mở rộng, kiểm soát chi phí và đóng góp tích cực vào mục tiêu kinh doanh dài hạn." },
+        ],
+        outro: "Các kết quả định lượng cần được xác nhận bằng báo cáo trước và sau triển khai, dữ liệu vận hành hoặc tài liệu nghiệm thu thực tế.",
+      },
+      philosophy: {
+        paragraphs: [
+          "Một Phòng Dịch vụ Khách hàng hoạt động tốt không chỉ được đánh giá bằng số lượng cuộc gọi đã xử lý, mà còn bằng khả năng giải quyết đúng vấn đề, duy trì chất lượng và tạo ra trải nghiệm đáng tin cậy cho khách hàng.",
+          "Công nghệ giúp tăng tốc độ. Quy trình tạo ra sự nhất quán. Dữ liệu giúp nhìn thấy vấn đề. Nhưng chính con người và văn hóa phục vụ mới quyết định cách doanh nghiệp đồng hành với khách hàng trong những thời điểm quan trọng.",
+          "Vì vậy, xây dựng Phòng Dịch vụ Khách hàng không phải là hoàn thành một sơ đồ tổ chức hay ban hành một bộ quy trình, mà là thiết lập một hệ thống có khả năng học hỏi, thích ứng và cải tiến liên tục.",
+        ],
+        coreMessage: "Xây dựng hệ thống để vận hành hiệu quả, phát triển con người để phục vụ tốt hơn và lấy trải nghiệm khách hàng làm nền tảng cho sự phát triển bền vững.",
+      },
+    },
+  };
+
+export const PROJECTS_DATA: ProjectData[] = [
+  FEATURED_PROJECT_1_1,
+  // 8.2 - 1.2
+  {
+    id: "p1_2",
+    code: "1.2",
+    number: "8.2",
+    title: "1.2 · Thiết lập mục tiêu và hệ thống KPI/OKR phòng ban",
+    groupTitle: "Chiến lược & Cấu trúc Vận hành CSKH",
+    groupKey: "strategy",
+    description: "Chuẩn hóa bộ chỉ số đo lường hiệu suất cho toàn bộ đội ngũ >100 nhân sự trực tiếp và các đối tác BPO liên quan, kết nối mục tiêu CSKH với mục tiêu kinh doanh chung.",
+    phase: "Giai đoạn 1",
+    progressText: "Giai đoạn 1 - Đang triển khai (80%)",
+    progressPercent: 80,
+    role: "Head of CX / CS Lead",
+    hashtags: ["#CS_Strategy", "#OKR", "#KPI", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070181/1.2._Thi%E1%BA%BFt_l%E1%BA%ADp_m%E1%BB%A5c_ti%C3%AAu_ph%C3%B2ng_ban.png",
+    mindmap: "https://i.ibb.co/1fNzL0x5/1-2-Thi-t-l-p-m-c-ti-u-ph-ng-ban.png",
+    quote: "Mục tiêu rõ ràng, dữ liệu minh bạch, vận hành đột phá.",
+    star: {
+      situation: "Mục tiêu của phòng CSKH phân tán, chưa đồng bộ với mục tiêu kinh doanh chung của công ty; thiếu công cụ theo dõi hiệu suất thời gian thực cho nhân sự. Thách thức cốt lõi là chuyển đổi từ quản lý theo cảm tính sang quản trị bằng dữ liệu, xây dựng bộ KPI/OKR công bằng, đo lường chính xác cả hiệu quả vận hành và chất lượng dịch vụ.",
+      approach: "Kết hợp ma trận KPI & OKR: Đồng bộ mục tiêu chiến lược của công ty xuống từng cá nhân, đảm bảo tính minh bạch và theo dõi thời gian thực.",
+      actions: [
+        { step: "Bước 1", title: "Rà soát & Thống nhất Mục tiêu Doanh nghiệp", desc: "Làm việc với C-Level để làm rõ các ưu tiên chiến lược kinh doanh." },
+        { step: "Bước 2", title: "Thiết lập Bộ chỉ số OKR/KPI Phòng ban", desc: "Xây dựng bộ chỉ số đo lường hiệu suất vận hành và chất lượng dịch vụ." },
+        { step: "Bước 3", title: "Tích hợp Dashboard Realtime Power BI", desc: "Kết nối dữ liệu để theo dõi chỉ số hiệu suất thời gian thực công khai." },
+        { step: "Bước 4", title: "Ban hành Quy chế & Đánh giá Hiệu suất", desc: "Tự động ghi nhận và chấm điểm năng suất công việc hàng ngày." },
+      ],
+      results: [
+        "100% nhân sự chủ động theo dõi chỉ số cá nhân hằng ngày.",
+        "Giảm 35% thời gian xử lý sự cố vận hành phát sinh.",
+        "Tăng 25% hiệu suất giải quyết ticket/ngày trên mỗi nhân viên.",
+      ],
+    },
+  },
+  // 8.3 - 3.1
+  {
+    id: "p3_1",
+    code: "3.1",
+    number: "8.3",
+    title: "3.1 · Thiết kế hành trình và nâng cao trải nghiệm khách hàng",
+    groupTitle: "Thiết kế Trải nghiệm Khách hàng (CX Design)",
+    groupKey: "cx",
+    description: "Thiết kế và đồng bộ bản đồ hành trình khách hàng (CJM) trên toàn bộ hệ thống phục vụ hàng triệu người dùng, liên kết các điểm chạm đứt gãy.",
+    phase: "Giai đoạn 3",
+    progressText: "Giai đoạn 3 - Đang triển khai (90%)",
+    progressPercent: 90,
+    role: "CX Architect & Lead",
+    hashtags: ["#CS_Strategy", "#CXDesign", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070183/1.3._N%C3%A2ng_cao_tr%E1%BA%A3i_nghi%E1%BB%87m_kh%C3%A1ch_h%C3%A0ng.png",
+    mindmap: "https://i.ibb.co/BkVdp76/1-3-N-ng-cao-tr-i-nghi-m-kh-ch-h-ng.png",
+    quote: "Thấu cảm từng điểm chạm, nâng tầm trải nghiệm 5 sao.",
+    star: {
+      situation: "Hành trình khách hàng bị đứt gãy giữa các kênh; khách hàng phải lặp lại thông tin nhiều lần; thiếu cơ chế lắng nghe phản hồi thời gian thực (VoC). Thách thức cốt lõi là xóa bỏ điểm nghẽn trải nghiệm tại các điểm chạm nhạy cảm, giảm tỷ lệ khách hàng bất mãn (Detractor) và tăng chỉ số trung thành thương hiệu.",
+      approach: "Thiết kế CJM 6 giai đoạn: Chuẩn hóa điểm chạm kết hợp phân tích cảm xúc lời thoại/văn bản AI Sentiment Analytics và quy trình Closed-Loop.",
+      actions: [
+        { step: "Bước 1", title: "Vẽ Bản đồ Hành trình Khách hàng (CJM)", desc: "Xác định tất cả các điểm chạm và nỗi đau (pain-points) của người dùng." },
+        { step: "Bước 2", title: "Tích hợp AI Sentiment Analytics", desc: "Phân tích cảm xúc khách hàng thời gian thực qua văn bản và giọng nói." },
+        { step: "Bước 3", title: "Thiết lập Vòng lặp Phản hồi Closed-Loop", desc: "Xử lý ngay lập tức các phản hồi bất mãn của Detractors." },
+      ],
+      results: [
+        "Cứu vãn 85% khách hàng Detractor trong vòng 15 phút.",
+        "Xóa bỏ 100% việc lặp lại thông tin khi chuyển kênh.",
+        "Nâng chỉ số CSAT chung toàn hệ thống lên >96.5%.",
+      ],
+    },
+  },
+  // 8.4 - 3.2
+  {
+    id: "p3_2",
+    code: "1.3",
+    number: "8.4",
+    title: "1.3 · Quản trị dự án và cải tiến vận hành CSKH",
+    groupTitle: "Chiến lược & Cấu trúc Vận hành CSKH",
+    groupKey: "strategy",
+    description: "Điều hành trực tiếp các chuỗi dự án cải tiến hạ tầng và quy trình CSKH liên phòng ban theo phương pháp luận Agile/Kanban, kiểm soát tiến độ và khối lượng công việc WIP.",
+    phase: "Giai đoạn 3",
+    progressText: "Giai đoạn 3 - Đang triển khai (90%)",
+    progressPercent: 90,
+    role: "Project Manager / CS Project Lead",
+    hashtags: ["#CS_Strategy", "#ProjectManagement", "#Agile", "#Kanban", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070196/1.4._Qu%E1%BA%A3n_l%C3%BD_d%E1%BB%B1_%C3%A1n_CSKH.png",
+    mindmap: "https://i.ibb.co/4ZtQD8gK/1-4-Qu-n-l-d-n-CSKH.png",
+    quote: "Điều hành khoa học, tiến độ chuẩn xác, tối ưu giá trị vận hành.",
+    star: {
+      situation: "Các sáng kiến cải tiến dịch vụ thường xuyên trễ hạn, thiếu công cụ theo dõi tiến độ công khai và quản lý khối lượng công việc đang thực hiện (WIP). Thách thức cốt lõi là kiểm soát xung đột nguồn lực giữa vận hành hàng ngày và triển khai dự án, đảm bảo hoàn thành đúng tiến độ mà không phát sinh thêm chi phí.",
+      approach: "Áp dụng Agile/Kanban & Trực quan hóa công việc: Xây dựng Project Charter chuẩn chỉnh, quản lý luồng công việc minh bạch qua Trello/Jira để tối ưu thời gian hoàn thành (lead time).",
+      actions: [
+        { step: "Bước 1", title: "Thiết lập Project Charter & Phân định Mục tiêu", desc: "Xác định rõ phạm vi, mục tiêu, nguồn lực và kỳ vọng kết quả cho từng sáng kiến cải tiến." },
+        { step: "Bước 2", title: "Xây dựng Bảng Kanban trên Trello/Jira", desc: "Trực quan hóa luồng công việc từ Backlog, In Progress đến Done; thiết lập giới hạn công việc đang làm (WIP Limit)." },
+        { step: "Bước 3", title: "Vận hành Nhịp điều hành Daily Standup & Sprint Review", desc: "Họp nhanh hàng ngày để tháo gỡ điểm nghẽn và đánh giá tiến độ theo từng chu kỳ ngắn (Sprint)." },
+        { step: "Bước 4", title: "Kiểm soát Rủi ro & Xung đột Nguồn lực", desc: "Cân đối khối lượng công việc giữa ca trực vận hành và nhiệm vụ dự án để tránh quá tải nhân sự." },
+        { step: "Bước 5", title: "Báo cáo Tiến độ & Đánh giá Hiệu quả Giai đoạn", desc: "Cập nhật chỉ số hoàn thành công khai cho ban lãnh đạo và các bên liên quan." },
+        { step: "Bước 6", title: "Tổng kết Dự án & Chuẩn hóa Bài học Kinh nghiệm (Retrospective)", desc: "Đóng gói quy trình, chuyển giao tài sản tri thức cho đội ngũ vận hành dài hạn." },
+      ],
+      results: [
+        "Triển khai thành công 15+ dự án cải tiến liên phòng ban không trễ hạn.",
+        "Rút ngắn chu kỳ hoàn thành tính năng từ 60 ngày xuống 18 ngày (giảm 70% thời gian lead time).",
+        "Chuẩn hóa năng lực quản trị dự án dịch vụ, nâng cao tính linh hoạt cho toàn bộ phòng ban.",
+      ],
+    },
+  },
+  // 8.5 - 3.3
+  {
+    id: "p3_3",
+    code: "3.2",
+    number: "8.5",
+    title: "3.2 · Phân tích phản hồi và thúc đẩy cải tiến sản phẩm",
+    groupTitle: "Thiết kế Trải nghiệm Khách hàng (CX Design)",
+    groupKey: "cx",
+    description: "Xây dựng cầu nối tương tác dữ liệu giữa phòng CSKH, Product và IT Team nhằm định lượng các pain-point người dùng và thúc đẩy cải tiến sản phẩm.",
+    phase: "Giai đoạn 3",
+    progressText: "Giai đoạn 3 - Đang triển khai (82%)",
+    progressPercent: 82,
+    role: "Strategic VoC Lead",
+    hashtags: ["#CS_Strategy", "#VoiceOfCustomer", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070197/1.5._Th%C3%BAc_%C4%91%E1%BA%A9y_c%E1%BA%A3i_ti%E1%BA%BFn_s%E1%BA%A3n_ph%E1%BA%A9m.png",
+    mindmap: "https://i.ibb.co/Fk5Vd9bV/1-5-Th-c-y-c-i-ti-n-s-n-ph-m.png",
+    quote: "Lắng nghe tiếng nói thực địa, liên tục hoàn thiện sản phẩm.",
+    star: {
+      situation: "Phòng CSKH tiếp nhận rất nhiều phản hồi về lỗi sản phẩm nhưng dữ liệu này bị bỏ ngỏ, không được phản hồi lại cho khối Sản phẩm (Product) để cải tiến. Thách thức cốt lõi là phân loại và định lượng chính xác các 'pain-point' của người dùng để thuyết phục khối Sản phẩm ưu tiên xử lý các lỗi ảnh hưởng lớn nhất.",
+      approach: "Vòng lặp phản hồi VoC (Closed-Loop VoC): Gắn nhãn phân loại lỗi tự động trên CRM và tổ chức họp giao ban định kỳ tuần giữa CSKH và Product Team.",
+      actions: [
+        { step: "Bước 1", title: "Chuẩn hóa hệ thống nhãn lỗi VoC trên CRM", desc: "Phân loại chi tiết các nhóm sự cố theo tính năng và trải nghiệm người dùng." },
+        { step: "Bước 2", title: "Xây dựng Dashboard VoC định lượng thời gian thực", desc: "Theo dõi tần suất và mức độ ảnh hưởng của từng lỗi sản phẩm." },
+        { step: "Bước 3", title: "Vận hành cơ chế giao ban định kỳ CSKH - Product", desc: "Thống nhất danh sách ưu tiên cải tiến kỹ thuật theo từng chu kỳ Sprint." },
+      ],
+      results: [
+        "Khắc phục hơn 200 điểm nghẽn UX/UI trong năm.",
+        "Giảm 40% lượng ticket liên quan đến lỗi hệ thống.",
+        "Rút ngắn thời gian phát hiện lỗi diện rộng xuống <15 phút.",
+      ],
+    },
+  },
+  // 8.6 - 3.4
+  {
+    id: "p3_4",
+    code: "3.3",
+    number: "8.6",
+    title: "3.3 · Ứng phó khủng hoảng và kiểm soát khách hàng rời bỏ",
+    groupTitle: "Thiết kế Trải nghiệm Khách hàng (CX Design)",
+    groupKey: "cx",
+    description: "Xây dựng cơ chế phản ứng khẩn cấp cho Contact Center và phối hợp cùng PR/Pháp lý để xử lý gián đoạn hệ thống lớn, giảm tỷ lệ rời bỏ dịch vụ.",
+    phase: "Giai đoạn 3",
+    progressText: "Giai đoạn 3 - Đã hoàn thiện (100%)",
+    progressPercent: 100,
+    role: "Crisis Response Commander",
+    hashtags: ["#CSStrategy", "#CrisisManagement", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070199/1.6_Qu%E1%BA%A3n_l%C3%BD_kh%E1%BB%A7ng_ho%E1%BA%A3ng_v%C3%A0_gi%E1%BA%A3m_kh%C3%A1ch_h%C3%A0ng_r%E1%BB%9Di_b%E1%BB%8F.png",
+    mindmap: "https://i.ibb.co/nMJCLcjz/1-6-Qu-n-l-kh-ng-ho-ng-v-gi-m-kh-ch-h-ng-r-i-b.jpg",
+    quote: "Bản lĩnh trước sóng gió, bảo vệ trọn vẹn niềm tin thương hiệu.",
+    star: {
+      situation: "Các sự cố gián đoạn hệ thống lớn gây tràn tổng đài, nguy cơ bùng nổ khủng hoảng truyền thông và gia tăng tỷ lệ rời bỏ dịch vụ (Churn Rate). Thách thức cốt lõi là xử lý khối lượng cuộc gọi/tin nhắn tăng gấp 20 lần bình thường trong thời gian cực ngắn; ổn định tâm lý người dùng và giữ vững uy tín thương hiệu.",
+      approach: "Mô hình War-Room & Dự báo AI Churn: Thiết lập phòng ứng phó khẩn cấp, đẩy thông báo tự động qua Smart IVR/App và ứng dụng thuật toán AI Churn Prediction để giữ chân nhóm rủi ro cao.",
+      actions: [
+        { step: "Bước 1", title: "Kích hoạt War-Room ứng phó sự cố trong 10 phút", desc: "Thống nhất thông điệp phát ngôn giữa CSKH, PR và Pháp lý." },
+        { step: "Bước 2", title: "Phát thông báo chủ động qua Smart IVR và App Push", desc: "Giảm áp lực nghẽn máy tổng đài bằng thông tin cập nhật tự động." },
+        { step: "Bước 3", title: "Triển khai kịch bản đền bù và chăm sóc nhóm rủi ro", desc: "Chủ động liên hệ tri ân và giải tỏa bất mãn cho nhóm khách hàng VIP/Detractor." },
+      ],
+      results: [
+        "Kích hoạt War-Room trong 10 phút; xử lý 100% sự cố lớn không để phát sinh khủng hoảng truyền thông.",
+        "Giảm 30% tỷ lệ rời bỏ dịch vụ sau sự cố lớn.",
+      ],
+    },
+  },
+  // 8.7 - 2.1
+  {
+    id: "p2_1",
+    code: "2.1",
+    number: "8.7",
+    title: "2.1 · Chuẩn hóa quy trình và tiêu chuẩn vận hành CSKH",
+    groupTitle: "Chuẩn hóa Quy trình & Vận hành Xuất sắc (SOP & Operational Excellence)",
+    groupKey: "sop",
+    description: "Xây dựng và hệ thống hóa 100% quy trình vận hành tiêu chuẩn (Visual SOP) trực quan cho toàn bộ các dịch vụ, rút ngắn thời gian Onboarding nhân sự.",
+    phase: "Giai đoạn 1",
+    progressText: "Giai đoạn 1 - Tiến độ: 90%",
+    progressPercent: 90,
+    role: "Process Standardizer",
+    hashtags: ["#CS_Operations", "#SOP", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070200/2.1._Chu%E1%BA%A9n_h%C3%B3a_quy_tr%C3%ACnh_CSKH.png",
+    mindmap: "https://i.ibb.co/F4TQSP1H/2-1-Chu-n-h-a-quy-tr-nh-CSKH.png",
+    quote: "Quy trình chuẩn hóa, vận hành mượt mà, chất lượng đồng nhất.",
+    star: {
+      situation: "Quy trình xử lý yêu cầu khách hàng phân tán, không nhất quán giữa các tuyến nhân viên, dẫn đến thời gian Onboarding nhân sự mới kéo dài. Thách thức cốt lõi là đóng gói hàng trăm kịch bản nghiệp vụ phức tạp thành định dạng trực quan, dễ tra cứu tức thì trong khi nhân viên đang thao tác hỗ trợ.",
+      approach: "Thư viện Visual SOP & Ma trận OLA/SLA: Thiết lập thư viện quy trình trực quan trên Notion/Confluence, xây dựng ma trận leo thang 3 tuyến và cam kết OLA liên phòng ban.",
+      actions: [
+        { step: "Bước 1", title: "Rà soát và hệ thống hóa toàn bộ luồng nghiệp vụ", desc: "Loại bỏ các thao tác thừa và đóng gói kịch bản dưới dạng sơ đồ luồng." },
+        { step: "Bước 2", title: "Số hóa thư viện quy trình Visual SOP", desc: "Tích hợp tìm kiếm thông minh 1-click cho nhân viên tuyến đầu." },
+        { step: "Bước 3", title: "Đào tạo và kiểm tra sát hạch quy trình tiêu chuẩn", desc: "Đảm bảo 100% nhân sự nắm vững và tuân thủ đồng bộ." },
+      ],
+      results: [
+        "100% nghiệp vụ được văn bản hóa; tra cứu kịch bản trong 5 giây.",
+        "Rút ngắn thời gian Onboarding từ 4 tuần xuống còn 10 ngày (tiết kiệm 65% chi phí đào tạo).",
+      ],
+    },
+  },
+  // 8.8 - 2.2
+  {
+    id: "p2_2",
+    code: "2.2",
+    number: "8.8",
+    title: "2.2 · Tích hợp và tối ưu hệ thống hỗ trợ đa kênh",
+    groupTitle: "Chuẩn hóa Quy trình & Vận hành Xuất sắc (SOP & Operational Excellence)",
+    groupKey: "sop",
+    description: "Hợp nhất các kênh tương tác (Hotline, Chat, Email, Social) về một không gian làm việc duy nhất (Single Agent Workspace), loại bỏ ma sát chuyển kênh.",
+    phase: "Giai đoạn 2",
+    progressText: "Giai đoạn 2 - Tiến độ: 100%",
+    progressPercent: 100,
+    role: "Omnichannel Operations Lead",
+    hashtags: ["#CS_Operations", "#OmniChannel", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070202/2.2._T%E1%BB%91i_%C6%B0u_h%C3%B3a_k%C3%AAnh_h%E1%BB%97_tr%E1%BB%A3.png",
+    mindmap: "https://i.ibb.co/hFBv9tcX/2-2-T-i-u-h-a-k-nh-h-tr.png",
+    quote: "Hợp nhất điểm chạm, trải nghiệm mượt mà, tối ưu chi phí.",
+    star: {
+      situation: "Các kênh tương tác (Hotline, Chat, Email, Social) hoạt động rời rạc; nhân viên phải chuyển đổi nhiều phần mềm gây tốn thời gian và dễ bỏ sót thông tin. Thách thức cốt lõi là đảm bảo độ trễ dữ liệu bằng 0 khi khách hàng chuyển từ kênh Chat sang Call; tối ưu hóa chi phí viễn thông và hạ tầng phần mềm.",
+      approach: "Nền tảng True Omnichannel & Định tuyến kỹ năng: Tích hợp giao diện làm việc hợp nhất (Zendesk/AICC) và phân bổ luồng xử lý thông minh theo Skill-based Routing.",
+      actions: [
+        { step: "Bước 1", title: "Hợp nhất hạ tầng dữ liệu và công cụ chăm sóc đa kênh", desc: "Đưa toàn bộ thông tin tương tác của khách hàng về một màn hình duy nhất." },
+        { step: "Bước 2", title: "Cấu hình quy tắc định tuyến cuộc gọi/ticket thông minh", desc: "Tự động kết nối khách hàng với đúng chuyên viên có kỹ năng phù hợp." },
+        { step: "Bước 3", title: "Tối ưu hóa giao diện và phím tắt thao tác cho Agent", desc: "Giảm thiểu thời gian nhấp chuột và phản hồi phản ánh của khách hàng." },
+      ],
+      results: [
+        "Tăng 140% năng suất tiếp nhận xử lý; giảm 35% chi phí cước viễn thông hàng tháng.",
+        "Nâng tỷ lệ đáp ứng SLA kênh Chat lên 99%.",
+      ],
+    },
+  },
+  // 8.9 - 4.3
+  {
+    id: "p2_3",
+    code: "4.3",
+    number: "8.9",
+    title: "4.3 · Tự động hóa quy trình CSKH bằng công nghệ RPA",
+    groupTitle: "Công nghệ, Dữ liệu & AI CSKH (CS Tech, Data & AI)",
+    groupKey: "tech",
+    description: "Tự động hóa các tác vụ thủ công lặp đi lặp lại như nhập liệu, đối soát giao dịch và hoàn tiền bằng RPA, giải phóng sức lao động cho Agent.",
+    phase: "Giai đoạn 3",
+    progressText: "Giai đoạn 3 - Tiến độ: 50%",
+    progressPercent: 50,
+    role: "Automation Champion",
+    hashtags: ["#CS_Operations", "#Automation", "#RPA", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070208/2.3._Tri%E1%BB%83n_khai_t%E1%BB%B1_%C4%91%E1%BB%99ng_h%C3%B3a_2.png",
+    mindmap: "https://i.ibb.co/KzLgL3YG/2-3-Tri-n-khai-t-ng-h-a.png",
+    quote: "Tự động hóa thao tác, giải phóng tư duy, nâng tầm giá trị.",
+    star: {
+      situation: "Nhân viên mất quá nhiều thời gian cho các tác vụ thủ công lặp đi lặp lại như nhập liệu, kiểm tra đối soát giao dịch và phân loại ticket. Thách thức cốt lõi là tích hợp phần mềm tự động hóa với hệ thống Core cũ mà không làm ảnh hưởng đến độ ổn định của dữ liệu giao dịch.",
+      approach: "Ứng dụng Robot RPA (UiPath) & Macro 1-Click: Tự động hóa luồng hoàn tiền, phân loại ticket tự động và tối ưu hóa thao tác xử lý cho chuyên viên.",
+      actions: [
+        { step: "Bước 1", title: "Rà soát các tác vụ thủ công có tần suất cao", desc: "Xác định nghiệp vụ hoàn tiền và đối soát tài chính cần tự động hóa." },
+        { step: "Bước 2", title: "Lập trình Robot RPA xử lý quy trình đối soát tự động", desc: "Kết nối an toàn giữa hệ thống CRM và Core Banking." },
+        { step: "Bước 3", title: "Triển khai kịch bản Auto-ticketing và Macro thao tác 1-click", desc: "Giảm thiểu thời gian nhập liệu thủ công của Agent." },
+      ],
+      results: [
+        "Tự động hóa 70% thao tác lặp lại; rút ngắn thời gian xử lý hoàn tiền từ 48 giờ xuống 90 giây.",
+        "Giảm 50% sai sót do yếu tố con người.",
+      ],
+    },
+  },
+  // 8.10 - 2.4
+  {
+    id: "p2_4",
+    code: "2.3",
+    number: "8.10",
+    title: "2.3 · Điều hành chiến dịch Outbound chăm sóc khách hàng",
+    groupTitle: "Chuẩn hóa Quy trình & Vận hành Xuất sắc (SOP & Operational Excellence)",
+    groupKey: "sop",
+    description: "Thiết kế kịch bản, quản trị dữ liệu cuộc gọi và điều hành các chiến dịch tiếp cận chủ động (Welcome Call, NPS, Win-back) nhằm giữ chân người dùng.",
+    phase: "Giai đoạn 3",
+    progressText: "Giai đoạn 3 - Tiến độ: 100%",
+    progressPercent: 100,
+    role: "Outbound Campaign Manager",
+    hashtags: ["#CS_Operations", "#OutboundCS", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070210/2.4._Qu%E1%BA%A3n_l%C3%BD_chi%E1%BA%BFn_d%E1%BB%8Bch_Outbound.png",
+    mindmap: "https://i.ibb.co/4nt76fLN/2-4-Qu-n-l-chi-n-d-ch-Outbound.png",
+    quote: "Chủ động kết nối, thấu hiểu nhu cầu, gia tăng gắn kết.",
+    star: {
+      situation: "Doanh nghiệp cần các chiến dịch chủ động tiếp cận người dùng để chào đón (Welcome Call), khảo sát độ hài lòng và tái kích hoạt người dùng rời bỏ. Thách thức cốt lõi là nâng cao tỷ lệ bắt máy thành công, tối ưu năng suất quay số và tránh gây phiền hà cho khách hàng.",
+      approach: "Predictive Auto-Dialer & Phân tập hành vi: Triển khai hệ thống quay số tự động, phân tập dữ liệu khách hàng theo hành vi và chuẩn hóa kịch bản cuộc gọi theo cảm xúc.",
+      actions: [
+        { step: "Bước 1", title: "Phân tập dữ liệu khách hàng mục tiêu theo hành vi", desc: "Lọc danh sách người dùng mới, người dùng có dấu hiệu rời bỏ hoặc cần tri ân." },
+        { step: "Bước 2", title: "Xây dựng kịch bản chăm sóc tinh tế không mang tính chèo kéo", desc: "Tập trung lắng nghe trải nghiệm và giải quyết thắc mắc tồn đọng." },
+        { step: "Bước 3", title: "Vận hành quay số tự động Predictive Dialer tối ưu tỷ lệ kết nối", desc: "Nâng cao hiệu suất kết nối và giảm thời gian chờ của Agent." },
+      ],
+      results: [
+        "Tăng năng suất lên 165 cuộc kết nối/Agent/ngày; tỷ lệ kết nối thành công đạt 88.5%.",
+        "Tái kích hoạt thành công 18% người dùng ngừng hoạt động.",
+      ],
+    },
+  },
+
+  // 8.11 - 2.4
+  {
+    id: "p2_5",
+    code: "2.4",
+    number: "8.11",
+    title: "2.4 · Quản trị chất lượng và hiệu quả đối tác BPO",
+    groupTitle: "Chuẩn hóa Quy trình & Vận hành Xuất sắc (SOP & Operational Excellence)",
+    groupKey: "sop",
+    description: "Thiết lập khung quản trị chất lượng, KPIs và quy trình phối hợp cho các đối tác thuê ngoài (BPO), đảm bảo chất lượng dịch vụ đồng nhất.",
+    phase: "Giai đoạn 3",
+    progressText: "Giai đoạn 3 - Tiến độ: 85%",
+    progressPercent: 85,
+    role: "BPO Governance Lead",
+    hashtags: ["#BPO", "#QualityManagement", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070210/2.4._Qu%E1%BA%A3n_l%C3%BD_chi%E1%BA%BFn_d%E1%BB%8Bch_Outbound.png",
+    mindmap: "https://i.ibb.co/4nt76fLN/2-4-Qu-n-l-chi-n-d-ch-Outbound.png",
+    quote: "Quản trị minh bạch, đối tác đồng hành, chất lượng vượt trội.",
+    star: {
+      situation: "Chất lượng dịch vụ của đối tác BPO không đồng nhất với đội ngũ nội bộ; thiếu cơ chế kiểm soát hiệu quả và quy trình phối hợp xử lý sự cố. Thách thức cốt lõi là xây dựng bộ tiêu chuẩn đánh giá chung và hệ thống báo cáo tích hợp để theo dõi hiệu suất đối tác thời gian thực.",
+      approach: "Khung quản trị BPO 360°: Thiết lập SLA/KPI nghiêm ngặt, quy trình Calibration chéo và Dashboard giám sát tập trung.",
+      actions: [
+        { step: "Bước 1", title: "Xây dựng bộ tiêu chuẩn chất lượng và KPIs cho BPO", desc: "Đảm bảo các chỉ số đo lường tương đồng với đội ngũ nội bộ." },
+        { step: "Bước 2", title: "Triển khai quy trình Calibration định kỳ", desc: "Hiệu chuẩn kết quả chấm điểm chất lượng giữa QA nội bộ và QA đối tác." },
+        { step: "Bước 3", title: "Tích hợp dữ liệu báo cáo vận hành BPO", desc: "Theo dõi hiệu suất thực tế trên Dashboard tập trung của doanh nghiệp." },
+      ],
+      results: [
+        "Nâng tỷ lệ tuân thủ chất lượng của đối tác lên >92%.",
+        "Giảm 25% thời gian phối hợp xử lý khiếu nại liên quan đến đối tác.",
+      ],
+    },
+  },
+
+  // 8.12 - 4.1
+  {
+    id: "p4_1",
+    code: "4.1",
+    number: "8.12",
+    title: "4.1 · Xây dựng nền tảng CRM và hồ sơ khách hàng 360",
+    groupTitle: "Công nghệ, Dữ liệu & AI CSKH (CS Tech, Data & AI)",
+    groupKey: "tech",
+    description: "Kiến trúc và thiết kế luồng dữ liệu CRM tập trung (MoMo Admin/Finviet CRM) phục vụ >5 triệu tài khoản, xây dựng hồ sơ khách hàng 360 độ.",
+    phase: "Giai đoạn 2",
+    progressText: "Giai đoạn 2 - Tiến độ: 100%",
+    progressPercent: 100,
+    role: "CRM Product Owner & Architect",
+    hashtags: ["#CS_TechData", "#CRM", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070278/3.1._X%C3%A2y_d%E1%BB%B1ng_h%E1%BB%87_th%E1%BB%91ng_CRM.png",
+    mindmap: "https://i.ibb.co/Xxgqd4Rn/3-1-X-y-d-ng-h-th-ng-CRM.png",
+    quote: "Dữ liệu tập trung, thấu hiểu khách hàng, hỗ trợ tức thì.",
+    star: {
+      situation: "Dữ liệu thông tin và lịch sử giao dịch khách hàng phân tán ở nhiều hệ thống riêng biệt, Agent tốn nhiều thời gian tra cứu khi hỗ trợ. Thách thức cốt lõi là tích hợp API thời gian thực với Core Banking, hệ thống máy chủ ứng dụng và mạng tổng đài telephony mà vẫn bảo mật thông tin tuyệt đối.",
+      approach: "Hồ sơ 360 độ & CTI Screen Pop-up: Xây dựng giao diện xem thông tin khách hàng tập trung và tự động bật popup cuộc gọi đến gắn kèm thông tin tài khoản.",
+      actions: [
+        { step: "Bước 1", title: "Khảo sát luồng dữ liệu và thiết kế kiến trúc CRM 360 độ", desc: "Gom toàn bộ dữ liệu lịch sử giao dịch và ticket hỗ trợ về một nền tảng." },
+        { step: "Bước 2", title: "Tích hợp CTI Pop-up cuộc gọi đến và phân quyền truy cập", desc: "Đảm bảo an toàn bảo mật thông tin tài chính người dùng." },
+        { step: "Bước 3", title: "Đào tạo Agent thao tác CRM mới và tối ưu quy trình tra cứu", desc: "Rút ngắn tối đa thời gian thao tác màn hình trong khi thoại." },
+      ],
+      results: [
+        "Giảm 65% thời gian tra cứu thông tin của Agent; giảm thời gian xử lý cuộc gọi (AHT) 40 giây/cuộc.",
+        "Tăng 30% năng suất giải quyết ticket/ngày.",
+      ],
+    },
+  },
+  // 8.13 - 4.2
+  {
+    id: "p4_2",
+    code: "4.2",
+    number: "8.13",
+    title: "4.2 · Phân tích dữ liệu và xây dựng báo cáo BI",
+    groupTitle: "Công nghệ, Dữ liệu & AI CSKH (CS Tech, Data & AI)",
+    groupKey: "tech",
+    description: "Xây dựng hệ thống báo cáo phân tích dữ liệu vận hành tự động (Power BI/Tableau) và Realtime Command Center Wallboard cho C-Level và Quản lý ca.",
+    phase: "Giai đoạn 2",
+    progressText: "Giai đoạn 2 - Tiến độ: 100%",
+    progressPercent: 100,
+    role: "BI System Lead",
+    hashtags: ["#CS_TechData", "#Insight", "#PowerBI", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070280/3.2._Ph%C3%A2n_t%C3%ADch_B%C3%A1o_c%C3%A1o.png",
+    mindmap: "https://i.ibb.co/cj0W4bJ/3-2-Ph-n-t-ch-B-o-c-o.png",
+    quote: "Số liệu minh bạch, quyết định tức thì, vận hành chủ động.",
+    star: {
+      situation: "Việc lập báo cáo vận hành thủ công bằng file Excel gây mất thời gian, độ trễ cao và dễ phát sinh sai sót số liệu khi gửi C-Level. Thách thức cốt lõi là gom tự động dữ liệu từ nhiều nguồn (Call, Chat, Ticket, CSAT) và hiển thị trực quan theo thời gian thực phục vụ điều hành ca kíp.",
+      approach: "Realtime Command Center & Executive Dashboard: Số hóa toàn bộ đường ống dữ liệu, xây dựng màn hình giám sát ca kíp và báo cáo C-Level tự động.",
+      actions: [
+        { step: "Bước 1", title: "Kết nối đường ống dữ liệu tự động từ CRM, Telephony và Chat", desc: "Loại bỏ hoàn toàn công đoạn tổng hợp Excel thủ công." },
+        { step: "Bước 2", title: "Xây dựng màn hình Wallboard giám sát ca kíp theo thời gian thực", desc: "Cảnh báo ngay lập tức các chỉ số nghẽn lệnh hoặc vi phạm SLA." },
+        { step: "Bước 3", title: "Thiết kế Báo cáo BI Executive dành riêng cho C-Level", desc: "Trực quan hóa hiệu quả chi phí và chỉ số hài lòng khách hàng." },
+      ],
+      results: [
+        "Tự động hóa 100% báo cáo; xóa bỏ hoàn toàn việc làm báo cáo Excel thủ công hằng tuần.",
+        "Tiết kiệm 15 giờ/tuần cho cấp quản lý.",
+      ],
+    },
+  },
+  // 8.14 - 4.3
+  {
+    id: "p4_3",
+    code: "3.4",
+    number: "8.14",
+    title: "3.4 · Đo lường trải nghiệm qua CSAT, NPS và CES",
+    groupTitle: "Thiết kế Trải nghiệm Khách hàng (CX Design)",
+    groupKey: "cx",
+    description: "Xây dựng hệ thống đo lường trải nghiệm CSAT/NPS/CES tự động 1-click đa kênh và luồng xử lý Closed-Loop cho Detractor trong 60 phút.",
+    phase: "Giai đoạn 3",
+    progressText: "Giai đoạn 3 - Tiến độ: 80%",
+    progressPercent: 80,
+    role: "VoC Program Manager",
+    hashtags: ["#CS_TechData", "#Survey", "#CSAT", "#NPS", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070281/3.3._Kh%E1%BA%A3o_s%C3%A1t_%C4%90%C3%A1nh_gi%C3%A1_kh%C3%A1ch_h%C3%A0ng.jpg",
+    mindmap: "https://i.ibb.co/wFmLP6wQ/3-3-Kh-o-s-t-nh-gi-kh-ch-h-ng.png",
+    quote: "Lắng nghe đo lường, phản hồi kịp thời, giữ trọn niềm tin.",
+    star: {
+      situation: "Tỷ lệ khách hàng phản hồi khảo sát thấp; câu hỏi chưa tối ưu; thiếu công cụ tự động theo dõi và giải quyết phản hồi tiêu cực. Thách thức cốt lõi là gia tăng tỷ lệ hoàn thành khảo sát của người dùng mà không gây phiền thoái; tự động hóa luồng xử lý thông tin phản hồi bất mãn.",
+      approach: "Khảo sát 1-Click & AI Text Analytics: Tự động gửi khảo sát siêu ngắn sau giao dịch, ứng dụng AI phân tích ý kiến đóng góp và kích hoạt quy trình gán ticket tự động cho Detractor.",
+      actions: [
+        { step: "Bước 1", title: "Thiết kế bộ khảo sát 1-click tối giản ngay sau giao dịch", desc: "Tối ưu trải nghiệm đánh giá cho người dùng trên App/Web/SMS." },
+        { step: "Bước 2", title: "Tích hợp AI Sentiment phân tích nội dung đóng góp", desc: "Tự động trích xuất các từ khóa bất mãn cốt lõi." },
+        { step: "Bước 3", title: "Vận hành luồng xử lý Closed-Loop cho điểm số thấp", desc: "Tự động tạo ticket cấp bách gán cho Quản lý phản hồi trong 60 phút." },
+      ],
+      results: [
+        "Thu thập hơn 50,000 lượt khảo sát/tháng (tỷ lệ phản hồi tăng từ 5% lên 28%).",
+        "Xử lý dứt điểm 90% các phản ánh không hài lòng trong ngày.",
+      ],
+    },
+  },
+  // 8.15 - 4.4
+  {
+    id: "p4_4",
+    code: "4.4",
+    number: "8.15",
+    title: "4.4 · Phát triển Chatbot và Voicebot AI đa kênh",
+    groupTitle: "Công nghệ, Dữ liệu & AI CSKH (CS Tech, Data & AI)",
+    groupKey: "tech",
+    description: "Triển khai giải pháp Trợ lý ảo AI Bot (Generative AI & RAG) hỗ trợ tự động trả lời 24/7/365, giảm tải cho nhân viên tổng đài.",
+    phase: "Giai đoạn 3",
+    progressText: "Giai đoạn 3 - Đang triển khai mở rộng",
+    progressPercent: 75,
+    role: "AI Product Owner",
+    hashtags: ["#CS_TechData", "#Chatbot", "#AI", "#RAG", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070283/3.4._X%C3%A2y_d%E1%BB%B1ng_AI_Bot.png",
+    mindmap: "https://i.ibb.co/Z658Pr76/3-4-X-y-d-ng-AI-Bot.png",
+    quote: "Trợ lý AI thông minh, hỗ trợ tức thì 24/7, tối ưu nguồn lực.",
+    star: {
+      situation: "Lượng tin nhắn/cuộc gọi hỏi nghiệp vụ đơn giản dồn về quá lớn gây quá tải cho Agent, làm tăng thời gian chờ của khách hàng có ca khẩn cấp. Thách thức cốt lõi là đảm bảo AI trả lời chính xác, tránh hiện tượng 'ảo giác' (Hallucination) thông tin; chuyển giao cuộc gọi mượt mà cho con người khi quá tầm xử lý của Bot.",
+      approach: "Generative AI & Kiến trúc RAG chống ảo giác: Tích hợp cơ sở tri thức nội bộ chuẩn xác, ứng dụng NLP tiếng Việt và thiết lập cơ chế Human Handoff thông minh.",
+      actions: [
+        { step: "Bước 1", title: "Số hóa và nạp dữ liệu kho tri thức FAQ chuẩn hóa cho AI", desc: "Đảm bảo AI chỉ truy xuất thông tin chính thống từ doanh nghiệp." },
+        { step: "Bước 2", title: "Cấu hình kịch bản chuyển giao cuộc gọi/chat cho con người (Human Handoff)", desc: "Chuyển cuộc hội thoại mượt mà khi phát hiện cảm xúc tiêu cực hoặc yêu cầu phức tạp." },
+        { step: "Bước 3", title: "Kiểm thử và tinh chỉnh mô hình phản hồi theo ngôn ngữ tự nhiên", desc: "Đảm bảo câu trả lời tự nhiên, thân thiện và chính xác nghiệp vụ." },
+      ],
+      results: [
+        "Tự động xử lý hơn 180,000 lượt yêu cầu/tháng; giảm 60% tin nhắn dồn về nhân viên.",
+        "Giải phóng 35% ngân sách nhân sự tổng đài.",
+      ],
+    },
+  },
+  // 8.16 - 5.1
+  {
+    id: "p5_1",
+    code: "5.1",
+    number: "8.16",
+    title: "5.1 · Phát triển CS Academy và hệ thống đào tạo trực tuyến",
+    groupTitle: "Đào tạo, Phát triển & Văn hóa Dịch vụ (CS Learning & Culture)",
+    groupKey: "learning",
+    description: "Xây dựng Học viện Đào tạo trực tuyến CS Academy LMS với >85 module Micro-learning, mô phỏng cuộc gọi và sát hạch tự động.",
+    phase: "Giai đoạn 3",
+    progressText: "Giai đoạn 3 - Tiến độ: 100%",
+    progressPercent: 100,
+    role: "Head of CS Academy",
+    hashtags: ["#CS_Learning", "#CSAcademy", "#LMS", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070284/4.1._Ph%C3%A1t_tri%E1%BB%83n_%C4%91%C3%A0o_t%E1%BA%A1o_tr%E1%BB%B1c_tuy%E1%BA%BFn.png",
+    mindmap: "https://i.ibb.co/0yDjkH17/4-1-Ph-t-tri-n-o-t-o-tr-c-tuy-n.png",
+    quote: "Đào tạo chủ động, kiến thức vững vàng, tự tin phục vụ.",
+    star: {
+      situation: "Đào tạo tập trung truyền thống tốn nhiều chi phí, thời gian và khó đảm bảo tính cập nhật liên tục khi nghiệp vụ thay đổi hàng tuần. Thách thức cốt lõi là số hóa toàn bộ bài giảng nghiệp vụ thành các bài học nhỏ (Micro-learning) hấp dẫn và đo lường chính xác kết quả học tập của nhân viên.",
+      approach: "Micro-learning LMS & Mô phỏng tương tác: Xây dựng >85 bài học ngắn, áp dụng công cụ mô phỏng cuộc gọi và chấm điểm bài sát hạch tự động trước khi nhận ca.",
+      actions: [
+        { step: "Bước 1", title: "Thiết kế khung chương trình đào tạo chuẩn hóa CS Academy", desc: "Chia nhỏ bài giảng thành các module Micro-learning 5-10 phút." },
+        { step: "Bước 2", title: "Xây dựng hệ thống bài tập mô phỏng cuộc gọi và xử lý chat", desc: "Tạo môi trường thực hành ảo sát với thực tế vận hành." },
+        { step: "Bước 3", title: "Tự động hóa kiểm tra sát hạch và cấp chứng chỉ nội bộ", desc: "Đảm bảo 100% nhân sự đạt chuẩn chất lượng trước khi go-live." },
+      ],
+      results: [
+        "Rút ngắn thời gian Onboarding nhân sự mới từ 28 ngày xuống còn 9 ngày.",
+        "100% nhân viên đạt chứng chỉ nghiệp vụ trước khi chính thức tiếp nhận cuộc gọi.",
+      ],
+    },
+  },
+  // 8.17 - 5.2
+  {
+    id: "p5_2",
+    code: "5.2",
+    number: "8.17",
+    title: "5.2 · Xây dựng khung năng lực ASK và lộ trình nghề nghiệp",
+    groupTitle: "Đào tạo, Phát triển & Văn hóa Dịch vụ (CS Learning & Culture)",
+    groupKey: "learning",
+    description: "Thiết lập Khung năng lực ASK và Lộ trình thăng tiến kép (Dual Career Path), nâng cao sự gắn kết nhân sự và đào tạo lãnh đạo kế thừa.",
+    phase: "Giai đoạn 2",
+    progressText: "Giai đoạn 2 - Đã hoàn thiện (100%)",
+    progressPercent: 100,
+    role: "People & Culture CS Lead",
+    hashtags: ["#CSLearning", "#CareerPath", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070287/4.2_X%C3%A2y_d%E1%BB%B1ng_khung_n%C4%83ng_l%E1%BB%B1c_v%C3%A0_l%E1%BB%99_tr%C3%ACnh_ph%C3%A1t_tri%E1%BB%83n.png",
+    mindmap: "https://i.ibb.co/kVtqcFW8/4-2-X-y-d-ng-khung-n-ng-l-c-v-l-tr-nh-ph-t-tri-n.png",
+    quote: "Lộ trình rõ ràng, phát triển bản thân, gắn kết bền vững.",
+    star: {
+      situation: "Tỷ lệ xoay dòng nhân sự (Attrition Rate) trong ngành CSKH cao do thiếu lộ trình thăng tiến rõ ràng và khung tiêu chí đánh giá năng lực minh bạch. Thách thức cốt lõi là xây dựng tiêu chí đánh giá khách quan, tạo động lực phát triển cho cả nhóm hướng theo Quản lý lẫn nhóm định hướng Chuyên gia kỹ thuật.",
+      approach: "Lộ trình thăng tiến kép (Dual Career Path): Phân định 2 nhánh phát triển (Quản lý vs Chuyên gia), chuẩn hóa ma trận ASK và mã hóa tiêu chí đánh giá trên hệ thống HRM.",
+      actions: [
+        { step: "Bước 1", title: "Chuẩn hóa Khung năng lực ASK cho từng cấp bậc nhân sự", desc: "Bao gồm Thái độ (Attitude), Kỹ năng (Skill) và Kiến thức (Knowledge)." },
+        { step: "Bước 2", title: "Xây dựng sơ đồ Lộ trình thăng tiến kép minh bạch", desc: "Cho phép nhân sự lựa chọn phát triển theo hướng Quản lý hoặc Chuyên gia." },
+        { step: "Bước 3", title: "Vận hành chương trình Đào tạo Lãnh đạo Kế thừa", desc: "Bồi dưỡng các nhân sự tiềm năng lên các vị trí quản lý cấp trung." },
+      ],
+      results: [
+        "100% nhân viên có lộ trình thăng tiến rõ ràng; giảm tỷ lệ nghỉ việc xuống <3%.",
+        "85% vị trí quản lý cấp trung được bổ nhiệm từ nguồn nội bộ.",
+      ],
+    },
+  },
+  // 8.18 - 5.3
+  {
+    id: "p5_3",
+    code: "5.3",
+    number: "8.18",
+    title: "5.3 · Xây dựng trung tâm hỗ trợ khách hàng tự phục vụ",
+    groupTitle: "Đào tạo, Phát triển & Văn hóa Dịch vụ (CS Learning & Culture)",
+    groupKey: "learning",
+    description: "Xây dựng Trung tâm Hỗ trợ Tự phục vụ (Self-Service Help Center) tập trung, biên soạn >650 bài viết FAQ chuẩn SEO giúp người dùng tự tra cứu.",
+    phase: "Giai đoạn 2",
+    progressText: "Giai đoạn 2 - Tiến độ: 70%",
+    progressPercent: 70,
+    role: "Helpdesk & Knowledge Manager",
+    hashtags: ["#CS_SelfService", "#HelpDesk", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070288/5.1._Th%C3%A0nh_l%E1%BA%ADp_trung_t%C3%A2m_h%E1%BB%97_tr%E1%BB%A3.png",
+    mindmap: "https://i.ibb.co/BVc2W8bJ/5-1-Th-nh-l-p-trung-t-m-h-tr.png",
+    quote: "Tự phục vụ thông minh, chủ động giải đáp, nâng tầm trải nghiệm.",
+    star: {
+      situation: "Khách hàng khó khăn trong việc tự tìm kiếm thông tin hướng dẫn dịch vụ; số lượng ticket lặp lại về cùng một chủ đề quá cao. Thách thức cốt lõi là biên soạn và cấu trúc kho tri thức khổng lồ sao cho chuẩn SEO, dễ hiểu và tích hợp công cụ tìm kiếm thông minh.",
+      approach: "Self-Service Help Center & AI Search: Chuẩn hóa kho bài viết hướng dẫn, tích hợp công cụ tìm kiếm AI Search và cổng tra cứu trạng thái Ticket tự động 24/7.",
+      actions: [
+        { step: "Bước 1", title: "Tối ưu hóa nội dung kho bài viết FAQ chuẩn SEO", desc: "Đảm bảo dễ tìm kiếm và dễ hiểu cho người dùng." },
+        { step: "Bước 2", title: "Tích hợp công cụ tìm kiếm AI Search trên Help Center", desc: "Gợi ý chính xác bài viết theo từ khóa người dùng gõ." },
+        { step: "Bước 3", title: "Xây dựng cổng tra cứu trạng thái Ticket tự động 24/7", desc: "Giúp khách hàng chủ động theo dõi tiến độ xử lý yêu cầu." },
+      ],
+      results: [
+        "Phục vụ hơn 800,000 lượt xem trang/tháng; đạt tỷ lệ tự giải quyết (Ticket Deflection) 45%.",
+        "Giảm đáng kể chi phí phục vụ (Cost-to-Serve).",
+      ],
+    },
+  },
+  // 8.19 - 5.4
+  {
+    id: "p5_4",
+    code: "3.5",
+    number: "8.19",
+    title: "3.5 · Xây dựng văn hóa khách hàng và chuẩn chất lượng COPC",
+    groupTitle: "Thiết kế Trải nghiệm Khách hàng (CX Design)",
+    groupKey: "cx",
+    description: "Triển khai khung quản trị chất lượng TQA chuẩn COPC quốc tế cho đội ngũ >300 nhân sự, thẩm thấu văn hóa Customer-Centric vào vận hành.",
+    phase: "Xuyên suốt",
+    progressText: "Xuyên suốt - Tiến độ: 82%",
+    progressPercent: 82,
+    role: "Quality Assurance Director",
+    hashtags: ["#CustomerCentric", "#Culture", "#TQA", "#COPC", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070290/6.1._Kh%C3%A1ch_h%C3%A0ng_l%C3%A0_trung_t%C3%A2m.png",
+    mindmap: "https://i.ibb.co/ccxHsCYw/6-1-Kh-ch-h-ng-l-trung-t-m.png",
+    quote: "Tiêu chuẩn quốc tế, chất lượng đồng nhất, tận tâm phụng sự.",
+    star: {
+      situation: "Hoạt động đánh giá chất lượng dịch vụ (QA) thiếu chuẩn mực quốc tế, chấm điểm chủ quan và chưa phản ánh đúng cảm nhận thực tế của khách hàng. Thách thức cốt lõi là thống nhất tiêu chí đánh giá chất lượng giữa các QA; chuyển đổi tư duy của Agent từ 'bị bắt lỗi' sang 'được đồng hành phát triển'.",
+      approach: "Khung TQA chuẩn COPC & Chu kỳ Calibration: Chuẩn hóa 100% mẫu biểu đánh giá theo chuẩn COPC, tổ chức hiệu chuẩn chéo hằng tuần và tích hợp phần mềm chấm điểm tự động.",
+      actions: [
+        { step: "Bước 1", title: "Chuẩn hóa bộ tiêu chí TQA đánh giá cuộc gọi/chat theo chuẩn COPC", desc: "Bảo đảm tính khách quan và đo lường chính xác trải nghiệm." },
+        { step: "Bước 2", title: "Tổ chức các buổi hiệu chuẩn (Calibration) định kỳ tuần giữa các QA", desc: "Giảm thiểu độ lệch chấm điểm giữa các giám sát viên." },
+        { step: "Bước 3", title: "Vận hành cơ chế phản hồi và huấn luyện (Coaching) đồng hành", desc: "Giúp Agent nhận rõ điểm cần cải thiện một cách tích cực." },
+      ],
+      results: [
+        "Độ lệch chấm điểm chéo giảm xuống <2.5%; điểm chất lượng QA Score toàn diện đạt >95%.",
+        "Giảm 30% tỷ lệ khiếu nại về thái độ tư vấn.",
+      ],
+    },
+  },
+  // 8.20 - 5.5
+  {
+    id: "p5_5",
+    code: "2.5",
+    number: "8.20",
+    title: "2.5 · Quản trị thay đổi và ứng phó khủng hoảng dịch vụ",
+    groupTitle: "Chuẩn hóa Quy trình & Vận hành Xuất sắc (SOP & Operational Excellence)",
+    groupKey: "sop",
+    description: "Quản trị sự thay đổi và ứng phó biến động cho toàn bộ khối dịch vụ khách hàng, thiết lập Ma trận cảnh báo sớm 4 cấp độ.",
+    phase: "Xuyên suốt",
+    progressText: "Xuyên suốt - Đã hoàn thiện (100%)",
+    progressPercent: 100,
+    role: "Change Management Lead",
+    hashtags: ["#CustomerCentric", "#CrisisManagement", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070291/6.2_Qu%E1%BA%A3n_tr%E1%BB%8B_s%E1%BB%B1_thay_%C4%91%E1%BB%95i_v%C3%A0_kh%E1%BB%A7ng_ho%E1%BA%A3ng_d%E1%BB%8Bch_v%E1%BB%A5.png",
+    mindmap: "https://i.ibb.co/xq60FfQk/6-2-Qu-n-tr-s-thay-i-v-kh-ng-ho-ng-d-ch-v.png",
+    quote: "Chủ động thích ứng, thông tin minh bạch, biến đổi thành công.",
+    star: {
+      situation: "Sự thay đổi chính sách dịch vụ hoặc hệ thống nâng cấp đột xuất gây bối rối cho nhân viên và bất an cho khách hàng. Thách thức cốt lõi là truyền thông thông suốt, kịp thời về các thay đổi chính sách để không gây ra phản ứng tiêu cực từ thị trường.",
+      approach: "Ma trận cảnh báo 4 cấp độ & Holding Statements: Thiết lập cơ chế cảnh báo sớm và chuẩn hóa bộ thông điệp phát ngôn đồng nhất trong 15 phút khi xảy ra biến động.",
+      actions: [
+        { step: "Bước 1", title: "Xây dựng Ma trận cảnh báo rủi ro biến động dịch vụ 4 cấp độ", desc: "Giúp đội ngũ chủ động phương án ứng phó theo kịch bản sẵn có." },
+        { step: "Bước 2", title: "Chuẩn hóa bộ Holding Statements truyền thông đồng nhất trong 15 phút", desc: "Đảm bảo thông tin chính xác, không mâu thuẫn trên mọi kênh." },
+        { step: "Bước 3", title: "Đào tạo cập nhật kịch bản giải đáp khẩn cấp cho nhân viên tuyến đầu", desc: "Ổn định tâm lý làm việc của nhân sự trước các thay đổi lớn." },
+      ],
+      results: [
+        "Giải tỏa tức thời áp lực nghẽn máy tổng đài tăng 20 lần.",
+        "100% các đợt thay đổi chính sách diễn ra mượt mà, không phát sinh sự cố truyền thông.",
+      ],
+    },
+  },
+  // 8.21 - 5.6
+  {
+    id: "p5_6",
+    code: "4.5",
+    number: "8.21",
+    title: "4.5 · Ứng dụng AI Copilot và Auto-QA nâng cao hiệu suất",
+    groupTitle: "Công nghệ, Dữ liệu & AI CSKH (CS Tech, Data & AI)",
+    groupKey: "tech",
+    description: "Tiên phong ứng dụng AI Agent Copilot gợi ý câu trả lời và Speech-to-Text Auto-QA tự động chấm điểm 100% cuộc gọi toàn Contact Center.",
+    phase: "Xuyên suốt",
+    progressText: "Xuyên suốt - Tiên phong",
+    progressPercent: 95,
+    role: "AI Innovation Director",
+    hashtags: ["#CustomerCentric", "#GenerativeAI", "#AutoQA", "#STAR_CaseStudy"],
+    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070293/6.3_%E1%BB%A8ng_d%E1%BB%A5ng_tr%C3%AD_tu%E1%BB%87_nh%C3%A2n_t%E1%BA%A1o_n%C3%A2ng_cao_hi%E1%BB%87u_su%E1%BA%A5t_CSKH.png",
+    mindmap: "https://i.ibb.co/wFZ1qXFt/6-3-ng-d-ng-tr-tu-nh-n-t-o-n-ng-cao-hi-u-su-t-CSKH.png",
+    quote: "Trí tuệ nhân tạo, đột phá hiệu suất, quản trị toàn diện.",
+    star: {
+      situation: "Khối lượng cuộc gọi khổng lồ khiến việc kiểm tra chất lượng (QA) mẫu thủ công chỉ đạt <5% tổng số cuộc gọi, dễ bỏ sót rủi ro tuân thủ. Thách thức cốt lõi là chuyển đổi dữ liệu giọng nói tiếng Việt đa vùng miền thành văn bản chính xác và phân tích cảm xúc thời gian thực.",
+      approach: "AI Agent Copilot & Auto-QA Speech-to-Text: Gợi ý câu trả lời và tóm tắt cuộc gọi 1-click cho Agent, đồng thời tự động chấm điểm và phân tích cảm xúc 100% cuộc gọi.",
+      actions: [
+        { step: "Bước 1", title: "Triển khai AI Copilot trợ lý thời gian thực cho Agent", desc: "Gợi ý câu trả lời chuẩn xác và hỗ trợ tóm tắt nội dung cuộc gọi 1-click." },
+        { step: "Bước 2", title: "Tích hợp công nghệ Speech-to-Text tự động chấm điểm QA 100% cuộc gọi", desc: "Loại bỏ hoàn toàn điểm mù kiểm soát chất lượng dịch vụ." },
+        { step: "Bước 3", title: "Phân tích cảm xúc lời thoại thời gian thực để cảnh báo rủi ro", desc: "Hỗ trợ can thiệp kịp thời các ca bất mãn nghiêm trọng." },
+      ],
+      results: [
+        "Tăng 40% năng suất xử lý của Agent.",
+        "Tự động chấm điểm và phân tích cảm xúc >300,000 cuộc gọi/tháng (đạt tỷ lệ 100% thay vì 5% thủ công).",
+      ],
+    },
+  },
+];

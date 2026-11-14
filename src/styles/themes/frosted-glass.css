@@ -1,0 +1,31 @@
+/* ========================================================================= */
+/* THEME: FROSTED GLASS -> SOLID CLEAN SURFACES                              */
+/* ========================================================================= */
+
+html[data-card-style="frosted-glass"] {
+  --bg-blur: 0px;
+  --bg-header: var(--color-surface);
+  --bg-footer: var(--color-surface);
+  --bg-main: var(--color-bg);
+  --bg-card: var(--color-surface);
+  --bg-subcard: var(--color-surface-indigo);
+  --bg-nested-card: var(--color-bg);
+  --bg-button-primary: var(--color-indigo);
+  --bg-button-secondary: var(--color-border-soft);
+  --bg-popup: var(--color-surface);
+  --bg-modal: var(--color-surface);
+  --bg-dropdown: var(--color-surface);
+  --bg-navigation: var(--color-surface);
+  --bg-tab: var(--color-surface-indigo);
+  --bg-table: var(--color-surface);
+  --border-color: var(--color-border-soft);
+}
+
+html[data-card-style="frosted-glass"] #ai-assistant-droptop-menu-list,
+html[data-card-style="frosted-glass"] #ai-assistant-center-questions-modal,
+html[data-card-style="frosted-glass"] #interview-question-filter-listbox,
+html[data-card-style="frosted-glass"] #skills-filter-dropdown {
+  background: var(--color-surface) !important;
+  border-color: var(--color-border-soft) !important;
+}
+

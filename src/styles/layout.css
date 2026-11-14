@@ -1,0 +1,374 @@
+/* ========================================================================= */
+/* LAYOUT & RESPONSIVE RULES (WEBSITE ROOT, HEADER, FOOTER, VIEWPORT, GRID) */
+/* ========================================================================= */
+
+#global-content-viewport {
+  width: 100% !important;
+  max-width: 1250px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  flex: 1 1 0% !important;
+}
+
+#el-p5-div-1,
+#tab-content {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 100% !important;
+  flex: 1 1 0% !important;
+}
+
+/* Đồng bộ định dạng khung nền chuẩn cho toàn bộ 17 trang website theo wallpaper-page-container */
+[id$="-page-container"],
+[id$="-page-root"] {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 14px !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  box-sizing: border-box !important;
+}
+
+/* Thẻ hệ thống cách nhau 15px ở mọi kích thước màn hình */
+#systems-page-container .grid,
+#systems-page-container .system-flip-wrap,
+#systems-page-container [id^="systems-card-"],
+#systems-page-container [id^="system-card-"],
+#systems-page-container [id^="system-item-"],
+#systems-page-container [id^="system-expanded-card-"],
+.system-flip-wrap,
+.system-item {
+  gap: 15px !important;
+}
+
+#app-header {
+  width: 100% !important;
+  max-width: 1250px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-left-radius: 14px !important;
+  border-bottom-right-radius: 14px !important;
+}
+
+#app-footer {
+  width: 100% !important;
+  max-width: 1250px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  border-top-left-radius: 14px !important;
+  border-top-right-radius: 14px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  overflow: visible !important;
+  z-index: 50 !important;
+}
+
+#footer-nav-capsule {
+  border-radius: 999px !important;
+}
+
+[id^="system-card-bottom-"],
+[id^="service-card-title-"],
+[id^="service-card-desc-"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+:not([data-card-style]) #global-content-viewport,
+:not([data-card-style]) #global-content-viewport.glass-panel {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+@media (min-width: 1024px) {
+  #contact-page-container {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 15px !important;
+    align-items: stretch !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+
+  #contact-hero-banner {
+    width: 400px !important;
+    min-width: 400px !important;
+    max-width: 400px !important;
+    flex: 0 0 400px !important;
+    height: auto !important;
+    min-height: 100% !important;
+    max-height: none !important;
+    align-self: stretch !important;
+    overflow: hidden !important;
+  }
+
+  #contact-info-container {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+    align-self: stretch !important;
+  }
+
+  #ai-assistant-page-container {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow: hidden !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  #ai-assistant-hero-banner {
+    width: 400px !important;
+    min-width: 400px !important;
+    max-width: 400px !important;
+    flex: 0 0 400px !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+    align-self: stretch !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  #ai-assistant-chat-container {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+    align-self: stretch !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  #contact-page-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+  }
+
+  #contact-hero-banner,
+  #contact-info-container {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  #ai-assistant-page-container {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  #ai-assistant-hero-banner {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    box-sizing: border-box !important;
+  }
+
+  #ai-assistant-chat-container {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
+
+#el-p5-div-7 {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  flex: 1 1 0% !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 0 !important;
+}
+
+/* Ultra-wide (≥1920px) */
+@media (min-width: 1920px) {
+  #global-content-viewport,
+  #app-header,
+  #app-footer {
+    max-width: 1250px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* 4K Ultra-wide (≥2560px) */
+@media (min-width: 2560px) {
+  #global-content-viewport,
+  #app-header,
+  #app-footer {
+    max-width: 1250px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Small Mobile (≤430px) */
+@media (max-width: 640px) {
+  #website-root {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero-banner:not(#ai-assistant-vertical-banner):not(#experience-hero-banner):not(#contact-hero-banner) {
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 148px !important;
+    max-height: none !important;
+  }
+}
+
+/* Desktop & Laptop (≥1024px) Hero Banner Rules */
+@media (min-width: 1024px) {
+  .hero-banner:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner),
+  .banner-card:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner) {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 200px !important;
+    min-height: 200px !important;
+    max-height: 200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: 14px !important;
+    padding: 15px !important;
+  }
+
+  #projects-hero-banner {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 200px !important;
+    height: auto !important;
+    max-height: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: 14px !important;
+    padding: 15px !important;
+  }
+}
+
+/* Tablet & Mobile (<1024px) Hero Banner Rules */
+@media (max-width: 1023px) {
+  .hero-banner,
+  .banner-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 150px !important;
+    max-height: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: 14px !important;
+    padding: 12px 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  .hero-banner > div.relative.z-10:first-of-type,
+  .hero-banner #services-hero-banner-header,
+  .hero-banner #skills-hero-banner-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 4px !important;
+    width: 100% !important;
+  }
+
+  .hero-banner h1 {
+    font-size: var(--fs-h1) !important;
+    font-weight: var(--fw-bold) !important;
+    line-height: var(--lh-heading) !important;
+    white-space: normal !important;
+  }
+
+  .hero-banner p.font-italianno,
+  .hero-banner .banner-quote,
+  .hero-banner p.font-handwriting {
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    line-height: 1.25 !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  .hero-banner::after {
+    content: "" !important;
+    display: block !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.95) 0%, rgba(99, 102, 241, 0.9) 50%, rgba(244, 63, 94, 0.8) 100%) !important;
+    margin-top: 2px !important;
+    border-radius: 999px !important;
+    box-shadow: 0 1px 6px rgba(56, 189, 248, 0.6) !important;
+  }
+
+  .banner-bottom-controls,
+  #services-hero-banner-controls,
+  #skills-hero-banner-filter-row,
+  #projects-hero-banner-controls,
+  #wallpaper-hero-banner-controls,
+  #systems-hero-banner-controls,
+  #horoscope-hero-banner-controls,
+  #contact-hero-banner-controls {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+}
+
+
+
+/* Element size reduction (scoped strictly to #home-page-container so Header buttons are never scaled down) */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#home-page-container:nth-of-type(1) div#el-p0-div-16 {
+  transform: scale(0.5) !important;
+  transform-origin: center !important;
+}

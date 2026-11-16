@@ -243,7 +243,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const { isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
-  const isDark = themeIsDark || currentTheme === 'dark-neon';
+  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -623,7 +623,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         /* CHẾ ĐỘ LƯỚI (GRID VIEW) - NỀN TRONG SUỐT 50%, CÁC CARD CÁCH NHAU 15PX Ở MỌI KÍCH THƯỚC THIẾT BỊ */
         <div
           id="education-courses-grid"
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-[15px] items-stretch"
+          className="bento-grid-responsive grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch"
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
         >
           {filteredCourses.map((course, idx) => {
@@ -648,10 +648,10 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     handleOpenDetail(course);
                   }
                 }}
-                className="education-card bento-card glass-card bento-view-card group relative rounded-[14px] overflow-hidden p-[10px] flex flex-col justify-between border select-none transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer text-[var(--text-primary)]"
+                className="education-card bento-card glass-card bento-view-card group relative rounded-[14px] overflow-hidden p-[15px] flex flex-col justify-between border select-none transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer text-[var(--text-primary)]"
                 style={{
                   borderColor: `${cardColor}45`,
-                  padding: '10px',
+                  padding: '15px',
                   borderRadius: '14px',
                 }}
               >
@@ -704,7 +704,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   {/* 4. Thanh thông số thành tích/GPA hợp nhất vào một sub-card duy nhất */}
                   {course.result && (
                     <div 
-                      className="mt-auto p-2.5 rounded-[12px] border flex items-center gap-2 transition-colors shadow-xs"
+                      className="mt-auto p-[15px] rounded-[14px] border flex items-center gap-[15px] transition-colors shadow-xs"
                       style={{
                         backgroundColor: `${cardColor}10`,
                         borderColor: `${cardColor}30`,
@@ -863,7 +863,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             }}
             className="w-full bento-card glass-card bento-view-card p-[15px] sm:p-[20px] rounded-[20px] border shadow-lg flex flex-col gap-[15px] text-left font-play"
           >
-            {/* Master Header with Close Button */}
+            {/* Master Header */}
             <div className="flex items-center justify-between gap-2 pb-3 border-b border-[var(--border-subcard)]">
               <div className="card-header-sync flex items-center gap-2.5 min-w-0 text-blue-600 dark:text-sky-400" data-card-accent="blue">
                 <WebIcon name="graduation" className="w-5 h-5 text-blue-600 dark:text-sky-400 shrink-0" />
@@ -879,20 +879,20 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   SoundEngine.playTap();
                   setSelectedCourse(null);
                 }}
-                aria-label={isEn ? 'Close details' : 'Đóng chi tiết'}
-                className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95 shrink-0 shadow-xs"
-                title={isEn ? 'Close details (Esc)' : 'Đóng chi tiết (Esc)'}
+                className="w-8 h-8 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] hover:bg-[var(--bg-button-primary)] hover:text-white text-[var(--text-secondary)] flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-xs active:scale-95"
+                title={isEn ? "Close details" : "Đóng chi tiết"}
+                aria-label={isEn ? "Close details" : "Đóng chi tiết khóa học"}
               >
-                <WebIcon name="cancel" className="w-4 h-4" />
+                <WebIcon name="x" className="w-4 h-4" />
               </button>
             </div>
 
             {/* Inner Content Grid grouping the detail cards */}
             <div className="w-full grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-[15px] items-stretch content-start">
                 {/* 1. THÔNG TIN KHÓA HỌC (Đưa trực tiếp 3 Sub-card thông tin ra ngoài: Năm & Mã, Đơn vị đào tạo, Hình thức đào tạo) */}
-                <div className="col-span-1 md:col-span-8 lg:col-span-12 grid grid-cols-1 sm:grid-cols-3 gap-[15px] items-stretch">
+                <div className="bento-grid-responsive col-span-1 md:col-span-8 lg:col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch">
                   {/* Sub-card 1: Năm học và mã */}
-                  <div data-subcard="true" className="exp-detail-subcard h-full flex flex-col justify-between gap-1.5 p-3 rounded-[14px] shadow-2xs transition-all">
+                  <div data-subcard="true" className="exp-detail-subcard h-full flex flex-col justify-between gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all">
                     <div className="subcard-header-sync flex items-center gap-1.5 text-sky-600 dark:text-sky-400" data-subcard-accent="sky">
                       <WebIcon name="clock" className="w-4 h-4 shrink-0 text-sky-600 dark:text-sky-400" />
                       <span className="subcard-title-synced typo-h4 tracking-normal text-sky-600 dark:text-sky-400" data-subcard-title="true">Năm học và mã</span>
@@ -910,7 +910,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   </div>
 
                   {/* Sub-card 2: Đơn vị đào tạo */}
-                  <div data-subcard="true" className="exp-detail-subcard h-full flex flex-col justify-between gap-1.5 p-3 rounded-[14px] shadow-2xs transition-all">
+                  <div data-subcard="true" className="exp-detail-subcard h-full flex flex-col justify-between gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all">
                     <div className="subcard-header-sync flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400" data-subcard-accent="indigo">
                       <WebIcon name="building" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
                       <span className="subcard-title-synced typo-h4 tracking-normal text-indigo-600 dark:text-indigo-400" data-subcard-title="true">Đơn vị đào tạo</span>
@@ -921,7 +921,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   </div>
 
                   {/* Sub-card 3: Hình thức đào tạo */}
-                  <div data-subcard="true" className="exp-detail-subcard h-full flex flex-col justify-between gap-1.5 p-3 rounded-[14px] shadow-2xs transition-all">
+                  <div data-subcard="true" className="exp-detail-subcard h-full flex flex-col justify-between gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all">
                     <div className="subcard-header-sync flex items-center gap-1.5 text-teal-600 dark:text-teal-400" data-subcard-accent="teal">
                       <WebIcon name="sparkles" className="w-4 h-4 shrink-0 text-teal-600 dark:text-teal-400" />
                       <span className="subcard-title-synced typo-h4 tracking-normal text-teal-600 dark:text-teal-400" data-subcard-title="true">Hình thức đào tạo</span>
@@ -949,22 +949,22 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-3 mt-0 w-full justify-start">
+                  <div className="flex flex-col gap-[15px] mt-0 w-full justify-start">
                     {/* Sub-card: Trọng tâm (nếu có) */}
                     {(course.focus || course.orientation) && (
-                      <div data-subcard="true" className="exp-detail-subcard h-fit p-3 rounded-[14px] typo-body-sm text-slate-700 dark:text-slate-200">
+                      <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] typo-body-sm text-slate-700 dark:text-slate-200">
                         <span className="font-semibold text-amber-700 dark:text-amber-300 mr-1.5">Trọng tâm:</span>
                         {course.focus || course.orientation}
                       </div>
                     )}
 
                     {/* Danh sách các chuyên đề */}
-                    <ul className="flex flex-col gap-2 list-none p-0 m-0 w-full">
+                    <ul className="flex flex-col gap-[15px] list-none p-0 m-0 w-full">
                       {course.modules.map((mod, idx) => (
                         <li
                           key={idx}
                           data-subcard="true"
-                          className="exp-detail-subcard w-full flex items-center gap-3 px-3.5 py-2.5 rounded-[14px] shadow-2xs transition-all hover:shadow-xs group/mod"
+                          className="exp-detail-subcard w-full flex items-center gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all hover:shadow-xs group/mod"
                         >
                           <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center typo-badge font-mono shrink-0 group-hover/mod:bg-amber-500 group-hover/mod:text-white transition-colors">
                             {idx + 1}
@@ -988,7 +988,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           handleOpenLightbox(course.certImg || course.image, `${isEn ? 'Credential' : 'Bằng cấp'}: ${t(course.title)}`);
                         }
                       }}
-                      className="exp-detail-subcard h-fit p-3 rounded-[14px] shadow-2xs transition-all cursor-pointer group/cert flex flex-col gap-2 hover:shadow-xs mt-1"
+                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs transition-all cursor-pointer group/cert flex flex-col gap-[15px] hover:shadow-xs mt-1"
                     >
                       <div className="flex items-center justify-between text-rose-600 dark:text-rose-400">
                         <div className="subcard-header-sync flex items-center gap-1.5 text-rose-600 dark:text-rose-400" data-subcard-accent="rose">
@@ -1031,9 +1031,9 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   </div>
 
                   {/* Sub-cards: Căn chỉnh top */}
-                  <div className="space-y-3 mt-0 w-full flex flex-col justify-start">
+                  <div className="flex flex-col gap-[15px] mt-0 w-full justify-start">
                     {/* Sub-card: Chứng nhận đánh giá */}
-                    <div data-subcard="true" className="exp-detail-subcard h-fit p-3 rounded-[14px] shadow-2xs space-y-1">
+                    <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs flex flex-col gap-[15px]">
                       <div className="subcard-header-sync flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400" data-subcard-accent="emerald">
                         <WebIcon name="check-circle-02" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
                         <span className="subcard-title-synced typo-h4 tracking-normal text-emerald-700 dark:text-emerald-400" data-subcard-title="true">Chứng nhận đánh giá</span>
@@ -1045,7 +1045,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
 
                     {/* Sub-card: Ứng dụng thực tiễn */}
                     {course.application && (
-                      <div data-subcard="true" className="exp-detail-subcard h-fit p-3 rounded-[14px] shadow-2xs space-y-1">
+                      <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs flex flex-col gap-[15px]">
                         <div className="subcard-header-sync flex items-center gap-1.5 text-teal-700 dark:text-teal-400" data-subcard-accent="teal">
                           <WebIcon name="target" className="w-4 h-4 shrink-0 text-teal-700 dark:text-teal-400" />
                           <span className="subcard-title-synced typo-h4 tracking-normal text-teal-700 dark:text-teal-400" data-subcard-title="true">Ứng dụng thực tiễn</span>
@@ -1058,7 +1058,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
 
                     {/* Sub-card: Kỹ năng đầu ra */}
                     {course.skills && course.skills.length > 0 && (
-                      <div data-subcard="true" className="exp-detail-subcard h-fit p-3 rounded-[14px] shadow-2xs space-y-1.5">
+                      <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs flex flex-col gap-[15px]">
                         <div className="subcard-header-sync flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400" data-subcard-accent="emerald">
                           <WebIcon name="sparkles" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
                           <span className="subcard-title-synced typo-h4 tracking-normal text-emerald-700 dark:text-emerald-400" data-subcard-title="true">Kỹ năng đầu ra</span>
@@ -1093,7 +1093,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           handleOpenLightbox(course.courseImg || course.image, `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${t(course.title)}`);
                         }
                       }}
-                      className="exp-detail-subcard h-fit p-3 rounded-[14px] shadow-2xs transition-all cursor-pointer group/photo flex flex-col gap-2 hover:shadow-xs"
+                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs transition-all cursor-pointer group/photo flex flex-col gap-[15px] hover:shadow-xs"
                     >
                       <div className="flex items-center justify-between text-purple-600 dark:text-purple-400">
                         <div className="subcard-header-sync flex items-center gap-1.5 text-purple-600 dark:text-purple-400" data-subcard-accent="purple">

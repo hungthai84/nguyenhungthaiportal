@@ -1,15 +1,28 @@
 import React from 'react';
 
 export type CardStyleMode =
-  | 'frosted-glass'
-  | 'mica-fluent'
   | 'light-glassmorphism'
-  | 'dark-frosted-glass'
   | 'dark-glassmorphism'
+  | 'ice-blue-neumorphism'
+  | 'dark-ice-blue-neumorphism'
+  | 'pastel-lilac-soft'
+  | 'dark-pastel-lilac-soft'
+  | 'light-cowhide-leather'
+  | 'cowhide-leather';
+
+export type ThemeFamilyId =
+  | 'glassmorphism'
+  | 'ice-blue-neumorphism'
+  | 'pastel-soft-ui'
   | 'cowhide-leather';
 
 export interface CardStyleConfig {
   id: CardStyleMode;
+  familyId: ThemeFamilyId;
+  familyLabel: string;
+  familyLabelEn: string;
+  counterpartMode: CardStyleMode;
+  cardClassName: string;
   name: string;
   label: string;
   shortBadge: string;

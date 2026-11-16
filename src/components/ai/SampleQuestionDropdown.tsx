@@ -112,9 +112,7 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
       role="dialog"
       aria-modal="false"
       aria-label={isEn ? 'Sample Question Categories' : 'Thẻ Danh mục Câu hỏi mẫu Trí Nhân'}
-      data-element-type="card"
-      data-section-card="true"
-      className="theme-modal-card absolute bottom-0 left-0 right-0 z-40 h-[min(560px,100%)] max-h-full rounded-[14px] shadow-2xl flex flex-col overflow-hidden animate-fadeIn motion-reduce:animate-none"
+      className="theme-modal-card pointer-events-auto relative w-full h-[min(580px,100%)] max-h-full rounded-[14px] shadow-2xl flex flex-col overflow-hidden animate-fadeIn motion-reduce:animate-none"
     >
       {/* Header Thẻ Danh mục / List câu hỏi */}
       <div className="theme-modal-header px-3.5 sm:px-4 py-2.5 sm:py-3 flex flex-wrap items-center justify-between gap-2 shrink-0">
@@ -127,7 +125,7 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
           <div className="min-w-0">
             <h3
               className="typo-popup-title font-play truncate"
-              style={{ color: 'var(--text-heading, var(--text-primary))' }}
+              style={{ color: showQuestionList && !isSearching ? activeColor : 'var(--color-primary)' }}
             >
               {isSearching
                 ? isEn
@@ -282,10 +280,10 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
       {/* NỘI DUNG CHÍNH: VIEW 1 = THẺ DANH MỤC (RESPONSIVE GRID CARD) | VIEW 2 = LIST CÂU HỎI */}
       <div className="flex-1 min-h-0 overflow-y-auto p-3 sm:p-4">
         {!showQuestionList ? (
-          /* VIEW 1: THẺ DANH MỤC RESPONSIVE GRID CARD (1 cột Mobile -> 2 cột Tablet -> 4 cột Desktop) */
+          /* VIEW 1: THẺ DANH MỤC RESPONSIVE GRID CARD (1 cột Mobile -> 2 cột Tablet -> 3 cột x 4 hàng Desktop) */
           <div
             id="ai-categories-responsive-grid"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-4 gap-2.5 sm:gap-3 auto-rows-fr min-h-full"
           >
             {categories.map((cat) => {
               const catColor = getReadableCategoryColor(cat.color);
@@ -305,7 +303,7 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
                     borderRadius: '12px',
                     ...(isSelected ? { borderColor: `${catColor}90` } : {}),
                   }}
-                  className="theme-modal-subcard w-full p-3.5 !rounded-[12px] text-left flex items-center gap-3 min-h-[60px] cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.99] group min-w-0"
+                  className="theme-modal-subcard w-full h-full p-3.5 !rounded-[12px] text-left flex items-center gap-3 min-h-[78px] cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.99] group min-w-0"
                 >
                   <span
                     className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0"
@@ -315,7 +313,7 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
                   </span>
                   <h4
                     className="typo-h5 font-play leading-snug break-words min-w-0 flex-1"
-                    style={{ color: isDark ? 'var(--text-primary)' : catColor }}
+                    style={{ color: catColor }}
                   >
                     {cat.labelWithNumber}
                   </h4>

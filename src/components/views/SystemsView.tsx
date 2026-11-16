@@ -321,6 +321,7 @@ const SYSTEM_ACCENT_KEY_MAP: Record<string, string> = {
 export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNotification }) => {
   const { showToast } = useToast();
   const { language, t, translateText } = useLanguage();
+  const isEn = language === 'en';
   const { isDark: themeIsDark, cardStyle } = useTheme();
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -663,7 +664,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isFilterDropdownOpen]);
-  const isDark = themeIsDark || currentTheme === 'dark-neon';
+  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
 
   useEffect(() => {
     return () => {
@@ -1758,9 +1759,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 const sysAccentColor =
                   cardStyle === 'cowhide-leather'
                     ? '#FDE68A'
-                    : isDark
-                      ? config.darkAccent
-                      : config.lightAccent;
+                    : cardStyle === 'light-cowhide-leather'
+                      ? '#9A3412'
+                      : isDark
+                        ? config.darkAccent
+                        : config.lightAccent;
 
                 return (
                   <div
@@ -1803,15 +1806,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               Chi tiết hệ thống: {item.abbr} — {item.nameVi || item.name}
                             </h3>
                           </div>
-                          <button
-                            type="button"
-                            onClick={(e) => handleToggleExpandCard(item.id, e)}
-                            aria-label={t('Đóng chi tiết hệ thống', 'Close system details')}
-                            title={t('Đóng chi tiết hệ thống', 'Close system details')}
-                            className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105 active:scale-95 shrink-0"
-                          >
-                            <WebIcon name="cancel" className="w-4 h-4" />
-                          </button>
                         </div>
 
                         {/* Thân Thẻ Mở Rộng: Bento Responsive Grid Card (12 cột thống nhất) */}
@@ -2322,12 +2316,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
               const headerColor =
                 cardStyle === 'cowhide-leather'
                   ? '#FDE68A'
-                  : isDark
-                    ? headerConfig?.darkAccent || '#60a5fa'
-                    : headerConfig?.lightAccent || '#1d4ed8';
+                  : cardStyle === 'light-cowhide-leather'
+                    ? '#9A3412'
+                    : isDark
+                      ? headerConfig?.darkAccent || '#60a5fa'
+                      : headerConfig?.lightAccent || '#1d4ed8';
               return (
                 <div className="flex items-center justify-between gap-3 px-3 sm:px-5 pt-2 pb-3 border-b border-[var(--border-subcard)] shrink-0">
-                  <div className="card-header-sync flex items-center gap-2.5 min-w-0" style={{ color: headerColor }}>
+                  <div className="card-header-sync flex items-center gap-2.5 min-w-0 flex-1" style={{ color: headerColor }}>
                     <WebIcon
                       name={headerIcon}
                       className="w-5 h-5 shrink-0"
@@ -2342,14 +2338,18 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                       Chi tiết hệ thống: {selectedSystem.abbr} — {selectedSystem.nameVi || selectedSystem.name}
                     </h3>
                   </div>
+
                   <button
                     type="button"
-                    onClick={() => setSelectedSystem(null)}
-                    aria-label="Đóng chi tiết hệ thống"
-                    title="Đóng chi tiết hệ thống"
-                    className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105 active:scale-95 shrink-0"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setSelectedSystem(null);
+                    }}
+                    className="w-8 h-8 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] hover:bg-[var(--bg-button-primary)] hover:text-white text-[var(--text-secondary)] flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-xs active:scale-95"
+                    title={isEn ? "Close details" : "Đóng chi tiết"}
+                    aria-label={isEn ? "Close details" : "Đóng chi tiết hệ thống"}
                   >
-                    <WebIcon name="cancel" className="w-4 h-4" />
+                    <WebIcon name="x" className="w-4 h-4" />
                   </button>
                 </div>
               );

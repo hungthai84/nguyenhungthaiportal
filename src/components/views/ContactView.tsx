@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 
 export interface ContactViewProps {
@@ -8,36 +8,8 @@ export interface ContactViewProps {
   onShowNotification?: (msg: string) => void;
 }
 
-export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-glass' }) => {
+export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-glassmorphism' }) => {
   void currentTheme;
-  const bookingCardRef = useRef<HTMLDivElement>(null);
-  const [syncedBannerHeight, setSyncedBannerHeight] = useState<number | null>(null);
-
-  useEffect(() => {
-    const syncHeight = () => {
-      if (typeof window === 'undefined') return;
-      if (window.innerWidth < 1024) {
-        setSyncedBannerHeight(null);
-        return;
-      }
-      if (bookingCardRef.current) {
-        const h = Math.round(bookingCardRef.current.getBoundingClientRect().height);
-        if (h > 0) setSyncedBannerHeight(h);
-      }
-    };
-
-    syncHeight();
-    const observer =
-      typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => syncHeight()) : null;
-    if (observer && bookingCardRef.current) {
-      observer.observe(bookingCardRef.current);
-    }
-    window.addEventListener('resize', syncHeight);
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener('resize', syncHeight);
-    };
-  }, []);
 
   return (
     <div
@@ -51,7 +23,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
         boxSizing: 'border-box',
       }}
     >
-      {/* 1. HERO BANNER TRANG LIÊN HỆ (CHIỀU CAO BẰNG CHIỀU CAO THẺ ĐẶT LỊCH HẸN) */}
+      {/* 1. HERO BANNER TRANG LIÊN HỆ (CHIỀU CAO CO GIÃN ĐỒNG BỘ THEO KHUNG ĐẶT LỊCH HẸN) */}
       <section
         id="contact-hero-banner"
         data-element-name="Banner Liên Hệ & Kết Nối"
@@ -64,7 +36,6 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
           padding: '15px',
           borderRadius: '14px',
           boxSizing: 'border-box',
-          ...(syncedBannerHeight ? { height: `${syncedBannerHeight}px`, minHeight: `${syncedBannerHeight}px` } : {}),
         }}
       >
         {/* Background Image & Overlay */}
@@ -114,14 +85,13 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
 
       {/* 2. KHUNG NỘI DUNG CHÍNH (ĐẶT LỊCH HẸN FULL WIDTH & FULL HEIGHT) */}
       <div
-        ref={bookingCardRef}
         id="contact-info-container"
         data-element-name="Khung đặt lịch hẹn trực tuyến"
         data-element-type="card"
         data-section-card="true"
         data-element-page="contact"
         data-element-parent="contact-page-container"
-        className="bento-card glass-card w-full flex-1 min-w-0 min-h-[540px] lg:min-h-0 h-full lg:self-stretch flex flex-col rounded-[14px] shadow-xl gap-0 overflow-hidden relative p-0 box-border"
+        className="bento-card glass-card w-full flex-1 min-w-0 min-h-[480px] lg:min-h-0 h-full lg:self-stretch flex flex-col rounded-[14px] shadow-xl gap-0 overflow-hidden relative p-0 box-border"
         style={{
           padding: '0px',
           gap: '0px',
@@ -132,7 +102,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
         {/* VÙNG HIỂN THỊ IFRAME GOOGLE CALENDAR MAX FULL WIDTH & MAX FULL HEIGHT */}
         <div
           id="contact-calendar-viewport"
-          className="flex-1 w-full h-full min-h-[540px] lg:min-h-0 overflow-hidden rounded-[14px] border-0 bg-transparent shadow-none flex flex-col p-0 m-0"
+          className="flex-1 w-full h-full min-h-[480px] lg:min-h-0 overflow-hidden rounded-[14px] border-0 bg-transparent shadow-none flex flex-col p-0 m-0"
           style={{ padding: '0px', margin: '0px' }}
         >
           <iframe
@@ -150,7 +120,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
             height="100%"
             frameBorder="0"
             title="Đặt lịch hẹn Google Calendar"
-            className="w-full h-full flex-1 min-h-[540px] lg:min-h-0 rounded-[14px] p-0 m-0 block"
+            className="w-full h-full flex-1 min-h-[480px] lg:min-h-0 rounded-[14px] p-0 m-0 block"
           />
         </div>
       </div>

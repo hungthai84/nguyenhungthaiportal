@@ -560,7 +560,10 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           </div>
 
           {/* DROP-UP THẺ DANH MỤC (GRID CARD) -> LIST CÂU HỎI */}
-          <div ref={dropTopOverlayRef}>
+          <div
+            ref={dropTopOverlayRef}
+            className="pointer-events-none absolute inset-0 z-40 flex flex-col justify-end"
+          >
             <SampleQuestionDropdown
               isOpen={isSampleDropdownOpen}
               isDark={isDark}

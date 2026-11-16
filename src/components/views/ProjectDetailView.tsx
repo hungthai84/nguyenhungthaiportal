@@ -312,9 +312,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       const isDarkClass = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
       const themeAttr = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null;
       if (typeof isLight === 'boolean') {
-        setIsLightMode(isLight && !isDarkClass && themeAttr !== 'dark-neon');
+        setIsLightMode(isLight && !isDarkClass && themeAttr !== 'dark-glassmorphism');
       } else {
-        setIsLightMode(!isDarkClass && themeAttr !== 'dark-neon');
+        setIsLightMode(!isDarkClass && themeAttr !== 'dark-glassmorphism');
       }
     };
 
@@ -1926,20 +1926,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 </span>
                 <span className="font-play" style={{ color: isLightMode ? '#4f46e5' : '#38bdf8' }}>
                   Sơ Đồ Tư Duy
-                </span>
-              </button>
-
-              <button
-                type="button"
-                onClick={onClose}
-                className="banner-control-pill w-full py-1.5 px-2.5 rounded-full typo-button font-bold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
-                title="Đóng chi tiết bài viết"
-              >
-                <span className="shrink-0 flex items-center" style={{ color: isLightMode ? '#e11d48' : '#fb7185' }}>
-                  <WebIcon name="close" className="w-3.5 h-3.5" />
-                </span>
-                <span className="font-play" style={{ color: isLightMode ? '#e11d48' : '#fb7185' }}>
-                  Đóng Bài Viết
                 </span>
               </button>
             </div>

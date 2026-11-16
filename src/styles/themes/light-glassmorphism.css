@@ -101,9 +101,9 @@ html[data-card-style="light-glassmorphism"] {
   --pillar-progress-fill: linear-gradient(90deg, #0ea5e9, #2563eb);
 
   /* Specular Light Glass Elevation System */
-  --shadow-header: none;
-  --shadow-main-card: none;
-  --shadow-footer: none;
+  --shadow-header: 0 16px 40px -12px rgba(15, 23, 42, 0.16), 0 4px 14px -4px rgba(15, 23, 42, 0.08), inset 0 1.5px 1px rgba(255, 255, 255, 0.92);
+  --shadow-main-card: var(--shadow-header);
+  --shadow-footer: var(--shadow-header);
   --shadow-card: 0 20px 44px -12px rgba(15, 23, 42, 0.18),
     inset 0 1.5px 1px rgba(255, 255, 255, 0.95);
   --shadow-card-hover: 0 24px 52px -12px rgba(15, 23, 42, 0.22),
@@ -172,7 +172,7 @@ html[data-card-style="light-glassmorphism"] {
   /* 4-Tier Surface Tokens (Luminous Light Frosted Glass) */
   --surface-primary-bg: rgba(255, 255, 255, 0.62);
   --surface-primary-border: rgba(255, 255, 255, 0.1);
-  --surface-primary-shadow: none;
+  --surface-primary-shadow: var(--shadow-header);
   --surface-primary-blur: 16px;
   --surface-secondary-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.48) 100%);
   --surface-secondary-border: rgba(255, 255, 255, 0.85);

@@ -114,6 +114,9 @@ export const CHROME_AND_MODALS_EN: Record<string, string> = {
   'Kính mờ tối · Specular Glass': 'Dark Frosted Glass · Specular Edge',
   'Lớp kính mờ tối sâu thẳm (rgba(15, 23, 42, 0.68)) kết hợp blur(22px) saturate(150%), viền sáng cạnh trên tinh tế và độ tương phản chữ #f8fafc tối ưu trên mọi hình nền.':
     'Deep dark translucent glass (rgba(15, 23, 42, 0.68)) with blur(22px) saturate(150%), subtle specular top-edge highlight, and high-contrast #f8fafc typography.',
+  'Pastel Soft UI Sáng': 'Pastel Soft UI Light',
+  'Pastel Soft UI Tối': 'Pastel Soft UI Dark',
+  'Chất liệu da bò sáng': 'Light Saddle Cowhide Leather',
   'Chất liệu da bò': 'Full-Grain Cowhide Leather',
   'Cấu hình phong cách – Theme Presets': 'Style Configuration – Theme Presets',
   'Chọn phong cách': 'Select Style',

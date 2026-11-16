@@ -52,7 +52,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const { isDark: themeIsDark } = useTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const isDark = themeIsDark || currentTheme === 'dark-neon';
+  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
 
   // Danh sách video cho 3 màn hình: Màn hình chờ (idle), Chuyển cảnh (transition), Video phát (presentation)
   const VIDEO_SCREENS: VideoScreenItem[] = [
@@ -634,8 +634,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
               background: 'var(--bg-header)',
               borderColor: 'var(--border-subcard)',
               boxShadow: 'var(--shadow-nav-pill)',
+              padding: '6px 10px',
             }}
-            className="inline-flex items-center gap-1.5 rounded-[999px] border select-none transition-all duration-300 backdrop-blur-xl px-2.5 py-1.5 m-0"
+            className="inline-flex items-center gap-1.5 !rounded-[999px] border select-none transition-all duration-300 backdrop-blur-xl !px-2.5 !py-1.5 m-0"
             role="tablist"
             aria-label="Chuyển đổi màn hình trang chủ"
           >

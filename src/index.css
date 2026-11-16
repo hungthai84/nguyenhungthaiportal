@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-neon"], [data-theme="dark-neon"] *, [data-theme="dark-frosted-glass"], [data-theme="dark-frosted-glass"] *, [data-theme="dark-glassmorphism"], [data-theme="dark-glassmorphism"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-glassmorphism"], [data-theme="dark-glassmorphism"] *, [data-theme="dark-ice-blue-neumorphism"], [data-theme="dark-ice-blue-neumorphism"] *, [data-theme="dark-pastel-lilac-soft"], [data-theme="dark-pastel-lilac-soft"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -23,11 +23,13 @@
 @import "./styles/base.css";
 @import "./styles/layout.css";
 @import "./styles/cards.css";
-@import "./styles/themes/frosted-glass.css";
-@import "./styles/themes/mica-fluent.css";
 @import "./styles/themes/light-glassmorphism.css";
-@import "./styles/themes/dark-frosted-glass.css";
+@import "./styles/themes/ice-blue-neumorphism.css";
 @import "./styles/themes/dark-glassmorphism.css";
+@import "./styles/themes/dark-ice-blue-neumorphism.css";
+@import "./styles/themes/pastel-lilac-soft.css";
+@import "./styles/themes/dark-pastel-lilac-soft.css";
+@import "./styles/themes/light-cowhide-leather.css";
 @import "./styles/themes/cowhide-leather.css";
 
 /* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection */
@@ -56,3 +58,15 @@
   line-height: var(--lh-heading) !important;
   font-weight: var(--fw-bold) !important;
 }
+
+/* Smooth 300ms transition fade for theme and surface material switching */
+body,
+#global-content-viewport,
+.main-card,
+.glass-card,
+.bento-card,
+.exp-detail-subcard,
+[data-card-style] {
+  transition: background 300ms ease-in-out, background-color 300ms ease-in-out, border-color 300ms ease-in-out, box-shadow 300ms ease-in-out, color 300ms ease-in-out !important;
+}
+

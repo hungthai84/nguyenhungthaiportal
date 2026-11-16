@@ -390,17 +390,8 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                 id={`memory-card-${item.id}`}
                 data-element-name={`Thẻ kỷ niệm: ${item.titleVi}`}
                 key={item.id}
-                role="button"
-                tabIndex={0}
-                onClick={() => setActiveLightboxIdx(idx)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    setActiveLightboxIdx(idx);
-                  }
-                }}
                 style={{ animationDelay: `${(idx % 16) * 35}ms`, padding: 0 }}
-                className="themed-image-card memory-photo-item break-inside-avoid mb-[15px] block w-full relative rounded-[14px] overflow-hidden p-0 m-0 cursor-pointer group bg-[#0B1220]"
+                className="themed-image-card memory-photo-item break-inside-avoid mb-[15px] block w-full relative rounded-[14px] overflow-hidden p-0 m-0 group bg-[#0B1220]"
               >
                 <img
                   src={item.imageUrl}

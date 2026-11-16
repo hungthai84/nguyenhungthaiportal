@@ -47,7 +47,7 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
               className="w-12 h-12 rounded-full object-cover shadow-sm"
             />
             <div>
-              <h3 className="typo-popup-title" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
+              <h3 className="typo-popup-title" style={{ color: item.color }}>
                 {item.company}
               </h3>
               <p className="typo-caption font-bold" style={{ color: item.color }}>

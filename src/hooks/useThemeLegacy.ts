@@ -17,7 +17,12 @@ import {
   WALLPAPER_MANUAL_STORAGE_KEY,
 } from '../config/ui/themeDefaults';
 import { CardStyleMode, GlassCustomization } from '../config/ui/theme.types';
-import { CARD_STYLES_MAP, VALID_CARD_STYLES, getCardStyleProperties } from '../config/ui/cardStyles';
+import {
+  CARD_STYLES_MAP,
+  getCardStyleProperties,
+  getLightDarkCounterpart,
+  normalizeCardStyle,
+} from '../config/ui/cardStyles';
 
 const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
 const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
@@ -37,51 +42,6 @@ function clampLegacyGlass(raw?: Partial<GlassCustomization>, fallback?: GlassCus
 function getDefaultWallpaperForTheme(mode: CardStyleMode): WallpaperPreset {
   const targetId = THEME_DEFAULT_WALLPAPER_ID[mode];
   return WALLPAPER_PRESETS_LIST.find((w) => w.id === targetId) || WALLPAPER_PRESETS_LIST[0];
-}
-
-function normalizeCardStyle(raw: string | null): CardStyleMode {
-  if (!raw) return DEFAULT_CARD_STYLE;
-  if (
-    raw === 'multicolor-glass' ||
-    raw === 'glass' ||
-    raw === 'mica' ||
-    raw === 'glass-flat' ||
-    raw === 'fluent-mica' ||
-    raw === 'liquid-glass'
-  ) {
-    return DEFAULT_CARD_STYLE;
-  }
-  if (
-    raw === 'pastel' ||
-    raw === 'bento-pastel' ||
-    raw === 'soft-pastel' ||
-    raw === 'pastel-bento' ||
-    raw === 'glossy-glass' ||
-    raw === 'glossy' ||
-    raw === 'guong-bong' ||
-    raw === 'glass-glossy'
-  ) {
-    return DEFAULT_CARD_STYLE;
-  }
-  if (
-    raw === 'dark-glass' ||
-    raw === 'dark-frosted' ||
-    raw === 'kinh-mo-toi'
-  ) {
-    return 'dark-frosted-glass';
-  }
-  if (
-    raw === 'light-glass' ||
-    raw === 'light-glassmorphism' ||
-    raw === 'guong-sang' ||
-    raw === 'kinh-guong-sang'
-  ) {
-    return 'light-glassmorphism';
-  }
-  if (VALID_CARD_STYLES.includes(raw as any)) {
-    return raw as CardStyleMode;
-  }
-  return DEFAULT_CARD_STYLE;
 }
 
 export function useThemeLegacy() {
@@ -169,9 +129,11 @@ export function useThemeLegacy() {
         'data-theme',
         cardStyle === 'cowhide-leather'
           ? 'cowhide-leather'
-          : cardStyle === 'dark-frosted-glass'
-            ? 'dark-frosted-glass'
-            : 'dark-neon'
+          : cardStyle === 'dark-ice-blue-neumorphism'
+            ? 'dark-ice-blue-neumorphism'
+            : cardStyle === 'dark-pastel-lilac-soft'
+              ? 'dark-pastel-lilac-soft'
+              : 'dark-glassmorphism'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -306,6 +268,10 @@ export function useThemeLegacy() {
     setActiveWallpaper(defaultWp);
     try {
       localStorage.setItem(CARD_STYLE_STORAGE_KEY, normalized);
+      localStorage.setItem(
+        nextDark ? 'hungthai_last_dark_style' : 'hungthai_last_light_style',
+        normalized
+      );
       localStorage.removeItem(WALLPAPER_MANUAL_STORAGE_KEY);
       localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(defaultWp));
       localStorage.setItem('theme_wallpaper', defaultWp.value || defaultWp.bg || '');
@@ -318,9 +284,11 @@ export function useThemeLegacy() {
         'data-theme',
         normalized === 'cowhide-leather'
           ? 'cowhide-leather'
-          : normalized === 'dark-frosted-glass'
-            ? 'dark-frosted-glass'
-            : 'dark-neon'
+          : normalized === 'dark-ice-blue-neumorphism'
+            ? 'dark-ice-blue-neumorphism'
+            : normalized === 'dark-pastel-lilac-soft'
+              ? 'dark-pastel-lilac-soft'
+              : 'dark-glassmorphism'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -335,6 +303,16 @@ export function useThemeLegacy() {
     window.dispatchEvent(new CustomEvent(CARD_STYLE_SYNC_EVENT, { detail: normalized }));
     window.dispatchEvent(new CustomEvent(WALLPAPER_SYNC_EVENT, { detail: defaultWp }));
   }, []);
+
+  const toggleLightDark = useCallback(
+    (targetDark?: boolean) => {
+      const wantDark = typeof targetDark === 'boolean' ? targetDark : !isDark;
+      if (wantDark === isDark) return;
+      const targetMode = getLightDarkCounterpart(cardStyle, wantDark);
+      setCardStyle(targetMode);
+    },
+    [cardStyle, isDark, setCardStyle]
+  );
 
   const getCardStyleProps = useCallback((mode?: CardStyleMode) => {
     return getCardStyleProperties(mode || cardStyle);
@@ -385,6 +363,7 @@ export function useThemeLegacy() {
     setWallpaper,
     cardStyle,
     setCardStyle,
+    toggleLightDark,
     getCardStyleProps,
     glassSettings,
     getGlassSettingsForMode,

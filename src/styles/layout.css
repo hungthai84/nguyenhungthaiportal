@@ -10,6 +10,8 @@
   height: 100%;
   max-height: 100%;
   flex: 1 1 0%;
+  scroll-behavior: smooth;
+  transition: all 300ms ease-in-out;
 }
 
 .tab-content-host,
@@ -24,9 +26,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  scroll-behavior: smooth;
 }
 
-/* Đồng bộ khoảng cách, căn giữa ngang và box-sizing chuẩn cho toàn bộ Main Card */
+/* Đồng bộ khoảng cách, căn giữa ngang, scroll mượt và box-sizing chuẩn cho toàn bộ Main Card */
+.main-card,
 [id$="-page-container"],
 [id$="-page-root"] {
   width: 100%;
@@ -38,6 +42,24 @@
   padding: var(--main-card-padding, 25px);
   gap: var(--space-card-gap, 15px);
   box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+/* Smooth scrolling across all scrollable sections & slide containers (non-blocking for active drag/wheel handlers) */
+.overflow-y-auto,
+.overflow-x-auto,
+.overflow-auto,
+.overflow-scroll,
+.overflow-y-scroll,
+.overflow-x-scroll,
+[class*="overflow-y-auto"],
+[class*="overflow-x-auto"],
+[class*="overflow-auto"],
+.no-scrollbar,
+.custom-scrollbar,
+.glass-scrollbar,
+[data-scrollable="true"] {
+  scroll-behavior: smooth;
 }
 
 /* Thẻ hệ thống cách nhau 15px ở mọi kích thước màn hình */
@@ -192,7 +214,7 @@
     min-width: 0 !important;
     max-width: 100% !important;
     flex: 1 1 auto !important;
-    min-height: 540px !important;
+    min-height: 480px !important;
     height: 100% !important;
     max-height: none !important;
     padding: 0 !important;

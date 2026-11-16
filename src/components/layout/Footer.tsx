@@ -3,7 +3,7 @@ import { TABS_DATA } from '../../data/tabs';
 import { WeatherCard } from '../common/WeatherCard';
 import { WebIcon } from '../ui/WebIcon';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
-import { CARD_STYLE_PRESETS_LIST, getCardStyleConfig } from '@/config/ui/cardStyles';
+import { CARD_STYLE_PRESETS_LIST, CARD_STYLE_GROUPS, getCardStyleConfig } from '@/config/ui/cardStyles';
 import { useLanguage, LanguagePreference } from '@/context/LanguageContext';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 
@@ -94,7 +94,7 @@ export const Footer: React.FC<FooterProps> = ({
     }
   };
 
-  const { cardStyle, setCardStyle } = useTheme();
+  const { cardStyle, setCardStyle, isDark, toggleLightDark } = useTheme();
   const footerCardStyle = getCardStyleProperties(cardStyle);
   const {
     border,
@@ -529,84 +529,221 @@ export const Footer: React.FC<FooterProps> = ({
                           : `Danh sách Giao diện (${CARD_STYLE_PRESETS_LIST.length})`}
                       </span>
                       <span className="typo-badge font-normal" style={{ color: 'var(--text-muted)' }}>
-                        {isEn ? 'Independent' : 'Độc lập'}
+                        {isEn ? `${CARD_STYLE_GROUPS.length} Groups` : `${CARD_STYLE_GROUPS.length} Nhóm`}
                       </span>
                     </div>
 
-                    <div className="max-h-[300px] overflow-y-auto no-scrollbar flex flex-col gap-1">
-                      {CARD_STYLE_PRESETS_LIST.map((preset) => {
-                        const isActive = cardStyle === preset.id;
-                        const isNeon = false;
-                        const isLightGlass = preset.id === 'light-glassmorphism';
-                        const isDarkFrosted = preset.id === 'dark-frosted-glass' || preset.id === 'dark-glassmorphism';
-                        const isLeather = preset.id === 'cowhide-leather';
-                        const presetName = t(preset.name);
-                        return (
-                          <button
-                            key={preset.id}
-                            type="button"
-                            onClick={() => {
-                              SoundEngine.playGlassChime();
-                              setCardStyle(preset.id);
-                              setIsThemeMenuOpen(false);
-                              onShowNotification(
-                                isEn
-                                  ? `✓ Applied theme: ${presetName}`
-                                  : `✓ Đã áp dụng giao diện: ${preset.name}`
-                              );
-                            }}
-                            className={`w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-body-sm font-bold transition cursor-pointer text-left group ${
-                              isActive
-                                ? isNeon
-                                  ? 'bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 text-white shadow-xs'
-                                  : isLightGlass
-                                    ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white border border-white/85 shadow-xs'
-                                    : isDarkFrosted
-                                      ? 'bg-gradient-to-r from-slate-800 via-sky-700 to-indigo-700 text-[#f8fafc] border border-white/25 shadow-xs'
-                                      : isLeather
-                                        ? 'bg-gradient-to-r from-[#8B5A2B] via-[#653A17] to-[#7A4A20] text-[#FFF8DC] border border-dashed border-[#F5DEB3]/70 shadow-xs'
-                                        : 'bg-indigo-600 text-white shadow-xs'
-                                : 'theme-dropdown-option'
-                            }`}
+                    {/* Nút trượt qua lại biến thể Sáng / Tối của giao diện đang kích hoạt */}
+                    <div
+                      className="relative grid grid-cols-2 p-1 rounded-full border items-center"
+                      role="group"
+                      aria-label={isEn ? 'Light and Dark mode switch' : 'Nút trượt chuyển đổi Sáng và Tối'}
+                      style={{
+                        background: 'var(--bg-subcard)',
+                        borderColor: 'var(--border-subcard)',
+                      }}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={`pointer-events-none absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-full transition-transform duration-300 ease-out shadow-xs ${
+                          isDark
+                            ? 'translate-x-full bg-gradient-to-r from-[#182536] via-sky-700 to-indigo-700 border border-sky-400/40'
+                            : 'translate-x-0 bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 border border-white/60'
+                        }`}
+                      />
+                      <button
+                        type="button"
+                        aria-pressed={!isDark}
+                        onClick={() => {
+                          SoundEngine.playGlassChime();
+                          toggleLightDark(false);
+                          onShowNotification(
+                            isEn ? '✓ Switched to Light variation' : '✓ Đã chuyển sang biến thể Sáng'
+                          );
+                        }}
+                        className={`theme-switch-btn relative z-10 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-full typo-label font-bold transition-colors cursor-pointer ${
+                          !isDark ? 'text-white' : 'hover:opacity-90'
+                        }`}
+                        style={isDark ? { color: 'var(--text-muted)' } : undefined}
+                      >
+                        <WebIcon name="sun" className="w-3.5 h-3.5 shrink-0" />
+                        <span>{isEn ? 'Light' : 'Sáng'}</span>
+                      </button>
+                      <button
+                        type="button"
+                        aria-pressed={isDark}
+                        onClick={() => {
+                          SoundEngine.playGlassChime();
+                          toggleLightDark(true);
+                          onShowNotification(
+                            isEn ? '✓ Switched to Dark variation' : '✓ Đã chuyển sang biến thể Tối'
+                          );
+                        }}
+                        className={`theme-switch-btn relative z-10 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-full typo-label font-bold transition-colors cursor-pointer ${
+                          isDark ? 'text-white' : 'hover:opacity-90'
+                        }`}
+                        style={!isDark ? { color: 'var(--text-muted)' } : undefined}
+                      >
+                        <WebIcon name="moon" className="w-3.5 h-3.5 shrink-0" />
+                        <span>{isEn ? 'Dark' : 'Tối'}</span>
+                      </button>
+                    </div>
+
+                    <div className="max-h-[380px] overflow-y-auto no-scrollbar flex flex-col gap-2.5 pr-0.5">
+                      {CARD_STYLE_GROUPS.map((group) => (
+                        <div key={group.id} className="flex flex-col gap-1">
+                          <div
+                            className="flex items-center justify-between px-2 py-0.5 typo-badge font-bold"
+                            style={{ color: 'var(--text-muted)' }}
                           >
-                            <div className="flex items-center gap-2.5 min-w-0">
-                              <div
-                                className={`w-6 h-6 rounded-[14px] flex items-center justify-center shrink-0 shadow-2xs ${
-                                  isLightGlass ? 'text-[#0f172a]' : 'text-white'
+                            <span className="flex items-center gap-1.5 min-w-0 truncate">
+                              <WebIcon name={group.icon} className="w-3 h-3 shrink-0" />
+                              <span className="truncate">{isEn ? group.labelEn : group.label}</span>
+                            </span>
+                            <span className="shrink-0 opacity-75">{group.presets.length}</span>
+                          </div>
+
+                          {group.presets.map((preset) => {
+                            const isActive = cardStyle === preset.id;
+                            const isLightGlass = preset.id === 'light-glassmorphism';
+                            const isIceBlueNeu = preset.id === 'ice-blue-neumorphism';
+                            const isDarkIceBlueNeu = preset.id === 'dark-ice-blue-neumorphism';
+                            const isPastelLilac = preset.id === 'pastel-lilac-soft';
+                            const isDarkPastelLilac = preset.id === 'dark-pastel-lilac-soft';
+                            const isDarkGlass = preset.id === 'dark-glassmorphism';
+                            const isLightLeather = preset.id === 'light-cowhide-leather';
+                            const isLeather = preset.id === 'cowhide-leather';
+                            const presetName = t(preset.name);
+                            return (
+                              <button
+                                key={preset.id}
+                                type="button"
+                                onClick={() => {
+                                  SoundEngine.playGlassChime();
+                                  setCardStyle(preset.id);
+                                  setIsThemeMenuOpen(false);
+                                  onShowNotification(
+                                    isEn
+                                      ? `✓ Applied theme: ${presetName}`
+                                      : `✓ Đã áp dụng giao diện: ${preset.name}`
+                                  );
+                                }}
+                                className={`w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-body-sm font-bold transition cursor-pointer text-left group ${
+                                  isActive
+                                    ? isLightGlass
+                                      ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white border border-white/85 shadow-xs'
+                                      : isIceBlueNeu
+                                        ? 'bg-gradient-to-r from-[#0284c7] via-[#06b6d4] to-[#6366f1] text-white border border-white/85 shadow-xs'
+                                        : isDarkIceBlueNeu
+                                          ? 'bg-gradient-to-r from-[#182536] via-[#0e7490] to-[#4f46e5] text-[#f8fafc] border border-sky-300/35 shadow-xs'
+                                          : isPastelLilac
+                                            ? 'bg-gradient-to-r from-[#8b7ef8] to-[#aba2fc] text-white border border-white/85 shadow-xs'
+                                            : isDarkPastelLilac
+                                              ? 'bg-gradient-to-r from-[#8b7ef8] to-[#a78bfa] text-white border border-[#c4b5fd]/40 shadow-xs'
+                                              : isDarkGlass
+                                                ? 'bg-gradient-to-r from-slate-800 via-sky-700 to-indigo-700 text-[#f8fafc] border border-white/25 shadow-xs'
+                                                : isLightLeather
+                                                  ? 'bg-gradient-to-r from-[#B45309] to-[#8B4513] text-[#FFF8DC] border border-dashed border-[#F5DEB3]/75 shadow-xs'
+                                                  : isLeather
+                                                    ? 'bg-gradient-to-r from-[#8B5A2B] via-[#653A17] to-[#7A4A20] text-[#FFF8DC] border border-dashed border-[#F5DEB3]/70 shadow-xs'
+                                                    : 'bg-indigo-600 text-white shadow-xs'
+                                    : 'theme-dropdown-option'
                                 }`}
-                                style={
-                                  isNeon
-                                    ? { background: 'linear-gradient(135deg, #06B6D4 0%, #8B5CF6 50%, #EC4899 100%)' }
-                                    : isLightGlass
-                                      ? {
-                                          background:
-                                            'linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(224, 242, 254, 0.78) 100%)',
-                                          border: '1px solid rgba(255, 255, 255, 0.95)',
-                                          boxShadow:
-                                            '0 4px 10px -2px rgba(15, 23, 42, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
-                                          color: '#0284C7',
-                                        }
-                                      : isDarkFrosted
-                                        ? {
-                                            background: 'rgba(15, 23, 42, 0.88)',
-                                            border: '1px solid rgba(255, 255, 255, 0.25)',
-                                            boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.25)',
-                                          }
-                                        : isLeather
-                                          ? { background: 'linear-gradient(135deg, #8B5A2B 0%, #522E10 100%)', border: '1px dashed rgba(245, 222, 179, 0.6)' }
-                                          : { backgroundColor: preset.color }
-                                }
                               >
-                                <WebIcon name={preset.icon} className="w-3.5 h-3.5" />
-                              </div>
-                              <div className="flex items-center min-w-0">
-                                <span className="truncate typo-body-sm font-bold">{presetName}</span>
-                              </div>
-                            </div>
-                            {isActive && <span className="shrink-0 text-white font-bold ml-2">✓</span>}
-                          </button>
-                        );
-                      })}
+                                <div className="flex items-center gap-2.5 min-w-0">
+                                  <div
+                                    className={`w-6 h-6 rounded-[14px] flex items-center justify-center shrink-0 shadow-2xs ${
+                                      isLightGlass || isIceBlueNeu
+                                        ? 'text-[#0284C7]'
+                                        : isPastelLilac
+                                          ? 'text-[#6d5ce8]'
+                                          : isDarkPastelLilac
+                                            ? 'text-[#c4b5fd]'
+                                            : isDarkIceBlueNeu
+                                              ? 'text-[#38bdf8]'
+                                              : isLightLeather
+                                                ? 'text-[#7C2D12]'
+                                                : 'text-white'
+                                    }`}
+                                    style={
+                                      isLightGlass
+                                        ? {
+                                            background:
+                                              'linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(224, 242, 254, 0.78) 100%)',
+                                            border: '1px solid rgba(255, 255, 255, 0.95)',
+                                            boxShadow:
+                                              '0 4px 10px -2px rgba(15, 23, 42, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+                                            color: '#0284C7',
+                                          }
+                                        : isIceBlueNeu
+                                          ? {
+                                              background: 'linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%)',
+                                              border: '1px solid rgba(255, 255, 255, 0.9)',
+                                              boxShadow:
+                                                '3px 3px 6px rgba(176, 198, 219, 0.7), -3px -3px 6px rgba(255, 255, 255, 0.95)',
+                                              color: '#0284C7',
+                                            }
+                                          : isDarkIceBlueNeu
+                                            ? {
+                                                background: 'linear-gradient(145deg, #182536 0%, #121c29 100%)',
+                                                border: '1px solid rgba(148, 197, 248, 0.25)',
+                                                boxShadow: '2px 2px 6px #0a1018, -2px -2px 5px #203147',
+                                                color: '#38bdf8',
+                                              }
+                                            : isPastelLilac
+                                              ? {
+                                                  background: 'linear-gradient(165deg, #ffffff 0%, #f4f2fa 100%)',
+                                                  border: '1px solid rgba(226, 222, 243, 0.95)',
+                                                  boxShadow: '0 4px 10px -2px rgba(124, 114, 184, 0.24)',
+                                                  color: '#6d5ce8',
+                                                }
+                                              : isDarkPastelLilac
+                                                ? {
+                                                    background: 'linear-gradient(165deg, #2d2748 0%, #1e1a30 100%)',
+                                                    border: '1px solid rgba(196, 181, 253, 0.30)',
+                                                    boxShadow: '0 4px 10px -2px rgba(6, 4, 16, 0.45)',
+                                                    color: '#c4b5fd',
+                                                  }
+                                                : isDarkGlass
+                                                  ? {
+                                                      background: 'rgba(15, 23, 42, 0.88)',
+                                                      border: '1px solid rgba(255, 255, 255, 0.25)',
+                                                      boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.25)',
+                                                    }
+                                                  : isLightLeather
+                                                    ? {
+                                                        background: 'linear-gradient(135deg, #FDF8F0 0%, #EBD4B4 100%)',
+                                                        border: '1px dashed rgba(139, 90, 43, 0.65)',
+                                                        color: '#7C2D12',
+                                                      }
+                                                    : isLeather
+                                                      ? {
+                                                          background: 'linear-gradient(135deg, #8B5A2B 0%, #522E10 100%)',
+                                                          border: '1px dashed rgba(245, 222, 179, 0.6)',
+                                                        }
+                                                      : { backgroundColor: preset.color }
+                                    }
+                                  >
+                                    <WebIcon name={preset.icon} className="w-3.5 h-3.5" />
+                                  </div>
+                                  <div className="flex items-center gap-1.5 min-w-0">
+                                    <span className="truncate typo-body-sm font-bold">{presetName}</span>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                                  <span
+                                    className="typo-badge font-medium opacity-80"
+                                    style={!isActive ? { color: 'var(--text-muted)' } : undefined}
+                                  >
+                                    {preset.isDark ? (isEn ? 'Dark' : 'Tối') : isEn ? 'Light' : 'Sáng'}
+                                  </span>
+                                  {isActive && <span className="text-white font-bold">✓</span>}
+                                </div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      ))}
                     </div>
 
                     <div className="border-t pt-1.5 mt-1" style={{ borderColor: 'var(--border-subcard)' }}>

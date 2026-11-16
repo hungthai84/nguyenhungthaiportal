@@ -34,7 +34,7 @@ export const Clock: React.FC<ClockProps> = ({ isLight = true, currentTheme }) =>
     return () => clearInterval(interval);
   }, [language]);
 
-  const isDark = currentTheme === 'dark-neon' || !isLight;
+  const isDark = currentTheme === 'dark-glassmorphism' || !isLight;
 
   return (
     <div className="flex flex-col items-start justify-center leading-none text-left shrink-0 pl-1">

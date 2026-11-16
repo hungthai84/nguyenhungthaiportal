@@ -324,7 +324,7 @@ export const Header: React.FC<HeaderProps> = ({
   const headerPages = [...orderedPages, ...extraPages];
 
   const { cardStyle, isDark: themeIsDark } = useTheme();
-  const isDark = themeIsDark || currentTheme === 'dark-neon';
+  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
 
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);

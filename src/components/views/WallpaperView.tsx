@@ -179,8 +179,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
       if (wp.id === 'none') {
         onShowNotification(
           isEn
-            ? '✓ Set Default Wallpaper (Plain Mica Glass) & saved permanently!'
-            : '✓ Đã đặt hình nền Mặc định (Kính trong suốt Mica) & lưu lâu dài!'
+            ? '✓ Set Default Wallpaper (Transparent Glass) & saved permanently!'
+            : '✓ Đã đặt hình nền Mặc định (Hệ thống) & lưu lâu dài!'
         );
       } else {
         onShowNotification(
@@ -845,7 +845,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                       className="w-full h-full flex flex-col items-center justify-center gap-1.5 p-3 text-center transition-all"
                     >
                       <WebIcon name="sparkles" className="w-8 h-8 text-[var(--color-primary)] drop-shadow-xs" />
-                      <span className="typo-badge font-play text-[var(--text-primary)] drop-shadow-xs">Mặc định (Plain Mica)</span>
+                      <span className="typo-badge font-play text-[var(--text-primary)] drop-shadow-xs">Mặc định (Hệ thống)</span>
                     </div>
                   ) : wp.type === 'video' ? (
                     wp.value.includes('youtube.com') || wp.value.includes('youtu.be') ? (

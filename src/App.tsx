@@ -320,7 +320,7 @@ export default function App() {
     [currentTabIndex, pageSlides]
   );
 
-  const activeTheme = isDark ? 'dark-neon' : 'light-glass';
+  const activeTheme = isDark ? 'dark-glassmorphism' : 'light-glassmorphism';
 
   const renderActiveView = () => {
     switch (currentTabIndex) {
@@ -417,7 +417,7 @@ export default function App() {
       data-element-name="Khung chứa toàn bộ trang web"
       data-element-type="container"
       data-element-page="global"
-      className="h-screen w-screen overflow-hidden flex flex-col justify-between m-0 select-text relative px-2 sm:px-4 lg:px-[25px]"
+      className="h-screen w-screen overflow-hidden flex flex-col justify-between m-0 select-text relative px-2 sm:px-4 lg:px-[25px] transition-colors duration-300 ease-in-out"
     >
       {/* GLOBAL UNIFIED AMBIENT GLASS BACKGROUND & WALLPAPER SYSTEM */}
       <div
@@ -611,7 +611,7 @@ export default function App() {
         data-element-page="global"
         data-element-parent="website-root"
         style={{ width: '100%', maxWidth: '1250px', height: '100%', maxHeight: '100%', marginLeft: 'auto', marginRight: 'auto' }}
-        className="w-full max-w-[1250px] mx-auto flex-1 my-[4px] sm:my-[6px] lg:my-[8px] min-h-0 rounded-[14px] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1"
+        className="w-full max-w-[1250px] mx-auto flex-1 my-[4px] sm:my-[6px] lg:my-[8px] min-h-0 rounded-[14px] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent transition-all duration-300 ease-in-out [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1"
       >
         <motion.div
           key={`page-view-${currentTabIndex}`}

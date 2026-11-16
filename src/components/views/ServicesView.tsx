@@ -27,7 +27,7 @@ const DOMAIN_DETAIL_ACCENTS: Record<string, { light: string; dark: string }> = {
 export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'light-glass' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
-  const isDark = themeIsDark || currentTheme === 'dark-neon';
+  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
   const isLight = !isDark;
 
   const isEn = language === 'en';
@@ -533,7 +533,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           (() => {
             const cfg = getCardVisualConfig(selectedDomain.id);
             const accentPair = DOMAIN_DETAIL_ACCENTS[selectedDomain.id] || DOMAIN_DETAIL_ACCENTS['01'];
-            const accentColor = cardStyle === 'cowhide-leather' ? '#FDE68A' : isLight ? accentPair.light : accentPair.dark;
+            const accentColor =
+              cardStyle === 'cowhide-leather'
+                ? '#FDE68A'
+                : cardStyle === 'light-cowhide-leather'
+                  ? '#9A3412'
+                  : isLight
+                    ? accentPair.light
+                    : accentPair.dark;
             const domainAccentKeyMap: Record<string, string> = {
               '01': 'sky',
               '02': 'orange',
@@ -612,11 +619,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                       SoundEngine.playTap();
                       setSelectedDomain(null);
                     }}
-                    aria-label={isEn ? 'Close details' : 'Đóng chi tiết'}
-                    className="theme-modal-close w-9 h-9 rounded-full transition-all flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95 shrink-0 shadow-xs"
-                    title={isEn ? 'Close details (Esc)' : 'Đóng chi tiết (Esc)'}
+                    className="w-8 h-8 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] hover:bg-[var(--bg-button-primary)] hover:text-white text-[var(--text-secondary)] flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-xs active:scale-95"
+                    title={isEn ? "Close details" : "Đóng chi tiết"}
+                    aria-label={isEn ? "Close details" : "Đóng chi tiết dịch vụ"}
                   >
-                    <WebIcon name="cancel" className="w-4 h-4" />
+                    <WebIcon name="x" className="w-4 h-4" />
                   </button>
                 </div>
 
@@ -998,7 +1005,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                               <span
                                 className="w-7 h-7 rounded-[10px] shrink-0 flex items-center justify-center border border-[var(--border-subcard)]/70"
                                 style={{
-                                  backgroundColor: cardStyle === 'cowhide-leather' ? 'rgba(61, 33, 11, 0.72)' : 'rgba(255, 255, 255, 0.14)',
+                                  backgroundColor:
+                                    cardStyle === 'cowhide-leather'
+                                      ? 'rgba(61, 33, 11, 0.72)'
+                                      : cardStyle === 'light-cowhide-leather'
+                                        ? 'rgba(139, 90, 43, 0.14)'
+                                        : 'rgba(255, 255, 255, 0.14)',
                                   color: `var(--accent-${toolAccent})`,
                                 }}
                               >

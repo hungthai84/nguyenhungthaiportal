@@ -1,15 +1,15 @@
 /* ========================================================================= */
-/* THEME: GƯƠNG TỐI (DARK GLASSMORPHISM / DARK FROSTED GLASS)                */
+/* THEME: GƯƠNG TỐI (DARK GLASSMORPHISM — FULL SYSTEM SYNC)                  */
 /* Deep Dark Translucent Glassmorphism with Specular Top Edge                */
 /* ========================================================================= */
 
 .card-dark-glassmorphism {
-    background: rgba(15, 23, 42, 0.68);
-    backdrop-filter: blur(22px) saturate(150%);
-    -webkit-backdrop-filter: blur(22px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    box-shadow: 0 22px 48px -12px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.18);
-    color: #f8fafc;
+  background: rgba(15, 23, 42, 0.68);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 22px 48px -12px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  color: #f8fafc;
 }
 
 html[data-card-style="dark-glassmorphism"],
@@ -34,20 +34,23 @@ html.dark[data-card-style="dark-glassmorphism"] {
   --text-muted: #94a3b8;
   --text-heading: #f8fafc;
   --text-link: #38bdf8;
+  --color-primary: #38bdf8;
+  --color-secondary: #818cf8;
+  --color-tertiary: #22d3ee;
 
   --bg-main: #020617;
-  --bg-header: rgba(15, 23, 42, 0.60);
-  --bg-footer: rgba(15, 23, 42, 0.60);
+  --bg-header: rgba(15, 23, 42, 0.62);
+  --bg-footer: rgba(15, 23, 42, 0.62);
   --bg-card: rgba(15, 23, 42, 0.68);
   --bg-subcard: rgba(15, 23, 42, 0.62);
-  --bg-subcard-hover: rgba(30, 41, 59, 0.78);
+  --bg-subcard-hover: rgba(30, 41, 59, 0.80);
   --bg-nested-card: rgba(15, 23, 42, 0.78);
 
   /* Interactive Actions & Focus */
   --bg-button-primary: linear-gradient(135deg, #0ea5e9 0%, #4f46e5 100%);
   --bg-button-secondary: rgba(30, 41, 59, 0.78);
   --bg-popup: rgba(15, 23, 42, 0.88);
-  --bg-modal: rgba(15, 23, 42, 0.90);
+  --bg-modal: rgba(15, 23, 42, 0.92);
   --bg-modal-backdrop: rgba(2, 6, 23, 0.80);
   --bg-modal-header: rgba(15, 23, 42, 0.94);
   --bg-modal-footer: rgba(15, 23, 42, 0.94);
@@ -55,12 +58,12 @@ html.dark[data-card-style="dark-glassmorphism"] {
   --bg-dropdown: rgba(15, 23, 42, 0.92);
   --bg-navigation: rgba(15, 23, 42, 0.78);
   --bg-tab: rgba(30, 41, 59, 0.78);
-  --bg-input: rgba(15, 23, 42, 0.80);
+  --bg-input: rgba(15, 23, 42, 0.82);
   --border-input: rgba(255, 255, 255, 0.18);
   --border-input-focus: #38bdf8;
   --text-input: #f8fafc;
   --text-placeholder: #94a3b8;
-  --bg-table: rgba(15, 23, 42, 0.68);
+  --bg-table: rgba(15, 23, 42, 0.70);
   --bg-table-head: rgba(30, 41, 59, 0.86);
   --bg-table-row-alt: rgba(30, 41, 59, 0.44);
   --border-table: rgba(255, 255, 255, 0.16);
@@ -72,9 +75,9 @@ html.dark[data-card-style="dark-glassmorphism"] {
   --color-border: rgba(255, 255, 255, 0.16);
   --color-border-soft: rgba(255, 255, 255, 0.10);
   --color-focus-ring: #38bdf8;
-  --bg-nav-button-opaque: rgba(15, 23, 42, 0.82);
+  --bg-nav-button-opaque: rgba(15, 23, 42, 0.84);
 
-  --bg-nav-pill: rgba(15, 23, 42, 0.80);
+  --bg-nav-pill: rgba(15, 23, 42, 0.82);
   --shadow-nav-pill: 0 14px 32px -8px rgba(2, 6, 23, 0.76),
     inset 0 1px 1px rgba(255, 255, 255, 0.18);
   --divider-nav-pill: rgba(255, 255, 255, 0.20);
@@ -84,7 +87,7 @@ html.dark[data-card-style="dark-glassmorphism"] {
     inset 0 1px 1px rgba(255, 255, 255, 0.18);
   --shadow-subcard-hover: 0 18px 38px -10px rgba(2, 6, 23, 0.78),
     inset 0 1px 1.5px rgba(255, 255, 255, 0.26);
-  --bg-nested-badge: rgba(30, 41, 59, 0.82);
+  --bg-nested-badge: rgba(30, 41, 59, 0.84);
   --border-nested-badge: rgba(255, 255, 255, 0.18);
 
   --pillar-heading: #f8fafc;
@@ -96,10 +99,30 @@ html.dark[data-card-style="dark-glassmorphism"] {
   --pillar-progress-track: rgba(255, 255, 255, 0.14);
   --pillar-progress-fill: linear-gradient(90deg, #38bdf8, #818cf8);
 
-  /* Specular Top-Edge Elevation System */
-  --shadow-header: none;
-  --shadow-main-card: none;
-  --shadow-footer: none;
+  /* Banner & Nav Arrow Tokens */
+  --banner-border: rgba(255, 255, 255, 0.18);
+  --banner-shadow: 0 22px 48px -12px rgba(2, 6, 23, 0.74), inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  --bg-banner-pill: rgba(15, 23, 42, 0.84);
+  --text-banner-pill: #f8fafc;
+  --border-banner-pill: rgba(255, 255, 255, 0.20);
+  --shadow-banner-pill: 0 10px 24px -6px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.16);
+  --bg-banner-cta: linear-gradient(135deg, #0ea5e9 0%, #4f46e5 100%);
+  --text-banner-cta: #ffffff;
+  --border-banner-cta: rgba(56, 189, 248, 0.45);
+  --bg-banner-input: rgba(15, 23, 42, 0.88);
+  --text-banner-input: #f8fafc;
+  --border-banner-input: rgba(255, 255, 255, 0.20);
+  --bg-nav-arrow: rgba(15, 23, 42, 0.84);
+  --border-nav-arrow: rgba(255, 255, 255, 0.20);
+  --text-nav-arrow: #f8fafc;
+  --shadow-nav-arrow: 0 8px 20px -4px rgba(2, 6, 23, 0.70), inset 0 1px 1px rgba(255, 255, 255, 0.16);
+  --border-image-card: rgba(255, 255, 255, 0.18);
+  --shadow-image-card: 0 22px 48px -12px rgba(2, 6, 23, 0.74);
+
+  /* Specular Top-Edge Elevation System (Đồng bộ Header, Main Card, Footer) */
+  --shadow-header: 0 20px 46px -12px rgba(2, 6, 23, 0.72), 0 6px 18px -4px rgba(2, 6, 23, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.16);
+  --shadow-main-card: var(--shadow-header);
+  --shadow-footer: var(--shadow-header);
   --shadow-card: 0 22px 48px -12px rgba(2, 6, 23, 0.72),
     inset 0 1px 1px rgba(255, 255, 255, 0.18);
   --shadow-card-hover: 0 26px 54px -12px rgba(2, 6, 23, 0.82),
@@ -108,16 +131,204 @@ html.dark[data-card-style="dark-glassmorphism"] {
     inset 0 1px 1px rgba(255, 255, 255, 0.20);
   --shadow-modal: 0 32px 72px -12px rgba(2, 6, 23, 0.92),
     inset 0 1.5px 1.5px rgba(255, 255, 255, 0.24);
+
+  /* 4-Tier Surface Tokens */
+  --surface-primary-bg: rgba(15, 23, 42, 0.62);
+  --surface-primary-border: rgba(255, 255, 255, 0.14);
+  --surface-primary-shadow: var(--shadow-header);
+  --surface-primary-blur: 18px;
+  --surface-secondary-bg: rgba(15, 23, 42, 0.68);
+  --surface-secondary-border: rgba(255, 255, 255, 0.16);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-blur: 22px;
+  --surface-tertiary-bg: rgba(15, 23, 42, 0.62);
+  --surface-tertiary-border: rgba(255, 255, 255, 0.16);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 20px;
+  --surface-interactive-bg: rgba(15, 23, 42, 0.82);
+  --surface-interactive-hover: rgba(30, 41, 59, 0.88);
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: rgba(255, 255, 255, 0.20);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 22px;
 }
 
-html[data-card-style="dark-glassmorphism"] .bento-card,
-html[data-card-style="dark-glassmorphism"] .glass-card,
+/* Level 01: Header, Footer, Main Card & Nav Capsule */
+html[data-card-style="dark-glassmorphism"] #app-header,
+html[data-card-style="dark-glassmorphism"] #app-footer {
+  background: var(--surface-primary-bg) !important;
+  backdrop-filter: blur(18px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+  border-color: var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
+  color: #f8fafc !important;
+}
+
 html[data-card-style="dark-glassmorphism"] .main-card,
-html[data-card-style="dark-glassmorphism"] .sub-card {
-  background: rgba(15, 23, 42, 0.68);
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 22px 48px -12px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.18);
-  color: #f8fafc;
+html[data-card-style="dark-glassmorphism"] [id$="-page-container"],
+html[data-card-style="dark-glassmorphism"] [id$="-page-root"] {
+  background: var(--surface-primary-bg) !important;
+  backdrop-filter: blur(18px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+  border: 1px solid var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
+  color: #f8fafc !important;
+}
+
+html[data-card-style="dark-glassmorphism"] #footer-nav-capsule {
+  background: rgba(15, 23, 42, 0.80) !important;
+  backdrop-filter: blur(22px) saturate(155%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(155%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 16px 36px -8px rgba(2, 6, 23, 0.76), inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
+  color: #f8fafc !important;
+}
+
+/* Level 02: Primary Section Cards */
+html[data-card-style="dark-glassmorphism"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="dark-glassmorphism"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="dark-glassmorphism"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="dark-glassmorphism"] .project-card,
+html[data-card-style="dark-glassmorphism"] #projects-grid article,
+html[data-card-style="dark-glassmorphism"] .project-detail-section-card,
+html[data-card-style="dark-glassmorphism"] #contact-info-container {
+  background: rgba(15, 23, 42, 0.68) !important;
+  backdrop-filter: blur(22px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #f8fafc !important;
+}
+
+/* Level 03: Subcards & Nested Surfaces */
+html[data-card-style="dark-glassmorphism"] [data-subcard="true"]:not(.skill-swot-subcard),
+html[data-card-style="dark-glassmorphism"] .sub-card:not(.skill-swot-subcard),
+html[data-card-style="dark-glassmorphism"] .about-info-subcard,
+html[data-card-style="dark-glassmorphism"] .experience-milestone-card,
+html[data-card-style="dark-glassmorphism"] .exp-detail-subcard,
+html[data-card-style="dark-glassmorphism"] .pillar-gradient-card,
+html[data-card-style="dark-glassmorphism"] .education-subcard,
+html[data-card-style="dark-glassmorphism"] .letter-subcard,
+html[data-card-style="dark-glassmorphism"] .letter-header-subcard,
+html[data-card-style="dark-glassmorphism"] .letter-footer-subcard,
+html[data-card-style="dark-glassmorphism"] .project-detail-subcard {
+  background: rgba(15, 23, 42, 0.62) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: var(--shadow-subcard) !important;
+  color: #f8fafc !important;
+}
+
+html[data-card-style="dark-glassmorphism"] [data-subcard="true"]:not(.skill-swot-subcard):hover,
+html[data-card-style="dark-glassmorphism"] .sub-card:not(.skill-swot-subcard):hover,
+html[data-card-style="dark-glassmorphism"] .about-info-subcard:hover,
+html[data-card-style="dark-glassmorphism"] .experience-milestone-card:hover,
+html[data-card-style="dark-glassmorphism"] .exp-detail-subcard:hover,
+html[data-card-style="dark-glassmorphism"] .pillar-gradient-card:hover,
+html[data-card-style="dark-glassmorphism"] .education-subcard:hover {
+  background: rgba(30, 41, 59, 0.78) !important;
+  border-color: rgba(255, 255, 255, 0.26) !important;
+  box-shadow: var(--shadow-subcard-hover) !important;
+}
+
+html[data-card-style="dark-glassmorphism"] .bento-tone-indigo,
+html[data-card-style="dark-glassmorphism"] .bento-tone-cyan,
+html[data-card-style="dark-glassmorphism"] .bento-tone-purple,
+html[data-card-style="dark-glassmorphism"] .bento-tone-emerald,
+html[data-card-style="dark-glassmorphism"] .bento-tone-blue,
+html[data-card-style="dark-glassmorphism"] .bento-tone-amber,
+html[data-card-style="dark-glassmorphism"] .bento-tone-pink,
+html[data-card-style="dark-glassmorphism"] .bento-tone-teal,
+html[data-card-style="dark-glassmorphism"] .bento-tone-sky {
+  background: rgba(15, 23, 42, 0.68) !important;
+  backdrop-filter: blur(22px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #f8fafc !important;
+}
+
+/* Level 04: Interactive Pills, Modals, Inputs & Tables */
+html[data-card-style="dark-glassmorphism"] #app-header nav button.nav-pill:not(.active),
+html[data-card-style="dark-glassmorphism"] #header-btn-hungthai-avatar:not(.active),
+html[data-card-style="dark-glassmorphism"] #footer-lang-btn:not(.active),
+html[data-card-style="dark-glassmorphism"] #footer-appearance-btn:not(.active),
+html[data-card-style="dark-glassmorphism"] #footer-wallpaper-btn:not(.active),
+html[data-card-style="dark-glassmorphism"] #footer-ai-btn:not(.active),
+html[data-card-style="dark-glassmorphism"] .banner-control-pill,
+html[data-card-style="dark-glassmorphism"] .nav-arrow-btn,
+html[data-card-style="dark-glassmorphism"] .theme-prev-next-btn,
+html[data-card-style="dark-glassmorphism"] .theme-back-to-top-btn,
+html[data-card-style="dark-glassmorphism"] .radial-contact-pill {
+  background: rgba(15, 23, 42, 0.82) !important;
+  backdrop-filter: blur(22px) saturate(155%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(155%) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  color: #f8fafc !important;
+}
+
+html[data-card-style="dark-glassmorphism"] #footer-theme-popup,
+html[data-card-style="dark-glassmorphism"] #footer-lang-popup,
+html[data-card-style="dark-glassmorphism"] #ai-assistant-droptop-menu-list,
+html[data-card-style="dark-glassmorphism"] #ai-assistant-center-questions-modal,
+html[data-card-style="dark-glassmorphism"] #interview-question-filter-listbox,
+html[data-card-style="dark-glassmorphism"] #skills-filter-dropdown,
+html[data-card-style="dark-glassmorphism"] #services-filter-dropdown,
+html[data-card-style="dark-glassmorphism"] .banner-dropdown-menu,
+html[data-card-style="dark-glassmorphism"] [role="dialog"],
+html[data-card-style="dark-glassmorphism"] .modal-dialog,
+html[data-card-style="dark-glassmorphism"] .theme-modal-card {
+  background: rgba(15, 23, 42, 0.90) !important;
+  backdrop-filter: blur(24px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: var(--shadow-modal) !important;
+  color: #f8fafc !important;
+}
+
+html[data-card-style="dark-glassmorphism"] .theme-modal-header,
+html[data-card-style="dark-glassmorphism"] .theme-modal-footer {
+  background: rgba(15, 23, 42, 0.94) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: #f8fafc !important;
+}
+
+html[data-card-style="dark-glassmorphism"] .theme-modal-subcard {
+  background: rgba(30, 41, 59, 0.72) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: var(--shadow-subcard) !important;
+  color: #f8fafc !important;
+}
+
+html[data-card-style="dark-glassmorphism"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+html[data-card-style="dark-glassmorphism"] textarea,
+html[data-card-style="dark-glassmorphism"] select,
+html[data-card-style="dark-glassmorphism"] .banner-search-input {
+  background: rgba(15, 23, 42, 0.84) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: #f8fafc !important;
+}
+
+html[data-card-style="dark-glassmorphism"] input::placeholder,
+html[data-card-style="dark-glassmorphism"] textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+html[data-card-style="dark-glassmorphism"] .theme-table {
+  background: rgba(15, 23, 42, 0.72) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  color: #f8fafc !important;
+}
+
+html[data-card-style="dark-glassmorphism"] .theme-table thead,
+html[data-card-style="dark-glassmorphism"] .theme-table th {
+  background: rgba(30, 41, 59, 0.88) !important;
+  color: #f8fafc !important;
+}
+
+html[data-card-style="dark-glassmorphism"] .themed-image-card {
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: var(--shadow-image-card) !important;
 }

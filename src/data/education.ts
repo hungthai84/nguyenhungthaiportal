@@ -46,7 +46,7 @@ export const ACADEMIC_COMPETENCY_RADAR: AcademicRadarAxis[] = [
 export const CREDENTIAL_VERIFICATION_MAP: Record<number, CredentialVerification> = {
   1: {
     credentialId: 'WEB-UIUX-2026-001',
-    organization: 'GitHub & Thực Tế',
+    organization: 'Tự học phát triển',
     registryName: 'Cổng Quản Trị Dự Án & Portfolio',
     status: 'Đã hoàn thành xuất sắc',
     verifyUrl: 'https://github.com',
@@ -165,7 +165,7 @@ export const EDUCATION_LIST: EducationCourse[] = [
     year: '2026',
     code: 'WEB-2026',
     category: 'tech',
-    issuer: 'GitHub, tài liệu kỹ thuật & Dự án thực tế',
+    issuer: 'Tự học phát triển',
     desc: 'Phát triển năng lực thiết kế và xây dựng sản phẩm số hiện đại kết hợp Web Development, Responsive UI/UX và AI Agent Workflows.',
     skills: ['UI/UX', 'Web Development', 'AI Agent Workflows', 'Responsive Design'],
     image: 'https://i.ibb.co/ch0b9mfY/Thi-t-k-website.png',

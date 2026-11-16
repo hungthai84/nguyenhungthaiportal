@@ -21,6 +21,12 @@ html[data-card-style="mica-fluent"] {
   --color-text-secondary: #475569;
   --color-text-muted: #64748B;
   --color-link: #0067C0;
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --text-heading: #0F172A;
+  --text-link: #0067C0;
+  --bg-subcard-hover: rgba(255, 255, 255, 0.94);
 
   --bg-main: #F3F3F3;
   --bg-header: rgba(243, 243, 243, 0.88);
@@ -33,10 +39,22 @@ html[data-card-style="mica-fluent"] {
   --bg-button-secondary: rgba(255, 255, 255, 0.76);
   --bg-popup: rgba(246, 246, 246, 0.95);
   --bg-modal: rgba(246, 246, 246, 0.96);
+  --bg-modal-backdrop: rgba(15, 23, 42, 0.36);
+  --bg-modal-header: rgba(243, 243, 243, 0.94);
+  --bg-modal-footer: rgba(243, 243, 243, 0.94);
+  --border-modal: rgba(255, 255, 255, 0.96);
   --bg-dropdown: rgba(255, 255, 255, 0.96);
   --bg-navigation: rgba(243, 243, 243, 0.88);
   --bg-tab: rgba(255, 255, 255, 0.70);
+  --bg-input: rgba(255, 255, 255, 0.88);
+  --border-input: rgba(15, 23, 42, 0.14);
+  --border-input-focus: #0067C0;
+  --text-input: #0F172A;
+  --text-placeholder: #64748B;
   --bg-table: rgba(243, 243, 243, 0.90);
+  --bg-table-head: rgba(255, 255, 255, 0.92);
+  --bg-table-row-alt: rgba(255, 255, 255, 0.45);
+  --border-table: rgba(0, 0, 0, 0.08);
 
   --glass-bg: rgba(243, 243, 243, 0.86);
   --glass-border: rgba(255, 255, 255, 0.92);
@@ -68,9 +86,14 @@ html[data-card-style="mica-fluent"] {
   --pillar-progress-track: rgba(0, 0, 0, 0.08);
   --pillar-progress-fill: #0067C0;
 
-  --shadow-card: 0 8px 24px -4px rgba(0, 0, 0, 0.06),
-    0 2px 6px -1px rgba(0, 0, 0, 0.04),
+  --shadow-card: 0 10px 28px -4px rgba(15, 23, 42, 0.09),
+    0 4px 10px -2px rgba(15, 23, 42, 0.05),
     inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+  --shadow-header: 0 16px 40px -8px rgba(15, 23, 42, 0.16),
+    0 6px 16px -3px rgba(15, 23, 42, 0.08),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.98);
+  --shadow-main-card: var(--shadow-header);
+  --shadow-footer: var(--shadow-header);
   --shadow-popup: 0 16px 36px -4px rgba(0, 0, 0, 0.10),
     0 4px 12px -2px rgba(0, 0, 0, 0.06),
     inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
@@ -99,16 +122,16 @@ html[data-card-style="mica-fluent"] #global-wallpaper-layer::after {
 /* Header & Footer Fluent Mica Styling */
 html[data-card-style="mica-fluent"] #app-header {
   background: var(--bg-header) !important;
-  border-color: rgba(255, 255, 255, 0.95) !important;
-  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.96) !important;
+  box-shadow: var(--shadow-header) !important;
   backdrop-filter: blur(36px) saturate(125%) !important;
   -webkit-backdrop-filter: blur(36px) saturate(125%) !important;
 }
 
 html[data-card-style="mica-fluent"] #app-footer {
   background: var(--bg-footer) !important;
-  border-color: rgba(255, 255, 255, 0.95) !important;
-  box-shadow: 0 -4px 18px -2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.96) !important;
+  box-shadow: var(--shadow-footer) !important;
   backdrop-filter: blur(36px) saturate(125%) !important;
   -webkit-backdrop-filter: blur(36px) saturate(125%) !important;
 }
@@ -121,35 +144,43 @@ html[data-card-style="mica-fluent"] #footer-nav-capsule {
   -webkit-backdrop-filter: blur(28px) saturate(120%) !important;
 }
 
-/* Card Surfaces in Fluent Mica Light */
+/* Main Card & Section Surfaces in Fluent Mica Light */
+html[data-card-style="mica-fluent"] .main-card,
 html[data-card-style="mica-fluent"] [id$="-page-container"],
-html[data-card-style="mica-fluent"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170),
-html[data-card-style="mica-fluent"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card),
-html[data-card-style="mica-fluent"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card) {
+html[data-card-style="mica-fluent"] [id$="-page-root"] {
+  background: rgba(243, 243, 243, 0.88) !important;
+  border: 1px solid rgba(255, 255, 255, 0.96) !important;
+  box-shadow: var(--shadow-main-card) !important;
+  backdrop-filter: blur(36px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(160%) !important;
+}
+
+html[data-card-style="mica-fluent"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="mica-fluent"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="mica-fluent"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]) {
   background: rgba(243, 243, 243, 0.86) !important;
   border: 1px solid rgba(255, 255, 255, 0.92) !important;
-  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
+  box-shadow: var(--shadow-card) !important;
   backdrop-filter: blur(36px) saturate(125%) !important;
   -webkit-backdrop-filter: blur(36px) saturate(125%) !important;
 }
 
 /* Hover elevation in Fluent Mica */
-html[data-card-style="mica-fluent"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):hover,
-html[data-card-style="mica-fluent"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.pillar-gradient-card):not(.value-gradient-card):hover {
+html[data-card-style="mica-fluent"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]):hover,
+html[data-card-style="mica-fluent"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]):hover {
   transform: translateY(-2px);
   border-color: rgba(255, 255, 255, 0.98) !important;
   box-shadow: 0 14px 32px -4px rgba(0, 0, 0, 0.09), 0 4px 10px -2px rgba(0, 0, 0, 0.05), inset 0 1px 1.5px #FFFFFF !important;
 }
 
 /* Sub-cards inside Fluent Mica */
-html[data-card-style="mica-fluent"] [data-subcard="true"],
-html[data-card-style="mica-fluent"] .sub-card,
+html[data-card-style="mica-fluent"] [data-subcard="true"]:not(.skill-swot-subcard),
+html[data-card-style="mica-fluent"] .sub-card:not(.skill-swot-subcard),
 html[data-card-style="mica-fluent"] .about-info-subcard,
 html[data-card-style="mica-fluent"] .experience-milestone-card,
 html[data-card-style="mica-fluent"] .exp-detail-card,
 html[data-card-style="mica-fluent"] .exp-detail-subcard,
-html[data-card-style="mica-fluent"] .pillar-gradient-card,
-html[data-card-style="mica-fluent"] .skill-swot-subcard {
+html[data-card-style="mica-fluent"] .pillar-gradient-card {
   background: rgba(255, 255, 255, 0.78) !important;
   border: 1px solid rgba(0, 0, 0, 0.06) !important;
   box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
@@ -157,11 +188,16 @@ html[data-card-style="mica-fluent"] .skill-swot-subcard {
   -webkit-backdrop-filter: blur(24px) saturate(120%) !important;
 }
 
+html[data-card-style="mica-fluent"] .skill-swot-subcard,
 html[data-card-style="mica-fluent"] .skill-swot-subcard:hover,
 html[data-card-style="mica-fluent"] .skill-swot-subcard[data-expanded="true"] {
-  background: rgba(255, 255, 255, 0.94) !important;
-  border-color: rgba(0, 103, 192, 0.24) !important;
-  box-shadow: 0 6px 16px -4px rgba(0, 0, 0, 0.08), inset 0 1px 0 #FFFFFF !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 1px solid var(--swot-accent-border) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 html[data-card-style="mica-fluent"] .skill-swot-subcard .swot-skill-disclosure {
@@ -212,13 +248,13 @@ html[data-card-style="mica-fluent"] #services-filter-dropdown {
 }
 
 /* High Contrast WCAG Text Assurance */
-html[data-card-style="mica-fluent"] h1:not(.hero-banner h1),
-html[data-card-style="mica-fluent"] h2:not(.hero-banner h2),
-html[data-card-style="mica-fluent"] h3:not(.hero-banner h3),
-html[data-card-style="mica-fluent"] h4:not(.hero-banner h4),
-html[data-card-style="mica-fluent"] h5,
-html[data-card-style="mica-fluent"] .card-heading__title,
-html[data-card-style="mica-fluent"] .card-title {
+html[data-card-style="mica-fluent"] h1:not(.hero-banner h1):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]):not(.education-card-title):not([style*="color"]):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-teal-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-indigo-"]):not([class*="text-violet-"]):not([class*="text-purple-"]):not([class*="text-fuchsia-"]):not([class*="text-pink-"]):not([class*="text-rose-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-yellow-"]):not([class*="text-red-"]):not([class*="text-[#"]),
+html[data-card-style="mica-fluent"] h2:not(.hero-banner h2):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]):not(.education-card-title):not([style*="color"]):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-teal-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-indigo-"]):not([class*="text-violet-"]):not([class*="text-purple-"]):not([class*="text-fuchsia-"]):not([class*="text-pink-"]):not([class*="text-rose-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-yellow-"]):not([class*="text-red-"]):not([class*="text-[#"]),
+html[data-card-style="mica-fluent"] h3:not(.hero-banner h3):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]):not(.education-card-title):not([style*="color"]):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-teal-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-indigo-"]):not([class*="text-violet-"]):not([class*="text-purple-"]):not([class*="text-fuchsia-"]):not([class*="text-pink-"]):not([class*="text-rose-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-yellow-"]):not([class*="text-red-"]):not([class*="text-[#"]),
+html[data-card-style="mica-fluent"] h4:not(.hero-banner h4):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]):not(.education-card-title):not([style*="color"]):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-teal-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-indigo-"]):not([class*="text-violet-"]):not([class*="text-purple-"]):not([class*="text-fuchsia-"]):not([class*="text-pink-"]):not([class*="text-rose-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-yellow-"]):not([class*="text-red-"]):not([class*="text-[#"]),
+html[data-card-style="mica-fluent"] h5:not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]):not([style*="color"]):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-teal-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-indigo-"]):not([class*="text-violet-"]):not([class*="text-purple-"]):not([class*="text-fuchsia-"]):not([class*="text-pink-"]):not([class*="text-rose-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-yellow-"]):not([class*="text-red-"]):not([class*="text-[#"]),
+html[data-card-style="mica-fluent"] .card-heading__title:not(.card-title-synced):not([data-card-title]),
+html[data-card-style="mica-fluent"] .card-title:not(.card-title-synced):not([data-card-title]):not([style*="color"]):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-teal-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-indigo-"]):not([class*="text-violet-"]):not([class*="text-purple-"]):not([class*="text-fuchsia-"]):not([class*="text-pink-"]):not([class*="text-rose-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-yellow-"]):not([class*="text-red-"]):not([class*="text-[#"]) {
   color: #0F172A !important;
 }
 
@@ -316,4 +352,110 @@ html[data-card-style="mica-fluent"] .themed-image-card {
   border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
   box-shadow: 0 10px 26px -4px rgba(0, 0, 0, 0.09) !important;
 }
+
+/* Fluent Mica: Radial Menu, Footer Popups, Modals, Project Cards & Inputs */
+html[data-card-style="mica-fluent"] .radial-contact-pill {
+  background: var(--bg-nav-pill) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  backdrop-filter: blur(32px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(125%) !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="mica-fluent"] #footer-theme-popup,
+html[data-card-style="mica-fluent"] #footer-lang-popup,
+html[data-card-style="mica-fluent"] [role="dialog"],
+html[data-card-style="mica-fluent"] .modal-dialog,
+html[data-card-style="mica-fluent"] .theme-modal-card {
+  background: rgba(246, 246, 246, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 24px 54px -8px rgba(0, 0, 0, 0.14), inset 0 1px 1.5px rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(36px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(125%) !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="mica-fluent"] .theme-modal-header,
+html[data-card-style="mica-fluent"] .theme-modal-footer {
+  background: rgba(243, 243, 243, 0.92) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="mica-fluent"] .theme-modal-subcard {
+  background: rgba(255, 255, 255, 0.84) !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.05), inset 0 1px 0 #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="mica-fluent"] .project-card {
+  background: rgba(243, 243, 243, 0.88) !important;
+  border: 1px solid rgba(255, 255, 255, 0.94) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(36px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(125%) !important;
+}
+
+html[data-card-style="mica-fluent"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+html[data-card-style="mica-fluent"] textarea,
+html[data-card-style="mica-fluent"] select,
+html[data-card-style="mica-fluent"] .banner-search-input {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid rgba(15, 23, 42, 0.14) !important;
+  color: #0F172A !important;
+  box-shadow: inset 0 -1.5px 0 rgba(0, 103, 192, 0.45) !important;
+}
+
+html[data-card-style="mica-fluent"] .theme-pip-player {
+  background: rgba(246, 246, 246, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 24px 54px -8px rgba(0, 0, 0, 0.14), inset 0 1px 1.5px rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(36px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(125%) !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="mica-fluent"] .theme-pip-header,
+html[data-card-style="mica-fluent"] .theme-pip-footer {
+  background: rgba(243, 243, 243, 0.92) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="mica-fluent"] .theme-modal-close {
+  background: rgba(255, 255, 255, 0.90) !important;
+  border: 1px solid rgba(0, 0, 0, 0.10) !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="mica-fluent"] .project-detail-chip,
+html[data-card-style="mica-fluent"] .education-skill-chip,
+html[data-card-style="mica-fluent"] .project-card-tag,
+html[data-card-style="mica-fluent"] .project-card-order-badge {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="mica-fluent"] .theme-table {
+  background: rgba(243, 243, 243, 0.90) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="mica-fluent"] .theme-table thead,
+html[data-card-style="mica-fluent"] .theme-table th {
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="mica-fluent"] #footer-nav-capsule #footer-prev-btn,
+html[data-card-style="mica-fluent"] #footer-nav-capsule #footer-next-btn {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  color: #0F172A !important;
+}
+
 

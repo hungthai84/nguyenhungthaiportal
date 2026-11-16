@@ -22,20 +22,25 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 bg-[#0B1220]/75 backdrop-blur-md animate-fadeIn"
+      style={{
+        background: 'var(--bg-modal-backdrop)',
+        backdropFilter: 'blur(var(--blur-modal, 6px))',
+        WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+      }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 animate-fadeIn"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label="3 Trụ Cột Vận Hành Chiến Lược"
-        className="relative w-full max-w-4xl bg-white dark:bg-[#111827] border border-[#CBD5E1] dark:border-[#334155] p-5 sm:p-6 rounded-[14px] shadow-2xl z-10 flex flex-col gap-4 text-[#334155] dark:text-[#E2E8F0] font-play overflow-y-auto no-scrollbar max-h-[90vh]"
+        className="theme-modal-card relative w-full max-w-4xl p-5 sm:p-6 rounded-[14px] shadow-2xl z-10 flex flex-col gap-4 font-play overflow-y-auto no-scrollbar max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 shrink-0">
-          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
-            <i className="fa-solid fa-bullseye text-base"></i>
-            <h3 className="typo-h3 font-bold">
+        <div className="theme-modal-header flex items-center justify-between -mx-5 -mt-5 sm:-mx-6 sm:-mt-6 px-5 sm:px-6 py-3.5 rounded-t-[14px] shrink-0">
+          <div className="flex items-center gap-2" style={{ color: 'var(--color-primary)' }}>
+            <i className="fa-solid fa-bullseye typo-h4"></i>
+            <h3 className="typo-popup-title card-title-synced" style={{ color: 'var(--color-primary)' }}>
               3 Trụ Cột Vận Hành Chiến Lược (22+ Năm Kinh Nghiệm)
             </h3>
           </div>
@@ -43,7 +48,7 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Đóng"
-            className="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#1F2937] hover:bg-slate-200 dark:hover:bg-[#334155] flex items-center justify-center text-[#475569] dark:text-[#94A3B8] font-bold cursor-pointer shrink-0"
+            className="theme-modal-close w-8 h-8 rounded-full flex items-center justify-center font-bold cursor-pointer shrink-0"
           >
             ✕
           </button>
@@ -83,11 +88,12 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
             </span>
           </div>
         </div>
-        <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex justify-end">
+        <div className="theme-modal-footer -mx-5 -mb-5 sm:-mx-6 sm:-mb-6 px-5 sm:px-6 py-3 rounded-b-[14px] flex justify-end">
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2 rounded-full bg-[#1E1B4B] dark:bg-[#F8FAFC] text-white dark:text-[#1E1B4B] typo-button hover:opacity-90 cursor-pointer"
+            style={{ background: 'var(--bg-button-primary)' }}
+            className="px-5 py-2 rounded-full text-white typo-button hover:opacity-90 cursor-pointer"
           >
             Đóng
           </button>

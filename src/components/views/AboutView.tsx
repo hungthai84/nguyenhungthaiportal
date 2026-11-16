@@ -22,7 +22,6 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
 import { motion, AnimatePresence } from 'motion/react';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SiteTheme } from '@/types';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { Modal } from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toast';
@@ -170,10 +169,6 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
   const { showToast } = useToast();
   const [isHold, setIsHold] = useState(false);
   const [activeIcon, setActiveIcon] = useState<number | null>(null);
-
-  const { cardStyle } = useTheme();
-  const rawCardStyle = getCardStyleProperties(cardStyle);
-  const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cardSampleStyle } = rawCardStyle as any;
 
   const personalItems = [
     {
@@ -455,9 +450,9 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
           left: 50%;
           transform: translateX(-50%);
           white-space: nowrap;
-          font-size: 9px;
-          font-weight: 700 !important;
-          line-height: 1.1;
+          font-size: var(--fs-label, 12px);
+          font-weight: 600 !important;
+          line-height: 1.2;
           padding: 2px 5px;
           border-radius: 999px;
           background: rgba(15, 23, 42, 0.88);
@@ -536,9 +531,6 @@ export function AboutView({
   onOpenBentoFocusModal
 }: AboutViewProps = {}) {
   const { showToast } = useToast();
-  const { cardStyle, isDark: themeIsDark } = useTheme();
-  const rawCardStyle = getCardStyleProperties(cardStyle);
-  const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cardSampleStyle } = rawCardStyle as any;
 
   // Chế độ xem: cố định duy nhất dạng Trình chiếu Slide ('slides')
   const [viewMode, setViewMode] = useState<'dashboard' | 'bento' | 'slides'>('slides');
@@ -895,8 +887,8 @@ export function AboutView({
       case 'hero':
         return (
           <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center bg-slate-900 text-white rounded-[14px] p-5 border border-slate-700">
-              <div className="relative aspect-video rounded-[14px] overflow-hidden bg-black/60 border border-white/10 flex items-center justify-center">
+            <div className="sub-card grid grid-cols-1 md:grid-cols-2 gap-4 items-center rounded-[14px] p-5 border border-[var(--border-subcard)] text-[var(--text-primary)]">
+              <div className="relative aspect-video rounded-[14px] overflow-hidden bg-black/60 border border-[var(--border-subcard)] flex items-center justify-center">
                 <video
                   src={ABOUT_INTRO_VIDEO_URL}
                   controls
@@ -906,19 +898,19 @@ export function AboutView({
               </div>
               <div className="flex flex-col justify-between gap-3 text-left">
                 <div>
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30 mb-2">
-                    <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/15 text-blue-600 dark:text-cyan-300 typo-badge border border-blue-500/30 dark:border-cyan-500/30 mb-2">
+                    <Sparkles className="w-3.5 h-3.5 text-blue-500 dark:text-cyan-400" />
                     <span>Lãnh Đạo Vận Hành CX 22+ Năm</span>
                   </div>
-                  <h3 className="card-title text-white">Nguyễn Hùng Thái</h3>
-                  <div className="text-xs text-slate-300 font-normal leading-relaxed mt-2 space-y-2">
+                  <h3 className="card-title typo-h3 text-[var(--text-primary)]">Nguyễn Hùng Thái</h3>
+                  <div className="typo-body-sm text-[var(--text-secondary)] mt-2 space-y-2">
                     <p>
                       Một chuyên gia dịch vụ khách hàng với hơn <strong>22 năm kinh nghiệm thực chiến</strong>. Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh khắc, dù là nhỏ nhất, đều là một cơ hội quý giá: để lắng nghe, để thấu hiểu, và để tạo ra những trải nghiệm vượt trên cả sự mong đợi.
                     </p>
                     <p>
                       Tôi tin rằng sự hài lòng không đến từ sự hoàn hảo tuyệt đối, mà đến từ <strong>sự tận tâm kịp thời</strong> và <strong>đồng cảm chân thành</strong>. Trong suốt sự nghiệp, tôi đã trực tiếp thiết kế và tối ưu hóa hàng chục quy trình, hệ thống Chăm Sóc Khách Hàng, luôn đặt trên nền tảng ba giá trị cốt lõi:
                     </p>
-                    <div className="p-2 rounded-[14px] bg-white/10 border border-white/15 text-cyan-300 font-bold font-play text-xs text-center">
+                    <div className="p-2 rounded-[14px] bg-[var(--bg-nested-badge)] border border-[var(--border-subcard)] text-blue-600 dark:text-cyan-300 typo-h5 font-play text-center">
                       Hiệu quả – Nhân văn – Bền vững
                     </div>
                     <p>
@@ -926,14 +918,14 @@ export function AboutView({
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 pt-2 border-t border-white/10">
+                <div className="flex items-center gap-2 pt-2 border-t border-[var(--border-subcard)]">
                   <img
                     src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.gif"
                     alt="Nguyễn Hùng Thái"
                     className="w-8 h-8 rounded-full object-cover"
                   />
-                  <div className="text-[11px] text-slate-300">
-                    <span className="font-bold text-cyan-400">Trợ Lý Ảo Tí Chuột:</span> “Sẵn sàng kết nối và đồng hành cùng quý doanh nghiệp!”
+                  <div className="typo-caption text-[var(--text-secondary)]">
+                    <span className="font-semibold text-blue-600 dark:text-cyan-400">Trợ Lý Ảo Tí Chuột:</span> “Sẵn sàng kết nối và đồng hành cùng quý doanh nghiệp!”
                   </div>
                 </div>
               </div>
@@ -948,7 +940,8 @@ export function AboutView({
               {ABOUT_PROFILE_STATS.map((stat) => (
                 <div
                   key={stat.id}
-                  className="p-3.5 rounded-[14px] bg-white/80 dark:bg-slate-900/75 border border-white/90 dark:border-white/10 shadow-sm flex flex-col justify-between"
+                  data-subcard="true"
+                  className="sub-card p-3.5 rounded-[14px] border border-[var(--border-subcard)] shadow-sm flex flex-col justify-between"
                 >
                   <div
                     className="w-8 h-8 rounded-[14px] flex items-center justify-center"
@@ -958,16 +951,16 @@ export function AboutView({
                   </div>
                   <div className="my-3">
                     <span
-                      className="text-3xl font-black font-play leading-none tracking-tight block"
+                      className="typo-kpi font-play block"
                       style={{ color: stat.color }}
                     >
                       {stat.metric}
                     </span>
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase block mt-1 font-mono">
+                    <span className="typo-label text-[var(--text-muted)] block mt-1 font-mono">
                       {stat.unitVi || 'THỰC CHIẾN'}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">
+                  <p className="typo-body-sm text-[var(--text-secondary)] leading-snug">
                     {stat.id === 'experience' && 'Hơn hai thập kỷ trực tiếp điều hành, thiết lập quy chuẩn và nâng cấp dịch vụ.'}
                     {stat.id === 'scale' && 'Từng quản lý và xây dựng hệ thống tại hơn 8 tập đoàn, doanh nghiệp quy mô lớn.'}
                     {stat.id === 'automation' && 'Tích hợp công nghệ AI, CRM & quy trình tự động hoá chăm sóc khách hàng 24/7.'}
@@ -976,8 +969,8 @@ export function AboutView({
                 </div>
               ))}
             </div>
-            <div className="p-4 rounded-[14px] bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-              <strong className="text-slate-900 dark:text-white font-bold">💡 Triết lý đo lường thực chiến:</strong> Số liệu phản ánh năng lực kiểm soát chi tiết từ vi mô (từng cuộc gọi, khiếu nại, phản hồi khách hàng) đến vĩ mô (chiến lược ngân sách, nhân sự, kiến trúc hệ thống CRM và chuyển đổi số).
+            <div data-subcard="true" className="sub-card p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-secondary)]">
+              <strong className="text-[var(--text-primary)] font-semibold">💡 Triết lý đo lường thực chiến:</strong> Số liệu phản ánh năng lực kiểm soát chi tiết từ vi mô (từng cuộc gọi, khiếu nại, phản hồi khách hàng) đến vĩ mô (chiến lược ngân sách, nhân sự, kiến trúc hệ thống CRM và chuyển đổi số).
             </div>
           </div>
         );
@@ -985,7 +978,7 @@ export function AboutView({
       case 'demographics':
         return (
           <div className="space-y-4 text-left">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
               {PERSONAL_DEMOGRAPHICS.map((item) => (
                 <div
                   key={item.id}
@@ -998,10 +991,10 @@ export function AboutView({
                     <WebIcon name={getWebIconName(item.iconName)} className={cn('w-4.5 h-4.5', item.colorTheme.iconColor)} />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <span className="about-info-label text-[10px] font-bold text-[#475569] dark:text-[#CBD5E1] block truncate">
+                    <span className="about-info-label typo-label text-[var(--text-secondary)] block truncate">
                       {item.labelVi}
                     </span>
-                    <span className="about-info-value text-xs font-black font-play text-[#0F172A] dark:text-[#F8FAFC] block truncate">
+                    <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block truncate">
                       {item.valueVi}
                     </span>
                   </div>
@@ -1023,11 +1016,16 @@ export function AboutView({
                   SoundEngine.playPop();
                   setActiveMapTab('tam_tru');
                 }}
-                className={cn(
-                  'px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border',
+                style={
                   activeMapTab === 'tam_tru'
-                    ? 'bg-purple-600 text-white border-purple-500 shadow-sm'
-                    : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+                    ? { background: 'var(--bg-button-primary)', color: '#FFFFFF', borderColor: 'transparent' }
+                    : undefined
+                }
+                className={cn(
+                  'px-3.5 py-1.5 rounded-full typo-button transition-all cursor-pointer flex items-center gap-1.5 border',
+                  activeMapTab === 'tam_tru'
+                    ? 'shadow-sm'
+                    : 'bg-[var(--bg-subcard)] text-[var(--text-secondary)] border-[var(--border-subcard)]'
                 )}
               >
                 <WebIcon name="location" className="w-3.5 h-3.5" />
@@ -1039,11 +1037,16 @@ export function AboutView({
                   SoundEngine.playPop();
                   setActiveMapTab('cu_tru');
                 }}
-                className={cn(
-                  'px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border',
+                style={
                   activeMapTab === 'cu_tru'
-                    ? 'bg-emerald-600 text-white border-emerald-500 shadow-sm'
-                    : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+                    ? { background: 'var(--bg-button-primary)', color: '#FFFFFF', borderColor: 'transparent' }
+                    : undefined
+                }
+                className={cn(
+                  'px-3.5 py-1.5 rounded-full typo-button transition-all cursor-pointer flex items-center gap-1.5 border',
+                  activeMapTab === 'cu_tru'
+                    ? 'shadow-sm'
+                    : 'bg-[var(--bg-subcard)] text-[var(--text-secondary)] border-[var(--border-subcard)]'
                 )}
               >
                 <WebIcon name="home" className="w-3.5 h-3.5" />
@@ -1051,7 +1054,7 @@ export function AboutView({
               </button>
             </div>
 
-            <div className="relative w-full h-[320px] rounded-[14px] overflow-hidden border border-slate-200 dark:border-slate-700 shadow-inner bg-slate-100 dark:bg-slate-950">
+            <div className="relative w-full h-[320px] rounded-[14px] overflow-hidden border border-[var(--border-subcard)] shadow-inner bg-[var(--bg-subcard)]">
               <iframe
                 title={activeMapTab === 'tam_tru' ? 'Bản đồ Quận 7' : 'Bản đồ Mỹ Tho'}
                 src={`https://maps.google.com/maps?q=${encodeURIComponent(
@@ -1062,7 +1065,7 @@ export function AboutView({
                 allowFullScreen
               />
             </div>
-            <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+            <div className="flex items-center justify-between typo-caption text-[var(--text-muted)]">
               <span>Địa chỉ: {activeMapTab === 'tam_tru' ? 'Quận 7, TP. Hồ Chí Minh' : 'Mỹ Tho, Tiền Giang'}</span>
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -1070,7 +1073,7 @@ export function AboutView({
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-indigo-600 dark:text-cyan-400 font-bold hover:underline"
+                className="inline-flex items-center gap-1 text-indigo-600 dark:text-cyan-400 font-semibold hover:underline"
               >
                 <span>Mở trong Google Maps</span>
                 <WebIcon name="external-link" className="w-3 h-3" />
@@ -1082,8 +1085,8 @@ export function AboutView({
       case 'pillars':
         return (
           <div className="space-y-4 text-left">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
-              <span className="text-xs text-slate-600 dark:text-slate-300 font-medium">
+            <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)]">
+              <span className="typo-body-sm text-[var(--text-secondary)] font-medium">
                 3 nguyên lý vận hành cốt lõi qua hơn 22 năm điều hành hệ thống dịch vụ khách hàng:
               </span>
             </div>
@@ -1101,16 +1104,16 @@ export function AboutView({
                       <div className="exp-icon-badge w-7 h-7 rounded-full border flex items-center justify-center shrink-0 text-blue-600 dark:text-sky-300">
                         <WebIcon name="chart" className="w-4 h-4 shrink-0" />
                       </div>
-                      <h4 className="pillar-heading text-base font-black font-play">01. Hiệu quả</h4>
+                      <h4 className="pillar-heading typo-h4 font-play">01. Hiệu quả</h4>
                     </div>
-                    <span className="pillar-badge text-xs font-mono font-bold px-2 py-0.5 rounded-[14px]">Trụ cột 01</span>
+                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-[14px]">Trụ cột 01</span>
                   </div>
-                  <p className="pillar-sub text-xs font-semibold mt-1">Tối ưu quy trình &amp; Kết quả</p>
-                  <p className="pillar-body text-xs leading-relaxed mt-2.5">
+                  <p className="pillar-sub typo-caption font-semibold mt-1">Tối ưu quy trình &amp; Kết quả</p>
+                  <p className="pillar-body typo-body-sm mt-2.5">
                     Tối ưu hiệu suất vận hành, chuẩn hóa SOP, quản trị KPI, SLA, FCR và giải quyết triệt để rủi ro dịch vụ.
                   </p>
                 </div>
-                <div className="pillar-divider pillar-sub mt-4 pt-2 border-t text-[11px] font-mono">
+                <div className="pillar-divider pillar-sub mt-4 pt-2 border-t typo-label font-mono">
                   ✓ Chuẩn hóa SOP &amp; Đo lường ROI
                 </div>
               </div>
@@ -1127,16 +1130,16 @@ export function AboutView({
                       <div className="exp-icon-badge w-7 h-7 rounded-full border flex items-center justify-center shrink-0 text-rose-600 dark:text-rose-300">
                         <WebIcon name="heart" className="w-4 h-4 shrink-0" />
                       </div>
-                      <h4 className="pillar-heading text-base font-black font-play">02. Nhân văn</h4>
+                      <h4 className="pillar-heading typo-h4 font-play">02. Nhân văn</h4>
                     </div>
-                    <span className="pillar-badge text-xs font-mono font-bold px-2 py-0.5 rounded-[14px]">Trụ cột 02</span>
+                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-[14px]">Trụ cột 02</span>
                   </div>
-                  <p className="pillar-sub text-xs font-semibold mt-1">Đồng cảm &amp; Thấu hiểu</p>
-                  <p className="pillar-body text-xs leading-relaxed mt-2.5">
+                  <p className="pillar-sub typo-caption font-semibold mt-1">Đồng cảm &amp; Thấu hiểu</p>
+                  <p className="pillar-body typo-body-sm mt-2.5">
                     Lắng nghe thấu hiểu từ tâm, lấy con người làm gốc rễ, đào tạo đội ngũ tận tâm và xây dựng văn hóa gắn kết.
                   </p>
                 </div>
-                <div className="pillar-divider pillar-sub mt-4 pt-2 border-t text-[11px] font-mono">
+                <div className="pillar-divider pillar-sub mt-4 pt-2 border-t typo-label font-mono">
                   ✓ Thấu cảm từ tâm &amp; Trao quyền
                 </div>
               </div>
@@ -1153,26 +1156,26 @@ export function AboutView({
                       <div className="exp-icon-badge w-7 h-7 rounded-full border flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-300">
                         <WebIcon name="leaf" className="w-4 h-4 shrink-0" />
                       </div>
-                      <h4 className="pillar-heading text-base font-black font-play">03. Bền vững</h4>
+                      <h4 className="pillar-heading typo-h4 font-play">03. Bền vững</h4>
                     </div>
-                    <span className="pillar-badge text-xs font-mono font-bold px-2 py-0.5 rounded-[14px]">Trụ cột 03</span>
+                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-[14px]">Trụ cột 03</span>
                   </div>
-                  <p className="pillar-sub text-xs font-semibold mt-1">Giá trị &amp; Tin cậy</p>
-                  <p className="pillar-body text-xs leading-relaxed mt-2.5">
+                  <p className="pillar-sub typo-caption font-semibold mt-1">Giá trị &amp; Tin cậy</p>
+                  <p className="pillar-body typo-body-sm mt-2.5">
                     Xây dựng niềm tin dài hạn, ứng dụng công nghệ CRM hiện đại, Data Analytics và tự động hóa AI tạo đòn bẩy.
                   </p>
                 </div>
-                <div className="pillar-divider pillar-sub mt-4 pt-2 border-t text-[11px] font-mono">
+                <div className="pillar-divider pillar-sub mt-4 pt-2 border-t typo-label font-mono">
                   ✓ Công nghệ AI CRM &amp; Tăng trưởng
                 </div>
               </div>
             </div>
 
-            <div data-subcard="true" className="exp-detail-subcard p-3.5 rounded-[14px] flex items-center justify-between text-xs text-slate-600 dark:text-slate-300">
-              <span className="font-handwriting text-blue-600 dark:text-cyan-400 text-base font-bold">
+            <div data-subcard="true" className="exp-detail-subcard p-3.5 rounded-[14px] flex items-center justify-between typo-caption text-[var(--text-secondary)]">
+              <span className="font-handwriting text-blue-600 dark:text-cyan-400 text-[18px] font-bold">
                 Luôn bên bạn và tận tâm từng khoảnh khắc ♡
               </span>
-              <span className="font-mono text-[11px] text-slate-500 dark:text-slate-300">22+ Năm Phụng Sự Dịch Vụ Khách Hàng</span>
+              <span className="font-mono typo-label text-[var(--text-muted)]">22+ Năm Phụng Sự Dịch Vụ Khách Hàng</span>
             </div>
           </div>
         );
@@ -1184,15 +1187,15 @@ export function AboutView({
               {/* Khối 1: Giá trị cốt lõi */}
               <div data-subcard="true" className="exp-detail-card rounded-[14px] p-5 flex flex-col justify-between layered-card">
                 <div>
-                  <div className="flex items-center gap-2 text-amber-600 dark:text-amber-300 mb-2">
-                    <WebIcon name="star" className="w-5 h-5 fill-current" />
-                    <h4 className="text-sm font-black font-play">Giá Trị Cốt Lõi: Khách Hàng Là Trung Tâm</h4>
+                  <div className="subcard-header-sync flex items-center gap-2 text-amber-600 dark:text-amber-300 mb-2">
+                    <WebIcon name="star" className="w-5 h-5 fill-current text-amber-600 dark:text-amber-300" />
+                    <h4 className="typo-h4 subcard-title-synced font-play text-amber-600 dark:text-amber-300" data-subcard-title="true">Giá Trị Cốt Lõi: Khách Hàng Là Trung Tâm</h4>
                   </div>
-                  <p className="text-xs text-slate-700 dark:text-slate-200 leading-relaxed font-medium">
-                    Sự hài lòng không đến từ sự hoàn hảo tuyệt đối, mà đến từ <strong className="text-amber-700 dark:text-amber-300 font-bold">sự tận tâm kịp thời</strong> và <strong className="text-amber-700 dark:text-amber-300 font-bold">đồng cảm chân thành</strong> trong từng điểm chạm (Touchpoint).
+                  <p className="typo-body-sm text-[var(--text-primary)]">
+                    Sự hài lòng không đến từ sự hoàn hảo tuyệt đối, mà đến từ <strong className="text-amber-700 dark:text-amber-300 font-semibold">sự tận tâm kịp thời</strong> và <strong className="text-amber-700 dark:text-amber-300 font-semibold">đồng cảm chân thành</strong> trong từng điểm chạm (Touchpoint).
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-amber-200/40 dark:border-amber-400/20 text-[11px] text-amber-700 dark:text-amber-300 font-handwriting text-base font-bold">
+                <div className="mt-4 pt-2 border-t border-amber-200/40 dark:border-amber-400/20 text-amber-700 dark:text-amber-300 font-handwriting text-[18px] font-bold">
                   Tận tâm phụng sự ♡
                 </div>
               </div>
@@ -1201,24 +1204,24 @@ export function AboutView({
               <div data-subcard="true" className="exp-detail-card rounded-[14px] p-5 flex flex-col justify-between layered-card">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2 text-blue-600 dark:text-sky-300">
-                      <Sparkles className="w-5 h-5" />
-                      <h4 className="text-sm font-black font-play">Triết Lý Tầm Nhìn CX 2026+</h4>
+                    <div className="subcard-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-300">
+                      <Sparkles className="w-5 h-5 text-blue-600 dark:text-sky-300" />
+                      <h4 className="typo-h4 subcard-title-synced font-play text-blue-600 dark:text-sky-300" data-subcard-title="true">Triết Lý Tầm Nhìn CX 2026+</h4>
                     </div>
-                    <span className="exp-icon-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border text-slate-600 dark:text-slate-200">
+                    <span className="exp-icon-badge typo-badge font-mono px-2 py-0.5 rounded-full border text-[var(--text-secondary)]">
                       Kỷ Nguyên Mới
                     </span>
                   </div>
-                  <blockquote className="text-sm font-black text-blue-800 dark:text-cyan-300 font-play leading-relaxed border-l-4 border-blue-500 pl-3 my-2">
+                  <blockquote className="typo-h5 font-semibold text-blue-800 dark:text-cyan-300 font-play border-l-4 border-blue-500 pl-3 my-2">
                     “ Tận Tâm &amp; Đồng Hành Cùng Trải Nghiệm Khách Hàng ”
                   </blockquote>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mt-2">
+                  <p className="typo-body-sm text-[var(--text-secondary)] mt-2">
                     Kết hợp hài hòa giữa công nghệ chuyển đổi số (AI CRM, tự động hóa) và trái tim phụng sự nhân văn để tạo nên sự gắn kết thương hiệu bền lâu.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-sky-200/40 dark:border-sky-400/20 flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-300">
+                <div className="mt-4 pt-2 border-t border-sky-200/40 dark:border-sky-400/20 flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">
                   <span>Nguyễn Hùng Thái</span>
-                  <span className="text-blue-600 dark:text-cyan-400 font-bold">22+ Năm Vận Hành Thực Chiến</span>
+                  <span className="text-blue-600 dark:text-cyan-400 font-semibold">22+ Năm Vận Hành Thực Chiến</span>
                 </div>
               </div>
             </div>
@@ -1230,16 +1233,6 @@ export function AboutView({
     }
   };
 
-  const isDark = themeIsDark || currentTheme === 'dark-neon';
-
-  // Glass card classes
-  const glassCardClass =
-    isDark
-      ? 'bg-slate-900/85 backdrop-blur-xl border border-white/10 shadow-[0_12px_36px_rgba(0,0,0,0.65)] text-slate-100'
-      : 'bg-white/85 backdrop-blur-xl border border-white/90 shadow-[0_10px_30px_-5px_rgba(30,27,75,0.06)] text-slate-800';
-
-  const renderAboutRightNavigationBar = () => null;
-
   return (
     <div
       id="about-page-container"
@@ -1247,8 +1240,7 @@ export function AboutView({
       data-element-type="container"
       data-element-page="about"
       data-element-parent="global-content-viewport"
-      style={{ background: 'var(--bg-header)' }}
-      className="main-card relative w-full h-full flex-1 flex flex-col justify-start items-stretch p-[15px] sm:p-[20px] lg:p-[25px] gap-[15px] font-play text-left text-slate-800 dark:text-slate-100 transition-all duration-300 rounded-[20px] border border-white/80 dark:border-white/10 backdrop-blur-xl shadow-xl overflow-y-auto glass-scrollbar z-10 select-none"
+      className="main-card relative w-full min-w-0 h-full mx-auto flex-1 flex flex-col justify-start p-[25px] gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-[20px] backdrop-blur-xl overflow-y-auto glass-scrollbar z-10 select-none box-border"
     >
       <div className="w-full flex flex-col gap-[15px] h-auto min-h-full shrink-0">
         {/* ========================================================================= */}
@@ -1257,7 +1249,7 @@ export function AboutView({
 
         <div
           id="about-bento-grid"
-          className="w-full h-auto min-h-0 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-[15px] overflow-visible content-start pb-4"
+          className="w-full h-auto min-h-0 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-[15px] overflow-visible content-start"
         >
             
             {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA */}
@@ -1270,7 +1262,6 @@ export function AboutView({
               style={{
                 borderRadius: '14px',
                 padding: '15px',
-                ...cardSampleStyle,
               }}
               className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[14px] overflow-hidden flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video p-[15px] text-left"
             >
@@ -1306,8 +1297,9 @@ export function AboutView({
                       />
                       {/* Close Map / Switch back to Video button overlay */}
                       <button
+                        type="button"
                         onClick={() => setActiveHeroMedia('video')}
-                        className="absolute top-4 right-4 z-50 p-2 rounded-full bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-white border border-white/20 shadow-lg backdrop-blur-md hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                        className="theme-modal-close absolute top-4 right-4 z-50 p-2 rounded-full shadow-lg backdrop-blur-md hover:scale-110 active:scale-95 transition-all cursor-pointer"
                         title="Quay lại xem Video"
                       >
                         <WebIcon name="cancel" className="w-4 h-4" />
@@ -1364,13 +1356,13 @@ export function AboutView({
                             e.stopPropagation();
                             handlePlayIntro();
                           }}
-                          className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white font-black text-[15px] tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                           title="Bấm để phát video thuyết minh chân dung chuyên gia"
                         >
                           <span id="el-p2-span-36" className="flex items-center justify-center">
-                            <WebIcon id="el-p2-svg-17" name="play" className="w-4 h-4 fill-white text-white shrink-0" style={{ fontSize: '15px', height: '16px', width: '16px' }} />
+                            <WebIcon id="el-p2-svg-17" name="play" className="w-4 h-4 fill-white text-white shrink-0" style={{ height: '16px', width: '16px' }} />
                           </span>
-                          <span id="el-p2-span-37" className="drop-shadow-sm font-black text-[15px] text-white truncate font-play text-left" style={{ fontSize: '15px', textAlign: 'left' }}>
+                          <span id="el-p2-span-37" className="drop-shadow-sm typo-button text-white truncate font-play text-left" style={{ textAlign: 'left' }}>
                             Phát Video
                           </span>
                         </button>
@@ -1383,13 +1375,13 @@ export function AboutView({
                             e.stopPropagation();
                             handleCancelIntro();
                           }}
-                          className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white font-black text-[15px] tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                           title="Bấm để hủy phát video"
                         >
                           <span id="el-p2-span-36" className="flex items-center justify-center">
-                            <WebIcon id="el-p2-svg-17" name="cancel" className="w-4 h-4 stroke-[2.8] text-white shrink-0" style={{ fontSize: '15px', height: '16px', width: '16px' }} />
+                            <WebIcon id="el-p2-svg-17" name="cancel" className="w-4 h-4 stroke-[2.8] text-white shrink-0" style={{ height: '16px', width: '16px' }} />
                           </span>
-                          <span id="el-p2-span-37" className="drop-shadow-sm font-black text-[15px] text-white truncate font-play text-left" style={{ fontSize: '15px', textAlign: 'left' }}>
+                          <span id="el-p2-span-37" className="drop-shadow-sm typo-button text-white truncate font-play text-left" style={{ textAlign: 'left' }}>
                             Hủy Phát
                           </span>
                         </button>
@@ -1408,15 +1400,14 @@ export function AboutView({
               style={{
                 borderRadius: '14px',
                 padding: '10px',
-                ...cardSampleStyle,
               }}
               className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col gap-2 h-auto min-h-0 text-left rounded-[14px] p-[10px] overflow-hidden"
             >
                   {/* Header Bento Box Bar */}
-                  <div className="flex items-center justify-between border-b border-slate-200/70 dark:border-white/10 pb-2 shrink-0">
-                    <div className="flex items-center gap-2 text-blue-600 dark:text-cyan-400">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 shrink-0">
+                    <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
                       <WebIcon name="user" className="w-[18px] h-[18px] text-blue-600 dark:text-cyan-400 shrink-0" style={{ width: '18px', height: '18px' }} />
-                      <h3 className="text-[17px] sm:text-[18px] font-bold font-play text-blue-600 dark:text-cyan-400 leading-tight">
+                      <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight" data-card-title="true">
                         Thông tin chi tiết
                       </h3>
                     </div>
@@ -1485,11 +1476,11 @@ export function AboutView({
                       >
                         <WebIcon name={item.icon} className={cn('w-4 h-4 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)} style={{ width: '16px', height: '16px' }} />
                         <div className="text-left min-w-0 flex-1">
-                          <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">
+                          <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">
                             {item.label}
                           </span>
                           <span
-                            className="about-info-value text-[14px] sm:text-[15px] font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate"
+                            className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate"
                             title={item.value}
                           >
                             {item.value}
@@ -1511,8 +1502,8 @@ export function AboutView({
                     >
                       <MapPin className="w-4 h-4 shrink-0 text-cyan-600 dark:text-cyan-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">Tạm trú</span>
-                        <span className="about-info-value text-[14px] sm:text-[15px] font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">Quận 7, TP.HCM</span>
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">Tạm trú</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">Quận 7, TP.HCM</span>
                       </div>
                     </div>
 
@@ -1529,8 +1520,8 @@ export function AboutView({
                     >
                       <Home className="w-4 h-4 shrink-0 text-teal-600 dark:text-teal-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">Cư trú</span>
-                        <span className="about-info-value text-[14px] sm:text-[15px] font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">TP. Mỹ Tho</span>
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">Cư trú</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">TP. Mỹ Tho</span>
                       </div>
                     </div>
 
@@ -1549,8 +1540,8 @@ export function AboutView({
                     >
                       <Mail className="w-4 h-4 shrink-0 text-pink-600 dark:text-pink-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">Hộp thư</span>
-                        <span className="about-info-value text-xs font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">hungthai84@gmail.com</span>
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">Hộp thư</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">hungthai84@gmail.com</span>
                       </div>
                     </div>
 
@@ -1566,8 +1557,8 @@ export function AboutView({
                     >
                       <Phone className="w-4 h-4 shrink-0 text-orange-600 dark:text-orange-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">Điện thoại</span>
-                        <span className="about-info-value text-xs font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">+84 0909097882</span>
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">Điện thoại</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">+84 0909097882</span>
                       </div>
                     </a>
 
@@ -1583,8 +1574,8 @@ export function AboutView({
                     >
                       <Globe className="w-4 h-4 shrink-0 text-blue-600 dark:text-sky-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">Website</span>
-                        <span className="about-info-value text-xs font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">powerservice.one</span>
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">Website</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">powerservice.one</span>
                       </div>
                     </a>
 
@@ -1600,8 +1591,8 @@ export function AboutView({
                     >
                       <LinkedinIcon className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-300 group-hover/subcard:scale-110 transition-transform" />
                       <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label text-[9.5px] font-bold text-[#475569] dark:text-[#CBD5E1] block leading-tight truncate">LinkedIn</span>
-                        <span className="about-info-value text-xs font-bold font-play text-[#0F172A] dark:text-[#F8FAFC] block leading-tight truncate">linkedin.com/in/hungthai84</span>
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">LinkedIn</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">linkedin.com/in/hungthai84</span>
                       </div>
                     </a>
                   </div>
@@ -1619,39 +1610,38 @@ export function AboutView({
               style={{
                 borderRadius: '14px',
                 padding: '15px',
-                ...cardSampleStyle,
               }}
               className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               <div className="relative z-10 flex flex-col justify-between h-full gap-3">
                 {/* Header */}
-                <div className="flex items-center justify-between pb-2 border-b border-blue-200/60 dark:border-white/10 shrink-0">
-                  <div className="flex items-center gap-2 text-blue-600 dark:text-cyan-400">
+                <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
+                  <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
                     <User className="w-4.5 h-4.5 text-blue-600 dark:text-cyan-400 shrink-0" />
-                    <h3 className="text-[17px] sm:text-[18px] font-bold font-play text-blue-600 dark:text-cyan-400 leading-tight">
+                    <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight" data-card-title="true">
                       {formatCardTitle('Giới thiệu bản thân')}
                     </h3>
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                  <span className="typo-badge font-mono text-[var(--text-muted)] px-2.5 py-0.5 rounded-full bg-[var(--bg-nested-badge)] border border-[var(--border-subcard)]">
                     About Me
                   </span>
                 </div>
 
                 {/* Body Text: Giữ nguyên 100% dữ liệu */}
-                <p className="text-xs sm:text-[13px] text-slate-700 dark:text-slate-200 font-medium leading-relaxed my-auto">
+                <p className="typo-body text-[var(--text-secondary)] my-auto">
                   Một chuyên gia dịch vụ khách hàng với hơn{' '}
-                  <strong className="font-bold text-slate-950 dark:text-white">22 năm kinh nghiệm</strong> thực chiến.
+                  <strong className="font-semibold text-[var(--text-primary)]">22 năm kinh nghiệm</strong> thực chiến.
                   Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh
                   khắc, dù là nhỏ nhất, đều là một cơ hội quý giá để lắng nghe, để thấu hiểu, và để tạo ra những trải
                   nghiệm vượt trên cả sự mong đợi.
                 </p>
 
                 {/* Footer Tag */}
-                <div className="flex items-center justify-between pt-2 border-t border-slate-200/60 dark:border-white/10 shrink-0">
-                  <span className="text-[11px] font-bold font-play text-blue-700 dark:text-cyan-300">
+                <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subcard)] shrink-0">
+                  <span className="typo-label font-play text-blue-700 dark:text-cyan-300">
                     Chuyên Gia Dịch Vụ Khách Hàng
                   </span>
-                  <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                  <span className="typo-badge font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30">
                     22+ Năm Thực Chiến
                   </span>
                 </div>
@@ -1668,19 +1658,18 @@ export function AboutView({
               style={{
                 borderRadius: '14px',
                 padding: '15px',
-                ...cardSampleStyle,
               }}
               className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
-              <div className="flex items-center justify-between pb-1.5 border-b border-slate-200/70 dark:border-white/10 shrink-0">
-                <div className="flex items-center gap-2 text-blue-600 dark:text-cyan-400">
+              <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
+                <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
                   <Target className="w-4.5 h-4.5 text-blue-600 dark:text-cyan-400 shrink-0" />
-                  <h3 className="text-[17px] sm:text-[18px] font-bold font-play text-blue-600 dark:text-cyan-400 leading-tight">
+                  <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight" data-card-title="true">
                     {formatCardTitle('3 Trụ cột vận hành')}
                   </h3>
                 </div>
-                <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                <span className="typo-badge font-mono text-[var(--text-muted)] px-2.5 py-0.5 rounded-full bg-[var(--bg-nested-badge)] border border-[var(--border-subcard)]">
                   3 Operating Pillars
                 </span>
               </div>
@@ -1689,25 +1678,12 @@ export function AboutView({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch flex-1">
                 {/* Pillar 1: Hiệu Quả */}
                 <div
-                  role="button"
-                  tabIndex={0}
                   data-subcard="true"
                   data-accent="blue"
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-1')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
-                  onClick={() => {
-                    SoundEngine.playPop();
-                    showToast('Trụ cột 01: Hiệu Quả - Tối ưu kết quả thực chiến');
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      SoundEngine.playPop();
-                      showToast('Trụ cột 01: Hiệu Quả - Tối ưu kết quả thực chiến');
-                    }
-                  }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-1') &&
                       'ring-2 ring-cyan-300 dark:ring-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.7)] scale-[1.02] -translate-y-1'
                   )}
@@ -1716,15 +1692,15 @@ export function AboutView({
                     <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-blue-600 dark:text-sky-300 shadow-2xs">
                       <BarChart3 className="w-4 h-4" />
                     </div>
-                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
+                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       01
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Hiệu quả vận hành</h5>
-                    <span className="pillar-sub text-[10px] font-semibold block">Tối ưu &amp; Kết quả</span>
-                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading typo-h5 font-play">Hiệu quả vận hành</h5>
+                    <span className="pillar-sub typo-label block">Tối ưu &amp; Kết quả</span>
+                    <p className="pillar-body typo-body-sm mt-1">
                       Chuẩn hóa SLAs, tối ưu hiệu suất quy trình và tạo kết quả đo lường rõ ràng.
                     </p>
                   </div>
@@ -1747,25 +1723,12 @@ export function AboutView({
 
                 {/* Pillar 2: Nhân Văn */}
                 <div
-                  role="button"
-                  tabIndex={0}
                   data-subcard="true"
                   data-accent="rose"
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-2')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
-                  onClick={() => {
-                    SoundEngine.playPop();
-                    showToast('Trụ cột 02: Nhân Văn - Đồng cảm và thấu hiểu');
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      SoundEngine.playPop();
-                      showToast('Trụ cột 02: Nhân Văn - Đồng cảm và thấu hiểu');
-                    }
-                  }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.7)] scale-[1.02] -translate-y-1'
                   )}
@@ -1774,15 +1737,15 @@ export function AboutView({
                     <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-rose-600 dark:text-rose-300 shadow-2xs">
                       <Heart className="w-4 h-4" />
                     </div>
-                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
+                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       02
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Nhân văn con người</h5>
-                    <span className="pillar-sub text-[10px] font-semibold block">Đồng cảm &amp; Thấu hiểu</span>
-                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading typo-h5 font-play">Nhân văn con người</h5>
+                    <span className="pillar-sub typo-label block">Đồng cảm &amp; Thấu hiểu</span>
+                    <p className="pillar-body typo-body-sm mt-1">
                       Lắng nghe chân thành, phục vụ từ tâm và lấy con người làm trọng tâm.
                     </p>
                   </div>
@@ -1805,25 +1768,12 @@ export function AboutView({
 
                 {/* Pillar 3: Bền Vững */}
                 <div
-                  role="button"
-                  tabIndex={0}
                   data-subcard="true"
                   data-accent="emerald"
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-3')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
-                  onClick={() => {
-                    SoundEngine.playPop();
-                    showToast('Trụ cột 03: Bền Vững - Giá trị dài hạn và tin cậy');
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      SoundEngine.playPop();
-                      showToast('Trụ cột 03: Bền Vững - Giá trị dài hạn và tin cậy');
-                    }
-                  }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-3') &&
                       'ring-2 ring-emerald-300 dark:ring-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.7)] scale-[1.02] -translate-y-1'
                   )}
@@ -1832,15 +1782,15 @@ export function AboutView({
                     <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-emerald-600 dark:text-emerald-300 shadow-2xs">
                       <Leaf className="w-4 h-4" />
                     </div>
-                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
+                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       03
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Bền vững dài hạn</h5>
-                    <span className="pillar-sub text-[10px] font-semibold block">Giá trị &amp; Tin cậy</span>
-                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading typo-h5 font-play">Bền vững dài hạn</h5>
+                    <span className="pillar-sub typo-label block">Giá trị &amp; Tin cậy</span>
+                    <p className="pillar-body typo-body-sm mt-1">
                       Xây dựng niềm tin vững bền, bảo chứng chất lượng và đồng hành lâu dài.
                     </p>
                   </div>
@@ -1873,19 +1823,18 @@ export function AboutView({
               style={{
                 borderRadius: '14px',
                 padding: '15px',
-                ...cardSampleStyle,
               }}
               className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
-              <div className="flex items-center justify-between pb-1.5 border-b border-slate-200/70 dark:border-white/10 shrink-0">
-                <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
+              <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
+                <div className="card-header-sync flex items-center gap-2 text-amber-600 dark:text-amber-400">
                   <Star className="w-4.5 h-4.5 text-amber-600 dark:text-amber-400 fill-current shrink-0" />
-                  <h3 className="text-[17px] sm:text-[18px] font-bold font-play text-amber-600 dark:text-amber-400 leading-tight">
+                  <h3 className="typo-h3 card-title-synced font-play text-amber-600 dark:text-amber-400 leading-tight" data-card-title="true">
                     {formatCardTitle('Giá trị cốt lõi')}
                   </h3>
                 </div>
-                <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                <span className="typo-badge font-mono text-[var(--text-muted)] px-2.5 py-0.5 rounded-full bg-[var(--bg-nested-badge)] border border-[var(--border-subcard)]">
                   Core Values
                 </span>
               </div>
@@ -1912,15 +1861,15 @@ export function AboutView({
                     <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-amber-600 dark:text-amber-300 shadow-2xs">
                       <Award className="w-4 h-4" />
                     </div>
-                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
+                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       01
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Sự tận tâm</h5>
-                    <span className="pillar-sub text-[10px] font-semibold block">Trách nhiệm &amp; Hết lòng</span>
-                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading typo-h5 font-play">Sự tận tâm</h5>
+                    <span className="pillar-sub typo-label block">Trách nhiệm &amp; Hết lòng</span>
+                    <p className="pillar-body typo-body-sm mt-1">
                       Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.
                     </p>
                   </div>
@@ -1947,15 +1896,15 @@ export function AboutView({
                     <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-pink-600 dark:text-pink-300 shadow-2xs">
                       <Clock className="w-4 h-4" />
                     </div>
-                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
+                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       02
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Kịp thời nhanh nhạy</h5>
-                    <span className="pillar-sub text-[10px] font-semibold block">Tốc độ &amp; Đúng lúc</span>
-                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading typo-h5 font-play">Kịp thời nhanh nhạy</h5>
+                    <span className="pillar-sub typo-label block">Tốc độ &amp; Đúng lúc</span>
+                    <p className="pillar-body typo-body-sm mt-1">
                       Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng mắc.
                     </p>
                   </div>
@@ -1982,15 +1931,15 @@ export function AboutView({
                     <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-purple-600 dark:text-purple-300 shadow-2xs">
                       <HeartHandshake className="w-4 h-4" />
                     </div>
-                    <span className="pillar-badge text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">
+                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       03
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading text-xs sm:text-sm font-black font-play">Đồng cảm chân thành</h5>
-                    <span className="pillar-sub text-[10px] font-semibold block">Lắng nghe &amp; Thấu cảm</span>
-                    <p className="pillar-body text-[11px] font-medium leading-snug mt-1">
+                    <h5 className="pillar-heading typo-h5 font-play">Đồng cảm chân thành</h5>
+                    <span className="pillar-sub typo-label block">Lắng nghe &amp; Thấu cảm</span>
+                    <p className="pillar-body typo-body-sm mt-1">
                       Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng khách hàng.
                     </p>
                   </div>
@@ -2009,41 +1958,40 @@ export function AboutView({
               style={{
                 borderRadius: '14px',
                 padding: '15px',
-                ...cardSampleStyle,
               }}
               className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               <div className="relative z-10 flex flex-col justify-between h-full gap-3">
                 {/* Header */}
-                <div className="flex items-center justify-between pb-2 border-b border-sky-200/60 dark:border-sky-800/40 shrink-0">
-                  <div className="flex items-center gap-2 text-blue-600 dark:text-cyan-400">
+                <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
+                  <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
                     <Target className="w-4.5 h-4.5 text-blue-600 dark:text-cyan-400 shrink-0" />
-                    <h3 className="text-[17px] sm:text-[18px] font-bold font-play text-blue-600 dark:text-cyan-400 leading-tight">
+                    <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight" data-card-title="true">
                       {formatCardTitle('Triết lý tầm nhìn')}
                     </h3>
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 bg-white/90 dark:bg-slate-800 px-2.5 py-0.5 rounded-full border border-slate-200 dark:border-white/10">
+                  <span className="typo-badge font-mono text-[var(--text-muted)] bg-[var(--bg-nested-badge)] px-2.5 py-0.5 rounded-full border border-[var(--border-subcard)]">
                     CX 2026+
                   </span>
                 </div>
 
                 {/* Nội dung */}
                 <div className="my-auto space-y-2">
-                  <p className="text-xs sm:text-[13px] font-black text-blue-700 dark:text-cyan-300 font-play leading-snug">
+                  <p className="typo-h5 text-blue-700 dark:text-cyan-300 font-play leading-snug">
                     “ Tận Tâm &amp; Đồng Hành Cùng Trải Nghiệm Khách Hàng ”.
                   </p>
-                  <p className="text-[11.5px] sm:text-[12px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
+                  <p className="typo-body-sm text-[var(--text-secondary)]">
                     Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi
                     khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.
                   </p>
                 </div>
 
                 {/* Footer Tag */}
-                <div className="flex items-center justify-between pt-2 border-t border-slate-200/60 dark:border-white/10 shrink-0">
-                  <span className="text-[10.5px] font-bold text-slate-500 dark:text-slate-400">
+                <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subcard)] shrink-0">
+                  <span className="typo-label text-[var(--text-muted)]">
                     Định Hướng Dài Hạn
                   </span>
-                  <span className="text-[10px] font-mono font-bold text-blue-600 dark:text-cyan-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-full border border-blue-200 dark:border-blue-800">
+                  <span className="typo-badge font-mono text-blue-600 dark:text-cyan-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/30">
                     Khách Hàng Là Trọng Tâm
                   </span>
                 </div>
@@ -2052,8 +2000,6 @@ export function AboutView({
 
           </div>
       </div>
-
-
 
       {/* Bento Card Focus / Expand Modal (Yêu Cầu 5) */}
       <Modal

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion } from 'motion/react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { Toast } from './components/common/Toast';
@@ -29,6 +30,7 @@ import { MapLocation } from './data/about';
 import { ExperienceMilestone } from './data/experience';
 import { TABS_DATA, PAGE_NEON_COLORS } from './data/tabs';
 import { useTheme } from './hooks/useTheme';
+import { useGlobalHorizontalScroll } from './hooks/useGlobalHorizontalScroll';
 import { parseCssStringToStyle, getCleanImageUrl } from './data/wallpapers';
 import { applyTypographyScaleToDocument } from './config/typographyScale';
 import { SoundEngine } from './components/ui/SoundEngine';
@@ -58,7 +60,25 @@ export default function App() {
     slide: number;
   } | null>(null);
 
-  const { isDark, activeWallpaper, setWallpaper } = useTheme();
+  const { isDark, cardStyle, activeWallpaper, setWallpaper } = useTheme();
+  const [loadedWallpaperUrl, setLoadedWallpaperUrl] = useState<string>('');
+  const wallpaperImgRef = useRef<HTMLImageElement | null>(null);
+  const activeImageUrl =
+    activeWallpaper?.type === 'image' && activeWallpaper?.id !== 'none'
+      ? getCleanImageUrl(activeWallpaper.value || activeWallpaper.bg || '')
+      : '';
+
+  useEffect(() => {
+    if (!activeImageUrl) {
+      setLoadedWallpaperUrl('');
+      return;
+    }
+    if (wallpaperImgRef.current?.complete && wallpaperImgRef.current.naturalWidth > 0) {
+      setLoadedWallpaperUrl(activeImageUrl);
+    }
+  }, [activeImageUrl]);
+
+  useGlobalHorizontalScroll();
 
   // Phát âm thanh khi chọn click & khi chuyển trang trên toàn ứng dụng
   useEffect(() => {
@@ -393,17 +413,20 @@ export default function App() {
       data-element-name="Khung chứa toàn bộ trang web"
       data-element-type="container"
       data-element-page="global"
-      className="h-screen w-screen overflow-hidden flex flex-col justify-between m-0 select-text relative px-[25px]"
-      style={{ paddingLeft: '25px', paddingRight: '25px' }}
+      className="h-screen w-screen overflow-hidden flex flex-col justify-between m-0 select-text relative px-2 sm:px-4 lg:px-[25px]"
     >
       {/* GLOBAL DYNAMIC WALLPAPER LAYER */}
       <div
         id="global-wallpaper-layer"
+        data-theme-card-style={cardStyle}
         data-element-name="Lớp nền hình nền động toàn website"
         data-element-type="media"
         data-element-page="global"
         data-element-parent="website-root"
         className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
+        style={{
+          background: 'var(--theme-bg-fallback, var(--bg-main))',
+        }}
       >
         {activeWallpaper?.id === 'none' ||
         (!activeWallpaper?.value &&
@@ -411,7 +434,7 @@ export default function App() {
           (!activeWallpaper?.previewStyle || Object.keys(activeWallpaper.previewStyle).length === 0)) ? (
           <div
             className="w-full h-full transition-colors duration-500"
-            style={{ backgroundColor: isDark ? '#0B1220' : '#F5F7FD' }}
+            style={{ background: 'var(--bg-main)' }}
           />
         ) : activeWallpaper.type === 'video' ? (
           (activeWallpaper.value || activeWallpaper.bg || '').includes('youtube.com') ||
@@ -453,23 +476,55 @@ export default function App() {
         ) : (
           <div
             key={activeWallpaper.id}
-            className="w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-500"
+            className="relative w-full h-full overflow-hidden transition-all duration-500"
             style={{
-              backgroundImage: `url('${getCleanImageUrl(activeWallpaper.value || activeWallpaper.bg || '')}')`,
+              background: activeWallpaper.previewStyle?.background
+                ? String(activeWallpaper.previewStyle.background)
+                : 'var(--theme-bg-fallback, var(--bg-main))',
             }}
-          />
+          >
+            {activeImageUrl && (
+              <img
+                ref={wallpaperImgRef}
+                key={activeImageUrl}
+                src={activeImageUrl}
+                alt=""
+                aria-hidden="true"
+                decoding="async"
+                onLoad={() => setLoadedWallpaperUrl(activeImageUrl)}
+                onError={() => setLoadedWallpaperUrl('')}
+                className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ${
+                  loadedWallpaperUrl === activeImageUrl ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
+            )}
+          </div>
         )}
+        {/* Lớp phủ đảm bảo độ tương phản nội dung theo Light/Dark của từng Theme */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none transition-colors duration-500"
+          style={{ background: 'var(--theme-bg-overlay, transparent)' }}
+        />
       </div>
 
       {/* HEADER (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
-        <Header
-          pages={TABS_DATA}
-          currentPage={currentTabIndex}
-          currentTheme={activeTheme}
-          onSelectPage={handleSelectTabWithSound}
-          onShowNotification={showNotification}
-        />
+        <motion.div
+          key={`header-${currentTabIndex}`}
+          initial={{ opacity: 0, y: -25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full shrink-0"
+        >
+          <Header
+            pages={TABS_DATA}
+            currentPage={currentTabIndex}
+            currentTheme={activeTheme}
+            onSelectPage={handleSelectTabWithSound}
+            onShowNotification={showNotification}
+          />
+        </motion.div>
       )}
 
       {/* MAIN CENTER CARD */}
@@ -480,26 +535,42 @@ export default function App() {
         data-element-page="global"
         data-element-parent="website-root"
         style={{ width: '100%', maxWidth: '1250px', height: '100%', maxHeight: '100%', marginLeft: 'auto', marginRight: 'auto' }}
-        className="w-full max-w-[1250px] mx-auto flex-1 my-[4px] sm:my-[6px] lg:my-[8px] min-h-0 rounded-[14px] p-0 flex flex-col justify-between overflow-hidden shadow-none relative z-10 text-left h-full bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1"
+        className="w-full max-w-[1250px] mx-auto flex-1 my-[4px] sm:my-[6px] lg:my-[8px] min-h-0 rounded-[14px] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1"
       >
-        {renderActiveView()}
+        <motion.div
+          key={`page-view-${currentTabIndex}`}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.32, delay: 0.04, ease: [0.16, 1, 0.3, 1] }}
+          className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
+        >
+          {renderActiveView()}
+        </motion.div>
 
         <Toast message={toastMessage} />
       </main>
 
       {/* FOOTER (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
-        <Footer
-          currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}
-          onNavigate={navigatePage}
-          onSelectTab={handleSelectTabWithSound}
-          onShowNotification={showNotification}
-          onOpenAiAssistant={() => handleSelectTabWithSound(13)}
-          onOpenWallpaper={() => {
-            handleSelectTabWithSound(14);
-            showNotification('Mở trang Hình Nền & Giao diện (Lưu trữ lâu dài)');
-          }}
-        />
+        <motion.div
+          key={`footer-${currentTabIndex}`}
+          initial={{ opacity: 0, y: 45 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full shrink-0"
+        >
+          <Footer
+            currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}
+            onNavigate={navigatePage}
+            onSelectTab={handleSelectTabWithSound}
+            onShowNotification={showNotification}
+            onOpenAiAssistant={() => handleSelectTabWithSound(13)}
+            onOpenWallpaper={() => {
+              handleSelectTabWithSound(14);
+              showNotification('Mở trang Hình Nền & Giao diện (Lưu trữ lâu dài)');
+            }}
+          />
+        </motion.div>
       )}
 
       {/* MODALS & INSPECTOR */}

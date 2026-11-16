@@ -1081,7 +1081,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
           />
           <div className="min-w-0">
             <div className="flex items-center justify-between gap-2">
-              <h4 className={`font-black text-slate-950 ${uniformTitleSize} tracking-tight whitespace-nowrap leading-tight`}>
+              <h4 className={`font-black ${iconTextColorClass} ${uniformTitleSize} tracking-tight whitespace-nowrap leading-tight`}>
                 {sys.abbr}
               </h4>
               <span className={`${isCompact ? 'w-6 h-6' : 'w-6 h-6'} typo-badge rounded-full bg-transparent ${iconTextColorClass} flex items-center justify-center shrink-0 border-[1.5px] border-current font-bold leading-none`}>
@@ -1111,16 +1111,24 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
           SoundEngine.playTap();
           onClose();
         }}
-        className="fixed inset-0 z-50 bg-[#0B1220]/75 dark:bg-[#0B1220]/85 backdrop-blur-md flex items-center justify-center p-[12px] sm:p-[18px] overflow-hidden"
+        style={{
+          background: 'var(--bg-modal-backdrop)',
+          backdropFilter: 'blur(var(--blur-modal, 6px))',
+          WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+        }}
+        className="fixed inset-0 z-50 flex items-center justify-center p-[12px] sm:p-[18px] overflow-hidden"
       >
         {/* MODAL FULL CONTAINER: KÍCH THƯỚC BẰNG THẺ CHÍNH CHUẨN VỚI HIỆU ỨNG MỞ MƯỢT TỪ TỪ */}
         <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Sơ Đồ Liên Kết Hệ Sinh Thái 12 Phân Hệ PowerService"
           initial={{ opacity: 0, scale: 0.92, y: 18 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 18 }}
           transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
           onClick={e => e.stopPropagation()}
-          className="bento-card glass-card border border-[#CBD5E1] dark:border-[#334155] rounded-[14px] shadow-2xl flex flex-col relative z-50 text-left backdrop-blur-2xl bg-white/95 dark:bg-[#111827]/95 w-full h-full max-w-full max-h-full p-[12px] sm:p-[15px] overflow-hidden"
+          className="theme-modal-card rounded-[14px] shadow-2xl flex flex-col relative z-50 text-left w-full h-full max-w-full max-h-full p-[12px] sm:p-[15px] overflow-hidden"
           style={{ width: '100%', height: '100%', padding: '15px' }}
         >
           {/* Style Rules */}
@@ -1229,21 +1237,21 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
           `}</style>
 
           {/* TOP HEADER */}
-          <header className="bg-transparent border-b border-slate-200 dark:border-slate-800 pb-2 px-1 flex items-center justify-between z-30 shrink-0 gap-2 relative">
+          <header className="theme-modal-header -mx-[15px] -mt-[15px] px-[15px] pt-3 pb-2.5 flex items-center justify-between z-30 shrink-0 gap-2 relative">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 flex items-center justify-center text-white shrink-0 shadow-md">
+              <div className="w-9 h-9 rounded-[14px] bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 flex items-center justify-center text-white shrink-0 shadow-md">
                 <GitMerge className="w-5 h-5" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <h2 className="typo-h3 font-bold font-play text-slate-900 dark:text-white truncate">
+                  <h2 className="typo-popup-title font-play truncate" style={{ color: 'var(--accent-blue, var(--color-primary))' }}>
                     Sơ Đồ Liên Kết Hệ Sinh Thái 12 Phân Hệ PowerService
                   </h2>
-                  <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-cyan-300 typo-badge font-mono font-bold border border-blue-200 dark:border-blue-800">
+                  <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-sky-500/15 typo-badge font-mono font-bold border border-sky-400/35" style={{ color: 'var(--color-primary)' }}>
                     Real-time Flow
                   </span>
                 </div>
-                <p className="typo-caption text-[#475569] dark:text-[#94A3B8] truncate hidden sm:block">
+                <p className="typo-caption truncate hidden sm:block" style={{ color: 'var(--text-secondary)' }}>
                   Kiến trúc kết nối dữ liệu liên phân hệ, phân quyền SDP và ma trận giao thức truyền thông
                 </p>
               </div>
@@ -1256,13 +1264,14 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                   type="button"
                   onClick={() => setShowHubLines(prev => !prev)}
                   title="Bật/Tắt Line Hệ Thống vào SDP"
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-[10px] border typo-label font-bold transition-all cursor-pointer ${
+                  style={
                     showHubLines
-                      ? 'bg-blue-50 dark:bg-blue-950/70 border-blue-200 dark:border-blue-800 text-blue-900 dark:text-cyan-300'
-                      : 'bg-slate-100 dark:bg-[#1F2937] border-[#CBD5E1] dark:border-[#334155] text-[#475569] dark:text-[#94A3B8]'
-                  }`}
+                      ? { background: 'var(--bg-button-primary)', borderColor: 'transparent', color: '#FFFFFF' }
+                      : { background: 'var(--bg-button-secondary)', borderColor: 'var(--border-subcard)', color: 'var(--text-secondary)' }
+                  }
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-[10px] border typo-label font-bold transition-all cursor-pointer"
                 >
-                  <span className={`w-3.5 h-1.5 inline-block rounded-full shadow-xs shrink-0 ${showHubLines ? 'bg-blue-600' : 'bg-slate-300'}`} />
+                  <span className={`w-3.5 h-1.5 inline-block rounded-full shadow-xs shrink-0 ${showHubLines ? 'bg-white' : 'bg-current opacity-40'}`} />
                   <span className="whitespace-nowrap">Line SDP Hub</span>
                 </button>
 
@@ -1270,13 +1279,14 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                   type="button"
                   onClick={() => setShowInterSystemLines(prev => !prev)}
                   title="Bật/Tắt Line Data Liên Phân Hệ"
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-[10px] border typo-label font-bold transition-all cursor-pointer ${
+                  style={
                     showInterSystemLines
-                      ? 'bg-indigo-50 dark:bg-indigo-950/70 border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-300'
-                      : 'bg-slate-100 dark:bg-[#1F2937] border-[#CBD5E1] dark:border-[#334155] text-[#475569] dark:text-[#94A3B8]'
-                  }`}
+                      ? { background: 'var(--bg-button-primary)', borderColor: 'transparent', color: '#FFFFFF' }
+                      : { background: 'var(--bg-button-secondary)', borderColor: 'var(--border-subcard)', color: 'var(--text-secondary)' }
+                  }
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-[10px] border typo-label font-bold transition-all cursor-pointer"
                 >
-                  <span className={`w-3.5 h-1.5 border-t-2 border-dashed inline-block shrink-0 ${showInterSystemLines ? 'border-indigo-600' : 'border-slate-300'}`} />
+                  <span className={`w-3.5 h-1.5 border-t-2 border-dashed inline-block shrink-0 ${showInterSystemLines ? 'border-white' : 'border-current opacity-50'}`} />
                   <span className="whitespace-nowrap">Line Liên Phân Hệ</span>
                 </button>
               </div>
@@ -1290,48 +1300,55 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                     setIsFilterOpen(prev => !prev);
                   }}
                   title="Mở bộ lọc hệ thống & luồng dữ liệu"
-                  className="px-2.5 py-1 rounded-[10px] border border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-950/70 typo-label font-bold text-blue-900 dark:text-cyan-300 shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="banner-control-pill px-2.5 py-1 rounded-[10px] typo-label font-bold shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
                 >
-                  <Filter className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-400" />
+                  <Filter className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
                   <span>Bộ lọc</span>
                   {activeFilterCount > 0 && (
-                    <span className="px-1.5 py-0.2 rounded-full bg-blue-600 text-white typo-badge font-bold">
+                    <span
+                      className="px-1.5 py-0.2 rounded-full text-white typo-badge font-bold"
+                      style={{ background: 'var(--bg-button-primary)' }}
+                    >
                       {activeFilterCount}
                     </span>
                   )}
-                  <ChevronDown className="w-3 h-3 text-blue-600 dark:text-cyan-400" />
+                  <ChevronDown className="w-3 h-3" style={{ color: 'var(--color-primary)' }} />
                 </button>
 
                 {isFilterOpen && (
                   <div
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute right-0 mt-1.5 w-[300px] sm:w-[340px] bg-white dark:bg-[#111827] border border-[#CBD5E1] dark:border-[#334155] rounded-[14px] shadow-2xl p-3 z-50 space-y-3 text-left"
+                    className="theme-popup absolute right-0 mt-1.5 w-[300px] sm:w-[340px] rounded-[14px] shadow-2xl p-3 z-50 space-y-3 text-left"
                   >
-                    <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-                      <span className="typo-body-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                        <SlidersHorizontal className="w-3.5 h-3.5 text-blue-600" />
+                    <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: 'var(--border-subcard)' }}>
+                      <span className="typo-body-sm font-bold flex items-center gap-1.5" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
+                        <SlidersHorizontal className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
                         Tùy chỉnh Hiển thị & Bộ lọc
                       </span>
                       <button
                         type="button"
                         onClick={resetAllFilters}
-                        className="typo-label font-bold text-blue-600 dark:text-cyan-400 hover:underline flex items-center gap-1 cursor-pointer"
+                        className="typo-label font-bold hover:underline flex items-center gap-1 cursor-pointer"
+                        style={{ color: 'var(--text-link, var(--color-primary))' }}
                       >
                         <RefreshCw className="w-3 h-3" /> Mặc định
                       </button>
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="typo-label font-bold uppercase tracking-wider text-[#475569] dark:text-[#94A3B8] block">
+                      <label className="typo-label font-bold tracking-wider block" style={{ color: 'var(--text-secondary)' }}>
                         1. Hiển thị Loại Đường Kết Nối
                       </label>
                       <div className="grid grid-cols-2 gap-1.5 typo-label">
                         <button
                           type="button"
                           onClick={() => setShowHubLines(prev => !prev)}
-                          className={`px-2 py-1.5 rounded-[10px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                            showHubLines ? 'bg-blue-600 text-white' : 'bg-slate-200 dark:bg-[#1F2937] text-[#475569] dark:text-[#94A3B8]'
-                          }`}
+                          style={
+                            showHubLines
+                              ? { background: 'var(--bg-button-primary)', color: '#FFFFFF' }
+                              : { background: 'var(--bg-button-secondary)', color: 'var(--text-secondary)' }
+                          }
+                          className="px-2 py-1.5 rounded-[10px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                         >
                           <span>{showHubLines ? 'Line SDP Hub' : 'Line SDP (Tắt)'}</span>
                         </button>
@@ -1339,9 +1356,12 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                         <button
                           type="button"
                           onClick={() => setShowInterSystemLines(prev => !prev)}
-                          className={`px-2 py-1.5 rounded-[10px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                            showInterSystemLines ? 'bg-indigo-600 text-white' : 'bg-slate-200 dark:bg-[#1F2937] text-[#475569] dark:text-[#94A3B8]'
-                          }`}
+                          style={
+                            showInterSystemLines
+                              ? { background: 'var(--bg-button-primary)', color: '#FFFFFF' }
+                              : { background: 'var(--bg-button-secondary)', color: 'var(--text-secondary)' }
+                          }
+                          className="px-2 py-1.5 rounded-[10px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                         >
                           <span>{showInterSystemLines ? 'Line Liên HT' : 'Line Liên HT (Tắt)'}</span>
                         </button>
@@ -1350,23 +1370,26 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                       <button
                         type="button"
                         onClick={() => setIsAnimationActive(prev => !prev)}
-                        className="w-full px-2.5 py-1.5 rounded-[10px] border border-[#E2E8F0] dark:border-[#334155] bg-[#F8FAFC] dark:bg-[#1F2937]/80 text-[#334155] dark:text-[#E2E8F0] flex items-center justify-between font-bold typo-label transition-all cursor-pointer"
+                        className="theme-modal-subcard w-full px-2.5 py-1.5 rounded-[10px] flex items-center justify-between font-bold typo-label transition-all cursor-pointer"
                       >
                         <span className="flex items-center gap-1.5">
-                          <Activity className="w-3.5 h-3.5 text-blue-600" /> Luồng tín hiệu
+                          <Activity className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} /> Luồng tín hiệu
                         </span>
                         <span
-                          className={`px-1.5 py-0.2 rounded font-bold typo-badge ${
-                            isAnimationActive ? 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300' : 'bg-slate-200 dark:bg-slate-700 text-[#475569] dark:text-[#94A3B8]'
-                          }`}
+                          className="px-1.5 py-0.2 rounded font-bold typo-badge"
+                          style={
+                            isAnimationActive
+                              ? { background: 'rgba(16, 185, 129, 0.16)', color: 'var(--accent-emerald, #059669)' }
+                              : { background: 'var(--bg-button-secondary)', color: 'var(--text-muted)' }
+                          }
                         >
                           {isAnimationActive ? 'Đang chạy' : 'Tạm dừng'}
                         </span>
                       </button>
                     </div>
 
-                    <div className="space-y-1.5 border-t border-[#E2E8F0] dark:border-[#334155] pt-2.5">
-                      <label className="typo-label font-bold uppercase tracking-wider text-[#475569] dark:text-[#94A3B8] block">
+                    <div className="space-y-1.5 border-t pt-2.5" style={{ borderColor: 'var(--border-subcard)' }}>
+                      <label className="typo-label font-bold tracking-wider block" style={{ color: 'var(--text-secondary)' }}>
                         2. Lọc Nhóm Tuyến Line
                       </label>
                       <div className="flex flex-wrap gap-1">
@@ -1380,11 +1403,10 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                           <button
                             key={item.key}
                             type="button"
+                            data-selected={activeLineGroup === item.key ? 'true' : undefined}
                             onClick={() => setActiveLineGroup(item.key)}
-                            className={`px-2 py-1 rounded-[8px] typo-label transition-all cursor-pointer ${
-                              activeLineGroup === item.key
-                                ? 'font-bold bg-blue-600 text-white shadow-xs'
-                                : 'font-semibold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700'
+                            className={`theme-dropdown-option px-2 py-1 rounded-[8px] typo-label transition-all cursor-pointer ${
+                              activeLineGroup === item.key ? 'font-bold shadow-xs' : 'font-semibold'
                             }`}
                           >
                             {item.label}
@@ -1401,9 +1423,9 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                   type="button"
                   onClick={resetPositions}
                   title="Khôi phục vị trí mặc định"
-                  className="px-2.5 py-1 rounded-[10px] border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 typo-label font-bold text-slate-800 dark:text-slate-200 shadow-xs transition-all flex items-center gap-1 cursor-pointer"
+                  className="banner-control-pill px-2.5 py-1 rounded-full typo-label font-bold shadow-xs transition-all flex items-center gap-1 cursor-pointer"
                 >
-                  <RotateCcw className="w-3 h-3 text-slate-600 dark:text-slate-300" />
+                  <RotateCcw className="w-3 h-3" />
                   <span className="hidden sm:inline">Khôi phục</span>
                 </button>
               )}
@@ -1411,10 +1433,11 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               <button
                 type="button"
                 onClick={() => setViewMode(prev => (prev === 'diagram' ? 'matrix' : 'diagram'))}
-                className={`px-2.5 py-1 rounded-[10px] border typo-label font-bold shadow-xs transition-all flex items-center gap-1 cursor-pointer ${
+                style={viewMode === 'matrix' ? { background: 'var(--bg-button-primary)' } : undefined}
+                className={`px-2.5 py-1 rounded-full typo-label font-bold shadow-xs transition-all flex items-center gap-1 cursor-pointer ${
                   viewMode === 'matrix'
-                    ? 'border-blue-600 bg-blue-600 text-white'
-                    : 'border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200'
+                    ? 'text-white border border-transparent'
+                    : 'banner-control-pill'
                 }`}
               >
                 {viewMode === 'matrix' ? (
@@ -1424,7 +1447,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                   </>
                 ) : (
                   <>
-                    <Table className="w-3 h-3 text-blue-600 dark:text-cyan-400" />
+                    <Table className="w-3 h-3" />
                     <span>Ma Trận</span>
                   </>
                 )}
@@ -1436,7 +1459,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                   SoundEngine.playTap();
                   onClose();
                 }}
-                className="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center transition cursor-pointer shrink-0 ml-1"
+                className="theme-modal-close w-8 h-8 rounded-full flex items-center justify-center transition cursor-pointer shrink-0 ml-1"
                 title="Đóng cửa sổ sơ đồ"
               >
                 <X className="w-4 h-4" />
@@ -1448,29 +1471,29 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
           <main className="flex-1 overflow-hidden p-1 sm:p-2 relative flex flex-col justify-between min-h-0 mt-2">
             {viewMode === 'matrix' ? (
               /* MA TRẬN LUỒNG DỮ LIỆU TÍCH HỢP */
-              <div className="flex-1 flex flex-col rounded-[14px] bg-white/95 dark:bg-[#111827]/95 border border-[#CBD5E1] dark:border-[#334155] overflow-hidden min-h-0 shadow-inner">
-                <div className="px-4 py-2.5 border-b border-[#E2E8F0] dark:border-[#334155] flex items-center justify-between bg-[#F8FAFC] dark:bg-[#1F2937]/70 shrink-0">
+              <div className="theme-modal-subcard flex-1 flex flex-col rounded-[14px] overflow-hidden min-h-0 shadow-inner">
+                <div className="theme-modal-header px-4 py-2.5 flex items-center justify-between shrink-0">
                   <div>
-                    <h3 className="typo-h4 font-bold text-[#1E1B4B] dark:text-[#F8FAFC]">
+                    <h3 className="typo-h4 font-bold" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
                       Ma Trận Luồng Dữ Liệu & Giao Thức (12 Phân Hệ • 21 Tuyến Kết Nối)
                     </h3>
-                    <p className="typo-caption text-[#475569] dark:text-[#94A3B8] font-medium">
+                    <p className="typo-caption font-medium" style={{ color: 'var(--text-secondary)' }}>
                       Chi tiết hướng truyền tải, giao thức kỹ thuật và tần suất đồng bộ giữa SDP và các phân hệ
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => setViewMode('diagram')}
-                    className="px-3 py-1.5 rounded-[10px] bg-slate-200 dark:bg-[#1F2937] hover:bg-slate-300 dark:hover:bg-[#334155] text-[#334155] dark:text-[#E2E8F0] typo-button font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                    className="theme-modal-close px-3 py-1.5 rounded-full typo-button font-bold flex items-center gap-1 transition-colors cursor-pointer"
                   >
                     <X className="w-3.5 h-3.5" /> Quay lại Sơ Đồ
                   </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-1">
-                  <table className="w-full text-left border-collapse typo-caption">
+                <div className="flex-1 overflow-auto horizontal-scroll-smooth p-1">
+                  <table className="theme-table w-full text-left border-collapse typo-caption">
                     <thead className="sticky top-0 z-10">
-                      <tr className="border-b border-[#E2E8F0] dark:border-[#334155] bg-slate-100 dark:bg-[#1F2937] text-[#334155] dark:text-[#E2E8F0] font-bold uppercase typo-label">
+                      <tr className="border-b font-bold uppercase typo-label" style={{ borderColor: 'var(--border-table)' }}>
                         <th className="py-2 px-3">Hệ thống nguồn</th>
                         <th className="py-2 px-3 text-center">Hướng</th>
                         <th className="py-2 px-3">Hệ thống đích</th>
@@ -1479,15 +1502,15 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                         <th className="py-2 px-3">Tần suất</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#E2E8F0] dark:divide-[#334155] text-[#334155] dark:text-[#E2E8F0] font-medium">
+                    <tbody className="divide-y font-medium" style={{ borderColor: 'var(--border-table)' }}>
                       {MATRIX_ROWS.map((row, idx) => (
-                        <tr key={idx} className="hover:bg-blue-50/50 dark:hover:bg-blue-950/40 transition-colors">
-                          <td className="py-2 px-3 font-bold text-[#1E1B4B] dark:text-[#F8FAFC] whitespace-nowrap">{row.from}</td>
-                          <td className="py-2 px-3 text-center font-mono text-blue-600 dark:text-cyan-400 font-bold whitespace-nowrap">{row.dir}</td>
-                          <td className="py-2 px-3 font-bold text-[#1E1B4B] dark:text-[#F8FAFC] whitespace-nowrap">{row.to}</td>
-                          <td className="py-2 px-3 text-[#334155] dark:text-[#E2E8F0] font-medium">{row.data}</td>
-                          <td className="py-2 px-3 font-mono text-indigo-600 dark:text-indigo-400 font-bold whitespace-nowrap">{row.proto}</td>
-                          <td className="py-2 px-3 text-[#475569] dark:text-[#94A3B8] font-semibold whitespace-nowrap">{row.freq}</td>
+                        <tr key={idx} className="hover:bg-sky-500/10 transition-colors">
+                          <td className="py-2 px-3 font-bold whitespace-nowrap" style={{ color: 'var(--text-heading, var(--text-primary))' }}>{row.from}</td>
+                          <td className="py-2 px-3 text-center font-mono font-bold whitespace-nowrap" style={{ color: 'var(--color-primary)' }}>{row.dir}</td>
+                          <td className="py-2 px-3 font-bold whitespace-nowrap" style={{ color: 'var(--text-heading, var(--text-primary))' }}>{row.to}</td>
+                          <td className="py-2 px-3 font-medium" style={{ color: 'var(--text-primary)' }}>{row.data}</td>
+                          <td className="py-2 px-3 font-mono font-bold whitespace-nowrap" style={{ color: 'var(--color-primary)' }}>{row.proto}</td>
+                          <td className="py-2 px-3 font-semibold whitespace-nowrap" style={{ color: 'var(--text-secondary)' }}>{row.freq}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -1498,7 +1521,11 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               /* SƠ ĐỒ KIẾN TRÚC TƯƠNG TÁC */
               <div
                 ref={boardRef}
-                className="relative flex-1 flex flex-col justify-between rounded-[14px] p-2 sm:p-2.5 min-h-0 overflow-hidden bg-slate-50/50 dark:bg-[#0B1220]/45 border border-[#E2E8F0] dark:border-[#334155]"
+                style={{
+                  background: 'var(--bg-nested-card)',
+                  borderColor: 'var(--border-subcard)',
+                }}
+                className="relative flex-1 flex flex-col justify-between rounded-[14px] p-2 sm:p-2.5 min-h-0 overflow-hidden border"
               >
                 {/* SVG LAYER 1: Lines (Z-10) */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" xmlns="http://www.w3.org/2000/svg">
@@ -1650,7 +1677,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                                 setCurrentRole(e.target.value);
                                 showToast(`Đã chuyển sang phân quyền: ${SDP_ROLES[e.target.value]?.title || ''}`);
                               }}
-                              className="text-base md:text-[12px] font-bold text-blue-950 bg-transparent border-0 outline-none cursor-pointer"
+                              className="typo-label font-bold text-blue-950 bg-transparent border-0 outline-none cursor-pointer"
                             >
                               <option value="admin">Quản trị viên (Admin Toàn quyền)</option>
                               <option value="lead">Trưởng nhóm CSKH (Lead)</option>
@@ -1664,8 +1691,8 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                             <Layers className="w-5 h-5" />
                           </div>
                           <div className="text-left">
-                            <h2 className="typo-h2 text-slate-950 tracking-tight leading-none">SDP</h2>
-                            <p className="typo-label text-blue-900 font-bold font-mono mt-0.5">Service Delivery Platform</p>
+                            <h2 className="typo-h2 text-blue-700 dark:text-sky-300 font-bold tracking-tight leading-none">SDP</h2>
+                            <p className="typo-label text-blue-900 dark:text-blue-200 font-bold font-mono mt-0.5">Service Delivery Platform</p>
                             <p className="typo-label text-slate-900 font-bold">Cổng làm việc CSKH</p>
                           </div>
                         </div>
@@ -1739,13 +1766,21 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
       {selectedSystem && (
         <div
           onClick={() => setSelectedSystemKey(null)}
-          className="fixed inset-0 z-50 bg-[#0B1220]/70 backdrop-blur-sm flex items-center justify-center p-3"
+          style={{
+            background: 'var(--bg-modal-backdrop)',
+            backdropFilter: 'blur(var(--blur-modal, 6px))',
+            WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3"
         >
           <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${selectedSystem.abbr} - ${selectedSystem.name}`}
             onClick={e => e.stopPropagation()}
-            className="bg-white dark:bg-[#111827] border border-[#CBD5E1] dark:border-[#334155] w-full max-w-xl rounded-[14px] shadow-2xl overflow-hidden flex flex-col max-h-[85vh] text-left"
+            className="theme-modal-card w-full max-w-xl rounded-[14px] shadow-2xl overflow-hidden flex flex-col max-h-[85vh] text-left"
           >
-            <div className="p-4 border-b border-[#E2E8F0] dark:border-[#334155] bg-[#F8FAFC] dark:bg-[#1F2937]/80 flex items-start justify-between">
+            <div className="theme-modal-header p-4 flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <div
                   style={{ backgroundColor: selectedSystem.color }}
@@ -1755,12 +1790,12 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="typo-badge font-mono px-2 py-0.2 rounded bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-cyan-300 font-bold">
+                    <span className="typo-badge font-mono px-2 py-0.2 rounded bg-sky-500/15 font-bold" style={{ color: 'var(--color-primary)' }}>
                       {selectedSystem.code}
                     </span>
-                    <span className="typo-caption text-[#475569] dark:text-[#94A3B8] font-mono font-bold">{selectedSystem.full}</span>
+                    <span className="typo-caption font-mono font-bold" style={{ color: 'var(--text-secondary)' }}>{selectedSystem.full}</span>
                   </div>
-                  <h3 className="typo-h3 font-bold text-[#1E1B4B] dark:text-[#F8FAFC] mt-0.5">
+                  <h3 className="typo-popup-title mt-0.5" style={{ color: selectedSystem.color }}>
                     {selectedSystem.abbr} - {selectedSystem.name}
                   </h3>
                 </div>
@@ -1768,7 +1803,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               <button
                 type="button"
                 onClick={() => setSelectedSystemKey(null)}
-                className="w-7 h-7 rounded-full bg-slate-200 dark:bg-[#1F2937] hover:bg-slate-300 dark:hover:bg-[#334155] text-[#475569] dark:text-[#E2E8F0] flex items-center justify-center transition cursor-pointer"
+                className="theme-modal-close w-7 h-7 rounded-full flex items-center justify-center transition cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1776,22 +1811,22 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
 
             <div className="p-4 space-y-3 typo-body-sm overflow-y-auto font-play">
               <div>
-                <label className="typo-label font-bold text-[#475569] dark:text-[#94A3B8] uppercase tracking-wider block mb-1">
+                <label className="typo-label font-bold uppercase tracking-wider block mb-1" style={{ color: 'var(--text-secondary)' }}>
                   Mô tả tổng quan
                 </label>
-                <p className="text-[#334155] dark:text-[#E2E8F0] font-medium leading-relaxed bg-[#F8FAFC] dark:bg-[#1F2937]/70 p-2.5 rounded-[10px] border border-[#E2E8F0] dark:border-[#334155]">
+                <p className="theme-modal-subcard font-medium leading-relaxed p-2.5 rounded-[14px]">
                   {selectedSystem.desc}
                 </p>
               </div>
 
               <div>
-                <label className="typo-label font-bold text-[#475569] dark:text-[#94A3B8] uppercase tracking-wider block mb-1">
+                <label className="typo-label font-bold uppercase tracking-wider block mb-1" style={{ color: 'var(--text-secondary)' }}>
                   Tính năng chính
                 </label>
-                <ul className="space-y-1 text-[#334155] dark:text-[#E2E8F0]">
+                <ul className="space-y-1">
                   {selectedSystem.features?.map((feat: string, idx: number) => (
-                    <li key={idx} className="flex items-start gap-2 font-medium">
-                      <CheckCircle className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-400 mt-0.5 shrink-0" />
+                    <li key={idx} className="flex items-start gap-2 font-medium" style={{ color: 'var(--text-primary)' }}>
+                      <CheckCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: 'var(--color-primary)' }} />
                       <span className="leading-normal">{feat}</span>
                     </li>
                   ))}
@@ -1800,18 +1835,18 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
 
               {selectedSystem.flows && (
                 <div>
-                  <label className="typo-label font-bold text-[#475569] dark:text-[#94A3B8] uppercase tracking-wider block mb-1">
+                  <label className="typo-label font-bold uppercase tracking-wider block mb-1" style={{ color: 'var(--text-secondary)' }}>
                     Luồng Dữ Liệu Tương Tác Với Hệ Sinh Thái
                   </label>
-                  <div className="bg-blue-50/70 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-900 p-2.5 rounded-[10px] space-y-1.5">
+                  <div className="theme-modal-subcard p-2.5 rounded-[14px] space-y-1.5">
                     {selectedSystem.flows.map((fl: any, idx: number) => (
-                      <div key={idx} className="flex items-start gap-2 border-b border-blue-100 dark:border-blue-900/60 pb-1.5 last:border-b-0 last:pb-0">
-                        <span className="px-1.5 py-0.2 rounded bg-blue-200 dark:bg-blue-900 text-blue-900 dark:text-cyan-200 font-mono typo-badge font-bold shrink-0">
+                      <div key={idx} className="flex items-start gap-2 border-b pb-1.5 last:border-b-0 last:pb-0" style={{ borderColor: 'var(--border-subcard)' }}>
+                        <span className="px-1.5 py-0.2 rounded bg-sky-500/15 font-mono typo-badge font-bold shrink-0" style={{ color: 'var(--color-primary)' }}>
                           {fl.type}
                         </span>
                         <div>
-                          <span className="font-bold text-slate-900 dark:text-white">{fl.to}:</span>
-                          <span className="text-slate-700 dark:text-slate-300 ml-1 font-medium">{fl.desc}</span>
+                          <span className="font-bold" style={{ color: 'var(--text-heading, var(--text-primary))' }}>{fl.to}:</span>
+                          <span className="ml-1 font-medium" style={{ color: 'var(--text-secondary)' }}>{fl.desc}</span>
                         </div>
                       </div>
                     ))}
@@ -1820,22 +1855,23 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               )}
             </div>
 
-            <div className="p-3 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
-              <span className="typo-caption font-mono text-blue-600 dark:text-cyan-400 font-bold truncate max-w-[280px]">
+            <div className="theme-modal-footer p-3 flex items-center justify-between">
+              <span className="typo-caption font-mono font-bold truncate max-w-[280px]" style={{ color: 'var(--color-primary)' }}>
                 {selectedSystem.url}
               </span>
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={() => handleCopyUrl(selectedSystem.url)}
-                  className="px-3 py-1.5 rounded-[10px] bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 font-bold typo-button transition cursor-pointer flex items-center gap-1"
+                  className="theme-modal-close px-3 py-1.5 rounded-full font-bold typo-button transition cursor-pointer flex items-center gap-1"
                 >
                   <Copy className="w-3.5 h-3.5" /> Co-py URL
                 </button>
                 <button
                   type="button"
                   onClick={() => setSelectedSystemKey(null)}
-                  className="px-3 py-1.5 rounded-[10px] bg-blue-600 text-white font-bold typo-button transition cursor-pointer hover:bg-blue-700"
+                  style={{ background: 'var(--bg-button-primary)' }}
+                  className="px-3 py-1.5 rounded-full text-white font-bold typo-button transition cursor-pointer hover:opacity-90"
                 >
                   Đóng
                 </button>
@@ -1847,8 +1883,8 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
 
       {/* TOAST MESSAGE */}
       {toastMsg && (
-        <div className="fixed bottom-4 right-4 z-50 bg-slate-900 text-white px-3.5 py-2 rounded-[12px] shadow-xl flex items-center gap-2 typo-body-sm font-bold animate-fadeIn">
-          <CheckCircle className="w-4 h-4 text-emerald-400" />
+        <div className="theme-popup fixed bottom-4 right-4 z-50 px-3.5 py-2 rounded-[14px] shadow-xl flex items-center gap-2 typo-body-sm font-bold animate-fadeIn">
+          <CheckCircle className="w-4 h-4 text-emerald-500" />
           <span>{toastMsg}</span>
         </div>
       )}

@@ -9,7 +9,7 @@ import { Modal } from '@/components/ui/Modal';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { ProjectDetailView } from './ProjectDetailView';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+import { useTheme } from '@/hooks/useTheme';
 
 export interface ProjectCardGroup {
   id: string;
@@ -404,10 +404,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
     video.muted = next;
   };
 
-  const { cardStyle } = useTheme();
-  const cardSampleStyle = getCardStyleProperties(cardStyle);
-  const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cleanCardStyle } = cardSampleStyle as any;
-
   return (
     <div
       id="projects-page-container"
@@ -415,13 +411,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
       data-element-type="card"
       data-section-card="true"
       data-element-page="projects"
-      style={{
-        ...cleanCardStyle,
-        borderRadius: '14px',
-        padding: '15px',
-        gap: '15px',
-      }}
-      className="bento-card glass-card w-full h-full flex flex-col justify-between p-[15px] gap-[15px] overflow-y-auto no-scrollbar font-play select-text text-left animate-fadeIn rounded-[14px]"
+      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-text text-left animate-fadeIn rounded-[20px] text-[var(--text-primary)] box-border"
     >
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
       {!selectedGroup && !selectedArticle ? (
@@ -436,8 +426,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="banner-card hero-banner w-full max-w-full min-h-[200px] h-auto mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 backdrop-blur-xl"
-            style={{ padding: '15px', width: '100%', maxWidth: '100%', minHeight: '200px', borderRadius: '14px' }}
+            className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:min-h-[200px] mx-auto rounded-[14px] overflow-visible relative border shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30"
+            style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
           >
             <div
               className="absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
@@ -458,7 +448,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
               <div className="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/25 to-slate-950/55 pointer-events-none" />
             </div>
 
-            <div className="relative z-10 flex flex-row items-center justify-between gap-2 sm:gap-4 w-full">
+            <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
               <div className="flex items-center gap-2 min-w-0">
                 <WebIcon
                   name="folder"
@@ -473,8 +463,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                 </h1>
               </div>
               <p
-                className="font-handwriting font-italianno not-italic text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-right ml-auto whitespace-nowrap overflow-hidden text-ellipsis max-w-[65%]"
-                style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '28px', fontWeight: 700, fontStyle: 'normal' }}
+                className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+                style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
               >
                 &quot;Khát vọng đổi mới, ghi dấu giá trị thực tiễn ♡&quot;
               </p>
@@ -489,22 +479,22 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                     SoundEngine.playTap();
                     setIsFilterDropdownOpen((prev) => !prev);
                   }}
-                  className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-purple-900 dark:text-purple-200 border border-purple-300 dark:border-purple-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group"
+                  className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group"
                   title="Bộ lọc dự án"
                   aria-expanded={isFilterDropdownOpen}
                   aria-haspopup="listbox"
                 >
-                  <WebIcon name="sliders" className="w-4 h-4 text-purple-700 dark:text-purple-300 transition-transform group-hover:rotate-45 shrink-0" />
+                  <WebIcon name="sliders" className="w-4 h-4 transition-transform group-hover:rotate-45 shrink-0" />
                   <span>Bộ lọc dự án</span>
                   {activeCategory !== 'all' && (
-                    <span className="banner-count-pill px-1.5 py-0.2 rounded-full bg-purple-100 dark:bg-purple-900/70 border border-purple-300 dark:border-purple-500/50 typo-badge font-mono text-purple-900 dark:text-purple-200 font-bold">
+                    <span className="banner-count-pill px-1.5 py-0.2 rounded-full border typo-badge font-mono font-bold">
                       {PROJECT_CATEGORIES.find((c) => c.id === activeCategory)?.label}
                     </span>
                   )}
                   <WebIcon
                     name="chevron-down"
                     className={cn(
-                      'w-3.5 h-3.5 text-purple-700 dark:text-purple-300 transition-transform duration-200 shrink-0',
+                      'w-3.5 h-3.5 transition-transform duration-200 shrink-0',
                       isFilterDropdownOpen && 'rotate-180'
                     )}
                   />
@@ -518,7 +508,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                       exit={{ opacity: 0, y: 6, scale: 0.96 }}
                       transition={{ duration: 0.16 }}
                       role="listbox"
-                      className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-60 rounded-[14px] bg-white/98 dark:bg-[#111827]/98 border border-purple-200 dark:border-purple-500/40 shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-[#334155] dark:text-[#E2E8F0]"
+                      className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-60 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                     >
                       {PROJECT_CATEGORIES.map((cat) => {
                         const isSelected = activeCategory === cat.id;
@@ -528,20 +518,19 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                             type="button"
                             role="option"
                             aria-selected={isSelected}
+                            data-selected={isSelected ? 'true' : 'false'}
                             onClick={() => {
                               SoundEngine.playTap();
                               setActiveCategory(cat.id);
                               setIsFilterDropdownOpen(false);
                             }}
                             className={cn(
-                              'w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-button font-bold font-play transition-all cursor-pointer text-left',
-                              isSelected
-                                ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-900 dark:text-purple-100 border border-purple-300 dark:border-purple-500/50 shadow-xs'
-                                : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white border border-transparent font-medium'
+                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-button font-play transition-all cursor-pointer text-left',
+                              isSelected ? 'font-bold shadow-xs' : 'font-medium'
                             )}
                           >
                             <span>{cat.label}</span>
-                            {isSelected && <span className="w-2 h-2 rounded-full bg-purple-600 dark:bg-purple-400" />}
+                            {isSelected && <span className="w-2 h-2 rounded-full bg-white" />}
                           </button>
                         );
                       })}
@@ -554,7 +543,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                 <div className="relative flex-1 sm:w-56">
                   <WebIcon
                     name="search"
-                    className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                    className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-70"
                   />
                   <input
                     type="text"
@@ -562,20 +551,20 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Tìm tên, mã dự án..."
                     aria-label="Tìm kiếm dự án"
-                    className="banner-search-input w-full pl-8 pr-7 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 text-slate-800 dark:text-[#E2E8F0] placeholder:text-slate-400 border border-slate-200 dark:border-[#334155] shadow-sm text-xs font-play focus:outline-none focus:ring-2 focus:ring-cyan-500/60"
+                    className="banner-search-input w-full pl-8 pr-7 py-1.5 rounded-full border shadow-sm typo-input font-play focus:outline-none focus:ring-2 focus:ring-cyan-500/60"
                   />
                   {searchQuery && (
                     <button
                       type="button"
                       onClick={() => setSearchQuery('')}
                       aria-label="Xóa từ khóa tìm kiếm"
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white cursor-pointer"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 cursor-pointer"
                     >
                       <WebIcon name="cancel" className="w-3.5 h-3.5" />
                     </button>
                   )}
                 </div>
-                <span className="banner-count-pill px-2.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 text-cyan-800 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-500/40 text-xs font-mono font-bold shadow-sm shrink-0">
+                <span className="banner-count-pill px-2.5 py-1.5 rounded-full border typo-badge font-mono font-bold shadow-sm shrink-0">
                   {filteredProjects.length}/{PROJECTS_DATA.length}
                 </span>
               </div>
@@ -584,14 +573,14 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
 
           {/* NỘI DUNG CHÍNH: RESPONSIVE CARD GRID VIEW HOẶC EMPTY STATE */}
           {filteredProjects.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center py-12 px-4 rounded-[14px] bg-white/80 dark:bg-[#111827]/80 border border-slate-200/80 dark:border-white/15 backdrop-blur-md">
-              <div className="w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-950/70 text-cyan-700 dark:text-cyan-300 flex items-center justify-center mb-3">
+            <div data-subcard="true" className="sub-card flex-1 flex flex-col items-center justify-center text-center py-12 px-4 rounded-[14px]">
+              <div className="w-12 h-12 rounded-full bg-sky-500/15 flex items-center justify-center mb-3" style={{ color: 'var(--color-primary)' }}>
                 <WebIcon name="search" className="w-6 h-6" />
               </div>
-              <p className="text-base font-bold text-slate-800 dark:text-white font-play">
+              <p className="typo-h4 font-play" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
                 Không tìm thấy dự án phù hợp
               </p>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 max-w-md">
+              <p className="typo-caption mt-1 max-w-md" style={{ color: 'var(--text-secondary)' }}>
                 Hãy thử đổi bộ lọc danh mục hoặc nhập từ khóa khác như KPI, CRM, AI, SOP...
               </p>
               <button
@@ -601,7 +590,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                   setActiveCategory('all');
                   setSearchQuery('');
                 }}
-                className="mt-4 px-5 py-2 rounded-full text-xs font-bold bg-cyan-600 hover:bg-cyan-700 text-white transition cursor-pointer shadow-sm"
+                style={{ background: 'var(--bg-button-primary)' }}
+                className="mt-4 px-5 py-2 rounded-full typo-button text-white transition cursor-pointer shadow-sm hover:opacity-90"
               >
                 Hiển thị tất cả {PROJECTS_DATA.length} dự án
               </button>
@@ -635,11 +625,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                       handleOpenGroup(parentGroup, proj);
                     }
                   }}
-                  className={`project-card bento-card glass-card layered-card group relative rounded-[14px] overflow-hidden p-0 flex flex-col justify-between border select-text transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play ${
-                    isDark
-                      ? 'bg-[#111827]/85 border-slate-700/70 hover:border-cyan-400/60 shadow-[0_4px_20px_rgba(0,0,0,0.5)] text-[#E2E8F0]'
-                      : 'bg-white/95 border-slate-200/90 hover:border-cyan-500/60 shadow-md text-[#334155]'
-                  }`}
+                  className="project-card bento-card glass-card layered-card group relative rounded-[14px] overflow-hidden p-0 flex flex-col justify-between border select-text transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play"
                   style={{
                     borderColor: `${cfg.accentColor}45`,
                     padding: 0,
@@ -678,8 +664,9 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                   <div className="project-card-body p-[10px] flex-1 flex flex-col justify-between space-y-2">
                     <div>
                       <h3
-                        className="typo-h4 line-clamp-2 min-h-[2.85rem] leading-snug break-words transition-colors text-[17px] font-bold font-play"
-                        style={{ color: cfg.accentColor, fontSize: '17px' }}
+                        className="typo-h4 card-title-synced line-clamp-2 min-h-[2.85rem] leading-snug break-words transition-colors font-play"
+                        data-card-title="true"
+                        style={{ color: cfg.accentColor }}
                         title={proj.title}
                       >
                         {orderNumber && (
@@ -705,19 +692,20 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                       </h3>
 
                       <p
-                        className={`typo-body-sm leading-snug line-clamp-2 min-h-[2.4rem] mt-1.5 font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}
+                        className="typo-body-sm leading-snug line-clamp-2 min-h-[2.4rem] mt-1.5 font-medium"
+                        style={{ color: 'var(--text-secondary)' }}
                       >
                         {proj.description}
                       </p>
                     </div>
 
                     {/* Tags hashtag kỹ năng kích thước chuẩn 12px & Footer CTA */}
-                    <div className="pt-2 border-t border-black/5 dark:border-white/10 flex flex-col gap-2.5">
-                      <div className="flex flex-nowrap items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap">
+                    <div className="pt-2 border-t flex flex-col gap-2.5" style={{ borderColor: 'var(--border-subcard)' }}>
+                      <div className="flex flex-nowrap items-center gap-1.5 overflow-x-auto horizontal-scroll-smooth whitespace-nowrap">
                         {proj.hashtags.slice(0, 3).map((tag, tIdx) => (
                           <span
                             key={tIdx}
-                            className="project-card-tag card-tag px-2 py-0.5 rounded-[999px] typo-badge font-semibold bg-cyan-50 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 border border-cyan-200/80 dark:border-cyan-800/60 shrink-0"
+                            className="project-card-tag card-tag px-2 py-0.5 rounded-[999px] typo-badge font-semibold border shrink-0"
                           >
                             #{tag.replace(/^#/, '')}
                           </span>
@@ -733,7 +721,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                             SoundEngine.playTap();
                             handleOpenGroup(parentGroup, proj);
                           }}
-                          className="project-card-btn-primary flex-1 py-1.5 px-3 rounded-[999px] bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold typo-button flex items-center justify-center gap-1 shadow-sm hover:brightness-110 transition-all cursor-pointer"
+                          className="project-card-btn-primary flex-1 py-1.5 px-3 rounded-[999px] text-white font-bold typo-button flex items-center justify-center gap-1 shadow-sm hover:brightness-110 transition-all cursor-pointer"
                         >
                           <WebIcon name="external-link" className="w-3.5 h-3.5" />
                           <span>Chi Tiết</span>
@@ -745,10 +733,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                             SoundEngine.playTap();
                             setMindmapProject(proj);
                           }}
-                          className="project-card-btn-secondary py-1.5 px-3 rounded-[999px] bg-white/90 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold typo-button border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-1 shadow-2xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all cursor-pointer"
+                          className="project-card-btn-secondary py-1.5 px-3 rounded-[999px] font-bold typo-button border flex items-center justify-center gap-1 shadow-2xs hover:opacity-90 transition-all cursor-pointer"
                           title="Xem sơ đồ tư duy dự án"
                         >
-                          <WebIcon name="git-branch" className="w-3.5 h-3.5 text-cyan-500" />
+                          <WebIcon name="git-branch" className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
                           <span>Sơ Đồ</span>
                         </button>
                       </div>
@@ -788,20 +776,21 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
           maxWidth="5xl"
         >
           <div className="p-4 sm:p-5 flex flex-col gap-3">
-            <div className="p-3 sm:p-5 flex items-center justify-center bg-[#0B1220] rounded-[14px] overflow-auto max-h-[75vh]">
+            <div className="p-3 sm:p-5 flex items-center justify-center bg-[#0B1220] rounded-[14px] overflow-auto horizontal-scroll-smooth max-h-[75vh]">
               <img
                 src={mindmapProject.mindmap || mindmapProject.image}
                 alt="Sơ đồ tư duy"
                 className="max-w-full max-h-[70vh] object-contain rounded-[14px] shadow-lg"
               />
             </div>
-            <div className="flex items-center justify-between typo-caption text-[#475569] dark:text-[#94A3B8] pt-1">
+            <div className="flex items-center justify-between typo-caption text-[var(--text-secondary)] pt-1">
               <span>{mindmapProject.groupTitle}</span>
               <a
                 href={mindmapProject.mindmap || mindmapProject.image}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3.5 py-1.5 rounded-full bg-cyan-600 text-white font-bold typo-button hover:bg-cyan-700 transition inline-flex items-center gap-1.5"
+                style={{ background: 'var(--bg-button-primary)' }}
+                className="px-3.5 py-1.5 rounded-full text-white font-bold typo-button hover:opacity-90 transition inline-flex items-center gap-1.5"
               >
                 <span>Mở ảnh gốc trong tab mới</span>
                 <WebIcon name="external-link" className="w-3.5 h-3.5" />

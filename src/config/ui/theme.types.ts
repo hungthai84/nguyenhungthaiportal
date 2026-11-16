@@ -2,12 +2,9 @@ import React from 'react';
 
 export type CardStyleMode =
   | 'frosted-glass'
-  | 'glassmorphism'
   | 'mica-fluent'
-  | 'pastel-bento'
-  | 'glassmorphism-neon'
-  | 'cowhide-leather'
-  | 'glossy-glass';
+  | 'dark-frosted-glass'
+  | 'cowhide-leather';
 
 export interface CardStyleConfig {
   id: CardStyleMode;
@@ -40,4 +37,9 @@ export interface ThemeState {
   cardStyle: CardStyleMode;
   isDark: boolean;
   activeWallpaper: any;
+}
+
+export interface GlassCustomization {
+  cardOpacity: number;
+  blurIntensity: number;
 }

@@ -5,8 +5,8 @@
 :root {
   --radius-main: 20px;
   --radius-card: 14px;
-  --radius-subcard: 12px;
-  --space-card-padding: 20px;
+  --radius-subcard: 14px;
+  --space-card-padding: 15px;
   --space-card-gap: 15px;
 }
 
@@ -27,12 +27,12 @@
   isolation: isolate;
 }
 
-[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]),
-[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]),
-[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]),
-article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.project-card):not([id^="project-card-"]),
-.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]),
-.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]),
+[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#contact-info-container),
+.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
 .system-item:not(#app-header):not(#app-footer),
 #about-unified-bento-card,
 #about-hero-video-container,
@@ -41,7 +41,6 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 #about-core-values-card,
 #about-philosophy-card,
 #experience-job-detail-card,
-#experience-timeline-track-card,
 #systems-admin-card,
 #systems-workflow-card,
 #systems-tech-card,
@@ -61,17 +60,48 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
   transition: transform var(--motion-normal) var(--motion-ease), box-shadow var(--motion-normal) var(--motion-ease), border-color var(--motion-normal) var(--motion-ease) !important;
 }
 
-#experience-timeline-track-card,
-#experience-timeline-track-card:hover {
-  transform: none !important;
+#contact-info-container {
+  background: var(--bg-card) !important;
+  border: var(--card-border-width, 1px) solid var(--border-color) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(var(--bg-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
+  border-radius: var(--radius-card) !important;
+  padding: 0 !important;
 }
 
-[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):hover,
-[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):hover,
-[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):hover,
-article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.project-card):not([id^="project-card-"]):hover,
-.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):hover,
-.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):hover,
+#card-main-letter-content,
+#card-main-letter-content:hover,
+#horoscope-card-profile,
+#horoscope-card-profile:hover,
+#horoscope-card-management-style,
+#horoscope-card-management-style:hover,
+#horoscope-card-career-portrait,
+#horoscope-card-career-portrait:hover,
+#horoscope-card-five-elements,
+#horoscope-card-five-elements:hover,
+#horoscope-card-leadership-philosophy,
+#horoscope-card-leadership-philosophy:hover,
+#horoscope-card-work-synergy-check,
+#horoscope-card-work-synergy-check:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  padding: 0 !important;
+}
+
+[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
+[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
+[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
+article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#contact-info-container):hover,
+.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
+.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
 .system-item:not(#app-header):not(#app-footer):hover,
 #about-unified-bento-card:hover,
 #about-hero-video-container:hover,
@@ -229,8 +259,8 @@ html.dark .bento-tone-sky {
   border: 1px solid rgba(56, 189, 248, 0.26) !important;
 }
 
-[data-subcard="true"],
-.sub-card {
+[data-subcard="true"]:not(.skill-swot-subcard),
+.sub-card:not(.skill-swot-subcard) {
   background: var(--bg-subcard);
   border: 1px solid var(--border-subcard, var(--color-border-soft));
   border-radius: var(--radius-subcard);
@@ -364,7 +394,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   border-top: var(--card-border-width, 1px) solid var(--border-color) !important;
   border-left: var(--card-border-width, 1px) solid var(--border-color) !important;
   border-right: var(--card-border-width, 1px) solid var(--border-color) !important;
-  box-shadow: var(--shadow-footer) !important;
+  box-shadow: var(--shadow-footer, var(--shadow-header)) !important;
   backdrop-filter: blur(var(--bg-blur)) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
   border-radius: var(--radius-footer, 14px 14px 0 0) !important;
@@ -385,6 +415,32 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   -webkit-backdrop-filter: none !important;
 }
 
+#horoscope-card-profile,
+#horoscope-card-profile:hover,
+#horoscope-card-profile:focus-within,
+html[data-card-style] #horoscope-card-profile,
+html[data-card-style] #horoscope-card-profile:hover,
+html.dark #horoscope-card-profile,
+html.dark[data-card-style] #horoscope-card-profile,
+#horoscope-card-management-style,
+#horoscope-card-management-style:hover,
+#horoscope-card-management-style:focus-within,
+html[data-card-style] #horoscope-card-management-style,
+html[data-card-style] #horoscope-card-management-style:hover,
+html.dark #horoscope-card-management-style,
+html.dark[data-card-style] #horoscope-card-management-style,
+#horoscope-card-career-portrait,
+#horoscope-card-career-portrait:hover,
+html[data-card-style] #horoscope-card-career-portrait,
+#horoscope-card-five-elements,
+#horoscope-card-five-elements:hover,
+html[data-card-style] #horoscope-card-five-elements,
+#horoscope-card-leadership-philosophy,
+#horoscope-card-leadership-philosophy:hover,
+html[data-card-style] #horoscope-card-leadership-philosophy,
+#horoscope-card-work-synergy-check,
+#horoscope-card-work-synergy-check:hover,
+html[data-card-style] #horoscope-card-work-synergy-check,
 #horoscope-destiny-card,
 #horoscope-destiny-card:hover,
 #horoscope-pillars-container,
@@ -393,6 +449,12 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #horoscope-slide-3:hover,
 #horoscope-lookup-card,
 #horoscope-lookup-card:hover,
+div#horoscope-page-container > div#horoscope-card-profile,
+div#horoscope-page-container > div#horoscope-card-management-style,
+div#horoscope-page-container > div#horoscope-card-career-portrait,
+div#horoscope-page-container > div#horoscope-card-five-elements,
+div#horoscope-page-container > div#horoscope-card-leadership-philosophy,
+div#horoscope-page-container > div#horoscope-card-work-synergy-check,
 div#horoscope-page-container > div#horoscope-destiny-card,
 div#horoscope-page-container > div#horoscope-pillars-container,
 div#horoscope-page-container > div#horoscope-slide-3,
@@ -401,18 +463,31 @@ div#horoscope-page-container > div[data-element-type="card"],
 div#horoscope-page-container > div[data-section-card="true"] {
   width: 100% !important;
   max-width: 100% !important;
-  min-width: 100% !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  flex: 1 1 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 100% !important;
+  flex: 1 0 auto !important;
   flex-grow: 1 !important;
+  flex-shrink: 0 !important;
+  align-self: stretch !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
   background-color: transparent !important;
   background: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
   border: none !important;
+  outline: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  transform: none !important;
+}
+
+#horoscope-page-container [data-subcard="true"],
+#horoscope-page-container .sub-card {
+  padding: 15px !important;
 }
 
 #weather-widget-card,
@@ -447,6 +522,8 @@ button,
   backdrop-filter: blur(var(--bg-blur)) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
   border-radius: 999px !important;
+  color: var(--text-primary) !important;
+  transition: all var(--motion-normal) var(--motion-ease) !important;
 }
 
 /* GLOBAL CARD TITLE H3 FORMAT */
@@ -475,7 +552,7 @@ h3.card-title svg,
   color: inherit !important;
   font-size: var(--fs-h3);
   line-height: var(--lh-heading);
-  font-weight: var(--fw-bold);
+  font-weight: var(--fw-semibold);
   font-family: var(--font-family-heading);
 }
 
@@ -484,7 +561,7 @@ h3.card-title,
 [data-card-title] {
   font-family: var(--font-family-heading);
   font-size: var(--fs-h3);
-  font-weight: var(--fw-bold);
+  font-weight: var(--fw-semibold);
   line-height: var(--lh-heading);
   letter-spacing: -0.015em;
   display: flex;
@@ -492,12 +569,6 @@ h3.card-title,
   gap: 8px;
   margin-bottom: 4px;
   color: inherit;
-}
-
-.card-header-bar:has(svg) h3,
-.card-title-wrap:has(svg) h3,
-.card-header:has(svg) h3 {
-  color: inherit !important;
 }
 
 .card-subtitle,
@@ -514,39 +585,34 @@ h3.card-title,
 }
 
 /* ========================================================================= */
-/* MAIN CARD UNIFIED SYSTEM & RESPONSIVE PADDING                             */
+/* MAIN CARD UNIFIED SYSTEM & FIXED 25PX PADDING ACROSS ALL VIEWPORTS        */
 /* ========================================================================= */
 .main-card,
 [id$="-page-container"],
-[id$="-page-root"] {
+[id$="-page-root"],
+#letter-page-container {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: var(--container-max-w, 1250px) !important;
+  min-width: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
   background: var(--bg-header) !important;
   border-radius: var(--radius-main, 20px) !important;
   border: var(--card-border-width, 1px) solid var(--border-color, var(--glass-border)) !important;
-  box-shadow: var(--shadow-main-card) !important;
-  backdrop-filter: blur(var(--bg-blur, var(--glass-blur))) !important;
-  -webkit-backdrop-filter: blur(var(--bg-blur, var(--glass-blur))) !important;
-  transition: box-shadow var(--motion-normal) var(--motion-ease), border-color var(--motion-normal) var(--motion-ease) !important;
+  box-shadow: var(--shadow-header) !important;
+  backdrop-filter: blur(var(--bg-blur, var(--glass-blur, 20px))) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur, var(--glass-blur, 20px))) saturate(160%) !important;
+  padding: var(--main-card-padding, 25px) !important;
+  transition: box-shadow var(--motion-normal) var(--motion-ease), border-color var(--motion-normal) var(--motion-ease), backdrop-filter var(--motion-normal) var(--motion-ease) !important;
 }
 
-@media (min-width: 1024px) {
-  .main-card,
-  [id$="-page-container"] {
-    padding: 25px !important;
-  }
-}
-
-@media (min-width: 640px) and (max-width: 1023px) {
-  .main-card,
-  [id$="-page-container"] {
-    padding: 20px !important;
-  }
-}
-
-@media (max-width: 639px) {
-  .main-card,
-  [id$="-page-container"] {
-    padding: 15px !important;
-  }
+.main-card:hover,
+[id$="-page-container"]:hover,
+[id$="-page-root"]:hover,
+#letter-page-container:hover {
+  box-shadow: var(--shadow-header) !important;
+  transform: none !important;
 }
 
 /* ========================================================================= */
@@ -599,55 +665,7 @@ h3.card-title,
   outline-offset: -7px;
 }
 
-/* ========================================================================= */
-/* BENTO PASTEL DỊU NHẸ - SOFT GRADIENT PASTEL BENTO BOX UI                  */
-/* ========================================================================= */
-.card-pastel-bento {
-  background: linear-gradient(155deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);
-  border: 1.5px solid #ffffff;
-  box-shadow: 0 18px 36px -10px rgba(99, 102, 241, 0.16), inset 0 2px 4px #ffffff;
-  color: #1e1b4b;
-  border-radius: 20px;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
 
-.card-pastel-bento:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 22px 42px -10px rgba(99, 102, 241, 0.24), inset 0 2px 5px #ffffff;
-}
-
-/* ========================================================================= */
-/* GLOSSY GLASS – GƯƠNG BÓNG (GLOSS-SHEEN • HIGHLIGHT SPEC)                  */
-/* ========================================================================= */
-.card-glossy-glass {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.22) 100%) !important;
-  backdrop-filter: blur(14px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.55) !important;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 20px 45px, rgba(255, 255, 255, 0.85) 0px 2px 4px inset !important;
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius-card, 14px);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.card-glossy-glass::before {
-  content: "";
-  position: absolute;
-  top: -40%;
-  left: -20%;
-  width: 140%;
-  height: 75%;
-  background: linear-gradient(rgba(255, 255, 255, 0.45) 0%, transparent 100%);
-  transform: rotate(-12deg);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.card-glossy-glass:hover {
-  transform: translateY(-2px);
-  box-shadow: rgba(0, 0, 0, 0.42) 0px 25px 55px, rgba(255, 255, 255, 0.95) 0px 2px 6px inset !important;
-}
 
 /* ========================================================================= */
 /* NỀN & CHẤT LIỆU THEO GIAO DIỆN CHO NÚT MENU HEADER VÀ FOOTER BÊN PHẢI     */
@@ -705,25 +723,32 @@ h3.card-title,
   color: var(--swot-accent);
 }
 
-.skill-swot-subcard {
+.skill-swot-subcard,
+.skill-swot-subcard:hover,
+.skill-swot-subcard[data-expanded="true"] {
   padding: 10px 12px !important;
-  background: var(--bg-subcard);
-  border: 1px solid var(--border-subcard, var(--color-border-soft));
-  border-radius: var(--radius-subcard, 12px);
-  box-shadow: var(--shadow-subcard);
-  backdrop-filter: blur(var(--blur-subcard, 0px));
-  -webkit-backdrop-filter: blur(var(--blur-subcard, 0px));
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 1px solid var(--swot-accent-border, var(--border-subcard, var(--color-border-soft))) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   outline: var(--outline-subcard, none);
   outline-offset: var(--outline-offset-subcard, 0px);
 }
 
 .skill-swot-subcard .swot-skill-index,
 .skill-swot-subcard .swot-skill-icon,
+.skill-swot-subcard .swot-skill-icon svg,
 .skill-swot-subcard .swot-skill-name,
 .skill-swot-subcard .swot-skill-percent,
 .skill-swot-subcard .swot-skill-chevron,
 .skill-swot-subcard .swot-skill-disclosure-label {
-  color: var(--swot-accent);
+  color: var(--swot-accent) !important;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 .skill-swot-subcard .swot-skill-track {
@@ -903,10 +928,12 @@ h3.card-title,
 
 .project-detail-subcard,
 .education-subcard,
-.letter-subcard {
+.letter-subcard,
+.letter-header-subcard,
+.letter-footer-subcard {
   background: var(--bg-subcard) !important;
   border: 1px solid var(--border-subcard, var(--color-border-soft)) !important;
-  border-radius: var(--radius-subcard, 12px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
   box-shadow: var(--shadow-subcard) !important;
   backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
   -webkit-backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
@@ -1023,15 +1050,184 @@ article.project-card:hover,
   transition: transform var(--motion-fast) var(--motion-ease), box-shadow var(--motion-fast) var(--motion-ease);
 }
 
+.theme-popup,
+#footer-lang-popup,
+#footer-theme-popup {
+  background: var(--bg-popup) !important;
+  border: var(--card-border-width, 1px) solid var(--border-color) !important;
+  box-shadow: var(--shadow-popup) !important;
+  backdrop-filter: blur(var(--bg-blur)) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(var(--bg-blur)) saturate(165%) !important;
+  border-radius: var(--radius-popup, 14px) !important;
+  color: var(--text-primary) !important;
+}
+
+.radial-contact-pill {
+  background: var(--bg-nav-pill, var(--bg-nav-button-opaque, #FFFFFF)) !important;
+  box-shadow: var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08)) !important;
+  backdrop-filter: blur(var(--blur-nav-pill, 0px)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--blur-nav-pill, 0px)) saturate(160%) !important;
+  outline: var(--outline-nav-pill, none);
+  outline-offset: var(--outline-offset-nav-pill, 0px);
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.radial-contact-pill.active {
+  background: var(--bg-button-primary) !important;
+  color: #FFFFFF !important;
+}
+
+.radial-contact-divider {
+  background-color: var(--divider-nav-pill, rgba(148, 163, 184, 0.45)) !important;
+}
+
 /* ========================================================================= */
-/* LEVEL 4 – MODAL SHADOW (POPUP, MODAL, DIALOG, LIGHTBOX)                   */
+/* LEVEL 4 – MODAL, DIALOG, FORM INPUT & TABLE THEME SYNCHRONIZATION         */
 /* ========================================================================= */
 [role="dialog"],
 .modal-dialog,
+.theme-modal-card,
 .milestone-modal-card,
 .map-modal-card {
+  background: var(--bg-modal) !important;
+  border: var(--card-border-width, 1px) solid var(--border-modal, var(--border-color)) !important;
   box-shadow: var(--shadow-modal) !important;
-  border-radius: var(--radius-card, 14px);
+  backdrop-filter: blur(var(--blur-modal, var(--bg-blur))) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(var(--blur-modal, var(--bg-blur))) saturate(170%) !important;
+  border-radius: var(--radius-modal, 14px) !important;
+  color: var(--text-primary) !important;
+  outline: var(--outline-subcard, none);
+  outline-offset: -6px;
+}
+
+.theme-modal-header {
+  background: var(--bg-modal-header, var(--bg-subcard)) !important;
+  border-bottom: 1px solid var(--border-modal, var(--border-color)) !important;
+  color: var(--text-primary) !important;
+}
+
+.theme-modal-footer {
+  background: var(--bg-modal-footer, var(--bg-subcard)) !important;
+  border-top: 1px solid var(--border-modal, var(--border-color)) !important;
+  color: var(--text-primary) !important;
+}
+
+.theme-modal-subcard {
+  background: var(--bg-subcard) !important;
+  border: 1px solid var(--border-subcard, var(--border-color)) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
+  box-shadow: var(--shadow-subcard) !important;
+  backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
+  outline: var(--outline-subcard, none);
+  outline-offset: var(--outline-offset-subcard, 0px);
+  color: var(--text-primary) !important;
+}
+
+.theme-modal-close {
+  background: var(--bg-button-secondary, var(--bg-subcard)) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-subcard, var(--border-color)) !important;
+}
+
+.theme-modal-close:hover {
+  background: var(--bg-button-primary) !important;
+  color: #FFFFFF !important;
+  border-color: transparent !important;
+}
+
+.theme-input,
+.main-card input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(.banner-search-input),
+.main-card textarea,
+.main-card select,
+[id$="-page-container"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(.banner-search-input),
+[id$="-page-container"] textarea,
+[id$="-page-container"] select,
+[role="dialog"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+[role="dialog"] textarea,
+[role="dialog"] select {
+  background: var(--bg-input) !important;
+  border-color: var(--border-input, var(--border-color)) !important;
+  color: var(--text-input, var(--text-primary)) !important;
+  border-radius: var(--radius-input, 14px);
+}
+
+.theme-input::placeholder,
+.main-card input::placeholder,
+.main-card textarea::placeholder,
+[id$="-page-container"] input::placeholder,
+[id$="-page-container"] textarea::placeholder,
+[role="dialog"] input::placeholder,
+[role="dialog"] textarea::placeholder {
+  color: var(--text-placeholder, var(--text-muted)) !important;
+}
+
+.theme-table {
+  background: var(--bg-table) !important;
+  border-color: var(--border-table, var(--border-color)) !important;
+  color: var(--text-primary) !important;
+}
+
+.theme-table thead,
+.theme-table th {
+  background: var(--bg-table-head, var(--bg-subcard)) !important;
+  border-color: var(--border-table, var(--border-color)) !important;
+  color: var(--text-heading, var(--text-primary)) !important;
+}
+
+.theme-table td {
+  border-color: var(--border-table, var(--border-color)) !important;
+}
+
+.theme-table tbody tr:nth-child(even) {
+  background: var(--bg-table-row-alt, transparent) !important;
+}
+
+.theme-pip-player {
+  background: var(--bg-popup, var(--bg-modal)) !important;
+  border: var(--card-border-width, 1px) solid var(--border-modal, var(--border-color)) !important;
+  box-shadow: var(--shadow-popup, var(--shadow-modal)) !important;
+  backdrop-filter: blur(var(--blur-modal, var(--bg-blur))) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(var(--blur-modal, var(--bg-blur))) saturate(170%) !important;
+  color: var(--text-primary) !important;
+  outline: var(--outline-subcard, none);
+  outline-offset: -4px;
+}
+
+.theme-pip-header {
+  background: var(--bg-modal-header, var(--bg-subcard)) !important;
+  border-bottom: 1px solid var(--border-subcard, var(--border-color)) !important;
+  color: var(--text-primary) !important;
+}
+
+.theme-pip-footer {
+  background: var(--bg-modal-footer, var(--bg-subcard)) !important;
+  border-top: 1px solid var(--border-subcard, var(--border-color)) !important;
+  color: var(--text-primary) !important;
+}
+
+.theme-dropdown-option {
+  color: var(--text-primary) !important;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.theme-dropdown-option:hover {
+  background: var(--bg-subcard-hover, rgba(148, 163, 184, 0.14)) !important;
+  color: var(--text-heading, var(--text-primary)) !important;
+}
+
+.theme-dropdown-option[data-selected="true"] {
+  background: var(--bg-button-primary) !important;
+  color: #FFFFFF !important;
+  border-color: transparent !important;
+}
+
+.theme-muted-surface {
+  background: var(--bg-nested-card, var(--bg-subcard)) !important;
+  border: 1px solid var(--border-subcard, var(--border-color)) !important;
+  color: var(--text-secondary, var(--text-primary)) !important;
 }
 
 /* ========================================================================= */
@@ -1148,5 +1344,91 @@ button:focus-visible,
     transform: none !important;
   }
 }
+
+/* ========================================================================= */
+/* GLOBAL CARD & SUB-CARD TITLE COLOR STANDARDIZATION                        */
+/* ICON COLOR = CARD TITLE COLOR = SUB CARD TITLE COLOR                      */
+/* ========================================================================= */
+[data-card-accent] .card-header-sync > :is(svg, .web-icon, i, [data-icon]),
+[data-card-accent] .card-header-sync :is(.card-header-icon, [data-header-icon]),
+.card-header-sync[data-card-accent] > :is(svg, .web-icon, i, [data-icon]),
+.card-header-sync[data-card-accent] :is(.card-header-icon, [data-header-icon]) {
+  color: var(--card-accent-color) !important;
+}
+[data-card-accent] .card-header-sync :is(h1, h2, h3, h4, h5, .card-title, .card-heading__title, .card-title-synced, [data-card-title]),
+.card-header-sync[data-card-accent] :is(h1, h2, h3, h4, h5, .card-title, .card-heading__title, .card-title-synced, [data-card-title]) {
+  color: var(--card-accent-color) !important;
+}
+
+[data-subcard-accent] .subcard-header-sync > :is(svg, .web-icon, i, [data-icon]),
+[data-subcard-accent] .subcard-header-sync :is(.subcard-header-icon, [data-header-icon]),
+.subcard-header-sync[data-subcard-accent] > :is(svg, .web-icon, i, [data-icon]),
+.subcard-header-sync[data-subcard-accent] :is(.subcard-header-icon, [data-header-icon]) {
+  color: var(--subcard-accent-color) !important;
+}
+[data-subcard-accent] .subcard-header-sync :is(h2, h3, h4, h5, .subcard-title, .subcard-title-synced, [data-subcard-title]),
+.subcard-header-sync[data-subcard-accent] :is(h2, h3, h4, h5, .subcard-title, .subcard-title-synced, [data-subcard-title]) {
+  color: var(--subcard-accent-color) !important;
+}
+
+/* Card Accent Attributes */
+[data-card-accent="blue"] { --card-accent-color: var(--accent-blue); }
+[data-card-accent="sky"] { --card-accent-color: var(--accent-sky); }
+[data-card-accent="cyan"] { --card-accent-color: var(--accent-cyan); }
+[data-card-accent="teal"] { --card-accent-color: var(--accent-teal); }
+[data-card-accent="emerald"] { --card-accent-color: var(--accent-emerald); }
+[data-card-accent="green"] { --card-accent-color: var(--accent-green); }
+[data-card-accent="indigo"] { --card-accent-color: var(--accent-indigo); }
+[data-card-accent="violet"] { --card-accent-color: var(--accent-violet); }
+[data-card-accent="purple"] { --card-accent-color: var(--accent-purple); }
+[data-card-accent="fuchsia"] { --card-accent-color: var(--accent-fuchsia); }
+[data-card-accent="pink"] { --card-accent-color: var(--accent-pink); }
+[data-card-accent="rose"] { --card-accent-color: var(--accent-rose); }
+[data-card-accent="red"] { --card-accent-color: var(--accent-red); }
+[data-card-accent="amber"] { --card-accent-color: var(--accent-amber); }
+[data-card-accent="yellow"] { --card-accent-color: var(--accent-yellow); }
+[data-card-accent="orange"] { --card-accent-color: var(--accent-orange); }
+
+[data-subcard-accent="blue"] { --subcard-accent-color: var(--accent-blue); }
+[data-subcard-accent="sky"] { --subcard-accent-color: var(--accent-sky); }
+[data-subcard-accent="cyan"] { --subcard-accent-color: var(--accent-cyan); }
+[data-subcard-accent="teal"] { --subcard-accent-color: var(--accent-teal); }
+[data-subcard-accent="emerald"] { --subcard-accent-color: var(--accent-emerald); }
+[data-subcard-accent="green"] { --subcard-accent-color: var(--accent-green); }
+[data-subcard-accent="indigo"] { --subcard-accent-color: var(--accent-indigo); }
+[data-subcard-accent="violet"] { --subcard-accent-color: var(--accent-violet); }
+[data-subcard-accent="purple"] { --subcard-accent-color: var(--accent-purple); }
+[data-subcard-accent="fuchsia"] { --subcard-accent-color: var(--accent-fuchsia); }
+[data-subcard-accent="pink"] { --subcard-accent-color: var(--accent-pink); }
+[data-subcard-accent="rose"] { --subcard-accent-color: var(--accent-rose); }
+[data-subcard-accent="red"] { --subcard-accent-color: var(--accent-red); }
+[data-subcard-accent="amber"] { --subcard-accent-color: var(--accent-amber); }
+[data-subcard-accent="yellow"] { --subcard-accent-color: var(--accent-yellow); }
+[data-subcard-accent="orange"] { --subcard-accent-color: var(--accent-orange); }
+
+/* Gentle inheritance for header wrappers without clobbering explicit heading or icon colors */
+:is(.card-header-sync, .subcard-header-sync, .card-heading, .card-header-bar, .card-title-wrap, .card-header)
+  :is(h1, h2, h3, h4, h5, .card-title, .card-heading__title, .card-title-synced, .subcard-title, .subcard-title-synced, [data-card-title], [data-subcard-title]):not([class*="text-"]):not([style*="color"]) {
+  color: inherit;
+}
+
+:is(.card-header-sync, .subcard-header-sync, .card-heading, .card-header-bar, .card-title-wrap, .card-header)
+  :is(svg, .web-icon, i, [data-icon], .card-heading__icon, .card-header-icon, .subcard-header-icon):not([class*="text-"]):not([style*="color"]) {
+  color: currentColor;
+}
+
+/* ========================================================================= */
+/* CARD DARK GLASSMORPHISM - GLASS NEON TỐI ĐA MÀU SẮC                       */
+/* ========================================================================= */
+.card-dark-glassmorphism {
+    background: rgba(15, 23, 42, 0.68) !important;
+    backdrop-filter: blur(22px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(150%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    box-shadow: 0 22px 48px -12px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
+    color: #f8fafc !important;
+}
+
+
 
 

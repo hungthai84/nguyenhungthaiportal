@@ -251,8 +251,61 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
   const isVi = lang === "vi";
   const [selectedSwot, setSelectedSwot] = useState<string | null>(null);
   const [expandedSkillIds, setExpandedSkillIds] = useState<Set<string>>(new Set());
+  const [highlightedSkillId, setHighlightedSkillId] = useState<string | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const filterMenuRef = useRef<HTMLDivElement>(null);
+  const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const focusSwotTarget = (skillId?: string) => {
+    if (!skillId) return;
+    setSelectedSwot(null);
+    setExpandedSkillIds((prev) => {
+      const next = new Set(prev);
+      next.add(skillId);
+      return next;
+    });
+    setHighlightedSkillId(skillId);
+    if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    highlightTimerRef.current = setTimeout(() => {
+      setHighlightedSkillId((cur) => (cur === skillId ? null : cur));
+    }, 3200);
+    setTimeout(() => {
+      const el = document.getElementById(`skill-item-${skillId}`);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 140);
+  };
+
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem('hungthai_focus_swot_skill');
+      if (raw) {
+        sessionStorage.removeItem('hungthai_focus_swot_skill');
+        const parsed = JSON.parse(raw) as { skillId?: string };
+        if (parsed?.skillId) {
+          focusSwotTarget(parsed.skillId);
+        }
+      }
+    } catch {
+      // ignore storage errors
+    }
+
+    const handleFocusEvent = (e: Event) => {
+      const detail = (e as CustomEvent<{ skillId?: string }>).detail;
+      if (detail?.skillId) {
+        try {
+          sessionStorage.removeItem('hungthai_focus_swot_skill');
+        } catch {
+          // ignore
+        }
+        focusSwotTarget(detail.skillId);
+      }
+    };
+    window.addEventListener('app:focus-swot-skill', handleFocusEvent);
+    return () => {
+      window.removeEventListener('app:focus-swot-skill', handleFocusEvent);
+      if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    };
+  }, []);
 
   const toggleSkillAccordion = (skillId: string) => {
     SoundEngine.playTap();
@@ -384,7 +437,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
       data-element-name="Trang Kỹ Năng Cốt Lõi"
       data-element-type="container"
       data-element-page="skills"
-      className="w-full h-full flex flex-col justify-between p-[15px] overflow-y-auto glass-scrollbar font-play text-left animate-fadeIn gap-[15px]"
+      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] rounded-[20px] overflow-y-auto glass-scrollbar font-play text-left animate-fadeIn gap-[15px] box-border"
     >
       <div id="skills-main-wrapper" className="w-full flex-grow flex flex-col gap-[15px] justify-start">
         {/* Banner trang kỹ năng - Ẩn khi hiển thị chi tiết kỹ năng */}
@@ -397,8 +450,8 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
-          style={{ padding: "15px", width: "100%", maxWidth: "100%", height: "200px", minHeight: "200px", maxHeight: "200px", borderRadius: "14px" }}
+          className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 backdrop-blur-xl"
+          style={{ padding: "15px", width: "100%", maxWidth: "100%", borderRadius: "14px" }}
         >
           {/* Lớp nền hình ảnh và gradient phủ */}
           <div
@@ -423,17 +476,17 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
           </div>
 
           {/* Vùng Tiêu Đề: Icon và Tiêu đề bên trái, Sub tiêu đề cùng hàng nằm bên phải */}
-          <div id="skills-hero-banner-header" className="relative z-10 flex flex-row items-center justify-between gap-2 sm:gap-4 w-full">
-            <div className="flex items-center gap-2 shrink-0">
+          <div id="skills-hero-banner-header" className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+            <div className="flex items-center gap-2 min-w-0">
               <WebIcon
                 name="brain"
                 className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
-                style={{ color: '#38bdf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
+                style={{ color: '#38bdf8', width: '22px', height: '22px' }}
               />
                 <h1
                   id="skills-hero-banner-title"
-                  className="text-[22px] font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] whitespace-nowrap"
-                  style={{ color: '#38bdf8', fontSize: '22px', fontWeight: 700, textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+                  className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+                  style={{ color: '#38bdf8', textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
                 >
                   {isVi ? "Kỹ năng cốt lõi (SWOT)" : "Core Skills (SWOT)"}
                 </h1>
@@ -441,8 +494,8 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
 
               <p
                 id="skills-hero-banner-quote"
-                className="font-handwriting font-italianno not-italic text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-right ml-auto whitespace-nowrap overflow-hidden text-ellipsis max-w-[65%]"
-                style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '28px', fontWeight: 700, fontStyle: 'normal' }}
+                className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+                style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
               >
                 {isVi ? '"Kỹ năng là nền tảng nâng tầm dịch vụ ♡"' : '"Skills are the foundation that elevates service ♡"'}
               </p>
@@ -455,22 +508,22 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                   id="skills-filter-toggle-btn"
                   type="button"
                   onClick={() => setIsFilterOpen((prev) => !prev)}
-                  className="swot-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-slate-800 dark:text-[#E2E8F0] border border-slate-200/90 dark:border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
+                  className="banner-control-pill swot-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
                   title={isVi ? "Bộ lọc năng lực" : "Skill Filter"}
                   aria-expanded={isFilterOpen}
                   aria-haspopup="listbox"
                 >
-                  <WebIcon name="sliders" className="w-4 h-4 text-[#1480C0] dark:text-sky-400 transition-transform group-hover:rotate-45 shrink-0" />
+                  <WebIcon name="sliders" className="w-4 h-4 text-[var(--color-primary)] transition-transform group-hover:rotate-45 shrink-0" />
                   <span>{isVi ? "Bộ lọc năng lực" : "Skill Filter"}</span>
                 {selectedSwot && (
-                  <span className="px-2 py-0.2 rounded-full bg-sky-100 dark:bg-sky-900/70 border border-sky-300 dark:border-sky-600/60 text-[10px] font-mono text-sky-900 dark:text-sky-200 font-bold">
+                  <span className="banner-count-pill px-2 py-0.5 rounded-full border typo-badge font-mono">
                     #{selectedSwot}
                   </span>
                 )}
                 <WebIcon
                   name="chevron-down"
                   className={cn(
-                    "w-3.5 h-3.5 text-slate-600 dark:text-slate-300 transition-transform duration-200 shrink-0",
+                    "w-3.5 h-3.5 transition-transform duration-200 shrink-0",
                     isFilterOpen && "rotate-180"
                   )}
                 />
@@ -485,8 +538,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    style={{ background: 'var(--bg-popup)' }}
-                    className="bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] text-[#334155] dark:text-[#E2E8F0] border border-slate-200 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                   >
                     {swotFilterOptions.map((opt) => {
                       const isActive = selectedSwot === opt.id;
@@ -497,29 +549,28 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                           type="button"
                           role="option"
                           aria-selected={isActive}
+                          data-selected={isActive ? "true" : "false"}
                           onClick={() => {
                             setSelectedSwot(opt.id);
                             setIsFilterOpen(false);
                           }}
                           className={cn(
-                            "w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] text-xs font-bold font-play transition-all cursor-pointer text-left",
-                            isActive
-                              ? "bg-slate-100 dark:bg-sky-900/50 text-slate-900 dark:text-white border border-slate-300 dark:border-sky-500/50 shadow-2xs font-bold"
-                              : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white border border-transparent font-medium"
+                            "theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left",
+                            isActive ? "shadow-2xs font-bold" : ""
                           )}
                         >
                           <span className="flex items-center gap-2 truncate">
                             <span
                               className={cn(
-                                "w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-black bg-slate-100 dark:bg-slate-800 shrink-0",
-                                opt.color
+                                "px-1.5 h-5 rounded-full flex items-center justify-center typo-badge font-mono shrink-0",
+                                isActive ? "bg-white/25 text-white" : cn("bg-[var(--bg-nested-badge)]", opt.color)
                               )}
                             >
                               {opt.badge}
                             </span>
                             <span className="truncate">{opt.label}</span>
                           </span>
-                          {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />}
+                          {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-white shrink-0" />}
                         </button>
                       );
                     })}
@@ -536,10 +587,10 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                   const allIds = QUADRANTS.flatMap((q) => q.data.map((d) => d.id));
                   setExpandedSkillIds((prev) => (prev.size > 0 ? new Set() : new Set(allIds)));
                 }}
-                className="swot-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-slate-800 dark:text-[#E2E8F0] border border-slate-200/90 dark:border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-all cursor-pointer text-xs font-bold font-play active:scale-95"
+                className="banner-control-pill swot-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95"
                 title={expandedSkillIds.size > 0 ? (isVi ? "Thu gọn tất cả mô tả" : "Collapse all details") : (isVi ? "Mở rộng tất cả mô tả" : "Expand all details")}
               >
-                <WebIcon name={expandedSkillIds.size > 0 ? "minimize" : "maximize-2"} className="w-3.5 h-3.5 text-[#1480C0] dark:text-sky-400 shrink-0" />
+                <WebIcon name={expandedSkillIds.size > 0 ? "minimize" : "maximize-2"} className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
                 <span>
                   {expandedSkillIds.size > 0
                     ? isVi ? "Thu gọn mô tả" : "Collapse All"
@@ -578,7 +629,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.35, delay: qIdx * 0.05 }}
                     className={cn(
-                      "swot-quadrant-card bento-card glass-card w-full rounded-[14px] relative text-[#334155] dark:text-[#E2E8F0] transition-all duration-300 flex flex-col justify-between overflow-hidden p-5 sm:p-6 min-h-[300px]",
+                      "swot-quadrant-card bento-card glass-card w-full rounded-[14px] relative text-[var(--text-primary)] transition-all duration-300 flex flex-col justify-between overflow-hidden p-5 sm:p-6 min-h-[300px]",
                       isSelected && "md:col-span-2 ring-2 ring-cyan-500"
                     )}
                   >
@@ -609,7 +660,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                         className={cn(
                           "space-y-1 mb-3 w-full flex flex-col",
                           !isSelected && (quad.key === "W" || quad.key === "T")
-                            ? "text-right items-end"
+                            ? "text-left items-start md:text-right md:items-end"
                             : "text-left items-start"
                         )}
                       >
@@ -619,20 +670,20 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                             isSelected
                               ? "justify-between"
                               : quad.key === "W" || quad.key === "T"
-                              ? "justify-end text-right"
+                              ? "justify-start text-left md:justify-end md:text-right"
                               : "justify-start text-left"
                           )}
                         >
-                          <div className="flex items-center gap-2.5">
+                          <div className="card-header-sync flex items-center gap-2.5">
                             <WebIcon
                               name={quad.icon}
                               className="swot-quadrant-icon w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                              style={{ width: '18px', height: '18px' }}
+                              style={{ width: '18px', height: '18px', color: quad.titleColor }}
                             />
                             <h2
                               id={`${quad.id}-title`}
-                              className="swot-quadrant-title text-[18px] font-bold font-play tracking-tight leading-tight"
-                              style={{ fontSize: '18px', fontWeight: 700, textTransform: "none" }}
+                              className="swot-quadrant-title card-title-synced typo-h3 font-play tracking-tight"
+                              style={{ textTransform: "none", color: quad.titleColor }}
                             >
                               {quad.title}
                             </h2>
@@ -644,7 +695,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                 e.stopPropagation();
                                 setSelectedSwot(null);
                               }}
-                              className="swot-control-pill px-3 py-1 rounded-full text-xs font-bold font-play border border-slate-300 dark:border-white/20 text-slate-700 dark:text-slate-200 transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                              className="banner-control-pill swot-control-pill px-3 py-1 rounded-full typo-button font-play transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
                               title={isVi ? "Hiển thị tất cả (#ALL)" : "Show all (#ALL)"}
                             >
                               <WebIcon name="cancel" className="w-3.5 h-3.5" />
@@ -652,12 +703,12 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                             </button>
                           )}
                         </div>
-                        <p className={cn("swot-quadrant-desc text-[13px] text-slate-600 dark:text-slate-300 mt-2 leading-relaxed w-full", !isSelected && (quad.key === "W" || quad.key === "T") ? "text-right" : "text-left")}>
+                        <p className={cn("swot-quadrant-desc typo-body-sm text-[var(--text-secondary)] mt-2 w-full", !isSelected && (quad.key === "W" || quad.key === "T") ? "text-left md:text-right" : "text-left")}>
                           {isVi ? quad.descVi : quad.descEn}
                         </p>
                       </div>
 
-                      {/* Danh sách kỹ năng: Số thứ tự & "." & Icon kỹ năng & Tên kỹ năng & Thanh % & Số % & Accordion Disclosure (Hiển thị 1 dòng) */}
+                      {/* Danh sách kỹ năng: Icon kỹ năng & Số thứ tự & "." & Tên kỹ năng & Thanh % & Số % & Accordion Disclosure */}
                       <ul id={`${quad.id}-list`} className="flex flex-col gap-2 list-none p-0 m-0 my-auto">
                         {quad.data.map((item, idx) => {
                           const skillIcon = getWebSkillIconName(item.iconName);
@@ -692,11 +743,13 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                   toggleSkillAccordion(item.id);
                                 }
                               }}
+                              style={{ background: 'transparent', backgroundColor: 'transparent', borderRadius: '12px' }}
                               className={cn(
-                                "skill-swot-subcard group/item flex flex-col gap-1.5 rounded-[12px] p-2.5 transition-all duration-200 cursor-pointer select-none",
+                                "skill-swot-subcard group/item flex flex-col gap-1.5 rounded-[12px] p-2.5 transition-all duration-200 cursor-pointer select-none bg-transparent",
                                 isExpanded
                                   ? "shadow-xs"
-                                  : "hover:shadow-xs active:scale-[0.995]"
+                                  : "hover:shadow-xs active:scale-[0.995]",
+                                highlightedSkillId === item.id && "ring-2 ring-cyan-500 shadow-lg scale-[1.01]"
                               )}
                               title={
                                 isExpanded
@@ -708,22 +761,27 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                   : "Click to expand skill description"
                               }
                             >
-                              <div className="flex flex-nowrap items-center justify-between gap-1.5 sm:gap-2 w-full min-w-0">
-                                <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
-                                  {/* Số thứ tự & "." */}
-                                  <span className="swot-skill-index text-xs sm:text-[13px] font-mono font-black shrink-0 w-4 sm:w-5 text-right">
+                              <div className="flex flex-nowrap items-center justify-between gap-1.5 sm:gap-2 w-full min-w-0 bg-transparent">
+                                <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1 bg-transparent">
+                                  {/* 1. Icon kỹ năng */}
+                                  <WebIcon
+                                    name={skillIcon}
+                                    className="swot-skill-icon w-4 h-4 shrink-0 bg-transparent border-0 p-0 shadow-none"
+                                    style={{ color: 'var(--swot-accent)' }}
+                                  />
+
+                                  {/* 2. Số thứ tự & "." */}
+                                  <span
+                                    className="swot-skill-index typo-caption font-mono font-bold shrink-0 text-left bg-transparent"
+                                    style={{ color: 'var(--swot-accent)' }}
+                                  >
                                     {idx + 1}.
                                   </span>
 
-                                  {/* Icon kỹ năng */}
-                                  <WebIcon
-                                    name={skillIcon}
-                                    className="swot-skill-icon w-4 h-4 shrink-0"
-                                  />
-
-                                  {/* Tên kỹ năng: 1 dòng, truncate khi quá dài */}
+                                  {/* 3. Tên kỹ năng: 1 dòng, truncate khi quá dài */}
                                   <span
-                                    className="swot-skill-name text-[14px] sm:text-[15px] font-bold leading-snug font-play flex-1 min-w-0 truncate"
+                                    className="swot-skill-name typo-body font-semibold font-play flex-1 min-w-0 truncate bg-transparent"
+                                    style={{ color: 'var(--swot-accent)' }}
                                     title={formattedName}
                                   >
                                     {formattedName}
@@ -747,7 +805,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
 
                                   {/* Số % đảm bảo luôn hiển thị */}
                                   <span
-                                    className="swot-skill-percent text-[11px] sm:text-xs font-mono font-black shrink-0 w-8 sm:w-9 text-right"
+                                    className="swot-skill-percent typo-label font-mono font-bold shrink-0 w-9 text-right"
                                     title={percentLabel}
                                   >
                                     {item.percent}%
@@ -786,10 +844,10 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                         className="swot-skill-icon w-4 h-4 shrink-0 mt-0.5 opacity-90"
                                       />
                                       <div className="flex-1 min-w-0">
-                                        <span className="swot-skill-disclosure-label text-[11px] font-mono font-bold tracking-wide block opacity-85 mb-0.5">
+                                        <span className="swot-skill-disclosure-label typo-label font-mono tracking-wide block opacity-85 mb-0.5">
                                           {isVi ? "Mô tả kỹ năng thực chiến" : "Practical Skill Description"}
                                         </span>
-                                        <p className="swot-skill-disclosure-text text-[13px] sm:text-[14px] text-slate-800 dark:text-slate-100 font-medium leading-relaxed">
+                                        <p className="swot-skill-disclosure-text typo-body-sm text-[var(--text-primary)]">
                                           {itemDesc}
                                         </p>
                                       </div>
@@ -821,13 +879,13 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="bento-card glass-card w-full p-5 sm:p-6 rounded-[14px] text-[#334155] dark:text-[#E2E8F0] flex flex-col gap-4 text-left"
+            className="bento-card glass-card w-full p-5 sm:p-6 rounded-[14px] text-[var(--text-primary)] flex flex-col gap-4 text-left"
             style={{ borderRadius: '14px' }}
           >
-            <div id="skills-languages-header" className="flex items-center justify-between border-b border-slate-200/70 dark:border-white/15 pb-3">
-              <div className="flex items-center gap-2 text-[#1480C0] dark:text-sky-400">
+            <div id="skills-languages-header" className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3">
+              <div className="card-header-sync flex items-center gap-2 text-[#1480C0] dark:text-sky-400">
                 <WebIcon name="globe" className="w-5 h-5 text-[#1480C0] dark:text-sky-400" />
-                <h2 id="skills-languages-title" className="text-[18px] font-bold font-play text-[#1480C0] dark:text-sky-400" style={{ fontSize: '18px', fontWeight: 700 }}>
+                <h2 id="skills-languages-title" className="card-title-synced typo-h3 font-play text-[#1480C0] dark:text-sky-400">
                   {isVi ? "Ngôn ngữ giao tiếp" : "Communication Languages"}
                 </h2>
               </div>
@@ -842,11 +900,18 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                     data-subcard="true"
                     data-element-name={`Thẻ ngôn ngữ: ${langItem.nameVi}`}
                     data-element-page="skills"
-                    className="exp-detail-subcard w-full h-full min-w-0 flex items-center gap-4 p-4 rounded-[12px] transition-all duration-300 hover:scale-[1.012] hover:shadow-md"
+                    style={{ borderRadius: '12px' }}
+                    className="sub-card exp-detail-subcard w-full h-full min-w-0 flex items-center gap-4 p-4 rounded-[12px] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none"
                   >
                     <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
                       <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                        <path className="text-slate-200/80 dark:text-slate-700/80 stroke-current" strokeWidth="3.2" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path
+                          className="stroke-current"
+                          style={{ color: 'var(--border-subcard, rgba(148, 163, 184, 0.25))' }}
+                          strokeWidth="3.2"
+                          fill="none"
+                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        />
                         <path 
                           className={cn("stroke-current", langItem.color)} 
                           strokeWidth="3.2" 
@@ -856,20 +921,20 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" 
                         />
                       </svg>
-                      <span className="about-info-value absolute text-xs font-mono font-black text-slate-800 dark:text-[#F8FAFC]">
+                      <span className="about-info-value absolute typo-label font-mono font-bold text-[var(--text-heading,var(--text-primary))]">
                         {langItem.percent}%
                       </span>
                     </div>
 
                     <div className="flex flex-col min-w-0 text-left">
-                      <h3 className={cn("font-bold text-base font-play", langItem.color)}>
+                      <h3 className={cn("typo-h4 subcard-title-synced font-play", langItem.color)} data-subcard-title="true">
                         {isVi ? langItem.nameVi : langItem.nameEn}
                       </h3>
-                      <span className="about-info-label text-xs text-slate-700 dark:text-slate-300 font-medium mt-0.5">
+                      <span className="about-info-label typo-caption text-[var(--text-secondary)] mt-0.5">
                         {isVi ? langItem.roleVi : langItem.roleEn}
                       </span>
                       {(isVi ? langItem.levelVi : langItem.levelEn) && langItem.id !== "ai" && langItem.id !== "vi" && (
-                        <span className={cn("text-xs font-bold mt-1", langItem.color)}>
+                        <span className={cn("typo-badge mt-1", langItem.color)}>
                           {isVi ? langItem.levelVi : langItem.levelEn}
                         </span>
                       )}

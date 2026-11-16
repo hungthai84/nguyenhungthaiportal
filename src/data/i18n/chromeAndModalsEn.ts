@@ -102,6 +102,11 @@ export const CHROME_AND_MODALS_EN: Record<string, string> = {
   'Fluent Mica Sáng': 'Fluent Light Mica',
   'Kính tối màu neon': 'Dark Multicolor Neon Glass',
   'Kính tối neon đa sắc': 'Multicolor Dark Neon Glass',
+  'Kính mờ tối': 'Dark Frosted Glass',
+  'Kính Mờ Tối': 'Dark Frosted',
+  'Kính mờ tối · Specular Glass': 'Dark Frosted Glass · Specular Edge',
+  'Lớp kính mờ tối sâu thẳm (rgba(15, 23, 42, 0.68)) kết hợp blur(22px) saturate(150%), viền sáng cạnh trên tinh tế và độ tương phản chữ #f8fafc tối ưu trên mọi hình nền.':
+    'Deep dark translucent glass (rgba(15, 23, 42, 0.68)) with blur(22px) saturate(150%), subtle specular top-edge highlight, and high-contrast #f8fafc typography.',
   'Chất liệu da bò': 'Full-Grain Cowhide Leather',
   'Cấu hình phong cách – Theme Presets': 'Style Configuration – Theme Presets',
   'Chọn phong cách': 'Select Style',

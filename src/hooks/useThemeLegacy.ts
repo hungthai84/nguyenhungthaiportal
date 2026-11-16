@@ -9,14 +9,30 @@ import {
 import {
   CARD_STYLE_STORAGE_KEY,
   DEFAULT_CARD_STYLE,
+  GLASS_CUSTOMIZATION_STORAGE_KEY,
+  GLASS_CUSTOMIZATION_SYNC_EVENT,
+  THEME_BACKGROUNDS,
+  THEME_DEFAULT_GLASS_SETTINGS,
   THEME_DEFAULT_WALLPAPER_ID,
   WALLPAPER_MANUAL_STORAGE_KEY,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode } from '../config/ui/theme.types';
-import { CARD_STYLES_MAP, VALID_CARD_STYLES } from '../config/ui/cardStyles';
+import { CardStyleMode, GlassCustomization } from '../config/ui/theme.types';
+import { CARD_STYLES_MAP, VALID_CARD_STYLES, getCardStyleProperties } from '../config/ui/cardStyles';
 
 const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
 const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
+
+type GlassCustomizationMap = Partial<Record<CardStyleMode, GlassCustomization>>;
+
+function clampLegacyGlass(raw?: Partial<GlassCustomization>, fallback?: GlassCustomization): GlassCustomization {
+  const base = fallback || { cardOpacity: 74, blurIntensity: 22 };
+  const rawOpacity = typeof raw?.cardOpacity === 'number' && Number.isFinite(raw.cardOpacity) ? raw.cardOpacity : base.cardOpacity;
+  const rawBlur = typeof raw?.blurIntensity === 'number' && Number.isFinite(raw.blurIntensity) ? raw.blurIntensity : base.blurIntensity;
+  return {
+    cardOpacity: Math.min(100, Math.max(15, Math.round(rawOpacity))),
+    blurIntensity: Math.min(48, Math.max(0, Math.round(rawBlur))),
+  };
+}
 
 function getDefaultWallpaperForTheme(mode: CardStyleMode): WallpaperPreset {
   const targetId = THEME_DEFAULT_WALLPAPER_ID[mode];
@@ -39,19 +55,23 @@ function normalizeCardStyle(raw: string | null): CardStyleMode {
     raw === 'pastel' ||
     raw === 'bento-pastel' ||
     raw === 'soft-pastel' ||
-    raw === 'pastel-bento'
-  ) {
-    return 'pastel-bento';
-  }
-  if (
+    raw === 'pastel-bento' ||
     raw === 'glossy-glass' ||
     raw === 'glossy' ||
     raw === 'guong-bong' ||
     raw === 'glass-glossy'
   ) {
-    return 'glossy-glass';
+    return DEFAULT_CARD_STYLE;
   }
-  if (VALID_CARD_STYLES.includes(raw as CardStyleMode)) {
+  if (
+    raw === 'dark-glass' ||
+    raw === 'dark-glassmorphism' ||
+    raw === 'dark-frosted' ||
+    raw === 'kinh-mo-toi'
+  ) {
+    return 'dark-frosted-glass';
+  }
+  if (VALID_CARD_STYLES.includes(raw as any)) {
     return raw as CardStyleMode;
   }
   return DEFAULT_CARD_STYLE;
@@ -97,7 +117,38 @@ export function useThemeLegacy() {
     return getDefaultWallpaperForTheme(initialStyle);
   });
 
+  const [glassCustomizations, setGlassCustomizations] = useState<GlassCustomizationMap>(() => {
+    try {
+      const raw = localStorage.getItem(GLASS_CUSTOMIZATION_STORAGE_KEY);
+      if (raw) return JSON.parse(raw) as GlassCustomizationMap;
+    } catch {
+      // ignore
+    }
+    return {};
+  });
+
   const isDark = Boolean(CARD_STYLES_MAP[cardStyle]?.isDark);
+
+  const getGlassSettingsForMode = useCallback(
+    (mode: CardStyleMode): GlassCustomization => {
+      const defaults = THEME_DEFAULT_GLASS_SETTINGS[mode] || THEME_DEFAULT_GLASS_SETTINGS[DEFAULT_CARD_STYLE];
+      const custom = glassCustomizations[mode];
+      return custom ? clampLegacyGlass(custom, defaults) : { ...defaults };
+    },
+    [glassCustomizations]
+  );
+
+  const glassSettings = getGlassSettingsForMode(cardStyle);
+
+  const isGlassCustomized = useCallback(
+    (mode?: CardStyleMode): boolean => {
+      const target = mode || cardStyle;
+      const defaults = THEME_DEFAULT_GLASS_SETTINGS[target];
+      const current = getGlassSettingsForMode(target);
+      return current.cardOpacity !== defaults.cardOpacity || current.blurIntensity !== defaults.blurIntensity;
+    },
+    [cardStyle, getGlassSettingsForMode]
+  );
 
   useEffect(() => {
     try {
@@ -107,7 +158,14 @@ export function useThemeLegacy() {
     }
     if (isDark) {
       document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute('data-theme', cardStyle === 'cowhide-leather' ? 'cowhide-leather' : 'dark-neon');
+      document.documentElement.setAttribute(
+        'data-theme',
+        cardStyle === 'cowhide-leather'
+          ? 'cowhide-leather'
+          : cardStyle === 'dark-frosted-glass'
+            ? 'dark-frosted-glass'
+            : 'dark-neon'
+      );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
@@ -140,6 +198,11 @@ export function useThemeLegacy() {
   }, []);
 
   useEffect(() => {
+    const themeBgSpec = THEME_BACKGROUNDS[cardStyle] || THEME_BACKGROUNDS[DEFAULT_CARD_STYLE];
+    const root = document.documentElement;
+    root.style.setProperty('--theme-bg-fallback', themeBgSpec.fallbackGradient);
+    root.style.setProperty('--theme-bg-overlay', themeBgSpec.overlayBg);
+
     try {
       localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(activeWallpaper));
       localStorage.setItem('theme_wallpaper', activeWallpaper.value || activeWallpaper.bg || '');
@@ -160,18 +223,21 @@ export function useThemeLegacy() {
         !activeWallpaper.bg &&
         (!activeWallpaper.previewStyle || Object.keys(activeWallpaper.previewStyle).length === 0))
     ) {
+      root.style.setProperty('--theme-bg-image', 'none');
       document.body.style.backgroundColor = isDark ? '#050816' : '#F5F7FD';
     } else if (activeWallpaper.type === 'image') {
       const imgVal = activeWallpaper.value || activeWallpaper.bg || '';
       const cleanUrl = getCleanImageUrl(imgVal);
       if (cleanUrl) {
-        document.body.style.backgroundImage = `url('${cleanUrl}')`;
+        root.style.setProperty('--theme-bg-image', `url('${cleanUrl}')`);
+        document.body.style.backgroundImage = `url('${cleanUrl}'), ${themeBgSpec.fallbackGradient}`;
         document.body.style.backgroundSize = 'cover';
         document.body.style.backgroundPosition = 'center';
         document.body.style.backgroundRepeat = 'no-repeat';
         document.body.style.backgroundAttachment = 'fixed';
       }
     } else if (activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient') {
+      root.style.setProperty('--theme-bg-image', 'none');
       const cssText = activeWallpaper.value || activeWallpaper.bg || '';
       const parsed =
         activeWallpaper.previewStyle && Object.keys(activeWallpaper.previewStyle).length > 0
@@ -191,9 +257,10 @@ export function useThemeLegacy() {
         document.body.style.background = cssText;
       }
     } else {
+      root.style.setProperty('--theme-bg-image', 'none');
       document.body.style.backgroundColor = isDark ? '#050816' : '#F5F7FD';
     }
-  }, [activeWallpaper, isDark]);
+  }, [activeWallpaper, cardStyle, isDark]);
 
   const setWallpaper = useCallback((wpOrBg: WallpaperPreset | string) => {
     let nextWp: WallpaperPreset;
@@ -240,7 +307,14 @@ export function useThemeLegacy() {
     }
     if (nextDark) {
       document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute('data-theme', normalized === 'cowhide-leather' ? 'cowhide-leather' : 'dark-neon');
+      document.documentElement.setAttribute(
+        'data-theme',
+        normalized === 'cowhide-leather'
+          ? 'cowhide-leather'
+          : normalized === 'dark-frosted-glass'
+            ? 'dark-frosted-glass'
+            : 'dark-neon'
+      );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
@@ -255,6 +329,48 @@ export function useThemeLegacy() {
     window.dispatchEvent(new CustomEvent(WALLPAPER_SYNC_EVENT, { detail: defaultWp }));
   }, []);
 
+  const getCardStyleProps = useCallback((mode?: CardStyleMode) => {
+    return getCardStyleProperties(mode || cardStyle);
+  }, [cardStyle]);
+
+  const updateGlassSettings = useCallback(
+    (patch: Partial<GlassCustomization>, targetMode?: CardStyleMode) => {
+      const mode = targetMode || cardStyle;
+      const defaults = THEME_DEFAULT_GLASS_SETTINGS[mode];
+      setGlassCustomizations((prev) => {
+        const current = prev[mode] || defaults;
+        const nextForMode = clampLegacyGlass({ ...current, ...patch }, defaults);
+        const nextMap: GlassCustomizationMap = { ...prev, [mode]: nextForMode };
+        try {
+          localStorage.setItem(GLASS_CUSTOMIZATION_STORAGE_KEY, JSON.stringify(nextMap));
+        } catch {
+          // ignore
+        }
+        window.dispatchEvent(new CustomEvent(GLASS_CUSTOMIZATION_SYNC_EVENT, { detail: nextMap }));
+        return nextMap;
+      });
+    },
+    [cardStyle]
+  );
+
+  const resetGlassSettings = useCallback(
+    (targetMode?: CardStyleMode) => {
+      const mode = targetMode || cardStyle;
+      setGlassCustomizations((prev) => {
+        const nextMap: GlassCustomizationMap = { ...prev };
+        delete nextMap[mode];
+        try {
+          localStorage.setItem(GLASS_CUSTOMIZATION_STORAGE_KEY, JSON.stringify(nextMap));
+        } catch {
+          // ignore
+        }
+        window.dispatchEvent(new CustomEvent(GLASS_CUSTOMIZATION_SYNC_EVENT, { detail: nextMap }));
+        return nextMap;
+      });
+    },
+    [cardStyle]
+  );
+
   return {
     isDark,
     currentWallpaper: activeWallpaper.value || activeWallpaper.bg || '',
@@ -262,5 +378,11 @@ export function useThemeLegacy() {
     setWallpaper,
     cardStyle,
     setCardStyle,
+    getCardStyleProps,
+    glassSettings,
+    getGlassSettingsForMode,
+    isGlassCustomized,
+    updateGlassSettings,
+    resetGlassSettings,
   };
 }

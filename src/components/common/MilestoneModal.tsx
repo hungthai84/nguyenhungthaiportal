@@ -24,17 +24,22 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-[120] bg-[#0B1220]/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 font-play animate-fadeIn"
+      style={{
+        background: 'var(--bg-modal-backdrop)',
+        backdropFilter: 'blur(var(--blur-modal, 6px))',
+        WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+      }}
+      className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-4 font-play animate-fadeIn"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label={item.company}
-        className="bg-white dark:bg-[#111827] rounded-[14px] max-w-xl w-full max-h-[90vh] overflow-y-auto no-scrollbar p-4 sm:p-5 border border-[#CBD5E1] dark:border-[#334155] shadow-2xl relative text-left space-y-3"
+        className="theme-modal-card milestone-modal-card rounded-[14px] max-w-xl w-full max-h-[90vh] overflow-y-auto no-scrollbar p-4 sm:p-5 shadow-2xl relative text-left space-y-3"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
+        <div className="theme-modal-header flex flex-wrap items-center justify-between gap-2 -mx-4 -mt-4 sm:-mx-5 sm:-mt-5 px-4 sm:px-5 py-3 rounded-t-[14px]">
           <div className="flex items-center gap-3">
             <img
               src={item.logo}
@@ -42,7 +47,7 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
               className="w-12 h-12 rounded-full object-cover shadow-sm"
             />
             <div>
-              <h3 className="typo-h3 font-bold text-slate-900 dark:text-white">
+              <h3 className="typo-popup-title" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
                 {item.company}
               </h3>
               <p className="typo-caption font-bold" style={{ color: item.color }}>
@@ -51,7 +56,7 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
             </div>
           </div>
           <span
-            className="px-3 py-1 rounded-full typo-badge font-bold font-play tabular-nums shrink-0 bg-white/95 dark:bg-slate-800/90 border shadow-xs"
+            className="px-3 py-1 rounded-full typo-badge font-bold font-play tabular-nums shrink-0 border shadow-xs"
             style={{
               backgroundColor: `${item.color}16`,
               borderColor: `${item.color}45`,
@@ -61,12 +66,12 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
             {/^\s*năm\s+/i.test(item.yearLabelVi || '') ? item.yearLabelVi : `Năm ${item.yearLabelVi || ''}`}
           </span>
         </div>
-        <div className="space-y-2 typo-body-sm text-[#334155] dark:text-[#E2E8F0] leading-relaxed">
-          <p className="p-3 rounded-[14px] bg-[#F8FAFC] dark:bg-[#1F2937]/80 border border-[#E2E8F0] dark:border-[#334155] font-medium">
+        <div className="space-y-2 typo-body-sm leading-relaxed" style={{ color: 'var(--text-primary)' }}>
+          <p className="theme-modal-subcard p-3 rounded-[14px] font-medium">
             {item.descVi}
           </p>
           {item.descViPart2 && (
-            <p className="p-3 rounded-[14px] bg-[#F8FAFC] dark:bg-[#1F2937]/80 border border-[#E2E8F0] dark:border-[#334155] font-medium">
+            <p className="theme-modal-subcard p-3 rounded-[14px] font-medium">
               {item.descViPart2}
             </p>
           )}
@@ -79,18 +84,18 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
           }}
         >
           <i
-            className={`fa-solid ${item.highlightIconName} text-sm`}
+            className={`fa-solid ${item.highlightIconName} typo-body-sm`}
             style={{ color: item.color }}
           ></i>
           <span className="typo-caption font-bold" style={{ color: item.color }}>
             {item.highlightVi}
           </span>
         </div>
-        <div className="flex justify-end pt-2 border-t border-slate-200 dark:border-slate-800">
+        <div className="theme-modal-footer flex justify-end -mx-4 -mb-4 sm:-mx-5 sm:-mb-5 px-4 sm:px-5 py-3 rounded-b-[14px]">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 typo-button text-slate-700 dark:text-slate-300 cursor-pointer"
+            className="theme-modal-close px-4 py-1.5 rounded-full typo-button cursor-pointer"
           >
             Đóng
           </button>

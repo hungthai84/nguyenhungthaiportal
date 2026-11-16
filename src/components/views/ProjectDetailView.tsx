@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ProjectData } from '@/types';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import {
   getProjectDetailedSpec,
   ProjectSpec,
@@ -343,12 +342,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     return isLightMode ? entry.light : entry.dark;
   };
 
-  const { cardStyle } = useTheme();
-  const rawCardStyle = getCardStyleProperties(cardStyle);
-  const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cardSampleStyle } = rawCardStyle as any;
-
   const getSyncedCardStyle = (_gradientIdx?: number): React.CSSProperties => ({
-    ...cardSampleStyle,
     ...(isDesktopMd && bannerHeight
       ? {
           height: `${bannerHeight}px`,
@@ -421,97 +415,20 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     selectedGroup && currentProjectIdx > 0 ? selectedGroup.projects[currentProjectIdx - 1] : null;
 
   return (
-    <div className="w-full h-full flex-1 min-h-0 flex flex-col gap-[15px] relative overflow-hidden text-left font-play">
-      {/* 2 CỘT CHÍNH: CHI TIẾT BÀI VIẾT (TRÁI) VÀ MỤC LỤC ĐIỀU HƯỚNG (PHẢI) */}
-      <div className="w-full flex-1 min-h-0 flex flex-col md:flex-row gap-[15px] items-stretch relative overflow-y-auto md:overflow-hidden glass-scrollbar">
-        {/* 1. KHỐI NỘI DUNG CHI TIẾT BÀI VIẾT DỰ ÁN (BÊN TRÁI) */}
-        <div
-          ref={scrollContainerRef}
-          className="flex-1 min-w-0 min-h-0 md:h-full overflow-visible md:overflow-y-auto glass-scrollbar md:pr-1.5 pb-6 md:pb-28 flex flex-col gap-[15px] text-left"
-        >
+    <div className="w-full h-full flex-1 min-h-0 flex flex-col md:flex-row gap-[15px] items-stretch relative overflow-y-auto md:overflow-hidden glass-scrollbar text-left font-play">
+      {/* 1. KHỐI NỘI DUNG CHI TIẾT BÀI VIẾT DỰ ÁN (BÊN TRÁI) */}
+      <div
+        ref={scrollContainerRef}
+        className="flex-1 min-w-0 min-h-0 md:h-full overflow-visible md:overflow-y-auto glass-scrollbar md:pr-1.5 pb-6 md:pb-28 flex flex-col gap-[15px] text-left"
+      >
           {spec && (
             <>
-
-          {/* STANDALONE PROJECT HEADER CARD (Đưa ra ngoài thẻ Sơ đồ tư duy) */}
-          <div
-            id="projects-info-card"
-            data-section-card="true"
-            style={cardSampleStyle}
-            className={`project-detail-section-card relative p-4 rounded-[14px] border-2 ${
-              isStrategy
-                ? 'border-sky-300/90 dark:border-sky-500/40 shadow-[0_4px_20px_-2px_rgba(2,132,199,0.12)]'
-                : 'border-fuchsia-300/80 dark:border-fuchsia-500/40 shadow-md'
-            } flex flex-col items-start justify-between gap-2.5 overflow-hidden shrink-0`}
-          >
-            <div className="w-full min-w-0 relative z-10">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className={`px-2 py-0.5 rounded-[14px] font-mono typo-badge font-black border ${
-                  isStrategy
-                    ? 'bg-sky-100 dark:bg-sky-950/80 text-sky-800 dark:text-sky-200 border-sky-300 dark:border-sky-600/50'
-                    : 'bg-fuchsia-100 dark:bg-fuchsia-950/80 text-fuchsia-800 dark:text-fuchsia-200 border-fuchsia-300 dark:border-fuchsia-600/50'
-                }`}>
-                  {selectedArticle.code}
-                </span>
-                <span className={`px-2 py-0.5 rounded-[14px] typo-badge font-bold border ${
-                  isStrategy
-                    ? 'bg-sky-100 dark:bg-sky-950/80 text-sky-800 dark:text-sky-200 border-sky-300 dark:border-sky-600/50'
-                    : 'bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-200 border-purple-300 dark:border-purple-600/50'
-                }`}>
-                  {selectedArticle.groupTitle}
-                </span>
-                <span className="typo-label font-bold text-slate-500 dark:text-slate-400">
-                  Vai trò: <strong className={isStrategy ? 'text-sky-700 dark:text-sky-300' : 'text-purple-700 dark:text-purple-300'}>{selectedArticle.role}</strong>
-                </span>
-              </div>
-
-              <h4
-                className={`text-[17px] sm:text-[18px] font-black mt-1.5 leading-snug flex items-start sm:items-center gap-2 ${
-                  isStrategy ? 'text-sky-600 dark:text-sky-400' : 'text-fuchsia-600 dark:text-fuchsia-400'
-                }`}
-              >
-                <WebIcon
-                  name="brain"
-                  className={`w-[18px] h-[18px] shrink-0 mt-0.5 sm:mt-0 bg-transparent border-0 p-0 shadow-none ${
-                    isStrategy ? 'text-sky-600 dark:text-sky-400' : 'text-fuchsia-600 dark:text-fuchsia-400'
-                  }`}
-                />
-                <span className="min-w-0 break-words">{selectedArticle.title}</span>
-              </h4>
-
-              <p className="typo-body-sm text-slate-600 dark:text-slate-300 mt-1 italic">
-                &ldquo;{selectedArticle.quote || spec.tagline}&rdquo;
-              </p>
-
-              {/* Tech stack / keywords chips chuyển xuống dưới mô tả */}
-              <div className="flex items-center gap-1.5 flex-wrap mt-2.5">
-                {selectedArticle.hashtags.slice(0, 4).map((tag) => (
-                  <span
-                    key={tag}
-                    className={`project-detail-chip px-2.5 py-0.5 rounded-full typo-badge font-mono font-semibold border ${
-                      isLightMode
-                        ? isStrategy
-                          ? 'text-sky-800 border-sky-200'
-                          : 'text-slate-700 border-slate-200'
-                        : 'text-slate-200 border-slate-600'
-                    }`}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* SECTION 00: SƠ ĐỒ TƯ DUY KIẾN TRÚC DỰ ÁN (KÍCH THƯỚC CHIỀU CAO LUÔN BẰNG CHIỀU CAO BANNER CHI TIẾT DỰ ÁN) */}
           <section
             id="sec-mindmap"
             data-section-card="true"
             style={getSyncedCardStyle(0)}
-            className={`project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 backdrop-blur-2xl transition-all duration-300 ${
-              isLightMode
-                ? 'border border-slate-300/80 shadow-[0_14px_36px_rgba(30,27,75,0.08)]'
-                : 'border border-white/20 dark:border-white/10 shadow-[0_14px_36px_rgba(99,102,241,0.25)]'
-            }`}
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             {/* Header Card Sơ Đồ Tư Duy */}
@@ -520,8 +437,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 isLightMode ? 'border-slate-300/70' : 'border-white/20'
               }`}
             >
-              <div className="flex items-center gap-2.5" style={{ color: getCardAccentColor('fuchsia') }}>
-                <span className="font-mono font-black text-[17px] sm:text-[18px]" style={{ color: getCardAccentColor('fuchsia') }}>
+              <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('fuchsia') }}>
+                <span className="font-mono typo-h3" style={{ color: getCardAccentColor('fuchsia') }}>
                   1.
                 </span>
                 <WebIcon
@@ -530,7 +447,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   style={{ color: getCardAccentColor('fuchsia') }}
                 />
                 <h3
-                  className="text-[17px] sm:text-[18px] font-black font-play tracking-wide m-0"
+                  className="typo-h3 card-title-synced font-play tracking-wide m-0"
+                  data-card-title="true"
                   style={{ color: getCardAccentColor('fuchsia') }}
                 >
                   Sơ đồ tư duy
@@ -566,21 +484,21 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   <div id="projects-mindmap-branch-1" data-subcard="true" className="project-detail-subcard h-full p-4 rounded-[14px] border-2 border-rose-200 dark:border-rose-500/40 shadow-xs space-y-2.5 flex flex-col justify-between hover:border-rose-400 dark:hover:border-rose-400 transition-all duration-300">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between gap-2 pb-2 border-b border-rose-200/80 dark:border-rose-900/40">
-                        <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400">
+                        <div className="subcard-header-sync flex items-center gap-2 text-rose-600 dark:text-rose-400">
                           <WebIcon name="alert" className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
-                          <h5 className="text-[15px] sm:text-[16px] font-black text-rose-600 dark:text-rose-400 tracking-wide font-play m-0">
+                          <h5 className="typo-h5 subcard-title-synced text-rose-600 dark:text-rose-400 tracking-wide font-play m-0" data-subcard-title="true">
                             Bối Cảnh Vận Hành
                           </h5>
                         </div>
                       </div>
 
-                      <p className="typo-caption text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                      <p className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium">
                         {spec.context.intro}
                       </p>
 
                       <div className="space-y-1.5 pt-1 border-l-2 border-dashed border-rose-300 dark:border-rose-600/60 pl-2.5">
                         {spec.context.challenges.slice(0, 3).map((ch, idx) => (
-                          <div key={idx} className="flex items-start gap-1.5 typo-label text-slate-600 dark:text-slate-300">
+                          <div key={idx} className="flex items-start gap-1.5 typo-label text-[var(--text-secondary)]">
                             <WebIcon name="alert" className="w-3.5 h-3.5 text-rose-500 shrink-0 mt-0.5" />
                             <span className="leading-snug">{ch}</span>
                           </div>
@@ -602,9 +520,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   <div data-subcard="true" className="project-detail-subcard h-full p-4 rounded-[14px] border-2 border-amber-200 dark:border-amber-500/40 shadow-xs space-y-2.5 flex flex-col justify-between hover:border-amber-400 dark:hover:border-amber-400 transition-all duration-300">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between gap-2 pb-2 border-b border-amber-200/80 dark:border-amber-900/40">
-                        <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
+                        <div className="subcard-header-sync flex items-center gap-2 text-amber-600 dark:text-amber-400">
                           <WebIcon name="target" className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-                          <h5 className="text-[15px] sm:text-[16px] font-black text-amber-600 dark:text-amber-400 tracking-wide font-play m-0">
+                          <h5 className="typo-h5 subcard-title-synced text-amber-600 dark:text-amber-400 tracking-wide font-play m-0" data-subcard-title="true">
                             Mục Tiêu Kỳ Vọng
                           </h5>
                         </div>
@@ -618,7 +536,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                               <span>{obj.title}</span>
                             </div>
                             {obj.items[0] && (
-                              <p className="typo-label text-slate-600 dark:text-slate-300 pl-5 leading-snug">
+                              <p className="typo-label text-[var(--text-secondary)] pl-5 leading-snug">
                                 • {obj.items[0]}
                               </p>
                             )}
@@ -641,9 +559,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   <div data-subcard="true" className="project-detail-subcard h-full p-4 rounded-[14px] border-2 border-sky-200 dark:border-sky-500/40 shadow-xs space-y-2.5 flex flex-col justify-between hover:border-sky-400 dark:hover:border-sky-400 transition-all duration-300">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between gap-2 pb-2 border-b border-sky-200/80 dark:border-sky-900/40">
-                        <div className="flex items-center gap-2 text-sky-600 dark:text-sky-400">
+                        <div className="subcard-header-sync flex items-center gap-2 text-sky-600 dark:text-sky-400">
                           <WebIcon name="workflow" className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />
-                          <h5 className="text-[15px] sm:text-[16px] font-black text-sky-600 dark:text-sky-400 tracking-wide font-play m-0">
+                          <h5 className="typo-h5 subcard-title-synced text-sky-600 dark:text-sky-400 tracking-wide font-play m-0" data-subcard-title="true">
                             Trụ Cột Vận Hành
                           </h5>
                         </div>
@@ -655,32 +573,32 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                             <WebIcon name="users" className="w-3 h-3 text-sky-600 dark:text-sky-300" />
                             <span>Con người</span>
                           </span>
-                          <p className="typo-label text-slate-600 dark:text-slate-300 mt-0.5">Đào tạo, KPI, kỹ năng</p>
+                          <p className="typo-label text-[var(--text-secondary)] mt-0.5">Đào tạo, KPI, kỹ năng</p>
                         </div>
                         <div className="project-detail-chip p-2 rounded-[14px] border border-sky-200/80 dark:border-sky-700/50">
                           <span className="typo-label font-bold text-sky-700 dark:text-sky-300 flex items-center gap-1">
                             <WebIcon name="cog" className="w-3 h-3 text-sky-600 dark:text-sky-300" />
                             <span>Quy trình SOP</span>
                           </span>
-                          <p className="typo-label text-slate-600 dark:text-slate-300 mt-0.5">SOP & Escalation</p>
+                          <p className="typo-label text-[var(--text-secondary)] mt-0.5">SOP & Escalation</p>
                         </div>
                         <div className="project-detail-chip p-2 rounded-[14px] border border-sky-200/80 dark:border-sky-700/50">
                           <span className="typo-label font-bold text-sky-700 dark:text-sky-300 flex items-center gap-1">
                             <WebIcon name="database" className="w-3 h-3 text-sky-600 dark:text-sky-300" />
                             <span>Công nghệ CRM</span>
                           </span>
-                          <p className="typo-label text-slate-600 dark:text-slate-300 mt-0.5">Omnichannel & AI</p>
+                          <p className="typo-label text-[var(--text-secondary)] mt-0.5">Omnichannel & AI</p>
                         </div>
                         <div className="project-detail-chip p-2 rounded-[14px] border border-sky-200/80 dark:border-sky-700/50">
                           <span className="typo-label font-bold text-sky-700 dark:text-sky-300 flex items-center gap-1">
                             <WebIcon name="chart" className="w-3 h-3 text-sky-600 dark:text-sky-300" />
                             <span>Dữ liệu Realtime</span>
                           </span>
-                          <p className="typo-label text-slate-600 dark:text-slate-300 mt-0.5">360° Dashboard</p>
+                          <p className="typo-label text-[var(--text-secondary)] mt-0.5">360° Dashboard</p>
                         </div>
                       </div>
 
-                      <div className="typo-label text-slate-600 dark:text-slate-300 pt-0.5">
+                      <div className="typo-label text-[var(--text-secondary)] pt-0.5">
                         <strong className="text-sky-700 dark:text-sky-300">Lộ trình:</strong>{' '}
                         {spec.methodology.phases.map((p: any) => p.title).slice(0, 3).join(' → ')}...
                       </div>
@@ -700,9 +618,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   <div data-subcard="true" className="project-detail-subcard h-full p-4 rounded-[14px] border-2 border-emerald-200 dark:border-emerald-500/40 shadow-xs space-y-2.5 flex flex-col justify-between hover:border-emerald-400 dark:hover:border-emerald-400 transition-all duration-300">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between gap-2 pb-2 border-b border-emerald-200/80 dark:border-emerald-900/40">
-                        <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+                        <div className="subcard-header-sync flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
                           <WebIcon name="award" className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                          <h5 className="text-[15px] sm:text-[16px] font-black text-emerald-600 dark:text-emerald-400 tracking-wide font-play m-0">
+                          <h5 className="typo-h5 subcard-title-synced text-emerald-600 dark:text-emerald-400 tracking-wide font-play m-0" data-subcard-title="true">
                             Kết Quả Định Lượng
                           </h5>
                         </div>
@@ -710,7 +628,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
                       <div className="space-y-1.5 border-l-2 border-dashed border-emerald-300 dark:border-emerald-600/60 pl-2.5">
                         {selectedArticle.star.results.map((res, rIdx) => (
-                          <div key={rIdx} className="flex items-start gap-1.5 typo-label text-slate-700 dark:text-slate-200 font-medium">
+                          <div key={rIdx} className="flex items-start gap-1.5 typo-label text-[var(--text-secondary)] font-medium">
                             <WebIcon name="check" className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
                             <span className="leading-snug">{res}</span>
                           </div>
@@ -754,7 +672,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     </span>
                   </div>
                 </div>
-                <p className="typo-label text-slate-500 dark:text-slate-400 text-center italic">
+                <p className="typo-label text-[var(--text-muted)] text-center italic">
                   Bản vẽ kiến trúc hệ thống gốc của dự án {selectedArticle.code}. Bấm vào hình ảnh hoặc nút Phóng to để tương tác kích thước đầy đủ.
                 </p>
               </div>
@@ -767,11 +685,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-overview"
             data-section-card="true"
             style={getSyncedCardStyle(1)}
-            className={`project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 backdrop-blur-2xl transition-all duration-300 ${
-              isLightMode
-                ? 'border border-slate-300/80 shadow-[0_14px_36px_rgba(30,27,75,0.08)]'
-                : 'border border-white/20 dark:border-white/10 shadow-[0_14px_36px_rgba(2,132,199,0.25)]'
-            }`}
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -781,8 +695,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 isLightMode ? 'border-slate-300/70' : 'border-white/20'
               }`}
             >
-              <div className="flex items-center gap-2.5" style={{ color: getCardAccentColor('blue') }}>
-                <span className="font-mono font-black text-[17px] sm:text-[18px]" style={{ color: getCardAccentColor('blue') }}>
+              <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('blue') }}>
+                <span className="font-mono typo-h3" style={{ color: getCardAccentColor('blue') }}>
                   2.
                 </span>
                 <WebIcon
@@ -791,7 +705,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   style={{ color: getCardAccentColor('blue') }}
                 />
                 <h3
-                  className="text-[17px] sm:text-[18px] font-black font-play tracking-wide m-0"
+                  className="typo-h3 card-title-synced font-play tracking-wide m-0"
+                  data-card-title="true"
                   style={{ color: getCardAccentColor('blue') }}
                 >
                   Tổng quan dự án
@@ -806,13 +721,13 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 <div data-subcard="true" className="project-detail-subcard lg:col-span-8 p-4 rounded-[14px] border border-white/20 dark:border-white/10 space-y-3 shadow-xs flex flex-col justify-between">
                   <div className="space-y-2.5">
                     {spec.overview.map((para: string, idx: number) => (
-                      <p key={idx} className="typo-body-sm text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
+                      <p key={idx} className="typo-body-sm text-[var(--text-primary)] leading-relaxed font-medium">
                         {para}
                       </p>
                     ))}
                   </div>
 
-                  <div className="pt-3 border-t border-slate-100 dark:border-white/10 flex items-center gap-2 flex-wrap typo-label font-semibold text-slate-600 dark:text-slate-300">
+                  <div className="pt-3 border-t border-slate-100 dark:border-white/10 flex items-center gap-2 flex-wrap typo-label font-semibold text-[var(--text-secondary)]">
                     <span className="text-blue-600 dark:text-cyan-400 font-bold flex items-center gap-1">
                       <WebIcon name="target" className="w-3.5 h-3.5" />
                       <span>Trọng tâm cốt lõi:</span>
@@ -834,7 +749,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     <span className="typo-label font-mono font-bold text-cyan-300 tracking-wider">
                       {selectedArticle.groupTitle}
                     </span>
-                    <h5 className="text-[15px] sm:text-[16px] font-bold text-white leading-tight mt-0.5">
+                    <h5 className="typo-h5 text-white leading-tight mt-0.5">
                       {selectedArticle.title.replace(/^[\d.]+\s*·\s*/, '')}
                     </h5>
                   </div>
@@ -844,14 +759,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               {/* 4 Trụ Cột Vận Hành Cốt Lõi (4 Core Operational Pillars) */}
               <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 shadow-xs space-y-3">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-white/10">
-                  <div className="flex items-center gap-2 text-blue-600 dark:text-cyan-400">
-                    <span className="font-mono font-black text-[15px] sm:text-[16px] text-blue-600 dark:text-cyan-400">04</span>
+                  <div className="subcard-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
+                    <span className="font-mono typo-h4 text-blue-600 dark:text-cyan-400">04</span>
                     <WebIcon name="layers" className="w-4 h-4 text-blue-600 dark:text-cyan-400 shrink-0" />
-                    <h4 className="text-[15px] sm:text-[16px] font-black text-blue-600 dark:text-cyan-400 m-0">
+                    <h4 className="typo-h4 subcard-title-synced text-blue-600 dark:text-cyan-400 m-0" data-subcard-title="true">
                       Trụ cột vận hành
                     </h4>
                   </div>
-                  <span className="typo-label font-mono font-bold text-slate-500 dark:text-slate-400">
+                  <span className="typo-label font-mono font-bold text-[var(--text-muted)]">
                     4 Core Pillars
                   </span>
                 </div>
@@ -860,14 +775,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   {/* Trụ Cột 1: Sky Tint */}
                   <div data-subcard="true" className="project-detail-subcard h-full p-3.5 rounded-[14px] border border-sky-200/90 dark:border-sky-500/30 flex flex-col justify-between shadow-2xs hover:border-sky-400 transition">
                     <div className="space-y-1.5">
-                      <div className="flex items-center gap-2 pb-1.5 border-b border-sky-200/70 dark:border-sky-900/40 text-sky-600 dark:text-sky-400">
-                        <span className="font-mono font-black text-[15px] sm:text-[16px] text-sky-600 dark:text-sky-400">2.1</span>
+                      <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-sky-200/70 dark:border-sky-900/40 text-sky-600 dark:text-sky-400">
+                        <span className="font-mono typo-h5 text-sky-600 dark:text-sky-400">2.1</span>
                         <WebIcon name="users" className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />
-                        <h5 className="text-[15px] sm:text-[16px] font-black text-sky-600 dark:text-sky-400 tracking-wide m-0">
+                        <h5 className="typo-h5 subcard-title-synced text-sky-600 dark:text-sky-400 tracking-wide m-0" data-subcard-title="true">
                           Con người vận hành
                         </h5>
                       </div>
-                      <p className="typo-caption text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                      <p className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium">
                         Cơ cấu tổ chức rõ ràng, phân định trách nhiệm, đào tạo và phát triển đội ngũ chuyên nghiệp.
                       </p>
                     </div>
@@ -879,14 +794,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   {/* Trụ Cột 2: Emerald Tint */}
                   <div data-subcard="true" className="project-detail-subcard h-full p-3.5 rounded-[14px] border border-emerald-200/90 dark:border-emerald-500/30 flex flex-col justify-between shadow-2xs hover:border-emerald-400 transition">
                     <div className="space-y-1.5">
-                      <div className="flex items-center gap-2 pb-1.5 border-b border-emerald-200/70 dark:border-emerald-900/40 text-emerald-600 dark:text-emerald-400">
-                        <span className="font-mono font-black text-[15px] sm:text-[16px] text-emerald-600 dark:text-emerald-400">2.2</span>
+                      <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-emerald-200/70 dark:border-emerald-900/40 text-emerald-600 dark:text-emerald-400">
+                        <span className="font-mono typo-h5 text-emerald-600 dark:text-emerald-400">2.2</span>
                         <WebIcon name="workflow" className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                        <h5 className="text-[15px] sm:text-[16px] font-black text-emerald-600 dark:text-emerald-400 tracking-wide m-0">
+                        <h5 className="typo-h5 subcard-title-synced text-emerald-600 dark:text-emerald-400 tracking-wide m-0" data-subcard-title="true">
                           Quy trình chuẩn hóa
                         </h5>
                       </div>
-                      <p className="typo-caption text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                      <p className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium">
                         SOP chuẩn hóa, luồng tiếp nhận, phân loại, giải quyết khiếu nại và ma trận escalation chặt chẽ.
                       </p>
                     </div>
@@ -898,14 +813,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   {/* Trụ Cột 3: Purple Tint */}
                   <div data-subcard="true" className="project-detail-subcard h-full p-3.5 rounded-[14px] border border-purple-200/90 dark:border-purple-500/30 flex flex-col justify-between shadow-2xs hover:border-purple-400 transition">
                     <div className="space-y-1.5">
-                      <div className="flex items-center gap-2 pb-1.5 border-b border-purple-200/70 dark:border-purple-900/40 text-purple-600 dark:text-purple-400">
-                        <span className="font-mono font-black text-[15px] sm:text-[16px] text-purple-600 dark:text-purple-400">2.3</span>
+                      <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-purple-200/70 dark:border-purple-900/40 text-purple-600 dark:text-purple-400">
+                        <span className="font-mono typo-h5 text-purple-600 dark:text-purple-400">2.3</span>
                         <WebIcon name="headphones" className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
-                        <h5 className="text-[15px] sm:text-[16px] font-black text-purple-600 dark:text-purple-400 tracking-wide m-0">
+                        <h5 className="typo-h5 subcard-title-synced text-purple-600 dark:text-purple-400 tracking-wide m-0" data-subcard-title="true">
                           Công nghệ tổng đài
                         </h5>
                       </div>
-                      <p className="typo-caption text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                      <p className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium">
                         Tổng đài thông minh, CRM 360 độ đa kênh và các công cụ giám sát vận hành thời gian thực.
                       </p>
                     </div>
@@ -917,14 +832,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   {/* Trụ Cột 4: Amber Tint */}
                   <div data-subcard="true" className="project-detail-subcard h-full p-3.5 rounded-[14px] border border-amber-200/90 dark:border-amber-500/30 flex flex-col justify-between shadow-2xs hover:border-amber-400 transition">
                     <div className="space-y-1.5">
-                      <div className="flex items-center gap-2 pb-1.5 border-b border-amber-200/70 dark:border-amber-900/40 text-amber-600 dark:text-amber-400">
-                        <span className="font-mono font-black text-[15px] sm:text-[16px] text-amber-600 dark:text-amber-400">2.4</span>
+                      <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-amber-200/70 dark:border-amber-900/40 text-amber-600 dark:text-amber-400">
+                        <span className="font-mono typo-h5 text-amber-600 dark:text-amber-400">2.4</span>
                         <WebIcon name="chart" className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-                        <h5 className="text-[15px] sm:text-[16px] font-black text-amber-600 dark:text-amber-400 tracking-wide m-0">
+                        <h5 className="typo-h5 subcard-title-synced text-amber-600 dark:text-amber-400 tracking-wide m-0" data-subcard-title="true">
                           Dữ liệu đo lường
                         </h5>
                       </div>
-                      <p className="typo-caption text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                      <p className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium">
                         Hệ thống đo lường KPI/SLA minh bạch, báo cáo phân tích nguyên nhân gốc rễ và tối ưu chi phí.
                       </p>
                     </div>
@@ -942,11 +857,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-context"
             data-section-card="true"
             style={getSyncedCardStyle(2)}
-            className={`project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 backdrop-blur-2xl transition-all duration-300 ${
-              isLightMode
-                ? 'border border-slate-300/80 shadow-[0_14px_36px_rgba(30,27,75,0.08)]'
-                : 'border border-white/20 dark:border-white/10 shadow-[0_14px_36px_rgba(217,119,6,0.25)]'
-            }`}
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -956,8 +867,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 isLightMode ? 'border-slate-300/70' : 'border-white/20'
               }`}
             >
-              <div className="flex items-center gap-2.5" style={{ color: getCardAccentColor('amber') }}>
-                <span className="font-mono font-black text-[17px] sm:text-[18px]" style={{ color: getCardAccentColor('amber') }}>
+              <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('amber') }}>
+                <span className="font-mono font-bold typo-h3" style={{ color: getCardAccentColor('amber') }}>
                   3.
                 </span>
                 <WebIcon
@@ -966,7 +877,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   style={{ color: getCardAccentColor('amber') }}
                 />
                 <h3
-                  className="text-[17px] sm:text-[18px] font-black font-play tracking-wide m-0"
+                  className="typo-h3 card-title-synced font-play tracking-wide m-0"
+                  data-card-title="true"
                   style={{ color: getCardAccentColor('amber') }}
                 >
                   Bối cảnh thách thức
@@ -976,7 +888,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
             {/* Body Card Cuộn Mượt Mà */}
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-slate-800 dark:text-slate-100 leading-relaxed font-semibold shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-[var(--text-primary)] leading-relaxed font-semibold shadow-xs">
                 {spec.context.intro}
               </div>
 
@@ -991,18 +903,18 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       className={`project-detail-subcard h-full p-3.5 rounded-[14px] ${palette.theme} border shadow-2xs flex flex-col justify-between transition duration-200`}
                     >
                       <div className="space-y-2">
-                        <div className="flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
-                          <span className="font-mono font-black text-[15px] sm:text-[16px]">3.{idx + 1}</span>
+                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
+                          <span className="font-mono font-bold typo-h5">3.{idx + 1}</span>
                           <WebIcon name={palette.icon} className="w-4 h-4 shrink-0" />
-                          <h5 className="text-[15px] sm:text-[16px] font-black tracking-wide m-0" style={{ color: 'inherit' }}>
+                          <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide m-0" data-subcard-title="true">
                             {spec.context.challengeTitles?.[idx] || palette.fourWord}
                           </h5>
                         </div>
-                        <p className="typo-caption text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                        <p className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium">
                           {chDesc}
                         </p>
                       </div>
-                      <span className="typo-label font-mono font-bold text-slate-500 dark:text-slate-400 pt-2 border-t border-black/5 dark:border-white/5 mt-2 block">
+                      <span className="typo-label font-mono font-bold text-[var(--text-muted)] pt-2 border-t border-black/5 dark:border-white/5 mt-2 block">
                         Thách thức vận hành 3.{idx + 1}
                       </span>
                     </div>
@@ -1018,7 +930,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   <strong className="text-amber-600 dark:text-amber-400 mr-1.5 font-bold">
                     Giải pháp trọng tâm:
                   </strong>
-                  <span className="text-slate-800 dark:text-slate-100">{spec.context.conclusion}</span>
+                  <span className="text-[var(--text-primary)]">{spec.context.conclusion}</span>
                 </span>
               </div>
             </div>
@@ -1029,11 +941,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-objectives"
             data-section-card="true"
             style={getSyncedCardStyle(3)}
-            className={`project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 backdrop-blur-2xl transition-all duration-300 ${
-              isLightMode
-                ? 'border border-slate-300/80 shadow-[0_14px_36px_rgba(30,27,75,0.08)]'
-                : 'border border-white/20 dark:border-white/10 shadow-[0_14px_36px_rgba(13,148,136,0.25)]'
-            }`}
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1043,8 +951,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 isLightMode ? 'border-slate-300/70' : 'border-white/20'
               }`}
             >
-              <div className="flex items-center gap-2.5" style={{ color: getCardAccentColor('teal') }}>
-                <span className="font-mono font-black text-[17px] sm:text-[18px]" style={{ color: getCardAccentColor('teal') }}>
+              <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('teal') }}>
+                <span className="font-mono font-bold typo-h3" style={{ color: getCardAccentColor('teal') }}>
                   4.
                 </span>
                 <WebIcon
@@ -1053,7 +961,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   style={{ color: getCardAccentColor('teal') }}
                 />
                 <h3
-                  className="text-[17px] sm:text-[18px] font-black font-play tracking-wide m-0"
+                  className="typo-h3 card-title-synced font-play tracking-wide m-0"
+                  data-card-title="true"
                   style={{ color: getCardAccentColor('teal') }}
                 >
                   Mục tiêu chiến lược
@@ -1092,10 +1001,10 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     >
                       <div className="space-y-3">
                         <div className="flex items-center justify-between pb-2 border-b border-black/5 dark:border-white/10">
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono font-black text-[15px] sm:text-[16px]">4.{idx + 1}</span>
+                          <div className="subcard-header-sync flex items-center gap-2">
+                            <span className="font-mono font-bold typo-h4">4.{idx + 1}</span>
                             <WebIcon name={t.icon} className="w-4 h-4 shrink-0" />
-                            <h4 className="text-[15px] sm:text-[16px] font-black tracking-wide m-0" style={{ color: 'inherit' }}>
+                            <h4 className="typo-h4 subcard-title-synced tracking-wide m-0" data-subcard-title="true">
                               {obj.title.replace(/^\d+\.\d+\.\s*/, '')}
                             </h4>
                           </div>
@@ -1108,7 +1017,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                           {obj.items.map((sub: string, sIdx: number) => (
                             <li
                               key={sIdx}
-                              className="typo-caption text-slate-700 dark:text-slate-200 leading-relaxed font-medium flex items-start gap-2"
+                              className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium flex items-start gap-2"
                             >
                               <WebIcon name="check" className="w-3.5 h-3.5 shrink-0 mt-0.5 opacity-80" />
                               <span>{sub}</span>
@@ -1117,7 +1026,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                         </ul>
                       </div>
 
-                      <div className="pt-2 border-t border-black/5 dark:border-white/10 typo-label font-mono font-bold text-slate-500 dark:text-slate-400 text-right">
+                      <div className="pt-2 border-t border-black/5 dark:border-white/10 typo-label font-mono font-bold text-[var(--text-muted)] text-right">
                         Mục tiêu 0{idx + 1} / {spec.objectives.length}
                       </div>
                     </div>
@@ -1132,11 +1041,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-scope"
             data-section-card="true"
             style={getSyncedCardStyle(4)}
-            className={`project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 backdrop-blur-2xl transition-all duration-300 ${
-              isLightMode
-                ? 'border border-slate-300/80 shadow-[0_14px_36px_rgba(30,27,75,0.08)]'
-                : 'border border-white/20 dark:border-white/10 shadow-[0_16px_40px_rgba(124,58,237,0.25)]'
-            }`}
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1146,8 +1051,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 isLightMode ? 'border-slate-300/70' : 'border-white/20'
               }`}
             >
-              <div className="flex items-center gap-2.5" style={{ color: getCardAccentColor('purple') }}>
-                <span className="font-mono font-black text-[17px] sm:text-[18px]" style={{ color: getCardAccentColor('purple') }}>
+              <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('purple') }}>
+                <span className="font-mono font-bold typo-h3" style={{ color: getCardAccentColor('purple') }}>
                   5.
                 </span>
                 <WebIcon
@@ -1156,7 +1061,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   style={{ color: getCardAccentColor('purple') }}
                 />
                 <h3
-                  className="text-[17px] sm:text-[18px] font-black font-play tracking-wide m-0"
+                  className="typo-h3 card-title-synced font-play tracking-wide m-0"
+                  data-card-title="true"
                   style={{ color: getCardAccentColor('purple') }}
                 >
                   Hạng mục triển khai
@@ -1180,10 +1086,10 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     >
                       <div className="space-y-3">
                         <div className="flex items-center justify-between pb-2 border-b border-black/5 dark:border-white/10 flex-wrap gap-2">
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono font-black text-[15px] sm:text-[16px]">5.{idx + 1}</span>
+                          <div className="subcard-header-sync flex items-center gap-2">
+                            <span className="font-mono font-bold typo-h4">5.{idx + 1}</span>
                             <WebIcon name={palette.icon} className="w-4 h-4 shrink-0" />
-                            <h4 className="text-[15px] sm:text-[16px] font-black tracking-wide m-0" style={{ color: 'inherit' }}>
+                            <h4 className="typo-h4 subcard-title-synced tracking-wide m-0" data-subcard-title="true">
                               {scopeItem.title || scopeItem.code}
                             </h4>
                           </div>
@@ -1192,12 +1098,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                           </span>
                         </div>
 
-                        <p className="typo-caption text-slate-700 dark:text-slate-200 font-semibold leading-relaxed">
+                        <p className="typo-caption text-[var(--text-secondary)] font-semibold leading-relaxed">
                           {scopeItem.intro}
                         </p>
 
                         <div className="project-detail-chip space-y-1.5 p-3 rounded-[14px] border border-black/5 dark:border-white/10">
-                          <p className="typo-label font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
+                          <p className="typo-label font-bold text-[var(--text-secondary)] flex items-center gap-1.5">
                             <WebIcon name="list" className="w-3 h-3 opacity-80" />
                             <span>Nhiệm vụ triển khai trọng tâm:</span>
                           </p>
@@ -1205,7 +1111,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                             {scopeItem.tasks.map((task: string, tIdx: number) => (
                               <li
                                 key={tIdx}
-                                className="typo-caption text-slate-700 dark:text-slate-200 leading-relaxed font-medium flex items-start gap-2"
+                                className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium flex items-start gap-2"
                               >
                                 <WebIcon name="check" className="w-3.5 h-3.5 shrink-0 mt-0.5 opacity-80" />
                                 <span>{task}</span>
@@ -1215,7 +1121,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                         </div>
 
                         {scopeItem.note && (
-                          <p className="project-detail-chip typo-caption italic text-slate-600 dark:text-slate-300 p-2.5 rounded-[14px] border border-black/5 dark:border-white/5">
+                          <p className="project-detail-chip typo-caption italic text-[var(--text-secondary)] p-2.5 rounded-[14px] border border-black/5 dark:border-white/5">
                             💡 {scopeItem.note}
                           </p>
                         )}
@@ -1228,7 +1134,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                           <strong className="font-bold text-emerald-600 dark:text-emerald-400 mr-1.5">
                             Kết quả đầu ra:
                           </strong>
-                          <span className="font-medium text-slate-800 dark:text-slate-100">{scopeItem.deliverable}</span>
+                          <span className="font-medium text-[var(--text-primary)]">{scopeItem.deliverable}</span>
                         </div>
                       </div>
                     </div>
@@ -1243,11 +1149,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-methodology"
             data-section-card="true"
             style={getSyncedCardStyle(5)}
-            className={`project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 backdrop-blur-2xl transition-all duration-300 ${
-              isLightMode
-                ? 'border border-slate-300/80 shadow-[0_14px_36px_rgba(30,27,75,0.08)]'
-                : 'border border-white/20 dark:border-white/10 shadow-[0_14px_36px_rgba(6,182,212,0.25)]'
-            }`}
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1257,8 +1159,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 isLightMode ? 'border-slate-300/70' : 'border-white/20'
               }`}
             >
-              <div className="flex items-center gap-2.5" style={{ color: getCardAccentColor('cyan') }}>
-                <span className="font-mono font-black text-[17px] sm:text-[18px]" style={{ color: getCardAccentColor('cyan') }}>
+              <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('cyan') }}>
+                <span className="font-mono font-bold typo-h3" style={{ color: getCardAccentColor('cyan') }}>
                   6.
                 </span>
                 <WebIcon
@@ -1267,7 +1169,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   style={{ color: getCardAccentColor('cyan') }}
                 />
                 <h3
-                  className="text-[17px] sm:text-[18px] font-black font-play tracking-wide m-0"
+                  className="typo-h3 card-title-synced font-play tracking-wide m-0"
+                  data-card-title="true"
                   style={{ color: getCardAccentColor('cyan') }}
                 >
                   Lộ trình vận hành
@@ -1277,7 +1180,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
             {/* Body Card Cuộn Mượt Mà */}
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-slate-800 dark:text-slate-100 font-semibold leading-relaxed shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.methodology.intro}
               </div>
 
@@ -1299,14 +1202,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       className={`project-detail-subcard h-full p-3.5 rounded-[14px] ${p.theme} border shadow-2xs space-y-2 flex flex-col justify-between transition duration-200`}
                     >
                       <div className="space-y-2">
-                        <div className="flex items-center gap-1.5 pb-1.5 border-b border-black/5 dark:border-white/10">
-                          <span className="font-mono font-black text-[15px] sm:text-[16px]">6.{idx + 1}</span>
+                        <div className="subcard-header-sync flex items-center gap-1.5 pb-1.5 border-b border-black/5 dark:border-white/10">
+                          <span className="font-mono font-bold typo-h5">6.{idx + 1}</span>
                           <WebIcon name={p.icon} className="w-4 h-4 shrink-0" />
-                          <h5 className="text-[15px] sm:text-[16px] font-black tracking-wide leading-tight m-0" style={{ color: 'inherit' }}>
+                          <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide leading-tight m-0" data-subcard-title="true">
                             {ph.title}
                           </h5>
                         </div>
-                        <p className="typo-caption text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                        <p className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium">
                           {ph.desc}
                         </p>
                       </div>
@@ -1323,7 +1226,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               {spec.methodology.outro && (
                 <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-white/20 dark:border-white/10 flex items-center gap-2">
                   <WebIcon name="target" className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
-                  <p className="typo-caption italic text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                  <p className="typo-caption italic text-[var(--text-secondary)] leading-relaxed font-medium">
                     {spec.methodology.outro}
                   </p>
                 </div>
@@ -1336,11 +1239,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-metrics"
             data-section-card="true"
             style={getSyncedCardStyle(6)}
-            className={`project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 backdrop-blur-2xl transition-all duration-300 ${
-              isLightMode
-                ? 'border border-slate-300/80 shadow-[0_14px_36px_rgba(30,27,75,0.08)]'
-                : 'border border-white/20 dark:border-white/10 shadow-[0_16px_40px_rgba(5,150,105,0.25)]'
-            }`}
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1350,8 +1249,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 isLightMode ? 'border-slate-300/70' : 'border-white/20'
               }`}
             >
-              <div className="flex items-center gap-2.5" style={{ color: getCardAccentColor('emerald') }}>
-                <span className="font-mono font-black text-[17px] sm:text-[18px]" style={{ color: getCardAccentColor('emerald') }}>
+              <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('emerald') }}>
+                <span className="font-mono font-bold typo-h3" style={{ color: getCardAccentColor('emerald') }}>
                   7.
                 </span>
                 <WebIcon
@@ -1360,7 +1259,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   style={{ color: getCardAccentColor('emerald') }}
                 />
                 <h3
-                  className="text-[17px] sm:text-[18px] font-black font-play tracking-wide m-0"
+                  className="typo-h3 card-title-synced font-play tracking-wide m-0"
+                  data-card-title="true"
                   style={{ color: getCardAccentColor('emerald') }}
                 >
                   Chỉ số hiệu quả
@@ -1370,7 +1270,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
             {/* Body Card Cuộn Mượt Mà */}
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-slate-800 dark:text-slate-100 font-semibold leading-relaxed shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.metrics.intro}
               </div>
 
@@ -1396,10 +1296,10 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       }`}
                     >
                       <div className="space-y-2">
-                        <div className="flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
-                          <span className="font-mono font-black text-[15px] sm:text-[16px]">7.{idx + 1}</span>
+                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
+                          <span className="font-mono font-bold typo-h5">7.{idx + 1}</span>
                           <WebIcon name={p.icon} className="w-4 h-4 shrink-0" />
-                          <h5 className="text-[15px] sm:text-[16px] font-black tracking-wide leading-tight m-0" style={{ color: 'inherit' }}>
+                          <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide leading-tight m-0" data-subcard-title="true">
                             {m.category}
                           </h5>
                         </div>
@@ -1428,7 +1328,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               {spec.metrics.outro && (
                 <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-white/20 dark:border-white/10 flex items-center gap-2">
                   <WebIcon name="chart" className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  <p className="typo-caption italic text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                  <p className="typo-caption italic text-[var(--text-secondary)] leading-relaxed font-medium">
                     {spec.metrics.outro}
                   </p>
                 </div>
@@ -1441,11 +1341,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-roles"
             data-section-card="true"
             style={getSyncedCardStyle(7)}
-            className={`project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 backdrop-blur-2xl transition-all duration-300 ${
-              isLightMode
-                ? 'border border-slate-300/80 shadow-[0_16px_40px_rgba(30,27,75,0.08)]'
-                : 'border border-white/20 dark:border-white/10 shadow-[0_16px_40px_rgba(225,29,72,0.25)]'
-            }`}
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1455,8 +1351,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 isLightMode ? 'border-slate-300/70' : 'border-white/20'
               }`}
             >
-              <div className="flex items-center gap-2.5" style={{ color: getCardAccentColor('rose') }}>
-                <span className="font-mono font-black text-[17px] sm:text-[18px]" style={{ color: getCardAccentColor('rose') }}>
+              <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('rose') }}>
+                <span className="font-mono font-bold typo-h3" style={{ color: getCardAccentColor('rose') }}>
                   8.
                 </span>
                 <WebIcon
@@ -1465,7 +1361,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   style={{ color: getCardAccentColor('rose') }}
                 />
                 <h3
-                  className="text-[17px] sm:text-[18px] font-black font-play tracking-wide m-0"
+                  className="typo-h3 card-title-synced font-play tracking-wide m-0"
+                  data-card-title="true"
                   style={{ color: getCardAccentColor('rose') }}
                 >
                   Vai trò trách nhiệm
@@ -1475,7 +1372,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
             {/* Body Card Cuộn Mượt Mà */}
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-slate-800 dark:text-slate-100 font-semibold leading-relaxed shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.pmRoles.intro}
               </div>
 
@@ -1501,14 +1398,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       }`}
                     >
                       <div className="space-y-1.5">
-                        <div className="flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
-                          <span className="font-mono font-black text-[15px] sm:text-[16px]">8.{idx + 1}</span>
+                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
+                          <span className="font-mono font-bold typo-h5">8.{idx + 1}</span>
                           <WebIcon name={p.icon} className="w-4 h-4 shrink-0" />
-                          <h5 className="text-[15px] sm:text-[16px] font-black tracking-wide leading-tight m-0" style={{ color: 'inherit' }}>
+                          <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide leading-tight m-0" data-subcard-title="true">
                             {r.role}
                           </h5>
                         </div>
-                        <p className="typo-caption text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                        <p className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium">
                           {r.desc}
                         </p>
                       </div>
@@ -1530,11 +1427,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             data-legacy-id="projects-results-card"
             data-section-card="true"
             style={getSyncedCardStyle(3)}
-            className={`project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 backdrop-blur-2xl transition-all duration-300 ${
-              isLightMode
-                ? 'border border-slate-300/80 shadow-[0_16px_40px_rgba(30,27,75,0.08)]'
-                : 'border border-white/20 dark:border-white/10 shadow-[0_16px_40px_rgba(13,148,136,0.25)]'
-            }`}
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1544,8 +1437,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 isLightMode ? 'border-slate-300/70' : 'border-white/20'
               }`}
             >
-              <div className="flex items-center gap-2.5" style={{ color: getCardAccentColor('teal') }}>
-                <span className="font-mono font-black text-[17px] sm:text-[18px]" style={{ color: getCardAccentColor('teal') }}>
+              <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('teal') }}>
+                <span className="font-mono font-bold typo-h3" style={{ color: getCardAccentColor('teal') }}>
                   9.
                 </span>
                 <WebIcon
@@ -1554,7 +1447,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   style={{ color: getCardAccentColor('teal') }}
                 />
                 <h3
-                  className="text-[17px] sm:text-[18px] font-black font-play tracking-wide m-0"
+                  className="typo-h3 card-title-synced font-play tracking-wide m-0"
+                  data-card-title="true"
                   style={{ color: getCardAccentColor('teal') }}
                 >
                   Kết quả đạt được
@@ -1564,7 +1458,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
             {/* Body Card Cuộn Mượt Mà */}
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-slate-800 dark:text-slate-100 font-semibold leading-relaxed shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.expectedOutcomes.intro}
               </div>
 
@@ -1587,14 +1481,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       className={`project-detail-subcard h-full p-4 rounded-[14px] ${p.theme} border shadow-2xs space-y-2 flex flex-col justify-between transition duration-200`}
                     >
                       <div className="space-y-1.5">
-                        <div className="flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
-                          <span className="font-mono font-black text-[15px] sm:text-[16px]">9.{idx + 1}</span>
+                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
+                          <span className="font-mono font-bold typo-h5">9.{idx + 1}</span>
                           <WebIcon name={p.icon} className="w-4 h-4 shrink-0" />
-                          <h5 className="text-[15px] sm:text-[16px] font-black tracking-wide leading-tight m-0" style={{ color: 'inherit' }}>
+                          <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide leading-tight m-0" data-subcard-title="true">
                             {item.dimension}
                           </h5>
                         </div>
-                        <p className="typo-caption text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                        <p className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium">
                           {item.desc}
                         </p>
                       </div>
@@ -1610,7 +1504,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               {spec.expectedOutcomes.outro && (
                 <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-white/20 dark:border-white/10 flex items-center gap-2">
                   <WebIcon name="award" className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0" />
-                  <p className="typo-caption italic text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                  <p className="typo-caption italic text-[var(--text-secondary)] leading-relaxed font-medium">
                     {spec.expectedOutcomes.outro}
                   </p>
                 </div>
@@ -1623,11 +1517,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-philosophy"
             data-section-card="true"
             style={getSyncedCardStyle(8)}
-            className={`project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 backdrop-blur-2xl transition-all duration-300 ${
-              isLightMode
-                ? 'border border-slate-300/80 shadow-[0_20px_48px_rgba(30,27,75,0.08)]'
-                : 'border border-white/20 dark:border-white/10 shadow-[0_20px_48px_rgba(109,40,217,0.25)]'
-            }`}
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1637,8 +1527,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 isLightMode ? 'border-slate-300/70' : 'border-white/20'
               }`}
             >
-              <div className="flex items-center gap-2.5" style={{ color: getCardAccentColor('violet') }}>
-                <span className="font-mono font-black text-[17px] sm:text-[18px]" style={{ color: getCardAccentColor('violet') }}>
+              <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('violet') }}>
+                <span className="font-mono font-bold typo-h3" style={{ color: getCardAccentColor('violet') }}>
                   10.
                 </span>
                 <WebIcon
@@ -1647,7 +1537,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   style={{ color: getCardAccentColor('violet') }}
                 />
                 <h3
-                  className="text-[17px] sm:text-[18px] font-black font-play tracking-wide m-0"
+                  className="typo-h3 card-title-synced font-play tracking-wide m-0"
+                  data-card-title="true"
                   style={{ color: getCardAccentColor('violet') }}
                 >
                   Triết lý quản trị
@@ -1659,7 +1550,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
               <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 space-y-2.5 shadow-xs">
                 {spec.philosophy.paragraphs.map((p: string, idx: number) => (
-                  <p key={idx} className="typo-body-sm text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
+                  <p key={idx} className="typo-body-sm text-[var(--text-primary)] leading-relaxed font-medium">
                     {p}
                   </p>
                 ))}
@@ -1696,14 +1587,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     className={`project-detail-subcard h-full p-4 rounded-[14px] ${item.theme} border shadow-2xs space-y-2 flex flex-col justify-between transition duration-200`}
                   >
                     <div className="space-y-1.5">
-                      <div className="flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
-                        <span className="font-mono font-black text-[15px] sm:text-[16px]">{item.num}</span>
+                      <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
+                        <span className="font-mono font-bold typo-h5">{item.num}</span>
                         <WebIcon name={item.icon} className="w-4 h-4 shrink-0" />
-                        <h5 className="text-[15px] sm:text-[16px] font-black tracking-wide leading-tight m-0" style={{ color: 'inherit' }}>
+                        <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide leading-tight m-0" data-subcard-title="true">
                           {item.fourWord}
                         </h5>
                       </div>
-                      <p className="typo-caption text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                      <p className="typo-caption text-[var(--text-secondary)] leading-relaxed font-medium">
                         {item.desc}
                       </p>
                     </div>
@@ -1717,11 +1608,11 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
               {/* Golden Core Message Box */}
               <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border-2 border-purple-400/60 space-y-2 shadow-xs">
-                <span className="text-[15px] sm:text-[16px] font-mono font-black tracking-wider text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
+                <span className="typo-h5 font-mono font-bold tracking-wider text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
                   <WebIcon name="sparkles" className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
                   <span>Thông điệp cốt lõi từ lãnh đạo dự án:</span>
                 </span>
-                <p className="typo-body font-black text-slate-900 dark:text-white italic leading-relaxed">
+                <p className="typo-body font-semibold text-[var(--text-heading,var(--text-primary))] italic leading-relaxed">
                   “{spec.philosophy.coreMessage}”
                 </p>
                 <div className="text-right typo-caption font-bold text-purple-700 dark:text-purple-300">
@@ -1740,13 +1631,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           ref={bannerSidebarRef}
           id="project-detail-banner"
           data-banner-aspect="sidebar"
-          className="w-full md:w-[220px] lg:w-[235px] xl:w-[255px] shrink-0 h-auto max-h-[420px] md:max-h-none md:h-full flex flex-col pointer-events-auto"
+          className="w-full md:w-[260px] lg:w-[285px] xl:w-[315px] shrink-0 h-auto max-h-[500px] md:max-h-none md:h-full flex flex-col pointer-events-auto"
         >
-          <div className={`project-detail-banner-inner w-full h-full rounded-[14px] ${
-            isLightMode
-              ? 'bg-white/40 text-slate-800 border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.12)]'
-              : 'bg-slate-950/60 text-white border-white/15 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]'
-          } border backdrop-blur-md p-3 sm:p-3.5 flex flex-col justify-between overflow-hidden relative group`}>
+          <div
+            data-section-card="true"
+            className="project-detail-banner-inner w-full h-full rounded-[14px] p-3 sm:p-3.5 flex flex-col justify-between overflow-hidden relative group"
+          >
             {/* HÌNH BANNER DỰ ÁN CĂN CHÍNH GIỮA (CENTER BANNER DỌC) VÀ NHÌN RÕ HÌNH NỀN BÊN DƯỚI */}
             {selectedArticle.image && (
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[inherit]">
@@ -1766,27 +1656,82 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             } backdrop-blur-[0.2px] pointer-events-none`} />
 
             {/* Header: TIÊU ĐỀ KHÔNG ĐÓNG KHUNG THẺ, ICON & TIÊU ĐỀ KÍCH THƯỚC BẰNG NHAU, ĐỒNG MÀU */}
-            <div className={`relative z-10 flex items-center justify-between pb-2 border-b ${
-              isLightMode ? 'border-slate-300/60' : 'border-white/20'
-            } shrink-0`}>
-              <div className="flex items-center gap-2 max-w-full">
-                <span className="shrink-0 flex items-center justify-center" style={{ color: isLightMode ? '#4338ca' : '#38bdf8' }}>
+            <div className="relative z-10 flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
+              <div className="card-header-sync flex items-center gap-2 max-w-full" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+                <span className="shrink-0 flex items-center justify-center" style={{ color: 'var(--text-link, var(--color-primary))' }}>
                   <WebIcon name="layers" className="w-4 h-4 shrink-0" />
                 </span>
                 <h3
-                  className="typo-h5 font-black font-play tracking-wide truncate"
-                  style={{ color: isLightMode ? '#4338ca' : '#38bdf8' }}
+                  className="typo-h4 card-title-synced font-play tracking-wide truncate"
+                  data-card-title="true"
+                  style={{ color: 'var(--text-link, var(--color-primary))' }}
                 >
                   Mục Lục Dự Án
                 </h3>
               </div>
-              <span className={`typo-badge font-mono font-bold px-2 py-0.5 rounded-full border shrink-0 ${
-                isLightMode
-                  ? 'bg-indigo-600 text-white border-indigo-700 shadow-xs'
-                  : 'bg-cyan-500 text-slate-950 border-cyan-300 font-black shadow-xs'
-              }`}>
+              <span
+                className="typo-badge font-mono font-bold px-2 py-0.5 rounded-full border border-transparent text-white shadow-xs shrink-0"
+                style={{ background: 'var(--bg-button-primary)' }}
+              >
                 {selectedArticle.code}
               </span>
+            </div>
+
+            {/* THÔNG TIN DỰ ÁN TÍCH HỢP TRONG MỤC LỤC */}
+            <div className="relative z-10 py-2 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 shrink-0">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className={`px-2 py-0.5 rounded-[6px] font-mono typo-badge font-black border ${
+                  isStrategy
+                    ? 'bg-sky-100 dark:bg-sky-950/80 text-sky-800 dark:text-sky-200 border-sky-300 dark:border-sky-600/50'
+                    : 'bg-fuchsia-100 dark:bg-fuchsia-950/80 text-fuchsia-800 dark:text-fuchsia-200 border-fuchsia-300 dark:border-fuchsia-600/50'
+                }`}>
+                  {selectedArticle.code}
+                </span>
+                <span className={`px-2 py-0.5 rounded-[6px] typo-badge font-bold border truncate max-w-[140px] ${
+                  isStrategy
+                    ? 'bg-sky-100 dark:bg-sky-950/80 text-sky-800 dark:text-sky-200 border-sky-300 dark:border-sky-600/50'
+                    : 'bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-200 border-purple-300 dark:border-purple-600/50'
+                }`}>
+                  {selectedArticle.groupTitle}
+                </span>
+              </div>
+
+              <h4
+                className={`typo-h4 font-play font-bold flex items-start gap-1.5 leading-snug break-words ${
+                  isStrategy ? 'text-sky-600 dark:text-sky-400' : 'text-fuchsia-600 dark:text-fuchsia-400'
+                }`}
+              >
+                <WebIcon
+                  name="brain"
+                  className={`w-4 h-4 shrink-0 mt-0.5 ${
+                    isStrategy ? 'text-sky-600 dark:text-sky-400' : 'text-fuchsia-600 dark:text-fuchsia-400'
+                  }`}
+                />
+                <span className="min-w-0">{selectedArticle.title}</span>
+              </h4>
+
+              <div className="typo-caption font-bold" style={{ color: 'var(--text-muted)' }}>
+                Vai trò: <strong className={isStrategy ? 'text-sky-700 dark:text-sky-300' : 'text-purple-700 dark:text-purple-300'}>{selectedArticle.role}</strong>
+              </div>
+
+              {(selectedArticle.quote || spec.tagline) && (
+                <p className="typo-caption italic leading-relaxed line-clamp-3" style={{ color: 'var(--text-secondary)' }}>
+                  &ldquo;{selectedArticle.quote || spec.tagline}&rdquo;
+                </p>
+              )}
+
+              {/* Hashtag chips */}
+              <div className="flex items-center gap-1 flex-wrap pt-0.5">
+                {selectedArticle.hashtags.slice(0, 4).map((tag) => (
+                  <span
+                    key={tag}
+                    className="project-detail-chip px-2 py-0.5 rounded-full typo-badge font-mono font-medium border"
+                    style={{ color: 'var(--text-primary)', borderColor: 'var(--border-subcard)' }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
 
             {/* Danh sách 10 mục lục điều hướng - Thứ tự chuẩn: Số thứ tự & Icon & Tiêu đề */}
@@ -1818,14 +1763,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                         ? undefined
                         : {
                             color: itemColor,
-                            borderColor: isLightMode ? `${itemTheme.light}45` : `${itemTheme.dark}35`,
-                            backgroundColor: isLightMode ? 'rgba(255, 255, 255, 0.82)' : 'rgba(15, 23, 42, 0.75)',
                           }
                     }
-                    className={`project-detail-toc-btn w-full text-left px-2.5 py-1.5 rounded-[14px] typo-label font-bold font-play tracking-wide transition-all border cursor-pointer flex items-center justify-between gap-1.5 ${
+                    className={`project-detail-toc-btn w-full text-left px-2.5 py-1.5 rounded-[14px] typo-label font-bold font-play tracking-wide transition-all cursor-pointer flex items-center justify-between gap-1.5 ${
                       isActive
-                        ? `bg-gradient-to-r ${itemTheme.grad} text-white border-white/40 shadow-md ring-1 ring-white/30`
-                        : 'hover:brightness-105 backdrop-blur-md shadow-2xs'
+                        ? 'shadow-md'
+                        : 'hover:brightness-105 shadow-2xs'
                     }`}
                   >
                     <div className="flex items-center gap-1.5 truncate">
@@ -1849,18 +1792,11 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Bottom Actions trong Banner: Khung Hợp Nhất & Màu Chữ Giống Màu Icon */}
-            <div className={`relative z-10 pt-2 border-t ${
-              isLightMode ? 'border-slate-200/80' : 'border-white/15'
-            } flex flex-col gap-1.5 shrink-0`}>
+            <div className="relative z-10 pt-2 border-t border-[var(--border-color)] flex flex-col gap-1.5 shrink-0">
               <button
                 type="button"
                 onClick={() => onOpenMindmap(selectedArticle)}
-                style={{
-                  color: isLightMode ? '#4f46e5' : '#38bdf8',
-                  borderColor: isLightMode ? 'rgba(79, 70, 229, 0.35)' : 'rgba(56, 189, 248, 0.4)',
-                  backgroundColor: isLightMode ? 'rgba(79, 70, 229, 0.12)' : 'rgba(56, 189, 248, 0.18)',
-                }}
-                className="w-full py-1.5 px-2.5 rounded-full typo-button font-bold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 shadow-xs border backdrop-blur-md"
+                className="banner-control-pill w-full py-1.5 px-2.5 rounded-full typo-button font-bold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
                 title="Phóng to sơ đồ tư duy"
               >
                 <span className="shrink-0 flex items-center" style={{ color: isLightMode ? '#4f46e5' : '#38bdf8' }}>
@@ -1874,12 +1810,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                style={{
-                  color: isLightMode ? '#e11d48' : '#fb7185',
-                  borderColor: isLightMode ? 'rgba(225, 29, 72, 0.35)' : 'rgba(251, 113, 133, 0.4)',
-                  backgroundColor: isLightMode ? 'rgba(225, 29, 72, 0.12)' : 'rgba(251, 113, 133, 0.18)',
-                }}
-                className="w-full py-1.5 px-2.5 rounded-full typo-button font-bold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 shadow-xs border backdrop-blur-md"
+                className="banner-control-pill w-full py-1.5 px-2.5 rounded-full typo-button font-bold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
                 title="Đóng chi tiết bài viết"
               >
                 <span className="shrink-0 flex items-center" style={{ color: isLightMode ? '#e11d48' : '#fb7185' }}>
@@ -1893,7 +1824,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           </div>
         </aside>
       )}
-      </div>
     </div>
   );
 };

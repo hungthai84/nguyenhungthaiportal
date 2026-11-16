@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -63,20 +62,23 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
         const rect = anchorRef.current.getBoundingClientRect();
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
+        const menuWidth = Math.min(176, viewportWidth - 16);
+        const safeRight = Math.max(8, Math.min(viewportWidth - rect.right, viewportWidth - menuWidth - 8));
+        const safeLeft = Math.max(8, Math.min(rect.left, viewportWidth - menuWidth - 8));
 
         if (position === 'top') {
           // Attached to top (Header), dropdown goes DOWN
           setCoords({
-            top: rect.bottom + 8,
-            right: align === 'right' ? viewportWidth - rect.right : undefined,
-            left: align === 'left' ? rect.left : undefined,
+            top: Math.max(8, Math.min(rect.bottom + 8, viewportHeight - 120)),
+            right: align === 'right' ? safeRight : undefined,
+            left: align === 'left' ? safeLeft : undefined,
           });
         } else {
           // Attached to bottom (Footer), dropdown goes UP
           setCoords({
-            bottom: viewportHeight - rect.top + 8,
-            right: align === 'right' ? viewportWidth - rect.right : undefined,
-            left: align === 'left' ? rect.left : undefined,
+            bottom: Math.max(8, Math.min(viewportHeight - rect.top + 8, viewportHeight - 120)),
+            right: align === 'right' ? safeRight : undefined,
+            left: align === 'left' ? safeLeft : undefined,
           });
         }
       }
@@ -222,7 +224,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: position === 'top' ? -14 : 14, scale: 0.95 }}
           transition={{ duration: 0.22, ease: 'easeOut' }}
-          className="flex flex-col gap-2 pointer-events-auto select-none shadow-2xl"
+          className="flex flex-col gap-2 pointer-events-auto select-none shadow-2xl overflow-y-auto no-scrollbar"
           style={{
             position: 'fixed',
             top: coords?.top !== undefined ? `${coords.top}px` : 'auto',
@@ -231,17 +233,19 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
             right: coords?.right !== undefined ? `${coords.right}px` : 'auto',
             zIndex: 9999999,
             width: '176px',
+            maxWidth: 'calc(100vw - 16px)',
+            maxHeight: 'calc(100vh - 24px)',
           }}
         >
           {items.map((item, idx) => {
             const isItemActive = item.id === 'booking' && currentTab === 12;
             const content = (
               <div
-                className={`relative inline-flex items-center justify-between rounded-[999px] p-[1.5px] select-none group/item transition-all duration-300 hover:scale-[1.05] w-[176px] h-[44px] overflow-hidden shadow-lg ring-1.5 ${item.ringColor}`}
+                className={`radial-contact-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] p-[1.5px] select-none group/item transition-all duration-300 hover:scale-[1.05] w-[176px] h-[44px] overflow-hidden shadow-lg ring-1.5 ${item.ringColor}`}
               >
                 {/* Rotating Laser Beam Border */}
                 <div
-                  className={`absolute -inset-[220%] animate-[spin_4s_linear_infinite] pointer-events-none ${
+                  className={`radial-contact-laser absolute -inset-[220%] animate-[spin_4s_linear_infinite] pointer-events-none ${
                     isItemActive ? 'opacity-100' : 'opacity-0 group-hover/item:opacity-100'
                   }`}
                   style={{
@@ -251,19 +255,19 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
 
                 {/* Inner Pill */}
                 <div
-                  className={`relative z-10 inline-flex items-center w-full h-full rounded-[999px] ${item.pillBg} px-2 py-0.5 gap-1.5 shadow-inner backdrop-blur-md cursor-pointer border ${item.pillBorder} ${item.textColor}`}
+                  className={`radial-contact-pill ${isItemActive ? 'active' : ''} relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-2 py-0.5 gap-1.5 cursor-pointer border transition-all duration-300`}
                 >
                   <div
-                    className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-sm ${item.circleBg} leading-none p-0 overflow-hidden typo-badge`}
+                    className={`radial-contact-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-sm ${item.circleBg} leading-none p-0 overflow-hidden typo-badge`}
                   >
                     <WebIcon name={item.iconName} className="w-3.5 h-3.5 text-white m-auto" />
                   </div>
-                  <div className={`w-[1px] h-3.5 opacity-40 shrink-0 mx-0.5 rounded-[999px] ${item.textColor.replace('text-', 'bg-')}`} />
+                  <div className="radial-contact-divider w-[1px] h-3.5 shrink-0 mx-0.5 rounded-[999px]" />
                   <div className="flex flex-col text-left leading-none pr-1 min-w-0">
-                    <span className="text-[14px] leading-tight font-bold font-play truncate">
+                    <span className="radial-contact-title typo-nav leading-tight font-play truncate">
                       {item.title}
                     </span>
-                    <span className="text-[12px] leading-none font-semibold mt-0.5 opacity-85 truncate">
+                    <span className="radial-contact-sub typo-label leading-none mt-0.5 opacity-85 truncate">
                       {item.sub}
                     </span>
                   </div>

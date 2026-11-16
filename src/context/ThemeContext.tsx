@@ -10,14 +10,90 @@ import {
 import {
   CARD_STYLE_STORAGE_KEY,
   DEFAULT_CARD_STYLE,
+  GLASS_CUSTOMIZATION_STORAGE_KEY,
+  GLASS_CUSTOMIZATION_SYNC_EVENT,
+  THEME_BACKGROUNDS,
+  THEME_DEFAULT_GLASS_SETTINGS,
   THEME_DEFAULT_WALLPAPER_ID,
   WALLPAPER_MANUAL_STORAGE_KEY,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode } from '../config/ui/theme.types';
+import { CardStyleMode, GlassCustomization } from '../config/ui/theme.types';
 import { CARD_STYLES_MAP, VALID_CARD_STYLES, getCardStyleProperties } from '../config/ui/cardStyles';
 
 const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
 const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
+
+type GlassCustomizationMap = Partial<Record<CardStyleMode, GlassCustomization>>;
+
+function clampGlassSettings(raw?: Partial<GlassCustomization>, fallback?: GlassCustomization): GlassCustomization {
+  const base = fallback || { cardOpacity: 74, blurIntensity: 22 };
+  const rawOpacity = typeof raw?.cardOpacity === 'number' && Number.isFinite(raw.cardOpacity) ? raw.cardOpacity : base.cardOpacity;
+  const rawBlur = typeof raw?.blurIntensity === 'number' && Number.isFinite(raw.blurIntensity) ? raw.blurIntensity : base.blurIntensity;
+  return {
+    cardOpacity: Math.min(100, Math.max(15, Math.round(rawOpacity))),
+    blurIntensity: Math.min(48, Math.max(0, Math.round(rawBlur))),
+  };
+}
+
+function readStoredGlassCustomizations(): GlassCustomizationMap {
+  try {
+    const raw = localStorage.getItem(GLASS_CUSTOMIZATION_STORAGE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw) as Record<string, Partial<GlassCustomization>>;
+    if (!parsed || typeof parsed !== 'object') return {};
+    const clean: GlassCustomizationMap = {};
+    for (const mode of VALID_CARD_STYLES) {
+      if (parsed[mode]) {
+        clean[mode] = clampGlassSettings(parsed[mode], THEME_DEFAULT_GLASS_SETTINGS[mode]);
+      }
+    }
+    return clean;
+  } catch {
+    return {};
+  }
+}
+
+function applyGlassCssVariables(mode: CardStyleMode, settings: GlassCustomization) {
+  const root = document.documentElement;
+  const defaults = THEME_DEFAULT_GLASS_SETTINGS[mode];
+  const isCustomOpacity = settings.cardOpacity !== defaults.cardOpacity;
+  const isCustomBlur = settings.blurIntensity !== defaults.blurIntensity;
+
+  if (isCustomBlur) {
+    const blur = settings.blurIntensity;
+    root.setAttribute('data-custom-blur', 'true');
+    root.style.setProperty('--bg-blur', `${blur}px`);
+    root.style.setProperty('--glass-blur', `${blur}px`);
+    root.style.setProperty('--blur-subcard', `${Math.round(blur * 0.8)}px`);
+    root.style.setProperty('--blur-nav-pill', `${Math.round(blur * 0.85)}px`);
+    root.style.setProperty('--blur-modal', `${Math.min(48, Math.round(blur * 1.15))}px`);
+  } else {
+    root.removeAttribute('data-custom-blur');
+    root.style.removeProperty('--bg-blur');
+    root.style.removeProperty('--glass-blur');
+    root.style.removeProperty('--blur-subcard');
+    root.style.removeProperty('--blur-nav-pill');
+    root.style.removeProperty('--blur-modal');
+  }
+
+  if (isCustomOpacity) {
+    const alpha = Math.max(0.15, Math.min(1, settings.cardOpacity / 100));
+    const subcardAlpha = Math.max(0.15, Math.min(1, alpha * 1.02));
+    const headerAlpha = Math.max(0.2, Math.min(1, alpha + 0.04));
+    const popupAlpha = Math.max(0.58, Math.min(1, alpha + 0.16));
+    root.setAttribute('data-custom-opacity', 'true');
+    root.style.setProperty('--card-alpha', alpha.toFixed(2));
+    root.style.setProperty('--subcard-alpha', subcardAlpha.toFixed(2));
+    root.style.setProperty('--header-alpha', headerAlpha.toFixed(2));
+    root.style.setProperty('--popup-alpha', popupAlpha.toFixed(2));
+  } else {
+    root.removeAttribute('data-custom-opacity');
+    root.style.removeProperty('--card-alpha');
+    root.style.removeProperty('--subcard-alpha');
+    root.style.removeProperty('--header-alpha');
+    root.style.removeProperty('--popup-alpha');
+  }
+}
 
 function getDefaultWallpaperForTheme(mode: CardStyleMode): WallpaperPreset {
   const targetId = THEME_DEFAULT_WALLPAPER_ID[mode];
@@ -32,6 +108,11 @@ export interface ThemeContextType {
   cardStyle: CardStyleMode;
   setCardStyle: (mode: CardStyleMode) => void;
   getCardStyleProps: (mode?: CardStyleMode) => React.CSSProperties;
+  glassSettings: GlassCustomization;
+  getGlassSettingsForMode: (mode: CardStyleMode) => GlassCustomization;
+  isGlassCustomized: (mode?: CardStyleMode) => boolean;
+  updateGlassSettings: (patch: Partial<GlassCustomization>, targetMode?: CardStyleMode) => void;
+  resetGlassSettings: (targetMode?: CardStyleMode) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -52,19 +133,23 @@ function normalizeCardStyle(raw: string | null): CardStyleMode {
     raw === 'pastel' ||
     raw === 'bento-pastel' ||
     raw === 'soft-pastel' ||
-    raw === 'pastel-bento'
-  ) {
-    return 'pastel-bento';
-  }
-  if (
+    raw === 'pastel-bento' ||
     raw === 'glossy-glass' ||
     raw === 'glossy' ||
     raw === 'guong-bong' ||
     raw === 'glass-glossy'
   ) {
-    return 'glossy-glass';
+    return DEFAULT_CARD_STYLE;
   }
-  if (VALID_CARD_STYLES.includes(raw as CardStyleMode)) {
+  if (
+    raw === 'dark-glass' ||
+    raw === 'dark-glassmorphism' ||
+    raw === 'dark-frosted' ||
+    raw === 'kinh-mo-toi'
+  ) {
+    return 'dark-frosted-glass';
+  }
+  if (VALID_CARD_STYLES.includes(raw as any)) {
     return raw as CardStyleMode;
   }
   return DEFAULT_CARD_STYLE;
@@ -114,7 +199,36 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     return getDefaultWallpaperForTheme(initialStyle);
   });
 
+  const [glassCustomizations, setGlassCustomizations] = useState<GlassCustomizationMap>(() =>
+    readStoredGlassCustomizations()
+  );
+
   const isDark = resolveCardStyleDark(cardStyle);
+
+  const getGlassSettingsForMode = useCallback(
+    (mode: CardStyleMode): GlassCustomization => {
+      const defaults = THEME_DEFAULT_GLASS_SETTINGS[mode] || THEME_DEFAULT_GLASS_SETTINGS[DEFAULT_CARD_STYLE];
+      const custom = glassCustomizations[mode];
+      return custom ? clampGlassSettings(custom, defaults) : { ...defaults };
+    },
+    [glassCustomizations]
+  );
+
+  const glassSettings = getGlassSettingsForMode(cardStyle);
+
+  const isGlassCustomized = useCallback(
+    (mode?: CardStyleMode): boolean => {
+      const target = mode || cardStyle;
+      const defaults = THEME_DEFAULT_GLASS_SETTINGS[target];
+      const current = getGlassSettingsForMode(target);
+      return current.cardOpacity !== defaults.cardOpacity || current.blurIntensity !== defaults.blurIntensity;
+    },
+    [cardStyle, getGlassSettingsForMode]
+  );
+
+  useEffect(() => {
+    applyGlassCssVariables(cardStyle, glassSettings);
+  }, [cardStyle, glassSettings]);
 
   // Sync cardStyle & single-mode theme attributes to HTML root & Body
   useEffect(() => {
@@ -128,7 +242,14 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
     if (nextDark) {
       document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute('data-theme', cardStyle === 'cowhide-leather' ? 'cowhide-leather' : 'dark-neon');
+      document.documentElement.setAttribute(
+        'data-theme',
+        cardStyle === 'cowhide-leather'
+          ? 'cowhide-leather'
+          : cardStyle === 'dark-frosted-glass'
+            ? 'dark-frosted-glass'
+            : 'dark-neon'
+      );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
@@ -154,16 +275,29 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       const nextStyle = normalizeCardStyle((e as CustomEvent<string>).detail);
       setCardStyleState((prev) => (prev === nextStyle ? prev : nextStyle));
     };
+    const handleGlassSync = (e: Event) => {
+      const detail = (e as CustomEvent<GlassCustomizationMap>).detail;
+      if (detail && typeof detail === 'object') {
+        setGlassCustomizations(detail);
+      }
+    };
     window.addEventListener(WALLPAPER_SYNC_EVENT, handleSync);
     window.addEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
+    window.addEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
     return () => {
       window.removeEventListener(WALLPAPER_SYNC_EVENT, handleSync);
       window.removeEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
+      window.removeEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
     };
   }, []);
 
-  // Update wallpaper styles on body
+  // Update wallpaper styles on body & sync --theme-bg-* CSS custom properties
   useEffect(() => {
+    const themeBgSpec = THEME_BACKGROUNDS[cardStyle] || THEME_BACKGROUNDS[DEFAULT_CARD_STYLE];
+    const root = document.documentElement;
+    root.style.setProperty('--theme-bg-fallback', themeBgSpec.fallbackGradient);
+    root.style.setProperty('--theme-bg-overlay', themeBgSpec.overlayBg);
+
     try {
       localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(activeWallpaper));
       localStorage.setItem('theme_wallpaper', activeWallpaper.value || activeWallpaper.bg || '');
@@ -184,18 +318,21 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         !activeWallpaper.bg &&
         (!activeWallpaper.previewStyle || Object.keys(activeWallpaper.previewStyle).length === 0))
     ) {
+      root.style.setProperty('--theme-bg-image', 'none');
       document.body.style.backgroundColor = isDark ? '#050816' : '#F8FAFC';
     } else if (activeWallpaper.type === 'image') {
       const imgVal = activeWallpaper.value || activeWallpaper.bg || '';
       const cleanUrl = getCleanImageUrl(imgVal);
       if (cleanUrl) {
-        document.body.style.backgroundImage = `url('${cleanUrl}')`;
+        root.style.setProperty('--theme-bg-image', `url('${cleanUrl}')`);
+        document.body.style.backgroundImage = `url('${cleanUrl}'), ${themeBgSpec.fallbackGradient}`;
         document.body.style.backgroundSize = 'cover';
         document.body.style.backgroundPosition = 'center';
         document.body.style.backgroundRepeat = 'no-repeat';
         document.body.style.backgroundAttachment = 'fixed';
       }
     } else if (activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient') {
+      root.style.setProperty('--theme-bg-image', 'none');
       const cssText = activeWallpaper.value || activeWallpaper.bg || '';
       const parsed =
         activeWallpaper.previewStyle && Object.keys(activeWallpaper.previewStyle).length > 0
@@ -215,9 +352,10 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         document.body.style.background = cssText;
       }
     } else {
+      root.style.setProperty('--theme-bg-image', 'none');
       document.body.style.backgroundColor = isDark ? '#050816' : '#F8FAFC';
     }
-  }, [activeWallpaper, isDark]);
+  }, [activeWallpaper, cardStyle, isDark]);
 
   const setWallpaper = useCallback((wpOrBg: WallpaperPreset | string) => {
     let nextWp: WallpaperPreset;
@@ -264,7 +402,14 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
     if (nextDark) {
       document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute('data-theme', normalized === 'cowhide-leather' ? 'cowhide-leather' : 'dark-neon');
+      document.documentElement.setAttribute(
+        'data-theme',
+        normalized === 'cowhide-leather'
+          ? 'cowhide-leather'
+          : normalized === 'dark-frosted-glass'
+            ? 'dark-frosted-glass'
+            : 'dark-neon'
+      );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
@@ -283,6 +428,53 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     return getCardStyleProperties(mode || cardStyle);
   }, [cardStyle]);
 
+  const updateGlassSettings = useCallback(
+    (patch: Partial<GlassCustomization>, targetMode?: CardStyleMode) => {
+      const mode = targetMode || cardStyle;
+      const defaults = THEME_DEFAULT_GLASS_SETTINGS[mode];
+      setGlassCustomizations((prev) => {
+        const current = prev[mode] || defaults;
+        const nextForMode = clampGlassSettings({ ...current, ...patch }, defaults);
+        const nextMap: GlassCustomizationMap = { ...prev };
+        if (
+          nextForMode.cardOpacity === defaults.cardOpacity &&
+          nextForMode.blurIntensity === defaults.blurIntensity
+        ) {
+          delete nextMap[mode];
+        } else {
+          nextMap[mode] = nextForMode;
+        }
+        try {
+          localStorage.setItem(GLASS_CUSTOMIZATION_STORAGE_KEY, JSON.stringify(nextMap));
+        } catch {
+          // ignore
+        }
+        window.dispatchEvent(new CustomEvent(GLASS_CUSTOMIZATION_SYNC_EVENT, { detail: nextMap }));
+        return nextMap;
+      });
+    },
+    [cardStyle]
+  );
+
+  const resetGlassSettings = useCallback(
+    (targetMode?: CardStyleMode) => {
+      const mode = targetMode || cardStyle;
+      setGlassCustomizations((prev) => {
+        if (!prev[mode]) return prev;
+        const nextMap: GlassCustomizationMap = { ...prev };
+        delete nextMap[mode];
+        try {
+          localStorage.setItem(GLASS_CUSTOMIZATION_STORAGE_KEY, JSON.stringify(nextMap));
+        } catch {
+          // ignore
+        }
+        window.dispatchEvent(new CustomEvent(GLASS_CUSTOMIZATION_SYNC_EVENT, { detail: nextMap }));
+        return nextMap;
+      });
+    },
+    [cardStyle]
+  );
+
   return (
     <ThemeContext.Provider
       value={{
@@ -293,6 +485,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         cardStyle,
         setCardStyle,
         getCardStyleProps,
+        glassSettings,
+        getGlassSettingsForMode,
+        isGlassCustomized,
+        updateGlassSettings,
+        resetGlassSettings,
       }}
     >
       {children}

@@ -6,7 +6,7 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { useToast } from '@/components/ui/Toast';
 import { SiteTheme } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
 import { speakSiteText, stopActiveSpeech } from '@/utils/speechVoice';
 import { useLanguage } from '@/context/LanguageContext';
@@ -49,9 +49,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const { showToast } = useToast();
   const { language } = useLanguage();
   const isEn = language === 'en';
-  const { cardStyle, isDark: themeIsDark } = useTheme();
-  const rawCardStyle = getCardStyleProperties(cardStyle);
-  const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cardSampleStyle } = rawCardStyle as any;
+  const { isDark: themeIsDark } = useTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const isDark = themeIsDark || currentTheme === 'dark-neon';
@@ -356,7 +354,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
       data-element-page="home"
       data-element-parent="global-content-viewport"
       suppressHydrationWarning
-      className="relative w-full h-full min-h-full flex flex-col justify-between overflow-hidden select-none p-[15px] gap-[15px] font-play rounded-[14px]"
+      className="main-card relative w-full min-w-0 h-full min-h-full mx-auto flex flex-col justify-between overflow-hidden select-none p-[25px] gap-[15px] font-play rounded-[20px] box-border"
     >
       {/* 1. Main Background Video - Hiển Thị Toàn Bộ Thẻ Chính Lắp Đầy 100% Chiều Rộng và Chiều Cao */}
       <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none">
@@ -425,10 +423,13 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
       {/* Video Intro Controller Modal (When intro is active) */}
       {isIntroMode && (
-        <div className="relative z-50 w-full max-w-md mx-auto my-auto p-3.5 rounded-[14px] backdrop-blur-2xl shadow-2xl animate-fadeIn text-left bg-white/95 dark:bg-[#111827]/95 border border-blue-200/90 dark:border-[#334155] pointer-events-auto">
-          <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-[#334155]">
+        <div className="theme-modal-card relative z-50 w-full max-w-md mx-auto my-auto p-3.5 rounded-[14px] shadow-2xl animate-fadeIn text-left pointer-events-auto">
+          <div
+            className="flex items-center justify-between pb-2 border-b"
+            style={{ borderColor: 'var(--border-subcard)' }}
+          >
             <div className="flex items-center gap-2">
-              <span className="text-xs font-black font-play text-[#1E1B4B] dark:text-[#F8FAFC]">
+              <span className="typo-label font-bold font-play" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
                 {isEn
                   ? `Now Playing: Executive Introduction (${currentScreen.label})`
                   : `Đang phát: Lời Chào Giới Thiệu Chuyên Gia (${currentScreen.label})`}
@@ -438,7 +439,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               type="button"
               onClick={handleCancelIntro}
               title={isEn ? 'Stop Video' : 'Hủy phát video'}
-              className="px-2.5 py-1 rounded-full text-xs font-bold transition cursor-pointer bg-rose-50 dark:bg-rose-500/20 hover:bg-rose-100 dark:hover:bg-rose-500/30 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-500/40 flex items-center gap-1"
+              className="theme-modal-close px-2.5 py-1 rounded-full typo-label font-bold transition cursor-pointer flex items-center gap-1"
             >
               <span>{isEn ? '✕ Stop' : '✕ Hủy'}</span>
             </button>
@@ -446,7 +447,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
           <div className="w-full space-y-1 my-2">
             <div
-              className="w-full rounded-full h-1.5 overflow-hidden cursor-pointer relative bg-slate-200 dark:bg-slate-700"
+              className="w-full rounded-full h-1.5 overflow-hidden cursor-pointer relative"
+              style={{ background: 'var(--pillar-progress-track, rgba(148, 163, 184, 0.28))' }}
               onClick={handleSeek}
             >
               <div
@@ -454,7 +456,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 style={{ width: `${progressPct}%`, background: `linear-gradient(to right, ${currentScreen.gradientFrom}, ${currentScreen.gradientTo})` }}
               />
             </div>
-            <div className="flex justify-between typo-label font-mono font-bold text-[#475569] dark:text-[#94A3B8]">
+            <div className="flex justify-between typo-label font-mono font-bold" style={{ color: 'var(--text-secondary)' }}>
               <span>{currentTime}</span>
               <span>{duration}</span>
             </div>
@@ -474,7 +476,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             <button
               type="button"
               onClick={handleToggleMute}
-              className="px-4 py-1.5 rounded-[999px] font-bold typo-button flex items-center gap-2 shadow-2xs transition cursor-pointer active:scale-95 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+              className="theme-modal-close px-4 py-1.5 rounded-[999px] font-bold typo-button flex items-center gap-2 shadow-2xs transition cursor-pointer active:scale-95"
             >
               {isMuted ? <WebIcon name="volume-x" className="w-3.5 h-3.5 text-rose-500" /> : <WebIcon name="volume-2" className="w-3.5 h-3.5 text-emerald-500" />}
               <span>{isMuted ? (isEn ? 'Unmute' : 'Bật tiếng') : isEn ? 'Mute' : 'Tắt tiếng'}</span>
@@ -494,7 +496,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
       {/* 4. Main Body: Hero Card Bottom Right (Giao diện Sáng) - Ẩn khi đang phát video */}
       {!isIntroMode && (
-        <div className="relative z-20 w-full flex-1 min-h-0 flex items-end justify-end pointer-events-none px-2 sm:px-4 pb-2 sm:pb-4">
+        <div className="relative z-20 w-full flex-1 min-h-0 flex items-end justify-end pointer-events-none p-0">
           <div className="pointer-events-none flex items-end justify-end w-fit max-w-full ml-auto">
             <AnimatePresence mode="wait">
               <motion.div
@@ -503,23 +505,20 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 data-element-type="card"
                 data-element-page="home"
                 data-element-parent="home-page-container"
+                data-section-card="true"
                 key={`hero-card-${activeVideoScreen}`}
                 initial={{ opacity: 0, x: 30, y: 20 }}
                 animate={{ opacity: 1, x: 0, y: 0 }}
                 exit={{ opacity: 0, x: 20, y: 10 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                style={{
-                  ...cardSampleStyle,
-                  borderRadius: '14px',
-                  border: 'none',
-                }}
-                className="layered-card pointer-events-auto p-4 sm:p-5 md:p-6 rounded-[14px] relative overflow-hidden group transition-all duration-500 w-fit max-w-[calc(100vw-32px)] sm:max-w-fit text-left"
+                style={{ borderRadius: '14px' }}
+                className="bento-card glass-card layered-card pointer-events-auto p-4 sm:p-5 md:p-6 rounded-[14px] relative overflow-hidden group transition-all duration-500 w-fit max-w-full sm:max-w-fit text-left"
               >
                 <div className="relative z-10 space-y-2.5 w-full sm:w-fit">
                   <div className="flex items-center justify-between gap-3">
                     <div
-                      className="inline-flex items-center gap-2 font-bold tracking-tight px-0 py-0 border-0 bg-transparent shadow-none"
-                      style={{ color: currentScreen.accentColor, fontSize: '18px' }}
+                      className="inline-flex items-center gap-2 typo-h4 font-bold tracking-tight px-0 py-0 border-0 bg-transparent shadow-none"
+                      style={{ color: currentScreen.accentColor }}
                     >
                       <WebIcon
                         name={currentScreen.heroIcon}
@@ -533,14 +532,14 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   {/* Tiêu đề 1 hàng trên desktop, tự xuống dòng ở mobile */}
                   <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
                     <h3
-                      className="card-title typo-h3 font-bold font-play tracking-tight leading-tight whitespace-normal sm:whitespace-nowrap"
-                      style={{ fontWeight: 750, fontSize: '18px', color: currentScreen.accentColor }}
+                      className="card-title card-title-synced typo-h3 font-play tracking-tight leading-tight whitespace-normal"
+                      style={{ color: currentScreen.accentColor }}
                     >
                       {currentScreen.title}
                     </h3>
                   </div>
 
-                  <p className="typo-body-sm text-slate-600 dark:text-slate-200 font-medium leading-relaxed max-w-xs sm:max-w-sm">
+                  <p className="typo-body-sm font-medium leading-relaxed max-w-xs sm:max-w-sm" style={{ color: 'var(--text-secondary)' }}>
                     {currentScreen.description}
                   </p>
 
@@ -631,12 +630,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
             data-element-type="card"
             data-element-page="home"
             style={{
-              ...cardSampleStyle,
               borderRadius: '999px',
-              transform: 'scale(0.5)',
-              transformOrigin: 'center',
+              background: 'var(--bg-header)',
+              borderColor: 'var(--border-subcard)',
+              boxShadow: 'var(--shadow-nav-pill)',
             }}
-            className="inline-flex items-center gap-1.5 rounded-[999px] shadow-[0_6px_16px_rgba(15,23,42,0.1)] border border-white/80 select-none transition-all duration-300 backdrop-blur-xl px-4 py-2 m-0 scale-50 origin-center"
+            className="inline-flex items-center gap-1.5 rounded-[999px] border select-none transition-all duration-300 backdrop-blur-xl px-2.5 py-1.5 m-0"
             role="tablist"
             aria-label="Chuyển đổi màn hình trang chủ"
           >
@@ -652,10 +651,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   aria-label={`${screen.label}: ${screen.title}`}
                   title={`${screen.label} · ${screen.title}`}
                   onClick={() => handleSelectScreen(screen.id)}
-                  className={`group relative h-2.5 sm:h-3 rounded-full transition-all duration-300 cursor-pointer focus:outline-none select-none ${
+                  className={`group relative h-2 sm:h-2.5 rounded-full transition-all duration-300 cursor-pointer focus:outline-none select-none ${
                     isActive
-                      ? 'w-10 sm:w-12 shadow-md scale-105'
-                      : 'w-7 sm:w-8 bg-slate-400/60 hover:bg-slate-600/80 hover:w-8 active:scale-95'
+                      ? 'w-7 sm:w-9 shadow-md scale-105'
+                      : 'w-5 sm:w-6 hover:w-6 sm:hover:w-7 active:scale-95'
                   }`}
                   style={
                     isActive
@@ -663,7 +662,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
                           background: `linear-gradient(135deg, ${screen.gradientFrom}, ${screen.gradientTo})`,
                           boxShadow: `0 3px 10px ${screen.accentColor}66`,
                         }
-                      : {}
+                      : {
+                          background: 'var(--divider-nav-pill, rgba(148, 163, 184, 0.55))',
+                        }
                   }
                 />
               );

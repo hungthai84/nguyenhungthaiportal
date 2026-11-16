@@ -11,7 +11,7 @@ import { cn, formatCardTitle } from '@/lib/utils';
 import { getSavedMutedPref, saveMutedPref, AUDIO_PREF_EVENT } from '@/utils/audioPreference';
 import { DataFlowMatrixModal } from '@/components/ui/DataFlowMatrixModal';
 import { EcosystemDiagramModal } from '@/components/common/EcosystemDiagramModal';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+import { useTheme } from '@/hooks/useTheme';
 import { speakSiteText, stopActiveSpeech } from '@/utils/speechVoice';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -286,28 +286,42 @@ function getRealtimeFlowDescription(sysA: SystemData, sysB: SystemData): {
 };
 }
 
-// Bảng tiêu đề tiếng Việt chuẩn hóa đúng 6 chữ cho 12 hệ thống
-const SYSTEM_6_WORDS_TITLE: Record<string, string> = {
-  sdp: 'Cổng dịch vụ làm việc CSKH',
-  erp: 'Quản trị tài chính kế toán',
-  crm: 'Quản lý quan hệ khách hàng',
-  hrm: 'Quản lý nguồn nhân lực số',
-  bpm: 'Quản lý quy trình nghiệp vụ',
-  okr: 'Quản lý mục tiêu kết quả',
-  clp: 'Chăm sóc khách hàng thân thiết',
-  lms: 'Quản lý đào tạo trực tuyến',
-  csc: 'Trung tâm chăm sóc khách hàng',
-  bi: 'Hệ thống báo cáo phân tích',
-  ai: 'Trợ lý trí tuệ nhân tạo',
-  pos: 'Quản lý bán hàng thanh toán',
+// Bảng tiêu đề tiếng Việt chuẩn hóa đúng 4 chữ cho 12 hệ thống (trang chi tiết)
+const SYSTEM_4_WORDS_TITLE: Record<string, string> = {
+  sdp: 'Cổng làm việc CSKH',
+  erp: 'Quản trị tài chính',
+  crm: 'Quản trị khách hàng',
+  hrm: 'Quản lý nhân lực',
+  bpm: 'Quy trình nghiệp vụ',
+  okr: 'Mục tiêu kết quả',
+  clp: 'Khách hàng thân thiết',
+  lms: 'Đào tạo trực tuyến',
+  csc: 'Chăm sóc khách hàng',
+  bi: 'Báo cáo phân tích',
+  ai: 'Trợ lý nhân tạo',
+  pos: 'Bán hàng thanh toán',
+};
+
+const SYSTEM_ACCENT_KEY_MAP: Record<string, string> = {
+  sdp: 'amber',
+  csc: 'sky',
+  crm: 'emerald',
+  clp: 'rose',
+  pos: 'orange',
+  erp: 'amber',
+  hrm: 'orange',
+  bpm: 'purple',
+  okr: 'green',
+  lms: 'blue',
+  bi: 'violet',
+  ai: 'cyan',
+  office: 'blue',
 };
 
 export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNotification }) => {
   const { showToast } = useToast();
   const { language, t, translateText } = useLanguage();
-  const { cardStyle, isDark: themeIsDark } = useTheme();
-  const rawCardStyle = getCardStyleProperties(cardStyle);
-  const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cardSampleStyle } = rawCardStyle as any;
+  const { isDark: themeIsDark, cardStyle } = useTheme();
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -604,9 +618,16 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
 
   // Trạng thái mở rộng chi tiết thẻ hệ thống có kích thước bằng 12 thẻ cộng lại (Full Grid Expansion)
   const [expandedSystemId, setExpandedSystemId] = useState<string | null>(null);
-  const [isExpandedVideoMuted, setIsExpandedVideoMuted] = useState<boolean>(true);
-  const [isExpandedVideoPlaying, setIsExpandedVideoPlaying] = useState<boolean>(true);
   const expandedVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    if (!expandedSystemId) return;
+    const video = expandedVideoRef.current;
+    if (video) {
+      video.muted = true;
+      video.play().catch(() => {});
+    }
+  }, [expandedSystemId]);
 
   const handleToggleExpandCard = (id: string, e?: React.MouseEvent) => {
     e?.stopPropagation();
@@ -616,44 +637,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
     } else {
       SoundEngine.playTechChimeExpand();
       setExpandedSystemId(id);
-      setIsExpandedVideoPlaying(true);
     }
-  };
-
-  const handleExpandSystem = (id: string, e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    SoundEngine.playTechChimeExpand();
-    setExpandedSystemId(id);
-    setIsExpandedVideoPlaying(true);
   };
 
   const handleCollapseSystem = (e?: React.MouseEvent) => {
     e?.stopPropagation();
     SoundEngine.playTechChimeCollapse();
     setExpandedSystemId(null);
-  };
-
-  const handleToggleExpandedVideoPlay = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    const video = expandedVideoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      video.play().catch(() => {});
-      setIsExpandedVideoPlaying(true);
-    } else {
-      video.pause();
-      setIsExpandedVideoPlaying(false);
-    }
-  };
-
-  const handleToggleExpandedVideoMute = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    const video = expandedVideoRef.current;
-    if (!video) return;
-    const nextMuted = !isExpandedVideoMuted;
-    setIsExpandedVideoMuted(nextMuted);
-    video.muted = nextMuted;
-    showToast(nextMuted ? 'Đã tắt âm thanh video chi tiết' : 'Đã bật âm thanh video chi tiết 🔊');
   };
 
   // Đóng menu Drop Top khi click ra ngoài
@@ -1125,37 +1115,21 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
     pos: 'shopping-cart',
   };
 
-  const systemStatusBadge: Record<string, { text: string; dotColor: string }> = {
-    sdp: { text: 'Trực tuyến', dotColor: 'bg-emerald-400' },
-    erp: { text: 'Hoạt động', dotColor: 'bg-emerald-400' },
-    crm: { text: 'Hoạt động', dotColor: 'bg-emerald-400' },
-    hrm: { text: 'Hoạt động', dotColor: 'bg-emerald-400' },
-    bpm: { text: 'Hoạt động', dotColor: 'bg-emerald-400' },
-    okr: { text: 'Hoạt động', dotColor: 'bg-emerald-400' },
-    clp: { text: 'Hoạt động', dotColor: 'bg-emerald-400' },
-    lms: { text: 'Hoạt động', dotColor: 'bg-emerald-400' },
-    csc: { text: 'Hoạt động', dotColor: 'bg-emerald-400' },
-    bi: { text: 'Đang tích hợp API', dotColor: 'bg-amber-400' },
-    ai: { text: 'AI Trực Tuyến', dotColor: 'bg-fuchsia-400' },
-    pos: { text: 'Hoạt động', dotColor: 'bg-emerald-400' },
-  };
-
   return (
     <div
       id="systems-page-container"
       ref={systemsGridRef}
       onScroll={handleGridScroll}
+      onClick={() => {
+        if (expandedSystemId) {
+          handleCollapseSystem();
+        }
+      }}
       data-element-name="Trang Hệ Thống Vận Hành"
       data-element-type="card"
       data-section-card="true"
       data-element-page="systems"
-      style={{
-        ...cardSampleStyle,
-        borderRadius: '14px',
-        padding: '15px',
-        gap: '15px',
-      }}
-      className="bento-card glass-card relative w-full h-full max-h-full flex flex-col justify-between p-[15px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px]"
+      className="main-card bento-card glass-card relative w-full min-w-0 h-full max-h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] box-border"
     >
       {/* 100% Matching Animation CSS Rules */}
       <style
@@ -1322,8 +1296,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.35 }}
-            className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
-            style={{ padding: '15px', width: '100%', maxWidth: '100%', height: '200px', minHeight: '200px', maxHeight: '200px', borderRadius: '14px' }}
+            className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 backdrop-blur-xl"
+            style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
           >
             <div
               className="absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
@@ -1344,130 +1318,174 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
               <div className="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/25 to-slate-950/55 pointer-events-none" />
             </div>
 
-            <div className="relative z-10 flex flex-row items-center justify-between gap-2 sm:gap-4 w-full">
-              <div className="flex items-center gap-2 shrink-0">
+            <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
+              <div className="flex items-center gap-2 min-w-0">
                 <WebIcon
                   name="network"
                   className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
-                  style={{ color: '#38bdf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
+                  style={{ color: '#38bdf8', width: '22px', height: '22px' }}
                 />
                 <h1
-                  className="text-[22px] font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] whitespace-nowrap"
-                  style={{ color: '#38bdf8', fontSize: '22px', fontWeight: 700, textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+                  className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+                  style={{ color: '#38bdf8', textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
                 >
                   Hệ thống vận hành
                 </h1>
               </div>
               <p
-                className="font-handwriting font-italianno not-italic text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-right ml-auto whitespace-nowrap overflow-hidden text-ellipsis max-w-[65%]"
-                style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '28px', fontWeight: 700, fontStyle: 'normal' }}
+                className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[60%]"
+                style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
               >
                 &quot;Hệ thống thông minh, vận hành tinh gọn và đồng bộ ♡&quot;
               </p>
             </div>
 
-            <div className="relative z-30 flex flex-wrap items-center justify-start gap-2.5 mt-auto" ref={filterDropdownRef}>
-              {/* NÚT SƠ ĐỒ LIÊN KẾT HỆ THỐNG */}
-              <button
-                type="button"
-                onClick={() => {
-                  SoundEngine.playTechChimeExpand();
-                  setIsEcosystemDiagramOpen(true);
-                }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-[0_4px_16px_rgba(37,99,235,0.45)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.6)] border border-blue-300/40 backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
-                title="Mở Sơ đồ liên kết 12 Phân hệ PowerService"
-              >
-                <WebIcon name="git-merge" className="w-4 h-4 text-white animate-pulse shrink-0" />
-                <span>Sơ đồ liên kết</span>
-                <span className="px-1.5 py-0.2 rounded-full bg-white/20 text-white text-[10px] font-mono font-bold">
-                  12 Phân hệ
-                </span>
-              </button>
-
-              {/* NÚT PHÁT VIDEO GIỚI THIỆU TRONG BANNER */}
-              <button
-                type="button"
-                onClick={handleToggleCircleVideo}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 hover:from-rose-500 hover:to-pink-500 text-white shadow-[0_4px_16px_rgba(225,29,72,0.45)] border border-rose-300/40 backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
-                title={isCircleVideoPlaying ? "Đóng video giới thiệu" : "Xem video giới thiệu hệ thống"}
-              >
-                <WebIcon name={isCircleVideoPlaying ? "cancel" : "play"} className="w-4 h-4 text-white animate-pulse shrink-0" />
-                <span>{isCircleVideoPlaying ? "Đóng video hệ thống" : "Xem video giới thiệu hệ thống"}</span>
-              </button>
-
-              <div className="relative inline-block text-left">
+            <div
+              id="systems-hero-banner-controls"
+              className="relative z-30 flex flex-wrap items-end justify-between gap-2.5 mt-auto w-full"
+              ref={filterDropdownRef}
+            >
+              <div className="flex flex-wrap items-center gap-2.5 min-w-0">
+                {/* NÚT SƠ ĐỒ LIÊN KẾT HỆ THỐNG */}
                 <button
                   type="button"
                   onClick={() => {
-                    SoundEngine.playTap();
-                    setIsFilterDropdownOpen((prev) => !prev);
+                    SoundEngine.playTechChimeExpand();
+                    setIsEcosystemDiagramOpen(true);
                   }}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-orange-900 dark:text-orange-200 border border-orange-300 dark:border-orange-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
-                  title="Bộ lọc hệ thống"
-                  aria-expanded={isFilterDropdownOpen}
-                  aria-haspopup="listbox"
+                  className="banner-primary-cta inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-[0_4px_16px_rgba(37,99,235,0.45)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.6)] border border-blue-300/40 backdrop-blur-md transition-all cursor-pointer typo-button font-play active:scale-95 group"
+                  title="Mở Sơ đồ liên kết 12 Phân hệ PowerService"
                 >
-                  <WebIcon name="sliders" className="w-4 h-4 text-orange-700 dark:text-orange-400 transition-transform group-hover:rotate-45 shrink-0" />
-                  <span>Bộ lọc hệ thống</span>
-                  {activeCategory !== 'all' && (
-                    <span className="px-1.5 py-0.2 rounded-full bg-orange-100 dark:bg-orange-950/80 border border-orange-300 dark:border-orange-500/50 text-[10px] font-mono text-orange-900 dark:text-orange-200 font-bold">
-                      {ecosystemSegments.find((s) => s.id === activeCategory)?.label}
-                    </span>
-                  )}
-                  <WebIcon
-                    name="chevron-down"
-                    className={cn(
-                      'w-3.5 h-3.5 text-orange-700 dark:text-orange-400 transition-transform duration-200 shrink-0',
-                      isFilterDropdownOpen && 'rotate-180'
-                    )}
-                  />
+                  <WebIcon name="git-merge" className="w-4 h-4 text-white animate-pulse shrink-0" />
+                  <span>Sơ đồ liên kết</span>
+                  <span className="banner-count-pill px-1.5 py-0.5 rounded-full bg-white/20 text-white typo-badge font-mono">
+                    12 Phân hệ
+                  </span>
                 </button>
 
-                <AnimatePresence>
-                  {isFilterDropdownOpen && (
-                    <motion.div
-                      id="systems-filter-listbox"
-                      data-element-type="card"
-                      initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                      transition={{ duration: 0.16 }}
-                      role="listbox"
-                      className="bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] bg-white/98 dark:bg-[#111827]/96 border border-orange-200 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-slate-800 dark:text-[#E2E8F0]"
-                    >
-                      {ecosystemSegments.map((seg) => {
-                        const isActive = activeCategory === seg.id;
-                        return (
-                          <button
-                            key={seg.id}
-                            type="button"
-                            role="option"
-                            aria-selected={isActive}
-                            onClick={() => {
-                              SoundEngine.playTap();
-                              setActiveCategory(seg.id);
-                              setExpandedSystemId(null);
-                              setIsCircleVideoPlaying(false);
-                              setIsFilterDropdownOpen(false);
-                            }}
-                            className={cn(
-                              'w-full flex items-center justify-between px-3 py-2 rounded-[14px] text-xs font-bold font-play transition-all cursor-pointer text-left',
-                              isActive
-                                ? 'bg-orange-100 dark:bg-orange-500/20 text-orange-900 dark:text-orange-200 border border-orange-300 dark:border-orange-400/50 shadow-xs'
-                                : 'text-slate-700 dark:text-[#E2E8F0] hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white border border-transparent font-medium'
-                            )}
-                          >
-                            <span>{seg.label} ({seg.count})</span>
-                            {isActive && <span className="w-2 h-2 rounded-full bg-orange-600 dark:bg-orange-400" />}
-                          </button>
-                        );
-                      })}
+                <div className="relative inline-block text-left">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setIsFilterDropdownOpen((prev) => !prev);
+                    }}
+                    className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-orange-900 dark:text-orange-200 border border-orange-300 dark:border-orange-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer typo-button font-play active:scale-95 group"
+                    title="Bộ lọc hệ thống"
+                    aria-expanded={isFilterDropdownOpen}
+                    aria-haspopup="listbox"
+                  >
+                    <WebIcon name="sliders" className="w-4 h-4 text-orange-700 dark:text-orange-400 transition-transform group-hover:rotate-45 shrink-0" />
+                    <span>Bộ lọc hệ thống</span>
+                    {activeCategory !== 'all' && (
+                      <span className="banner-count-pill px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-950/80 border border-orange-300 dark:border-orange-500/50 typo-badge font-mono text-orange-900 dark:text-orange-200">
+                        {ecosystemSegments.find((s) => s.id === activeCategory)?.label}
+                      </span>
+                    )}
+                    <WebIcon
+                      name="chevron-down"
+                      className={cn(
+                        'w-3.5 h-3.5 text-orange-700 dark:text-orange-400 transition-transform duration-200 shrink-0',
+                        isFilterDropdownOpen && 'rotate-180'
+                      )}
+                    />
+                  </button>
 
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                  <AnimatePresence>
+                    {isFilterDropdownOpen && (
+                      <motion.div
+                        id="systems-filter-listbox"
+                        data-element-type="card"
+                        initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                        transition={{ duration: 0.16 }}
+                        role="listbox"
+                        className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] bg-white/98 dark:bg-[#111827]/96 border border-orange-200 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-slate-800 dark:text-[#E2E8F0]"
+                      >
+                        {ecosystemSegments.map((seg) => {
+                          const isActive = activeCategory === seg.id;
+                          return (
+                            <button
+                              key={seg.id}
+                              type="button"
+                              role="option"
+                              aria-selected={isActive}
+                              data-selected={isActive ? 'true' : undefined}
+                              onClick={() => {
+                                SoundEngine.playTap();
+                                setActiveCategory(seg.id);
+                                setExpandedSystemId(null);
+                                setIsCircleVideoPlaying(false);
+                                setIsFilterDropdownOpen(false);
+                              }}
+                              className={cn(
+                                'theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left',
+                                isActive
+                                  ? 'shadow-xs font-bold'
+                                  : ''
+                              )}
+                            >
+                              <span>{seg.label} ({seg.count})</span>
+                              {isActive && <span className="w-2 h-2 rounded-full bg-white" />}
+                            </button>
+                          );
+                        })}
+
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
 
+              {/* NÚT HÌNH TRÒN PHÁT VIDEO GIỚI THIỆU NẰM BÊN PHẢI BANNER */}
+              <button
+                id="systems-intro-video-circle-btn"
+                type="button"
+                onClick={handleToggleCircleVideo}
+                aria-label={isCircleVideoPlaying ? 'Đóng video giới thiệu hệ thống' : 'Xem video giới thiệu hệ thống'}
+                title={isCircleVideoPlaying ? 'Đóng video giới thiệu hệ thống' : 'Xem video giới thiệu hệ thống'}
+                className={cn(
+                  'relative ml-auto shrink-0 w-14 h-14 sm:w-16 sm:h-16 lg:w-[72px] lg:h-[72px] rounded-full aspect-square p-0.5 flex items-center justify-center cursor-pointer transition-all duration-300 group hover:scale-105 active:scale-95 video-circle-halo',
+                  isCircleVideoPlaying
+                    ? 'bg-gradient-to-br from-rose-500 via-pink-500 to-purple-600 ring-4 ring-rose-400/60 shadow-[0_0_24px_rgba(244,63,94,0.7)]'
+                    : 'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 ring-2 ring-cyan-300/70 shadow-[0_6px_22px_rgba(14,165,233,0.55)]'
+                )}
+              >
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-slate-900 border border-white/60">
+                  <video
+                    ref={circleVideoRef}
+                    src={SYSTEM_FLOATING_IDLE_VIDEO_URL}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover object-center rounded-full pointer-events-none scale-[1.06]"
+                  />
+                  <div
+                    className={cn(
+                      'absolute inset-0 rounded-full flex items-center justify-center transition-all duration-300',
+                      isCircleVideoPlaying
+                        ? 'bg-slate-950/45 group-hover:bg-slate-950/60'
+                        : 'bg-slate-950/20 group-hover:bg-slate-950/40'
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        'w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white border border-white/60 shadow-md backdrop-blur-sm transition-transform duration-300 group-hover:scale-110',
+                        isCircleVideoPlaying
+                          ? 'bg-rose-600/90'
+                          : 'bg-black/60'
+                      )}
+                    >
+                      <WebIcon
+                        name={isCircleVideoPlaying ? 'cancel' : 'play'}
+                        className={cn('w-3.5 h-3.5 sm:w-4 sm:h-4 text-white', !isCircleVideoPlaying && 'ml-0.5')}
+                      />
+                    </span>
+                  </div>
+                </div>
+              </button>
             </div>
           </motion.section>
         )}
@@ -1500,7 +1518,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 <div className="flex items-center justify-between gap-2 px-3.5 py-2 bg-slate-900/90 border-b border-white/10 text-white shrink-0">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse shrink-0" />
-                    <span className="text-xs sm:text-sm font-bold font-play text-cyan-300 truncate">
+                    <span className="typo-h4 font-play text-cyan-300 truncate">
                       Video giới thiệu hệ thống vận hành
                     </span>
                   </div>
@@ -1527,7 +1545,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                       type="button"
                       onClick={handleCloseIntroVideo}
                       title="Đóng video và hiện lại 12 thẻ hệ thống"
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold font-play transition cursor-pointer shadow-sm active:scale-95"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white typo-button font-play transition cursor-pointer shadow-sm active:scale-95"
                     >
                       <WebIcon name="cancel" className="w-3.5 h-3.5" />
                       <span>Đóng video</span>
@@ -1552,14 +1570,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
               </div>
             </motion.div>
           ) : filteredSystems.length === 0 ? (
-            <div className="text-center py-16 px-4 bg-white/75 dark:bg-slate-900/70 rounded-[14px] border border-slate-200/90 dark:border-white/15 backdrop-blur-md flex flex-col items-center justify-center flex-1 shadow-xs">
-              <div className="w-12 h-12 rounded-[14px] bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-2">
+            <div className="theme-muted-surface text-center py-16 px-4 rounded-[14px] backdrop-blur-md flex flex-col items-center justify-center flex-1 shadow-xs">
+              <div className="w-12 h-12 rounded-[14px] bg-indigo-500/15 flex items-center justify-center mb-2" style={{ color: 'var(--color-primary)' }}>
                 <WebIcon name="search" className="w-6 h-6" />
               </div>
-              <p className="text-base font-bold text-slate-800 dark:text-white font-play">
+              <p className="typo-h3 font-play" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
                 Không tìm thấy hệ thống phù hợp
               </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              <p className="typo-body-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
                 Hãy thử nhập từ khóa khác như &quot;CRM&quot;, &quot;ERP&quot;, &quot;LMS&quot; hoặc &quot;CSKH&quot;...
               </p>
               <button
@@ -1568,42 +1586,43 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                   setActiveCategory('all');
                   setSearchQuery('');
                 }}
-                className="mt-4 px-5 py-2 rounded-full text-xs font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition cursor-pointer shadow-sm"
+                style={{ background: 'var(--bg-button-primary)' }}
+                className="mt-4 px-5 py-2 rounded-full typo-button text-white hover:opacity-90 transition cursor-pointer shadow-sm"
               >
                 Xem lại tất cả 12 hệ thống
               </button>
             </div>
           ) : viewMode === 'matrix' ? (
             /* 4. CHẾ ĐỘ XEM THẺ DẠNG BẢNG MA TRẬN TÍNH NĂNG (COMPACT COMPARISON MATRIX VIEW) */
-            <div className="flex-1 min-h-0 overflow-auto glass-scrollbar">
-              <table className="w-full text-left border-collapse min-w-[780px]">
-                <thead className="sticky top-0 z-20 bg-slate-100/95 dark:bg-[#111827]/95 backdrop-blur-md border-b border-slate-200/90 dark:border-white/15 text-[10.5px] font-mono tracking-wider text-[#475569] dark:text-[#67E8F9]">
+            <div className="flex-1 min-h-0 overflow-auto horizontal-scroll-smooth">
+              <table className="theme-table w-full text-left border-collapse min-w-[780px] rounded-[14px] overflow-hidden">
+                <thead className="sticky top-0 z-20 backdrop-blur-md border-b typo-caption font-semibold font-mono tracking-wider" style={{ borderColor: 'var(--border-table)' }}>
                   <tr>
-                    <th className="py-2.5 px-3 font-black">Phân hệ (12)</th>
-                    <th className="py-2.5 px-2.5 font-black">Nhóm tác nghiệp</th>
-                    <th className="py-2.5 px-2.5 font-black">
+                    <th className="py-2.5 px-3 font-semibold">Phân hệ (12)</th>
+                    <th className="py-2.5 px-2.5 font-semibold">Nhóm tác nghiệp</th>
+                    <th className="py-2.5 px-2.5 font-semibold">
                       <span className="inline-flex items-center gap-1">
                         <WebIcon name="database" className="w-3 h-3 text-sky-500" />
                         <span>Cơ sở dữ liệu (DB)</span>
                       </span>
                     </th>
-                    <th className="py-2.5 px-2.5 font-black">
+                    <th className="py-2.5 px-2.5 font-semibold">
                       <span className="inline-flex items-center gap-1">
                         <WebIcon name="zap" className="w-3 h-3 text-indigo-500" />
                         <span>API kết nối</span>
                       </span>
                     </th>
-                    <th className="py-2.5 px-2.5 font-black">Cam kết SLA</th>
-                    <th className="py-2.5 px-2.5 font-black">
+                    <th className="py-2.5 px-2.5 font-semibold">Cam kết SLA</th>
+                    <th className="py-2.5 px-2.5 font-semibold">
                       <span className="inline-flex items-center gap-1">
                         <WebIcon name="shield" className="w-3.5 h-3.5 text-emerald-500" />
                         <span>Chuẩn ISO 27001</span>
                       </span>
                     </th>
-                    <th className="py-2.5 px-3 font-black text-right">Tác vụ</th>
+                    <th className="py-2.5 px-3 font-semibold text-right">Tác vụ</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200/60 dark:divide-white/10 text-xs">
+                <tbody className="divide-y typo-body-sm" style={{ borderColor: 'var(--border-table)' }}>
                   {filteredSystems.map((item) => {
                     const config = SYSTEM_DESIGN_MAP[item.id] || {
                       displayTitle: formatCardTitle(item.nameVi || item.name || ''),
@@ -1627,7 +1646,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             handleCardClick(item);
                           }
                         }}
-                        className="hover:bg-sky-50/70 dark:hover:bg-white/5 transition-colors cursor-pointer"
+                        className="hover:bg-sky-500/10 transition-colors cursor-pointer"
                       >
                         {/* Cột 1: Mã & Tên 4 chữ */}
                         <td className="py-2 px-3">
@@ -1635,14 +1654,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             <WebIcon name={config.iconName} className="w-[18px] h-[18px] shrink-0" style={{ color: isDark ? config.darkAccent : config.lightAccent, width: '18px', height: '18px' }} />
                             <div className="min-w-0">
                               <div className="flex items-center gap-1.5">
-                                <span className="px-1.5 py-0.2 rounded text-[9.5px] font-mono font-black bg-slate-200/80 dark:bg-slate-800 text-slate-800 dark:text-cyan-300">
+                                <span
+                                  className="px-1.5 py-0.5 rounded typo-badge font-mono"
+                                  style={{ background: 'var(--bg-button-secondary)', color: 'var(--text-link, var(--color-primary))' }}
+                                >
                                   {item.abbr}
                                 </span>
-                                <span className="font-bold font-play text-slate-800 dark:text-white truncate">
+                                <span className="font-semibold font-play truncate" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
                                   {config.displayTitle}
                                 </span>
                               </div>
-                              <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate max-w-[190px]">
+                              <p className="typo-label truncate max-w-[190px]" style={{ color: 'var(--text-muted)' }}>
                                 {item.fullName}
                               </p>
                             </div>
@@ -1651,31 +1673,31 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
 
                         {/* Cột 2: Nhóm phân hệ */}
                         <td className="py-2 px-2.5">
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200/70 dark:border-indigo-500/30">
+                          <span className="px-2 py-0.5 rounded-full typo-badge bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200/70 dark:border-indigo-500/30">
                             {tech.ecosystemLabel}
                           </span>
                         </td>
 
                         {/* Cột 3: Cơ sở dữ liệu */}
-                        <td className="py-2 px-2.5 font-mono text-[11px] font-semibold text-slate-700 dark:text-slate-200">
+                        <td className="py-2 px-2.5 font-mono typo-caption font-semibold text-slate-700 dark:text-slate-200">
                           {tech.database}
                         </td>
 
                         {/* Cột 4: API kết nối */}
-                        <td className="py-2 px-2.5 font-mono text-[11px] text-sky-700 dark:text-cyan-300 font-semibold">
+                        <td className="py-2 px-2.5 font-mono typo-caption text-sky-700 dark:text-cyan-300 font-semibold">
                           {tech.apiProtocol}
                         </td>
 
                         {/* Cột 5: Cam kết SLA */}
                         <td className="py-2 px-2.5">
-                          <span className="px-2 py-0.5 rounded-[14px] text-[10.5px] font-mono font-bold bg-emerald-500/12 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                          <span className="px-2 py-0.5 rounded-[14px] typo-badge font-mono bg-emerald-500/12 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
                             {tech.slaCommitment}
                           </span>
                         </td>
 
                         {/* Cột 6: Tiêu chuẩn an toàn thông tin ISO 27001 */}
                         <td className="py-2 px-2.5">
-                          <span className="inline-flex items-center gap-1 text-[10.5px] font-semibold text-slate-700 dark:text-slate-200">
+                          <span className="inline-flex items-center gap-1 typo-caption font-semibold text-slate-700 dark:text-slate-200">
                             <WebIcon name="shield" className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                             <span>{tech.isoSecurity}</span>
                           </span>
@@ -1688,7 +1710,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               <button
                                 type="button"
                                 onClick={(e) => handleOpenUrl(e, item.url)}
-                                className="px-3 py-1 rounded-[14px] text-[10px] font-bold text-white shadow-2xs inline-flex items-center gap-1 cursor-pointer hover:brightness-110"
+                                className="px-3 py-1 rounded-[14px] typo-badge text-white shadow-2xs inline-flex items-center gap-1 cursor-pointer hover:brightness-110"
                                 style={{ background: config.gradient }}
                               >
                                 <span>Website</span>
@@ -1706,7 +1728,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
           ) : (
             <div
               ref={cardsGridContainerRef}
-              className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[15px] items-stretch p-0 bg-transparent text-[15px] relative grid-flow-row-dense"
+              className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[15px] items-stretch p-0 bg-transparent typo-body relative grid-flow-row-dense"
               style={{ padding: 0, background: 'transparent' }}
             >
               {(expandedSystemId
@@ -1731,7 +1753,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
 
                 const isVividDarkFace = true;
                 const isImgHovered = hoveredImgId === item.id;
-                const systemTitle6Words = SYSTEM_6_WORDS_TITLE[item.id] || item.nameVi;
+                const systemTitle4Words = SYSTEM_4_WORDS_TITLE[item.id] || item.nameVi;
+                const sysAccentKey = SYSTEM_ACCENT_KEY_MAP[item.id] || 'sky';
+                const sysAccentColor =
+                  cardStyle === 'cowhide-leather'
+                    ? '#FDE68A'
+                    : isDark
+                      ? config.darkAccent
+                      : config.lightAccent;
 
                 return (
                   <div
@@ -1741,201 +1770,220 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                     }}
                     className={`system-flip-wrap ${
                       isExpanded
-                        ? 'col-span-1 sm:col-span-2 md:col-span-3 xl:col-span-3 row-span-3 z-25 min-h-[340px]'
+                        ? 'col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4 z-25 min-h-[360px]'
                         : 'col-span-1 row-span-1 z-1'
                     } transition-all duration-500 ease-out`}
                   >
                     {isExpanded ? (
-                      /* THẺ MỞ RỘNG: Kích thước tinh chỉnh 1/2 chiều cao */
+                      /* THẺ MỞ RỘNG: BENTO RESPONSIVE GRID CARD */
                       <article
                         id={`system-expanded-card-${item.id}`}
                         data-element-type="card"
                         data-section-card="true"
                         onClick={(e) => e.stopPropagation()}
-                        className="system-item bento-card glass-card layered-card relative w-full min-h-[340px] h-full rounded-[14px] overflow-hidden p-[15px] flex flex-col justify-between select-none border transition-all duration-500 backdrop-blur-xl"
+                        className="system-item bento-card glass-card layered-card relative w-full min-h-[360px] h-full rounded-[14px] overflow-hidden p-4 sm:p-5 flex flex-col justify-between gap-3 select-none border transition-all duration-500 backdrop-blur-xl"
                         style={{
-                          ...cardSampleStyle,
                           borderRadius: '14px',
-                          padding: '15px',
                         }}
                       >
-                        {/* Header Thẻ Mở Rộng: Tiêu đề, Huy hiệu bảo mật, SLA, Cụm nút tác vụ */}
-                        <div className="flex flex-wrap items-center justify-between gap-[15px] pb-[15px] border-b border-black/10 dark:border-white/20 shrink-0">
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <WebIcon name={config.iconName} className="w-[18px] h-[18px] shrink-0" style={{ color: isDark ? config.darkAccent : config.lightAccent, width: '18px', height: '18px' }} />
+                        {/* Nút X đóng chi tiết thẻ hệ thống */}
+                        <div className="flex items-center justify-end shrink-0">
+                          <button
+                            type="button"
+                            onClick={(e) => handleToggleExpandCard(item.id, e)}
+                            aria-label={t('Đóng chi tiết hệ thống', 'Close system details')}
+                            title={t('Đóng chi tiết hệ thống', 'Close system details')}
+                            className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105 active:scale-95 shrink-0"
+                          >
+                            <WebIcon name="cancel" className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        {/* Thân Thẻ Mở Rộng: Bento Responsive Grid Card (12 cột thống nhất) */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3.5 flex-1 min-h-0 text-left items-stretch">
+                          {/* BENTO CARD 1 (4/12): Tên gọi hệ thống */}
+                          <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
+                            <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="sky">
+                              <WebIcon name={config.iconName} className="w-4 h-4 shrink-0" />
+                              <h4
+                                className="typo-h4 subcard-title-synced font-play m-0 break-words"
+                                data-subcard-title="true"
+                              >
+                                Tên gọi hệ thống
+                              </h4>
+                            </div>
+                            <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
+                              {item.nameVi || item.name}
+                            </span>
+                          </div>
+
+                          {/* BENTO CARD 2 (3/12): Ký hiệu viết tắt */}
+                          <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
+                            <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="amber">
+                              <WebIcon name="file-text" className="w-4 h-4 shrink-0" />
+                              <h4
+                                className="typo-h4 subcard-title-synced font-play m-0 break-words"
+                                data-subcard-title="true"
+                              >
+                                Ký hiệu viết tắt
+                              </h4>
+                            </div>
                             <span
-                              className="px-2.5 py-0.5 rounded-[14px] text-xs font-mono font-black text-white border border-white/25 tracking-wider"
-                              style={{ backgroundColor: config.lightAccent }}
+                              className="typo-h4 font-bold font-mono block break-words"
+                              style={{ color: sysAccentColor }}
                             >
                               {item.abbr}
                             </span>
-                            <h3
-                               className="card-title text-[17px] sm:text-[18px] font-bold font-play truncate m-0"
-                               style={{ color: isDark ? config.darkAccent : config.lightAccent }}
-                             >
-                               {item.nameVi}
-                             </h3>
                           </div>
 
-                          <div className="flex items-center gap-2 shrink-0">
-                            {/* Nút 1: Mở hệ thống ở tab khác */}
-                            {item.url && item.url !== '#' && (
-                              <button
-                                type="button"
-                                onClick={(e) => handleOpenUrl(e, item.url)}
-                                className="bento-card px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 dark:text-white shadow-sm transition flex items-center gap-1.5 cursor-pointer bg-white/85 dark:bg-white/15 hover:brightness-105 border border-slate-300/70 dark:border-white/25 active:scale-95"
-                                title={t(`Mở hệ thống ${item.abbr} ở tab khác`, `Open ${item.abbr} in new tab`)}
+                          {/* BENTO CARD 3 (5/12): Tên viết đầy đủ */}
+                          <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
+                            <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="violet">
+                              <WebIcon name="globe" className="w-4 h-4 shrink-0" />
+                              <h4
+                                className="typo-h4 subcard-title-synced font-play m-0 break-words"
+                                data-subcard-title="true"
                               >
-                                <span>{t('Mở tab mới', 'Open Tab')}</span>
-                                <WebIcon name="external-link" className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-
-                            {/* Nút đóng thẻ chi tiết */}
-                            <button
-                              type="button"
-                              onClick={(e) => handleToggleExpandCard(item.id, e)}
-                              title="Đóng chi tiết hệ thống"
-                              className="px-3.5 py-1.5 rounded-full text-xs font-bold font-play flex items-center gap-1.5 border border-rose-400/50 bg-rose-600 hover:bg-rose-500 text-white transition cursor-pointer shadow-sm active:scale-95 shrink-0"
-                            >
-                              <WebIcon name="minimize" className="w-3.5 h-3.5" />
-                              <span>Đóng chi tiết</span>
-                            </button>
+                                Tên viết đầy đủ
+                              </h4>
+                            </div>
+                            <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
+                              {item.fullName || item.nameEn || item.nameVi}
+                            </span>
                           </div>
-                        </div>
 
-                        {/* Thân Thẻ Mở Rộng: Bento Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] py-[15px] flex-1 min-h-0 text-left items-stretch">
-                          {/* Cột 1 (4/12): Media & Status */}
+                          {/* BENTO CARD 4 (5/12): Video card phát tự động và ẩn các nút công cụ video */}
                           <div
                             id={`system-detail-media-${item.id}`}
                             data-subcard="true"
-                            className="exp-detail-card md:col-span-5 lg:col-span-4 flex flex-col justify-between rounded-[14px] overflow-hidden p-[15px] shadow-sm"
-                            style={{ borderRadius: '14px' }}
+                            className="exp-detail-subcard sm:col-span-2 md:col-span-6 lg:col-span-5 relative w-full aspect-video md:aspect-auto md:h-full md:min-h-[210px] rounded-[14px] overflow-hidden bg-black border border-[var(--border-subcard)] shadow-sm min-w-0"
                           >
-                            <div className="flex items-center gap-2 pb-2.5 border-b border-black/10 dark:border-white/10">
-                              <WebIcon name={config.iconName} className="w-4 h-4 shrink-0" style={{ color: isDark ? config.darkAccent : config.lightAccent }} />
-                              <h4 className="text-[15px] sm:text-[16px] font-bold font-play m-0" style={{ color: isDark ? config.darkAccent : config.lightAccent }}>
-                                Tổng quan hệ thống
+                            {item.videoUrl ? (
+                              <video
+                                ref={expandedVideoRef}
+                                src={item.videoUrl}
+                                poster={config.illustrationSrc || item.imageUrl || undefined}
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="auto"
+                                className="w-full h-full object-cover pointer-events-none select-none"
+                              >
+                                Trình duyệt của bạn không hỗ trợ phát video HTML5.
+                              </video>
+                            ) : (config.illustrationSrc || item.imageUrl) ? (
+                              <img
+                                src={config.illustrationSrc || item.imageUrl}
+                                alt={item.nameVi}
+                                className="w-full h-full object-contain bg-transparent p-3"
+                              />
+                            ) : null}
+                          </div>
+
+                          {/* BENTO CARD 5 (7/12): Mô tả kiến trúc */}
+                          <div
+                            id={`system-detail-overview-${item.id}`}
+                            data-subcard="true"
+                            className="exp-detail-subcard sm:col-span-2 md:col-span-6 lg:col-span-7 p-4 rounded-[14px] flex flex-col justify-between gap-2.5 min-w-0"
+                          >
+                            <div
+                              className="subcard-header-sync flex items-center gap-2 min-w-0"
+                              data-subcard-accent="indigo"
+                            >
+                              <WebIcon name="layers" className="w-4 h-4 shrink-0" />
+                              <h4
+                                className="typo-h4 subcard-title-synced font-play m-0 break-words"
+                                data-subcard-title="true"
+                              >
+                                Mô tả kiến trúc
                               </h4>
                             </div>
-
-                            <div data-subcard="true" className="exp-detail-subcard my-[15px] flex-1 flex flex-col items-center justify-center p-4 rounded-[14px]" style={{ borderRadius: '14px' }}>
-                              <WebIcon name={config.iconName} className="w-14 h-14" style={{ color: isDark ? config.darkAccent : config.lightAccent }} />
-                              <span
-                                className="text-[17px] font-bold font-play mt-2 text-center"
-                                style={{ color: isDark ? config.darkAccent : config.lightAccent }}
-                              >
-                                {item.abbr} — {item.nameVi}
-                              </span>
-                              <span className="text-xs text-slate-500 dark:text-slate-300 font-medium text-center mt-1">
-                                {item.fullName}
-                              </span>
-                            </div>
-
-                            <div className="pt-2.5 border-t border-black/10 dark:border-white/15 flex items-center justify-between text-[15px] text-slate-700 dark:text-slate-200">
-                              <span className="flex items-center gap-1.5 font-bold text-emerald-600 dark:text-emerald-400">
-                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                <span>{systemStatusBadge[item.id]?.text || 'Trực tuyến'}</span>
-                              </span>
-                              <span className="font-bold text-sky-700 dark:text-cyan-300">
-                                SLA: {tech.slaCommitment}
-                              </span>
-                            </div>
+                            <p className="typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words">
+                              {item.descVi}
+                            </p>
                           </div>
 
-                          {/* Cột 2 (5/12): Overview & Features */}
-                          <div className="md:col-span-7 lg:col-span-5 flex flex-col justify-between space-y-[15px]">
+                          {/* BENTO CARD 6 (7/12): Tính năng cốt lõi */}
+                          {item.featuresVi && item.featuresVi.length > 0 && (
                             <div
-                              id={`system-detail-overview-${item.id}`}
+                              id={`system-detail-features-${item.id}`}
                               data-subcard="true"
-                              className="exp-detail-card p-[15px] rounded-[14px] shadow-2xs"
-                              style={{ borderRadius: '14px' }}
+                              className="exp-detail-subcard sm:col-span-2 md:col-span-7 p-4 rounded-[14px] flex flex-col gap-2.5 min-w-0"
                             >
-                              <div className="flex items-center gap-2 mb-[10px]">
-                                <WebIcon name="layers" className="w-4 h-4 shrink-0" style={{ color: isDark ? config.darkAccent : config.lightAccent }} />
+                              <div
+                                className="subcard-header-sync flex items-center gap-2 min-w-0"
+                                data-subcard-accent="emerald"
+                              >
+                                <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
                                 <h4
-                                  className="text-[15px] sm:text-[16px] font-bold font-play m-0"
-                                  style={{ color: isDark ? config.darkAccent : config.lightAccent }}
+                                  className="typo-h4 subcard-title-synced font-play m-0 break-words"
+                                  data-subcard-title="true"
                                 >
-                                  Mô tả kiến trúc
+                                  Tính năng cốt lõi
                                 </h4>
                               </div>
-                              <p className="text-[15px] text-slate-800 dark:text-[#E2E8F0] leading-relaxed font-medium">
-                                {item.descVi}
-                              </p>
-                            </div>
-
-                            {item.featuresVi && item.featuresVi.length > 0 && (
-                              <div
-                                id={`system-detail-features-${item.id}`}
-                                data-subcard="true"
-                                className="exp-detail-card p-[15px] rounded-[14px] flex-1 flex flex-col shadow-2xs"
-                                style={{ borderRadius: '14px' }}
-                              >
-                                <div className="flex items-center gap-2 mb-[15px]">
-                                  <WebIcon name="sparkles" className="w-4 h-4 shrink-0" style={{ color: isDark ? config.darkAccent : config.lightAccent }} />
-                                  <h4
-                                    className="text-[15px] sm:text-[16px] font-bold font-play m-0"
-                                    style={{ color: isDark ? config.darkAccent : config.lightAccent }}
+                              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                {item.featuresVi.map((feat: string, fIdx: number) => (
+                                  <li
+                                    key={fIdx}
+                                    data-subcard="true"
+                                    className="exp-detail-subcard flex items-start gap-2.5 p-2.5 rounded-[12px] text-[var(--text-primary)] min-w-0"
                                   >
-                                    Tính năng cốt lõi
-                                  </h4>
-                                </div>
-                                <ul className="grid grid-cols-1 gap-[15px] text-[15px]">
-                                  {item.featuresVi.map((feat: string, fIdx: number) => (
-                                    <li
-                                      key={fIdx}
-                                      data-subcard="true"
-                                      className="exp-detail-subcard flex items-start gap-2.5 p-[10px] rounded-[14px] text-slate-800 dark:text-[#E2E8F0] leading-snug shadow-2xs"
+                                    <span
+                                      className="w-6 h-6 rounded-full text-white font-mono typo-badge flex items-center justify-center shrink-0 mt-0.5"
+                                      style={{ backgroundColor: config.lightAccent }}
                                     >
-                                      <span
-                                        className="w-6 h-6 rounded-full text-white font-mono text-[12px] font-black flex items-center justify-center shrink-0 mt-0.5"
-                                        style={{ backgroundColor: config.lightAccent }}
-                                      >
-                                        {fIdx + 1}
-                                      </span>
-                                      <span className="font-semibold text-[15px] text-slate-800 dark:text-[#F8FAFC]">{feat}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                          </div>
+                                      {fIdx + 1}
+                                    </span>
+                                    <span className="typo-body-sm text-[var(--text-primary)] break-words min-w-0 flex-1">
+                                      {feat}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
 
-                          {/* Cột 3 (3/12): Tech Specs */}
+                          {/* BENTO CARD 7 (5/12): Hạ tầng kỹ thuật */}
                           <div
                             id={`system-detail-specs-${item.id}`}
                             data-subcard="true"
-                            className="exp-detail-card md:col-span-12 lg:col-span-3 flex flex-col justify-between p-[15px] rounded-[14px] shadow-2xs"
-                            style={{ borderRadius: '14px' }}
+                            className={`exp-detail-subcard sm:col-span-2 ${
+                              item.featuresVi && item.featuresVi.length > 0
+                                ? 'md:col-span-5'
+                                : 'md:col-span-12'
+                            } flex flex-col justify-between p-4 rounded-[14px] min-w-0`}
                           >
-                            <div className="space-y-[15px]">
-                              <div className="flex items-center gap-2">
-                                <WebIcon name="database" className="w-4 h-4 shrink-0" style={{ color: isDark ? config.darkAccent : config.lightAccent }} />
+                            <div className="space-y-2.5 min-w-0">
+                              <div
+                                className="subcard-header-sync flex items-center gap-2 min-w-0"
+                                data-subcard-accent="cyan"
+                              >
+                                <WebIcon name="database" className="w-4 h-4 shrink-0" />
                                 <h4
-                                  className="text-[15px] sm:text-[16px] font-bold font-play m-0"
-                                  style={{ color: isDark ? config.darkAccent : config.lightAccent }}
+                                  className="typo-h4 subcard-title-synced font-play m-0 break-words"
+                                  data-subcard-title="true"
                                 >
                                   Hạ tầng kỹ thuật
                                 </h4>
                               </div>
-                              <div className="space-y-[10px] text-[15px]">
-                                <div data-subcard="true" className="exp-detail-subcard p-[12px] rounded-[14px] shadow-2xs">
-                                  <span className="text-[12px] text-slate-600 dark:text-[#94A3B8] block font-mono font-medium">Dữ liệu (DB):</span>
-                                  <span className="font-bold text-slate-900 dark:text-[#F8FAFC] mt-0.5 block">{tech.database}</span>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2 typo-body-sm">
+                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] min-w-0">
+                                  <span className="typo-label text-[var(--text-secondary)] block font-mono">Dữ liệu (DB)</span>
+                                  <span className="font-semibold text-[var(--text-primary)] mt-0.5 block break-words">{tech.database}</span>
                                 </div>
-                                <div data-subcard="true" className="exp-detail-subcard p-[12px] rounded-[14px] shadow-2xs">
-                                  <span className="text-[12px] text-slate-600 dark:text-[#94A3B8] block font-mono font-medium">Giao thức:</span>
-                                  <span className="font-bold text-slate-900 dark:text-[#F8FAFC] mt-0.5 block">{tech.apiProtocol}</span>
+                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] min-w-0">
+                                  <span className="typo-label text-[var(--text-secondary)] block font-mono">Giao thức</span>
+                                  <span className="font-semibold text-[var(--text-primary)] mt-0.5 block break-words">{tech.apiProtocol}</span>
                                 </div>
-                                <div data-subcard="true" className="exp-detail-subcard p-[12px] rounded-[14px] shadow-2xs">
-                                  <span className="text-[12px] text-slate-600 dark:text-[#94A3B8] block font-mono font-medium">Bảo mật:</span>
-                                  <span className="font-bold text-emerald-700 dark:text-emerald-300 mt-0.5 block">{tech.isoSecurity}</span>
+                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] min-w-0">
+                                  <span className="typo-label text-[var(--text-secondary)] block font-mono">Bảo mật</span>
+                                  <span className="font-semibold text-emerald-700 dark:text-emerald-300 mt-0.5 block break-words">{tech.isoSecurity}</span>
                                 </div>
-                                <div data-subcard="true" className="exp-detail-subcard p-[12px] rounded-[14px] shadow-2xs">
-                                  <span className="text-[12px] text-slate-600 dark:text-[#94A3B8] block font-mono font-medium">Phân hệ:</span>
-                                  <span className="font-bold text-amber-700 dark:text-amber-300 mt-0.5 block">{tech.ecosystemLabel}</span>
+                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] min-w-0">
+                                  <span className="typo-label text-[var(--text-secondary)] block font-mono">Phân hệ</span>
+                                  <span className="font-semibold text-amber-700 dark:text-amber-300 mt-0.5 block break-words">{tech.ecosystemLabel}</span>
                                 </div>
                               </div>
                             </div>
@@ -1973,7 +2021,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           title={`Nhấp để mở rộng chi tiết thẻ: ${item.nameVi} (${item.abbr})`}
                            className="system-flip-front system-item bento-card glass-card layered-card cursor-pointer relative overflow-hidden p-3 sm:p-3.5 flex flex-row items-center justify-between gap-3 select-none rounded-[14px] group transition-all duration-300 border min-h-[110px] h-full hover:-translate-y-0.5 hover:shadow-md"
                           style={{
-                            ...cardSampleStyle,
                             borderRadius: '14px',
                             '--system-theme-color': config.cardTheme,
                             '--system-theme-glow': `${config.cardTheme}35`,
@@ -1986,43 +2033,58 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             />
                           )}
 
-                          {/* KHU VỰC NỘI DUNG: HÀNG 1 ICON & TÊN VIẾT TẮT | HÀNG 2 SUB TIÊU ĐỀ TIẾNG ANH | HÀNG 3 TÊN TIẾNG VIỆT */}
+                          {/* KHU VỰC NỘI DUNG: HÀNG 1 ICON & TÊN VIẾT TẮT | HÀNG 2 ICON & SUB TIÊU ĐỀ TÊN VIẾT ĐẦY ĐỦ | HÀNG 3 ICON & TÊN TIẾNG VIỆT */}
                           <div
                             id="el-p8-div-100"
-                            className={`flex-1 min-w-0 z-20 flex flex-col justify-center gap-0.5 text-left transition-opacity duration-200 ${
+                            className={`flex-1 min-w-0 z-20 flex flex-col justify-center gap-1 text-left transition-opacity duration-200 ${
                               isImgHovered && item.videoUrl ? 'opacity-0 pointer-events-none' : 'opacity-100'
                             }`}
                           >
                             {/* Hàng 1 : Icon & Tên viết tắt */}
-                            <div className="flex items-center gap-1.5 min-w-0">
+                            <div className="card-header-sync flex items-center gap-1.5 min-w-0" style={{ color: sysAccentColor }}>
                               <WebIcon
                                 name={config.iconName}
                                 className="w-[18px] h-[18px] shrink-0 stroke-[2.4]"
-                                style={{ color: isDark ? config.darkAccent : config.lightAccent, width: '18px', height: '18px' }}
+                                style={{ color: sysAccentColor, width: '18px', height: '18px' }}
                               />
                               <h3
-                                className="card-title text-[17px] sm:text-[18px] font-extrabold font-play leading-tight truncate m-0 p-0"
-                                style={{ color: isDark ? config.darkAccent : config.lightAccent }}
+                                className="card-title card-title-synced typo-h3 font-play truncate m-0 p-0"
+                                data-card-title="true"
+                                style={{ color: sysAccentColor }}
                                 title={item.abbr}
                               >
                                 {item.abbr}
                               </h3>
                             </div>
 
-                            {/* Hàng 2 : Sub tiêu đề tên tiếng Anh đầy đủ */}
+                            {/* Hàng 2 : Icon & Sub tiêu đề tên viết đầy đủ hệ thống */}
                             <div
-                              className="text-[15px] sm:text-[16px] font-bold font-play text-slate-700 dark:text-slate-200 truncate leading-snug"
-                              title={item.nameEn || item.name || ''}
+                              className="flex items-center gap-1.5 min-w-0 typo-body-sm font-semibold font-play text-[var(--text-secondary)]"
+                              title={item.nameEn || item.fullName || item.name || ''}
                             >
-                              {item.nameEn || item.name || ''}
+                              <WebIcon
+                                name="layers"
+                                className="w-3.5 h-3.5 shrink-0 opacity-85"
+                                style={{ color: sysAccentColor }}
+                              />
+                              <span className="truncate min-w-0">
+                                {item.nameEn || item.fullName || item.name || ''}
+                              </span>
                             </div>
 
-                            {/* Hàng 3 : Tên tiếng Việt đầy đủ */}
+                            {/* Hàng 3 : Icon & Tên hệ thống tiếng Việt */}
                             <div
-                              className="text-[15px] sm:text-[16px] font-bold font-play text-slate-900 dark:text-slate-100 truncate leading-snug"
+                              className="flex items-center gap-1.5 min-w-0 typo-body font-semibold font-play text-[var(--text-heading,var(--text-primary))]"
                               title={item.nameVi || item.name || ''}
                             >
-                              {item.nameVi || item.name || ''}
+                              <WebIcon
+                                name="globe"
+                                className="w-3.5 h-3.5 shrink-0 opacity-85"
+                                style={{ color: sysAccentColor }}
+                              />
+                              <span className="truncate min-w-0">
+                                {item.nameVi || item.name || ''}
+                              </span>
                             </div>
                           </div>
 
@@ -2044,7 +2106,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             {(config.illustrationSrc || item.imageUrl) ? (
                               <img
                                 src={config.illustrationSrc || item.imageUrl}
-                                alt={systemTitle6Words}
+                                alt={systemTitle4Words}
                                 className="w-full h-full object-contain bg-transparent select-none pointer-events-none"
                                 loading="lazy"
                                 onError={(e) => {
@@ -2067,16 +2129,15 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           data-element-type="card"
                           data-section-card="true"
                           onClick={(e) => handleFlipToggle(item.id, e)}
-                          className="system-flip-back system-item bento-card glass-card layered-card cursor-pointer relative overflow-hidden p-3 flex flex-col justify-between select-none border rounded-[14px] min-h-[90px] h-[90px]"
+                          className="system-flip-back system-item bento-card glass-card layered-card cursor-pointer relative overflow-hidden p-3 flex flex-col justify-between select-none border rounded-[14px] min-h-[110px] h-full"
                           style={{
-                            ...cardSampleStyle,
                             borderRadius: '14px',
                           }}
                         >
 
-                          <div className="flex items-center justify-between gap-1 pb-1 border-b border-black/10 dark:border-white/15">
+                          <div className="flex items-center justify-between gap-1 pb-1 border-b" style={{ borderColor: 'var(--border-subcard)' }}>
                             <span
-                              className="text-[12px] font-bold font-mono tracking-tight"
+                              className="typo-label font-mono tracking-tight truncate"
                               style={{ color: isDark ? config.darkAccent : config.lightAccent }}
                             >
                               {item.abbr} — Hiệu Quả ROI
@@ -2084,7 +2145,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             <button
                               type="button"
                               onClick={(e) => handleFlipToggle(item.id, e)}
-                              className="flex items-center gap-1 text-[9px] font-semibold px-2 py-0.5 rounded-full shrink-0 transition border cursor-pointer bg-white/90 dark:bg-[#111827]/90 hover:bg-slate-100 dark:hover:bg-[#1F2937] text-slate-700 dark:text-[#E2E8F0] border-slate-200/90 dark:border-[#334155] shadow-2xs"
+                              className="theme-modal-close flex items-center gap-1 typo-badge px-2 py-0.5 rounded-full shrink-0 transition cursor-pointer shadow-2xs"
                             >
                               <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -2093,13 +2154,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             </button>
                           </div>
 
-                          <p className="text-[10.5px] leading-tight line-clamp-1 font-medium text-slate-700 dark:text-slate-200">
+                          <p className="typo-caption line-clamp-1 font-medium" style={{ color: 'var(--text-secondary)' }}>
                             {item.descVi}
                           </p>
 
-                          <div className="flex items-center justify-between text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 pt-0.5 border-t border-slate-200/60 dark:border-white/10">
-                            <span>SLA: {tech.slaCommitment}</span>
-                            <span>{tech.isoSecurity}</span>
+                          <div className="flex items-center justify-between gap-2 typo-badge font-mono text-emerald-600 dark:text-emerald-400 pt-0.5 border-t border-slate-200/60 dark:border-white/10">
+                            <span className="truncate">SLA: {tech.slaCommitment}</span>
+                            <span className="truncate">{tech.isoSecurity}</span>
                           </div>
                         </article>
                       </div>
@@ -2115,30 +2176,38 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       {isVideoModalOpen && (
         <div
           onClick={() => setIsVideoModalOpen(false)}
-          className="fixed inset-0 bg-[#0B1220]/75 dark:bg-[#0B1220]/85 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5"
+          style={{
+            background: 'var(--bg-modal-backdrop)',
+            backdropFilter: 'blur(var(--blur-modal, 6px))',
+            WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5"
         >
           <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Video Giới Thiệu Hệ Thống Vận Hành"
             onClick={(e) => e.stopPropagation()}
-            className="bg-white/95 dark:bg-[#111827]/95 border border-[#CBD5E1] dark:border-[#334155] rounded-[14px] max-w-3xl w-full overflow-hidden shadow-2xl flex flex-col text-left backdrop-blur-xl"
+            className="theme-modal-card rounded-[14px] max-w-3xl w-full overflow-hidden shadow-2xl flex flex-col text-left"
           >
             {/* Video Header */}
-            <div className="p-3.5 sm:p-4 bg-slate-50/90 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-700 flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-600/30 border border-indigo-200 dark:border-indigo-400/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 text-xs">
+            <div className="theme-modal-header p-3.5 sm:p-4 flex items-center justify-between">
+              <div className="subcard-header-sync flex items-center gap-2.5" style={{ color: 'var(--color-primary)' }}>
+                <div className="w-8 h-8 rounded-full bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center" style={{ color: 'var(--color-primary)' }}>
                   <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3" /></svg>
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-800 dark:text-white tracking-wide font-play">
+                  <h4 className="typo-popup-title subcard-title-synced tracking-wide font-play" data-subcard-title="true" style={{ color: 'var(--color-primary)' }}>
                     Video Giới Thiệu Hệ Thống Vận Hành
                   </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">PowerService Enterprise Digital Architecture</p>
+                  <p className="typo-caption" style={{ color: 'var(--text-secondary)' }}>PowerService Enterprise Digital Architecture</p>
                 </div>
               </div>
 
               <button
                 type="button"
                 onClick={() => setIsVideoModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-slate-200/80 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-300 dark:hover:bg-slate-600 flex items-center justify-center text-sm transition cursor-pointer"
+                className="theme-modal-close w-8 h-8 rounded-full flex items-center justify-center text-sm transition cursor-pointer"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M18 6 6 18M6 6l12 12" /></svg>
               </button>
@@ -2160,15 +2229,21 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             </div>
 
             {/* Video Footer */}
-            <div className="p-3 bg-slate-50/90 dark:bg-slate-900/90 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
+            <div className="theme-modal-footer p-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setActiveBannerVideo(VIDEO_1_URL)}
-                  className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${
+                  data-selected={activeBannerVideo === VIDEO_1_URL ? 'true' : undefined}
+                  style={
                     activeBannerVideo === VIDEO_1_URL
-                      ? 'bg-indigo-600 text-white shadow-xs'
-                      : 'bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700'
+                      ? { background: 'var(--bg-button-primary)', color: '#FFFFFF' }
+                      : undefined
+                  }
+                  className={`px-3 py-1 rounded-full typo-button transition cursor-pointer ${
+                    activeBannerVideo === VIDEO_1_URL
+                      ? 'shadow-xs'
+                      : 'theme-modal-close'
                   }`}
                 >
                   Video 1 (Hệ thống)
@@ -2176,10 +2251,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 <button
                   type="button"
                   onClick={() => setActiveBannerVideo(VIDEO_2_URL)}
-                  className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${
+                  className={`px-3 py-1 rounded-full typo-button transition cursor-pointer ${
                     activeBannerVideo === VIDEO_2_URL
                       ? 'bg-rose-600 text-white shadow-xs'
-                      : 'bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700'
+                      : 'theme-modal-close'
                   }`}
                 >
                   Video 2 (Giới thiệu bản thân)
@@ -2188,7 +2263,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
               <button
                 type="button"
                 onClick={() => setIsVideoModalOpen(false)}
-                className="px-4 py-1.5 rounded-full bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-semibold transition cursor-pointer"
+                className="theme-modal-close px-4 py-1.5 rounded-full typo-button transition cursor-pointer"
               >
                 Đóng Video
               </button>
@@ -2201,7 +2276,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       {selectedSystem && (
         <div
           onClick={() => setSelectedSystem(null)}
-          className="fixed inset-0 bg-[#0B1220]/75 dark:bg-[#0B1220]/80 backdrop-blur-md z-50 flex items-center justify-center p-[15px] overflow-y-auto"
+          style={{
+            background: 'var(--bg-modal-backdrop)',
+            backdropFilter: 'blur(var(--blur-modal, 6px))',
+            WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-[15px] overflow-y-auto"
         >
           <div
             id={`system-detail-modal-${selectedSystem.id}`}
@@ -2211,12 +2291,26 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             data-element-type="card"
             data-section-card="true"
             onClick={(e) => e.stopPropagation()}
-            className="bento-card glass-card border rounded-[14px] overflow-hidden shadow-2xl flex flex-col relative z-50 text-left backdrop-blur-xl"
-            style={{ ...cardSampleStyle, width: '100%', height: '100%', padding: '15px' }}
+            className="theme-modal-card rounded-[14px] overflow-hidden shadow-2xl flex flex-col relative z-50 text-left"
+            style={{ width: '100%', height: '100%', padding: '15px' }}
           >
-            {/* Modal Body with 3 Distinct Cards */}
-            <div className="p-3 sm:p-5 space-y-4 max-h-[75vh] overflow-y-auto glass-scrollbar font-play flex-1">
+            {/* Nút X đóng chi tiết modal hệ thống */}
+            <div className="flex items-center justify-end px-3 sm:px-5 pt-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => setSelectedSystem(null)}
+                aria-label="Đóng chi tiết hệ thống"
+                title="Đóng chi tiết hệ thống"
+                className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105 active:scale-95 shrink-0"
+              >
+                <WebIcon name="cancel" className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Modal Body with Bento Responsive Grid */}
+            <div className="p-3 sm:p-5 space-y-4 max-h-[78vh] overflow-y-auto glass-scrollbar font-play flex-1">
               {(() => {
+                const modalConfig = SYSTEM_DESIGN_MAP[selectedSystem.id];
                 const specInfo = SYSTEM_TECH_SPECS_MAP[selectedSystem.id] || {
                   database: 'PostgreSQL HA + Redis Cluster',
                   apiProtocol: 'RESTful API / gRPC / Webhook',
@@ -2229,118 +2323,151 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                   ecosystemLabel: 'Vận hành CSKH',
                 };
 
+                const modalIconName = modalConfig?.iconName || systemIconMap[selectedSystem.id] || 'cog';
+
                 return (
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-start">
-                    {/* 1. THẺ THÔNG TIN HỆ THỐNG */}
-                    <div id="systems-admin-card" data-subcard="true" className="exp-detail-card lg:col-span-12 p-4 rounded-[14px] text-slate-900 dark:text-[#F8FAFC] shadow-md space-y-3">
-                      <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-white/10">
-                        <div className="flex items-center gap-2 text-sky-600 dark:text-sky-400">
-                          <WebIcon name="info" className="w-[18px] h-[18px] text-sky-600 dark:text-sky-400 shrink-0" />
-                          <h4 className="text-[17px] sm:text-[18px] font-bold font-play text-sky-600 dark:text-sky-400 m-0">
-                            Thẻ Thông Tin Hệ Thống
-                          </h4>
-                        </div>
-                        <span className="px-2.5 py-0.5 rounded-full bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 text-[11px] font-mono font-bold border border-sky-300 dark:border-sky-400/30">
-                          {specInfo.ecosystemLabel}
-                        </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-[15px] items-stretch text-left">
+                    {/* BENTO CARD 1 (4/12): Tên gọi hệ thống */}
+                    <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
+                      <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="sky">
+                        <WebIcon name={modalIconName} className="w-[18px] h-[18px] shrink-0" />
+                        <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
+                          Tên gọi hệ thống
+                        </h4>
                       </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[15px] text-xs">
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px]">
-                          <span className="text-[10.5px] font-bold text-slate-500 dark:text-[#94A3B8] block">Tên hệ thống:</span>
-                          <span className="font-bold text-slate-900 dark:text-[#F8FAFC] text-[13.5px]">{selectedSystem.nameVi || selectedSystem.name}</span>
-                        </div>
-
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px]">
-                          <span className="text-[10.5px] font-bold text-slate-500 dark:text-[#94A3B8] block">Tên viết tắt &amp; Đầy đủ:</span>
-                          <span className="font-bold text-sky-700 dark:text-[#67E8F9] text-[13px] font-mono">{selectedSystem.abbr} — {selectedSystem.fullName}</span>
-                        </div>
-
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px]">
-                          <span className="text-[10.5px] font-bold text-slate-500 dark:text-[#94A3B8] block">Tiêu chuẩn Bảo mật:</span>
-                          <span className="font-bold text-emerald-700 dark:text-[#6EE7B7] text-[12.5px] flex items-center gap-1 mt-0.5">
-                            <WebIcon name="shield" className="w-3.5 h-3.5 text-emerald-600 dark:text-[#6EE7B7] shrink-0" />
-                            <span>{specInfo.isoSecurity}</span>
-                          </span>
-                        </div>
-                      </div>
-
-                      <div data-subcard="true" className="exp-detail-subcard p-3 rounded-[12px]">
-                        <span className="text-[15px] sm:text-[16px] font-bold text-sky-700 dark:text-[#7DD3FC] block mb-1">Mô tả hệ thống chi tiết:</span>
-                        <p className="text-xs sm:text-sm text-slate-700 dark:text-[#E2E8F0] leading-relaxed font-medium">
-                          {selectedSystem.descVi}
-                        </p>
-                      </div>
+                      <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
+                        {selectedSystem.nameVi || selectedSystem.name}
+                      </span>
                     </div>
 
-                    {/* 2. THẺ TÍNH NĂNG CỐT LÕI */}
-                    <div id="systems-workflow-card" data-subcard="true" className="exp-detail-card lg:col-span-6 p-4 rounded-[14px] text-slate-900 dark:text-[#F8FAFC] shadow-md space-y-3 h-full">
-                      <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-white/10">
-                        <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
-                          <WebIcon name="sparkles" className="w-[18px] h-[18px] text-emerald-600 dark:text-emerald-400 shrink-0" />
-                          <h4 className="text-[17px] sm:text-[18px] font-bold font-play text-emerald-600 dark:text-emerald-400 m-0">
-                            Thẻ Tính Năng Cốt Lõi
+                    {/* BENTO CARD 2 (3/12): Ký hiệu viết tắt */}
+                    <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
+                      <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="amber">
+                        <WebIcon name="file-text" className="w-[18px] h-[18px] shrink-0" />
+                        <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
+                          Ký hiệu viết tắt
+                        </h4>
+                      </div>
+                      <span className="typo-h4 font-bold text-sky-700 dark:text-[#67E8F9] font-mono block break-words">
+                        {selectedSystem.abbr}
+                      </span>
+                    </div>
+
+                    {/* BENTO CARD 3 (5/12): Tên viết đầy đủ (không để tên tiếng việt) */}
+                    <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
+                      <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="violet">
+                        <WebIcon name="globe" className="w-[18px] h-[18px] shrink-0" />
+                        <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
+                          Tên viết đầy đủ
+                        </h4>
+                      </div>
+                      <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
+                        {selectedSystem.nameEn || selectedSystem.fullName?.split('—')[0]?.split('-')[0]?.trim() || selectedSystem.abbr}
+                      </span>
+                    </div>
+
+                    {/* BENTO CARD 4 (5/12): Card video */}
+                    <div
+                      id="systems-admin-card"
+                      data-subcard="true"
+                      className="exp-detail-subcard sm:col-span-2 md:col-span-6 lg:col-span-5 relative w-full aspect-video md:aspect-auto md:h-full md:min-h-[210px] rounded-[14px] overflow-hidden bg-black border border-[var(--border-subcard)] shadow-sm min-w-0 flex flex-col"
+                    >
+                      <div className="absolute top-2.5 left-2.5 z-10 px-2.5 py-0.5 rounded-full bg-slate-950/60 backdrop-blur-md border border-white/20 text-white typo-caption font-semibold flex items-center gap-1.5">
+                        <WebIcon name="play" className="w-3.5 h-3.5 text-red-400" />
+                        <span>Card video</span>
+                      </div>
+                      {selectedSystem.videoUrl ? (
+                        <video
+                          src={selectedSystem.videoUrl}
+                          poster={modalConfig?.illustrationSrc || selectedSystem.imageUrl || undefined}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          preload="auto"
+                          className="w-full h-full object-cover pointer-events-none select-none"
+                        >
+                          Trình duyệt của bạn không hỗ trợ phát video HTML5.
+                        </video>
+                      ) : (modalConfig?.illustrationSrc || selectedSystem.imageUrl) ? (
+                        <img
+                          src={modalConfig?.illustrationSrc || selectedSystem.imageUrl}
+                          alt={selectedSystem.nameVi}
+                          className="w-full h-full object-contain p-3"
+                        />
+                      ) : null}
+                    </div>
+
+                    {/* BENTO CARD 5 (7/12): Thẻ mô tả */}
+                    <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-6 lg:col-span-7 p-4 rounded-[14px] flex flex-col justify-between gap-2.5 min-w-0">
+                      <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="indigo">
+                        <WebIcon name="layers" className="w-[18px] h-[18px] shrink-0" />
+                        <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
+                          Thẻ mô tả
+                        </h4>
+                      </div>
+                      <p className="typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words">
+                        {selectedSystem.description || selectedSystem.descEn || selectedSystem.descVi}
+                      </p>
+                    </div>
+
+                    {/* BENTO CARD 6 (7/12): Tính năng cốt lõi */}
+                    <div id="systems-workflow-card" data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-7 p-4 rounded-[14px] shadow-md space-y-3 h-full min-w-0">
+                      <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
+                        <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="emerald">
+                          <WebIcon name="sparkles" className="w-[18px] h-[18px] shrink-0" />
+                          <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
+                            Tính năng cốt lõi
                           </h4>
                         </div>
-                        <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-[11px] font-mono font-bold border border-emerald-300 dark:border-emerald-400/30">
-                          Ưu điểm nghiệp vụ
-                        </span>
                       </div>
 
-                      <ul className="space-y-2">
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {(selectedSystem.featuresVi || selectedSystem.features || []).map((feat: string, idx: number) => (
                           <li
                             key={idx}
                             data-subcard="true"
-                            className="exp-detail-subcard flex items-start gap-2.5 text-xs text-slate-700 dark:text-[#E2E8F0] p-2.5 rounded-[12px]"
+                            className="exp-detail-subcard flex items-start gap-2.5 typo-body-sm text-[var(--text-primary)] p-2.5 rounded-[12px] min-w-0"
                           >
                             <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
                               <WebIcon name="check" className="w-3 h-3 stroke-[3]" />
                             </div>
-                            <span className="font-medium leading-relaxed">{feat}</span>
+                            <span className="break-words min-w-0 flex-1">{feat}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    {/* 3. THẺ HẠ TẦNG KỸ THUẬT */}
-                    <div id="systems-tech-card" data-subcard="true" className="exp-detail-card lg:col-span-6 p-4 rounded-[14px] text-slate-900 dark:text-[#F8FAFC] shadow-md space-y-3 h-full">
-                      <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-white/10">
-                        <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400">
-                          <WebIcon name="cpu" className="w-[18px] h-[18px] text-purple-600 dark:text-purple-400 shrink-0" />
-                          <h4 className="text-[17px] sm:text-[18px] font-bold font-play text-purple-600 dark:text-purple-400 m-0">
-                            Thẻ Hạ Tầng Kỹ Thuật
+                    {/* BENTO CARD 7 (5/12): Hạ tầng kỹ thuật */}
+                    <div id="systems-tech-card" data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-4 rounded-[14px] shadow-md space-y-3 h-full min-w-0">
+                      <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
+                        <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="purple">
+                          <WebIcon name="cpu" className="w-[18px] h-[18px] shrink-0" />
+                          <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
+                            Hạ tầng kỹ thuật
                           </h4>
                         </div>
-                        <span className="px-2.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 text-[11px] font-mono font-bold border border-purple-300 dark:border-purple-400/30">
-                          Architecture &amp; DB
-                        </span>
                       </div>
 
-                      <div className="space-y-2 text-xs">
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2">
-                          <span className="text-slate-600 dark:text-[#94A3B8] font-medium">Cơ sở dữ liệu (Database):</span>
-                          <span className="font-bold text-sky-700 dark:text-[#67E8F9] font-mono text-right">{specInfo.database}</span>
+                      <div className="space-y-2 typo-body-sm">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2 min-w-0">
+                          <span className="text-[var(--text-secondary)] font-medium">Cơ sở dữ liệu:</span>
+                          <span className="font-semibold text-sky-700 dark:text-[#67E8F9] font-mono text-right break-words">{specInfo.database}</span>
                         </div>
 
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2">
-                          <span className="text-slate-600 dark:text-[#94A3B8] font-medium">Giao thức kết nối API:</span>
-                          <span className="font-bold text-purple-700 dark:text-purple-300 font-mono text-right">{specInfo.apiProtocol}</span>
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2 min-w-0">
+                          <span className="text-[var(--text-secondary)] font-medium">Giao thức API:</span>
+                          <span className="font-semibold text-purple-700 dark:text-purple-300 font-mono text-right break-words">{specInfo.apiProtocol}</span>
                         </div>
 
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2">
-                          <span className="text-slate-600 dark:text-[#94A3B8] font-medium">Cam kết SLA &amp; Độ trễ:</span>
-                          <span className="font-bold text-emerald-700 dark:text-[#6EE7B7] font-mono text-right">{specInfo.slaCommitment}</span>
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2 min-w-0">
+                          <span className="text-[var(--text-secondary)] font-medium">Cam kết SLA:</span>
+                          <span className="font-semibold text-emerald-700 dark:text-[#6EE7B7] font-mono text-right break-words">{specInfo.slaCommitment}</span>
                         </div>
 
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2">
-                          <span className="text-slate-600 dark:text-[#94A3B8] font-medium">Tỷ lệ Uptime hoạt động:</span>
-                          <span className="font-bold text-amber-700 dark:text-[#FCD34D] font-mono text-right">{specInfo.uptimePct} Continuous</span>
-                        </div>
-
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2">
-                          <span className="text-slate-600 dark:text-[#94A3B8] font-medium">Tải kết nối trực tuyến ({specInfo.onlineRoleLabel}):</span>
-                          <span className="font-bold text-emerald-700 dark:text-[#6EE7B7] font-mono text-right">~{specInfo.baseOnlineUsers} Concurrent</span>
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2 min-w-0">
+                          <span className="text-[var(--text-secondary)] font-medium">Bảo mật ISO:</span>
+                          <span className="font-semibold text-amber-700 dark:text-[#FCD34D] font-mono text-right break-words">{specInfo.isoSecurity}</span>
                         </div>
                       </div>
                     </div>
@@ -2350,8 +2477,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-slate-200/70 dark:border-white/10 flex items-center justify-between gap-3">
-              <span className="text-[11px] font-medium text-slate-600 dark:text-[#94A3B8] flex items-center gap-1.5">
+            <div className="theme-modal-footer p-4 flex items-center justify-between gap-3">
+              <span className="typo-caption flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
                 <span
                   className={`w-2 h-2 rounded-full ${
                     selectedSystem.id === 'bi' ? 'bg-amber-400' : 'bg-emerald-500 dark:bg-emerald-400'
@@ -2368,7 +2495,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 <button
                   type="button"
                   onClick={() => setSelectedSystem(null)}
-                  className="px-4 py-2 rounded-full text-xs font-semibold text-slate-700 dark:text-[#E2E8F0] bg-slate-200 hover:bg-slate-300 dark:bg-[#1F2937] dark:hover:bg-[#334155] transition cursor-pointer"
+                  className="theme-modal-close px-4 py-2 rounded-full typo-button transition cursor-pointer"
                 >
                   Đóng
                 </button>
@@ -2377,7 +2504,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                   <button
                     type="button"
                     onClick={(e) => handleOpenUrl(e, selectedSystem.url)}
-                    className="px-4 py-2 rounded-full text-xs font-bold text-white flex items-center gap-1.5 shadow-md transition cursor-pointer hover:brightness-110 active:scale-95"
+                    className="px-4 py-2 rounded-full typo-button text-white flex items-center gap-1.5 shadow-md transition cursor-pointer hover:brightness-110 active:scale-95"
                     style={{
                       background:
                         SYSTEM_DESIGN_MAP[selectedSystem.id]?.gradient || selectedSystem.gradient,
@@ -2397,11 +2524,19 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       {isAuthorModalOpen && (
         <div
           onClick={() => setIsAuthorModalOpen(false)}
-          className="fixed inset-0 bg-[#0B1220]/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          style={{
+            background: 'var(--bg-modal-backdrop)',
+            backdropFilter: 'blur(var(--blur-modal, 6px))',
+            WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
         >
           <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Kiến Trúc Sư Hệ Thống CX/CSKH"
             onClick={(e) => e.stopPropagation()}
-            className="bg-white dark:bg-[#111827] border border-[#CBD5E1] dark:border-[#334155] rounded-[14px] max-w-md w-full p-6 text-center shadow-2xl relative"
+            className="theme-modal-card rounded-[14px] max-w-md w-full p-6 text-center shadow-2xl relative"
           >
             <div className="w-20 h-20 mx-auto rounded-full overflow-hidden ring-4 ring-indigo-500/30 mb-3 shadow-md">
               <img
@@ -2410,19 +2545,20 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 className="w-full h-full object-cover"
               />
             </div>
-            <h3 className="text-lg font-bold text-[#1E1B4B] dark:text-[#F8FAFC] font-play">
+            <h3 className="typo-popup-title font-play" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
               Kiến Trúc Sư Hệ Thống CX/CSKH
             </h3>
-            <p className="text-xs text-[#4338CA] dark:text-[#A5B4FC] font-semibold mb-3">
+            <p className="typo-label mb-3" style={{ color: 'var(--text-link, var(--color-primary))' }}>
               PowerService Enterprise Suite
             </p>
-            <p className="text-xs text-[#334155] dark:text-[#E2E8F0] leading-relaxed mb-4">
+            <p className="typo-body mb-4" style={{ color: 'var(--text-secondary)' }}>
               Hệ sinh thái gồm 12 phân hệ tích hợp toàn diện, chuẩn hóa dữ liệu tập trung theo mô hình Omnichannel, tự động hóa quy trình nghiệp vụ và tích hợp Trợ lý Trí tuệ Nhân tạo 24/7.
             </p>
             <button
               type="button"
               onClick={() => setIsAuthorModalOpen(false)}
-              className="px-5 py-2 rounded-full text-xs font-semibold text-white bg-[#1E1B4B] dark:bg-indigo-600 hover:opacity-90 transition cursor-pointer"
+              style={{ background: 'var(--bg-button-primary)' }}
+              className="px-5 py-2 rounded-full typo-button text-white hover:opacity-90 transition cursor-pointer"
             >
               Đóng
             </button>
@@ -2435,17 +2571,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
         <aside
           role="complementary"
           aria-label="Cửa sổ thu nhỏ thuyết minh video"
-          className="fixed bottom-5 right-5 z-50 w-72 sm:w-80 rounded-[14px] overflow-hidden shadow-2xl border border-indigo-400/40 bg-[#111827]/95 backdrop-blur-xl text-[#F8FAFC] transition-all duration-300 transform animate-in fade-in slide-in-from-bottom-5"
+          className="theme-pip-player fixed bottom-5 right-5 z-50 w-72 sm:w-80 rounded-[14px] overflow-hidden shadow-2xl transition-all duration-300 transform animate-in fade-in slide-in-from-bottom-5"
         >
           {/* Header thanh PiP */}
-          <div className="flex items-center justify-between px-3.5 py-2 bg-gradient-to-r from-[#1E1B4B]/95 via-[#111827]/95 to-[#0B1220]/95 border-b border-white/10">
+          <div className="theme-pip-header flex items-center justify-between px-3.5 py-2">
             <div className="flex items-center gap-2 min-w-0">
               <span className="flex items-center gap-0.5 h-3">
                 <span className="w-0.5 h-2 bg-emerald-400 rounded-full animate-[pulse_0.5s_infinite]" />
                 <span className="w-0.5 h-3 bg-emerald-300 rounded-full animate-[pulse_0.35s_infinite]" />
                 <span className="w-0.5 h-2 bg-emerald-400 rounded-full animate-[pulse_0.6s_infinite]" />
               </span>
-              <span className="text-[11.5px] font-bold font-play text-indigo-200 truncate">
+              <span className="typo-badge font-play truncate" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
                 Đang phát thuyết minh
               </span>
             </div>
@@ -2458,7 +2594,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                   }
                   setIsPipActive(false);
                 }}
-                className="p-1 rounded-[14px] text-[#94A3B8] hover:text-white hover:bg-white/10 transition cursor-pointer"
+                className="theme-modal-close p-1 rounded-[14px] transition cursor-pointer"
                 title="Cuộn về video chính"
               >
                 <WebIcon name="maximize" className="w-3.5 h-3.5" />
@@ -2466,7 +2602,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
               <button
                 type="button"
                 onClick={() => setIsPipDismissed(true)}
-                className="p-1 rounded-[14px] text-[#94A3B8] hover:text-white hover:bg-white/10 transition cursor-pointer"
+                className="theme-modal-close p-1 rounded-[14px] transition cursor-pointer"
                 title="Tạm ẩn cửa sổ mini"
               >
                 <WebIcon name="cancel" className="w-3.5 h-3.5" />
@@ -2486,23 +2622,23 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
               className="w-full h-full object-cover pointer-events-none"
             />
             {/* Overlay badge thời gian */}
-            <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-xs text-[10px] font-mono font-bold text-rose-300 border border-white/20 flex items-center gap-1.5">
+            <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-xs typo-badge font-mono text-rose-300 border border-white/20 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping" />
               <span>{formatCountdown(videoTimeLeft)}</span>
             </div>
           </div>
 
           {/* Footer nút điều khiển PiP */}
-          <div className="p-2.5 flex items-center justify-between gap-2 bg-slate-900/90 border-t border-white/10">
+          <div className="theme-pip-footer p-2.5 flex items-center justify-between gap-2">
             {/* Nút Loa */}
             <button
               type="button"
               onClick={(e) => toggleBannerMute(e)}
-              className="p-2 rounded-[14px] bg-white/10 hover:bg-white/20 text-white transition active:scale-95 flex items-center justify-center shrink-0 cursor-pointer"
+              className="theme-modal-close p-2 rounded-[14px] transition active:scale-95 flex items-center justify-center shrink-0 cursor-pointer"
               title={isBannerMuted ? 'Mở âm thanh' : 'Tắt âm thanh'}
             >
               {isBannerMuted ? (
-                <WebIcon name="volume-x" className="w-4 h-4 text-slate-300" />
+                <WebIcon name="volume-x" className="w-4 h-4" />
               ) : (
                 <WebIcon name="volume-2" className="w-4 h-4 text-emerald-400" sparkle />
               )}
@@ -2518,7 +2654,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 setIsPipActive(false);
                 showToast('Đã dừng nghe — Quay về Video Hệ thống');
               }}
-              className="flex-1 px-3 py-1.5 rounded-[14px] bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white text-xs font-bold font-play flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition cursor-pointer"
+              className="flex-1 px-3 py-1.5 rounded-[14px] bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white typo-button font-play flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition cursor-pointer"
             >
               <WebIcon name="cancel" className="w-3.5 h-3.5" />
               <span>Dừng nghe</span>

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 
 export interface ScreenNavigationControlsProps {
   onPrevious?: () => void;
@@ -29,10 +28,6 @@ export const ScreenNavigationControls: React.FC<ScreenNavigationControlsProps> =
   rightOffsetClass = 'right-1.5 sm:right-3',
   topOffsetClass = 'top-1/2 -translate-y-1/2',
 }) => {
-  const { cardStyle } = useTheme();
-  const rawCardStyle = getCardStyleProperties(cardStyle);
-  const { borderRadius: _, ...cardSampleStyle } = rawCardStyle as any;
-
   const handlePrevClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -56,15 +51,10 @@ export const ScreenNavigationControls: React.FC<ScreenNavigationControlsProps> =
         <button
           type="button"
           onClick={handlePrevClick}
-          style={{
-            ...cardSampleStyle,
-            borderRadius: '999px',
-          }}
-          className={`absolute ${leftOffsetClass} ${topOffsetClass} w-[42px] h-[42px] sm:w-12 sm:h-12 rounded-[999px] aspect-square bg-white/20 dark:bg-slate-900/40 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-500 dark:hover:text-white text-sky-700 dark:text-sky-300 border border-sky-300/90 dark:border-sky-500/50 shadow-[0_4px_16px_rgba(14,165,233,0.35)] backdrop-blur-xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer z-40 group pointer-events-auto`}
+          className={`nav-arrow-btn absolute ${leftOffsetClass} ${topOffsetClass} w-[42px] h-[42px] sm:w-12 sm:h-12 rounded-[999px] aspect-square flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer z-40 group pointer-events-auto`}
           title={previousTitle}
           aria-label={previousTitle}
         >
-          <span className="absolute inset-0 rounded-[999px] bg-sky-400/20 animate-ping pointer-events-none opacity-40" style={{ animationDuration: '3s' }} />
           <svg
             className="w-[21px] h-[21px] sm:w-6 sm:h-6 stroke-[2.8] transition-transform duration-300 group-hover:-translate-x-0.5"
             fill="none"
@@ -81,15 +71,10 @@ export const ScreenNavigationControls: React.FC<ScreenNavigationControlsProps> =
         <button
           type="button"
           onClick={handleNextClick}
-          style={{
-            ...cardSampleStyle,
-            borderRadius: '999px',
-          }}
-          className={`absolute ${rightOffsetClass} ${topOffsetClass} w-[42px] h-[42px] sm:w-12 sm:h-12 rounded-[999px] aspect-square bg-white/20 dark:bg-slate-900/40 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-500 dark:hover:text-white text-sky-700 dark:text-sky-300 border border-sky-300/90 dark:border-sky-500/50 shadow-[0_4px_16px_rgba(14,165,233,0.35)] backdrop-blur-xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer z-40 group pointer-events-auto`}
+          className={`nav-arrow-btn absolute ${rightOffsetClass} ${topOffsetClass} w-[42px] h-[42px] sm:w-12 sm:h-12 rounded-[999px] aspect-square flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer z-40 group pointer-events-auto`}
           title={nextTitle}
           aria-label={nextTitle}
         >
-          <span className="absolute inset-0 rounded-[999px] bg-sky-400/20 animate-ping pointer-events-none opacity-40" style={{ animationDuration: '3s' }} />
           <svg
             className="w-[21px] h-[21px] sm:w-6 sm:h-6 stroke-[2.8] transition-transform duration-300 group-hover:translate-x-0.5"
             fill="none"

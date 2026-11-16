@@ -21,7 +21,7 @@ import {
 import { WebIcon } from '@/components/ui/WebIcon';
 import { Modal } from '@/components/ui/Modal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { useTheme, CardStyleMode, getCardStyleConfig } from '@/hooks/useTheme';
+import { useTheme, getCardStyleConfig } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
 
 export interface WallpaperViewProps {
@@ -37,7 +37,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
   onShowNotification,
   onClose,
 }) => {
-  const { cardStyle, setCardStyle } = useTheme();
+  const { cardStyle } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
 
@@ -386,16 +386,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
       data-element-type="card"
       data-section-card="true"
       data-element-page="wallpaper"
-      style={{
-        ...((): any => {
-          const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...clean } = activeCardStyleMeta.cardSampleStyle as any;
-          return clean;
-        })(),
-        borderRadius: '14px',
-        padding: '15px',
-        gap: '15px',
-      }}
-      className="bento-card glass-card w-full h-full flex flex-col justify-between p-[15px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px]"
+      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] box-border"
     >
       {/* 1. BANNER HÌNH NỀN: FORMAT GIỐNG BANNER HỌC VẤN, XÓA NÚT GIAO DIỆN TỐI, CARD SECTION CÁCH 15PX */}
       <section
@@ -405,7 +396,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         data-element-page="wallpaper"
         data-element-parent="wallpaper-page-container"
         data-section-card="true"
-        className="banner-card hero-banner w-full max-w-full lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
+        className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30"
         style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
       >
         <div
@@ -428,21 +419,19 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         </div>
 
         {/* Hàng trên: Icon + Tiêu đề bên trái, Câu nói chữ ký bên phải */}
-        <div className="relative z-10 flex flex-row items-center justify-between gap-2 sm:gap-4 w-full">
-          <div className="flex items-center gap-2 shrink-0">
+        <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
             <WebIcon
               name="image"
               className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
-              style={{ color: '#38bdf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
+              style={{ color: '#38bdf8', width: '22px', height: '22px' }}
             />
             <h1
               id="el-p14-div-4"
               data-element-id="el-p14-div-4"
-              className="text-[22px] font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] whitespace-nowrap"
+              className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
               style={{
                 color: '#38bdf8',
-                fontSize: '22px',
-                fontWeight: 700,
                 textTransform: 'none',
                 fontStyle: 'normal',
                 transform: 'none',
@@ -452,8 +441,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             </h1>
           </div>
           <p
-            className="font-handwriting font-italianno not-italic text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-right ml-auto whitespace-nowrap overflow-hidden text-ellipsis max-w-[65%]"
-            style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '28px', fontWeight: 700, fontStyle: 'normal' }}
+            className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+            style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
           >
             &quot;Không gian trực quan khơi nguồn cảm hứng sáng tạo ♡&quot;
           </p>
@@ -469,19 +458,19 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   SoundEngine.playTap();
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-rose-900 dark:text-rose-200 border border-rose-300 dark:border-rose-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
+                className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
                 title="Bộ lọc hình nền"
                 aria-expanded={isFilterDropdownOpen}
                 aria-haspopup="listbox"
               >
-                <WebIcon name="sliders" className="w-4 h-4 text-rose-700 dark:text-rose-400 transition-transform group-hover:rotate-45 shrink-0" />
+                <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] transition-transform group-hover:rotate-45 shrink-0" />
                 <span>Bộ lọc hình nền</span>
-                <span className="px-1.5 py-0.2 rounded-full bg-rose-100 dark:bg-rose-950/80 border border-rose-300 dark:border-rose-500/50 text-[10px] font-mono text-rose-900 dark:text-rose-200 font-bold">
+                <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
                   {filteredWallpapers.length}
                 </span>
                 <WebIcon
                   name="chevron-down"
-                  className={`w-3.5 h-3.5 text-rose-700 dark:text-rose-400 transition-transform duration-200 shrink-0 ${
+                  className={`w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0 ${
                     isFilterDropdownOpen ? 'rotate-180' : ''
                   }`}
                 />
@@ -490,7 +479,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
               {isFilterDropdownOpen && (
                 <div
                   role="listbox"
-                  className="bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] bg-white/[0.98] dark:bg-[#111827]/[0.96] border border-rose-200/90 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-slate-900 dark:text-[#E2E8F0]"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
                   {filterCategories.map((cat) => {
                     const isActive = filterType === cat.id;
@@ -500,19 +489,16 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                         type="button"
                         role="option"
                         aria-selected={isActive}
+                        data-selected={isActive ? 'true' : 'false'}
                         onClick={() => {
                           SoundEngine.playTap();
                           setFilterType(cat.id as any);
                           setIsFilterDropdownOpen(false);
                         }}
-                        className={`w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] text-xs font-bold font-play transition-all cursor-pointer text-left ${
-                          isActive
-                            ? 'bg-rose-100/90 dark:bg-rose-500/20 text-rose-950 dark:text-rose-200 font-extrabold border border-rose-300/90 dark:border-rose-400/50 shadow-xs'
-                            : 'text-slate-700 dark:text-[#E2E8F0] hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-950 dark:hover:text-white border border-transparent font-semibold'
-                        }`}
+                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
                       >
                         <span className="truncate">{cat.label}</span>
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                        <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
                           {cat.count}
                         </span>
                       </button>
@@ -528,7 +514,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             <div id="wallpaper-search-wrapper" className="relative min-w-[180px] sm:min-w-[210px]">
               <WebIcon
                 name="search"
-                className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
               />
               <input
                 id="wallpaper-search-input"
@@ -538,11 +524,9 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   setSearchQuery(e.target.value);
                 }}
                 placeholder="Tìm hình nền, video, css..."
-                className="w-full pl-8 pr-3 py-1.5 rounded-full text-xs font-bold font-play bg-white/95 dark:bg-[#111827]/95 border border-rose-200 dark:border-rose-500/40 text-slate-800 dark:text-[#F8FAFC] dark:placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-rose-500 shadow-sm"
+                className="banner-search-input w-full pl-8 pr-3 py-1.5 rounded-full typo-input font-play focus:outline-none"
               />
             </div>
-
-
 
             <button
               id="wallpaper-add-toggle-btn"
@@ -551,7 +535,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 SoundEngine.playPop();
                 setIsAddModalOpen((prev) => !prev);
               }}
-              className="px-3.5 py-1.5 rounded-full text-xs font-bold font-play bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-600 text-white shadow-md hover:brightness-110 transition cursor-pointer flex items-center gap-1.5"
+              className="banner-primary-cta px-3.5 py-1.5 rounded-full typo-button font-play bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-600 text-white shadow-md hover:brightness-110 transition cursor-pointer flex items-center gap-1.5"
             >
               <WebIcon name="plus" className="w-3.5 h-3.5" />
               <span>Thêm hình</span>
@@ -560,8 +544,6 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         </div>
       </section>
 
-
-
       {/* KHUNG THÊM HÌNH NỀN MỚI & NHẬP / XUẤT JSON XUẤT HIỆN NGAY DƯỚI BANNER KHI CLICK NÚT "THÊM HÌNH" */}
       {isAddModalOpen && (
         <section
@@ -569,13 +551,13 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
           data-element-name="Khung thêm hình nền dưới banner"
           data-element-type="section"
           data-element-page="wallpaper"
-          className="w-full rounded-[14px] border border-white/85 bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl shadow-[0_10px_30px_rgba(15,23,42,0.12)] p-[15px] flex flex-col gap-[15px] font-play text-left shrink-0 animate-fadeIn"
+          className="bento-card glass-card w-full rounded-[14px] p-[15px] flex flex-col gap-[15px] font-play text-left shrink-0 animate-fadeIn"
           style={{ padding: '15px' }}
         >
-          <div id="wallpaper-add-panel-header" className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
-            <div className="flex items-center gap-2">
-              <WebIcon name="plus" className="w-4.5 h-4.5 text-rose-600 dark:text-rose-400" />
-              <h3 id="wallpaper-add-panel-title" className="card-title text-rose-600 dark:text-rose-400">
+          <div id="wallpaper-add-panel-header" className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2.5">
+            <div className="card-header-sync flex items-center gap-2 text-[var(--color-primary)]">
+              <WebIcon name="plus" className="w-4.5 h-4.5 text-[var(--color-primary)]" />
+              <h3 id="wallpaper-add-panel-title" className="typo-h3 card-title-synced text-[var(--color-primary)]" data-card-title="true">
                 Thêm Hình Nền Mới & Nhập / Xuất Dữ Liệu JSON
               </h3>
             </div>
@@ -583,7 +565,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
               id="wallpaper-add-panel-close-btn"
               type="button"
               onClick={() => setIsAddModalOpen(false)}
-              className="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-rose-100 text-slate-700 hover:text-rose-700 transition cursor-pointer flex items-center gap-1"
+              className="banner-control-pill px-3 py-1 rounded-full typo-button transition cursor-pointer flex items-center gap-1"
             >
               <WebIcon name="x" className="w-3.5 h-3.5" />
               <span>Thu gọn</span>
@@ -664,16 +646,17 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     : `✓ Đã tự động nhận diện và thêm: "${autoName}"!`
                 );
               }}
-              className="p-[15px] rounded-[14px] bg-slate-50/90 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-3"
+              data-subcard="true"
+              className="sub-card p-[15px] rounded-[14px] flex flex-col justify-between gap-3"
             >
               <div className="space-y-3">
-                <h4 className="text-xs sm:text-sm font-black text-rose-600 dark:text-rose-400 flex items-center gap-2">
-                  <WebIcon name="plus" className="w-4 h-4" />
+                <h4 className="subcard-header-sync subcard-title-synced typo-h4 text-[var(--color-primary)] flex items-center gap-2" data-subcard-title="true">
+                  <WebIcon name="plus" className="w-4 h-4 text-[var(--color-primary)]" />
                   <span>1. Thêm Hình Nền Mới (Tự Động Nhận Diện Link & Tên Hình)</span>
                 </h4>
 
                 <div>
-                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                  <label className="typo-label text-[var(--text-secondary)] block mb-1">
                     Đường dẫn Link hoặc Mã CSS (Auto nhận diện)
                   </label>
                   <input
@@ -682,12 +665,12 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     value={newValue}
                     onChange={(e) => setNewValue(e.target.value)}
                     placeholder="Dán link hình ảnh, video .mp4, YouTube hoặc mã gradient CSS vào đây..."
-                    className="w-full px-3.5 py-2 rounded-[14px] text-xs font-mono bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-rose-500 shadow-xs"
+                    className="theme-input w-full px-3.5 py-2 rounded-[14px] typo-input font-mono focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                  <label className="typo-label text-[var(--text-secondary)] block mb-1">
                     Tên hình nền (Tùy chọn - để trống sẽ tự động lấy tên theo link)
                   </label>
                   <input
@@ -696,7 +679,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     placeholder="VD: Không gian vũ trụ 4K..."
-                    className="w-full px-3.5 py-2 rounded-[14px] text-xs font-bold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-rose-500 shadow-xs"
+                    className="theme-input w-full px-3.5 py-2 rounded-[14px] typo-input focus:outline-none"
                   />
                 </div>
               </div>
@@ -705,7 +688,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 <button
                   id="wallpaper-add-submit-btn"
                   type="submit"
-                  className="px-5 py-2 rounded-full text-xs font-black bg-gradient-to-r from-rose-600 to-indigo-600 text-white shadow-md hover:brightness-110 transition cursor-pointer"
+                  style={{ background: 'var(--bg-button-primary)' }}
+                  className="px-5 py-2 rounded-full typo-button text-white shadow-md hover:brightness-110 transition cursor-pointer"
                 >
                   Thêm & Áp Dụng Ngay
                 </button>
@@ -713,11 +697,11 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             </form>
 
             {/* PHẦN 2: NHẬP / XUẤT JSON */}
-            <div id="wallpaper-json-panel" className="p-[15px] rounded-[14px] bg-slate-50/90 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-3">
+            <div id="wallpaper-json-panel" data-subcard="true" className="sub-card p-[15px] rounded-[14px] flex flex-col justify-between gap-3">
               <div className="space-y-2.5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h4 className="text-xs sm:text-sm font-black text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
-                    <WebIcon name="database" className="w-4 h-4" />
+                  <h4 className="subcard-header-sync subcard-title-synced typo-h4 text-[var(--color-primary)] flex items-center gap-2" data-subcard-title="true">
+                    <WebIcon name="database" className="w-4 h-4 text-[var(--color-primary)]" />
                     <span>2. Nhập / Xuất Dữ Liệu Hình Nền Bằng JSON</span>
                   </h4>
 
@@ -733,7 +717,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                       id="wallpaper-json-import-file-btn"
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
-                      className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                      className="px-3.5 py-1.5 rounded-full typo-button bg-emerald-600 hover:bg-emerald-700 text-white transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
                     >
                       <WebIcon name="upload" className="w-3.5 h-3.5" />
                       <span>Nhập File JSON</span>
@@ -743,7 +727,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                       id="wallpaper-json-export-file-btn"
                       type="button"
                       onClick={handleExportJson}
-                      className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                      style={{ background: 'var(--bg-button-primary)' }}
+                      className="px-3.5 py-1.5 rounded-full typo-button hover:brightness-110 text-white transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
                     >
                       <WebIcon name="download" className="w-3.5 h-3.5" />
                       <span>Xuất File JSON</span>
@@ -757,7 +742,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   value={jsonText}
                   onChange={(e) => setJsonText(e.target.value)}
                   placeholder='Dán nội dung JSON hình nền vào đây để nhập nhanh (VD: [{"id": "wp-1", "name": "Hình nền 1", "type": "image", "value": "https://..."}])'
-                  className="w-full px-3 py-2 rounded-[14px] text-xs font-mono bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="theme-input w-full px-3 py-2 rounded-[14px] typo-input font-mono focus:outline-none"
                 />
               </div>
 
@@ -767,7 +752,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   type="button"
                   onClick={() => importFromJsonString(jsonText)}
                   disabled={!jsonText.trim()}
-                  className="px-4 py-1.5 rounded-full text-xs font-bold bg-indigo-600 disabled:opacity-40 text-white hover:bg-indigo-700 transition cursor-pointer"
+                  style={{ background: 'var(--bg-button-primary)' }}
+                  className="px-4 py-1.5 rounded-full typo-button disabled:opacity-40 text-white hover:brightness-110 transition cursor-pointer"
                 >
                   Nhập Dữ Liệu Từ Ô JSON
                 </button>
@@ -779,14 +765,14 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
 
       {/* LƯỚI HÌNH NỀN THU NHỎ HOẶC EMPTY STATE */}
       {filteredWallpapers.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center text-center py-12 px-4 rounded-[14px] bg-white/80 dark:bg-[#111827]/80 border border-slate-200/80 dark:border-white/15 backdrop-blur-md">
-          <div className="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 flex items-center justify-center mb-3">
+        <div className="bento-card glass-card flex-1 flex flex-col items-center justify-center text-center py-12 px-4 rounded-[14px]">
+          <div className="w-12 h-12 rounded-full bg-rose-500/15 text-rose-500 flex items-center justify-center mb-3">
             <WebIcon name="image" className="w-6 h-6" />
           </div>
-          <p className="text-base font-bold text-slate-800 dark:text-white font-play">
+          <p className="typo-h4 text-[var(--text-heading,var(--text-primary))] font-play">
             Không tìm thấy hình nền phù hợp
           </p>
-          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 max-w-md">
+          <p className="typo-caption text-[var(--text-secondary)] mt-1 max-w-md">
             Hãy thử thay đổi bộ lọc loại media hoặc xóa từ khóa tìm kiếm hiện tại.
           </p>
           <button
@@ -796,7 +782,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
               setFilterType('all');
               setSearchQuery('');
             }}
-            className="mt-4 px-5 py-2 rounded-full text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white transition cursor-pointer shadow-sm"
+            style={{ background: 'var(--bg-button-primary)' }}
+            className="mt-4 px-5 py-2 rounded-full typo-button hover:brightness-110 text-white transition cursor-pointer shadow-sm"
           >
             Xem lại tất cả hình nền
           </button>
@@ -835,10 +822,10 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   borderRadius: '14px',
                   padding: '0px',
                 }}
-                className={`group relative flex flex-col rounded-[14px] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer select-none border border-white/30 dark:border-white/10 aspect-[16/10] sm:aspect-video w-full h-auto bg-slate-950 ${
+                className={`themed-image-card group relative flex flex-col rounded-[14px] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto bg-slate-950 ${
                   isSelected
                     ? 'ring-2 ring-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]'
-                    : 'shadow-md hover:border-cyan-400/50'
+                    : ''
                 }`}
               >
                 {/* NỀN HÌNH THU NHỎ DẠNG NGANG (100% COVER PHỦ TOÀN BỘ CARD) */}
@@ -852,8 +839,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                       style={activeCardStyleMeta.cardSampleStyle}
                       className="w-full h-full flex flex-col items-center justify-center gap-1.5 p-3 text-center transition-all"
                     >
-                      <WebIcon name="sparkles" className="w-8 h-8 text-indigo-600/90 dark:text-indigo-400 drop-shadow-xs" />
-                      <span className="text-xs font-bold font-play text-slate-900 dark:text-white drop-shadow-xs">Mặc định (Plain Mica)</span>
+                      <WebIcon name="sparkles" className="w-8 h-8 text-[var(--color-primary)] drop-shadow-xs" />
+                      <span className="typo-badge font-play text-[var(--text-primary)] drop-shadow-xs">Mặc định (Plain Mica)</span>
                     </div>
                   ) : wp.type === 'video' ? (
                     wp.value.includes('youtube.com') || wp.value.includes('youtu.be') ? (
@@ -921,7 +908,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   {/* Dòng trên: Huy hiệu loại media + Nút thao tác */}
                   <div className="flex items-center justify-between gap-1 w-full relative z-20">
                     <span
-                      className={`px-2 py-0.5 rounded-full text-[9.5px] font-mono font-black text-white shadow-xs backdrop-blur-md border border-white/20 ${
+                      className={`px-2 py-0.5 rounded-full typo-badge font-mono text-white shadow-xs backdrop-blur-md border border-white/20 ${
                         wp.type === 'video'
                           ? 'bg-purple-600/90'
                           : wp.type === 'css' || wp.type === 'gradient'
@@ -936,12 +923,12 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
 
                     <div className="flex items-center gap-1">
                       {isSelected ? (
-                        <span className="px-2 py-0.5 rounded-full bg-emerald-500 text-white text-[9.5px] font-bold shadow-xs flex items-center gap-1 backdrop-blur-md">
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-500 text-white typo-badge shadow-xs flex items-center gap-1 backdrop-blur-md">
                           <WebIcon name="check" className="w-2.5 h-2.5" />
                           <span>Mặc định</span>
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded-full bg-white/25 hover:bg-cyan-500 text-white text-[9.5px] font-bold shadow-xs backdrop-blur-md transition-all">
+                        <span className="px-2 py-0.5 rounded-full bg-white/25 hover:bg-cyan-500 text-white typo-badge shadow-xs backdrop-blur-md transition-all">
                           Áp dụng
                         </span>
                       )}
@@ -961,7 +948,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
 
                   {/* Dòng dưới: Tiêu đề hình nền thu nhỏ rõ ràng */}
                   <div className="w-full mt-auto flex items-center justify-between gap-1 pt-1 pointer-events-none">
-                    <span className="text-[11px] font-bold font-play text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] truncate max-w-full">
+                    <span className="typo-badge font-play text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] truncate max-w-full">
                       {title4Words}
                     </span>
                   </div>

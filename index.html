@@ -23,18 +23,18 @@
       (function() {
         try {
           var cardStyle = localStorage.getItem('hungthai_card_style');
-          var validStyles = ['frosted-glass', 'glassmorphism', 'mica-fluent', 'pastel-bento', 'glassmorphism-neon', 'cowhide-leather', 'glossy-glass'];
+          var validStyles = ['frosted-glass', 'mica-fluent', 'dark-frosted-glass', 'cowhide-leather'];
           if (cardStyle && validStyles.indexOf(cardStyle) !== -1) {
             document.documentElement.setAttribute('data-card-style', cardStyle);
           } else {
-            cardStyle = 'glassmorphism';
+            cardStyle = 'frosted-glass';
             document.documentElement.setAttribute('data-card-style', cardStyle);
             localStorage.setItem('hungthai_card_style', cardStyle);
           }
-          var isDarkInit = cardStyle === 'glassmorphism-neon' || cardStyle === 'cowhide-leather';
+          var isDarkInit = cardStyle === 'dark-frosted-glass' || cardStyle === 'cowhide-leather';
           if (isDarkInit) {
             document.documentElement.classList.add('dark');
-            document.documentElement.setAttribute('data-theme', cardStyle === 'cowhide-leather' ? 'cowhide-leather' : 'dark-neon');
+            document.documentElement.setAttribute('data-theme', cardStyle === 'cowhide-leather' ? 'cowhide-leather' : 'dark-frosted-glass');
             document.documentElement.setAttribute('data-theme-mode', 'dark');
           } else {
             document.documentElement.classList.remove('dark');

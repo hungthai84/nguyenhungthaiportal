@@ -142,6 +142,70 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     isCustom: false,
     createdAt: 1794035600000,
   },
+  {
+    id: 'theme-bg-frosted-glass',
+    name: '🎨 Nền Flat UI Thẻ Đa Sắc (Theme Background)',
+    type: 'image',
+    value: '/backgrounds/themes/frosted-glass/frosted-glass-light.webp',
+    bg: "url('/backgrounds/themes/frosted-glass/frosted-glass-light.webp') center/cover no-repeat",
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 18% 18%, rgba(59, 130, 246, 0.22) 0%, transparent 48%), radial-gradient(circle at 82% 24%, rgba(167, 139, 250, 0.22) 0%, transparent 48%), linear-gradient(135deg, #f1f5f9 0%, #e0f2fe 50%, #eef2ff 100%)',
+      backgroundImage: "url('/backgrounds/themes/frosted-glass/frosted-glass-light.webp')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000001,
+  },
+  {
+    id: 'theme-bg-mica-fluent',
+    name: '🪟 Nền Chất Liệu Mica Sáng (Theme Background)',
+    type: 'image',
+    value: '/backgrounds/themes/mica-fluent/mica-fluent-light.webp',
+    bg: "url('/backgrounds/themes/mica-fluent/mica-fluent-light.webp') center/cover no-repeat",
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 22% 20%, rgba(0, 103, 192, 0.18) 0%, transparent 50%), linear-gradient(145deg, #f3f6fb 0%, #e6eef8 55%, #f3f3f3 100%)',
+      backgroundImage: "url('/backgrounds/themes/mica-fluent/mica-fluent-light.webp')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000002,
+  },
+  {
+    id: 'theme-bg-dark-frosted-glass',
+    name: '🌌 Nền Kính Mờ Tối Sapphire (Theme Background)',
+    type: 'image',
+    value: '/backgrounds/themes/dark-frosted-glass/dark-frosted-dark.webp',
+    bg: "url('/backgrounds/themes/dark-frosted-glass/dark-frosted-dark.webp') center/cover no-repeat",
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.28) 0%, transparent 50%), linear-gradient(145deg, #020617 0%, #0f172a 55%, #082f49 100%)',
+      backgroundImage: "url('/backgrounds/themes/dark-frosted-glass/dark-frosted-dark.webp')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000003,
+  },
+  {
+    id: 'theme-bg-cowhide-leather',
+    name: '💼 Nền Da Bò Thủ Công (Theme Background)',
+    type: 'image',
+    value: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.webp',
+    bg: "url('/backgrounds/themes/cowhide-leather/cowhide-leather-dark.webp') center/cover no-repeat",
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
+      backgroundImage: "url('/backgrounds/themes/cowhide-leather/cowhide-leather-dark.webp')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000004,
+  },
 
   {
     id: 'glass-ui-vang',

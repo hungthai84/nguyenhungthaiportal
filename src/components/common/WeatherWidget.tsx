@@ -546,8 +546,8 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           onClick={handleCycleCard}
           title={
             isEn
-              ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} (24h) • ${dateInfo.shortDate}`
-              : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} (24h) • ${dateInfo.shortDate}`
+              ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.shortDate}`
+              : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.shortDate}`
           }
           className="relative h-[64px] px-2 py-1 rounded-[12px] border-0 bg-transparent flex items-center justify-between gap-2 md:gap-2.5 lg:gap-3.5 cursor-pointer transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none group overflow-hidden"
           style={{
@@ -564,21 +564,22 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
             WebkitBackdropFilter: 'none',
           }}
         >
-          {/* 1. BÊN TRÁI: ĐỒNG HỒ 24H HH:MM */}
+          {/* 1. BÊN TRÁI: ĐỒNG HỒ HH:MM */}
           <div className="relative z-20 flex flex-col items-start justify-center shrink-0">
             <span
               suppressHydrationWarning
-              className="text-[18px] sm:text-[19px] md:text-[21px] lg:text-[23px] font-mono font-black leading-none text-slate-900 dark:text-yellow-300 tracking-tight tabular-nums"
+              style={{ color: 'var(--text-heading, var(--text-primary))' }}
+              className="typo-h3 font-mono font-bold leading-none tracking-tight tabular-nums"
             >
               {dateInfo.timeStr}
-            </span>
-            <span className="text-[10px] font-mono font-bold leading-none text-slate-600 dark:text-yellow-200/80 mt-0.5 tracking-wider">
-              24h
             </span>
           </div>
 
           {/* VÁCH NGĂN 1 */}
-          <div className="relative z-10 w-[1px] h-7 bg-slate-300/60 dark:bg-white/20 rounded-full shrink-0" />
+          <div
+            className="relative z-10 w-[1px] h-7 rounded-full shrink-0"
+            style={{ backgroundColor: 'var(--divider-nav-pill)' }}
+          />
 
           {/* 2. Ở GIỮA (CENTER): ICON THỜI TIẾT VÀ THÔNG TIN */}
           <div className="relative z-20 flex items-center gap-1.5 md:gap-2 shrink-0">
@@ -588,13 +589,15 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
             <div className="flex flex-col justify-center leading-tight text-left">
               <span
                 suppressHydrationWarning
-                className="text-[15px] md:text-[17px] lg:text-[19px] font-black leading-none tracking-tight font-play text-slate-900 dark:text-white"
+                style={{ color: 'var(--text-primary)' }}
+                className="typo-h4 font-bold leading-none tracking-tight font-play"
               >
                 {displayTemp}°C
               </span>
               <span
                 suppressHydrationWarning
-                className="text-[12px] font-bold font-play text-sky-700 dark:text-sky-300 whitespace-nowrap mt-0.5"
+                style={{ color: 'var(--accent-sky, var(--color-primary))' }}
+                className="typo-label font-play whitespace-nowrap mt-0.5"
               >
                 {displayLabel}
               </span>
@@ -602,20 +605,25 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           </div>
 
           {/* VÁCH NGĂN 2 */}
-          <div className="hidden sm:block relative z-10 w-[1px] h-7 bg-slate-300/60 dark:bg-white/20 rounded-full shrink-0" />
+          <div
+            className="hidden sm:block relative z-10 w-[1px] h-7 rounded-full shrink-0"
+            style={{ backgroundColor: 'var(--divider-nav-pill)' }}
+          />
 
           {/* 3. BÊN PHẢI: THỨ (CENTER), NGÀY, THÁNG, NĂM */}
           <div className="hidden sm:flex relative z-10 items-center justify-center shrink-0 text-center leading-tight">
             <div className="flex flex-col items-center justify-center gap-1 text-center">
               <span
                 suppressHydrationWarning
-                className="w-full text-center text-[14px] md:text-[16px] lg:text-[18px] font-black font-play text-slate-900 dark:text-white whitespace-nowrap leading-none tracking-tight"
+                style={{ color: 'var(--text-primary)' }}
+                className="w-full text-center typo-h5 font-bold font-play whitespace-nowrap leading-none tracking-tight"
               >
                 {dateInfo.dayName}
               </span>
               <span
                 suppressHydrationWarning
-                className="text-center text-[13px] md:text-[14.5px] lg:text-[16px] font-bold text-[#475569] dark:text-[#94A3B8] whitespace-nowrap font-mono leading-none"
+                style={{ color: 'var(--text-secondary)' }}
+                className="text-center typo-caption font-bold whitespace-nowrap font-mono leading-none"
               >
                 {String(now.getDate()).padStart(2, '0')}/{String(now.getMonth() + 1).padStart(2, '0')}/{now.getFullYear()}
               </span>
@@ -633,14 +641,14 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           maxWidth="4xl"
         >
           <div
-            className="p-5 sm:p-8 rounded-[14px] font-play select-none bg-gradient-to-b from-[#dbeafe] via-[#eff6ff] to-[#e0f2fe] dark:from-[#0f172a] dark:via-[#111827] dark:to-[#1e1b4b]"
+            className="theme-modal-subcard p-5 sm:p-8 rounded-[14px] font-play select-none"
           >
             <div className="text-center mb-7">
-              <h2 className="typo-h2 font-bold text-slate-900 dark:text-white tracking-wide">
+              <h2 className="typo-h2 font-bold tracking-wide" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
                 {isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}
               </h2>
-              <p className="typo-body-sm font-medium text-slate-700 dark:text-slate-300 mt-1" suppressHydrationWarning>
-                {dateInfo.fullDateHeader} • <span className="font-mono font-bold">{dateInfo.timeStr24Full} (24h)</span>
+              <p className="typo-body-sm font-medium mt-1" style={{ color: 'var(--text-secondary)' }} suppressHydrationWarning>
+                {dateInfo.fullDateHeader} • <span className="font-mono font-bold">{dateInfo.timeStr24Full}</span>
               </p>
             </div>
 
@@ -666,12 +674,12 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
                       borderColor: cfg.borderGlow,
                       boxShadow: `0 14px 30px -6px ${cfg.shadowColor}, inset 0 1.5px 2px rgba(255,255,255,0.7)`,
                     }}
-                    className={`relative h-[128px] sm:h-[136px] rounded-[22px] border px-6 py-4 flex items-center justify-between cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] ${
+                    className={`relative h-[128px] sm:h-[136px] rounded-[14px] border px-6 py-4 flex items-center justify-between cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] ${
                       isSelected ? 'ring-4 ring-white shadow-2xl' : ''
                     }`}
                   >
                     {/* Vệt sáng chéo góc phải */}
-                    <div className="absolute inset-0 rounded-[22px] overflow-hidden pointer-events-none">
+                    <div className="absolute inset-0 rounded-[14px] overflow-hidden pointer-events-none">
                       <div
                         className="absolute -right-8 -top-8 w-36 h-36 rotate-45 opacity-25"
                         style={{
@@ -689,16 +697,16 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
 
                     <div className="relative z-10 flex flex-col justify-center text-left">
                       <div className="flex items-baseline gap-1.5">
-                        <span className="text-4xl sm:text-[42px] font-bold text-white leading-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.2)]">
+                        <span className="typo-kpi font-bold text-white leading-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.2)]">
                           {cfg.defaultTemp}
                         </span>
-                        <span className="text-lg font-bold text-white/95 -translate-y-3">°C</span>
-                        <span className="text-lg sm:text-xl font-bold text-white ml-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
+                        <span className="typo-h4 font-bold text-white/95 -translate-y-2">°C</span>
+                        <span className="typo-h3 font-bold text-white ml-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
                           {isEn ? cfg.condition : cfg.labelVi}
                         </span>
                       </div>
                       <div className="typo-caption font-medium text-white/95 mt-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.18)]">
-                        {isEn ? 'Ho Chi Minh City' : 'Hồ Chí Minh'} • {dateInfo.timeStr} (24h)
+                        {isEn ? 'Ho Chi Minh City' : 'Hồ Chí Minh'} • {dateInfo.timeStr}
                       </div>
                       <div className="typo-caption font-medium text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.18)]">
                         {dateInfo.shortDate}

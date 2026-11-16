@@ -8,218 +8,29 @@ import { DomainData, SiteTheme } from '@/types';
 import { TechStackExplorerModal } from '@/components/domains/TechStackExplorerModal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { formatCardTitle, formatSentenceFourWords } from '@/lib/utils';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
 
 export interface ServicesViewProps {
   currentTheme?: SiteTheme;
 }
 
-// Database chứa thông tin chuyên môn chi tiết từ file đính kèm
-const SERVICES_DATA_DETAILS: Record<string, {
-  num: string;
-  title: string;
-  kicker: string;
-  description: string;
-  accent: string;
-  accentSoft: string;
-  accentDeep: string;
-  tag1: string;
-  tag2: string;
-  brandMark: string;
-  summary: string;
-  metrics: { val: string; label: string }[];
-  overview: string;
-  architecture: string[];
-  role: string;
-  technologies: string[];
-  partners: string[];
-}> = {
-  '01': {
-    num: "01 / 06",
-    title: "Viễn thông & Hạ tầng số",
-    kicker: "Carrier-Grade Architecture",
-    description: "Kiến trúc mạng lõi, hệ thống tính cước thời gian thực (OCS) và nền tảng VAS băng thông rộng.",
-    accent: "#1480C0",
-    accentSoft: "#EAF5FB",
-    accentDeep: "#145B86",
-    tag1: "OCS 50M+ Thuê bao",
-    tag2: "High Availability 99.999%",
-    brandMark: "TEL",
-    summary: "Thiết kế và vận hành các hệ thống viễn thông lõi quy mô lớn, phục vụ hàng chục triệu thuê bao đồng thời với độ sẵn sàng tuyệt đối.",
-    metrics: [
-      { val: "50M+", label: "Thuê bao hoạt động" },
-      { val: "99.999%", label: "Độ sẵn sàng hệ thống" },
-      { val: "< 10ms", label: "Độ trễ xử lý OCS" },
-      { val: "24/7", label: "Giám sát & Vận hành" }
-    ],
-    overview: "Giải pháp hạ tầng viễn thông tích hợp hệ thống Online Charging System (OCS), Policy Control (PCRF/PCF) và VAS Gateway hiệu suất cao, đáp ứng tiêu chuẩn khắt khe của nhà mạng viễn thông hàng đầu.",
-    architecture: [
-      "Distributed Micro-services trên nền tảng Kubernetes Enterprise",
-      "In-memory caching cluster với Redis Enterprise và Hazelcast",
-      "Hệ thống phân tích log thời gian thực bằng Elastic & Kafka",
-      "Bảo mật tầng mạng chống DDoS và mã hóa dữ liệu đầu cuối"
-    ],
-    role: "Trực tiếp định hướng kiến trúc tổng thể, tối ưu hóa băng thông truyền dẫn và đồng bộ hóa dữ liệu giữa các trung tâm dữ liệu (Active-Active Datacenter).",
-    technologies: ["C++", "Golang", "Java Spring Boot", "Kafka", "Oracle DB", "Redis", "Kubernetes", "Docker", "Diameter Protocol", "VoIP"],
-    partners: ["Viettel", "VNPT", "MobiFone", "Ericsson", "Nokia"]
-  },
-  '02': {
-    num: "02 / 06",
-    title: "Thương mại Điện tử & Bán lẻ",
-    kicker: "High-Traffic Omni-Channel",
-    description: "Hệ thống Omni-channel, quản lý kho thông minh và nền tảng flashsale chịu tải cao.",
-    accent: "#EC7D21",
-    accentSoft: "#FFF3E8",
-    accentDeep: "#A84F0E",
-    tag1: "100k+ TPS Flashsale",
-    tag2: "Realtime Inventory",
-    brandMark: "COM",
-    summary: "Xây dựng hệ thống sàn thương mại điện tử và chuỗi bán lẻ đa kênh với khả năng chịu tải hàng trăm nghìn giao dịch mỗi giây trong các đợt flashsale lớn.",
-    metrics: [
-      { val: "100k+", label: "TPS Flashsale peak" },
-      { val: "99.98%", label: "Tỷ lệ đơn hàng thành công" },
-      { val: "0ms", label: "Đồng bộ kho thực tế" },
-      { val: "3x", label: "Tăng trưởng tốc độ tải trang" }
-    ],
-    overview: "Hệ thống kiến trúc hướng sự kiện (Event-driven Architecture) kết hợp CQRS Pattern giúp tách biệt tối đa luồng đọc và ghi dữ liệu trong các chiến dịch mua sắm quy mô quốc gia.",
-    architecture: [
-      "Distributed Locking cho hệ thống giới hạn sản phẩm flashsale",
-      "Event Sourcing qua Apache Kafka đảm bảo không thất lạc giao dịch",
-      "Elasticsearch cluster tối ưu hóa tìm kiếm sản phẩm hàng triệu bản ghi",
-      "CDN Edge Computing giảm tải 80% request đến máy chủ gốc"
-    ],
-    role: "Chủ trì thiết kế hệ thống xử lý đặt hàng đồng thời, giải quyết triệt để bài toán quá tải kho hàng và phân phối tải tự động.",
-    technologies: ["Node.js", "Golang", "PostgreSQL", "MongoDB", "Kafka", "Redis", "Elasticsearch", "AWS CloudFront", "Docker"],
-    partners: ["Shopee", "Lazada", "Tiki", "Central Retail", "VinMart"]
-  },
-  '03': {
-    num: "03 / 06",
-    title: "Bảo hiểm & InsurTech",
-    kicker: "Digital Insurance Transformation",
-    description: "Số hóa quy trình thẩm định, quản lý hợp đồng điện tử tự động và cổng bồi thường thông minh.",
-    accent: "#E64C72",
-    accentSoft: "#FFF0F3",
-    accentDeep: "#A92F50",
-    tag1: "Xử lý HĐ Tự động",
-    tag2: "Bảo mật Chuẩn quốc tế",
-    brandMark: "INS",
-    summary: "Đổi mới quy trình bảo hiểm truyền thống bằng nền tảng số hóa toàn diện từ khâu định giá, phát hành hợp đồng đến tự động hóa bồi thường.",
-    metrics: [
-      { val: "-60%", label: "Thời gian phát hành hợp đồng" },
-      { val: "100%", label: "Số hóa quy trình ký số" },
-      { val: "AI", label: "Thẩm định bồi thường tự động" },
-      { val: "24/7", label: "Cổng thông tin khách hàng" }
-    ],
-    overview: "Nền tảng InsurTech tích hợp AI OCR trích xuất thông tin giấy tờ tự động, engine tính phí bảo hiểm linh hoạt theo thời gian thực và kết nối đa kênh thanh toán bảo hiểm.",
-    architecture: [
-      "Micro-frontend architecture cho portal đại lý và khách hàng",
-      "AI/ML pipeline tích hợp OCR & phát hiện gian lận bảo hiểm",
-      "Hệ thống ký số HSM tập trung đạt chuẩn pháp lý",
-      "Blockchain ledger lưu trữ chứng thư bảo hiểm minh bạch"
-    ],
-    role: "Kiến trúc sư giải pháp chuyển đổi số, chuẩn hóa API kết nối với các đối tác tái bảo hiểm và cơ quan quản lý nhà nước.",
-    technologies: ["Java", "Python AI", "ReactJS", "PostgreSQL", "Docker", "Kubernetes", "HSM Sign", "RESTful API", "OAuth2"],
-    partners: ["Bảo Việt", "Dai-ichi Life", "Prudential", "Manulife", "PTI"]
-  },
-  '04': {
-    num: "04 / 06",
-    title: "Thể thao Điện tử & Gaming",
-    kicker: "Low-Latency Live Ecosystem",
-    description: "Nền tảng giải đấu trực tuyến quy mô lớn, hệ thống matchmaking và streaming độ trễ cực thấp.",
-    accent: "#6353B5",
-    accentSoft: "#F1EFFB",
-    accentDeep: "#40358A",
-    tag1: "Low Latency Streaming",
-    tag2: "Tournament Automation",
-    brandMark: "ESP",
-    summary: "Phát triển hạ tầng tổ chức giải đấu thể thao điện tử quy mô lớn, hệ thống matchmaking thông minh và truyền hình trực tiếp độ trễ thấp.",
-    metrics: [
-      { val: "< 1s", label: "Độ trễ streaming trực tiếp" },
-      { val: "50k+", label: "Người chơi trực tuyến đồng thời" },
-      { val: "99.9%", label: "Độ ổn định máy chủ game" },
-      { val: "Auto", label: "Ghép cặp trận đấu tự động" }
-    ],
-    overview: "Hệ sinh thái e-sports tích hợp quản lý giải đấu, thống kê chỉ số ingame thời gian thực qua API nhà phát hành và hệ thống tương tác khán giả tương tác cao.",
-    architecture: [
-      "WebSocket cluster quản lý kết nối thời gian thực cho hàng vạn người xem",
-      "Matchmaking microservice tối ưu Elo rating và ping khu vực",
-      "Video streaming pipeline tối ưu hóa WebRTC & HLS",
-      "Distributed database cho bảng xếp hạng và profile game thủ"
-    ],
-    role: "Thiết kế hạ tầng mạng và server xử lý thời gian thực, đảm bảo không có độ trễ trong các trận đấu quan trọng.",
-    technologies: ["Node.js", "Golang", "WebSocket", "WebRTC", "Redis", "PostgreSQL", "Docker", "AWS MediaLive", "React"],
-    partners: ["Garena", "Riot Games", "VNGGames", "ESL", "Vietnam Esports"]
-  },
-  '05': {
-    num: "05 / 06",
-    title: "Cổng thanh toán & Ví điện tử",
-    kicker: "Secure Financial Switching",
-    description: "Hạ tầng thanh toán đạt chuẩn PCI-DSS, tích hợp đa ngân hàng và AI chống gian lận giao dịch.",
-    accent: "#3BB8E6",
-    accentSoft: "#EAF8FD",
-    accentDeep: "#16799F",
-    tag1: "PCI-DSS Level 1",
-    tag2: "Realtime Fraud Detection",
-    brandMark: "PAY",
-    summary: "Xây dựng cổng thanh toán trung gian và ví điện tử đạt chuẩn bảo mật quốc tế PCI-DSS Level 1, xử lý hàng triệu giao dịch an toàn mỗi ngày.",
-    metrics: [
-      { val: "PCI-DSS", label: "Chuẩn bảo mật cấp độ cao nhất" },
-      { val: "< 2s", label: "Thời gian hoàn tất giao dịch" },
-      { val: "99.99%", label: "Thông suốt kết nối ngân hàng" },
-      { val: "AI", label: "Chống gian lận thời gian thực" }
-    ],
-    overview: "Hệ thống chuyển mạch tài chính kết nối trực tiếp NAPAS, các ngân hàng lớn và cổng thanh toán quốc tế với cơ chế mã hóa tokenization tuyệt đối an toàn.",
-    architecture: [
-      "Core Payment Engine xử lý giao dịch bất đồng bộ qua message queue",
-      "HSM (Hardware Security Module) mã hóa thông tin thẻ và giao dịch",
-      "AI Fraud Detection chấm điểm rủi ro giao dịch trong 50ms",
-      "Báo cáo tài chính tự động chuẩn hóa theo chuẩn kế toán"
-    ],
-    role: "Trực tiếp thiết kế sơ đồ luồng tiền (fund flow), kiến trúc an toàn thông tin và giải pháp tích hợp đa ngân hàng.",
-    technologies: ["Java Spring Boot", "Golang", "Oracle DB", "Kafka", "HSM Hardware", "Docker", "ISO 8583", "gRPC"],
-    partners: ["NAPAS", "MoMo", "ZaloPay", "Vietcombank", "Techcombank", "Visa / Mastercard"]
-  },
-  '06': {
-    num: "06 / 06",
-    title: "Hệ thống Doanh nghiệp & Cloud",
-    kicker: "Enterprise Cloud & Microservices",
-    description: "Kiến trúc Microservices, Kubernetes đa vùng và tối ưu hóa chi phí hạ tầng Cloud Enterprise.",
-    accent: "#50B347",
-    accentSoft: "#EFF9ED",
-    accentDeep: "#28752C",
-    tag1: "Kubernetes Multi-region",
-    tag2: "Cloud Cost Optimization",
-    brandMark: "SYS",
-    summary: "Tư vấn và triển khai kiến trúc Microservices, tự động hóa quy trình CI/CD và tối ưu chi phí vận hành hạ tầng Cloud cho các tập đoàn lớn.",
-    metrics: [
-      { val: "-35%", label: "Chi phí vận hành Cloud" },
-      { val: "Zero", label: "Downtime khi deploy phiên bản" },
-      { val: "100%", label: "Tự động hóa CI/CD pipeline" },
-      { val: "Multi", label: "Cloud Strategy (AWS / Azure)" }
-    ],
-    overview: "Giải pháp chuyển đổi hạ tầng từ Monolithic sang Kubernetes native, kết hợp giám sát tập trung và tự động scale tài nguyên theo tải thực tế.",
-    architecture: [
-      "Kubernetes multi-cluster management với ArgoCD & Helm",
-      "Observability stack hoàn chỉnh (Prometheus, Grafana, Jaeger)",
-      "Infrastructure as Code (IaC) với Terraform & Ansible",
-      "Zero Trust Network Architecture bảo mật nội bộ doanh nghiệp"
-    ],
-    role: "Kiến trúc sư trưởng hệ thống hạ tầng, dẫn dắt đội ngũ DevOps và chuẩn hóa quy trình phát triển phần mềm an toàn (DevSecOps).",
-    technologies: ["Kubernetes", "Docker", "Terraform", "AWS", "Azure", "Prometheus", "Grafana", "ArgoCD", "Golang", "Linux"],
-    partners: ["AWS", "Microsoft Azure", "Google Cloud", "FPT Telecom", "CMC Telecom"]
-  }
+const DOMAIN_DETAIL_ACCENTS: Record<string, { light: string; dark: string }> = {
+  '01': { light: '#0284c7', dark: '#38bdf8' },
+  '02': { light: '#ea580c', dark: '#fb923c' },
+  '03': { light: '#e11d48', dark: '#fb7185' },
+  '04': { light: '#7c3aed', dark: '#c084fc' },
+  '05': { light: '#4338ca', dark: '#818cf8' },
+  '06': { light: '#059669', dark: '#34d399' },
 };
 
 export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'light-glass' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
-  const isEn = language === 'en';
-  const rawCardStyle = getCardStyleProperties(cardStyle);
-  const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cardSampleStyle } = rawCardStyle as any;
   const isDark = themeIsDark || currentTheme === 'dark-neon';
   const isLight = !isDark;
 
+  const isEn = language === 'en';
   const [selectedDomain, setSelectedDomain] = useState<DomainData | null>(null);
   const [isTechModalOpen, setIsTechModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
@@ -423,14 +234,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
       data-element-type="card"
       data-section-card="true"
       data-element-page="services"
-      style={{
-        ...cardSampleStyle,
-        borderRadius: '14px',
-        padding: '15px',
-        gap: '15px',
-      }}
-      className="bento-card glass-card w-full h-full flex flex-col justify-between p-[15px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px]"
+      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] text-[var(--text-primary)] box-border"
     >
+      <div className="w-full flex-1 min-h-0 flex flex-col justify-between gap-[15px]">
       {/* 1. HERO BANNER ĐẦU TRANG DỊCH VỤ */}
       {!selectedDomain && (
         <motion.div
@@ -439,8 +245,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="banner-card hero-banner w-full max-w-full h-[200px] min-h-[200px] max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
-          style={{ padding: '15px', width: '100%', maxWidth: '100%', height: '200px', minHeight: '200px', maxHeight: '200px', borderRadius: '14px' }}
+          className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 backdrop-blur-xl"
+          style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
         >
         <div
           className="absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
@@ -462,19 +268,17 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
         </div>
 
         {/* Vùng Tiêu Đề */}
-        <div className="relative z-10 flex flex-row items-center justify-between gap-2 sm:gap-4 w-full">
-          <div className="flex items-center gap-2 shrink-0">
+        <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
             <WebIcon
               name="layers"
               className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
-              style={{ color: '#38bdf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
+              style={{ color: '#38bdf8', width: '22px', height: '22px' }}
             />
             <h1
-              className="text-[22px] font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] whitespace-nowrap"
+              className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
               style={{
                 color: '#38bdf8',
-                fontSize: '22px',
-                fontWeight: 700,
                 textTransform: 'none',
                 fontStyle: 'normal',
                 transform: 'none',
@@ -484,8 +288,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
             </h1>
           </div>
           <p
-            className="font-handwriting font-italianno not-italic text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-right ml-auto whitespace-nowrap overflow-hidden text-ellipsis max-w-[65%]"
-            style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '28px', fontWeight: 700, fontStyle: 'normal' }}
+            className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+            style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
           >
             &quot;{DOMAINS_INTRO.quote} ♡&quot;
           </p>
@@ -500,24 +304,24 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                 SoundEngine.playTap();
                 setIsFilterOpen((prev) => !prev);
               }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-teal-900 dark:text-teal-200 border border-teal-300 dark:border-teal-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
+              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
               title="Bộ lọc dịch vụ"
               aria-expanded={isFilterOpen}
               aria-haspopup="listbox"
             >
               <WebIcon
                 name="sliders"
-                className="w-4 h-4 text-teal-700 dark:text-teal-400 transition-transform group-hover:rotate-45 shrink-0"
+                className="w-4 h-4 text-[var(--color-primary)] transition-transform group-hover:rotate-45 shrink-0"
               />
               <span>Bộ lọc dịch vụ</span>
               {activeCategory !== 'ALL' && (
-                <span className="px-1.5 py-0.2 rounded-full bg-teal-100 dark:bg-teal-950/80 border border-teal-300 dark:border-teal-500/50 text-[10px] font-mono text-teal-900 dark:text-teal-200 font-bold">
+                <span className="banner-count-pill px-2 py-0.5 rounded-full border typo-badge font-mono">
                   {DOMAINS_DATA.find((d) => d.id === activeCategory)?.serviceCode || activeCategory}
                 </span>
               )}
               <WebIcon
                 name="chevron-down"
-                className={`w-3.5 h-3.5 text-teal-700 dark:text-teal-400 transition-transform duration-200 shrink-0 ${
+                className={`w-3.5 h-3.5 transition-transform duration-200 shrink-0 ${
                   isFilterOpen ? 'rotate-180' : ''
                 }`}
               />
@@ -532,8 +336,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   transition={{ duration: 0.16 }}
                   id="services-filter-dropdown"
                   role="listbox"
-                  style={{ background: 'var(--bg-popup)' }}
-                  className="bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] bg-white/98 dark:bg-[#111827]/96 border border-teal-200 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-slate-800 dark:text-[#E2E8F0]"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
                   {filterCategories.map((cat) => {
                     const isActive = activeCategory === cat.id;
@@ -543,6 +346,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                         type="button"
                         role="option"
                         aria-selected={isActive}
+                        data-selected={isActive ? 'true' : 'false'}
                         onClick={() => {
                           SoundEngine.playTap();
                           if (cat.id === 'ALL') {
@@ -555,22 +359,20 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                           }
                           setIsFilterOpen(false);
                         }}
-                        className={`w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] text-xs font-bold font-play transition-all cursor-pointer text-left ${
-                          isActive
-                            ? 'bg-teal-100 dark:bg-teal-500/20 text-teal-900 dark:text-teal-200 border border-teal-300 dark:border-teal-400/50 shadow-xs'
-                            : 'text-slate-700 dark:text-[#E2E8F0] hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white border border-transparent font-medium'
+                        className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left ${
+                          isActive ? 'font-bold shadow-xs' : ''
                         }`}
                       >
                         <span className="flex items-center gap-2 truncate">
-                          <WebIcon name={cat.icon} className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400 shrink-0" />
+                          <WebIcon name={cat.icon} className="w-3.5 h-3.5 shrink-0" />
                           <span className="truncate">{cat.label}</span>
                         </span>
-                        {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-teal-700 dark:text-teal-300 shrink-0" />}
+                        {isActive && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />}
                       </button>
                     );
                   })}
 
-                  <div className="h-[1px] bg-slate-200 dark:bg-[#334155] my-1" />
+                  <div className="h-[1px] bg-[var(--border-subcard)] my-1" />
 
                   <button
                     type="button"
@@ -579,13 +381,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                       setIsFilterOpen(false);
                       setIsTechModalOpen(true);
                     }}
-                    className="w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] text-xs font-bold font-play text-cyan-800 dark:text-cyan-300 hover:bg-cyan-50 dark:hover:bg-cyan-500/15 transition-all cursor-pointer text-left"
+                    className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play text-[var(--text-link,var(--color-primary))] transition-all cursor-pointer text-left"
                   >
                     <span className="flex items-center gap-2 truncate">
-                      <WebIcon name="cpu" className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
+                      <WebIcon name="cpu" className="w-3.5 h-3.5 shrink-0" />
                       <span className="truncate">Hệ Sinh Thái Công Nghệ</span>
                     </span>
-                    <WebIcon name="chevron-right" className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
+                    <WebIcon name="chevron-right" className="w-3.5 h-3.5 shrink-0" />
                   </button>
                 </motion.div>
               )}
@@ -599,9 +401,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                 SoundEngine.playTap();
                 setSelectedDomain(null);
               }}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-slate-900 dark:text-[#F8FAFC] border border-teal-300 dark:border-teal-500/50 shadow-md text-xs font-bold font-play cursor-pointer transition active:scale-95"
+              className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play cursor-pointer transition active:scale-95"
             >
-              <WebIcon name="chevron-left" className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
+              <WebIcon name="chevron-left" className="w-3.5 h-3.5" />
               <span>Quay lại 6 thẻ dịch vụ</span>
             </button>
           )}
@@ -638,7 +440,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     }
                   }}
                   style={{
-                    ...cardSampleStyle,
                     borderRadius: '14px',
                     padding: '15px',
                   }}
@@ -650,8 +451,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   />
 
                   {/* 1. TOP: Tiêu đề tên dịch vụ và icon dịch vụ */}
-                  <div className="service-divider relative z-20 flex items-center justify-between pb-2 border-b border-black/5 dark:border-white/10 shrink-0">
-                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                  <div className="service-divider relative z-20 flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
+                    <div className="card-header-sync flex items-center gap-2.5 min-w-0 flex-1" style={{ color: cfg.accentColor }}>
                       <span
                         className="shrink-0 flex items-center justify-center bg-transparent border-0 p-0 shadow-none"
                         style={{ color: cfg.accentColor }}
@@ -659,8 +460,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                         <WebIcon name={domain.icon?.toLowerCase() || 'briefcase'} className="w-[18px] h-[18px] stroke-[2.2]" style={{ width: '18px', height: '18px', color: cfg.accentColor }} />
                       </span>
                       <h3
-                        className="service-title-text text-[18px] font-bold font-play leading-snug tracking-tight transition-colors truncate"
-                        style={{ fontSize: '18px', fontWeight: 700, color: cfg.accentColor }}
+                        className="service-title-text card-title-synced typo-h3 font-play tracking-tight transition-colors truncate"
+                        data-card-title="true"
+                        style={{ color: cfg.accentColor }}
                         title={domain.titleEn && language === 'en' ? domain.titleEn : domain.title}
                       >
                         {language === 'en' && domain.titleEn ? domain.titleEn : domain.title}
@@ -673,12 +475,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     <div className="flex-1 min-w-0">
                       <p
                         id={`service-card-desc-${domain.id}`}
-                        className={`card-body-text font-play font-normal text-[14px] sm:text-[15px] leading-relaxed line-clamp-4 ${
-                          isLight ? 'text-[#334155]' : 'text-[#E2E8F0]'
-                        }`}
+                        className="card-body-text typo-body line-clamp-4 text-[var(--text-secondary)]"
                         style={{
-                          lineHeight: 'var(--lh-body)',
-                          fontWeight: 400,
                           display: '-webkit-box',
                           WebkitLineClamp: 4,
                           WebkitBoxOrient: 'vertical',
@@ -704,7 +502,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   </div>
 
                   {/* 3. BOTTOM: Logo công ty nền trong suốt, căn giữa gọn gàng */}
-                  <div className="service-divider relative z-20 pt-2 border-t border-black/5 dark:border-white/10 flex items-center justify-center shrink-0">
+                  <div className="service-divider relative z-20 pt-2 border-t border-[var(--border-subcard)] flex items-center justify-center shrink-0">
                     {domain.companyLogos && domain.companyLogos.length > 0 ? (
                       <div className="flex items-center justify-center gap-2.5 flex-wrap">
                         {domain.companyLogos
@@ -731,7 +529,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                         ))}
                       </div>
                     ) : (
-                      <span className="text-[10.5px] font-mono font-bold opacity-70">
+                      <span className="typo-badge font-mono opacity-80">
                         {cfg.pillText}
                       </span>
                     )}
@@ -741,13 +539,36 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
             })}
           </div>
         ) : (
-          /* 3. KHUNG XEM CHI TIẾT DỊCH VỤ: TÍCH HỢP DATA CHI TIẾT TỪ CODE ĐĨNH KÈM */
+          /* 3. KHUNG XEM CHI TIẾT DỊCH VỤ: BENTO RESPONSIVE GRID CARD, ĐỌC TRỰC TIẾP TỪ DOMAINS_DATA (6.1 - 6.6) */
           (() => {
             const cfg = getCardVisualConfig(selectedDomain.id);
-            const detailInfo = SERVICES_DATA_DETAILS[selectedDomain.id] || SERVICES_DATA_DETAILS['01'];
-            const serviceImage = selectedDomain.customIllustrationUrl || cfg.illustrationSrc;
-            const primaryCompany = selectedDomain.companies?.[0] || selectedDomain.companyLogos?.[0]?.name || detailInfo.partners[0] || 'Power Service';
-            const primaryLogo = selectedDomain.companyLogos?.[0]?.logo || 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842335/Kinh%20nghi%E1%BB%87m/Logo_PowerService.png';
+            const accentPair = DOMAIN_DETAIL_ACCENTS[selectedDomain.id] || DOMAIN_DETAIL_ACCENTS['01'];
+            const accentColor = cardStyle === 'cowhide-leather' ? '#FDE68A' : isLight ? accentPair.light : accentPair.dark;
+            const domainAccentKeyMap: Record<string, string> = {
+              '01': 'sky',
+              '02': 'orange',
+              '03': 'rose',
+              '04': 'purple',
+              '05': 'indigo',
+              '06': 'emerald',
+            };
+            const domainAccentKey = domainAccentKeyMap[selectedDomain.id] || 'sky';
+            const serviceTitle = isEn && selectedDomain.titleEn ? selectedDomain.titleEn : selectedDomain.title;
+            const detailImageSrc = selectedDomain.customIllustrationUrl || cfg.illustrationSrc;
+            const professionalMsg =
+              (isEn && selectedDomain.subtitleEn ? selectedDomain.subtitleEn : selectedDomain.professionalMessage) ||
+              selectedDomain.subtitle ||
+              selectedDomain.desc;
+            const challengeHeading =
+              selectedDomain.id === '06'
+                ? isEn
+                  ? 'Core Strategic Transformation Challenges'
+                  : 'Bài toán chiến lược'
+                : isEn
+                  ? 'Key Operational Challenges Faced'
+                  : 'Thách thức vận hành';
+            const toolIcons = ['cpu', 'layers', 'database', 'sparkles', 'shield-check', 'settings'];
+            const toolAccents = ['sky', 'indigo', 'emerald', 'purple', 'orange', 'teal'];
 
             return (
               <motion.div
@@ -763,35 +584,36 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   duration: 0.4,
                   ease: [0.25, 1, 0.5, 1],
                 }}
-                className={`bento-card glass-card w-full h-full min-h-0 overflow-y-auto max-h-full rounded-[14px] p-4 sm:p-5 gap-3.5 sm:gap-4 relative flex flex-col justify-between text-left font-play transition-all duration-300 ${
-                  isDark ? 'text-[#F8FAFC]' : 'text-[#1E1B4B]'
-                }`}
+                className="bento-card glass-card w-full h-full min-h-0 overflow-y-auto max-h-full rounded-[14px] p-4 sm:p-5 gap-3.5 sm:gap-4 relative flex flex-col justify-start text-left font-play transition-all duration-300 text-[var(--text-primary)]"
                 style={{
-                  ...cardSampleStyle,
                   borderRadius: '14px',
                 }}
               >
-                {/* 1. TOP HEADER BAR: Icon + Kicker + Title + Summary + Close Button */}
-                <div className="flex items-start justify-between gap-4 pb-3.5 border-b border-slate-200/80 dark:border-white/10 shrink-0">
-                  <div className="flex flex-col min-w-0">
-                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                      <div
-                        className="shrink-0 flex items-center justify-center bg-transparent border-0 p-0 shadow-none"
-                        style={{ color: detailInfo.accent }}
-                      >
-                        <WebIcon name={selectedDomain.icon?.toLowerCase() || 'shield-check'} className="w-6 h-6 sm:w-8 sm:h-8 stroke-[2]" style={{ width: '1.5em', height: '1.5em' }} />
-                      </div>
-                      <h2
-                        className="text-xl sm:text-2xl md:text-3xl font-black font-play tracking-tight min-w-0"
-                        style={{ color: detailInfo.accent }}
-                        title={isEn && selectedDomain.titleEn ? selectedDomain.titleEn : selectedDomain.title}
-                      >
-                        {formatSentenceFourWords(isEn && selectedDomain.titleEn ? selectedDomain.titleEn : selectedDomain.title)}
-                      </h2>
+                {/* 1. TOP HEADER BAR: Icon + Tiêu đề 4 từ đồng màu icon + Nút tròn đóng (X) */}
+                <div className="flex items-center justify-between gap-3 sm:gap-4 pb-3 border-b border-[var(--border-subcard)] shrink-0">
+                  <div
+                    className="card-header-sync flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1"
+                    data-card-accent={domainAccentKey}
+                    style={{ color: accentColor }}
+                  >
+                    <div
+                      className="shrink-0 flex items-center justify-center bg-transparent border-0 p-0 shadow-none"
+                      style={{ color: accentColor }}
+                    >
+                      <WebIcon
+                        name={selectedDomain.icon?.toLowerCase() || 'shield-check'}
+                        className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2]"
+                        style={{ width: '1.5em', height: '1.5em', color: accentColor }}
+                      />
                     </div>
-                    <p className="mt-1.5 text-xs sm:text-sm text-[#334155] dark:text-[#E2E8F0] max-w-3xl leading-relaxed font-semibold">
-                      {detailInfo.summary}
-                    </p>
+                    <h2
+                      className="typo-h2 card-title-synced font-play tracking-tight min-w-0 break-words"
+                      data-card-title="true"
+                      style={{ color: accentColor }}
+                      title={serviceTitle}
+                    >
+                      {formatSentenceFourWords(serviceTitle)}
+                    </h2>
                   </div>
 
                   <button
@@ -800,166 +622,352 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                       SoundEngine.playTap();
                       setSelectedDomain(null);
                     }}
-                    aria-label="Đóng chi tiết"
-                    className="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-slate-200 dark:border-white/15 bg-white/90 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-xs"
-                    title="Đóng chi tiết"
+                    aria-label={isEn ? 'Close details' : 'Đóng chi tiết'}
+                    className="theme-modal-close w-9 h-9 rounded-full transition-all flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95 shrink-0 shadow-xs"
+                    title={isEn ? 'Close details (Esc)' : 'Đóng chi tiết (Esc)'}
                   >
-                    <span className="text-xs font-black">✕</span>
-                    <span className="hidden sm:inline">Đóng lại</span>
+                    <WebIcon name="cancel" className="w-4 h-4" />
                   </button>
                 </div>
 
-                {/* 2. KEY METRICS GRID (4 columns) */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-1 shrink-0">
-                  {detailInfo.metrics.map((m, idx) => {
-                    const topColors = ['#FFDF25', '#E64C72', '#3BB8E6', '#A78BFA'];
-                    return (
-                      <div 
-                        key={idx}
-                        data-subcard="true"
-                        className="exp-detail-subcard relative overflow-hidden p-3 sm:p-4 rounded-[14px] shadow-xs flex flex-col justify-between"
+                {/* 2. BENTO RESPONSIVE GRID VIEW (12 CỘT DESKTOP / 2 CỘT TABLET / 1 CỘT MOBILE) */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-stretch shrink-0 pb-1">
+                  {/* BENTO CARD 1: Thông điệp chuyên môn & Hình ảnh dịch vụ (Hợp nhất) */}
+                  <div
+                    data-subcard="true"
+                    className="exp-detail-subcard md:col-span-12 p-4 sm:p-5 rounded-[14px] border-l-4 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 min-w-0"
+                    style={{ borderLeftColor: accentColor }}
+                  >
+                    <div
+                      className="absolute inset-0 pointer-events-none opacity-25"
+                      style={{ background: cfg.ambientGlow }}
+                    />
+                    <div className="relative z-10 flex-1 min-w-0 flex flex-col justify-between gap-2.5 w-full">
+                      <div
+                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
+                        data-subcard-accent={domainAccentKey}
                       >
-                        <div 
-                          className="absolute top-0 left-0 right-0 h-1.5" 
-                          style={{ backgroundColor: topColors[idx % 4] }}
-                        />
-                        <span 
-                          className="block text-xl sm:text-2xl font-black tracking-tight font-play mt-1"
-                          style={{ color: cardStyle === 'cowhide-leather' ? '#FDE68A' : detailInfo.accent }}
-                        >
-                          {m.val}
-                        </span>
-                        <span className="block mt-1 text-[11px] text-slate-600 dark:text-slate-200 font-bold leading-snug font-play">
-                          {m.label}
-                        </span>
+                        <WebIcon name="sparkles" className="w-4.5 h-4.5 shrink-0" />
+                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
+                          {isEn ? 'Core Professional Service Message' : 'Thông điệp chuyên môn'}
+                        </h3>
                       </div>
-                    );
-                  })}
-                </div>
-
-                {/* 3. TOP INFO CARDS (Partners & Role) */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 shrink-0">
-                  {/* Partners Card */}
-                  <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px] flex flex-col justify-between">
-                    <div className="flex items-center gap-2 text-[15px] sm:text-[16px] font-bold mb-2.5 font-play" style={{ color: '#0d9488' }}>
-                      <WebIcon name="users" className="w-4.5 h-4.5 shrink-0 text-teal-600 dark:text-teal-300" style={{ color: '#0d9488' }} />
-                      <span className="text-[15px] sm:text-[16px] font-bold font-play" style={{ color: '#0d9488' }}>Đối tác tiêu biểu</span>
+                      {professionalMsg && (
+                        <p className="typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words">
+                          {professionalMsg}
+                        </p>
+                      )}
+                      {selectedDomain.valueDelivered && (
+                        <p className="typo-caption text-[var(--text-secondary)] pt-2 border-t border-[var(--border-subcard)]/60 break-words">
+                          {selectedDomain.valueDelivered}
+                        </p>
+                      )}
                     </div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      {selectedDomain.companyLogos && selectedDomain.companyLogos.length > 0 ? (
-                        selectedDomain.companyLogos.map((partner, i) => (
-                          <div
-                            key={i}
-                            data-subcard="true"
-                            className="exp-detail-subcard !px-2.5 !py-1.5 min-h-[38px] rounded-[12px] shadow-sm flex items-center justify-center gap-2 text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight select-none"
-                            title={partner.name}
-                          >
-                            <img
-                              src={partner.logo}
-                              alt={partner.name}
-                              className="w-6 h-6 sm:w-7 sm:h-7 object-contain bg-transparent shrink-0"
-                              onError={(e) => {
-                                if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
-                                  e.currentTarget.src = partner.fallbackLogo;
-                                } else {
-                                  e.currentTarget.style.display = 'none';
-                                }
-                              }}
-                            />
-                            <span>{partner.name}</span>
-                          </div>
-                        ))
+
+                    <div className="relative z-10 w-full md:w-[210px] lg:w-[240px] shrink-0 flex items-center justify-center">
+                      <img
+                        src={detailImageSrc}
+                        alt={serviceTitle}
+                        onError={(e) => {
+                          if (e.currentTarget.src !== cfg.fallbackIllustration) {
+                            e.currentTarget.src = cfg.fallbackIllustration;
+                          }
+                        }}
+                        className="w-full max-w-[180px] sm:max-w-[210px] h-28 sm:h-32 object-contain bg-transparent drop-shadow-[0_10px_18px_rgba(0,0,0,0.16)]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* BENTO CARD 2: Kết quả vận hành (Subcard Grid) */}
+                  {selectedDomain.operationalResults && selectedDomain.operationalResults.length > 0 && (
+                    <div
+                      data-subcard="true"
+                      className="exp-detail-subcard md:col-span-12 lg:col-span-7 p-4 rounded-[14px] flex flex-col justify-between gap-3 min-w-0"
+                    >
+                      <div
+                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
+                        data-subcard-accent={domainAccentKey}
+                      >
+                        <WebIcon name="chart" className="w-4.5 h-4.5 shrink-0" />
+                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
+                          {isEn ? 'Key Operational Performance Results' : 'Kết quả vận hành'}
+                        </h3>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        {selectedDomain.operationalResults.map((row, rIdx) => {
+                          const topColors = ['#FFDF25', '#E64C72', '#3BB8E6', '#A78BFA'];
+                          return (
+                            <div
+                              key={rIdx}
+                              data-subcard="true"
+                              className="exp-detail-subcard relative overflow-hidden p-3.5 rounded-[12px] flex flex-col justify-between gap-1.5 min-w-0 transition-transform duration-200 hover:-translate-y-0.5"
+                            >
+                              <div
+                                className="absolute top-0 left-0 right-0 h-1"
+                                style={{ backgroundColor: topColors[rIdx % 4] }}
+                              />
+                              <span
+                                className="typo-h3 font-bold break-words mt-0.5"
+                                style={{ color: accentColor }}
+                              >
+                                {row.outcome}
+                              </span>
+                              <span className="typo-body-sm text-[var(--text-secondary)] break-words">
+                                {row.indicator}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {selectedDomain.summaryNote && (
+                        <p className="typo-body-sm text-[var(--text-secondary)] pt-2 border-t border-[var(--border-subcard)]/70 break-words">
+                          {selectedDomain.summaryNote}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* BENTO STACK 3 & 4: Đối tác tiêu biểu + Vai trò đảm nhiệm */}
+                  <div className="md:col-span-12 lg:col-span-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-3.5 min-w-0">
+                    {/* BENTO CARD 3: Đối tác tiêu biểu */}
+                    <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px] flex flex-col justify-between gap-2.5 min-w-0">
+                      <div
+                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
+                        data-subcard-accent="teal"
+                      >
+                        <WebIcon name="users" className="w-4.5 h-4.5 shrink-0" />
+                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
+                          {isEn ? 'Key Ecosystem Strategic Partners' : 'Đối tác tiêu biểu'}
+                        </h3>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        {selectedDomain.companyLogos && selectedDomain.companyLogos.length > 0 ? (
+                          selectedDomain.companyLogos.map((partner, i) => (
+                            <div
+                              key={i}
+                              data-subcard="true"
+                              className="exp-detail-subcard !px-2.5 !py-1.5 min-h-[38px] rounded-[12px] shadow-sm flex items-center justify-center gap-2 typo-badge text-[var(--text-primary)] select-none"
+                              title={partner.name}
+                            >
+                              <img
+                                src={partner.logo}
+                                alt={partner.name}
+                                className="w-6 h-6 sm:w-7 sm:h-7 object-contain bg-transparent shrink-0"
+                                onError={(e) => {
+                                  if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
+                                    e.currentTarget.src = partner.fallbackLogo;
+                                  } else {
+                                    e.currentTarget.style.display = 'none';
+                                  }
+                                }}
+                              />
+                              <span className="break-words">{partner.name}</span>
+                            </div>
+                          ))
+                        ) : (
+                          (selectedDomain.companies || []).map((p, i) => (
+                            <div
+                              key={i}
+                              data-subcard="true"
+                              className="exp-detail-subcard !px-3 !py-1.5 min-h-[36px] rounded-[12px] shadow-sm flex items-center justify-center typo-badge text-[var(--text-primary)] text-center select-none"
+                            >
+                              <span>{p}</span>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                      {selectedDomain.ecosystemNote && (
+                        <p className="typo-caption text-[var(--text-secondary)] pt-1 border-t border-[var(--border-subcard)]/60 break-words">
+                          {selectedDomain.ecosystemNote}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* BENTO CARD 4: Vai trò đảm nhiệm */}
+                    <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px] flex flex-col justify-between gap-2 min-w-0">
+                      <div
+                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
+                        data-subcard-accent="purple"
+                      >
+                        <WebIcon name="award" className="w-4.5 h-4.5 shrink-0" />
+                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
+                          {isEn ? 'Key Leadership Roles Held' : 'Vai trò đảm nhiệm'}
+                        </h3>
+                      </div>
+                      {selectedDomain.rolesHeld && selectedDomain.rolesHeld.length > 0 ? (
+                        <ul className="space-y-1.5 my-auto">
+                          {selectedDomain.rolesHeld.map((roleName, rIdx) => (
+                            <li key={rIdx} className="flex items-start gap-2 typo-body-sm font-semibold text-[var(--text-primary)] break-words">
+                              <span className="w-2 h-2 rounded-full mt-2 shrink-0" style={{ backgroundColor: accentColor }} />
+                              <span>{roleName}</span>
+                            </li>
+                          ))}
+                        </ul>
                       ) : (
-                        detailInfo.partners.map((p, i) => (
-                          <div
-                            key={i}
-                            data-subcard="true"
-                            className="exp-detail-subcard !px-3 !py-1.5 min-h-[36px] rounded-[12px] shadow-sm flex items-center justify-center text-xs font-bold text-slate-800 dark:text-slate-100 text-center leading-tight select-none"
-                            title={p}
-                          >
-                            <span>{p}</span>
-                          </div>
-                        ))
+                        <p className="typo-body-sm text-[var(--text-secondary)] break-words">
+                          {selectedDomain.typicalRolesLine}
+                        </p>
                       )}
                     </div>
                   </div>
 
-                  {/* Role Card */}
-                  <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px] flex flex-col justify-between">
-                    <div className="flex items-center gap-2 text-[15px] sm:text-[16px] font-bold mb-2 font-play" style={{ color: '#9333ea' }}>
-                      <WebIcon name="award" className="w-4.5 h-4.5 shrink-0 text-purple-600 dark:text-purple-300" style={{ color: '#9333ea' }} />
-                      <span className="text-[15px] sm:text-[16px] font-bold font-play" style={{ color: '#9333ea' }}>Vai trò chuyên môn</span>
-                    </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-200 leading-relaxed font-semibold font-play">
-                      {detailInfo.role}
-                    </p>
-                  </div>
-                </div>
-
-                {/* 4. MAIN TECHNICAL COLUMNS (Solution, Architecture & Tech Stack) */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 shrink-0">
-                  {/* Left Column (2 cols): Solution & Architecture */}
-                  <div className="lg:col-span-2 space-y-3">
-                    <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px]">
-                      <div className="flex items-center gap-2 text-[15px] sm:text-[16px] font-bold mb-2 font-play" style={{ color: '#0284c7' }}>
-                        <WebIcon name="activity" className="w-4.5 h-4.5 shrink-0 text-sky-600 dark:text-sky-300" style={{ color: '#0284c7' }} />
-                        <span className="text-[15px] sm:text-[16px] font-bold font-play" style={{ color: '#0284c7' }}>Tổng quan giải pháp</span>
-                      </div>
-                      <p className="text-xs text-slate-600 dark:text-slate-200 leading-relaxed font-medium font-play">
-                        {detailInfo.overview}
-                      </p>
-                    </div>
-
-                    <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px]">
-                      <div className="flex items-center gap-2 text-[15px] sm:text-[16px] font-bold mb-2.5 font-play" style={{ color: '#ea580c' }}>
-                        <WebIcon name="cpu" className="w-4.5 h-4.5 shrink-0 text-orange-600 dark:text-orange-300" style={{ color: '#ea580c' }} />
-                        <span className="text-[15px] sm:text-[16px] font-bold font-play" style={{ color: '#ea580c' }}>Kiến trúc cốt lõi</span>
+                  {/* BENTO CARD 5: Kinh nghiệm chuyên môn */}
+                  {selectedDomain.experienceItems && selectedDomain.experienceItems.length > 0 && (
+                    <div data-subcard="true" className="exp-detail-subcard md:col-span-6 p-4 rounded-[14px] space-y-2.5 min-w-0">
+                      <div
+                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
+                        data-subcard-accent="sky"
+                      >
+                        <WebIcon name="briefcase" className="w-4.5 h-4.5 shrink-0" />
+                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
+                          {isEn ? 'Domain Experience And Expertise' : 'Kinh nghiệm chuyên môn'}
+                        </h3>
                       </div>
                       <ul className="space-y-2">
-                        {detailInfo.architecture.map((arch, i) => (
-                          <li key={i} className="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-100 leading-normal font-medium font-play">
-                            <span 
-                              className="w-2 h-2 rounded-full mt-1 shrink-0" 
-                              style={{ backgroundColor: cardStyle === 'cowhide-leather' ? '#FDE68A' : detailInfo.accent }}
-                            />
-                            <span>{arch}</span>
+                        {selectedDomain.experienceItems.map((exp, eIdx) => (
+                          <li key={eIdx} className="flex items-start gap-2 typo-body-sm text-[var(--text-primary)] break-words">
+                            <span className="w-2 h-2 rounded-full mt-2 shrink-0" style={{ backgroundColor: accentColor }} />
+                            <span>{exp}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  </div>
+                  )}
 
-                  {/* Right Column (1 col): Tech Stack Tags */}
-                  <div className="lg:col-span-1">
-                    <div data-subcard="true" className="exp-detail-subcard h-full p-4 rounded-[14px] flex flex-col justify-between">
-                      <div className="flex items-center gap-2 text-[15px] sm:text-[16px] font-bold mb-3 font-play" style={{ color: '#059669' }}>
-                        <WebIcon name="settings" className="w-4.5 h-4.5 shrink-0 text-emerald-600 dark:text-emerald-300" style={{ color: '#059669' }} />
-                        <span className="text-[15px] sm:text-[16px] font-bold font-play" style={{ color: '#059669' }}>Công nghệ sử dụng</span>
+                  {/* BENTO CARD 6: Quy mô vận hành */}
+                  {selectedDomain.scaleAndScope && selectedDomain.scaleAndScope.length > 0 && (
+                    <div data-subcard="true" className="exp-detail-subcard md:col-span-6 p-4 rounded-[14px] space-y-2.5 min-w-0">
+                      <div
+                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
+                        data-subcard-accent="indigo"
+                      >
+                        <WebIcon name="layers" className="w-4.5 h-4.5 shrink-0" />
+                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
+                          {isEn ? 'Operational Scale And Scope' : 'Quy mô vận hành'}
+                        </h3>
                       </div>
-                      <div className="flex flex-wrap gap-1.5 my-auto">
-                        {detailInfo.technologies.map((tech, i) => {
-                          const tagAccents = [
-                            '#FFDF25', '#EC7D21', '#E64C72', '#DD4E9E', 
-                            '#6353B5', '#1480C0', '#3BB8E6', '#5DC3C8', 
-                            '#50B347', '#A3D43A', '#A78BFA'
-                          ];
-                          const tagColor = tagAccents[i % tagAccents.length];
-                          return (
-                            <span 
-                              key={i} 
-                              className="px-2.5 py-1 rounded-[14px] text-[10.5px] font-bold border font-play"
-                              style={{ 
-                                color: cardStyle === 'cowhide-leather' ? '#FFF8DC' : tagColor === '#FFDF25' ? '#B45309' : tagColor,
-                                backgroundColor: cardStyle === 'cowhide-leather' ? 'rgba(61, 33, 11, 0.72)' : `${tagColor}18`,
-                                borderColor: cardStyle === 'cowhide-leather' ? 'rgba(245, 222, 179, 0.4)' : `${tagColor}35`
-                              }}
-                            >
-                              {tech}
+                      <div className="space-y-2">
+                        {selectedDomain.scaleAndScope.map((item, sIdx) => (
+                          <div key={sIdx} className="typo-body-sm text-[var(--text-primary)] break-words">
+                            <span className="font-semibold" style={{ color: accentColor }}>
+                              {item.label}:{' '}
                             </span>
-                          );
-                        })}
+                            <span className="text-[var(--text-secondary)]">{item.content}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
+                  )}
+
+                  {/* BENTO CARD 7: Thách thức vận hành / Bài toán chiến lược */}
+                  {selectedDomain.operationalChallenges && selectedDomain.operationalChallenges.length > 0 && (
+                    <div data-subcard="true" className="exp-detail-subcard md:col-span-12 lg:col-span-5 p-4 rounded-[14px] space-y-2.5 min-w-0">
+                      <div
+                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
+                        data-subcard-accent="orange"
+                      >
+                        <WebIcon name="target" className="w-4.5 h-4.5 shrink-0" />
+                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
+                          {challengeHeading}
+                        </h3>
+                      </div>
+                      <ul className="space-y-2">
+                        {selectedDomain.operationalChallenges.map((ch, cIdx) => (
+                          <li key={cIdx} className="flex items-start gap-2 typo-body-sm text-[var(--text-primary)] break-words">
+                            <span className="w-2 h-2 rounded-full mt-2 shrink-0" style={{ backgroundColor: accentColor }} />
+                            <span>{ch}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* BENTO CARD 8: Giải pháp công nghệ & Nền tảng công cụ (Hợp nhất) */}
+                  <div
+                    data-subcard="true"
+                    className={`exp-detail-subcard ${
+                      selectedDomain.operationalChallenges && selectedDomain.operationalChallenges.length > 0
+                        ? 'md:col-span-12 lg:col-span-7'
+                        : 'md:col-span-12'
+                    } p-4 rounded-[14px] flex flex-col justify-between gap-3.5 min-w-0`}
+                  >
+                    <div className="space-y-3 min-w-0">
+                      <div
+                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
+                        data-subcard-accent="emerald"
+                      >
+                        <WebIcon name="cpu" className="w-4.5 h-4.5 shrink-0" />
+                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
+                          {isEn ? 'Technology And Governance Solutions' : 'Giải pháp công nghệ'}
+                        </h3>
+                      </div>
+
+                      {selectedDomain.techSolutions && selectedDomain.techSolutions.length > 0 && (
+                        <div className="space-y-2">
+                          {selectedDomain.techSolutions.map((sol, tIdx) => (
+                            <div key={tIdx} className="typo-body-sm break-words">
+                              <span className="font-semibold text-[var(--text-primary)]">{sol.name}: </span>
+                              <span className="text-[var(--text-secondary)]">{sol.desc}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {(selectedDomain.tools || []).length > 0 && (
+                        <div className="pt-2.5 border-t border-[var(--border-subcard)]/60 space-y-2">
+                          <div
+                            className="subcard-header-sync flex items-center gap-2 typo-label min-w-0"
+                            data-subcard-accent="cyan"
+                          >
+                            <WebIcon name="settings" className="w-3.5 h-3.5 shrink-0" />
+                            <span className="subcard-title-synced font-semibold break-words" data-subcard-title="true">
+                              {isEn ? 'Core Platforms And Tools' : 'Nền tảng công cụ'}
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                            {(selectedDomain.tools || []).map((tech, i) => {
+                              const toolIcon = toolIcons[i % toolIcons.length];
+                              const toolAccent = toolAccents[i % toolAccents.length];
+                              return (
+                                <div
+                                  key={i}
+                                  data-subcard="true"
+                                  data-subcard-accent={toolAccent}
+                                  className="exp-detail-subcard !p-2.5 rounded-[12px] flex items-center gap-2 min-w-0 transition-transform duration-200 hover:-translate-y-0.5"
+                                >
+                                  <span
+                                    className="w-7 h-7 rounded-[10px] shrink-0 flex items-center justify-center border border-[var(--border-subcard)]/70"
+                                    style={{
+                                      backgroundColor: cardStyle === 'cowhide-leather' ? 'rgba(61, 33, 11, 0.72)' : 'rgba(255, 255, 255, 0.14)',
+                                      color: `var(--accent-${toolAccent})`,
+                                    }}
+                                  >
+                                    <WebIcon name={toolIcon} className="w-3.5 h-3.5 shrink-0" />
+                                  </span>
+                                  <span className="typo-body-sm font-semibold text-[var(--text-primary)] break-words min-w-0 flex-1 leading-snug">
+                                    {tech}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        setIsTechModalOpen(true);
+                      }}
+                      className="banner-control-pill w-full py-2 px-3 rounded-full typo-button flex items-center justify-center gap-1.5 cursor-pointer transition hover:opacity-90"
+                    >
+                      <WebIcon name="cpu" className="w-3.5 h-3.5 shrink-0" />
+                      <span>{isEn ? 'Open Tech Ecosystem' : 'Xem hệ sinh thái công nghệ'}</span>
+                    </button>
                   </div>
                 </div>
               </motion.div>
@@ -973,6 +981,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
         isOpen={isTechModalOpen}
         onClose={() => setIsTechModalOpen(false)}
       />
+      </div>
     </div>
   );
 };

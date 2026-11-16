@@ -3,6 +3,10 @@ import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GoogleGenAI } from '@google/genai';
+import {
+  buildTriNhanSystemPrompt,
+  findVerifiedFallbackAnswer,
+} from './src/data/triNhanKnowledgeBase.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,6 +31,7 @@ function getGeminiClient(): GoogleGenAI | null {
 }
 
 const TEXT_TRANSLATION_MODELS = ['gemini-3.1-flash-lite', 'gemini-4-hydrogen'] as const;
+const ASSISTANT_CHAT_MODELS = ['gemini-4-hydrogen', 'gemini-3.1-flash-lite'] as const;
 const TTS_MODEL = 'gemini-3.8-flash-lite-tts';
 const DEFAULT_QUOTA_COOLDOWN_MS = 15 * 60 * 1000;
 const MAX_QUOTA_COOLDOWN_MS = 60 * 60 * 1000;
@@ -403,6 +408,116 @@ async function startServer() {
       fallback: true,
       quotaExhausted: lastQuotaRetrySec > 0,
       retryAfterSec: lastQuotaRetrySec || getRemainingCooldownSec(TEXT_TRANSLATION_MODELS),
+    });
+  });
+
+  // Tri Nhan AI Assistant Chat endpoint (multi-turn Gemini grounded on Mr. Nguyen Hung Thai's portfolio & 47 Q&A)
+  app.post('/api/assistant/chat', async (req, res) => {
+    const rawMessage = typeof req.body?.message === 'string' ? req.body.message.trim() : '';
+    const language: 'vi' | 'en' = req.body?.language === 'en' ? 'en' : 'vi';
+    const rawHistory = Array.isArray(req.body?.history) ? req.body.history : [];
+
+    if (!rawMessage) {
+      res.status(400).json({ error: 'Vui lòng nhập nội dung câu hỏi.' });
+      return;
+    }
+
+    const message = rawMessage.slice(0, 2000);
+    const localFallback = findVerifiedFallbackAnswer(message, language);
+
+    const ai = getGeminiClient();
+    if (!ai) {
+      res.json({
+        reply: localFallback.reply,
+        matchedTitle: localFallback.matchedTitle,
+        source: 'fallback',
+        fallback: true,
+      });
+      return;
+    }
+
+    const availableModels = ASSISTANT_CHAT_MODELS.filter((m) => !isModelInCooldown(m));
+    if (availableModels.length === 0) {
+      res.json({
+        reply: localFallback.reply,
+        matchedTitle: localFallback.matchedTitle,
+        source: 'fallback',
+        fallback: true,
+        quotaExhausted: true,
+        retryAfterSec: getRemainingCooldownSec(ASSISTANT_CHAT_MODELS),
+      });
+      return;
+    }
+
+    // Build clean multi-turn contents ensuring first role is always 'user' and roles alternate cleanly
+    const normalizedHistory: Array<{ role: 'user' | 'model'; parts: Array<{ text: string }> }> = [];
+    for (const item of rawHistory.slice(-10)) {
+      if (!item || typeof item.text !== 'string') continue;
+      const text = item.text.trim();
+      if (!text) continue;
+      const role: 'user' | 'model' = item.sender === 'user' ? 'user' : 'model';
+      if (normalizedHistory.length === 0 && role === 'model') {
+        continue;
+      }
+      const prev = normalizedHistory[normalizedHistory.length - 1];
+      if (prev && prev.role === role) {
+        prev.parts[0].text = `${prev.parts[0].text}\n\n${text}`;
+      } else {
+        normalizedHistory.push({ role, parts: [{ text }] });
+      }
+    }
+
+    // Append current user turn
+    const lastTurn = normalizedHistory[normalizedHistory.length - 1];
+    if (lastTurn && lastTurn.role === 'user') {
+      lastTurn.parts[0].text = message;
+    } else {
+      normalizedHistory.push({ role: 'user', parts: [{ text: message }] });
+    }
+
+    const systemInstruction = buildTriNhanSystemPrompt(language);
+    let lastQuotaRetrySec = 0;
+
+    for (const model of availableModels) {
+      try {
+        const response = await ai.models.generateContent({
+          model,
+          contents: normalizedHistory,
+          config: {
+            systemInstruction,
+          },
+        });
+
+        const reply = response.text?.trim();
+        if (reply) {
+          res.json({
+            reply,
+            matchedTitle: localFallback.matchedTitle,
+            source: 'gemini',
+            model,
+            fallback: false,
+          });
+          return;
+        }
+      } catch (err) {
+        const { isQuota, cooldownMs, message: errMsg } = parseQuotaError(err);
+        if (isQuota) {
+          markModelQuotaCooldown(model, cooldownMs, errMsg);
+          lastQuotaRetrySec = Math.ceil(cooldownMs / 1000);
+          continue;
+        }
+        console.warn('[Assistant Chat Fallback]', errMsg);
+        break;
+      }
+    }
+
+    res.json({
+      reply: localFallback.reply,
+      matchedTitle: localFallback.matchedTitle,
+      source: 'fallback',
+      fallback: true,
+      quotaExhausted: lastQuotaRetrySec > 0,
+      retryAfterSec: lastQuotaRetrySec || getRemainingCooldownSec(ASSISTANT_CHAT_MODELS),
     });
   });
 

@@ -9,8 +9,7 @@ import {
 } from '@/data/interview';
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { formatCardTitle, cn } from '@/lib/utils';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+import { cn } from '@/lib/utils';
 
 export interface InterviewViewProps {
   currentTheme?: string;
@@ -19,9 +18,6 @@ export interface InterviewViewProps {
 
 export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'light-glass' }) => {
   const { showToast } = useToast();
-  const { cardStyle } = useTheme();
-  const rawCardStyle = getCardStyleProperties(cardStyle);
-  const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cardSampleStyle } = rawCardStyle as any;
   const videoRef = useRef<HTMLVideoElement>(null);
   const filterDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -151,8 +147,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
       data-element-name="Trang Phỏng Vấn"
       data-element-type="container"
       data-element-page="interview"
-      className="w-full h-full flex-1 flex flex-col p-[15px] gap-[15px] max-w-full mx-auto justify-between select-none relative text-slate-800 dark:text-slate-100 overflow-y-auto no-scrollbar font-play text-left animate-fadeIn"
-      style={{ padding: '15px', gap: '15px' }}
+      className="main-card w-full min-w-0 h-full flex-1 flex flex-col p-[25px] rounded-[20px] gap-[15px] max-w-full mx-auto justify-start select-none relative text-[var(--text-primary)] overflow-y-auto no-scrollbar font-play text-left animate-fadeIn box-border"
     >
       {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
       <div id="interview-main-content" className="w-full flex-1 flex flex-col lg:flex-row gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar">
@@ -163,7 +158,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-name="Banner Video Phỏng Vấn"
           data-element-type="banner-card"
           data-section-card="true"
-          className="lg:w-[70%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-visible border border-white/80 dark:border-[#334155] shadow-xl p-[15px] text-white shrink-0 z-30 flex flex-col justify-between bg-[#0B1220] group"
+          className="lg:w-[62%] xl:w-[68%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-visible border border-white/80 dark:border-[#334155] shadow-xl p-[15px] text-white shrink-0 z-30 flex flex-col justify-between bg-[#0B1220] group"
           style={{ padding: '15px', borderRadius: '14px' }}
         >
           {/* Nền Video phỏng vấn trực tiếp lắp đầy 100% banner */}
@@ -183,8 +178,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           </div>
 
           {/* Hàng trên: Icon + Tiêu đề bên trái, Câu nói chữ ký bên phải */}
-          <div className="relative z-10 flex flex-row items-center justify-between gap-2 sm:gap-4 w-full">
-            <div className="flex items-center gap-2 shrink-0">
+          <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
+            <div className="flex items-center gap-2 min-w-0">
               <WebIcon
                 name="mic"
                 className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
@@ -192,11 +187,9 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               />
               <h1
                 id="interview-hero-banner-title"
-                className="text-[22px] font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] whitespace-nowrap"
+                className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
                 style={{
                   color: '#38bdf8',
-                  fontSize: '22px',
-                  fontWeight: 700,
                   textTransform: 'none',
                   fontStyle: 'normal',
                   transform: 'none',
@@ -206,15 +199,16 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               </h1>
             </div>
             <p
-              className="font-handwriting font-italianno not-italic text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-right ml-auto whitespace-nowrap overflow-hidden text-ellipsis max-w-[65%]"
-              style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '28px', fontWeight: 700, fontStyle: 'normal' }}
+              className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+              style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
             >
               &quot;Giao lưu cởi mở để thấu hiểu và sẻ chia ♡&quot;
             </p>
           </div>
 
           {/* Hàng dưới: 1 Nút Filter duy nhất bên trái + Cụm nút Laser Beam Phát Video bên phải */}
-          <div id="interview-video-banner-controls" className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto">
+          {/* Hàng dưới: Bộ lọc câu hỏi bên trái & Nút Phát Video bên dưới bên phải banner */}
+          <div id="interview-video-banner-controls" className="relative z-30 flex items-center justify-between gap-2 mt-auto w-full">
             {/* Nhóm các câu hỏi ở banner vào 1 nút filter với menu xổ xuống */}
             <div className="relative inline-block text-left" ref={filterDropdownRef}>
               <button
@@ -223,23 +217,29 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 onClick={() => {
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-indigo-950 dark:text-indigo-200 border border-indigo-300 dark:border-indigo-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.18)] backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
-                title="Nhấp để chọn câu hỏi phỏng vấn"
+                className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group shrink-0"
+                title="Bộ lọc câu hỏi phỏng vấn"
                 aria-expanded={isFilterDropdownOpen}
                 aria-haspopup="listbox"
               >
                 <WebIcon
                   name="sliders"
-                  className="w-4 h-4 text-indigo-600 dark:text-indigo-400 transition-transform group-hover:rotate-45 shrink-0"
+                  className="w-4 h-4 text-[var(--color-primary)] transition-transform group-hover:rotate-45 shrink-0"
                 />
                 <span className="shrink-0">Bộ lọc câu hỏi</span>
-                <span className="px-2.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950/80 border border-indigo-300 dark:border-indigo-500/50 text-[11px] font-mono text-indigo-900 dark:text-indigo-200 font-bold max-w-[140px] sm:max-w-[340px] md:max-w-[420px] lg:max-w-[500px] truncate">
-                  Câu {String(currentQ.stt).padStart(2, '0')}: {currentQ.questionVi.replace(/^Câu hỏi\s*\d+:\s*/i, '')}
-                </span>
+                {activeFilter !== 'all' ? (
+                  <span className="banner-count-pill px-2 py-0.2 rounded-full border typo-badge font-mono font-bold shrink-0">
+                    {INTERVIEW_TABS.find((t) => t.key === activeFilter)?.labelVi}
+                  </span>
+                ) : (
+                  <span className="banner-count-pill px-2 py-0.2 rounded-full border typo-badge font-mono font-bold shrink-0">
+                    {INTERVIEW_QUESTIONS.length} câu
+                  </span>
+                )}
                 <WebIcon
                   name="chevron-down"
                   className={cn(
-                    'w-3.5 h-3.5 text-indigo-700 dark:text-indigo-400 transition-transform duration-200 shrink-0',
+                    'w-3.5 h-3.5 transition-transform duration-200 shrink-0',
                     isFilterDropdownOpen ? 'rotate-180' : ''
                   )}
                 />
@@ -249,14 +249,15 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 <div
                   id="interview-question-filter-listbox"
                   role="listbox"
-                  className="bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-72 sm:w-96 max-h-72 overflow-y-auto no-scrollbar rounded-[14px] bg-white/95 dark:bg-[#111827]/95 border border-indigo-200/90 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.25)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-[#1E1B4B] dark:text-[#F8FAFC]"
-                  style={cardSampleStyle}
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-72 sm:w-96 max-h-72 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
-                  <div className="px-2 py-1.5 border-b border-black/5 dark:border-[#334155] flex flex-col gap-1.5 sticky top-0 bg-white/95 dark:bg-[#111827]/95 z-10">
-                    <div className="flex items-center justify-between text-[11px] font-mono font-bold text-[#475569] dark:text-[#94A3B8]">
-                      <span>Hiển thị {filteredQuestions.length}/{INTERVIEW_QUESTIONS.length} câu hỏi</span>
-                      <span className="text-indigo-600 dark:text-indigo-400">
-                        {String(currentQIdx + 1).padStart(2, '0')}/{String(INTERVIEW_QUESTIONS.length).padStart(2, '0')}
+                  <div className="px-2 py-1.5 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 sticky top-0 bg-[var(--bg-popup)] z-10 rounded-t-[10px]">
+                    <div className="flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">
+                      <span className="font-bold text-[var(--text-heading,var(--color-primary))] font-play text-[13px]">
+                        Bộ lọc câu hỏi
+                      </span>
+                      <span>
+                        Hiển thị {filteredQuestions.length}/{INTERVIEW_QUESTIONS.length} câu hỏi
                       </span>
                     </div>
                     <div className="flex flex-wrap gap-1">
@@ -267,11 +268,12 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                             key={tab.key}
                             type="button"
                             onClick={() => setActiveFilter(tab.key)}
+                            style={isTabActive ? { background: 'var(--bg-button-primary)' } : undefined}
                             className={cn(
-                              'px-2 py-0.5 rounded-full text-[10.5px] font-bold transition-all cursor-pointer border',
+                              'px-2.5 py-0.5 rounded-full typo-tab transition-all cursor-pointer border',
                               isTabActive
-                                ? 'bg-indigo-600 text-white border-indigo-600 shadow-2xs'
-                                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-indigo-50 dark:hover:bg-slate-700'
+                                ? 'text-white border-transparent shadow-2xs'
+                                : 'bg-[var(--bg-subcard)] text-[var(--text-secondary)] border-[var(--border-subcard)] hover:bg-[var(--bg-subcard-hover)]'
                             )}
                           >
                             {tab.labelVi}
@@ -289,31 +291,30 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                         type="button"
                         role="option"
                         aria-selected={isSelected}
+                        data-selected={isSelected ? 'true' : 'false'}
                         onClick={() => {
                           selectQuestion(origIdx !== -1 ? origIdx : 0);
                           setIsFilterDropdownOpen(false);
                         }}
                         className={cn(
-                          'w-full text-left px-3 py-2 rounded-[14px] transition-all cursor-pointer flex items-center justify-between gap-2 text-xs font-play',
-                          isSelected
-                            ? 'bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold shadow-xs'
-                            : 'hover:bg-indigo-50/80 dark:hover:bg-white/10 text-slate-800 dark:text-slate-100 font-semibold'
+                          'theme-dropdown-option w-full text-left px-3 py-2 rounded-[14px] transition-all cursor-pointer flex items-center justify-between gap-2 typo-nav font-play',
+                          isSelected ? 'shadow-xs' : ''
                         )}
                       >
                         <div className="flex items-center gap-2 min-w-0">
                           <span
                             className={cn(
-                              'w-6 h-6 rounded-full flex items-center justify-center text-[10.5px] font-mono font-bold shrink-0',
+                              'w-6 h-6 rounded-full flex items-center justify-center typo-badge font-mono shrink-0',
                               isSelected
                                 ? 'bg-white/25 text-white'
-                                : 'bg-indigo-100 dark:bg-slate-800 text-indigo-700 dark:text-indigo-300'
+                                : 'bg-[var(--bg-nested-badge)] text-[var(--text-link,var(--color-primary))]'
                             )}
                           >
                             {String(q.stt).padStart(2, '0')}
                           </span>
                           <div className="flex flex-col min-w-0">
-                            <span className="truncate font-bold">{q.categoryVi}</span>
-                            <span className={cn('text-[10px] truncate', isSelected ? 'text-indigo-100' : 'text-[#475569] dark:text-[#94A3B8]')}>
+                            <span className="truncate font-semibold">{q.categoryVi}</span>
+                            <span className={cn('typo-label truncate', isSelected ? 'text-white/85' : 'text-[var(--text-muted)]')}>
                               {q.questionVi.replace(/^Câu hỏi\s*\d+:\s*/i, '')}
                             </span>
                           </div>
@@ -326,8 +327,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               )}
             </div>
 
-            {/* Cụm phải: Nút Phát Video formatted theo chuẩn AboutView */}
-            <div className="flex items-center justify-end gap-3 pointer-events-auto">
+            {/* Cụm phải: Nút Phát Video bên dưới bên phải banner */}
+            <div className="flex items-center justify-end gap-3 pointer-events-auto ml-auto shrink-0">
               <div
                 id="interview-play-video-capsule"
                 onClick={() => togglePlay()}
@@ -370,19 +371,19 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                       e.stopPropagation();
                       togglePlay();
                     }}
-                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white font-black text-[15px] tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                     title="Bấm để phát video phỏng vấn"
                   >
                     <span className="flex items-center justify-center">
                       <WebIcon
                         name="play"
                         className="w-4 h-4 fill-white text-white shrink-0"
-                        style={{ fontSize: '15px', height: '16px', width: '16px' }}
+                        style={{ height: '16px', width: '16px' }}
                       />
                     </span>
                     <span
-                      className="drop-shadow-sm font-black text-[15px] text-white truncate font-play text-left"
-                      style={{ fontSize: '15px', textAlign: 'left' }}
+                      className="drop-shadow-sm typo-button text-white truncate font-play text-left"
+                      style={{ textAlign: 'left' }}
                     >
                       Phát Video
                     </span>
@@ -395,19 +396,19 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                       e.stopPropagation();
                       togglePlay();
                     }}
-                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white font-black text-[15px] tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                     title="Bấm để hủy phát video"
                   >
                     <span className="flex items-center justify-center">
                       <WebIcon
                         name="cancel"
                         className="w-4 h-4 stroke-[2.8] text-white shrink-0"
-                        style={{ fontSize: '15px', height: '16px', width: '16px' }}
+                        style={{ height: '16px', width: '16px' }}
                       />
                     </span>
                     <span
-                      className="drop-shadow-sm font-black text-[15px] text-white truncate font-play text-left"
-                      style={{ fontSize: '15px', textAlign: 'left' }}
+                      className="drop-shadow-sm typo-button text-white truncate font-play text-left"
+                      style={{ textAlign: 'left' }}
                     >
                       Hủy Phát
                     </span>
@@ -424,18 +425,16 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-name="Thẻ Chi Tiết Trả Lời Phỏng Vấn"
           data-element-type="card"
           data-section-card="true"
-          className="lg:w-[30%] w-full min-h-[360px] lg:min-h-0 lg:h-full flex flex-col rounded-[14px] exp-detail-card border p-[15px] transition-all duration-300 text-left justify-between gap-[15px] relative overflow-hidden"
-          style={cardSampleStyle}
+          className="lg:w-[38%] xl:w-[32%] w-full min-h-[360px] lg:min-h-0 lg:h-full flex flex-col rounded-[14px] bento-card glass-card border p-[15px] transition-all duration-300 text-left justify-between gap-2.5 relative overflow-y-auto no-scrollbar"
         >
-          <div className="space-y-2.5 flex-1 flex flex-col min-h-0 relative z-10">
             {/* Header Tiêu đề thẻ */}
             <div className="space-y-1.5 shrink-0">
               <div className="flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
-                  <h3 className="card-title flex items-center gap-2 text-[17px] sm:text-[18px] font-bold text-pink-600 dark:text-pink-400">
-                    <svg className="w-[18px] h-[18px] stroke-[2] shrink-0 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <h3 className="card-title card-title-synced typo-h3 flex items-center gap-2 text-pink-600 dark:text-pink-400">
+                    <svg className="w-[18px] h-[18px] stroke-[2] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
-                    <span className="text-pink-600 dark:text-pink-400">Chi Tiết Trả Lời</span>
+                    <span>Chi tiết trả lời</span>
                   </h3>
               </div>
 
@@ -447,48 +446,43 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               id="interview-progress-card"
               data-element-type="card"
               data-subcard="true"
-              className="exp-detail-subcard bento-card flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] border shrink-0 text-xs font-semibold"
+              className="exp-detail-subcard flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] border shrink-0 typo-label"
             >
-              <div className="flex items-center gap-1 text-slate-600 dark:text-slate-300 font-mono text-[11px]">
-                <WebIcon name="clock" className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <div className="flex items-center gap-1 text-[var(--text-secondary)] font-mono typo-label">
+                <WebIcon name="clock" className="interview-meta-accent w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
                 <span>{currentQ.timestamp}</span>
               </div>
               <div className="flex items-center gap-2 flex-1 min-w-0">
-                <div className="w-full h-1.5 rounded-full bg-slate-200/80 dark:bg-slate-700/80 overflow-hidden">
+                <div className="w-full h-1.5 rounded-full bg-[var(--pillar-progress-track)] overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-pink-500 to-indigo-600 rounded-full transition-all duration-200"
                     style={{ width: `${progressPct}%` }}
                   />
                 </div>
-                <span className="text-[10px] font-mono font-bold text-[#475569] dark:text-[#94A3B8] shrink-0">
+                <span className="typo-badge font-mono text-[var(--text-muted)] shrink-0">
                   {Math.round(currentQ.endSec - currentQ.startSec)}s
                 </span>
               </div>
             </div>
 
-            {/* Dialogue Bubble: Asker & Answerer & Key Takeaway */}
-            <div className="flex-1 space-y-2.5 overflow-y-auto pr-1 no-scrollbar min-h-0 text-xs">
               {/* Asker (Hiển thị Câu hỏi số ở đầu câu hỏi) */}
               <div
                 id="interview-asker-card"
                 data-element-type="card"
                 data-subcard="true"
-                className="exp-detail-subcard bento-card p-3 rounded-[14px] border space-y-1"
+                className="exp-detail-subcard p-3 rounded-[14px] border space-y-1 shrink-0"
               >
-                <div className="flex items-center gap-1.5 flex-wrap text-indigo-600 dark:text-indigo-400">
-                  <span className="text-[15px] sm:text-[16px] font-mono font-black tracking-wide shrink-0">
-                    Q{String(currentQ.stt).padStart(2, '0')}:
-                  </span>
-                  <WebIcon name="building" className="w-4 h-4 shrink-0" style={{ fontWeight: 'bold' }} />
-                  <span className="text-[15px] sm:text-[16px] font-black tracking-wide">
-                    {currentQ.askerVi}
+                <div className="interview-asker-heading subcard-header-sync typo-h4 flex items-center gap-1.5 flex-wrap text-indigo-600 dark:text-indigo-400">
+                  <WebIcon name="building" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
+                  <span className="subcard-title-synced tracking-wide text-indigo-600 dark:text-indigo-400 break-words" data-subcard-title="true">
+                    Câu hỏi {String(currentQ.stt).padStart(2, '0')}: {currentQ.askerVi}
                   </span>
                 </div>
                 <h3
                   id="interview-question-title"
-                  className="text-slate-900 dark:text-white font-normal m-0"
+                  className="typo-body text-[var(--text-heading)] m-0"
                 >
-                  <span className="text-[14px] font-normal">
+                  <span className="typo-body text-[var(--text-heading)]">
                     {currentQ.questionVi.replace(/^Câu hỏi\s*\d+:\s*/, '')}
                   </span>
                 </h3>
@@ -499,15 +493,15 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 id="interview-answerer-card"
                 data-element-type="card"
                 data-subcard="true"
-                className="exp-detail-subcard bento-card p-3 rounded-[14px] border space-y-1"
+                className="exp-detail-subcard p-3 rounded-[14px] border space-y-1 shrink-0"
               >
-                <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-                  <WebIcon name="user" className="w-4 h-4 shrink-0" />
-                  <span className="text-[15px] sm:text-[16px] font-black tracking-wide">
-                    {currentQ.answererVi}
+                <div className="interview-answerer-heading subcard-header-sync typo-h4 flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
+                  <WebIcon name="user" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
+                  <span className="subcard-title-synced tracking-wide text-emerald-700 dark:text-emerald-400" data-subcard-title="true">
+                    Trả lời: {currentQ.answererVi}
                   </span>
                 </div>
-                <p className="text-[14px] text-slate-700 dark:text-slate-200 leading-relaxed font-normal">
+                <p className="typo-body text-[var(--text-secondary)]">
                   {currentQ.answerVi}
                 </p>
               </div>
@@ -517,27 +511,25 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 id="interview-insights-card"
                 data-element-type="card"
                 data-subcard="true"
-                className="exp-detail-subcard bento-card p-3 rounded-[14px] border flex items-start gap-2 shrink-0"
+                className="exp-detail-subcard p-3 rounded-[14px] border flex items-start gap-2 shrink-0"
               >
-                <WebIcon name="trophy" className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-1" />
-                <div className="text-[14px] text-slate-700 dark:text-slate-200 font-medium leading-relaxed">
-                  <span className="text-[15px] sm:text-[16px] font-extrabold text-amber-600 dark:text-amber-400 inline-flex items-center gap-1.5 mr-1.5">
+                <WebIcon name="trophy" className="interview-insights-heading w-4 h-4 text-amber-700 dark:text-amber-400 shrink-0 mt-1" />
+                <div className="typo-body text-[var(--text-secondary)]">
+                  <span className="interview-insights-heading typo-h4 text-amber-700 dark:text-amber-400 inline-flex items-center gap-1.5 mr-1.5">
                     <WebIcon name="target" className="w-4 h-4 shrink-0" />
                     <span>Trọng tâm:</span>
                   </span>
                   <span>{currentQ.keyTakeawayVi}</span>
                 </div>
               </div>
-            </div>
-          </div>
 
           {/* Navigation Footer */}
-          <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between mt-auto shrink-0 relative z-10">
+          <div className="pt-2 border-t border-[var(--pillar-divider)] flex items-center justify-between mt-auto shrink-0 relative z-10">
             <button
               type="button"
               disabled={currentQIdx === 0}
               onClick={() => selectQuestion(currentQIdx - 1)}
-              className="text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 disabled:opacity-30 disabled:pointer-events-none cursor-pointer flex items-center gap-1 transition-colors py-1 px-2 rounded-[14px] border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="theme-prev-next-btn typo-button disabled:opacity-30 disabled:pointer-events-none cursor-pointer flex items-center gap-1 transition-colors py-1 px-2.5 rounded-[14px] border"
             >
               <span>‹ Trước</span>
             </button>
@@ -545,7 +537,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
             <button
               type="button"
               onClick={() => selectQuestion(currentQIdx)}
-              className="text-[11px] font-bold text-indigo-700 dark:text-cyan-400 hover:underline flex items-center gap-1 cursor-pointer py-1 px-2 rounded-[14px]"
+              className="typo-button text-[var(--text-link,var(--color-primary))] hover:underline flex items-center gap-1 cursor-pointer py-1 px-2 rounded-[14px]"
             >
               <WebIcon name="refresh" className="w-3.5 h-3.5" />
               <span>Lại</span>
@@ -555,7 +547,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               type="button"
               disabled={currentQIdx === INTERVIEW_QUESTIONS.length - 1}
               onClick={() => selectQuestion(currentQIdx + 1)}
-              className="text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-cyan-400 disabled:opacity-30 disabled:pointer-events-none cursor-pointer flex items-center gap-1 transition-colors py-1 px-2 rounded-[14px] border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="theme-prev-next-btn typo-button disabled:opacity-30 disabled:pointer-events-none cursor-pointer flex items-center gap-1 transition-colors py-1 px-2.5 rounded-[14px] border"
             >
               <span>Tiếp ›</span>
             </button>

@@ -65,33 +65,38 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-[120] bg-[#0B1220]/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 font-play animate-fadeIn"
+      style={{
+        background: 'var(--bg-modal-backdrop)',
+        backdropFilter: 'blur(var(--blur-modal, 6px))',
+        WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+      }}
+      className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-4 font-play animate-fadeIn"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label={isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}
-        className="bg-[#EFF6FF] dark:bg-[#111827] rounded-[14px] max-w-3xl w-full max-h-[90vh] p-5 sm:p-7 border border-white/85 dark:border-[#334155] shadow-[0_20px_60px_rgba(0,0,0,0.3)] relative text-left select-none overflow-y-auto no-scrollbar"
+        className="theme-modal-card rounded-[14px] max-w-3xl w-full max-h-[90vh] p-5 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.3)] relative text-left select-none overflow-y-auto no-scrollbar"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Decorative soft gradient blurs */}
-        <div className="absolute -top-20 -left-20 w-64 h-64 bg-sky-400/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-indigo-400/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-20 -left-20 w-64 h-64 bg-sky-400/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-indigo-400/15 rounded-full blur-3xl pointer-events-none" />
 
         {/* Modal Header matching reference title */}
-        <div className="relative z-10 flex flex-col items-center justify-center text-center pb-5 mb-5 border-b border-slate-200/80 dark:border-slate-800">
-          <h2 className="typo-h2 font-bold font-play tracking-wide text-slate-900 dark:text-white">
+        <div className="theme-modal-header relative z-10 flex flex-col items-center justify-center text-center -mx-5 -mt-5 sm:-mx-7 sm:-mt-7 px-5 sm:px-7 py-5 mb-5 rounded-t-[14px]">
+          <h2 className="typo-popup-title font-play tracking-wide" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
             {isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}
           </h2>
-          <p className="typo-body-sm font-semibold text-slate-600 dark:text-slate-300 mt-1" suppressHydrationWarning>
-            {fullDateHeader} • <span className="font-mono font-bold text-indigo-700 dark:text-cyan-300">{liveTime24} (24h)</span>
+          <p className="typo-body-sm font-semibold mt-1" style={{ color: 'var(--text-secondary)' }} suppressHydrationWarning>
+            {fullDateHeader} • <span className="font-mono font-bold" style={{ color: 'var(--color-primary)' }}>{liveTime24}</span>
           </p>
           <button
             type="button"
             onClick={onClose}
             aria-label={isEn ? 'Close' : 'Đóng'}
-            className="absolute right-0 top-0 w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-colors cursor-pointer text-sm font-bold shadow-xs"
+            className="theme-modal-close absolute right-4 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer typo-button shadow-xs"
             title={isEn ? 'Close' : 'Đóng'}
           >
             ✕
@@ -162,7 +167,7 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
                     </span>
                   </div>
                   <div className={`typo-caption font-semibold ${item.textColor} opacity-90 mt-1 leading-snug`}>
-                    <p suppressHydrationWarning>{locationText} • {liveTimeShort24} (24h)</p>
+                    <p suppressHydrationWarning>{locationText} • {liveTimeShort24}</p>
                     <p suppressHydrationWarning>{shortDate}</p>
                   </div>
                 </div>
@@ -201,8 +206,8 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
         </div>
 
         {/* Footer Hint */}
-        <div className="relative z-10 pt-4 mt-3 flex flex-wrap items-center justify-between gap-2 typo-caption text-[#475569] dark:text-[#94A3B8]">
-          <span>
+        <div className="theme-modal-footer relative z-10 -mx-5 -mb-5 sm:-mx-7 sm:-mb-7 px-5 sm:px-7 py-3.5 mt-5 rounded-b-[14px] flex flex-wrap items-center justify-between gap-2 typo-caption">
+          <span style={{ color: 'var(--text-secondary)' }}>
             {isEn
               ? 'Tap any card to update the weather widget in the Footer'
               : 'Chạm vào thẻ bất kỳ để đổi thời tiết hiển thị ở Footer'}
@@ -210,7 +215,8 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 rounded-full bg-[#1E1B4B] dark:bg-[#F8FAFC] text-white dark:text-[#1E1B4B] typo-button hover:opacity-90 transition cursor-pointer ml-auto"
+            style={{ background: 'var(--bg-button-primary)' }}
+            className="px-4 py-1.5 rounded-full text-white typo-button hover:opacity-90 transition cursor-pointer ml-auto"
           >
             {isEn ? 'Close' : 'Đóng'}
           </button>

@@ -329,26 +329,12 @@ export const Header: React.FC<HeaderProps> = ({
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
 
-  // 1. LASER FLOW CURSOR TRACKER STATE
-  const [laserX, setLaserX] = useState<number | null>(null);
-
   const [hoveredNavIndex, setHoveredNavIndex] = useState<number | null>(null);
   const [isRadialMenuOpen, setIsRadialMenuOpen] = useState(false);
 
   const avatarPillRef = useRef<HTMLDivElement>(null);
 
-
-
-  // Laser Tracker mouse position handler
-  const handleHeaderMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (headerRef.current) {
-      const rect = headerRef.current.getBoundingClientRect();
-      setLaserX(e.clientX - rect.left);
-    }
-  };
-
   const handleHeaderMouseLeave = () => {
-    setLaserX(null);
     setHoveredNavIndex(null);
   };
 
@@ -358,37 +344,7 @@ export const Header: React.FC<HeaderProps> = ({
     SoundEngine.playPageSpecificSound(pageId);
   };
 
-  // Hỗ trợ cuộn ngang bằng con lăn chuột trên thanh menu Header nếu màn hình nhỏ
-  const handleWheel = (e: React.WheelEvent<HTMLElement>) => {
-    if (navRef.current) {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        navRef.current.scrollLeft += e.deltaY;
-      }
-    }
-  };
-
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  const handleTouchStart = (e: React.TouchEvent<HTMLElement>) => {
-    setIsDragging(true);
-    setStartX(e.touches[0].pageX - (navRef.current?.offsetLeft || 0));
-    setScrollLeft(navRef.current?.scrollLeft || 0);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent<HTMLElement>) => {
-    if (!isDragging) return;
-    const x = e.touches[0].pageX - (navRef.current?.offsetLeft || 0);
-    const walk = (x - startX) * 1.5;
-    if (navRef.current) {
-      navRef.current.scrollLeft = scrollLeft - walk;
-    }
-  };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-  };
+  // Hỗ trợ cuộn ngang mượt mà bằng chuột & cảm ứng được xử lý bởi useGlobalHorizontalScroll kết hợp .horizontal-scroll-smooth
 
   const toggleRadialMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -418,7 +374,6 @@ export const Header: React.FC<HeaderProps> = ({
       data-element-type="card"
       data-element-page="global"
       data-element-parent="website-root"
-      onMouseMove={handleHeaderMouseMove}
       onMouseLeave={handleHeaderMouseLeave}
       style={{
         ...cleanHeaderStyle,
@@ -440,30 +395,11 @@ export const Header: React.FC<HeaderProps> = ({
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 rounded-t-none rounded-b-[14px] group/header overflow-visible pointer-events-auto`}
     >
-      {/* 1. HIỆU ỨNG LASER FLOW THEO DÕI CON TRỎ CHUỘT THỜI GIAN THỰC (TOP BORDER LASER BEAM) */}
-      {laserX !== null && (
-        <div
-          className="absolute top-0 h-[2.5px] rounded-full pointer-events-none z-30 transition-all duration-75 ease-out shadow-[0_0_12px_#38bdf8]"
-          style={{
-            left: `${Math.max(20, laserX - 60)}px`,
-            width: '120px',
-            background: 'linear-gradient(90deg, transparent 0%, #38bdf8 30%, #818cf8 70%, transparent 100%)',
-          }}
-        />
-      )}
-
-      {/* Top ambient highlight line */}
-      <div className="absolute top-0 inset-x-8 h-[1px] bg-gradient-to-r from-transparent via-white/40 dark:via-slate-500/30 to-transparent pointer-events-none z-10" />
-
       {/* Khu vực Menu chính: Các nút định dạng xếp chồng với hiệu ứng lan màu khi chọn */}
       <nav
         ref={navRef}
         id="header-center"
-        onWheel={handleWheel}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        className="flex-1 min-w-0 h-full flex items-center justify-center overflow-x-auto overflow-y-visible no-scrollbar z-10 px-1 py-1 mx-auto cursor-grab active:cursor-grabbing bg-transparent relative flex-nowrap"
+        className="flex-1 min-w-0 h-full flex items-center justify-start lg:justify-center overflow-x-auto overflow-y-visible horizontal-scroll-smooth z-10 px-1 py-1 mx-auto cursor-grab active:cursor-grabbing bg-transparent relative flex-nowrap"
         style={{ background: 'transparent' }}
       >
         {headerPages.map((page: any, index: number) => {
@@ -492,7 +428,7 @@ export const Header: React.FC<HeaderProps> = ({
               }}
             >
               <div
-                className={`group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-[140px] sm:w-[150px] h-[42px] overflow-hidden ${
+                className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-[140px] sm:w-[150px] h-[42px] overflow-hidden ${
                   isSelected ? 'p-[1.5px]' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
                 }`}
                 style={{
@@ -502,7 +438,7 @@ export const Header: React.FC<HeaderProps> = ({
                 {/* HIỆU ỨNG LINE PHÁT SÁNG XOAY QUANH KHI ĐƯỢC CHỌN */}
                 {isSelected && (
                   <div
-                    className="absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none z-0"
+                    className="nav-pill-laser absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none z-0"
                     style={{
                       background: `conic-gradient(from 0deg, transparent 0 210deg, #ffffff 270deg, ${styleCfg.laserColor || styleCfg.accentColor} 300deg, transparent 360deg)`,
                     }}
@@ -533,7 +469,7 @@ export const Header: React.FC<HeaderProps> = ({
                 >
                   {/* Round Circle Badge with Icon or Avatar */}
                   <div
-                    className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
+                    className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
                     style={{
                       backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.25)' : styleCfg.accentColor,
                     }}
@@ -550,7 +486,7 @@ export const Header: React.FC<HeaderProps> = ({
                     ) : (
                       <WebIcon
                         name={page.icon || 'home'}
-                        className="w-4 h-4 text-center block stroke-[2] shrink-0"
+                        className="nav-pill-icon-svg w-4 h-4 text-center block stroke-[2] shrink-0"
                         style={{
                           color: '#ffffff',
                         }}
@@ -563,20 +499,20 @@ export const Header: React.FC<HeaderProps> = ({
                     className={`nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
                       isSelected
                         ? 'bg-white/50'
-                        : 'bg-slate-300/80 dark:bg-white/30'
+                        : 'bg-[var(--divider-nav-pill)]'
                     }`}
                   />
 
                   <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
                     <span
-                      className={`nav-pill-title text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
+                      className={`nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-300 ${
                         isSelected ? 'text-white' : styleCfg.mainTextColor
                       }`}
                     >
                       {pageTitle}
                     </span>
                     <span
-                      className={`nav-pill-sub text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
+                      className={`nav-pill-sub typo-label leading-none mt-0.5 truncate font-play transition-colors duration-300 ${
                         isSelected ? 'text-white/90' : styleCfg.subTextColor
                       }`}
                     >
@@ -612,14 +548,14 @@ export const Header: React.FC<HeaderProps> = ({
             >
 
               <div 
-                className={`relative inline-flex items-center justify-between rounded-[999px] select-none group/hungthai transition-all duration-300 hover:scale-[1.05] w-[140px] sm:w-[150px] h-[42px] overflow-hidden p-[1.5px] ${
+                className={`nav-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] select-none group/hungthai transition-all duration-300 hover:scale-[1.05] w-[140px] sm:w-[150px] h-[42px] overflow-hidden p-[1.5px] ${
                   isRadialMenuOpen || currentPage === 12 ? 'shadow-none' : 'shadow-[0_4px_16px_rgba(79,70,229,0.22)]'
                 }`}
               >
                 {/* HIỆU ỨNG LINE PHÁT SÁNG XOAY QUANH KHI MỞ MENU HOẶC ĐANG CHỌN TRANG ĐẶT LỊCH */}
                 {(isRadialMenuOpen || currentPage === 12) && (
                   <div
-                    className="absolute -inset-[200%] animate-[spin_3s_linear_infinite] opacity-100 pointer-events-none z-0"
+                    className="nav-pill-laser absolute -inset-[200%] animate-[spin_3s_linear_infinite] opacity-100 pointer-events-none z-0"
                     style={{
                       background: `conic-gradient(from 0deg, transparent 0 240deg, #ffffff 300deg, #6366f1 330deg, transparent 360deg)`,
                     }}
@@ -638,10 +574,10 @@ export const Header: React.FC<HeaderProps> = ({
                   className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] ${
                     currentPage === 12
                       ? 'bg-indigo-100 dark:bg-indigo-900 text-indigo-950 dark:text-indigo-100 active'
-                      : 'text-slate-900 dark:text-white'
+                      : 'text-[var(--text-primary)]'
                   } px-2 py-0.5 gap-1.5 shadow-sm cursor-pointer border-2 border-indigo-400/80 dark:border-indigo-500/80 transition-colors`}
                 >
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-xs bg-indigo-500 text-white leading-none p-0 overflow-hidden ring-1 ring-indigo-300">
+                  <div className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-xs bg-indigo-500 text-white leading-none p-0 overflow-hidden ring-1 ring-indigo-300">
                     <img
                       src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.gif"
                       alt="Hùng Thái"
@@ -653,10 +589,10 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                   <div className="nav-pill-divider w-[1.5px] h-4 bg-indigo-300/80 dark:bg-indigo-400/40 shrink-0 mx-0.5 rounded-[999px]"></div>
                   <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
-                    <span className="nav-pill-title text-[14px] leading-tight font-bold font-play text-indigo-950 dark:text-indigo-100 truncate">
+                    <span className="nav-pill-title typo-nav leading-tight font-play text-indigo-950 dark:text-indigo-100 truncate">
                       {language === 'en' ? 'Hung Thai' : 'Hùng Thái'}
                     </span>
-                    <span className="nav-pill-sub text-[12px] leading-none font-bold mt-0.5 text-indigo-700 dark:text-indigo-400 font-play truncate">
+                    <span className="nav-pill-sub typo-label leading-none mt-0.5 text-indigo-700 dark:text-indigo-400 font-play truncate">
                       {currentPage === 12
                         ? language === 'en'
                           ? 'Booking'

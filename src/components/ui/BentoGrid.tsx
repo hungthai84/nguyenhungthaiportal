@@ -108,9 +108,9 @@ export const BentoCardHeader: React.FC<BentoCardHeaderProps> = ({
         className
       )}
     >
-      <div className={cn('card-heading min-w-0', accentClassName)}>
+      <div className={cn('card-heading card-header-sync min-w-0', accentClassName)}>
         {icon && <span className="card-heading__icon shrink-0">{icon}</span>}
-        <h3 className="card-heading__title card-title font-play font-bold truncate">
+        <h3 className="card-heading__title card-title card-title-synced typo-h3 font-play truncate" data-card-title="true">
           {title}
         </h3>
       </div>

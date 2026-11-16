@@ -125,10 +125,11 @@ export const TechStackExplorerModal: React.FC<TechStackExplorerModalProps> = ({
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
+                style={active ? { background: 'var(--bg-button-primary)' } : undefined}
                 className={`px-3.5 py-1.5 rounded-full typo-button transition-all cursor-pointer border ${
                   active
-                    ? 'bg-cyan-600 text-white border-cyan-500 shadow-sm'
-                    : 'bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-200'
+                    ? 'text-white border-transparent shadow-sm'
+                    : 'theme-modal-subcard hover:opacity-85'
                 }`}
               >
                 {cat === 'ALL' ? 'Tất cả nền tảng (6)' : cat}
@@ -141,7 +142,7 @@ export const TechStackExplorerModal: React.FC<TechStackExplorerModalProps> = ({
           {filtered.map((item) => (
             <div
               key={item.id}
-              className="p-4 rounded-[14px] border border-slate-200/90 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-3"
+              className="theme-modal-subcard p-4 rounded-[14px] shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-3"
             >
               <div>
                 <div className="flex items-start justify-between gap-3 mb-2">
@@ -162,26 +163,26 @@ export const TechStackExplorerModal: React.FC<TechStackExplorerModalProps> = ({
                       >
                         {item.category}
                       </span>
-                      <h4 className="typo-h4 font-bold text-slate-900 dark:text-white leading-snug">
+                      <h4 className="typo-h4 subcard-title-synced font-bold leading-snug" style={{ color: item.color }}>
                         {item.name}
                       </h4>
                     </div>
                   </div>
                 </div>
 
-                <p className="typo-caption font-bold text-cyan-700 dark:text-cyan-400 mb-1.5">
+                <p className="typo-caption font-bold mb-1.5" style={{ color: 'var(--color-primary)' }}>
                   {item.role} • {item.level}
                 </p>
-                <p className="typo-body-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                <p className="typo-body-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                   {item.desc}
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+              <div className="flex flex-wrap gap-1.5 pt-2 border-t" style={{ borderColor: 'var(--border-subcard)' }}>
                 {item.highlights.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="px-2 py-0.5 rounded-[14px] typo-badge font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                    className="project-detail-chip px-2 py-0.5 rounded-[14px] typo-badge font-semibold"
                   >
                     ✓ {tag}
                   </span>

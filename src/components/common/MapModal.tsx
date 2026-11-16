@@ -20,17 +20,22 @@ export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 bg-[#0B1220]/75 backdrop-blur-md animate-fadeIn"
+      style={{
+        background: 'var(--bg-modal-backdrop)',
+        backdropFilter: 'blur(var(--blur-modal, 6px))',
+        WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+      }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 animate-fadeIn"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label={location.title}
-        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto no-scrollbar bg-white dark:bg-[#111827] border border-[#CBD5E1] dark:border-[#334155] p-4 sm:p-6 rounded-[14px] shadow-2xl z-10 flex flex-col gap-3 text-[#334155] dark:text-[#E2E8F0] font-play"
+        className="theme-modal-card map-modal-card relative w-full max-w-2xl max-h-[90vh] overflow-y-auto no-scrollbar p-4 sm:p-6 rounded-[14px] shadow-2xl z-10 flex flex-col gap-3 font-play"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+        <div className="theme-modal-header flex items-center justify-between -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 px-4 sm:px-6 py-3.5 rounded-t-[14px]">
           <div className="flex items-center gap-3">
             <div
               className={`w-9 h-9 rounded-[14px] flex items-center justify-center text-white font-bold shadow-md ${
@@ -44,10 +49,13 @@ export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
               ></i>
             </div>
             <div>
-              <h3 className="typo-h3 font-bold text-slate-900 dark:text-white leading-tight font-play">
+              <h3
+                className="typo-popup-title card-title-synced leading-tight font-play"
+                style={{ color: location.type === 'cu_tru' ? 'var(--accent-emerald, #059669)' : 'var(--accent-purple, #9333EA)' }}
+              >
                 {location.title}
               </h3>
-              <p className="typo-caption text-[#475569] dark:text-[#94A3B8] font-medium">
+              <p className="typo-caption font-medium" style={{ color: 'var(--text-secondary)' }}>
                 {location.address}
               </p>
             </div>
@@ -56,12 +64,15 @@ export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
             type="button"
             onClick={onClose}
             aria-label="Đóng"
-            className="w-7 h-7 rounded-full bg-slate-100 dark:bg-[#1F2937] hover:bg-slate-200 dark:hover:bg-[#334155] flex items-center justify-center text-[#475569] dark:text-[#94A3B8] cursor-pointer font-bold shrink-0"
+            className="theme-modal-close w-7 h-7 rounded-full flex items-center justify-center cursor-pointer font-bold shrink-0"
           >
             ✕
           </button>
         </div>
-        <div className="relative w-full h-[280px] sm:h-[340px] rounded-[14px] overflow-hidden border border-slate-200 dark:border-slate-800 shadow-inner bg-slate-100 dark:bg-slate-800">
+        <div
+          className="relative w-full h-[280px] sm:h-[340px] rounded-[14px] overflow-hidden border shadow-inner"
+          style={{ borderColor: 'var(--border-modal, var(--border-color))', background: 'var(--bg-subcard)' }}
+        >
           <iframe
             title={location.title}
             src={`https://maps.google.com/maps?q=${encodeURIComponent(
@@ -72,8 +83,8 @@ export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
             allowFullScreen
           ></iframe>
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-2.5 pt-1">
-          <span className="typo-label font-semibold text-[#475569] dark:text-[#94A3B8] truncate max-w-full sm:max-w-[55%]">
+        <div className="theme-modal-footer flex flex-wrap items-center justify-between gap-2.5 -mx-4 -mb-4 sm:-mx-6 sm:-mb-6 px-4 sm:px-6 py-3 rounded-b-[14px]">
+          <span className="typo-label font-semibold truncate max-w-full sm:max-w-[55%]" style={{ color: 'var(--text-secondary)' }}>
             {location.address}
           </span>
           <div className="flex flex-wrap items-center gap-2 ml-auto">
@@ -83,14 +94,15 @@ export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white typo-button shadow-md whitespace-nowrap"
+              style={{ background: 'var(--bg-button-primary)' }}
+              className="px-3.5 py-1.5 rounded-full text-white typo-button shadow-md whitespace-nowrap hover:opacity-90"
             >
               Mở Google Maps
             </a>
             <button
               type="button"
               onClick={onClose}
-              className="px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 typo-button cursor-pointer whitespace-nowrap"
+              className="theme-modal-close px-3.5 py-1.5 rounded-full typo-button cursor-pointer whitespace-nowrap"
             >
               Đóng
             </button>

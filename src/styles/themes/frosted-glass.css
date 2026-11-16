@@ -1,193 +1,478 @@
 /* ========================================================================= */
-/* THEME: FROSTED GLASS -> SOLID CLEAN SURFACES                              */
+/* THEME: FLAT UI WITH MULTICOLORED BACKGROUND CARDS                        */
 /* ========================================================================= */
 
 html[data-card-style="frosted-glass"] {
   --bg-blur: 0px;
-  --bg-header: var(--color-surface);
-  --bg-footer: var(--color-surface);
-  --bg-main: var(--color-bg);
-  --bg-card: var(--color-surface);
-  --bg-subcard: var(--color-surface-indigo);
-  --bg-nested-card: var(--color-bg);
-  --bg-button-primary: var(--color-indigo);
-  --bg-button-secondary: var(--color-border-soft);
-  --bg-popup: var(--color-surface);
-  --bg-modal: var(--color-surface);
-  --bg-dropdown: var(--color-surface);
-  --bg-navigation: var(--color-surface);
-  --bg-tab: var(--color-surface-indigo);
-  --bg-table: var(--color-surface);
-  --border-color: var(--color-border-soft);
+  --glass-blur: 0px;
+  --blur-modal: 0px;
+  --bg-header: #FFFFFF;
+  --bg-footer: #FFFFFF;
+  --bg-main: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --bg-subcard: #EFF6FF;
+  --bg-subcard-hover: #E0E7FF;
+  --bg-nested-card: #F8FAFC;
+  --bg-button-primary: #2563EB;
+  --bg-button-secondary: #E2E8F0;
+  --bg-popup: #FFFFFF;
+  --bg-modal: #FFFFFF;
+  --bg-modal-backdrop: rgba(15, 23, 42, 0.45);
+  --bg-modal-header: #F8FAFC;
+  --bg-modal-footer: #F8FAFC;
+  --border-modal: #CBD5E1;
+  --bg-dropdown: #FFFFFF;
+  --bg-navigation: #FFFFFF;
+  --bg-tab: #DBEAFE;
+  --bg-input: #FFFFFF;
+  --border-input: #94A3B8;
+  --border-input-focus: #2563EB;
+  --text-input: #0F172A;
+  --text-placeholder: #64748B;
+  --bg-table: #FFFFFF;
+  --bg-table-head: #EFF6FF;
+  --bg-table-row-alt: #F8FAFC;
+  --border-table: #CBD5E1;
+  --border-color: #CBD5E1;
+  --color-border-soft: #E2E8F0;
   --bg-nav-button-opaque: #FFFFFF;
 
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --text-heading: #0F172A;
+  --text-link: #2563EB;
+
   --bg-nav-pill: #FFFFFF;
-  --shadow-nav-pill: 0 4px 14px rgba(15, 23, 42, 0.08);
+  --shadow-nav-pill: 0 4px 12px rgba(15, 23, 42, 0.08);
   --blur-nav-pill: 0px;
   --outline-nav-pill: none;
   --divider-nav-pill: rgba(148, 163, 184, 0.55);
 
-  --bg-subcard: #F8FAFC;
-  --border-subcard: #E2E8F0;
-  --shadow-subcard: 0 2px 8px rgba(30, 27, 75, 0.05);
+  --border-subcard: #93C5FD;
+  --shadow-subcard: 0 2px 8px rgba(15, 23, 42, 0.05);
+  --shadow-subcard-hover: 0 6px 16px rgba(37, 99, 235, 0.12);
   --blur-subcard: 0px;
   --outline-subcard: none;
   --bg-nested-badge: #FFFFFF;
   --border-nested-badge: #CBD5E1;
 
-  --pillar-heading: #1E1B4B;
-  --pillar-sub: #4338CA;
+  --bg-banner-pill: #FFFFFF;
+  --text-banner-pill: #0F172A;
+  --border-banner-pill: #94A3B8;
+  --shadow-banner-pill: 0 4px 12px rgba(15, 23, 42, 0.10);
+  --bg-banner-cta: #2563EB;
+  --text-banner-cta: #FFFFFF;
+  --border-banner-cta: #1D4ED8;
+  --bg-banner-input: #FFFFFF;
+  --text-banner-input: #0F172A;
+  --border-banner-input: #94A3B8;
+  --bg-nav-arrow: #FFFFFF;
+  --border-nav-arrow: #94A3B8;
+  --text-nav-arrow: #0F172A;
+  --shadow-nav-arrow: 0 4px 12px rgba(15, 23, 42, 0.10);
+  --border-image-card: #CBD5E1;
+  --shadow-image-card: 0 6px 18px rgba(15, 23, 42, 0.09);
+
+  --pillar-heading: #0F172A;
+  --pillar-sub: #1D4ED8;
   --pillar-body: #334155;
-  --pillar-badge-bg: rgba(67, 56, 202, 0.10);
-  --pillar-badge-text: #312E81;
-  --pillar-divider: rgba(148, 163, 184, 0.28);
-  --pillar-progress-track: rgba(148, 163, 184, 0.24);
-  --pillar-progress-fill: #4338CA;
+  --pillar-badge-bg: rgba(37, 99, 235, 0.12);
+  --pillar-badge-text: #1E40AF;
+  --pillar-divider: rgba(148, 163, 184, 0.35);
+  --pillar-progress-track: rgba(148, 163, 184, 0.28);
+  --pillar-progress-fill: #2563EB;
 }
 
-html[data-card-style="frosted-glass"] #ai-assistant-droptop-menu-list,
-html[data-card-style="frosted-glass"] #ai-assistant-center-questions-modal,
-html[data-card-style="frosted-glass"] #interview-question-filter-listbox,
-html[data-card-style="frosted-glass"] #skills-filter-dropdown,
-html[data-card-style="frosted-glass"] #services-filter-dropdown {
-  background: var(--color-surface) !important;
-  border-color: var(--color-border-soft) !important;
-}
-
-/* Crisp Solid Subcards & Detail Panels in Giao diện Chuẩn */
-html[data-card-style="frosted-glass"] [data-subcard="true"],
-html[data-card-style="frosted-glass"] .sub-card,
-html[data-card-style="frosted-glass"] .about-info-subcard,
-html[data-card-style="frosted-glass"] .experience-milestone-card,
-html[data-card-style="frosted-glass"] .exp-detail-card,
-html[data-card-style="frosted-glass"] .exp-detail-subcard {
+html[data-card-style="frosted-glass"] #app-header,
+html[data-card-style="frosted-glass"] #app-footer,
+html[data-card-style="frosted-glass"] .main-card,
+html[data-card-style="frosted-glass"] [id$="-page-container"],
+html[data-card-style="frosted-glass"] [id$="-page-root"] {
   background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  box-shadow: 0 4px 12px -2px rgba(30, 27, 75, 0.06) !important;
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="frosted-glass"] .exp-detail-subcard,
-html[data-card-style="frosted-glass"] .about-info-subcard {
+html[data-card-style="frosted-glass"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="frosted-glass"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="frosted-glass"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06) !important;
+}
+
+/* Flat UI Multicolored Primary Section Cards */
+[data-card-style="frosted-glass"] #home-intro-card,
+[data-card-style="frosted-glass"] #letter-card-0,
+[data-card-style="frosted-glass"] #about-unified-bento-card,
+[data-card-style="frosted-glass"] #education-school-card,
+[data-card-style="frosted-glass"] #experience-info-card,
+[data-card-style="frosted-glass"] #service-card-telecom,
+[data-card-style="frosted-glass"] #projects-info-card,
+[data-card-style="frosted-glass"] #skills-management-card,
+[data-card-style="frosted-glass"] #systems-admin-card,
+[data-card-style="frosted-glass"] #interview-answers-card,
+[data-card-style="frosted-glass"] #contact-info-card {
+  --bg-card: #EFF6FF;
+  --border-color: #93C5FD;
+}
+
+[data-card-style="frosted-glass"] #home-stats-card,
+[data-card-style="frosted-glass"] #letter-card-1,
+[data-card-style="frosted-glass"] #about-personal-info-card-right,
+[data-card-style="frosted-glass"] #education-major-card,
+[data-card-style="frosted-glass"] #experience-title-card,
+[data-card-style="frosted-glass"] #service-card-esports,
+[data-card-style="frosted-glass"] #skills-tech-card,
+[data-card-style="frosted-glass"] #systems-tech-card,
+[data-card-style="frosted-glass"] #ai-assistant-chat-container {
+  --bg-card: #F5F3FF;
+  --border-color: #C4B5FD;
+}
+
+[data-card-style="frosted-glass"] #home-capabilities-card,
+[data-card-style="frosted-glass"] #letter-card-2,
+[data-card-style="frosted-glass"] #about-operating-pillars-card,
+[data-card-style="frosted-glass"] #about-core-values-card,
+[data-card-style="frosted-glass"] #education-certificates-card,
+[data-card-style="frosted-glass"] #experience-responsibility-card,
+[data-card-style="frosted-glass"] #service-card-insurance,
+[data-card-style="frosted-glass"] #skills-ops-card,
+[data-card-style="frosted-glass"] #skills-languages-section,
+[data-card-style="frosted-glass"] #systems-workflow-card,
+[data-card-style="frosted-glass"] #projects-results-card {
+  --bg-card: #ECFDF5;
+  --border-color: #6EE7B7;
+}
+
+[data-card-style="frosted-glass"] #home-achievements-card,
+[data-card-style="frosted-glass"] #letter-card-3,
+[data-card-style="frosted-glass"] #about-philosophy-card,
+[data-card-style="frosted-glass"] #experience-achievement-card,
+[data-card-style="frosted-glass"] #service-card-ecommerce,
+[data-card-style="frosted-glass"] #skills-leadership-card,
+[data-card-style="frosted-glass"] #memories-grid-card,
+[data-card-style="frosted-glass"] #contact-form-card {
+  --bg-card: #FFFBEB;
+  --border-color: #FCD34D;
+}
+
+/* Flat UI Multicolored Subcards */
+html[data-card-style="frosted-glass"] [data-subcard="true"]:nth-of-type(4n+1),
+html[data-card-style="frosted-glass"] .sub-card:nth-of-type(4n+1),
+html[data-card-style="frosted-glass"] .project-detail-subcard:nth-of-type(4n+1),
+html[data-card-style="frosted-glass"] .education-subcard:nth-of-type(4n+1),
+html[data-card-style="frosted-glass"] .letter-subcard:nth-of-type(4n+1) {
+  background: #EFF6FF !important; /* Soft Blue */
+  border: 1.5px solid #93C5FD !important;
+  color: #1E3A8A !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="frosted-glass"] [data-subcard="true"]:nth-of-type(4n+2),
+html[data-card-style="frosted-glass"] .sub-card:nth-of-type(4n+2),
+html[data-card-style="frosted-glass"] .project-detail-subcard:nth-of-type(4n+2),
+html[data-card-style="frosted-glass"] .education-subcard:nth-of-type(4n+2),
+html[data-card-style="frosted-glass"] .letter-subcard:nth-of-type(4n+2) {
+  background: #F5F3FF !important; /* Soft Lavender */
+  border: 1.5px solid #C4B5FD !important;
+  color: #3B0764 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="frosted-glass"] [data-subcard="true"]:nth-of-type(4n+3),
+html[data-card-style="frosted-glass"] .sub-card:nth-of-type(4n+3),
+html[data-card-style="frosted-glass"] .project-detail-subcard:nth-of-type(4n+3),
+html[data-card-style="frosted-glass"] .education-subcard:nth-of-type(4n+3),
+html[data-card-style="frosted-glass"] .letter-subcard:nth-of-type(4n+3) {
+  background: #ECFDF5 !important; /* Soft Emerald */
+  border: 1.5px solid #6EE7B7 !important;
+  color: #064E3B !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="frosted-glass"] [data-subcard="true"]:nth-of-type(4n+4),
+html[data-card-style="frosted-glass"] .sub-card:nth-of-type(4n+4),
+html[data-card-style="frosted-glass"] .project-detail-subcard:nth-of-type(4n+4),
+html[data-card-style="frosted-glass"] .education-subcard:nth-of-type(4n+4),
+html[data-card-style="frosted-glass"] .letter-subcard:nth-of-type(4n+4) {
+  background: #FFFBEB !important; /* Soft Amber */
+  border: 1.5px solid #FCD34D !important;
+  color: #78350F !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="frosted-glass"] .letter-header-subcard,
+html[data-card-style="frosted-glass"] .letter-footer-subcard {
   background: #F8FAFC !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #0F172A !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="frosted-glass"] .about-info-subcard:hover,
-html[data-card-style="frosted-glass"] .exp-detail-subcard:hover {
-  background: #F1F5F9 !important;
-  border-color: #CBD5E1 !important;
+html[data-card-style="frosted-glass"] .about-info-subcard:nth-of-type(odd) {
+  background: #EFF6FF !important;
+  border: 1.5px solid #93C5FD !important;
+}
+html[data-card-style="frosted-glass"] .about-info-subcard:nth-of-type(even) {
+  background: #FFFBEB !important;
+  border: 1.5px solid #FCD34D !important;
 }
 
-/* 3 Pillars & Core Values in Giao diện Chuẩn */
+html[data-card-style="frosted-glass"] .exp-detail-subcard:nth-of-type(odd) {
+  background: #F5F3FF !important;
+  border: 1.5px solid #C4B5FD !important;
+}
+html[data-card-style="frosted-glass"] .exp-detail-subcard:nth-of-type(even) {
+  background: #ECFDF5 !important;
+  border: 1.5px solid #6EE7B7 !important;
+}
+
+html[data-card-style="frosted-glass"] .project-card:nth-of-type(4n+1),
+html[data-card-style="frosted-glass"] #projects-grid article:nth-of-type(4n+1),
+html[data-card-style="frosted-glass"] .project-detail-section-card:nth-of-type(4n+1) {
+  background: #EFF6FF !important;
+  border: 1.5px solid #93C5FD !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-card-style="frosted-glass"] .project-card:nth-of-type(4n+2),
+html[data-card-style="frosted-glass"] #projects-grid article:nth-of-type(4n+2),
+html[data-card-style="frosted-glass"] .project-detail-section-card:nth-of-type(4n+2) {
+  background: #F5F3FF !important;
+  border: 1.5px solid #C4B5FD !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-card-style="frosted-glass"] .project-card:nth-of-type(4n+3),
+html[data-card-style="frosted-glass"] #projects-grid article:nth-of-type(4n+3),
+html[data-card-style="frosted-glass"] .project-detail-section-card:nth-of-type(4n+3) {
+  background: #ECFDF5 !important;
+  border: 1.5px solid #6EE7B7 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-card-style="frosted-glass"] .project-card:nth-of-type(4n+4),
+html[data-card-style="frosted-glass"] #projects-grid article:nth-of-type(4n+4),
+html[data-card-style="frosted-glass"] .project-detail-section-card:nth-of-type(4n+4) {
+  background: #FFFBEB !important;
+  border: 1.5px solid #FCD34D !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 3 Pillars & Core Values in Flat Multicolor UI */
 html[data-card-style="frosted-glass"] .pillar-gradient-card {
   background: #FFFFFF !important;
-  border: 1.5px solid #E2E8F0 !important;
-  box-shadow: 0 6px 18px -4px rgba(30, 27, 75, 0.08) !important;
+  border: 1.5px solid #CBD5E1 !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="blue"] {
-  border-top: 3px solid #2563EB !important;
+  background: #EFF6FF !important;
+  border-color: #60A5FA !important;
 }
 html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="rose"] {
-  border-top: 3px solid #E11D48 !important;
+  background: #FFF1F2 !important;
+  border-color: #FDA4AF !important;
 }
 html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="emerald"] {
-  border-top: 3px solid #059669 !important;
+  background: #ECFDF5 !important;
+  border-color: #6EE7B7 !important;
 }
 html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="amber"] {
-  border-top: 3px solid #D97706 !important;
+  background: #FFFBEB !important;
+  border-color: #FCD34D !important;
 }
 html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="pink"] {
-  border-top: 3px solid #DB2777 !important;
+  background: #FDF2F8 !important;
+  border-color: #F472B6 !important;
 }
 html[data-card-style="frosted-glass"] .pillar-gradient-card[data-accent="purple"] {
-  border-top: 3px solid #7C3AED !important;
+  background: #F5F3FF !important;
+  border-color: #C4B5FD !important;
 }
 
-html[data-card-style="frosted-glass"] .service-card .service-ambient-glow {
-  opacity: 0.14 !important;
-}
-
-/* SWOT Quadrant Cards & Skill Subcards in Giao diện Chuẩn */
+/* SWOT Quadrant Cards & Skill Subcards */
 html[data-card-style="frosted-glass"] .swot-quadrant-card[data-swot="S"] {
-  border-top: 3px solid #1480C0 !important;
+  background: #EFF6FF !important;
+  border-left: 4px solid #2563EB !important;
 }
 html[data-card-style="frosted-glass"] .swot-quadrant-card[data-swot="W"] {
-  border-top: 3px solid #16A34A !important;
+  background: #ECFDF5 !important;
+  border-left: 4px solid #059669 !important;
 }
 html[data-card-style="frosted-glass"] .swot-quadrant-card[data-swot="O"] {
-  border-top: 3px solid #EA580C !important;
+  background: #FFFBEB !important;
+  border-left: 4px solid #D97706 !important;
 }
 html[data-card-style="frosted-glass"] .swot-quadrant-card[data-swot="T"] {
-  border-top: 3px solid #E11D48 !important;
+  background: #FFF1F2 !important;
+  border-left: 4px solid #E11D48 !important;
 }
 
-html[data-card-style="frosted-glass"] .skill-swot-subcard {
-  background: #F8FAFC !important;
-  border: 1px solid #E2E8F0 !important;
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+html[data-card-style="frosted-glass"] .skill-swot-subcard,
+html[data-card-style="frosted-glass"] .skill-swot-subcard:hover,
+html[data-card-style="frosted-glass"] .skill-swot-subcard[data-expanded="true"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 1px solid var(--swot-accent-border) !important;
+  box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="frosted-glass"] .skill-swot-subcard:hover,
-html[data-card-style="frosted-glass"] .skill-swot-subcard[data-expanded="true"] {
-  background: #FFFFFF !important;
-  border-color: var(--swot-accent-border, #CBD5E1) !important;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
-}
-
-html[data-card-style="frosted-glass"] .skill-swot-subcard .swot-skill-disclosure {
-  background: #F8FAFC !important;
-  border-color: #E2E8F0 !important;
-}
-
-/* Giao diện Chuẩn: Banners, Nav Arrows, Image Cards, Project Detail, Education, Letter Subcards */
+/* Banners, Buttons, Pills, Chips, Tables & Image Cards */
 html[data-card-style="frosted-glass"] .hero-banner,
 html[data-card-style="frosted-glass"] .banner-card,
 html[data-card-style="frosted-glass"] #project-detail-banner {
-  border-color: #E2E8F0 !important;
-  box-shadow: 0 10px 28px -6px rgba(15, 23, 42, 0.12) !important;
+  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%) !important;
+  border-color: #93C5FD !important;
+  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.25) !important;
+}
+
+html[data-card-style="frosted-glass"] .project-detail-banner-inner {
+  background: #FFFFFF !important;
+  border: 1.5px solid #93C5FD !important;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 html[data-card-style="frosted-glass"] .banner-control-pill,
 html[data-card-style="frosted-glass"] .nav-arrow-btn,
 html[data-card-style="frosted-glass"] .theme-prev-next-btn,
-html[data-card-style="frosted-glass"] .theme-back-to-top-btn {
+html[data-card-style="frosted-glass"] .theme-back-to-top-btn,
+html[data-card-style="frosted-glass"] .radial-contact-pill,
+html[data-card-style="frosted-glass"] #footer-nav-capsule,
+html[data-card-style="frosted-glass"] #footer-nav-capsule #footer-prev-btn,
+html[data-card-style="frosted-glass"] #footer-nav-capsule #footer-next-btn {
   background: #FFFFFF !important;
-  color: #1E1B4B !important;
+  color: #0F172A !important;
+  border: 1.5px solid #94A3B8 !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.09) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="frosted-glass"] #footer-nav-capsule #footer-prev-btn:hover,
+html[data-card-style="frosted-glass"] #footer-nav-capsule #footer-next-btn:hover,
+html[data-card-style="frosted-glass"] .theme-prev-next-btn:hover,
+html[data-card-style="frosted-glass"] .nav-arrow-btn:hover,
+html[data-card-style="frosted-glass"] .theme-back-to-top-btn:hover {
+  background: #2563EB !important;
+  color: #FFFFFF !important;
+  border-color: #2563EB !important;
+}
+
+html[data-card-style="frosted-glass"] .project-detail-chip,
+html[data-card-style="frosted-glass"] .education-skill-chip,
+html[data-card-style="frosted-glass"] .project-card-tag,
+html[data-card-style="frosted-glass"] .project-card-order-badge {
+  background: #FFFFFF !important;
   border: 1px solid #CBD5E1 !important;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+  color: #1E293B !important;
 }
 
-html[data-card-style="frosted-glass"] .banner-dropdown-menu,
-html[data-card-style="frosted-glass"] #systems-filter-listbox,
-html[data-card-style="frosted-glass"] #memories-filter-listbox,
-html[data-card-style="frosted-glass"] #horoscope-filter-listbox {
+html[data-card-style="frosted-glass"] .project-card-btn-secondary,
+html[data-card-style="frosted-glass"] .project-detail-toc-btn[data-active="false"] {
   background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  box-shadow: 0 16px 36px -6px rgba(15, 23, 42, 0.14) !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #0F172A !important;
 }
 
-html[data-card-style="frosted-glass"] .project-detail-section-card {
-  background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.08) !important;
-}
-
-html[data-card-style="frosted-glass"] .project-detail-subcard,
-html[data-card-style="frosted-glass"] .education-subcard,
-html[data-card-style="frosted-glass"] .letter-subcard,
-html[data-card-style="frosted-glass"] .letter-header-subcard,
-html[data-card-style="frosted-glass"] .letter-footer-subcard {
-  background: #F8FAFC !important;
-  border: 1px solid #E2E8F0 !important;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+html[data-card-style="frosted-glass"] .project-card-btn-primary,
+html[data-card-style="frosted-glass"] .project-detail-toc-btn[data-active="true"] {
+  background: #2563EB !important;
+  border-color: #2563EB !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="frosted-glass"] .themed-image-card {
   border: 1.5px solid #CBD5E1 !important;
-  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Popups, Dropdowns, Modals, PiP & Tables */
+html[data-card-style="frosted-glass"] #footer-theme-popup,
+html[data-card-style="frosted-glass"] #footer-lang-popup,
+html[data-card-style="frosted-glass"] #ai-assistant-droptop-menu-list,
+html[data-card-style="frosted-glass"] #ai-assistant-center-questions-modal,
+html[data-card-style="frosted-glass"] #interview-question-filter-listbox,
+html[data-card-style="frosted-glass"] #skills-filter-dropdown,
+html[data-card-style="frosted-glass"] #services-filter-dropdown,
+html[data-card-style="frosted-glass"] .banner-dropdown-menu,
+html[data-card-style="frosted-glass"] #systems-filter-listbox,
+html[data-card-style="frosted-glass"] #memories-filter-listbox,
+html[data-card-style="frosted-glass"] #horoscope-filter-listbox,
+html[data-card-style="frosted-glass"] .theme-pip-player,
+html[data-card-style="frosted-glass"] [role="dialog"],
+html[data-card-style="frosted-glass"] .modal-dialog,
+html[data-card-style="frosted-glass"] .theme-modal-card {
+  background: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.14) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="frosted-glass"] .theme-modal-header,
+html[data-card-style="frosted-glass"] .theme-modal-footer,
+html[data-card-style="frosted-glass"] .theme-pip-header,
+html[data-card-style="frosted-glass"] .theme-pip-footer {
+  background: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="frosted-glass"] .theme-modal-subcard {
+  background: #F8FAFC !important;
+  border: 1px solid #CBD5E1 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="frosted-glass"] .theme-modal-close {
+  background: #E2E8F0 !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="frosted-glass"] .theme-table {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #0F172A !important;
+}
+
+html[data-card-style="frosted-glass"] .theme-table thead,
+html[data-card-style="frosted-glass"] .theme-table th {
+  background: #EFF6FF !important;
+  color: #1E3A8A !important;
+  border-color: #CBD5E1 !important;
+}
+
+html[data-card-style="frosted-glass"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+html[data-card-style="frosted-glass"] textarea,
+html[data-card-style="frosted-glass"] select,
+html[data-card-style="frosted-glass"] .banner-search-input {
+  background: #FFFFFF !important;
+  border: 1.5px solid #94A3B8 !important;
+  color: #0F172A !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 

@@ -3,35 +3,41 @@
 /* ========================================================================= */
 
 #global-content-viewport {
-  width: 100% !important;
-  max-width: 1250px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  flex: 1 1 0% !important;
+  width: 100%;
+  max-width: var(--container-max-w, 1250px);
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  max-height: 100%;
+  flex: 1 1 0%;
 }
 
-#el-p5-div-1,
+.tab-content-host,
 #tab-content {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 100% !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  min-height: 100% !important;
-  flex: 1 1 0% !important;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Đồng bộ định dạng khung nền chuẩn cho toàn bộ 17 trang website theo wallpaper-page-container */
+/* Đồng bộ khoảng cách, căn giữa ngang và box-sizing chuẩn cho toàn bộ Main Card */
 [id$="-page-container"],
 [id$="-page-root"] {
-  width: 100% !important;
-  height: 100% !important;
-  border-radius: 14px !important;
-  padding: 15px !important;
-  gap: 15px !important;
-  box-sizing: border-box !important;
+  width: 100%;
+  max-width: var(--container-max-w, 1250px);
+  min-width: 0;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: var(--main-card-padding, 25px);
+  gap: var(--space-card-gap, 15px);
+  box-sizing: border-box;
 }
 
 /* Thẻ hệ thống cách nhau 15px ở mọi kích thước màn hình */
@@ -90,68 +96,80 @@
 
 @media (min-width: 1024px) {
   #contact-page-container {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 15px !important;
-    align-items: stretch !important;
-    height: 100% !important;
-    min-height: 0 !important;
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-card-gap, 15px);
+    align-items: stretch;
+    height: 100%;
+    min-height: 0;
   }
 
   #contact-hero-banner {
-    width: 400px !important;
-    min-width: 400px !important;
-    max-width: 400px !important;
-    flex: 0 0 400px !important;
-    height: auto !important;
-    min-height: 100% !important;
-    max-height: none !important;
-    align-self: stretch !important;
-    overflow: hidden !important;
+    width: 235px;
+    min-width: 235px;
+    max-width: 235px;
+    flex: 0 0 235px;
+    height: auto;
+    min-height: 100%;
+    max-height: none;
+    align-self: stretch;
+    overflow: hidden;
   }
 
   #contact-info-container {
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    height: 100% !important;
-    min-height: 100% !important;
-    max-height: 100% !important;
-    align-self: stretch !important;
+    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    align-self: stretch;
+    padding: 0;
   }
 
   #ai-assistant-page-container {
-    display: flex !important;
-    flex-direction: row !important;
-    overflow: hidden !important;
-    height: 100% !important;
-    max-height: 100% !important;
-    min-height: 0 !important;
-    box-sizing: border-box !important;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
   }
 
   #ai-assistant-hero-banner {
-    width: 400px !important;
-    min-width: 400px !important;
-    max-width: 400px !important;
-    flex: 0 0 400px !important;
-    height: 100% !important;
-    min-height: 100% !important;
-    max-height: 100% !important;
-    align-self: stretch !important;
-    overflow: hidden !important;
-    box-sizing: border-box !important;
+    width: 235px;
+    min-width: 235px;
+    max-width: 235px;
+    flex: 0 0 235px;
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    align-self: stretch;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 
   #ai-assistant-chat-container {
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    height: 100% !important;
-    min-height: 100% !important;
-    max-height: 100% !important;
-    align-self: stretch !important;
-    box-sizing: border-box !important;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    align-self: stretch;
+    box-sizing: border-box;
+  }
+}
+
+@media (min-width: 1280px) {
+  #contact-hero-banner,
+  #ai-assistant-hero-banner {
+    width: 255px;
+    min-width: 255px;
+    max-width: 255px;
+    flex: 0 0 255px;
   }
 }
 
@@ -165,8 +183,7 @@
     overflow-y: auto !important;
   }
 
-  #contact-hero-banner,
-  #contact-info-container {
+  #contact-hero-banner {
     width: 100% !important;
     min-width: 0 !important;
     max-width: 100% !important;
@@ -174,6 +191,17 @@
     height: auto !important;
     min-height: 0 !important;
     max-height: none !important;
+  }
+
+  #contact-info-container {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex: 1 1 auto !important;
+    min-height: 540px !important;
+    height: 100% !important;
+    max-height: none !important;
+    padding: 0 !important;
   }
 
   #ai-assistant-page-container {
@@ -205,50 +233,15 @@
   }
 }
 
-#el-p5-div-7 {
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 100% !important;
-  flex: 1 1 0% !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  padding: 0 !important;
-}
-
-/* Ultra-wide (≥1920px) */
+/* Ultra-wide (≥1920px & ≥2560px) đồng bộ chuẩn 1250px từ --container-max-w */
 @media (min-width: 1920px) {
   #global-content-viewport,
   #app-header,
   #app-footer {
-    max-width: 1250px !important;
-    width: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-}
-
-/* 4K Ultra-wide (≥2560px) */
-@media (min-width: 2560px) {
-  #global-content-viewport,
-  #app-header,
-  #app-footer {
-    max-width: 1250px !important;
-    width: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-}
-
-/* Small Mobile (≤430px) */
-@media (max-width: 640px) {
-  #website-root {
-    padding-left: 8px !important;
-    padding-right: 8px !important;
+    max-width: var(--container-max-w, 1250px);
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -339,20 +332,23 @@
     font-style: normal !important;
     line-height: 1.25 !important;
     max-width: 100% !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    text-align: left !important;
     white-space: normal !important;
     overflow: visible !important;
     text-overflow: clip !important;
   }
 
   .hero-banner::after {
-    content: "" !important;
-    display: block !important;
-    width: 100% !important;
-    height: 2px !important;
-    background: linear-gradient(90deg, rgba(56, 189, 248, 0.95) 0%, rgba(99, 102, 241, 0.9) 50%, rgba(244, 63, 94, 0.8) 100%) !important;
-    margin-top: 2px !important;
-    border-radius: 999px !important;
-    box-shadow: 0 1px 6px rgba(56, 189, 248, 0.6) !important;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.95) 0%, rgba(99, 102, 241, 0.9) 50%, rgba(244, 63, 94, 0.8) 100%);
+    margin-top: 2px;
+    border-radius: 999px;
+    box-shadow: 0 1px 6px rgba(56, 189, 248, 0.6);
   }
 
   .banner-bottom-controls,
@@ -362,40 +358,62 @@
   #wallpaper-hero-banner-controls,
   #systems-hero-banner-controls,
   #horoscope-hero-banner-controls {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 8px !important;
-    width: 100% !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
   }
 }
 
-
-
-/* Element size reduction (scoped strictly to #home-page-container so Header buttons are never scaled down) */
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#home-page-container:nth-of-type(1) div#el-p0-div-16 {
-  transform: scale(0.5) !important;
-  transform-origin: center !important;
-}
-
-/* Horoscope Slide Cards Max Full Dimensions & 100% Transparent Background across all themes */
+/* Horoscope Slide Cards Max Full Dimensions & 100% Transparent Background across all themes & viewport resizes */
+#horoscope-card-profile,
+#horoscope-card-profile:hover,
+#horoscope-card-profile:focus-within,
+#horoscope-card-management-style,
+#horoscope-card-management-style:hover,
+#horoscope-card-management-style:focus-within,
+#horoscope-card-career-portrait,
+#horoscope-card-career-portrait:hover,
+#horoscope-card-five-elements,
+#horoscope-card-five-elements:hover,
+#horoscope-card-leadership-philosophy,
+#horoscope-card-leadership-philosophy:hover,
+#horoscope-card-work-synergy-check,
+#horoscope-card-work-synergy-check:hover,
+div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-profile,
+div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-management-style,
+div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-career-portrait,
+div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-five-elements,
+div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-leadership-philosophy,
+div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-work-synergy-check,
 div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-destiny-card,
 div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-pillars-container,
 div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-slide-3,
 div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-lookup-card,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#horoscope-page-container:nth-of-type(1) > div#horoscope-card-profile:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#horoscope-page-container:nth-of-type(1) > div#horoscope-card-management-style:nth-of-type(1),
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#horoscope-page-container:nth-of-type(1) > div#horoscope-destiny-card:nth-of-type(1),
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#horoscope-page-container:nth-of-type(1) > div[data-element-type="card"] {
   width: 100% !important;
   max-width: 100% !important;
-  min-width: 100% !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  flex: 1 1 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 100% !important;
+  flex: 1 0 auto !important;
   flex-grow: 1 !important;
+  flex-shrink: 0 !important;
+  align-self: stretch !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
   background-color: transparent !important;
   background: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
   border: none !important;
+  outline: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  transform: none !important;
 }

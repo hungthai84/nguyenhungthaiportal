@@ -77,18 +77,23 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 bg-[#0B1220]/75 backdrop-blur-md animate-fadeIn"
+      style={{
+        background: 'var(--bg-modal-backdrop)',
+        backdropFilter: 'blur(var(--blur-modal, 6px))',
+        WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+      }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 animate-fadeIn"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Trợ Lý AI Hùng Thái 24/7"
-        className="relative w-full max-w-lg bg-white dark:bg-[#111827] border-2 border-purple-300 dark:border-[#334155] p-4 sm:p-5 rounded-[14px] shadow-2xl z-10 flex flex-col justify-between h-[520px] max-h-[90vh] text-[#334155] dark:text-[#E2E8F0] font-play overflow-hidden"
+        className="theme-modal-card relative w-full max-w-lg p-4 sm:p-5 rounded-[14px] shadow-2xl z-10 flex flex-col justify-between h-[520px] max-h-[90vh] font-play overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-purple-100 dark:border-purple-900/50">
+        <div className="theme-modal-header flex items-center justify-between -mx-4 -mt-4 sm:-mx-5 sm:-mt-5 px-4 sm:px-5 py-3 rounded-t-[14px]">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-full bg-purple-950/80 text-white overflow-hidden ring-2 ring-purple-400 shrink-0">
               <img
@@ -101,7 +106,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
               />
             </div>
             <div>
-              <h3 className="typo-h3 font-bold text-purple-900 dark:text-purple-300 leading-tight">
+              <h3 className="typo-popup-title leading-tight" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
                 Trợ Lý AI Hùng Thái 24/7
               </h3>
               <span className="typo-label text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
@@ -114,7 +119,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Đóng"
-            className="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500 font-bold cursor-pointer"
+            className="theme-modal-close w-7 h-7 rounded-full flex items-center justify-center font-bold cursor-pointer"
           >
             ✕
           </button>
@@ -128,10 +133,11 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
               className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
+                style={m.sender === 'user' ? { background: 'var(--bg-button-primary)' } : undefined}
                 className={`max-w-[85%] p-3 rounded-[14px] leading-relaxed shadow-xs ${
                   m.sender === 'user'
-                    ? 'bg-purple-600 text-white rounded-br-none font-medium'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-bl-none border border-slate-200 dark:border-slate-700'
+                    ? 'text-white rounded-br-none font-medium'
+                    : 'theme-modal-subcard rounded-bl-none'
                 }`}
               >
                 {m.text}
@@ -140,21 +146,21 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
           ))}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="bg-slate-100 dark:bg-slate-800 p-3 rounded-[14px] text-slate-500 flex items-center gap-2 typo-body-sm">
-                <i className="fa-solid fa-circle-notch animate-spin text-purple-600"></i>
-                <span>Đang suy nghĩ...</span>
+              <div className="theme-modal-subcard p-3 rounded-[14px] flex items-center gap-2 typo-body-sm">
+                <i className="fa-solid fa-circle-notch animate-spin" style={{ color: 'var(--color-primary)' }}></i>
+                <span style={{ color: 'var(--text-secondary)' }}>Đang suy nghĩ...</span>
               </div>
             </div>
           )}
         </div>
 
         {/* Preset Prompts */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 shrink-0">
+        <div className="flex items-center gap-1.5 overflow-x-auto horizontal-scroll-smooth py-1 shrink-0">
           {PRESET_QUESTIONS.map((q, idx) => (
             <button
               key={idx}
               onClick={() => handleSend(q)}
-              className="px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 border border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-300 typo-label font-bold whitespace-nowrap cursor-pointer transition"
+              className="theme-modal-subcard px-2.5 py-1 rounded-full typo-label font-bold whitespace-nowrap cursor-pointer transition hover:opacity-85"
             >
               {q}
             </button>
@@ -167,21 +173,22 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
             e.preventDefault();
             handleSend();
           }}
-          className="pt-2 border-t border-purple-100 dark:border-purple-900/50 flex items-center gap-2"
+          className="theme-modal-footer -mx-4 -mb-4 sm:-mx-5 sm:-mb-5 px-4 sm:px-5 py-3 rounded-b-[14px] flex items-center gap-2"
         >
           <input
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Hỏi AI về kinh nghiệm, dịch vụ, dự án..."
-            className="flex-1 min-w-0 px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 typo-input focus:outline-none focus:border-purple-600"
+            className="theme-input flex-1 min-w-0 px-4 py-2 rounded-full border typo-input focus:outline-none"
           />
           <button
             type="submit"
-            className="px-4 py-2 rounded-full bg-purple-600 hover:bg-purple-700 text-white typo-button shadow-md cursor-pointer transition flex items-center gap-1 shrink-0"
+            style={{ background: 'var(--bg-button-primary)' }}
+            className="px-4 py-2 rounded-full text-white typo-button shadow-md cursor-pointer transition hover:opacity-90 flex items-center gap-1 shrink-0"
           >
             <span>Gửi</span>
-            <i className="fa-solid fa-paper-plane text-[12px]"></i>
+            <i className="fa-solid fa-paper-plane typo-label"></i>
           </button>
         </form>
       </div>

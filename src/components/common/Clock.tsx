@@ -39,19 +39,15 @@ export const Clock: React.FC<ClockProps> = ({ isLight = true, currentTheme }) =>
   return (
     <div className="flex flex-col items-start justify-center leading-none text-left shrink-0 pl-1">
       <div
-        className={`text-[13px] sm:text-[14px] font-mono font-black tracking-tight leading-none ${
-          isDark
-            ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]'
-            : 'text-indigo-950 font-black'
-        }`}
+        className="typo-nav font-mono font-bold tracking-tight leading-none"
+        style={{ color: 'var(--text-heading, var(--text-primary))' }}
       >
         <span>{timeStr}</span>
       </div>
       {dateStr && (
         <span
-          className={`text-[12px] font-mono font-bold mt-0.5 leading-none opacity-85 ${
-            isDark ? 'text-slate-400' : 'text-slate-600'
-          }`}
+          className="typo-label font-mono mt-0.5 leading-none opacity-85"
+          style={{ color: 'var(--text-secondary)' }}
         >
           {dateStr}
         </span>

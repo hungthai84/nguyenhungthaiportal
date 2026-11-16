@@ -107,7 +107,6 @@ export const Footer: React.FC<FooterProps> = ({
     languageMode === 'auto'
       ? `${language.toUpperCase()} · ${isEn ? 'Browser' : 'Trình duyệt'}`
       : `${language.toUpperCase()} · ${isEn ? 'Selected' : 'Đã chọn'}`;
-  const browserLangDisplay = browserLanguage === 'vi' ? (isEn ? 'Vietnamese' : 'Tiếng Việt') : 'English';
 
   const footerElement = (
     <footer
@@ -158,7 +157,7 @@ export const Footer: React.FC<FooterProps> = ({
           data-element-type="button"
           data-section-card="true"
           style={{ borderRadius: '999px' }}
-          className="bento-card glass-card relative z-10 w-[118px] sm:w-[144px] md:w-[152px] h-[42px] sm:h-[44px] flex items-center justify-between px-1.5 py-1 !rounded-[999px] rounded-[999px] backdrop-blur-xl border border-indigo-200/80 dark:border-indigo-800/80 bg-white/90 dark:bg-slate-900/90 text-indigo-900 dark:text-indigo-200 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.04] group font-play"
+          className="bento-card glass-card relative z-10 w-[118px] sm:w-[144px] md:w-[152px] h-[42px] sm:h-[44px] flex items-center justify-between px-1.5 py-1 !rounded-[999px] rounded-[999px] text-[var(--text-primary)] transition-all duration-300 hover:scale-[1.04] group font-play"
         >
           {/* Prev Button */}
           <span
@@ -177,7 +176,7 @@ export const Footer: React.FC<FooterProps> = ({
               }
             }}
             title={isEn ? 'Previous Page' : 'Trang trước'}
-            className="w-8.5 h-8.5 rounded-[999px] flex items-center justify-center bg-white/90 dark:bg-slate-800 hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600 text-slate-800 dark:text-slate-100 cursor-pointer shrink-0 transition shadow-xs border border-white/80 dark:border-slate-700 active:scale-95"
+            className="theme-prev-next-btn w-8.5 h-8.5 rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition active:scale-95"
           >
             <WebIcon name="chevron-left" className="w-3.5 h-3.5" />
           </span>
@@ -186,9 +185,14 @@ export const Footer: React.FC<FooterProps> = ({
           <span className="flex-1 h-8 mx-1 flex items-center justify-center gap-1.5 select-none pointer-events-none">
             <WebIcon
               name={TABS_DATA[currentTabIndex]?.icon || 'grid'}
-              className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0"
+              className="w-3.5 h-3.5 shrink-0"
+              style={{ color: 'var(--text-link, var(--color-primary))' }}
             />
-            <span id="footer-page-counter" className="text-[12px] sm:text-[13px] font-mono font-black text-indigo-700 dark:text-indigo-300 leading-none">
+            <span
+              id="footer-page-counter"
+              className="typo-caption font-mono font-bold leading-none"
+              style={{ color: 'var(--text-link, var(--color-primary))' }}
+            >
               {String(currentTabIndex + 1).padStart(2, '0')}/{String(TABS_DATA.length).padStart(2, '0')}
             </span>
           </span>
@@ -210,7 +214,7 @@ export const Footer: React.FC<FooterProps> = ({
               }
             }}
             title={isEn ? 'Next Page' : 'Trang sau'}
-            className="w-8.5 h-8.5 rounded-[999px] flex items-center justify-center bg-white/90 dark:bg-slate-800 hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600 text-slate-800 dark:text-slate-100 cursor-pointer shrink-0 transition shadow-xs border border-white/80 dark:border-slate-700 active:scale-95"
+            className="theme-prev-next-btn w-8.5 h-8.5 rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition active:scale-95"
           >
             <WebIcon name="chevron-right" className="w-3.5 h-3.5" />
           </span>
@@ -234,7 +238,7 @@ export const Footer: React.FC<FooterProps> = ({
                 className="relative pointer-events-auto shrink-0 ml-0 transition-all duration-300 ease-out"
               >
                 <div
-                  className={`group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-[132px] md:w-[136px] xl:w-[150px] h-[40px] sm:h-[42px] overflow-hidden ${
+                  className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-[132px] md:w-[136px] xl:w-[150px] h-[40px] sm:h-[42px] overflow-hidden ${
                     isSelected ? 'p-[1.5px]' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
                   }`}
                   style={{
@@ -243,7 +247,7 @@ export const Footer: React.FC<FooterProps> = ({
                 >
                   {isSelected && (
                     <div
-                      className="absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none z-0"
+                      className="nav-pill-laser absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none z-0"
                       style={{
                         background:
                           'conic-gradient(from 0deg, transparent 0 210deg, #ffffff 270deg, #10B981 300deg, transparent 360deg)',
@@ -279,29 +283,29 @@ export const Footer: React.FC<FooterProps> = ({
                     }
                   >
                     <div
-                      className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
+                      className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
                       style={{
                         backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.25)' : '#10B981',
                       }}
                     >
-                      <WebIcon name="languages" className="w-4 h-4 text-white shrink-0" />
+                      <WebIcon name="languages" className="nav-pill-icon-svg w-4 h-4 text-white shrink-0" />
                     </div>
                     <div
                       className={`nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
-                        isSelected ? 'bg-white/50' : 'bg-slate-300/80 dark:bg-white/30'
+                        isSelected ? 'bg-white/50' : 'bg-[var(--divider-nav-pill)]'
                       }`}
                     />
                     <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
                       <span
                         data-no-translate="true"
-                        className={`nav-pill-title text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
+                        className={`nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-300 ${
                           isSelected ? 'text-white' : 'text-emerald-950 dark:text-emerald-100'
                         }`}
                       >
                         {activeLangTitle}
                       </span>
                       <span
-                        className={`nav-pill-sub text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
+                        className={`nav-pill-sub typo-label leading-none mt-0.5 truncate font-play transition-colors duration-300 ${
                           isSelected ? 'text-white/90' : 'text-emerald-700 dark:text-emerald-300'
                         }`}
                       >
@@ -311,48 +315,42 @@ export const Footer: React.FC<FooterProps> = ({
                   </button>
                 </div>
 
-                {/* Popup Danh sách Ngôn Ngữ (Mặc định theo trình duyệt / Tiếng Việt / English) */}
+                {/* Popup Danh sách Ngôn Ngữ */}
                 {isLangMenuOpen && (
                   <div
                     id="footer-lang-popup"
                     style={{ background: 'var(--bg-popup)' }}
-                    className="absolute bottom-[calc(100%+12px)] left-0 sm:left-auto sm:right-0 w-64 rounded-[14px] bg-white/[0.98] dark:bg-[#0A1024]/[0.98] backdrop-blur-2xl border border-emerald-200 dark:border-cyan-400/40 shadow-[0_16px_48px_rgba(0,0,0,0.35)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.75),0_0_24px_rgba(34,211,238,0.22)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto"
+                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(256px,calc(100vw-24px))] sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-64 rounded-[14px] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto"
                   >
-                    <div className="px-2.5 py-1 typo-label font-bold tracking-wide text-emerald-700 dark:text-emerald-300 border-b border-slate-200 dark:border-white/15 flex items-center justify-between">
+                    <div
+                      className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
+                      style={{ color: 'var(--text-link, var(--color-primary))', borderColor: 'var(--border-subcard)' }}
+                    >
                       <span>{isEn ? 'Select Language' : 'Chọn ngôn ngữ'}</span>
-                      <span className="typo-badge font-normal text-slate-500 dark:text-slate-400">
+                      <span className="typo-badge font-normal" style={{ color: 'var(--text-muted)' }}>
                         {browserLocale}
                       </span>
                     </div>
 
                     <button
                       type="button"
+                      data-selected={languageMode === 'auto' ? 'true' : undefined}
                       onClick={() => handleSelectLanguageMode('auto')}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-[12px] typo-body-sm font-bold transition cursor-pointer text-left ${
-                        languageMode === 'auto'
-                          ? 'bg-emerald-600 text-white shadow-xs'
-                          : 'hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-800 dark:text-slate-100'
+                      className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[12px] typo-body-sm font-bold transition cursor-pointer text-left ${
+                        languageMode === 'auto' ? 'shadow-xs' : ''
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="w-6 h-6 rounded-full bg-emerald-500/20 dark:bg-emerald-400/20 flex items-center justify-center shrink-0">
+                        <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
                           <WebIcon
                             name="globe"
-                            className={`w-3.5 h-3.5 ${
-                              languageMode === 'auto' ? 'text-white' : 'text-emerald-600 dark:text-emerald-300'
-                            }`}
+                            className="w-3.5 h-3.5"
+                            style={{ color: languageMode === 'auto' ? '#FFFFFF' : 'var(--accent-emerald, var(--color-primary))' }}
                           />
                         </div>
-                        <div className="flex flex-col min-w-0">
-                          <span className="truncate">
-                            {isEn ? 'Browser Default (Auto)' : 'Theo trình duyệt (Mặc định)'}
-                          </span>
-                          <span
-                            className={`typo-label truncate ${
-                              languageMode === 'auto' ? 'text-white/90' : 'text-slate-500 dark:text-slate-400'
-                            }`}
-                          >
-                            {isEn ? `Auto: ${browserLangDisplay}` : `Tự động: ${browserLangDisplay}`}
+                        <div className="flex items-center min-w-0">
+                          <span className="truncate whitespace-nowrap">
+                            {isEn ? 'Default Browser Language' : 'Mặc định trình duyệt'}
                           </span>
                         </div>
                       </div>
@@ -361,25 +359,17 @@ export const Footer: React.FC<FooterProps> = ({
 
                     <button
                       type="button"
+                      data-selected={languageMode === 'vi' ? 'true' : undefined}
                       onClick={() => handleSelectLanguageMode('vi')}
                       data-no-translate="true"
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-[12px] typo-body-sm font-bold transition cursor-pointer text-left ${
-                        languageMode === 'vi'
-                          ? 'bg-emerald-600 text-white shadow-xs'
-                          : 'hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-800 dark:text-slate-100'
+                      className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[12px] typo-body-sm font-bold transition cursor-pointer text-left ${
+                        languageMode === 'vi' ? 'shadow-xs' : ''
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <span className="text-base leading-none shrink-0">🇻🇳</span>
-                        <div className="flex flex-col min-w-0">
-                          <span className="truncate">Tiếng Việt</span>
-                          <span
-                            className={`typo-label truncate ${
-                              languageMode === 'vi' ? 'text-white/90' : 'text-slate-500 dark:text-slate-400'
-                            }`}
-                          >
-                            Vietnamese (VI)
-                          </span>
+                        <span className="typo-body-lg leading-none shrink-0">🇻🇳</span>
+                        <div className="flex items-center min-w-0">
+                          <span className="truncate whitespace-nowrap">Tiếng Việt</span>
                         </div>
                       </div>
                       {languageMode === 'vi' && <span className="shrink-0 text-white font-bold ml-2">✓</span>}
@@ -387,25 +377,17 @@ export const Footer: React.FC<FooterProps> = ({
 
                     <button
                       type="button"
+                      data-selected={languageMode === 'en' ? 'true' : undefined}
                       onClick={() => handleSelectLanguageMode('en')}
                       data-no-translate="true"
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-[12px] typo-body-sm font-bold transition cursor-pointer text-left ${
-                        languageMode === 'en'
-                          ? 'bg-emerald-600 text-white shadow-xs'
-                          : 'hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-800 dark:text-slate-100'
+                      className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[12px] typo-body-sm font-bold transition cursor-pointer text-left ${
+                        languageMode === 'en' ? 'shadow-xs' : ''
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <span className="text-base leading-none shrink-0">🇬🇧</span>
-                        <div className="flex flex-col min-w-0">
-                          <span className="truncate">English</span>
-                          <span
-                            className={`typo-label truncate ${
-                              languageMode === 'en' ? 'text-white/90' : 'text-slate-500 dark:text-slate-400'
-                            }`}
-                          >
-                            International (EN)
-                          </span>
+                        <span className="typo-body-lg leading-none shrink-0">🇬🇧</span>
+                        <div className="flex items-center min-w-0">
+                          <span className="truncate whitespace-nowrap">English</span>
                         </div>
                       </div>
                       {languageMode === 'en' && <span className="shrink-0 text-white font-bold ml-2">✓</span>}
@@ -427,7 +409,7 @@ export const Footer: React.FC<FooterProps> = ({
                 className="relative pointer-events-auto shrink-0 -ml-[94px] md:-ml-[96px] xl:-ml-[104px] transition-all duration-300 ease-out"
               >
                 <div
-                  className={`group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-[132px] md:w-[136px] xl:w-[150px] h-[40px] sm:h-[42px] overflow-hidden ${
+                  className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-[132px] md:w-[136px] xl:w-[150px] h-[40px] sm:h-[42px] overflow-hidden ${
                     isSelected ? 'p-[1.5px]' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
                   }`}
                   style={{
@@ -436,7 +418,7 @@ export const Footer: React.FC<FooterProps> = ({
                 >
                   {isSelected && (
                     <div
-                      className="absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none z-0"
+                      className="nav-pill-laser absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none z-0"
                       style={{
                         background:
                           'conic-gradient(from 0deg, transparent 0 210deg, #ffffff 270deg, #6366F1 300deg, transparent 360deg)',
@@ -472,28 +454,28 @@ export const Footer: React.FC<FooterProps> = ({
                     }
                   >
                     <div
-                      className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
+                      className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
                       style={{
                         backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.25)' : '#6366F1',
                       }}
                     >
-                      <WebIcon name="layers" className="w-4 h-4 text-white shrink-0" />
+                      <WebIcon name="layers" className="nav-pill-icon-svg w-4 h-4 text-white shrink-0" />
                     </div>
                     <div
                       className={`nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
-                        isSelected ? 'bg-white/50' : 'bg-slate-300/80 dark:bg-white/30'
+                        isSelected ? 'bg-white/50' : 'bg-[var(--divider-nav-pill)]'
                       }`}
                     />
                     <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
                       <span
-                        className={`nav-pill-title text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
+                        className={`nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-300 ${
                           isSelected ? 'text-white' : 'text-indigo-950 dark:text-indigo-100'
                         }`}
                       >
                         {isEn ? 'Theme' : 'Giao diện'}
                       </span>
                       <span
-                        className={`nav-pill-sub text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
+                        className={`nav-pill-sub typo-label leading-none mt-0.5 truncate font-play transition-colors duration-300 ${
                           isSelected ? 'text-white/90' : 'text-indigo-700 dark:text-cyan-300'
                         }`}
                       >
@@ -508,15 +490,18 @@ export const Footer: React.FC<FooterProps> = ({
                   <div
                     id="footer-theme-popup"
                     style={{ background: 'var(--bg-popup)' }}
-                    className="absolute bottom-[calc(100%+12px)] left-[-42px] sm:left-auto sm:right-0 w-72 rounded-[14px] bg-white/[0.98] dark:bg-[#0A1024]/[0.98] backdrop-blur-2xl border border-indigo-200 dark:border-cyan-400/40 shadow-[0_16px_48px_rgba(0,0,0,0.4)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.75),0_0_24px_rgba(236,72,153,0.22)] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
+                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(288px,calc(100vw-24px))] sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-72 rounded-[14px] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
                   >
-                    <div className="px-2.5 py-1 typo-label font-bold tracking-wide text-[#4338CA] dark:text-cyan-300 border-b border-[#E2E8F0] dark:border-white/15 flex items-center justify-between">
+                    <div
+                      className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
+                      style={{ color: 'var(--text-link, var(--color-primary))', borderColor: 'var(--border-subcard)' }}
+                    >
                       <span>
                         {isEn
                           ? `Theme Presets (${CARD_STYLE_PRESETS_LIST.length})`
                           : `Danh sách Giao diện (${CARD_STYLE_PRESETS_LIST.length})`}
                       </span>
-                      <span className="typo-badge font-normal text-[#475569] dark:text-slate-400">
+                      <span className="typo-badge font-normal" style={{ color: 'var(--text-muted)' }}>
                         {isEn ? 'Independent' : 'Độc lập'}
                       </span>
                     </div>
@@ -524,11 +509,10 @@ export const Footer: React.FC<FooterProps> = ({
                     <div className="max-h-[300px] overflow-y-auto no-scrollbar flex flex-col gap-1">
                       {CARD_STYLE_PRESETS_LIST.map((preset) => {
                         const isActive = cardStyle === preset.id;
-                        const isNeon = preset.id === 'glassmorphism-neon';
+                        const isNeon = false;
+                        const isDarkFrosted = preset.id === 'dark-frosted-glass';
                         const isLeather = preset.id === 'cowhide-leather';
-                        const isGlossy = preset.id === 'glossy-glass';
                         const presetName = t(preset.name);
-                        const presetModeLabel = t(preset.modeLabel);
                         return (
                           <button
                             key={preset.id}
@@ -547,12 +531,12 @@ export const Footer: React.FC<FooterProps> = ({
                               isActive
                                 ? isNeon
                                   ? 'bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 text-white shadow-xs'
-                                  : isLeather
-                                    ? 'bg-gradient-to-r from-[#8B5A2B] via-[#653A17] to-[#7A4A20] text-[#FFF8DC] border border-dashed border-[#F5DEB3]/70 shadow-xs'
-                                    : isGlossy
-                                      ? 'bg-gradient-to-r from-[#0284C7] to-[#2563EB] text-white shadow-xs border border-white/50'
+                                  : isDarkFrosted
+                                    ? 'bg-gradient-to-r from-slate-800 via-sky-700 to-indigo-700 text-[#f8fafc] border border-white/25 shadow-xs'
+                                    : isLeather
+                                      ? 'bg-gradient-to-r from-[#8B5A2B] via-[#653A17] to-[#7A4A20] text-[#FFF8DC] border border-dashed border-[#F5DEB3]/70 shadow-xs'
                                       : 'bg-indigo-600 text-white shadow-xs'
-                                : 'hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-800 dark:text-slate-100'
+                                : 'theme-dropdown-option'
                             }`}
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
@@ -561,24 +545,21 @@ export const Footer: React.FC<FooterProps> = ({
                                 style={
                                   isNeon
                                     ? { background: 'linear-gradient(135deg, #06B6D4 0%, #8B5CF6 50%, #EC4899 100%)' }
-                                    : isLeather
-                                      ? { background: 'linear-gradient(135deg, #8B5A2B 0%, #522E10 100%)', border: '1px dashed rgba(245, 222, 179, 0.6)' }
-                                      : isGlossy
-                                        ? { background: 'linear-gradient(135deg, #38BDF8 0%, #0284C7 100%)', border: '1px solid rgba(255, 255, 255, 0.6)' }
+                                    : isDarkFrosted
+                                      ? {
+                                          background: 'rgba(15, 23, 42, 0.88)',
+                                          border: '1px solid rgba(255, 255, 255, 0.25)',
+                                          boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.25)',
+                                        }
+                                      : isLeather
+                                        ? { background: 'linear-gradient(135deg, #8B5A2B 0%, #522E10 100%)', border: '1px dashed rgba(245, 222, 179, 0.6)' }
                                         : { backgroundColor: preset.color }
                                 }
                               >
                                 <WebIcon name={preset.icon} className="w-3.5 h-3.5" />
                               </div>
-                              <div className="flex flex-col min-w-0">
-                                <span className="truncate">{presetName}</span>
-                                <span
-                                  className={`typo-label truncate ${
-                                    isActive ? 'text-white/95' : 'text-[#475569] dark:text-slate-400'
-                                  }`}
-                                >
-                                  {presetModeLabel}
-                                </span>
+                              <div className="flex items-center min-w-0">
+                                <span className="truncate typo-body-sm font-bold">{presetName}</span>
                               </div>
                             </div>
                             {isActive && <span className="shrink-0 text-white font-bold ml-2">✓</span>}
@@ -587,7 +568,7 @@ export const Footer: React.FC<FooterProps> = ({
                       })}
                     </div>
 
-                    <div className="border-t border-slate-200 dark:border-white/15 pt-1.5 mt-1">
+                    <div className="border-t pt-1.5 mt-1" style={{ borderColor: 'var(--border-subcard)' }}>
                       <button
                         type="button"
                         onClick={() => {
@@ -597,7 +578,8 @@ export const Footer: React.FC<FooterProps> = ({
                             isEn ? '✓ Switched to Theme Settings' : '✓ Chuyển đến trang Cấu hình Giao diện'
                           );
                         }}
-                        className="w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-button font-bold text-indigo-600 dark:text-cyan-300 hover:bg-indigo-50 dark:hover:bg-slate-800/80 transition cursor-pointer text-left"
+                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-button font-bold transition cursor-pointer text-left"
+                        style={{ color: 'var(--text-link, var(--color-primary))' }}
                       >
                         <div className="flex items-center gap-2">
                           <WebIcon name="settings" className="w-3.5 h-3.5" />
@@ -622,7 +604,7 @@ export const Footer: React.FC<FooterProps> = ({
                 className="relative pointer-events-auto shrink-0 -ml-[94px] md:-ml-[96px] xl:-ml-[104px] transition-all duration-300 ease-out"
               >
                 <div
-                  className={`group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-[132px] md:w-[136px] xl:w-[150px] h-[40px] sm:h-[42px] overflow-hidden ${
+                  className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-[132px] md:w-[136px] xl:w-[150px] h-[40px] sm:h-[42px] overflow-hidden ${
                     isSelected ? 'p-[1.5px]' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
                   }`}
                   style={{
@@ -631,7 +613,7 @@ export const Footer: React.FC<FooterProps> = ({
                 >
                   {isSelected && (
                     <div
-                      className="absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none z-0"
+                      className="nav-pill-laser absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none z-0"
                       style={{
                         background:
                           'conic-gradient(from 0deg, transparent 0 210deg, #ffffff 270deg, #F43F5E 300deg, transparent 360deg)',
@@ -662,28 +644,28 @@ export const Footer: React.FC<FooterProps> = ({
                     }
                   >
                     <div
-                      className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
+                      className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
                       style={{
                         backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.25)' : '#F43F5E',
                       }}
                     >
-                      <WebIcon name="image" className="w-4 h-4 text-white shrink-0" />
+                      <WebIcon name="image" className="nav-pill-icon-svg w-4 h-4 text-white shrink-0" />
                     </div>
                     <div
                       className={`nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
-                        isSelected ? 'bg-white/50' : 'bg-slate-300/80 dark:bg-white/30'
+                        isSelected ? 'bg-white/50' : 'bg-[var(--divider-nav-pill)]'
                       }`}
                     />
                     <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
                       <span
-                        className={`nav-pill-title text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
+                        className={`nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-300 ${
                           isSelected ? 'text-white' : 'text-rose-950 dark:text-rose-100'
                         }`}
                       >
                         {isEn ? 'Wallpaper' : 'Hình Nền'}
                       </span>
                       <span
-                        className={`nav-pill-sub text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
+                        className={`nav-pill-sub typo-label leading-none mt-0.5 truncate font-play transition-colors duration-300 ${
                           isSelected ? 'text-white/90' : 'text-rose-700 dark:text-rose-400'
                         }`}
                       >
@@ -706,7 +688,7 @@ export const Footer: React.FC<FooterProps> = ({
                 className="relative pointer-events-auto shrink-0 -ml-[94px] md:-ml-[96px] xl:-ml-[104px] transition-all duration-300 ease-out"
               >
                 <div
-                  className={`group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-[132px] md:w-[136px] xl:w-[150px] h-[40px] sm:h-[42px] overflow-hidden ${
+                  className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-[132px] md:w-[136px] xl:w-[150px] h-[40px] sm:h-[42px] overflow-hidden ${
                     isSelected ? 'p-[1.5px]' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
                   }`}
                   style={{
@@ -715,7 +697,7 @@ export const Footer: React.FC<FooterProps> = ({
                 >
                   {isSelected && (
                     <div
-                      className="absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none z-0"
+                      className="nav-pill-laser absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none z-0"
                       style={{
                         background:
                           'conic-gradient(from 0deg, transparent 0 210deg, #ffffff 270deg, #A855F7 300deg, transparent 360deg)',
@@ -746,7 +728,7 @@ export const Footer: React.FC<FooterProps> = ({
                     }
                   >
                     <div
-                      className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
+                      className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
                       style={{
                         backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.25)' : '#A855F7',
                       }}
@@ -762,19 +744,19 @@ export const Footer: React.FC<FooterProps> = ({
                     </div>
                     <div
                       className={`nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
-                        isSelected ? 'bg-white/50' : 'bg-slate-300/80 dark:bg-white/30'
+                        isSelected ? 'bg-white/50' : 'bg-[var(--divider-nav-pill)]'
                       }`}
                     />
                     <div className="flex flex-col text-left leading-none pr-1 min-w-0 flex-1">
                       <span
-                        className={`nav-pill-title text-[13px] sm:text-[14px] leading-tight font-bold font-play tracking-tight truncate transition-colors duration-300 ${
+                        className={`nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-300 ${
                           isSelected ? 'text-white' : 'text-purple-950 dark:text-purple-100'
                         }`}
                       >
                         {isEn ? 'AI Assistant' : 'AI hỗ trợ'}
                       </span>
                       <span
-                        className={`nav-pill-sub text-[11px] sm:text-[12px] leading-none font-bold mt-0.5 truncate font-play transition-colors duration-300 ${
+                        className={`nav-pill-sub typo-label leading-none mt-0.5 truncate font-play transition-colors duration-300 ${
                           isSelected ? 'text-white/90' : 'text-purple-700 dark:text-purple-300'
                         }`}
                       >
@@ -791,19 +773,27 @@ export const Footer: React.FC<FooterProps> = ({
 
       {/* PDF Download Modal */}
       {isPdfModalOpen && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-[#0B1220]/75 backdrop-blur-md p-4 animate-fadeIn font-play pointer-events-auto">
-          <div className="bg-white dark:bg-[#111827] border border-[#E2E8F0] dark:border-[#334155] rounded-[20px] shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden text-[#1E1B4B] dark:text-[#F8FAFC]">
+        <div
+          className="fixed inset-0 z-[10000] flex items-center justify-center backdrop-blur-md p-4 animate-fadeIn font-play pointer-events-auto"
+          style={{ background: 'var(--bg-modal-backdrop, rgba(11, 18, 32, 0.72))' }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={isEn ? 'Download CV Resume — Nguyễn Hùng Thái' : 'Tải Hồ Sơ CV — Nguyễn Hùng Thái'}
+            className="theme-modal-card rounded-[14px] w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden"
+          >
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-950/50">
+            <div className="theme-modal-header px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md">
+                <div className="w-10 h-10 rounded-[14px] bg-blue-600 text-white flex items-center justify-center shadow-md">
                   <WebIcon name="file-text" className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="typo-h3 font-bold text-slate-900 dark:text-white">
+                  <h3 className="typo-popup-title card-title-synced" style={{ color: 'var(--accent-blue, #2563EB)' }}>
                     {isEn ? 'Download CV Resume — Nguyễn Hùng Thái' : 'Tải Hồ Sơ CV — Nguyễn Hùng Thái'}
                   </h3>
-                  <p className="typo-caption text-slate-500 dark:text-slate-400">
+                  <p className="typo-caption opacity-80">
                     {isEn
                       ? 'PDF Format / Customer Service Operations & Digital Transformation Expert'
                       : 'Định dạng PDF / Chuyên gia Vận hành CSKH & Chuyển đổi số'}
@@ -813,7 +803,8 @@ export const Footer: React.FC<FooterProps> = ({
               <button
                 type="button"
                 onClick={() => setIsPdfModalOpen(false)}
-                className="w-9 h-9 rounded-full bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 transition cursor-pointer"
+                aria-label={isEn ? 'Close' : 'Đóng'}
+                className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center transition cursor-pointer"
               >
                 <WebIcon name="x" className="w-5 h-5" />
               </button>
@@ -821,15 +812,15 @@ export const Footer: React.FC<FooterProps> = ({
 
             {/* Modal Body */}
             <div className="p-6 overflow-y-auto space-y-5 flex-1 text-left">
-              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="theme-modal-subcard p-4 rounded-[14px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="space-y-1">
                   <span className="inline-block px-2.5 py-0.5 rounded-full typo-badge font-bold bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">
                     {isEn ? 'Official 2026 Edition' : 'Bản chính thức 2026'}
                   </span>
-                  <h4 className="typo-h4 font-bold text-slate-900 dark:text-white">
+                  <h4 className="typo-h4 font-bold">
                     {isEn ? 'Capability Profile & Work Experience' : 'Hồ Sơ Năng Lực & Kinh Nghiệm Công Tác'}
                   </h4>
-                  <p className="typo-caption text-slate-600 dark:text-slate-400">
+                  <p className="typo-caption" style={{ color: 'var(--text-secondary)' }}>
                     {isEn
                       ? 'Size: ~2.4 MB • Last updated: Nov 2026'
                       : 'Dung lượng: ~2.4 MB • Cập nhật lần cuối: Tháng 11/2026'}
@@ -845,7 +836,8 @@ export const Footer: React.FC<FooterProps> = ({
                       isEn ? '✓ Downloading CV Resume file...' : '✓ Đang tải xuống file Hồ sơ CV...'
                     );
                   }}
-                  className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold typo-button shadow-md inline-flex items-center gap-2 transition cursor-pointer shrink-0"
+                  style={{ background: 'var(--bg-button-primary)' }}
+                  className="px-5 py-2.5 rounded-xl hover:opacity-90 text-white font-bold typo-button shadow-md inline-flex items-center gap-2 transition cursor-pointer shrink-0"
                 >
                   <WebIcon name="file-text" className="w-4 h-4 text-white" />
                   <span>{isEn ? 'Download PDF' : 'Tải Xuống PDF'}</span>
@@ -853,9 +845,9 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
 
               {/* Overview content preview inside modal */}
-              <div className="border border-[#E2E8F0] dark:border-[#334155] rounded-xl p-4 bg-white dark:bg-[#1F2937]/60 space-y-3">
-                <div className="flex items-center justify-between border-b border-[#E2E8F0] dark:border-[#334155] pb-2">
-                  <span className="typo-label font-bold text-[#475569] dark:text-[#94A3B8] uppercase">
+              <div className="theme-modal-subcard rounded-[14px] p-4 space-y-3">
+                <div className="flex items-center justify-between border-b border-current/15 pb-2">
+                  <span className="typo-label font-bold opacity-80 uppercase">
                     {isEn ? 'Profile Summary' : 'Tóm tắt thông tin hồ sơ'}
                   </span>
                   <span className="typo-badge font-bold text-[#047857] dark:text-[#6EE7B7] flex items-center gap-1">
@@ -866,59 +858,59 @@ export const Footer: React.FC<FooterProps> = ({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 typo-body-sm">
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                    <span className="opacity-75 block typo-label">
                       {isEn ? 'Full Name:' : 'Họ & Tên:'}
                     </span>
-                    <span className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC] typo-body-sm">Nguyễn Hùng Thái</span>
+                    <span className="font-bold typo-body-sm">Nguyễn Hùng Thái</span>
                   </div>
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                    <span className="opacity-75 block typo-label">
                       {isEn ? 'Primary Title:' : 'Chức danh chính:'}
                     </span>
-                    <span className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC] typo-body-sm">
+                    <span className="font-bold typo-body-sm">
                       {isEn ? 'Head of Customer Service Operations' : 'Trưởng Phòng Vận Hành CSKH'}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                    <span className="opacity-75 block typo-label">
                       {isEn ? 'Experience:' : 'Kinh nghiệm:'}
                     </span>
-                    <span className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC]">
+                    <span className="font-bold">
                       {isEn ? '22+ Years in CS Management' : '22+ Năm Quản Lý CSKH'}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                    <span className="opacity-75 block typo-label">
                       {isEn ? 'Education:' : 'Trình độ:'}
                     </span>
-                    <span className="font-bold text-[#1E1B4B] dark:text-[#F8FAFC]">
+                    <span className="font-bold">
                       {isEn ? 'Master of Business Administration (MBA)' : 'Thạc Sĩ Quản Trị Kinh Doanh'}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                    <span className="opacity-75 block typo-label">
                       {isEn ? 'Contact Email:' : 'Email liên hệ:'}
                     </span>
-                    <span className="font-bold text-[#4338CA] dark:text-[#A5B4FC]">hungthai84@gmail.com</span>
+                    <span className="font-bold" style={{ color: 'var(--text-link, var(--color-primary))' }}>hungthai84@gmail.com</span>
                   </div>
                   <div>
-                    <span className="text-[#475569] dark:text-[#94A3B8] block typo-label">
+                    <span className="opacity-75 block typo-label">
                       {isEn ? 'Phone / Zalo:' : 'Điện thoại / Zalo:'}
                     </span>
-                    <span className="font-bold text-[#4338CA] dark:text-[#A5B4FC]">+84 0909097882</span>
+                    <span className="font-bold" style={{ color: 'var(--text-link, var(--color-primary))' }}>+84 0909097882</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-900/50">
+            <div className="theme-modal-footer px-6 py-3 flex items-center justify-between">
               <button
                 type="button"
                 onClick={() => {
                   window.print();
                 }}
-                className="px-4 py-2 rounded-xl typo-button font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition cursor-pointer flex items-center gap-2"
+                className="theme-modal-close px-4 py-2 rounded-[999px] typo-button font-bold transition cursor-pointer flex items-center gap-2"
               >
                 <WebIcon name="file-text" className="w-4 h-4" />
                 <span>{isEn ? 'Print / Save PDF' : 'In PDF / Print'}</span>
@@ -927,7 +919,7 @@ export const Footer: React.FC<FooterProps> = ({
               <button
                 type="button"
                 onClick={() => setIsPdfModalOpen(false)}
-                className="px-5 py-2 rounded-xl typo-button font-bold bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition cursor-pointer"
+                className="theme-modal-close px-5 py-2 rounded-[999px] typo-button font-bold transition cursor-pointer"
               >
                 {isEn ? 'Close' : 'Đóng cửa sổ'}
               </button>

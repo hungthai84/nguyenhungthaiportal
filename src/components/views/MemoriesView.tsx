@@ -12,7 +12,6 @@ import { MemoryPhoto } from '@/types';
 import { useToast } from '@/components/ui/Toast';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 
 export interface MemoriesViewProps {
   currentTheme?: string;
@@ -129,10 +128,6 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
     showToast('Đã đặt lại toàn bộ bộ lọc');
   };
 
-  const { cardStyle } = useTheme();
-  const cardSampleStyle = getCardStyleProperties(cardStyle);
-  const { borderRadius: _, background: __, backgroundColor: ___, backgroundImage: ____, ...cleanCardStyle } = cardSampleStyle as any;
-
   return (
     <div
       id="memories-page-container"
@@ -140,13 +135,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
       data-element-type="card"
       data-section-card="true"
       data-element-page="memories"
-      style={{
-        ...cleanCardStyle,
-        borderRadius: '14px',
-        padding: '15px',
-        gap: '15px',
-      }}
-      className="bento-card glass-card w-full h-full flex flex-col justify-between p-[15px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px]"
+      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] box-border"
     >
       {/* Style for crisp bright image, smooth zoom & fly-up animation */}
       <style
@@ -188,7 +177,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="banner-card hero-banner w-full max-w-full lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between p-[15px] z-30 backdrop-blur-xl"
+        className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30"
         style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
       >
         <div
@@ -210,23 +199,23 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
           <div className="absolute inset-0 bg-gradient-to-b from-[#0B1220]/75 via-[#0B1220]/25 to-[#0B1220]/55 pointer-events-none" />
         </div>
 
-        <div className="relative z-10 flex flex-row items-center justify-between gap-2 sm:gap-4 w-full">
-          <div className="flex items-center gap-2 shrink-0">
+        <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
             <WebIcon
               name="camera"
               className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
-              style={{ color: '#38bdf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
+              style={{ color: '#38bdf8', width: '22px', height: '22px' }}
             />
             <h1
-              className="text-[22px] font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] whitespace-nowrap"
-              style={{ color: '#38bdf8', fontSize: '22px', fontWeight: 700, textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+              className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+              style={{ color: '#38bdf8', textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
             >
               Khoảnh khắc kỷ niệm
             </h1>
           </div>
           <p
-            className="font-handwriting font-italianno not-italic text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-right ml-auto whitespace-nowrap overflow-hidden text-ellipsis max-w-[65%]"
-            style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '28px', fontWeight: 700, fontStyle: 'normal' }}
+            className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+            style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
           >
             &quot;Mỗi khoảnh khắc là một mảnh ghép tự hào của hành trình ♡&quot;
           </p>
@@ -242,15 +231,15 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                 SoundEngine.playTap();
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-emerald-900 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer text-xs font-bold font-play active:scale-95 group"
+              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
               title="Bộ lọc kỷ niệm"
               aria-expanded={isFilterDropdownOpen}
               aria-haspopup="listbox"
             >
-              <WebIcon name="sliders" className="w-4 h-4 text-emerald-700 dark:text-emerald-400 transition-transform group-hover:rotate-45 shrink-0" />
+              <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] transition-transform group-hover:rotate-45 shrink-0" />
               <span>Bộ lọc kỷ niệm</span>
               {(categoryFilter !== 'all' || companyFilter !== 'all') && (
-                <span className="px-1.5 py-0.2 rounded-full bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-500/50 text-[10px] font-mono text-emerald-900 dark:text-emerald-200 font-bold">
+                <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
                   {categoryFilter !== 'all'
                     ? MEMORIES_CATEGORIES.find((c) => c.id === categoryFilter)?.labelVi
                     : MEMORIES_COMPANIES.find((c) => c.id === companyFilter)?.labelVi}
@@ -259,7 +248,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
               <WebIcon
                 name="chevron-down"
                 className={cn(
-                  'w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400 transition-transform duration-200 shrink-0',
+                  'w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0',
                   isFilterDropdownOpen && 'rotate-180'
                 )}
               />
@@ -275,9 +264,9 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
                   role="listbox"
-                  className="bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 max-h-80 overflow-y-auto no-scrollbar rounded-[14px] bg-white/[0.98] dark:bg-[#111827]/[0.96] border border-emerald-200 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-[#334155] dark:text-[#E2E8F0]"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 max-h-80 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
-                  <div className="px-2.5 py-1 text-[10px] font-mono font-black uppercase tracking-wider text-[#047857] dark:text-[#6EE7B7]">
+                  <div className="px-2.5 py-1 typo-label font-mono tracking-wider text-[var(--text-heading,var(--text-primary))]">
                     Theo chủ đề kỷ niệm
                   </div>
                   {MEMORIES_CATEGORIES.map((cat) => {
@@ -286,26 +275,22 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                       <button
                         key={cat.id}
                         type="button"
+                        data-selected={active ? 'true' : 'false'}
                         onClick={() => {
                           SoundEngine.playTap();
                           setCategoryFilter(cat.id);
                           setIsFilterDropdownOpen(false);
                         }}
-                        className={cn(
-                          'w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] text-xs font-bold font-play transition-all cursor-pointer text-left',
-                          active
-                            ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-900 dark:text-[#6EE7B7] border border-emerald-300 dark:border-emerald-700/60 shadow-xs'
-                            : 'text-[#334155] dark:text-[#E2E8F0] hover:bg-slate-100 dark:hover:bg-[#1F2937] hover:text-[#1E1B4B] dark:hover:text-[#F8FAFC] border border-transparent font-medium'
-                        )}
+                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
                       >
                         <span>{cat.labelVi}</span>
-                        {active && <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-[#6EE7B7]" />}
+                        {active && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
                       </button>
                     );
                   })}
 
-                  <div className="my-1 border-t border-[#E2E8F0] dark:border-[#334155]" />
-                  <div className="px-2.5 py-1 text-[10px] font-mono font-black uppercase tracking-wider text-[#047857] dark:text-[#6EE7B7]">
+                  <div className="my-1 border-t border-[var(--border-subcard)]" />
+                  <div className="px-2.5 py-1 typo-label font-mono tracking-wider text-[var(--text-heading,var(--text-primary))]">
                     Theo đơn vị công tác
                   </div>
                   {MEMORIES_COMPANIES.map((comp) => {
@@ -314,20 +299,16 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                       <button
                         key={comp.id}
                         type="button"
+                        data-selected={isActive ? 'true' : 'false'}
                         onClick={() => {
                           SoundEngine.playTap();
                           setCompanyFilter(comp.id);
                           setIsFilterDropdownOpen(false);
                         }}
-                        className={cn(
-                          'w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] text-xs font-bold font-play transition-all cursor-pointer text-left',
-                          isActive
-                            ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-900 dark:text-[#6EE7B7] border border-emerald-300 dark:border-emerald-700/60 shadow-xs'
-                            : 'text-[#334155] dark:text-[#E2E8F0] hover:bg-slate-100 dark:hover:bg-[#1F2937] hover:text-[#1E1B4B] dark:hover:text-[#F8FAFC] border border-transparent font-medium'
-                        )}
+                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
                       >
                         <span className="truncate">{comp.labelVi}</span>
-                        {isActive && <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-[#6EE7B7]" />}
+                        {isActive && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
                       </button>
                     );
                   })}
@@ -341,7 +322,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
             <button
               type="button"
               onClick={handleResetFilters}
-              className="px-3 py-1.5 rounded-full bg-rose-500/90 hover:bg-rose-600 text-white text-[11px] font-bold font-play transition-all cursor-pointer shadow-xs active:scale-95"
+              className="banner-control-pill px-3 py-1.5 rounded-full bg-rose-500/90 hover:bg-rose-600 text-white typo-button font-play transition-all cursor-pointer shadow-xs active:scale-95"
             >
               ✕ Đặt lại
             </button>
@@ -352,7 +333,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
             <div className="relative flex-1 sm:w-52">
               <WebIcon
                 name="search"
-                className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
               />
               <input
                 type="text"
@@ -360,20 +341,20 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Tìm kỷ niệm, địa điểm, năm..."
                 aria-label="Tìm kiếm ảnh kỷ niệm"
-                className="w-full pl-8 pr-7 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 text-slate-800 dark:text-[#E2E8F0] placeholder:text-slate-400 border border-emerald-200 dark:border-[#334155] shadow-sm text-xs font-play focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
+                className="banner-search-input w-full pl-8 pr-7 py-1.5 rounded-full typo-input font-play focus:outline-none"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
                   aria-label="Xóa từ khóa tìm kiếm"
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white cursor-pointer"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
                 >
                   <WebIcon name="cancel" className="w-3.5 h-3.5" />
                 </button>
               )}
             </div>
-            <span className="px-2.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/40 text-xs font-mono font-bold shadow-sm shrink-0">
+            <span className="banner-count-pill px-2.5 py-1.5 rounded-full typo-badge font-mono shrink-0">
               {filteredMemories.length} ảnh
             </span>
           </div>
@@ -386,17 +367,18 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
           <div
             id="memories-empty-card"
             data-element-type="card"
-            className="bento-card glass-card w-full py-16 px-6 rounded-[14px] bg-white/80 dark:bg-[#111827]/85 border border-dashed border-[#CBD5E1] dark:border-[#334155] text-center flex flex-col items-center justify-center gap-3"
+            className="bento-card glass-card w-full py-16 px-6 rounded-[14px] text-center flex flex-col items-center justify-center gap-3"
           >
-            <div className="w-12 h-12 rounded-[14px] bg-rose-100 dark:bg-rose-950/60 text-[#BE185D] dark:text-[#FDA4AF] flex items-center justify-center">
+            <div className="w-12 h-12 rounded-[14px] bg-rose-500/15 text-rose-500 flex items-center justify-center">
               <WebIcon name="camera" className="w-6 h-6" />
             </div>
-            <p className="text-sm font-bold text-[#1E1B4B] dark:text-[#F8FAFC]">Không tìm thấy ảnh kỷ niệm phù hợp với bộ lọc.</p>
-            <p className="text-xs text-[#475569] dark:text-[#94A3B8]">Hãy thử chọn lại công ty hoặc chủ đề khác.</p>
+            <p className="typo-h4 text-[var(--text-heading)]">Không tìm thấy ảnh kỷ niệm phù hợp với bộ lọc.</p>
+            <p className="typo-caption text-[var(--text-secondary)]">Hãy thử chọn lại công ty hoặc chủ đề khác.</p>
             <button
               type="button"
               onClick={handleResetFilters}
-              className="px-4 py-2 rounded-full bg-rose-600 text-white font-bold text-xs shadow hover:bg-rose-700 transition-all flex items-center gap-1.5 cursor-pointer"
+              style={{ background: 'var(--bg-button-primary)' }}
+              className="px-4 py-2 rounded-full text-white typo-button shadow hover:brightness-110 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <span>↻ Đặt lại bộ lọc</span>
             </button>
@@ -418,7 +400,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                   }
                 }}
                 style={{ animationDelay: `${(idx % 16) * 35}ms`, padding: 0 }}
-                className="memory-photo-item break-inside-avoid mb-[15px] block w-full relative rounded-[14px] overflow-hidden p-0 m-0 border-0 cursor-pointer group bg-[#0B1220]"
+                className="themed-image-card memory-photo-item break-inside-avoid mb-[15px] block w-full relative rounded-[14px] overflow-hidden p-0 m-0 cursor-pointer group bg-[#0B1220]"
               >
                 <img
                   src={item.imageUrl}
@@ -432,27 +414,27 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
 
                 {/* Badge năm & tag luôn hiển thị trên thiết bị cảm ứng, hover mới hiện trên Desktop */}
                 <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1.5 pointer-events-none opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100 transition-opacity duration-300 z-10">
-                  <span className="text-[10px] font-mono font-bold tracking-wider text-white bg-[#0B1220]/75 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/20">
+                  <span className="typo-badge font-mono tracking-wider text-white bg-[#0B1220]/75 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/20">
                     {item.tagVi}
                   </span>
-                  <span className="text-[10px] font-mono font-bold text-white bg-[#0B1220]/75 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/20">
+                  <span className="typo-badge font-mono text-white bg-[#0B1220]/75 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/20">
                     {item.year}
                   </span>
                 </div>
 
                 {/* Tiêu đề & chi tiết luôn dễ đọc trên thiết bị cảm ứng, hover mới hiện trên Desktop */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/95 via-[#0B1220]/55 to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100 backdrop-blur-[1.5px] transition-opacity duration-300 flex flex-col justify-end p-3 pointer-events-none">
-                  <span className="text-[10px] font-mono font-bold text-[#6EE7B7] uppercase tracking-wide block">
+                  <span className="typo-label font-mono text-[#6EE7B7] uppercase tracking-wide block">
                     {item.companyId?.toUpperCase()}
                   </span>
-                  <h3 className="text-sm font-bold text-[#6EE7B7] leading-snug break-words mt-0.5 flex items-center gap-1.5">
+                  <h3 className="typo-h4 card-header-sync card-title-synced text-[#6EE7B7] break-words mt-0.5 flex items-center gap-1.5" data-card-title="true">
                     <WebIcon name="camera" className="w-3.5 h-3.5 text-[#6EE7B7] shrink-0" />
                     <span>{formatCardTitle(item.titleVi)}</span>
                   </h3>
-                  <p className="text-[11px] text-[#E2E8F0] break-words mt-1 leading-tight line-clamp-2">
+                  <p className="typo-caption text-[#E2E8F0] break-words mt-1 line-clamp-2">
                     {item.descVi}
                   </p>
-                  <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-white/20 text-[10px] font-mono text-[#CBD5E1]">
+                  <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-white/20 typo-label font-mono text-[#CBD5E1]">
                     <span className="flex items-center gap-1 truncate">
                       <WebIcon name="location" className="w-3 h-3 text-[#6EE7B7] shrink-0" />
                       <span className="truncate">{item.locationVi}</span>
@@ -476,7 +458,12 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
           role="dialog"
           aria-modal="true"
           aria-label={`Xem ảnh kỷ niệm: ${activePhoto.titleVi}`}
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-5 bg-[#0B1220]/95 backdrop-blur-md"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-5"
+          style={{
+            background: 'var(--bg-modal-backdrop)',
+            backdropFilter: 'blur(var(--blur-modal, 6px))',
+            WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+          }}
           onClick={() => {
             setActiveLightboxIdx(null);
             setIsSlideshowPlaying(false);
@@ -485,7 +472,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
           <div
             id="memories-lightbox-card"
             data-element-type="card"
-            className="w-full max-w-6xl max-h-[94vh] overflow-y-auto no-scrollbar rounded-[14px] bg-[#111827] text-[#F8FAFC] border border-[#334155] shadow-2xl flex flex-col relative text-left"
+            className="theme-modal-card w-full max-w-6xl max-h-[94vh] overflow-y-auto no-scrollbar rounded-[14px] flex flex-col relative text-left"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Ảnh lớn & Điều khiển */}
@@ -528,7 +515,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
               {/* Thanh thao tác phía trên */}
               <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-20">
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-[#111827]/85 backdrop-blur-md border border-white/20 text-xs font-mono text-[#E2E8F0] font-bold">
+                  <span className="px-3 py-1 rounded-full bg-[#111827]/85 backdrop-blur-md border border-white/20 typo-badge font-mono text-[#E2E8F0]">
                     {(activeLightboxIdx ?? 0) + 1} / {filteredMemories.length}
                   </span>
 
@@ -537,7 +524,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                     type="button"
                     onClick={() => setIsSlideshowPlaying(!isSlideshowPlaying)}
                     title={isSlideshowPlaying ? 'Tạm dừng trình chiếu' : 'Tự động trình chiếu 4s'}
-                    className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border ${
+                    className={`px-3 py-1 rounded-full typo-button flex items-center gap-1.5 transition-all cursor-pointer border ${
                       isSlideshowPlaying
                         ? 'bg-emerald-600 text-white border-emerald-500 shadow animate-pulse'
                         : 'bg-[#111827]/85 text-[#E2E8F0] border-white/20 hover:text-white'
@@ -580,17 +567,17 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
               {/* Tiêu đề & Thông tin hiển thị dưới ảnh */}
               <div className="absolute bottom-3 left-4 right-4 flex flex-col gap-1.5 z-20 pointer-events-none">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#6EE7B7] bg-emerald-950/90 px-3 py-0.5 rounded-full border border-emerald-500/40">
+                  <span className="typo-badge font-mono uppercase tracking-wider text-[#6EE7B7] bg-emerald-950/90 px-3 py-0.5 rounded-full border border-emerald-500/40">
                     {activePhoto.tagVi}
                   </span>
-                  <span className="text-xs font-mono font-bold text-[#E2E8F0] bg-[#1F2937]/90 px-3 py-0.5 rounded-full border border-white/15">
+                  <span className="typo-badge font-mono text-[#E2E8F0] bg-[#1F2937]/90 px-3 py-0.5 rounded-full border border-white/15">
                     {activePhoto.year}
                   </span>
-                  <span className="text-xs font-mono font-bold uppercase text-[#FCD34D] bg-amber-950/80 px-3 py-0.5 rounded-full border border-amber-500/40">
+                  <span className="typo-badge font-mono uppercase text-[#FCD34D] bg-amber-950/80 px-3 py-0.5 rounded-full border border-amber-500/40">
                     {activePhoto.companyId?.toUpperCase()}
                   </span>
                 </div>
-                <h3 className="card-title text-base sm:text-xl text-[#F8FAFC]">
+                <h3 className="typo-popup-title text-[#F8FAFC]">
                   {activePhoto.titleVi}
                 </h3>
               </div>
@@ -599,7 +586,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
             {/* Dải cuộn ảnh thu nhỏ (Filmstrip) */}
             <div
               ref={filmstripRef}
-              className="w-full flex items-center gap-2 px-4 py-2 bg-[#0B1220]/90 border-y border-[#334155] overflow-x-auto no-scrollbar"
+              className="theme-modal-footer w-full flex items-center gap-2 px-4 py-2 overflow-x-auto horizontal-scroll-smooth"
             >
               {filteredMemories.map((thumb, tIdx) => (
                 <button
@@ -618,25 +605,25 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
             </div>
 
             {/* Mô tả chi tiết */}
-            <div className="p-4 sm:p-6 flex flex-col gap-4 bg-[#111827]">
-              <div className="flex items-center gap-4 text-xs font-mono text-[#94A3B8] border-b border-[#334155] pb-3 flex-wrap">
-                <div className="flex items-center gap-1.5 text-[#E2E8F0]">
-                  <WebIcon name="location" className="w-3.5 h-3.5 text-[#6EE7B7]" />
+            <div className="p-4 sm:p-6 flex flex-col gap-4">
+              <div className="flex items-center gap-4 typo-caption font-mono text-[var(--text-secondary)] border-b border-[var(--border-subcard)] pb-3 flex-wrap">
+                <div className="flex items-center gap-1.5 text-[var(--text-primary)]">
+                  <WebIcon name="location" className="w-3.5 h-3.5 text-emerald-500" />
                   <span>{activePhoto.locationVi}</span>
                 </div>
                 {activePhoto.teamSize && (
-                  <div className="flex items-center gap-1.5 text-[#67E8F9]">
+                  <div className="flex items-center gap-1.5 text-[var(--color-primary)]">
                     <WebIcon name="users" className="w-3.5 h-3.5" />
                     <span>Quy mô: {activePhoto.teamSize}</span>
                   </div>
                 )}
-                <div className="flex items-center gap-1.5 text-[#FCD34D]">
+                <div className="flex items-center gap-1.5 text-[var(--text-heading,var(--text-primary))]">
                   <WebIcon name="building" className="w-3.5 h-3.5" />
                   <span>{MEMORIES_COMPANIES.find((c) => c.id === activePhoto.companyId)?.labelVi}</span>
                 </div>
               </div>
 
-              <p className="text-sm text-[#E2E8F0] leading-relaxed font-normal">
+              <p className="typo-body text-[var(--text-primary)]">
                 {activePhoto.descVi}
               </p>
             </div>

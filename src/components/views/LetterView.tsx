@@ -15,7 +15,6 @@ import {
   OPERATIONAL_PRINCIPLES_DATA,
   CareerMilestoneItem,
 } from '@/data/letterData';
-import { motion, AnimatePresence } from 'motion/react';
 import { SiteTheme } from '@/types';
 import { useTheme } from '@/hooks/useTheme';
 
@@ -1921,33 +1920,38 @@ export const LetterView: React.FC<LetterViewProps> = ({
       <div id="el-p1-div-77" className="relative w-full flex-1 min-h-0 flex flex-col items-center justify-center p-0 font-play">
 
 
-        {/* Horizontal Card Track with AnimatePresence */}
+        {/* Direct Bento & Slide Content Container */}
         <div
           id="letter-sections-list"
-          className="w-full h-full flex-1 min-h-0 flex flex-col py-0 backdrop-blur-none rounded-[14px] border-0 shadow-none overflow-y-auto overflow-x-clip glass-scrollbar bg-transparent"
-          style={{ background: 'transparent', backgroundColor: 'transparent', backdropFilter: 'none', width: '100%', maxWidth: '100%', paddingLeft: '0px', paddingRight: '0px' }}
+          data-slide-direction={slideDirection}
+          className={cn(
+            'w-full h-full flex-1 min-h-0 backdrop-blur-none rounded-[14px] border-0 shadow-none overflow-y-auto overflow-x-clip glass-scrollbar bg-transparent relative z-10',
+            currentSlide === 0
+              ? 'grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch auto-rows-auto'
+              : 'flex flex-col gap-[15px]'
+          )}
+          style={{
+            background: 'transparent',
+            backgroundColor: 'transparent',
+            backdropFilter: 'none',
+            width: '100%',
+            height: '100%',
+            maxWidth: '100%',
+            padding: '25px',
+            paddingLeft: '25px',
+            paddingRight: '25px',
+            paddingTop: '25px',
+            paddingBottom: '25px',
+            gap: '15px',
+            rowGap: '15px',
+            columnGap: '15px',
+          }}
         >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0, x: slideDirection === 'next' ? 56 : -56 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: slideDirection === 'next' ? -56 : 56 }}
-              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-              className={
-                currentSlide === 0
-                  ? 'w-full grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch relative z-10 auto-rows-auto bg-transparent'
-                  : 'w-full flex-1 flex flex-col gap-[15px]'
-              }
-              style={
-                currentSlide === 0
-                  ? { gap: '15px', rowGap: '15px', columnGap: '15px' }
-                  : undefined
-              }
-            >
               {currentSlide === 0 && (
-                /* Lưới Bento Responsive Grid thống nhất: Tất cả các thẻ cách nhau đúng 15px ở mọi kích thước thiết bị */
-                <>
+                <div
+                  className="w-full h-full flex-1 min-h-0 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch auto-rows-auto bg-transparent"
+                  style={{ background: 'transparent', width: '100%', height: '100%', maxWidth: '100%' }}
+                >
                     {/* THẺ BENTO 1: Khung Video Thuyết Minh (7/12 cột trên Desktop, 6/6 trên Tablet, 1/1 trên Mobile) */}
                     <article
                       id="bento-letter-video"
@@ -2257,15 +2261,18 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         &ldquo;Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự.&rdquo;
                       </p>
                     </article>
-                </>
+                </div>
               )}
 
               {currentSlide === 1 && (
-                <div className="w-full flex flex-col gap-[15px]">
+                <div
+                  className="w-full h-full flex-1 min-h-0 flex flex-col gap-[15px] bg-transparent"
+                  style={{ background: 'transparent', width: '100%', height: '100%', maxWidth: '100%' }}
+                >
                   <div
                     id="letter-slide-2-grid"
-                    className="w-full flex-1 grid grid-cols-1 md:grid-cols-2 auto-rows-fr gap-[15px] items-stretch"
-                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
+                    className="w-full h-full flex-1 grid grid-cols-1 md:grid-cols-2 auto-rows-fr gap-[15px] items-stretch bg-transparent"
+                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%', height: '100%' }}
                   >
                     {CAREER_MILESTONES_DATA.slice(0, 4).map((item) =>
                       renderCareerCard(item, '', false)
@@ -2275,25 +2282,25 @@ export const LetterView: React.FC<LetterViewProps> = ({
               )}
 
               {currentSlide === 2 && (
-                <div className="w-full flex flex-col gap-[15px]">
-                  <div
-                    id="letter-slide-3-grid"
-                    className="w-full flex-1 grid grid-cols-1 md:grid-cols-2 auto-rows-fr gap-[15px] items-stretch"
-                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
-                  >
-                    {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
-                      renderCareerCard(item, '', false)
-                    )}
-                  </div>
+                <div
+                  className="w-full h-full min-w-0 flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-fr gap-[15px] items-stretch bg-transparent"
+                  style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%', height: '100%', maxWidth: '100%' }}
+                >
+                  {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
+                    renderCareerCard(item, 'min-w-0 md:col-span-3 lg:col-span-6', false)
+                  )}
                 </div>
               )}
 
               {currentSlide === 3 && (
-                <div className="w-full flex flex-col gap-[15px]">
+                <div
+                  className="w-full h-full flex-1 min-h-0 flex flex-col gap-[15px] bg-transparent"
+                  style={{ background: 'transparent', width: '100%', height: '100%', maxWidth: '100%' }}
+                >
                   <div
                     id="letter-slide-4-bento-grid"
-                    className="w-full grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch"
-                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
+                    className="w-full h-full flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch bg-transparent"
+                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%', height: '100%' }}
                   >
                     {/* BENTO CARD 1 (6/12 cols): TRIẾT LÝ QUẢN TRỊ & 3 NGUYÊN TẮC CỐT LÕI */}
                     <div
@@ -2458,8 +2465,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   </div>
                 </div>
               )}
-            </motion.div>
-          </AnimatePresence>
         </div>
       </div>
 

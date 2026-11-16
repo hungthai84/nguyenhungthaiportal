@@ -5,13 +5,29 @@
     line-height: var(--lh-body);
   }
 
-  html, body, #root {
+  html, body {
     font-family: var(--font-family-primary);
     font-size: var(--fs-body);
     line-height: var(--lh-body);
     font-weight: var(--fw-regular);
     color: var(--color-text);
-    background-color: var(--color-bg);
+    background-color: var(--app-bg-base, var(--color-bg));
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+  }
+
+  #root {
+    font-family: var(--font-family-primary);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: var(--fw-regular);
+    color: var(--color-text);
+    background: transparent;
     margin: 0;
     padding: 0;
     width: 100vw;
@@ -216,9 +232,9 @@
 /* ========================================================================= */
 /* SCOPED SOLID THEMES: DISABLE GLASS BLUR ONLY FOR SOLID CARD PRESETS       */
 /* ========================================================================= */
-html[data-card-style="frosted-glass"] .glass-card,
-html[data-card-style="frosted-glass"] .bento-card,
-html[data-card-style="frosted-glass"] .glass-panel {
+html[data-card-style="frosted-glass"] .glass-card:not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="frosted-glass"] .bento-card:not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="frosted-glass"] .glass-panel:not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]) {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -236,4 +252,196 @@ html[data-card-style="frosted-glass"] .glass-panel {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ========================================================================= */
+/* GLOBAL BACKGROUND SYSTEM – 5-LAYER UNIFIED AMBIENT GLASS & MICA           */
+/* ========================================================================= */
+#global-wallpaper-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100dvh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: var(--app-bg-base, var(--color-bg));
+  background-image: var(--app-bg-gradient, var(--ambient-base-bg));
+  transform: translateZ(0);
+  contain: layout paint style;
+}
+
+/* Layer 01 – Base Background: Multi-color smooth full-viewport gradient */
+.ambient-layer-base {
+  position: absolute;
+  inset: 0;
+  background-color: var(--app-bg-base, var(--color-bg));
+  background-image: var(--app-bg-gradient, var(--ambient-base-bg));
+  transition: background-color 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms ease;
+}
+
+/* Layer 02 – Ambient Glow: Balanced diffused radial orbs */
+.ambient-layer-glow {
+  position: absolute;
+  inset: -8%;
+  pointer-events: none;
+  opacity: var(--app-bg-opacity, var(--ambient-glow-opacity, 0.78));
+  transition: opacity 420ms ease;
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(var(--app-bg-blur, var(--ambient-blur-orb, 72px)));
+  -webkit-filter: blur(var(--app-bg-blur, var(--ambient-blur-orb, 72px)));
+  will-change: transform, opacity;
+  transition: background 450ms ease;
+}
+
+.ambient-orb--1 {
+  width: clamp(280px, 44vw, 620px);
+  height: clamp(280px, 44vw, 620px);
+  top: -10%;
+  left: -6%;
+  background: radial-gradient(circle, var(--app-bg-glow-primary, var(--ambient-glow-1)) 0%, transparent 72%);
+  animation: ambientFloatA 22s ease-in-out infinite alternate;
+}
+
+.ambient-orb--2 {
+  width: clamp(260px, 42vw, 580px);
+  height: clamp(260px, 42vw, 580px);
+  top: -6%;
+  right: -8%;
+  background: radial-gradient(circle, var(--app-bg-glow-secondary, var(--ambient-glow-2)) 0%, transparent 72%);
+  animation: ambientFloatB 26s ease-in-out infinite alternate;
+}
+
+.ambient-orb--3 {
+  width: clamp(260px, 40vw, 560px);
+  height: clamp(260px, 40vw, 560px);
+  bottom: -14%;
+  right: 12%;
+  background: radial-gradient(circle, var(--app-bg-glow-accent, var(--ambient-glow-3)) 0%, transparent 72%);
+  animation: ambientFloatC 24s ease-in-out infinite alternate;
+}
+
+.ambient-orb--4 {
+  width: clamp(240px, 38vw, 520px);
+  height: clamp(240px, 38vw, 520px);
+  bottom: -10%;
+  left: 10%;
+  background: radial-gradient(circle, var(--app-bg-glow-cyan, var(--ambient-glow-4)) 0%, transparent 72%);
+  animation: ambientFloatB 28s ease-in-out infinite alternate-reverse;
+}
+
+/* Layer 03 – Abstract Light Shapes: Large soft low-opacity CSS curves */
+.ambient-layer-abstract {
+  position: absolute;
+  inset: -12%;
+  pointer-events: none;
+  opacity: var(--app-bg-shape-opacity, var(--ambient-wave-opacity, 0.65));
+  overflow: hidden;
+  transition: opacity 420ms ease;
+}
+
+.ambient-wave {
+  position: absolute;
+  border-radius: 44% 56% 62% 38% / 48% 36% 64% 52%;
+  filter: blur(var(--ambient-blur-wave, 38px));
+  -webkit-filter: blur(var(--ambient-blur-wave, 38px));
+  pointer-events: none;
+  transition: background 450ms ease;
+}
+
+.ambient-wave--1 {
+  width: 130vw;
+  height: 46vh;
+  top: 12%;
+  left: -15vw;
+  transform: rotate(-7deg);
+  background: linear-gradient(
+    95deg,
+    transparent 0%,
+    var(--ambient-wave-1) 28%,
+    var(--ambient-wave-2) 62%,
+    transparent 100%
+  );
+}
+
+.ambient-wave--2 {
+  width: 125vw;
+  height: 42vh;
+  bottom: 8%;
+  left: -12vw;
+  transform: rotate(6deg);
+  background: linear-gradient(
+    260deg,
+    transparent 0%,
+    var(--ambient-wave-3) 30%,
+    var(--ambient-wave-1) 66%,
+    transparent 100%
+  );
+}
+
+/* Layer 04 – Atmospheric Depth: Visual separation behind floating Glass/Mica surfaces */
+.ambient-layer-depth {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--app-bg-depth-veil, var(--ambient-depth-veil));
+  transition: background 420ms ease;
+}
+
+/* Layer 05 – Background Transition: Seamless full-viewport continuity across routes & themes */
+.ambient-layer-transition {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--theme-bg-overlay, var(--app-bg-transition-scrim, transparent));
+  transition: background 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: background, opacity;
+}
+
+@keyframes ambientFloatA {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(3%, 4%, 0) scale(1.06); }
+}
+
+@keyframes ambientFloatB {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-3%, 3%, 0) scale(1.05); }
+}
+
+@keyframes ambientFloatC {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(2%, -4%, 0) scale(1.04); }
+}
+
+/* Responsive & Low-Power Device Safeguards */
+@media (max-width: 767px) {
+  .ambient-orb {
+    filter: blur(34px);
+    -webkit-filter: blur(34px);
+  }
+  .ambient-wave {
+    filter: blur(22px);
+    -webkit-filter: blur(22px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-orb {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .ambient-orb,
+  .ambient-wave {
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+}
+
 

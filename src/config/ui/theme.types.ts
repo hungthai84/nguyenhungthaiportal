@@ -3,7 +3,9 @@ import React from 'react';
 export type CardStyleMode =
   | 'frosted-glass'
   | 'mica-fluent'
+  | 'light-glassmorphism'
   | 'dark-frosted-glass'
+  | 'dark-glassmorphism'
   | 'cowhide-leather';
 
 export interface CardStyleConfig {

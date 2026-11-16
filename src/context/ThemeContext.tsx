@@ -67,6 +67,10 @@ function applyGlassCssVariables(mode: CardStyleMode, settings: GlassCustomizatio
     root.style.setProperty('--blur-subcard', `${Math.round(blur * 0.8)}px`);
     root.style.setProperty('--blur-nav-pill', `${Math.round(blur * 0.85)}px`);
     root.style.setProperty('--blur-modal', `${Math.min(48, Math.round(blur * 1.15))}px`);
+    root.style.setProperty('--surface-primary-blur', `${blur}px`);
+    root.style.setProperty('--surface-secondary-blur', `${blur}px`);
+    root.style.setProperty('--surface-tertiary-blur', `${Math.round(blur * 0.8)}px`);
+    root.style.setProperty('--surface-interactive-blur', `${Math.round(blur * 0.85)}px`);
   } else {
     root.removeAttribute('data-custom-blur');
     root.style.removeProperty('--bg-blur');
@@ -74,6 +78,10 @@ function applyGlassCssVariables(mode: CardStyleMode, settings: GlassCustomizatio
     root.style.removeProperty('--blur-subcard');
     root.style.removeProperty('--blur-nav-pill');
     root.style.removeProperty('--blur-modal');
+    root.style.removeProperty('--surface-primary-blur');
+    root.style.removeProperty('--surface-secondary-blur');
+    root.style.removeProperty('--surface-tertiary-blur');
+    root.style.removeProperty('--surface-interactive-blur');
   }
 
   if (isCustomOpacity) {
@@ -143,11 +151,18 @@ function normalizeCardStyle(raw: string | null): CardStyleMode {
   }
   if (
     raw === 'dark-glass' ||
-    raw === 'dark-glassmorphism' ||
     raw === 'dark-frosted' ||
     raw === 'kinh-mo-toi'
   ) {
     return 'dark-frosted-glass';
+  }
+  if (
+    raw === 'light-glass' ||
+    raw === 'light-glassmorphism' ||
+    raw === 'guong-sang' ||
+    raw === 'kinh-guong-sang'
+  ) {
+    return 'light-glassmorphism';
   }
   if (VALID_CARD_STYLES.includes(raw as any)) {
     return raw as CardStyleMode;
@@ -319,7 +334,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         (!activeWallpaper.previewStyle || Object.keys(activeWallpaper.previewStyle).length === 0))
     ) {
       root.style.setProperty('--theme-bg-image', 'none');
-      document.body.style.backgroundColor = isDark ? '#050816' : '#F8FAFC';
+      document.body.style.background = 'var(--app-bg-gradient, var(--ambient-base-bg, var(--theme-bg-fallback)))';
     } else if (activeWallpaper.type === 'image') {
       const imgVal = activeWallpaper.value || activeWallpaper.bg || '';
       const cleanUrl = getCleanImageUrl(imgVal);
@@ -331,6 +346,13 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         document.body.style.backgroundRepeat = 'no-repeat';
         document.body.style.backgroundAttachment = 'fixed';
       }
+    } else if (activeWallpaper.type === 'webgl') {
+      root.style.setProperty('--theme-bg-image', 'none');
+      const fallbackBg =
+        activeWallpaper.value ||
+        activeWallpaper.bg ||
+        'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)';
+      document.body.style.background = fallbackBg;
     } else if (activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient') {
       root.style.setProperty('--theme-bg-image', 'none');
       const cssText = activeWallpaper.value || activeWallpaper.bg || '';
@@ -353,7 +375,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       }
     } else {
       root.style.setProperty('--theme-bg-image', 'none');
-      document.body.style.backgroundColor = isDark ? '#050816' : '#F8FAFC';
+      document.body.style.background = 'var(--app-bg-gradient, var(--ambient-base-bg, var(--theme-bg-fallback)))';
     }
   }, [activeWallpaper, cardStyle, isDark]);
 

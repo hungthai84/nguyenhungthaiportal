@@ -88,20 +88,9 @@ html.dark[data-card-style="dark-frosted-glass"] {
   --pillar-progress-fill: linear-gradient(90deg, #38bdf8, #818cf8);
 
   /* Specular Top-Edge Elevation System */
-  --shadow-header: 0 26px 58px -8px rgba(0, 0, 0, 0.86),
-    0 12px 26px -4px rgba(2, 6, 23, 0.72),
-    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.28),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.45);
-  --shadow-main-card: 0 36px 84px -10px rgba(0, 0, 0, 0.92),
-    0 18px 40px -6px rgba(2, 6, 23, 0.78),
-    0 4px 12px rgba(0, 0, 0, 0.60),
-    inset 0 1.5px 2px rgba(255, 255, 255, 0.30),
-    inset 0 -1.5px 2px rgba(0, 0, 0, 0.50);
-  --shadow-footer: 0 -24px 56px -8px rgba(0, 0, 0, 0.84),
-    0 -10px 24px -4px rgba(2, 6, 23, 0.68),
-    0 10px 26px -4px rgba(0, 0, 0, 0.65),
-    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.28),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.42);
+  --shadow-header: none;
+  --shadow-main-card: none;
+  --shadow-footer: none;
   --shadow-card: 0 22px 48px -12px rgba(2, 6, 23, 0.72),
     inset 0 1px 1px rgba(255, 255, 255, 0.18);
   --shadow-card-hover: 0 26px 54px -12px rgba(2, 6, 23, 0.82),
@@ -133,48 +122,88 @@ html.dark[data-card-style="dark-frosted-glass"] {
     inset 0 1px 1px rgba(255, 255, 255, 0.18);
   --border-image-card: rgba(255, 255, 255, 0.18);
   --shadow-image-card: 0 22px 48px -12px rgba(2, 6, 23, 0.72);
+
+  /* Global 5-Layer Background Tokens (Dark Frosted Glass Aurora) */
+  --app-bg-base: #060d22;
+  --app-bg-gradient:
+    radial-gradient(ellipse 88% 68% at 14% 14%, rgba(14, 165, 233, 0.28) 0%, transparent 58%),
+    radial-gradient(ellipse 82% 66% at 86% 20%, rgba(99, 102, 241, 0.30) 0%, transparent 56%),
+    radial-gradient(ellipse 76% 64% at 76% 86%, rgba(168, 85, 247, 0.24) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 58% at 18% 82%, rgba(236, 72, 153, 0.16) 0%, transparent 56%),
+    linear-gradient(135deg, #060d22 0%, #0f183a 38%, #1a1542 70%, #091a34 100%);
+  --app-bg-glow-primary: rgba(56, 189, 248, 0.34);
+  --app-bg-glow-secondary: rgba(129, 140, 248, 0.32);
+  --app-bg-glow-accent: rgba(192, 132, 252, 0.26);
+  --app-bg-glow-cyan: rgba(244, 114, 182, 0.20);
+  --app-bg-opacity: 0.78;
+  --app-bg-shape-opacity: 0.66;
+  --app-bg-depth-veil:
+    radial-gradient(ellipse 88% 78% at 50% 48%, rgba(15, 23, 42, 0.04) 0%, rgba(2, 6, 23, 0.24) 72%, rgba(2, 6, 23, 0.44) 100%);
+  --app-bg-transition-scrim: rgba(6, 13, 34, 0.06);
+
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: var(--app-bg-glow-primary);
+  --ambient-glow-2: var(--app-bg-glow-secondary);
+  --ambient-glow-3: var(--app-bg-glow-accent);
+  --ambient-glow-4: var(--app-bg-glow-cyan);
+  --ambient-glow-opacity: var(--app-bg-opacity);
+  --ambient-wave-1: rgba(56, 189, 248, 0.15);
+  --ambient-wave-2: rgba(167, 139, 250, 0.15);
+  --ambient-wave-3: rgba(244, 114, 182, 0.12);
+  --ambient-wave-opacity: var(--app-bg-shape-opacity);
+  --ambient-depth-veil: var(--app-bg-depth-veil);
+  --ambient-wallpaper-opacity: 0.64;
+  --ambient-main-glow: 0 0 72px -10px rgba(56, 189, 248, 0.28), 0 0 120px -18px rgba(139, 92, 246, 0.22);
+  --ambient-edge-border: rgba(255, 255, 255, 0.24);
+
+  /* 4-Tier Surface Tokens (Dark Frosted Glass – Subtle Glassmorphism Level 01) */
+  --surface-primary-bg: rgba(15, 23, 42, 0.54);
+  --surface-primary-border: rgba(255, 255, 255, 0.1);
+  --surface-primary-shadow: none;
+  --surface-primary-blur: 12px;
+  --surface-secondary-bg: rgba(15, 23, 42, 0.58);
+  --surface-secondary-border: rgba(255, 255, 255, 0.18);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-blur: 16px;
+  --surface-tertiary-bg: rgba(15, 23, 42, 0.68);
+  --surface-tertiary-border: rgba(255, 255, 255, 0.16);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 22px;
+  --surface-interactive-bg: rgba(15, 23, 42, 0.76);
+  --surface-interactive-hover: rgba(30, 41, 59, 0.86);
+  --surface-interactive-active: linear-gradient(135deg, #0ea5e9 0%, #4f46e5 100%);
+  --surface-interactive-border: rgba(255, 255, 255, 0.18);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 22px;
 }
 
-/* Subtle Slate Veil over active wallpaper so wallpaper remains vivid while #f8fafc text stays crisp */
-html[data-card-style="dark-frosted-glass"] #global-wallpaper-layer::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 18% 16%, rgba(56, 189, 248, 0.08) 0%, transparent 48%),
-    radial-gradient(circle at 82% 84%, rgba(99, 102, 241, 0.10) 0%, transparent 52%),
-    rgba(2, 6, 23, 0.12);
-}
-
-/* Header, Footer, Main Viewport & Capsule Navigation */
+/* Header, Footer, Main Viewport Dark Glass Styling */
 html[data-card-style="dark-frosted-glass"] #app-header {
-  background: var(--bg-header) !important;
-  backdrop-filter: blur(18px) saturate(155%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(155%) !important;
-  border-color: rgba(255, 255, 255, 0.22) !important;
-  box-shadow: var(--shadow-header) !important;
+  background: var(--surface-primary-bg) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  border-color: var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
   color: #f8fafc !important;
 }
 
 html[data-card-style="dark-frosted-glass"] #app-footer {
-  background: var(--bg-footer) !important;
-  backdrop-filter: blur(18px) saturate(155%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(155%) !important;
-  border-color: rgba(255, 255, 255, 0.22) !important;
-  box-shadow: var(--shadow-footer) !important;
+  background: var(--surface-primary-bg) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  border-color: var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
   color: #f8fafc !important;
 }
 
 html[data-card-style="dark-frosted-glass"] .main-card,
 html[data-card-style="dark-frosted-glass"] [id$="-page-container"],
 html[data-card-style="dark-frosted-glass"] [id$="-page-root"] {
-  background: rgba(15, 23, 42, 0.36) !important;
-  backdrop-filter: blur(14px) saturate(155%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(155%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.22) !important;
-  box-shadow: var(--shadow-main-card) !important;
+  background: var(--surface-primary-bg) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  border: 1px solid var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
   color: #f8fafc !important;
 }
 

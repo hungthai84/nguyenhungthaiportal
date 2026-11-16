@@ -34,6 +34,10 @@ import { useGlobalHorizontalScroll } from './hooks/useGlobalHorizontalScroll';
 import { parseCssStringToStyle, getCleanImageUrl } from './data/wallpapers';
 import { applyTypographyScaleToDocument } from './config/typographyScale';
 import { SoundEngine } from './components/ui/SoundEngine';
+import {
+  GravityBackgroundCanvas,
+  resolveGravityStage,
+} from './components/backgrounds/GravityBackgroundCanvas';
 
 export default function App() {
   const [currentTabIndex, setCurrentTabIndex] = useState<number>(0);
@@ -415,7 +419,7 @@ export default function App() {
       data-element-page="global"
       className="h-screen w-screen overflow-hidden flex flex-col justify-between m-0 select-text relative px-2 sm:px-4 lg:px-[25px]"
     >
-      {/* GLOBAL DYNAMIC WALLPAPER LAYER */}
+      {/* GLOBAL UNIFIED AMBIENT GLASS BACKGROUND & WALLPAPER SYSTEM */}
       <div
         id="global-wallpaper-layer"
         data-theme-card-style={cardStyle}
@@ -425,94 +429,166 @@ export default function App() {
         data-element-parent="website-root"
         className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
         style={{
-          background: 'var(--theme-bg-fallback, var(--bg-main))',
+          backgroundColor: 'var(--app-bg-base, var(--color-bg))',
+          backgroundImage: 'var(--app-bg-gradient, var(--ambient-base-bg, var(--theme-bg-fallback, var(--bg-main))))',
         }}
       >
-        {activeWallpaper?.id === 'none' ||
-        (!activeWallpaper?.value &&
-          !activeWallpaper?.bg &&
-          (!activeWallpaper?.previewStyle || Object.keys(activeWallpaper.previewStyle).length === 0)) ? (
+        {/* Lớp 1 – Base Background: Gradient chuyển sắc đa màu thống nhất */}
+        <div aria-hidden="true" className="ambient-layer-base" />
+
+        {/* Active Theme Texture / Custom Wallpaper (harmonized with Ambient Layers) */}
+        {!(
+          activeWallpaper?.id === 'none' ||
+          (!activeWallpaper?.value &&
+            !activeWallpaper?.bg &&
+            (!activeWallpaper?.previewStyle || Object.keys(activeWallpaper.previewStyle).length === 0))
+        ) && (
           <div
-            className="w-full h-full transition-colors duration-500"
-            style={{ background: 'var(--bg-main)' }}
-          />
-        ) : activeWallpaper.type === 'video' ? (
-          (activeWallpaper.value || activeWallpaper.bg || '').includes('youtube.com') ||
-          (activeWallpaper.value || activeWallpaper.bg || '').includes('youtu.be') ? (
-            <div
-              className="w-full h-full relative overflow-hidden flex items-center justify-center bg-cover bg-center"
-              style={activeWallpaper.previewStyle || {}}
-            >
-              <iframe
-                key={activeWallpaper.id + '-' + (activeWallpaper.value || activeWallpaper.bg)}
-                src={activeWallpaper.value || activeWallpaper.bg}
-                title={activeWallpaper.name}
-                className="w-[120vw] h-[120vh] min-w-[120vw] min-h-[120vh] border-0 pointer-events-none scale-125"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-          ) : (
-            <video
-              key={activeWallpaper.id + '-' + (activeWallpaper.value || activeWallpaper.bg)}
-              src={activeWallpaper.value || activeWallpaper.bg}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
-            />
-          )
-        ) : activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient' ? (
-          <div
-            key={activeWallpaper.id}
-            className="w-full h-full transition-all duration-500"
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-500"
             style={
-              activeWallpaper.previewStyle && Object.keys(activeWallpaper.previewStyle).length > 0
-                ? activeWallpaper.previewStyle
-                : parseCssStringToStyle(activeWallpaper.value || activeWallpaper.bg || '')
+              activeWallpaper.id?.startsWith('theme-bg-')
+                ? { opacity: 'var(--ambient-wallpaper-opacity, 0.56)' }
+                : undefined
             }
-          />
-        ) : (
-          <div
-            key={activeWallpaper.id}
-            className="relative w-full h-full overflow-hidden transition-all duration-500"
-            style={{
-              background: activeWallpaper.previewStyle?.background
-                ? String(activeWallpaper.previewStyle.background)
-                : 'var(--theme-bg-fallback, var(--bg-main))',
-            }}
           >
-            {activeImageUrl && (
-              <img
-                ref={wallpaperImgRef}
-                key={activeImageUrl}
-                src={activeImageUrl}
-                alt=""
-                aria-hidden="true"
-                decoding="async"
-                onLoad={() => setLoadedWallpaperUrl(activeImageUrl)}
-                onError={() => setLoadedWallpaperUrl('')}
-                className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ${
-                  loadedWallpaperUrl === activeImageUrl ? 'opacity-100' : 'opacity-0'
-                }`}
+            {activeWallpaper.type === 'video' ? (
+              (activeWallpaper.value || activeWallpaper.bg || '').includes('youtube.com') ||
+              (activeWallpaper.value || activeWallpaper.bg || '').includes('youtu.be') ? (
+                <div
+                  className="w-full h-full relative overflow-hidden flex items-center justify-center bg-cover bg-center"
+                  style={activeWallpaper.previewStyle || {}}
+                >
+                  <iframe
+                    key={activeWallpaper.id + '-' + (activeWallpaper.value || activeWallpaper.bg)}
+                    src={activeWallpaper.value || activeWallpaper.bg}
+                    title={activeWallpaper.name}
+                    className="w-[120vw] h-[120vh] min-w-[120vw] min-h-[120vh] border-0 pointer-events-none scale-125"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              ) : (
+                <video
+                  key={activeWallpaper.id + '-' + (activeWallpaper.value || activeWallpaper.bg)}
+                  src={activeWallpaper.value || activeWallpaper.bg}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              )
+            ) : activeWallpaper.type === 'webgl' ? (
+              (() => {
+                const gConfig = activeWallpaper.gravityConfig;
+                const paletteId = gConfig?.paletteId || 'autoMorph';
+                const morphOnPageChange = gConfig?.morphOnPageChange ?? true;
+                const activeSlide = pageSlides[currentTabIndex] ?? 0;
+                const resolvedStage = resolveGravityStage(
+                  paletteId,
+                  currentTabIndex,
+                  activeSlide,
+                  morphOnPageChange
+                );
+                return (
+                  <div
+                    key={activeWallpaper.id}
+                    className="relative w-full h-full overflow-hidden"
+                  >
+                    <div
+                      id="gravity-gradient-backdrop"
+                      aria-hidden="true"
+                      className="absolute inset-0 w-full h-full pointer-events-none"
+                      style={{
+                        background: resolvedStage.bgGradient,
+                        transition: 'background 1.2s cubic-bezier(0.65, 0, 0.35, 1)',
+                      }}
+                    />
+                    <GravityBackgroundCanvas
+                      paletteId={paletteId}
+                      pageIndex={currentTabIndex}
+                      slideIndex={activeSlide}
+                      morphOnPageChange={morphOnPageChange}
+                      isDark={isDark}
+                    />
+                  </div>
+                );
+              })()
+            ) : activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient' ? (
+              <div
+                key={activeWallpaper.id}
+                className="w-full h-full transition-all duration-500"
+                style={
+                  activeWallpaper.previewStyle && Object.keys(activeWallpaper.previewStyle).length > 0
+                    ? activeWallpaper.previewStyle
+                    : parseCssStringToStyle(activeWallpaper.value || activeWallpaper.bg || '')
+                }
               />
+            ) : (
+              <div
+                key={activeWallpaper.id}
+                className="relative w-full h-full overflow-hidden transition-all duration-500"
+                style={{
+                  background: activeWallpaper.previewStyle?.background
+                    ? String(activeWallpaper.previewStyle.background)
+                    : 'transparent',
+                }}
+              >
+                {activeImageUrl && (
+                  <img
+                    ref={wallpaperImgRef}
+                    key={activeImageUrl}
+                    src={activeImageUrl}
+                    alt=""
+                    aria-hidden="true"
+                    decoding="async"
+                    onLoad={() => setLoadedWallpaperUrl(activeImageUrl)}
+                    onError={() => setLoadedWallpaperUrl('')}
+                    className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ${
+                      loadedWallpaperUrl === activeImageUrl ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                )}
+              </div>
             )}
           </div>
         )}
-        {/* Lớp phủ đảm bảo độ tương phản nội dung theo Light/Dark của từng Theme */}
+
+        {/* Lớp 2 – Ambient Glow: Quầng sáng mềm khuếch tán phía sau nội dung */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 pointer-events-none transition-colors duration-500"
-          style={{ background: 'var(--theme-bg-overlay, transparent)' }}
-        />
+          className="ambient-layer-glow"
+          style={activeWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
+        >
+          <span className="ambient-orb ambient-orb--1" />
+          <span className="ambient-orb ambient-orb--2" />
+          <span className="ambient-orb ambient-orb--3" />
+          <span className="ambient-orb ambient-orb--4" />
+        </div>
+
+        {/* Lớp 3 – Abstract Background: Dải sóng màu mềm mại bằng thuần CSS */}
+        <div
+          aria-hidden="true"
+          className="ambient-layer-abstract"
+          style={activeWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
+        >
+          <span className="ambient-wave ambient-wave--1" />
+          <span className="ambient-wave ambient-wave--2" />
+        </div>
+
+        {/* Lớp 4 – Atmospheric Depth: Tạo chiều sâu phân tách nền và bề mặt nổi */}
+        <div aria-hidden="true" className="ambient-layer-depth" />
+
+        {/* Lớp 5 – Background Transition: Đồng bộ chuyển tiếp mượt mà khi đổi Route/Theme */}
+        <div aria-hidden="true" className="ambient-layer-transition" />
       </div>
 
       {/* HEADER (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <motion.div
-          key={`header-${currentTabIndex}`}
-          initial={{ opacity: 0, y: -25 }}
+          key="app-header-chrome"
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
           className="w-full shrink-0 relative z-40"
@@ -553,10 +629,10 @@ export default function App() {
       {/* FOOTER (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <motion.div
-          key={`footer-${currentTabIndex}`}
-          initial={{ opacity: 0, y: 45 }}
+          key="app-footer-chrome"
+          initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.35, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
           className="w-full shrink-0 relative z-50"
         >
           <Footer

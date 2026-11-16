@@ -154,12 +154,12 @@ export const PERSONAL_DEMOGRAPHICS: DemographicItem[] = [
     iconName: 'MapPin',
     labelVi: 'Tạm trú',
     labelEn: 'Current Address',
-    valueVi: 'Quận 7, TP. Hồ Chí Minh',
-    valueEn: 'District 7, HCMC',
+    valueVi: 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh',
+    valueEn: 'Tan My Apartment, Tan My Ward, HCMC',
     type: 'map',
-    href: 'Quận 7, TP. Hồ Chí Minh',
-    mapTitle: 'Tạm trú (Quận 7, TP.HCM)',
-    mapQuery: 'District 7, Ho Chi Minh City, Vietnam',
+    href: 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh',
+    mapTitle: 'Tạm trú: Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh',
+    mapQuery: 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh',
     colorTheme: {
       bg: 'bg-indigo-50/80 dark:bg-indigo-950/40',
       border: 'border-indigo-200/80 dark:border-indigo-800/50',
@@ -173,14 +173,14 @@ export const PERSONAL_DEMOGRAPHICS: DemographicItem[] = [
   {
     id: 'permanent_residence',
     iconName: 'Home',
-    labelVi: 'Cư trú gốc',
+    labelVi: 'Cư trú',
     labelEn: 'Permanent Residence',
-    valueVi: 'TP. Mỹ Tho, Tỉnh Tiền Giang',
-    valueEn: 'My Tho, Tien Giang',
+    valueVi: '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp',
+    valueEn: '7D7 Hoang Hoa Tam, My Tho Ward, Dong Thap Province',
     type: 'map',
-    href: 'TP. Mỹ Tho, Tỉnh Tiền Giang',
-    mapTitle: 'Cư trú (TP. Mỹ Tho, Tiền Giang)',
-    mapQuery: 'My Tho, Tien Giang, Vietnam',
+    href: '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp',
+    mapTitle: 'Cư trú: 7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp',
+    mapQuery: '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp',
     colorTheme: {
       bg: 'bg-emerald-50/80 dark:bg-emerald-950/40',
       border: 'border-emerald-200/80 dark:border-emerald-800/50',
@@ -480,14 +480,14 @@ export interface MapLocation {
 export const MAP_LOCATIONS: Record<string, MapLocation> = {
   tam_tru: {
     type: 'tam_tru',
-    title: 'Tạm trú (Quận 7, TP.HCM)',
-    address: 'Quận 7, TP. Hồ Chí Minh',
-    query: 'District 7, Ho Chi Minh City, Vietnam'
+    title: 'Tạm trú: Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh',
+    address: 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh',
+    query: 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
   },
   cu_tru: {
     type: 'cu_tru',
-    title: 'Cư trú (TP. Mỹ Tho, Tiền Giang)',
-    address: 'TP. Mỹ Tho, Tỉnh Tiền Giang',
-    query: 'My Tho, Tien Giang, Vietnam'
+    title: 'Cư trú: 7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp',
+    address: '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp',
+    query: '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'
   }
 };

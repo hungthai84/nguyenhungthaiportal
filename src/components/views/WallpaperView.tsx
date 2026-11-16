@@ -55,7 +55,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     return [];
   });
 
-  const [filterType, setFilterType] = useState<'all' | 'image' | 'video' | 'css'>('all');
+  const [filterType, setFilterType] = useState<'all' | 'image' | 'video' | 'css' | 'webgl'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
@@ -367,6 +367,11 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
 
   const filterCategories = [
     { id: 'all', label: isEn ? 'All Wallpapers' : 'Tất cả hình nền', count: allWallpapers.length },
+    {
+      id: 'webgl',
+      label: isEn ? '3D Dynamic (Page Morph)' : 'Nền Động 3D (Qua trang)',
+      count: allWallpapers.filter((w) => w.type === 'webgl').length,
+    },
     { id: 'image', label: isEn ? 'Image URLs' : 'Link Hình Ảnh', count: allWallpapers.filter((w) => w.type === 'image').length },
     { id: 'video', label: isEn ? '4K Video URLs' : 'Link Video 4K', count: allWallpapers.filter((w) => w.type === 'video').length },
     {
@@ -868,6 +873,51 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                     )
+                  ) : wp.type === 'webgl' ? (
+                    <div
+                      className="relative w-full h-full overflow-hidden transition-transform duration-500 group-hover:scale-105"
+                      style={
+                        wp.previewStyle && Object.keys(wp.previewStyle).length > 0
+                          ? wp.previewStyle
+                          : { background: wp.value || wp.bg }
+                      }
+                    >
+                      {/* Cụm cầu 3D thu nhỏ đại diện cho trường hấp dẫn GRAVITY */}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        {(wp.gravityConfig?.previewSpheres || ['#2F69FF', '#A8C1FF', '#4D80FF', '#ECEFFF']).map(
+                          (sphereColor, sIdx) => {
+                            const positions = [
+                              'w-14 h-14 -translate-x-7 -translate-y-2',
+                              'w-10 h-10 translate-x-6 -translate-y-4',
+                              'w-12 h-12 translate-x-2 translate-y-3',
+                              'w-8 h-8 -translate-x-2 translate-y-4',
+                            ];
+                            const isGlassOrb = sIdx === 3;
+                            return (
+                              <span
+                                key={`${wp.id}-orb-${sIdx}`}
+                                className={`absolute rounded-full transition-transform duration-500 group-hover:scale-110 ${
+                                  positions[sIdx % positions.length]
+                                }`}
+                                style={
+                                  isGlassOrb
+                                    ? {
+                                        background: `radial-gradient(circle at 30% 28%, rgba(255,255,255,0.95) 0%, ${sphereColor}55 48%, ${sphereColor}88 100%)`,
+                                        border: '1px solid rgba(255,255,255,0.75)',
+                                        boxShadow: `inset 0 2px 6px rgba(255,255,255,0.85), 0 8px 18px ${sphereColor}55`,
+                                        backdropFilter: 'blur(4px)',
+                                      }
+                                    : {
+                                        background: `radial-gradient(circle at 32% 28%, #ffffff 0%, ${sphereColor} 58%, rgba(15,23,42,0.28) 100%)`,
+                                        boxShadow: `inset -3px -4px 8px rgba(15,23,42,0.14), 0 8px 18px ${sphereColor}50`,
+                                      }
+                                }
+                              />
+                            );
+                          }
+                        )}
+                      </div>
+                    </div>
                   ) : wp.type === 'css' || wp.type === 'gradient' ? (
                     <div
                       className="w-full h-full transition-transform duration-500 group-hover:scale-110"
@@ -895,21 +945,23 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                           parent.style.background = 'linear-gradient(135deg, #0284c7 0%, #4f46e5 50%, #e11d48 100%)';
                         }
                       }}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 brightness-110 contrast-110 saturate-110"
                     />
                   )}
                 </div>
 
-                {/* OVERLAY TỐI DƯỚI ĐÁY TẤM HÌNH */}
-                <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent pointer-events-none z-10" />
+                {/* OVERLAY TỐI DƯỚI ĐÁY TẤM HÌNH (LÀM TRONG SUỐT HƠN ĐỂ ẢNH RÕ RÀNG) */}
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent pointer-events-none z-10" />
 
-                {/* NỘI DUNG VÀ CÁC NÚT ĐƯỢC ĐƯA VÀO BÊN TRONG TẤM HÌNH */}
-                <div id={`wallpaper-card-content-${wp.id}`} className="absolute inset-0 z-20 w-full h-full p-2.5 sm:p-3 flex flex-col justify-between text-white pointer-events-auto">
+                {/* NỘI DUNG VÀ CÁC NÚT ĐƯỢC ĐƯA VÀO BÊN TRONG TẤM HÌNH (PADDING 10PX) */}
+                <div id={`wallpaper-card-content-${wp.id}`} style={{ padding: '10px' }} className="absolute inset-0 z-20 w-full h-full p-[10px] flex flex-col justify-between text-white pointer-events-auto">
                   {/* Dòng trên: Huy hiệu loại media + Nút thao tác */}
                   <div className="flex items-center justify-between gap-1 w-full relative z-20">
                     <span
                       className={`px-2 py-0.5 rounded-full typo-badge font-mono text-white shadow-xs backdrop-blur-md border border-white/20 ${
-                        wp.type === 'video'
+                        wp.type === 'webgl'
+                          ? 'bg-indigo-600/90'
+                          : wp.type === 'video'
                           ? 'bg-purple-600/90'
                           : wp.type === 'css' || wp.type === 'gradient'
                           ? 'bg-emerald-600/90'
@@ -918,6 +970,10 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     >
                       {wp.id === 'none'
                         ? 'Mặc định'
+                        : wp.type === 'webgl'
+                        ? isEn
+                          ? '3D · Morph'
+                          : '3D · Qua trang'
                         : wp.type}
                     </span>
 

@@ -32,6 +32,13 @@ export const Footer: React.FC<FooterProps> = ({
   const langMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setIsThemeMenuOpen(false);
+    setIsLangMenuOpen(false);
+    setIsPdfModalOpen(false);
+    setHoveredRightBtn(null);
+  }, [currentTabIndex]);
+
+  useEffect(() => {
     if (!isThemeMenuOpen && !isLangMenuOpen && !isPdfModalOpen) return;
     const handleOutsideClick = (e: MouseEvent) => {
       if (isThemeMenuOpen && themeMenuRef.current && !themeMenuRef.current.contains(e.target as Node)) {
@@ -89,8 +96,20 @@ export const Footer: React.FC<FooterProps> = ({
 
   const { cardStyle, setCardStyle } = useTheme();
   const footerCardStyle = getCardStyleProperties(cardStyle);
-  const { border, borderColor, borderWidth, borderStyle, borderRadius: _, background: _fb, backgroundColor: _fbc, ...cleanFooterStyle } = footerCardStyle as any;
-  const borderVal = (border as string) || (borderColor ? `1.5px solid ${borderColor}` : '1.5px solid rgba(255, 255, 255, 0.92)');
+  const {
+    border,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius: _,
+    background: _fb,
+    backgroundColor: _fbc,
+    boxShadow: _fbs,
+    backdropFilter: _fbf,
+    WebkitBackdropFilter: _fwbf,
+    ...cleanFooterStyle
+  } = footerCardStyle as any;
+  const glassBorderVal = '1px solid rgba(255, 255, 255, 0.1)';
   const activeThemeConfig = getCardStyleConfig(cardStyle);
 
   const getDeckItemStyle = (index: number, isPopupOpen = false) => {
@@ -122,18 +141,18 @@ export const Footer: React.FC<FooterProps> = ({
         marginLeft: 'auto',
         marginRight: 'auto',
         borderBottom: 'none',
-        borderTop: borderVal,
-        borderLeft: borderVal,
-        borderRight: borderVal,
+        borderTop: glassBorderVal,
+        borderLeft: glassBorderVal,
+        borderRight: glassBorderVal,
         borderTopLeftRadius: '14px',
         borderTopRightRadius: '14px',
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
       }}
-      className="w-full max-w-[1250px] mx-auto h-auto min-h-[64px] py-1.5 sm:py-0 sm:h-[72px] flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 transition-all duration-300 rounded-b-none rounded-t-[14px] border-b-0 border-x border-t shadow-[0_14px_40px_-6px_rgba(30,27,75,0.18)] backdrop-blur-xl mb-0 overflow-visible pointer-events-auto"
+      className="w-full max-w-[1250px] mx-auto h-auto min-h-[64px] py-1.5 sm:py-0 sm:h-[72px] flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 transition-all duration-300 rounded-b-none rounded-t-[14px] border-b-0 border-x border-t border-white/10 backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
     >
-      {/* Top ambient highlight line */}
-      <div className="absolute top-0 inset-x-8 h-[1px] pointer-events-none bg-gradient-to-r from-transparent via-white/80 dark:via-slate-500/50 to-transparent"></div>
+      {/* Top highlight subtle */}
+      <div className="absolute top-0 inset-x-8 h-[1px] pointer-events-none bg-gradient-to-r from-transparent via-white/25 dark:via-white/15 to-transparent"></div>
 
       {/* Area 1: Weather Widget co giãn tự động theo nội dung */}
       <div
@@ -268,19 +287,23 @@ export const Footer: React.FC<FooterProps> = ({
                         : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
                     }
                     aria-expanded={isLangMenuOpen}
-                    className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-2 py-0.5 gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
+                    className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-[10px] py-[2px] gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
                       isSelected
                         ? 'bg-gradient-to-r from-[#047857] via-[#059669] to-[#10B981] border-white/80 active shadow-[0_0_25px_rgba(16,185,129,0.45)]'
                         : 'border-emerald-400/80 dark:border-emerald-400/70'
                     }`}
-                    style={
-                      isSelected
+                    style={{
+                      paddingTop: '2px',
+                      paddingBottom: '2px',
+                      paddingLeft: '10px',
+                      paddingRight: '10px',
+                      ...(isSelected
                         ? {
                             boxShadow:
                               '0 0 30px rgba(16, 185, 129, 0.45), inset 0 0 12px rgba(255,255,255,0.4)',
                           }
-                        : undefined
-                    }
+                        : {}),
+                    }}
                   >
                     <div
                       className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
@@ -439,19 +462,23 @@ export const Footer: React.FC<FooterProps> = ({
                         : `Giao diện (${activeThemeConfig.shortBadge})`
                     }
                     aria-expanded={isThemeMenuOpen}
-                    className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-2 py-0.5 gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
+                    className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-[10px] py-[2px] gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
                       isSelected
                         ? 'bg-gradient-to-r from-[#4338CA] via-[#6366F1] to-[#818CF8] border-white/80 active shadow-[0_0_25px_rgba(99,102,241,0.45)]'
                         : 'border-indigo-400/80 dark:border-indigo-500/80'
                     }`}
-                    style={
-                      isSelected
+                    style={{
+                      paddingTop: '2px',
+                      paddingBottom: '2px',
+                      paddingLeft: '10px',
+                      paddingRight: '10px',
+                      ...(isSelected
                         ? {
                             boxShadow:
                               '0 0 30px rgba(99, 102, 241, 0.45), inset 0 0 12px rgba(255,255,255,0.4)',
                           }
-                        : undefined
-                    }
+                        : {}),
+                    }}
                   >
                     <div
                       className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
@@ -510,7 +537,8 @@ export const Footer: React.FC<FooterProps> = ({
                       {CARD_STYLE_PRESETS_LIST.map((preset) => {
                         const isActive = cardStyle === preset.id;
                         const isNeon = false;
-                        const isDarkFrosted = preset.id === 'dark-frosted-glass';
+                        const isLightGlass = preset.id === 'light-glassmorphism';
+                        const isDarkFrosted = preset.id === 'dark-frosted-glass' || preset.id === 'dark-glassmorphism';
                         const isLeather = preset.id === 'cowhide-leather';
                         const presetName = t(preset.name);
                         return (
@@ -531,29 +559,42 @@ export const Footer: React.FC<FooterProps> = ({
                               isActive
                                 ? isNeon
                                   ? 'bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 text-white shadow-xs'
-                                  : isDarkFrosted
-                                    ? 'bg-gradient-to-r from-slate-800 via-sky-700 to-indigo-700 text-[#f8fafc] border border-white/25 shadow-xs'
-                                    : isLeather
-                                      ? 'bg-gradient-to-r from-[#8B5A2B] via-[#653A17] to-[#7A4A20] text-[#FFF8DC] border border-dashed border-[#F5DEB3]/70 shadow-xs'
-                                      : 'bg-indigo-600 text-white shadow-xs'
+                                  : isLightGlass
+                                    ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white border border-white/85 shadow-xs'
+                                    : isDarkFrosted
+                                      ? 'bg-gradient-to-r from-slate-800 via-sky-700 to-indigo-700 text-[#f8fafc] border border-white/25 shadow-xs'
+                                      : isLeather
+                                        ? 'bg-gradient-to-r from-[#8B5A2B] via-[#653A17] to-[#7A4A20] text-[#FFF8DC] border border-dashed border-[#F5DEB3]/70 shadow-xs'
+                                        : 'bg-indigo-600 text-white shadow-xs'
                                 : 'theme-dropdown-option'
                             }`}
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
                               <div
-                                className="w-6 h-6 rounded-[14px] flex items-center justify-center text-white shrink-0 shadow-2xs"
+                                className={`w-6 h-6 rounded-[14px] flex items-center justify-center shrink-0 shadow-2xs ${
+                                  isLightGlass ? 'text-[#0f172a]' : 'text-white'
+                                }`}
                                 style={
                                   isNeon
                                     ? { background: 'linear-gradient(135deg, #06B6D4 0%, #8B5CF6 50%, #EC4899 100%)' }
-                                    : isDarkFrosted
+                                    : isLightGlass
                                       ? {
-                                          background: 'rgba(15, 23, 42, 0.88)',
-                                          border: '1px solid rgba(255, 255, 255, 0.25)',
-                                          boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.25)',
+                                          background:
+                                            'linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(224, 242, 254, 0.78) 100%)',
+                                          border: '1px solid rgba(255, 255, 255, 0.95)',
+                                          boxShadow:
+                                            '0 4px 10px -2px rgba(15, 23, 42, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+                                          color: '#0284C7',
                                         }
-                                      : isLeather
-                                        ? { background: 'linear-gradient(135deg, #8B5A2B 0%, #522E10 100%)', border: '1px dashed rgba(245, 222, 179, 0.6)' }
-                                        : { backgroundColor: preset.color }
+                                      : isDarkFrosted
+                                        ? {
+                                            background: 'rgba(15, 23, 42, 0.88)',
+                                            border: '1px solid rgba(255, 255, 255, 0.25)',
+                                            boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.25)',
+                                          }
+                                        : isLeather
+                                          ? { background: 'linear-gradient(135deg, #8B5A2B 0%, #522E10 100%)', border: '1px dashed rgba(245, 222, 179, 0.6)' }
+                                          : { backgroundColor: preset.color }
                                 }
                               >
                                 <WebIcon name={preset.icon} className="w-3.5 h-3.5" />
@@ -629,19 +670,23 @@ export const Footer: React.FC<FooterProps> = ({
                       handleWallpaperClick();
                     }}
                     title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
-                    className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-2 py-0.5 gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
+                    className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-[10px] py-[2px] gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
                       isSelected
                         ? 'bg-gradient-to-r from-[#BE123C] via-[#E11D48] to-[#FB7185] border-white/80 active shadow-[0_0_25px_rgba(244,63,94,0.45)]'
                         : 'border-rose-400/80 dark:border-rose-500/80'
                     }`}
-                    style={
-                      isSelected
+                    style={{
+                      paddingTop: '2px',
+                      paddingBottom: '2px',
+                      paddingLeft: '10px',
+                      paddingRight: '10px',
+                      ...(isSelected
                         ? {
                             boxShadow:
                               '0 0 30px rgba(244, 63, 94, 0.45), inset 0 0 12px rgba(255,255,255,0.4)',
                           }
-                        : undefined
-                    }
+                        : {}),
+                    }}
                   >
                     <div
                       className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"

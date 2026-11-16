@@ -353,11 +353,26 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   const headerCardStyle = getCardStyleProperties(cardStyle);
-  const { border, borderColor, borderWidth, borderStyle, borderRadius: _, background: _hb, backgroundColor: _hbc, backgroundImage: _hbi, ...cleanHeaderStyle } = headerCardStyle as any;
-  const borderVal = (border as string) || (borderColor ? `1.5px solid ${borderColor}` : '1.5px solid rgba(255, 255, 255, 0.92)');
+  const {
+    border,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius: _,
+    background: _hb,
+    backgroundColor: _hbc,
+    backgroundImage: _hbi,
+    boxShadow: _hbs,
+    backdropFilter: _hbf,
+    WebkitBackdropFilter: _hwbf,
+    ...cleanHeaderStyle
+  } = headerCardStyle as any;
+  const glassBorderVal = '1px solid rgba(255, 255, 255, 0.1)';
 
-  // Tự động cuộn tới nút trang đang được chọn nếu bị khuất
+  // Tự động đóng menu phụ & cuộn tới nút trang đang được chọn nếu bị khuất
   useEffect(() => {
+    setIsRadialMenuOpen(false);
+    setHoveredNavIndex(null);
     if (navRef.current) {
       const activeEl = navRef.current.querySelector(`#nav-item-${currentPage}`);
       if (activeEl) {
@@ -382,9 +397,9 @@ export const Header: React.FC<HeaderProps> = ({
         marginLeft: 'auto',
         marginRight: 'auto',
         borderTop: 'none',
-        borderBottom: borderVal,
-        borderLeft: borderVal,
-        borderRight: borderVal,
+        borderBottom: glassBorderVal,
+        borderLeft: glassBorderVal,
+        borderRight: glassBorderVal,
         borderTopLeftRadius: '0px',
         borderTopRightRadius: '0px',
         borderBottomLeftRadius: '14px',
@@ -393,7 +408,7 @@ export const Header: React.FC<HeaderProps> = ({
       }}
       className={`neonav-bar w-full max-w-[1250px] mx-auto h-[72px] flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
-      } relative flex-shrink-0 rounded-t-none rounded-b-[14px] group/header overflow-visible pointer-events-auto`}
+      } relative flex-shrink-0 rounded-t-none rounded-b-[14px] backdrop-blur-md border-white/10 group/header overflow-visible pointer-events-auto`}
     >
       {/* Khu vực Menu chính: Các nút định dạng xếp chồng với hiệu ứng lan màu khi chọn */}
       <nav
@@ -454,18 +469,22 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectPage(page.id);
                   }}
                   title={`${pageTitle} · ${pageSub}`}
-                  className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-2 py-0.5 gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
+                  className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-[10px] py-[2px] gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
                     isSelected
                       ? `bg-gradient-to-r ${styleCfg.gradient} border-white/80 active shadow-[0_0_25px_${styleCfg.glowColor}]`
                       : `${styleCfg.accentBorder}`
                   }`}
-                  style={
-                    isSelected
+                  style={{
+                    paddingLeft: '10px',
+                    paddingRight: '10px',
+                    paddingTop: '2px',
+                    paddingBottom: '2px',
+                    ...(isSelected
                       ? {
                           boxShadow: `0 0 30px ${styleCfg.glowColor}, inset 0 0 12px rgba(255,255,255,0.4)`,
                         }
-                      : undefined
-                  }
+                      : {}),
+                  }}
                 >
                   {/* Round Circle Badge with Icon or Avatar */}
                   <div

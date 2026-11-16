@@ -57,10 +57,7 @@
   max-width: 1250px !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  border-top-left-radius: 0px !important;
-  border-top-right-radius: 0px !important;
-  border-bottom-left-radius: 14px !important;
-  border-bottom-right-radius: 14px !important;
+  border-radius: var(--radius-header, 0 0 14px 14px) !important;
 }
 
 #app-footer {
@@ -68,10 +65,7 @@
   max-width: 1250px !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  border-top-left-radius: 14px !important;
-  border-top-right-radius: 14px !important;
-  border-bottom-left-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
+  border-radius: var(--radius-footer, 14px 14px 0 0) !important;
   overflow: visible !important;
   z-index: 50 !important;
 }

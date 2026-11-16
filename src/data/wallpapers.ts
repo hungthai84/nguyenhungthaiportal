@@ -1,6 +1,14 @@
 import React from 'react';
 
-export type WallpaperType = 'image' | 'video' | 'css' | 'gradient';
+export type WallpaperType = 'image' | 'video' | 'css' | 'gradient' | 'webgl';
+
+export interface GravityWallpaperConfig {
+  paletteId: 'autoMorph' | 'roseGold' | 'pinkBlush' | 'voltLime' | 'arcticBlue';
+  morphOnPageChange: boolean;
+  swatchColor: string;
+  secondaryColor: string;
+  previewSpheres: string[];
+}
 
 export interface WallpaperPreset {
   id: string;
@@ -9,6 +17,7 @@ export interface WallpaperPreset {
   value: string;
   bg?: string;
   previewStyle?: React.CSSProperties;
+  gravityConfig?: GravityWallpaperConfig;
   isCustom?: boolean;
   createdAt?: number;
 }
@@ -101,19 +110,19 @@ export function getWallpaperThumbnailUrl(val: string): string {
   const cleanUrl = getCleanImageUrl(val);
   if (!cleanUrl) return '';
 
-  // Cloudinary image: chèn f_auto,q_auto,w_600,c_fill để tạo ảnh thumbnail sắc nét, rõ ràng
+  // Cloudinary image: chèn f_auto,q_auto,w_800,c_fill để tạo ảnh thumbnail cực kỳ sắc nét, rõ ràng
   if (cleanUrl.includes('res.cloudinary.com') && cleanUrl.includes('/upload/')) {
-    return cleanUrl.replace('/upload/', '/upload/c_fill,w_600,h_375,f_auto,q_auto/');
+    return cleanUrl.replace('/upload/', '/upload/c_fill,w_800,h_500,f_auto,q_90/');
   }
 
-  // Unsplash image: tối ưu w=600&h=375&fit=crop&q=85
+  // Unsplash image: tối ưu w=800&h=500&fit=crop&q=90
   if (cleanUrl.includes('images.unsplash.com')) {
     try {
       const urlObj = new URL(cleanUrl);
-      urlObj.searchParams.set('w', '600');
-      urlObj.searchParams.set('h', '375');
+      urlObj.searchParams.set('w', '800');
+      urlObj.searchParams.set('h', '500');
       urlObj.searchParams.set('fit', 'crop');
-      urlObj.searchParams.set('q', '85');
+      urlObj.searchParams.set('q', '90');
       urlObj.searchParams.set('auto', 'format');
       return urlObj.toString();
     } catch {
@@ -141,6 +150,102 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794035600000,
+  },
+  {
+    id: 'gravity-auto-morph',
+    name: 'Gravity 3D — Chuyển Sắc Theo Trang (Auto Morph)',
+    type: 'webgl',
+    value: 'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)',
+    bg: 'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 22% 24%, rgba(47, 105, 255, 0.25) 0%, transparent 45%), radial-gradient(circle at 78% 28%, rgba(225, 252, 3, 0.28) 0%, transparent 45%), radial-gradient(circle at 54% 82%, rgba(255, 166, 179, 0.35) 0%, transparent 50%), radial-gradient(circle at center, #ffffff 0%, #ecefff 40%, #c2d1ff 100%)',
+    },
+    gravityConfig: {
+      paletteId: 'autoMorph',
+      morphOnPageChange: true,
+      swatchColor: '#2F69FF',
+      secondaryColor: '#FFA6B3',
+      previewSpheres: ['#2F69FF', '#E1FC03', '#FFA6B3', '#96E5FF'],
+    },
+    isCustom: false,
+    createdAt: 1794400000001,
+  },
+  {
+    id: 'gravity-royal-blue',
+    name: 'Gravity 3D — Royal Blue & Pearl (#2F69FF)',
+    type: 'webgl',
+    value: 'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)',
+    bg: 'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)',
+    previewStyle: {
+      background: 'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)',
+    },
+    gravityConfig: {
+      paletteId: 'roseGold',
+      morphOnPageChange: true,
+      swatchColor: '#2F69FF',
+      secondaryColor: '#A8C1FF',
+      previewSpheres: ['#0A33BF', '#2F69FF', '#A8C1FF', '#4D80FF'],
+    },
+    isCustom: false,
+    createdAt: 1794400000002,
+  },
+  {
+    id: 'gravity-rose-blush',
+    name: 'Gravity 3D — Rose Blush & Crème (#FFC5C2)',
+    type: 'webgl',
+    value: 'radial-gradient(circle at center, #ffffff 0%, #fff0f1 38%, #ffd1d5 100%)',
+    bg: 'radial-gradient(circle at center, #ffffff 0%, #fff0f1 38%, #ffd1d5 100%)',
+    previewStyle: {
+      background: 'radial-gradient(circle at center, #ffffff 0%, #fff0f1 38%, #ffd1d5 100%)',
+    },
+    gravityConfig: {
+      paletteId: 'pinkBlush',
+      morphOnPageChange: true,
+      swatchColor: '#FFA6B3',
+      secondaryColor: '#FF4D6D',
+      previewSpheres: ['#FF4D6D', '#FFA6B3', '#FFECEB', '#FFC5C2'],
+    },
+    isCustom: false,
+    createdAt: 1794400000003,
+  },
+  {
+    id: 'gravity-volt-lime',
+    name: 'Gravity 3D — Volt Lime & Slate (#E1FC03)',
+    type: 'webgl',
+    value: 'radial-gradient(circle at center, #ffffff 0%, #fbffe5 38%, #e8ff9c 100%)',
+    bg: 'radial-gradient(circle at center, #ffffff 0%, #fbffe5 38%, #e8ff9c 100%)',
+    previewStyle: {
+      background: 'radial-gradient(circle at center, #ffffff 0%, #fbffe5 38%, #e8ff9c 100%)',
+    },
+    gravityConfig: {
+      paletteId: 'voltLime',
+      morphOnPageChange: true,
+      swatchColor: '#E1FC03',
+      secondaryColor: '#B1E200',
+      previewSpheres: ['#B1E200', '#E1FC03', '#EFFE69', '#DCFF32'],
+    },
+    isCustom: false,
+    createdAt: 1794400000004,
+  },
+  {
+    id: 'gravity-arctic-blue',
+    name: 'Gravity 3D — Arctic Sky & Crystal (#96E5FF)',
+    type: 'webgl',
+    value: 'radial-gradient(circle at center, #ffffff 0%, #effaff 38%, #c9f1ff 100%)',
+    bg: 'radial-gradient(circle at center, #ffffff 0%, #effaff 38%, #c9f1ff 100%)',
+    previewStyle: {
+      background: 'radial-gradient(circle at center, #ffffff 0%, #effaff 38%, #c9f1ff 100%)',
+    },
+    gravityConfig: {
+      paletteId: 'arcticBlue',
+      morphOnPageChange: true,
+      swatchColor: '#96E5FF',
+      secondaryColor: '#2BA5FF',
+      previewSpheres: ['#2BA5FF', '#96E5FF', '#C9F1FF', '#98E4FF'],
+    },
+    isCustom: false,
+    createdAt: 1794400000005,
   },
   {
     id: 'theme-bg-frosted-glass',
@@ -173,6 +278,34 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000002,
+  },
+  {
+    id: 'theme-bg-light-glassmorphism',
+    name: '✨ Nền Gương Sáng Pha Lê (Theme Background)',
+    type: 'gradient',
+    value:
+      'background: radial-gradient(circle at 14% 14%, rgba(56, 189, 248, 0.34) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.30) 0%, transparent 50%), radial-gradient(circle at 74% 86%, rgba(244, 114, 182, 0.24) 0%, transparent 52%), radial-gradient(circle at 18% 82%, rgba(34, 211, 238, 0.24) 0%, transparent 50%), linear-gradient(135deg, #eaf2ff 0%, #eff1ff 38%, #f7effd 70%, #e7f6ff 100%);',
+    bg: 'linear-gradient(135deg, #eaf2ff 0%, #eff1ff 45%, #e7f6ff 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 14% 14%, rgba(56, 189, 248, 0.34) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.30) 0%, transparent 50%), radial-gradient(circle at 74% 86%, rgba(244, 114, 182, 0.24) 0%, transparent 52%), linear-gradient(135deg, #eaf2ff 0%, #eff1ff 45%, #e7f6ff 100%)',
+    },
+    isCustom: false,
+    createdAt: 17943000000025,
+  },
+  {
+    id: 'theme-bg-dark-glassmorphism',
+    name: '🌙 Nền Gương Tối Sâu Thẳm (Theme Background)',
+    type: 'gradient',
+    value:
+      'background: radial-gradient(circle at 18% 18%, rgba(14, 165, 233, 0.32) 0%, transparent 50%), radial-gradient(circle at 84% 22%, rgba(99, 102, 241, 0.30) 0%, transparent 50%), radial-gradient(circle at 68% 84%, rgba(192, 132, 252, 0.24) 0%, transparent 52%), linear-gradient(135deg, #020617 0%, #0f172a 45%, #082f49 100%);',
+    bg: 'linear-gradient(135deg, #020617 0%, #0f172a 45%, #082f49 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 18% 18%, rgba(14, 165, 233, 0.32) 0%, transparent 50%), radial-gradient(circle at 84% 22%, rgba(99, 102, 241, 0.30) 0%, transparent 50%), linear-gradient(135deg, #020617 0%, #0f172a 45%, #082f49 100%)',
+    },
+    isCustom: false,
+    createdAt: 17943000000035,
   },
   {
     id: 'theme-bg-dark-frosted-glass',

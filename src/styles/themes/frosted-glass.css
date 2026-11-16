@@ -82,47 +82,85 @@ html[data-card-style="frosted-glass"] {
   --pillar-divider: rgba(148, 163, 184, 0.35);
   --pillar-progress-track: rgba(148, 163, 184, 0.28);
   --pillar-progress-fill: #2563EB;
+
+  /* Global 5-Layer Background Tokens (Frosted Glass Light) */
+  --app-bg-base: #eef4ff;
+  --app-bg-gradient:
+    radial-gradient(ellipse 92% 72% at 12% 10%, rgba(96, 165, 250, 0.30) 0%, transparent 58%),
+    radial-gradient(ellipse 82% 66% at 88% 16%, rgba(167, 139, 250, 0.28) 0%, transparent 56%),
+    radial-gradient(ellipse 76% 64% at 76% 88%, rgba(244, 114, 182, 0.24) 0%, transparent 58%),
+    radial-gradient(ellipse 72% 60% at 16% 84%, rgba(56, 189, 248, 0.22) 0%, transparent 56%),
+    linear-gradient(135deg, #eef4ff 0%, #f1eefe 38%, #faeef9 70%, #ebf6ff 100%);
+  --app-bg-glow-primary: rgba(59, 130, 246, 0.34);
+  --app-bg-glow-secondary: rgba(139, 92, 246, 0.30);
+  --app-bg-glow-accent: rgba(244, 114, 182, 0.26);
+  --app-bg-glow-cyan: rgba(56, 189, 248, 0.24);
+  --app-bg-opacity: 0.80;
+  --app-bg-shape-opacity: 0.65;
+  --app-bg-depth-veil:
+    radial-gradient(ellipse 85% 75% at 50% 48%, rgba(255, 255, 255, 0.08) 0%, rgba(226, 232, 240, 0.16) 66%, rgba(199, 210, 254, 0.22) 100%);
+  --app-bg-transition-scrim: rgba(238, 244, 255, 0.04);
+
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: var(--app-bg-glow-primary);
+  --ambient-glow-2: var(--app-bg-glow-secondary);
+  --ambient-glow-3: var(--app-bg-glow-accent);
+  --ambient-glow-4: var(--app-bg-glow-cyan);
+  --ambient-glow-opacity: var(--app-bg-opacity);
+  --ambient-wave-1: rgba(99, 102, 241, 0.16);
+  --ambient-wave-2: rgba(236, 72, 153, 0.14);
+  --ambient-wave-3: rgba(14, 165, 233, 0.14);
+  --ambient-wave-opacity: var(--app-bg-shape-opacity);
+  --ambient-depth-veil: var(--app-bg-depth-veil);
+  --ambient-wallpaper-opacity: 0.58;
+  --ambient-main-glow: 0 0 68px -8px rgba(99, 102, 241, 0.24), 0 0 115px -16px rgba(236, 72, 153, 0.16);
+  --ambient-edge-border: rgba(255, 255, 255, 0.90);
+
+  /* 4-Tier Surface Tokens (Subtle Glassmorphism Level 01 + Multicolored Flat Cards Level 02-03) */
+  --surface-primary-bg: rgba(255, 255, 255, 0.58);
+  --surface-primary-border: rgba(255, 255, 255, 0.1);
+  --surface-primary-shadow: none;
+  --surface-primary-blur: 12px;
+  --surface-secondary-bg: var(--bg-card);
+  --surface-secondary-border: var(--border-color);
+  --surface-secondary-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+  --surface-secondary-blur: 0px;
+  --surface-tertiary-bg: var(--bg-subcard);
+  --surface-tertiary-border: var(--border-subcard);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 0px;
+  --surface-interactive-bg: #FFFFFF;
+  --surface-interactive-hover: #EFF6FF;
+  --surface-interactive-active: #2563EB;
+  --surface-interactive-border: #CBD5E1;
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 0px;
 }
 
 html[data-card-style="frosted-glass"] #app-header {
-  background: rgba(255, 255, 255, 0.72) !important;
-  border-color: rgba(255, 255, 255, 0.90) !important;
-  box-shadow:
-    0 24px 52px -8px rgba(15, 23, 42, 0.28),
-    0 12px 24px -6px rgba(30, 27, 75, 0.18),
-    0 2px 6px rgba(15, 23, 42, 0.10),
-    inset 0 1.5px 1px rgba(255, 255, 255, 0.98),
-    inset 0 -1px 1px rgba(148, 163, 184, 0.24) !important;
-  backdrop-filter: blur(14px) saturate(145%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(145%) !important;
+  background: var(--surface-primary-bg) !important;
+  border-color: var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
 }
 
 html[data-card-style="frosted-glass"] #app-footer {
-  background: rgba(255, 255, 255, 0.72) !important;
-  border-color: rgba(255, 255, 255, 0.90) !important;
-  box-shadow:
-    0 -22px 50px -8px rgba(15, 23, 42, 0.26),
-    0 -10px 22px -6px rgba(30, 27, 75, 0.16),
-    0 8px 24px -4px rgba(15, 23, 42, 0.16),
-    inset 0 1.5px 1px rgba(255, 255, 255, 0.98),
-    inset 0 -1px 1px rgba(148, 163, 184, 0.22) !important;
-  backdrop-filter: blur(14px) saturate(145%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(145%) !important;
+  background: var(--surface-primary-bg) !important;
+  border-color: var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
 }
 
 html[data-card-style="frosted-glass"] .main-card,
 html[data-card-style="frosted-glass"] [id$="-page-container"],
 html[data-card-style="frosted-glass"] [id$="-page-root"] {
-  background: rgba(255, 255, 255, 0.40) !important;
-  border-color: rgba(255, 255, 255, 0.88) !important;
-  box-shadow:
-    0 34px 76px -10px rgba(15, 23, 42, 0.34),
-    0 18px 36px -6px rgba(30, 27, 75, 0.20),
-    0 4px 12px -2px rgba(15, 23, 42, 0.12),
-    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.96),
-    inset 0 -1.5px 2px rgba(148, 163, 184, 0.20) !important;
-  backdrop-filter: blur(10px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
+  background: var(--surface-primary-bg) !important;
+  border: 1px solid var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
 }
 
 html[data-card-style="frosted-glass"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),

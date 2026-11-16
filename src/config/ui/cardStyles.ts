@@ -6,7 +6,9 @@ import { DEFAULT_CARD_STYLE } from './themeDefaults';
 export const VALID_CARD_STYLES: CardStyleMode[] = [
   'frosted-glass',
   'mica-fluent',
+  'light-glassmorphism',
   'dark-frosted-glass',
+  'dark-glassmorphism',
   'cowhide-leather',
 ];
 
@@ -63,6 +65,42 @@ export const CARD_STYLES_MAP: Record<CardStyleMode, CardStyleConfig> = {
     },
     badgeColorClass: 'bg-blue-600/10 text-blue-900 border-blue-400/50',
   },
+  'light-glassmorphism': {
+    id: 'light-glassmorphism',
+    name: 'Gương sáng',
+    label: 'Gương sáng (Light Frosted Glass)',
+    shortBadge: 'Gương sáng',
+    tagLabel: 'Gương sáng · Light Frosted Glass',
+    modeLabel: 'Gương sáng',
+    isDark: false,
+    icon: 'sparkles',
+    color: '#0284C7',
+    desc: 'Lớp kính mờ sáng trong trẻo (rgba(255, 255, 255, 0.72)) kết hợp blur(22px) saturate(165%), viền phản quang trắng sắc nét và chữ #0f172a chuẩn WCAG.',
+    cardSampleStyle: {
+      background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.48) 100%)',
+      backdropFilter: 'blur(22px) saturate(165%)',
+      WebkitBackdropFilter: 'blur(22px) saturate(165%)',
+      border: '1px solid rgba(255, 255, 255, 0.85)',
+      boxShadow:
+        '0 20px 44px -12px rgba(15, 23, 42, 0.18), inset 0 1.5px 1px rgba(255, 255, 255, 0.95)',
+      color: '#0f172a',
+    },
+    miniPreviewWrapStyle: {
+      background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.54) 100%)',
+      borderColor: 'rgba(255, 255, 255, 0.90)',
+      boxShadow: 'inset 0 1.5px 1px rgba(255, 255, 255, 0.95)',
+    },
+    miniTabStyle: {
+      background: 'rgba(255, 255, 255, 0.86)',
+      color: '#0F172A',
+      borderColor: 'rgba(255, 255, 255, 0.92)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #0284C7 0%, #2563EB 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-white/75 text-slate-900 border-white/90',
+  },
   'dark-frosted-glass': {
     id: 'dark-frosted-glass',
     name: 'Kính mờ tối',
@@ -98,6 +136,42 @@ export const CARD_STYLES_MAP: Record<CardStyleMode, CardStyleConfig> = {
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-slate-800/85 text-slate-100 border-white/25',
+  },
+  'dark-glassmorphism': {
+    id: 'dark-glassmorphism',
+    name: 'Gương tối',
+    label: 'Gương tối (Dark Glassmorphism)',
+    shortBadge: 'Gương Tối',
+    tagLabel: 'Gương tối · Dark Frosted Glass',
+    modeLabel: 'Gương tối',
+    isDark: true,
+    icon: 'moon',
+    color: '#0EA5E9',
+    desc: 'Lớp kính mờ tối sâu thẳm (rgba(15, 23, 42, 0.68)) kết hợp blur(22px) saturate(150%), viền sáng cạnh trên tinh tế và độ tương phản chữ #f8fafc tối ưu trên mọi hình nền.',
+    cardSampleStyle: {
+      background: 'rgba(15, 23, 42, 0.68)',
+      backdropFilter: 'blur(22px) saturate(150%)',
+      WebkitBackdropFilter: 'blur(22px) saturate(150%)',
+      border: '1px solid rgba(255, 255, 255, 0.16)',
+      boxShadow:
+        '0 22px 48px -12px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.18)',
+      color: '#f8fafc',
+    },
+    miniPreviewWrapStyle: {
+      background: 'rgba(15, 23, 42, 0.78)',
+      borderColor: 'rgba(255, 255, 255, 0.16)',
+      boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.18)',
+    },
+    miniTabStyle: {
+      background: 'rgba(30, 41, 59, 0.85)',
+      color: '#f8fafc',
+      borderColor: 'rgba(255, 255, 255, 0.18)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #0EA5E9 0%, #4F46E5 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-slate-900/85 text-slate-100 border-white/20',
   },
   'cowhide-leather': {
     id: 'cowhide-leather',
@@ -177,11 +251,18 @@ export function normalizeCardStyle(raw: string | null): CardStyleMode {
   }
   if (
     raw === 'dark-glass' ||
-    raw === 'dark-glassmorphism' ||
     raw === 'dark-frosted' ||
     raw === 'kinh-mo-toi'
   ) {
     return 'dark-frosted-glass';
+  }
+  if (
+    raw === 'light-glass' ||
+    raw === 'light-glassmorphism' ||
+    raw === 'guong-sang' ||
+    raw === 'kinh-guong-sang'
+  ) {
+    return 'light-glassmorphism';
   }
   if (VALID_CARD_STYLES.includes(raw as any)) {
     return raw as CardStyleMode;

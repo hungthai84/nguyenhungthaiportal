@@ -196,14 +196,11 @@
   --accent-orange: #EA580C;
   --accent-slate: #475569;
 
-  /* GLOBAL SHADOW SYSTEM – ELEVATION TIERS (LIGHT MODE) */
+  /* GLOBAL SHADOW SYSTEM (LIGHT MODE) */
   --shadow-none: none;
-  --shadow-header: 0 24px 52px -8px rgba(15, 23, 42, 0.28), 0 12px 24px -6px rgba(30, 27, 75, 0.18), 0 2px 6px rgba(15, 23, 42, 0.10), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.96);
-  --shadow-header-hover: 0 28px 60px -8px rgba(15, 23, 42, 0.34), 0 14px 28px -6px rgba(30, 27, 75, 0.22), inset 0 1.5px 2px rgba(255, 255, 255, 0.98);
-  --shadow-main-card: 0 34px 76px -10px rgba(15, 23, 42, 0.34), 0 18px 36px -6px rgba(30, 27, 75, 0.20), 0 4px 12px -2px rgba(15, 23, 42, 0.12), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.96);
-  --shadow-main-card-hover: 0 40px 88px -10px rgba(15, 23, 42, 0.40), 0 22px 44px -6px rgba(30, 27, 75, 0.24), inset 0 1.5px 2px rgba(255, 255, 255, 0.98);
-  --shadow-footer: 0 -22px 50px -8px rgba(15, 23, 42, 0.26), 0 -10px 22px -6px rgba(30, 27, 75, 0.16), 0 8px 24px -4px rgba(15, 23, 42, 0.16), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.96);
-  --shadow-footer-hover: 0 -26px 58px -8px rgba(15, 23, 42, 0.32), 0 -12px 26px -6px rgba(30, 27, 75, 0.20), 0 10px 28px -4px rgba(15, 23, 42, 0.20), inset 0 1.5px 2px rgba(255, 255, 255, 0.98);
+  --shadow-header: none;
+  --shadow-main-card: none;
+  --shadow-footer: none;
   --shadow-card: 0 14px 38px -6px rgba(30, 27, 75, 0.14), 0 4px 14px -2px rgba(30, 27, 75, 0.07), inset 0 1px 1px rgba(255, 255, 255, 0.85);
   --shadow-subcard: 0 6px 18px -3px rgba(30, 27, 75, 0.09), 0 2px 6px rgba(30, 27, 75, 0.04);
   --shadow-nested: 0 3px 8px -1px rgba(30, 27, 75, 0.05);
@@ -335,6 +332,76 @@
 
   /* Container Max Width */
   --container-max-w: 1250px;
+
+  /* ========================================================================= */
+  /* LỚP 3: GLOBAL 5-LAYER BACKGROUND & 4-TIER GLASS/MICA SURFACE SYSTEM       */
+  /* ========================================================================= */
+  /* GLOBAL BACKGROUND (Layer 01 - Layer 05) */
+  --app-bg-base: #eef4ff;
+  --app-bg-gradient:
+    radial-gradient(ellipse 90% 70% at 14% 12%, rgba(96, 165, 250, 0.28) 0%, transparent 58%),
+    radial-gradient(ellipse 80% 65% at 86% 18%, rgba(167, 139, 250, 0.26) 0%, transparent 56%),
+    radial-gradient(ellipse 75% 65% at 74% 88%, rgba(244, 114, 182, 0.22) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 60% at 18% 84%, rgba(56, 189, 248, 0.20) 0%, transparent 56%),
+    linear-gradient(135deg, #eef4ff 0%, #f1effe 36%, #f9eef9 68%, #ebf5ff 100%);
+  --app-bg-glow-primary: rgba(59, 130, 246, 0.32);
+  --app-bg-glow-secondary: rgba(139, 92, 246, 0.30);
+  --app-bg-glow-accent: rgba(244, 114, 182, 0.26);
+  --app-bg-glow-cyan: rgba(56, 189, 248, 0.24);
+  --app-bg-blur: 72px;
+  --app-bg-opacity: 0.78;
+  --app-bg-shape-opacity: 0.65;
+  --app-bg-depth-veil:
+    radial-gradient(ellipse 85% 75% at 50% 48%, rgba(255, 255, 255, 0.10) 0%, rgba(226, 232, 240, 0.18) 65%, rgba(199, 210, 254, 0.24) 100%);
+  --app-bg-transition-scrim: rgba(238, 244, 255, 0.04);
+
+  /* Legacy Ambient Aliases bridged onto Global Background Tokens */
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: var(--app-bg-glow-primary);
+  --ambient-glow-2: var(--app-bg-glow-secondary);
+  --ambient-glow-3: var(--app-bg-glow-accent);
+  --ambient-glow-4: var(--app-bg-glow-cyan);
+  --ambient-glow-opacity: var(--app-bg-opacity);
+  --ambient-wave-1: rgba(99, 102, 241, 0.16);
+  --ambient-wave-2: rgba(236, 72, 153, 0.13);
+  --ambient-wave-3: rgba(14, 165, 233, 0.14);
+  --ambient-wave-opacity: var(--app-bg-shape-opacity);
+  --ambient-depth-veil: var(--app-bg-depth-veil);
+  --ambient-wallpaper-opacity: 0.56;
+  --ambient-blur-orb: var(--app-bg-blur);
+  --ambient-blur-wave: 38px;
+  --ambient-main-glow: 0 0 64px -8px rgba(99, 102, 241, 0.22), 0 0 110px -16px rgba(236, 72, 153, 0.14);
+  --ambient-edge-border: rgba(255, 255, 255, 0.90);
+  --ambient-inner-highlight: rgba(255, 255, 255, 0.96);
+
+  /* Level 01 – Primary Surface (Header, Main Container, Footer) */
+  --surface-primary-bg: rgba(255, 255, 255, 0.58);
+  --surface-primary-border: rgba(255, 255, 255, 0.1);
+  --surface-primary-shadow: none;
+  --surface-primary-blur: 12px;
+
+  /* Level 02 – Secondary Surface (Section, Project, Experience, Service, Skill Cards) */
+  --surface-secondary-bg: var(--bg-card);
+  --surface-secondary-border: var(--border-color);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-shadow-hover: var(--shadow-card-hover);
+  --surface-secondary-blur: var(--bg-blur, 14px);
+
+  /* Level 03 – Tertiary Surface (Subcards, Mini Cards, Stat Cards) */
+  --surface-tertiary-bg: var(--bg-subcard);
+  --surface-tertiary-hover: var(--bg-subcard-hover);
+  --surface-tertiary-border: var(--border-subcard, var(--color-border-soft));
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-shadow-hover: var(--shadow-subcard-hover);
+  --surface-tertiary-blur: var(--blur-subcard, 0px);
+
+  /* Level 04 – Interactive Surface (Buttons, Tabs, Dropdowns, Popups, Menus, Modals) */
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: var(--bg-subcard-hover);
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: var(--border-color);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: var(--blur-nav-pill, 12px);
 }
 
 /* Dark Mode Overrides (WCAG 2.2 AA Compliant) */
@@ -398,14 +465,11 @@ html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-
   --accent-orange: #FB923C;
   --accent-slate: #CBD5E1;
 
-  /* GLOBAL SHADOW SYSTEM – ELEVATION TIERS (DARK MODE) */
+  /* GLOBAL SHADOW SYSTEM (DARK MODE) */
   --shadow-none: none;
-  --shadow-header: 0 26px 58px -8px rgba(0, 0, 0, 0.86), 0 12px 26px -4px rgba(2, 6, 23, 0.72), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.28);
-  --shadow-header-hover: 0 32px 68px -8px rgba(0, 0, 0, 0.92), 0 16px 32px -4px rgba(2, 6, 23, 0.78), inset 0 1.5px 2px rgba(255, 255, 255, 0.34);
-  --shadow-main-card: 0 36px 84px -10px rgba(0, 0, 0, 0.92), 0 18px 40px -6px rgba(2, 6, 23, 0.78), inset 0 1.5px 2px rgba(255, 255, 255, 0.30);
-  --shadow-main-card-hover: 0 42px 96px -10px rgba(0, 0, 0, 0.96), 0 22px 48px -6px rgba(2, 6, 23, 0.84), inset 0 1.5px 2.5px rgba(255, 255, 255, 0.36);
-  --shadow-footer: 0 -24px 56px -8px rgba(0, 0, 0, 0.84), 0 -10px 24px -4px rgba(2, 6, 23, 0.68), 0 10px 26px -4px rgba(0, 0, 0, 0.65), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.28);
-  --shadow-footer-hover: 0 -28px 64px -8px rgba(0, 0, 0, 0.90), 0 -14px 28px -4px rgba(2, 6, 23, 0.76), 0 12px 30px -4px rgba(0, 0, 0, 0.72), inset 0 1.5px 2px rgba(255, 255, 255, 0.34);
+  --shadow-header: none;
+  --shadow-main-card: none;
+  --shadow-footer: none;
   --shadow-card: 0 16px 45px -4px rgba(0, 0, 0, 0.62), 0 4px 14px -1px rgba(0, 0, 0, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.16);
   --shadow-subcard: 0 6px 20px -2px rgba(0, 0, 0, 0.52), 0 2px 6px rgba(0, 0, 0, 0.32);
   --shadow-nested: 0 3px 10px -1px rgba(0, 0, 0, 0.40);
@@ -495,6 +559,56 @@ html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-
   --border-table: rgba(255, 255, 255, 0.12);
   --border-image-card: rgba(255, 255, 255, 0.18);
   --shadow-image-card: 0 12px 32px -6px rgba(0, 0, 0, 0.45);
+
+  /* Unified Global 5-Layer Ambient Glass Background System (Dark Mode Defaults) */
+  --app-bg-base: #070d1f;
+  --app-bg-gradient:
+    radial-gradient(ellipse 85% 65% at 15% 14%, rgba(14, 165, 233, 0.26) 0%, transparent 58%),
+    radial-gradient(ellipse 80% 65% at 85% 20%, rgba(99, 102, 241, 0.28) 0%, transparent 56%),
+    radial-gradient(ellipse 75% 65% at 78% 86%, rgba(168, 85, 247, 0.22) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 60% at 18% 82%, rgba(236, 72, 153, 0.14) 0%, transparent 56%),
+    linear-gradient(135deg, #070d1f 0%, #0f1735 38%, #161336 70%, #0a192f 100%);
+  --app-bg-glow-primary: rgba(56, 189, 248, 0.30);
+  --app-bg-glow-secondary: rgba(129, 140, 248, 0.30);
+  --app-bg-glow-accent: rgba(192, 132, 252, 0.24);
+  --app-bg-glow-cyan: rgba(244, 114, 182, 0.18);
+  --app-bg-opacity: 0.72;
+  --app-bg-shape-opacity: 0.62;
+  --app-bg-depth-veil:
+    radial-gradient(ellipse 88% 78% at 50% 48%, rgba(15, 23, 42, 0.06) 0%, rgba(2, 6, 23, 0.26) 72%, rgba(2, 6, 23, 0.44) 100%);
+  --app-bg-transition-scrim: rgba(7, 13, 31, 0.06);
+
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: var(--app-bg-glow-primary);
+  --ambient-glow-2: var(--app-bg-glow-secondary);
+  --ambient-glow-3: var(--app-bg-glow-accent);
+  --ambient-glow-4: var(--app-bg-glow-cyan);
+  --ambient-glow-opacity: var(--app-bg-opacity);
+  --ambient-wave-1: rgba(56, 189, 248, 0.14);
+  --ambient-wave-2: rgba(167, 139, 250, 0.14);
+  --ambient-wave-3: rgba(244, 114, 182, 0.10);
+  --ambient-wave-opacity: var(--app-bg-shape-opacity);
+  --ambient-depth-veil: var(--app-bg-depth-veil);
+  --ambient-wallpaper-opacity: 0.68;
+  --ambient-main-glow: 0 0 70px -10px rgba(56, 189, 248, 0.24), 0 0 115px -18px rgba(139, 92, 246, 0.20);
+  --ambient-edge-border: rgba(255, 255, 255, 0.22);
+  --ambient-inner-highlight: rgba(255, 255, 255, 0.28);
+
+  --surface-primary-bg: rgba(15, 23, 42, 0.54);
+  --surface-primary-border: rgba(255, 255, 255, 0.1);
+  --surface-primary-shadow: none;
+  --surface-primary-blur: 12px;
+  --surface-secondary-bg: var(--bg-card);
+  --surface-secondary-border: var(--border-color);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-tertiary-bg: var(--bg-subcard);
+  --surface-tertiary-hover: var(--bg-subcard-hover);
+  --surface-tertiary-border: var(--border-subcard);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: var(--bg-subcard-hover);
+  --surface-interactive-border: var(--border-color);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
 }
 
 /* Tablet Typography Scale (768px – 1023px) */
@@ -540,6 +654,9 @@ html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-
     --fs-input: 16px;
     --fs-kpi: 22px;
     --fs-popup-title: 18px;
+    --app-bg-blur: 36px;
+    --ambient-blur-orb: 36px;
+    --ambient-blur-wave: 22px;
   }
 }
 

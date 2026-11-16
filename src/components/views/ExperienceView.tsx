@@ -1391,39 +1391,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     </div>
                   ))}
 
-                  {rawProductsList.length === 1 && (
-                    <div
-                      data-subcard="true"
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        if (onNavigateTab) onNavigateTab(4);
-                        else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 4, slide: 0 } }));
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          SoundEngine.playTap();
-                          if (onNavigateTab) onNavigateTab(4);
-                          else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 4, slide: 0 } }));
-                        }
-                      }}
-                      className="exp-detail-subcard w-full sm:w-auto sm:flex-[1_1_195px] max-w-full rounded-[12px] p-2.5 border-dashed hover:border-indigo-500 transition-all cursor-pointer flex items-center gap-2.5 min-w-0"
-                    >
-                      <div className="exp-icon-badge w-10 h-10 rounded-[10px] border text-indigo-600 dark:text-indigo-300 flex items-center justify-center shrink-0">
-                        <WebIcon name="layers" className="w-4.5 h-4.5" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <span className="typo-body-sm font-bold font-play text-indigo-600 dark:text-indigo-300 block leading-tight break-words">
-                          Hệ sinh thái &amp; Lĩnh vực vận hành
-                        </span>
-                        <span className="typo-caption font-semibold text-[var(--text-heading,var(--text-primary))] block break-words mt-0.5">
-                          {activeMilestone.industry}
-                        </span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             </section>
@@ -1549,10 +1516,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 className="exp-detail-card lg:col-span-7 rounded-[18px] p-4 sm:p-5 flex flex-col gap-3.5 min-w-0"
               >
                 <div className="w-full space-y-3.5 min-w-0 flex-1 flex flex-col">
-                  <div className="card-header-sync flex items-center gap-2.5 text-[var(--text-link,var(--color-primary))]" data-card-accent="blue">
-                    <div className="exp-icon-badge w-8 h-8 rounded-[10px] border flex items-center justify-center shrink-0">
-                      <WebIcon name="shield-check" className="w-4.5 h-4.5 shrink-0" />
-                    </div>
+                  <div className="card-header-sync flex items-center gap-2 pb-1 text-[var(--text-link,var(--color-primary))]" data-card-accent="blue">
+                    <WebIcon name="shield-check" className="w-5 h-5 shrink-0" />
                     <h3 className="card-title card-title-synced typo-h3 font-play break-words m-0" data-card-title="true">
                       Giới thiệu công tác
                     </h3>
@@ -1658,13 +1623,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </section>
             </div>
 
-            {/* KHỐI 4: HÀNG CUỐI (04 DỰ ÁN · 05 CAM KẾT · MINH HỌA CÚP TĂNG TRƯỞNG) */}
+            {/* KHỐI 4: HÀNG CUỐI (04 DỰ ÁN · 05 CAM KẾT) */}
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-[15px] items-stretch shrink-0">
               {/* 04 · Dự án */}
               <section
                 id="experience-achievement-card"
                 data-subcard="true"
-                className="exp-detail-card lg:col-span-4 rounded-[18px] p-4 shadow-sm flex flex-col gap-3 min-w-0"
+                className="exp-detail-card md:col-span-1 lg:col-span-6 rounded-[18px] p-4 shadow-sm flex flex-col gap-3 min-w-0"
               >
                 <div className="flex items-center justify-between gap-2 pb-1">
                   <div className="card-header-sync flex items-center gap-2 min-w-0 text-amber-600 dark:text-amber-400" data-card-accent="amber">
@@ -1725,7 +1690,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-commitments-card"
                 data-subcard="true"
-                className="exp-detail-card lg:col-span-4 rounded-[18px] p-4 shadow-sm flex flex-col gap-3 min-w-0"
+                className="exp-detail-card md:col-span-1 lg:col-span-6 rounded-[18px] p-4 shadow-sm flex flex-col gap-3 min-w-0"
               >
                 <div className="card-header-sync flex items-center gap-2 pb-1 text-cyan-600 dark:text-cyan-400" data-card-accent="cyan">
                   <WebIcon name="shield-check" className="w-5 h-5 shrink-0" />
@@ -1753,77 +1718,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </div>
               </section>
 
-              {/* Khối minh họa 3D Cúp Vàng & Bệ Tăng Trưởng (bên phải) */}
-              <div data-subcard="true" className="exp-detail-card md:col-span-2 lg:col-span-4 rounded-[18px] p-4 flex items-center justify-center relative overflow-hidden min-h-[210px]">
-                <svg
-                  viewBox="0 0 320 220"
-                  className="w-full max-w-[280px] h-auto drop-shadow-[0_14px_24px_rgba(37,99,235,0.18)]"
-                  aria-hidden="true"
-                >
-                  <defs>
-                    <radialGradient id="exp-trophy-glow" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stopColor="#93C5FD" stopOpacity="0.45" />
-                      <stop offset="100%" stopColor="#93C5FD" stopOpacity="0" />
-                    </radialGradient>
-                    <linearGradient id="exp-trophy-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#FDE68A" />
-                      <stop offset="45%" stopColor="#F59E0B" />
-                      <stop offset="100%" stopColor="#B45309" />
-                    </linearGradient>
-                    <linearGradient id="exp-bar-top" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#E0F2FE" />
-                      <stop offset="100%" stopColor="#93C5FD" />
-                    </linearGradient>
-                    <linearGradient id="exp-bar-dark" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#2563EB" />
-                      <stop offset="100%" stopColor="#1E3A8A" />
-                    </linearGradient>
-                    <linearGradient id="exp-arrow-grad" x1="0%" y1="100%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#3B82F6" />
-                      <stop offset="100%" stopColor="#60A5FA" />
-                    </linearGradient>
-                  </defs>
-                  <ellipse cx="160" cy="186" rx="122" ry="22" fill="url(#exp-trophy-glow)" />
-                  {/* Cột 1 */}
-                  <rect x="64" y="142" width="44" height="44" rx="6" fill="url(#exp-bar-top)" opacity="0.85" />
-                  {/* Cột 2 */}
-                  <rect x="114" y="122" width="46" height="64" rx="6" fill="url(#exp-bar-top)" />
-                  {/* Cột 3 chính giữa */}
-                  <rect x="166" y="132" width="52" height="54" rx="6" fill="url(#exp-bar-dark)" />
-                  {/* Cột 4 */}
-                  <rect x="224" y="148" width="40" height="38" rx="6" fill="url(#exp-bar-top)" opacity="0.9" />
-                  {/* Mũi tên tăng trưởng */}
-                  <path
-                    d="M52 150 C96 144, 158 118, 246 72 L236 62 L272 58 L258 92 L250 82 C164 128, 102 152, 54 156 Z"
-                    fill="url(#exp-arrow-grad)"
-                    opacity="0.92"
-                  />
-                  {/* Đế cúp */}
-                  <rect x="142" y="114" width="38" height="12" rx="4" fill="#1E40AF" />
-                  <rect x="148" y="106" width="26" height="9" rx="3" fill="url(#exp-trophy-gold)" />
-                  {/* Thân & Quai cúp */}
-                  <path
-                    d="M138 56 C122 56, 120 82, 138 86"
-                    fill="none"
-                    stroke="url(#exp-trophy-gold)"
-                    strokeWidth="5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M184 56 C200 56, 202 82, 184 86"
-                    fill="none"
-                    stroke="url(#exp-trophy-gold)"
-                    strokeWidth="5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M136 44 H186 L181 78 C179 94, 169 102, 161 102 C153 102, 143 94, 141 78 Z"
-                    fill="url(#exp-trophy-gold)"
-                  />
-                  <ellipse cx="161" cy="44" rx="25" ry="5" fill="#FEF3C7" />
-                  <path d="M148 54 C149 70, 152 82, 155 88" stroke="#FFFBEB" strokeWidth="3" strokeLinecap="round" opacity="0.65" fill="none" />
-                </svg>
-              </div>
             </div>
 
             {/* KHỐI 4.5: THẺ HÌNH KỶ NIỆM (HIỂN THỊ 1 HÌNH CÓ NÚT TỚI/LÙI & TỰ ĐỘNG ĐỔI 5S/LẦN) */}

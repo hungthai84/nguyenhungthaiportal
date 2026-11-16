@@ -65,11 +65,18 @@ function normalizeCardStyle(raw: string | null): CardStyleMode {
   }
   if (
     raw === 'dark-glass' ||
-    raw === 'dark-glassmorphism' ||
     raw === 'dark-frosted' ||
     raw === 'kinh-mo-toi'
   ) {
     return 'dark-frosted-glass';
+  }
+  if (
+    raw === 'light-glass' ||
+    raw === 'light-glassmorphism' ||
+    raw === 'guong-sang' ||
+    raw === 'kinh-guong-sang'
+  ) {
+    return 'light-glassmorphism';
   }
   if (VALID_CARD_STYLES.includes(raw as any)) {
     return raw as CardStyleMode;

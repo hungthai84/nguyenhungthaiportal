@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-neon"], [data-theme="dark-neon"] *, [data-theme="dark-frosted-glass"], [data-theme="dark-frosted-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-neon"], [data-theme="dark-neon"] *, [data-theme="dark-frosted-glass"], [data-theme="dark-frosted-glass"] *, [data-theme="dark-glassmorphism"], [data-theme="dark-glassmorphism"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -25,7 +25,9 @@
 @import "./styles/cards.css";
 @import "./styles/themes/frosted-glass.css";
 @import "./styles/themes/mica-fluent.css";
+@import "./styles/themes/light-glassmorphism.css";
 @import "./styles/themes/dark-frosted-glass.css";
+@import "./styles/themes/dark-glassmorphism.css";
 @import "./styles/themes/cowhide-leather.css";
 
 /* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection */

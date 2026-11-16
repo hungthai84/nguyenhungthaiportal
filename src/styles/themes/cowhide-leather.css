@@ -97,32 +97,9 @@ html.dark[data-card-style="cowhide-leather"] {
   --border-muted: rgba(245, 222, 179, 0.30);
   --border-strong: rgba(245, 222, 179, 0.55);
 
-  --shadow-header: 0 26px 56px -6px rgba(0, 0, 0, 0.78),
-    0 10px 24px -4px rgba(0, 0, 0, 0.56),
-    inset 0 2px 4px rgba(255, 220, 180, 0.32),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.65);
-  --shadow-header-hover: 0 32px 66px -6px rgba(0, 0, 0, 0.86),
-    0 14px 30px -4px rgba(0, 0, 0, 0.64),
-    inset 0 2px 5px rgba(255, 220, 180, 0.40),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.68);
-  --shadow-main-card: 0 36px 80px -8px rgba(0, 0, 0, 0.88),
-    0 18px 38px -6px rgba(0, 0, 0, 0.64),
-    inset 0 2px 5px rgba(255, 220, 180, 0.32),
-    inset 0 -3px 8px rgba(0, 0, 0, 0.68);
-  --shadow-main-card-hover: 0 42px 92px -8px rgba(0, 0, 0, 0.94),
-    0 22px 46px -6px rgba(0, 0, 0, 0.72),
-    inset 0 2px 6px rgba(255, 220, 180, 0.40),
-    inset 0 -3px 8px rgba(0, 0, 0, 0.72);
-  --shadow-footer: 0 -24px 54px -6px rgba(0, 0, 0, 0.76),
-    0 -10px 22px -4px rgba(0, 0, 0, 0.54),
-    0 8px 24px rgba(0, 0, 0, 0.55),
-    inset 0 2px 4px rgba(255, 220, 180, 0.32),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.65);
-  --shadow-footer-hover: 0 -28px 62px -6px rgba(0, 0, 0, 0.84),
-    0 -14px 28px -4px rgba(0, 0, 0, 0.62),
-    0 10px 28px rgba(0, 0, 0, 0.62),
-    inset 0 2px 5px rgba(255, 220, 180, 0.40),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.68);
+  --shadow-header: none;
+  --shadow-main-card: none;
+  --shadow-footer: none;
   --shadow-card: 0 18px 38px rgba(0, 0, 0, 0.45),
     inset 0 2px 4px rgba(255, 220, 180, 0.25),
     inset 0 -3px 6px rgba(0, 0, 0, 0.6);
@@ -157,40 +134,80 @@ html.dark[data-card-style="cowhide-leather"] {
   --pillar-divider: rgba(245, 222, 179, 0.32);
   --pillar-progress-track: rgba(61, 33, 11, 0.78);
   --pillar-progress-fill: linear-gradient(90deg, #F59E0B, #FDE68A);
+
+  /* Global 5-Layer Background Tokens (Warm Burnished Cowhide Leather) */
+  --app-bg-base: #241207;
+  --app-bg-gradient:
+    radial-gradient(ellipse 88% 68% at 15% 15%, rgba(217, 119, 6, 0.24) 0%, transparent 58%),
+    radial-gradient(ellipse 82% 65% at 85% 20%, rgba(180, 83, 9, 0.26) 0%, transparent 56%),
+    radial-gradient(ellipse 76% 64% at 76% 86%, rgba(190, 96, 82, 0.18) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 58% at 18% 82%, rgba(146, 64, 14, 0.22) 0%, transparent 56%),
+    linear-gradient(135deg, #241207 0%, #3a1e0c 38%, #472312 68%, #2b1509 100%);
+  --app-bg-glow-primary: rgba(245, 158, 11, 0.26);
+  --app-bg-glow-secondary: rgba(217, 119, 6, 0.24);
+  --app-bg-glow-accent: rgba(244, 114, 182, 0.14);
+  --app-bg-glow-cyan: rgba(251, 191, 36, 0.20);
+  --app-bg-opacity: 0.68;
+  --app-bg-shape-opacity: 0.56;
+  --app-bg-depth-veil:
+    radial-gradient(ellipse 88% 78% at 50% 48%, rgba(43, 23, 9, 0.04) 0%, rgba(28, 14, 5, 0.24) 72%, rgba(20, 9, 3, 0.42) 100%);
+  --app-bg-transition-scrim: rgba(36, 18, 7, 0.06);
+
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: var(--app-bg-glow-primary);
+  --ambient-glow-2: var(--app-bg-glow-secondary);
+  --ambient-glow-3: var(--app-bg-glow-accent);
+  --ambient-glow-4: var(--app-bg-glow-cyan);
+  --ambient-glow-opacity: var(--app-bg-opacity);
+  --ambient-wave-1: rgba(245, 158, 11, 0.12);
+  --ambient-wave-2: rgba(244, 114, 182, 0.08);
+  --ambient-wave-3: rgba(180, 83, 9, 0.12);
+  --ambient-wave-opacity: var(--app-bg-shape-opacity);
+  --ambient-depth-veil: var(--app-bg-depth-veil);
+  --ambient-wallpaper-opacity: 0.68;
+  --ambient-main-glow: 0 0 68px -10px rgba(245, 158, 11, 0.22), 0 0 112px -18px rgba(180, 83, 9, 0.18);
+  --ambient-edge-border: rgba(245, 222, 179, 0.36);
+
+  /* 4-Tier Surface Tokens (Warm Burnished Leather – Subtle Glassmorphism Level 01) */
+  --surface-primary-bg: linear-gradient(145deg, rgba(101, 58, 23, 0.62) 0%, rgba(56, 30, 10, 0.58) 55%, rgba(82, 46, 16, 0.62) 100%);
+  --surface-primary-border: rgba(255, 255, 255, 0.1);
+  --surface-primary-shadow: none;
+  --surface-primary-blur: 12px;
+  --surface-secondary-bg: var(--bg-card);
+  --surface-secondary-border: #522E10;
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-blur: 0px;
+  --surface-tertiary-bg: var(--bg-subcard);
+  --surface-tertiary-border: #522E10;
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 0px;
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: rgba(122, 74, 32, 0.92);
+  --surface-interactive-active: linear-gradient(135deg, #B45309 0%, #78350F 55%, #92400E 100%);
+  --surface-interactive-border: #522E10;
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 0px;
 }
 
-/* Warm Leather Grain Ambient Veil over Wallpaper */
-html[data-card-style="cowhide-leather"] #global-wallpaper-layer::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 18% 18%, rgba(180, 115, 58, 0.08) 0%, transparent 48%),
-    radial-gradient(circle at 82% 82%, rgba(139, 90, 43, 0.08) 0%, transparent 50%),
-    rgba(28, 14, 5, 0.10);
-}
-
-/* Header & Footer Full-Grain Stitched Leather Chrome */
+/* Header & Footer Full-Grain Stitched Leather Glassmorphism Chrome */
 html[data-card-style="cowhide-leather"] #app-header {
-  background: linear-gradient(145deg, rgba(139, 90, 43, 0.84) 0%, rgba(101, 58, 23, 0.88) 50%, rgba(122, 74, 32, 0.86) 100%) !important;
-  border-color: #522E10 !important;
+  background: var(--surface-primary-bg) !important;
+  border-color: var(--surface-primary-border) !important;
   color: #FFF8DC !important;
-  box-shadow: var(--shadow-header) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
   outline: 1.5px dashed rgba(245, 222, 179, 0.50);
   outline-offset: -6px;
 }
 
 html[data-card-style="cowhide-leather"] #app-footer {
-  background: linear-gradient(145deg, rgba(139, 90, 43, 0.84) 0%, rgba(101, 58, 23, 0.88) 50%, rgba(122, 74, 32, 0.86) 100%) !important;
-  border-color: #522E10 !important;
+  background: var(--surface-primary-bg) !important;
+  border-color: var(--surface-primary-border) !important;
   color: #FFF8DC !important;
-  box-shadow: var(--shadow-footer) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
   outline: 1.5px dashed rgba(245, 222, 179, 0.50);
   outline-offset: -6px;
 }
@@ -209,12 +226,12 @@ html[data-card-style="cowhide-leather"] #footer-nav-capsule {
 html[data-card-style="cowhide-leather"] .main-card,
 html[data-card-style="cowhide-leather"] [id$="-page-container"],
 html[data-card-style="cowhide-leather"] [id$="-page-root"] {
-  background: linear-gradient(145deg, rgba(101, 58, 23, 0.44) 0%, rgba(56, 30, 10, 0.40) 55%, rgba(82, 46, 16, 0.44) 100%) !important;
-  border: 2px solid rgba(82, 46, 16, 0.88) !important;
-  box-shadow: var(--shadow-main-card) !important;
+  background: var(--surface-primary-bg) !important;
+  border: 1px solid var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
   color: #FFF8DC !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
   outline: 1.5px dashed rgba(245, 222, 179, 0.48);
   outline-offset: -7px;
 }

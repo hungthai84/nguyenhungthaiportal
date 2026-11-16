@@ -204,8 +204,8 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
       id: 'temp_residence',
       icon: 'map-pin',
       label: 'Tạm trú hiện tại',
-      shortLabel: 'Quận 7, TP.HCM',
-      value: 'Quận 7, TP. Hồ Chí Minh',
+      shortLabel: 'Tân Mỹ, TP.HCM',
+      value: 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh',
       color: '#0284C7',
       r: 175,
       t: '26s',
@@ -215,17 +215,17 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
       type: 'map' as const,
       mapData: {
         type: 'tam_tru' as const,
-        title: 'Tạm trú (Quận 7, TP.HCM)',
-        address: 'Quận 7, TP. Hồ Chí Minh',
-        query: 'District 7, Ho Chi Minh City, Vietnam',
+        title: 'Tạm trú: Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh',
+        address: 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh',
+        query: 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh',
       },
     },
     {
       id: 'permanent_residence',
       icon: 'home',
-      label: 'Cư trú quê quán',
-      shortLabel: 'Mỹ Tho, Tiền Giang',
-      value: 'TP. Mỹ Tho, Tỉnh Tiền Giang',
+      label: 'Cư trú',
+      shortLabel: 'Mỹ Tho, Đồng Tháp',
+      value: '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp',
       color: '#10B981',
       r: 175,
       t: '26s',
@@ -235,9 +235,9 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
       type: 'map' as const,
       mapData: {
         type: 'cu_tru' as const,
-        title: 'Cư trú (TP. Mỹ Tho, Tiền Giang)',
-        address: 'TP. Mỹ Tho, Tỉnh Tiền Giang',
-        query: 'My Tho, Tien Giang, Vietnam',
+        title: 'Cư trú: 7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp',
+        address: '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp',
+        query: '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp',
       },
     },
     {
@@ -1028,8 +1028,8 @@ export function AboutView({
                     : 'bg-[var(--bg-subcard)] text-[var(--text-secondary)] border-[var(--border-subcard)]'
                 )}
               >
-                <WebIcon name="location" className="w-3.5 h-3.5" />
-                <span>Tạm trú: Quận 7, TP.HCM</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500 shrink-0 inline-block ring-2 ring-red-400/50" />
+                <span>Tạm trú: Chung Cư Tân Mỹ (TP.HCM)</span>
               </button>
               <button
                 type="button"
@@ -1049,35 +1049,69 @@ export function AboutView({
                     : 'bg-[var(--bg-subcard)] text-[var(--text-secondary)] border-[var(--border-subcard)]'
                 )}
               >
-                <WebIcon name="home" className="w-3.5 h-3.5" />
-                <span>Cư trú: Mỹ Tho, Tiền Giang</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500 shrink-0 inline-block ring-2 ring-red-400/50" />
+                <span>Cư trú: 7D7 Hoàng Hoa Tám (Đồng Tháp)</span>
               </button>
             </div>
 
-            <div className="relative w-full h-[320px] rounded-[14px] overflow-hidden border border-[var(--border-subcard)] shadow-inner bg-[var(--bg-subcard)]">
+            <div className="relative w-full h-[360px] rounded-[14px] overflow-hidden border border-[var(--border-subcard)] shadow-inner bg-[var(--bg-subcard)]">
               <iframe
-                title={activeMapTab === 'tam_tru' ? 'Bản đồ Quận 7' : 'Bản đồ Mỹ Tho'}
+                title={activeMapTab === 'tam_tru' ? 'Bản đồ Tạm trú Chung Cư Tân Mỹ' : 'Bản đồ Cư trú 7D7 Hoàng Hoa Tám'}
                 src={`https://maps.google.com/maps?q=${encodeURIComponent(
-                  activeMapTab === 'tam_tru' ? 'District 7, Ho Chi Minh City, Vietnam' : 'My Tho, Tien Giang, Vietnam'
-                )}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                  activeMapTab === 'tam_tru'
+                    ? 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
+                    : '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'
+                )}&t=&z=16&ie=UTF8&iwloc=B&output=embed`}
                 className="w-full h-full border-0"
                 loading="lazy"
                 allowFullScreen
               />
+
+              {/* Red Pin Badge in Modal Map */}
+              <div className="absolute top-3 left-3 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-white/20 text-white shadow-md text-xs">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600" />
+                </span>
+                <span className="font-semibold text-red-400">Ghim đỏ địa chỉ:</span>
+                <span className="truncate max-w-[260px] sm:max-w-md">
+                  {activeMapTab === 'tam_tru'
+                    ? 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
+                    : '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'}
+                </span>
+              </div>
             </div>
-            <div className="flex items-center justify-between typo-caption text-[var(--text-muted)]">
-              <span>Địa chỉ: {activeMapTab === 'tam_tru' ? 'Quận 7, TP. Hồ Chí Minh' : 'Mỹ Tho, Tiền Giang'}</span>
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                  activeMapTab === 'tam_tru' ? 'District 7, Ho Chi Minh City, Vietnam' : 'My Tho, Tien Giang, Vietnam'
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-indigo-600 dark:text-cyan-400 font-semibold hover:underline"
-              >
-                <span>Mở trong Google Maps</span>
-                <WebIcon name="external-link" className="w-3 h-3" />
-              </a>
+
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-[12px] bg-[var(--bg-subcard)] border border-[var(--border-subcard)] typo-caption">
+              <div className="flex items-center gap-2 text-[var(--text-primary)]">
+                <span className="text-red-500 font-bold text-base">📍</span>
+                <div>
+                  <div className="font-semibold text-[var(--text-primary)]">
+                    {activeMapTab === 'tam_tru' ? 'Tạm trú hiện tại' : 'Cư trú quê quán'}
+                  </div>
+                  <div className="text-[var(--text-secondary)]">
+                    {activeMapTab === 'tam_tru'
+                      ? 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
+                      : '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                    activeMapTab === 'tam_tru'
+                      ? 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
+                      : '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-medium inline-flex items-center gap-1.5 transition-all shadow-xs"
+                >
+                  <span>Mở Google Maps</span>
+                  <WebIcon name="external-link" className="w-3 h-3" />
+                </a>
+              </div>
             </div>
           </div>
         );
@@ -1240,7 +1274,7 @@ export function AboutView({
       data-element-type="container"
       data-element-page="about"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full min-w-0 h-full mx-auto flex-1 flex flex-col justify-start p-[25px] gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-[20px] backdrop-blur-xl overflow-y-auto glass-scrollbar z-10 select-none box-border"
+      className="main-card relative w-full min-w-0 h-full mx-auto flex-1 flex flex-col justify-start p-[25px] gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-[20px] overflow-y-auto glass-scrollbar z-10 select-none box-border"
     >
       <div className="w-full flex flex-col gap-[15px] h-auto min-h-full shrink-0">
         {/* ========================================================================= */}
@@ -1285,25 +1319,123 @@ export function AboutView({
                       src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
                     />
                   ) : (
-                    <div className="absolute inset-0 w-full h-full z-0 animate-fadeIn">
+                    <div className="absolute inset-0 w-full h-full z-0 animate-fadeIn flex flex-col justify-between">
+                      {/* Google Maps Iframe with Red Pin marker centered */}
                       <iframe
-                        title={activeHeroMapType === 'tam_tru' ? 'Bản đồ Tạm trú' : 'Bản đồ Cư trú'}
+                        title={activeHeroMapType === 'tam_tru' ? 'Bản đồ Tạm trú: Chung Cư Tân Mỹ' : 'Bản đồ Cư trú: 7D7 Hoàng Hoa Tám'}
                         src={`https://maps.google.com/maps?q=${encodeURIComponent(
-                          activeHeroMapType === 'tam_tru' ? 'District 7, Ho Chi Minh City, Vietnam' : 'My Tho, Tien Giang, Vietnam'
-                        )}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
-                        className="w-full h-full border-0 brightness-105 contrast-105"
+                          activeHeroMapType === 'tam_tru'
+                            ? 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
+                            : '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'
+                        )}&t=&z=16&ie=UTF8&iwloc=B&output=embed`}
+                        className="absolute inset-0 w-full h-full border-0 brightness-105 contrast-105 z-0"
                         loading="lazy"
                         allowFullScreen
                       />
-                      {/* Close Map / Switch back to Video button overlay */}
-                      <button
-                        type="button"
-                        onClick={() => setActiveHeroMedia('video')}
-                        className="theme-modal-close absolute top-4 right-4 z-50 p-2 rounded-full shadow-lg backdrop-blur-md hover:scale-110 active:scale-95 transition-all cursor-pointer"
-                        title="Quay lại xem Video"
-                      >
-                        <WebIcon name="cancel" className="w-4 h-4" />
-                      </button>
+
+                      {/* Header bar overlay: Location Selector & Red Pin Indicator */}
+                      <div className="relative z-20 p-2.5 sm:p-3 flex items-center justify-between gap-2 pointer-events-auto">
+                        <div className="inline-flex items-center gap-1.5 p-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-white/25 shadow-lg">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              SoundEngine.playPop();
+                              setActiveHeroMapType('tam_tru');
+                              setActiveMapTab('tam_tru');
+                            }}
+                            className={`px-3 py-1 rounded-full text-xs font-semibold font-play transition-all flex items-center gap-1.5 ${
+                              activeHeroMapType === 'tam_tru'
+                                ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-xs'
+                                : 'text-slate-300 hover:text-white'
+                            }`}
+                          >
+                            <span className="w-2 h-2 rounded-full bg-red-500 inline-block ring-1 ring-white" />
+                            <span>Tạm trú</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              SoundEngine.playPop();
+                              setActiveHeroMapType('cu_tru');
+                              setActiveMapTab('cu_tru');
+                            }}
+                            className={`px-3 py-1 rounded-full text-xs font-semibold font-play transition-all flex items-center gap-1.5 ${
+                              activeHeroMapType === 'cu_tru'
+                                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xs'
+                                : 'text-slate-300 hover:text-white'
+                            }`}
+                          >
+                            <span className="w-2 h-2 rounded-full bg-red-500 inline-block ring-1 ring-white" />
+                            <span>Cư trú</span>
+                          </button>
+                        </div>
+
+                        {/* Close Map / Switch back to Video button */}
+                        <button
+                          type="button"
+                          onClick={() => setActiveHeroMedia('video')}
+                          className="theme-modal-close p-2 rounded-full shadow-lg bg-slate-950/80 backdrop-blur-md border border-white/20 text-white hover:scale-110 active:scale-95 transition-all cursor-pointer flex items-center gap-1 text-xs"
+                          title="Quay lại xem Video chân dung"
+                        >
+                          <WebIcon name="cancel" className="w-3.5 h-3.5" />
+                          <span className="hidden sm:inline">Quay lại video</span>
+                        </button>
+                      </div>
+
+                      {/* Bottom Place Details Card Overlay (Chi tiết địa điểm với Ghim Đỏ) */}
+                      <div className="relative z-20 m-2.5 sm:m-3 p-3 rounded-[14px] bg-slate-950/85 backdrop-blur-md border border-white/20 text-white shadow-xl flex flex-col gap-2 pointer-events-auto">
+                        <div className="flex items-start gap-2.5">
+                          {/* Red Pin Badge */}
+                          <div className="w-8 h-8 rounded-full bg-red-600/20 border border-red-500/50 flex items-center justify-center shrink-0 shadow-md text-red-500 text-base">
+                            📍
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-sm text-cyan-300">
+                                {activeHeroMapType === 'tam_tru' ? 'Tạm trú hiện tại' : 'Cư trú quê quán'}
+                              </span>
+                              <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 text-[10px] font-mono">
+                                Đã ghim đỏ trên Map
+                              </span>
+                            </div>
+                            <p className="text-xs text-slate-100 font-medium mt-0.5 leading-snug">
+                              {activeHeroMapType === 'tam_tru'
+                                ? 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
+                                : '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10 text-xs">
+                          <a
+                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                              activeHeroMapType === 'tam_tru'
+                                ? 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
+                                : '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-3 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-medium inline-flex items-center gap-1.5 transition-all shadow-xs"
+                          >
+                            <span>Mở Google Maps</span>
+                            <WebIcon name="external-link" className="w-3 h-3" />
+                          </a>
+
+                          <a
+                            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+                              activeHeroMapType === 'tam_tru'
+                                ? 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
+                                : '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white font-medium inline-flex items-center gap-1.5 transition-all"
+                          >
+                            <span>Chỉ đường</span>
+                            <WebIcon name="navigation" className="w-3 h-3" />
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   )}
 
@@ -1496,15 +1628,20 @@ export function AboutView({
                         SoundEngine.playPop();
                         setActiveHeroMedia('map');
                         setActiveHeroMapType('tam_tru');
-                        showToast('📍 Hiển thị bản đồ Tạm trú tại Quận 7, TP.HCM');
+                        setActiveMapTab('tam_tru');
+                        showToast('📍 Tạm trú: Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh');
                       }}
+                      title="Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh"
                       className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border"
                     >
                       <div className="flex items-center gap-1.5 min-w-0">
                         <MapPin className="w-3.5 h-3.5 shrink-0 text-cyan-600 dark:text-cyan-300 group-hover/subcard:scale-110 transition-transform" />
                         <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Tạm trú</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
                       </div>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">Quận 7, TP.HCM</span>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">
+                        Chung Cư Tân Mỹ, Q.7, TP.HCM
+                      </span>
                     </div>
 
                     {/* Sub Card: Cư Trú (Teal) */}
@@ -1514,15 +1651,20 @@ export function AboutView({
                         SoundEngine.playPop();
                         setActiveHeroMedia('map');
                         setActiveHeroMapType('cu_tru');
-                        showToast('📍 Hiển thị bản đồ Cư trú tại Mỹ Tho, Tiền Giang');
+                        setActiveMapTab('cu_tru');
+                        showToast('📍 Cư trú: 7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp');
                       }}
+                      title="7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp"
                       className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border"
                     >
                       <div className="flex items-center gap-1.5 min-w-0">
                         <Home className="w-3.5 h-3.5 shrink-0 text-teal-600 dark:text-teal-300 group-hover/subcard:scale-110 transition-transform" />
                         <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Cư trú</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
                       </div>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">TP. Mỹ Tho</span>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">
+                        7D7 Hoàng Hoa Tám, Đồng Tháp
+                      </span>
                     </div>
 
                     {/* Sub Card: Hộp Thư (Pink) */}

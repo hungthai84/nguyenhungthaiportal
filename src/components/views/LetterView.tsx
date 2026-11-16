@@ -1642,16 +1642,18 @@ export const LetterView: React.FC<LetterViewProps> = ({
       <article
         key={item.id}
         id={item.id}
-        role="button"
-        tabIndex={0}
+        role={item.id === '2002' ? 'region' : 'button'}
+        tabIndex={item.id === '2002' ? undefined : 0}
         aria-label={`${displayTitle} - ${item.roleVi}`}
         data-element-type="card"
         data-section-card="true"
         onClick={() => {
+          if (item.id === '2002') return;
           SoundEngine.playTap();
           onOpenMilestoneModal(item);
         }}
         onKeyDown={(e) => {
+          if (item.id === '2002') return;
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             SoundEngine.playTap();
@@ -1659,7 +1661,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
           }
         }}
         style={{ gap: '12px', padding: '16px', borderRadius: '14px' }}
-        className={`bento-view-card bento-card glass-card flex flex-col justify-between p-4 gap-3 relative transition-all duration-200 overflow-hidden group/mcard w-full mx-auto h-full min-h-0 min-w-0 cursor-pointer hover:-translate-y-1 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 text-left rounded-[14px] ${bentoSpan} ${
+        className={`bento-view-card bento-card glass-card flex flex-col justify-between p-4 gap-3 relative transition-all duration-200 overflow-hidden group/mcard w-full mx-auto h-full min-h-0 min-w-0 ${
+          item.id === '2002'
+            ? 'cursor-default'
+            : 'cursor-pointer hover:-translate-y-1 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500'
+        } text-left rounded-[14px] ${bentoSpan} ${
           isSelected
             ? 'ring-2 ring-cyan-400 dark:ring-cyan-300 scale-[1.01] z-10'
             : ''
@@ -2096,14 +2102,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                     >
                       <AnimatedCardTitle
                         iconName="trophy"
-                        title="Giá trị cốt lõi phát triển"
-                        subtitle="4 nguyên lý định hình phong cách làm việc & kiến tạo thành công bền vững"
+                        title="Giá trị cốt lỗi"
                         colorPreset="orange"
-                        actionRight={
-                          <span className="typo-badge font-bold font-play tabular-nums text-orange-700 dark:text-orange-300 whitespace-nowrap">
-                            4 Giá Trị Cốt Lõi
-                          </span>
-                        }
                       />
 
                       <div
@@ -2292,11 +2292,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
                 >
                   <div
                     id="letter-slide-2-grid"
-                    className="w-full h-full flex-1 grid grid-cols-1 md:grid-cols-2 auto-rows-fr gap-[15px] items-stretch bg-transparent"
+                    className="w-full h-full flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-fr gap-[15px] items-stretch bg-transparent"
                     style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%', height: '100%' }}
                   >
                     {CAREER_MILESTONES_DATA.slice(0, 4).map((item) =>
-                      renderCareerCard(item, '', false)
+                      renderCareerCard(item, 'min-w-0 md:col-span-3 lg:col-span-6', false)
                     )}
                   </div>
                 </div>

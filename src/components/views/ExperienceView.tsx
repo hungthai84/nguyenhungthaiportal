@@ -1351,7 +1351,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           <div
             id="experience-job-detail-card"
             data-section-card="true"
-            className="bento-card glass-card w-full h-full flex-1 min-h-0 flex flex-col justify-start rounded-[14px] relative overflow-y-auto glass-scrollbar gap-[15px] text-left transition-all duration-300 animate-fadeIn font-play p-5 sm:p-6"
+            className="bento-card glass-card w-full h-full flex-1 min-h-0 flex flex-col justify-start rounded-[14px] relative overflow-y-auto glass-scrollbar gap-[15px] text-left transition-all duration-300 animate-fadeIn font-play p-3.5 sm:p-5 lg:p-6"
           >
             {/* THANH ĐIỀU HƯỚNG NGỮ CẢNH: QUAY LẠI TIMELINE & CHUYỂN NHANH CỘT MỐC */}
             <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-1 shrink-0 min-w-0">
@@ -1418,14 +1418,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </div>
             </div>
 
-            {/* KHỐI 1: THẺ TÊN CÔNG TY (SINGLE-ELEVATION 2 VÙNG: TRÁI THÔNG TIN · PHẢI SẢN PHẨM) */}
+            {/* KHỐI 1: THẺ TÊN CÔNG TY (BENTO 12 CỘT RESPONSIVE: TRÁI THÔNG TIN · PHẢI SẢN PHẨM) */}
             <section
               id="experience-info-card"
               data-subcard="true"
-              className="exp-detail-card w-full rounded-[14px] p-[15px] flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-[15px] shrink-0 min-w-0"
+              className="exp-detail-card w-full rounded-[14px] p-[15px] grid grid-cols-1 lg:grid-cols-12 items-stretch gap-[15px] shrink-0 min-w-0"
             >
               {/* Cột trái: Thời gian · Lĩnh vực, Logo 1:1, Tên công ty, Chức danh, Hệ sinh thái */}
-              <div className="flex-1 min-w-0 flex flex-col justify-center gap-3">
+              <div className="lg:col-span-6 xl:col-span-5 min-w-0 flex flex-col justify-center gap-3">
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1 typo-body-sm font-semibold text-[var(--text-secondary)] min-w-0">
                   <WebIcon name="calendar" className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
                   <span className="break-words font-bold">{activeMilestone.period}</span>
@@ -1473,7 +1473,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               {/* Vùng phải (Hairline divider thay cho lồng thẻ nhiều lớp): Danh mục Sản phẩm */}
               <div
                 id="experience-products-card"
-                className="w-full lg:w-auto lg:min-w-[300px] lg:max-w-[54%] shrink-0 pt-4 lg:pt-0 lg:pl-5 border-t lg:border-t-0 lg:border-l border-[var(--border-subcard)] flex flex-col justify-between gap-2.5 min-w-0"
+                className="lg:col-span-6 xl:col-span-7 w-full pt-4 lg:pt-0 lg:pl-5 border-t lg:border-t-0 lg:border-l border-[var(--border-subcard)] flex flex-col justify-between gap-2.5 min-w-0"
               >
                 <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-[var(--border-subcard)] min-w-0">
                   <div className="card-header-sync flex items-center gap-2 min-w-0 text-indigo-600 dark:text-indigo-400">
@@ -1488,7 +1488,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </span>
                 </div>
 
-                <div className="bento-grid-responsive grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] w-full items-stretch">
+                <div
+                  className={cn(
+                    'grid gap-[15px] w-full items-stretch',
+                    rawProductsList.length === 1
+                      ? 'grid-cols-1'
+                      : rawProductsList.length === 2
+                        ? 'grid-cols-1 sm:grid-cols-2'
+                        : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3'
+                  )}
+                >
                   {rawProductsList.map((prod, pIdx) => (
                     <button
                       key={pIdx}
@@ -1531,16 +1540,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </div>
             </section>
 
-            {/* CONTAINER CÁC PHÂN MỤC CHI TIẾT TRẢI NGHIỆM - BENTO GRID RESPONSIVE (3 CỘT TRÊN DESKTOP, 1 CỘT TRÊN MOBILE) */}
+            {/* CONTAINER CÁC PHÂN MỤC CHI TIẾT TRẢI NGHIỆM - BENTO GRID 12 CỘT RESPONSIVE Ở MỌI KÍCH THƯỚC */}
             <div
               id="experience-sections-container"
-              className="bento-grid-responsive w-full grid grid-cols-1 lg:grid-cols-3 gap-[15px] items-stretch shrink-0"
+              className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch shrink-0 min-w-0"
             >
               {/* 01 · Thông tin công tác */}
               <section
                 id="experience-management-card"
                 data-subcard="true"
-                className="exp-detail-card col-span-1 lg:col-span-1 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
+                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-6 lg:col-span-5 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
               >
                 <div className="card-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-sky-600 dark:text-sky-400" data-card-accent="sky">
                   <WebIcon name="user-group" className="w-5 h-5 shrink-0" />
@@ -1550,7 +1559,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </h3>
                 </div>
 
-                <div className="bento-grid-responsive grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch flex-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px] items-stretch flex-1 min-w-0">
                   {/* 1. Quy mô quản lý */}
                   <div data-subcard="true" className="exp-detail-subcard w-full rounded-[14px] p-[15px] flex items-start gap-[15px] min-w-0">
                     <div className="exp-icon-badge w-9 h-9 aspect-square rounded-full border text-sky-600 dark:text-sky-300 flex items-center justify-center shrink-0 mt-0.5">
@@ -1620,7 +1629,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </div>
 
                   {/* 5. Lĩnh vực */}
-                  <div data-subcard="true" className="exp-detail-subcard w-full sm:col-span-2 lg:col-span-3 rounded-[14px] p-[15px] flex items-start gap-[15px] min-w-0">
+                  <div data-subcard="true" className="exp-detail-subcard w-full sm:col-span-2 rounded-[14px] p-[15px] flex items-start gap-[15px] min-w-0">
                     <div className="exp-icon-badge w-9 h-9 aspect-square rounded-full border text-indigo-600 dark:text-indigo-300 flex items-center justify-center shrink-0 mt-0.5">
                       <WebIcon name="game" className="w-4 h-4" />
                     </div>
@@ -1640,7 +1649,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-banner-card"
                 data-subcard="true"
-                className="exp-detail-card col-span-1 lg:col-span-2 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
+                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-6 lg:col-span-7 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
               >
                 <div className="card-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-[var(--text-link,var(--color-primary))]" data-card-accent="blue">
                   <WebIcon name="shield-check" className="w-5 h-5 shrink-0" />
@@ -1676,7 +1685,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-stats-card"
                 data-subcard="true"
-                className="exp-detail-card col-span-1 lg:col-span-1 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
+                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
               >
                 <div className="card-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-emerald-600 dark:text-emerald-400" data-card-accent="emerald">
                   <WebIcon name="trophy" className="w-5 h-5 shrink-0" />
@@ -1712,7 +1721,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-responsibility-card"
                 data-subcard="true"
-                className="exp-detail-card col-span-1 lg:col-span-2 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
+                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-8 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
               >
                 <div className="card-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-purple-600 dark:text-purple-400" data-card-accent="purple">
                   <WebIcon name="briefcase" className="w-5 h-5 shrink-0" />
@@ -1722,14 +1731,18 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </h3>
                 </div>
 
-                <div className="flex flex-col gap-[15px] content-start flex-1 min-w-0">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-[15px] content-start flex-1 min-w-0 items-stretch">
                   {tasksList.map((task, idx) => {
                     const cleanTask = task.replace(/^\d+\.\s*/, '');
+                    const isOddLast = tasksList.length % 2 === 1 && idx === tasksList.length - 1;
                     return (
                       <div
                         key={idx}
                         data-subcard="true"
-                        className="exp-detail-subcard w-full flex items-start gap-[15px] p-[15px] rounded-[14px] min-w-0"
+                        className={cn(
+                          'exp-detail-subcard w-full flex items-start gap-[15px] p-[15px] rounded-[14px] min-w-0',
+                          isOddLast && 'xl:col-span-2'
+                        )}
                       >
                         <span className="exp-icon-badge w-6 h-6 rounded-full text-purple-600 dark:text-purple-300 border font-mono typo-badge flex items-center justify-center shrink-0 tabular-nums mt-0.5">
                           {idx + 1}
@@ -1747,7 +1760,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-achievement-card"
                 data-subcard="true"
-                className="exp-detail-card col-span-1 lg:col-span-1 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
+                className="exp-detail-card col-span-1 sm:col-span-1 md:col-span-3 lg:col-span-5 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
               >
                 <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
                   <div className="card-header-sync flex items-center gap-2 min-w-0 text-amber-600 dark:text-amber-400" data-card-accent="amber">
@@ -1805,7 +1818,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-commitments-card"
                 data-subcard="true"
-                className="exp-detail-card col-span-1 lg:col-span-2 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
+                className="exp-detail-card col-span-1 sm:col-span-1 md:col-span-3 lg:col-span-7 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
               >
                 <div className="card-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-cyan-600 dark:text-cyan-400" data-card-accent="cyan">
                   <WebIcon name="shield-check" className="w-5 h-5 shrink-0" />
@@ -1837,7 +1850,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-memories-card"
                 data-subcard="true"
-                className="exp-detail-card col-span-1 lg:col-span-3 w-full rounded-[14px] p-[15px] flex flex-col gap-[15px] shrink-0 min-w-0"
+                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-6 lg:col-span-12 w-full rounded-[14px] p-[15px] flex flex-col gap-[15px] shrink-0 min-w-0"
                 onMouseEnter={() => setIsMemoryHovered(true)}
                 onMouseLeave={() => setIsMemoryHovered(false)}
               >
@@ -1965,7 +1978,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </section>
 
               {/* KHỐI 5: THANH TRÍCH DẪN TRIẾT LÝ QUẢN TRỊ Ở ĐÁY */}
-              <section data-subcard="true" className="exp-detail-card col-span-1 lg:col-span-3 w-full rounded-[14px] p-[15px] flex items-center justify-between gap-[15px] relative overflow-hidden shrink-0">
+              <section data-subcard="true" className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-6 lg:col-span-12 w-full rounded-[14px] p-[15px] flex items-center justify-between gap-[15px] relative overflow-hidden shrink-0">
                 <div className="flex items-center gap-3.5 min-w-0 flex-1">
                   <div className="w-11 h-11 aspect-square rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-md flex items-center justify-center shrink-0">
                     <WebIcon name="quote" className="w-5 h-5" />

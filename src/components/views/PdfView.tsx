@@ -421,6 +421,36 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 <span className="typo-label font-bold text-[var(--text-muted)] font-mono block mt-1">Nhân sự dẫn dắt</span>
               </div>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+              <div data-subcard="true" className="sub-card p-3.5 rounded-[12px] print-card-bg flex flex-col gap-1 break-inside-avoid">
+                <span className="typo-label font-bold text-blue-600 dark:text-cyan-400 flex items-center gap-1.5">
+                  <WebIcon name="headphones" size={14} />
+                  <span>Vận hành Contact Center</span>
+                </span>
+                <p className="typo-caption text-[var(--text-secondary)]">
+                  Thiết lập hệ thống tổng đài đa kênh, chuẩn hóa SOP, SLA, FCR và tối ưu hiệu suất vận hành quy mô lớn.
+                </p>
+              </div>
+              <div data-subcard="true" className="sub-card p-3.5 rounded-[12px] print-card-bg flex flex-col gap-1 break-inside-avoid">
+                <span className="typo-label font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                  <WebIcon name="cpu" size={14} />
+                  <span>Chuyển đổi số & AI CRM</span>
+                </span>
+                <p className="typo-caption text-[var(--text-secondary)]">
+                  Ứng dụng AI Chatbot, CRM hiện đại, Dashboard phân tích dữ liệu và tự động hóa quy trình nghiệp vụ.
+                </p>
+              </div>
+              <div data-subcard="true" className="sub-card p-3.5 rounded-[12px] print-card-bg flex flex-col gap-1 break-inside-avoid">
+                <span className="typo-label font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
+                  <WebIcon name="users" size={14} />
+                  <span>Quản trị & Phát triển con người</span>
+                </span>
+                <p className="typo-caption text-[var(--text-secondary)]">
+                  Xây dựng đội ngũ gắn kết, đào tạo nhân sự chuyên nghiệp, lấy khách hàng làm trung tâm phục vụ.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

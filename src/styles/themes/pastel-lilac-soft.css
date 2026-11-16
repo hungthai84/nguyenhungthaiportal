@@ -5,15 +5,15 @@
 
 .card-pastel-lilac-soft {
   background: linear-gradient(165deg, #ffffff 0%, #f8f7fc 60%, #f1effa 100%);
-  border-radius: 32px;
+  border-radius: 14px;
   border: 1.5px solid rgba(255, 255, 255, 0.95);
   box-shadow: 0 24px 48px -12px rgba(124, 114, 184, 0.18), 0 8px 20px -6px rgba(15, 23, 42, 0.05), inset 0 2px 4px #ffffff;
-  color: #1e1b2e;
+  color: #000000;
 }
 
 .lilac-soft-module {
   background: #f4f2fa;
-  border-radius: 22px;
+  border-radius: 14px;
   border: 1px solid rgba(226, 222, 243, 0.8);
 }
 
@@ -29,11 +29,11 @@ html[data-card-style="pastel-lilac-soft"] {
   --blur-nav-pill: 10px;
   --blur-modal: 18px;
 
-  --radius-main: 32px;
-  --radius-card: 32px;
-  --radius-subcard: 22px;
-  --radius-header: 0 0 28px 28px;
-  --radius-footer: 28px 28px 0 0;
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
   --card-border-width: 1.5px;
 
   /* Core Cream-Lilac Pastel Surface & WCAG Contrast Tokens */
@@ -43,16 +43,16 @@ html[data-card-style="pastel-lilac-soft"] {
   --color-surface: #f8f7fc;
   --color-surface-elevated: #ffffff;
 
-  --color-heading: #1e1b2e;
-  --color-text: #1e1b2e;
-  --color-text-secondary: #433c63;
-  --color-text-muted: #645b86;
-  --color-link: #6d5ce8;
-  --text-primary: #1e1b2e;
-  --text-secondary: #433c63;
-  --text-muted: #645b86;
-  --text-heading: #1e1b2e;
-  --text-link: #6d5ce8;
+  --color-heading: #000000;
+  --color-text: #000000;
+  --color-text-secondary: #111827;
+  --color-text-muted: #27272A;
+  --color-link: #5b4bd6;
+  --text-primary: #000000;
+  --text-secondary: #111827;
+  --text-muted: #27272A;
+  --text-heading: #000000;
+  --text-link: #5b4bd6;
 
   /* Pastel Lilac & Warm Peach Accents */
   --color-primary: #8b7ef8;
@@ -83,8 +83,8 @@ html[data-card-style="pastel-lilac-soft"] {
   --bg-input: #f4f2fa;
   --border-input: rgba(226, 222, 243, 0.90);
   --border-input-focus: #8b7ef8;
-  --text-input: #1e1b2e;
-  --text-placeholder: #7a719b;
+  --text-input: #000000;
+  --text-placeholder: #374151;
   --bg-table: #f8f7fc;
   --bg-table-head: #f4f2fa;
   --bg-table-row-alt: rgba(244, 242, 250, 0.65);
@@ -130,9 +130,9 @@ html[data-card-style="pastel-lilac-soft"] {
   --bg-nested-badge: #f4f2fa;
   --border-nested-badge: rgba(226, 222, 243, 0.90);
 
-  --pillar-heading: #1e1b2e;
+  --pillar-heading: #000000;
   --pillar-sub: #6d5ce8;
-  --pillar-body: #433c63;
+  --pillar-body: #111827;
   --pillar-badge-bg: rgba(139, 126, 248, 0.12);
   --pillar-badge-text: #5b4bd6;
   --pillar-divider: rgba(226, 222, 243, 0.85);
@@ -143,7 +143,7 @@ html[data-card-style="pastel-lilac-soft"] {
   --banner-border: rgba(255, 255, 255, 0.95);
   --banner-shadow: var(--shadow-card);
   --bg-banner-pill: linear-gradient(165deg, #ffffff 0%, #f4f2fa 100%);
-  --text-banner-pill: #1e1b2e;
+  --text-banner-pill: #000000;
   --border-banner-pill: rgba(226, 222, 243, 0.90);
   --shadow-banner-pill: var(--shadow-nav-pill);
   --bg-banner-cta: linear-gradient(135deg, #8b7ef8 0%, #aba2fc 100%);
@@ -151,11 +151,11 @@ html[data-card-style="pastel-lilac-soft"] {
   --border-banner-cta: rgba(255, 255, 255, 0.85);
   --shadow-banner-cta: 0 10px 22px -6px rgba(139, 126, 248, 0.55);
   --bg-banner-input: #f4f2fa;
-  --text-banner-input: #1e1b2e;
+  --text-banner-input: #000000;
   --border-banner-input: rgba(226, 222, 243, 0.90);
   --bg-nav-arrow: linear-gradient(165deg, #ffffff 0%, #f4f2fa 100%);
   --border-nav-arrow: rgba(226, 222, 243, 0.92);
-  --text-nav-arrow: #1e1b2e;
+  --text-nav-arrow: #000000;
   --shadow-nav-arrow: 0 8px 18px -6px rgba(124, 114, 184, 0.20), inset 0 1.5px 2px #ffffff;
   --border-image-card: rgba(255, 255, 255, 0.95);
   --shadow-image-card: var(--shadow-card);
@@ -213,7 +213,7 @@ html[data-card-style="pastel-lilac-soft"] #app-footer {
   -webkit-backdrop-filter: blur(14px) !important;
   border-color: rgba(255, 255, 255, 0.95) !important;
   box-shadow: var(--shadow-header) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="pastel-lilac-soft"] .main-card,
@@ -224,7 +224,7 @@ html[data-card-style="pastel-lilac-soft"] [id$="-page-root"] {
   -webkit-backdrop-filter: blur(14px) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
   box-shadow: var(--shadow-main-card) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="pastel-lilac-soft"] #footer-nav-capsule {
@@ -233,7 +233,7 @@ html[data-card-style="pastel-lilac-soft"] #footer-nav-capsule {
   -webkit-backdrop-filter: none !important;
   border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
   box-shadow: var(--shadow-nav-pill) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
 }
 
 /* ========================================================================= */
@@ -260,7 +260,7 @@ html[data-card-style="pastel-lilac-soft"] .bento-tone-sky {
   -webkit-backdrop-filter: none !important;
   border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
   box-shadow: 0 24px 48px -12px rgba(124, 114, 184, 0.18), 0 8px 20px -6px rgba(15, 23, 42, 0.05), inset 0 2px 4px #ffffff !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="pastel-lilac-soft"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]):hover,
@@ -289,7 +289,7 @@ html[data-card-style="pastel-lilac-soft"] .project-detail-subcard {
   -webkit-backdrop-filter: none !important;
   border: 1px solid rgba(226, 222, 243, 0.8) !important;
   box-shadow: var(--shadow-subcard) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="pastel-lilac-soft"] [data-subcard="true"]:not(.skill-swot-subcard):hover,
@@ -361,7 +361,7 @@ html[data-card-style="pastel-lilac-soft"] .radial-contact-pill {
   -webkit-backdrop-filter: none !important;
   border-color: rgba(226, 222, 243, 0.92) !important;
   box-shadow: var(--shadow-nav-pill) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="pastel-lilac-soft"] #app-header nav button.nav-pill.active,
@@ -404,21 +404,21 @@ html[data-card-style="pastel-lilac-soft"] .theme-modal-card {
   -webkit-backdrop-filter: none !important;
   border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
   box-shadow: var(--shadow-modal) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="pastel-lilac-soft"] .theme-modal-header,
 html[data-card-style="pastel-lilac-soft"] .theme-modal-footer {
   background: linear-gradient(165deg, #ffffff 0%, #f4f2fa 100%) !important;
   border-color: rgba(226, 222, 243, 0.85) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="pastel-lilac-soft"] .theme-modal-subcard {
   background: #f4f2fa !important;
   border: 1px solid rgba(226, 222, 243, 0.85) !important;
   box-shadow: var(--shadow-subcard) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="pastel-lilac-soft"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
@@ -427,7 +427,7 @@ html[data-card-style="pastel-lilac-soft"] select,
 html[data-card-style="pastel-lilac-soft"] .banner-search-input {
   background: #f4f2fa !important;
   border: 1px solid rgba(226, 222, 243, 0.90) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
   box-shadow: inset 2px 2px 5px rgba(124, 114, 184, 0.08), inset -1px -1px 3px #ffffff !important;
 }
 
@@ -440,7 +440,7 @@ html[data-card-style="pastel-lilac-soft"] select:focus {
 
 html[data-card-style="pastel-lilac-soft"] input::placeholder,
 html[data-card-style="pastel-lilac-soft"] textarea::placeholder {
-  color: #7a719b !important;
+  color: #374151 !important;
 }
 
 html[data-card-style="pastel-lilac-soft"] .themed-image-card {
@@ -451,13 +451,13 @@ html[data-card-style="pastel-lilac-soft"] .themed-image-card {
 html[data-card-style="pastel-lilac-soft"] .theme-table {
   background: #f8f7fc !important;
   border-color: rgba(226, 222, 243, 0.85) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="pastel-lilac-soft"] .theme-table thead,
 html[data-card-style="pastel-lilac-soft"] .theme-table th {
   background: #f4f2fa !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
   border-color: rgba(226, 222, 243, 0.85) !important;
 }
 
@@ -465,7 +465,7 @@ html[data-card-style="pastel-lilac-soft"] #footer-nav-capsule #footer-prev-btn,
 html[data-card-style="pastel-lilac-soft"] #footer-nav-capsule #footer-next-btn {
   background: linear-gradient(165deg, #ffffff 0%, #f4f2fa 100%) !important;
   border: 1px solid rgba(226, 222, 243, 0.92) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
   box-shadow: var(--shadow-nav-arrow) !important;
 }
 
@@ -475,7 +475,7 @@ html[data-card-style="pastel-lilac-soft"] .project-card-tag,
 html[data-card-style="pastel-lilac-soft"] .project-card-order-badge {
   background: #f4f2fa !important;
   border: 1px solid rgba(226, 222, 243, 0.90) !important;
-  color: #1e1b2e !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="pastel-lilac-soft"] button:focus-visible,

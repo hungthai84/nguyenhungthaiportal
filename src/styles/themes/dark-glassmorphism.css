@@ -9,7 +9,7 @@
   -webkit-backdrop-filter: blur(22px) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow: 0 22px 48px -12px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.18);
-  color: #f8fafc;
+  color: #FFFFFF;
 }
 
 html[data-card-style="dark-glassmorphism"],
@@ -25,14 +25,14 @@ html.dark[data-card-style="dark-glassmorphism"] {
   --color-bg-soft: #0f172a;
   --color-surface: rgba(15, 23, 42, 0.68);
   --color-surface-elevated: rgba(30, 41, 59, 0.78);
-  --color-heading: #f8fafc;
-  --color-text: #f8fafc;
-  --color-text-secondary: #e2e8f0;
-  --color-text-muted: #94a3b8;
-  --text-primary: #f8fafc;
-  --text-secondary: #e2e8f0;
-  --text-muted: #94a3b8;
-  --text-heading: #f8fafc;
+  --color-heading: #FFFFFF;
+  --color-text: #FFFFFF;
+  --color-text-secondary: #F4F4F5;
+  --color-text-muted: #E4E4E7;
+  --text-primary: #FFFFFF;
+  --text-secondary: #F4F4F5;
+  --text-muted: #E4E4E7;
+  --text-heading: #FFFFFF;
   --text-link: #38bdf8;
   --color-primary: #38bdf8;
   --color-secondary: #818cf8;
@@ -61,8 +61,8 @@ html.dark[data-card-style="dark-glassmorphism"] {
   --bg-input: rgba(15, 23, 42, 0.82);
   --border-input: rgba(255, 255, 255, 0.18);
   --border-input-focus: #38bdf8;
-  --text-input: #f8fafc;
-  --text-placeholder: #94a3b8;
+  --text-input: #FFFFFF;
+  --text-placeholder: #D4D4D8;
   --bg-table: rgba(15, 23, 42, 0.70);
   --bg-table-head: rgba(30, 41, 59, 0.86);
   --bg-table-row-alt: rgba(30, 41, 59, 0.44);
@@ -90,9 +90,9 @@ html.dark[data-card-style="dark-glassmorphism"] {
   --bg-nested-badge: rgba(30, 41, 59, 0.84);
   --border-nested-badge: rgba(255, 255, 255, 0.18);
 
-  --pillar-heading: #f8fafc;
+  --pillar-heading: #FFFFFF;
   --pillar-sub: #38bdf8;
-  --pillar-body: #e2e8f0;
+  --pillar-body: #F4F4F5;
   --pillar-badge-bg: rgba(56, 189, 248, 0.18);
   --pillar-badge-text: #e0f2fe;
   --pillar-divider: rgba(255, 255, 255, 0.16);
@@ -103,18 +103,18 @@ html.dark[data-card-style="dark-glassmorphism"] {
   --banner-border: rgba(255, 255, 255, 0.18);
   --banner-shadow: 0 22px 48px -12px rgba(2, 6, 23, 0.74), inset 0 1px 1px rgba(255, 255, 255, 0.18);
   --bg-banner-pill: rgba(15, 23, 42, 0.84);
-  --text-banner-pill: #f8fafc;
+  --text-banner-pill: #FFFFFF;
   --border-banner-pill: rgba(255, 255, 255, 0.20);
   --shadow-banner-pill: 0 10px 24px -6px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.16);
   --bg-banner-cta: linear-gradient(135deg, #0ea5e9 0%, #4f46e5 100%);
   --text-banner-cta: #ffffff;
   --border-banner-cta: rgba(56, 189, 248, 0.45);
   --bg-banner-input: rgba(15, 23, 42, 0.88);
-  --text-banner-input: #f8fafc;
+  --text-banner-input: #FFFFFF;
   --border-banner-input: rgba(255, 255, 255, 0.20);
   --bg-nav-arrow: rgba(15, 23, 42, 0.84);
   --border-nav-arrow: rgba(255, 255, 255, 0.20);
-  --text-nav-arrow: #f8fafc;
+  --text-nav-arrow: #FFFFFF;
   --shadow-nav-arrow: 0 8px 20px -4px rgba(2, 6, 23, 0.70), inset 0 1px 1px rgba(255, 255, 255, 0.16);
   --border-image-card: rgba(255, 255, 255, 0.18);
   --shadow-image-card: 0 22px 48px -12px rgba(2, 6, 23, 0.74);
@@ -161,7 +161,7 @@ html[data-card-style="dark-glassmorphism"] #app-footer {
   -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
   border-color: var(--surface-primary-border) !important;
   box-shadow: var(--surface-primary-shadow) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] .main-card,
@@ -172,7 +172,7 @@ html[data-card-style="dark-glassmorphism"] [id$="-page-root"] {
   -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
   border: 1px solid var(--surface-primary-border) !important;
   box-shadow: var(--surface-primary-shadow) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] #footer-nav-capsule {
@@ -181,7 +181,7 @@ html[data-card-style="dark-glassmorphism"] #footer-nav-capsule {
   -webkit-backdrop-filter: blur(22px) saturate(155%) !important;
   border: 1px solid rgba(255, 255, 255, 0.18) !important;
   box-shadow: 0 16px 36px -8px rgba(2, 6, 23, 0.76), inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 /* Level 02: Primary Section Cards */
@@ -197,7 +197,7 @@ html[data-card-style="dark-glassmorphism"] #contact-info-container {
   -webkit-backdrop-filter: blur(22px) saturate(150%) !important;
   border: 1px solid rgba(255, 255, 255, 0.16) !important;
   box-shadow: var(--shadow-card) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 /* Level 03: Subcards & Nested Surfaces */
@@ -217,7 +217,7 @@ html[data-card-style="dark-glassmorphism"] .project-detail-subcard {
   -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
   border: 1px solid rgba(255, 255, 255, 0.16) !important;
   box-shadow: var(--shadow-subcard) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] [data-subcard="true"]:not(.skill-swot-subcard):hover,
@@ -246,7 +246,7 @@ html[data-card-style="dark-glassmorphism"] .bento-tone-sky {
   -webkit-backdrop-filter: blur(22px) saturate(150%) !important;
   border: 1px solid rgba(255, 255, 255, 0.16) !important;
   box-shadow: var(--shadow-card) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 /* Level 04: Interactive Pills, Modals, Inputs & Tables */
@@ -266,7 +266,7 @@ html[data-card-style="dark-glassmorphism"] .radial-contact-pill {
   -webkit-backdrop-filter: blur(22px) saturate(155%) !important;
   border-color: rgba(255, 255, 255, 0.18) !important;
   box-shadow: var(--shadow-nav-pill) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] #footer-theme-popup,
@@ -285,21 +285,21 @@ html[data-card-style="dark-glassmorphism"] .theme-modal-card {
   -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
   border: 1px solid rgba(255, 255, 255, 0.18) !important;
   box-shadow: var(--shadow-modal) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] .theme-modal-header,
 html[data-card-style="dark-glassmorphism"] .theme-modal-footer {
   background: rgba(15, 23, 42, 0.94) !important;
   border-color: rgba(255, 255, 255, 0.14) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] .theme-modal-subcard {
   background: rgba(30, 41, 59, 0.72) !important;
   border: 1px solid rgba(255, 255, 255, 0.16) !important;
   box-shadow: var(--shadow-subcard) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
@@ -308,7 +308,7 @@ html[data-card-style="dark-glassmorphism"] select,
 html[data-card-style="dark-glassmorphism"] .banner-search-input {
   background: rgba(15, 23, 42, 0.84) !important;
   border: 1px solid rgba(255, 255, 255, 0.18) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] input::placeholder,
@@ -319,13 +319,13 @@ html[data-card-style="dark-glassmorphism"] textarea::placeholder {
 html[data-card-style="dark-glassmorphism"] .theme-table {
   background: rgba(15, 23, 42, 0.72) !important;
   border-color: rgba(255, 255, 255, 0.16) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] .theme-table thead,
 html[data-card-style="dark-glassmorphism"] .theme-table th {
   background: rgba(30, 41, 59, 0.88) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] .themed-image-card {

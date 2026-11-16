@@ -74,7 +74,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       border: '1px solid rgba(255, 255, 255, 0.85)',
       boxShadow:
         '0 20px 44px -12px rgba(15, 23, 42, 0.18), inset 0 1.5px 1px rgba(255, 255, 255, 0.95)',
-      color: '#0f172a',
+      color: '#000000',
     },
     miniPreviewWrapStyle: {
       background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.54) 100%)',
@@ -83,14 +83,14 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     },
     miniTabStyle: {
       background: 'rgba(255, 255, 255, 0.86)',
-      color: '#0F172A',
+      color: '#000000',
       borderColor: 'rgba(255, 255, 255, 0.92)',
     },
     miniBtnStyle: {
       background: 'linear-gradient(135deg, #0284C7 0%, #2563EB 100%)',
       color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-white/75 text-slate-900 border-white/90',
+    badgeColorClass: 'bg-white/75 text-black border-white/90',
   },
   {
     id: 'dark-glassmorphism',
@@ -115,7 +115,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       border: '1px solid rgba(255, 255, 255, 0.16)',
       boxShadow:
         '0 22px 48px -12px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.18)',
-      color: '#f8fafc',
+      color: '#FFFFFF',
     },
     miniPreviewWrapStyle: {
       background: 'rgba(15, 23, 42, 0.78)',
@@ -124,14 +124,14 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     },
     miniTabStyle: {
       background: 'rgba(30, 41, 59, 0.85)',
-      color: '#f8fafc',
+      color: '#FFFFFF',
       borderColor: 'rgba(255, 255, 255, 0.18)',
     },
     miniBtnStyle: {
       background: 'linear-gradient(135deg, #0EA5E9 0%, #4F46E5 100%)',
       color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-slate-900/85 text-slate-100 border-white/20',
+    badgeColorClass: 'bg-slate-900/85 text-white border-white/20',
   },
   {
     id: 'ice-blue-neumorphism',
@@ -151,6 +151,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     desc: 'Phong cách Ice-Blue Soft UI (#e6f0f8) đổ bóng nổi/chìm mềm mại kết hợp các thanh tiến trình gradient Cyan, Tím, Cam đào & Hồng phát sáng chuẩn WCAG.',
     cardSampleStyle: {
       background: 'linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%)',
+      borderRadius: '28px',
       border: '1px solid rgba(255, 255, 255, 0.85)',
       boxShadow:
         '12px 12px 26px rgba(176, 198, 219, 0.7), -10px -10px 22px rgba(255, 255, 255, 0.95), inset 1px 1px 2px rgba(255, 255, 255, 0.9)',
@@ -164,7 +165,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     },
     miniTabStyle: {
       background: 'linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%)',
-      color: '#334155',
+      color: '#000000',
       borderColor: 'rgba(255, 255, 255, 0.90)',
       boxShadow: '4px 4px 10px rgba(176, 198, 219, 0.55), -3px -3px 8px rgba(255, 255, 255, 0.92)',
     },
@@ -172,7 +173,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       background: 'linear-gradient(135deg, #06B6D4 0%, #8B5CF6 100%)',
       color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-sky-500/10 text-slate-700 border-white/90',
+    badgeColorClass: 'bg-sky-500/10 text-black border-white/90',
   },
   {
     id: 'dark-ice-blue-neumorphism',
@@ -192,6 +193,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     desc: 'Nền xanh băng thẫm (#152030) dập nổi mềm mại với đổ bóng kép lạnh (#0a1018 / #203147), lõi chìm .dark-ice-neu-inset và các thanh chỉ số gradient neon phát sáng.',
     cardSampleStyle: {
       background: 'linear-gradient(145deg, #182536 0%, #121c29 100%)',
+      borderRadius: '28px',
       border: '1px solid rgba(148, 197, 248, 0.12)',
       boxShadow:
         '12px 12px 26px #0a1018, -10px -10px 22px #203147, inset 1px 1px 2px rgba(186, 230, 253, 0.14)',
@@ -204,7 +206,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     },
     miniTabStyle: {
       background: 'linear-gradient(145deg, #182536 0%, #121c29 100%)',
-      color: '#e2e8f0',
+      color: '#FFFFFF',
       borderColor: 'rgba(148, 197, 248, 0.14)',
       boxShadow: '4px 4px 10px #0a1018, -3px -3px 8px #203147',
     },
@@ -212,7 +214,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       background: 'linear-gradient(135deg, #06b6d4 0%, #6366f1 100%)',
       color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-[#131d2b] text-sky-300 border-sky-400/25',
+    badgeColorClass: 'bg-[#131d2b] text-white border-sky-400/25',
   },
   {
     id: 'pastel-lilac-soft',
@@ -235,7 +237,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       border: '1.5px solid rgba(255, 255, 255, 0.95)',
       boxShadow:
         '0 24px 48px -12px rgba(124, 114, 184, 0.18), 0 8px 20px -6px rgba(15, 23, 42, 0.05), inset 0 2px 4px #ffffff',
-      color: '#1e1b2e',
+      color: '#000000',
     },
     miniPreviewWrapStyle: {
       background: '#f4f2fa',
@@ -244,7 +246,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     },
     miniTabStyle: {
       background: '#ffffff',
-      color: '#1e1b2e',
+      color: '#000000',
       borderColor: 'rgba(226, 222, 243, 0.88)',
     },
     miniBtnStyle: {
@@ -274,7 +276,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       border: '1.5px solid rgba(216, 206, 255, 0.16)',
       boxShadow:
         '0 24px 48px -12px rgba(6, 4, 16, 0.65), 0 8px 20px -6px rgba(10, 8, 22, 0.45), inset 0 1.5px 2px rgba(226, 222, 243, 0.12)',
-      color: '#f5f3ff',
+      color: '#FFFFFF',
     },
     miniPreviewWrapStyle: {
       background: '#2a2442',
@@ -283,14 +285,14 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     },
     miniTabStyle: {
       background: '#312b4d',
-      color: '#f5f3ff',
+      color: '#FFFFFF',
       borderColor: 'rgba(196, 181, 253, 0.22)',
     },
     miniBtnStyle: {
       background: 'linear-gradient(135deg, #8b7ef8 0%, #a78bfa 100%)',
       color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-[#2a2442] text-[#c4b5fd] border-[#c4b5fd]/25',
+    badgeColorClass: 'bg-[#2a2442] text-white border-[#c4b5fd]/25',
   },
   {
     id: 'light-cowhide-leather',
@@ -313,7 +315,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       border: '2px solid #C89B6E',
       boxShadow:
         '0 18px 36px -10px rgba(120, 72, 28, 0.22), inset 0 2px 4px rgba(255, 255, 255, 0.85), inset 0 -3px 6px rgba(139, 90, 43, 0.14)',
-      color: '#2C1606',
+      color: '#000000',
     },
     miniPreviewWrapStyle: {
       background: 'linear-gradient(145deg, #FBF2E4 0%, #EFE0C6 100%)',
@@ -322,14 +324,14 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     },
     miniTabStyle: {
       background: 'rgba(255, 250, 240, 0.92)',
-      color: '#2C1606',
+      color: '#000000',
       borderColor: 'rgba(180, 120, 62, 0.48)',
     },
     miniBtnStyle: {
       background: 'linear-gradient(135deg, #B45309 0%, #8B4513 100%)',
-      color: '#FFF8DC',
+      color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-[#F5E6D0] text-[#5C3415] border-[#C89B6E]',
+    badgeColorClass: 'bg-[#F5E6D0] text-black border-[#C89B6E]',
   },
   {
     id: 'cowhide-leather',
@@ -352,7 +354,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       border: '2px solid #522E10',
       boxShadow:
         '0 18px 38px rgba(0, 0, 0, 0.45), inset 0 2px 4px rgba(255, 220, 180, 0.25), inset 0 -3px 6px rgba(0, 0, 0, 0.6)',
-      color: '#FFF8DC',
+      color: '#FFFFFF',
     },
     miniPreviewWrapStyle: {
       background: 'linear-gradient(145deg, #7A4A20 0%, #522E10 100%)',
@@ -361,14 +363,14 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     },
     miniTabStyle: {
       background: 'rgba(82, 46, 16, 0.88)',
-      color: '#FFF8DC',
+      color: '#FFFFFF',
       borderColor: 'rgba(245, 222, 179, 0.45)',
     },
     miniBtnStyle: {
       background: 'linear-gradient(135deg, #D97706 0%, #92400E 100%)',
-      color: '#FFF8DC',
+      color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-[#522E10]/90 text-[#FFF8DC] border-[#F5DEB3]/50',
+    badgeColorClass: 'bg-[#522E10]/90 text-white border-[#F5DEB3]/50',
   },
 ];
 

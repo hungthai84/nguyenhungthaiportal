@@ -1383,22 +1383,22 @@ export function AboutView({
                       </div>
 
                       {/* Bottom Place Details Card Overlay (Chi tiết địa điểm với Ghim Đỏ) */}
-                      <div className="relative z-20 m-2.5 sm:m-3 p-3 rounded-[14px] bg-slate-950/85 backdrop-blur-md border border-white/20 text-white shadow-xl flex flex-col gap-2 pointer-events-auto">
+                      <div className="relative z-20 m-2.5 sm:m-3 p-3 rounded-[14px] bg-white/95 dark:bg-slate-950/85 backdrop-blur-md border border-slate-200/80 dark:border-white/20 text-slate-900 dark:text-white flex flex-col gap-2 pointer-events-auto">
                         <div className="flex items-start gap-2.5">
                           {/* Red Pin Badge */}
-                          <div className="w-8 h-8 rounded-full bg-red-600/20 border border-red-500/50 flex items-center justify-center shrink-0 shadow-md text-red-500 text-base">
+                          <div className="w-8 h-8 rounded-full bg-red-600/20 border border-red-500/50 flex items-center justify-center shrink-0 text-red-600 dark:text-red-400 text-base">
                             📍
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
-                              <span className="font-bold text-sm text-cyan-300">
+                              <span className="font-bold text-sm text-cyan-700 dark:text-cyan-300">
                                 {activeHeroMapType === 'tam_tru' ? 'Tạm trú hiện tại' : 'Cư trú quê quán'}
                               </span>
-                              <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 text-[10px] font-mono">
+                              <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30 text-[10px] font-mono">
                                 Đã ghim đỏ trên Map
                               </span>
                             </div>
-                            <p className="text-xs text-slate-100 font-medium mt-0.5 leading-snug">
+                            <p className="text-xs text-slate-800 dark:text-slate-100 font-medium mt-0.5 leading-snug">
                               {activeHeroMapType === 'tam_tru'
                                 ? 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
                                 : '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'}

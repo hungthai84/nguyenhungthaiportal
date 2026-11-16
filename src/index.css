@@ -33,30 +33,60 @@
 @import "./styles/themes/cowhide-leather.css";
 
 /* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection */
-.typo-h1 { font-size: var(--fs-h1); line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
-.typo-h2 { font-size: var(--fs-h2); line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
-.typo-h3 { font-size: var(--fs-h3); line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
-.typo-h4 { font-size: var(--fs-h4); line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
-.typo-h5 { font-size: var(--fs-h5); line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
-.typo-body-lg { font-size: var(--fs-body-lg); line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
-.typo-body { font-size: var(--fs-body); line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
-.typo-body-sm { font-size: var(--fs-body-sm); line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
-.typo-caption { font-size: var(--fs-caption); line-height: var(--lh-compact); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
-.typo-label { font-size: var(--fs-label); line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
-.typo-badge { font-size: var(--fs-badge); line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
-.typo-button { font-size: var(--fs-button); line-height: var(--lh-compact); font-weight: var(--fw-bold); font-family: var(--font-family-body); }
-.typo-nav { font-size: var(--fs-nav); line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
-.typo-tab { font-size: var(--fs-tab); line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
-.typo-input { font-size: var(--fs-input); line-height: var(--lh-compact); font-weight: var(--fw-regular); font-family: var(--font-family-body); }
-.typo-kpi { font-size: var(--fs-kpi); line-height: 1.2; font-weight: var(--fw-bold); font-family: var(--font-family-numeric); font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
-.typo-popup-title { font-size: var(--fs-popup-title); line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
+.typo-h1 { font-size: var(--fs-h1) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
+.typo-h2 { font-size: var(--fs-h2) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
+.typo-h3 { font-size: var(--fs-h3) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
+.typo-h4 { font-size: var(--fs-h4) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
+.typo-h5 { font-size: var(--fs-h5) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
+.typo-body-lg { font-size: var(--fs-body-lg) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
+.typo-body { font-size: var(--fs-body) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
+.typo-body-sm { font-size: var(--fs-body-sm) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
+.typo-caption { font-size: var(--fs-caption) !important; line-height: var(--lh-compact); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
+.typo-label { font-size: var(--fs-label) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
+.typo-badge { font-size: var(--fs-badge) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
+.typo-button { font-size: var(--fs-button) !important; line-height: var(--lh-compact); font-weight: var(--fw-bold); font-family: var(--font-family-body); }
+.typo-nav { font-size: var(--fs-nav) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
+.typo-tab { font-size: var(--fs-tab) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
+.typo-input { font-size: var(--fs-input) !important; line-height: var(--lh-compact); font-weight: var(--fw-regular); font-family: var(--font-family-body); }
+.typo-kpi { font-size: var(--fs-kpi) !important; line-height: 1.2; font-weight: var(--fw-bold); font-family: var(--font-family-numeric); font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
+.typo-quote { font-size: var(--fs-quote, 18px) !important; line-height: 1.35 !important; font-family: var(--font-quote) !important; overflow-wrap: break-word; }
+.typo-popup-title { font-size: var(--fs-popup-title) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
 
-/* Enforce uniform Banner H1 across all breakpoints */
+/* Enforce uniform Banner H1, Quote & Card Headings across all breakpoints & pages */
 .hero-banner h1,
-.banner-card h1 {
+.banner-card h1,
+[id$="-hero-banner"] h1 {
   font-size: var(--fs-h1) !important;
   line-height: var(--lh-heading) !important;
   font-weight: var(--fw-bold) !important;
+}
+
+.font-italianno,
+.font-handwriting,
+.font-quote,
+.banner-quote,
+.hero-banner p.font-italianno,
+.hero-banner p.font-handwriting {
+  font-size: var(--fs-quote, 18px) !important;
+  line-height: 1.35 !important;
+}
+
+[data-card-title="true"],
+.card-title-synced,
+h3.card-title {
+  font-size: var(--fs-h3) !important;
+  line-height: var(--lh-heading) !important;
+}
+
+[data-subcard-title="true"],
+.subcard-title-synced {
+  font-size: var(--fs-h4) !important;
+  line-height: var(--lh-heading) !important;
+}
+
+.card-body-text {
+  font-size: var(--fs-body) !important;
+  line-height: var(--lh-body) !important;
 }
 
 /* Smooth 300ms transition fade for theme and surface material switching */
@@ -68,5 +98,178 @@ body,
 .exp-detail-subcard,
 [data-card-style] {
   transition: background 300ms ease-in-out, background-color 300ms ease-in-out, border-color 300ms ease-in-out, box-shadow 300ms ease-in-out, color 300ms ease-in-out !important;
+}
+
+/* Hide specific element requested by user */
+#el-p14-button-21 {
+  display: none !important;
+}
+
+/* el-p1-div-85 has the same background as the main card across all themes */
+#el-p1-div-85,
+#letter-sections-list > #el-p1-div-85 {
+  background: var(--card-bg, inherit) !important;
+  background-color: var(--card-bg, inherit) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Keep header/footer inner nav wrapper transparent without shadow */
+#app-header nav {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Focus Mode Style Rules */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) > div#el-p1-div-77:nth-of-type(1) > div#letter-sections-list:nth-of-type(1) > div#el-p1-div-85:nth-of-type(1),
+#el-p1-div-85 {
+  padding-left: 25px !important;
+  padding-right: 25px !important;
+  padding-bottom: 25px !important;
+  padding-top: 25px !important;
+}
+
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1),
+#letter-page-container {
+  padding-top: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+/* Card Core Values: colored stroke icons + identical heading color (no solid fill blob) */
+#card-core-values-pursued .card-header-sync,
+#card-core-values-pursued .card-header-sync svg,
+#card-core-values-pursued .card-header-sync .card-title-icon,
+#card-core-values-pursued .card-header-sync h3 {
+  color: var(--accent-orange, #EA580C) !important;
+  fill: none !important;
+}
+
+#card-core-values-pursued .subcard-header-sync svg,
+#card-core-values-pursued .subcard-header-sync h4 {
+  fill: none !important;
+}
+
+/* Focus Mode Style Rules (Footer Utility Area) */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-97:nth-of-type(3) > footer#app-footer:nth-of-type(1) > div#el-p0-div-112:nth-of-type(4) {
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-97:nth-of-type(3) > footer#app-footer:nth-of-type(1) > div#el-p0-div-112:nth-of-type(4) > div#el-p0-div-113:nth-of-type(1) {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* ========================================================================= */
+/* GLOBAL 14PX BORDER RADIUS ENFORCEMENT FOR NON-NEUMORPHISM THEMES          */
+/* ========================================================================= */
+html[data-card-style]:not([data-card-style="ice-blue-neumorphism"]):not([data-card-style="dark-ice-blue-neumorphism"]) {
+  --radius-main: 14px !important;
+  --radius-card: 14px !important;
+  --radius-subcard: 14px !important;
+  --radius-banner: 14px !important;
+  --radius-modal: 14px !important;
+  --radius-popup: 14px !important;
+  --radius-widget: 14px !important;
+  --radius-input: 14px !important;
+  --radius-header: 0 0 14px 14px !important;
+  --radius-footer: 14px 14px 0 0 !important;
+}
+
+html:not([data-card-style="ice-blue-neumorphism"]):not([data-card-style="dark-ice-blue-neumorphism"]) :is(
+  .main-card,
+  [id$="-page-container"],
+  [id$="-page-root"],
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule),
+  .bento-view-card,
+  .sub-card,
+  [data-subcard="true"],
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#app-header):not(#app-footer),
+  [data-element-type="card"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#app-header):not(#app-footer):not([data-element-type="button"]),
+  [data-multicolor-bento="true"],
+  .hero-banner,
+  .banner-card,
+  [id$="-hero-banner"],
+  .exp-detail-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .letter-subcard,
+  .letter-header-subcard,
+  .letter-footer-subcard,
+  .project-card,
+  [id^="project-card-"],
+  .project-detail-section-card,
+  .project-detail-subcard,
+  .project-detail-banner-inner,
+  .skill-swot-subcard,
+  .themed-image-card,
+  .theme-modal-card,
+  .theme-modal-subcard,
+  .theme-popup
+),
+.card-light-glassmorphism,
+.card-dark-glassmorphism,
+.card-pastel-lilac-soft,
+.card-dark-pastel-lilac-soft,
+.lilac-soft-module,
+.dark-lilac-soft-module,
+.card-light-cowhide-leather,
+.card-cowhide-leather {
+  border-radius: 14px !important;
+}
+
+/* ========================================================================= */
+/* ULTRA-CRISP PURE BLACK (#000000) / PURE WHITE (#FFFFFF) FONT SHARPNESS    */
+/* ========================================================================= */
+html[data-card-style="light-glassmorphism"],
+html[data-card-style="pastel-lilac-soft"],
+html[data-card-style="light-cowhide-leather"] {
+  --color-heading: #000000 !important;
+  --color-text: #000000 !important;
+  --color-text-secondary: #111827 !important;
+  --color-text-muted: #27272A !important;
+  --text-primary: #000000 !important;
+  --text-secondary: #111827 !important;
+  --text-muted: #27272A !important;
+  --text-heading: #000000 !important;
+  --text-input: #000000 !important;
+  --pillar-heading: #000000 !important;
+  --pillar-body: #111827 !important;
+  --text-banner-pill: #000000 !important;
+  --text-banner-input: #000000 !important;
+  --text-nav-arrow: #000000 !important;
+}
+
+html[data-card-style="dark-glassmorphism"],
+html[data-card-style="dark-pastel-lilac-soft"],
+html[data-card-style="cowhide-leather"] {
+  --color-heading: #FFFFFF !important;
+  --color-text: #FFFFFF !important;
+  --color-text-secondary: #F4F4F5 !important;
+  --color-text-muted: #E4E4E7 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: #F4F4F5 !important;
+  --text-muted: #E4E4E7 !important;
+  --text-heading: #FFFFFF !important;
+  --text-input: #FFFFFF !important;
+  --pillar-heading: #FFFFFF !important;
+  --pillar-body: #F4F4F5 !important;
+  --text-banner-pill: #FFFFFF !important;
+  --text-banner-input: #FFFFFF !important;
+  --text-nav-arrow: #FFFFFF !important;
+}
+
+/* Override low-contrast legacy slate/gray classes inside content cards for Light & Dark crispness */
+html:not(.dark):not([data-card-style="ice-blue-neumorphism"]) .main-card :is(p, li, td, th, dd, dt):not(.hero-banner *):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-white"]),
+html:not(.dark):not([data-card-style="ice-blue-neumorphism"]) [role="dialog"] :is(p, li, td, th, dd, dt):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-white"]) {
+  color: #000000;
+}
+
+html.dark:not([data-card-style="dark-ice-blue-neumorphism"]) .main-card :is(p, li, td, th, dd, dt):not(.hero-banner *):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-black"]),
+html.dark:not([data-card-style="dark-ice-blue-neumorphism"]) [role="dialog"] :is(p, li, td, th, dd, dt):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-black"]) {
+  color: #FFFFFF;
 }
 

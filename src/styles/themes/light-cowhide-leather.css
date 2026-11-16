@@ -10,7 +10,7 @@
   box-shadow: 0 18px 36px -10px rgba(120, 72, 28, 0.22),
     inset 0 2px 4px rgba(255, 255, 255, 0.85),
     inset 0 -3px 6px rgba(139, 90, 43, 0.14);
-  color: #2c1606;
+  color: #000000;
   outline: 1.5px dashed rgba(139, 90, 43, 0.44);
   outline-offset: -7px;
 }
@@ -21,8 +21,8 @@ html[data-card-style="light-cowhide-leather"] {
   --leather-tan-deep: #ebd4b4;
   --leather-tan-border: #c89b6e;
   --leather-tan-saddle: #8b5a2b;
-  --leather-tan-espresso: #2c1606;
-  --leather-tan-walnut: #5c3415;
+  --leather-tan-espresso: #000000;
+  --leather-tan-walnut: #111827;
   --leather-tan-stitch: rgba(139, 90, 43, 0.44);
 
   --bg-blur: 0px;
@@ -31,34 +31,34 @@ html[data-card-style="light-cowhide-leather"] {
   --blur-nav-pill: 0px;
   --blur-modal: 0px;
 
-  --radius-main: 20px;
+  --radius-main: 14px;
   --radius-card: 14px;
-  --radius-subcard: 12px;
+  --radius-subcard: 14px;
   --radius-header: 0 0 14px 14px;
   --radius-footer: 14px 14px 0 0;
   --card-border-width: 2px;
 
-  /* Core Warm Vellum & Saddle Leather Surface + WCAG Espresso Typography */
+  /* Core Warm Vellum & Saddle Leather Surface + WCAG Contrast Typography */
   --color-bg: #faf2e5;
   --color-bg-soft: #fdf8f0;
   --color-bg-blue: #f5e6d0;
   --color-surface: #fdf8f0;
   --color-surface-elevated: #ffffff;
 
-  --color-heading: #2c1606;
-  --color-text: #2c1606;
-  --color-text-secondary: #5c3415;
-  --color-text-muted: #7c4d25;
-  --color-text-inverse: #fff8dc;
+  --color-heading: #000000;
+  --color-text: #000000;
+  --color-text-secondary: #111827;
+  --color-text-muted: #27272A;
+  --color-text-inverse: #ffffff;
   --color-link: #9a3412;
-  --text-primary: #2c1606;
-  --text-secondary: #5c3415;
-  --text-muted: #7c4d25;
-  --text-heading: #2c1606;
+  --text-primary: #000000;
+  --text-secondary: #111827;
+  --text-muted: #27272A;
+  --text-heading: #000000;
   --text-link: #9a3412;
-  --icon-primary: #5c3415;
-  --icon-secondary: #7c4d25;
-  --icon-muted: #8b5a2b;
+  --icon-primary: #111827;
+  --icon-secondary: #27272A;
+  --icon-muted: #374151;
 
   /* Warm Cognac, Saddle Amber & Botanical Accents */
   --color-primary: #b45309;
@@ -98,8 +98,8 @@ html[data-card-style="light-cowhide-leather"] {
   --bg-input: #fffaf2;
   --border-input: #c89b6e;
   --border-input-focus: #b45309;
-  --text-input: #2c1606;
-  --text-placeholder: #8b623c;
+  --text-input: #000000;
+  --text-placeholder: #374151;
   --bg-table: #fdf8f0;
   --bg-table-head: #efe0c6;
   --bg-table-row-alt: rgba(239, 224, 198, 0.52);
@@ -141,9 +141,9 @@ html[data-card-style="light-cowhide-leather"] {
   --bg-nested-badge: #fffaf2;
   --border-nested-badge: rgba(180, 120, 62, 0.45);
 
-  --pillar-heading: #2c1606;
+  --pillar-heading: #000000;
   --pillar-sub: #9a3412;
-  --pillar-body: #5c3415;
+  --pillar-body: #111827;
   --pillar-badge-bg: rgba(180, 83, 9, 0.12);
   --pillar-badge-text: #7c2d12;
   --pillar-divider: rgba(180, 120, 62, 0.30);
@@ -154,7 +154,7 @@ html[data-card-style="light-cowhide-leather"] {
   --banner-border: #c89b6e;
   --banner-shadow: var(--shadow-card);
   --bg-banner-pill: linear-gradient(145deg, #fdf8f0 0%, #f2e1c7 100%);
-  --text-banner-pill: #2c1606;
+  --text-banner-pill: #000000;
   --border-banner-pill: #c89b6e;
   --shadow-banner-pill: var(--shadow-nav-pill);
   --bg-banner-cta: linear-gradient(135deg, #b45309 0%, #8b4513 100%);
@@ -162,11 +162,11 @@ html[data-card-style="light-cowhide-leather"] {
   --border-banner-cta: #f5deb3;
   --shadow-banner-cta: 0 8px 18px -4px rgba(146, 64, 14, 0.36);
   --bg-banner-input: #fffaf2;
-  --text-banner-input: #2c1606;
+  --text-banner-input: #000000;
   --border-banner-input: #c89b6e;
   --bg-nav-arrow: linear-gradient(145deg, #fdf8f0 0%, #f2e1c7 100%);
   --border-nav-arrow: #c89b6e;
-  --text-nav-arrow: #2c1606;
+  --text-nav-arrow: #000000;
   --shadow-nav-arrow: var(--shadow-nav-pill);
   --border-image-card: #c89b6e;
   --shadow-image-card: var(--shadow-card);
@@ -230,7 +230,7 @@ html[data-card-style="light-cowhide-leather"] {
   --accent-amber: #92400e;
   --accent-yellow: #a16207;
   --accent-orange: #c2410c;
-  --accent-slate: #2c1606;
+  --accent-slate: #000000;
 }
 
 /* ========================================================================= */
@@ -240,7 +240,7 @@ html[data-card-style="light-cowhide-leather"] #app-header,
 html[data-card-style="light-cowhide-leather"] #app-footer {
   background: var(--surface-primary-bg) !important;
   border-color: var(--surface-primary-border) !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
   box-shadow: var(--surface-primary-shadow) !important;
   backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
@@ -251,7 +251,7 @@ html[data-card-style="light-cowhide-leather"] #app-footer {
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule {
   background: linear-gradient(145deg, #fdf8f0 0%, #efe0c6 100%) !important;
   border: 2px solid #c89b6e !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
   box-shadow: var(--shadow-nav-pill) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -263,7 +263,7 @@ html[data-card-style="light-cowhide-leather"] [id$="-page-root"] {
   background: var(--surface-primary-bg) !important;
   border: 1.5px solid var(--surface-primary-border) !important;
   box-shadow: var(--surface-primary-shadow) !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
   backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
   outline: 1.5px dashed rgba(139, 90, 43, 0.38);
@@ -287,7 +287,7 @@ html[data-card-style="light-cowhide-leather"] #horoscope-lookup-card {
   background: linear-gradient(145deg, #fdf8f0 0%, #f5e6d0 52%, #ebd4b4 100%) !important;
   border: 2px solid #c89b6e !important;
   box-shadow: var(--shadow-card) !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   outline: 1.5px dashed rgba(139, 90, 43, 0.44);
@@ -299,7 +299,7 @@ html[data-card-style="light-cowhide-leather"] .bento-tone-blue,
 html[data-card-style="light-cowhide-leather"] .bento-tone-sky {
   background: linear-gradient(145deg, #fdf8f0 0%, #f4e4cd 100%) !important;
   border: 1.5px dashed rgba(139, 90, 43, 0.48) !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .bento-tone-cyan,
@@ -307,7 +307,7 @@ html[data-card-style="light-cowhide-leather"] .bento-tone-teal,
 html[data-card-style="light-cowhide-leather"] .bento-tone-emerald {
   background: linear-gradient(145deg, #fcf6eb 0%, #efe0c6 100%) !important;
   border: 1.5px dashed rgba(139, 90, 43, 0.48) !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .bento-tone-purple,
@@ -315,7 +315,7 @@ html[data-card-style="light-cowhide-leather"] .bento-tone-pink,
 html[data-card-style="light-cowhide-leather"] .bento-tone-amber {
   background: linear-gradient(145deg, #fef9f1 0%, #f3dfc2 100%) !important;
   border: 1.5px dashed rgba(180, 83, 9, 0.46) !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] #horoscope-card-profile,
@@ -378,7 +378,7 @@ html[data-card-style="light-cowhide-leather"] #experience-memories-card {
   outline: 1px dashed rgba(139, 90, 43, 0.36);
   outline-offset: -5px;
   box-shadow: var(--shadow-subcard) !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -394,10 +394,10 @@ html[data-card-style="light-cowhide-leather"] .education-subcard:hover {
 }
 
 html[data-card-style="light-cowhide-leather"] .about-info-label {
-  color: #7c4d25 !important;
+  color: #27272A !important;
 }
 html[data-card-style="light-cowhide-leather"] .about-info-value {
-  color: #2c1606 !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .pillar-progress-track,
@@ -452,7 +452,7 @@ html[data-card-style="light-cowhide-leather"] .skill-swot-subcard .swot-skill-di
 }
 
 html[data-card-style="light-cowhide-leather"] .skill-swot-subcard .swot-skill-disclosure-text {
-  color: #2c1606 !important;
+  color: #000000 !important;
 }
 
 /* ========================================================================= */
@@ -471,7 +471,7 @@ html[data-card-style="light-cowhide-leather"] .theme-back-to-top-btn,
 html[data-card-style="light-cowhide-leather"] .radial-contact-pill {
   background: linear-gradient(145deg, #fdf8f0 0%, #f2e1c7 100%) !important;
   border-color: #c89b6e !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
   box-shadow: var(--shadow-nav-pill) !important;
   outline: 1px dashed rgba(139, 90, 43, 0.42);
   outline-offset: -4px;
@@ -520,11 +520,11 @@ html[data-card-style="light-cowhide-leather"] .radial-contact-icon-badge {
 
 html[data-card-style="light-cowhide-leather"] .nav-pill:not(.active) .nav-pill-title,
 html[data-card-style="light-cowhide-leather"] .radial-contact-title {
-  color: #2c1606 !important;
+  color: #000000 !important;
 }
 html[data-card-style="light-cowhide-leather"] .nav-pill:not(.active) .nav-pill-sub,
 html[data-card-style="light-cowhide-leather"] .radial-contact-sub {
-  color: #7c4d25 !important;
+  color: #27272A !important;
 }
 html[data-card-style="light-cowhide-leather"] .nav-pill.active .nav-pill-title,
 html[data-card-style="light-cowhide-leather"] .nav-pill.active .nav-pill-sub {
@@ -550,7 +550,7 @@ html[data-card-style="light-cowhide-leather"] .theme-pip-player {
   border: 2px solid #c89b6e !important;
   outline: 1px dashed rgba(139, 90, 43, 0.42);
   outline-offset: -5px;
-  color: #2c1606 !important;
+  color: #000000 !important;
   box-shadow: var(--shadow-modal) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -562,7 +562,7 @@ html[data-card-style="light-cowhide-leather"] .theme-pip-header,
 html[data-card-style="light-cowhide-leather"] .theme-pip-footer {
   background: linear-gradient(145deg, #fbf2e4 0%, #eedbc0 100%) !important;
   border-color: rgba(180, 120, 62, 0.35) !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .theme-modal-subcard {
@@ -570,7 +570,7 @@ html[data-card-style="light-cowhide-leather"] .theme-modal-subcard {
   border: 1.5px solid #d4aa7d !important;
   outline: 1px dashed rgba(139, 90, 43, 0.34);
   outline-offset: -4px;
-  color: #2c1606 !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
@@ -579,12 +579,12 @@ html[data-card-style="light-cowhide-leather"] select,
 html[data-card-style="light-cowhide-leather"] .banner-search-input {
   background: #fffaf2 !important;
   border: 1.5px solid #c89b6e !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] input::placeholder,
 html[data-card-style="light-cowhide-leather"] textarea::placeholder {
-  color: #8b623c !important;
+  color: #374151 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .themed-image-card {
@@ -597,12 +597,12 @@ html[data-card-style="light-cowhide-leather"] .themed-image-card {
 html[data-card-style="light-cowhide-leather"] .theme-table {
   background: #fdf8f0 !important;
   border-color: rgba(180, 120, 62, 0.35) !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
 }
 html[data-card-style="light-cowhide-leather"] .theme-table thead,
 html[data-card-style="light-cowhide-leather"] .theme-table th {
   background: #efe0c6 !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
   border-color: rgba(180, 120, 62, 0.35) !important;
 }
 
@@ -610,7 +610,7 @@ html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-prev-b
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-next-btn {
   background: linear-gradient(145deg, #fdf8f0 0%, #efe0c6 100%) !important;
   border: 1.5px solid #c89b6e !important;
-  color: #2c1606 !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .project-detail-chip,
@@ -619,7 +619,7 @@ html[data-card-style="light-cowhide-leather"] .project-card-tag,
 html[data-card-style="light-cowhide-leather"] .project-card-order-badge {
   background: #efe0c6 !important;
   border: 1px dashed rgba(139, 90, 43, 0.48) !important;
-  color: #5c3415 !important;
+  color: #111827 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] button:focus-visible,

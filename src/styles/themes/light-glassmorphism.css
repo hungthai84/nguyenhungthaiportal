@@ -9,7 +9,7 @@
   -webkit-backdrop-filter: blur(22px) saturate(165%);
   border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 20px 44px -12px rgba(15, 23, 42, 0.18), inset 0 1.5px 1px rgba(255, 255, 255, 0.95);
-  color: #0f172a;
+  color: #000000;
 }
 
 html[data-card-style="light-glassmorphism"] {
@@ -24,15 +24,15 @@ html[data-card-style="light-glassmorphism"] {
   --color-bg-soft: #f8fbff;
   --color-surface: rgba(255, 255, 255, 0.72);
   --color-surface-elevated: rgba(255, 255, 255, 0.86);
-  --color-heading: #0f172a;
-  --color-text: #0f172a;
-  --color-text-secondary: #334155;
-  --color-text-muted: #475569;
+  --color-heading: #000000;
+  --color-text: #000000;
+  --color-text-secondary: #111827;
+  --color-text-muted: #27272A;
   --color-link: #0284c7;
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #475569;
-  --text-heading: #0f172a;
+  --text-primary: #000000;
+  --text-secondary: #111827;
+  --text-muted: #27272A;
+  --text-heading: #000000;
   --text-link: #0284c7;
 
   --color-primary: #0284c7;
@@ -63,8 +63,8 @@ html[data-card-style="light-glassmorphism"] {
   --bg-input: rgba(255, 255, 255, 0.82);
   --border-input: rgba(15, 23, 42, 0.14);
   --border-input-focus: #0284c7;
-  --text-input: #0f172a;
-  --text-placeholder: #64748b;
+  --text-input: #000000;
+  --text-placeholder: #374151;
   --bg-table: rgba(255, 255, 255, 0.72);
   --bg-table-head: rgba(255, 255, 255, 0.86);
   --bg-table-row-alt: rgba(255, 255, 255, 0.44);
@@ -91,9 +91,9 @@ html[data-card-style="light-glassmorphism"] {
   --bg-nested-badge: rgba(255, 255, 255, 0.88);
   --border-nested-badge: rgba(255, 255, 255, 0.94);
 
-  --pillar-heading: #0f172a;
+  --pillar-heading: #000000;
   --pillar-sub: #0284c7;
-  --pillar-body: #334155;
+  --pillar-body: #111827;
   --pillar-badge-bg: rgba(2, 132, 199, 0.10);
   --pillar-badge-text: #0369a1;
   --pillar-divider: rgba(15, 23, 42, 0.10);
@@ -118,7 +118,7 @@ html[data-card-style="light-glassmorphism"] {
   --banner-shadow: 0 20px 44px -12px rgba(15, 23, 42, 0.18),
     inset 0 1.5px 1px rgba(255, 255, 255, 0.95);
   --bg-banner-pill: linear-gradient(145deg, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0.64) 100%);
-  --text-banner-pill: #0f172a;
+  --text-banner-pill: #000000;
   --border-banner-pill: rgba(255, 255, 255, 0.90);
   --shadow-banner-pill: 0 8px 20px -6px rgba(15, 23, 42, 0.14),
     inset 0 1.5px 1px rgba(255, 255, 255, 0.95);
@@ -126,11 +126,11 @@ html[data-card-style="light-glassmorphism"] {
   --text-banner-cta: #ffffff;
   --border-banner-cta: rgba(255, 255, 255, 0.65);
   --bg-banner-input: rgba(255, 255, 255, 0.86);
-  --text-banner-input: #0f172a;
+  --text-banner-input: #000000;
   --border-banner-input: rgba(255, 255, 255, 0.90);
   --bg-nav-arrow: linear-gradient(145deg, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.66) 100%);
   --border-nav-arrow: rgba(255, 255, 255, 0.90);
-  --text-nav-arrow: #0f172a;
+  --text-nav-arrow: #000000;
   --shadow-nav-arrow: 0 8px 20px -6px rgba(15, 23, 42, 0.14),
     inset 0 1.5px 1px rgba(255, 255, 255, 0.95);
   --border-image-card: rgba(255, 255, 255, 0.88);
@@ -197,7 +197,7 @@ html[data-card-style="light-glassmorphism"] #app-header {
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 16px)) saturate(165%) !important;
   border-color: var(--surface-primary-border) !important;
   box-shadow: var(--surface-primary-shadow) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] #app-footer {
@@ -206,7 +206,7 @@ html[data-card-style="light-glassmorphism"] #app-footer {
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 16px)) saturate(165%) !important;
   border-color: var(--surface-primary-border) !important;
   box-shadow: var(--surface-primary-shadow) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] .main-card,
@@ -217,7 +217,7 @@ html[data-card-style="light-glassmorphism"] [id$="-page-root"] {
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 16px)) saturate(165%) !important;
   border: 1px solid var(--surface-primary-border) !important;
   box-shadow: var(--surface-primary-shadow) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] #footer-nav-capsule {
@@ -226,7 +226,7 @@ html[data-card-style="light-glassmorphism"] #footer-nav-capsule {
   -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
   border: 1px solid rgba(255, 255, 255, 0.88) !important;
   box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.16), inset 0 1.5px 1px rgba(255, 255, 255, 0.95) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 /* Level 02: Primary Cards (Exact .card-light-glassmorphism Specular White Border Surface) */
@@ -242,7 +242,7 @@ html[data-card-style="light-glassmorphism"] #contact-info-container {
   -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
   border: 1px solid rgba(255, 255, 255, 0.85) !important;
   box-shadow: 0 20px 44px -12px rgba(15, 23, 42, 0.18), inset 0 1.5px 1px rgba(255, 255, 255, 0.95) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]):hover,
@@ -273,7 +273,7 @@ html[data-card-style="light-glassmorphism"] .letter-footer-subcard {
   -webkit-backdrop-filter: blur(18px) saturate(155%) !important;
   border: 1px solid rgba(255, 255, 255, 0.88) !important;
   box-shadow: 0 10px 24px -8px rgba(15, 23, 42, 0.12), inset 0 1.5px 1px rgba(255, 255, 255, 0.95) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] [data-subcard="true"]:not(.skill-swot-subcard):hover,
@@ -321,7 +321,7 @@ html[data-card-style="light-glassmorphism"] .bento-tone-sky {
   -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
   border: 1px solid rgba(255, 255, 255, 0.85) !important;
   box-shadow: 0 20px 44px -12px rgba(15, 23, 42, 0.18), inset 0 1.5px 1px rgba(255, 255, 255, 0.95) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 /* High Contrast WCAG Typography Assurance (#0f172a) */
@@ -332,12 +332,12 @@ html[data-card-style="light-glassmorphism"] h4:not(.hero-banner h4):not(.card-ti
 html[data-card-style="light-glassmorphism"] h5:not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]):not([style*="color"]):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-teal-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-indigo-"]):not([class*="text-violet-"]):not([class*="text-purple-"]):not([class*="text-fuchsia-"]):not([class*="text-pink-"]):not([class*="text-rose-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-yellow-"]):not([class*="text-red-"]):not([class*="text-[#"]),
 html[data-card-style="light-glassmorphism"] .card-heading__title:not(.card-title-synced):not([data-card-title]),
 html[data-card-style="light-glassmorphism"] .card-title:not(.card-title-synced):not([data-card-title]):not([style*="color"]):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-teal-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-indigo-"]):not([class*="text-violet-"]):not([class*="text-purple-"]):not([class*="text-fuchsia-"]):not([class*="text-pink-"]):not([class*="text-rose-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-yellow-"]):not([class*="text-red-"]):not([class*="text-[#"]) {
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] p:not([class*="text-"]),
 html[data-card-style="light-glassmorphism"] span:not([class*="text-"]):not([class*="bg-"]) {
-  color: #0f172a;
+  color: #000000;
 }
 
 /* Level 04: Navigation Pills, Banner Controls, Nav Arrows & Action Buttons */
@@ -352,7 +352,7 @@ html[data-card-style="light-glassmorphism"] #footer-ai-btn:not(.active) {
   -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
   border-color: rgba(255, 255, 255, 0.90) !important;
   box-shadow: var(--shadow-nav-pill) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] #app-header nav button.nav-pill:not(.active):hover,
@@ -380,7 +380,7 @@ html[data-card-style="light-glassmorphism"] .radial-contact-pill {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0.64) 100%) !important;
   backdrop-filter: blur(22px) saturate(165%) !important;
   -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
   border: 1px solid rgba(255, 255, 255, 0.88) !important;
   box-shadow: var(--shadow-nav-pill) !important;
 }
@@ -421,21 +421,21 @@ html[data-card-style="light-glassmorphism"] .theme-modal-card {
   -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
   border: 1px solid rgba(255, 255, 255, 0.92) !important;
   box-shadow: var(--shadow-popup) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] .theme-modal-header,
 html[data-card-style="light-glassmorphism"] .theme-modal-footer {
   background: rgba(255, 255, 255, 0.84) !important;
   border-color: rgba(15, 23, 42, 0.08) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] .theme-modal-subcard {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.80) 0%, rgba(255, 255, 255, 0.60) 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.88) !important;
   box-shadow: 0 10px 24px -8px rgba(15, 23, 42, 0.12), inset 0 1.5px 1px rgba(255, 255, 255, 0.95) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] .themed-image-card {
@@ -450,7 +450,7 @@ html[data-card-style="light-glassmorphism"] select,
 html[data-card-style="light-glassmorphism"] .banner-search-input {
   background: rgba(255, 255, 255, 0.84) !important;
   border: 1px solid rgba(255, 255, 255, 0.92) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
   box-shadow: 0 4px 12px -4px rgba(15, 23, 42, 0.08), inset 0 1.5px 1px rgba(255, 255, 255, 0.95) !important;
 }
 
@@ -467,20 +467,20 @@ html[data-card-style="light-glassmorphism"] .theme-pip-player {
   -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
   border: 1px solid rgba(255, 255, 255, 0.92) !important;
   box-shadow: var(--shadow-popup) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] .theme-pip-header,
 html[data-card-style="light-glassmorphism"] .theme-pip-footer {
   background: rgba(255, 255, 255, 0.84) !important;
   border-color: rgba(15, 23, 42, 0.08) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] .theme-modal-close {
   background: rgba(255, 255, 255, 0.88) !important;
   border: 1px solid rgba(255, 255, 255, 0.94) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] .project-detail-chip,
@@ -489,20 +489,20 @@ html[data-card-style="light-glassmorphism"] .project-card-tag,
 html[data-card-style="light-glassmorphism"] .project-card-order-badge {
   background: rgba(255, 255, 255, 0.82) !important;
   border: 1px solid rgba(255, 255, 255, 0.92) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
 }
 
 html[data-card-style="light-glassmorphism"] .theme-table {
   background: rgba(255, 255, 255, 0.72) !important;
   border-color: rgba(255, 255, 255, 0.85) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="light-glassmorphism"] .theme-table thead,
 html[data-card-style="light-glassmorphism"] .theme-table th {
   background: rgba(255, 255, 255, 0.86) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
   border-color: rgba(15, 23, 42, 0.08) !important;
 }
 
@@ -510,6 +510,6 @@ html[data-card-style="light-glassmorphism"] #footer-nav-capsule #footer-prev-btn
 html[data-card-style="light-glassmorphism"] #footer-nav-capsule #footer-next-btn {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.68) 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.92) !important;
-  color: #0f172a !important;
+  color: #000000 !important;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.95) !important;
 }

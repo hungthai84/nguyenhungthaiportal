@@ -1149,9 +1149,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] w-full min-w-0">
               <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5">
-                <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-indigo-600 dark:text-indigo-400">
-                  <Calendar className="w-4 h-4 shrink-0" />
-                  <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-indigo-600 dark:text-indigo-400 truncate m-0" data-subcard-title="true">
+                <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
+                  <Moon className="w-4 h-4 shrink-0" />
+                  <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 truncate m-0" data-subcard-title="true">
                     Ngày sinh dương lịch
                   </h5>
                 </div>

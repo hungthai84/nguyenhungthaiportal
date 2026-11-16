@@ -26,9 +26,12 @@ html.dark[data-card-style="dark-ice-blue-neumorphism"] {
 
   --radius-main: 28px;
   --radius-card: 28px;
-  --radius-subcard: 20px;
-  --radius-header: 0 0 24px 24px;
-  --radius-footer: 24px 24px 0 0;
+  --radius-subcard: 18px;
+  --radius-banner: 28px;
+  --radius-modal: 28px;
+  --radius-popup: 20px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
   --card-border-width: 1px;
 
   /* Core Deep Ice-Blue Surface & WCAG Contrast Tokens */
@@ -43,8 +46,8 @@ html.dark[data-card-style="dark-ice-blue-neumorphism"] {
   --color-text-secondary: #cbd5e1;
   --color-text-muted: #94a3b8;
   --color-link: #38bdf8;
-  --text-primary: #f8fafc;
-  --text-secondary: #e2e8f0;
+  --text-primary: #e2e8f0;
+  --text-secondary: #cbd5e1;
   --text-muted: #94a3b8;
   --text-heading: #f8fafc;
   --text-link: #38bdf8;
@@ -78,8 +81,8 @@ html.dark[data-card-style="dark-ice-blue-neumorphism"] {
   --bg-input: #131d2b;
   --border-input: rgba(148, 197, 248, 0.16);
   --border-input-focus: #38bdf8;
-  --text-input: #e2e8f0;
-  --text-placeholder: #94a3b8;
+  --text-input: #FFFFFF;
+  --text-placeholder: #D4D4D8;
   --bg-table: #152030;
   --bg-table-head: #182536;
   --bg-table-row-alt: rgba(19, 29, 43, 0.72);
@@ -127,9 +130,9 @@ html.dark[data-card-style="dark-ice-blue-neumorphism"] {
   --bg-nested-badge: linear-gradient(145deg, #182536 0%, #121c29 100%);
   --border-nested-badge: rgba(148, 197, 248, 0.18);
 
-  --pillar-heading: #f8fafc;
+  --pillar-heading: #FFFFFF;
   --pillar-sub: #38bdf8;
-  --pillar-body: #cbd5e1;
+  --pillar-body: #F4F4F5;
   --pillar-badge-bg: rgba(56, 189, 248, 0.16);
   --pillar-badge-text: #7dd3fc;
   --pillar-divider: rgba(148, 197, 248, 0.14);
@@ -142,7 +145,7 @@ html.dark[data-card-style="dark-ice-blue-neumorphism"] {
     -10px -10px 22px #203147,
     inset 1px 1px 2px rgba(186, 230, 253, 0.14);
   --bg-banner-pill: linear-gradient(145deg, #182536 0%, #121c29 100%);
-  --text-banner-pill: #e2e8f0;
+  --text-banner-pill: #FFFFFF;
   --border-banner-pill: rgba(148, 197, 248, 0.16);
   --shadow-banner-pill: 6px 6px 14px #0a1018, -5px -5px 12px #203147;
   --bg-banner-cta: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 52%, #ec4899 100%);
@@ -150,11 +153,11 @@ html.dark[data-card-style="dark-ice-blue-neumorphism"] {
   --border-banner-cta: rgba(186, 230, 253, 0.35);
   --shadow-banner-cta: 0 8px 22px rgba(56, 189, 248, 0.32);
   --bg-banner-input: #131d2b;
-  --text-banner-input: #e2e8f0;
+  --text-banner-input: #FFFFFF;
   --border-banner-input: rgba(148, 197, 248, 0.16);
   --bg-nav-arrow: linear-gradient(145deg, #182536 0%, #121c29 100%);
   --border-nav-arrow: rgba(148, 197, 248, 0.16);
-  --text-nav-arrow: #e2e8f0;
+  --text-nav-arrow: #FFFFFF;
   --shadow-nav-arrow: 5px 5px 12px #0a1018, -4px -4px 10px #203147;
   --border-image-card: rgba(148, 197, 248, 0.14);
   --shadow-image-card: 12px 12px 26px #0a1018, -10px -10px 22px #203147;
@@ -212,7 +215,7 @@ html[data-card-style="dark-ice-blue-neumorphism"] #app-footer {
   -webkit-backdrop-filter: blur(10px) !important;
   border-color: rgba(148, 197, 248, 0.14) !important;
   box-shadow: var(--shadow-header) !important;
-  color: #e2e8f0 !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-ice-blue-neumorphism"] .main-card,
@@ -223,7 +226,7 @@ html[data-card-style="dark-ice-blue-neumorphism"] [id$="-page-root"] {
   -webkit-backdrop-filter: blur(10px) !important;
   border: 1px solid rgba(148, 197, 248, 0.12) !important;
   box-shadow: var(--shadow-main-card) !important;
-  color: #e2e8f0 !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-ice-blue-neumorphism"] #footer-nav-capsule {
@@ -232,7 +235,7 @@ html[data-card-style="dark-ice-blue-neumorphism"] #footer-nav-capsule {
   -webkit-backdrop-filter: none !important;
   border: 1px solid rgba(148, 197, 248, 0.14) !important;
   box-shadow: var(--shadow-nav-pill) !important;
-  color: #e2e8f0 !important;
+  color: #FFFFFF !important;
 }
 
 /* ========================================================================= */
@@ -257,6 +260,7 @@ html[data-card-style="dark-ice-blue-neumorphism"] .bento-tone-sky {
   background: linear-gradient(145deg, #182536 0%, #121c29 100%) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  border-radius: 28px !important;
   border: 1px solid rgba(148, 197, 248, 0.12) !important;
   box-shadow: 12px 12px 26px #0a1018, -10px -10px 22px #203147, inset 1px 1px 2px rgba(186, 230, 253, 0.14) !important;
   color: #e2e8f0 !important;
@@ -286,6 +290,7 @@ html[data-card-style="dark-ice-blue-neumorphism"] .project-detail-subcard {
   background: #131d2b !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  border-radius: 18px !important;
   border: 1px solid rgba(148, 197, 248, 0.10) !important;
   box-shadow: inset 4px 4px 8px #0a1018, inset -4px -4px 8px #1e2e43 !important;
   color: #e2e8f0 !important;
@@ -360,7 +365,7 @@ html[data-card-style="dark-ice-blue-neumorphism"] .radial-contact-pill {
   -webkit-backdrop-filter: none !important;
   border-color: rgba(148, 197, 248, 0.16) !important;
   box-shadow: var(--shadow-nav-pill) !important;
-  color: #e2e8f0 !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-ice-blue-neumorphism"] #app-header nav button.nav-pill:not(.active):hover,
@@ -392,21 +397,21 @@ html[data-card-style="dark-ice-blue-neumorphism"] .theme-modal-card {
   -webkit-backdrop-filter: none !important;
   border: 1px solid rgba(148, 197, 248, 0.16) !important;
   box-shadow: var(--shadow-modal) !important;
-  color: #e2e8f0 !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-ice-blue-neumorphism"] .theme-modal-header,
 html[data-card-style="dark-ice-blue-neumorphism"] .theme-modal-footer {
   background: linear-gradient(145deg, #1a283b 0%, #131d2b 100%) !important;
   border-color: rgba(148, 197, 248, 0.14) !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-ice-blue-neumorphism"] .theme-modal-subcard {
   background: #131d2b !important;
   border: 1px solid rgba(148, 197, 248, 0.12) !important;
   box-shadow: inset 4px 4px 8px #0a1018, inset -4px -4px 8px #1e2e43 !important;
-  color: #e2e8f0 !important;
+  color: #FFFFFF !important;
 }
 
 /* Inset Dark Ice-Blue Neumorphic Form Controls */
@@ -416,7 +421,7 @@ html[data-card-style="dark-ice-blue-neumorphism"] select,
 html[data-card-style="dark-ice-blue-neumorphism"] .banner-search-input {
   background: #131d2b !important;
   border: 1px solid rgba(148, 197, 248, 0.14) !important;
-  color: #f1f5f9 !important;
+  color: #FFFFFF !important;
   box-shadow: inset 4px 4px 8px #0a1018, inset -4px -4px 8px #1e2e43 !important;
 }
 
@@ -440,13 +445,13 @@ html[data-card-style="dark-ice-blue-neumorphism"] .themed-image-card {
 html[data-card-style="dark-ice-blue-neumorphism"] .theme-table {
   background: #131d2b !important;
   border-color: rgba(148, 197, 248, 0.14) !important;
-  color: #e2e8f0 !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-ice-blue-neumorphism"] .theme-table thead,
 html[data-card-style="dark-ice-blue-neumorphism"] .theme-table th {
   background: #182536 !important;
-  color: #f8fafc !important;
+  color: #FFFFFF !important;
   border-color: rgba(148, 197, 248, 0.14) !important;
 }
 
@@ -454,7 +459,7 @@ html[data-card-style="dark-ice-blue-neumorphism"] #footer-nav-capsule #footer-pr
 html[data-card-style="dark-ice-blue-neumorphism"] #footer-nav-capsule #footer-next-btn {
   background: linear-gradient(145deg, #182536 0%, #121c29 100%) !important;
   border: 1px solid rgba(148, 197, 248, 0.16) !important;
-  color: #e2e8f0 !important;
+  color: #FFFFFF !important;
   box-shadow: var(--shadow-nav-arrow) !important;
 }
 
@@ -464,7 +469,7 @@ html[data-card-style="dark-ice-blue-neumorphism"] .project-card-tag,
 html[data-card-style="dark-ice-blue-neumorphism"] .project-card-order-badge {
   background: #131d2b !important;
   border: 1px solid rgba(148, 197, 248, 0.16) !important;
-  color: #e2e8f0 !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-ice-blue-neumorphism"] button:focus-visible,

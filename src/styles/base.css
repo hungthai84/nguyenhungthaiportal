@@ -4,6 +4,9 @@
     font-size: 16px;
     line-height: var(--lh-body);
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   html, body {
@@ -22,6 +25,9 @@
     transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
     user-select: text !important;
     -webkit-user-select: text !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   #root {
@@ -77,6 +83,8 @@
   .font-handwriting,
   .font-quote {
     font-family: var(--font-quote) !important;
+    font-size: var(--fs-quote, 18px) !important;
+    line-height: 1.35 !important;
   }
 
   button:focus-visible,

@@ -274,17 +274,16 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     typeof window !== 'undefined' ? window.innerWidth >= 768 : true
   );
 
+  const stepLockUntilRef = useRef<number>(0);
+  const touchStartYRef = useRef<number | null>(null);
+
   useEffect(() => {
     const el = bannerSidebarRef.current;
     if (!el) return;
     const updateHeight = () => {
       const desktop = typeof window !== 'undefined' ? window.innerWidth >= 768 : true;
       setIsDesktopMd(desktop);
-      if (!desktop) {
-        setBannerHeight(null);
-        return;
-      }
-      const h = el.offsetHeight || Math.round(el.getBoundingClientRect().height);
+      const h = Math.round(el.getBoundingClientRect().height) || el.offsetHeight;
       if (h > 100) {
         setBannerHeight((prev) => (prev === h ? prev : h));
       }
@@ -343,30 +342,82 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
   };
 
   const getSyncedCardStyle = (_gradientIdx?: number): React.CSSProperties => ({
-    ...(isDesktopMd && bannerHeight
+    ...(bannerHeight
       ? {
           height: `${bannerHeight}px`,
           minHeight: `${bannerHeight}px`,
           maxHeight: `${bannerHeight}px`,
         }
       : {
-          height: 'auto',
+          height: '100%',
           minHeight: '0px',
         }),
     padding: '15px',
     borderRadius: '14px',
   });
 
+  const getSectionCards = (sc: HTMLDivElement) =>
+    Array.from(sc.querySelectorAll<HTMLElement>(':scope > [data-section-card="true"]'));
+
+  const findInnerScrollable = (target: EventTarget | null, sc: HTMLDivElement): HTMLElement | null => {
+    let node = target instanceof HTMLElement ? target : null;
+    while (node && node !== sc) {
+      const style = typeof window !== 'undefined' ? window.getComputedStyle(node) : null;
+      const oy = style?.overflowY;
+      if ((oy === 'auto' || oy === 'scroll') && node.scrollHeight > node.clientHeight + 2) {
+        return node;
+      }
+      node = node.parentElement;
+    }
+    return null;
+  };
+
+  const stepCardByDirection = React.useCallback(
+    (direction: 1 | -1) => {
+      const sc = scrollContainerRef.current;
+      if (!sc) return false;
+      const cards = getSectionCards(sc);
+      if (!cards.length) return false;
+
+      const scTop = sc.getBoundingClientRect().top;
+      let currentIdx = 0;
+      let bestDist = Infinity;
+      cards.forEach((card, idx) => {
+        const dist = Math.abs(card.getBoundingClientRect().top - scTop);
+        if (dist < bestDist) {
+          bestDist = dist;
+          currentIdx = idx;
+        }
+      });
+
+      const nextIdx = Math.max(0, Math.min(cards.length - 1, currentIdx + direction));
+      if (nextIdx === currentIdx) return false;
+
+      const targetCard = cards[nextIdx];
+      const deltaTop = targetCard.getBoundingClientRect().top - scTop;
+      stepLockUntilRef.current = Date.now() + 440;
+      if (targetCard.id) {
+        onSectionChange?.(targetCard.id);
+      }
+      sc.scrollTo({
+        top: sc.scrollTop + deltaTop,
+        behavior: 'smooth',
+      });
+      return true;
+    },
+    [onSectionChange]
+  );
+
   useEffect(() => {
     const sc = scrollContainerRef.current;
     if (!sc) return;
 
     const onScroll = () => {
-      const cards = Array.from(sc.querySelectorAll<HTMLElement>('[data-section-card="true"]'));
+      const cards = getSectionCards(sc);
       if (!cards.length) return;
       const top = sc.getBoundingClientRect().top;
 
-      // Cập nhật mục lục đang xem (active section) theo vị trí cuộn tự nhiên (không chuyển động/co giãn thẻ)
+      // Cập nhật mục lục đang xem (active section) theo vị trí cuộn
       if (onSectionChange) {
         for (let i = cards.length - 1; i >= 0; i--) {
           const cardTop = cards[i].getBoundingClientRect().top;
@@ -378,13 +429,52 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       }
     };
 
+    const onWheel = (e: WheelEvent) => {
+      if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      if (Math.abs(e.deltaY) < 4) return;
+
+      const direction: 1 | -1 = e.deltaY > 0 ? 1 : -1;
+      const innerScrollable = findInnerScrollable(e.target, sc);
+      if (innerScrollable) {
+        const canScrollDown =
+          innerScrollable.scrollTop + innerScrollable.clientHeight < innerScrollable.scrollHeight - 2;
+        const canScrollUp = innerScrollable.scrollTop > 2;
+        if ((direction === 1 && canScrollDown) || (direction === -1 && canScrollUp)) {
+          return;
+        }
+      }
+
+      const cards = getSectionCards(sc);
+      if (!cards.length) return;
+
+      const scTop = sc.getBoundingClientRect().top;
+      let currentIdx = 0;
+      let bestDist = Infinity;
+      cards.forEach((card, idx) => {
+        const dist = Math.abs(card.getBoundingClientRect().top - scTop);
+        if (dist < bestDist) {
+          bestDist = dist;
+          currentIdx = idx;
+        }
+      });
+
+      const nextIdx = Math.max(0, Math.min(cards.length - 1, currentIdx + direction));
+      if (nextIdx === currentIdx) return;
+
+      e.preventDefault();
+      if (Date.now() < stepLockUntilRef.current) return;
+      stepCardByDirection(direction);
+    };
+
     sc.addEventListener('scroll', onScroll, { passive: true });
+    sc.addEventListener('wheel', onWheel, { passive: false });
     onScroll();
 
     return () => {
       sc.removeEventListener('scroll', onScroll);
+      sc.removeEventListener('wheel', onWheel);
     };
-  }, [selectedArticle, spec, onSectionChange]);
+  }, [selectedArticle, spec, onSectionChange, stepCardByDirection]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -396,12 +486,15 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
-
-
   const scrollToSection = (id: string) => {
     onSectionChange?.(id);
+    const sc = scrollContainerRef.current;
     const el = document.getElementById(id);
-    if (el) {
+    if (sc && el) {
+      const deltaTop = el.getBoundingClientRect().top - sc.getBoundingClientRect().top;
+      stepLockUntilRef.current = Date.now() + 440;
+      sc.scrollTo({ top: sc.scrollTop + deltaTop, behavior: 'smooth' });
+    } else if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
@@ -416,10 +509,42 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
   return (
     <div className="w-full h-full flex-1 min-h-0 flex flex-col md:flex-row gap-[15px] items-stretch relative overflow-y-auto md:overflow-hidden glass-scrollbar text-left font-play">
-      {/* 1. KHỐI NỘI DUNG CHI TIẾT BÀI VIẾT DỰ ÁN (BÊN TRÁI) */}
+      {/* 1. KHỐI NỘI DUNG CHI TIẾT BÀI VIẾT DỰ ÁN (BÊN TRÁI) - SMART SINGLE CARD SNAP SCROLL */}
       <div
         ref={scrollContainerRef}
-        className="flex-1 min-w-0 min-h-0 md:h-full overflow-visible md:overflow-y-auto glass-scrollbar md:pr-1.5 pb-6 md:pb-28 flex flex-col gap-[15px] text-left"
+        onTouchStart={(e) => {
+          touchStartYRef.current = e.touches[0]?.clientY ?? null;
+        }}
+        onTouchEnd={(e) => {
+          if (touchStartYRef.current === null) return;
+          const endY = e.changedTouches[0]?.clientY;
+          const startY = touchStartYRef.current;
+          touchStartYRef.current = null;
+          if (typeof endY !== 'number') return;
+          const diffY = startY - endY;
+          if (Math.abs(diffY) < 36) return;
+
+          const sc = scrollContainerRef.current;
+          if (!sc) return;
+          const direction: 1 | -1 = diffY > 0 ? 1 : -1;
+          const innerScrollable = findInnerScrollable(e.target, sc);
+          if (innerScrollable) {
+            const canScrollDown =
+              innerScrollable.scrollTop + innerScrollable.clientHeight < innerScrollable.scrollHeight - 2;
+            const canScrollUp = innerScrollable.scrollTop > 2;
+            if ((direction === 1 && canScrollDown) || (direction === -1 && canScrollUp)) {
+              return;
+            }
+          }
+          if (Date.now() < stepLockUntilRef.current) return;
+          stepCardByDirection(direction);
+        }}
+        style={
+          !isDesktopMd && bannerHeight
+            ? { height: `${bannerHeight}px`, minHeight: `${bannerHeight}px`, maxHeight: `${bannerHeight}px` }
+            : undefined
+        }
+        className="flex-1 min-w-0 min-h-0 md:h-full overflow-y-auto snap-y snap-mandatory scroll-smooth glass-scrollbar md:pr-1.5 pb-0 flex flex-col gap-[15px] text-left shrink-0 md:shrink"
       >
           {spec && (
             <>
@@ -428,7 +553,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-mindmap"
             data-section-card="true"
             style={getSyncedCardStyle(0)}
-            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 snap-start snap-always transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             {/* Header Card Sơ Đồ Tư Duy */}
@@ -685,7 +810,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-overview"
             data-section-card="true"
             style={getSyncedCardStyle(1)}
-            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 snap-start snap-always transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -857,7 +982,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-context"
             data-section-card="true"
             style={getSyncedCardStyle(2)}
-            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 snap-start snap-always transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -941,7 +1066,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-objectives"
             data-section-card="true"
             style={getSyncedCardStyle(3)}
-            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 snap-start snap-always transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1041,7 +1166,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-scope"
             data-section-card="true"
             style={getSyncedCardStyle(4)}
-            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 snap-start snap-always transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1149,7 +1274,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-methodology"
             data-section-card="true"
             style={getSyncedCardStyle(5)}
-            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 snap-start snap-always transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1239,7 +1364,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-metrics"
             data-section-card="true"
             style={getSyncedCardStyle(6)}
-            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 snap-start snap-always transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1341,7 +1466,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-roles"
             data-section-card="true"
             style={getSyncedCardStyle(7)}
-            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 snap-start snap-always transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1427,7 +1552,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             data-legacy-id="projects-results-card"
             data-section-card="true"
             style={getSyncedCardStyle(3)}
-            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 snap-start snap-always transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1517,7 +1642,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             id="sec-philosophy"
             data-section-card="true"
             style={getSyncedCardStyle(8)}
-            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 transition-all duration-300"
+            className="project-detail-section-card u223-c relative overflow-hidden w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between shrink-0 snap-start snap-always transition-all duration-300"
           >
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             
@@ -1631,12 +1756,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           ref={bannerSidebarRef}
           id="project-detail-banner"
           data-banner-aspect="sidebar"
-          className="w-full md:w-[260px] lg:w-[285px] xl:w-[315px] shrink-0 h-auto max-h-[500px] md:max-h-none md:h-full flex flex-col pointer-events-auto"
+          data-section-card="true"
+          className="w-full md:w-[260px] lg:w-[285px] xl:w-[315px] shrink-0 h-auto max-h-[420px] sm:max-h-[460px] md:max-h-none md:h-full flex flex-col pointer-events-auto rounded-[14px] p-3 sm:p-3.5 justify-between overflow-hidden relative group"
         >
-          <div
-            data-section-card="true"
-            className="project-detail-banner-inner w-full h-full rounded-[14px] p-3 sm:p-3.5 flex flex-col justify-between overflow-hidden relative group"
-          >
             {/* HÌNH BANNER DỰ ÁN CĂN CHÍNH GIỮA (CENTER BANNER DỌC) VÀ NHÌN RÕ HÌNH NỀN BÊN DƯỚI */}
             {selectedArticle.image && (
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[inherit]">
@@ -1821,7 +1943,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 </span>
               </button>
             </div>
-          </div>
         </aside>
       )}
     </div>

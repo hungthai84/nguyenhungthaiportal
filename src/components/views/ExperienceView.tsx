@@ -871,13 +871,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             <header className="pointer-events-auto">
               <div
                 style={{ color: isLeather ? '#FDE68A' : isDarkSurface ? '#38BDF8' : '#0284C7' }}
-                className="font-normal tracking-[0.06em] leading-[1.05] text-[20px] sm:text-[24px] lg:text-[26px]"
+                className="typo-h2 font-normal tracking-[0.06em] leading-[1.1]"
               >
                 Thời Gian
               </div>
               <h1
                 style={{ color: isLeather ? '#FFF8DC' : isDarkSurface ? '#F8FAFC' : '#1E293B' }}
-                className="font-bold tracking-[0.06em] leading-[1.02] mt-1 text-[24px] sm:text-[30px] lg:text-[34px] m-0"
+                className="typo-h1 font-bold tracking-[0.06em] leading-[1.08] mt-1 m-0"
               >
                 Công Tác
               </h1>
@@ -1020,7 +1020,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       {/* 1. ICON LỊCH + NĂM */}
                       <div
                         style={{ color: primaryTextColor }}
-                        className="w-full h-7 shrink-0 flex items-center justify-center gap-1.5 font-bold tracking-[0.03em] leading-none text-[16px] mb-2"
+                        className="w-full h-7 shrink-0 flex items-center justify-center gap-1.5 typo-h5 font-bold tracking-[0.03em] leading-none mb-2"
                       >
                         <Calendar className="w-[17px] h-[17px] shrink-0" strokeWidth={2.3} />
                         <span>{item.yearBadge}</span>
@@ -1057,7 +1057,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           data-subcard-title="true"
                           title={`Nhấn để xem chi tiết công việc tại ${item.companyLine1} ${item.companyLine2}`}
                           className={cn(
-                            'subcard-title-synced font-bold leading-[1.28] text-[15px] sm:text-[15.5px] lg:text-[16px] min-h-[2.8em] sm:min-h-[3.8em] lg:min-h-[4.2em] border-b pb-2 mb-2.5 break-words cursor-pointer hover:underline flex flex-col justify-center',
+                            'subcard-title-synced typo-h5 font-bold leading-[1.28] min-h-[2.8em] sm:min-h-[3.8em] lg:min-h-[4.2em] border-b pb-2 mb-2.5 break-words cursor-pointer hover:underline flex flex-col justify-center',
                             isLeather
                               ? 'border-[#F5DEB3]/35'
                               : isDarkSurface
@@ -1070,7 +1070,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         </h3>
 
                         {/* Vị trí & Quản lý kèm icon */}
-                        <div className="space-y-1.5 mb-2.5 text-[12px]">
+                        <div className="space-y-1.5 mb-2.5 typo-label font-normal">
                           <div className="flex items-start gap-1.5 leading-[1.35]">
                             <span
                               style={{ color: resolvedAccent }}
@@ -1101,7 +1101,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         {/* Mô tả chi tiết (Dữ liệu thật từ EXPERIENCE_MILESTONES) */}
                         <p
                           style={{ color: secondaryTextColor }}
-                          className="font-normal leading-[1.45] text-[11.5px] sm:text-[12px] break-words"
+                          className="typo-caption font-normal leading-[1.45] break-words"
                         >
                           {item.description}
                         </p>
@@ -1253,9 +1253,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           activeMilestone.philosophy ||
           'Khách hàng là trung tâm — Kiến tạo giá trị dịch vụ bền vững và chuẩn hóa vận hành xuất sắc.';
 
-        const memoryPreviewSrc =
-          photosList[0]?.src || activeMilestone.bannerUrl || 'https://i.ibb.co/Xr7hKN4v/Kinh-nghi-m.png';
-
         const currentRoadmapCard = roadmapCards.find(
           (c) => c.key === activeMilestone.key || c.key === activeKey
         );
@@ -1276,10 +1273,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     src: activeMilestone.logo,
                   },
                 ];
-        const productSummaryText =
-          currentRoadmapCard?.productSummary ||
-          activeMilestone.subCompanies ||
-          activeMilestone.industry;
 
         return (
           <div
@@ -1351,29 +1344,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <h3 className="card-title card-title-synced typo-h4 font-play text-indigo-600 dark:text-indigo-400 m-0">
                       Sản phẩm
                     </h3>
-                    <span className="exp-icon-badge inline-flex items-center px-2 py-0.5 rounded-full text-indigo-700 dark:text-indigo-200 border typo-badge tabular-nums">
-                      {rawProductsList.length} sản phẩm
-                    </span>
-                    {productSummaryText && (
-                      <span className="typo-caption font-medium text-[var(--text-secondary)] break-words">
-                        · {productSummaryText}
-                      </span>
-                    )}
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      if (onNavigateTab) onNavigateTab(4);
-                      else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 4, slide: 0 } }));
-                    }}
-                    className="exp-icon-badge px-2.5 py-1 rounded-full hover:bg-indigo-600 hover:text-white text-indigo-800 dark:text-indigo-300 font-bold typo-label border transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95"
-                    title="Chuyển đến trang Lĩnh vực / Dịch vụ"
-                  >
-                    <span>Xem Dịch vụ</span>
-                    <WebIcon name="arrow-up-right" className="w-3 h-3" />
-                  </button>
                 </div>
 
                 <div className="flex flex-wrap gap-2 w-full items-stretch">
@@ -1491,11 +1462,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           nhân sự trực thuộc
                         </span>
                       </div>
-                      {activeMilestone.scaleDesc && (
-                        <span className="typo-caption text-[var(--text-muted)] break-words block mt-0.5">
-                          {activeMilestone.scaleDesc}
-                        </span>
-                      )}
                     </div>
                   </div>
 
@@ -1523,20 +1489,31 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       <span className="subcard-title-synced typo-h4 font-play text-indigo-600 dark:text-indigo-300 block break-words" data-subcard-title="true">
                         Lĩnh vực
                       </span>
-                      <p className="typo-body-sm font-semibold text-[var(--text-heading,var(--text-primary))] mt-0.5 break-words">
-                        {activeMilestone.industry}
-                      </p>
+                      <div className="flex flex-wrap gap-1.5 mt-1.5">
+                        {activeMilestone.industry
+                          .split('/')
+                          .map((part) => part.trim())
+                          .filter(Boolean)
+                          .map((industryTag, idx) => (
+                            <span
+                              key={idx}
+                              className="exp-icon-badge inline-flex items-center px-2.5 py-0.5 rounded-full border text-indigo-700 dark:text-indigo-200 typo-badge font-semibold break-words"
+                            >
+                              {industryTag}
+                            </span>
+                          ))}
+                      </div>
                     </div>
                   </div>
 
-                  {/* 4. Thời gian */}
-                  <div data-subcard="true" className="exp-detail-subcard w-full sm:w-auto sm:flex-[1_1_165px] max-w-full rounded-[14px] p-3 flex items-start gap-2.5 min-w-0">
+                  {/* 4. Thời gian công tác */}
+                  <div data-subcard="true" className="exp-detail-subcard w-full sm:w-auto sm:flex-[1_1_165px] max-w-full rounded-[12px] p-3 flex items-start gap-2.5 min-w-0">
                     <div className="exp-icon-badge w-8 h-8 rounded-full border text-violet-600 dark:text-violet-300 flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
-                      <WebIcon name="calendar" className="w-4 h-4" />
+                      <WebIcon name="clock" className="w-4 h-4" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="subcard-title-synced typo-h4 font-play text-violet-600 dark:text-violet-300 block break-words" data-subcard-title="true">
-                        Thời gian
+                        Thời Gian Công Tác
                       </span>
                       <p className="typo-body-sm font-semibold tabular-nums text-violet-600 dark:text-violet-300 mt-0.5 break-words">
                         {activeMilestone.cardYearLabel}
@@ -1562,20 +1539,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     </div>
                   </div>
 
-                  {/* 6. Nội dung công việc (Ngắn gọn dựa trên mô tả) */}
-                  <div data-subcard="true" className="exp-detail-subcard w-full rounded-[14px] p-3 flex items-start gap-3 min-w-0">
-                    <div className="exp-icon-badge w-9 h-9 rounded-full border text-emerald-600 dark:text-emerald-300 flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
-                      <WebIcon name="briefcase" className="w-4.5 h-4.5" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <span className="subcard-title-synced typo-h4 font-play text-emerald-600 dark:text-emerald-300 block break-words" data-subcard-title="true">
-                        Nội dung công việc
-                      </span>
-                      <p className="typo-body-sm font-medium text-[var(--text-secondary)] mt-1 break-words leading-relaxed">
-                        {activeMilestone.cardDescription || activeMilestone.highlightText || 'Quản lý, điều hành và tối ưu hóa hệ thống vận hành dịch vụ khách hàng.'}
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </section>
 
@@ -1953,41 +1916,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   }}
                   className="exp-detail-subcard rounded-[14px] p-2.5 hover:shadow-md transition-all cursor-pointer group min-w-0 flex flex-col gap-2 relative overflow-hidden"
                 >
-                  <div className="w-full aspect-[16/9] sm:aspect-[16/10] rounded-[10px] overflow-hidden bg-slate-900/10 relative border border-white/70 dark:border-white/10">
-                    <img
-                      src={photosList[memorySlideIdx]?.src}
-                      alt={photosList[memorySlideIdx]?.title || `Kỷ niệm ${activeMilestone.company}`}
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        const fallback = 'https://i.ibb.co/Xr7hKN4v/Kinh-nghi-m.png';
-                        if (target.src !== fallback) target.src = fallback;
-                      }}
-                      className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
-                    
-                    {/* Floating Slide Indicator Dots */}
-                    {photosList.length > 1 && (
-                      <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-950/40 backdrop-blur-md border border-white/20 z-10">
-                        {photosList.map((_, dotIdx) => (
-                          <button
-                            key={dotIdx}
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              SoundEngine.playTap();
-                              setMemorySlideIdx(dotIdx);
-                            }}
-                            className={cn(
-                              'h-1.5 rounded-full transition-all',
-                              dotIdx === memorySlideIdx ? 'w-5 bg-rose-400' : 'w-1.5 bg-white/50 hover:bg-white'
-                            )}
-                            aria-label={`Chuyển đến ảnh ${dotIdx + 1}`}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </div>
                   <div className="px-1 pb-0.5 min-w-0 flex items-center justify-between gap-2">
                     <span className="typo-caption font-semibold text-[var(--text-primary)] truncate">
                       {photosList[memorySlideIdx]?.title || activeMilestone.company}
@@ -2003,13 +1931,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   data-subcard="true"
                   className="exp-detail-subcard rounded-[14px] p-4 flex items-center gap-3 min-w-0"
                 >
-                  <div className="w-24 h-16 rounded-[10px] overflow-hidden bg-slate-900/10 shrink-0 border border-white/70 dark:border-white/10">
-                    <img
-                      src={memoryPreviewSrc}
-                      alt={`Kỷ niệm ${activeMilestone.company}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
                   <span className="typo-body-sm text-[var(--text-muted)]">
                     Chưa có hình ảnh kỷ niệm cho cột mốc này.
                   </span>

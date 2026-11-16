@@ -144,7 +144,7 @@ export const DEPARTMENT_FENGSHUI_MATRIX: DepartmentSynergy[] = [
     matchGrade: 'Xuất Sắc · Hòa Hợp Tâm Thức',
     relationType: 'Thủy dưỡng tâm · Kim rèn chuẩn mực',
     relationDesc:
-      'Hải Trung Kim dùng sự thấu cảm (Thủy) làm mềm lòng khách hàng và kỷ luật (Kim) uốn nắn chuẩn mực dịch vụ hoàn hảo.',
+      'Sử dụng sự thấu cảm (Thủy) làm mềm lòng khách hàng và kỷ luật (Kim) uốn nắn chuẩn mực dịch vụ hoàn hảo.',
     iconName: 'headset',
     accentColor: 'text-purple-600 dark:text-purple-400',
     borderColor: 'border-purple-300/80 dark:border-purple-600/40',
@@ -469,7 +469,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     {
       id: 'strategic',
       title: 'Tư Duy Chiến Lược & Viễn Kiến',
-      subtitle: 'Thân Cư Quan Lộc (Thìn) • Nhóm Tam Hợp Thân - Tý - Thìn',
+      subtitle: 'Nhóm Tam Hợp Thân - Tý - Thìn',
       tag: 'Tầm Nhìn Dài Hạn',
       description:
         'Sở hữu khả năng nhìn xa trông rộng, luôn đặt mục tiêu sự nghiệp và thành tựu hệ thống lên hàng đầu. Trong công việc không thích làm theo lối mòn mà luôn tìm cách tái cấu trúc, tối ưu hóa quy trình để tạo ra giá trị bền vững.',
@@ -478,7 +478,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     {
       id: 'depth',
       title: 'Nội Lực Sâu Sắc & Kín Kẽ',
-      subtitle: 'Nạp Âm Hải Trung Kim • Vàng Trong Đáy Biển',
+      subtitle: 'Vàng Trong Đáy Biển',
       tag: 'Điềm Tĩnh & Bản Lĩnh',
       description:
         'Mang bản chất của kim loại quý ẩn sâu dưới lòng đại dương: không phô trương ồn ào nhưng nội lực cực kỳ thâm hậu. Càng trong môi trường áp lực cao hoặc khủng hoảng, sự điềm tĩnh và khả năng phân tích càng phát huy tối đa.',
@@ -487,7 +487,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     {
       id: 'execution',
       title: 'Kỷ Luật Thép & Chuẩn Mực Cao',
-      subtitle: 'Cung Mệnh Quái Đoài Kim • Kim Tứ Cục',
+      subtitle: 'Kim Tứ Cục',
       tag: 'Chính Xác & Minh Bạch',
       description:
         'Đề cao tính nguyên tắc, rõ ràng trong phân quyền và minh bạch trong đánh giá hiệu suất (KPI/OKR). Làm việc có đầu có đuôi, yêu cầu chất lượng đầu ra đạt độ tinh xảo cao nhất.',
@@ -795,15 +795,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       cons: 'Thiếu sự quyết đoán mạnh mẽ trong các quyết định cắt giảm nhân sự.',
       advice: 'Hợi phụ trách trải nghiệm con người và CSX, Tý định hướng chiến lược.',
     },
-  ];
-
-  const quickYearTags = [
-    { year: 1992, zodiacId: 'than', label: '1992 • Thân' },
-    { year: 1988, zodiacId: 'thin', label: '1988 • Thìn' },
-    { year: 1985, zodiacId: 'suu', label: '1985 • Sửu' },
-    { year: 1990, zodiacId: 'ngo', label: '1990 • Ngọ' },
-    { year: 1989, zodiacId: 'ty', label: '1989 • Tỵ' },
-    { year: 1995, zodiacId: 'hoi', label: '1995 • Hợi' },
   ];
 
   const zodiacIconsList = [
@@ -1157,14 +1148,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] w-full min-w-0">
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-[10px] bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 mt-0.5">
-                  <Calendar className="w-4 h-4" />
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5">
+                <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-indigo-600 dark:text-indigo-400">
+                  <Calendar className="w-4 h-4 shrink-0" />
+                  <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-indigo-600 dark:text-indigo-400 truncate m-0" data-subcard-title="true">
+                    Ngày sinh dương lịch
+                  </h5>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <div className="typo-label tracking-wider text-indigo-600 dark:text-indigo-400">
-                    Dương Lịch
-                  </div>
+                <div className="min-w-0">
                   <div className="typo-h5 text-[var(--text-primary)] break-words">22/06/1984 17:00 (17h)</div>
                   <div className="typo-caption text-[var(--text-secondary)] break-words">
                     (Giáp Tý • Canh Ngọ • Quý Dậu)
@@ -1172,14 +1163,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-[10px] bg-purple-500/15 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 mt-0.5">
-                  <Moon className="w-4 h-4" />
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5">
+                <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
+                  <Moon className="w-4 h-4 shrink-0" />
+                  <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 truncate m-0" data-subcard-title="true">
+                    Ngày sinh âm lịch
+                  </h5>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <div className="typo-label tracking-wider text-purple-600 dark:text-purple-400">
-                    Âm Lịch
-                  </div>
+                <div className="min-w-0">
                   <div className="typo-h5 text-[var(--text-primary)] break-words">24/05/1984</div>
                   <div className="typo-caption text-[var(--text-secondary)] break-words">
                     (Năm Giáp Tý 1984)
@@ -1187,14 +1178,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-[10px] bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
-                  <Clock className="w-4 h-4" />
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5">
+                <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-amber-600 dark:text-amber-400">
+                  <Clock className="w-4 h-4 shrink-0" />
+                  <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-amber-600 dark:text-amber-400 truncate m-0" data-subcard-title="true">
+                    Giờ sinh can chi
+                  </h5>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <div className="typo-label tracking-wider text-amber-600 dark:text-amber-400">
-                    Giờ Sinh Can Chi
-                  </div>
+                <div className="min-w-0">
                   <div className="typo-h5 text-[var(--text-primary)] break-words">Giờ Quý Dậu (17h - 19h)</div>
                   <div className="typo-caption text-[var(--text-secondary)] break-words">
                     (Thiên Can: Quý, Địa Chi: Dậu)
@@ -1202,14 +1193,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-[10px] bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
-                  <ShieldCheck className="w-4 h-4" />
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5">
+                <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-emerald-600 dark:text-emerald-400">
+                  <ShieldCheck className="w-4 h-4 shrink-0" />
+                  <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-emerald-600 dark:text-emerald-400 truncate m-0" data-subcard-title="true">
+                    Năm sinh nạp âm
+                  </h5>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <div className="typo-label tracking-wider text-emerald-600 dark:text-emerald-400">
-                    Năm Sinh (Nạp Âm)
-                  </div>
+                <div className="min-w-0">
                   <div className="typo-h5 text-emerald-700 dark:text-emerald-300 break-words">Hải Trung Kim</div>
                   <div className="typo-caption text-[var(--text-secondary)] break-words">
                     (Vàng Ròng Đáy Biển Sâu)
@@ -1230,26 +1221,27 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   }
                 }}
                 title="Bấm để xoay la bàn bát quái (4 hướng cát khí: Tây Bắc, Tây Nam, Đông Bắc, Tây)"
-                className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex items-start gap-2.5 cursor-pointer hover:border-cyan-400/60 hover:shadow-sm transition-all group relative overflow-hidden select-none"
+                className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5 cursor-pointer hover:border-cyan-400/60 hover:shadow-sm transition-all group relative overflow-hidden select-none"
               >
-                <div
-                  className="w-9 h-9 rounded-[10px] bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0 mt-0.5 relative transition-transform duration-700 ease-out"
-                  style={{
-                    transform: `rotate(${activeLuckyDirection.degree}deg)`,
-                  }}
-                >
-                  <Compass className={`w-5 h-5 transition-transform duration-500 ${isCompassSpinning ? 'animate-spin' : 'group-hover:rotate-45'}`} />
-                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-cyan-500 ring-2 ring-white dark:ring-slate-900" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-1">
-                    <span className="typo-label tracking-wider text-cyan-600 dark:text-cyan-400 font-bold truncate">
-                      Cung Mệnh Quái • La Bàn
+                <div className="flex items-center justify-between gap-1.5 min-w-0">
+                  <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-cyan-600 dark:text-cyan-400">
+                    <span
+                      className="inline-flex items-center justify-center shrink-0 transition-transform duration-700 ease-out"
+                      style={{
+                        transform: `rotate(${activeLuckyDirection.degree}deg)`,
+                      }}
+                    >
+                      <Compass className={`w-4 h-4 transition-transform duration-500 ${isCompassSpinning ? 'animate-spin' : 'group-hover:rotate-45'}`} />
                     </span>
-                    <span className="typo-badge px-1.5 py-0.2 rounded text-[10px] bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30 shrink-0">
-                      {activeLuckyDirection.degree}°
-                    </span>
+                    <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-cyan-600 dark:text-cyan-400 truncate m-0" data-subcard-title="true">
+                      Cung mệnh la bàn
+                    </h5>
                   </div>
+                  <span className="typo-badge px-1.5 py-0.2 rounded text-[10px] bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30 shrink-0 tabular-nums">
+                    {activeLuckyDirection.degree}°
+                  </span>
+                </div>
+                <div className="min-w-0">
                   <div className="typo-h5 text-cyan-700 dark:text-cyan-300 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
                     <span>Đoài Kim (Hành Kim)</span>
                     <span className="text-[11px] opacity-75">· {activeLuckyDirection.direction} ({activeLuckyDirection.starName})</span>
@@ -1260,14 +1252,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-[10px] bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 mt-0.5">
-                  <Hash className="w-4 h-4" />
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5">
+                <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-rose-600 dark:text-rose-400">
+                  <Hash className="w-4 h-4 shrink-0" />
+                  <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-rose-600 dark:text-rose-400 truncate m-0" data-subcard-title="true">
+                    Cục vận hàm số
+                  </h5>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <div className="typo-label tracking-wider text-rose-600 dark:text-rose-400">
-                    Cục Vận Hàm Số
-                  </div>
+                <div className="min-w-0">
                   <div className="typo-h5 text-rose-700 dark:text-rose-300 break-words">Kim Tứ Cục (Số 4)</div>
                   <div className="typo-caption text-[var(--text-secondary)] break-words">
                     (Khởi Đại Vận Năm 4 Tuổi)
@@ -1304,52 +1296,48 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </span>
       </div>
 
-      <div className="w-full min-w-0 flex-1 flex flex-col justify-between gap-[15px]">
-        <div data-subcard="true" style={transparentSubCardStyle} className="sub-card w-full min-w-0 flex-1 space-y-4 p-[15px] rounded-none h-full flex flex-col justify-between">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[15px] w-full min-w-0">
-            {WORK_PERSONALITY_TRAITS.map((trait, index) => {
-              const palettes = [
-                { bar: 'bg-sky-600', text: 'text-sky-700 dark:text-sky-300', bg: 'bg-sky-500/10', border: 'border-sky-500/25' },
-                { bar: 'bg-violet-600', text: 'text-violet-700 dark:text-violet-300', bg: 'bg-violet-500/10', border: 'border-violet-500/25' },
-                { bar: 'bg-emerald-600', text: 'text-emerald-700 dark:text-emerald-300', bg: 'bg-emerald-500/10', border: 'border-emerald-500/25' },
-                { bar: 'bg-amber-600', text: 'text-amber-700 dark:text-amber-300', bg: 'bg-amber-500/10', border: 'border-amber-500/25' },
-              ];
-              const p = palettes[index % 4];
-              return (
-                <div
-                  key={trait.id}
-                  data-subcard="true"
-                  style={transparentSubCardStyle}
-                  className="sub-card p-[15px] rounded-[14px] border border-[var(--border-subcard)] transition-all duration-300 flex flex-col justify-between space-y-3 bg-[var(--bg-subcard)]"
-                >
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
-                      <div className="subcard-header-sync flex items-center gap-2">
-                        <span className={`w-1.5 h-4 ${p.bar} rounded-full shrink-0`} />
-                        <h5 className={`typo-h5 subcard-title-synced ${p.text} font-play`} data-subcard-title="true">{trait.title}</h5>
-                      </div>
-                      <span className={`px-2 py-0.5 rounded-full ${p.bg} ${p.text} border ${p.border} typo-badge shrink-0`}>
-                        {trait.tag}
-                      </span>
-                    </div>
-                    <div className="typo-caption font-semibold text-[var(--text-secondary)]">{trait.subtitle}</div>
-                    <p className="typo-body-sm text-[var(--text-primary)] text-justify">
-                      {trait.description}
-                    </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-2 gap-[15px] w-full min-w-0 flex-1 items-stretch">
+        {WORK_PERSONALITY_TRAITS.map((trait, index) => {
+          const palettes = [
+            { bar: 'bg-sky-600', text: 'text-sky-700 dark:text-sky-300', bg: 'bg-sky-500/10', border: 'border-sky-500/25' },
+            { bar: 'bg-violet-600', text: 'text-violet-700 dark:text-violet-300', bg: 'bg-violet-500/10', border: 'border-violet-500/25' },
+            { bar: 'bg-emerald-600', text: 'text-emerald-700 dark:text-emerald-300', bg: 'bg-emerald-500/10', border: 'border-emerald-500/25' },
+            { bar: 'bg-amber-600', text: 'text-amber-700 dark:text-amber-300', bg: 'bg-amber-500/10', border: 'border-amber-500/25' },
+          ];
+          const p = palettes[index % 4];
+          return (
+            <div
+              key={trait.id}
+              data-subcard="true"
+              style={transparentSubCardStyle}
+              className="sub-card p-[15px] rounded-[14px] border border-[var(--border-subcard)] transition-all duration-300 flex flex-col justify-between space-y-3 bg-[var(--bg-subcard)]"
+            >
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
+                  <div className="subcard-header-sync flex items-center gap-2">
+                    <span className={`w-1.5 h-4 ${p.bar} rounded-full shrink-0`} />
+                    <h5 className={`typo-h5 subcard-title-synced ${p.text} font-play`} data-subcard-title="true">{trait.title}</h5>
                   </div>
-                  <div className="pt-2 border-t border-[var(--border-subcard)] flex flex-wrap gap-1.5">
-                    {trait.highlights.map((h, hIdx) => (
-                      <span key={hIdx} className="project-detail-chip px-2 py-0.5 rounded-full typo-badge flex items-center gap-1">
-                        <Check className="w-3 h-3 text-emerald-500 shrink-0 stroke-[2.5]" />
-                        <span>{h}</span>
-                      </span>
-                    ))}
-                  </div>
+                  <span className={`px-2 py-0.5 rounded-full ${p.bg} ${p.text} border ${p.border} typo-badge shrink-0`}>
+                    {trait.tag}
+                  </span>
                 </div>
-              );
-            })}
-          </div>
-        </div>
+                <div className="typo-caption font-semibold text-[var(--text-secondary)]">{trait.subtitle}</div>
+                <p className="typo-body-sm text-[var(--text-primary)] text-justify">
+                  {trait.description}
+                </p>
+              </div>
+              <div className="pt-2 border-t border-[var(--border-subcard)] flex flex-wrap gap-1.5">
+                {trait.highlights.map((h, hIdx) => (
+                  <span key={hIdx} className="project-detail-chip px-2 py-0.5 rounded-full typo-badge flex items-center gap-1">
+                    <Check className="w-3 h-3 text-emerald-500 shrink-0 stroke-[2.5]" />
+                    <span>{h}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -1660,31 +1648,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </span>
               </div>
 
-              <div className="space-y-2">
-                <div className="typo-label font-semibold text-[var(--text-secondary)]">Năm Sinh Thường Gặp:</div>
-                <div className="flex flex-wrap gap-2">
-                  {quickYearTags.map((tag) => (
-                    <button
-                      key={tag.year}
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setSelectedZodiacId(tag.zodiacId);
-                        setSearchYearInput(tag.year.toString());
-                      }}
-                      style={
-                        selectedZodiacId === tag.zodiacId
-                          ? { background: 'var(--bg-button-primary)', color: '#FFFFFF', borderColor: 'transparent' }
-                          : { background: 'var(--bg-button-secondary)', color: 'var(--text-primary)', borderColor: 'var(--border-subcard)' }
-                      }
-                      className="px-3 py-1.5 rounded-[14px] typo-button transition-all cursor-pointer border shadow-xs"
-                    >
-                      {tag.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* Input Tra Cứu */}
               <div className="relative flex items-center pt-1">
                 <input
@@ -1723,12 +1686,13 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                           setSelectedZodiacId(z.id);
                           setSearchYearInput(matchObj.yearDetail.split('•')[0].trim());
                         }}
-                        style={
-                          isSel
+                        style={{
+                          borderRadius: '12px',
+                          ...(isSel
                             ? { background: 'var(--bg-button-primary)', color: '#FFFFFF', borderColor: 'transparent' }
-                            : { background: 'var(--bg-subcard)', color: 'var(--text-primary)', borderColor: 'var(--border-subcard)' }
-                        }
-                        className={`p-2.5 rounded-[14px] border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
+                            : { background: 'var(--bg-subcard)', color: 'var(--text-primary)', borderColor: 'var(--border-subcard)' }),
+                        }}
+                        className={`p-2.5 !rounded-[12px] border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
                           isSel ? 'shadow-md scale-105' : ''
                         }`}
                       >

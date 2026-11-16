@@ -16,15 +16,15 @@ export const SampleQuestionButton: React.FC<SampleQuestionButtonProps> = ({
   totalQuestions = 47,
   disabled = false,
 }) => {
-  const label = isEn ? 'Sample Questions' : 'Câu hỏi mẫu';
+  const label = isEn ? 'Categories' : 'Danh mục';
   const titleText = isEn
-    ? `Open ${totalQuestions} sample questions across 8 topics`
-    : `Mở danh sách Câu hỏi mẫu (${totalQuestions} câu hỏi thuộc 8 nhóm chủ đề)`;
+    ? `Open ${totalQuestions} sample questions across 8 category cards`
+    : `Mở thẻ Danh mục (${totalQuestions} câu hỏi thuộc 8 nhóm chủ đề)`;
 
   return (
     <button
       id="ai-assistant-droptop-menu-btn"
-      data-element-name="Nút Câu hỏi mẫu"
+      data-element-name="Nút Danh mục"
       data-element-type="button"
       data-element-page="ai-assistant"
       type="button"
@@ -44,12 +44,12 @@ export const SampleQuestionButton: React.FC<SampleQuestionButtonProps> = ({
               borderColor: 'var(--border-subcard, var(--border-color))',
             }
       }
-      className={`h-10 sm:h-11 px-2.5 sm:px-3.5 rounded-full typo-button border shadow-sm flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/70 shrink-0 whitespace-nowrap ${
+      className={`box-border h-[44px] px-2.5 sm:px-3.5 rounded-full typo-button border shadow-sm flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/70 shrink-0 whitespace-nowrap ${
         isOpen ? 'shadow-md' : 'hover:border-purple-400/60 hover:shadow-md'
       } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
     >
       <WebIcon
-        name="messages-square"
+        name="grid"
         className="w-4 h-4 shrink-0"
         style={{ color: isOpen ? '#FFFFFF' : 'var(--color-primary)' }}
       />

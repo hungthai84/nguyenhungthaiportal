@@ -1786,8 +1786,23 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           borderRadius: '14px',
                         }}
                       >
-                        {/* Nút X đóng chi tiết thẻ hệ thống */}
-                        <div className="flex items-center justify-end shrink-0">
+                        {/* Tiêu đề card chi tiết hệ thống & Nút X đóng */}
+                        <div className="flex items-center justify-between gap-3 pb-2.5 border-b border-[var(--border-subcard)] shrink-0">
+                          <div className="card-header-sync flex items-center gap-2.5 min-w-0" style={{ color: sysAccentColor }}>
+                            <WebIcon
+                              name={config.iconName}
+                              className="w-5 h-5 shrink-0"
+                              style={{ color: sysAccentColor }}
+                            />
+                            <h3
+                              className="typo-h3 card-title-synced font-play font-bold truncate m-0"
+                              data-card-title="true"
+                              style={{ color: sysAccentColor }}
+                              title={`Chi tiết hệ thống: ${item.abbr} — ${item.nameVi || item.name}`}
+                            >
+                              Chi tiết hệ thống: {item.abbr} — {item.nameVi || item.name}
+                            </h3>
+                          </div>
                           <button
                             type="button"
                             onClick={(e) => handleToggleExpandCard(item.id, e)}
@@ -1801,91 +1816,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
 
                         {/* Thân Thẻ Mở Rộng: Bento Responsive Grid Card (12 cột thống nhất) */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3.5 flex-1 min-h-0 text-left items-stretch">
-                          {/* BENTO CARD 1 (4/12): Tên gọi hệ thống */}
-                          <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
-                            <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="sky">
-                              <WebIcon name={config.iconName} className="w-4 h-4 shrink-0" />
-                              <h4
-                                className="typo-h4 subcard-title-synced font-play m-0 break-words"
-                                data-subcard-title="true"
-                              >
-                                Tên gọi hệ thống
-                              </h4>
-                            </div>
-                            <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
-                              {item.nameVi || item.name}
-                            </span>
-                          </div>
-
-                          {/* BENTO CARD 2 (3/12): Ký hiệu viết tắt */}
-                          <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
-                            <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="amber">
-                              <WebIcon name="file-text" className="w-4 h-4 shrink-0" />
-                              <h4
-                                className="typo-h4 subcard-title-synced font-play m-0 break-words"
-                                data-subcard-title="true"
-                              >
-                                Ký hiệu viết tắt
-                              </h4>
-                            </div>
-                            <span
-                              className="typo-h4 font-bold font-mono block break-words"
-                              style={{ color: sysAccentColor }}
-                            >
-                              {item.abbr}
-                            </span>
-                          </div>
-
-                          {/* BENTO CARD 3 (5/12): Tên viết đầy đủ */}
-                          <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
-                            <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="violet">
-                              <WebIcon name="globe" className="w-4 h-4 shrink-0" />
-                              <h4
-                                className="typo-h4 subcard-title-synced font-play m-0 break-words"
-                                data-subcard-title="true"
-                              >
-                                Tên viết đầy đủ
-                              </h4>
-                            </div>
-                            <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
-                              {item.fullName || item.nameEn || item.nameVi}
-                            </span>
-                          </div>
-
-                          {/* BENTO CARD 4 (5/12): Video card phát tự động và ẩn các nút công cụ video */}
-                          <div
-                            id={`system-detail-media-${item.id}`}
-                            data-subcard="true"
-                            className="exp-detail-subcard sm:col-span-2 md:col-span-6 lg:col-span-5 relative w-full aspect-video md:aspect-auto md:h-full md:min-h-[210px] rounded-[14px] overflow-hidden bg-black border border-[var(--border-subcard)] shadow-sm min-w-0"
-                          >
-                            {item.videoUrl ? (
-                              <video
-                                ref={expandedVideoRef}
-                                src={item.videoUrl}
-                                poster={config.illustrationSrc || item.imageUrl || undefined}
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                preload="auto"
-                                className="w-full h-full object-cover pointer-events-none select-none"
-                              >
-                                Trình duyệt của bạn không hỗ trợ phát video HTML5.
-                              </video>
-                            ) : (config.illustrationSrc || item.imageUrl) ? (
-                              <img
-                                src={config.illustrationSrc || item.imageUrl}
-                                alt={item.nameVi}
-                                className="w-full h-full object-contain bg-transparent p-3"
-                              />
-                            ) : null}
-                          </div>
-
-                          {/* BENTO CARD 5 (7/12): Mô tả kiến trúc */}
+                          {/* BENTO CARD 1 (12/12): Mô tả kiến trúc (gồm Tên gọi hệ thống, Ký hiệu viết tắt, Tên viết đầy đủ & video/mô tả) */}
                           <div
                             id={`system-detail-overview-${item.id}`}
                             data-subcard="true"
-                            className="exp-detail-subcard sm:col-span-2 md:col-span-6 lg:col-span-7 p-4 rounded-[14px] flex flex-col justify-between gap-2.5 min-w-0"
+                            className="exp-detail-subcard sm:col-span-2 md:col-span-12 p-4 rounded-[14px] flex flex-col gap-3 min-w-0"
                           >
                             <div
                               className="subcard-header-sync flex items-center gap-2 min-w-0"
@@ -1899,9 +1834,102 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                 Mô tả kiến trúc
                               </h4>
                             </div>
-                            <p className="typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words">
-                              {item.descVi}
-                            </p>
+
+                            {/* 3 Thẻ thông tin định danh hệ thống nằm gọn trong thẻ Mô tả kiến trúc */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3 items-stretch min-w-0">
+                              {/* Tên gọi hệ thống (4/12) */}
+                              <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                                <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="sky">
+                                  <WebIcon name={config.iconName} className="w-4 h-4 shrink-0" />
+                                  <h4
+                                    className="typo-h4 subcard-title-synced font-play m-0 break-words"
+                                    data-subcard-title="true"
+                                  >
+                                    Tên gọi hệ thống
+                                  </h4>
+                                </div>
+                                <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
+                                  {item.nameVi || item.name}
+                                </span>
+                              </div>
+
+                              {/* Ký hiệu viết tắt (3/12) */}
+                              <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                                <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="amber">
+                                  <WebIcon name="file-text" className="w-4 h-4 shrink-0" />
+                                  <h4
+                                    className="typo-h4 subcard-title-synced font-play m-0 break-words"
+                                    data-subcard-title="true"
+                                  >
+                                    Ký hiệu viết tắt
+                                  </h4>
+                                </div>
+                                <span
+                                  className="typo-h4 font-bold font-mono block break-words"
+                                  style={{ color: sysAccentColor }}
+                                >
+                                  {item.abbr}
+                                </span>
+                              </div>
+
+                              {/* Tên viết đầy đủ (5/12) */}
+                              <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                                <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="violet">
+                                  <WebIcon name="globe" className="w-4 h-4 shrink-0" />
+                                  <h4
+                                    className="typo-h4 subcard-title-synced font-play m-0 break-words"
+                                    data-subcard-title="true"
+                                  >
+                                    Tên viết đầy đủ
+                                  </h4>
+                                </div>
+                                <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
+                                  {item.fullName || item.nameEn || item.nameVi}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center min-w-0">
+                              {(item.videoUrl || config.illustrationSrc || item.imageUrl) && (
+                                <div
+                                  id={`system-detail-media-${item.id}`}
+                                  className={`md:col-span-5 relative w-full aspect-video rounded-[12px] overflow-hidden min-w-0 ${
+                                    item.videoUrl ? 'bg-black' : 'bg-transparent'
+                                  }`}
+                                >
+                                  {item.videoUrl ? (
+                                    <video
+                                      ref={expandedVideoRef}
+                                      src={item.videoUrl}
+                                      poster={config.illustrationSrc || item.imageUrl || undefined}
+                                      autoPlay
+                                      loop
+                                      muted
+                                      playsInline
+                                      preload="auto"
+                                      className="w-full h-full object-cover pointer-events-none select-none"
+                                    >
+                                      Trình duyệt của bạn không hỗ trợ phát video HTML5.
+                                    </video>
+                                  ) : (
+                                    <img
+                                      src={config.illustrationSrc || item.imageUrl}
+                                      alt={item.nameVi}
+                                      className="w-full h-full object-contain bg-transparent p-2"
+                                    />
+                                  )}
+                                </div>
+                              )}
+                              <p
+                                className={`typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words ${
+                                  item.videoUrl || config.illustrationSrc || item.imageUrl
+                                    ? 'md:col-span-7'
+                                    : 'md:col-span-12'
+                                }`}
+                              >
+                                {item.descVi}
+                              </p>
+                            </div>
                           </div>
 
                           {/* BENTO CARD 6 (7/12): Tính năng cốt lõi */}
@@ -2033,10 +2061,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             />
                           )}
 
-                          {/* KHU VỰC NỘI DUNG: HÀNG 1 ICON & TÊN VIẾT TẮT | HÀNG 2 ICON & SUB TIÊU ĐỀ TÊN VIẾT ĐẦY ĐỦ | HÀNG 3 ICON & TÊN TIẾNG VIỆT */}
+                          {/* KHU VỰC NỘI DUNG: HÀNG 1 ICON & TÊN VIẾT TẮT | HÀNG 2 ICON & TÊN ĐẦY ĐỦ THEO NGÔN NGỮ (TIẾNG ANH / TIẾNG VIỆT) */}
                           <div
                             id="el-p8-div-100"
-                            className={`flex-1 min-w-0 z-20 flex flex-col justify-center gap-1 text-left transition-opacity duration-200 ${
+                            className={`flex-1 min-w-0 z-20 flex flex-col justify-center gap-1.5 text-left transition-opacity duration-200 ${
                               isImgHovered && item.videoUrl ? 'opacity-0 pointer-events-none' : 'opacity-100'
                             }`}
                           >
@@ -2057,35 +2085,28 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               </h3>
                             </div>
 
-                            {/* Hàng 2 : Icon & Sub tiêu đề tên viết đầy đủ hệ thống */}
-                            <div
-                              className="flex items-center gap-1.5 min-w-0 typo-body-sm font-semibold font-play text-[var(--text-secondary)]"
-                              title={item.nameEn || item.fullName || item.name || ''}
-                            >
-                              <WebIcon
-                                name="layers"
-                                className="w-3.5 h-3.5 shrink-0 opacity-85"
-                                style={{ color: sysAccentColor }}
-                              />
-                              <span className="truncate min-w-0">
-                                {item.nameEn || item.fullName || item.name || ''}
-                              </span>
-                            </div>
-
-                            {/* Hàng 3 : Icon & Tên hệ thống tiếng Việt */}
-                            <div
-                              className="flex items-center gap-1.5 min-w-0 typo-body font-semibold font-play text-[var(--text-heading,var(--text-primary))]"
-                              title={item.nameVi || item.name || ''}
-                            >
-                              <WebIcon
-                                name="globe"
-                                className="w-3.5 h-3.5 shrink-0 opacity-85"
-                                style={{ color: sysAccentColor }}
-                              />
-                              <span className="truncate min-w-0">
-                                {item.nameVi || item.name || ''}
-                              </span>
-                            </div>
+                            {/* Hàng 2 : Icon & Tên hệ thống theo ngôn ngữ (EN: Tên đầy đủ tiếng Anh | VI: Tên hệ thống tiếng Việt) */}
+                            {(() => {
+                              const localizedSubTitle =
+                                language === 'en'
+                                  ? item.nameEn || item.fullName || item.name || ''
+                                  : item.nameVi || item.name || '';
+                              return (
+                                <div
+                                  className="flex items-center gap-1.5 min-w-0 typo-body-sm font-semibold font-play text-[var(--text-heading,var(--text-primary))]"
+                                  title={localizedSubTitle}
+                                >
+                                  <WebIcon
+                                    name={language === 'en' ? 'layers' : 'globe'}
+                                    className="w-3.5 h-3.5 shrink-0 opacity-85"
+                                    style={{ color: sysAccentColor }}
+                                  />
+                                  <span className="truncate min-w-0">
+                                    {localizedSubTitle}
+                                  </span>
+                                </div>
+                              );
+                            })()}
                           </div>
 
                           {/* KHU VỰC PHẢI (CHIỀU DÀI CHIẾM 30%): HÌNH HỆ THỐNG */}
@@ -2095,7 +2116,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               setHoveredImgId(item.id);
                             }}
                             title={`Hình hệ thống ${item.abbr}`}
-                            className={`w-[30%] min-w-[75px] max-w-[130px] h-[85px] shrink-0 z-20 rounded-[10px] overflow-hidden flex items-center justify-center bg-transparent group/img cursor-pointer transition-all duration-300 shadow-2xs border border-white/20 relative ${
+                            className={`w-[30%] min-w-[75px] max-w-[130px] h-[85px] shrink-0 z-20 rounded-[10px] overflow-hidden flex items-center justify-center bg-transparent group/img cursor-pointer transition-all duration-300 border-0 shadow-none relative ${
                               isImgHovered && item.videoUrl ? 'opacity-0' : 'opacity-100'
                             }`}
                             style={{
@@ -2294,18 +2315,45 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             className="theme-modal-card rounded-[14px] overflow-hidden shadow-2xl flex flex-col relative z-50 text-left"
             style={{ width: '100%', height: '100%', padding: '15px' }}
           >
-            {/* Nút X đóng chi tiết modal hệ thống */}
-            <div className="flex items-center justify-end px-3 sm:px-5 pt-2 shrink-0">
-              <button
-                type="button"
-                onClick={() => setSelectedSystem(null)}
-                aria-label="Đóng chi tiết hệ thống"
-                title="Đóng chi tiết hệ thống"
-                className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105 active:scale-95 shrink-0"
-              >
-                <WebIcon name="cancel" className="w-4 h-4" />
-              </button>
-            </div>
+            {/* Tiêu đề card chi tiết modal hệ thống & Nút X đóng */}
+            {(() => {
+              const headerConfig = SYSTEM_DESIGN_MAP[selectedSystem.id];
+              const headerIcon = headerConfig?.iconName || systemIconMap[selectedSystem.id] || 'cog';
+              const headerColor =
+                cardStyle === 'cowhide-leather'
+                  ? '#FDE68A'
+                  : isDark
+                    ? headerConfig?.darkAccent || '#60a5fa'
+                    : headerConfig?.lightAccent || '#1d4ed8';
+              return (
+                <div className="flex items-center justify-between gap-3 px-3 sm:px-5 pt-2 pb-3 border-b border-[var(--border-subcard)] shrink-0">
+                  <div className="card-header-sync flex items-center gap-2.5 min-w-0" style={{ color: headerColor }}>
+                    <WebIcon
+                      name={headerIcon}
+                      className="w-5 h-5 shrink-0"
+                      style={{ color: headerColor }}
+                    />
+                    <h3
+                      className="typo-h3 card-title-synced font-play font-bold truncate m-0"
+                      data-card-title="true"
+                      style={{ color: headerColor }}
+                      title={`Chi tiết hệ thống: ${selectedSystem.abbr} — ${selectedSystem.nameVi || selectedSystem.name}`}
+                    >
+                      Chi tiết hệ thống: {selectedSystem.abbr} — {selectedSystem.nameVi || selectedSystem.name}
+                    </h3>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedSystem(null)}
+                    aria-label="Đóng chi tiết hệ thống"
+                    title="Đóng chi tiết hệ thống"
+                    className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105 active:scale-95 shrink-0"
+                  >
+                    <WebIcon name="cancel" className="w-4 h-4" />
+                  </button>
+                </div>
+              );
+            })()}
 
             {/* Modal Body with Bento Responsive Grid */}
             <div className="p-3 sm:p-5 space-y-4 max-h-[78vh] overflow-y-auto glass-scrollbar font-play flex-1">
@@ -2327,88 +2375,97 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
 
                 return (
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-[15px] items-stretch text-left">
-                    {/* BENTO CARD 1 (4/12): Tên gọi hệ thống */}
-                    <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
-                      <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="sky">
-                        <WebIcon name={modalIconName} className="w-[18px] h-[18px] shrink-0" />
-                        <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
-                          Tên gọi hệ thống
-                        </h4>
-                      </div>
-                      <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
-                        {selectedSystem.nameVi || selectedSystem.name}
-                      </span>
-                    </div>
-
-                    {/* BENTO CARD 2 (3/12): Ký hiệu viết tắt */}
-                    <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
-                      <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="amber">
-                        <WebIcon name="file-text" className="w-[18px] h-[18px] shrink-0" />
-                        <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
-                          Ký hiệu viết tắt
-                        </h4>
-                      </div>
-                      <span className="typo-h4 font-bold text-sky-700 dark:text-[#67E8F9] font-mono block break-words">
-                        {selectedSystem.abbr}
-                      </span>
-                    </div>
-
-                    {/* BENTO CARD 3 (5/12): Tên viết đầy đủ (không để tên tiếng việt) */}
-                    <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-4 rounded-[14px] min-w-0 flex flex-col justify-between gap-2">
-                      <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="violet">
-                        <WebIcon name="globe" className="w-[18px] h-[18px] shrink-0" />
-                        <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
-                          Tên viết đầy đủ
-                        </h4>
-                      </div>
-                      <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
-                        {selectedSystem.nameEn || selectedSystem.fullName?.split('—')[0]?.split('-')[0]?.trim() || selectedSystem.abbr}
-                      </span>
-                    </div>
-
-                    {/* BENTO CARD 4 (5/12): Card video */}
-                    <div
-                      id="systems-admin-card"
-                      data-subcard="true"
-                      className="exp-detail-subcard sm:col-span-2 md:col-span-6 lg:col-span-5 relative w-full aspect-video md:aspect-auto md:h-full md:min-h-[210px] rounded-[14px] overflow-hidden bg-black border border-[var(--border-subcard)] shadow-sm min-w-0 flex flex-col"
-                    >
-                      <div className="absolute top-2.5 left-2.5 z-10 px-2.5 py-0.5 rounded-full bg-slate-950/60 backdrop-blur-md border border-white/20 text-white typo-caption font-semibold flex items-center gap-1.5">
-                        <WebIcon name="play" className="w-3.5 h-3.5 text-red-400" />
-                        <span>Card video</span>
-                      </div>
-                      {selectedSystem.videoUrl ? (
-                        <video
-                          src={selectedSystem.videoUrl}
-                          poster={modalConfig?.illustrationSrc || selectedSystem.imageUrl || undefined}
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                          preload="auto"
-                          className="w-full h-full object-cover pointer-events-none select-none"
-                        >
-                          Trình duyệt của bạn không hỗ trợ phát video HTML5.
-                        </video>
-                      ) : (modalConfig?.illustrationSrc || selectedSystem.imageUrl) ? (
-                        <img
-                          src={modalConfig?.illustrationSrc || selectedSystem.imageUrl}
-                          alt={selectedSystem.nameVi}
-                          className="w-full h-full object-contain p-3"
-                        />
-                      ) : null}
-                    </div>
-
-                    {/* BENTO CARD 5 (7/12): Thẻ mô tả */}
-                    <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-6 lg:col-span-7 p-4 rounded-[14px] flex flex-col justify-between gap-2.5 min-w-0">
+                    {/* BENTO CARD 1 (12/12): Mô tả kiến trúc (gồm Tên gọi hệ thống, Ký hiệu viết tắt, Tên viết đầy đủ & video hệ thống) */}
+                    <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-12 p-4 rounded-[14px] flex flex-col gap-3 min-w-0">
                       <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="indigo">
                         <WebIcon name="layers" className="w-[18px] h-[18px] shrink-0" />
                         <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
-                          Thẻ mô tả
+                          Mô tả kiến trúc
                         </h4>
                       </div>
-                      <p className="typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words">
-                        {selectedSystem.description || selectedSystem.descEn || selectedSystem.descVi}
-                      </p>
+
+                      {/* 3 Thẻ thông tin định danh hệ thống bên trong Mô tả kiến trúc */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3 items-stretch min-w-0">
+                        {/* Tên gọi hệ thống (4/12) */}
+                        <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                          <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="sky">
+                            <WebIcon name={modalIconName} className="w-[18px] h-[18px] shrink-0" />
+                            <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
+                              Tên gọi hệ thống
+                            </h4>
+                          </div>
+                          <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
+                            {selectedSystem.nameVi || selectedSystem.name}
+                          </span>
+                        </div>
+
+                        {/* Ký hiệu viết tắt (3/12) */}
+                        <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                          <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="amber">
+                            <WebIcon name="file-text" className="w-[18px] h-[18px] shrink-0" />
+                            <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
+                              Ký hiệu viết tắt
+                            </h4>
+                          </div>
+                          <span className="typo-h4 font-bold text-sky-700 dark:text-[#67E8F9] font-mono block break-words">
+                            {selectedSystem.abbr}
+                          </span>
+                        </div>
+
+                        {/* Tên viết đầy đủ (5/12) */}
+                        <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                          <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="violet">
+                            <WebIcon name="globe" className="w-[18px] h-[18px] shrink-0" />
+                            <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
+                              Tên viết đầy đủ
+                            </h4>
+                          </div>
+                          <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
+                            {selectedSystem.nameEn || selectedSystem.fullName?.split('—')[0]?.split('-')[0]?.trim() || selectedSystem.abbr}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center min-w-0">
+                        {(selectedSystem.videoUrl || modalConfig?.illustrationSrc || selectedSystem.imageUrl) && (
+                          <div
+                            id="systems-admin-card"
+                            className={`md:col-span-5 relative w-full aspect-video rounded-[12px] overflow-hidden min-w-0 ${
+                              selectedSystem.videoUrl ? 'bg-black' : 'bg-transparent'
+                            }`}
+                          >
+                            {selectedSystem.videoUrl ? (
+                              <video
+                                src={selectedSystem.videoUrl}
+                                poster={modalConfig?.illustrationSrc || selectedSystem.imageUrl || undefined}
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="auto"
+                                className="w-full h-full object-cover pointer-events-none select-none"
+                              >
+                                Trình duyệt của bạn không hỗ trợ phát video HTML5.
+                              </video>
+                            ) : (
+                              <img
+                                src={modalConfig?.illustrationSrc || selectedSystem.imageUrl}
+                                alt={selectedSystem.nameVi}
+                                className="w-full h-full object-contain bg-transparent p-2"
+                              />
+                            )}
+                          </div>
+                        )}
+                        <p
+                          className={`typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words ${
+                            selectedSystem.videoUrl || modalConfig?.illustrationSrc || selectedSystem.imageUrl
+                              ? 'md:col-span-7'
+                              : 'md:col-span-12'
+                          }`}
+                        >
+                          {selectedSystem.description || selectedSystem.descEn || selectedSystem.descVi}
+                        </p>
+                      </div>
                     </div>
 
                     {/* BENTO CARD 6 (7/12): Tính năng cốt lõi */}

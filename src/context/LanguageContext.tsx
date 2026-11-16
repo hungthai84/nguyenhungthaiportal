@@ -414,7 +414,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         // ignore storage access issues
       }
     }
-    return 'vi';
+    return 'auto';
   });
 
   const language: Language = languageMode === 'auto' ? browserLanguage : languageMode;

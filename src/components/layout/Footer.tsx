@@ -713,19 +713,23 @@ export const Footer: React.FC<FooterProps> = ({
                       onOpenAiAssistant();
                     }}
                     title={isEn ? 'AI Assistant (24/7 Support)' : 'AI hỗ trợ (Trợ lý 24/7)'}
-                    className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-2 py-0.5 gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
+                    className={`nav-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-[10px] py-[2px] gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
                       isSelected
                         ? 'bg-gradient-to-r from-[#6B21A8] via-[#7E22CE] to-[#A855F7] border-white/80 active shadow-[0_0_25px_rgba(168,85,247,0.5)]'
                         : 'border-purple-400/80 dark:border-purple-500/80'
                     }`}
-                    style={
-                      isSelected
+                    style={{
+                      paddingTop: '2px',
+                      paddingBottom: '2px',
+                      paddingLeft: '10px',
+                      paddingRight: '10px',
+                      ...(isSelected
                         ? {
                             boxShadow:
                               '0 0 30px rgba(168, 85, 247, 0.5), inset 0 0 12px rgba(255,255,255,0.4)',
                           }
-                        : undefined
-                    }
+                        : {}),
+                    }}
                   >
                     <div
                       className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"

@@ -1470,22 +1470,22 @@ export function AboutView({
                           item.action();
                         }}
                         className={cn(
-                          'about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border',
+                          'about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border',
                           item.cardCls
                         )}
                       >
-                        <WebIcon name={item.icon} className={cn('w-4 h-4 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)} style={{ width: '16px', height: '16px' }} />
-                        <div className="text-left min-w-0 flex-1">
-                          <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <WebIcon name={item.icon} className={cn('w-3.5 h-3.5 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)} style={{ width: '14px', height: '14px' }} />
+                          <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">
                             {item.label}
                           </span>
-                          <span
-                            className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate"
-                            title={item.value}
-                          >
-                            {item.value}
-                          </span>
                         </div>
+                        <span
+                          className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate"
+                          title={item.value}
+                        >
+                          {item.value}
+                        </span>
                       </div>
                     ))}
 
@@ -1498,13 +1498,13 @@ export function AboutView({
                         setActiveHeroMapType('tam_tru');
                         showToast('📍 Hiển thị bản đồ Tạm trú tại Quận 7, TP.HCM');
                       }}
-                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
+                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border"
                     >
-                      <MapPin className="w-4 h-4 shrink-0 text-cyan-600 dark:text-cyan-300 group-hover/subcard:scale-110 transition-transform" />
-                      <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">Tạm trú</span>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">Quận 7, TP.HCM</span>
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <MapPin className="w-3.5 h-3.5 shrink-0 text-cyan-600 dark:text-cyan-300 group-hover/subcard:scale-110 transition-transform" />
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Tạm trú</span>
                       </div>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">Quận 7, TP.HCM</span>
                     </div>
 
                     {/* Sub Card: Cư Trú (Teal) */}
@@ -1516,13 +1516,13 @@ export function AboutView({
                         setActiveHeroMapType('cu_tru');
                         showToast('📍 Hiển thị bản đồ Cư trú tại Mỹ Tho, Tiền Giang');
                       }}
-                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
+                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border"
                     >
-                      <Home className="w-4 h-4 shrink-0 text-teal-600 dark:text-teal-300 group-hover/subcard:scale-110 transition-transform" />
-                      <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">Cư trú</span>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">TP. Mỹ Tho</span>
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <Home className="w-3.5 h-3.5 shrink-0 text-teal-600 dark:text-teal-300 group-hover/subcard:scale-110 transition-transform" />
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Cư trú</span>
                       </div>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">TP. Mỹ Tho</span>
                     </div>
 
                     {/* Sub Card: Hộp Thư (Pink) */}
@@ -1536,13 +1536,13 @@ export function AboutView({
                         }
                       }}
                       title="hungthai84@gmail.com"
-                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border col-span-1 sm:col-span-2"
+                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border col-span-1 sm:col-span-2"
                     >
-                      <Mail className="w-4 h-4 shrink-0 text-pink-600 dark:text-pink-300 group-hover/subcard:scale-110 transition-transform" />
-                      <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">Hộp thư</span>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">hungthai84@gmail.com</span>
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <Mail className="w-3.5 h-3.5 shrink-0 text-pink-600 dark:text-pink-300 group-hover/subcard:scale-110 transition-transform" />
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Hộp thư</span>
                       </div>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">hungthai84@gmail.com</span>
                     </div>
 
                     {/* Sub Card: Điện Thoại (Orange) */}
@@ -1553,13 +1553,13 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="+84 0909097882"
-                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
+                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border"
                     >
-                      <Phone className="w-4 h-4 shrink-0 text-orange-600 dark:text-orange-300 group-hover/subcard:scale-110 transition-transform" />
-                      <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">Điện thoại</span>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">+84 0909097882</span>
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <Phone className="w-3.5 h-3.5 shrink-0 text-orange-600 dark:text-orange-300 group-hover/subcard:scale-110 transition-transform" />
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Điện thoại</span>
                       </div>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">+84 0909097882</span>
                     </a>
 
                     {/* Sub Card: Website (Blue) */}
@@ -1570,13 +1570,13 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="https://nguyenhungthai.powerservice.one/"
-                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border"
+                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border"
                     >
-                      <Globe className="w-4 h-4 shrink-0 text-blue-600 dark:text-sky-300 group-hover/subcard:scale-110 transition-transform" />
-                      <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">Website</span>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">powerservice.one</span>
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <Globe className="w-3.5 h-3.5 shrink-0 text-blue-600 dark:text-sky-300 group-hover/subcard:scale-110 transition-transform" />
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Website</span>
                       </div>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">powerservice.one</span>
                     </a>
 
                     {/* Sub Card: LinkedIn (Indigo) */}
@@ -1587,13 +1587,13 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="https://www.linkedin.com/in/hungthai84/"
-                      className="about-info-subcard p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex items-center gap-2 overflow-hidden box-border col-span-1 sm:col-span-2"
+                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border col-span-1 sm:col-span-2"
                     >
-                      <LinkedinIcon className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-300 group-hover/subcard:scale-110 transition-transform" />
-                      <div className="text-left min-w-0 flex-1">
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] block leading-tight truncate">LinkedIn</span>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">linkedin.com/in/hungthai84</span>
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <LinkedinIcon className="w-3.5 h-3.5 shrink-0 text-indigo-600 dark:text-indigo-300 group-hover/subcard:scale-110 transition-transform" />
+                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">LinkedIn</span>
                       </div>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">linkedin.com/in/hungthai84</span>
                     </a>
                   </div>
 
@@ -1622,9 +1622,6 @@ export function AboutView({
                       {formatCardTitle('Giới thiệu bản thân')}
                     </h3>
                   </div>
-                  <span className="typo-badge font-mono text-[var(--text-muted)] px-2.5 py-0.5 rounded-full bg-[var(--bg-nested-badge)] border border-[var(--border-subcard)]">
-                    About Me
-                  </span>
                 </div>
 
                 {/* Body Text: Giữ nguyên 100% dữ liệu */}
@@ -1635,16 +1632,6 @@ export function AboutView({
                   khắc, dù là nhỏ nhất, đều là một cơ hội quý giá để lắng nghe, để thấu hiểu, và để tạo ra những trải
                   nghiệm vượt trên cả sự mong đợi.
                 </p>
-
-                {/* Footer Tag */}
-                <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subcard)] shrink-0">
-                  <span className="typo-label font-play text-blue-700 dark:text-cyan-300">
-                    Chuyên Gia Dịch Vụ Khách Hàng
-                  </span>
-                  <span className="typo-badge font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30">
-                    22+ Năm Thực Chiến
-                  </span>
-                </div>
               </div>
             </div>
 
@@ -1669,9 +1656,6 @@ export function AboutView({
                     {formatCardTitle('3 Trụ cột vận hành')}
                   </h3>
                 </div>
-                <span className="typo-badge font-mono text-[var(--text-muted)] px-2.5 py-0.5 rounded-full bg-[var(--bg-nested-badge)] border border-[var(--border-subcard)]">
-                  3 Operating Pillars
-                </span>
               </div>
 
               {/* 3 Pillars Grid */}
@@ -1834,9 +1818,6 @@ export function AboutView({
                     {formatCardTitle('Giá trị cốt lõi')}
                   </h3>
                 </div>
-                <span className="typo-badge font-mono text-[var(--text-muted)] px-2.5 py-0.5 rounded-full bg-[var(--bg-nested-badge)] border border-[var(--border-subcard)]">
-                  Core Values
-                </span>
               </div>
 
               {/* 3 Core Values Grid (Không có speaker, không lật thẻ) */}
@@ -1970,9 +1951,6 @@ export function AboutView({
                       {formatCardTitle('Triết lý tầm nhìn')}
                     </h3>
                   </div>
-                  <span className="typo-badge font-mono text-[var(--text-muted)] bg-[var(--bg-nested-badge)] px-2.5 py-0.5 rounded-full border border-[var(--border-subcard)]">
-                    CX 2026+
-                  </span>
                 </div>
 
                 {/* Nội dung */}
@@ -1984,16 +1962,6 @@ export function AboutView({
                     Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi
                     khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.
                   </p>
-                </div>
-
-                {/* Footer Tag */}
-                <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subcard)] shrink-0">
-                  <span className="typo-label text-[var(--text-muted)]">
-                    Định Hướng Dài Hạn
-                  </span>
-                  <span className="typo-badge font-mono text-blue-600 dark:text-cyan-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/30">
-                    Khách Hàng Là Trọng Tâm
-                  </span>
                 </div>
               </div>
             </div>

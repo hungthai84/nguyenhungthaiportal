@@ -575,7 +575,13 @@ export const Header: React.FC<HeaderProps> = ({
                     currentPage === 12
                       ? 'bg-indigo-100 dark:bg-indigo-900 text-indigo-950 dark:text-indigo-100 active'
                       : 'text-[var(--text-primary)]'
-                  } px-2 py-0.5 gap-1.5 shadow-sm cursor-pointer border-2 border-indigo-400/80 dark:border-indigo-500/80 transition-colors`}
+                  } px-[10px] py-[2px] gap-1.5 shadow-sm cursor-pointer border-2 border-indigo-400/80 dark:border-indigo-500/80 transition-colors`}
+                  style={{
+                    paddingLeft: '10px',
+                    paddingRight: '10px',
+                    paddingTop: '2px',
+                    paddingBottom: '2px',
+                  }}
                 >
                   <div className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-xs bg-indigo-500 text-white leading-none p-0 overflow-hidden ring-1 ring-indigo-300">
                     <img

@@ -38,7 +38,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     imagePath: '/backgrounds/themes/frosted-glass/frosted-glass-light.webp',
     fallbackGradient:
       'radial-gradient(circle at 18% 18%, rgba(59, 130, 246, 0.22) 0%, transparent 48%), radial-gradient(circle at 82% 24%, rgba(167, 139, 250, 0.22) 0%, transparent 48%), radial-gradient(circle at 52% 86%, rgba(45, 212, 191, 0.18) 0%, transparent 52%), linear-gradient(135deg, #f1f5f9 0%, #e0f2fe 50%, #eef2ff 100%)',
-    overlayBg: 'rgba(241, 245, 249, 0.14)',
+    overlayBg: 'rgba(241, 245, 249, 0.02)',
   },
   'mica-fluent': {
     id: 'mica-fluent',
@@ -48,7 +48,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     imagePath: '/backgrounds/themes/mica-fluent/mica-fluent-light.webp',
     fallbackGradient:
       'radial-gradient(circle at 22% 20%, rgba(0, 103, 192, 0.18) 0%, transparent 50%), radial-gradient(circle at 78% 78%, rgba(56, 189, 248, 0.16) 0%, transparent 52%), linear-gradient(145deg, #f3f6fb 0%, #e6eef8 55%, #f3f3f3 100%)',
-    overlayBg: 'rgba(243, 243, 243, 0.16)',
+    overlayBg: 'rgba(243, 243, 243, 0.04)',
   },
   'dark-frosted-glass': {
     id: 'dark-frosted-glass',
@@ -58,7 +58,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     imagePath: '/backgrounds/themes/dark-frosted-glass/dark-frosted-dark.webp',
     fallbackGradient:
       'radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.28) 0%, transparent 50%), radial-gradient(circle at 82% 76%, rgba(99, 102, 241, 0.26) 0%, transparent 52%), linear-gradient(145deg, #020617 0%, #0f172a 55%, #082f49 100%)',
-    overlayBg: 'rgba(2, 6, 23, 0.24)',
+    overlayBg: 'rgba(2, 6, 23, 0.08)',
   },
   'cowhide-leather': {
     id: 'cowhide-leather',
@@ -68,7 +68,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     imagePath: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.webp',
     fallbackGradient:
       'radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), radial-gradient(circle at 80% 78%, rgba(139, 90, 43, 0.30) 0%, transparent 54%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
-    overlayBg: 'rgba(28, 14, 5, 0.24)',
+    overlayBg: 'rgba(28, 14, 5, 0.06)',
   },
 };
 

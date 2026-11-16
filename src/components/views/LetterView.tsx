@@ -29,21 +29,17 @@ export const HOME_SCREEN_2_IDLE_URL =
 export const HOME_SCREEN_2_INTRO_URL =
   'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793541818/Chinh_sua.mp4';
 
-// Authentic Signature vector for Nguyễn Hùng Thái
+// Authentic Signature image for Nguyễn Hùng Thái
+const SIGNATURE_IMAGE_URL =
+  'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794826442/Ch%E1%BB%AF_k%C3%BD.png';
+
 const SignatureSvg = () => (
-  <svg
-    className="w-32 sm:w-36 h-10 sm:h-11 text-blue-600 dark:text-cyan-400 opacity-95 relative select-none pointer-events-none"
-    viewBox="0 0 220 80"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="3.4"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M 30 60 C 45 45, 60 10, 72 32 C 80 52, 85 15, 98 32 C 108 45, 115 58, 128 22 C 135 12, 142 45, 185 28" />
-    <path d="M 38 42 L 185 34" strokeWidth="2" />
-    <path d="M 82 10 L 82 65" strokeWidth="2.8" />
-  </svg>
+  <img
+    src={SIGNATURE_IMAGE_URL}
+    alt="Chữ ký Nguyễn Hùng Thái"
+    referrerPolicy="no-referrer"
+    className="h-12 sm:h-14 w-auto max-w-[180px] sm:max-w-[220px] object-contain object-left bg-transparent border-0 p-0 shadow-none select-none pointer-events-none drop-shadow-[0_1px_2px_rgba(255,255,255,0.35)] dark:drop-shadow-[0_0_8px_rgba(255,255,255,0.55)]"
+  />
 );
 
 // 8 Thương hiệu từng đồng hành lấy trực tiếp từ trang kinh nghiệm (Experience)
@@ -713,7 +709,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
       {
         id: 'seg-s0-1',
         slideIndex: 0,
-        targetId: 'card-main-letter-content',
+        targetId: 'bento-commitment',
         label: isEn
           ? 'Cooperation Message — Opening Greeting'
           : 'Thông điệp hợp tác — Lời chào mở đầu',
@@ -724,7 +720,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
       {
         id: 'seg-s0-2',
         slideIndex: 0,
-        targetId: 'card-main-letter-content',
+        targetId: 'bento-commitment',
         label: isEn
           ? 'Cooperation Message — Partnership & Commitment'
           : 'Thông điệp hợp tác — Đồng hành & Cam kết',
@@ -1527,10 +1523,12 @@ export const LetterView: React.FC<LetterViewProps> = ({
       text-align: center;
       min-width: 210px;
     }
-    .sig-svg {
-      width: 140px;
-      height: 46px;
-      color: #1d4ed8;
+    .sig-img {
+      height: 50px;
+      width: auto;
+      max-width: 190px;
+      object-fit: contain;
+      display: block;
       margin: 4px auto;
     }
     @media print {
@@ -1588,11 +1586,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
       </div>
       <div class="signature-block">
         <div style="font-size:11px;color:#64748b;">Trân trọng kính chào,</div>
-        <svg class="sig-svg" viewBox="0 0 220 80" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M 30 60 C 45 45, 60 10, 72 32 C 80 52, 85 15, 98 32 C 108 45, 115 58, 128 22 C 135 12, 142 45, 185 28" />
-          <path d="M 38 42 L 185 34" stroke-width="2" />
-          <path d="M 82 10 L 82 65" stroke-width="2.8" />
-        </svg>
+        <img class="sig-img" src="${SIGNATURE_IMAGE_URL}" alt="Chữ ký Nguyễn Hùng Thái" />
         <div style="font-size:14px;font-weight:700;color:#0f172a;">Nguyễn Hùng Thái</div>
         <div style="font-size:10.5px;color:#475569;font-weight:700;">Trưởng phòng Chăm sóc Khách hàng</div>
       </div>
@@ -1940,26 +1934,20 @@ export const LetterView: React.FC<LetterViewProps> = ({
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: slideDirection === 'next' ? -56 : 56 }}
               transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full flex-1 flex flex-col gap-[15px]"
+              className={
+                currentSlide === 0
+                  ? 'w-full grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch relative z-10 auto-rows-auto bg-transparent'
+                  : 'w-full flex-1 flex flex-col gap-[15px]'
+              }
+              style={
+                currentSlide === 0
+                  ? { gap: '15px', rowGap: '15px', columnGap: '15px' }
+                  : undefined
+              }
             >
               {currentSlide === 0 && (
                 /* Lưới Bento Responsive Grid thống nhất: Tất cả các thẻ cách nhau đúng 15px ở mọi kích thước thiết bị */
-                <div
-                  id="card-main-letter-content"
-                  className="w-full grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch relative z-10 auto-rows-auto bg-transparent"
-                  style={{
-                    gap: '15px',
-                    rowGap: '15px',
-                    columnGap: '15px',
-                    background: 'transparent',
-                    backgroundColor: 'transparent',
-                    backgroundImage: 'none',
-                    backdropFilter: 'none',
-                    WebkitBackdropFilter: 'none',
-                    boxShadow: 'none',
-                    border: 'none',
-                  }}
-                >
+                <>
                     {/* THẺ BENTO 1: Khung Video Thuyết Minh (7/12 cột trên Desktop, 6/6 trên Tablet, 1/1 trên Mobile) */}
                     <article
                       id="bento-letter-video"
@@ -2269,7 +2257,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         &ldquo;Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự.&rdquo;
                       </p>
                     </article>
-                  </div>
+                </>
               )}
 
               {currentSlide === 1 && (
@@ -2463,18 +2451,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           <div className="-ml-1 shrink-0">
                             <SignatureSvg />
                           </div>
-                        </div>
-
-                        <div className="flex items-center gap-1.5 flex-wrap tracking-wider font-mono shrink-0">
-                          <span className="card-tag typo-badge font-bold px-2.5 py-0.5 rounded-[14px] bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/30">
-                            QUY TRÌNH
-                          </span>
-                          <span className="card-tag typo-badge font-bold px-2.5 py-0.5 rounded-[14px] bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/30">
-                            CON NGƯỜI
-                          </span>
-                          <span className="card-tag typo-badge font-bold px-2.5 py-0.5 rounded-[14px] bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
-                            CÔNG NGHỆ
-                          </span>
                         </div>
                       </div>
                     </div>

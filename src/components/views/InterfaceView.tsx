@@ -34,63 +34,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       data-element-page="interface"
       className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] box-border"
     >
-      {/* Banner Giao diện format giống Banner Học Vấn */}
-      <section
-        id="interface-hero-banner"
-        data-element-name="Banner chính trang Giao diện"
-        data-element-type="section"
-        data-element-page="interface"
-        data-element-parent="interface-page-container"
-        data-section-card="true"
-        className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-hidden relative shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-20 backdrop-blur-xl"
-        style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
-      >
-        <div
-          className="absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
-          style={{
-            background: 'linear-gradient(135deg, #0f172a 0%, #312e81 50%, #4c1d95 100%)',
-            borderRadius: '14px',
-          }}
-        >
-          <img
-            src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
-            alt="Banner Giao Diện & Kiểu Thẻ"
-            referrerPolicy="no-referrer"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
-            className="w-full h-full object-cover object-center opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/40 to-slate-950/70 pointer-events-none" />
-        </div>
-        
-        <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
-          <div className="flex items-center gap-2 min-w-0">
-            <WebIcon
-              name="layers"
-              className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#818cf8]"
-              style={{ color: '#818cf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
-            />
-            <h1
-              className="typo-h1 font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#818cf8] truncate"
-              style={{ color: '#818cf8', fontWeight: 700, textTransform: 'none', fontStyle: 'normal' }}
-            >
-              Cấu hình phong cách – Theme Presets & Studio
-            </h1>
-          </div>
-          <p
-            className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] md:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left md:text-right md:ml-auto whitespace-normal overflow-hidden text-ellipsis md:max-w-[50%]"
-            style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
-          >
-            &quot;Xem trước đa màn hình & Tinh chỉnh độ trong suốt kính ♡&quot;
-          </p>
-        </div>
-      </section>
-
-
-
       {/* Danh sách các giao diện độc lập */}
-      <div className="flex flex-col gap-3 pt-2">
+      <div className="flex flex-col gap-3">
         <h3 className="typo-h3 font-bold tracking-tight">
           {isEn
             ? `Available Theme Presets (${CARD_STYLE_PRESETS_LIST.length} Themes)`

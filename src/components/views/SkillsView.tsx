@@ -78,32 +78,19 @@ const SwotCornerQuadrant: React.FC<SwotCornerQuadrantProps> = ({
   letter,
   innerColor,
   outerColor,
-  onClick,
-  isActive,
 }) => {
   // SVG size 130 x 130
   // R_inner = 92, R_outer = 126
   return (
     <div
-      role="button"
-      tabIndex={0}
-      aria-pressed={!!isActive}
-      aria-label={`Lọc nhóm SWOT ${letter}`}
-      onClick={onClick}
-      onKeyDown={(e) => {
-        if ((e.key === 'Enter' || e.key === ' ') && onClick) {
-          e.preventDefault();
-          onClick();
-        }
-      }}
+      aria-hidden="true"
       className={cn(
-        "absolute w-20 h-20 sm:w-32 sm:h-32 z-20 cursor-pointer select-none transition-transform duration-300 hover:scale-105",
+        "absolute w-20 h-20 sm:w-32 sm:h-32 z-20 select-none pointer-events-none",
         position === 'bottom-right' && "bottom-0 right-0",
         position === 'bottom-left' && "bottom-0 left-0",
         position === 'top-right' && "top-0 right-0",
         position === 'top-left' && "top-0 left-0"
       )}
-      title={`Bộ chỉ số SWOT: ${letter}`}
     >
       <svg
         viewBox="0 0 100 100"
@@ -337,10 +324,10 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
   // Bộ lọc 14 màu chuẩn
   const swotFilterOptions = [
     { id: null, label: isVi ? "Tất cả năng lực (#SWOT)" : "All Competencies (#SWOT)", badge: "#ALL", color: "text-[#1480C0]" },
-    { id: "S", label: isVi ? "#S · Điểm mạnh (Strengths)" : "#S · Core Strengths", badge: "#S", color: "text-[#1480C0]" },
-    { id: "W", label: isVi ? "#W · Hoàn thiện (Weaknesses)" : "#W · Growth Areas", badge: "#W", color: "text-[#50B347]" },
-    { id: "O", label: isVi ? "#O · Cơ hội (Opportunities)" : "#O · Opportunities", badge: "#O", color: "text-[#EC7D21]" },
-    { id: "T", label: isVi ? "#T · Thách thức (Threats)" : "#T · Threats & Risks", badge: "#T", color: "text-[#E64C72]" },
+    { id: "S", label: isVi ? "#S · Thế Mạnh Cốt Lõi" : "#S · Core Strengths", badge: "#S", color: "text-[#1480C0]" },
+    { id: "W", label: isVi ? "#W · Khía Cạnh Hoàn Thiện" : "#W · Growth Areas", badge: "#W", color: "text-[#50B347]" },
+    { id: "O", label: isVi ? "#O · Cơ Hội Phát Triển" : "#O · Opportunities", badge: "#O", color: "text-[#EC7D21]" },
+    { id: "T", label: isVi ? "#T · Thách Thức Thích Ứng" : "#T · Threats & Risks", badge: "#T", color: "text-[#E64C72]" },
   ];
 
   // Cấu hình 4 thẻ SWOT
@@ -366,7 +353,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
       id: "skills-management-card",
       elementName: "Thẻ kỹ năng Thế mạnh cốt lõi",
       icon: "award",
-      title: isVi ? "Thế mạnh cốt lõi" : "Core Operational Strengths",
+      title: isVi ? "Thế Mạnh Cốt Lõi" : "Core Operational Strengths",
       subVi: "",
       subEn: "Core Operational CX Strengths",
       descVi: "Những năng lực cốt lõi đã được chứng minh qua thực tiễn quản lý, vận hành và phát triển hệ thống Dịch vụ Khách hàng.",
@@ -382,8 +369,8 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
       key: "W",
       id: "skills-tech-card",
       elementName: "Thẻ kỹ năng Khía cạnh hoàn thiện",
-      icon: "target",
-      title: isVi ? "Khía cạnh hoàn thiện" : "Strategic Refinements",
+      icon: "trending-up",
+      title: isVi ? "Khía Cạnh Hoàn Thiện" : "Strategic Refinements",
       subVi: "",
       subEn: "Strategic Refinement Areas",
       descVi: "Những năng lực cần tiếp tục hoàn thiện để nâng tầm vai trò quản lý từ vận hành hiệu quả sang quản trị chiến lược và phát triển bền vững.",
@@ -400,7 +387,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
       id: "skills-ops-card",
       elementName: "Thẻ kỹ năng Cơ hội phát triển",
       icon: "rocket",
-      title: isVi ? "Cơ hội phát triển" : "Growth Opportunities",
+      title: isVi ? "Cơ Hội Phát Triển" : "Growth Opportunities",
       subVi: "",
       subEn: "AI & Digital Leap Opportunities",
       descVi: "Những năng lực tạo đòn bẩy để nâng cao hiệu quả vận hành, tối ưu nguồn lực và chuyển đổi mô hình Dịch vụ Khách hàng trong thời đại số.",
@@ -416,8 +403,8 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
       key: "T",
       id: "skills-leadership-card",
       elementName: "Thẻ kỹ năng Thách thức thích ứng",
-      icon: "shield",
-      title: isVi ? "Thách thức thích ứng" : "Adaptive Challenges",
+      icon: "shield-alert",
+      title: isVi ? "Thách Thức Thích Ứng" : "Adaptive Challenges",
       subVi: "",
       subEn: "External Pressure & Adaptation Risks",
       descVi: "Những yếu tố bên ngoài tác động trực tiếp đến chất lượng dịch vụ, nhân sự và hiệu quả vận hành, đòi hỏi khả năng thích ứng và quản trị chủ động.",
@@ -639,8 +626,6 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                       letter={quad.key}
                       innerColor={quad.innerColor}
                       outerColor={quad.outerColor}
-                      onClick={() => setSelectedSwot(selectedSwot === quad.key ? null : quad.key)}
-                      isActive={isSelected}
                     />
 
                     {/* Card Content Area */}
@@ -675,11 +660,13 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                           )}
                         >
                           <div className="card-header-sync flex items-center gap-2.5">
-                            <WebIcon
-                              name={quad.icon}
-                              className="swot-quadrant-icon w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                              style={{ width: '18px', height: '18px', color: quad.titleColor }}
-                            />
+                            {quad.key !== "W" && quad.key !== "T" && (
+                              <WebIcon
+                                name={quad.icon}
+                                className="swot-quadrant-icon w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                                style={{ width: '18px', height: '18px', color: quad.titleColor }}
+                              />
+                            )}
                             <h2
                               id={`${quad.id}-title`}
                               className="swot-quadrant-title card-title-synced typo-h3 font-play tracking-tight"
@@ -687,6 +674,13 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                             >
                               {quad.title}
                             </h2>
+                            {(quad.key === "W" || quad.key === "T") && (
+                              <WebIcon
+                                name={quad.icon}
+                                className="swot-quadrant-icon w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                                style={{ width: '18px', height: '18px', color: quad.titleColor }}
+                              />
+                            )}
                           </div>
                           {isSelected && (
                             <button
@@ -838,7 +832,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                     transition={{ duration: 0.28, ease: [0.04, 0.62, 0.23, 0.98] }}
                                     className="overflow-hidden"
                                   >
-                                    <div className="swot-skill-disclosure mt-2 pt-2 text-left flex items-start gap-2 p-2.5 rounded-[10px]">
+                                    <div className="swot-skill-disclosure mt-2 pt-2 text-left flex items-start gap-2 p-2.5 rounded-[12px]">
                                       <WebIcon
                                         name="info"
                                         className="swot-skill-icon w-4 h-4 shrink-0 mt-0.5 opacity-90"

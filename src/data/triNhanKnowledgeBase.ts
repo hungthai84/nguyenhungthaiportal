@@ -209,7 +209,7 @@ export function findVerifiedFallbackAnswer(
       reply:
         language === 'en'
           ? 'Tri Nhan is pleased to share: Mr. Nguyen Hung Thai (born 1984) has **22+ years of practical leadership experience** in Customer Experience & Contact Center Operations across **MobiFone, V247, LBC HTVC, VED (Garena/Shopee), Prudential Vietnam, MoMo, and Finviet (ECO Wallet)**, leading teams up to **130 internal staff and 150+ BPO seats**.'
-          : 'Trí Nhân xin chia sẻ tổng quan về anh Nguyễn Hùng Thái: Anh sinh năm 1984 và có hơn **22 năm kinh nghiệm thực chiến** quản trị Dịch vụ & Trải nghiệm Khách hàng (CX) qua các đơn vị **MobiFone, V247, LBC HTVC, VED (Garena/Shopee), Prudential Việt Nam, Ví MoMo và Finviet (Ví ECO)**, từng điều hành quy mô tới **130 nhân sự nội bộ và hơn 150 vị trí BPO**.\n\nBạn có thể nhấn nút **Câu hỏi mẫu** ở góc trái khung nhập để chọn nhanh chủ đề hoặc hỏi cụ thể hơn về từng giai đoạn nhé!',
+          : 'Trí Nhân xin chia sẻ tổng quan về anh Nguyễn Hùng Thái: Anh sinh năm 1984 và có hơn **22 năm kinh nghiệm thực chiến** quản trị Dịch vụ & Trải nghiệm Khách hàng (CX) qua các đơn vị **MobiFone, V247, LBC HTVC, VED (Garena/Shopee), Prudential Việt Nam, Ví MoMo và Finviet (Ví ECO)**, từng điều hành quy mô tới **130 nhân sự nội bộ và hơn 150 vị trí BPO**.\n\nBạn có thể nhấn nút **Danh mục** ở góc trái khung nhập để chọn nhanh chủ đề hoặc hỏi cụ thể hơn về từng giai đoạn nhé!',
     };
   }
 

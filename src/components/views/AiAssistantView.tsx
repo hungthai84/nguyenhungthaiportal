@@ -35,10 +35,10 @@ interface Message {
 }
 
 const INITIAL_GREETING_TEXT =
-  'Xin chào! Trí Nhân rất vui được đồng hành cùng bạn.\n\nBạn có thể đặt câu hỏi để tìm hiểu về anh Nguyễn Hùng Thái, hành trình nghề nghiệp, kinh nghiệm quản trị CSKH, tư duy lãnh đạo và các dấu ấn chuyên môn.\n\nBạn cũng có thể chọn một chủ đề trong danh sách Câu hỏi mẫu để bắt đầu.';
+  'Xin chào Anh Chị ! Tôi là Trí Nhân, trợ lý AI của anh Hùng Thái. Anh Chị có thể hỏi tôi về thông tin của anh Hùng Thái hoặc dùng câu hỏi mẫu bên dưới !';
 
 const INITIAL_GREETING_TEXT_EN =
-  'Hello! Tri Nhan is delighted to accompany you.\n\nYou can ask any question to learn about Mr. Nguyen Hung Thai, his career journey, customer service leadership experience, strategic mindset, and professional milestones.\n\nYou can also select a topic from the Sample Questions list to get started.';
+  'Hello! I am Tri Nhan, Mr. Hung Thai’s AI Assistant. You can ask me about Mr. Hung Thai’s information or use the sample questions below!';
 
 const INITIAL_MESSAGES: Message[] = [
   {
@@ -71,8 +71,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const [activeCategoryId, setActiveCategoryId] = useState<string>(
     TRINHAN_SAMPLE_QUESTION_CATEGORIES[0].id
   );
-  const [openToQuestionsToken, setOpenToQuestionsToken] = useState<number>(0);
-  const [isCategoriesGridExpanded, setIsCategoriesGridExpanded] = useState<boolean>(true);
+  const [openToCategoriesToken, setOpenToCategoriesToken] = useState<number>(0);
   const [pendingDraftQuestion, setPendingDraftQuestion] = useState<SampleQuestionItem | null>(null);
 
   // Trạng thái giọng đọc AI Puck Nam giới (Tiếng Việt Miền Nam & Tiếng Anh)
@@ -95,12 +94,13 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
     if (onShowNotification) onShowNotification(msg);
   };
 
-  // Auto-resize textarea cleanly (1–4 lines)
+  // Auto-resize textarea cleanly (base height = 44px matching Danh mục & Gửi câu hỏi buttons)
   useEffect(() => {
     const el = textareaRef.current;
     if (!el) return;
-    el.style.height = 'auto';
-    const nextHeight = Math.min(Math.max(el.scrollHeight, 40), 112);
+    const baseHeight = 44;
+    el.style.height = `${baseHeight}px`;
+    const nextHeight = Math.min(Math.max(el.scrollHeight, baseHeight), 112);
     el.style.height = `${nextHeight}px`;
   }, [inputValue]);
 
@@ -230,11 +230,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
 
   const handleSelectQuestionItem = (item: SampleQuestionItem) => {
     SoundEngine.playTap();
-    const trimmedCurrent = inputValue.trim();
-    if (trimmedCurrent.length > 0 && trimmedCurrent !== item.question.trim()) {
-      setPendingDraftQuestion(item);
-      return;
-    }
     applySampleQuestionToInput(item, 'replace');
   };
 
@@ -247,13 +242,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
     applySampleQuestionToInput(pendingDraftQuestion, action);
   };
 
-  const handleOpenCategoryFromGrid = (catId: string) => {
-    SoundEngine.playTap();
-    setActiveCategoryId(catId);
-    setOpenToQuestionsToken((prev) => prev + 1);
-    setIsSampleDropdownOpen(true);
-  };
-
   const handleSend = async (textOverride?: string) => {
     if (isLoading) return;
     const text = (textOverride ?? inputValue).trim();
@@ -261,7 +249,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
 
     SoundEngine.playTap();
     setIsSampleDropdownOpen(false);
-    setIsCategoriesGridExpanded(false);
     setPendingDraftQuestion(null);
 
     const userMsg: Message = {
@@ -554,104 +541,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
               );
             })}
 
-            {/* Lưới 8 danh mục chủ đề hiển thị trực tiếp trên trang AI hỗ trợ */}
-            <div
-              id="ai-assistant-categories-showcase"
-              data-subcard="true"
-              className="sub-card rounded-[14px] p-3 sm:p-3.5 space-y-2.5"
-            >
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex items-center gap-2 min-w-0">
-                  <WebIcon
-                    name="grid"
-                    className="w-4 h-4 shrink-0"
-                    style={{ color: 'var(--color-primary)' }}
-                  />
-                  <span
-                    className="typo-h5 font-play truncate"
-                    style={{ color: 'var(--text-heading, var(--text-primary))' }}
-                  >
-                    {isEn
-                      ? `Explore ${TRINHAN_SAMPLE_QUESTION_CATEGORIES.length} Topic Categories (${ALL_SAMPLE_QUESTIONS.length} Questions)`
-                      : `Khám phá ${TRINHAN_SAMPLE_QUESTION_CATEGORIES.length} danh mục chủ đề (${ALL_SAMPLE_QUESTIONS.length} câu hỏi mẫu)`}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    SoundEngine.playTap();
-                    setIsCategoriesGridExpanded((prev) => !prev);
-                  }}
-                  className="project-detail-chip inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge cursor-pointer transition hover:opacity-85 shrink-0"
-                >
-                  <span>
-                    {isCategoriesGridExpanded
-                      ? isEn
-                        ? 'Collapse'
-                        : 'Thu gọn'
-                      : isEn
-                        ? 'Show 8 topics'
-                        : 'Hiện 8 danh mục'}
-                  </span>
-                  <WebIcon
-                    name={isCategoriesGridExpanded ? 'chevron-up' : 'chevron-down'}
-                    className="w-3.5 h-3.5"
-                  />
-                </button>
-              </div>
-
-              {isCategoriesGridExpanded && (
-                <div
-                  id="ai-assistant-categories-grid"
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2"
-                >
-                  {TRINHAN_SAMPLE_QUESTION_CATEGORIES.map((cat) => {
-                    const isCatActive = isSampleDropdownOpen && activeCategoryId === cat.id;
-                    return (
-                      <button
-                        key={cat.id}
-                        id={`ai-category-card-${cat.code}`}
-                        type="button"
-                        data-subcard="true"
-                        onClick={() => handleOpenCategoryFromGrid(cat.id)}
-                        style={{
-                          borderColor: isCatActive ? cat.color : undefined,
-                          boxShadow: isCatActive ? `0 0 0 1px ${cat.color}60` : undefined,
-                        }}
-                        className="theme-modal-subcard w-full p-2.5 rounded-[12px] text-left flex flex-col justify-between gap-1.5 cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-sm active:scale-[0.99] group min-w-0"
-                      >
-                        <div className="flex items-center justify-between gap-1.5 w-full min-w-0">
-                          <div className="flex items-center gap-1.5 min-w-0">
-                            <span
-                              className="w-6 h-6 rounded-full flex items-center justify-center shrink-0"
-                              style={{ backgroundColor: `${cat.color}20`, color: cat.color }}
-                            >
-                              <WebIcon name={cat.icon} className="w-3.5 h-3.5" style={{ color: cat.color }} />
-                            </span>
-                            <span
-                              className="typo-body-sm font-semibold font-play truncate"
-                              style={{ color: isDark ? 'var(--text-primary)' : cat.color }}
-                            >
-                              {cat.labelWithNumber}
-                            </span>
-                          </div>
-                          <span
-                            className="px-1.5 py-0.5 rounded-full typo-badge font-mono shrink-0"
-                            style={{ backgroundColor: `${cat.color}20`, color: cat.color }}
-                          >
-                            {cat.items.length}
-                          </span>
-                        </div>
-                        <p className="typo-caption text-[var(--text-secondary)] line-clamp-2 leading-snug">
-                          {isEn ? cat.descriptionEn : cat.description}
-                        </p>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
             {isLoading && (
               <div id="ai-assistant-loading-indicator" className="flex justify-start">
                 <div
@@ -670,7 +559,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             <div ref={chatMessagesEndRef} />
           </div>
 
-          {/* DROP-UP CÂU HỎI MẪU 2 CẤP (8 NHÓM CHỦ ĐỀ -> 47 CÂU HỎI) */}
+          {/* DROP-UP THẺ DANH MỤC (GRID CARD) -> LIST CÂU HỎI */}
           <div ref={dropTopOverlayRef}>
             <SampleQuestionDropdown
               isOpen={isSampleDropdownOpen}
@@ -678,7 +567,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
               isEn={isEn}
               categories={TRINHAN_SAMPLE_QUESTION_CATEGORIES}
               activeCategoryId={activeCategoryId}
-              openToQuestionsToken={openToQuestionsToken}
+              openToCategoriesToken={openToCategoriesToken}
               onSelectCategory={(catId) => setActiveCategoryId(catId)}
               onSelectQuestion={handleSelectQuestionItem}
               onClose={() => {
@@ -691,7 +580,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           </div>
         </div>
 
-        {/* FORM NHẬP TIN NHẮN: [Nút Câu hỏi mẫu] [Textarea nhập nội dung] [Nút Gửi] */}
+        {/* FORM NHẬP TIN NHẮN: [Nút Danh mục] [Textarea nhập nội dung] [Nút Gửi] — chiều cao bằng nhau 44px */}
         <form
           id="ai-assistant-input-form"
           data-element-name="Biểu mẫu nhập câu hỏi Trợ lý AI Trí Nhân"
@@ -704,7 +593,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           }}
           className="flex items-end gap-1.5 sm:gap-2.5 pt-1 relative shrink-0"
         >
-          <div ref={dropTopMenuRef} id="ai-assistant-droptop-wrapper" className="shrink-0">
+          <div ref={dropTopMenuRef} id="ai-assistant-droptop-wrapper" className="shrink-0 flex items-center">
             <SampleQuestionButton
               isOpen={isSampleDropdownOpen}
               isEn={isEn}
@@ -713,7 +602,11 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                 SoundEngine.playTap();
                 setIsSampleDropdownOpen((prev) => {
                   const next = !prev;
-                  if (!next) setPendingDraftQuestion(null);
+                  if (next) {
+                    setOpenToCategoriesToken((t) => t + 1);
+                  } else {
+                    setPendingDraftQuestion(null);
+                  }
                   return next;
                 });
               }}
@@ -733,10 +626,10 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             onKeyDown={handleTextareaKeyDown}
             placeholder={
               isEn
-                ? 'Ask Tri Nhan about Mr. Nguyen Hung Thai (Enter to send, Shift+Enter for new line)...'
-                : 'Hỏi Trí Nhân về anh Nguyễn Hùng Thái hoặc chọn Câu hỏi mẫu...'
+                ? 'Ask Tri Nhan about Mr. Nguyen Hung Thai or click Categories...'
+                : 'Hỏi Trí Nhân về anh Nguyễn Hùng Thái hoặc bấm Danh mục...'
             }
-            className="theme-input flex-1 min-w-0 min-h-[40px] sm:min-h-[44px] max-h-[112px] py-2 px-3 sm:px-4 !rounded-[20px] border typo-input leading-snug resize-none focus:outline-none shadow-inner overflow-y-auto"
+            className="theme-input box-border flex-1 min-w-0 h-[44px] min-h-[44px] max-h-[112px] py-[9px] px-3 sm:px-4 !rounded-[22px] border typo-input leading-[22px] resize-none focus:outline-none shadow-inner overflow-y-auto"
           />
 
           <button
@@ -748,7 +641,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             type="submit"
             disabled={isLoading || !inputValue.trim()}
             style={{ background: 'var(--bg-button-primary)' }}
-            className="h-10 sm:h-11 px-3 sm:px-5 rounded-full text-white typo-button shadow-md cursor-pointer transition hover:opacity-90 active:scale-95 disabled:opacity-55 disabled:cursor-not-allowed flex items-center gap-1.5 sm:gap-2 shrink-0 border border-white/20"
+            className="box-border h-[44px] px-3 sm:px-5 rounded-full text-white typo-button shadow-md cursor-pointer transition hover:opacity-90 active:scale-95 disabled:opacity-55 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2 shrink-0 border border-white/20"
           >
             <span className="sm:hidden">{isEn ? 'Send' : 'Gửi'}</span>
             <span className="hidden sm:inline">{isEn ? 'Send' : 'Gửi câu hỏi'}</span>

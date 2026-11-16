@@ -5,7 +5,7 @@
 :root {
   --radius-main: 20px;
   --radius-card: 14px;
-  --radius-subcard: 14px;
+  --radius-subcard: 12px;
   --space-card-padding: 15px;
   --space-card-gap: 15px;
 }
@@ -386,7 +386,11 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   backdrop-filter: blur(var(--bg-blur)) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
   border-radius: var(--radius-header, 0 0 14px 14px) !important;
-  transition: box-shadow var(--motion-normal) var(--motion-ease);
+  transition: box-shadow var(--motion-normal) var(--motion-ease), border-color var(--motion-normal) var(--motion-ease);
+}
+
+#app-header:hover {
+  box-shadow: var(--shadow-header-hover, var(--shadow-header)) !important;
 }
 
 #app-footer {
@@ -398,7 +402,11 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   backdrop-filter: blur(var(--bg-blur)) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur)) !important;
   border-radius: var(--radius-footer, 14px 14px 0 0) !important;
-  transition: box-shadow var(--motion-normal) var(--motion-ease);
+  transition: box-shadow var(--motion-normal) var(--motion-ease), border-color var(--motion-normal) var(--motion-ease);
+}
+
+#app-footer:hover {
+  box-shadow: var(--shadow-footer-hover, var(--shadow-footer, var(--shadow-header))) !important;
 }
 
 /* WEATHER CARD & HOROSCOPE SLIDE CONTAINERS 100% TRANSPARENT & MAX FULL SIZE */
@@ -600,7 +608,7 @@ h3.card-title,
   background: var(--bg-header) !important;
   border-radius: var(--radius-main, 20px) !important;
   border: var(--card-border-width, 1px) solid var(--border-color, var(--glass-border)) !important;
-  box-shadow: var(--shadow-header) !important;
+  box-shadow: var(--shadow-main-card, var(--shadow-header)) !important;
   backdrop-filter: blur(var(--bg-blur, var(--glass-blur, 20px))) saturate(160%) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur, var(--glass-blur, 20px))) saturate(160%) !important;
   padding: var(--main-card-padding, 25px) !important;
@@ -611,7 +619,7 @@ h3.card-title,
 [id$="-page-container"]:hover,
 [id$="-page-root"]:hover,
 #letter-page-container:hover {
-  box-shadow: var(--shadow-header) !important;
+  box-shadow: var(--shadow-main-card-hover, var(--shadow-main-card, var(--shadow-header))) !important;
   transform: none !important;
 }
 
@@ -896,7 +904,7 @@ h3.card-title,
 /* PROJECT DETAIL BANNER, CARDS 1–10 & SUBCARDS THEME SYNC                   */
 /* ========================================================================= */
 .project-detail-banner-inner {
-  background: var(--bg-card) !important;
+  background: transparent !important;
   border: var(--card-border-width, 1px) solid var(--border-color) !important;
   box-shadow: var(--shadow-card) !important;
   backdrop-filter: blur(var(--bg-blur, 18px)) saturate(165%) !important;
@@ -933,7 +941,7 @@ h3.card-title,
 .letter-footer-subcard {
   background: var(--bg-subcard) !important;
   border: 1px solid var(--border-subcard, var(--color-border-soft)) !important;
-  border-radius: var(--radius-subcard, 14px) !important;
+  border-radius: var(--radius-subcard, 12px) !important;
   box-shadow: var(--shadow-subcard) !important;
   backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
   -webkit-backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
@@ -1116,7 +1124,7 @@ article.project-card:hover,
 .theme-modal-subcard {
   background: var(--bg-subcard) !important;
   border: 1px solid var(--border-subcard, var(--border-color)) !important;
-  border-radius: var(--radius-subcard, 14px) !important;
+  border-radius: var(--radius-subcard, 12px) !important;
   box-shadow: var(--shadow-subcard) !important;
   backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
   -webkit-backdrop-filter: blur(var(--blur-subcard, 0px)) !important;

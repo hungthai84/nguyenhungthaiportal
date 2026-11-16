@@ -515,7 +515,7 @@ export default function App() {
           initial={{ opacity: 0, y: -25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full shrink-0"
+          className="w-full shrink-0 relative z-40"
         >
           <Header
             pages={TABS_DATA}
@@ -557,7 +557,7 @@ export default function App() {
           initial={{ opacity: 0, y: 45 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full shrink-0"
+          className="w-full shrink-0 relative z-50"
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}

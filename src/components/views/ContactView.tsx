@@ -70,7 +70,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
         {/* Background Image & Overlay */}
         <div id="contact-banner-img-wrap" className="absolute inset-0 pointer-events-none overflow-hidden rounded-[14px]">
           <img
-            src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
+            src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
             alt="Banner Liên hệ & Kết nối"
             referrerPolicy="no-referrer"
             onError={(e) => {

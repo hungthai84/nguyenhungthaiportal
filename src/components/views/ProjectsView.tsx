@@ -649,58 +649,47 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                       }}
                       className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 block m-0 p-0"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />
-
-                    {/* Nhãn Giai đoạn & Vai trò ở chân ảnh */}
-                    <div className="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between gap-1 typo-label font-bold font-play text-white/95 drop-shadow-sm">
-                      <span className="truncate font-play">{proj.role}</span>
-                      <span className="px-1.5 py-0.2 rounded bg-emerald-500/85 text-white font-play typo-badge shrink-0">
-                        {proj.progressPercent}%
-                      </span>
-                    </div>
                   </div>
 
                   {/* Phần Thân Card: Nội dung cách thẻ dự án padding 10px */}
                   <div className="project-card-body p-[10px] flex-1 flex flex-col justify-between space-y-2">
                     <div>
-                      <h3
-                        className="typo-h4 card-title-synced line-clamp-2 min-h-[2.85rem] leading-snug break-words transition-colors font-play"
-                        data-card-title="true"
-                        style={{ color: cfg.accentColor }}
-                        title={proj.title}
-                      >
+                      {/* Tiêu đề thẻ dự án: Số thứ tự (đồng bộ format tiêu đề) & Icon & Tên tiêu đề */}
+                      <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: cfg.accentColor }}>
                         {orderNumber && (
                           <span
-                            className="project-card-order-badge inline-flex items-center align-middle font-mono font-bold px-1.5 py-[1px] mr-1.5 -mt-0.5 rounded typo-badge leading-tight border"
-                            style={{
-                              color: cfg.accentColor,
-                              backgroundColor: `${cfg.accentColor}18`,
-                              borderColor: `${cfg.accentColor}35`,
-                            }}
+                            className="typo-h4 card-title-synced font-play font-bold leading-snug shrink-0 m-0 p-0"
+                            data-card-title="true"
+                            style={{ color: cfg.accentColor }}
                           >
                             {orderNumber}
                           </span>
                         )}
-                        <span className="inline-flex items-center align-middle mr-1.5 -mt-0.5">
-                          <WebIcon
-                            name={getProjectIconByTitle(proj)}
-                            className="w-[17px] h-[17px] shrink-0"
-                            style={{ color: cfg.accentColor }}
-                          />
-                        </span>
-                        <span className="inline whitespace-normal" style={{ color: cfg.accentColor }}>{cleanedTitle}</span>
-                      </h3>
+                        <WebIcon
+                          name={getProjectIconByTitle(proj)}
+                          className="w-[18px] h-[18px] shrink-0 mt-0.5"
+                          style={{ color: cfg.accentColor }}
+                        />
+                        <h3
+                          className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex-1 min-w-0"
+                          data-card-title="true"
+                          style={{ color: cfg.accentColor }}
+                          title={cleanedTitle}
+                        >
+                          {cleanedTitle}
+                        </h3>
+                      </div>
 
                       <p
-                        className="typo-body-sm leading-snug line-clamp-2 min-h-[2.4rem] mt-1.5 font-medium"
+                        className="typo-body-sm leading-snug line-clamp-2 min-h-[2.4rem] mt-2 font-medium"
                         style={{ color: 'var(--text-secondary)' }}
                       >
                         {proj.description}
                       </p>
                     </div>
 
-                    {/* Tags hashtag kỹ năng kích thước chuẩn 12px & Footer CTA */}
-                    <div className="pt-2 border-t flex flex-col gap-2.5" style={{ borderColor: 'var(--border-subcard)' }}>
+                    {/* Tags hashtag kỹ năng */}
+                    <div className="pt-2 border-t" style={{ borderColor: 'var(--border-subcard)' }}>
                       <div className="flex flex-nowrap items-center gap-1.5 overflow-x-auto horizontal-scroll-smooth whitespace-nowrap">
                         {proj.hashtags.slice(0, 3).map((tag, tIdx) => (
                           <span
@@ -710,35 +699,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                             #{tag.replace(/^#/, '')}
                           </span>
                         ))}
-                      </div>
-
-                      {/* Cụm nút điều hướng Live Demo / Chi tiết ở chân thẻ */}
-                      <div className="flex items-center justify-between gap-2 pt-1">
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            SoundEngine.playTap();
-                            handleOpenGroup(parentGroup, proj);
-                          }}
-                          className="project-card-btn-primary flex-1 py-1.5 px-3 rounded-[999px] text-white font-bold typo-button flex items-center justify-center gap-1 shadow-sm hover:brightness-110 transition-all cursor-pointer"
-                        >
-                          <WebIcon name="external-link" className="w-3.5 h-3.5" />
-                          <span>Chi Tiết</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            SoundEngine.playTap();
-                            setMindmapProject(proj);
-                          }}
-                          className="project-card-btn-secondary py-1.5 px-3 rounded-[999px] font-bold typo-button border flex items-center justify-center gap-1 shadow-2xs hover:opacity-90 transition-all cursor-pointer"
-                          title="Xem sơ đồ tư duy dự án"
-                        >
-                          <WebIcon name="git-branch" className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
-                          <span>Sơ Đồ</span>
-                        </button>
                       </div>
                     </div>
                   </div>

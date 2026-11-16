@@ -95,8 +95,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           cardBorder: isLight
             ? 'border-[#93c5fd]/90 hover:border-[#38bdf8]'
             : 'border-sky-400/45 hover:border-sky-300',
-          ambientGlow:
-            'radial-gradient(circle at 75% 50%, rgba(190, 221, 249, 0.95) 0%, rgba(196, 226, 250, 0.5) 55%, transparent 75%)',
           titleColor: isLight ? 'text-[#0284c7]' : 'text-sky-300',
           pillBg: isLight
             ? 'bg-sky-100/90 border-sky-200/90 text-[#0369a1]'
@@ -117,8 +115,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           cardBorder: isLight
             ? 'border-[#fdba74]/90 hover:border-[#fb923c]'
             : 'border-orange-400/45 hover:border-orange-300',
-          ambientGlow:
-            'radial-gradient(circle at 75% 50%, rgba(251, 210, 166, 0.95) 0%, rgba(252, 204, 155, 0.5) 55%, transparent 75%)',
           titleColor: isLight ? 'text-[#ea580c]' : 'text-orange-300',
           pillBg: isLight
             ? 'bg-orange-100/80 border-orange-200/90 text-[#c2410c]'
@@ -140,8 +136,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           cardBorder: isLight
             ? 'border-[#fca5a5]/90 hover:border-[#f43f5e]'
             : 'border-rose-400/45 hover:border-rose-300',
-          ambientGlow:
-            'radial-gradient(circle at 75% 50%, rgba(253, 216, 207, 0.95) 0%, rgba(249, 179, 177, 0.5) 55%, transparent 75%)',
           titleColor: isLight ? 'text-[#e11d48]' : 'text-rose-300',
           pillBg: isLight
             ? 'bg-rose-100/80 border-rose-200/90 text-[#be123c]'
@@ -163,8 +157,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           cardBorder: isLight
             ? 'border-[#c4b5fd]/90 hover:border-[#a855f7]'
             : 'border-purple-400/45 hover:border-purple-300',
-          ambientGlow:
-            'radial-gradient(circle at 75% 50%, rgba(217, 208, 251, 0.95) 0%, rgba(157, 126, 243, 0.5) 55%, transparent 75%)',
           titleColor: isLight ? 'text-[#7c3aed]' : 'text-purple-300',
           pillBg: isLight
             ? 'bg-purple-100/80 border-purple-200/90 text-[#5b21b6]'
@@ -186,8 +178,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           cardBorder: isLight
             ? 'border-[#a5b4fc]/90 hover:border-[#6366f1]'
             : 'border-indigo-400/45 hover:border-indigo-300',
-          ambientGlow:
-            'radial-gradient(circle at 75% 50%, rgba(193, 216, 251, 0.95) 0%, rgba(158, 193, 247, 0.5) 55%, transparent 75%)',
           titleColor: isLight ? 'text-[#4338ca]' : 'text-indigo-300',
           pillBg: isLight
             ? 'bg-indigo-100/80 border-indigo-200/90 text-[#3730a3]'
@@ -210,8 +200,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           cardBorder: isLight
             ? 'border-[#6ee7b7]/90 hover:border-[#10b981]'
             : 'border-emerald-400/45 hover:border-emerald-300',
-          ambientGlow:
-            'radial-gradient(circle at 75% 50%, rgba(171, 217, 214, 0.95) 0%, rgba(177, 223, 221, 0.5) 55%, transparent 75%)',
           titleColor: isLight ? 'text-[#059669]' : 'text-emerald-300',
           pillBg: isLight
             ? 'bg-emerald-100/80 border-emerald-200/90 text-[#047857]'
@@ -234,9 +222,17 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
       data-element-type="card"
       data-section-card="true"
       data-element-page="services"
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] text-[var(--text-primary)] box-border"
+      style={{ padding: '25px' }}
+      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto block p-[25px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] text-[var(--text-primary)] box-border"
     >
-      <div className="w-full flex-1 min-h-0 flex flex-col justify-between gap-[15px]">
+      <div
+        id="services-main-content"
+        className={
+          selectedDomain
+            ? 'w-full h-full min-h-0 flex flex-col justify-start gap-[15px] min-w-0'
+            : 'w-full min-h-full flex flex-col justify-between gap-[15px] min-w-0'
+        }
+      >
       {/* 1. HERO BANNER ĐẦU TRANG DỊCH VỤ */}
       {!selectedDomain && (
         <motion.div
@@ -412,7 +408,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
       )}
 
       {/* 2. VÙNG NỘI DUNG: KHI CHƯA CHỌN -> 6 THẺ DẠNG 3 CỘT 2 HÀNG; KHI CLICK XEM CHI TIẾT -> THẺ CHI TIẾT BẰNG KÍCH THƯỚC 6 THẺ CỘNG & VIEW 3 CỘT 2 HÀNG */}
-      <div className="w-full flex-1 min-h-0 flex flex-col justify-between">
         {!selectedDomain ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full flex-1" style={{ gap: '15px' }}>
             {filteredDomains.map((domain, idx) => {
@@ -445,11 +440,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   }}
                   className="service-card bento-card glass-card layered-card group relative rounded-[14px] p-[15px] transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[230px] shadow-sm hover:shadow-xl hover:-translate-y-0.5"
                 >
-                  <div
-                    className="service-ambient-glow absolute inset-0 pointer-events-none opacity-40 transition-opacity duration-500 group-hover:opacity-75"
-                    style={{ background: cfg.ambientGlow }}
-                  />
-
                   {/* 1. TOP: Tiêu đề tên dịch vụ và icon dịch vụ */}
                   <div className="service-divider relative z-20 flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
                     <div className="card-header-sync flex items-center gap-2.5 min-w-0 flex-1" style={{ color: cfg.accentColor }}>
@@ -584,7 +574,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   duration: 0.4,
                   ease: [0.25, 1, 0.5, 1],
                 }}
-                className="bento-card glass-card w-full h-full min-h-0 overflow-y-auto max-h-full rounded-[14px] p-4 sm:p-5 gap-3.5 sm:gap-4 relative flex flex-col justify-start text-left font-play transition-all duration-300 text-[var(--text-primary)]"
+                className="bento-card glass-card w-full flex-1 min-h-0 overflow-y-auto max-h-full rounded-[14px] p-4 sm:p-5 gap-3.5 sm:gap-4 relative flex flex-col justify-start text-left font-play transition-all duration-300 text-[var(--text-primary)]"
                 style={{
                   borderRadius: '14px',
                 }}
@@ -638,10 +628,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     className="exp-detail-subcard md:col-span-12 p-4 sm:p-5 rounded-[14px] border-l-4 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 min-w-0"
                     style={{ borderLeftColor: accentColor }}
                   >
-                    <div
-                      className="absolute inset-0 pointer-events-none opacity-25"
-                      style={{ background: cfg.ambientGlow }}
-                    />
                     <div className="relative z-10 flex-1 min-w-0 flex flex-col justify-between gap-2.5 w-full">
                       <div
                         className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
@@ -732,7 +718,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   {/* BENTO STACK 3 & 4: Đối tác tiêu biểu + Vai trò đảm nhiệm */}
                   <div className="md:col-span-12 lg:col-span-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-3.5 min-w-0">
                     {/* BENTO CARD 3: Đối tác tiêu biểu */}
-                    <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px] flex flex-col justify-between gap-2.5 min-w-0">
+                    <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px] flex flex-col justify-between gap-2.5 min-w-0 flex-1">
                       <div
                         className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
                         data-subcard-accent="teal"
@@ -742,42 +728,66 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                           {isEn ? 'Key Ecosystem Strategic Partners' : 'Đối tác tiêu biểu'}
                         </h3>
                       </div>
-                      <div className="flex flex-wrap items-center gap-2">
-                        {selectedDomain.companyLogos && selectedDomain.companyLogos.length > 0 ? (
-                          selectedDomain.companyLogos.map((partner, i) => (
-                            <div
-                              key={i}
-                              data-subcard="true"
-                              className="exp-detail-subcard !px-2.5 !py-1.5 min-h-[38px] rounded-[12px] shadow-sm flex items-center justify-center gap-2 typo-badge text-[var(--text-primary)] select-none"
-                              title={partner.name}
-                            >
-                              <img
-                                src={partner.logo}
-                                alt={partner.name}
-                                className="w-6 h-6 sm:w-7 sm:h-7 object-contain bg-transparent shrink-0"
-                                onError={(e) => {
-                                  if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
-                                    e.currentTarget.src = partner.fallbackLogo;
-                                  } else {
-                                    e.currentTarget.style.display = 'none';
-                                  }
-                                }}
-                              />
-                              <span className="break-words">{partner.name}</span>
-                            </div>
-                          ))
-                        ) : (
-                          (selectedDomain.companies || []).map((p, i) => (
-                            <div
-                              key={i}
-                              data-subcard="true"
-                              className="exp-detail-subcard !px-3 !py-1.5 min-h-[36px] rounded-[12px] shadow-sm flex items-center justify-center typo-badge text-[var(--text-primary)] text-center select-none"
-                            >
-                              <span>{p}</span>
-                            </div>
-                          ))
-                        )}
-                      </div>
+                      {(() => {
+                        const logoList = selectedDomain.companyLogos || [];
+                        const companyList = selectedDomain.companies || [];
+                        const itemCount = logoList.length > 0 ? logoList.length : companyList.length;
+                        const gridColsClass =
+                          itemCount <= 1
+                            ? 'grid-cols-1'
+                            : itemCount === 2
+                              ? 'grid-cols-2'
+                              : itemCount === 3
+                                ? 'grid-cols-2 sm:grid-cols-3'
+                                : 'grid-cols-2';
+                        const tileHeightClass =
+                          itemCount <= 1
+                            ? 'min-h-[120px] sm:min-h-[144px]'
+                            : 'min-h-[82px] sm:min-h-[96px]';
+
+                        return (
+                          <div className={`flex-1 w-full grid ${gridColsClass} gap-2.5 items-stretch`}>
+                            {logoList.length > 0 ? (
+                              logoList.map((partner, i) => (
+                                <div
+                                  key={i}
+                                  data-subcard="true"
+                                  className={`exp-detail-subcard !p-1.5 w-full h-full ${tileHeightClass} rounded-[12px] shadow-sm flex items-center justify-center overflow-hidden select-none`}
+                                  title={partner.name}
+                                >
+                                  <img
+                                    src={partner.logo}
+                                    alt={partner.name}
+                                    className={`w-full h-full ${itemCount <= 1 ? 'max-h-[124px] sm:max-h-[140px]' : 'max-h-[82px] sm:max-h-[92px]'} object-contain bg-transparent`}
+                                    onError={(e) => {
+                                      if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
+                                        e.currentTarget.src = partner.fallbackLogo;
+                                      } else {
+                                        e.currentTarget.style.display = 'none';
+                                        const fallbackSpan = e.currentTarget.nextElementSibling as HTMLElement | null;
+                                        if (fallbackSpan) fallbackSpan.style.display = 'inline';
+                                      }
+                                    }}
+                                  />
+                                  <span style={{ display: 'none' }} className="typo-badge font-semibold text-[var(--text-primary)] text-center px-2 break-words">
+                                    {partner.name}
+                                  </span>
+                                </div>
+                              ))
+                            ) : (
+                              companyList.map((p, i) => (
+                                <div
+                                  key={i}
+                                  data-subcard="true"
+                                  className={`exp-detail-subcard !p-2 w-full h-full ${tileHeightClass} rounded-[12px] shadow-sm flex items-center justify-center typo-badge text-[var(--text-primary)] text-center select-none`}
+                                >
+                                  <span className="break-words">{p}</span>
+                                </div>
+                              ))
+                            )}
+                          </div>
+                        );
+                      })()}
                       {selectedDomain.ecosystemNote && (
                         <p className="typo-caption text-[var(--text-secondary)] pt-1 border-t border-[var(--border-subcard)]/60 break-words">
                           {selectedDomain.ecosystemNote}
@@ -884,7 +894,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     </div>
                   )}
 
-                  {/* BENTO CARD 8: Giải pháp công nghệ & Nền tảng công cụ (Hợp nhất) */}
+                  {/* BENTO CARD 8: Giải pháp công nghệ (Độc lập) */}
                   <div
                     data-subcard="true"
                     className={`exp-detail-subcard ${
@@ -905,76 +915,109 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                       </div>
 
                       {selectedDomain.techSolutions && selectedDomain.techSolutions.length > 0 && (
-                        <div className="space-y-2">
+                        <div className="grid grid-cols-1 gap-2.5">
                           {selectedDomain.techSolutions.map((sol, tIdx) => (
-                            <div key={tIdx} className="typo-body-sm break-words">
-                              <span className="font-semibold text-[var(--text-primary)]">{sol.name}: </span>
-                              <span className="text-[var(--text-secondary)]">{sol.desc}</span>
+                            <div
+                              key={tIdx}
+                              data-subcard="true"
+                              className="exp-detail-subcard p-3 rounded-[12px] flex items-start gap-2.5 min-w-0 transition-all hover:shadow-2xs"
+                            >
+                              <span className="w-5 h-5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center typo-badge font-mono font-bold shrink-0 mt-0.5">
+                                {tIdx + 1}
+                              </span>
+                              <div className="min-w-0 flex-1">
+                                <span className="font-semibold text-[var(--text-primary)] typo-body-sm block break-words">
+                                  {sol.name}
+                                </span>
+                                <p className="typo-caption text-[var(--text-secondary)] mt-0.5 break-words leading-relaxed m-0 p-0">
+                                  {sol.desc}
+                                </p>
+                              </div>
                             </div>
                           ))}
                         </div>
                       )}
-
-                      {(selectedDomain.tools || []).length > 0 && (
-                        <div className="pt-2.5 border-t border-[var(--border-subcard)]/60 space-y-2">
-                          <div
-                            className="subcard-header-sync flex items-center gap-2 typo-label min-w-0"
-                            data-subcard-accent="cyan"
-                          >
-                            <WebIcon name="settings" className="w-3.5 h-3.5 shrink-0" />
-                            <span className="subcard-title-synced font-semibold break-words" data-subcard-title="true">
-                              {isEn ? 'Core Platforms And Tools' : 'Nền tảng công cụ'}
-                            </span>
-                          </div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                            {(selectedDomain.tools || []).map((tech, i) => {
-                              const toolIcon = toolIcons[i % toolIcons.length];
-                              const toolAccent = toolAccents[i % toolAccents.length];
-                              return (
-                                <div
-                                  key={i}
-                                  data-subcard="true"
-                                  data-subcard-accent={toolAccent}
-                                  className="exp-detail-subcard !p-2.5 rounded-[12px] flex items-center gap-2 min-w-0 transition-transform duration-200 hover:-translate-y-0.5"
-                                >
-                                  <span
-                                    className="w-7 h-7 rounded-[10px] shrink-0 flex items-center justify-center border border-[var(--border-subcard)]/70"
-                                    style={{
-                                      backgroundColor: cardStyle === 'cowhide-leather' ? 'rgba(61, 33, 11, 0.72)' : 'rgba(255, 255, 255, 0.14)',
-                                      color: `var(--accent-${toolAccent})`,
-                                    }}
-                                  >
-                                    <WebIcon name={toolIcon} className="w-3.5 h-3.5 shrink-0" />
-                                  </span>
-                                  <span className="typo-body-sm font-semibold text-[var(--text-primary)] break-words min-w-0 flex-1 leading-snug">
-                                    {tech}
-                                  </span>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setIsTechModalOpen(true);
-                      }}
-                      className="banner-control-pill w-full py-2 px-3 rounded-full typo-button flex items-center justify-center gap-1.5 cursor-pointer transition hover:opacity-90"
-                    >
-                      <WebIcon name="cpu" className="w-3.5 h-3.5 shrink-0" />
-                      <span>{isEn ? 'Open Tech Ecosystem' : 'Xem hệ sinh thái công nghệ'}</span>
-                    </button>
+                    {(selectedDomain.tools || []).length === 0 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          setIsTechModalOpen(true);
+                        }}
+                        className="banner-control-pill w-full py-2 px-3 rounded-full typo-button flex items-center justify-center gap-1.5 cursor-pointer transition hover:opacity-90"
+                      >
+                        <WebIcon name="cpu" className="w-3.5 h-3.5 shrink-0" />
+                        <span>{isEn ? 'Open Tech Ecosystem' : 'Xem hệ sinh thái công nghệ'}</span>
+                      </button>
+                    )}
                   </div>
+
+                  {/* BENTO CARD 9: Nền tảng công cụ (Tách độc lập) */}
+                  {(selectedDomain.tools || []).length > 0 && (
+                    <div
+                      data-subcard="true"
+                      className="exp-detail-subcard md:col-span-12 p-4 rounded-[14px] flex flex-col justify-between gap-3.5 min-w-0"
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-2.5 min-w-0">
+                        <div
+                          className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
+                          data-subcard-accent="cyan"
+                        >
+                          <WebIcon name="settings" className="w-4.5 h-4.5 shrink-0" />
+                          <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
+                            {isEn ? 'Core Platforms And Tools' : 'Nền tảng công cụ'}
+                          </h3>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            setIsTechModalOpen(true);
+                          }}
+                          className="banner-control-pill py-1.5 px-3.5 rounded-full typo-button inline-flex items-center justify-center gap-1.5 cursor-pointer transition hover:opacity-90 shrink-0"
+                        >
+                          <WebIcon name="cpu" className="w-3.5 h-3.5 shrink-0" />
+                          <span>{isEn ? 'Open Tech Ecosystem' : 'Xem hệ sinh thái công nghệ'}</span>
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                        {(selectedDomain.tools || []).map((tech, i) => {
+                          const toolIcon = toolIcons[i % toolIcons.length];
+                          const toolAccent = toolAccents[i % toolAccents.length];
+                          return (
+                            <div
+                              key={i}
+                              data-subcard="true"
+                              data-subcard-accent={toolAccent}
+                              className="exp-detail-subcard !p-2.5 rounded-[12px] flex items-center gap-2.5 min-w-0 transition-transform duration-200 hover:-translate-y-0.5"
+                            >
+                              <span
+                                className="w-7 h-7 rounded-[10px] shrink-0 flex items-center justify-center border border-[var(--border-subcard)]/70"
+                                style={{
+                                  backgroundColor: cardStyle === 'cowhide-leather' ? 'rgba(61, 33, 11, 0.72)' : 'rgba(255, 255, 255, 0.14)',
+                                  color: `var(--accent-${toolAccent})`,
+                                }}
+                              >
+                                <WebIcon name={toolIcon} className="w-3.5 h-3.5 shrink-0" />
+                              </span>
+                              <span className="typo-body-sm font-semibold text-[var(--text-primary)] break-words min-w-0 flex-1 leading-snug">
+                                {tech}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             );
           })()
         )}
-      </div>
 
       {/* 4. MODAL KHÁM PHÁ TECH STACK */}
       <TechStackExplorerModal

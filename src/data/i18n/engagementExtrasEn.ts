@@ -227,13 +227,13 @@ export const ENGAGEMENT_EXTRAS_EN: Record<string, string> = {
   'Trí Nhân • AI Hỗ Trợ': 'Tri Nhan • AI Support',
   'Trí Nhân chia sẻ về anh Nguyễn Hùng Thái': 'Tri Nhan sharing about Nguyen Hung Thai',
   '🔊 Giọng Puck Nam giới • Tiếng Việt (Miền Nam Việt Nam)': '🔊 Male Puck AI Voice • Multilingual Support',
-  'Xin chào! Trí Nhân rất vui được đồng hành cùng bạn.\n\nBạn có thể đặt câu hỏi để tìm hiểu về anh Nguyễn Hùng Thái, hành trình nghề nghiệp, kinh nghiệm quản trị CSKH, tư duy lãnh đạo và các dấu ấn chuyên môn.\n\nBạn cũng có thể chọn một chủ đề trong danh sách Câu hỏi mẫu để bắt đầu.':
-    'Hello! Tri Nhan is delighted to accompany you.\n\nYou can ask any question to learn about Mr. Nguyen Hung Thai, his career journey, customer service leadership experience, strategic mindset, and professional milestones.\n\nYou can also select a topic from the Sample Questions list to get started.',
+  'Xin chào Anh Chị ! Tôi là Trí Nhân, trợ lý AI của anh Hùng Thái. Anh Chị có thể hỏi tôi về thông tin của anh Hùng Thái hoặc dùng câu hỏi mẫu bên dưới !':
+    'Hello! I am Tri Nhan, Mr. Hung Thai’s AI Assistant. You can ask me about Mr. Hung Thai’s information or use the sample questions below!',
   '✓ Trí Nhân đã giải đáp câu hỏi!': '✓ Tri Nhan answered your question!',
   'Đọc bằng giọng Puck Nam giới (Miền Nam Việt Nam)': 'Read aloud with Puck AI Voice',
   'Đọc giọng Puck': 'Play Puck Voice',
-  'Câu hỏi mẫu': 'Sample Questions',
-  'Hỏi Trí Nhân về anh Nguyễn Hùng Thái hoặc chọn Câu hỏi mẫu...': 'Ask Tri Nhan about Mr. Nguyen Hung Thai or pick Sample Questions...',
+  'Danh mục': 'Categories',
+  'Hỏi Trí Nhân về anh Nguyễn Hùng Thái hoặc bấm Danh mục...': 'Ask Tri Nhan about Mr. Nguyen Hung Thai or click Categories...',
   'Trí Nhân đang tổng hợp thông tin...': 'Tri Nhan is compiling insights about Mr. Nguyen Hung Thai...',
   'Gửi câu hỏi': 'Send Question',
   'Tất cả': 'All',

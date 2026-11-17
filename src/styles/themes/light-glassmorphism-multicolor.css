@@ -1,0 +1,326 @@
+/* ========================================================================= */
+/* THEME: GLASSMORPHISM LIGHT MULTICOLOR (KÍNH SÁNG ĐA SẮC)                  */
+/* Bright · Translucent · Colorful Frosted Glass · Premium & Vibrant          */
+/* ========================================================================= */
+
+.card-light-glassmorphism-multicolor {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(240, 249, 255, 0.65) 50%, rgba(254, 242, 242, 0.60) 100%);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.90);
+  border-radius: 14px;
+  box-shadow: 0 18px 42px -10px rgba(15, 23, 42, 0.16), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.98);
+  color: #000000;
+}
+
+html[data-card-style="light-glassmorphism-multicolor"] {
+  --bg-blur: 20px;
+  --glass-blur: 20px;
+  --blur-subcard: 14px;
+  --blur-nav-pill: 14px;
+  --blur-modal: 24px;
+
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+  --card-border-width: 1px;
+
+  /* Vibrant Multicolor Surface & Maximum Contrast Pure Black Typography */
+  --color-bg: #F0F4FA;
+  --color-bg-soft: #F8FAFC;
+  --color-bg-blue: #EFF6FF;
+  --color-surface: rgba(255, 255, 255, 0.78);
+  --color-surface-elevated: rgba(255, 255, 255, 0.90);
+
+  --color-heading: #000000;
+  --color-text: #000000;
+  --color-text-secondary: #111827;
+  --color-text-muted: #27272A;
+  --color-text-inverse: #FFFFFF;
+  --color-link: #0284C7;
+  --text-primary: #000000;
+  --text-secondary: #111827;
+  --text-muted: #27272A;
+  --text-heading: #000000;
+  --text-link: #0284C7;
+  --icon-primary: #000000;
+  --icon-secondary: #111827;
+  --icon-muted: #27272A;
+
+  /* 12-Color Balanced Spectrum */
+  --color-primary: #0284C7;
+  --color-secondary: #7C3AED;
+  --color-tertiary: #DB2777;
+  --color-focus-ring: #0284C7;
+
+  --color-border: rgba(255, 255, 255, 0.90);
+  --color-border-soft: rgba(226, 232, 240, 0.85);
+  --border-color: rgba(255, 255, 255, 0.90);
+  --border-default: rgba(255, 255, 255, 0.90);
+  --border-muted: rgba(226, 232, 240, 0.80);
+  --border-strong: rgba(148, 163, 184, 0.80);
+  --glass-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.82) 0%, rgba(240, 249, 255, 0.68) 50%, rgba(254, 242, 242, 0.62) 100%);
+  --glass-border: rgba(255, 255, 255, 0.95);
+
+  --bg-main: #F0F4FA;
+  --bg-header: linear-gradient(145deg, rgba(255, 255, 255, 0.86) 0%, rgba(240, 249, 255, 0.80) 50%, rgba(254, 243, 199, 0.75) 100%);
+  --bg-footer: linear-gradient(145deg, rgba(255, 255, 255, 0.86) 0%, rgba(240, 249, 255, 0.80) 50%, rgba(254, 243, 199, 0.75) 100%);
+  --bg-card: linear-gradient(145deg, rgba(255, 255, 255, 0.82) 0%, rgba(240, 249, 255, 0.68) 50%, rgba(254, 242, 242, 0.62) 100%);
+  --bg-subcard: rgba(255, 255, 255, 0.72);
+  --bg-subcard-hover: rgba(255, 255, 255, 0.88);
+  --bg-nested-card: rgba(255, 255, 255, 0.85);
+
+  /* Interactive Actions & Modals */
+  --bg-button-primary: linear-gradient(135deg, #0284C7 0%, #7C3AED 55%, #DB2777 100%);
+  --bg-button-secondary: rgba(255, 255, 255, 0.80);
+  --bg-popup: rgba(255, 255, 255, 0.94);
+  --bg-modal: rgba(255, 255, 255, 0.95);
+  --bg-modal-backdrop: rgba(15, 23, 42, 0.40);
+  --bg-modal-header: rgba(255, 255, 255, 0.92);
+  --bg-modal-footer: rgba(255, 255, 255, 0.92);
+  --border-modal: rgba(255, 255, 255, 0.95);
+  --bg-dropdown: rgba(255, 255, 255, 0.94);
+  --bg-navigation: rgba(255, 255, 255, 0.88);
+  --bg-tab: rgba(255, 255, 255, 0.80);
+  --bg-input: rgba(255, 255, 255, 0.92);
+  --border-input: rgba(203, 213, 225, 0.90);
+  --border-input-focus: #0284C7;
+  --text-input: #000000;
+  --text-placeholder: #52525B;
+  --bg-table: rgba(255, 255, 255, 0.85);
+  --bg-table-head: rgba(240, 249, 255, 0.90);
+  --bg-table-row-alt: rgba(248, 250, 252, 0.65);
+  --border-table: rgba(226, 232, 240, 0.80);
+  --bg-nav-button-opaque: #FFFFFF;
+
+  /* 5-Level Elevation for Light Multicolor Glass */
+  --shadow-header: 0 16px 40px -10px rgba(30, 27, 75, 0.15), 0 4px 12px -2px rgba(30, 27, 75, 0.08), inset 0 1.5px 2px rgba(255, 255, 255, 0.95);
+  --shadow-main-card: var(--shadow-header);
+  --shadow-footer: var(--shadow-header);
+  --shadow-card: 0 14px 34px -6px rgba(30, 27, 75, 0.13), 0 4px 12px -2px rgba(30, 27, 75, 0.06), inset 0 1.5px 2px rgba(255, 255, 255, 0.95);
+  --shadow-card-hover: 0 20px 48px -6px rgba(30, 27, 75, 0.20), 0 8px 20px -2px rgba(30, 27, 75, 0.10), inset 0 2px 2.5px rgba(255, 255, 255, 0.98);
+  --shadow-subcard: 0 6px 18px -3px rgba(30, 27, 75, 0.08), 0 2px 6px rgba(30, 27, 75, 0.04);
+  --shadow-subcard-hover: 0 10px 24px -3px rgba(30, 27, 75, 0.13), 0 3px 8px rgba(30, 27, 75, 0.06);
+  --shadow-nested: 0 2px 6px -1px rgba(30, 27, 75, 0.05);
+  --shadow-popup: 0 20px 48px -6px rgba(30, 27, 75, 0.22), 0 6px 16px -2px rgba(30, 27, 75, 0.10);
+  --shadow-modal: 0 32px 75px -10px rgba(15, 23, 42, 0.28), 0 12px 30px -4px rgba(15, 23, 42, 0.14);
+
+  /* Nav Pills & Controls */
+  --bg-nav-pill: rgba(255, 255, 255, 0.90);
+  --shadow-nav-pill: 0 4px 14px rgba(15, 23, 42, 0.09), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.95);
+  --outline-nav-pill: none;
+  --outline-offset-nav-pill: 0px;
+  --divider-nav-pill: rgba(148, 163, 184, 0.50);
+
+  --border-subcard: rgba(255, 255, 255, 0.85);
+  --outline-subcard: none;
+  --outline-offset-subcard: 0px;
+  --bg-nested-badge: #FFFFFF;
+  --border-nested-badge: rgba(203, 213, 225, 0.90);
+
+  --pillar-heading: #000000;
+  --pillar-sub: #1E266D;
+  --pillar-body: #111827;
+  --pillar-badge-bg: rgba(2, 132, 199, 0.12);
+  --pillar-badge-text: #0369A1;
+  --pillar-divider: rgba(15, 23, 42, 0.14);
+  --pillar-progress-track: rgba(15, 23, 42, 0.12);
+  --pillar-progress-fill: linear-gradient(90deg, #0284C7 0%, #7C3AED 50%, #DB2777 100%);
+
+  /* Banner & Navigation Controls */
+  --banner-border: rgba(255, 255, 255, 0.90);
+  --banner-shadow: var(--shadow-card);
+  --bg-banner-pill: rgba(255, 255, 255, 0.92);
+  --text-banner-pill: #000000;
+  --border-banner-pill: rgba(255, 255, 255, 0.95);
+  --shadow-banner-pill: var(--shadow-nav-pill);
+  --bg-banner-cta: linear-gradient(135deg, #0284C7 0%, #7C3AED 55%, #DB2777 100%);
+  --text-banner-cta: #FFFFFF;
+  --border-banner-cta: rgba(255, 255, 255, 0.60);
+  --shadow-banner-cta: 0 6px 18px rgba(2, 132, 199, 0.35);
+  --bg-banner-input: rgba(255, 255, 255, 0.92);
+  --text-banner-input: #000000;
+  --border-banner-input: rgba(203, 213, 225, 0.90);
+  --bg-nav-arrow: rgba(255, 255, 255, 0.92);
+  --border-nav-arrow: rgba(255, 255, 255, 0.95);
+  --text-nav-arrow: #000000;
+  --shadow-nav-arrow: var(--shadow-nav-pill);
+  --border-image-card: rgba(255, 255, 255, 0.95);
+  --shadow-image-card: var(--shadow-card);
+
+  /* Global 5-Layer Frosted Multicolor Light Background */
+  --app-bg-base: #F0F4FA;
+  --app-bg-gradient:
+    radial-gradient(ellipse 85% 65% at 14% 12%, rgba(56, 189, 248, 0.28) 0%, transparent 58%),
+    radial-gradient(ellipse 80% 65% at 86% 18%, rgba(167, 139, 250, 0.26) 0%, transparent 56%),
+    radial-gradient(ellipse 75% 65% at 74% 88%, rgba(244, 114, 182, 0.22) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 60% at 18% 84%, rgba(251, 191, 36, 0.20) 0%, transparent 56%),
+    linear-gradient(135deg, #EDF4FE 0%, #F3E8FF 35%, #FCE7F3 70%, #FEF3C7 100%);
+  --app-bg-glow-primary: rgba(56, 189, 248, 0.30);
+  --app-bg-glow-secondary: rgba(167, 139, 250, 0.28);
+  --app-bg-glow-accent: rgba(244, 114, 182, 0.24);
+  --app-bg-glow-cyan: rgba(251, 191, 36, 0.22);
+  --app-bg-opacity: 0.75;
+  --app-bg-shape-opacity: 0.60;
+  --app-bg-depth-veil:
+    radial-gradient(ellipse 85% 75% at 50% 48%, rgba(255, 255, 255, 0.15) 0%, rgba(240, 249, 255, 0.20) 65%, rgba(254, 242, 242, 0.25) 100%);
+  --app-bg-transition-scrim: rgba(240, 244, 250, 0.05);
+  --ambient-base-bg: var(--app-bg-gradient);
+
+  /* 4-Tier Surface Tokens */
+  --surface-primary-bg: rgba(255, 255, 255, 0.65);
+  --surface-primary-border: rgba(255, 255, 255, 0.90);
+  --surface-primary-shadow: var(--shadow-header);
+  --surface-primary-blur: 16px;
+  --surface-secondary-bg: var(--bg-card);
+  --surface-secondary-border: rgba(255, 255, 255, 0.90);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-blur: 16px;
+  --surface-tertiary-bg: var(--bg-subcard);
+  --surface-tertiary-border: rgba(255, 255, 255, 0.85);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 12px;
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: rgba(255, 255, 255, 0.95);
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: rgba(255, 255, 255, 0.90);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 14px;
+}
+
+/* ========================================================================= */
+/* LEVEL 01: HEADER, FOOTER, MAIN VIEWPORT & NAV CAPSULE                     */
+/* ========================================================================= */
+html[data-card-style="light-glassmorphism-multicolor"] #app-header,
+html[data-card-style="light-glassmorphism-multicolor"] #app-footer {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.85) 0%, rgba(240, 249, 255, 0.75) 50%, rgba(254, 243, 199, 0.70) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.90) !important;
+  backdrop-filter: blur(20px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
+  box-shadow: var(--shadow-header) !important;
+  color: #000000 !important;
+}
+
+html[data-card-style="light-glassmorphism-multicolor"] .main-card,
+html[data-card-style="light-glassmorphism-multicolor"] [id$="-page-container"],
+html[data-card-style="light-glassmorphism-multicolor"] [id$="-page-root"] {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.80) 0%, rgba(240, 249, 255, 0.65) 50%, rgba(254, 242, 242, 0.60) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.90) !important;
+  backdrop-filter: blur(20px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
+  box-shadow: var(--shadow-main-card) !important;
+  color: #000000 !important;
+}
+
+html[data-card-style="light-glassmorphism-multicolor"] #footer-nav-capsule {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+}
+
+/* ========================================================================= */
+/* LEVEL 02: MULTICOLOR FROSTED GLASS PRIMARY CARDS                          */
+/* ========================================================================= */
+html[data-card-style="light-glassmorphism-multicolor"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="light-glassmorphism-multicolor"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="light-glassmorphism-multicolor"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="light-glassmorphism-multicolor"] .project-card,
+html[data-card-style="light-glassmorphism-multicolor"] #projects-grid article,
+html[data-card-style="light-glassmorphism-multicolor"] .project-detail-section-card,
+html[data-card-style="light-glassmorphism-multicolor"] #contact-info-container {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.82) 0%, rgba(240, 249, 255, 0.68) 50%, rgba(254, 242, 242, 0.62) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.90) !important;
+  backdrop-filter: blur(20px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #000000 !important;
+}
+
+html[data-card-style="light-glassmorphism-multicolor"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]):hover,
+html[data-card-style="light-glassmorphism-multicolor"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]):hover,
+html[data-card-style="light-glassmorphism-multicolor"] .project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+/* ========================================================================= */
+/* LEVEL 03: SUBCARDS & PILLAR CARDS                                         */
+/* ========================================================================= */
+html[data-card-style="light-glassmorphism-multicolor"] [data-subcard="true"]:not(.skill-swot-subcard),
+html[data-card-style="light-glassmorphism-multicolor"] .sub-card:not(.skill-swot-subcard),
+html[data-card-style="light-glassmorphism-multicolor"] .about-info-subcard,
+html[data-card-style="light-glassmorphism-multicolor"] .experience-milestone-card,
+html[data-card-style="light-glassmorphism-multicolor"] .exp-detail-subcard,
+html[data-card-style="light-glassmorphism-multicolor"] .pillar-gradient-card,
+html[data-card-style="light-glassmorphism-multicolor"] .education-subcard,
+html[data-card-style="light-glassmorphism-multicolor"] .letter-subcard,
+html[data-card-style="light-glassmorphism-multicolor"] .letter-header-subcard,
+html[data-card-style="light-glassmorphism-multicolor"] .letter-footer-subcard,
+html[data-card-style="light-glassmorphism-multicolor"] .project-detail-subcard {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(14px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-subcard) !important;
+  color: #000000 !important;
+}
+
+html[data-card-style="light-glassmorphism-multicolor"] [data-subcard="true"]:not(.skill-swot-subcard):hover,
+html[data-card-style="light-glassmorphism-multicolor"] .sub-card:not(.skill-swot-subcard):hover,
+html[data-card-style="light-glassmorphism-multicolor"] .about-info-subcard:hover,
+html[data-card-style="light-glassmorphism-multicolor"] .exp-detail-subcard:hover,
+html[data-card-style="light-glassmorphism-multicolor"] .experience-milestone-card:hover,
+html[data-card-style="light-glassmorphism-multicolor"] .pillar-gradient-card:hover,
+html[data-card-style="light-glassmorphism-multicolor"] .education-subcard:hover {
+  transform: translateY(-1.5px);
+  background: rgba(255, 255, 255, 0.88) !important;
+  box-shadow: var(--shadow-subcard-hover) !important;
+}
+
+/* ========================================================================= */
+/* LEVEL 04: NAV PILLS, BANNER CONTROLS, POPUPS & MODALS                     */
+/* ========================================================================= */
+html[data-card-style="light-glassmorphism-multicolor"] #app-header nav button.nav-pill:not(.active),
+html[data-card-style="light-glassmorphism-multicolor"] #header-btn-hungthai-avatar:not(.active),
+html[data-card-style="light-glassmorphism-multicolor"] #footer-lang-btn:not(.active),
+html[data-card-style="light-glassmorphism-multicolor"] #footer-appearance-btn:not(.active),
+html[data-card-style="light-cowhide-leather"] #footer-wallpaper-btn:not(.active),
+html[data-card-style="light-glassmorphism-multicolor"] #footer-ai-btn:not(.active),
+html[data-card-style="light-glassmorphism-multicolor"] .banner-control-pill,
+html[data-card-style="light-glassmorphism-multicolor"] .nav-arrow-btn,
+html[data-card-style="light-glassmorphism-multicolor"] .theme-prev-next-btn,
+html[data-card-style="light-glassmorphism-multicolor"] .theme-back-to-top-btn,
+html[data-card-style="light-glassmorphism-multicolor"] .radial-contact-pill {
+  background: rgba(255, 255, 255, 0.90) !important;
+  backdrop-filter: blur(14px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  color: #000000 !important;
+}
+
+html[data-card-style="light-glassmorphism-multicolor"] #footer-theme-popup,
+html[data-card-style="light-glassmorphism-multicolor"] #footer-lang-popup,
+html[data-card-style="light-glassmorphism-multicolor"] .banner-dropdown-menu,
+html[data-card-style="light-glassmorphism-multicolor"] [role="dialog"],
+html[data-card-style="light-glassmorphism-multicolor"] .modal-dialog,
+html[data-card-style="light-glassmorphism-multicolor"] .theme-modal-card {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(24px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(170%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-modal) !important;
+  color: #000000 !important;
+}

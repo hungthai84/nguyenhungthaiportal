@@ -16,6 +16,8 @@ import { CHROME_AND_MODALS_EN } from './i18n/chromeAndModalsEn';
 import { PROFILE_CAREER_EN } from './i18n/profileCareerEn';
 import { PROJECTS_SYSTEMS_EN } from './i18n/projectsSystemsEn';
 import { ENGAGEMENT_EXTRAS_EN } from './i18n/engagementExtrasEn';
+import { UI_AND_SERVICES_DETAILS_EN } from './i18n/uiAndServicesDetailsEn';
+import { EDUCATION_EXPERIENCE_EN } from './i18n/educationExperienceEn';
 
 const VIETNAMESE_DIACRITIC_REGEX =
   /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]/;
@@ -25,6 +27,8 @@ export const STATIC_VI_TO_EN: Record<string, string> = {
   ...PROFILE_CAREER_EN,
   ...PROJECTS_SYSTEMS_EN,
   ...ENGAGEMENT_EXTRAS_EN,
+  ...UI_AND_SERVICES_DETAILS_EN,
+  ...EDUCATION_EXPERIENCE_EN,
 };
 
 function normalizeWhitespace(s: string): string {

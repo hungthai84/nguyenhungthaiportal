@@ -452,16 +452,27 @@
 #horoscope-main-card #horoscope-pillars-container,
 #horoscope-main-card #horoscope-slide-3,
 #horoscope-main-card #horoscope-lookup-card,
-#horoscope-main-card > div[data-element-type="card"]:not(.page-main-card):not([data-main-card="true"]) {
+#horoscope-main-card > div[data-element-type="card"]:not(.page-main-card):not([data-main-card="true"]),
+#horoscope-cards-track .page-main-card #horoscope-card-profile,
+#horoscope-cards-track .page-main-card #horoscope-card-management-style,
+#horoscope-cards-track .page-main-card #horoscope-card-career-portrait,
+#horoscope-cards-track .page-main-card #horoscope-card-five-elements,
+#horoscope-cards-track .page-main-card #horoscope-card-leadership-philosophy,
+#horoscope-cards-track .page-main-card #horoscope-card-work-synergy-check,
+#horoscope-cards-track .page-main-card #horoscope-destiny-card,
+#horoscope-cards-track .page-main-card #horoscope-pillars-container,
+#horoscope-cards-track .page-main-card #horoscope-slide-3,
+#horoscope-cards-track .page-main-card #horoscope-lookup-card,
+#horoscope-cards-track .page-main-card > div[data-element-type="card"]:not(.page-main-card):not([data-main-card="true"]) {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
   height: auto !important;
   max-height: none !important;
-  min-height: 100% !important;
-  flex: 1 0 auto !important;
+  min-height: 0 !important;
+  flex: 1 1 auto !important;
   flex-grow: 1 !important;
-  flex-shrink: 0 !important;
+  flex-shrink: 1 !important;
   align-self: stretch !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -475,4 +486,20 @@
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   transform: none !important;
+}
+
+/* Unified Floating Elevation & Smooth Hover Lift for Header, Main Card, and Footer */
+#app-header,
+.page-main-card,
+.main-card,
+#app-footer,
+#footer-nav-capsule {
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#app-header:hover,
+.page-main-card:hover,
+#app-footer:hover,
+#footer-nav-capsule:hover {
+  transform: translateY(-2px);
 }

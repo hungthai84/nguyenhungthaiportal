@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { PageCardHeader } from './PageCardHeader';
 import {
   Compass,
   Sparkles,
@@ -234,7 +235,7 @@ export const DEPARTMENT_FENGSHUI_MATRIX: DepartmentSynergy[] = [
 
 export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const { showToast } = useToast();
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
   // Horoscope Full Card 100% Transparent Style applied across all 6 cards
   const horoscopeFullCardTransparentStyle: React.CSSProperties = {
@@ -249,9 +250,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     width: '100%',
     maxWidth: '100%',
     minWidth: 0,
-    height: '100%',
-    maxHeight: '100%',
-    minHeight: '100%',
+    height: 'auto',
+    minHeight: 0,
     flex: '1 1 auto',
     alignSelf: 'stretch',
     margin: '0px',
@@ -292,13 +292,105 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     padding: '15px',
   };
 
-  // Active Card State: 0..5 (6 distinct cards) & Slide Direction
+  // Active Card State: 0..5 (6 horizontal Main Cards matching LetterView)
   const [activeCardIndex, setActiveCardIndex] = useState<number>(0);
-  const [slideDirection, setSlideDirection] = useState<'next' | 'prev'>('next');
+  const activeCardIndexRef = useRef<number>(0);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const lastWheelTimeRef = useRef<number>(0);
+
+  useEffect(() => {
+    activeCardIndexRef.current = activeCardIndex;
+  }, [activeCardIndex]);
+
+  // Horizontal peek-carousel centering state for Card tử vi 1..6 (giống LetterView)
+  const horoscopeContainerRef = useRef<HTMLDivElement>(null);
+  const [viewportWidth, setViewportWidth] = useState<number>(() =>
+    typeof window !== 'undefined' ? window.innerWidth : 1440
+  );
+  const [horoscopeContainerWidth, setHoroscopeContainerWidth] = useState<number>(() =>
+    typeof window !== 'undefined' ? Math.max(320, window.innerWidth - 2) : 1440
+  );
+  const isProgrammaticScrollRef = useRef(false);
+  const scrollTimeoutRef = useRef<number | null>(null);
+
+  const peekReserve = viewportWidth < 640 ? 72 : 112;
+  const horoscopeCardWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
+  const horoscopeSideInset = Math.max(0, (horoscopeContainerWidth - horoscopeCardWidth) / 2);
+
+  useEffect(() => {
+    const el = horoscopeContainerRef.current;
+    const updateWidth = () => {
+      if (typeof window !== 'undefined') {
+        setViewportWidth(window.innerWidth);
+      }
+      if (el) {
+        const w = el.clientWidth;
+        if (w > 0) setHoroscopeContainerWidth(w);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    if (el && typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(updateWidth);
+      ro.observe(el);
+      return () => {
+        ro.disconnect();
+        window.removeEventListener('resize', updateWidth);
+      };
+    }
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+    };
+  }, []);
+
+  const scrollToHoroscopeCard = useCallback(
+    (targetIdx: number, smooth = true) => {
+      const clamped = Math.max(0, Math.min(5, targetIdx));
+      activeCardIndexRef.current = clamped;
+      setActiveCardIndex(clamped);
+
+      const container = horoscopeContainerRef.current;
+      if (!container) return;
+      const targetLeft = clamped * (horoscopeCardWidth + 15);
+      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+      isProgrammaticScrollRef.current = true;
+      container.scrollTo({
+        left: targetLeft,
+        behavior: smooth ? 'smooth' : 'auto',
+      });
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        isProgrammaticScrollRef.current = false;
+      }, 550);
+    },
+    [horoscopeCardWidth]
+  );
+
+  // Keep active card centered when viewport resizes
+  useEffect(() => {
+    const container = horoscopeContainerRef.current;
+    if (!container || isProgrammaticScrollRef.current) return;
+    const expectedLeft = activeCardIndexRef.current * (horoscopeCardWidth + 15);
+    if (Math.abs(container.scrollLeft - expectedLeft) > 2) {
+      container.scrollTo({ left: expectedLeft, behavior: 'auto' });
+    }
+  }, [horoscopeCardWidth]);
+
+  const handleHoroscopeContainerScroll = useCallback(() => {
+    if (isProgrammaticScrollRef.current) return;
+    const container = horoscopeContainerRef.current;
+    if (!container) return;
+    const step = horoscopeCardWidth + 15;
+    if (step <= 0) return;
+    const nextIdx = Math.max(0, Math.min(5, Math.round(container.scrollLeft / step)));
+    if (nextIdx !== activeCardIndexRef.current) {
+      activeCardIndexRef.current = nextIdx;
+      setActiveCardIndex(nextIdx);
+    }
+  }, [horoscopeCardWidth]);
 
   // Horoscope Commentary MP3 Audio State
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
@@ -401,15 +493,13 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     const handleExternalSlide = (e: Event) => {
       const detail = (e as CustomEvent).detail;
       if (detail && detail.tabIndex === 10 && typeof detail.slide === 'number') {
-        if (detail.slide >= 0 && detail.slide < 6 && detail.slide !== activeCardIndex) {
-          setSlideDirection(detail.slide > activeCardIndex ? 'next' : 'prev');
-          setActiveCardIndex(detail.slide);
-        }
+        const target = Math.max(0, Math.min(5, detail.slide));
+        scrollToHoroscopeCard(target, true);
       }
     };
     window.addEventListener('app:set-slide', handleExternalSlide);
     return () => window.removeEventListener('app:set-slide', handleExternalSlide);
-  }, [activeCardIndex]);
+  }, [scrollToHoroscopeCard]);
 
   void stopHoroscopeAudio;
 
@@ -428,15 +518,15 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
   const handlePrevHoroscopeCard = useCallback(() => {
     SoundEngine.playTap();
-    setSlideDirection('prev');
-    setActiveCardIndex((prev) => (prev - 1 + 6) % 6);
-  }, []);
+    const target = (activeCardIndexRef.current - 1 + 6) % 6;
+    scrollToHoroscopeCard(target, true);
+  }, [scrollToHoroscopeCard]);
 
   const handleNextHoroscopeCard = useCallback(() => {
     SoundEngine.playTap();
-    setSlideDirection('next');
-    setActiveCardIndex((prev) => (prev + 1) % 6);
-  }, []);
+    const target = (activeCardIndexRef.current + 1) % 6;
+    scrollToHoroscopeCard(target, true);
+  }, [scrollToHoroscopeCard]);
 
   // Keyboard navigation Left/Right through 6 cards
   useEffect(() => {
@@ -902,7 +992,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             />
             <h1
               id="horoscope-hero-banner-title"
-              className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+              className="typo-h3 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
               style={{
                 color: '#38bdf8',
                 textTransform: 'none',
@@ -916,7 +1006,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
           <p
             id="horoscope-hero-banner-quote"
-            className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
             style={{
               color: '#ffff18',
               fontFamily: "'Italianno', cursive, sans-serif",
@@ -991,10 +1081,13 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                           data-selected={isCurrent ? 'true' : 'false'}
                           onClick={() => {
                             SoundEngine.playPop();
-                            setSlideDirection(slide.idx >= activeCardIndex ? 'next' : 'prev');
-                            setActiveCardIndex(slide.idx);
+                            scrollToHoroscopeCard(slide.idx, true);
                             setIsFilterDropdownOpen(false);
-                            showToast(`Đã chuyển sang ${slide.label}`);
+                            showToast(
+                              language === 'en'
+                                ? `Switched to ${t(slide.label)}`
+                                : `Đã chuyển sang ${slide.label}`
+                            );
                           }}
                           className="theme-dropdown-option flex items-center justify-between w-full px-3 py-2 rounded-[14px] typo-nav font-play text-left transition-all cursor-pointer"
                         >
@@ -1801,112 +1894,144 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   ];
 
   return (
-    <div
-      id="horoscope-page-container"
-      data-element-name="Trang Tử Vi & Phong Thủy"
-      data-element-type="container"
-      data-element-page="horoscope"
-      data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar z-10 select-none font-play text-left animate-fadeIn rounded-none box-border"
-    >
+    <>
       <div
-        id="horoscope-cards-track"
-        data-element-name="Track căn giữa Tử Vi"
+        ref={horoscopeContainerRef}
+        id="horoscope-page-container"
+        data-element-name="Trang Tử Vi & Phong Thủy"
         data-element-type="container"
         data-element-page="horoscope"
-        data-element-parent="horoscope-page-container"
-        className="page-cards-track"
+        data-element-parent="global-content-viewport"
+        onScroll={handleHoroscopeContainerScroll}
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          marginLeft: '0px',
+          marginRight: '0px',
+          paddingTop: '0px',
+          paddingLeft: '0px',
+          paddingRight: '0px',
+          paddingBottom: '0px',
+          gap: '15px',
+          rowGap: '15px',
+          columnGap: '15px',
+          borderRadius: '0px',
+          background: 'transparent',
+          ['--about-card-w' as any]: `${horoscopeCardWidth}px`,
+          ['--about-side-inset' as any]: `${horoscopeSideInset}px`,
+        }}
+        className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-auto overflow-y-hidden no-scrollbar z-10 select-none box-border"
       >
-      <div
-        id="horoscope-main-card"
-        data-element-name="Thẻ chính Trang Tử Vi & Phong Thủy"
-        data-element-type="card"
-        data-main-card="true"
-        data-element-page="horoscope"
-        data-element-parent="horoscope-cards-track"
-        onWheel={(e) => {
-          const target = e.target as HTMLElement | null;
-          if (target?.closest('.overflow-x-auto')) return;
-          if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 18) {
-            const now = Date.now();
-            if (now - lastWheelTimeRef.current < 320) return;
-            lastWheelTimeRef.current = now;
-            if (e.deltaX > 0) {
-              handleNextHoroscopeCard();
-            } else {
-              handlePrevHoroscopeCard();
-            }
-          }
-        }}
-        onTouchStart={(e) => {
-          const target = e.target as HTMLElement | null;
-          if (target?.closest('.overflow-x-auto, button, input, select, textarea')) return;
-          touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        }}
-        onTouchEnd={(e) => {
-          if (!touchStartRef.current) return;
-          const diffX = touchStartRef.current.x - e.changedTouches[0].clientX;
-          const diffY = touchStartRef.current.y - e.changedTouches[0].clientY;
-          touchStartRef.current = null;
-          if (Math.abs(diffX) > 55 && Math.abs(diffX) > Math.abs(diffY) * 1.4) {
-            if (diffX > 0) {
-              handleNextHoroscopeCard();
-            } else {
-              handlePrevHoroscopeCard();
-            }
-          }
-        }}
-        className="group/horoscope page-main-card relative flex flex-col justify-start p-[15px] gap-[15px] overflow-hidden font-play select-none text-left rounded-[14px] box-border"
-      >
-        {/* Render thẻ được chọn trong 6 thẻ kèm hiệu ứng trượt ngang mượt mà */}
-        <div className="w-full flex-1 min-h-0 flex flex-col overflow-y-auto overflow-x-clip no-scrollbar">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={activeCardIndex}
-              initial={{ opacity: 0, x: slideDirection === 'next' ? 56 : -56 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: slideDirection === 'next' ? -56 : 56 }}
-              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full flex-1 min-h-0 flex flex-col"
-            >
-              {HOROSCOPE_CARDS[activeCardIndex].render()}
-            </motion.div>
-          </AnimatePresence>
+        <div
+          id="horoscope-cards-track"
+          data-element-name="Track căn giữa Tử Vi"
+          data-element-type="container"
+          data-element-page="horoscope"
+          data-element-parent="horoscope-page-container"
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'stretch',
+            gap: '15px',
+            rowGap: '15px',
+            columnGap: '15px',
+            paddingLeft: `${horoscopeSideInset}px`,
+            paddingRight: `${horoscopeSideInset}px`,
+            height: '100%',
+            minHeight: '100%',
+            width: 'max-content',
+            boxSizing: 'border-box',
+          }}
+          className="page-cards-track flex flex-row items-stretch gap-[15px] h-full min-h-full box-border"
+        >
+          {HOROSCOPE_CARDS.map((cardMeta, cardIdx) => {
+            const isActiveCard = activeCardIndex === cardIdx;
+            const slideInfo = HOROSCOPE_SLIDES[cardIdx];
+            return (
+              <div
+                key={cardMeta.id}
+                id={`horoscope-card-${cardIdx + 1}`}
+                data-element-name={`Card tử vi ${cardIdx + 1}`}
+                data-element-type="card"
+                data-main-card="true"
+                data-element-page="horoscope"
+                data-element-parent="horoscope-cards-track"
+                onClickCapture={(e) => {
+                  if (!isActiveCard) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    SoundEngine.playTap();
+                    scrollToHoroscopeCard(cardIdx, true);
+                  }
+                }}
+                title={
+                  !isActiveCard
+                    ? language === 'en'
+                      ? `Click to center ${t(slideInfo.shortLabel)}`
+                      : `Click để chuyển Card tử vi ${cardIdx + 1} (${slideInfo.shortLabel}) ra chính giữa màn hình`
+                    : undefined
+                }
+                style={{
+                  width: `${horoscopeCardWidth}px`,
+                  maxWidth: '1250px',
+                  minWidth: `${horoscopeCardWidth}px`,
+                  flex: `0 0 ${horoscopeCardWidth}px`,
+                  height: '100%',
+                  minHeight: '100%',
+                  padding: '15px',
+                  gap: '15px',
+                  rowGap: '15px',
+                  columnGap: '15px',
+                  borderRadius: '14px',
+                }}
+                className={cn(
+                  'group/horoscope page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
+                  !isActiveCard ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
+                )}
+              >
+                <PageCardHeader
+                  tabIndex={10}
+                  pageId={`horoscope-${cardIdx + 1}`}
+                  partLabel={`Phần ${cardIdx + 1}/6 · ${slideInfo.shortLabel}`}
+                />
+                {cardMeta.render()}
+              </div>
+            );
+          })}
         </div>
-
-        {/* Nút LÙI TRANG (Chevron Left) hình tròn nổi ở cạnh trái kèm hiệu ứng cuộn ngang */}
-        <button
-          id="el-horoscope-button-prev"
-          data-element-id="el-horoscope-button-prev"
-          type="button"
-          onClick={handlePrevHoroscopeCard}
-          title={`Lùi thẻ (${((activeCardIndex - 1 + HOROSCOPE_CARDS.length) % HOROSCOPE_CARDS.length) + 1}/${HOROSCOPE_CARDS.length}: ${HOROSCOPE_SLIDES[(activeCardIndex - 1 + HOROSCOPE_CARDS.length) % HOROSCOPE_CARDS.length].label})`}
-          aria-label="Lùi thẻ"
-          className="nav-arrow-btn theme-prev-next-btn absolute left-1.5 sm:left-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/horoscope:opacity-100 hover:!opacity-100 sm:-translate-x-1 sm:group-hover/horoscope:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
-        >
-          <WebIcon
-            name="chevron-left"
-            className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
-          />
-        </button>
-
-        {/* Nút TỚI TRANG (Chevron Right) hình tròn nổi ở cạnh phải kèm hiệu ứng cuộn ngang */}
-        <button
-          id="el-horoscope-button-next"
-          data-element-id="el-horoscope-button-next"
-          type="button"
-          onClick={handleNextHoroscopeCard}
-          title={`Tới thẻ (${((activeCardIndex + 1) % HOROSCOPE_CARDS.length) + 1}/${HOROSCOPE_CARDS.length}: ${HOROSCOPE_SLIDES[(activeCardIndex + 1) % HOROSCOPE_CARDS.length].label})`}
-          aria-label="Tới thẻ"
-          className="nav-arrow-btn theme-prev-next-btn absolute right-1.5 sm:right-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/horoscope:opacity-100 hover:!opacity-100 sm:translate-x-1 sm:group-hover/horoscope:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
-        >
-          <WebIcon
-            name="chevron-right"
-            className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110"
-          />
-        </button>
       </div>
-      </div>
-    </div>
+
+      {/* Nút LÙI THẺ (Chevron Left) hình tròn nổi cố định ở cạnh trái viewport */}
+      <button
+        id="el-horoscope-button-prev"
+        data-element-id="el-horoscope-button-prev"
+        type="button"
+        onClick={handlePrevHoroscopeCard}
+        title={`${language === 'en' ? 'Previous card' : 'Lùi thẻ'} (${((activeCardIndex - 1 + HOROSCOPE_CARDS.length) % HOROSCOPE_CARDS.length) + 1}/${HOROSCOPE_CARDS.length}: ${t(HOROSCOPE_SLIDES[(activeCardIndex - 1 + HOROSCOPE_CARDS.length) % HOROSCOPE_CARDS.length].label)})`}
+        aria-label={language === 'en' ? 'Previous card' : 'Lùi thẻ'}
+        className="nav-arrow-btn theme-prev-next-btn fixed left-2 sm:left-3.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-65 hover:!opacity-100 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
+      >
+        <WebIcon
+          name="chevron-left"
+          className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
+        />
+      </button>
+
+      {/* Nút TỚI THẺ (Chevron Right) hình tròn nổi cố định ở cạnh phải viewport */}
+      <button
+        id="el-horoscope-button-next"
+        data-element-id="el-horoscope-button-next"
+        type="button"
+        onClick={handleNextHoroscopeCard}
+        title={`${language === 'en' ? 'Next card' : 'Tới thẻ'} (${((activeCardIndex + 1) % HOROSCOPE_CARDS.length) + 1}/${HOROSCOPE_CARDS.length}: ${t(HOROSCOPE_SLIDES[(activeCardIndex + 1) % HOROSCOPE_CARDS.length].label)})`}
+        aria-label={language === 'en' ? 'Next card' : 'Tới thẻ'}
+        className="nav-arrow-btn theme-prev-next-btn fixed right-2 sm:right-3.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-65 hover:!opacity-100 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
+      >
+        <WebIcon
+          name="chevron-right"
+          className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110"
+        />
+      </button>
+    </>
   );
 };

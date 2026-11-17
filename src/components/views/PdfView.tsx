@@ -9,6 +9,7 @@ import { EDUCATION_COURSES } from '@/data/education';
 import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/domains';
 import { EXPERIENCE_MILESTONES } from '@/data/experience';
 import { cn } from '@/lib/utils';
+import { PageCardHeader } from './PageCardHeader';
 import { 
   STRENGTHS_DATA, 
   WEAKNESSES_DATA, 
@@ -270,50 +271,43 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         data-section-card="true"
         className="pdf-toolbar bento-card glass-card no-print w-full max-w-[1250px] mx-auto mb-4 p-3.5 sm:p-4 rounded-[14px] flex flex-col gap-3 shrink-0"
       >
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="card-header-sync flex items-center gap-3 min-w-0 text-blue-600 dark:text-sky-400">
-            <WebIcon name="file-text" size={24} className="text-blue-600 dark:text-sky-400 shrink-0" />
-            <div className="min-w-0">
-              <h1 className="typo-h3 card-title-synced font-bold font-play text-blue-600 dark:text-sky-400 leading-tight truncate" data-card-title="true">
-                Hồ sơ năng lực & CV Portfolio — Nguyễn Hùng Thái
-              </h1>
-              <p className="typo-label text-[var(--text-secondary)] mt-0.5 truncate tracking-wide font-bold">
-                Thiết kế chuẩn A4 · 22 Năm Kinh Nghiệm · CSKH & Vận Hành
-              </p>
+        <PageCardHeader
+          tabIndex={16}
+          pageId="pdf"
+          className="border-b-0 pb-0"
+          rightSlot={
+            <div className="flex items-center gap-2 shrink-0 flex-wrap">
+              <button
+                type="button"
+                onClick={() => handlePrintOrExport('download')}
+                disabled={isExporting}
+                style={{ background: 'var(--bg-button-primary)', color: '#FFFFFF' }}
+                className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 active:scale-95 cursor-pointer disabled:opacity-60"
+                title="Tải tệp CV Portfolio dưới dạng PDF"
+              >
+                <WebIcon name="download" size={16} className="text-white animate-bounce" />
+                <span>Tải PDF</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  SoundEngine.playTap();
+                  if (onNavigateTab) {
+                    onNavigateTab(0);
+                  } else {
+                    window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 0, slide: 0 } }));
+                  }
+                }}
+                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
+                title="Trở về Trang chủ"
+              >
+                <WebIcon name="arrow-left" size={15} />
+                <span>Trở về</span>
+              </button>
             </div>
-          </div>
-
-          <div className="flex items-center gap-2 shrink-0 flex-wrap">
-            <button
-              type="button"
-              onClick={() => handlePrintOrExport('download')}
-              disabled={isExporting}
-              style={{ background: 'var(--bg-button-primary)', color: '#FFFFFF' }}
-              className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 active:scale-95 cursor-pointer disabled:opacity-60"
-              title="Tải tệp CV Portfolio dưới dạng PDF"
-            >
-              <WebIcon name="download" size={16} className="text-white animate-bounce" />
-              <span>Tải PDF</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                if (onNavigateTab) {
-                  onNavigateTab(0);
-                } else {
-                  window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 0, slide: 0 } }));
-                }
-              }}
-              className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
-              title="Trở về Trang chủ"
-            >
-              <WebIcon name="arrow-left" size={15} />
-              <span>Trở về</span>
-            </button>
-          </div>
-        </div>
+          }
+        />
 
         {/* Mục lục điều hướng nhanh 9 phần (ẩn khi in) */}
         <nav
@@ -355,7 +349,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       <section id="cv-section-01-home" className="w-full flex flex-col gap-5 break-inside-avoid">
         <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
           <div className="card-header-sync flex items-center gap-2.5 text-blue-600 dark:text-sky-400">
-            <span className="px-2.5 py-0.5 rounded-[8px] bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 typo-badge font-bold font-mono tracking-wide">
+            <span className="px-2.5 py-0.5 rounded-[8px] bg-blue-500/15 text-blue-700 dark:text-blue-300 typo-badge font-bold font-mono tracking-wide">
               01/09
             </span>
             <WebIcon name="home" size={22} className="text-blue-600 dark:text-sky-400 shrink-0" />
@@ -527,7 +521,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               {PDF_OPEN_LETTER_PRINCIPLES.map((principle) => (
                 <div
                   key={principle.id}
-                  className="p-3 rounded-[14px] border border-[var(--border-subcard)] bg-white/40 dark:bg-slate-900/40 flex items-center gap-2.5 min-w-0 print-card-bg"
+                  className="p-3 rounded-[14px] border border-[var(--border-subcard)] bg-[var(--bg-nested-card)] flex items-center gap-2.5 min-w-0 print-card-bg"
                 >
                   <span
                     className="w-7 h-7 rounded-[14px] flex items-center justify-center shrink-0"

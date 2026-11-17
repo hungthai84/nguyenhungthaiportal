@@ -203,6 +203,55 @@ export function translateDynamicPattern(core: string, dictionary: Map<string, st
     return `${translatedLabel}: ${percentMatch[2]}`;
   }
 
+  // PageCardHeader part labels: "Phần 1/4 · Thông Điệp Hợp Tác" / "Thẻ 1/2 · Chân Dung & Hồ Sơ" / "Thẻ 1/6"
+  const partCardMatch = c.match(/^(Phần|Thẻ)\s+(\d+)\s*\/\s*(\d+)(?:\s*[·•|-]\s*(.+))?$/i);
+  if (partCardMatch) {
+    const kindEn = partCardMatch[1].toLowerCase() === 'phần' ? 'Part' : 'Card';
+    const counter = `${kindEn} ${partCardMatch[2]}/${partCardMatch[3]}`;
+    const rawTail = (partCardMatch[4] || '').trim();
+    if (!rawTail) return counter;
+    const tailEn = dictionary.get(rawTail) || dictionary.get(normalizeLookupKey(rawTail)) || translateDynamicPattern(rawTail, dictionary) || rawTail;
+    return `${counter} · ${tailEn}`;
+  }
+
+  // Dynamic unit counts: "6 Hạng mục", "3 dịch vụ", "4 sản phẩm", "12 hệ thống", "21 dự án", "3 Ngôn ngữ", "12 nhân sự trực tiếp"
+  const countUnitMatch = c.match(/^(\d+\+?)\s+(Hạng mục|dịch vụ|sản phẩm|hệ thống|dự án|Ngôn ngữ|nhân sự trực tiếp|nhân sự nhóm|nhân sự)$/i);
+  if (countUnitMatch) {
+    const unitEnMap: Record<string, string> = {
+      'hạng mục': 'Items',
+      'dịch vụ': 'Services',
+      'sản phẩm': 'Products',
+      'hệ thống': 'Systems',
+      'dự án': 'Projects',
+      'ngôn ngữ': 'Languages',
+      'nhân sự trực tiếp': 'Direct Staff',
+      'nhân sự nhóm': 'Team Members',
+      'nhân sự': 'Staff',
+    };
+    const unitEn = unitEnMap[countUnitMatch[2].toLowerCase()] || countUnitMatch[2];
+    return `${countUnitMatch[1]} ${unitEn}`;
+  }
+
+  // "Phóng to (8)" / "Kỷ niệm #3" / "Tác động 85%" / "Phóng to hình kỷ niệm 1: Title"
+  const zoomCountMatch = c.match(/^Phóng to\s*\((\d+)\)$/i);
+  if (zoomCountMatch) {
+    return `Zoom in (${zoomCountMatch[1]})`;
+  }
+  const memoryNumMatch = c.match(/^Kỷ niệm\s*#(\d+)$/i);
+  if (memoryNumMatch) {
+    return `Memory #${memoryNumMatch[1]}`;
+  }
+  const impactPercentMatch = c.match(/^Tác động\s+(\d+%)$/i);
+  if (impactPercentMatch) {
+    return `Impact ${impactPercentMatch[1]}`;
+  }
+  const zoomMemoryAriaMatch = c.match(/^Phóng to hình kỷ niệm\s+(\d+)\s*:\s*(.+)$/i);
+  if (zoomMemoryAriaMatch) {
+    const tail = zoomMemoryAriaMatch[2].trim();
+    const tailEn = dictionary.get(tail) || translateDynamicPattern(tail, dictionary) || tail;
+    return `Zoom in memory photo ${zoomMemoryAriaMatch[1]}: ${tailEn}`;
+  }
+
   // "Trang 1 / 14" or "Câu 1 / 12" or "Dự án số 1 / 21"
   const pageCountMatch = c.match(/^(Trang|Câu|Dự án số|Ảnh|Mục)\s+(\d+)\s*\/\s*(\d+)$/i);
   if (pageCountMatch) {
@@ -323,8 +372,17 @@ export function lookupEnglish(core: string, dictionary: Map<string, string>): st
   const normHit = dictionary.get(normalized);
   if (normHit) return normHit;
 
-  // Strip wrapper icons/punctuation (✓, ⚠️, 🔴, 🔊, 🎧, 📍, •, trailing colon/ellipsis)
-  const wrapperMatch = normalized.match(/^([✓✔✕✖⚠️🔴🟡🟢🔊🎧📍🎯💡🌟💛💙💚💖💜🚫↻‹›]+\s*)?([\s\S]*?)(\s*(?::|\.{3}|!|\?|🔊|✓))?$/);
+  // Strip surrounding quotation marks ("..." or “...”) and optional trailing " ♡"
+  const quoteHeartMatch = normalized.match(/^["']([\s\S]+?)(\s*♡)?["']$/);
+  if (quoteHeartMatch) {
+    const inner = quoteHeartMatch[1].trim();
+    const heart = quoteHeartMatch[2] || '';
+    const innerHit = lookupEnglish(inner, dictionary);
+    if (innerHit) return `"${innerHit}${heart}"`;
+  }
+
+  // Strip wrapper icons/punctuation (✓, ⚠️, 🔴, 🔊, 🎧, 📍, •, trailing colon/ellipsis/♡)
+  const wrapperMatch = normalized.match(/^([✓✔✕✖⚠️🔴🟡🟢🔊🎧📍🎯💡🌟💛💙💚💖💜🚫↻‹›]+\s*)?([\s\S]*?)(\s*(?::|\.{3}|!|\?|🔊|✓|♡))?$/);
   if (wrapperMatch && (wrapperMatch[1] || wrapperMatch[3])) {
     const pfx = wrapperMatch[1] || '';
     const inner = (wrapperMatch[2] || '').trim();

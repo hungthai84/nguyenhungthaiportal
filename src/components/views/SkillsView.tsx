@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { WebIcon } from "@/components/ui/WebIcon";
 import { cn } from "@/lib/utils";
 import { SoundEngine } from "@/components/ui/SoundEngine";
+import { PageCardHeader } from "./PageCardHeader";
 import { 
   STRENGTHS_DATA, 
   WEAKNESSES_DATA, 
@@ -466,7 +467,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
               />
                 <h1
                   id="skills-hero-banner-title"
-                  className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+                  className="typo-h3 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
                   style={{ color: '#38bdf8', textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
                 >
                   {isVi ? "Kỹ năng cốt lõi (SWOT)" : "Core Skills (SWOT)"}
@@ -475,7 +476,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
 
               <p
                 id="skills-hero-banner-quote"
-                className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+                className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
                 style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
               >
                 {isVi ? '"Kỹ năng là nền tảng nâng tầm dịch vụ ♡"' : '"Skills are the foundation that elevates service ♡"'}
@@ -977,6 +978,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           data-element-parent="skills-cards-track"
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
         >
+          <PageCardHeader tabIndex={6} pageId="skills" />
           {skillsMainBody}
         </div>
       </div>

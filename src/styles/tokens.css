@@ -33,7 +33,7 @@
   --fs-tab: 14px;
   --fs-input: 15px;
   --fs-kpi: 22px;
-  --fs-quote: 18px;
+  --fs-quote: var(--fs-h3);
   --fs-popup-title: 18px;
 
   /* Line Heights & Font Weights */
@@ -265,6 +265,16 @@
   --bg-modal-footer: rgba(248, 250, 252, 0.92);
   --border-modal: rgba(203, 213, 225, 0.85);
   --blur-modal: var(--glass-blur);
+  --page-header-divider: rgba(203, 213, 225, 0.72);
+  --page-header-overlay-bg: rgba(255, 255, 255, 0.84);
+  --page-header-overlay-border: rgba(255, 255, 255, 0.72);
+  --page-header-overlay-shadow: 0 8px 22px -6px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  --page-header-overlay-blur: 14px;
+  --page-header-overlay-outline: none;
+  --page-header-overlay-outline-offset: 0px;
+  --page-header-icon-bg: color-mix(in srgb, var(--page-header-accent, var(--color-primary)) 13%, rgba(255, 255, 255, 0.78));
+  --page-header-icon-border: color-mix(in srgb, var(--page-header-accent, var(--color-primary)) 28%, transparent);
+  --page-header-icon-outline: none;
   --bg-dropdown: var(--color-surface);
   --bg-dropdown-item: transparent;
   --bg-navigation: var(--color-surface);
@@ -779,6 +789,16 @@ html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-
   --surface-interactive-hover: var(--bg-subcard-hover);
   --surface-interactive-border: var(--border-color);
   --surface-interactive-shadow: var(--shadow-nav-pill);
+  --page-header-divider: rgba(255, 255, 255, 0.14);
+  --page-header-overlay-bg: rgba(10, 15, 32, 0.78);
+  --page-header-overlay-border: rgba(255, 255, 255, 0.18);
+  --page-header-overlay-shadow: 0 10px 26px -6px rgba(2, 6, 23, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --page-header-overlay-blur: 14px;
+  --page-header-overlay-outline: none;
+  --page-header-overlay-outline-offset: 0px;
+  --page-header-icon-bg: color-mix(in srgb, var(--page-header-accent, var(--color-primary)) 16%, rgba(15, 23, 42, 0.65));
+  --page-header-icon-border: color-mix(in srgb, var(--page-header-accent, var(--color-primary)) 34%, transparent);
+  --page-header-icon-outline: none;
 }
 
 /* Mobile Glass & Background Blur Optimization (<= 767px) — Keeps 4-level hierarchy at smooth 60fps */

@@ -6,6 +6,7 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { SiteTheme } from '@/types';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
+import { PageCardHeader } from './PageCardHeader';
 import {
   TRINHAN_SAMPLE_QUESTION_CATEGORIES,
   ALL_SAMPLE_QUESTIONS,
@@ -369,8 +370,10 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           data-element-type="card"
           data-element-page="ai-assistant"
           data-element-parent="ai-assistant-cards-track"
-          className="page-main-card flex flex-col lg:flex-row items-stretch p-[15px] gap-[15px] rounded-[14px] overflow-y-auto lg:overflow-hidden font-play text-left justify-start box-border"
+          className="page-main-card flex flex-col items-stretch p-[15px] gap-[15px] rounded-[14px] overflow-y-auto lg:overflow-hidden font-play text-left justify-start box-border"
         >
+      <PageCardHeader tabIndex={13} pageId="ai-assistant" />
+      <div className="flex-1 min-h-0 w-full flex flex-col lg:flex-row items-stretch gap-[15px]">
       {/* 1. HERO BANNER TRỢ LÝ AI TRÍ NHÂN */}
       <section
         id="ai-assistant-hero-banner"
@@ -415,7 +418,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             />
             <h1
               id="ai-assistant-banner-h1"
-              className="typo-h1 font-play not-italic tracking-tight leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#c084fc] whitespace-normal min-w-0"
+              className="typo-h3 font-play not-italic tracking-tight leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#c084fc] whitespace-normal min-w-0"
               style={{
                 color: '#c084fc',
                 textTransform: 'none',
@@ -428,8 +431,8 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           </div>
           <p
             id="ai-assistant-banner-quote"
-            className="font-handwriting font-italianno not-italic text-[18px] font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left w-full whitespace-normal leading-snug"
-            style={{ color: '#c084fc', fontFamily: "'Italianno', cursive, sans-serif", fontSize: '18px', fontWeight: 400, fontStyle: 'normal' }}
+            className="typo-h3 font-handwriting font-italianno not-italic font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left w-full whitespace-normal leading-snug"
+            style={{ color: '#c084fc', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 400, fontStyle: 'normal' }}
           >
             &quot;Trí Nhân đồng hành giải đáp thông tin anh Hùng Thái 24/7 ♡&quot;
           </p>
@@ -668,6 +671,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             <WebIcon name="send" className="w-3.5 h-3.5 text-white" />
           </button>
         </form>
+      </div>
       </div>
         </div>
       </div>

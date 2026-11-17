@@ -14,6 +14,7 @@ import { EcosystemDiagramModal } from '@/components/common/EcosystemDiagramModal
 import { useTheme } from '@/hooks/useTheme';
 import { speakSiteText, stopActiveSpeech } from '@/utils/speechVoice';
 import { useLanguage } from '@/context/LanguageContext';
+import { PageCardHeader } from './PageCardHeader';
 
 export interface SystemsViewProps {
   currentTheme?: SiteTheme;
@@ -1302,6 +1303,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       />
 
 
+        <PageCardHeader tabIndex={8} pageId="systems" />
         {/* BANNER HỆ THỐNG: Format đồng bộ chuẩn banner Hình Nền (h-200px, p-[15px], bo cong 14px) */}
         {!expandedSystemId && (
           <motion.section
@@ -1344,14 +1346,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                   style={{ color: '#38bdf8', width: '22px', height: '22px' }}
                 />
                 <h1
-                  className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+                  className="typo-h3 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
                   style={{ color: '#38bdf8', textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
                 >
                   Hệ thống vận hành
                 </h1>
               </div>
               <p
-                className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[60%]"
+                className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[60%]"
                 style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
               >
                 &quot;Hệ thống thông minh, vận hành tinh gọn và đồng bộ ♡&quot;

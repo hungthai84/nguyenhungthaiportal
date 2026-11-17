@@ -12,6 +12,7 @@ import {
 import { CardStyleMode } from '@/config/ui/theme.types';
 import { motion } from 'motion/react';
 import { useLanguage } from '@/context/LanguageContext';
+import { PageCardHeader } from './PageCardHeader';
 
 export interface InterfaceViewProps {
   onShowNotification?: (msg: string) => void;
@@ -95,6 +96,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
           data-element-parent="interface-cards-track"
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
+      <PageCardHeader tabIndex={15} pageId="interface" />
       {/* Header + Nút trượt qua lại Sáng / Tối theo đúng họ giao diện đang kích hoạt */}
       <div
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b"
@@ -268,7 +270,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     ? isEn
                       ? 'Multicolor Glass'
                       : 'Gương đa sắc'
-                    : preset.name;
+                    : t(preset.name);
                   const displayModeLabel = isMergedMulticolor
                     ? isEn
                       ? isDarkSelected
@@ -277,12 +279,12 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       : isDarkSelected
                         ? 'Tối · Sáng & Tối'
                         : 'Sáng · Sáng & Tối'
-                    : preset.modeLabel;
+                    : t(preset.modeLabel);
                   const displayShortBadge = isMergedMulticolor
                     ? isEn
                       ? 'Multicolor Glass'
                       : 'Gương Đa Sắc'
-                    : preset.shortBadge;
+                    : t(preset.shortBadge);
                   const sampleProps = getCardStyleProperties(preset.id);
                   const isLightMulticolorGlass = preset.id === 'light-multicolor-glass';
                   const isLightMulticolorGlassDark = preset.id === 'light-multicolor-glass-dark';
@@ -447,7 +449,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                 : preset.badgeColorClass
                             }`}
                           >
-                            {isActive ? 'Đang sử dụng ✓' : displayShortBadge}
+                            {isActive ? t('Đang sử dụng ✓') : displayShortBadge}
                           </span>
                           <div className="flex items-center justify-center shrink-0">
                             <WebIcon
@@ -541,7 +543,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                     : 'text-slate-600'
                             }`}
                           >
-                            {preset.desc}
+                            {t(preset.desc)}
                           </p>
                         </div>
                       </div>
@@ -588,7 +590,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                   : 'text-[#334155]'
                           }`}
                         >
-                          <span>Mẫu hiển thị & Video Demo</span>
+                          <span>{t('Mẫu hiển thị & Video Demo')}</span>
                           <span
                             className={`font-mono typo-label ${
                               isIceBlueNeu || isLightGlass
@@ -728,7 +730,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                     : 'bg-white/95 text-slate-800 border-slate-200/70'
                             }`}
                           >
-                            Tab Mẫu
+                            {t('Tab Mẫu')}
                           </span>
                           <span
                             style={preset.miniBtnStyle}
@@ -740,7 +742,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                   : ''
                             }`}
                           >
-                            Nút Áp Dụng
+                            {t('Nút Áp Dụng')}
                           </span>
                         </div>
                       </div>
@@ -805,7 +807,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           }`}
                         >
                           <WebIcon name="eye" className="w-3.5 h-3.5" />
-                          <span>Xem thử</span>
+                          <span>{t('Xem thử')}</span>
                         </button>
 
                         <span
@@ -862,7 +864,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                                       : 'bg-slate-100 text-slate-700 hover:bg-indigo-50'
                           }`}
                         >
-                          {isActive ? 'Đang dùng' : 'Chọn'}
+                          {isActive ? t('Đang dùng') : t('Chọn')}
                         </span>
                         {isActive && (
                           <div

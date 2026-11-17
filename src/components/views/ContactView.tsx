@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { PageCardHeader } from './PageCardHeader';
 
 export interface ContactViewProps {
   currentTheme?: string;
@@ -38,8 +39,10 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
           data-element-type="card"
           data-element-page="contact"
           data-element-parent="contact-cards-track"
-          className="page-main-card flex flex-col lg:flex-row items-stretch p-[15px] gap-[15px] rounded-[14px] overflow-y-auto lg:overflow-hidden font-play text-left box-border"
+          className="page-main-card flex flex-col items-stretch p-[15px] gap-[15px] rounded-[14px] overflow-y-auto lg:overflow-hidden font-play text-left box-border"
         >
+      <PageCardHeader tabIndex={12} pageId="contact" />
+      <div className="flex-1 min-h-0 w-full flex flex-col lg:flex-row items-stretch gap-[15px]">
       {/* 1. HERO BANNER TRANG LIÊN HỆ (CHIỀU CAO CO GIÃN ĐỒNG BỘ THEO KHUNG ĐẶT LỊCH HẸN) */}
       <section
         id="contact-hero-banner"
@@ -79,7 +82,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
             />
             <h1
               id="contact-banner-h1"
-              className="typo-h1 font-play not-italic tracking-tight leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#818cf8] whitespace-normal min-w-0"
+              className="typo-h3 font-play not-italic tracking-tight leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#818cf8] whitespace-normal min-w-0"
               style={{
                 color: '#818cf8',
                 textTransform: 'none',
@@ -92,7 +95,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
           </div>
           <p
             id="contact-banner-quote"
-            className="font-handwriting font-italianno not-italic text-[20px] sm:text-[22px] font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left w-full whitespace-normal leading-snug"
+            className="typo-h3 font-handwriting font-italianno not-italic font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left w-full whitespace-normal leading-snug"
             style={{ color: '#818cf8', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 400, fontStyle: 'normal' }}
           >
             &quot;Luôn sẵn sàng lắng nghe và đồng hành ♡&quot;
@@ -140,6 +143,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
             className="w-full h-full flex-1 min-h-[480px] lg:min-h-0 rounded-[14px] p-0 m-0 block"
           />
         </div>
+      </div>
       </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ import { useToast } from '@/components/ui/Toast';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
+import { PageCardHeader } from './PageCardHeader';
 
 export interface MemoriesViewProps {
   currentTheme?: string;
@@ -187,6 +188,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
         }}
       />
 
+      <PageCardHeader tabIndex={11} pageId="memories" />
       {/* BANNER KỶ NIỆM: Format chuẩn 100% theo phong cách banner Wallpaper (h-200px, p-[15px], bo cong 14px) */}
       <motion.div
         id="memories-hero-banner"
@@ -227,14 +229,14 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
               style={{ color: '#38bdf8', width: '22px', height: '22px' }}
             />
             <h1
-              className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+              className="typo-h3 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
               style={{ color: '#38bdf8', textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
             >
               Khoảnh khắc kỷ niệm
             </h1>
           </div>
           <p
-            className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
             style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
           >
             &quot;Mỗi khoảnh khắc là một mảnh ghép tự hào của hành trình ♡&quot;

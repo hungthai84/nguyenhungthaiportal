@@ -104,7 +104,7 @@ export const BentoCardHeader: React.FC<BentoCardHeaderProps> = ({
   return (
     <div
       className={cn(
-        'flex items-center justify-between gap-2 pb-2 border-b border-slate-200/70 dark:border-white/10 min-w-0',
+        'flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] min-w-0',
         className
       )}
     >

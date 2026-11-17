@@ -10,6 +10,7 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { formatCardTitle, formatSentenceFourWords } from '@/lib/utils';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
+import { PageCardHeader } from './PageCardHeader';
 
 export interface ServicesViewProps {
   currentTheme?: SiteTheme;
@@ -237,12 +238,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           data-element-parent="services-cards-track"
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
         >
+      <PageCardHeader tabIndex={4} pageId="services" />
       <div
         id="services-main-content"
         className={
           selectedDomain
-            ? 'w-full h-full min-h-0 flex flex-col justify-start gap-[15px] min-w-0'
-            : 'w-full min-h-full flex flex-col justify-between gap-[15px] min-w-0'
+            ? 'w-full flex-1 min-h-0 flex flex-col justify-start gap-[15px] min-w-0'
+            : 'w-full flex-1 min-h-0 flex flex-col justify-between gap-[15px] min-w-0'
         }
       >
       {/* 1. HERO BANNER ĐẦU TRANG DỊCH VỤ */}
@@ -284,7 +286,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
               style={{ color: '#38bdf8', width: '22px', height: '22px' }}
             />
             <h1
-              className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+              className="typo-h3 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
               style={{
                 color: '#38bdf8',
                 textTransform: 'none',
@@ -296,10 +298,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
             </h1>
           </div>
           <p
-            className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
             style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
           >
-            &quot;{DOMAINS_INTRO.quote} ♡&quot;
+            &quot;{t(DOMAINS_INTRO.quote)} ♡&quot;
           </p>
         </div>
 

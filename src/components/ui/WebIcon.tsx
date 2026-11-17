@@ -128,6 +128,7 @@ const ICON_ALIAS_MAP: Record<string, keyof typeof LucideIcons> = {
   move: 'Move',
   copy: 'Copy',
   'file-text': 'FileText',
+  'fa-file-text': 'FileText',
   database: 'Database',
   cpu: 'Cpu',
   'credit-card': 'CreditCard',

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { PageCardHeader } from './PageCardHeader';
 import {
   WALLPAPER_PRESETS_LIST,
   WallpaperPreset,
@@ -411,6 +412,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
           data-element-parent="wallpaper-cards-track"
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
+      <PageCardHeader tabIndex={14} pageId="wallpaper" />
       {/* 1. BANNER HÌNH NỀN: FORMAT GIỐNG BANNER HỌC VẤN, XÓA NÚT GIAO DIỆN TỐI, CARD SECTION CÁCH 15PX */}
       <section
         id="wallpaper-hero-banner"
@@ -452,7 +454,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             <h1
               id="el-p14-div-4"
               data-element-id="el-p14-div-4"
-              className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+              className="typo-h3 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
               style={{
                 color: '#38bdf8',
                 textTransform: 'none',
@@ -464,7 +466,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             </h1>
           </div>
           <p
-            className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
             style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
           >
             &quot;Không gian trực quan khơi nguồn cảm hứng sáng tạo ♡&quot;

@@ -7,6 +7,7 @@ import { SkillsView } from './SkillsView';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
+import { PageCardHeader } from './PageCardHeader';
 
 // Helper map skill tag to appropriate icon
 const getSkillTagIcon = (tag: string): string => {
@@ -459,6 +460,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         data-element-parent="education-cards-track"
         className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
       >
+      <PageCardHeader tabIndex={3} pageId="education" />
       {/* Banner trang Học Vấn (Format đồng bộ chuẩn banner Hình Nền h-200px desktop, responsive mobile) */}
       {!selectedCourse && (
         <section
@@ -497,14 +499,14 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               style={{ color: '#38bdf8', width: '22px', height: '22px' }}
             />
             <h1
-              className="typo-h1 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+              className="typo-h3 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
               style={{ color: '#38bdf8', textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
             >
               Học vấn & Bằng cấp
             </h1>
           </div>
           <p
-            className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[60%]"
+            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[60%]"
             style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
           >
             &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
@@ -644,7 +646,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         /* CHẾ ĐỘ LƯỚI (GRID VIEW) - NỀN TRONG SUỐT 50%, CÁC CARD CÁCH NHAU 15PX Ở MỌI KÍCH THƯỚC THIẾT BỊ */
         <div
           id="education-courses-grid"
-          className="bento-grid-responsive grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch"
+          className="bento-grid-responsive grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-[15px] items-stretch"
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
         >
           {filteredCourses.map((course, idx) => {
@@ -669,63 +671,60 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     handleOpenDetail(course);
                   }
                 }}
-                className="education-card bento-card glass-card bento-view-card group relative rounded-[14px] overflow-hidden p-[15px] flex flex-col justify-between border select-none transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer text-[var(--text-primary)]"
+                className="project-card bento-card glass-card layered-card group relative rounded-[14px] overflow-hidden p-0 flex flex-col justify-between border select-none transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play"
                 style={{
                   borderColor: `${cardColor}45`,
-                  padding: '15px',
-                  borderRadius: '14px',
+                  padding: 0,
                 }}
               >
-                {/* 1. Ảnh bìa khuôn viên/chứng nhận tỷ lệ 16:9 kèm nhãn niên khóa */}
-                <div className="relative w-full aspect-[16/9] rounded-[14px] overflow-hidden bg-slate-950/50 shrink-0 border-0 shadow-xs mb-3 group/img">
+                {/* 1. Ảnh bìa banner tỷ lệ 16:10 đồng bộ card dự án */}
+                <div className="project-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[#0B1220]/70 shrink-0 group/img rounded-t-[14px] m-0 p-0">
                   <img
                     src={course.image}
                     alt={localizedCourseTitle}
-                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 block m-0 p-0"
                     loading="lazy"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none" />
                 </div>
 
-                {/* 2. Tiêu đề bằng cấp/chuyên ngành có icon học thuật đặt ngay phía trước cùng hàng */}
-                <div className="flex-1 flex flex-col justify-start space-y-4 text-left">
-                  <div className="flex items-center justify-between gap-2 min-w-0">
-                    <div className="card-header-sync flex items-center gap-2 min-w-0 flex-1" style={{ color: cardColor }}>
+                {/* 2. Thân Card: nội dung padding 15px đồng bộ card dự án */}
+                <div style={{ padding: '15px' }} className="project-card-body p-[15px] flex-1 flex flex-col justify-between space-y-2">
+                  <div>
+                    <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: cardColor }}>
                       <WebIcon
                         name={titleIcon}
-                        className="w-5 h-5 shrink-0"
+                        className="w-[18px] h-[18px] shrink-0 mt-0.5"
                         style={{ color: cardColor }}
                       />
                       <h3
-                        className="education-card-title card-title-synced typo-h3 font-play tracking-tight truncate flex-1 min-w-0"
+                        className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex-1 min-w-0"
                         data-card-title="true"
                         style={{ color: cardColor }}
+                        title={displayTitle}
                       >
                         {displayTitle}
                       </h3>
+                      <span className="typo-badge font-mono shrink-0 px-2 py-0.5 rounded-full" style={{ backgroundColor: `${cardColor}20`, color: cardColor }}>
+                        {course.year}
+                      </span>
                     </div>
-                    <span className="typo-badge font-mono shrink-0 px-2.5 py-0.5 rounded-full" style={{ backgroundColor: `${cardColor}20`, color: cardColor }}>
-                      {isEn ? `Year ${course.year}` : `Năm ${course.year}`}
-                    </span>
+
+                    <div className="space-y-1.5 mt-2">
+                      <div className="flex items-start gap-1.5 font-play">
+                        <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Đào tạo tại:</span>
+                        <span className="typo-body-sm font-semibold line-clamp-1" style={{ color: 'var(--text-primary)' }}>{course.issuer}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 font-play">
+                        <span className="typo-label shrink-0" style={{ color: 'var(--text-muted)' }}>Hình thức:</span>
+                        <span className="typo-body-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{course.type}</span>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* 3. Nhóm thông tin Đào tạo tại và Hình thức đào tạo với nhãn đậm dễ quét mắt */}
-                  <div className="space-y-2">
-                    <div className="flex items-start gap-1.5 font-play">
-                      <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Đào tạo tại:</span>
-                      <span className="typo-body-sm font-semibold line-clamp-1" style={{ color: 'var(--text-primary)' }}>{course.issuer}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 font-play">
-                      <span className="typo-label shrink-0" style={{ color: 'var(--text-muted)' }}>Hình thức:</span>
-                      <span className="typo-body-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{course.type}</span>
-                    </div>
-                  </div>
-
-                  {/* 4. Thanh thông số thành tích/GPA hợp nhất vào một sub-card duy nhất */}
                   {course.result && (
                     <div 
-                      className="mt-auto p-[15px] rounded-[14px] border flex items-center gap-[15px] transition-colors shadow-xs"
+                      className="mt-3 p-2.5 rounded-[10px] border flex items-center gap-2 transition-colors shadow-xs"
                       style={{
                         backgroundColor: `${cardColor}10`,
                         borderColor: `${cardColor}30`,

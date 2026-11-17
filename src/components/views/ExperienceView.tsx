@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { PageCardHeader } from './PageCardHeader';
 import {
   Calendar,
   Building2,
@@ -796,6 +797,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             showJobCard ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden'
           )}
         >
+      <PageCardHeader tabIndex={5} pageId="experience" />
       {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH) */}
       {!showJobCard && (
         <section
@@ -1898,8 +1900,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     className={cn(
                       'absolute top-3.5 right-3.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-extrabold shadow-lg flex items-center gap-2 max-w-[calc(100%-28px)] border',
                       isLightLeather
-                        ? 'bg-[#fbfcfc]/95 border-[#d1d5db] text-[#111827]'
-                        : 'bg-white/95 backdrop-blur-md border-white/85 text-slate-900'
+                        ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827]'
+                        : isLeather
+                          ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC]'
+                          : 'bg-white/95 backdrop-blur-md border-white/85 text-slate-900'
                     )}
                   >
                     <Calendar className="w-4 h-4 text-red-600 shrink-0" />
@@ -2369,7 +2373,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           key={cIdx}
                           className={cn(
                             'rounded-[14px] p-3.5 flex items-start gap-3 min-w-0 border',
-                            isLightLeather
+                            isLightLeather || isLeather
                               ? 'exp-bento-item-card'
                               : 'bg-white/12 backdrop-blur-sm border-white/20'
                           )}
@@ -2641,7 +2645,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               ? 'bg-slate-800 border-slate-700/70'
                               : isLightLeather
                                 ? 'bg-[#edf1f4] border-[#d1d5db]'
-                                : 'bg-white/80 border-slate-200/90 shadow-xs',
+                                : isLeather
+                                  ? 'bg-[#522E10] border-[#F5DEB3]/35'
+                                  : 'bg-white/80 border-slate-200/90 shadow-xs',
                             borderHover,
                             isFullRow ? 'col-span-2 min-h-[150px]' : 'min-h-[115px]'
                           )}
@@ -2659,14 +2665,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             />
                           ) : (
                             <div
-                              className={cn(
-                                'w-full h-full min-h-[115px] flex flex-col items-center justify-center gap-1.5 p-3',
-                                isDarkSurface
-                                  ? 'bg-slate-800 text-slate-300'
-                                  : isLightLeather
-                                    ? 'bg-[#edf1f4] text-[#374151]'
-                                    : 'bg-slate-100 text-slate-700'
-                              )}
+                                className={cn(
+                                  'w-full h-full min-h-[115px] flex flex-col items-center justify-center gap-1.5 p-3',
+                                  isDarkSurface
+                                    ? 'bg-slate-800 text-slate-300'
+                                    : isLightLeather
+                                      ? 'bg-[#edf1f4] text-[#374151]'
+                                      : isLeather
+                                        ? 'bg-[#522E10] text-[#FFF8DC]'
+                                        : 'bg-slate-100 text-slate-700'
+                                )}
                             >
                               <Camera
                                 className={cn(
@@ -2697,7 +2705,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         ? 'bg-slate-800/70 border-slate-700 text-slate-300'
                         : isLightLeather
                           ? 'bg-[#edf1f4] border-[#d1d5db] text-[#374151]'
-                          : 'bg-white/75 border-slate-200/80 text-slate-700'
+                          : isLeather
+                            ? 'bg-[#522E10] border-[#F5DEB3]/35 text-[#FFF8DC]'
+                            : 'bg-white/75 border-slate-200/80 text-slate-700'
                     )}
                   >
                     <span className="text-sm">

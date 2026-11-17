@@ -27,14 +27,14 @@ export const GlassmorphicIconFrame: React.FC<GlassmorphicIconFrameProps> = ({
   return (
     <div
       className={cn(
-        'relative flex items-center justify-center shrink-0 border border-white/60 dark:border-white/10 backdrop-blur-md transition-all duration-300 shadow-sm',
+        'relative flex items-center justify-center shrink-0 border border-[var(--border-subcard)] transition-all duration-300 shadow-sm',
         sizeClasses[size],
         springBounce && 'hover:scale-110 active:scale-95',
         className
       )}
       style={{
         color,
-        background: `radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9) 0%, ${glowColor}15 100%)`,
+        background: `var(--bg-nested-card, radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9) 0%, ${glowColor}15 100%))`,
         boxShadow: `0 4px 12px ${glowColor}`,
       }}
     >

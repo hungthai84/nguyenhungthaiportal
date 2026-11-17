@@ -134,6 +134,16 @@ html.dark[data-card-style="cowhide-leather"] {
   --pillar-divider: rgba(245, 222, 179, 0.32);
   --pillar-progress-track: rgba(61, 33, 11, 0.78);
   --pillar-progress-fill: linear-gradient(90deg, #F59E0B, #FDE68A);
+  --page-header-divider: rgba(245, 222, 179, 0.34);
+  --page-header-overlay-bg: linear-gradient(145deg, #8B5A2B 0%, #653A17 55%, #7A4A20 100%);
+  --page-header-overlay-border: #522E10;
+  --page-header-overlay-shadow: 0 10px 22px rgba(0, 0, 0, 0.48), inset 0 1.5px 3px rgba(255, 220, 180, 0.24);
+  --page-header-overlay-blur: 0px;
+  --page-header-overlay-outline: 1px dashed rgba(245, 222, 179, 0.56);
+  --page-header-overlay-outline-offset: -4px;
+  --page-header-icon-bg: #3D210B;
+  --page-header-icon-border: rgba(245, 222, 179, 0.45);
+  --page-header-icon-outline: 1px dashed rgba(245, 222, 179, 0.42);
 
   /* Global 5-Layer Background Tokens (Warm Burnished Cowhide Leather) */
   --app-bg-base: #241207;
@@ -187,6 +197,25 @@ html.dark[data-card-style="cowhide-leather"] {
   --surface-interactive-border: #522E10;
   --surface-interactive-shadow: var(--shadow-nav-pill);
   --surface-interactive-blur: 0px;
+
+  /* High-Contrast Warm & Cream Accents for Dark Cowhide Leather */
+  --accent-blue: #93C5FD;
+  --accent-sky: #BAE6FD;
+  --accent-cyan: #A5F3FC;
+  --accent-teal: #99F6E4;
+  --accent-emerald: #A7F3D0;
+  --accent-green: #BBF7D0;
+  --accent-indigo: #C7D2FE;
+  --accent-violet: #DDD6FE;
+  --accent-purple: #E9D5FF;
+  --accent-fuchsia: #F5D0FE;
+  --accent-pink: #FBCFE8;
+  --accent-rose: #FECDD3;
+  --accent-red: #FCA5A5;
+  --accent-amber: #FDE68A;
+  --accent-yellow: #FEF08A;
+  --accent-orange: #FDBA74;
+  --accent-slate: #FFF8DC;
 }
 
 /* Header & Footer & Level-01 Main Card Full-Grain Stitched Leather Glassmorphism Chrome */
@@ -1141,4 +1170,21 @@ html[data-card-style="cowhide-leather"] #memories-filter-listbox button:hover,
 html[data-card-style="cowhide-leather"] #horoscope-filter-listbox button:hover {
   background: rgba(61, 33, 11, 0.72) !important;
   color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] [data-element-type="page-card-header"][data-variant="overlay"] {
+  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 55%, #7A4A20 100%) !important;
+  border: 2px solid #522E10 !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.56) !important;
+  outline-offset: -4px !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] [data-element-type="page-card-header"] .page-card-header-icon {
+  background: #3D210B !important;
+  border: 1px solid rgba(245, 222, 179, 0.45) !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.42) !important;
+  outline-offset: -3px !important;
 }

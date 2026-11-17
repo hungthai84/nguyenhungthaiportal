@@ -48,11 +48,11 @@
 .typo-quote { font-size: var(--fs-quote, 18px) !important; line-height: 1.35 !important; font-family: var(--font-quote) !important; overflow-wrap: break-word; }
 .typo-popup-title { font-size: var(--fs-popup-title) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
 
-/* Enforce uniform Banner H1, Quote & Card Headings across all breakpoints & pages */
+/* Enforce uniform Banner H3, Quote H3 & Card Headings across all breakpoints & pages */
 .hero-banner h1,
 .banner-card h1,
 [id$="-hero-banner"] h1 {
-  font-size: var(--fs-h1) !important;
+  font-size: var(--fs-h3) !important;
   line-height: var(--lh-heading) !important;
   font-weight: var(--fw-bold) !important;
 }
@@ -62,9 +62,39 @@
 .font-quote,
 .banner-quote,
 .hero-banner p.font-italianno,
-.hero-banner p.font-handwriting {
-  font-size: var(--fs-quote, 18px) !important;
+.hero-banner p.font-handwriting,
+.banner-card p.font-italianno,
+.banner-card p.font-handwriting {
+  font-size: var(--fs-h3) !important;
   line-height: 1.35 !important;
+}
+
+.typo-h3.font-italianno,
+.typo-h3.font-handwriting,
+.typo-h3.font-quote {
+  font-family: var(--font-quote) !important;
+}
+
+/* Unified PageCardHeader Theme Synchronization */
+[data-element-type="page-card-header"][data-variant="default"] {
+  border-bottom: 1px solid var(--page-header-divider, var(--border-subcard));
+}
+
+[data-element-type="page-card-header"][data-variant="overlay"] {
+  background: var(--page-header-overlay-bg, rgba(255, 255, 255, 0.84));
+  border: 1px solid var(--page-header-overlay-border, rgba(255, 255, 255, 0.65));
+  box-shadow: var(--page-header-overlay-shadow, var(--shadow-subcard));
+  backdrop-filter: blur(var(--page-header-overlay-blur, 14px)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--page-header-overlay-blur, 14px)) saturate(140%);
+  outline: var(--page-header-overlay-outline, none);
+  outline-offset: var(--page-header-overlay-outline-offset, 0px);
+}
+
+[data-element-type="page-card-header"] .page-card-header-icon {
+  background: var(--page-header-icon-bg);
+  border-color: var(--page-header-icon-border);
+  outline: var(--page-header-icon-outline, none);
+  outline-offset: -3px;
 }
 
 [data-card-title="true"],
@@ -166,7 +196,8 @@ html #letter-slide-4-card {
   max-width: 100% !important;
   min-width: 0 !important;
   height: auto !important;
-  min-height: 100% !important;
+  min-height: 0 !important;
+  flex: 1 1 auto !important;
   margin: 0 !important;
   padding: 0 !important;
   gap: 15px !important;
@@ -477,10 +508,63 @@ html, body {
 }
 
 html::-webkit-scrollbar,
+html::-webkit-scrollbar,
 body::-webkit-scrollbar,
 *::-webkit-scrollbar {
   display: none !important;
   width: 0px !important;
   height: 0px !important;
 }
+
+/* Focus Mode element styling requested by user */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-9:nth-of-type(2),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-81:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-102:nth-of-type(3) {
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  border: 2px dashed var(--text-primary, rgba(148, 163, 184, 0.75)) !important;
+}
+
+/* ========================================================================= */
+/* COMPREHENSIVE RESPONSIVE & TOUCH OPTIMIZATION UTILITIES                   */
+/* ========================================================================= */
+@media (max-width: 640px) {
+  .responsive-container {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  .responsive-card-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .responsive-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .responsive-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+  }
+}
+
+.touch-action-manipulation {
+  touch-action: manipulation;
+}
+
+.smooth-responsive-transition {
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), max-width 300ms ease-in-out;
+}
+
 

@@ -336,6 +336,22 @@ export const Header: React.FC<HeaderProps> = ({
   );
 
   const avatarPillRef = useRef<HTMLDivElement>(null);
+  const [isHeaderHidden, setIsHeaderHidden] = useState(false);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY.current && currentScrollY > 120) {
+        setIsHeaderHidden(true);
+      } else {
+        setIsHeaderHidden(false);
+      }
+      lastScrollY.current = currentScrollY;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Đo kích thước tự nhiên của toàn bộ các nút ở Header và đồng bộ chiều ngang bằng nút rộng nhất
   useLayoutEffect(() => {
@@ -462,6 +478,8 @@ export const Header: React.FC<HeaderProps> = ({
         borderBottomLeftRadius: '14px',
         borderBottomRightRadius: '14px',
         zIndex: isRadialMenuOpen ? 99999 : 40,
+        transform: isHeaderHidden ? 'translateY(-105%)' : 'translateY(0)',
+        transition: 'transform 350ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 300ms ease, background 300ms ease',
       }}
       className={`neonav-bar mx-auto min-h-[72px] h-auto py-1.5 flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'

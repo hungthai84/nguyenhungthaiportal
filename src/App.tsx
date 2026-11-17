@@ -637,10 +637,10 @@ export default function App() {
       {currentTabIndex !== 16 && (
         <motion.div
           key="app-header-chrome"
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full shrink-0 relative z-40 flex justify-center"
+          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full shrink-0 relative z-40 flex justify-center shadow-[0_12px_40px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.45)] rounded-2xl transition-all duration-300"
         >
           <Header
             pages={TABS_DATA}
@@ -673,9 +673,9 @@ export default function App() {
       >
         <motion.div
           key={`page-view-${currentTabIndex}`}
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.32, delay: 0.04, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
           className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
         >
           {renderActiveView()}
@@ -690,8 +690,8 @@ export default function App() {
           key="app-footer-chrome"
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full shrink-0 relative z-50 flex justify-center"
+          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full shrink-0 relative z-50 flex justify-center shadow-[0_-8px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_-8px_30px_rgba(0,0,0,0.4)] rounded-full transition-all duration-300"
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}

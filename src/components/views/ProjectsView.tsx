@@ -10,6 +10,7 @@ import { cn, formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { ProjectDetailView } from './ProjectDetailView';
 import { useTheme } from '@/hooks/useTheme';
+import { PageCardHeader } from './PageCardHeader';
 
 export interface ProjectCardGroup {
   id: string;
@@ -460,6 +461,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           data-element-parent="projects-cards-track"
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-text text-left text-[var(--text-primary)] box-border"
         >
+      <PageCardHeader tabIndex={7} pageId="projects" />
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
       {!selectedGroup && !selectedArticle ? (
         <>
@@ -520,14 +522,14 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   style={{ color: '#38bdf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
                 />
                 <h1
-                  className="typo-h1 font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+                  className="typo-h3 font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
                   style={{ color: '#38bdf8', fontWeight: 700, textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
                 >
                   Danh sách dự án
                 </h1>
               </div>
               <p
-                className="font-handwriting font-italianno not-italic text-[20px] sm:text-[24px] lg:text-[28px] font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+                className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
                 style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
               >
                 &quot;Khát vọng đổi mới, ghi dấu giá trị thực tiễn ♡&quot;

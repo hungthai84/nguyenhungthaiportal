@@ -10,6 +10,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
 import { speakSiteText, stopActiveSpeech } from '@/utils/speechVoice';
 import { useLanguage } from '@/context/LanguageContext';
+import { PageCardHeader } from './PageCardHeader';
 
 export interface HomeViewProps {
   slideIndex?: number;
@@ -373,6 +374,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
           data-element-parent="home-cards-track"
           className="page-main-card relative flex flex-col justify-between overflow-hidden select-none p-[15px] gap-[15px] font-play rounded-[14px] box-border"
         >
+      <PageCardHeader tabIndex={0} pageId="home" variant="overlay" />
       {/* 1. Main Background Video - Hiển Thị Toàn Bộ Thẻ Chính Lắp Đầy 100% Chiều Rộng và Chiều Cao */}
       <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none">
         <video

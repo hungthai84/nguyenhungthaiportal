@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import { PageCardHeader } from './PageCardHeader';
 // Icons migrated to WebIcon (Hugeicons)
 
 const LinkedinIcon = ({ className }: { className?: string }) => (
@@ -1421,7 +1422,6 @@ export function AboutView({
           maxWidth: '1250px',
           minWidth: `${aboutCardWidth}px`,
           flex: `0 0 ${aboutCardWidth}px`,
-          flexShrink: 0,
           height: '100%',
           minHeight: '100%',
           padding: '15px',
@@ -1435,6 +1435,7 @@ export function AboutView({
           activeIntroCard !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
+        <PageCardHeader tabIndex={2} pageId="about-1" partLabel="Thẻ 1/2 · Chân Dung & Hồ Sơ" />
         <div
           id="about-intro-grid-1"
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
@@ -1939,7 +1940,6 @@ export function AboutView({
           maxWidth: '1250px',
           minWidth: `${aboutCardWidth}px`,
           flex: `0 0 ${aboutCardWidth}px`,
-          flexShrink: 0,
           height: '100%',
           minHeight: '100%',
           padding: '15px',
@@ -1953,6 +1953,7 @@ export function AboutView({
           activeIntroCard !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
+        <PageCardHeader tabIndex={2} pageId="about-2" partLabel="Thẻ 2/2 · Trụ Cột & Giá Trị" />
         <div
           id="about-intro-grid-2"
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}

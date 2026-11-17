@@ -17,6 +17,7 @@ import {
 } from '@/data/letterData';
 import { SiteTheme } from '@/types';
 import { useTheme } from '@/hooks/useTheme';
+import { PageCardHeader } from './PageCardHeader';
 
 // Video thuyết minh Thư Ngỏ (Cloudinary Transition Studio)
 export const LETTER_SLIDE_1_VIDEO_URL =
@@ -1973,7 +1974,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
           maxWidth: '1250px',
           minWidth: `${letterCardWidth}px`,
           flex: `0 0 ${letterCardWidth}px`,
-          flexShrink: 0,
           height: '100%',
           minHeight: '100%',
           padding: '15px',
@@ -1987,14 +1987,15 @@ export const LetterView: React.FC<LetterViewProps> = ({
           currentSlide !== 0 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
+        <PageCardHeader tabIndex={1} pageId="letter-1" partLabel="Phần 1/4 · Thông Điệp Hợp Tác" />
                 <div
                   id="el-p1-div-85"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 1)"
-                  className="w-full max-w-full mx-auto min-h-full h-auto flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch auto-rows-auto p-0 rounded-none box-border"
+                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch auto-rows-auto p-0 rounded-none box-border"
                   style={{
                     width: '100%',
                     maxWidth: '100%',
-                    minHeight: '100%',
+                    minHeight: '0px',
                     height: 'auto',
                     marginLeft: 'auto',
                     marginRight: 'auto',
@@ -2243,7 +2244,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                                   className="flex items-center gap-3 shrink-0 group/logo transition-all duration-300"
                                 >
                                   <div
-                                    className="w-10 h-10 sm:w-11 sm:h-11 aspect-square rounded-[99999px] overflow-hidden bg-white dark:bg-slate-800 p-0 border-2 border-slate-200/70 dark:border-white/10 shadow-sm group-hover/logo:scale-110 group-hover/logo:border-blue-500/50 transition-all duration-500 relative flex items-center justify-center shrink-0"
+                                    className="w-10 h-10 sm:w-11 sm:h-11 aspect-square rounded-[99999px] overflow-hidden bg-white dark:bg-slate-800 p-0 border-2 border-[var(--border-subcard)] shadow-sm group-hover/logo:scale-110 group-hover/logo:border-blue-500/50 transition-all duration-500 relative flex items-center justify-center shrink-0"
                                     style={{ borderRadius: '99999px' }}
                                   >
                                     <img
@@ -2300,7 +2301,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       </div>
 
                       <p
-                        className="font-handwriting font-italianno text-2xl sm:text-[26px] font-bold leading-snug tracking-wide text-amber-700 dark:text-amber-200 text-left drop-shadow-xs select-none relative z-10 my-auto break-words"
+                        className="typo-h3 font-handwriting font-italianno font-bold leading-snug tracking-wide text-amber-700 dark:text-amber-200 text-left drop-shadow-xs select-none relative z-10 my-auto break-words"
                         style={{ fontFamily: "'Italianno', cursive, sans-serif" }}
                       >
                         &ldquo;Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự.&rdquo;
@@ -2333,7 +2334,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
           maxWidth: '1250px',
           minWidth: `${letterCardWidth}px`,
           flex: `0 0 ${letterCardWidth}px`,
-          flexShrink: 0,
           height: '100%',
           minHeight: '100%',
           padding: '15px',
@@ -2347,15 +2347,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
           currentSlide !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
+        <PageCardHeader tabIndex={1} pageId="letter-2" partLabel="Phần 2/4 · Sự Nghiệp 2002 – 2011" />
                 <div
                   id="letter-slide-2-card"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 2)"
-                  className="w-full max-w-full mx-auto min-h-full h-auto flex-1 flex flex-col gap-[15px] p-0 rounded-none box-border"
+                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-1 flex flex-col gap-[15px] p-0 rounded-none box-border"
                   style={{ width: '100%', maxWidth: '100%', marginLeft: 'auto', marginRight: 'auto', padding: '0px', gap: '15px', borderRadius: '0px' }}
                 >
                   <div
                     id="letter-slide-2-grid"
-                    className="w-full min-h-full flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent"
+                    className="w-full min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent"
                     style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
                   >
                     {CAREER_MILESTONES_DATA.slice(0, 4).map((item) =>
@@ -2389,7 +2390,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
           maxWidth: '1250px',
           minWidth: `${letterCardWidth}px`,
           flex: `0 0 ${letterCardWidth}px`,
-          flexShrink: 0,
           height: '100%',
           minHeight: '100%',
           padding: '15px',
@@ -2403,15 +2403,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
           currentSlide !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
+        <PageCardHeader tabIndex={1} pageId="letter-3" partLabel="Phần 3/4 · Sự Nghiệp 2013 – 2023" />
                 <div
                   id="letter-slide-3-card"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 3)"
-                  className="w-full max-w-full mx-auto min-h-full h-auto flex-1 flex flex-col gap-[15px] p-0 rounded-none box-border"
+                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-1 flex flex-col gap-[15px] p-0 rounded-none box-border"
                   style={{ width: '100%', maxWidth: '100%', marginLeft: 'auto', marginRight: 'auto', padding: '0px', gap: '15px', borderRadius: '0px' }}
                 >
                   <div
                     id="letter-slide-3-grid"
-                    className="w-full min-h-full flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent"
+                    className="w-full min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent"
                     style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
                   >
                     {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
@@ -2445,7 +2446,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
           maxWidth: '1250px',
           minWidth: `${letterCardWidth}px`,
           flex: `0 0 ${letterCardWidth}px`,
-          flexShrink: 0,
           height: '100%',
           minHeight: '100%',
           padding: '15px',
@@ -2459,15 +2459,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
           currentSlide !== 3 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
+        <PageCardHeader tabIndex={1} pageId="letter-4" partLabel="Phần 4/4 · Triết Lý Quản Trị" />
                 <div
                   id="letter-slide-4-card"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 4)"
-                  className="w-full max-w-full mx-auto min-h-full h-auto flex-1 min-h-0 flex flex-col gap-[15px] p-0 rounded-none box-border"
+                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-1 flex flex-col gap-[15px] p-0 rounded-none box-border"
                   style={{ width: '100%', maxWidth: '100%', marginLeft: 'auto', marginRight: 'auto', padding: '0px', gap: '15px', borderRadius: '0px' }}
                 >
                   <div
                     id="letter-slide-4-bento-grid"
-                    className="w-full min-h-full flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch bg-transparent"
+                    className="w-full min-h-0 flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch bg-transparent"
                     style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
                   >
                     {/* BENTO CARD 1 (6/12 cols): TRIẾT LÝ QUẢN TRỊ & 3 NGUYÊN TẮC CỐT LÕI */}

@@ -41,7 +41,7 @@
 }
 
 [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
-[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):not(#about-intro-card-1):not(#about-intro-card-2),
 [data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
 article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#contact-info-container),
 .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
@@ -110,7 +110,7 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 }
 
 [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
-[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
+[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):not(#about-intro-card-1):not(#about-intro-card-2):hover,
 [data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
 article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#contact-info-container):hover,
 .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
@@ -419,6 +419,31 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   border-radius: var(--radius-footer, 14px 14px 0 0) !important;
 }
 
+#el-p1-div-85,
+#letter-slide-2-card,
+#letter-slide-3-card,
+#letter-slide-4-card,
+#about-intro-card-1,
+#about-intro-card-2 {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: var(--container-max-w, 1250px) !important;
+  min-width: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  background: var(--surface-primary-bg, var(--surface-main-glass)) !important;
+  border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
+  box-shadow: var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header))) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
+  border-radius: var(--radius-main, 14px) !important;
+  transition: background 300ms ease-in-out, background-color 300ms ease-in-out, border-color 300ms ease-in-out, box-shadow 300ms ease-in-out, color 300ms ease-in-out, backdrop-filter 300ms ease-in-out;
+}
+
 /* WEATHER CARD & HOROSCOPE SLIDE CONTAINERS 100% TRANSPARENT & MAX FULL SIZE */
 #weather-card,
 .weather-card,
@@ -477,8 +502,8 @@ div#horoscope-page-container > div#horoscope-destiny-card,
 div#horoscope-page-container > div#horoscope-pillars-container,
 div#horoscope-page-container > div#horoscope-slide-3,
 div#horoscope-page-container > div#horoscope-lookup-card,
-div#horoscope-page-container > div[data-element-type="card"],
-div#horoscope-page-container > div[data-section-card="true"] {
+div#horoscope-page-container > div[data-element-type="card"]:not(#horoscope-main-card):not(.main-card):not([data-main-card="true"]),
+div#horoscope-page-container > div[data-section-card="true"]:not(#horoscope-main-card):not(.main-card):not([data-main-card="true"]) {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -605,71 +630,50 @@ h3.card-title,
 }
 
 /* ========================================================================= */
-/* MAIN CARD UNIFIED SYSTEM & FIXED 25PX PADDING ACROSS ALL VIEWPORTS        */
+/* MAIN CARD UNIFIED SYSTEM: TRANSPARENT BG, 0PX RADIUS & 10PX LINE BORDER   */
 /* ========================================================================= */
 .main-card,
-[id$="-page-container"],
+[id$="-page-container"]:not(#letter-page-container):not(#horoscope-page-container),
 [id$="-page-root"],
-#letter-page-container {
+#letter-main-card,
+#horoscope-main-card {
   box-sizing: border-box !important;
   width: 100% !important;
   max-width: var(--container-max-w, 1250px) !important;
   min-width: 0 !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  background: var(--surface-primary-bg, var(--surface-main-glass)) !important;
-  border-radius: var(--radius-main, 14px) !important;
-  border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
-  box-shadow: var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header))) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-radius: 0px !important;
+  border: 10px solid var(--surface-primary-border, var(--glass-main-border, rgba(255, 255, 255, 0.8))) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   padding: var(--main-card-padding, 25px) !important;
   scroll-behavior: smooth;
   transition: background 300ms ease-in-out, background-color 300ms ease-in-out, border-color 300ms ease-in-out, box-shadow 300ms ease-in-out, color 300ms ease-in-out, border-radius 300ms ease-in-out, backdrop-filter 300ms ease-in-out;
 }
 
 /* ========================================================================= */
-/* THƯ NGỎ (LETTER VIEW): #letter-sections-list CONTAINER EXACT SIZING       */
+/* THƯ NGỎ (LETTER VIEW): #el-p1-div-77 CONTAINER EXACT SIZING               */
 /* ========================================================================= */
 #el-p1-div-77 {
+  box-sizing: border-box !important;
   width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
   height: 100% !important;
+  max-height: 100% !important;
   flex: 1 1 0% !important;
   min-height: 0 !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
-}
-
-#letter-sections-list {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  height: 100% !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
-  flex: 1 1 0% !important;
-  min-height: 0 !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  padding: 0px !important;
-  margin: 0px !important;
-}
-
-#letter-sections-list > #el-p1-div-85,
-#el-p1-div-85 {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border: none !important;
-  box-shadow: none !important;
+  margin: 0 !important;
+  gap: 15px !important;
 }
 
 /* ========================================================================= */

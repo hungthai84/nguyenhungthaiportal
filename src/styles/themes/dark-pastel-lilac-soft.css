@@ -230,7 +230,10 @@ html.dark[data-card-style="dark-pastel-lilac-soft"] {
 /* LEVEL 01: HEADER, FOOTER, MAIN VIEWPORT & NAV CAPSULE                     */
 /* ========================================================================= */
 html[data-card-style="dark-pastel-lilac-soft"] #app-header,
-html[data-card-style="dark-pastel-lilac-soft"] #app-footer {
+html[data-card-style="dark-pastel-lilac-soft"] #app-footer,
+html[data-card-style="dark-pastel-lilac-soft"] #el-p1-div-85,
+html[data-card-style="dark-pastel-lilac-soft"] #about-intro-card-1,
+html[data-card-style="dark-pastel-lilac-soft"] #about-intro-card-2 {
   background: linear-gradient(165deg, rgba(37, 32, 59, 0.92) 0%, rgba(30, 26, 48, 0.90) 65%, rgba(24, 20, 39, 0.88) 100%) !important;
   backdrop-filter: blur(14px) !important;
   -webkit-backdrop-filter: blur(14px) !important;
@@ -240,13 +243,18 @@ html[data-card-style="dark-pastel-lilac-soft"] #app-footer {
 }
 
 html[data-card-style="dark-pastel-lilac-soft"] .main-card,
-html[data-card-style="dark-pastel-lilac-soft"] [id$="-page-container"],
-html[data-card-style="dark-pastel-lilac-soft"] [id$="-page-root"] {
-  background: linear-gradient(165deg, rgba(37, 32, 59, 0.88) 0%, rgba(30, 26, 48, 0.84) 60%, rgba(24, 20, 39, 0.82) 100%) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-  border: 1.5px solid rgba(216, 206, 255, 0.16) !important;
-  box-shadow: var(--shadow-main-card) !important;
+html[data-card-style="dark-pastel-lilac-soft"] [id$="-page-container"]:not(#letter-page-container):not(#horoscope-page-container),
+html[data-card-style="dark-pastel-lilac-soft"] [id$="-page-root"],
+html[data-card-style="dark-pastel-lilac-soft"] #letter-main-card,
+html[data-card-style="dark-pastel-lilac-soft"] #horoscope-main-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 10px solid rgba(216, 206, 255, 0.26) !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
   color: #FFFFFF !important;
 }
 

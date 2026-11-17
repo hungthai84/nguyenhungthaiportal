@@ -1793,194 +1793,93 @@ export const LetterView: React.FC<LetterViewProps> = ({
       data-element-type="container"
       data-element-page="letter"
       data-element-parent="global-content-viewport"
-      onWheel={(e) => {
-        if (selectedMilestone) return;
-        const target = e.target as HTMLElement | null;
-        if (target?.closest('.overflow-x-auto')) return;
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 18) {
-          const now = Date.now();
-          if (now - lastWheelTimeRef.current < 320) return;
-          lastWheelTimeRef.current = now;
-          SoundEngine.playTap();
-          if (e.deltaX > 0) {
-            handleNextSlide();
-          } else {
-            handlePrevSlide();
-          }
-        }
-      }}
-      onTouchStart={(e) => {
-        if (selectedMilestone) return;
-        const target = e.target as HTMLElement | null;
-        if (target?.closest('.overflow-x-auto, button, input, select, textarea, video')) return;
-        touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      }}
-      onTouchEnd={(e) => {
-        if (!touchStartRef.current || selectedMilestone) return;
-        const diffX = touchStartRef.current.x - e.changedTouches[0].clientX;
-        const diffY = touchStartRef.current.y - e.changedTouches[0].clientY;
-        touchStartRef.current = null;
-        if (Math.abs(diffX) > 55 && Math.abs(diffX) > Math.abs(diffY) * 1.4) {
-          SoundEngine.playTap();
-          if (diffX > 0) {
-            handleNextSlide();
-          } else {
-            handlePrevSlide();
-          }
-        }
-      }}
-      style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
-      className="group/letter main-card w-full min-w-0 h-full max-w-full mx-auto flex-1 min-h-0 flex flex-col justify-start p-[25px] gap-[15px] relative z-10 select-none overflow-hidden font-play text-left rounded-[14px] box-border"
+      className="w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col justify-start p-0 m-0 relative z-10 select-none overflow-visible font-play text-left bg-transparent border-0 shadow-none box-border"
     >
-
-
-
       {/* ========================================================================= */}
-      {/* THANH ĐIỀU KHIỂN THUYẾT TRÌNH TỰ ĐỘNG KÈM NHẠC NỀN LO-FI (AUTOPLAY DOCK)   */}
+      {/* THẺ CHÍNH (MAIN CARD) TRANG THƯ NGỎ: MAX FULL CHIỀU NGANG & CÁCH 15PX     */}
       {/* ========================================================================= */}
-      {isAutoplayPresentation && (
-        <div
-          role="region"
-          aria-label="Điều khiển thuyết trình tự động"
-          className="theme-popup fixed bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 z-50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-[14px] sm:rounded-full flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-center gap-2 sm:gap-3 max-w-[95vw] animate-slide-up select-none font-play"
-        >
-          {/* Nhãn trạng thái Slide & Cue */}
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
-            </span>
-            <div className="flex items-center gap-1.5">
-              <span className="px-2.5 py-0.5 rounded-full typo-badge font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-2xs">
-                Thuyết trình
-              </span>
-              <span className="typo-label font-bold text-[var(--text-primary)] hidden md:inline truncate max-w-[150px]">
-                {activeVideoCue?.noteBadge || 'Tự động phát'}
-              </span>
-            </div>
-          </div>
-
-          {/* Huy hiệu Audio Ducking Nhạc nền Lo-Fi */}
-          <div className="flex items-center gap-1.5 shrink-0">
-            {/* Nút chuyển đổi giọng đọc Song Ngữ VI / EN */}
-            <button
-              type="button"
-              onClick={handleToggleNarrationLanguage}
-              className={`px-2 py-1 rounded-full typo-badge font-bold border transition-all cursor-pointer flex items-center gap-1 shrink-0 ${
-                narrationLanguage === 'en'
-                  ? 'bg-blue-600 text-white border-blue-400 shadow-2xs'
-                  : 'bg-emerald-600 text-white border-emerald-400 shadow-2xs'
-              }`}
-              title={
-                narrationLanguage === 'vi'
-                  ? 'Đang chọn Giọng Tiếng Việt. Nhấp để chuyển sang Tiếng Anh'
-                  : 'Currently English. Click to switch to Vietnamese'
-              }
-            >
-              <WebIcon name="globe" className="w-3 h-3 shrink-0" />
-              <span>{narrationLanguage === 'vi' ? 'VI' : 'EN'}</span>
-            </button>
-          </div>
-
-          {/* Thanh tiến trình Video */}
-          <div className="hidden lg:flex items-center gap-2 shrink-0">
-            <div className="w-20 xl:w-28 h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400 transition-all duration-300"
-                style={{ width: `${videoProgressPct}%` }}
-              />
-            </div>
-            <span className="typo-label font-mono font-bold text-[var(--text-muted)]">
-              {Math.round(videoProgressPct)}%
-            </span>
-          </div>
-
-          {/* Bộ nút điều khiển Video */}
-          <div className="flex items-center gap-1 shrink-0">
-            <button
-              type="button"
-              onClick={toggleFloatingVideoPlay}
-              className="w-7.5 h-7.5 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white flex items-center justify-center shadow-sm transition active:scale-95 cursor-pointer"
-              title={isVideoPlaying ? 'Tạm dừng video' : 'Tiếp tục phát video'}
-            >
-              <WebIcon name={isVideoPlaying ? 'pause' : 'play'} className="w-3.5 h-3.5" />
-            </button>
-
-            <button
-              type="button"
-              onClick={toggleFloatingVideoMute}
-              className={`w-7 h-7 rounded-full flex items-center justify-center border transition cursor-pointer ${
-                isVideoMuted
-                  ? 'bg-amber-500/15 border-amber-500/40 text-amber-600 dark:text-amber-300'
-                  : 'bg-[var(--bg-subcard)] border-[var(--border-subcard)] text-[var(--text-primary)]'
-              }`}
-              title={isVideoMuted ? 'Bật tiếng thuyết minh video' : 'Tắt tiếng video'}
-            >
-              <WebIcon name={isVideoMuted ? 'volume-x' : 'volume-2'} className="w-3 h-3" />
-            </button>
-          </div>
-
-          {/* Nút Dừng Thuyết Trình */}
-          <button
-            type="button"
-            onClick={handleToggleAutoplayPresentation}
-            className="px-2.5 py-1 rounded-full bg-rose-500 hover:bg-rose-600 text-white typo-badge font-bold flex items-center gap-1 shadow-sm transition active:scale-95 cursor-pointer shrink-0"
-            title="Dừng chế độ Thuyết trình Tự động"
-          >
-            <WebIcon name="stop" className="w-3 h-3" />
-            <span>Dừng</span>
-          </button>
-        </div>
-      )}
-
+      <div
+        id="letter-main-card"
+        data-element-name="Thẻ chính Trang Thư Ngỏ"
+        data-element-type="card"
+        data-main-card="true"
+        data-element-page="letter"
+        data-element-parent="letter-page-container"
+        onWheel={(e) => {
+          if (selectedMilestone) return;
+          const target = e.target as HTMLElement | null;
+          if (target?.closest('.overflow-x-auto')) return;
+          if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 18) {
+            const now = Date.now();
+            if (now - lastWheelTimeRef.current < 320) return;
+            lastWheelTimeRef.current = now;
+            SoundEngine.playTap();
+            if (e.deltaX > 0) {
+              handleNextSlide();
+            } else {
+              handlePrevSlide();
+            }
+          }
+        }}
+        onTouchStart={(e) => {
+          if (selectedMilestone) return;
+          const target = e.target as HTMLElement | null;
+          if (target?.closest('.overflow-x-auto, button, input, select, textarea, video')) return;
+          touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }}
+        onTouchEnd={(e) => {
+          if (!touchStartRef.current || selectedMilestone) return;
+          const diffX = touchStartRef.current.x - e.changedTouches[0].clientX;
+          const diffY = touchStartRef.current.y - e.changedTouches[0].clientY;
+          touchStartRef.current = null;
+          if (Math.abs(diffX) > 55 && Math.abs(diffX) > Math.abs(diffY) * 1.4) {
+            SoundEngine.playTap();
+            if (diffX > 0) {
+              handleNextSlide();
+            } else {
+              handlePrevSlide();
+            }
+          }
+        }}
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          marginLeft: '0px',
+          marginRight: '0px',
+          padding: '15px',
+          gap: '15px',
+          rowGap: '15px',
+          columnGap: '15px',
+          borderRadius: '0px',
+          background: 'transparent',
+        }}
+        className="group/letter main-card w-full min-w-0 h-full max-w-full ml-0 mr-0 flex-1 min-h-0 flex flex-col justify-start p-[15px] gap-[15px] relative z-10 select-none overflow-hidden font-play text-left rounded-none box-border"
+      >
       {/* ========================================================================= */}
       {/* 4 PRESENTATION CARDS CONTAINER WITH ABSOLUTE EDGE NAVIGATION BUTTONS    */}
       {/* ========================================================================= */}
-      <div id="el-p1-div-77" className="relative w-full flex-1 min-h-0 flex flex-col items-center justify-center p-0 font-play">
-
-
-        {/* Direct Bento & Slide Content Container */}
-        <div
-          id="letter-sections-list"
-          data-slide-direction={slideDirection}
-          className={cn(
-            'w-full h-full flex-1 min-h-0 self-stretch backdrop-blur-none rounded-none border-0 shadow-none overflow-y-auto overflow-x-clip glass-scrollbar bg-transparent relative z-10 flex flex-col gap-[15px] p-0 m-0'
-          )}
-          style={{
-            background: 'transparent',
-            backgroundColor: 'transparent',
-            backdropFilter: 'none',
-            WebkitBackdropFilter: 'none',
-            width: '100%',
-            height: '100%',
-            maxWidth: '100%',
-            maxHeight: '100%',
-            padding: '0px',
-            paddingLeft: '0px',
-            paddingRight: '0px',
-            paddingTop: '0px',
-            paddingBottom: '0px',
-            margin: '0px',
-            gap: '15px',
-            rowGap: '15px',
-            columnGap: '15px',
-          }}
-        >
+      <div
+        id="el-p1-div-77"
+        data-slide-direction={slideDirection}
+        className="relative w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-center justify-start overflow-y-auto overflow-x-clip glass-scrollbar gap-[15px] p-0 m-0 font-play"
+      >
               {currentSlide === 0 && (
                 <div
                   id="el-p1-div-85"
-                  className="w-full h-full flex-1 min-h-0 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch auto-rows-auto !bg-transparent border-0 shadow-none backdrop-blur-none"
+                  data-element-name="Thẻ nội dung Thư Ngỏ (Trang 1)"
+                  className="w-full max-w-[1250px] mx-auto min-h-full h-auto flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch auto-rows-auto p-[15px] rounded-[14px] box-border"
                   style={{
-                    background: 'transparent',
-                    backgroundColor: 'transparent',
-                    backgroundImage: 'none',
-                    backdropFilter: 'none',
-                    WebkitBackdropFilter: 'none',
-                    border: 'none',
-                    boxShadow: 'none',
                     width: '100%',
-                    height: '100%',
-                    maxWidth: '100%',
+                    maxWidth: '1250px',
+                    minHeight: '100%',
+                    height: 'auto',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    padding: '15px',
+                    gap: '15px',
+                    rowGap: '15px',
+                    columnGap: '15px',
+                    borderRadius: '14px',
                   }}
                 >
                     {/* THẺ BENTO 1: Khung Video Thuyết Minh (7/12 cột trên Desktop, 6/6 trên Tablet, 1/1 trên Mobile) */}
@@ -1990,7 +1889,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-section-card="true"
                       data-element-page="letter"
-                      style={{ padding: '16px', borderRadius: '14px' }}
+                      style={{ padding: '15px', borderRadius: '14px' }}
                       className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] min-h-[240px] sm:min-h-[260px] lg:min-h-[280px] w-full h-full min-w-0 relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5 group/vcard ${
                         activeTargetId === 'bento-experience-intro' || activeTargetId === 'callout-salutation'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.3)]'
@@ -2021,8 +1920,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-section-card="true"
                       data-element-page="letter"
-                      style={{ padding: '16px', gap: '12px', borderRadius: '14px' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-5 p-4 rounded-[14px] flex flex-col justify-between relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5 w-full h-full min-w-0 ${
+                      style={{ padding: '15px', gap: '15px', borderRadius: '14px' }}
+                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-5 p-[15px] rounded-[14px] flex flex-col justify-between relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5 w-full h-full min-w-0 ${
                         activeTargetId === 'callout-salutation' || activeTargetId === 'bento-experience-intro' || activeTargetId === 'bento-commitment'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.25)]'
                           : ''
@@ -2094,8 +1993,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="card-core-values-pursued"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '14px', padding: '16px', borderRadius: '14px' }}
-                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-12 w-full p-4 gap-3.5 transition-all duration-200 flex flex-col items-start group/values z-10 text-left rounded-[14px] shrink-0 min-w-0 ${getGlassCardClass()} ${
+                      style={{ gap: '15px', padding: '15px', borderRadius: '14px' }}
+                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-12 w-full p-[15px] gap-[15px] transition-all duration-200 flex flex-col items-start group/values z-10 text-left rounded-[14px] shrink-0 min-w-0 ${getGlassCardClass()} ${
                         activeTargetId === 'card-core-values-pursued'
                           ? 'ring-2 ring-amber-400 dark:ring-cyan-400 shadow-[0_0_24px_rgba(251,191,36,0.35)]'
                           : ''
@@ -2109,7 +2008,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                       <div
                         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-[15px] items-stretch w-full"
-                        style={{ gap: '15px' }}
+                        style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
                       >
                         {CORE_VALUES_DATA.map((val) => {
                           const valIconName =
@@ -2127,8 +2026,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                               key={val.number}
                               id={`core-val-${val.number}`}
                               data-subcard="true"
-                              style={{ gap: '10px', padding: '14px', borderRadius: '14px' }}
-                              className={`sub-card letter-subcard relative overflow-hidden flex flex-col justify-between h-full p-3.5 gap-2.5 transition-all duration-200 hover:-translate-y-0.5 text-left group rounded-[14px] min-w-0 ${
+                              style={{ gap: '15px', padding: '15px', borderRadius: '14px' }}
+                              className={`sub-card letter-subcard relative overflow-hidden flex flex-col justify-between h-full p-[15px] gap-[15px] transition-all duration-200 hover:-translate-y-0.5 text-left group rounded-[14px] min-w-0 ${
                                 isValBeingRead
                                   ? 'ring-2 ring-emerald-500 dark:ring-cyan-400 shadow-[0_0_24px_rgba(16,185,129,0.28)] -translate-y-1'
                                   : ''
@@ -2184,8 +2083,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-section-card="true"
                       data-element-page="letter"
-                      style={{ padding: '16px', borderRadius: '14px' }}
-                      className="bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 p-4 rounded-[14px] flex flex-col justify-between gap-2.5 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 group/marquee min-w-0"
+                      style={{ padding: '15px', borderRadius: '14px' }}
+                      className="bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] overflow-hidden transition-all duration-200 hover:-translate-y-0.5 group/marquee min-w-0"
                     >
                       <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] shrink-0 min-w-0">
                         <div className="card-header-sync inline-flex items-center gap-2 text-blue-600 dark:text-cyan-400 leading-tight min-w-0">
@@ -2250,8 +2149,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-section-card="true"
                       data-element-page="letter"
-                      style={{ padding: '16px', borderRadius: '14px' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-5 relative overflow-hidden rounded-[14px] p-4 flex flex-col justify-between gap-2.5 transition-all duration-200 hover:-translate-y-0.5 group/quote min-w-0 ${
+                      style={{ padding: '15px', borderRadius: '14px' }}
+                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-5 relative overflow-hidden rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] transition-all duration-200 hover:-translate-y-0.5 group/quote min-w-0 ${
                         activeTargetId === 'quote-banner-slide-1'
                           ? 'ring-4 ring-sky-500/40 dark:ring-cyan-400/40 scale-[1.01]'
                           : ''
@@ -2289,8 +2188,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
               {currentSlide === 1 && (
                 <div
-                  className="w-full min-h-full flex-1 flex flex-col gap-[15px] bg-transparent"
-                  style={{ background: 'transparent', width: '100%', maxWidth: '100%' }}
+                  id="letter-slide-2-card"
+                  data-element-name="Thẻ nội dung Thư Ngỏ (Trang 2)"
+                  className="w-full max-w-[1250px] mx-auto min-h-full h-auto flex-1 flex flex-col gap-[15px] p-[15px] rounded-[14px] box-border"
+                  style={{ width: '100%', maxWidth: '1250px', marginLeft: 'auto', marginRight: 'auto', padding: '15px', gap: '15px', borderRadius: '14px' }}
                 >
                   <div
                     id="letter-slide-2-grid"
@@ -2306,8 +2207,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
               {currentSlide === 2 && (
                 <div
-                  className="w-full min-h-full flex-1 flex flex-col gap-[15px] bg-transparent"
-                  style={{ background: 'transparent', width: '100%', maxWidth: '100%' }}
+                  id="letter-slide-3-card"
+                  data-element-name="Thẻ nội dung Thư Ngỏ (Trang 3)"
+                  className="w-full max-w-[1250px] mx-auto min-h-full h-auto flex-1 flex flex-col gap-[15px] p-[15px] rounded-[14px] box-border"
+                  style={{ width: '100%', maxWidth: '1250px', marginLeft: 'auto', marginRight: 'auto', padding: '15px', gap: '15px', borderRadius: '14px' }}
                 >
                   <div
                     id="letter-slide-3-grid"
@@ -2323,13 +2226,15 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
               {currentSlide === 3 && (
                 <div
-                  className="w-full h-full flex-1 min-h-0 flex flex-col gap-[15px] bg-transparent"
-                  style={{ background: 'transparent', width: '100%', height: '100%', maxWidth: '100%' }}
+                  id="letter-slide-4-card"
+                  data-element-name="Thẻ nội dung Thư Ngỏ (Trang 4)"
+                  className="w-full max-w-[1250px] mx-auto min-h-full h-auto flex-1 min-h-0 flex flex-col gap-[15px] p-[15px] rounded-[14px] box-border"
+                  style={{ width: '100%', maxWidth: '1250px', marginLeft: 'auto', marginRight: 'auto', padding: '15px', gap: '15px', borderRadius: '14px' }}
                 >
                   <div
                     id="letter-slide-4-bento-grid"
-                    className="w-full h-full flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch bg-transparent"
-                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%', height: '100%' }}
+                    className="w-full min-h-full flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch bg-transparent"
+                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
                   >
                     {/* BENTO CARD 1 (6/12 cols): TRIẾT LÝ QUẢN TRỊ & 3 NGUYÊN TẮC CỐT LÕI */}
                     <div
@@ -2492,10 +2397,142 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   </div>
                 </div>
               )}
-        </div>
       </div>
 
 
+
+        {/* Nút LÙI TRANG (Chevron Left) hình tròn nổi ở chính giữa cạnh trái kèm hiệu ứng cuộn ngang */}
+        <button
+          type="button"
+          onClick={() => {
+            SoundEngine.playTap();
+            handlePrevSlide();
+          }}
+          title={`Lùi trang (${((currentSlide - 1 + 4) % 4) + 1}/4)`}
+          aria-label="Lùi trang"
+          className="nav-arrow-btn theme-prev-next-btn absolute left-1.5 sm:left-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/letter:opacity-100 hover:!opacity-100 sm:-translate-x-1 sm:group-hover/letter:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(236,125,33,0.35)] cursor-pointer group pointer-events-auto"
+        >
+          <WebIcon
+            name="chevron-left"
+            className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
+          />
+        </button>
+
+        {/* Nút TỚI TRANG (Chevron Right) hình tròn nổi ở chính giữa cạnh phải kèm hiệu ứng cuộn ngang */}
+        <button
+          type="button"
+          onClick={() => {
+            SoundEngine.playTap();
+            handleNextSlide();
+          }}
+          title={`Tới trang (${((currentSlide + 1) % 4) + 1}/4)`}
+          aria-label="Tới trang"
+          className="nav-arrow-btn theme-prev-next-btn absolute right-1.5 sm:right-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/letter:opacity-100 hover:!opacity-100 sm:translate-x-1 sm:group-hover/letter:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(236,125,33,0.35)] cursor-pointer group pointer-events-auto"
+        >
+          <WebIcon
+            name="chevron-right"
+            className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110"
+          />
+        </button>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* THANH ĐIỀU KHIỂN THUYẾT TRÌNH TỰ ĐỘNG KÈM NHẠC NỀN LO-FI (AUTOPLAY DOCK)   */}
+      {/* ========================================================================= */}
+      {isAutoplayPresentation && (
+        <div
+          role="region"
+          aria-label="Điều khiển thuyết trình tự động"
+          className="theme-popup fixed bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 z-50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-[14px] sm:rounded-full flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-center gap-2 sm:gap-3 max-w-[95vw] animate-slide-up select-none font-play"
+        >
+          {/* Nhãn trạng thái Slide & Cue */}
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
+            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="px-2.5 py-0.5 rounded-full typo-badge font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-2xs">
+                Thuyết trình
+              </span>
+              <span className="typo-label font-bold text-[var(--text-primary)] hidden md:inline truncate max-w-[150px]">
+                {activeVideoCue?.noteBadge || 'Tự động phát'}
+              </span>
+            </div>
+          </div>
+
+          {/* Huy hiệu Audio Ducking Nhạc nền Lo-Fi */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            {/* Nút chuyển đổi giọng đọc Song Ngữ VI / EN */}
+            <button
+              type="button"
+              onClick={handleToggleNarrationLanguage}
+              className={`px-2 py-1 rounded-full typo-badge font-bold border transition-all cursor-pointer flex items-center gap-1 shrink-0 ${
+                narrationLanguage === 'en'
+                  ? 'bg-blue-600 text-white border-blue-400 shadow-2xs'
+                  : 'bg-emerald-600 text-white border-emerald-400 shadow-2xs'
+              }`}
+              title={
+                narrationLanguage === 'vi'
+                  ? 'Đang chọn Giọng Tiếng Việt. Nhấp để chuyển sang Tiếng Anh'
+                  : 'Currently English. Click to switch to Vietnamese'
+              }
+            >
+              <WebIcon name="globe" className="w-3 h-3 shrink-0" />
+              <span>{narrationLanguage === 'vi' ? 'VI' : 'EN'}</span>
+            </button>
+          </div>
+
+          {/* Thanh tiến trình Video */}
+          <div className="hidden lg:flex items-center gap-2 shrink-0">
+            <div className="w-20 xl:w-28 h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400 transition-all duration-300"
+                style={{ width: `${videoProgressPct}%` }}
+              />
+            </div>
+            <span className="typo-label font-mono font-bold text-[var(--text-muted)]">
+              {Math.round(videoProgressPct)}%
+            </span>
+          </div>
+
+          {/* Bộ nút điều khiển Video */}
+          <div className="flex items-center gap-1 shrink-0">
+            <button
+              type="button"
+              onClick={toggleFloatingVideoPlay}
+              className="w-7.5 h-7.5 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white flex items-center justify-center shadow-sm transition active:scale-95 cursor-pointer"
+              title={isVideoPlaying ? 'Tạm dừng video' : 'Tiếp tục phát video'}
+            >
+              <WebIcon name={isVideoPlaying ? 'pause' : 'play'} className="w-3.5 h-3.5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleFloatingVideoMute}
+              className={`w-7 h-7 rounded-full flex items-center justify-center border transition cursor-pointer ${
+                isVideoMuted
+                  ? 'bg-amber-500/15 border-amber-500/40 text-amber-600 dark:text-amber-300'
+                  : 'bg-[var(--bg-subcard)] border-[var(--border-subcard)] text-[var(--text-primary)]'
+              }`}
+              title={isVideoMuted ? 'Bật tiếng thuyết minh video' : 'Tắt tiếng video'}
+            >
+              <WebIcon name={isVideoMuted ? 'volume-x' : 'volume-2'} className="w-3 h-3" />
+            </button>
+          </div>
+
+          {/* Nút Dừng Thuyết Trình */}
+          <button
+            type="button"
+            onClick={handleToggleAutoplayPresentation}
+            className="px-2.5 py-1 rounded-full bg-rose-500 hover:bg-rose-600 text-white typo-badge font-bold flex items-center gap-1 shadow-sm transition active:scale-95 cursor-pointer shrink-0"
+            title="Dừng chế độ Thuyết trình Tự động"
+          >
+            <WebIcon name="stop" className="w-3 h-3" />
+            <span>Dừng</span>
+          </button>
+        </div>
+      )}
 
       {/* ========================================================================= */}
       {/* VÒNG TRÒN NỔI AVATAR VIDEO VÀ BONG BÓNG LỜI NHẮC Ở GÓC TRÊN BÊN PHẢI      */}
@@ -2595,40 +2632,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
           </div>
         </div>
       )}
-
-      {/* Nút LÙI TRANG (Chevron Left) hình tròn nổi ở chính giữa cạnh trái kèm hiệu ứng cuộn ngang */}
-      <button
-        type="button"
-        onClick={() => {
-          SoundEngine.playTap();
-          handlePrevSlide();
-        }}
-        title={`Lùi trang (${((currentSlide - 1 + 4) % 4) + 1}/4)`}
-        aria-label="Lùi trang"
-        className="nav-arrow-btn theme-prev-next-btn absolute left-1.5 sm:left-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/letter:opacity-100 hover:!opacity-100 sm:-translate-x-1 sm:group-hover/letter:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(236,125,33,0.35)] cursor-pointer group pointer-events-auto"
-      >
-        <WebIcon
-          name="chevron-left"
-          className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
-        />
-      </button>
-
-      {/* Nút TỚI TRANG (Chevron Right) hình tròn nổi ở chính giữa cạnh phải kèm hiệu ứng cuộn ngang */}
-      <button
-        type="button"
-        onClick={() => {
-          SoundEngine.playTap();
-          handleNextSlide();
-        }}
-        title={`Tới trang (${((currentSlide + 1) % 4) + 1}/4)`}
-        aria-label="Tới trang"
-        className="nav-arrow-btn theme-prev-next-btn absolute right-1.5 sm:right-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/letter:opacity-100 hover:!opacity-100 sm:translate-x-1 sm:group-hover/letter:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(236,125,33,0.35)] cursor-pointer group pointer-events-auto"
-      >
-        <WebIcon
-          name="chevron-right"
-          className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110"
-        />
-      </button>
     </div>
   );
 };

@@ -53,6 +53,33 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     (sum, g) => sum + (g.id === 'light-multicolor-glass' ? 1 : g.presets.length),
     0
   );
+  const getThemeDemoVideo = (presetId: string) => {
+    switch (presetId) {
+      case 'light-glassmorphism':
+        return 'https://cdn.scena.ai/project/10223/50cd00ea3adfb39fb5860c632402df091d620960b69aae65fd2bb08f4bea4fc6.mp4';
+      case 'dark-glassmorphism':
+        return 'https://strvid.nyc3.cdn.digitaloceanspaces.com/motionitems/source/1782066616542-motion_111.mp4';
+      case 'light-multicolor-glass':
+      case 'dark-neon-multicolor-glass-light':
+        return 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4';
+      case 'light-multicolor-glass-dark':
+      case 'dark-neon-multicolor-glass':
+        return 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4';
+      case 'ice-blue-neumorphism':
+        return 'https://cdn.scena.ai/project/10223/cc106cb37b8d219cca59af9a71a4d7a8cd019515a3e9a8282d16909bb21d88b9.mp4';
+      case 'dark-ice-blue-neumorphism':
+        return 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260613_180732_a54afbf6-b30d-470e-861f-669871f09f67.mp4';
+      case 'pastel-lilac-soft':
+        return 'https://cdn.scena.ai/project/10223/7bd12b39b9758378cc8f15b6169d42368b4778ad2f2f322b1ef8403c90268f24.mp4';
+      case 'dark-pastel-lilac-soft':
+        return 'https://cdn.scena.ai/project/10223/ddb11f6544a9a76e2b6c5946ee6805f53a61b1f57a3049bfba7856d2f52ee367.mp4';
+      case 'light-cowhide-leather':
+        return 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4';
+      case 'cowhide-leather':
+      default:
+        return 'https://cdn.scena.ai/project/10223/50b7b30031d4b9124af4948a069cdf530ca8f0942767f6e6b713c350cb8bd6b2.mp4';
+    }
+  };
 
   return (
     <div
@@ -61,7 +88,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       data-element-type="container"
       data-element-page="interface"
       data-element-parent="global-content-viewport"
-      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
+      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
     >
       {/* Header + Nút trượt qua lại Sáng / Tối theo đúng họ giao diện đang kích hoạt */}
       <div
@@ -163,15 +190,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 style={{ borderColor: 'var(--border-subcard)' }}
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <div
-                    className="w-10 h-10 rounded-[14px] border flex items-center justify-center shrink-0 shadow-xs"
-                    style={{
-                      background: 'var(--bg-card)',
-                      borderColor: 'var(--border-subcard)',
-                      color: 'var(--color-primary)',
-                    }}
-                  >
-                    <WebIcon name={group.icon} className="w-5 h-5" />
+                  <div className="flex items-center justify-center shrink-0" style={{ color: 'var(--color-primary)' }}>
+                    <WebIcon name={group.icon} className="w-6 h-6 shrink-0" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -424,90 +444,36 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           >
                             {isActive ? 'Đang sử dụng ✓' : displayShortBadge}
                           </span>
-                          <div
-                            className="w-9 h-9 flex items-center justify-center text-white shadow-sm rounded-[14px] shrink-0"
-                            style={
-                              isIceBlueNeu
-                                ? {
-                                    background: 'linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%)',
-                                    border: '1px solid rgba(255, 255, 255, 0.9)',
-                                    boxShadow:
-                                      '5px 5px 12px rgba(176, 198, 219, 0.72), -4px -4px 10px rgba(255, 255, 255, 0.95)',
-                                    color: '#0284C7',
-                                  }
-                                : isDarkIceBlueNeu
-                                  ? {
-                                      background: 'linear-gradient(145deg, #182536 0%, #121c29 100%)',
-                                      border: '1px solid rgba(148, 197, 248, 0.22)',
-                                      boxShadow: '5px 5px 12px #0a1018, -4px -4px 10px #203147',
-                                      color: '#38BDF8',
-                                    }
-                                  : isPastelLilac
-                                    ? {
-                                        background: 'linear-gradient(135deg, #8b7ef8 0%, #aba2fc 100%)',
-                                        border: '1px solid rgba(255, 255, 255, 0.9)',
-                                        boxShadow: '0 8px 18px -4px rgba(139, 126, 248, 0.5)',
-                                        color: '#FFFFFF',
-                                      }
-                                    : isDarkPastelLilac
-                                      ? {
-                                          background: 'linear-gradient(135deg, #8b7ef8 0%, #a78bfa 100%)',
-                                          border: '1px solid rgba(216, 206, 255, 0.35)',
-                                          boxShadow: '0 8px 18px -4px rgba(139, 126, 248, 0.45)',
-                                          color: '#FFFFFF',
-                                        }
-                                      : isLightMulticolorGlass || isLightMulticolorGlassDark
-                                        ? {
-                                            background: 'linear-gradient(135deg, #1480C0 0%, #6353B5 52%, #DD4E9E 100%)',
-                                            border: '1px solid rgba(255, 255, 255, 0.85)',
-                                            boxShadow: '0 8px 18px -4px rgba(221, 78, 158, 0.35)',
-                                            color: '#FFFFFF',
-                                          }
-                                        : isDarkNeonMulticolorLight
-                                          ? {
-                                              background: 'linear-gradient(135deg, #0E7490 0%, #2979FF 52%, #7E22CE 100%)',
-                                              border: '1px solid rgba(255, 255, 255, 0.85)',
-                                              boxShadow: '0 8px 18px -4px rgba(41, 121, 255, 0.32)',
-                                              color: '#FFFFFF',
-                                            }
-                                          : isDarkNeonMulticolor
-                                            ? {
-                                                background: 'linear-gradient(135deg, #00E5FF 0%, #9D4EDD 52%, #FF3CAC 100%)',
-                                                border: '1px solid rgba(0, 229, 255, 0.65)',
-                                                boxShadow: '0 0 14px rgba(0, 229, 255, 0.45)',
-                                                color: '#FFFFFF',
-                                              }
-                                            : isLightGlass
-                                              ? {
-                                                  background:
-                                                    'linear-gradient(145deg, rgba(255, 255, 255, 0.90) 0%, rgba(224, 242, 254, 0.78) 100%)',
-                                                  border: '1px solid rgba(255, 255, 255, 0.95)',
-                                                  boxShadow:
-                                                    '0 10px 24px -6px rgba(15, 23, 42, 0.18), inset 0 1.5px 1px rgba(255, 255, 255, 0.98)',
-                                                  color: '#0284C7',
-                                                }
-                                              : isDarkGlass
-                                                ? {
-                                                    background: 'linear-gradient(135deg, #0EA5E9 0%, #4F46E5 100%)',
-                                                    border: '1px solid rgba(255, 255, 255, 0.24)',
-                                                    boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.25)',
-                                                  }
-                                                : isLightLeather
-                                                  ? {
-                                                      background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
-                                                      border: '1.5px dashed rgba(255, 255, 255, 0.72)',
-                                                      color: '#FFFFFF',
-                                                    }
-                                                  : isLeather
-                                                    ? {
-                                                        background: 'linear-gradient(135deg, #8B5A2B 0%, #522E10 100%)',
-                                                        border: '1.5px dashed rgba(245, 222, 179, 0.65)',
-                                                        color: '#FFF8DC',
-                                                      }
-                                                    : { backgroundColor: preset.color }
-                            }
-                          >
-                            <WebIcon name={preset.icon} className="w-4 h-4" />
+                          <div className="flex items-center justify-center shrink-0">
+                            <WebIcon
+                              name={preset.icon}
+                              className="w-5 h-5 shrink-0"
+                              style={{
+                                color: isIceBlueNeu
+                                  ? '#0284C7'
+                                  : isDarkIceBlueNeu
+                                    ? '#38BDF8'
+                                    : isPastelLilac
+                                      ? '#8b7ef8'
+                                      : isDarkPastelLilac
+                                        ? '#a78bfa'
+                                        : isLightMulticolorGlass || isLightMulticolorGlassDark
+                                          ? '#DD4E9E'
+                                          : isDarkNeonMulticolorLight
+                                            ? '#0E7490'
+                                            : isDarkNeonMulticolor
+                                              ? '#00E5FF'
+                                              : isLightGlass
+                                                ? '#0284C7'
+                                                : isDarkGlass
+                                                  ? '#38BDF8'
+                                                  : isLightLeather
+                                                    ? '#111827'
+                                                    : isLeather
+                                                      ? '#D97706'
+                                                      : preset.color || 'var(--color-primary)',
+                              }}
+                            />
                           </div>
                         </div>
 
@@ -617,7 +583,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                   : 'text-[#334155]'
                           }`}
                         >
-                          <span>Mẫu hiển thị</span>
+                          <span>Mẫu hiển thị & Video Demo</span>
                           <span
                             className={`font-mono typo-label ${
                               isIceBlueNeu || isLightGlass
@@ -645,6 +611,26 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           >
                             {displayShortBadge}
                           </span>
+                        </div>
+
+                        {/* Video Demo trước 1 phần giao diện trong danh sách */}
+                        <div className="relative w-full h-[120px] sm:h-[135px] rounded-[10px] overflow-hidden my-1 bg-black/40 group/video border border-white/20 shadow-inner">
+                          <video
+                            src={getThemeDemoVideo(preset.id)}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-cover brightness-105 contrast-105 transition-transform duration-700 group-hover/video:scale-105 pointer-events-none"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30 pointer-events-none" />
+                          <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/25 text-white typo-badge">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            <span>{isEn ? 'Video Demo' : 'Video Demo Giao Diện'}</span>
+                          </div>
+                          <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/25 text-white typo-badge font-mono">
+                            {displayShortBadge}
+                          </div>
                         </div>
                         {(isIceBlueNeu || isDarkIceBlueNeu) && (
                           <div className="grid grid-cols-4 gap-1.5 py-0.5">

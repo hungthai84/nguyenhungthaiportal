@@ -429,7 +429,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
       className={
         embedded
           ? "w-full min-w-0 flex flex-col justify-start font-play text-left animate-fadeIn gap-[15px] box-border"
-          : "main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] rounded-[14px] overflow-y-auto glass-scrollbar font-play text-left animate-fadeIn gap-[15px] box-border"
+          : "main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] rounded-none overflow-y-auto glass-scrollbar font-play text-left animate-fadeIn gap-[15px] box-border"
       }
     >
       <div id="skills-main-wrapper" className="w-full flex-grow flex flex-col gap-[15px] justify-start">

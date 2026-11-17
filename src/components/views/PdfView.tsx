@@ -180,7 +180,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       style={{
         gap: '20px',
       }}
-      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[20px] sm:gap-[28px] overflow-y-auto no-scrollbar font-play select-text text-left text-[var(--text-primary)] animate-fadeIn rounded-[14px] box-border"
+      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[20px] sm:gap-[28px] overflow-y-auto no-scrollbar font-play select-text text-left text-[var(--text-primary)] animate-fadeIn rounded-none box-border"
     >
       <style>{`
         @media print {

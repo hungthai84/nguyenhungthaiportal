@@ -325,7 +325,10 @@ html[data-card-style="light-multicolor-glass"] {
 /* 2. LEVEL 01 SHELL (HEADER, FOOTER, MAIN CARD, NAV CAPSULE) — LIGHT        */
 /* ========================================================================= */
 html[data-card-style="light-multicolor-glass"] #app-header,
-html[data-card-style="light-multicolor-glass"] #app-footer {
+html[data-card-style="light-multicolor-glass"] #app-footer,
+html[data-card-style="light-multicolor-glass"] #el-p1-div-85,
+html[data-card-style="light-multicolor-glass"] #about-intro-card-1,
+html[data-card-style="light-multicolor-glass"] #about-intro-card-2 {
   background: var(--surface-primary-bg) !important;
   backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
@@ -335,15 +338,18 @@ html[data-card-style="light-multicolor-glass"] #app-footer {
 }
 
 html[data-card-style="light-multicolor-glass"] .main-card,
-html[data-card-style="light-multicolor-glass"] [id$="-page-container"],
-html[data-card-style="light-multicolor-glass"] [id$="-page-root"] {
-  background: var(--surface-primary-bg) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
-  border: 1px solid var(--surface-primary-border) !important;
-  box-shadow: var(--surface-primary-shadow) !important;
-  padding: 25px !important;
-  border-radius: 14px !important;
+html[data-card-style="light-multicolor-glass"] [id$="-page-container"]:not(#letter-page-container):not(#horoscope-page-container),
+html[data-card-style="light-multicolor-glass"] [id$="-page-root"],
+html[data-card-style="light-multicolor-glass"] #letter-main-card,
+html[data-card-style="light-multicolor-glass"] #horoscope-main-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 10px solid var(--surface-primary-border) !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
   color: #000000 !important;
 }
 
@@ -770,7 +776,10 @@ html[data-card-style="light-multicolor-glass-dark"] {
 }
 
 html[data-card-style="light-multicolor-glass-dark"] #app-header,
-html[data-card-style="light-multicolor-glass-dark"] #app-footer {
+html[data-card-style="light-multicolor-glass-dark"] #app-footer,
+html[data-card-style="light-multicolor-glass-dark"] #el-p1-div-85,
+html[data-card-style="light-multicolor-glass-dark"] #about-intro-card-1,
+html[data-card-style="light-multicolor-glass-dark"] #about-intro-card-2 {
   background: var(--surface-primary-bg) !important;
   backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
@@ -780,15 +789,18 @@ html[data-card-style="light-multicolor-glass-dark"] #app-footer {
 }
 
 html[data-card-style="light-multicolor-glass-dark"] .main-card,
-html[data-card-style="light-multicolor-glass-dark"] [id$="-page-container"],
-html[data-card-style="light-multicolor-glass-dark"] [id$="-page-root"] {
-  background: var(--surface-primary-bg) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
-  border: 1px solid var(--surface-primary-border) !important;
-  box-shadow: var(--surface-primary-shadow) !important;
-  padding: 25px !important;
-  border-radius: 14px !important;
+html[data-card-style="light-multicolor-glass-dark"] [id$="-page-container"]:not(#letter-page-container):not(#horoscope-page-container),
+html[data-card-style="light-multicolor-glass-dark"] [id$="-page-root"],
+html[data-card-style="light-multicolor-glass-dark"] #letter-main-card,
+html[data-card-style="light-multicolor-glass-dark"] #horoscope-main-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 10px solid rgba(167, 139, 250, 0.34) !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
   color: #FFFFFF !important;
 }
 

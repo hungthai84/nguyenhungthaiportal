@@ -1130,7 +1130,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       data-element-type="container"
       data-element-page="systems"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full min-w-0 h-full max-h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
+      className="main-card relative w-full min-w-0 h-full max-h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
     >
       {/* 100% Matching Animation CSS Rules */}
       <style

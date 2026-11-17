@@ -1273,16 +1273,49 @@ export function AboutView({
       data-element-type="container"
       data-element-page="about"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full min-w-0 h-full mx-auto flex-1 flex flex-col justify-start p-[25px] gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-[14px] overflow-y-auto glass-scrollbar z-10 select-none box-border"
+      style={{
+        width: '100%',
+        maxWidth: '100%',
+        marginLeft: '0px',
+        marginRight: '0px',
+        paddingTop: '0px',
+        paddingLeft: '0px',
+        paddingRight: '0px',
+        paddingBottom: '0px',
+        gap: '15px',
+        rowGap: '15px',
+        columnGap: '15px',
+        borderRadius: '0px',
+        background: 'transparent',
+      }}
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar z-10 select-none box-border"
     >
-      <div className="w-full flex flex-col gap-[15px] h-auto min-h-full shrink-0">
-        {/* ========================================================================= */}
-        {/* TỔNG QUAN BENTO BOX GRID HỢP NHẤT TOÀN DIỆN                             */}
-        {/* ========================================================================= */}
-
+      {/* ========================================================================= */}
+      {/* CARD GIỚI THIỆU 1: CHỨA CARD VIDEO VÀ CARD THÔNG TIN CHI TIẾT             */}
+      {/* ========================================================================= */}
+      <div
+        id="about-intro-card-1"
+        data-element-name="Card giới thiệu 1"
+        data-element-type="card"
+        data-element-page="about"
+        data-element-parent="about-page-container"
+        style={{
+          width: '100%',
+          maxWidth: '1250px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          padding: '15px',
+          gap: '15px',
+          rowGap: '15px',
+          columnGap: '15px',
+          borderRadius: '14px',
+        }}
+        className="w-full max-w-[1250px] mx-auto min-w-0 min-h-full h-auto shrink-0 flex flex-col p-[15px] gap-[15px] rounded-[14px] box-border"
+      >
         <div
-          id="about-bento-grid"
-          className="w-full h-auto min-h-0 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-[15px] overflow-visible content-start"
+          id="about-intro-grid-1"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
+          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] overflow-visible items-stretch"
         >
             
             {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA */}
@@ -1291,7 +1324,7 @@ export function AboutView({
               data-element-name="Card video chân dung chuyên gia"
               data-element-type="card"
               data-element-page="about"
-              data-element-parent="about-page-container"
+              data-element-parent="about-intro-card-1"
               style={{
                 borderRadius: '14px',
                 padding: '15px',
@@ -1527,12 +1560,12 @@ export function AboutView({
               data-element-name="Card thông tin chi tiết"
               data-element-type="card"
               data-element-page="about"
-              data-element-parent="about-page-container"
+              data-element-parent="about-intro-card-1"
               style={{
                 borderRadius: '14px',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col gap-2 h-auto min-h-0 text-left rounded-[14px] p-[15px] overflow-hidden"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-start gap-2 h-auto lg:h-full min-h-0 text-left rounded-[14px] p-[15px] overflow-hidden"
             >
                   {/* Header Bento Box Bar */}
                   <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 shrink-0">
@@ -1757,18 +1790,48 @@ export function AboutView({
 
                 </div>
 
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* CARD GIỚI THIỆU 2: GIỚI THIỆU BẢN THÂN, 3 TRỤ CỘT, GIÁ TRỊ & TRIẾT LÝ     */}
+      {/* ========================================================================= */}
+      <div
+        id="about-intro-card-2"
+        data-element-name="Card giới thiệu 2"
+        data-element-type="card"
+        data-element-page="about"
+        data-element-parent="about-page-container"
+        style={{
+          width: '100%',
+          maxWidth: '1250px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          padding: '15px',
+          gap: '15px',
+          rowGap: '15px',
+          columnGap: '15px',
+          borderRadius: '14px',
+        }}
+        className="w-full max-w-[1250px] mx-auto min-w-0 min-h-full h-auto shrink-0 flex flex-col p-[15px] gap-[15px] rounded-[14px] box-border"
+      >
+        <div
+          id="about-intro-grid-2"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
+          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 lg:auto-rows-fr gap-[15px] overflow-visible items-stretch"
+        >
             {/* CARD 3: CARD GIỚI THIỆU BẢN THÂN (ABOUT ME) - ĐÃ XÓA HÌNH NỀN THẺ VIDEO */}
             <div
               id="about-career-goal-card"
               data-element-name="Card Giới Thiệu Bản Thân Chuyên Gia"
               data-element-type="card"
               data-element-page="about"
-              data-element-parent="about-bento-grid"
+              data-element-parent="about-intro-card-2"
               style={{
                 borderRadius: '14px',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-full flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               <div className="relative z-10 flex flex-col justify-between h-full gap-3">
                 {/* Header */}
@@ -1798,12 +1861,12 @@ export function AboutView({
               data-element-name="Card 3 Trụ Cột Vận Hành Chiến Lược"
               data-element-type="card"
               data-element-page="about"
-              data-element-parent="about-bento-grid"
+              data-element-parent="about-intro-card-2"
               style={{
                 borderRadius: '14px',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-full flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -1936,12 +1999,12 @@ export function AboutView({
               data-element-name="Card Giá Trị Cốt Lõi Vàng"
               data-element-type="card"
               data-element-page="about"
-              data-element-parent="about-bento-grid"
+              data-element-parent="about-intro-card-2"
               style={{
                 borderRadius: '14px',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-full flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2086,12 +2149,12 @@ export function AboutView({
               data-element-name="Card Triết Lý Tầm Nhìn CX 2026+"
               data-element-type="card"
               data-element-page="about"
-              data-element-parent="about-bento-grid"
+              data-element-parent="about-intro-card-2"
               style={{
                 borderRadius: '14px',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-full flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               <div className="relative z-10 flex flex-col justify-between h-full gap-3">
                 {/* Header */}

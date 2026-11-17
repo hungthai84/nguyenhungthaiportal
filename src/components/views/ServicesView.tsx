@@ -152,17 +152,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
         return {
           accentColor: '#8946EB',
           cardBg: isLight
-            ? 'linear-gradient(135deg, rgba(137, 70, 235, 0.12) 0%, rgba(137, 70, 235, 0.22) 100%)'
-            : 'linear-gradient(135deg, rgba(137, 70, 235, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
-          cardBorder: isLight
-            ? 'border-[#8946EB]/35 hover:border-[#8946EB]'
-            : 'border-[#8946EB]/55 hover:border-[#8946EB]',
-          titleColor: isLight ? 'text-[#8946EB]' : 'text-purple-300',
-          pillBg: isLight
-            ? 'bg-[#8946EB]/10 border-[#8946EB]/25 text-[#8946EB]'
-            : 'bg-purple-950/80 border-[#8946EB]/40 text-purple-200',
+            ? 'linear-gradient(135deg, rgba(137, 70, 235, 0.86) 0%, rgba(137, 70, 235, 0.76) 100%)'
+            : 'linear-gradient(135deg, rgba(137, 70, 235, 0.82) 0%, rgba(48, 16, 96, 0.88) 100%)',
+          cardBorder: 'border-[#8946EB]/80 hover:border-[#8946EB]',
+          titleColor: 'text-white',
+          pillBg: 'bg-white/20 border-white/40 text-white',
           arrowBg: 'linear-gradient(135deg, #c084fc 0%, #8946EB 100%)',
-          arrowShadow: '0 4px 12px rgba(137, 70, 235, 0.4)',
+          arrowShadow: '0 4px 12px rgba(137, 70, 235, 0.5)',
           illustrationSrc:
             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542366/Game_eSports-removebg-preview.png',
           fallbackIllustration:
@@ -223,7 +219,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
       data-element-page="services"
       data-element-parent="global-content-viewport"
       style={{ padding: '25px' }}
-      className="main-card w-full min-w-0 h-full mx-auto block p-[25px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] text-[var(--text-primary)] box-border"
+      className="main-card w-full min-w-0 h-full mx-auto block p-[25px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-none text-[var(--text-primary)] box-border"
     >
       <div
         id="services-main-content"

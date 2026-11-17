@@ -630,15 +630,12 @@ export const Footer: React.FC<FooterProps> = ({
                               }}
                               className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer bg-transparent border-0 p-0"
                             >
-                              <div
-                                className="w-7 h-7 rounded-[14px] flex items-center justify-center shrink-0 border"
-                                style={{
-                                  backgroundColor: activeGroupPreset.color,
-                                  borderColor: 'rgba(255,255,255,0.45)',
-                                  color: '#FFFFFF',
-                                }}
-                              >
-                                <WebIcon name={group.icon} className="w-3.5 h-3.5 text-white" />
+                              <div className="flex items-center justify-center shrink-0">
+                                <WebIcon
+                                  name={group.icon}
+                                  className="w-4 h-4 shrink-0"
+                                  style={{ color: activeGroupPreset.color || 'var(--color-primary)' }}
+                                />
                               </div>
                               <div className="min-w-0 flex-1 flex items-center gap-1.5">
                                 <span

@@ -18,7 +18,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
       data-element-type="container"
       data-element-page="contact"
       data-element-parent="global-content-viewport"
-      className="main-card w-full min-w-0 h-full max-h-full mx-auto flex flex-col lg:flex-row items-stretch p-[25px] rounded-[14px] gap-[15px] overflow-y-auto lg:overflow-hidden font-play text-left animate-fadeIn flex-1 min-h-0 box-border"
+      className="main-card w-full min-w-0 h-full max-h-full mx-auto flex flex-col lg:flex-row items-stretch p-[25px] rounded-none gap-[15px] overflow-y-auto lg:overflow-hidden font-play text-left animate-fadeIn flex-1 min-h-0 box-border"
       style={{
         boxSizing: 'border-box',
       }}

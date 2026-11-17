@@ -352,7 +352,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
       data-element-type="container"
       data-element-page="ai-assistant"
       data-element-parent="global-content-viewport"
-      className="main-card w-full min-w-0 h-full max-h-full mx-auto flex flex-col lg:flex-row p-[25px] rounded-[14px] gap-[15px] overflow-y-auto lg:overflow-hidden font-play text-left animate-fadeIn flex-1 min-h-0 box-border justify-start"
+      className="main-card w-full min-w-0 h-full max-h-full mx-auto flex flex-col lg:flex-row p-[25px] rounded-none gap-[15px] overflow-y-auto lg:overflow-hidden font-play text-left animate-fadeIn flex-1 min-h-0 box-border justify-start"
     >
       {/* 1. HERO BANNER TRỢ LÝ AI TRÍ NHÂN */}
       <section

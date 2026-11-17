@@ -19,6 +19,10 @@ export const CENTRAL_ELEMENT_REGISTRY: ElementRegistryItem[] = [
   { id: 'home-stats-headcount', name: 'Số liệu 130+ nhân sự điều hành', type: 'widget', page: 'home', parentId: 'home-hero-card', description: 'Thống kê quy mô đội ngũ lớn nhất' },
   { id: 'home-stats-csat', name: 'Chỉ số CSAT 98.2%', type: 'widget', page: 'home', parentId: 'home-hero-card', description: 'Chỉ số hài lòng khách hàng kỷ lục' },
 
+  // Letter Page
+  { id: 'letter-page-container', name: 'Trang Thư Ngỏ', type: 'container', page: 'letter', parentId: 'global-content-viewport', description: 'Container trang Thư Ngỏ' },
+  { id: 'letter-main-card', name: 'Thẻ chính Trang Thư Ngỏ', type: 'card', page: 'letter', parentId: 'letter-page-container', description: 'Main card chứa toàn bộ nội dung trang Thư Ngỏ' },
+
   // Education Page
   { id: 'education-page-container', name: 'Trang Học vấn & Bằng cấp', type: 'container', page: 'education', parentId: 'global-content-viewport', description: 'Danh mục trình độ học vấn và chứng chỉ' },
   { id: 'education-hero-banner', name: 'Banner Học vấn & Bằng cấp', type: 'section', page: 'education', parentId: 'education-page-container', description: 'Banner tiêu đề trang học vấn' },
@@ -49,7 +53,8 @@ export const CENTRAL_ELEMENT_REGISTRY: ElementRegistryItem[] = [
 
   // Horoscope Page
   { id: 'horoscope-page-container', name: 'Trang Bản đồ tử vi', type: 'container', page: 'horoscope', parentId: 'global-content-viewport', description: 'Phân tích phong thủy tử vi quản trị' },
-  { id: 'horoscope-hero-banner', name: 'Banner Bản đồ tử vi', type: 'section', page: 'horoscope', parentId: 'horoscope-page-container', description: 'Banner tiêu đề trang tử vi' },
+  { id: 'horoscope-main-card', name: 'Thẻ chính Trang Tử Vi & Phong Thủy', type: 'card', page: 'horoscope', parentId: 'horoscope-page-container', description: 'Main card chứa toàn bộ nội dung trang Tử Vi' },
+  { id: 'horoscope-hero-banner', name: 'Banner Bản đồ tử vi', type: 'section', page: 'horoscope', parentId: 'horoscope-main-card', description: 'Banner tiêu đề trang tử vi' },
 
   // Memories Page
   { id: 'memories-page-container', name: 'Trang Khoảnh khắc kỷ niệm', type: 'container', page: 'memories', parentId: 'global-content-viewport', description: 'Bộ sưu tập hình ảnh kỷ niệm công tác' },

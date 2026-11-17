@@ -127,7 +127,12 @@ body,
   fill: none !important;
 }
 
-/* Focus Mode Style Rules (Footer Utility Area) */
+/* Focus Mode Style Rules (#website-root padding 0px & Footer Utility Area) */
+#website-root,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) {
+  padding: 0px !important;
+}
+
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-97:nth-of-type(3) > footer#app-footer:nth-of-type(1) > div#el-p0-div-112:nth-of-type(4) {
   padding-left: 15px !important;
   padding-right: 15px !important;
@@ -138,19 +143,218 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-97:nth
   height: auto !important;
 }
 
-/* Focus Mode Style Rules */
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) > div#el-p1-div-77:nth-of-type(1) > div#letter-sections-list:nth-of-type(1) > div#el-p1-div-85:nth-of-type(1) {
-  padding-left: 25px;
-  padding-top: 25px;
-  padding-bottom: 25px;
-  padding-right: 25px;
+/* Main Card wrappers for Trang Thư Ngỏ (#letter-main-card) & Trang Tử Vi (#horoscope-main-card) */
+html #letter-page-container,
+html[data-card-style] #letter-page-container,
+html.dark[data-card-style] #letter-page-container,
+html #horoscope-page-container,
+html[data-card-style] #horoscope-page-container,
+html.dark[data-card-style] #horoscope-page-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
 }
 
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) {
-  padding-top: 0px;
-  padding-left: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
+html #global-content-viewport:has(#letter-main-card),
+html #global-content-viewport:has(#about-page-container) {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) > div#letter-main-card:nth-of-type(1),
+html #letter-main-card,
+html #letter-main-card:hover,
+html[data-card-style] #letter-main-card,
+html[data-card-style] #letter-main-card:hover,
+html.dark[data-card-style] #letter-main-card,
+html.dark[data-card-style] #letter-main-card:hover {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  margin: 0 !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0px !important;
+  border: 10px solid var(--surface-primary-border, var(--glass-main-border, rgba(255, 255, 255, 0.8))) !important;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html #letter-main-card > #el-p1-div-77,
+html #letter-main-card #letter-slide-2-grid,
+html #letter-main-card #letter-slide-3-grid,
+html #letter-main-card #letter-slide-4-bento-grid {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) > div#letter-main-card:nth-of-type(1) > div#el-p1-div-77:nth-of-type(1) > div#el-p1-div-85:nth-of-type(1),
+html #letter-main-card #el-p1-div-85,
+html #el-p1-div-85,
+html #letter-main-card #letter-slide-2-card,
+html #letter-main-card #letter-slide-3-card,
+html #letter-main-card #letter-slide-4-card,
+html #letter-slide-2-card,
+html #letter-slide-3-card,
+html #letter-slide-4-card {
+  width: 100% !important;
+  max-width: var(--container-max-w, 1250px) !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: var(--radius-main, 14px) !important;
+  box-sizing: border-box !important;
+}
+
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) > div#letter-main-card:nth-of-type(1) > div#el-p1-div-77:nth-of-type(1) > div#el-p1-div-85:nth-of-type(1) > :is(article, div),
+html #el-p1-div-85 > :is(article, div),
+html #el-p1-div-85 #card-core-values-pursued [data-subcard="true"] {
+  padding: 15px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+html #el-p1-div-85 #card-core-values-pursued,
+html #el-p1-div-85 #card-core-values-pursued > div.grid {
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+}
+
+html #horoscope-main-card,
+html[data-card-style] #horoscope-main-card,
+html.dark[data-card-style] #horoscope-main-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  padding: var(--main-card-padding, 25px) !important;
+  gap: 15px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+  border: 10px solid var(--surface-primary-border, var(--glass-main-border, rgba(255, 255, 255, 0.8))) !important;
+  box-sizing: border-box !important;
+}
+
+/* Trang Giới thiệu (#about-page-container) Max Full Width, Transparent, 0px Radius, 10px Line Border & Padding 0px */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p2-div-81:nth-of-type(1) > div#about-page-container:nth-of-type(1),
+html #about-page-container,
+html[data-card-style] #about-page-container,
+html.dark[data-card-style] #about-page-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  margin: 0 !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  padding-top: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+  border: 10px solid var(--surface-primary-border, var(--glass-main-border, rgba(255, 255, 255, 0.8))) !important;
+  box-sizing: border-box !important;
+}
+
+html #about-page-container::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0px;
+  flex-shrink: 0;
+}
+
+html #about-intro-card-1,
+html #about-intro-card-1:hover,
+html #about-intro-card-2,
+html #about-intro-card-2:hover,
+html[data-card-style] #about-intro-card-1,
+html[data-card-style] #about-intro-card-1:hover,
+html[data-card-style] #about-intro-card-2,
+html[data-card-style] #about-intro-card-2:hover,
+html.dark[data-card-style] #about-intro-card-1,
+html.dark[data-card-style] #about-intro-card-1:hover,
+html.dark[data-card-style] #about-intro-card-2,
+html.dark[data-card-style] #about-intro-card-2:hover {
+  width: 100% !important;
+  max-width: var(--container-max-w, 1250px) !important;
+  min-width: 0 !important;
+  min-height: 100% !important;
+  height: auto !important;
+  flex: 0 0 auto !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: var(--radius-main, 14px) !important;
+  box-sizing: border-box !important;
+  transform: none !important;
+}
+
+html #about-intro-grid-1,
+html #about-intro-grid-2 {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
 }
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p7-div-81:nth-of-type(1) > div#projects-page-container:nth-of-type(1) > div#el-p7-div-83:nth-of-type(1) > div#el-p7-div-84:nth-of-type(1) > div#el-p7-div-85:nth-of-type(1) {
@@ -177,16 +381,13 @@ html[data-card-style] {
 }
 
 html :is(
-  .main-card,
-  [id$="-page-container"],
-  [id$="-page-root"],
   .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule),
   .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule),
   .bento-view-card,
   .sub-card,
   [data-subcard="true"],
   [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#app-header):not(#app-footer),
-  [data-element-type="card"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#app-header):not(#app-footer):not([data-element-type="button"]),
+  [data-element-type="card"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#app-header):not(#app-footer):not([data-element-type="button"]):not(#letter-main-card):not(#horoscope-main-card):not(.main-card),
   [data-multicolor-bento="true"],
   .hero-banner,
   .banner-card,
@@ -226,6 +427,25 @@ html :is(
 .card-light-cowhide-leather,
 .card-cowhide-leather {
   border-radius: 14px !important;
+}
+
+/* Enforce 0px border-radius, 100% transparent background & 10px line border on all main page containers */
+html :is(
+  .main-card,
+  [id$="-page-container"]:not(#letter-page-container):not(#horoscope-page-container),
+  [id$="-page-root"],
+  #letter-main-card,
+  #horoscope-main-card
+) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+  border-width: 10px !important;
+  border-style: solid !important;
 }
 
 /* Preserve Pill Nav/Switch Controls & Enforce 14px Rectangular Action Buttons in Multicolor Glass Themes */

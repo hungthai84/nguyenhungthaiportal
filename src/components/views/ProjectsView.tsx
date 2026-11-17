@@ -441,7 +441,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
       data-element-type="container"
       data-element-page="projects"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-text text-left animate-fadeIn rounded-[14px] text-[var(--text-primary)] box-border"
+      className="main-card relative w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-text text-left animate-fadeIn rounded-none text-[var(--text-primary)] box-border"
     >
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
       {!selectedGroup && !selectedArticle ? (

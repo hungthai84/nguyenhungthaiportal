@@ -1807,88 +1807,98 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="container"
       data-element-page="horoscope"
       data-element-parent="global-content-viewport"
-      onWheel={(e) => {
-        const target = e.target as HTMLElement | null;
-        if (target?.closest('.overflow-x-auto')) return;
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 18) {
-          const now = Date.now();
-          if (now - lastWheelTimeRef.current < 320) return;
-          lastWheelTimeRef.current = now;
-          if (e.deltaX > 0) {
-            handleNextHoroscopeCard();
-          } else {
-            handlePrevHoroscopeCard();
-          }
-        }
-      }}
-      onTouchStart={(e) => {
-        const target = e.target as HTMLElement | null;
-        if (target?.closest('.overflow-x-auto, button, input, select, textarea')) return;
-        touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      }}
-      onTouchEnd={(e) => {
-        if (!touchStartRef.current) return;
-        const diffX = touchStartRef.current.x - e.changedTouches[0].clientX;
-        const diffY = touchStartRef.current.y - e.changedTouches[0].clientY;
-        touchStartRef.current = null;
-        if (Math.abs(diffX) > 55 && Math.abs(diffX) > Math.abs(diffY) * 1.4) {
-          if (diffX > 0) {
-            handleNextHoroscopeCard();
-          } else {
-            handlePrevHoroscopeCard();
-          }
-        }
-      }}
-      className="group/horoscope main-card relative w-full min-w-0 h-full min-h-0 mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
+      className="w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col justify-start p-0 m-0 relative z-10 select-none overflow-hidden font-play text-left bg-transparent border-0 shadow-none box-border"
     >
-      {/* Render thẻ được chọn trong 6 thẻ kèm hiệu ứng trượt ngang mượt mà */}
-      <div className="w-full flex-1 min-h-0 flex flex-col overflow-x-clip">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={activeCardIndex}
-            initial={{ opacity: 0, x: slideDirection === 'next' ? 56 : -56 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: slideDirection === 'next' ? -56 : 56 }}
-            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full flex-1 min-h-0 flex flex-col"
-          >
-            {HOROSCOPE_CARDS[activeCardIndex].render()}
-          </motion.div>
-        </AnimatePresence>
+      <div
+        id="horoscope-main-card"
+        data-element-name="Thẻ chính Trang Tử Vi & Phong Thủy"
+        data-element-type="card"
+        data-main-card="true"
+        data-element-page="horoscope"
+        data-element-parent="horoscope-page-container"
+        onWheel={(e) => {
+          const target = e.target as HTMLElement | null;
+          if (target?.closest('.overflow-x-auto')) return;
+          if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 18) {
+            const now = Date.now();
+            if (now - lastWheelTimeRef.current < 320) return;
+            lastWheelTimeRef.current = now;
+            if (e.deltaX > 0) {
+              handleNextHoroscopeCard();
+            } else {
+              handlePrevHoroscopeCard();
+            }
+          }
+        }}
+        onTouchStart={(e) => {
+          const target = e.target as HTMLElement | null;
+          if (target?.closest('.overflow-x-auto, button, input, select, textarea')) return;
+          touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }}
+        onTouchEnd={(e) => {
+          if (!touchStartRef.current) return;
+          const diffX = touchStartRef.current.x - e.changedTouches[0].clientX;
+          const diffY = touchStartRef.current.y - e.changedTouches[0].clientY;
+          touchStartRef.current = null;
+          if (Math.abs(diffX) > 55 && Math.abs(diffX) > Math.abs(diffY) * 1.4) {
+            if (diffX > 0) {
+              handleNextHoroscopeCard();
+            } else {
+              handlePrevHoroscopeCard();
+            }
+          }
+        }}
+        style={{ width: '100%', maxWidth: '100%', borderRadius: '0px' }}
+        className="group/horoscope main-card relative w-full max-w-full min-w-0 h-full min-h-0 mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-hidden font-play select-none text-left animate-fadeIn rounded-none box-border"
+      >
+        {/* Render thẻ được chọn trong 6 thẻ kèm hiệu ứng trượt ngang mượt mà */}
+        <div className="w-full flex-1 min-h-0 flex flex-col overflow-y-auto overflow-x-clip no-scrollbar">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={activeCardIndex}
+              initial={{ opacity: 0, x: slideDirection === 'next' ? 56 : -56 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: slideDirection === 'next' ? -56 : 56 }}
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full flex-1 min-h-0 flex flex-col"
+            >
+              {HOROSCOPE_CARDS[activeCardIndex].render()}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Nút LÙI TRANG (Chevron Left) hình tròn nổi ở cạnh trái kèm hiệu ứng cuộn ngang */}
+        <button
+          id="el-horoscope-button-prev"
+          data-element-id="el-horoscope-button-prev"
+          type="button"
+          onClick={handlePrevHoroscopeCard}
+          title={`Lùi thẻ (${((activeCardIndex - 1 + HOROSCOPE_CARDS.length) % HOROSCOPE_CARDS.length) + 1}/${HOROSCOPE_CARDS.length}: ${HOROSCOPE_SLIDES[(activeCardIndex - 1 + HOROSCOPE_CARDS.length) % HOROSCOPE_CARDS.length].label})`}
+          aria-label="Lùi thẻ"
+          className="nav-arrow-btn theme-prev-next-btn absolute left-1.5 sm:left-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/horoscope:opacity-100 hover:!opacity-100 sm:-translate-x-1 sm:group-hover/horoscope:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
+        >
+          <WebIcon
+            name="chevron-left"
+            className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
+          />
+        </button>
+
+        {/* Nút TỚI TRANG (Chevron Right) hình tròn nổi ở cạnh phải kèm hiệu ứng cuộn ngang */}
+        <button
+          id="el-horoscope-button-next"
+          data-element-id="el-horoscope-button-next"
+          type="button"
+          onClick={handleNextHoroscopeCard}
+          title={`Tới thẻ (${((activeCardIndex + 1) % HOROSCOPE_CARDS.length) + 1}/${HOROSCOPE_CARDS.length}: ${HOROSCOPE_SLIDES[(activeCardIndex + 1) % HOROSCOPE_CARDS.length].label})`}
+          aria-label="Tới thẻ"
+          className="nav-arrow-btn theme-prev-next-btn absolute right-1.5 sm:right-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/horoscope:opacity-100 hover:!opacity-100 sm:translate-x-1 sm:group-hover/horoscope:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
+        >
+          <WebIcon
+            name="chevron-right"
+            className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110"
+          />
+        </button>
       </div>
-
-      {/* Nút LÙI TRANG (Chevron Left) hình tròn nổi ở cạnh trái kèm hiệu ứng cuộn ngang */}
-      <button
-        id="el-horoscope-button-prev"
-        data-element-id="el-horoscope-button-prev"
-        type="button"
-        onClick={handlePrevHoroscopeCard}
-        title={`Lùi thẻ (${((activeCardIndex - 1 + HOROSCOPE_CARDS.length) % HOROSCOPE_CARDS.length) + 1}/${HOROSCOPE_CARDS.length}: ${HOROSCOPE_SLIDES[(activeCardIndex - 1 + HOROSCOPE_CARDS.length) % HOROSCOPE_CARDS.length].label})`}
-        aria-label="Lùi thẻ"
-        className="nav-arrow-btn theme-prev-next-btn absolute left-1.5 sm:left-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/horoscope:opacity-100 hover:!opacity-100 sm:-translate-x-1 sm:group-hover/horoscope:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
-      >
-        <WebIcon
-          name="chevron-left"
-          className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
-        />
-      </button>
-
-      {/* Nút TỚI TRANG (Chevron Right) hình tròn nổi ở cạnh phải kèm hiệu ứng cuộn ngang */}
-      <button
-        id="el-horoscope-button-next"
-        data-element-id="el-horoscope-button-next"
-        type="button"
-        onClick={handleNextHoroscopeCard}
-        title={`Tới thẻ (${((activeCardIndex + 1) % HOROSCOPE_CARDS.length) + 1}/${HOROSCOPE_CARDS.length}: ${HOROSCOPE_SLIDES[(activeCardIndex + 1) % HOROSCOPE_CARDS.length].label})`}
-        aria-label="Tới thẻ"
-        className="nav-arrow-btn theme-prev-next-btn absolute right-1.5 sm:right-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/horoscope:opacity-100 hover:!opacity-100 sm:translate-x-1 sm:group-hover/horoscope:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
-      >
-        <WebIcon
-          name="chevron-right"
-          className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110"
-        />
-      </button>
-
     </div>
   );
 };

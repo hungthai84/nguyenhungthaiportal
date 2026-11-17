@@ -216,7 +216,10 @@ html.dark[data-card-style="dark-glassmorphism"] {
 
 /* Level 01: Header, Footer, Main Card — Smoked Crystal Mirror (Alpha ~0.76 | Blur 24px | Sat 145%) */
 html[data-card-style="dark-glassmorphism"] #app-header,
-html[data-card-style="dark-glassmorphism"] #app-footer {
+html[data-card-style="dark-glassmorphism"] #app-footer,
+html[data-card-style="dark-glassmorphism"] #el-p1-div-85,
+html[data-card-style="dark-glassmorphism"] #about-intro-card-1,
+html[data-card-style="dark-glassmorphism"] #about-intro-card-2 {
   background: var(--surface-primary-bg) !important;
   backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 145%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 145%)) !important;
@@ -226,13 +229,18 @@ html[data-card-style="dark-glassmorphism"] #app-footer {
 }
 
 html[data-card-style="dark-glassmorphism"] .main-card,
-html[data-card-style="dark-glassmorphism"] [id$="-page-container"],
-html[data-card-style="dark-glassmorphism"] [id$="-page-root"] {
-  background: var(--surface-primary-bg) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 145%)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 145%)) !important;
-  border: 1px solid var(--surface-primary-border) !important;
-  box-shadow: var(--surface-primary-shadow) !important;
+html[data-card-style="dark-glassmorphism"] [id$="-page-container"]:not(#letter-page-container):not(#horoscope-page-container),
+html[data-card-style="dark-glassmorphism"] [id$="-page-root"],
+html[data-card-style="dark-glassmorphism"] #letter-main-card,
+html[data-card-style="dark-glassmorphism"] #horoscope-main-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 10px solid rgba(255, 255, 255, 0.24) !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
   color: #FFFFFF !important;
 }
 

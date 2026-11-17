@@ -775,7 +775,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       data-element-page="experience"
       data-element-parent="global-content-viewport"
       className={cn(
-        'main-card w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start p-[25px] gap-[15px] max-w-full mx-auto select-none relative text-[var(--text-primary)] glass-scrollbar font-play text-left animate-fadeIn rounded-[14px] box-border',
+        'main-card w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start p-[25px] gap-[15px] max-w-full mx-auto select-none relative text-[var(--text-primary)] glass-scrollbar font-play text-left animate-fadeIn rounded-none box-border',
         showJobCard ? 'overflow-y-auto' : 'overflow-hidden'
       )}
     >
@@ -817,7 +817,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   : undefined
           }
           className={cn(
-            'group/board absolute inset-0 w-full h-full min-w-full min-h-full rounded-[14px] overflow-hidden select-none flex flex-col box-border z-[1]',
+            'group/board absolute inset-0 w-full h-full min-w-full min-h-full rounded-none overflow-hidden select-none flex flex-col box-border z-[1]',
             !isLeather && !isLightLeather && !isDarkSurface && 'bg-[#E2E8F0]',
             isDragging ? 'cursor-grabbing' : 'cursor-grab'
           )}

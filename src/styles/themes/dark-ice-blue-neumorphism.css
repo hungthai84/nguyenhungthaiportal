@@ -210,7 +210,10 @@ html.dark[data-card-style="dark-ice-blue-neumorphism"] {
 /* LEVEL 01: HEADER, FOOTER, MAIN VIEWPORT & NAV CAPSULE                     */
 /* ========================================================================= */
 html[data-card-style="dark-ice-blue-neumorphism"] #app-header,
-html[data-card-style="dark-ice-blue-neumorphism"] #app-footer {
+html[data-card-style="dark-ice-blue-neumorphism"] #app-footer,
+html[data-card-style="dark-ice-blue-neumorphism"] #el-p1-div-85,
+html[data-card-style="dark-ice-blue-neumorphism"] #about-intro-card-1,
+html[data-card-style="dark-ice-blue-neumorphism"] #about-intro-card-2 {
   background: linear-gradient(145deg, rgba(24, 37, 54, 0.94) 0%, rgba(18, 28, 41, 0.92) 100%) !important;
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
@@ -220,13 +223,18 @@ html[data-card-style="dark-ice-blue-neumorphism"] #app-footer {
 }
 
 html[data-card-style="dark-ice-blue-neumorphism"] .main-card,
-html[data-card-style="dark-ice-blue-neumorphism"] [id$="-page-container"],
-html[data-card-style="dark-ice-blue-neumorphism"] [id$="-page-root"] {
-  background: linear-gradient(145deg, rgba(24, 37, 54, 0.90) 0%, rgba(18, 28, 41, 0.88) 100%) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(148, 197, 248, 0.12) !important;
-  box-shadow: var(--shadow-main-card) !important;
+html[data-card-style="dark-ice-blue-neumorphism"] [id$="-page-container"]:not(#letter-page-container):not(#horoscope-page-container),
+html[data-card-style="dark-ice-blue-neumorphism"] [id$="-page-root"],
+html[data-card-style="dark-ice-blue-neumorphism"] #letter-main-card,
+html[data-card-style="dark-ice-blue-neumorphism"] #horoscope-main-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 10px solid rgba(148, 197, 248, 0.24) !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
   color: #FFFFFF !important;
 }
 

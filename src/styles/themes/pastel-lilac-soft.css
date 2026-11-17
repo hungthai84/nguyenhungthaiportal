@@ -207,7 +207,10 @@ html[data-card-style="pastel-lilac-soft"] {
 /* LEVEL 01: HEADER, FOOTER, MAIN VIEWPORT & NAV CAPSULE                     */
 /* ========================================================================= */
 html[data-card-style="pastel-lilac-soft"] #app-header,
-html[data-card-style="pastel-lilac-soft"] #app-footer {
+html[data-card-style="pastel-lilac-soft"] #app-footer,
+html[data-card-style="pastel-lilac-soft"] #el-p1-div-85,
+html[data-card-style="pastel-lilac-soft"] #about-intro-card-1,
+html[data-card-style="pastel-lilac-soft"] #about-intro-card-2 {
   background: linear-gradient(165deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 247, 252, 0.90) 65%, rgba(241, 239, 250, 0.88) 100%) !important;
   backdrop-filter: blur(14px) !important;
   -webkit-backdrop-filter: blur(14px) !important;
@@ -217,13 +220,18 @@ html[data-card-style="pastel-lilac-soft"] #app-footer {
 }
 
 html[data-card-style="pastel-lilac-soft"] .main-card,
-html[data-card-style="pastel-lilac-soft"] [id$="-page-container"],
-html[data-card-style="pastel-lilac-soft"] [id$="-page-root"] {
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 247, 252, 0.88) 60%, rgba(241, 239, 250, 0.86) 100%) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
-  box-shadow: var(--shadow-main-card) !important;
+html[data-card-style="pastel-lilac-soft"] [id$="-page-container"]:not(#letter-page-container):not(#horoscope-page-container),
+html[data-card-style="pastel-lilac-soft"] [id$="-page-root"],
+html[data-card-style="pastel-lilac-soft"] #letter-main-card,
+html[data-card-style="pastel-lilac-soft"] #horoscope-main-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 10px solid rgba(255, 255, 255, 0.95) !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
   color: #000000 !important;
 }
 

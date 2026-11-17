@@ -149,7 +149,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
       data-element-type="container"
       data-element-page="interview"
       data-element-parent="global-content-viewport"
-      className="main-card w-full min-w-0 h-full flex-1 flex flex-col p-[25px] rounded-[14px] gap-[15px] max-w-full mx-auto justify-start select-none relative text-[var(--text-primary)] overflow-y-auto no-scrollbar font-play text-left animate-fadeIn box-border"
+      className="main-card w-full min-w-0 h-full flex-1 flex flex-col p-[25px] rounded-none gap-[15px] max-w-full mx-auto justify-start select-none relative text-[var(--text-primary)] overflow-y-auto no-scrollbar font-play text-left animate-fadeIn box-border"
     >
       {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
       <div id="interview-main-content" className="w-full flex-1 flex flex-col lg:flex-row gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar">

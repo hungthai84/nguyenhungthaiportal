@@ -133,11 +133,11 @@ html[data-card-style="light-cowhide-leather"] {
   /* 5-Level Elevation Shadows matching .card-white-pebbled-leather */
   --shadow-none: none;
   --shadow-nested: 0 2px 6px rgba(15, 23, 42, 0.06), inset 0 1px 2px #ffffff;
-  --shadow-subcard: 0 10px 24px rgba(15, 23, 42, 0.08), inset 0 2px 4px #ffffff, inset 0 -2px 4px rgba(0, 0, 0, 0.06);
-  --shadow-subcard-hover: 0 14px 30px rgba(15, 23, 42, 0.13), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
-  --shadow-card: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
-  --shadow-card-hover: 0 22px 44px rgba(15, 23, 42, 0.17), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.10);
-  --shadow-header: 0 14px 32px rgba(15, 23, 42, 0.11), inset 0 2px 4px #ffffff, inset 0 -2px 5px rgba(0, 0, 0, 0.06);
+  --shadow-subcard: 0 8px 20px rgba(15, 23, 42, 0.07), inset 0 1.5px 3px #ffffff, inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-subcard-hover: 0 12px 26px rgba(15, 23, 42, 0.11), inset 0 2px 4px #ffffff, inset 0 -2px 5px rgba(0, 0, 0, 0.07);
+  --shadow-card: 0 14px 32px rgba(15, 23, 42, 0.11), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.07);
+  --shadow-card-hover: 0 18px 38px rgba(15, 23, 42, 0.15), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.09);
+  --shadow-header: 0 22px 46px rgba(15, 23, 42, 0.15), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
   --shadow-main-card: var(--shadow-header);
   --shadow-footer: var(--shadow-header);
   --shadow-popup: 0 20px 44px rgba(15, 23, 42, 0.16), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
@@ -277,7 +277,7 @@ html[data-card-style="light-cowhide-leather"] [id$="-page-container"],
 html[data-card-style="light-cowhide-leather"] [id$="-page-root"] {
   background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
   border: 2px solid #d1d5db !important;
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: var(--shadow-main-card) !important;
   color: #111827 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -300,7 +300,7 @@ html[data-card-style="light-cowhide-leather"] #contact-info-container,
 html[data-card-style="light-cowhide-leather"] #horoscope-lookup-card {
   background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
   border: 2px solid #d1d5db !important;
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: var(--shadow-card) !important;
   color: #111827 !important;
   position: relative;
   backdrop-filter: none !important;
@@ -341,7 +341,7 @@ html[data-card-style="light-cowhide-leather"] .bento-tone-pink,
 html[data-card-style="light-cowhide-leather"] .bento-tone-amber {
   background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
   border: 2px solid #d1d5db !important;
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: var(--shadow-card) !important;
   outline: 1.5px dashed rgba(17, 24, 39, 0.65);
   outline-offset: -6px;
   color: #111827 !important;
@@ -406,7 +406,7 @@ html[data-card-style="light-cowhide-leather"] #experience-memories-card {
   border: 2px solid #d1d5db !important;
   outline: 1.5px dashed rgba(17, 24, 39, 0.7);
   outline-offset: -6px;
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: var(--shadow-subcard) !important;
   color: #111827 !important;
   position: relative;
   backdrop-filter: none !important;
@@ -586,7 +586,7 @@ html[data-card-style="light-cowhide-leather"] .theme-pip-player {
   outline: 1.5px dashed rgba(17, 24, 39, 0.65);
   outline-offset: -6px;
   color: #111827 !important;
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: var(--shadow-popup) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -624,7 +624,7 @@ html[data-card-style="light-cowhide-leather"] textarea::placeholder {
 
 html[data-card-style="light-cowhide-leather"] .themed-image-card {
   border: 2px solid #d1d5db !important;
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: var(--shadow-image-card) !important;
   outline: 1.5px dashed rgba(17, 24, 39, 0.65);
   outline-offset: -6px;
 }

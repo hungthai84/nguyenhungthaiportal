@@ -596,7 +596,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
 
       {mainSection === 'skills' ? (
         <div className="w-full flex-1 min-h-0">
-          <SkillsView currentTheme={currentTheme} />
+          <SkillsView currentTheme={currentTheme} embedded />
         </div>
       ) : (
         <>

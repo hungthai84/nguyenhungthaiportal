@@ -45,12 +45,61 @@
 /* 1. DESIGN TOKENS: LIGHT MODE (DEFAULT FOR GLASSMORPHISM LIGHT MULTICOLOR) */
 /* ========================================================================= */
 html[data-card-style="light-multicolor-glass"] {
-  --bg-blur: 28px;
-  --glass-blur: 28px;
-  --glass-opacity: 0.78;
-  --blur-subcard: 20px;
-  --blur-nav-pill: 24px;
-  --blur-modal: 28px;
+  --glass-main-alpha: 0.68;
+  --glass-card-alpha: 0.56;
+  --glass-subcard-alpha: 0.44;
+  --glass-nested-alpha: 0.34;
+
+  --glass-main-blur: 24px;
+  --glass-card-blur: 19px;
+  --glass-subcard-blur: 14px;
+  --glass-nested-blur: 10px;
+
+  --glass-main-saturate: 148%;
+  --glass-card-saturate: 136%;
+  --glass-subcard-saturate: 122%;
+  --glass-nested-saturate: 112%;
+
+  --bg-blur: var(--glass-card-blur);
+  --glass-blur: var(--glass-card-blur);
+  --glass-opacity: 0.72;
+  --blur-subcard: var(--glass-subcard-blur);
+  --blur-nav-pill: 18px;
+  --blur-modal: 24px;
+
+  --glass-reflection-primary:
+    linear-gradient(125deg, rgba(255, 255, 255, 0.50) 0%, rgba(224, 242, 254, 0.24) 32%, rgba(245, 243, 255, 0.18) 66%, rgba(253, 242, 248, 0.22) 100%);
+  --glass-reflection-secondary:
+    linear-gradient(155deg, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0.06) 54%, rgba(219, 234, 254, 0.14) 100%);
+  --glass-prism-highlight:
+    linear-gradient(110deg, rgba(56, 189, 248, 0.16) 0%, rgba(167, 139, 250, 0.14) 50%, rgba(244, 114, 182, 0.16) 100%);
+  --glass-inner-highlight:
+    inset 0 1px 0 rgba(255, 255, 255, 0.94), inset 1px 0 0 rgba(255, 255, 255, 0.54);
+
+  --surface-main-glass:
+    var(--glass-reflection-primary),
+    linear-gradient(145deg, rgba(255, 255, 255, calc(var(--glass-main-alpha, 0.68) + 0.03)) 0%, rgba(245, 247, 255, calc(var(--glass-main-alpha, 0.68) - 0.04)) 100%);
+  --surface-card-glass:
+    var(--glass-reflection-secondary),
+    linear-gradient(145deg, rgba(255, 255, 255, calc(var(--glass-card-alpha, 0.56) + 0.04)) 0%, rgba(246, 248, 255, calc(var(--glass-card-alpha, 0.56) - 0.04)) 100%);
+  --surface-subcard-glass:
+    linear-gradient(145deg, rgba(255, 255, 255, calc(var(--glass-subcard-alpha, 0.44) + 0.04)) 0%, rgba(248, 250, 255, calc(var(--glass-subcard-alpha, 0.44) - 0.04)) 100%);
+  --surface-nested-glass:
+    rgba(255, 255, 255, var(--glass-nested-alpha, 0.34));
+
+  --glass-main-border: rgba(255, 255, 255, 0.86);
+  --glass-card-border: rgba(255, 255, 255, 0.78);
+  --glass-subcard-border: rgba(255, 255, 255, 0.64);
+  --glass-nested-border: rgba(255, 255, 255, 0.50);
+
+  --shadow-main-glass:
+    0 22px 54px -12px rgba(99, 83, 181, 0.20), 0 8px 22px -6px rgba(15, 23, 42, 0.08), var(--glass-inner-highlight);
+  --shadow-card-glass:
+    0 14px 34px -8px rgba(20, 128, 192, 0.14), 0 4px 14px -4px rgba(15, 23, 42, 0.06), var(--glass-inner-highlight);
+  --shadow-subcard-glass:
+    0 8px 20px -6px rgba(99, 83, 181, 0.10), 0 2px 6px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.86);
+  --shadow-nested-glass:
+    0 2px 8px -2px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.72);
 
   --radius-main: 14px;
   --radius-card: 14px;
@@ -162,19 +211,19 @@ html[data-card-style="light-multicolor-glass"] {
   --pillar-progress-track: rgba(15, 23, 42, 0.10);
   --pillar-progress-fill: linear-gradient(90deg, #DD4E9E 0%, #6353B5 35%, #1480C0 68%, #50B347 100%);
 
-  /* 5-Level Elevation Shadows */
+  /* 5-Level Crystal Glass Elevation Shadows */
   --shadow-none: none;
-  --shadow-nested: 0 2px 6px -1px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.92);
-  --shadow-subcard: 0 6px 18px -4px rgba(99, 83, 181, 0.10), 0 2px 6px -1px rgba(15, 23, 42, 0.04), inset 0 1.5px 1px rgba(255, 255, 255, 0.96);
+  --shadow-nested: var(--shadow-nested-glass);
+  --shadow-subcard: var(--shadow-subcard-glass);
   --shadow-subcard-hover: 0 12px 26px -6px rgba(99, 83, 181, 0.16), 0 4px 10px -2px rgba(15, 23, 42, 0.06), inset 0 1.5px 1.5px #FFFFFF;
-  --shadow-card: 0 14px 34px -8px rgba(20, 128, 192, 0.14), 0 4px 14px -4px rgba(15, 23, 42, 0.06), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.96);
-  --shadow-card-hover: 0 22px 48px -8px rgba(99, 83, 181, 0.22), 0 8px 20px -4px rgba(221, 78, 158, 0.12), inset 0 1.5px 2px #FFFFFF;
-  --shadow-header: 0 16px 40px -10px rgba(99, 83, 181, 0.15), 0 4px 14px -4px rgba(15, 23, 42, 0.07), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.96);
-  --shadow-main-card: var(--shadow-header);
-  --shadow-footer: var(--shadow-header);
+  --shadow-card: var(--shadow-card-glass);
+  --shadow-card-hover: 0 20px 44px -10px rgba(99, 83, 181, 0.20), 0 6px 18px -4px rgba(221, 78, 158, 0.12), inset 0 1.5px 2px #FFFFFF;
+  --shadow-header: var(--shadow-main-glass);
+  --shadow-main-card: var(--shadow-main-glass);
+  --shadow-footer: var(--shadow-main-glass);
   --shadow-popup: 0 24px 52px -10px rgba(99, 83, 181, 0.22), 0 8px 22px -4px rgba(15, 23, 42, 0.10), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.98);
   --shadow-floating: var(--shadow-popup);
-  --shadow-modal: 0 30px 70px -12px rgba(15, 23, 42, 0.28), 0 12px 32px -6px rgba(99, 83, 181, 0.16), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.98);
+  --shadow-modal: 0 30px 70px -12px rgba(15, 23, 42, 0.26), 0 12px 32px -6px rgba(99, 83, 181, 0.16), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.98);
 
   /* Banner & Nav Arrows */
   --banner-border: rgba(255, 255, 255, 0.94);
@@ -220,25 +269,37 @@ html[data-card-style="light-multicolor-glass"] {
   --ambient-main-glow: 0 0 64px -8px rgba(221, 78, 158, 0.18), 0 0 110px -16px rgba(59, 184, 230, 0.18);
   --ambient-edge-border: rgba(255, 255, 255, 0.94);
 
-  /* 4-Tier Surface Sync */
-  --surface-primary-bg: rgba(255, 255, 255, 0.66);
-  --surface-primary-border: rgba(255, 255, 255, 0.92);
-  --surface-primary-shadow: var(--shadow-header);
-  --surface-primary-blur: 24px;
-  --surface-secondary-bg: var(--bg-card);
-  --surface-secondary-border: rgba(255, 255, 255, 0.92);
-  --surface-secondary-shadow: var(--shadow-card);
-  --surface-secondary-blur: 28px;
-  --surface-tertiary-bg: var(--bg-subcard);
-  --surface-tertiary-border: rgba(255, 255, 255, 0.92);
-  --surface-tertiary-shadow: var(--shadow-subcard);
-  --surface-tertiary-blur: 20px;
+  /* 4-Tier Crystal Glass Surface Sync */
+  --surface-primary-bg: var(--surface-main-glass);
+  --surface-primary-border: var(--glass-main-border);
+  --surface-primary-shadow: var(--shadow-main-glass);
+  --surface-primary-blur: var(--glass-main-blur);
+  --surface-primary-saturate: var(--glass-main-saturate);
+
+  --surface-secondary-bg: var(--surface-card-glass);
+  --surface-secondary-border: var(--glass-card-border);
+  --surface-secondary-shadow: var(--shadow-card-glass);
+  --surface-secondary-blur: var(--glass-card-blur);
+  --surface-secondary-saturate: var(--glass-card-saturate);
+
+  --surface-tertiary-bg: var(--surface-subcard-glass);
+  --surface-tertiary-border: var(--glass-subcard-border);
+  --surface-tertiary-shadow: var(--shadow-subcard-glass);
+  --surface-tertiary-blur: var(--glass-subcard-blur);
+  --surface-tertiary-saturate: var(--glass-subcard-saturate);
+
+  --surface-nested-bg: var(--surface-nested-glass);
+  --surface-nested-border: var(--glass-nested-border);
+  --surface-nested-shadow: var(--shadow-nested-glass);
+  --surface-nested-blur: var(--glass-nested-blur);
+  --surface-nested-saturate: var(--glass-nested-saturate);
+
   --surface-interactive-bg: var(--bg-nav-pill);
   --surface-interactive-hover: rgba(255, 255, 255, 0.96);
   --surface-interactive-active: var(--bg-button-primary);
   --surface-interactive-border: rgba(255, 255, 255, 0.94);
   --surface-interactive-shadow: var(--shadow-nav-pill);
-  --surface-interactive-blur: 24px;
+  --surface-interactive-blur: var(--blur-nav-pill);
 
   /* WCAG AA Sharp Accent Tokens synced to Reference Multicolor Palette */
   --accent-blue: #1480C0;
@@ -265,39 +326,39 @@ html[data-card-style="light-multicolor-glass"] {
 /* ========================================================================= */
 html[data-card-style="light-multicolor-glass"] #app-header,
 html[data-card-style="light-multicolor-glass"] #app-footer {
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.80) 0%, rgba(243, 240, 255, 0.74) 50%, rgba(232, 248, 255, 0.78) 100%) !important;
-  backdrop-filter: blur(26px) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(165%) !important;
-  border-color: rgba(255, 255, 255, 0.94) !important;
-  box-shadow: var(--shadow-header) !important;
+  background: var(--surface-primary-bg) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+  border-color: var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
   color: #000000 !important;
 }
 
 html[data-card-style="light-multicolor-glass"] .main-card,
 html[data-card-style="light-multicolor-glass"] [id$="-page-container"],
 html[data-card-style="light-multicolor-glass"] [id$="-page-root"] {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.70) 0%, rgba(248, 250, 255, 0.58) 100%) !important;
-  backdrop-filter: blur(24px) saturate(155%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(155%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.92) !important;
-  box-shadow: var(--shadow-main-card) !important;
+  background: var(--surface-primary-bg) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+  border: 1px solid var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
   padding: 25px !important;
   border-radius: 14px !important;
   color: #000000 !important;
 }
 
 html[data-card-style="light-multicolor-glass"] #footer-nav-capsule {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(243, 244, 255, 0.80) 100%) !important;
-  backdrop-filter: blur(22px) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(243, 244, 255, 0.78) 100%) !important;
+  backdrop-filter: blur(var(--surface-interactive-blur, 18px)) saturate(var(--surface-secondary-saturate, 136%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, 18px)) saturate(var(--surface-secondary-saturate, 136%)) !important;
+  border: 1px solid var(--surface-interactive-border) !important;
   box-shadow: var(--shadow-nav-pill) !important;
   color: #000000 !important;
 }
 
 /* ========================================================================= */
-/* 3. LEVEL 02 PRIMARY CARDS — 8 MULTICOLOR FROSTED GLASS VARIANTS (LIGHT)   */
-/* (Blue, Pink, Purple, Cyan, Green, Orange, Yellow, Multicolor Gradient)    */
+/* 3. LEVEL 02 PRIMARY CARDS — 8 MULTICOLOR CRYSTAL MIRROR VARIANTS (LIGHT)  */
+/*    (Alpha ~0.56 | Blur 19px | Sat 136%)                                   */
 /* ========================================================================= */
 html[data-card-style="light-multicolor-glass"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]),
 html[data-card-style="light-multicolor-glass"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
@@ -305,10 +366,10 @@ html[data-card-style="light-multicolor-glass"] .bento-card:not(#app-header):not(
 html[data-card-style="light-multicolor-glass"] .project-card,
 html[data-card-style="light-multicolor-glass"] #projects-grid article,
 html[data-card-style="light-multicolor-glass"] .project-detail-section-card {
-  backdrop-filter: blur(26px) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(165%) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, 19px)) saturate(var(--surface-secondary-saturate, 136%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 19px)) saturate(var(--surface-secondary-saturate, 136%)) !important;
   border-radius: 14px !important;
-  box-shadow: var(--shadow-card) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass)) !important;
   color: #000000 !important;
 }
 
@@ -410,7 +471,7 @@ html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .
 }
 
 /* ========================================================================= */
-/* 4. LEVEL 03 SUBCARDS & LEVEL 01 NESTED CARDS (LIGHT MULTICOLOR)           */
+/* 4. LEVEL 03 SUBCARDS & LEVEL 04 NESTED CARDS (LIGHT MULTICOLOR)           */
 /* ========================================================================= */
 html[data-card-style="light-multicolor-glass"] [data-subcard="true"]:not(.skill-swot-subcard),
 html[data-card-style="light-multicolor-glass"] .sub-card:not(.skill-swot-subcard),
@@ -421,11 +482,11 @@ html[data-card-style="light-multicolor-glass"] .letter-header-subcard,
 html[data-card-style="light-multicolor-glass"] .letter-footer-subcard,
 html[data-card-style="light-multicolor-glass"] .project-detail-subcard,
 html[data-card-style="light-multicolor-glass"] .pillar-gradient-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0.64) 100%) !important;
-  backdrop-filter: blur(18px) saturate(155%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(155%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.94) !important;
-  box-shadow: var(--shadow-subcard) !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(248, 250, 255, 0.50) 100%) !important;
+  backdrop-filter: blur(var(--surface-tertiary-blur, 14px)) saturate(var(--surface-tertiary-saturate, 122%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, 14px)) saturate(var(--surface-tertiary-saturate, 122%)) !important;
+  border: 1px solid var(--surface-tertiary-border, rgba(255, 255, 255, 0.64)) !important;
+  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass)) !important;
   border-radius: 14px !important;
   color: #000000 !important;
 }
@@ -435,15 +496,22 @@ html[data-card-style="light-multicolor-glass"] .sub-card:not(.skill-swot-subcard
 html[data-card-style="light-multicolor-glass"] .exp-detail-subcard:hover,
 html[data-card-style="light-multicolor-glass"] .education-subcard:hover,
 html[data-card-style="light-multicolor-glass"] .pillar-gradient-card:hover {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.82) 100%) !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.86) 0%, rgba(248, 250, 255, 0.68) 100%) !important;
   box-shadow: var(--shadow-subcard-hover) !important;
 }
 
-/* Nested Card Anti-Stacking (Elevation 1) */
-html[data-card-style="light-multicolor-glass"] :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard) :is([data-subcard="true"], .sub-card, .nested-card, .theme-muted-surface, [data-elevation="1"]) {
-  background: rgba(255, 255, 255, 0.72) !important;
-  border: 1px solid rgba(203, 213, 225, 0.55) !important;
-  box-shadow: var(--shadow-nested) !important;
+/* Level 04 Nested Card Anti-Stacking (Alpha ~0.34 | Blur 10px | Sat 112%) */
+html[data-card-style="light-multicolor-glass"] :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard) :is([data-subcard="true"], .sub-card, .nested-card, .theme-muted-surface, [data-elevation="1"]),
+html[data-card-style="light-multicolor-glass"] .skill-swot-subcard .swot-skill-disclosure,
+html[data-card-style="light-multicolor-glass"] .project-detail-chip,
+html[data-card-style="light-multicolor-glass"] .education-skill-chip,
+html[data-card-style="light-multicolor-glass"] .project-card-tag,
+html[data-card-style="light-multicolor-glass"] .project-card-order-badge {
+  background: var(--surface-nested-bg, rgba(255, 255, 255, 0.34)) !important;
+  backdrop-filter: blur(var(--surface-nested-blur, 10px)) saturate(var(--surface-nested-saturate, 112%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-nested-blur, 10px)) saturate(var(--surface-nested-saturate, 112%)) !important;
+  border: 1px solid var(--surface-nested-border, rgba(255, 255, 255, 0.50)) !important;
+  box-shadow: var(--surface-nested-shadow, var(--shadow-nested-glass)) !important;
   border-radius: 14px !important;
 }
 
@@ -505,12 +573,66 @@ html[data-card-style="light-multicolor-glass"] :is(button, a, input, select, tex
 /*    Never renders bright white cards in Dark mode; crisp #FFFFFF copy      */
 /* ========================================================================= */
 html[data-card-style="light-multicolor-glass-dark"] {
-  --bg-blur: 26px;
-  --glass-blur: 26px;
-  --glass-opacity: 0.78;
-  --blur-subcard: 18px;
-  --blur-nav-pill: 22px;
-  --blur-modal: 26px;
+  --glass-main-alpha: 0.74;
+  --glass-card-alpha: 0.64;
+  --glass-subcard-alpha: 0.52;
+  --glass-nested-alpha: 0.42;
+
+  --glass-main-blur: 24px;
+  --glass-card-blur: 19px;
+  --glass-subcard-blur: 14px;
+  --glass-nested-blur: 10px;
+
+  --glass-main-saturate: 148%;
+  --glass-card-saturate: 136%;
+  --glass-subcard-saturate: 122%;
+  --glass-nested-saturate: 112%;
+
+  --bg-blur: var(--glass-card-blur);
+  --glass-blur: var(--glass-card-blur);
+  --glass-opacity: 0.74;
+  --blur-subcard: var(--glass-subcard-blur);
+  --blur-nav-pill: 18px;
+  --blur-modal: 24px;
+
+  --glass-reflection-primary:
+    linear-gradient(125deg, rgba(255, 255, 255, 0.11) 0%, rgba(59, 184, 230, 0.08) 34%, rgba(167, 139, 250, 0.08) 66%, rgba(221, 78, 158, 0.08) 100%);
+  --glass-reflection-secondary:
+    linear-gradient(155deg, rgba(255, 255, 255, 0.08) 0%, rgba(59, 184, 230, 0.04) 54%, rgba(167, 139, 250, 0.06) 100%);
+  --glass-inner-highlight:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 1px 0 0 rgba(167, 139, 250, 0.12);
+
+  --surface-main-glass:
+    var(--glass-reflection-primary),
+    linear-gradient(145deg, rgba(14, 18, 40, calc(var(--glass-main-alpha, 0.74) + 0.02)) 0%, rgba(20, 18, 46, var(--glass-main-alpha, 0.74)) 100%);
+  --surface-card-glass:
+    var(--glass-reflection-secondary),
+    linear-gradient(145deg, rgba(24, 29, 58, calc(var(--glass-card-alpha, 0.64) + 0.03)) 0%, rgba(18, 22, 46, var(--glass-card-alpha, 0.64)) 100%);
+  --surface-subcard-glass:
+    linear-gradient(145deg, rgba(30, 36, 70, var(--glass-subcard-alpha, 0.52)) 0%, rgba(20, 25, 50, var(--glass-subcard-alpha, 0.52)) 100%);
+  --surface-nested-glass:
+    rgba(20, 25, 50, var(--glass-nested-alpha, 0.42));
+
+  --glass-main-border: rgba(167, 139, 250, 0.26);
+  --glass-card-border: rgba(167, 139, 250, 0.24);
+  --glass-subcard-border: rgba(167, 139, 250, 0.18);
+  --glass-nested-border: rgba(167, 139, 250, 0.14);
+
+  --shadow-main-glass:
+    0 24px 58px -12px rgba(2, 6, 23, 0.78), 0 8px 24px -4px rgba(167, 139, 250, 0.14), var(--glass-inner-highlight);
+  --shadow-card-glass:
+    0 16px 38px -10px rgba(2, 6, 23, 0.68), 0 4px 14px -2px rgba(59, 184, 230, 0.10), var(--glass-inner-highlight);
+  --shadow-subcard-glass:
+    0 8px 22px -6px rgba(2, 6, 23, 0.54), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --shadow-nested-glass:
+    0 2px 8px -2px rgba(2, 6, 23, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+
+  --shadow-header: var(--shadow-main-glass);
+  --shadow-main-card: var(--shadow-main-glass);
+  --shadow-footer: var(--shadow-main-glass);
+  --shadow-card: var(--shadow-card-glass);
+  --shadow-subcard: var(--shadow-subcard-glass);
+  --shadow-nested: var(--shadow-nested-glass);
 
   --radius-main: 14px;
   --radius-card: 14px;
@@ -605,9 +727,29 @@ html[data-card-style="light-multicolor-glass-dark"] {
   --ambient-base-bg: var(--app-bg-gradient);
   --ambient-wallpaper-opacity: 0.62;
 
-  --surface-primary-bg: rgba(14, 18, 40, 0.70);
-  --surface-primary-border: rgba(167, 139, 250, 0.24);
-  --surface-primary-blur: 22px;
+  --surface-primary-bg: var(--surface-main-glass);
+  --surface-primary-border: var(--glass-main-border);
+  --surface-primary-shadow: var(--shadow-main-glass);
+  --surface-primary-blur: var(--glass-main-blur);
+  --surface-primary-saturate: var(--glass-main-saturate);
+
+  --surface-secondary-bg: var(--surface-card-glass);
+  --surface-secondary-border: var(--glass-card-border);
+  --surface-secondary-shadow: var(--shadow-card-glass);
+  --surface-secondary-blur: var(--glass-card-blur);
+  --surface-secondary-saturate: var(--glass-card-saturate);
+
+  --surface-tertiary-bg: var(--surface-subcard-glass);
+  --surface-tertiary-border: var(--glass-subcard-border);
+  --surface-tertiary-shadow: var(--shadow-subcard-glass);
+  --surface-tertiary-blur: var(--glass-subcard-blur);
+  --surface-tertiary-saturate: var(--glass-subcard-saturate);
+
+  --surface-nested-bg: var(--surface-nested-glass);
+  --surface-nested-border: var(--glass-nested-border);
+  --surface-nested-shadow: var(--shadow-nested-glass);
+  --surface-nested-blur: var(--glass-nested-blur);
+  --surface-nested-saturate: var(--glass-nested-saturate);
 
   /* Bright WCAG Dark-Mode Accents */
   --accent-blue: #60A5FA;
@@ -629,22 +771,22 @@ html[data-card-style="light-multicolor-glass-dark"] {
 
 html[data-card-style="light-multicolor-glass-dark"] #app-header,
 html[data-card-style="light-multicolor-glass-dark"] #app-footer {
-  background: var(--bg-header) !important;
-  backdrop-filter: blur(24px) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
-  border-color: rgba(167, 139, 250, 0.28) !important;
-  box-shadow: var(--shadow-header) !important;
+  background: var(--surface-primary-bg) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+  border-color: var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
   color: #FFFFFF !important;
 }
 
 html[data-card-style="light-multicolor-glass-dark"] .main-card,
 html[data-card-style="light-multicolor-glass-dark"] [id$="-page-container"],
 html[data-card-style="light-multicolor-glass-dark"] [id$="-page-root"] {
-  background: rgba(14, 18, 40, 0.70) !important;
-  backdrop-filter: blur(22px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
-  border: 1px solid rgba(167, 139, 250, 0.26) !important;
-  box-shadow: var(--shadow-main-card) !important;
+  background: var(--surface-primary-bg) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+  border: 1px solid var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
   padding: 25px !important;
   border-radius: 14px !important;
   color: #FFFFFF !important;
@@ -652,8 +794,8 @@ html[data-card-style="light-multicolor-glass-dark"] [id$="-page-root"] {
 
 html[data-card-style="light-multicolor-glass-dark"] #footer-nav-capsule {
   background: var(--bg-nav-pill) !important;
-  backdrop-filter: blur(20px) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(165%) !important;
+  backdrop-filter: blur(var(--blur-nav-pill, 18px)) saturate(var(--surface-secondary-saturate, 136%)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-nav-pill, 18px)) saturate(var(--surface-secondary-saturate, 136%)) !important;
   border: 1px solid rgba(167, 139, 250, 0.30) !important;
   box-shadow: var(--shadow-nav-pill) !important;
   color: #FFFFFF !important;
@@ -665,10 +807,10 @@ html[data-card-style="light-multicolor-glass-dark"] .bento-card:not(#app-header)
 html[data-card-style="light-multicolor-glass-dark"] .project-card,
 html[data-card-style="light-multicolor-glass-dark"] #projects-grid article,
 html[data-card-style="light-multicolor-glass-dark"] .project-detail-section-card {
-  backdrop-filter: blur(24px) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, 19px)) saturate(var(--surface-secondary-saturate, 136%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 19px)) saturate(var(--surface-secondary-saturate, 136%)) !important;
   border-radius: 14px !important;
-  box-shadow: var(--shadow-card) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass)) !important;
   color: #FFFFFF !important;
 }
 
@@ -734,13 +876,28 @@ html[data-card-style="light-multicolor-glass-dark"] .letter-header-subcard,
 html[data-card-style="light-multicolor-glass-dark"] .letter-footer-subcard,
 html[data-card-style="light-multicolor-glass-dark"] .project-detail-subcard,
 html[data-card-style="light-multicolor-glass-dark"] .pillar-gradient-card {
-  background: rgba(24, 28, 56, 0.74) !important;
-  backdrop-filter: blur(18px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
-  border: 1px solid rgba(167, 139, 250, 0.24) !important;
-  box-shadow: var(--shadow-subcard) !important;
+  background: var(--surface-tertiary-bg, rgba(24, 28, 56, 0.52)) !important;
+  backdrop-filter: blur(var(--surface-tertiary-blur, 14px)) saturate(var(--surface-tertiary-saturate, 122%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, 14px)) saturate(var(--surface-tertiary-saturate, 122%)) !important;
+  border: 1px solid var(--surface-tertiary-border, rgba(167, 139, 250, 0.18)) !important;
+  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass)) !important;
   border-radius: 14px !important;
   color: #FFFFFF !important;
+}
+
+/* Level 04 Nested Cards (Dark Compatible Multicolor Glass) */
+html[data-card-style="light-multicolor-glass-dark"] :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard) :is([data-subcard="true"], .sub-card, .nested-card, .theme-muted-surface, [data-elevation="1"]),
+html[data-card-style="light-multicolor-glass-dark"] .skill-swot-subcard .swot-skill-disclosure,
+html[data-card-style="light-multicolor-glass-dark"] .project-detail-chip,
+html[data-card-style="light-multicolor-glass-dark"] .education-skill-chip,
+html[data-card-style="light-multicolor-glass-dark"] .project-card-tag,
+html[data-card-style="light-multicolor-glass-dark"] .project-card-order-badge {
+  background: var(--surface-nested-bg, rgba(20, 25, 50, 0.42)) !important;
+  backdrop-filter: blur(var(--surface-nested-blur, 10px)) saturate(var(--surface-nested-saturate, 112%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-nested-blur, 10px)) saturate(var(--surface-nested-saturate, 112%)) !important;
+  border: 1px solid var(--surface-nested-border, rgba(167, 139, 250, 0.14)) !important;
+  box-shadow: var(--surface-nested-shadow, var(--shadow-nested-glass)) !important;
+  border-radius: 14px !important;
 }
 
 html[data-card-style="light-multicolor-glass-dark"] #app-header nav button.nav-pill:not(.active),
@@ -792,11 +949,20 @@ html[data-card-style="light-multicolor-glass-dark"] .theme-modal-subcard {
 @media (max-width: 767px) {
   html[data-card-style="light-multicolor-glass"],
   html[data-card-style="light-multicolor-glass-dark"] {
-    --bg-blur: 16px;
-    --glass-blur: 16px;
-    --blur-subcard: 12px;
+    --glass-main-blur: 18px;
+    --glass-card-blur: 14px;
+    --glass-subcard-blur: 10px;
+    --glass-nested-blur: 8px;
+    --bg-blur: 14px;
+    --glass-blur: 14px;
+    --blur-subcard: 10px;
     --blur-nav-pill: 14px;
     --blur-modal: 18px;
+    --surface-primary-blur: 18px;
+    --surface-secondary-blur: 14px;
+    --surface-tertiary-blur: 10px;
+    --surface-nested-blur: 8px;
+    --surface-interactive-blur: 14px;
   }
 }
 

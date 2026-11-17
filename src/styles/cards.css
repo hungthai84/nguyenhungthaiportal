@@ -63,11 +63,11 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 #contact-calendar-card,
 #contact-info-card,
 #contact-form-card {
-  background: var(--surface-secondary-bg, var(--bg-card)) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-color)) !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
-  backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur))) !important;
+  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, var(--bg-blur, 19px)))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, var(--bg-blur, 19px)))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   border-radius: var(--radius-card) !important;
   padding: var(--space-card-padding, 15px) !important;
   transition: transform var(--motion-normal) var(--motion-ease), box-shadow 300ms ease-in-out, border-color 300ms ease-in-out, background 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out !important;
@@ -179,9 +179,9 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 /* MULTICOLOR MICA FLUENT BENTO CARDS (EXPERIENCE DETAIL & MEMORIES) */
 [data-multicolor-bento="true"] {
   border-radius: var(--radius-card) !important;
-  backdrop-filter: blur(var(--bg-blur, 20px)) !important;
-  -webkit-backdrop-filter: blur(var(--bg-blur, 20px)) !important;
-  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card)));
   padding: var(--space-card-padding, 15px) !important;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
 }
@@ -192,94 +192,103 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 }
 
 .bento-tone-indigo {
-  background: linear-gradient(145deg, rgba(238, 242, 255, 0.88) 0%, rgba(224, 231, 255, 0.72) 100%) !important;
-  border: 1px solid rgba(165, 180, 252, 0.65) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(238, 242, 255, 0.58) 0%, rgba(224, 231, 255, 0.46) 100%) !important;
+  border: 1px solid rgba(165, 180, 252, 0.58) !important;
+  box-shadow: var(--shadow-card-glass) !important;
 }
 html.dark .bento-tone-indigo {
-  background: linear-gradient(145deg, rgba(30, 27, 75, 0.62) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(30, 27, 75, 0.62) 0%, rgba(17, 24, 39, 0.66) 100%) !important;
   border: 1px solid rgba(165, 180, 252, 0.24) !important;
 }
 
 .bento-tone-cyan {
-  background: linear-gradient(145deg, rgba(236, 254, 255, 0.90) 0%, rgba(207, 250, 254, 0.72) 100%) !important;
-  border: 1px solid rgba(103, 232, 249, 0.65) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(236, 254, 255, 0.58) 0%, rgba(207, 250, 254, 0.46) 100%) !important;
+  border: 1px solid rgba(103, 232, 249, 0.58) !important;
+  box-shadow: var(--shadow-card-glass) !important;
 }
 html.dark .bento-tone-cyan {
-  background: linear-gradient(145deg, rgba(8, 51, 68, 0.58) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(8, 51, 68, 0.60) 0%, rgba(17, 24, 39, 0.66) 100%) !important;
   border: 1px solid rgba(103, 232, 249, 0.24) !important;
 }
 
 .bento-tone-purple {
-  background: linear-gradient(145deg, rgba(245, 243, 255, 0.90) 0%, rgba(237, 233, 254, 0.74) 100%) !important;
-  border: 1px solid rgba(196, 181, 253, 0.65) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(245, 243, 255, 0.58) 0%, rgba(237, 233, 254, 0.46) 100%) !important;
+  border: 1px solid rgba(196, 181, 253, 0.58) !important;
+  box-shadow: var(--shadow-card-glass) !important;
 }
 html.dark .bento-tone-purple {
-  background: linear-gradient(145deg, rgba(46, 16, 101, 0.52) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(46, 16, 101, 0.58) 0%, rgba(17, 24, 39, 0.66) 100%) !important;
   border: 1px solid rgba(196, 181, 253, 0.24) !important;
 }
 
 .bento-tone-emerald {
-  background: linear-gradient(145deg, rgba(236, 253, 245, 0.90) 0%, rgba(209, 250, 229, 0.72) 100%) !important;
-  border: 1px solid rgba(110, 231, 183, 0.65) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(236, 253, 245, 0.58) 0%, rgba(209, 250, 229, 0.46) 100%) !important;
+  border: 1px solid rgba(110, 231, 183, 0.58) !important;
+  box-shadow: var(--shadow-card-glass) !important;
 }
 html.dark .bento-tone-emerald {
-  background: linear-gradient(145deg, rgba(6, 78, 59, 0.52) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(6, 78, 59, 0.58) 0%, rgba(17, 24, 39, 0.66) 100%) !important;
   border: 1px solid rgba(110, 231, 183, 0.24) !important;
 }
 
 .bento-tone-blue {
-  background: linear-gradient(145deg, rgba(239, 246, 255, 0.90) 0%, rgba(219, 234, 254, 0.74) 100%) !important;
-  border: 1px solid rgba(147, 197, 253, 0.65) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(239, 246, 255, 0.58) 0%, rgba(219, 234, 254, 0.46) 100%) !important;
+  border: 1px solid rgba(147, 197, 253, 0.58) !important;
+  box-shadow: var(--shadow-card-glass) !important;
 }
 html.dark .bento-tone-blue {
-  background: linear-gradient(145deg, rgba(23, 37, 84, 0.60) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(23, 37, 84, 0.60) 0%, rgba(17, 24, 39, 0.66) 100%) !important;
   border: 1px solid rgba(125, 211, 252, 0.24) !important;
 }
 
 .bento-tone-amber {
-  background: linear-gradient(145deg, rgba(255, 247, 237, 0.92) 0%, rgba(254, 243, 199, 0.74) 100%) !important;
-  border: 1px solid rgba(252, 211, 77, 0.65) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(255, 247, 237, 0.60) 0%, rgba(254, 243, 199, 0.48) 100%) !important;
+  border: 1px solid rgba(252, 211, 77, 0.58) !important;
+  box-shadow: var(--shadow-card-glass) !important;
 }
 html.dark .bento-tone-amber {
-  background: linear-gradient(145deg, rgba(69, 26, 3, 0.52) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(69, 26, 3, 0.56) 0%, rgba(17, 24, 39, 0.66) 100%) !important;
   border: 1px solid rgba(252, 211, 77, 0.24) !important;
 }
 
 .bento-tone-pink {
-  background: linear-gradient(145deg, rgba(253, 242, 248, 0.90) 0%, rgba(252, 231, 243, 0.74) 100%) !important;
-  border: 1px solid rgba(249, 168, 212, 0.65) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(253, 242, 248, 0.58) 0%, rgba(252, 231, 243, 0.46) 100%) !important;
+  border: 1px solid rgba(249, 168, 212, 0.58) !important;
+  box-shadow: var(--shadow-card-glass) !important;
 }
 html.dark .bento-tone-pink {
-  background: linear-gradient(145deg, rgba(80, 7, 36, 0.52) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(80, 7, 36, 0.56) 0%, rgba(17, 24, 39, 0.66) 100%) !important;
   border: 1px solid rgba(253, 164, 175, 0.24) !important;
 }
 
 .bento-tone-teal {
-  background: linear-gradient(145deg, rgba(240, 253, 250, 0.90) 0%, rgba(204, 251, 241, 0.72) 100%) !important;
-  border: 1px solid rgba(94, 234, 212, 0.65) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(240, 253, 250, 0.58) 0%, rgba(204, 251, 241, 0.46) 100%) !important;
+  border: 1px solid rgba(94, 234, 212, 0.58) !important;
+  box-shadow: var(--shadow-card-glass) !important;
 }
 html.dark .bento-tone-teal {
-  background: linear-gradient(145deg, rgba(19, 78, 74, 0.52) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(19, 78, 74, 0.58) 0%, rgba(17, 24, 39, 0.66) 100%) !important;
   border: 1px solid rgba(94, 234, 212, 0.24) !important;
 }
 
 .bento-tone-sky {
-  background: linear-gradient(145deg, rgba(240, 249, 255, 0.92) 0%, rgba(224, 242, 254, 0.76) 100%) !important;
-  border: 1px solid rgba(125, 211, 252, 0.65) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(240, 249, 255, 0.60) 0%, rgba(224, 242, 254, 0.48) 100%) !important;
+  border: 1px solid rgba(125, 211, 252, 0.58) !important;
+  box-shadow: var(--shadow-card-glass) !important;
 }
 html.dark .bento-tone-sky {
-  background: linear-gradient(145deg, rgba(12, 74, 110, 0.54) 0%, rgba(17, 24, 39, 0.82) 100%) !important;
+  background: var(--glass-reflection-secondary), linear-gradient(145deg, rgba(12, 74, 110, 0.58) 0%, rgba(17, 24, 39, 0.66) 100%) !important;
   border: 1px solid rgba(56, 189, 248, 0.26) !important;
 }
 
 [data-subcard="true"]:not(.skill-swot-subcard),
 .sub-card:not(.skill-swot-subcard) {
-  background: var(--surface-tertiary-bg, var(--bg-subcard));
-  border: 1px solid var(--surface-tertiary-border, var(--border-subcard, var(--color-border-soft)));
+  background: var(--surface-tertiary-bg, var(--surface-subcard-glass, var(--bg-subcard)));
+  border: 1px solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard, var(--color-border-soft))));
   border-radius: var(--radius-subcard);
-  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard));
-  backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, 0px)));
-  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, 0px)));
+  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass, var(--shadow-subcard)));
+  backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, var(--blur-subcard, 14px)))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%)));
+  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, var(--blur-subcard, 14px)))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%)));
   outline: var(--outline-subcard, none);
   outline-offset: var(--outline-offset-subcard, 0px);
   padding: 15px;
@@ -391,22 +400,22 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 }
 
 #app-header {
-  background: var(--surface-primary-bg, rgba(255, 255, 255, 0.58)) !important;
-  border: 1px solid var(--surface-primary-border, rgba(255, 255, 255, 0.1)) !important;
+  background: var(--surface-primary-bg, var(--surface-main-glass)) !important;
+  border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
   border-top: none !important;
-  box-shadow: var(--surface-primary-shadow, var(--shadow-header)) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  box-shadow: var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header))) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   border-radius: var(--radius-header, 0 0 14px 14px) !important;
 }
 
 #app-footer {
-  background: var(--surface-primary-bg, rgba(255, 255, 255, 0.58)) !important;
-  border: 1px solid var(--surface-primary-border, rgba(255, 255, 255, 0.1)) !important;
+  background: var(--surface-primary-bg, var(--surface-main-glass)) !important;
+  border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
   border-bottom: none !important;
-  box-shadow: var(--surface-primary-shadow, var(--shadow-header)) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  box-shadow: var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header))) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   border-radius: var(--radius-footer, 14px 14px 0 0) !important;
 }
 
@@ -608,12 +617,12 @@ h3.card-title,
   min-width: 0 !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  background: var(--surface-primary-bg, rgba(255, 255, 255, 0.58)) !important;
+  background: var(--surface-primary-bg, var(--surface-main-glass)) !important;
   border-radius: var(--radius-main, 14px) !important;
-  border: 1px solid var(--surface-primary-border, rgba(255, 255, 255, 0.1)) !important;
-  box-shadow: var(--surface-primary-shadow, var(--shadow-header)) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
+  box-shadow: var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header))) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   padding: var(--main-card-padding, 25px) !important;
   scroll-behavior: smooth;
   transition: background 300ms ease-in-out, background-color 300ms ease-in-out, border-color 300ms ease-in-out, box-shadow 300ms ease-in-out, color 300ms ease-in-out, border-radius 300ms ease-in-out, backdrop-filter 300ms ease-in-out;
@@ -963,11 +972,11 @@ h3.card-title,
 }
 
 .project-detail-section-card {
-  background: var(--surface-secondary-bg, var(--bg-card)) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-color)) !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
-  backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 18px))) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 18px))) saturate(165%) !important;
+  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   border-radius: var(--radius-card, 14px) !important;
 }
 
@@ -976,12 +985,12 @@ h3.card-title,
 .letter-subcard,
 .letter-header-subcard,
 .letter-footer-subcard {
-  background: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
-  border: 1px solid var(--surface-tertiary-border, var(--border-subcard, var(--color-border-soft))) !important;
+  background: var(--surface-tertiary-bg, var(--surface-subcard-glass, var(--bg-subcard))) !important;
+  border: 1px solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard, var(--color-border-soft)))) !important;
   border-radius: var(--radius-subcard, 14px) !important;
-  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;
-  backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, 0px))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, 0px))) !important;
+  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass, var(--shadow-subcard))) !important;
+  backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
   outline: var(--outline-subcard, none);
   outline-offset: var(--outline-offset-subcard, 0px);
 }
@@ -1019,11 +1028,11 @@ h3.card-title,
 article.project-card,
 #projects-grid article,
 [id^="project-card-"] {
-  background: var(--surface-secondary-bg, var(--bg-card)) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-color)) !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
-  backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur))) !important;
+  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   border-radius: var(--radius-card, 14px) !important;
   padding: 0 !important;
   overflow: hidden !important;
@@ -1463,28 +1472,28 @@ button:focus-visible,
 }
 
 /* ========================================================================= */
-/* CARD DARK GLASSMORPHISM - GLASS NEON TỐI ĐA MÀU SẮC                       */
+/* CARD DARK GLASSMORPHISM - CRYSTAL SMOKED MIRROR DARK GLASS                */
 /* ========================================================================= */
 .card-dark-glassmorphism {
-    background: rgba(15, 23, 42, 0.68) !important;
-    backdrop-filter: blur(22px) saturate(150%) !important;
-    -webkit-backdrop-filter: blur(22px) saturate(150%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    background: linear-gradient(125deg, rgba(255, 255, 255, 0.10) 0%, rgba(56, 189, 248, 0.08) 42%, rgba(139, 92, 246, 0.06) 100%), rgba(15, 23, 42, 0.65) !important;
+    backdrop-filter: blur(19px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(19px) saturate(135%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
     border-radius: 14px !important;
-    box-shadow: 0 22px 48px -12px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 18px 40px -12px rgba(2, 6, 23, 0.70), inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 1px 0 0 rgba(125, 211, 252, 0.12) !important;
     color: #FFFFFF !important;
 }
 
 /* ========================================================================= */
-/* CARD LIGHT GLASSMORPHISM - GƯƠNG SÁNG (LIGHT FROSTED GLASS)               */
+/* CARD LIGHT GLASSMORPHISM - CRYSTAL LUMINOUS IRIDESCENT GLASS              */
 /* ========================================================================= */
 .card-light-glassmorphism {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.48) 100%) !important;
-    backdrop-filter: blur(22px) saturate(165%) !important;
-    -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.85) !important;
+    background: linear-gradient(125deg, rgba(255, 255, 255, 0.34) 0%, rgba(224, 242, 254, 0.14) 50%, rgba(253, 242, 248, 0.16) 100%), linear-gradient(145deg, rgba(255, 255, 255, 0.56) 0%, rgba(245, 249, 255, 0.50) 100%) !important;
+    backdrop-filter: blur(19px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(19px) saturate(135%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.74) !important;
     border-radius: 14px !important;
-    box-shadow: 0 20px 44px -12px rgba(15, 23, 42, 0.18), inset 0 1.5px 1px rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 14px 34px -8px rgba(30, 27, 75, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.92), inset 1px 0 0 rgba(255, 255, 255, 0.55) !important;
     color: #000000 !important;
 }
 
@@ -1565,17 +1574,33 @@ button:focus-visible,
   box-shadow: var(--elevation-0, none) !important;
 }
 
-/* Level 1: Nested elements inside Sub-cards (anti-stacking — subtle border & light lift) */
+/* Level 04: Nested elements inside Sub-cards (Clear Inner Glass & Anti-Stacking) */
 :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .theme-modal-subcard)
   :is([data-subcard="true"], .sub-card, .nested-card, .project-detail-chip, .education-skill-chip, .theme-muted-surface, [data-elevation="1"]) {
-  box-shadow: var(--elevation-1, var(--shadow-nested)) !important;
+  box-shadow: var(--elevation-1, var(--shadow-nested-glass, var(--shadow-nested))) !important;
   border-radius: 14px !important;
+}
+
+:is(
+  html[data-card-style="light-glassmorphism"],
+  html[data-card-style="dark-glassmorphism"],
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"]
+) :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .theme-modal-subcard)
+  :is([data-subcard="true"], .sub-card, .nested-card, .theme-muted-surface, [data-elevation="1"]) {
+  background: var(--surface-nested-bg, var(--surface-nested-glass)) !important;
+  border: 1px solid var(--surface-nested-border, var(--glass-nested-border)) !important;
+  box-shadow: var(--surface-nested-shadow, var(--shadow-nested-glass)) !important;
+  backdrop-filter: blur(var(--surface-nested-blur, var(--glass-nested-blur, 10px))) saturate(var(--surface-nested-saturate, var(--glass-nested-saturate, 112%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-nested-blur, var(--glass-nested-blur, 10px))) saturate(var(--surface-nested-saturate, var(--glass-nested-saturate, 112%))) !important;
 }
 
 :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .theme-modal-subcard)
   :is([data-subcard="true"], .sub-card):hover {
   transform: none !important;
-  box-shadow: var(--elevation-1, var(--shadow-nested)) !important;
+  box-shadow: var(--elevation-1, var(--shadow-nested-glass, var(--shadow-nested))) !important;
 }
 
 /* Prevent hover shadow clipping on card grids & scroll shelves */
@@ -1661,22 +1686,34 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   color: #111827;
 }
 
-/* Light Modes Surface Synchronization for Experience Detail Bento Wrapper & Cards */
+/* Light & Dark Glass Surface Synchronization for Experience Detail Bento Wrapper & Cards */
 :is(
   html[data-card-style="light-glassmorphism"],
   html[data-card-style="light-multicolor-glass"],
   html[data-card-style="dark-neon-multicolor-glass-light"],
   html[data-card-style="ice-blue-neumorphism"],
+  html[data-card-style="dark-ice-blue-neumorphism"],
   html[data-card-style="pastel-lilac-soft"],
-  html[data-card-style="light-cowhide-leather"]
+  html[data-card-style="dark-pastel-lilac-soft"],
+  html[data-card-style="light-cowhide-leather"],
+  html[data-card-style="cowhide-leather"],
+  html[data-card-style="dark-glassmorphism"],
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
 ) #experience-job-detail-card,
 :is(
   html[data-card-style="light-glassmorphism"],
   html[data-card-style="light-multicolor-glass"],
   html[data-card-style="dark-neon-multicolor-glass-light"],
   html[data-card-style="ice-blue-neumorphism"],
+  html[data-card-style="dark-ice-blue-neumorphism"],
   html[data-card-style="pastel-lilac-soft"],
-  html[data-card-style="light-cowhide-leather"]
+  html[data-card-style="dark-pastel-lilac-soft"],
+  html[data-card-style="light-cowhide-leather"],
+  html[data-card-style="cowhide-leather"],
+  html[data-card-style="dark-glassmorphism"],
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
 ) #experience-job-detail-card:hover {
   background: transparent !important;
   background-color: transparent !important;
@@ -1695,8 +1732,14 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   html[data-card-style="light-multicolor-glass"],
   html[data-card-style="dark-neon-multicolor-glass-light"],
   html[data-card-style="ice-blue-neumorphism"],
+  html[data-card-style="dark-ice-blue-neumorphism"],
   html[data-card-style="pastel-lilac-soft"],
-  html[data-card-style="light-cowhide-leather"]
+  html[data-card-style="dark-pastel-lilac-soft"],
+  html[data-card-style="light-cowhide-leather"],
+  html[data-card-style="cowhide-leather"],
+  html[data-card-style="dark-glassmorphism"],
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
 ) #experience-job-detail-card::before {
   display: none !important;
 }
@@ -1706,14 +1749,19 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   html[data-card-style="light-multicolor-glass"],
   html[data-card-style="dark-neon-multicolor-glass-light"],
   html[data-card-style="ice-blue-neumorphism"],
-  html[data-card-style="pastel-lilac-soft"]
+  html[data-card-style="dark-ice-blue-neumorphism"],
+  html[data-card-style="pastel-lilac-soft"],
+  html[data-card-style="dark-pastel-lilac-soft"],
+  html[data-card-style="dark-glassmorphism"],
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
 ) #experience-job-detail-card .exp-bento-surface-card {
-  background: var(--surface-secondary-bg, var(--bg-card)) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-color, rgba(255, 255, 255, 0.85))) !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
-  backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 18px))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 18px))) !important;
-  color: var(--text-primary, #000000) !important;
+  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  color: var(--text-primary) !important;
 }
 
 :is(
@@ -1721,12 +1769,19 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   html[data-card-style="light-multicolor-glass"],
   html[data-card-style="dark-neon-multicolor-glass-light"],
   html[data-card-style="ice-blue-neumorphism"],
-  html[data-card-style="pastel-lilac-soft"]
+  html[data-card-style="dark-ice-blue-neumorphism"],
+  html[data-card-style="pastel-lilac-soft"],
+  html[data-card-style="dark-pastel-lilac-soft"],
+  html[data-card-style="dark-glassmorphism"],
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
 ) #experience-job-detail-card .exp-bento-item-card {
-  background: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
-  border: 1px solid var(--surface-tertiary-border, var(--border-subcard, rgba(255, 255, 255, 0.85))) !important;
-  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard, var(--shadow-nested, 0 2px 6px rgba(15, 23, 42, 0.06)))) !important;
-  color: var(--text-primary, #000000) !important;
+  background: var(--surface-tertiary-bg, var(--surface-subcard-glass, var(--bg-subcard))) !important;
+  border: 1px solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard))) !important;
+  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass, var(--shadow-subcard))) !important;
+  backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
+  color: var(--text-primary) !important;
 }
 
 :is(
@@ -1734,9 +1789,14 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   html[data-card-style="light-multicolor-glass"],
   html[data-card-style="dark-neon-multicolor-glass-light"],
   html[data-card-style="ice-blue-neumorphism"],
-  html[data-card-style="pastel-lilac-soft"]
+  html[data-card-style="dark-ice-blue-neumorphism"],
+  html[data-card-style="pastel-lilac-soft"],
+  html[data-card-style="dark-pastel-lilac-soft"],
+  html[data-card-style="dark-glassmorphism"],
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
 ) #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
-  background: var(--bg-subcard-hover, rgba(255, 255, 255, 0.94)) !important;
+  background: var(--bg-subcard-hover, rgba(255, 255, 255, 0.64)) !important;
   box-shadow: var(--shadow-subcard-hover, var(--shadow-subcard)) !important;
 }
 

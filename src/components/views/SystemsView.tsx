@@ -1423,7 +1423,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                   </AnimatePresence>
                 </div>
 
-                {/* NÚT SƠ ĐỒ LIÊN KẾT HỆ THỐNG */}
+                {/* NÚT SƠ ĐỒ HỆ THỐNG */}
                 <button
                   type="button"
                   onClick={() => {
@@ -1431,13 +1431,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                     setIsEcosystemDiagramOpen(true);
                   }}
                   className="banner-primary-cta inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-[0_4px_16px_rgba(37,99,235,0.45)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.6)] border border-blue-300/40 backdrop-blur-md transition-all cursor-pointer typo-button font-play active:scale-95 group"
-                  title="Mở Sơ đồ liên kết 12 Phân hệ PowerService"
+                  title="Mở Sơ đồ hệ thống"
                 >
                   <WebIcon name="git-merge" className="w-4 h-4 text-white animate-pulse shrink-0" />
-                  <span>Sơ đồ liên kết</span>
-                  <span className="banner-count-pill px-1.5 py-0.5 rounded-full bg-white/20 text-white typo-badge font-mono">
-                    12 Phân hệ
-                  </span>
+                  <span>Sơ đồ hệ thống</span>
                 </button>
               </div>
 

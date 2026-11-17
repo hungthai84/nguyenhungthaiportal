@@ -107,36 +107,10 @@ body,
   display: none !important;
 }
 
-/* el-p1-div-85 has the same background as the main card across all themes */
-#el-p1-div-85,
-#letter-sections-list > #el-p1-div-85 {
-  background: var(--card-bg, inherit) !important;
-  background-color: var(--card-bg, inherit) !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
 /* Keep header/footer inner nav wrapper transparent without shadow */
 #app-header nav {
   box-shadow: none !important;
   filter: none !important;
-}
-
-/* Focus Mode Style Rules */
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) > div#el-p1-div-77:nth-of-type(1) > div#letter-sections-list:nth-of-type(1) > div#el-p1-div-85:nth-of-type(1),
-#el-p1-div-85 {
-  padding-left: 25px !important;
-  padding-right: 25px !important;
-  padding-bottom: 25px !important;
-  padding-top: 25px !important;
-}
-
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1),
-#letter-page-container {
-  padding-top: 0px !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  padding-bottom: 0px !important;
 }
 
 /* Card Core Values: colored stroke icons + identical heading color (no solid fill blob) */

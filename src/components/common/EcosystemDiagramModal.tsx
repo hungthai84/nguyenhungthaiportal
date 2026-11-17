@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Filter,
-  ChevronDown,
   SlidersHorizontal,
   RefreshCw,
   Activity,
@@ -1254,68 +1253,14 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                 <GitMerge className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <h2 className="typo-popup-title font-play truncate" style={{ color: 'var(--accent-blue, var(--color-primary))' }}>
-                    Sơ Đồ Liên Kết Hệ Sinh Thái 12 Phân Hệ PowerService
-                  </h2>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsFilterOpen(prev => !prev);
-                    }}
-                    className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-[10px] border typo-badge font-bold transition-all truncate max-w-[260px] cursor-pointer"
-                    style={{
-                      background: 'var(--bg-button-secondary)',
-                      borderColor: 'var(--border-subcard)',
-                      color: 'var(--text-secondary)',
-                    }}
-                    title="Nhấn để tùy chỉnh bộ lọc hiển thị"
-                  >
-                    <span className="shrink-0">Đang hiển thị:</span>
-                    <span className="font-bold truncate" style={{ color: 'var(--color-primary)' }}>{filterSummaryText}</span>
-                  </button>
-                </div>
-                <p className="typo-caption truncate hidden sm:block" style={{ color: 'var(--text-secondary)' }}>
-                  Kiến trúc kết nối dữ liệu liên phân hệ, phân quyền SDP và ma trận giao thức truyền thông
-                </p>
+                <h2 className="typo-popup-title font-play truncate" style={{ color: 'var(--accent-blue, var(--color-primary))' }}>
+                  Sơ đồ liên kết
+                </h2>
               </div>
             </div>
 
             {/* Top Action Controls */}
             <div className="flex items-center gap-1.5 shrink-0">
-              <div className="hidden lg:flex items-center gap-1.5 mr-1">
-                <button
-                  type="button"
-                  onClick={() => setShowHubLines(prev => !prev)}
-                  title="Bật/Tắt Line Hệ Thống vào SDP (Đồng bộ chuẩn Hub)"
-                  style={
-                    showHubLines
-                      ? { background: 'var(--bg-button-primary)', borderColor: 'transparent', color: '#FFFFFF' }
-                      : { background: 'var(--bg-button-secondary)', borderColor: 'var(--border-subcard)', color: 'var(--text-secondary)' }
-                  }
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-[14px] border typo-label font-bold transition-all cursor-pointer"
-                >
-                  <span className={`w-3.5 h-1.5 inline-block rounded-full shadow-xs shrink-0 ${showHubLines ? 'bg-white' : 'bg-current opacity-40'}`} />
-                  <span className="whitespace-nowrap">Line Hệ Thống vào SDP</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setShowInterSystemLines(prev => !prev)}
-                  title="Bật/Tắt Line Data Hệ thống (17 Tuyến Kết Nối Liên Phân Hệ)"
-                  style={
-                    showInterSystemLines
-                      ? { background: 'var(--bg-button-primary)', borderColor: 'transparent', color: '#FFFFFF' }
-                      : { background: 'var(--bg-button-secondary)', borderColor: 'var(--border-subcard)', color: 'var(--text-secondary)' }
-                  }
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-[14px] border typo-label font-bold transition-all cursor-pointer"
-                >
-                  <span className={`w-3.5 h-1.5 border-t-2 border-dashed inline-block shrink-0 ${showInterSystemLines ? 'border-white' : 'border-current opacity-50'}`} />
-                  <span className="whitespace-nowrap">Line Data Hệ thống</span>
-                </button>
-              </div>
-
               {/* Filter Popover */}
               <div className="relative" ref={filterWrapperRef}>
                 <button
@@ -1325,19 +1270,10 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                     setIsFilterOpen(prev => !prev);
                   }}
                   title="Mở bộ lọc hệ thống & luồng dữ liệu"
-                  className="banner-control-pill px-2.5 py-1 rounded-[14px] typo-label font-bold shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+                  aria-label="Bộ lọc"
+                  className="banner-control-pill w-8 h-8 rounded-full typo-label font-bold shadow-xs transition-all flex items-center justify-center cursor-pointer"
                 >
-                  <Filter className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
-                  <span>Bộ lọc</span>
-                  {activeFilterCount > 0 && (
-                    <span
-                      className="px-1.5 py-0.2 rounded-full text-white typo-badge font-bold"
-                      style={{ background: 'var(--bg-button-primary)' }}
-                    >
-                      {activeFilterCount}
-                    </span>
-                  )}
-                  <ChevronDown className="w-3 h-3" style={{ color: 'var(--color-primary)' }} />
+                  <Filter className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
                 </button>
 
                 {isFilterOpen && (
@@ -1505,18 +1441,6 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                     <span>Ma Trận</span>
                   </>
                 )}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  SoundEngine.playTap();
-                  onClose();
-                }}
-                className="theme-modal-close w-8 h-8 rounded-full flex items-center justify-center transition cursor-pointer shrink-0 ml-1"
-                title="Đóng cửa sổ sơ đồ"
-              >
-                <X className="w-4 h-4" />
               </button>
             </div>
           </header>

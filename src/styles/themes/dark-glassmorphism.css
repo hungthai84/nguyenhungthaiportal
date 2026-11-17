@@ -4,27 +4,78 @@
 /* ========================================================================= */
 
 .card-dark-glassmorphism {
-  background: rgba(15, 23, 42, 0.68);
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 22px 48px -12px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  background:
+    linear-gradient(155deg, rgba(255, 255, 255, 0.08) 0%, rgba(56, 189, 248, 0.04) 55%, rgba(167, 139, 250, 0.06) 100%),
+    linear-gradient(145deg, rgba(18, 26, 48, 0.65) 0%, rgba(12, 18, 36, 0.65) 100%);
+  backdrop-filter: blur(19px) saturate(135%);
+  -webkit-backdrop-filter: blur(19px) saturate(135%);
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  box-shadow: 0 16px 38px -10px rgba(2, 6, 23, 0.68), 0 4px 14px -2px rgba(56, 189, 248, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 1px 0 0 rgba(125, 211, 252, 0.11);
   color: #FFFFFF;
 }
 
 html[data-card-style="dark-glassmorphism"],
 html.dark[data-card-style="dark-glassmorphism"] {
-  --bg-blur: 22px;
-  --glass-blur: 22px;
-  --blur-subcard: 20px;
-  --blur-nav-pill: 22px;
+  --glass-main-alpha: 0.76;
+  --glass-card-alpha: 0.65;
+  --glass-subcard-alpha: 0.52;
+  --glass-nested-alpha: 0.42;
+
+  --glass-main-blur: 24px;
+  --glass-card-blur: 19px;
+  --glass-subcard-blur: 14px;
+  --glass-nested-blur: 10px;
+
+  --glass-main-saturate: 145%;
+  --glass-card-saturate: 135%;
+  --glass-subcard-saturate: 122%;
+  --glass-nested-saturate: 112%;
+
+  --bg-blur: var(--glass-card-blur);
+  --glass-blur: var(--glass-card-blur);
+  --blur-subcard: var(--glass-subcard-blur);
+  --blur-nav-pill: 18px;
   --blur-modal: 24px;
 
-  /* Core Surface & Contrast Tokens (WCAG AA/AAA on #0F172A Slate Glass) */
+  --glass-reflection-primary:
+    linear-gradient(125deg, rgba(255, 255, 255, 0.11) 0%, rgba(56, 189, 248, 0.08) 34%, rgba(139, 92, 246, 0.06) 66%, rgba(244, 114, 182, 0.07) 100%);
+  --glass-reflection-secondary:
+    linear-gradient(155deg, rgba(255, 255, 255, 0.08) 0%, rgba(56, 189, 248, 0.04) 55%, rgba(167, 139, 250, 0.06) 100%);
+  --glass-prism-highlight:
+    linear-gradient(110deg, rgba(56, 189, 248, 0.16) 0%, rgba(167, 139, 250, 0.14) 50%, rgba(244, 114, 182, 0.14) 100%);
+  --glass-inner-highlight:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 1px 0 0 rgba(125, 211, 252, 0.11);
+
+  --surface-main-glass:
+    var(--glass-reflection-primary),
+    linear-gradient(145deg, rgba(15, 23, 42, var(--glass-main-alpha, 0.76)) 0%, rgba(10, 15, 32, var(--glass-main-alpha, 0.76)) 100%);
+  --surface-card-glass:
+    var(--glass-reflection-secondary),
+    linear-gradient(145deg, rgba(18, 26, 48, var(--glass-card-alpha, 0.65)) 0%, rgba(12, 18, 36, var(--glass-card-alpha, 0.65)) 100%);
+  --surface-subcard-glass:
+    linear-gradient(145deg, rgba(22, 32, 58, var(--glass-subcard-alpha, 0.52)) 0%, rgba(15, 23, 42, var(--glass-subcard-alpha, 0.52)) 100%);
+  --surface-nested-glass:
+    rgba(15, 23, 42, var(--glass-nested-alpha, 0.42));
+
+  --glass-main-border: rgba(255, 255, 255, 0.20);
+  --glass-card-border: rgba(255, 255, 255, 0.17);
+  --glass-subcard-border: rgba(255, 255, 255, 0.14);
+  --glass-nested-border: rgba(255, 255, 255, 0.11);
+
+  --shadow-main-glass:
+    0 24px 58px -12px rgba(2, 6, 23, 0.78), 0 8px 24px -4px rgba(14, 165, 233, 0.10), var(--glass-inner-highlight);
+  --shadow-card-glass:
+    0 16px 38px -10px rgba(2, 6, 23, 0.68), 0 4px 14px -2px rgba(56, 189, 248, 0.08), var(--glass-inner-highlight);
+  --shadow-subcard-glass:
+    0 8px 22px -6px rgba(2, 6, 23, 0.56), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --shadow-nested-glass:
+    0 2px 8px -2px rgba(2, 6, 23, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+
+  /* Core Surface & Contrast Tokens (WCAG AA/AAA on #0F172A Smoked Crystal Glass) */
   --color-bg: #020617;
   --color-bg-soft: #0f172a;
-  --color-surface: rgba(15, 23, 42, 0.68);
-  --color-surface-elevated: rgba(30, 41, 59, 0.78);
+  --color-surface: rgba(15, 23, 42, 0.65);
+  --color-surface-elevated: rgba(30, 41, 59, 0.76);
   --color-heading: #FFFFFF;
   --color-text: #FFFFFF;
   --color-text-secondary: #F4F4F5;
@@ -39,56 +90,55 @@ html.dark[data-card-style="dark-glassmorphism"] {
   --color-tertiary: #22d3ee;
 
   --bg-main: #020617;
-  --bg-header: rgba(15, 23, 42, 0.62);
-  --bg-footer: rgba(15, 23, 42, 0.62);
-  --bg-card: rgba(15, 23, 42, 0.68);
-  --bg-subcard: rgba(15, 23, 42, 0.62);
-  --bg-subcard-hover: rgba(30, 41, 59, 0.80);
-  --bg-nested-card: rgba(15, 23, 42, 0.78);
+  --bg-header: var(--surface-main-glass);
+  --bg-footer: var(--surface-main-glass);
+  --bg-card: var(--surface-card-glass);
+  --bg-subcard: var(--surface-subcard-glass);
+  --bg-subcard-hover: linear-gradient(145deg, rgba(30, 41, 59, 0.66) 0%, rgba(18, 27, 48, 0.64) 100%);
+  --bg-nested-card: var(--surface-nested-glass);
 
   /* Interactive Actions & Focus */
   --bg-button-primary: linear-gradient(135deg, #0ea5e9 0%, #4f46e5 100%);
-  --bg-button-secondary: rgba(30, 41, 59, 0.78);
-  --bg-popup: rgba(15, 23, 42, 0.88);
-  --bg-modal: rgba(15, 23, 42, 0.92);
-  --bg-modal-backdrop: rgba(2, 6, 23, 0.80);
-  --bg-modal-header: rgba(15, 23, 42, 0.94);
-  --bg-modal-footer: rgba(15, 23, 42, 0.94);
+  --bg-button-secondary: rgba(30, 41, 59, 0.68);
+  --bg-popup: rgba(15, 23, 42, 0.86);
+  --bg-modal: rgba(15, 23, 42, 0.90);
+  --bg-modal-backdrop: rgba(2, 6, 23, 0.76);
+  --bg-modal-header: rgba(15, 23, 42, 0.92);
+  --bg-modal-footer: rgba(15, 23, 42, 0.92);
   --border-modal: rgba(255, 255, 255, 0.18);
-  --bg-dropdown: rgba(15, 23, 42, 0.92);
-  --bg-navigation: rgba(15, 23, 42, 0.78);
-  --bg-tab: rgba(30, 41, 59, 0.78);
-  --bg-input: rgba(15, 23, 42, 0.82);
+  --bg-dropdown: rgba(15, 23, 42, 0.90);
+  --bg-navigation: rgba(15, 23, 42, 0.72);
+  --bg-tab: rgba(30, 41, 59, 0.68);
+  --bg-input: rgba(15, 23, 42, 0.78);
   --border-input: rgba(255, 255, 255, 0.18);
   --border-input-focus: #38bdf8;
   --text-input: #FFFFFF;
   --text-placeholder: #D4D4D8;
-  --bg-table: rgba(15, 23, 42, 0.70);
-  --bg-table-head: rgba(30, 41, 59, 0.86);
-  --bg-table-row-alt: rgba(30, 41, 59, 0.44);
-  --border-table: rgba(255, 255, 255, 0.16);
+  --bg-table: rgba(15, 23, 42, 0.65);
+  --bg-table-head: rgba(30, 41, 59, 0.82);
+  --bg-table-row-alt: rgba(30, 41, 59, 0.36);
+  --border-table: rgba(255, 255, 255, 0.15);
 
-  /* Specular Top-Edge Glass Borders & Shadows */
-  --glass-bg: rgba(15, 23, 42, 0.68);
-  --glass-border: rgba(255, 255, 255, 0.16);
-  --border-color: rgba(255, 255, 255, 0.16);
-  --color-border: rgba(255, 255, 255, 0.16);
+  /* Specular Top-Edge Crystal Mirror Borders & Shadows */
+  --glass-bg: var(--surface-card-glass);
+  --glass-border: var(--glass-card-border);
+  --border-color: var(--glass-card-border);
+  --color-border: var(--glass-card-border);
   --color-border-soft: rgba(255, 255, 255, 0.10);
   --color-focus-ring: #38bdf8;
-  --bg-nav-button-opaque: rgba(15, 23, 42, 0.84);
+  --bg-nav-button-opaque: rgba(15, 23, 42, 0.82);
 
-  --bg-nav-pill: rgba(15, 23, 42, 0.82);
-  --shadow-nav-pill: 0 14px 32px -8px rgba(2, 6, 23, 0.76),
-    inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  --bg-nav-pill: rgba(15, 23, 42, 0.76);
+  --shadow-nav-pill: 0 14px 32px -8px rgba(2, 6, 23, 0.74),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20);
   --divider-nav-pill: rgba(255, 255, 255, 0.20);
 
-  --border-subcard: rgba(255, 255, 255, 0.16);
-  --shadow-subcard: 0 12px 28px -10px rgba(2, 6, 23, 0.64),
-    inset 0 1px 1px rgba(255, 255, 255, 0.18);
-  --shadow-subcard-hover: 0 18px 38px -10px rgba(2, 6, 23, 0.78),
-    inset 0 1px 1.5px rgba(255, 255, 255, 0.26);
-  --bg-nested-badge: rgba(30, 41, 59, 0.84);
-  --border-nested-badge: rgba(255, 255, 255, 0.18);
+  --border-subcard: var(--glass-subcard-border);
+  --shadow-subcard: var(--shadow-subcard-glass);
+  --shadow-subcard-hover: 0 14px 30px -8px rgba(2, 6, 23, 0.72),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  --bg-nested-badge: rgba(30, 41, 59, 0.62);
+  --border-nested-badge: rgba(255, 255, 255, 0.14);
 
   --pillar-heading: #FFFFFF;
   --pillar-sub: #38bdf8;
@@ -100,65 +150,76 @@ html.dark[data-card-style="dark-glassmorphism"] {
   --pillar-progress-fill: linear-gradient(90deg, #38bdf8, #818cf8);
 
   /* Banner & Nav Arrow Tokens */
-  --banner-border: rgba(255, 255, 255, 0.18);
-  --banner-shadow: 0 22px 48px -12px rgba(2, 6, 23, 0.74), inset 0 1px 1px rgba(255, 255, 255, 0.18);
-  --bg-banner-pill: rgba(15, 23, 42, 0.84);
+  --banner-border: var(--glass-card-border);
+  --banner-shadow: var(--shadow-card-glass);
+  --bg-banner-pill: rgba(15, 23, 42, 0.78);
   --text-banner-pill: #FFFFFF;
   --border-banner-pill: rgba(255, 255, 255, 0.20);
-  --shadow-banner-pill: 0 10px 24px -6px rgba(2, 6, 23, 0.72), inset 0 1px 1px rgba(255, 255, 255, 0.16);
+  --shadow-banner-pill: 0 10px 24px -6px rgba(2, 6, 23, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.18);
   --bg-banner-cta: linear-gradient(135deg, #0ea5e9 0%, #4f46e5 100%);
   --text-banner-cta: #ffffff;
   --border-banner-cta: rgba(56, 189, 248, 0.45);
-  --bg-banner-input: rgba(15, 23, 42, 0.88);
+  --bg-banner-input: rgba(15, 23, 42, 0.84);
   --text-banner-input: #FFFFFF;
   --border-banner-input: rgba(255, 255, 255, 0.20);
-  --bg-nav-arrow: rgba(15, 23, 42, 0.84);
+  --bg-nav-arrow: rgba(15, 23, 42, 0.78);
   --border-nav-arrow: rgba(255, 255, 255, 0.20);
   --text-nav-arrow: #FFFFFF;
-  --shadow-nav-arrow: 0 8px 20px -4px rgba(2, 6, 23, 0.70), inset 0 1px 1px rgba(255, 255, 255, 0.16);
+  --shadow-nav-arrow: 0 8px 20px -4px rgba(2, 6, 23, 0.70), inset 0 1px 0 rgba(255, 255, 255, 0.18);
   --border-image-card: rgba(255, 255, 255, 0.18);
-  --shadow-image-card: 0 22px 48px -12px rgba(2, 6, 23, 0.74);
+  --shadow-image-card: var(--shadow-card-glass);
 
-  /* Specular Top-Edge Elevation System (Đồng bộ Header, Main Card, Footer) */
-  --shadow-header: 0 20px 46px -12px rgba(2, 6, 23, 0.72), 0 6px 18px -4px rgba(2, 6, 23, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.16);
-  --shadow-main-card: var(--shadow-header);
-  --shadow-footer: var(--shadow-header);
-  --shadow-card: 0 22px 48px -12px rgba(2, 6, 23, 0.72),
-    inset 0 1px 1px rgba(255, 255, 255, 0.18);
-  --shadow-card-hover: 0 26px 54px -12px rgba(2, 6, 23, 0.82),
-    inset 0 1px 1.5px rgba(255, 255, 255, 0.26);
+  /* Specular Top-Edge Elevation System */
+  --shadow-header: var(--shadow-main-glass);
+  --shadow-main-card: var(--shadow-main-glass);
+  --shadow-footer: var(--shadow-main-glass);
+  --shadow-card: var(--shadow-card-glass);
+  --shadow-card-hover: 0 24px 52px -10px rgba(2, 6, 23, 0.80), 0 6px 20px -4px rgba(56, 189, 248, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 1px 0 0 rgba(125, 211, 252, 0.16);
   --shadow-popup: 0 24px 56px -10px rgba(2, 6, 23, 0.88),
-    inset 0 1px 1px rgba(255, 255, 255, 0.20);
+    inset 0 1px 0 rgba(255, 255, 255, 0.20);
   --shadow-modal: 0 32px 72px -12px rgba(2, 6, 23, 0.92),
     inset 0 1.5px 1.5px rgba(255, 255, 255, 0.24);
 
-  /* 4-Tier Surface Tokens */
-  --surface-primary-bg: rgba(15, 23, 42, 0.62);
-  --surface-primary-border: rgba(255, 255, 255, 0.14);
-  --surface-primary-shadow: var(--shadow-header);
-  --surface-primary-blur: 18px;
-  --surface-secondary-bg: rgba(15, 23, 42, 0.68);
-  --surface-secondary-border: rgba(255, 255, 255, 0.16);
-  --surface-secondary-shadow: var(--shadow-card);
-  --surface-secondary-blur: 22px;
-  --surface-tertiary-bg: rgba(15, 23, 42, 0.62);
-  --surface-tertiary-border: rgba(255, 255, 255, 0.16);
-  --surface-tertiary-shadow: var(--shadow-subcard);
-  --surface-tertiary-blur: 20px;
-  --surface-interactive-bg: rgba(15, 23, 42, 0.82);
-  --surface-interactive-hover: rgba(30, 41, 59, 0.88);
+  /* 4-Tier Smoked Crystal Glass Surface Tokens */
+  --surface-primary-bg: var(--surface-main-glass);
+  --surface-primary-border: var(--glass-main-border);
+  --surface-primary-shadow: var(--shadow-main-glass);
+  --surface-primary-blur: var(--glass-main-blur);
+  --surface-primary-saturate: var(--glass-main-saturate);
+
+  --surface-secondary-bg: var(--surface-card-glass);
+  --surface-secondary-border: var(--glass-card-border);
+  --surface-secondary-shadow: var(--shadow-card-glass);
+  --surface-secondary-blur: var(--glass-card-blur);
+  --surface-secondary-saturate: var(--glass-card-saturate);
+
+  --surface-tertiary-bg: var(--surface-subcard-glass);
+  --surface-tertiary-border: var(--glass-subcard-border);
+  --surface-tertiary-shadow: var(--shadow-subcard-glass);
+  --surface-tertiary-blur: var(--glass-subcard-blur);
+  --surface-tertiary-saturate: var(--glass-subcard-saturate);
+
+  --surface-nested-bg: var(--surface-nested-glass);
+  --surface-nested-border: var(--glass-nested-border);
+  --surface-nested-shadow: var(--shadow-nested-glass);
+  --surface-nested-blur: var(--glass-nested-blur);
+  --surface-nested-saturate: var(--glass-nested-saturate);
+
+  --surface-interactive-bg: rgba(15, 23, 42, 0.76);
+  --surface-interactive-hover: rgba(30, 41, 59, 0.84);
   --surface-interactive-active: var(--bg-button-primary);
   --surface-interactive-border: rgba(255, 255, 255, 0.20);
   --surface-interactive-shadow: var(--shadow-nav-pill);
-  --surface-interactive-blur: 22px;
+  --surface-interactive-blur: var(--blur-nav-pill);
 }
 
-/* Level 01: Header, Footer, Main Card & Nav Capsule */
+/* Level 01: Header, Footer, Main Card — Smoked Crystal Mirror (Alpha ~0.76 | Blur 24px | Sat 145%) */
 html[data-card-style="dark-glassmorphism"] #app-header,
 html[data-card-style="dark-glassmorphism"] #app-footer {
   background: var(--surface-primary-bg) !important;
-  backdrop-filter: blur(18px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 145%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 145%)) !important;
   border-color: var(--surface-primary-border) !important;
   box-shadow: var(--surface-primary-shadow) !important;
   color: #FFFFFF !important;
@@ -168,23 +229,23 @@ html[data-card-style="dark-glassmorphism"] .main-card,
 html[data-card-style="dark-glassmorphism"] [id$="-page-container"],
 html[data-card-style="dark-glassmorphism"] [id$="-page-root"] {
   background: var(--surface-primary-bg) !important;
-  backdrop-filter: blur(18px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 145%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 145%)) !important;
   border: 1px solid var(--surface-primary-border) !important;
   box-shadow: var(--surface-primary-shadow) !important;
   color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] #footer-nav-capsule {
-  background: rgba(15, 23, 42, 0.80) !important;
-  backdrop-filter: blur(22px) saturate(155%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(155%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
-  box-shadow: 0 16px 36px -8px rgba(2, 6, 23, 0.76), inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
+  background: var(--bg-nav-pill) !important;
+  backdrop-filter: blur(var(--surface-interactive-blur, 18px)) saturate(var(--glass-card-saturate, 135%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, 18px)) saturate(var(--glass-card-saturate, 135%)) !important;
+  border: 1px solid var(--surface-interactive-border) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
   color: #FFFFFF !important;
 }
 
-/* Level 02: Primary Section Cards */
+/* Level 02: Primary Section Cards — Iridescent Dark Mirror (Alpha ~0.65 | Blur 19px | Sat 135%) */
 html[data-card-style="dark-glassmorphism"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]),
 html[data-card-style="dark-glassmorphism"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
 html[data-card-style="dark-glassmorphism"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
@@ -192,15 +253,15 @@ html[data-card-style="dark-glassmorphism"] .project-card,
 html[data-card-style="dark-glassmorphism"] #projects-grid article,
 html[data-card-style="dark-glassmorphism"] .project-detail-section-card,
 html[data-card-style="dark-glassmorphism"] #contact-info-container {
-  background: rgba(15, 23, 42, 0.68) !important;
-  backdrop-filter: blur(22px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(150%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  box-shadow: var(--shadow-card) !important;
+  background: var(--surface-secondary-bg) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, 19px)) saturate(var(--surface-secondary-saturate, 135%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 19px)) saturate(var(--surface-secondary-saturate, 135%)) !important;
+  border: 1px solid var(--surface-secondary-border) !important;
+  box-shadow: var(--surface-secondary-shadow) !important;
   color: #FFFFFF !important;
 }
 
-/* Level 03: Subcards & Nested Surfaces */
+/* Level 03: Subcards — Soft Dark Crystal Glass (Alpha ~0.52 | Blur 14px | Sat 122%) */
 html[data-card-style="dark-glassmorphism"] [data-subcard="true"]:not(.skill-swot-subcard),
 html[data-card-style="dark-glassmorphism"] .sub-card:not(.skill-swot-subcard),
 html[data-card-style="dark-glassmorphism"] .about-info-subcard,
@@ -212,11 +273,11 @@ html[data-card-style="dark-glassmorphism"] .letter-subcard,
 html[data-card-style="dark-glassmorphism"] .letter-header-subcard,
 html[data-card-style="dark-glassmorphism"] .letter-footer-subcard,
 html[data-card-style="dark-glassmorphism"] .project-detail-subcard {
-  background: rgba(15, 23, 42, 0.62) !important;
-  backdrop-filter: blur(20px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  box-shadow: var(--shadow-subcard) !important;
+  background: var(--surface-tertiary-bg) !important;
+  backdrop-filter: blur(var(--surface-tertiary-blur, 14px)) saturate(var(--surface-tertiary-saturate, 122%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, 14px)) saturate(var(--surface-tertiary-saturate, 122%)) !important;
+  border: 1px solid var(--surface-tertiary-border) !important;
+  box-shadow: var(--surface-tertiary-shadow) !important;
   color: #FFFFFF !important;
 }
 
@@ -227,9 +288,20 @@ html[data-card-style="dark-glassmorphism"] .experience-milestone-card:hover,
 html[data-card-style="dark-glassmorphism"] .exp-detail-subcard:hover,
 html[data-card-style="dark-glassmorphism"] .pillar-gradient-card:hover,
 html[data-card-style="dark-glassmorphism"] .education-subcard:hover {
-  background: rgba(30, 41, 59, 0.78) !important;
-  border-color: rgba(255, 255, 255, 0.26) !important;
+  background: var(--bg-subcard-hover) !important;
+  border-color: rgba(255, 255, 255, 0.24) !important;
   box-shadow: var(--shadow-subcard-hover) !important;
+}
+
+/* Level 04: Nested Cards — Clear Dark Inner Glass (Alpha ~0.42 | Blur 10px | Sat 112%) */
+html[data-card-style="dark-glassmorphism"] .skill-swot-subcard .swot-skill-disclosure,
+html[data-card-style="dark-glassmorphism"] :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .pillar-gradient-card) :is([data-subcard="true"], .sub-card, .nested-card, .theme-muted-surface, [data-elevation="1"]) {
+  background: var(--surface-nested-bg) !important;
+  backdrop-filter: blur(var(--surface-nested-blur, 10px)) saturate(var(--surface-nested-saturate, 112%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-nested-blur, 10px)) saturate(var(--surface-nested-saturate, 112%)) !important;
+  border: 1px solid var(--surface-nested-border) !important;
+  box-shadow: var(--surface-nested-shadow) !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] .bento-tone-indigo,
@@ -241,15 +313,15 @@ html[data-card-style="dark-glassmorphism"] .bento-tone-amber,
 html[data-card-style="dark-glassmorphism"] .bento-tone-pink,
 html[data-card-style="dark-glassmorphism"] .bento-tone-teal,
 html[data-card-style="dark-glassmorphism"] .bento-tone-sky {
-  background: rgba(15, 23, 42, 0.68) !important;
-  backdrop-filter: blur(22px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(150%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  box-shadow: var(--shadow-card) !important;
+  background: var(--surface-secondary-bg) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, 19px)) saturate(var(--surface-secondary-saturate, 135%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 19px)) saturate(var(--surface-secondary-saturate, 135%)) !important;
+  border: 1px solid var(--surface-secondary-border) !important;
+  box-shadow: var(--surface-secondary-shadow) !important;
   color: #FFFFFF !important;
 }
 
-/* Level 04: Interactive Pills, Modals, Inputs & Tables */
+/* Interactive Pills, Modals, Inputs & Tables */
 html[data-card-style="dark-glassmorphism"] #app-header nav button.nav-pill:not(.active),
 html[data-card-style="dark-glassmorphism"] #header-btn-hungthai-avatar:not(.active),
 html[data-card-style="dark-glassmorphism"] #footer-lang-btn:not(.active),
@@ -262,10 +334,10 @@ html[data-card-style="dark-glassmorphism"] .nav-arrow-btn,
 html[data-card-style="dark-glassmorphism"] .theme-prev-next-btn,
 html[data-card-style="dark-glassmorphism"] .theme-back-to-top-btn,
 html[data-card-style="dark-glassmorphism"] .radial-contact-pill {
-  background: rgba(15, 23, 42, 0.82) !important;
-  backdrop-filter: blur(22px) saturate(155%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(155%) !important;
-  border-color: rgba(255, 255, 255, 0.18) !important;
+  background: var(--bg-nav-pill) !important;
+  backdrop-filter: blur(var(--surface-interactive-blur, 18px)) saturate(var(--glass-card-saturate, 135%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, 18px)) saturate(var(--glass-card-saturate, 135%)) !important;
+  border-color: var(--surface-interactive-border) !important;
   box-shadow: var(--shadow-nav-pill) !important;
   color: #FFFFFF !important;
 }
@@ -281,25 +353,37 @@ html[data-card-style="dark-glassmorphism"] .banner-dropdown-menu,
 html[data-card-style="dark-glassmorphism"] [role="dialog"],
 html[data-card-style="dark-glassmorphism"] .modal-dialog,
 html[data-card-style="dark-glassmorphism"] .theme-modal-card {
-  background: rgba(15, 23, 42, 0.90) !important;
-  backdrop-filter: blur(24px) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  background: var(--bg-modal) !important;
+  backdrop-filter: blur(var(--blur-modal, 24px)) saturate(var(--glass-main-saturate, 145%)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-modal, 24px)) saturate(var(--glass-main-saturate, 145%)) !important;
+  border: 1px solid var(--border-modal) !important;
   box-shadow: var(--shadow-modal) !important;
   color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] .theme-modal-header,
 html[data-card-style="dark-glassmorphism"] .theme-modal-footer {
-  background: rgba(15, 23, 42, 0.94) !important;
+  background: var(--bg-modal-header) !important;
   border-color: rgba(255, 255, 255, 0.14) !important;
   color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] .theme-modal-subcard {
-  background: rgba(30, 41, 59, 0.72) !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  box-shadow: var(--shadow-subcard) !important;
+  background: var(--surface-tertiary-bg) !important;
+  border: 1px solid var(--surface-tertiary-border) !important;
+  box-shadow: var(--surface-tertiary-shadow) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="dark-glassmorphism"] .project-detail-chip,
+html[data-card-style="dark-glassmorphism"] .education-skill-chip,
+html[data-card-style="dark-glassmorphism"] .project-card-tag,
+html[data-card-style="dark-glassmorphism"] .project-card-order-badge {
+  background: var(--surface-nested-bg) !important;
+  backdrop-filter: blur(var(--surface-nested-blur, 10px)) saturate(var(--surface-nested-saturate, 112%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-nested-blur, 10px)) saturate(var(--surface-nested-saturate, 112%)) !important;
+  border: 1px solid var(--surface-nested-border) !important;
+  box-shadow: var(--surface-nested-shadow) !important;
   color: #FFFFFF !important;
 }
 
@@ -307,8 +391,8 @@ html[data-card-style="dark-glassmorphism"] input:not([type="checkbox"]):not([typ
 html[data-card-style="dark-glassmorphism"] textarea,
 html[data-card-style="dark-glassmorphism"] select,
 html[data-card-style="dark-glassmorphism"] .banner-search-input {
-  background: rgba(15, 23, 42, 0.84) !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  background: var(--bg-input) !important;
+  border: 1px solid var(--border-input) !important;
   color: #FFFFFF !important;
 }
 
@@ -318,18 +402,34 @@ html[data-card-style="dark-glassmorphism"] textarea::placeholder {
 }
 
 html[data-card-style="dark-glassmorphism"] .theme-table {
-  background: rgba(15, 23, 42, 0.72) !important;
-  border-color: rgba(255, 255, 255, 0.16) !important;
+  background: var(--bg-table) !important;
+  border-color: var(--border-table) !important;
   color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] .theme-table thead,
 html[data-card-style="dark-glassmorphism"] .theme-table th {
-  background: rgba(30, 41, 59, 0.88) !important;
+  background: var(--bg-table-head) !important;
   color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-glassmorphism"] .themed-image-card {
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border: 1px solid var(--border-image-card) !important;
   box-shadow: var(--shadow-image-card) !important;
+}
+
+@media (max-width: 767px) {
+  html[data-card-style="dark-glassmorphism"],
+  html.dark[data-card-style="dark-glassmorphism"] {
+    --glass-main-blur: 18px;
+    --glass-card-blur: 14px;
+    --glass-subcard-blur: 10px;
+    --glass-nested-blur: 8px;
+    --surface-primary-blur: 18px;
+    --surface-secondary-blur: 14px;
+    --surface-tertiary-blur: 10px;
+    --surface-nested-blur: 8px;
+    --surface-interactive-blur: 14px;
+    --blur-modal: 18px;
+  }
 }

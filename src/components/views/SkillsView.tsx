@@ -230,9 +230,10 @@ const SwotCornerQuadrant: React.FC<SwotCornerQuadrantProps> = ({
 
 export interface SkillsViewProps {
   currentTheme?: any;
+  embedded?: boolean;
 }
 
-export function Skills({ currentTheme }: SkillsViewProps = {}) {
+export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {}) {
   void currentTheme;
   const { language: lang, t } = useLanguage();
   const isVi = lang === "vi";
@@ -420,11 +421,15 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
 
   return (
     <div
-      id="skills-page-container"
+      id={embedded ? "skills-embedded-section" : "skills-page-container"}
       data-element-name="Trang Kỹ Năng Cốt Lõi"
-      data-element-type="container"
+      data-element-type={embedded ? "section" : "container"}
       data-element-page="skills"
-      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] rounded-[14px] overflow-y-auto glass-scrollbar font-play text-left animate-fadeIn gap-[15px] box-border"
+      className={
+        embedded
+          ? "w-full min-w-0 flex flex-col justify-start font-play text-left animate-fadeIn gap-[15px] box-border"
+          : "main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] rounded-[14px] overflow-y-auto glass-scrollbar font-play text-left animate-fadeIn gap-[15px] box-border"
+      }
     >
       <div id="skills-main-wrapper" className="w-full flex-grow flex flex-col gap-[15px] justify-start">
         {/* Banner trang kỹ năng - Ẩn khi hiển thị chi tiết kỹ năng */}

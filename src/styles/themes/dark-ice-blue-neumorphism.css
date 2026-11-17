@@ -99,13 +99,13 @@ html.dark[data-card-style="dark-ice-blue-neumorphism"] {
   --bg-nav-button-opaque: #182536;
 
   /* Dual Dark Ice-Blue Neumorphic Shadow System */
-  --shadow-header: 10px 10px 24px #0a1018,
-    -8px -8px 20px #203147,
-    inset 1px 1px 2px rgba(186, 230, 253, 0.14);
+  --shadow-header: 14px 14px 32px #080d14,
+    -12px -12px 26px #22354d,
+    inset 1px 1px 2px rgba(186, 230, 253, 0.16);
   --shadow-main-card: var(--shadow-header);
   --shadow-footer: var(--shadow-header);
-  --shadow-card: 12px 12px 26px #0a1018,
-    -10px -10px 22px #203147,
+  --shadow-card: 10px 10px 22px #0a1018,
+    -8px -8px 18px #1e2e43,
     inset 1px 1px 2px rgba(186, 230, 253, 0.14);
   --shadow-card-hover: 16px 16px 32px #080d14,
     -12px -12px 26px #23364f,
@@ -144,9 +144,7 @@ html.dark[data-card-style="dark-ice-blue-neumorphism"] {
 
   /* Banner & Navigation Arrows */
   --banner-border: rgba(148, 197, 248, 0.14);
-  --banner-shadow: 12px 12px 26px #0a1018,
-    -10px -10px 22px #203147,
-    inset 1px 1px 2px rgba(186, 230, 253, 0.14);
+  --banner-shadow: var(--shadow-card);
   --bg-banner-pill: linear-gradient(145deg, #182536 0%, #121c29 100%);
   --text-banner-pill: #FFFFFF;
   --border-banner-pill: rgba(148, 197, 248, 0.16);
@@ -163,7 +161,7 @@ html.dark[data-card-style="dark-ice-blue-neumorphism"] {
   --text-nav-arrow: #FFFFFF;
   --shadow-nav-arrow: 5px 5px 12px #0a1018, -4px -4px 10px #203147;
   --border-image-card: rgba(148, 197, 248, 0.14);
-  --shadow-image-card: 12px 12px 26px #0a1018, -10px -10px 22px #203147;
+  --shadow-image-card: var(--shadow-card);
 
   /* Global 5-Layer Deep Ice-Blue Background (#152030) */
   --app-bg-base: #152030;
@@ -265,7 +263,7 @@ html[data-card-style="dark-ice-blue-neumorphism"] .bento-tone-sky {
   -webkit-backdrop-filter: none !important;
   border-radius: 14px !important;
   border: 1px solid rgba(148, 197, 248, 0.12) !important;
-  box-shadow: 12px 12px 26px #0a1018, -10px -10px 22px #203147, inset 1px 1px 2px rgba(186, 230, 253, 0.14) !important;
+  box-shadow: var(--shadow-card) !important;
   color: #FFFFFF !important;
 }
 

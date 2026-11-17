@@ -345,6 +345,7 @@ html[data-card-style="light-glassmorphism"] #app-header nav button.nav-pill:not(
 html[data-card-style="light-glassmorphism"] #header-btn-hungthai-avatar:not(.active),
 html[data-card-style="light-glassmorphism"] #footer-lang-btn:not(.active),
 html[data-card-style="light-glassmorphism"] #footer-appearance-btn:not(.active),
+html[data-card-style="light-glassmorphism"] #footer-theme-mode-btn:not(.active),
 html[data-card-style="light-glassmorphism"] #footer-wallpaper-btn:not(.active),
 html[data-card-style="light-glassmorphism"] #footer-ai-btn:not(.active) {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0.62) 100%) !important;
@@ -359,6 +360,7 @@ html[data-card-style="light-glassmorphism"] #app-header nav button.nav-pill:not(
 html[data-card-style="light-glassmorphism"] #header-btn-hungthai-avatar:not(.active):hover,
 html[data-card-style="light-glassmorphism"] #footer-lang-btn:not(.active):hover,
 html[data-card-style="light-glassmorphism"] #footer-appearance-btn:not(.active):hover,
+html[data-card-style="light-glassmorphism"] #footer-theme-mode-btn:not(.active):hover,
 html[data-card-style="light-glassmorphism"] #footer-wallpaper-btn:not(.active):hover,
 html[data-card-style="light-glassmorphism"] #footer-ai-btn:not(.active):hover {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.76) 100%) !important;

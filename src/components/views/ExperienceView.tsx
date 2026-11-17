@@ -41,6 +41,8 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 import { EXPERIENCE_MILESTONES } from '@/data/experience';
+import { PROJECTS_DATA } from '@/data/projects';
+import { DOMAINS_DATA } from '@/data/domains';
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { cn } from '@/lib/utils';
@@ -315,12 +317,22 @@ export interface ExperienceViewProps {
   currentTheme?: string;
   onShowNotification?: (msg: string) => void;
   onNavigateTab?: (tabIndex: number) => void;
+  activeKey?: string;
+  onActiveKeyChange?: (key: string) => void;
+  showJobCard?: boolean;
+  onShowJobCardChange?: (show: boolean) => void;
+  onOpenProjectFromJob?: (projectId?: string) => void;
 }
 
 export const ExperienceView: React.FC<ExperienceViewProps> = ({ 
   currentTheme = 'light-glass',
   onShowNotification,
-  onNavigateTab
+  onNavigateTab,
+  activeKey: activeKeyProp,
+  onActiveKeyChange,
+  showJobCard: showJobCardProp,
+  onShowJobCardChange,
+  onOpenProjectFromJob,
 }) => {
   const { showToast } = useToast();
   const { isDark: themeIsDark, cardStyle } = useTheme();
@@ -329,8 +341,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const isLightLeather = cardStyle === 'light-cowhide-leather';
   const isDarkSurface = isDark && !isLeather;
 
-  const [activeKey, setActiveKey] = useState<string>('2013');
-  const [showJobCard, setShowJobCard] = useState<boolean>(false);
+  const [internalActiveKey, setInternalActiveKey] = useState<string>(activeKeyProp || '2013');
+  const [internalShowJobCard, setInternalShowJobCard] = useState<boolean>(Boolean(showJobCardProp));
+
+  const activeKey = activeKeyProp !== undefined ? activeKeyProp : internalActiveKey;
+  const showJobCard = showJobCardProp !== undefined ? showJobCardProp : internalShowJobCard;
+
+  const setActiveKey = (next: string) => {
+    setInternalActiveKey(next);
+    onActiveKeyChange?.(next);
+  };
+  const setShowJobCard = (next: boolean) => {
+    setInternalShowJobCard(next);
+    onShowJobCardChange?.(next);
+  };
 
   // Tab 5 Kinh nghiệm chỉ có 1 Slide duy nhất (Lịch sử công tác 8 mốc)
   useEffect(() => {
@@ -448,9 +472,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     {
       key: '2011',
       yearBadge: 'Năm 2011',
-      companyLine1: 'Công ty CP Thông tin',
+      companyLine1: 'Công ty CP',
       companyLine2: 'Băng thông Rộng LBC',
-      shortName: 'Công ty CP Thông tin Băng thông Rộng LBC',
+      shortName: 'Công ty CP Băng thông Rộng LBC',
       roleSummary: 'Trưởng Phòng CSKH',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2011']?.cardDescription || '',
@@ -1270,7 +1294,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 'Tối ưu hóa quy trình tiếp nhận và xử lý khiếu nại',
               ];
 
-        // Danh sách Dự án lấy trực tiếp từ activeMilestone.projects (tách mã số nếu có)
+        // Danh sách Dự án lấy từ activeMilestone.projects, ánh xạ đồng bộ tiêu đề & mã số theo PROJECTS_DATA
         const projectsList = (
           activeMilestone.projects && activeMilestone.projects.length > 0
             ? activeMilestone.projects
@@ -1281,10 +1305,36 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         ).map((rawProject, idx) => {
           const trimmed = rawProject.trim();
           const codeMatch = trimmed.match(/^(\d+(?:\.\d+)?)\s*[·.\-–]\s*(.+)$/);
+          const rawCode = codeMatch ? codeMatch[1] : `${idx + 1}`;
+          const rawTitle = codeMatch ? codeMatch[2].trim() : trimmed;
+          const lowerRaw = trimmed.toLowerCase();
+
+          let matchedProj = undefined as (typeof PROJECTS_DATA)[number] | undefined;
+          if (codeMatch && rawCode.includes('.')) {
+            if (lowerRaw.includes('bpo')) {
+              matchedProj = PROJECTS_DATA.find((p) => p.id === 'p2_5');
+            } else {
+              const expectedId = `p${rawCode.replace('.', '_')}`;
+              matchedProj = PROJECTS_DATA.find((p) => p.id === expectedId);
+            }
+          } else if (lowerRaw.includes('copilot') || lowerRaw.includes('auto-qa')) {
+            matchedProj = PROJECTS_DATA.find((p) => p.id === 'p5_6');
+          } else if (lowerRaw.includes('contact center')) {
+            matchedProj = PROJECTS_DATA.find((p) => p.id === 'p2_2');
+          }
+
+          const hasExactCodeMatch = Boolean(matchedProj && codeMatch && rawCode.includes('.'));
+          const displayCode = hasExactCodeMatch && matchedProj ? matchedProj.code : rawCode;
+          const displayTitle =
+            hasExactCodeMatch && matchedProj
+              ? matchedProj.title.replace(/^[\d.]+\s*·\s*/, '').trim()
+              : rawTitle;
+
           return {
-            code: codeMatch ? codeMatch[1] : `${idx + 1}`,
-            title: codeMatch ? codeMatch[2].trim() : trimmed,
-            rawTitle: trimmed,
+            code: displayCode,
+            title: displayTitle,
+            rawTitle: matchedProj ? matchedProj.title : trimmed,
+            projectId: matchedProj?.id,
           };
         });
 
@@ -1357,63 +1407,204 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   },
                 ];
 
-        const industryParts = activeMilestone.industry
-          .split('/')
-          .map((part) => part.trim())
-          .filter(Boolean);
+        const resolveServicesForLogo = (productName: string, logoUrl: string): string[] => {
+          const matched: string[] = [];
+          const addService = (title: string) => {
+            if (title && !matched.includes(title)) matched.push(title);
+          };
 
-        // Helpers ánh xạ màu & icon cho từng chip Lĩnh vực hoạt động
+          const normSrc = logoUrl.toLowerCase();
+          const normMilestoneLogo = (activeMilestone.logo || '').toLowerCase();
+          const normName = productName.toLowerCase();
+
+          // 1. Ưu tiên khớp chính xác theo URL logo trong DOMAINS_DATA
+          DOMAINS_DATA.forEach((domain) => {
+            const hasUrlMatch = (domain.companyLogos || []).some((cl) => {
+              const clLogo = (cl.logo || '').toLowerCase();
+              const clFallback = (cl.fallbackLogo || '').toLowerCase();
+              return (
+                (clLogo && (clLogo === normSrc || (rawProductsList.length === 1 && clLogo === normMilestoneLogo))) ||
+                (clFallback && clFallback === normSrc)
+              );
+            });
+            if (hasUrlMatch) {
+              addService(domain.title);
+            }
+          });
+
+          // 2. Fallback khớp theo từ khóa tên / tên file logo khi URL khác biến thể (vd: Mobifone_Logo.png)
+          if (matched.length === 0) {
+            const combined = `${normName} ${normSrc}`;
+            if (combined.includes('mobifone') || combined.includes('v247') || combined.includes('htvc') || combined.includes('lbc')) {
+              addService('Dịch vụ Viễn thông');
+            }
+            if (combined.includes('garena') || combined.includes('ved') || combined.includes('gcafe')) {
+              addService('Thể thao điện tử');
+            }
+            if (combined.includes('shopeepay') || combined.includes('airpay') || combined.includes('momo')) {
+              addService('Thanh toán điện tử');
+            } else if (combined.includes('shopee')) {
+              addService('Thương mại điện tử');
+            }
+            if (combined.includes('prudential')) {
+              addService('Tài chính bảo hiểm');
+            }
+            if (combined.includes('finviet')) {
+              addService('Thanh toán điện tử');
+              addService('Thương mại điện tử');
+              addService('Tài chính bảo hiểm');
+            }
+            if (combined.includes('power') || combined.includes('powerservice')) {
+              addService('Xây dựng hệ thống');
+            }
+          }
+
+          // Sắp xếp ưu tiên cho các logo đa dịch vụ (ShopeePay / Finviet) để badge chính hiển thị đầu tiên
+          if (normName.includes('shopeepay') || normName.includes('airpay') || normSrc.includes('shopeepay')) {
+            matched.sort((a, b) => (a === 'Thanh toán điện tử' ? -1 : b === 'Thanh toán điện tử' ? 1 : 0));
+          } else if (normName.includes('finviet') || normSrc.includes('finviet')) {
+            const priority = ['Thanh toán điện tử', 'Thương mại điện tử', 'Tài chính bảo hiểm'];
+            matched.sort((a, b) => priority.indexOf(a) - priority.indexOf(b));
+          }
+
+          if (matched.length === 0 && activeMilestone.tag) {
+            addService(activeMilestone.tag);
+          }
+          return matched;
+        };
+
+        const productsWithServices = rawProductsList.map((prod) => ({
+          ...prod,
+          services: resolveServicesForLogo(prod.name, prod.src),
+        }));
+
+        const derivedServicesList = Array.from(
+          new Set(productsWithServices.flatMap((prod) => prod.services))
+        );
+
+        // Helpers ánh xạ màu & icon cho từng chip Dịch vụ hoạt động (tương thích Sáng / Tối)
         const getIndustryChipVisual = (label: string, idx: number) => {
           const lower = label.toLowerCase();
-          if (lower.includes('esport') || lower.includes('game')) {
+          if (lower.includes('thể thao điện tử') || lower.includes('esport') || lower.includes('game')) {
             return {
               Icon: Trophy,
-              chipClass: 'bg-red-500/20 border-red-400/35 text-red-100',
-              iconClass: 'text-red-300',
+              chipClass: isDarkSurface
+                ? 'bg-red-500/20 border-red-400/35 text-red-100 hover:bg-red-500/30'
+                : 'bg-red-50 border-red-200/90 text-red-800 hover:bg-red-100/80',
+              iconClass: isDarkSurface ? 'text-red-300' : 'text-red-600',
             };
           }
-          if (lower.includes('e-commerce') || lower.includes('tmđt') || lower.includes('bán lẻ')) {
+          if (lower.includes('thương mại điện tử') || lower.includes('e-commerce') || lower.includes('tmđt') || lower.includes('bán lẻ')) {
             return {
               Icon: ShoppingBag,
-              chipClass: 'bg-orange-500/20 border-orange-400/35 text-orange-100',
-              iconClass: 'text-orange-300',
-            };
-          }
-          if (lower.includes('ví') || lower.includes('fintech') || lower.includes('tài chính') || lower.includes('thanh toán')) {
-            return {
-              Icon: Wallet,
-              chipClass: 'bg-sky-500/20 border-sky-400/35 text-sky-100',
-              iconClass: 'text-sky-300',
+              chipClass: isDarkSurface
+                ? 'bg-orange-500/20 border-orange-400/35 text-orange-100 hover:bg-orange-500/30'
+                : 'bg-orange-50 border-orange-200/90 text-orange-800 hover:bg-orange-100/80',
+              iconClass: isDarkSurface ? 'text-orange-300' : 'text-orange-600',
             };
           }
           if (lower.includes('bảo hiểm')) {
             return {
               Icon: ShieldCheck,
-              chipClass: 'bg-rose-500/20 border-rose-400/35 text-rose-100',
-              iconClass: 'text-rose-300',
+              chipClass: isDarkSurface
+                ? 'bg-rose-500/20 border-rose-400/35 text-rose-100 hover:bg-rose-500/30'
+                : 'bg-rose-50 border-rose-200/90 text-rose-800 hover:bg-rose-100/80',
+              iconClass: isDarkSurface ? 'text-rose-300' : 'text-rose-600',
+            };
+          }
+          if (lower.includes('thanh toán') || lower.includes('ví') || lower.includes('fintech') || lower.includes('tài chính')) {
+            return {
+              Icon: Wallet,
+              chipClass: isDarkSurface
+                ? 'bg-sky-500/20 border-sky-400/35 text-sky-100 hover:bg-sky-500/30'
+                : 'bg-sky-50 border-sky-200/90 text-sky-800 hover:bg-sky-100/80',
+              iconClass: isDarkSurface ? 'text-sky-300' : 'text-sky-600',
             };
           }
           if (lower.includes('truyền hình') || lower.includes('truyền thông')) {
             return {
               Icon: Tv,
-              chipClass: 'bg-teal-500/20 border-teal-400/35 text-teal-100',
-              iconClass: 'text-teal-300',
+              chipClass: isDarkSurface
+                ? 'bg-teal-500/20 border-teal-400/35 text-teal-100 hover:bg-teal-500/30'
+                : 'bg-teal-50 border-teal-200/90 text-teal-800 hover:bg-teal-100/80',
+              iconClass: isDarkSurface ? 'text-teal-300' : 'text-teal-600',
             };
           }
           if (lower.includes('viễn thông') || lower.includes('call center') || lower.includes('contact center')) {
             return {
               Icon: PhoneCall,
-              chipClass: 'bg-indigo-500/20 border-indigo-400/35 text-indigo-100',
-              iconClass: 'text-indigo-300',
+              chipClass: isDarkSurface
+                ? 'bg-indigo-500/20 border-indigo-400/35 text-indigo-100 hover:bg-indigo-500/30'
+                : 'bg-indigo-50 border-indigo-200/90 text-indigo-800 hover:bg-indigo-100/80',
+              iconClass: isDarkSurface ? 'text-indigo-300' : 'text-indigo-600',
             };
           }
-          const fallbackPalettes = [
-            { Icon: Monitor, chipClass: 'bg-emerald-500/20 border-emerald-400/35 text-emerald-100', iconClass: 'text-emerald-300' },
-            { Icon: Layers, chipClass: 'bg-violet-500/20 border-violet-400/35 text-violet-100', iconClass: 'text-violet-300' },
-            { Icon: Cpu, chipClass: 'bg-amber-500/20 border-amber-400/35 text-amber-100', iconClass: 'text-amber-300' },
-          ];
+          if (lower.includes('xây dựng hệ thống') || lower.includes('hệ thống')) {
+            return {
+              Icon: Layers,
+              chipClass: isDarkSurface
+                ? 'bg-emerald-500/20 border-emerald-400/35 text-emerald-100 hover:bg-emerald-500/30'
+                : 'bg-emerald-50 border-emerald-200/90 text-emerald-800 hover:bg-emerald-100/80',
+              iconClass: isDarkSurface ? 'text-emerald-300' : 'text-emerald-600',
+            };
+          }
+          const fallbackPalettes = isDarkSurface
+            ? [
+                { Icon: Monitor, chipClass: 'bg-emerald-500/20 border-emerald-400/35 text-emerald-100 hover:bg-emerald-500/30', iconClass: 'text-emerald-300' },
+                { Icon: Layers, chipClass: 'bg-violet-500/20 border-violet-400/35 text-violet-100 hover:bg-violet-500/30', iconClass: 'text-violet-300' },
+                { Icon: Cpu, chipClass: 'bg-amber-500/20 border-amber-400/35 text-amber-100 hover:bg-amber-500/30', iconClass: 'text-amber-300' },
+              ]
+            : [
+                { Icon: Monitor, chipClass: 'bg-emerald-50 border-emerald-200/90 text-emerald-800 hover:bg-emerald-100/80', iconClass: 'text-emerald-600' },
+                { Icon: Layers, chipClass: 'bg-violet-50 border-violet-200/90 text-violet-800 hover:bg-violet-100/80', iconClass: 'text-violet-600' },
+                { Icon: Cpu, chipClass: 'bg-amber-50 border-amber-200/90 text-amber-800 hover:bg-amber-100/80', iconClass: 'text-amber-600' },
+              ];
           return fallbackPalettes[idx % fallbackPalettes.length];
         };
+
+        // Bảng màu riêng biệt cho từng sub-card trong Danh sách công việc
+        const taskCardPalettes = [
+          {
+            light: 'bg-gradient-to-r from-blue-50/95 to-sky-50/75 border-blue-200/85 hover:border-blue-400',
+            dark: 'bg-gradient-to-r from-blue-950/55 to-sky-950/35 border-blue-500/30 hover:border-blue-400/60',
+            badge: 'bg-blue-600 text-white',
+          },
+          {
+            light: 'bg-gradient-to-r from-emerald-50/95 to-teal-50/75 border-emerald-200/85 hover:border-emerald-400',
+            dark: 'bg-gradient-to-r from-emerald-950/55 to-teal-950/35 border-emerald-500/30 hover:border-emerald-400/60',
+            badge: 'bg-emerald-600 text-white',
+          },
+          {
+            light: 'bg-gradient-to-r from-orange-50/95 to-amber-50/75 border-orange-200/85 hover:border-orange-400',
+            dark: 'bg-gradient-to-r from-orange-950/55 to-amber-950/35 border-orange-500/30 hover:border-orange-400/60',
+            badge: 'bg-orange-500 text-white',
+          },
+          {
+            light: 'bg-gradient-to-r from-purple-50/95 to-violet-50/75 border-purple-200/85 hover:border-purple-400',
+            dark: 'bg-gradient-to-r from-purple-950/55 to-violet-950/35 border-purple-500/30 hover:border-purple-400/60',
+            badge: 'bg-purple-600 text-white',
+          },
+          {
+            light: 'bg-gradient-to-r from-rose-50/95 to-pink-50/75 border-rose-200/85 hover:border-rose-400',
+            dark: 'bg-gradient-to-r from-rose-950/55 to-pink-950/35 border-rose-500/30 hover:border-rose-400/60',
+            badge: 'bg-rose-600 text-white',
+          },
+          {
+            light: 'bg-gradient-to-r from-cyan-50/95 to-indigo-50/75 border-cyan-200/85 hover:border-cyan-400',
+            dark: 'bg-gradient-to-r from-cyan-950/55 to-indigo-950/35 border-cyan-500/30 hover:border-cyan-400/60',
+            badge: 'bg-cyan-600 text-white',
+          },
+          {
+            light: 'bg-gradient-to-r from-amber-50/95 to-yellow-50/75 border-amber-200/85 hover:border-amber-400',
+            dark: 'bg-gradient-to-r from-amber-950/55 to-yellow-950/35 border-amber-500/30 hover:border-amber-400/60',
+            badge: 'bg-amber-600 text-white',
+          },
+          {
+            light: 'bg-gradient-to-r from-indigo-50/95 to-fuchsia-50/75 border-indigo-200/85 hover:border-indigo-400',
+            dark: 'bg-gradient-to-r from-indigo-950/55 to-fuchsia-950/35 border-indigo-500/30 hover:border-indigo-400/60',
+            badge: 'bg-indigo-600 text-white',
+          },
+        ];
 
         // Palette KPI Cards (chuẩn theo mẫu tham chiếu)
         const kpiStyles = [
@@ -1528,10 +1719,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 4, slide: 0 } }));
         };
 
-        const navigateToProjects = () => {
+        const navigateToProjects = (projectId?: string) => {
           SoundEngine.playTap();
-          if (onNavigateTab) onNavigateTab(7);
-          else window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 7, slide: 0 } }));
+          if (onOpenProjectFromJob) {
+            onOpenProjectFromJob(projectId);
+          } else if (onNavigateTab) {
+            onNavigateTab(7);
+          } else {
+            window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 7, slide: 0 } }));
+          }
         };
 
         return (
@@ -1800,64 +1996,33 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </div>
               </section>
 
-              {/* 2. RIGHT TOP STACK: Domains & Products (Col Span 4) */}
+              {/* 2. RIGHT TOP STACK: Merged Dịch vụ sản phẩm Card (Col Span 4) */}
               <div className="md:col-span-6 lg:col-span-4 flex flex-col gap-[15px] min-w-0">
-                {/* Card: Lĩnh vực hoạt động */}
-                <section
-                  id="experience-management-card"
-                  className={cn(
-                    'transition-all duration-300 hover:-translate-y-0.5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] relative overflow-hidden min-w-0',
-                    isLeather
-                      ? 'exp-bento-surface-card'
-                      : 'bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-white border border-slate-700/60'
-                  )}
-                >
-                  <div className="absolute -right-8 -top-8 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl pointer-events-none" />
-                  <div className="flex items-center justify-between gap-2 mb-4 relative z-10">
-                    <h2 className="text-base sm:text-lg font-bold text-amber-400 flex items-center gap-2">
-                      <Layers className="w-5 h-5 text-amber-400 shrink-0" />
-                      <span>Lĩnh vực hoạt động</span>
-                    </h2>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 relative z-10">
-                    {industryParts.map((part, idx) => {
-                      const { Icon, chipClass, iconClass } = getIndustryChipVisual(part, idx);
-                      return (
-                        <span
-                          key={idx}
-                          className={cn(
-                            'exp-bento-light-chip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] border text-xs sm:text-sm font-semibold leading-snug',
-                            chipClass
-                          )}
-                        >
-                          <Icon className={cn('w-3.5 h-3.5 shrink-0', iconClass)} />
-                          <span>{part}</span>
-                        </span>
-                      );
-                    })}
-                  </div>
-                </section>
-
-                {/* Card: Hệ sinh thái sản phẩm quản lý */}
                 <section
                   id="experience-products-card"
                   className={cn(
-                    'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border flex-1 flex flex-col justify-between gap-3 min-w-0',
+                    'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border flex-1 flex flex-col justify-between gap-4 relative overflow-hidden min-w-0',
                     isDarkSurface
-                      ? 'bg-gradient-to-br from-orange-950/45 via-slate-900/80 to-rose-950/35 border-orange-500/25 text-white'
-                      : 'bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 border-orange-100/80 text-slate-900'
+                      ? 'bg-gradient-to-br from-slate-900 via-slate-800/95 to-orange-950/35 border-orange-500/25 text-white'
+                      : 'bg-gradient-to-br from-amber-50/85 via-white to-orange-50/85 border-orange-200/75 text-slate-900'
                   )}
                 >
-                  <div className="flex items-center justify-between gap-2">
+                  <div
+                    className={cn(
+                      'absolute -right-8 -top-8 w-32 h-32 rounded-full blur-2xl pointer-events-none',
+                      isDarkSurface ? 'bg-orange-500/15' : 'bg-amber-400/15'
+                    )}
+                  />
+
+                  <div className="flex items-center justify-between gap-2 relative z-10">
                     <h2
                       className={cn(
                         'text-base sm:text-lg font-bold flex items-center gap-2',
-                        isDarkSurface ? 'text-orange-300' : 'text-orange-600'
+                        isDarkSurface ? 'text-amber-400' : 'text-orange-600'
                       )}
                     >
-                      <Cpu className="w-5 h-5 shrink-0" />
-                      <span>Sản phẩm quản lý</span>
+                      <Layers className="w-5 h-5 shrink-0" />
+                      <span>Dịch vụ sản phẩm</span>
                     </h2>
                     <button
                       type="button"
@@ -1870,19 +2035,48 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       )}
                       title="Xem chi tiết Lĩnh vực & Dịch vụ"
                     >
-                      <span>{rawProductsList.length} sản phẩm</span>
+                      <span>{productsWithServices.length} sản phẩm</span>
                       <ArrowUpRight className="w-3 h-3 shrink-0" />
                     </button>
                   </div>
 
+                  {/* Nhóm Dịch vụ hoạt động */}
+                  <div
+                    className={cn(
+                      'flex flex-col gap-2 pb-3 border-b relative z-10',
+                      isDarkSurface ? 'border-white/10' : 'border-orange-200/60'
+                    )}
+                  >
+                    <div className="flex flex-wrap gap-2">
+                      {derivedServicesList.map((serviceName, idx) => {
+                        const { Icon, chipClass, iconClass } = getIndustryChipVisual(serviceName, idx);
+                        return (
+                          <button
+                            key={serviceName}
+                            type="button"
+                            onClick={navigateToServices}
+                            title={`${serviceName} — Click để xem chi tiết dịch vụ`}
+                            className={cn(
+                              'exp-bento-light-chip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] border text-xs sm:text-sm font-semibold leading-snug transition-colors cursor-pointer',
+                              chipClass
+                            )}
+                          >
+                            <Icon className={cn('w-3.5 h-3.5 shrink-0', iconClass)} />
+                            <span>{serviceName}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
                   {/* Overlapping Circular Logos */}
-                  <div className="flex flex-wrap items-center justify-center sm:justify-start -space-x-3 py-1.5">
-                    {rawProductsList.map((prod, pIdx) => (
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start -space-x-3 py-1 relative z-10">
+                    {productsWithServices.map((prod, pIdx) => (
                       <button
                         key={pIdx}
                         type="button"
                         onClick={navigateToServices}
-                        title={`${prod.name} — Click để xem chi tiết lĩnh vực & dịch vụ`}
+                        title={`${prod.name} (${prod.services.join(', ')}) — Click để xem chi tiết dịch vụ`}
                         aria-label={`Xem dịch vụ ${prod.name}`}
                         style={{ zIndex: pIdx + 1 }}
                         className="w-15 h-15 sm:w-16 sm:h-16 rounded-full bg-white p-2 flex items-center justify-center shadow-md ring-2 ring-white/90 hover:-translate-y-1.5 hover:scale-110 hover:z-30 transition-all duration-300 relative overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
@@ -1900,21 +2094,37 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     ))}
                   </div>
 
-                  {/* Product Name Labels */}
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {rawProductsList.map((prod, pIdx) => (
+                  {/* Product Name Labels + Service Tags */}
+                  <div className="flex flex-wrap gap-2 pt-1 min-w-0 relative z-10">
+                    {productsWithServices.map((prod, pIdx) => (
                       <button
                         key={pIdx}
                         type="button"
                         onClick={navigateToServices}
+                        title={`${prod.name} — ${prod.services.join(' · ')}`}
                         className={cn(
-                          'exp-bento-light-chip px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors cursor-pointer',
+                          'exp-bento-light-chip inline-flex flex-wrap items-center gap-1.5 px-2.5 py-1.5 rounded-[12px] text-xs font-semibold border transition-colors cursor-pointer text-left max-w-full',
                           isDarkSurface
                             ? 'bg-white/10 border-white/15 text-orange-100 hover:bg-white/20'
-                            : 'bg-white/85 border-orange-200/80 text-slate-800 hover:bg-orange-100/70'
+                            : 'bg-white/90 border-orange-200/80 text-slate-800 hover:bg-orange-100/70'
                         )}
                       >
-                        {prod.name}
+                        <span className="font-bold">{prod.name}</span>
+                        {prod.services.map((svc, sIdx) => {
+                          const { Icon: SvcIcon, chipClass, iconClass } = getIndustryChipVisual(svc, sIdx);
+                          return (
+                            <span
+                              key={svc}
+                              className={cn(
+                                'exp-bento-preserve-color inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border',
+                                chipClass
+                              )}
+                            >
+                              <SvcIcon className={cn('w-3 h-3 shrink-0', iconClass)} />
+                              <span>{svc}</span>
+                            </span>
+                          );
+                        })}
                       </button>
                     ))}
                   </div>
@@ -2095,7 +2305,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </div>
                 </section>
 
-                {/* Card: Nhiệm vụ trọng tâm (Col Span 7) */}
+                {/* Card: Danh sách công việc (Col Span 7) */}
                 <section
                   id="experience-responsibility-card"
                   className={cn(
@@ -2113,7 +2323,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       )}
                     >
                       <ListChecks className="w-5 h-5 shrink-0" />
-                      <span>Nhiệm vụ trọng tâm</span>
+                      <span>Danh sách công việc</span>
                     </h2>
                     <span
                       className={cn(
@@ -2130,22 +2340,26 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <ul
                     className={cn(
                       'grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm sm:text-base',
-                      isDarkSurface ? 'text-slate-200' : 'text-slate-700'
+                      isDarkSurface ? 'text-slate-100' : 'text-slate-800'
                     )}
                   >
                     {tasksList.map((task, idx) => {
                       const cleanTask = task.replace(/^\d+\.\s*/, '');
+                      const taskPalette = taskCardPalettes[idx % taskCardPalettes.length];
                       return (
                         <li
                           key={idx}
                           className={cn(
-                            'exp-bento-item-card p-3.5 rounded-[14px] border shadow-sm transition-all flex items-start gap-3 min-w-0',
-                            isDarkSurface
-                              ? 'bg-slate-900/75 border-purple-500/20 hover:border-purple-400/50'
-                              : 'bg-white/95 border-purple-100/80 hover:border-purple-300 hover:shadow-md'
+                            'exp-bento-item-card p-3.5 rounded-[14px] border shadow-sm hover:shadow-md transition-all flex items-start gap-3 min-w-0',
+                            isDarkSurface ? taskPalette.dark : taskPalette.light
                           )}
                         >
-                          <span className="w-6 h-6 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-sm tabular-nums exp-bento-preserve-color">
+                          <span
+                            className={cn(
+                              'w-6 h-6 rounded-full font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-sm tabular-nums exp-bento-preserve-color',
+                              taskPalette.badge
+                            )}
+                          >
                             {idx + 1}
                           </span>
                           <span className="leading-snug break-words [overflow-wrap:anywhere] min-w-0 flex-1">
@@ -2158,7 +2372,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </section>
               </div>
 
-              {/* 6. DỰ ÁN TRỌNG ĐIỂM (Col Span 7) & HÌNH ẢNH KỶ NIỆM GALLERY (Col Span 5) */}
+              {/* 6. DANH SÁCH DỰ ÁN (Col Span 7) & HÌNH ẢNH KỶ NIỆM GALLERY (Col Span 5) */}
               <section
                 id="experience-achievement-card"
                 className={cn(
@@ -2176,12 +2390,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     )}
                   >
                     <FolderKanban className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
-                    <span>Dự án trọng điểm</span>
+                    <span>Danh sách dự án</span>
                   </h2>
 
                   <button
                     type="button"
-                    onClick={navigateToProjects}
+                    onClick={() => navigateToProjects()}
                     className={cn(
                       'px-3 py-1.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95',
                       isDarkSurface
@@ -2209,8 +2423,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       <button
                         key={pIdx}
                         type="button"
-                        onClick={navigateToProjects}
-                        title={`${proj.rawTitle} — Click để xem chi tiết trang Dự án`}
+                        onClick={() => navigateToProjects(proj.projectId)}
+                        title={`${proj.rawTitle} — Click để xem chi tiết dự án`}
                         className={cn(
                           'exp-bento-rect-btn exp-bento-item-card group px-4 py-3 rounded-[14px] bg-gradient-to-r border transition-all flex items-center gap-3 text-left cursor-pointer min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500',
                           isDarkSurface ? palette.rowDark : palette.rowLight
@@ -2251,16 +2465,26 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-memories-card"
                 className={cn(
-                  'transition-all duration-300 hover:-translate-y-0.5 md:col-span-6 lg:col-span-5 text-white rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] relative overflow-hidden flex flex-col justify-between min-w-0',
-                  isLeather
-                    ? 'exp-bento-surface-card'
-                    : 'bg-slate-900 border border-slate-800'
+                  'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 md:col-span-6 lg:col-span-5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border relative overflow-hidden flex flex-col justify-between min-w-0',
+                  isDarkSurface
+                    ? 'bg-slate-900 border-slate-800 text-white'
+                    : 'bg-gradient-to-br from-white via-amber-50/45 to-orange-50/55 border-amber-200/75 text-slate-900'
                 )}
               >
                 <div className="mb-4">
                   <div className="flex items-center justify-between gap-2">
-                    <h2 className="text-base sm:text-lg font-bold text-amber-400 flex items-center gap-2">
-                      <Camera className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400 shrink-0" />
+                    <h2
+                      className={cn(
+                        'text-base sm:text-lg font-bold flex items-center gap-2',
+                        isDarkSurface ? 'text-amber-400' : 'text-amber-600'
+                      )}
+                    >
+                      <Camera
+                        className={cn(
+                          'w-5 h-5 sm:w-6 sm:h-6 shrink-0',
+                          isDarkSurface ? 'text-amber-400' : 'text-amber-600'
+                        )}
+                      />
                       <span>Hình ảnh kỷ niệm</span>
                     </h2>
                     {photosList.length > 0 && (
@@ -2271,10 +2495,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           setCarouselSlideIdx(0);
                           setIsPhotoLightboxOpen(true);
                         }}
-                        className="text-xs text-slate-300 hover:text-amber-300 flex items-center gap-1 shrink-0 cursor-pointer transition-colors"
+                        className={cn(
+                          'text-xs flex items-center gap-1 shrink-0 cursor-pointer transition-colors font-semibold',
+                          isDarkSurface
+                            ? 'text-slate-300 hover:text-amber-300'
+                            : 'text-slate-600 hover:text-amber-700'
+                        )}
                         title="Phóng to thư viện ảnh kỷ niệm"
                       >
-                        <ZoomIn className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                        <ZoomIn
+                          className={cn(
+                            'w-3.5 h-3.5 shrink-0',
+                            isDarkSurface ? 'text-amber-400' : 'text-amber-600'
+                          )}
+                        />
                         <span>Phóng to ({photosList.length})</span>
                       </button>
                     )}
@@ -2300,7 +2534,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           }}
                           aria-label={`Phóng to hình kỷ niệm ${pIdx + 1}: ${photo.title || activeMilestone.company}`}
                           className={cn(
-                            'exp-bento-rect-btn group relative rounded-[14px] overflow-hidden bg-slate-800 border-2 border-slate-700/70 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer p-0 text-left',
+                            'exp-bento-rect-btn group relative rounded-[14px] overflow-hidden border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer p-0 text-left',
+                            isDarkSurface
+                              ? 'bg-slate-800 border-slate-700/70'
+                              : 'bg-slate-100 border-amber-200/80',
                             borderHover,
                             isFullRow ? 'col-span-2 min-h-[150px]' : 'min-h-[115px]'
                           )}
@@ -2317,8 +2554,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />
                           ) : (
-                            <div className="w-full h-full min-h-[115px] flex flex-col items-center justify-center gap-1.5 p-3 bg-slate-800 text-slate-300">
-                              <Camera className="w-6 h-6 text-amber-400" />
+                            <div
+                              className={cn(
+                                'w-full h-full min-h-[115px] flex flex-col items-center justify-center gap-1.5 p-3',
+                                isDarkSurface
+                                  ? 'bg-slate-800 text-slate-300'
+                                  : 'bg-slate-100 text-slate-700'
+                              )}
+                            >
+                              <Camera
+                                className={cn(
+                                  'w-6 h-6',
+                                  isDarkSurface ? 'text-amber-400' : 'text-amber-600'
+                                )}
+                              />
                               <span className="text-xs font-semibold text-center truncate max-w-full">
                                 {photo.title || activeMilestone.company}
                               </span>
@@ -2335,8 +2584,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     })}
                   </div>
                 ) : (
-                  <div className="rounded-[14px] bg-slate-800/70 border border-slate-700 p-4 flex-1 flex items-center justify-center">
-                    <span className="text-sm text-slate-300">
+                  <div
+                    className={cn(
+                      'rounded-[14px] border p-4 flex-1 flex items-center justify-center',
+                      isDarkSurface
+                        ? 'bg-slate-800/70 border-slate-700 text-slate-300'
+                        : 'bg-amber-50/60 border-amber-200/70 text-slate-600'
+                    )}
+                  >
+                    <span className="text-sm">
                       Chưa có hình ảnh kỷ niệm cho cột mốc này.
                     </span>
                   </div>

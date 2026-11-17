@@ -2288,16 +2288,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
               {currentSlide === 1 && (
                 <div
-                  className="w-full h-full flex-1 min-h-0 flex flex-col gap-[15px] bg-transparent"
-                  style={{ background: 'transparent', width: '100%', height: '100%', maxWidth: '100%' }}
+                  className="w-full min-h-full flex-1 flex flex-col gap-[15px] bg-transparent"
+                  style={{ background: 'transparent', width: '100%', maxWidth: '100%' }}
                 >
                   <div
                     id="letter-slide-2-grid"
-                    className="w-full h-full flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-fr gap-[15px] items-stretch bg-transparent"
-                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%', height: '100%' }}
+                    className="w-full min-h-full flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent"
+                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
                   >
                     {CAREER_MILESTONES_DATA.slice(0, 4).map((item) =>
-                      renderCareerCard(item, 'min-w-0 md:col-span-3 lg:col-span-6', false)
+                      renderCareerCard(item, 'min-w-0 col-span-1', false)
                     )}
                   </div>
                 </div>
@@ -2305,12 +2305,18 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
               {currentSlide === 2 && (
                 <div
-                  className="w-full h-full min-w-0 flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-fr gap-[15px] items-stretch bg-transparent"
-                  style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%', height: '100%', maxWidth: '100%' }}
+                  className="w-full min-h-full flex-1 flex flex-col gap-[15px] bg-transparent"
+                  style={{ background: 'transparent', width: '100%', maxWidth: '100%' }}
                 >
-                  {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
-                    renderCareerCard(item, 'min-w-0 md:col-span-3 lg:col-span-6', false)
-                  )}
+                  <div
+                    id="letter-slide-3-grid"
+                    className="w-full min-h-full flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent"
+                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
+                  >
+                    {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
+                      renderCareerCard(item, 'min-w-0 col-span-1', false)
+                    )}
+                  </div>
                 </div>
               )}
 

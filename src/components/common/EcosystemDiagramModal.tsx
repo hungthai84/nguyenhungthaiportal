@@ -501,7 +501,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
   const boardRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const filterWrapperRef = useRef<HTMLDivElement>(null);
-  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const showToast = useCallback((msg: string) => {
     setToastMsg(msg);
@@ -771,16 +771,14 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
     // 2. ĐƯỜNG LINE LIÊN HỆ THỐNG (HÀNH LANG NGOÀI TÁCH BIỆT, KHÔNG CẮT QUA THẺ)
     if (showInterSystemLines && activeLineGroup !== 'sdp_hub') {
       const sdpLeft = sdpRect.left - svgRect.left;
-      const leftCardAnchorX = Math.min(
-        ...['CRM', 'CSC', 'CLP', 'POS']
-          .map(id => nodeRefs.current[id]?.getBoundingClientRect().left ?? Infinity)
-          .filter(val => val !== Infinity)
-      ) - svgRect.left;
-      const rightCardAnchorX = Math.max(
-        ...['ERP', 'HRM', 'BPM', 'OKR']
-          .map(id => nodeRefs.current[id]?.getBoundingClientRect().right ?? -Infinity)
-          .filter(val => val !== -Infinity)
-      ) - svgRect.left;
+      const leftCoords = ['CRM', 'CSC', 'CLP', 'POS']
+        .map(id => nodeRefs.current[id]?.getBoundingClientRect().left)
+        .filter((val): val is number => typeof val === 'number');
+      const rightCoords = ['ERP', 'HRM', 'BPM', 'OKR']
+        .map(id => nodeRefs.current[id]?.getBoundingClientRect().right)
+        .filter((val): val is number => typeof val === 'number');
+      const leftCardAnchorX = (leftCoords.length ? Math.min(...leftCoords) : svgRect.left + 80) - svgRect.left;
+      const rightCardAnchorX = (rightCoords.length ? Math.max(...rightCoords) : svgRect.right - 80) - svgRect.left;
 
       INTER_SYSTEM_LINKS.forEach((link, idx) => {
         if (activeLineGroup !== 'all' && link.group !== activeLineGroup) return;
@@ -924,8 +922,11 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
   useEffect(() => {
     if (!isOpen) return;
     recalculateLines();
+    const settleTimer = setTimeout(recalculateLines, 420);
     const boardEl = boardRef.current;
-    if (!boardEl || typeof ResizeObserver === 'undefined') return;
+    if (!boardEl || typeof ResizeObserver === 'undefined') {
+      return () => clearTimeout(settleTimer);
+    }
 
     const ro = new ResizeObserver(() => {
       requestAnimationFrame(recalculateLines);
@@ -933,6 +934,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
     ro.observe(boardEl);
     window.addEventListener('resize', recalculateLines);
     return () => {
+      clearTimeout(settleTimer);
       ro.disconnect();
       window.removeEventListener('resize', recalculateLines);
     };
@@ -1060,11 +1062,19 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
     showToast(`Đã sao chép: ${url}`);
   };
 
-  const renderSatelliteCard = (sysKey: string, themeClass: string, badgeBgClass: string, iconTextColorClass: string, moveTextColorClass: string, isCompact = false) => {
+  // Component render từng thẻ vệ tinh (Số thứ tự cùng hàng tên viết tắt, cỡ chữ tên đầy đủ bằng tên viết tắt)
+  const renderSatelliteCard = (
+    sysKey: string,
+    themeClass: string,
+    _badgeBgClass: string,
+    iconTextColorClass: string,
+    moveTextColorClass: string,
+    isCompact = false
+  ) => {
     const sys = SYSTEMS_DATA[sysKey];
     if (!sys) return null;
     const isDragging = draggingId === sysKey;
-    const uniformTitleSize = isCompact ? 'text-[13px]' : 'text-[14px]';
+    const uniformTextSize = isCompact ? 'text-[10.5px] sm:text-[11px]' : 'text-[11px] sm:text-xs';
 
     return (
       <div
@@ -1072,7 +1082,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
         ref={el => { nodeRefs.current[sysKey] = el; }}
         onPointerDown={e => handlePointerDown(e, sysKey)}
         style={getNodeVisualStyle(sysKey)}
-        className={`draggable-card ${themeClass} glass-flat-hover rounded-[14px] p-2 sm:p-2.5 flex items-center justify-between gap-2 shadow-md ${isDragging ? 'dragging' : ''}`}
+        className={`draggable-card ${themeClass} glass-flat-hover rounded-[12px] p-2 sm:p-2.5 flex items-center justify-between gap-2 shadow-md ${isDragging ? 'dragging' : ''}`}
       >
         <div className="flex items-center gap-2 min-w-0">
           <DynamicIcon
@@ -1081,14 +1091,14 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
           />
           <div className="min-w-0">
             <div className="flex items-center justify-between gap-2">
-              <h4 className={`font-black ${iconTextColorClass} ${uniformTitleSize} tracking-tight whitespace-nowrap leading-tight`}>
+              <h4 className={`font-black text-slate-950 ${uniformTextSize} tracking-tight whitespace-nowrap leading-tight`}>
                 {sys.abbr}
               </h4>
-              <span className={`${isCompact ? 'w-6 h-6' : 'w-6 h-6'} typo-badge rounded-full bg-transparent ${iconTextColorClass} flex items-center justify-center shrink-0 border-[1.5px] border-current font-bold leading-none`}>
+              <span className={`${isCompact ? 'w-5 h-5 text-[8.5px]' : 'w-6 h-6 text-[9px] sm:text-[9.5px]'} rounded-full bg-transparent ${iconTextColorClass} flex items-center justify-center shrink-0 border-[1.5px] border-current font-bold leading-none`}>
                 {sys.code}
               </span>
             </div>
-            <p className="typo-label text-slate-900 whitespace-nowrap font-bold mt-0.5 leading-tight">
+            <p className={`${uniformTextSize} text-slate-900 whitespace-nowrap font-bold mt-0.5 leading-tight`}>
               {sys.full}
             </p>
           </div>
@@ -1120,6 +1130,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
       >
         {/* MODAL FULL CONTAINER: KÍCH THƯỚC BẰNG THẺ CHÍNH CHUẨN VỚI HIỆU ỨNG MỞ MƯỢT TỪ TỪ */}
         <motion.div
+          id="ecosystem-diagram-modal"
           role="dialog"
           aria-modal="true"
           aria-label="Sơ Đồ Liên Kết Hệ Sinh Thái 12 Phân Hệ PowerService"
@@ -1131,22 +1142,22 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
           className="theme-modal-card rounded-[14px] shadow-2xl flex flex-col relative z-50 text-left w-full h-full max-w-full max-h-full p-[12px] sm:p-[15px] overflow-hidden"
           style={{ width: '100%', height: '100%', padding: '15px' }}
         >
-          {/* Style Rules */}
+          {/* Scoped Style Rules */}
           <style>{`
-            .glass-flat {
+            #ecosystem-diagram-modal .glass-flat {
               background: rgba(255, 255, 255, 0.92);
               backdrop-filter: blur(18px);
               -webkit-backdrop-filter: blur(18px);
               border: 1.5px solid rgba(203, 213, 225, 0.95);
               box-shadow: 0 10px 35px -4px rgba(71, 85, 105, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .glass-flat-hover {
+            #ecosystem-diagram-modal .glass-flat-hover {
               transition: box-shadow 0.2s ease, opacity 0.25s ease, filter 0.25s ease;
             }
-            .glass-flat-hover:hover {
+            #ecosystem-diagram-modal .glass-flat-hover:hover {
               box-shadow: 0 14px 30px -4px rgba(30, 41, 59, 0.22), inset 0 1px 2px rgba(255, 255, 255, 1);
             }
-            .draggable-card {
+            #ecosystem-diagram-modal .draggable-card {
               user-select: none;
               touch-action: none;
               width: fit-content;
@@ -1154,85 +1165,85 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               max-width: 100%;
               cursor: grab;
             }
-            .draggable-card:active { cursor: grabbing; }
-            .dragging {
+            #ecosystem-diagram-modal .draggable-card:active { cursor: grabbing; }
+            #ecosystem-diagram-modal .dragging {
               opacity: 0.96 !important;
               z-index: 60 !important;
               cursor: grabbing !important;
               box-shadow: 0 22px 38px -5px rgba(15, 23, 42, 0.35), 0 0 0 2.5px rgba(37, 99, 235, 0.9) !important;
             }
 
-            .theme-sdp {
+            #ecosystem-diagram-modal .theme-sdp {
               background: linear-gradient(135deg, rgba(239, 246, 255, 0.98) 0%, rgba(219, 234, 254, 0.95) 50%, rgba(191, 219, 254, 0.9) 100%);
               border: 2px solid #3b82f6;
               box-shadow: 0 6px 20px -2px rgba(37, 99, 235, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .theme-crm {
+            #ecosystem-diagram-modal .theme-crm {
               background: linear-gradient(135deg, rgba(236, 254, 255, 0.98) 0%, rgba(207, 250, 254, 0.94) 100%);
               border: 2px solid #06b6d4;
               box-shadow: 0 5px 16px -2px rgba(6, 182, 212, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .theme-csc {
+            #ecosystem-diagram-modal .theme-csc {
               background: linear-gradient(135deg, rgba(238, 242, 255, 0.98) 0%, rgba(224, 231, 255, 0.94) 100%);
               border: 2px solid #6366f1;
               box-shadow: 0 5px 16px -2px rgba(99, 102, 241, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .theme-clp {
+            #ecosystem-diagram-modal .theme-clp {
               background: linear-gradient(135deg, rgba(254, 252, 232, 0.98) 0%, rgba(254, 240, 138, 0.92) 100%);
               border: 2px solid #eab308;
               box-shadow: 0 5px 16px -2px rgba(234, 179, 8, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .theme-pos {
+            #ecosystem-diagram-modal .theme-pos {
               background: linear-gradient(135deg, rgba(236, 253, 245, 0.98) 0%, rgba(167, 243, 208, 0.92) 100%);
               border: 2px solid #10b981;
               box-shadow: 0 5px 16px -2px rgba(16, 185, 129, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .theme-erp {
+            #ecosystem-diagram-modal .theme-erp {
               background: linear-gradient(135deg, rgba(250, 245, 255, 0.98) 0%, rgba(233, 213, 255, 0.94) 100%);
               border: 2px solid #a855f7;
               box-shadow: 0 5px 16px -2px rgba(168, 85, 247, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .theme-hrm {
+            #ecosystem-diagram-modal .theme-hrm {
               background: linear-gradient(135deg, rgba(253, 242, 248, 0.98) 0%, rgba(251, 207, 232, 0.94) 100%);
               border: 2px solid #ec4899;
               box-shadow: 0 5px 16px -2px rgba(236, 72, 153, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .theme-bpm {
+            #ecosystem-diagram-modal .theme-bpm {
               background: linear-gradient(135deg, rgba(240, 245, 255, 0.98) 0%, rgba(199, 210, 254, 0.94) 100%);
               border: 2px solid #6366f1;
               box-shadow: 0 5px 16px -2px rgba(99, 102, 241, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .theme-okr {
+            #ecosystem-diagram-modal .theme-okr {
               background: linear-gradient(135deg, rgba(255, 247, 237, 0.98) 0%, rgba(254, 215, 170, 0.94) 100%);
               border: 2px solid #f97316;
               box-shadow: 0 5px 16px -2px rgba(249, 115, 22, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .theme-lms {
+            #ecosystem-diagram-modal .theme-lms {
               background: linear-gradient(135deg, rgba(240, 253, 250, 0.98) 0%, rgba(153, 246, 228, 0.92) 100%);
               border: 2px solid #14b8a6;
               box-shadow: 0 5px 16px -2px rgba(20, 184, 166, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .theme-ai {
+            #ecosystem-diagram-modal .theme-ai {
               background: linear-gradient(135deg, rgba(245, 243, 255, 0.98) 0%, rgba(221, 214, 254, 0.95) 100%);
               border: 2px solid #8b5cf6;
               box-shadow: 0 5px 16px -2px rgba(139, 92, 246, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
-            .theme-bi {
+            #ecosystem-diagram-modal .theme-bi {
               background: linear-gradient(135deg, rgba(240, 253, 244, 0.98) 0%, rgba(187, 247, 208, 0.94) 100%);
               border: 2px solid #22c55e;
               box-shadow: 0 5px 16px -2px rgba(34, 197, 94, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.98);
             }
 
-            @keyframes dashStream {
+            @keyframes ecoDashStream {
               to { stroke-dashoffset: -24; }
             }
-            .flow-stream {
+            #ecosystem-diagram-modal .flow-stream {
               stroke-dasharray: 7, 5;
-              animation: dashStream 1.5s linear infinite;
+              animation: ecoDashStream 1.5s linear infinite;
             }
-            .inter-sys-stream {
+            #ecosystem-diagram-modal .inter-sys-stream {
               stroke-dasharray: 5, 4;
-              animation: dashStream 2s linear infinite;
+              animation: ecoDashStream 2s linear infinite;
             }
           `}</style>
 
@@ -1243,13 +1254,27 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                 <GitMerge className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <h2 className="typo-popup-title font-play truncate" style={{ color: 'var(--accent-blue, var(--color-primary))' }}>
                     Sơ Đồ Liên Kết Hệ Sinh Thái 12 Phân Hệ PowerService
                   </h2>
-                  <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-sky-500/15 typo-badge font-mono font-bold border border-sky-400/35" style={{ color: 'var(--color-primary)' }}>
-                    Real-time Flow
-                  </span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsFilterOpen(prev => !prev);
+                    }}
+                    className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-[10px] border typo-badge font-bold transition-all truncate max-w-[260px] cursor-pointer"
+                    style={{
+                      background: 'var(--bg-button-secondary)',
+                      borderColor: 'var(--border-subcard)',
+                      color: 'var(--text-secondary)',
+                    }}
+                    title="Nhấn để tùy chỉnh bộ lọc hiển thị"
+                  >
+                    <span className="shrink-0">Đang hiển thị:</span>
+                    <span className="font-bold truncate" style={{ color: 'var(--color-primary)' }}>{filterSummaryText}</span>
+                  </button>
                 </div>
                 <p className="typo-caption truncate hidden sm:block" style={{ color: 'var(--text-secondary)' }}>
                   Kiến trúc kết nối dữ liệu liên phân hệ, phân quyền SDP và ma trận giao thức truyền thông
@@ -1263,7 +1288,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowHubLines(prev => !prev)}
-                  title="Bật/Tắt Line Hệ Thống vào SDP"
+                  title="Bật/Tắt Line Hệ Thống vào SDP (Đồng bộ chuẩn Hub)"
                   style={
                     showHubLines
                       ? { background: 'var(--bg-button-primary)', borderColor: 'transparent', color: '#FFFFFF' }
@@ -1272,13 +1297,13 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                   className="flex items-center gap-1.5 px-2.5 py-1 rounded-[14px] border typo-label font-bold transition-all cursor-pointer"
                 >
                   <span className={`w-3.5 h-1.5 inline-block rounded-full shadow-xs shrink-0 ${showHubLines ? 'bg-white' : 'bg-current opacity-40'}`} />
-                  <span className="whitespace-nowrap">Line SDP Hub</span>
+                  <span className="whitespace-nowrap">Line Hệ Thống vào SDP</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setShowInterSystemLines(prev => !prev)}
-                  title="Bật/Tắt Line Data Liên Phân Hệ"
+                  title="Bật/Tắt Line Data Hệ thống (17 Tuyến Kết Nối Liên Phân Hệ)"
                   style={
                     showInterSystemLines
                       ? { background: 'var(--bg-button-primary)', borderColor: 'transparent', color: '#FFFFFF' }
@@ -1287,7 +1312,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                   className="flex items-center gap-1.5 px-2.5 py-1 rounded-[14px] border typo-label font-bold transition-all cursor-pointer"
                 >
                   <span className={`w-3.5 h-1.5 border-t-2 border-dashed inline-block shrink-0 ${showInterSystemLines ? 'border-white' : 'border-current opacity-50'}`} />
-                  <span className="whitespace-nowrap">Line Liên Phân Hệ</span>
+                  <span className="whitespace-nowrap">Line Data Hệ thống</span>
                 </button>
               </div>
 
@@ -1318,7 +1343,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                 {isFilterOpen && (
                   <div
                     onClick={(e) => e.stopPropagation()}
-                    className="theme-popup absolute right-0 mt-1.5 w-[300px] sm:w-[340px] rounded-[14px] shadow-2xl p-3 z-50 space-y-3 text-left"
+                    className="theme-popup absolute right-0 mt-1.5 w-[310px] sm:w-[350px] rounded-[14px] shadow-2xl p-3 z-50 space-y-3 text-left"
                   >
                     <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: 'var(--border-subcard)' }}>
                       <span className="typo-body-sm font-bold flex items-center gap-1.5" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
@@ -1335,6 +1360,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                       </button>
                     </div>
 
+                    {/* Nhóm 1: Bật/Tắt Loại Đường Kết Nối */}
                     <div className="space-y-1.5">
                       <label className="typo-label font-bold tracking-wider block" style={{ color: 'var(--text-secondary)' }}>
                         1. Hiển thị Loại Đường Kết Nối
@@ -1350,7 +1376,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                           }
                           className="px-2 py-1.5 rounded-[14px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                         >
-                          <span>{showHubLines ? 'Line SDP Hub' : 'Line SDP (Tắt)'}</span>
+                          <span>{showHubLines ? 'Line vào SDP' : 'Line vào SDP (Tắt)'}</span>
                         </button>
 
                         <button
@@ -1363,7 +1389,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                           }
                           className="px-2 py-1.5 rounded-[14px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                         >
-                          <span>{showInterSystemLines ? 'Line Liên HT' : 'Line Liên HT (Tắt)'}</span>
+                          <span>{showInterSystemLines ? 'Line Liên Hệ Thống' : 'Line Liên HT (Tắt)'}</span>
                         </button>
                       </div>
 
@@ -1373,7 +1399,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                         className="theme-modal-subcard w-full px-2.5 py-1.5 rounded-[14px] flex items-center justify-between font-bold typo-label transition-all cursor-pointer"
                       >
                         <span className="flex items-center gap-1.5">
-                          <Activity className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} /> Luồng tín hiệu
+                          <Activity className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} /> Hiệu ứng luồng tín hiệu
                         </span>
                         <span
                           className="px-1.5 py-0.2 rounded font-bold typo-badge"
@@ -1388,17 +1414,18 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                       </button>
                     </div>
 
+                    {/* Nhóm 2: Lọc Nhóm Tuyến Line */}
                     <div className="space-y-1.5 border-t pt-2.5" style={{ borderColor: 'var(--border-subcard)' }}>
                       <label className="typo-label font-bold tracking-wider block" style={{ color: 'var(--text-secondary)' }}>
                         2. Lọc Nhóm Tuyến Line
                       </label>
                       <div className="flex flex-wrap gap-1">
                         {[
-                          { key: 'all', label: 'Tất cả Lines' },
-                          { key: 'sdp_hub', label: 'Trục SDP Hub' },
+                          { key: 'all', label: 'Tất cả (28 Lines)' },
+                          { key: 'sdp_hub', label: 'Chỉ Trục SDP Hub (11)' },
                           { key: 'crm_retail', label: 'Bán Hàng & KH' },
-                          { key: 'enterprise', label: 'Quản Trị' },
-                          { key: 'ai_bi', label: 'AI & Báo Cáo' }
+                          { key: 'enterprise', label: 'Quản Trị Doanh Nghiệp' },
+                          { key: 'ai_bi', label: 'Trí Tuệ & Báo Cáo' }
                         ].map(item => (
                           <button
                             key={item.key}
@@ -1414,6 +1441,33 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                         ))}
                       </div>
                     </div>
+
+                    {/* Nhóm 3: Lọc Nhóm Thẻ Phân Hệ */}
+                    <div className="space-y-1.5 border-t pt-2.5" style={{ borderColor: 'var(--border-subcard)' }}>
+                      <label className="typo-label font-bold tracking-wider block" style={{ color: 'var(--text-secondary)' }}>
+                        3. Lọc Nhóm Thẻ Phân Hệ
+                      </label>
+                      <div className="grid grid-cols-2 gap-1">
+                        {[
+                          { key: 'all', label: 'Tất cả (12 Phân hệ)' },
+                          { key: 'core_crm', label: 'KH & Bán Hàng' },
+                          { key: 'enterprise', label: 'Quản Trị Vận Hành' },
+                          { key: 'intelligence', label: 'AI & Đào Tạo' }
+                        ].map(cat => (
+                          <button
+                            key={cat.key}
+                            type="button"
+                            data-selected={activeFilter === cat.key ? 'true' : undefined}
+                            onClick={() => setActiveFilter(cat.key)}
+                            className={`theme-dropdown-option px-2 py-1 rounded-[8px] text-left typo-label transition-all cursor-pointer ${
+                              activeFilter === cat.key ? 'font-bold shadow-xs' : 'font-semibold'
+                            }`}
+                          >
+                            {cat.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -1422,7 +1476,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                 <button
                   type="button"
                   onClick={resetPositions}
-                  title="Khôi phục vị trí mặc định"
+                  title="Đưa vị trí các thẻ về mặc định ban đầu"
                   className="banner-control-pill px-2.5 py-1 rounded-full typo-label font-bold shadow-xs transition-all flex items-center gap-1 cursor-pointer"
                 >
                   <RotateCcw className="w-3 h-3" />
@@ -1475,7 +1529,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                 <div className="theme-modal-header px-4 py-2.5 flex items-center justify-between shrink-0">
                   <div>
                     <h3 className="typo-h4 font-bold" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
-                      Ma Trận Luồng Dữ Liệu & Giao Thức (12 Phân Hệ • 21 Tuyến Kết Nối)
+                      Ma Trận Luồng Dữ Liệu & Giao Thức (12 Hệ Thống • 21 Tuyến Kết Nối)
                     </h3>
                     <p className="typo-caption font-medium" style={{ color: 'var(--text-secondary)' }}>
                       Chi tiết hướng truyền tải, giao thức kỹ thuật và tần suất đồng bộ giữa SDP và các phân hệ
@@ -1493,7 +1547,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                 <div className="flex-1 overflow-auto horizontal-scroll-smooth p-1">
                   <table className="theme-table w-full text-left border-collapse typo-caption">
                     <thead className="sticky top-0 z-10">
-                      <tr className="border-b font-bold uppercase typo-label" style={{ borderColor: 'var(--border-table)' }}>
+                      <tr className="border-b font-bold typo-label" style={{ borderColor: 'var(--border-table)' }}>
                         <th className="py-2 px-3">Hệ thống nguồn</th>
                         <th className="py-2 px-3 text-center">Hướng</th>
                         <th className="py-2 px-3">Hệ thống đích</th>
@@ -1630,8 +1684,8 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
 
                 {/* GRID LAYOUT 3 CỘT CÂN XỨNG */}
                 <div className="relative z-20 grid grid-cols-12 gap-2 sm:gap-3 lg:gap-4 h-full items-stretch min-h-0 overflow-y-auto md:overflow-hidden no-scrollbar px-1 sm:px-2">
-                  {/* CỘT TRÁI: 4 Hệ Thống Khách hàng */}
-                  <div className="col-span-12 md:col-span-3 flex flex-col justify-between h-full py-1 sm:py-1.5 min-h-0 pl-0 md:pl-8 lg:pl-10">
+                  {/* CỘT TRÁI (TÂY): 4 Hệ Thống Khách hàng & Điểm Bán (Tạo lề ngoài bên trái cho đường liên hệ thống) */}
+                  <div className="col-span-12 md:col-span-3 flex flex-col justify-between h-full py-1 sm:py-1.5 min-h-0 pl-0 md:pl-12 lg:pl-14">
                     <div className="flex flex-col justify-around items-start flex-1 gap-2 sm:gap-2.5 py-1 sm:py-2 min-h-0">
                       {renderSatelliteCard('CRM', 'theme-crm', 'bg-cyan-800', 'text-cyan-700', 'text-cyan-800')}
                       {renderSatelliteCard('CSC', 'theme-csc', 'bg-indigo-800', 'text-indigo-700', 'text-indigo-800')}
@@ -1640,20 +1694,20 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                     </div>
                   </div>
 
-                  {/* CỘT GIỮA: TRỤC TRUNG TÂM (AI & LMS | SDP HUB | BI DASHBOARD) */}
+                  {/* CỘT GIỮA: TRỤC TRUNG TÂM (BẮC: AI & LMS | GIỮA: SDP HUB | NAM: BI DASHBOARD) */}
                   <div className="col-span-12 md:col-span-6 flex flex-col justify-between items-center h-full py-1 sm:py-1.5 px-2 sm:px-4 min-h-0">
-                    {/* TẦNG TRÊN: AI ASSISTANT & LMS */}
-                    <div className="w-full flex items-center justify-center gap-6 sm:gap-10 shrink-0 pt-1">
+                    {/* TẦNG TRÊN (BẮC): AI ASSISTANT & LMS (Giãn khoảng cách ngang giữa 2 thẻ để rõ line SOP Docs) */}
+                    <div className="w-full flex items-center justify-center gap-6 sm:gap-12 shrink-0 pt-2">
                       {renderSatelliteCard('AI', 'theme-ai', 'bg-violet-900', 'text-violet-700', 'text-violet-800', true)}
                       {renderSatelliteCard('LMS', 'theme-lms', 'bg-teal-900', 'text-teal-700', 'text-teal-800', true)}
                     </div>
 
-                    {/* TẦNG GIỮA: SDP TRUNG TÂM */}
+                    {/* TẦNG GIỮA: 9.1 SDP TRUNG TÂM CỔNG CSKH */}
                     <div
                       ref={el => { nodeRefs.current['SDP'] = el; }}
                       onPointerDown={e => handlePointerDown(e, 'SDP')}
                       style={getNodeVisualStyle('SDP')}
-                      className={`draggable-card theme-sdp !max-w-[360px] !w-full relative group rounded-[14px] shadow-2xl p-2.5 sm:p-3 my-auto shrink-0 ${
+                      className={`draggable-card theme-sdp !max-w-[365px] !w-full relative group rounded-[12px] shadow-2xl p-2.5 sm:p-3 my-auto shrink-0 ${
                         draggingId === 'SDP' ? 'dragging' : ''
                       }`}
                     >
@@ -1661,23 +1715,23 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
 
                       <div className="relative flex flex-col items-center text-center">
                         <div className="flex items-center justify-between w-full mb-1 gap-1.5 sm:gap-2">
-                          <span className="px-2 py-0.5 rounded-full bg-blue-700 text-white typo-badge font-bold border border-blue-400 flex items-center gap-1 shadow-xs shrink-0">
-                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" /> 9.1 TRUNG TÂM
+                          <span className="px-2 py-0.5 rounded-full bg-blue-700 text-white text-[9.5px] sm:text-[10px] font-bold border border-blue-400 flex items-center gap-1 shadow-xs shrink-0">
+                            9.1 Trung tâm
                           </span>
 
                           <div
-                            className="flex items-center gap-1 bg-white border-2 border-blue-500 px-1.5 py-0.5 rounded-[14px] shadow-xs"
+                            className="flex items-center gap-1 bg-white border-2 border-blue-500 px-1.5 py-0.5 rounded-[10px] shadow-xs"
                             onClick={e => e.stopPropagation()}
                           >
                             <ShieldCheck className="w-3 h-3 text-blue-700 shrink-0" />
-                            <span className="typo-label font-bold text-slate-800 uppercase">Quyền:</span>
+                            <span className="text-[9px] sm:text-[10px] font-bold text-slate-800">Quyền:</span>
                             <select
                               value={currentRole}
                               onChange={e => {
                                 setCurrentRole(e.target.value);
                                 showToast(`Đã chuyển sang phân quyền: ${SDP_ROLES[e.target.value]?.title || ''}`);
                               }}
-                              className="typo-label font-bold text-blue-950 bg-transparent border-0 outline-none cursor-pointer"
+                              className="text-[9px] sm:text-[10px] font-bold text-blue-950 bg-transparent border-0 outline-none cursor-pointer"
                             >
                               <option value="admin">Quản trị viên (Admin Toàn quyền)</option>
                               <option value="lead">Trưởng nhóm CSKH (Lead)</option>
@@ -1687,67 +1741,79 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                         </div>
 
                         <div className="flex items-center gap-2.5 sm:gap-3 my-0.5 sm:my-1">
-                          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-lg p-1.5 shrink-0 border-2 border-white">
+                          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-lg shadow-blue-500/40 group-hover:scale-105 transition-transform p-1.5 shrink-0 border-2 border-white">
                             <Layers className="w-5 h-5" />
                           </div>
                           <div className="text-left">
-                            <h2 className="typo-h2 text-blue-700 dark:text-sky-300 font-bold tracking-tight leading-none">SDP</h2>
-                            <p className="typo-label text-blue-900 dark:text-blue-200 font-bold font-mono mt-0.5">Service Delivery Platform</p>
-                            <p className="typo-label text-slate-900 font-bold">Cổng làm việc CSKH</p>
+                            <h2 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight leading-none">SDP</h2>
+                            <p className="text-[10px] sm:text-[11px] text-blue-900 font-bold font-mono mt-0.5">Service Delivery Platform</p>
+                            <p className="text-[10px] sm:text-[11px] text-slate-900 font-extrabold">Cổng làm việc CSKH</p>
                           </div>
                         </div>
 
-                        <p className="typo-label text-slate-900 font-semibold mt-0.5 leading-snug px-1 hidden sm:block">
-                          Trang làm việc chính của Phòng CSKH, cổng truy cập tập trung cho toàn bộ hệ thống nghiệp vụ (Single Agent Workspace & SSO).
+                        <p className="text-[10px] sm:text-[11px] text-slate-900 font-bold mt-0.5 leading-tight px-1 hidden sm:block">
+                          Trang làm việc chính của Phòng CSKH, cổng truy cập tập trung để sử dụng toàn bộ các hệ thống nghiệp vụ (Single Agent Workspace &amp; SSO).
                         </p>
 
-                        <div className="mt-1.5 grid grid-cols-2 gap-1 sm:gap-1.5 w-full text-left typo-label">
-                          <div className="bg-white p-1.5 rounded-[14px] border border-blue-400 shadow-xs">
+                        {/* Core 4 Capabilities Chips */}
+                        <div className="mt-1.5 grid grid-cols-2 gap-1 sm:gap-1.5 w-full text-left text-[9.5px] sm:text-[10.5px]">
+                          <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-blue-400 shadow-xs">
                             <div className="font-bold text-blue-900 flex items-center gap-1">
-                              <KeyRound className="w-3 h-3 text-blue-700" /> SSO & Portal
+                              <KeyRound className="w-2.5 h-2.5 text-blue-700 shrink-0" /> SSO &amp; Portal
                             </div>
-                            <span className="typo-label text-slate-800 font-semibold">Đăng nhập tập trung</span>
+                            <span className="text-[8.5px] sm:text-[9.5px] text-slate-800 font-bold">Đăng nhập tập trung</span>
                           </div>
-                          <div className="bg-white p-1.5 rounded-[14px] border border-cyan-400 shadow-xs">
+                          <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-cyan-400 shadow-xs">
                             <div className="font-bold text-cyan-900 flex items-center gap-1">
-                              <GitMerge className="w-3 h-3 text-cyan-700" /> Hub Tích Hợp
+                              <GitMerge className="w-2.5 h-2.5 text-cyan-700 shrink-0" /> Hub Tích Hợp
                             </div>
-                            <span className="typo-label text-slate-800 font-semibold">Chuyển tiếp Data</span>
+                            <span className="text-[8.5px] sm:text-[9.5px] text-slate-800 font-bold">Chuyển tiếp Data</span>
                           </div>
-                          <div className="bg-white p-1.5 rounded-[14px] border border-indigo-400 shadow-xs">
+                          <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-indigo-400 shadow-xs">
                             <div className="font-bold text-indigo-900 flex items-center gap-1">
-                              <Bot className="w-3 h-3 text-indigo-700" /> AI Workspace
+                              <Bot className="w-2.5 h-2.5 text-indigo-700 shrink-0" /> AI Workspace
                             </div>
-                            <span className="typo-label text-slate-800 font-semibold">Bàn làm việc Agent</span>
+                            <span className="text-[8.5px] sm:text-[9.5px] text-slate-800 font-bold">Bàn làm việc Agent</span>
                           </div>
-                          <div className="bg-white p-1.5 rounded-[14px] border border-emerald-400 shadow-xs">
+                          <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-emerald-400 shadow-xs">
                             <div className="font-bold text-emerald-900 flex items-center gap-1">
-                              <Gauge className="w-3 h-3 text-emerald-700" /> Giám Sát Realtime
+                              <Gauge className="w-2.5 h-2.5 text-emerald-700 shrink-0" /> Giám Sát Realtime
                             </div>
-                            <span className="typo-label text-slate-800 font-semibold">Điều phối luồng việc</span>
+                            <span className="text-[8.5px] sm:text-[9.5px] text-slate-800 font-bold">Điều phối luồng việc</span>
                           </div>
                         </div>
 
-                        <div className="mt-1.5 w-full px-2 py-1 bg-blue-100/95 border-2 border-blue-400 rounded-[14px] text-left typo-label text-blue-950 flex items-center justify-between shadow-xs">
-                          <span className="flex items-center gap-1 font-bold">
-                            <Lock className="w-3 h-3 text-blue-800" />
-                            <span>Quyền: {currentRoleData.title}</span>
+                        {/* Phân quyền hiện hành */}
+                        <div className="mt-1.5 w-full px-2 py-0.5 sm:py-1 bg-blue-100/95 border-2 border-blue-400 rounded-[10px] text-left text-[9px] sm:text-[10px] text-blue-950 flex items-center justify-between gap-2 shadow-xs">
+                          <span className="flex items-center gap-1 font-bold truncate">
+                            <Lock className="w-2.5 h-2.5 text-blue-800 shrink-0" />
+                            <span className="truncate">Quyền: {currentRoleData.title}</span>
                           </span>
-                          <span className="px-1.5 py-0.2 rounded bg-blue-800 text-white font-mono typo-badge font-bold">
+                          <span className="px-1.5 py-0.2 rounded bg-blue-800 text-white font-mono text-[8.5px] font-bold shrink-0">
                             {currentRoleData.badge}
+                          </span>
+                        </div>
+
+                        {/* Footer Quick info */}
+                        <div className="mt-1 pt-1 border-t border-blue-400/80 w-full flex items-center justify-between text-[9.5px] sm:text-[10.5px] text-blue-950 font-bold gap-2">
+                          <span className="flex items-center gap-1 truncate">
+                            <ExternalLink className="w-2.5 h-2.5 shrink-0" /> sdp.powerservice.one
+                          </span>
+                          <span className="text-slate-900 font-bold text-[8.5px] sm:text-[9.5px] shrink-0">
+                            Bấm: Chi tiết | Kéo: Đổi chỗ
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* TẦNG DƯỚI: BI DASHBOARD */}
-                    <div className="w-full flex items-center justify-center shrink-0 pb-1">
+                    {/* TẦNG DƯỚI (NAM): 9.10 BI DASHBOARD */}
+                    <div className="w-full flex items-center justify-center shrink-0 pb-2">
                       {renderSatelliteCard('BI', 'theme-bi', 'bg-emerald-900', 'text-emerald-700', 'text-emerald-800', true)}
                     </div>
                   </div>
 
-                  {/* CỘT PHẢI: 4 Hệ Thống Quản Trị */}
-                  <div className="col-span-12 md:col-span-3 flex flex-col justify-between h-full py-1 sm:py-1.5 min-h-0 pr-0 md:pr-8 lg:pr-10">
+                  {/* CỘT PHẢI (ĐÔNG): 4 Hệ Thống Quản Trị & Vận Hành Doanh Nghiệp (Tạo lề ngoài bên phải cho đường liên hệ thống) */}
+                  <div className="col-span-12 md:col-span-3 flex flex-col justify-between h-full py-1 sm:py-1.5 min-h-0 pr-0 md:pr-12 lg:pr-14">
                     <div className="flex flex-col justify-around items-end flex-1 gap-2 sm:gap-2.5 py-1 sm:py-2 min-h-0">
                       {renderSatelliteCard('ERP', 'theme-erp', 'bg-purple-900', 'text-purple-700', 'text-purple-800')}
                       {renderSatelliteCard('HRM', 'theme-hrm', 'bg-pink-900', 'text-pink-700', 'text-pink-800')}
@@ -1811,7 +1877,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
 
             <div className="p-4 space-y-3 typo-body-sm overflow-y-auto font-play">
               <div>
-                <label className="typo-label font-bold uppercase tracking-wider block mb-1" style={{ color: 'var(--text-secondary)' }}>
+                <label className="typo-label font-bold tracking-wider block mb-1" style={{ color: 'var(--text-secondary)' }}>
                   Mô tả tổng quan
                 </label>
                 <p className="theme-modal-subcard font-medium leading-relaxed p-2.5 rounded-[14px]">
@@ -1820,7 +1886,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               </div>
 
               <div>
-                <label className="typo-label font-bold uppercase tracking-wider block mb-1" style={{ color: 'var(--text-secondary)' }}>
+                <label className="typo-label font-bold tracking-wider block mb-1" style={{ color: 'var(--text-secondary)' }}>
                   Tính năng chính
                 </label>
                 <ul className="space-y-1">
@@ -1835,7 +1901,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
 
               {selectedSystem.flows && (
                 <div>
-                  <label className="typo-label font-bold uppercase tracking-wider block mb-1" style={{ color: 'var(--text-secondary)' }}>
+                  <label className="typo-label font-bold tracking-wider block mb-1" style={{ color: 'var(--text-secondary)' }}>
                     Luồng Dữ Liệu Tương Tác Với Hệ Sinh Thái
                   </label>
                   <div className="theme-modal-subcard p-2.5 rounded-[14px] space-y-1.5">
@@ -1855,23 +1921,53 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               )}
             </div>
 
-            <div className="theme-modal-footer p-3 flex items-center justify-between">
-              <span className="typo-caption font-mono font-bold truncate max-w-[280px]" style={{ color: 'var(--color-primary)' }}>
-                {selectedSystem.url}
-              </span>
-              <div className="flex items-center gap-2 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => handleCopyUrl(selectedSystem.url)}
-                  className="theme-modal-close px-3 py-1.5 rounded-full font-bold typo-button transition cursor-pointer flex items-center gap-1"
-                >
-                  <Copy className="w-3.5 h-3.5" /> Co-py URL
-                </button>
+            <div className="theme-modal-footer p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="min-w-0">
+                <span className="typo-label font-bold block" style={{ color: 'var(--text-secondary)' }}>
+                  Đường dẫn hệ thống:
+                </span>
+                {selectedSystem.isPending ? (
+                  <span className="typo-caption font-mono font-bold italic text-amber-600 dark:text-amber-400">
+                    {selectedSystem.url}
+                  </span>
+                ) : (
+                  <a
+                    href={selectedSystem.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="typo-caption font-mono font-bold truncate block max-w-[280px] hover:underline"
+                    style={{ color: 'var(--color-primary)' }}
+                  >
+                    {selectedSystem.url}
+                  </a>
+                )}
+              </div>
+              <div className="flex items-center gap-2 shrink-0 flex-wrap">
+                {!selectedSystem.isPending && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => handleCopyUrl(selectedSystem.url)}
+                      className="theme-modal-close px-3 py-1.5 rounded-full font-bold typo-button transition cursor-pointer flex items-center gap-1"
+                    >
+                      <Copy className="w-3.5 h-3.5" /> Sao chép URL
+                    </button>
+                    <a
+                      href={selectedSystem.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ background: 'var(--bg-button-primary)' }}
+                      className="px-3 py-1.5 rounded-full text-white font-bold typo-button transition cursor-pointer hover:opacity-90 flex items-center gap-1"
+                    >
+                      <span>Mở website</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </>
+                )}
                 <button
                   type="button"
                   onClick={() => setSelectedSystemKey(null)}
-                  style={{ background: 'var(--bg-button-primary)' }}
-                  className="px-3 py-1.5 rounded-full text-white font-bold typo-button transition cursor-pointer hover:opacity-90"
+                  className="theme-modal-close px-3 py-1.5 rounded-full font-bold typo-button transition cursor-pointer"
                 >
                   Đóng
                 </button>

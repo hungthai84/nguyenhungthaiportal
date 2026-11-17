@@ -377,7 +377,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-light-multicolor-glass',
-    name: '🌈 Nền Glassmorphism Light Multicolor (Theme Background)',
+    name: '🌈 Nền Gương đa sắc Sáng (Theme Background)',
     type: 'image',
     value: '/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg',
     bg: "url('/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg') center/cover no-repeat",
@@ -393,7 +393,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-light-multicolor-glass-dark',
-    name: '🌌 Nền Glassmorphism Light Multicolor Tối (Theme Background)',
+    name: '🌌 Nền Gương đa sắc Tối (Theme Background)',
     type: 'image',
     value: '/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg',
     bg: "url('/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg') center/cover no-repeat",

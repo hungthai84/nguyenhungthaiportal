@@ -295,6 +295,7 @@ html[data-card-style="light-glassmorphism-multicolor"] #app-header nav button.na
 html[data-card-style="light-glassmorphism-multicolor"] #header-btn-hungthai-avatar:not(.active),
 html[data-card-style="light-glassmorphism-multicolor"] #footer-lang-btn:not(.active),
 html[data-card-style="light-glassmorphism-multicolor"] #footer-appearance-btn:not(.active),
+html[data-card-style="light-glassmorphism-multicolor"] #footer-theme-mode-btn:not(.active),
 html[data-card-style="light-cowhide-leather"] #footer-wallpaper-btn:not(.active),
 html[data-card-style="light-glassmorphism-multicolor"] #footer-ai-btn:not(.active),
 html[data-card-style="light-glassmorphism-multicolor"] .banner-control-pill,

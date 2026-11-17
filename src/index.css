@@ -227,6 +227,7 @@ html :is(
 .card-dark-pastel-lilac-soft,
 .lilac-soft-module,
 .dark-lilac-soft-module,
+.card-white-pebbled-leather,
 .card-light-cowhide-leather,
 .card-cowhide-leather {
   border-radius: 14px !important;
@@ -247,8 +248,7 @@ html[data-card-style="light-glassmorphism"],
 html[data-card-style="light-multicolor-glass"],
 html[data-card-style="dark-neon-multicolor-glass-light"],
 html[data-card-style="ice-blue-neumorphism"],
-html[data-card-style="pastel-lilac-soft"],
-html[data-card-style="light-cowhide-leather"] {
+html[data-card-style="pastel-lilac-soft"] {
   --color-heading: #000000 !important;
   --color-text: #000000 !important;
   --color-text-secondary: #111827 !important;
@@ -263,6 +263,23 @@ html[data-card-style="light-cowhide-leather"] {
   --text-banner-pill: #000000 !important;
   --text-banner-input: #000000 !important;
   --text-nav-arrow: #000000 !important;
+}
+
+html[data-card-style="light-cowhide-leather"] {
+  --color-heading: #111827 !important;
+  --color-text: #111827 !important;
+  --color-text-secondary: #1f2937 !important;
+  --color-text-muted: #374151 !important;
+  --text-primary: #111827 !important;
+  --text-secondary: #1f2937 !important;
+  --text-muted: #374151 !important;
+  --text-heading: #111827 !important;
+  --text-input: #111827 !important;
+  --pillar-heading: #111827 !important;
+  --pillar-body: #111827 !important;
+  --text-banner-pill: #111827 !important;
+  --text-banner-input: #111827 !important;
+  --text-nav-arrow: #111827 !important;
 }
 
 html[data-card-style="dark-glassmorphism"],

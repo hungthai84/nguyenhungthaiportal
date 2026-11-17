@@ -93,7 +93,7 @@ export const Footer: React.FC<FooterProps> = ({
     }
   };
 
-  const { cardStyle, setCardStyle } = useTheme();
+  const { cardStyle, setCardStyle, isDark, toggleLightDark } = useTheme();
   const footerCardStyle = getCardStyleProperties(cardStyle);
   const {
     border: _b,
@@ -158,9 +158,9 @@ export const Footer: React.FC<FooterProps> = ({
       cancelled = true;
       window.removeEventListener('resize', measureRightPills);
     };
-  }, [language, cardStyle, currentTabIndex]);
+  }, [language, cardStyle, isDark, currentTabIndex]);
 
-  const exposedRightWidth = viewportWidth < 768 ? 42 : 46;
+  const exposedRightWidth = viewportWidth < 768 ? 40 : viewportWidth < 1024 ? 42 : 46;
   const overlapRightPx = uniformRightWidth
     ? Math.max(0, uniformRightWidth - exposedRightWidth)
     : viewportWidth >= 1280
@@ -569,7 +569,7 @@ export const Footer: React.FC<FooterProps> = ({
                   <div
                     id="footer-theme-popup"
                     style={{ background: 'var(--bg-popup)' }}
-                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(340px,calc(100vw-24px))] sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-[344px] rounded-[14px] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
+                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(368px,calc(100vw-24px))] sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-[376px] rounded-[14px] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
                   >
                     <div
                       className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
@@ -587,19 +587,23 @@ export const Footer: React.FC<FooterProps> = ({
 
                     <div className="max-h-[380px] overflow-y-auto no-scrollbar flex flex-col gap-2 pr-0.5">
                       {CARD_STYLE_GROUPS.map((group) => {
-                        const lightPreset = group.presets.find((p) => !p.isDark) || group.presets[0];
-                        const darkPreset = group.presets.find((p) => p.isDark) || group.presets[group.presets.length - 1];
+                        const lightPreset =
+                          (group.lightMode && group.presets.find((p) => p.id === group.lightMode)) ||
+                          group.presets.find((p) => !p.isDark) ||
+                          group.presets[0];
+                        const darkPreset =
+                          (group.darkMode && group.presets.find((p) => p.id === group.darkMode)) ||
+                          group.presets.find((p) => p.isDark) ||
+                          group.presets[group.presets.length - 1];
                         const groupActive = group.presets.some((p) => p.id === cardStyle);
-                        const isDarkSelected = groupActive ? cardStyle === darkPreset.id : activeThemeConfig.isDark;
+                        const isDarkSelected = activeThemeConfig.isDark;
                         const defaultPreset = group.defaultMode
                           ? group.presets.find((p) => p.id === group.defaultMode) || lightPreset
                           : activeThemeConfig.isDark
                             ? darkPreset
                             : lightPreset;
                         const activeGroupPreset = groupActive
-                          ? isDarkSelected
-                            ? darkPreset
-                            : lightPreset
+                          ? activeThemeConfig
                           : defaultPreset;
                         const groupTitle = isEn ? group.labelEn : group.label;
 
@@ -771,9 +775,39 @@ export const Footer: React.FC<FooterProps> = ({
             );
           })()}
 
-          {/* Button 2: Hình Nền */}
+          {/* Button 2: Chế độ Sáng / Tối */}
           {(() => {
-            const isSelected = currentTabIndex === 14;
+            const handleToggleDarkMode = () => {
+              SoundEngine.playGlassChime();
+              setIsLangMenuOpen(false);
+              setIsThemeMenuOpen(false);
+              const nextDark = !isDark;
+              toggleLightDark(nextDark);
+              onShowNotification(
+                isEn
+                  ? nextDark
+                    ? '✓ Switched to Dark Mode'
+                    : '✓ Switched to Light Mode'
+                  : nextDark
+                    ? '✓ Đã chuyển sang Chế độ Tối'
+                    : '✓ Đã chuyển sang Chế độ Sáng'
+              );
+            };
+            const modeTitle = isDark
+              ? isEn
+                ? 'Dark Mode'
+                : 'Chế độ Tối'
+              : isEn
+                ? 'Light Mode'
+                : 'Chế độ Sáng';
+            const modeSub = isDark
+              ? isEn
+                ? 'Switch Light'
+                : 'Chuyển Sáng'
+              : isEn
+                ? 'Switch Dark'
+                : 'Chuyển Tối';
+
             return (
               <div
                 onMouseEnter={() => setHoveredRightBtn(2)}
@@ -783,6 +817,88 @@ export const Footer: React.FC<FooterProps> = ({
                 <div
                   ref={(el) => {
                     rightPillWrapperRefs.current[2] = el;
+                  }}
+                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-max h-auto p-[1.5px] overflow-hidden shadow-[0_4px_14px_rgba(0,0,0,0.1)]"
+                  style={{
+                    width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
+                    boxShadow: 'none',
+                  }}
+                >
+                  <button
+                    ref={(el) => {
+                      rightPillBtnRefs.current[2] = el;
+                    }}
+                    id="footer-theme-mode-btn"
+                    type="button"
+                    aria-pressed={isDark}
+                    onClick={handleToggleDarkMode}
+                    title={
+                      isEn
+                        ? `${modeTitle} (${modeSub})`
+                        : `${modeTitle} (${modeSub})`
+                    }
+                    className={`nav-pill relative z-10 inline-flex items-center w-full h-auto rounded-[999px] gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
+                      isDark
+                        ? 'border-sky-400/80 dark:border-sky-400/70'
+                        : 'border-amber-400/80 dark:border-amber-400/70'
+                    }`}
+                    style={{
+                      paddingTop: '2px',
+                      paddingBottom: '2px',
+                      paddingLeft: '10px',
+                      paddingRight: '10px',
+                    }}
+                  >
+                    <div
+                      className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
+                      style={{
+                        backgroundColor: isDark ? '#0EA5E9' : '#F59E0B',
+                      }}
+                    >
+                      <WebIcon
+                        name={isDark ? 'moon' : 'sun'}
+                        className="nav-pill-icon-svg w-4 h-4 text-white shrink-0"
+                      />
+                    </div>
+                    <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 bg-[var(--divider-nav-pill)]" />
+                    <div className="flex flex-col text-left leading-none shrink-0">
+                      <span
+                        className={`nav-pill-title typo-nav leading-tight font-play tracking-tight whitespace-nowrap transition-colors duration-300 ${
+                          isDark
+                            ? 'text-sky-950 dark:text-sky-100'
+                            : 'text-amber-950 dark:text-amber-100'
+                        }`}
+                      >
+                        {modeTitle}
+                      </span>
+                      <span
+                        className={`nav-pill-sub typo-label leading-none mt-0.5 whitespace-nowrap font-play transition-colors duration-300 ${
+                          isDark
+                            ? 'text-sky-700 dark:text-sky-300'
+                            : 'text-amber-700 dark:text-amber-300'
+                        }`}
+                      >
+                        {modeSub}
+                      </span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Button 3: Hình Nền */}
+          {(() => {
+            const isSelected = currentTabIndex === 14;
+            return (
+              <div
+                onMouseEnter={() => setHoveredRightBtn(3)}
+                style={getDeckItemStyle(3)}
+                className="relative pointer-events-auto shrink-0 transition-all duration-300 ease-out"
+              >
+                <div
+                  ref={(el) => {
+                    rightPillWrapperRefs.current[3] = el;
                   }}
                   className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-max h-auto p-[1.5px] overflow-hidden ${
                     isSelected ? '' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
@@ -803,7 +919,7 @@ export const Footer: React.FC<FooterProps> = ({
                   )}
                   <button
                     ref={(el) => {
-                      rightPillBtnRefs.current[2] = el;
+                      rightPillBtnRefs.current[3] = el;
                     }}
                     id="footer-wallpaper-btn"
                     type="button"
@@ -866,18 +982,18 @@ export const Footer: React.FC<FooterProps> = ({
             );
           })()}
 
-          {/* Button 3: AI Hỗ trợ */}
+          {/* Button 4: AI Hỗ trợ */}
           {(() => {
             const isSelected = currentTabIndex === 13;
             return (
               <div
-                onMouseEnter={() => setHoveredRightBtn(3)}
-                style={getDeckItemStyle(3)}
+                onMouseEnter={() => setHoveredRightBtn(4)}
+                style={getDeckItemStyle(4)}
                 className="relative pointer-events-auto shrink-0 transition-all duration-300 ease-out"
               >
                 <div
                   ref={(el) => {
-                    rightPillWrapperRefs.current[3] = el;
+                    rightPillWrapperRefs.current[4] = el;
                   }}
                   className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-max h-auto p-[1.5px] overflow-hidden ${
                     isSelected ? '' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
@@ -898,7 +1014,7 @@ export const Footer: React.FC<FooterProps> = ({
                   )}
                   <button
                     ref={(el) => {
-                      rightPillBtnRefs.current[3] = el;
+                      rightPillBtnRefs.current[4] = el;
                     }}
                     id="footer-ai-btn"
                     type="button"

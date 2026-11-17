@@ -311,6 +311,7 @@ html[data-card-style="cowhide-leather"] #app-header nav button.nav-pill:not(.act
 html[data-card-style="cowhide-leather"] #header-btn-hungthai-avatar:not(.active),
 html[data-card-style="cowhide-leather"] #footer-lang-btn:not(.active),
 html[data-card-style="cowhide-leather"] #footer-appearance-btn:not(.active),
+html[data-card-style="cowhide-leather"] #footer-theme-mode-btn:not(.active),
 html[data-card-style="cowhide-leather"] #footer-wallpaper-btn:not(.active),
 html[data-card-style="cowhide-leather"] #footer-ai-btn:not(.active) {
   border-color: #522E10 !important;
@@ -321,6 +322,7 @@ html[data-card-style="cowhide-leather"] #app-header nav button.nav-pill:not(.act
 html[data-card-style="cowhide-leather"] #header-btn-hungthai-avatar:not(.active):hover,
 html[data-card-style="cowhide-leather"] #footer-lang-btn:not(.active):hover,
 html[data-card-style="cowhide-leather"] #footer-appearance-btn:not(.active):hover,
+html[data-card-style="cowhide-leather"] #footer-theme-mode-btn:not(.active):hover,
 html[data-card-style="cowhide-leather"] #footer-wallpaper-btn:not(.active):hover,
 html[data-card-style="cowhide-leather"] #footer-ai-btn:not(.active):hover {
   border-color: rgba(245, 222, 179, 0.72) !important;
@@ -331,6 +333,7 @@ html[data-card-style="cowhide-leather"] #app-header nav button.nav-pill.active,
 html[data-card-style="cowhide-leather"] #header-btn-hungthai-avatar.active,
 html[data-card-style="cowhide-leather"] #footer-lang-btn.active,
 html[data-card-style="cowhide-leather"] #footer-appearance-btn.active,
+html[data-card-style="cowhide-leather"] #footer-theme-mode-btn.active,
 html[data-card-style="cowhide-leather"] #footer-wallpaper-btn.active,
 html[data-card-style="cowhide-leather"] #footer-ai-btn.active {
   background: linear-gradient(135deg, #B45309 0%, #78350F 55%, #92400E 100%) !important;
@@ -347,6 +350,7 @@ html[data-card-style="cowhide-leather"] #app-header nav button.nav-pill:not(.act
 html[data-card-style="cowhide-leather"] #header-btn-hungthai-avatar:not(.active) .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-lang-btn:not(.active) .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-appearance-btn:not(.active) .nav-pill-icon-badge,
+html[data-card-style="cowhide-leather"] #footer-theme-mode-btn:not(.active) .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-wallpaper-btn:not(.active) .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-ai-btn:not(.active) .nav-pill-icon-badge {
   background: linear-gradient(145deg, #5A3213 0%, #3A1F0A 100%) !important;
@@ -362,6 +366,7 @@ html[data-card-style="cowhide-leather"] #app-header nav button.nav-pill:not(.act
 html[data-card-style="cowhide-leather"] #header-btn-hungthai-avatar:not(.active):hover .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-lang-btn:not(.active):hover .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-appearance-btn:not(.active):hover .nav-pill-icon-badge,
+html[data-card-style="cowhide-leather"] #footer-theme-mode-btn:not(.active):hover .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-wallpaper-btn:not(.active):hover .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-ai-btn:not(.active):hover .nav-pill-icon-badge {
   background: linear-gradient(145deg, #7A4A20 0%, #4E2B10 100%) !important;
@@ -372,6 +377,7 @@ html[data-card-style="cowhide-leather"] #app-header nav button.nav-pill.active .
 html[data-card-style="cowhide-leather"] #header-btn-hungthai-avatar.active .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-lang-btn.active .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-appearance-btn.active .nav-pill-icon-badge,
+html[data-card-style="cowhide-leather"] #footer-theme-mode-btn.active .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-wallpaper-btn.active .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #footer-ai-btn.active .nav-pill-icon-badge {
   background: linear-gradient(145deg, #3D210B 0%, #522E10 100%) !important;

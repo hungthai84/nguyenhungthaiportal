@@ -17,7 +17,6 @@ export type CardStyleMode =
 export type ThemeFamilyId =
   | 'glassmorphism'
   | 'light-multicolor-glass'
-  | 'dark-neon-multicolor-glass'
   | 'ice-blue-neumorphism'
   | 'pastel-soft-ui'
   | 'cowhide-leather';

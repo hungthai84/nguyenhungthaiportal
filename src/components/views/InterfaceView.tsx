@@ -49,6 +49,11 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     }
   };
 
+  const displayedThemesCount = CARD_STYLE_GROUPS.reduce(
+    (sum, g) => sum + (g.id === 'light-multicolor-glass' ? 1 : g.presets.length),
+    0
+  );
+
   return (
     <div
       id="interface-page-container"
@@ -66,8 +71,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
         <div className="min-w-0 flex flex-col gap-0.5">
           <h3 className="typo-h3 font-bold tracking-tight">
             {isEn
-              ? `Unified Interface Themes (${UNIFIED_INTERFACE_THEMES.length} Themes)`
-              : `Danh sách ${UNIFIED_INTERFACE_THEMES.length} giao diện phân loại theo nhóm`}
+              ? `Unified Interface Themes (${displayedThemesCount} Themes)`
+              : `Danh sách ${displayedThemesCount} giao diện phân loại theo nhóm`}
           </h3>
           <p className="typo-body-sm" style={{ color: 'var(--text-muted)' }}>
             {isEn
@@ -124,10 +129,24 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       {/* Danh sách các giao diện nhóm cùng loại */}
       <div className="flex flex-col gap-6">
         {CARD_STYLE_GROUPS.map((group) => {
-          const lightPreset = group.presets.find((p) => !p.isDark);
-          const darkPreset = group.presets.find((p) => p.isDark);
+          const lightPreset =
+            (group.lightMode && group.presets.find((p) => p.id === group.lightMode)) ||
+            group.presets.find((p) => !p.isDark);
+          const darkPreset =
+            (group.darkMode && group.presets.find((p) => p.id === group.darkMode)) ||
+            group.presets.find((p) => p.isDark);
           const groupActive = group.presets.some((p) => p.id === cardStyle);
-          const isDarkSelected = groupActive && darkPreset && cardStyle === darkPreset.id;
+          const isDarkSelected = groupActive && activePreset.isDark;
+          const isMergedMulticolor = group.id === 'light-multicolor-glass';
+          const presetsToRender = isMergedMulticolor
+            ? [
+                groupActive
+                  ? activePreset
+                  : isDark && darkPreset
+                    ? darkPreset
+                    : lightPreset || group.presets[0],
+              ]
+            : group.presets;
 
           return (
             <section
@@ -218,8 +237,27 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch">
-                {group.presets.map((preset) => {
-                  const isActive = cardStyle === preset.id;
+                {presetsToRender.map((preset) => {
+                  const isActive = isMergedMulticolor ? groupActive : cardStyle === preset.id;
+                  const displayPresetName = isMergedMulticolor
+                    ? isEn
+                      ? 'Multicolor Glass'
+                      : 'Gương kính đa sắc'
+                    : preset.name;
+                  const displayModeLabel = isMergedMulticolor
+                    ? isEn
+                      ? isDarkSelected
+                        ? 'Dark · Active'
+                        : 'Light & Dark'
+                      : isDarkSelected
+                        ? 'Tối · Đang bật'
+                        : 'Sáng & Tối'
+                    : preset.modeLabel;
+                  const displayShortBadge = isMergedMulticolor
+                    ? isEn
+                      ? 'Multicolor Glass'
+                      : 'Gương Đa Sắc'
+                    : preset.shortBadge;
                   const sampleProps = getCardStyleProperties(preset.id);
                   const isLightGlass = preset.id === 'light-glassmorphism';
                   const isLightMulticolorGlass = preset.id === 'light-multicolor-glass';
@@ -237,17 +275,17 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
 
                   return (
                     <motion.div
-                      key={preset.id}
+                      key={isMergedMulticolor ? 'merged-guong-da-sac' : preset.id}
                       role="button"
                       tabIndex={0}
                       aria-pressed={isActive}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => handleSelectTheme(preset.id, preset.name)}
+                      onClick={() => handleSelectTheme(preset.id, displayPresetName)}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
-                          handleSelectTheme(preset.id, preset.name);
+                          handleSelectTheme(preset.id, displayPresetName);
                         }
                       }}
                       style={{
@@ -264,8 +302,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           : isLightLeather
                             ? {
                                 outline: isActive
-                                  ? '2px dashed #0F172A'
-                                  : '1.5px dashed rgba(15, 23, 42, 0.78)',
+                                  ? '2px dashed #111827'
+                                  : '1.5px dashed rgba(17, 24, 39, 0.65)',
                                 outlineOffset: '-6px',
                               }
                             : {}),
@@ -292,14 +330,14 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                                 : isDarkGlass
                                                   ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #38BDF8`
                                                   : isLightLeather
-                                                    ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #0F172A`
+                                                    ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #111827`
                                                     : isLeather
                                                       ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #F5DEB3`
                                                       : `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px var(--color-indigo)`,
                             }
                           : {}),
                       }}
-                      className={`relative flex flex-col justify-between p-[15px] cursor-pointer transition-all duration-300 border ${preset.cardClassName} ${
+                      className={`relative flex flex-col justify-between p-[15px] cursor-pointer transition-all duration-300 border ${isMergedMulticolor ? 'md:col-span-2 ' : ''}${preset.cardClassName} ${
                         isIceBlueNeu
                           ? isActive
                             ? 'border-sky-500/90'
@@ -342,8 +380,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                               : 'border-white/20 hover:border-sky-400/70'
                                             : isLightLeather
                                               ? isActive
-                                                ? 'border-[#0F172A]'
-                                                : 'border-slate-900/35 hover:border-[#0F172A]'
+                                                ? 'border-[#111827]'
+                                                : 'border-[#d1d5db] hover:border-[#9ca3af]'
                                               : isLeather
                                                 ? isActive
                                                   ? 'border-[#F5DEB3]'
@@ -384,7 +422,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                 : preset.badgeColorClass
                             }`}
                           >
-                            {isActive ? 'Đang sử dụng ✓' : preset.shortBadge}
+                            {isActive ? 'Đang sử dụng ✓' : displayShortBadge}
                           </span>
                           <div
                             className="w-9 h-9 flex items-center justify-center text-white shadow-sm rounded-[14px] shrink-0"
@@ -487,7 +525,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                               }`}
                               data-card-title="true"
                             >
-                              {preset.name}
+                              {displayPresetName}
                             </h3>
                             <span
                               className={`typo-badge font-bold px-2 py-0.5 rounded-full border shrink-0 ${
@@ -518,7 +556,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                                         : 'bg-indigo-100 text-indigo-800 border-indigo-200'
                               }`}
                             >
-                              {preset.modeLabel}
+                              {displayModeLabel}
                             </span>
                           </div>
                           <p
@@ -562,7 +600,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                             : isDarkGlass
                                               ? 'border-white/20'
                                               : isLightLeather
-                                                ? 'border-[#0F172A]/70 border-dashed'
+                                                ? 'white-leather-stitch border-[#111827]/65 border-dashed'
                                                 : isLeather
                                                   ? 'border-[#F5DEB3]/45 border-dashed'
                                                   : 'bg-slate-100/80 border-slate-200/80'
@@ -605,7 +643,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                                   : 'text-[#475569]'
                             }`}
                           >
-                            {preset.shortBadge}
+                            {displayShortBadge}
                           </span>
                         </div>
                         {(isIceBlueNeu || isDarkIceBlueNeu) && (
@@ -681,7 +719,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent my-0.5" />
                         )}
                         {isLightLeather && (
-                          <div className="w-full border-t border-dashed border-[#0F172A]/80 my-0.5" />
+                          <div className="w-full border-t-[1.5px] border-dashed border-[#111827]/65 my-0.5" />
                         )}
                         {isLeather && (
                           <div className="w-full border-t border-dashed border-[#F5DEB3]/55 my-0.5" />
@@ -745,7 +783,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleSelectTheme(preset.id, preset.name);
+                            handleSelectTheme(preset.id, displayPresetName);
                           }}
                           className={`typo-button font-bold px-3 py-1.5 transition-all rounded-[14px] border flex items-center gap-1 cursor-pointer ${
                             isIceBlueNeu

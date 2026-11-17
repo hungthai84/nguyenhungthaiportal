@@ -1157,9 +1157,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   </h5>
                 </div>
                 <div className="min-w-0">
-                  <div className="typo-h5 text-[var(--text-primary)] break-words">22/06/1984 17:00 (17h)</div>
+                  <div className="typo-h5 text-[var(--text-primary)] break-words">22/06/1984</div>
                   <div className="typo-caption text-[var(--text-secondary)] break-words">
-                    (Giáp Tý • Canh Ngọ • Quý Dậu)
+                    (17:00 • Giáp Tý • Canh Ngọ • Quý Dậu)
                   </div>
                 </div>
               </div>

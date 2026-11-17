@@ -630,10 +630,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
 
                 {/* 2. BENTO RESPONSIVE GRID VIEW (12 CỘT DESKTOP / 2 CỘT TABLET / 1 CỘT MOBILE) */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-stretch shrink-0 pb-1">
-                  {/* BENTO CARD 1: Thông điệp chuyên môn & Hình ảnh dịch vụ (Hợp nhất) */}
+                  {/* BENTO CARD 1: Thông điệp chuyên môn & Hình ảnh dịch vụ (Cùng hàng với Đối tác tiêu biểu) */}
                   <div
                     data-subcard="true"
-                    className="exp-detail-subcard md:col-span-12 p-4 sm:p-5 rounded-[14px] border-l-4 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 min-w-0"
+                    className="exp-detail-subcard md:col-span-7 p-4 sm:p-5 rounded-[14px] border-l-4 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-4 min-w-0"
                     style={{ borderLeftColor: accentColor }}
                   >
                     <div className="relative z-10 flex-1 min-w-0 flex flex-col justify-between gap-2.5 w-full">
@@ -658,7 +658,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                       )}
                     </div>
 
-                    <div className="relative z-10 w-full md:w-[210px] lg:w-[240px] shrink-0 flex items-center justify-center">
+                    <div className="relative z-10 w-full lg:w-[190px] xl:w-[220px] shrink-0 flex items-center justify-center">
                       <img
                         src={detailImageSrc}
                         alt={serviceTitle}
@@ -667,9 +667,75 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                             e.currentTarget.src = cfg.fallbackIllustration;
                           }
                         }}
-                        className="w-full max-w-[180px] sm:max-w-[210px] h-28 sm:h-32 object-contain bg-transparent drop-shadow-[0_10px_18px_rgba(0,0,0,0.16)]"
+                        className="w-full max-w-[170px] sm:max-w-[200px] h-28 sm:h-32 object-contain bg-transparent drop-shadow-[0_10px_18px_rgba(0,0,0,0.16)]"
                       />
                     </div>
+                  </div>
+
+                  {/* BENTO CARD 3: Đối tác tiêu biểu (Cùng hàng với Thông điệp chuyên môn) */}
+                  <div data-subcard="true" className="exp-detail-subcard md:col-span-5 p-4 sm:p-5 rounded-[14px] flex flex-col justify-between gap-3 min-w-0">
+                    <div
+                      className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
+                      data-subcard-accent="teal"
+                    >
+                      <WebIcon name="users" className="w-4.5 h-4.5 shrink-0" />
+                      <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
+                        {isEn ? 'Key Ecosystem Strategic Partners' : 'Đối tác tiêu biểu'}
+                      </h3>
+                    </div>
+                    {(() => {
+                      const logoList = selectedDomain.companyLogos || [];
+                      const companyList = selectedDomain.companies || [];
+
+                      return (
+                        <div className="flex-1 w-full flex items-center justify-start min-w-0 py-1">
+                          <div
+                            className="flex flex-row flex-wrap items-center justify-start gap-2.5 sm:gap-3 min-w-0"
+                            role="group"
+                            aria-label={isEn ? 'Partner logos' : 'Nhóm logo đối tác tiêu biểu'}
+                          >
+                            {logoList.length > 0
+                              ? logoList.map((partner, i) => (
+                                  <div
+                                    key={partner.name || i}
+                                    title={partner.name}
+                                    className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full flex items-center justify-center overflow-hidden shrink-0 select-none transition-transform duration-200 hover:-translate-y-0.5"
+                                  >
+                                    <img
+                                      src={partner.logo}
+                                      alt={partner.name}
+                                      referrerPolicy="no-referrer"
+                                      className="w-full h-full object-cover rounded-full bg-transparent"
+                                      onError={(e) => {
+                                        if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
+                                          e.currentTarget.src = partner.fallbackLogo;
+                                        } else {
+                                          e.currentTarget.style.display = 'none';
+                                          const fallbackSpan = e.currentTarget.nextElementSibling as HTMLElement | null;
+                                          if (fallbackSpan) fallbackSpan.style.display = 'inline';
+                                        }
+                                      }}
+                                    />
+                                    <span style={{ display: 'none' }} className="typo-badge font-bold text-slate-900 text-center px-1 break-words leading-tight">
+                                      {partner.name}
+                                    </span>
+                                  </div>
+                                ))
+                              : companyList.map((companyName, i) => (
+                                  <div
+                                    key={companyName || i}
+                                    title={companyName}
+                                    className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full bg-white/90 flex items-center justify-center overflow-hidden shrink-0 select-none"
+                                  >
+                                    <span className="typo-badge font-bold text-slate-900 text-center leading-tight truncate px-1">
+                                      {companyName}
+                                    </span>
+                                  </div>
+                                ))}
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   {/* BENTO CARD 2: Kết quả vận hành (Subcard Grid) */}
@@ -723,124 +789,38 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     </div>
                   )}
 
-                  {/* BENTO STACK 3 & 4: Đối tác tiêu biểu + Vai trò đảm nhiệm */}
-                  <div className="md:col-span-12 lg:col-span-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-3.5 min-w-0">
-                    {/* BENTO CARD 3: Đối tác tiêu biểu */}
-                    <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px] flex flex-col justify-between gap-2.5 min-w-0 flex-1">
-                      <div
-                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
-                        data-subcard-accent="teal"
-                      >
-                        <WebIcon name="users" className="w-4.5 h-4.5 shrink-0" />
-                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                          {isEn ? 'Key Ecosystem Strategic Partners' : 'Đối tác tiêu biểu'}
-                        </h3>
-                      </div>
-                      {(() => {
-                        const logoList = selectedDomain.companyLogos || [];
-                        const companyList = selectedDomain.companies || [];
-                        const partnerNamesLine =
-                          logoList.length > 0
-                            ? logoList.map((p) => p.name).join(' · ')
-                            : companyList.join(' · ');
-
-                        return (
-                          <div className="flex-1 w-full flex flex-col justify-center gap-2.5 min-w-0 py-1">
-                            <div
-                              className="flex flex-row items-center justify-start flex-nowrap overflow-x-auto no-scrollbar py-1 min-w-0"
-                              role="group"
-                              aria-label={isEn ? 'Partner logos' : 'Nhóm logo đối tác tiêu biểu'}
-                            >
-                              {logoList.length > 0
-                                ? logoList.map((partner, i) => (
-                                    <div
-                                      key={partner.name || i}
-                                      title={partner.name}
-                                      style={{
-                                        borderRadius: '9999px',
-                                        marginInlineStart: i > 0 ? '-16px' : '0px',
-                                        zIndex: logoList.length - i,
-                                      }}
-                                      className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full bg-white p-2 border-2 border-white dark:border-slate-800 ring-1 ring-slate-200/90 dark:ring-white/25 shadow-[0_6px_16px_rgba(15,23,42,0.16)] flex items-center justify-center overflow-hidden shrink-0 select-none transition-transform duration-200 hover:-translate-y-0.5"
-                                    >
-                                      <img
-                                        src={partner.logo}
-                                        alt={partner.name}
-                                        referrerPolicy="no-referrer"
-                                        className="w-full h-full object-contain bg-transparent"
-                                        onError={(e) => {
-                                          if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
-                                            e.currentTarget.src = partner.fallbackLogo;
-                                          } else {
-                                            e.currentTarget.style.display = 'none';
-                                            const fallbackSpan = e.currentTarget.nextElementSibling as HTMLElement | null;
-                                            if (fallbackSpan) fallbackSpan.style.display = 'inline';
-                                          }
-                                        }}
-                                      />
-                                      <span style={{ display: 'none' }} className="typo-badge font-bold text-slate-900 text-center px-1 break-words leading-tight">
-                                        {partner.name}
-                                      </span>
-                                    </div>
-                                  ))
-                                : companyList.map((companyName, i) => (
-                                    <div
-                                      key={companyName || i}
-                                      title={companyName}
-                                      style={{
-                                        borderRadius: '9999px',
-                                        marginInlineStart: i > 0 ? '-16px' : '0px',
-                                        zIndex: companyList.length - i,
-                                      }}
-                                      className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full bg-white p-2 border-2 border-white dark:border-slate-800 ring-1 ring-slate-200/90 dark:ring-white/25 shadow-[0_6px_16px_rgba(15,23,42,0.16)] flex items-center justify-center overflow-hidden shrink-0 select-none"
-                                    >
-                                      <span className="typo-badge font-bold text-slate-900 text-center leading-tight truncate px-1">
-                                        {companyName}
-                                      </span>
-                                    </div>
-                                  ))}
-                            </div>
-                            {partnerNamesLine && selectedDomain.id !== '03' && (
-                              <p className="typo-body-sm font-semibold text-[var(--text-primary)] break-words leading-snug">
-                                {partnerNamesLine}
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })()}
-                      {selectedDomain.ecosystemNote && (
-                        <p className="typo-caption text-[var(--text-secondary)] pt-1 border-t border-[var(--border-subcard)]/60 break-words">
-                          {selectedDomain.ecosystemNote}
-                        </p>
-                      )}
+                  {/* BENTO CARD 4: Vai trò đảm nhiệm */}
+                  <div
+                    data-subcard="true"
+                    className={`exp-detail-subcard ${
+                      selectedDomain.operationalResults && selectedDomain.operationalResults.length > 0
+                        ? 'md:col-span-12 lg:col-span-5'
+                        : 'md:col-span-12'
+                    } p-4 rounded-[14px] flex flex-col justify-between gap-2 min-w-0`}
+                  >
+                    <div
+                      className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
+                      data-subcard-accent="purple"
+                    >
+                      <WebIcon name="award" className="w-4.5 h-4.5 shrink-0" />
+                      <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
+                        {isEn ? 'Key Leadership Roles Held' : 'Vai trò đảm nhiệm'}
+                      </h3>
                     </div>
-
-                    {/* BENTO CARD 4: Vai trò đảm nhiệm */}
-                    <div data-subcard="true" className="exp-detail-subcard p-4 rounded-[14px] flex flex-col justify-between gap-2 min-w-0">
-                      <div
-                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
-                        data-subcard-accent="purple"
-                      >
-                        <WebIcon name="award" className="w-4.5 h-4.5 shrink-0" />
-                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                          {isEn ? 'Key Leadership Roles Held' : 'Vai trò đảm nhiệm'}
-                        </h3>
-                      </div>
-                      {selectedDomain.rolesHeld && selectedDomain.rolesHeld.length > 0 ? (
-                        <ul className="space-y-1.5 my-auto">
-                          {selectedDomain.rolesHeld.map((roleName, rIdx) => (
-                            <li key={rIdx} className="flex items-start gap-2 typo-body-sm font-semibold text-[var(--text-primary)] break-words">
-                              <span className="w-2 h-2 rounded-full mt-2 shrink-0" style={{ backgroundColor: accentColor }} />
-                              <span>{roleName}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p className="typo-body-sm text-[var(--text-secondary)] break-words">
-                          {selectedDomain.typicalRolesLine}
-                        </p>
-                      )}
-                    </div>
+                    {selectedDomain.rolesHeld && selectedDomain.rolesHeld.length > 0 ? (
+                      <ul className="space-y-1.5 my-auto">
+                        {selectedDomain.rolesHeld.map((roleName, rIdx) => (
+                          <li key={rIdx} className="flex items-start gap-2 typo-body-sm font-semibold text-[var(--text-primary)] break-words">
+                            <span className="w-2 h-2 rounded-full mt-2 shrink-0" style={{ backgroundColor: accentColor }} />
+                            <span>{roleName}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="typo-body-sm text-[var(--text-secondary)] break-words">
+                        {selectedDomain.typicalRolesLine}
+                      </p>
+                    )}
                   </div>
 
                   {/* BENTO CARD 5: Kinh nghiệm chuyên môn */}
@@ -893,7 +873,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
 
                   {/* BENTO CARD 7: Thách thức vận hành / Bài toán chiến lược */}
                   {selectedDomain.operationalChallenges && selectedDomain.operationalChallenges.length > 0 && (
-                    <div data-subcard="true" className="exp-detail-subcard md:col-span-12 lg:col-span-5 p-4 rounded-[14px] space-y-2.5 min-w-0">
+                    <div
+                      data-subcard="true"
+                      className={`exp-detail-subcard ${
+                        (selectedDomain.tools || []).length > 0
+                          ? 'md:col-span-12 lg:col-span-5'
+                          : 'md:col-span-12'
+                      } p-4 rounded-[14px] space-y-2.5 min-w-0`}
+                    >
                       <div
                         className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
                         data-subcard-accent="orange"
@@ -914,71 +901,15 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     </div>
                   )}
 
-                  {/* BENTO CARD 8: Giải pháp công nghệ (Độc lập) */}
-                  <div
-                    data-subcard="true"
-                    className={`exp-detail-subcard ${
-                      selectedDomain.operationalChallenges && selectedDomain.operationalChallenges.length > 0
-                        ? 'md:col-span-12 lg:col-span-7'
-                        : 'md:col-span-12'
-                    } p-4 rounded-[14px] flex flex-col justify-between gap-3.5 min-w-0`}
-                  >
-                    <div className="space-y-3 min-w-0">
-                      <div
-                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
-                        data-subcard-accent="emerald"
-                      >
-                        <WebIcon name="cpu" className="w-4.5 h-4.5 shrink-0" />
-                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                          {isEn ? 'Technology And Governance Solutions' : 'Giải pháp công nghệ'}
-                        </h3>
-                      </div>
-
-                      {selectedDomain.techSolutions && selectedDomain.techSolutions.length > 0 && (
-                        <div className="grid grid-cols-1 gap-2.5">
-                          {selectedDomain.techSolutions.map((sol, tIdx) => (
-                            <div
-                              key={tIdx}
-                              data-subcard="true"
-                              className="exp-detail-subcard p-3 rounded-[14px] flex items-start gap-2.5 min-w-0 transition-all hover:shadow-2xs"
-                            >
-                              <span className="w-5 h-5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center typo-badge font-mono font-bold shrink-0 mt-0.5">
-                                {tIdx + 1}
-                              </span>
-                              <div className="min-w-0 flex-1">
-                                <span className="font-semibold text-[var(--text-primary)] typo-body-sm block break-words">
-                                  {sol.name}
-                                </span>
-                                <p className="typo-caption text-[var(--text-secondary)] mt-0.5 break-words leading-relaxed m-0 p-0">
-                                  {sol.desc}
-                                </p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    {(selectedDomain.tools || []).length === 0 && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setIsTechModalOpen(true);
-                        }}
-                        className="banner-control-pill w-full py-2 px-3 rounded-full typo-button flex items-center justify-center gap-1.5 cursor-pointer transition hover:opacity-90"
-                      >
-                        <WebIcon name="cpu" className="w-3.5 h-3.5 shrink-0" />
-                        <span>{isEn ? 'Open Tech Ecosystem' : 'Xem hệ sinh thái công nghệ'}</span>
-                      </button>
-                    )}
-                  </div>
-
-                  {/* BENTO CARD 9: Nền tảng công cụ (Tách độc lập) */}
+                  {/* BENTO CARD 8: Nền tảng công cụ (Cùng hàng cân đối với Thách thức vận hành) */}
                   {(selectedDomain.tools || []).length > 0 && (
                     <div
                       data-subcard="true"
-                      className="exp-detail-subcard md:col-span-12 p-4 rounded-[14px] flex flex-col justify-between gap-3.5 min-w-0"
+                      className={`exp-detail-subcard ${
+                        selectedDomain.operationalChallenges && selectedDomain.operationalChallenges.length > 0
+                          ? 'md:col-span-12 lg:col-span-7'
+                          : 'md:col-span-12'
+                      } p-4 rounded-[14px] flex flex-col justify-between gap-3.5 min-w-0`}
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2.5 min-w-0">
                         <div
@@ -1004,7 +935,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                         </button>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-auto">
                         {(selectedDomain.tools || []).map((tech, i) => {
                           const toolIcon = toolIcons[i % toolIcons.length];
                           const toolAccent = toolAccents[i % toolAccents.length];

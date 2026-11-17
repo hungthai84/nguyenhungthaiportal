@@ -254,6 +254,7 @@ html[data-card-style="dark-glassmorphism"] #app-header nav button.nav-pill:not(.
 html[data-card-style="dark-glassmorphism"] #header-btn-hungthai-avatar:not(.active),
 html[data-card-style="dark-glassmorphism"] #footer-lang-btn:not(.active),
 html[data-card-style="dark-glassmorphism"] #footer-appearance-btn:not(.active),
+html[data-card-style="dark-glassmorphism"] #footer-theme-mode-btn:not(.active),
 html[data-card-style="dark-glassmorphism"] #footer-wallpaper-btn:not(.active),
 html[data-card-style="dark-glassmorphism"] #footer-ai-btn:not(.active),
 html[data-card-style="dark-glassmorphism"] .banner-control-pill,

@@ -296,6 +296,7 @@ html[data-card-style="dark-neon-multicolor"] #app-header nav button.nav-pill:not
 html[data-card-style="dark-neon-multicolor"] #header-btn-hungthai-avatar:not(.active),
 html[data-card-style="dark-neon-multicolor"] #footer-lang-btn:not(.active),
 html[data-card-style="dark-neon-multicolor"] #footer-appearance-btn:not(.active),
+html[data-card-style="dark-neon-multicolor"] #footer-theme-mode-btn:not(.active),
 html[data-card-style="dark-neon-multicolor"] #footer-wallpaper-btn:not(.active),
 html[data-card-style="dark-neon-multicolor"] #footer-ai-btn:not(.active),
 html[data-card-style="dark-neon-multicolor"] .banner-control-pill,

@@ -188,9 +188,19 @@ export const PROJECT_CATEGORIES = [
 
 export interface ProjectsViewProps {
   currentTheme?: SiteTheme;
+  requestedProject?: {
+    projectId: string | null;
+    returnTabIndex: number | null;
+    nonce: number;
+  } | null;
+  onReturnToOrigin?: () => void;
 }
 
-export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'light-glass' }) => {
+export const ProjectsView: React.FC<ProjectsViewProps> = ({
+  currentTheme = 'light-glass',
+  requestedProject,
+  onReturnToOrigin,
+}) => {
   const { isDark: themeIsDark } = useTheme();
   const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
   const isLight = !isDark;
@@ -245,6 +255,26 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
       console.error(e);
     }
   }, []);
+
+  // Mở trực tiếp dự án khi điều hướng từ Chi tiết công việc (ExperienceView)
+  useEffect(() => {
+    if (!requestedProject) return;
+    if (!requestedProject.projectId) {
+      setSelectedGroup(null);
+      setSelectedArticle(null);
+      return;
+    }
+    const foundProj = PROJECTS_DATA.find(
+      (p) =>
+        p.id.toLowerCase() === requestedProject.projectId!.toLowerCase() ||
+        p.code.toLowerCase() === requestedProject.projectId!.toLowerCase()
+    );
+    if (foundProj) {
+      const parentGroup = getParentGroupForProject(foundProj);
+      setSelectedGroup(parentGroup);
+      setSelectedArticle(foundProj);
+    }
+  }, [requestedProject]);
 
   useEffect(() => {
     if (selectedArticle) {
@@ -416,6 +446,23 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
       {!selectedGroup && !selectedArticle ? (
         <>
+          {onReturnToOrigin && (
+            <div className="flex items-center justify-start shrink-0">
+              <button
+                id="projects-list-return-btn"
+                type="button"
+                onClick={() => {
+                  SoundEngine.playTap();
+                  onReturnToOrigin();
+                }}
+                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-bold font-play transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
+                title="Quay lại trang đang xem"
+              >
+                <WebIcon name="arrow-left" className="w-4 h-4 shrink-0" />
+                <span>Quay lại trang đang xem</span>
+              </button>
+            </div>
+          )}
           {/* BANNER DỰ ÁN: Format chuẩn đồng bộ banner Hình Nền (h-200px, p-[15px], bo cong 14px) */}
           <motion.section
             id="projects-hero-banner"
@@ -719,16 +766,44 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
         /* 3. CHI TIẾT DỰ ÁN & HỒ SƠ STAR TOÀN DIỆN */
         selectedArticle && (
           <>
-            <button
-              id="project-detail-close-btn"
-              type="button"
-              onClick={handleCloseDetail}
-              title="Đóng bài viết"
-              aria-label="Đóng bài viết chi tiết dự án"
-              className="theme-modal-close absolute top-2.5 right-2.5 z-[120] w-8 h-8 rounded-full flex items-center justify-center cursor-pointer shadow-md transition-all duration-200 hover:scale-105 active:scale-95"
-            >
-              <WebIcon name="x" className="w-4 h-4" />
-            </button>
+            {onReturnToOrigin ? (
+              <div className="flex items-center justify-between gap-2 pb-1 shrink-0">
+                <button
+                  id="project-detail-return-btn"
+                  type="button"
+                  onClick={() => {
+                    SoundEngine.playTap();
+                    onReturnToOrigin();
+                  }}
+                  className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-bold font-play transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
+                  title="Quay lại trang đang xem"
+                >
+                  <WebIcon name="arrow-left" className="w-4 h-4 shrink-0" />
+                  <span>Quay lại trang đang xem</span>
+                </button>
+                <button
+                  id="project-detail-close-btn"
+                  type="button"
+                  onClick={handleCloseDetail}
+                  title="Đóng bài viết"
+                  aria-label="Đóng bài viết chi tiết dự án"
+                  className="theme-modal-close w-8 h-8 rounded-full flex items-center justify-center cursor-pointer shadow-md transition-all duration-200 hover:scale-105 active:scale-95 shrink-0"
+                >
+                  <WebIcon name="x" className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                id="project-detail-close-btn"
+                type="button"
+                onClick={handleCloseDetail}
+                title="Đóng bài viết"
+                aria-label="Đóng bài viết chi tiết dự án"
+                className="theme-modal-close absolute top-2.5 right-2.5 z-[120] w-8 h-8 rounded-full flex items-center justify-center cursor-pointer shadow-md transition-all duration-200 hover:scale-105 active:scale-95"
+              >
+                <WebIcon name="x" className="w-4 h-4" />
+              </button>
+            )}
             <div className="w-full flex-1 min-h-0 relative flex flex-col overflow-hidden">
               <ProjectDetailView
                 selectedArticle={selectedArticle}

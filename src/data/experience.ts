@@ -208,7 +208,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     cardYearLabel: "2011 - 2013",
     cardYearColor: "text-emerald-600",
     period: "Từ năm 2011 đến năm 2013",
-    company: "Công ty CP Thông tin",
+    company: "Công ty CP",
     subCompanies: "Băng thông Rộng LBC",
     tag: "Truyền thông",
     tagCategory: "telecom",

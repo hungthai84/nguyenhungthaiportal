@@ -46,6 +46,13 @@ export default function App() {
   const [mapLocation, setMapLocation] = useState<MapLocation | null>(null);
   const [bentoFocusKey, setBentoFocusKey] = useState<string | null>(null);
   const [selectedMilestone, setSelectedMilestone] = useState<ExperienceMilestone | null>(null);
+  const [experienceActiveKey, setExperienceActiveKey] = useState<string>('2013');
+  const [experienceShowJobCard, setExperienceShowJobCard] = useState<boolean>(false);
+  const [projectNavigationRequest, setProjectNavigationRequest] = useState<{
+    projectId: string | null;
+    returnTabIndex: number | null;
+    nonce: number;
+  } | null>(null);
 
   // Thứ tự trang theo Menu Icon trên Header (0..16)
   const MENU_ICON_ORDER = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
@@ -101,6 +108,7 @@ export default function App() {
   }, []);
 
   const handleSelectTabWithSound = useCallback((nextIndex: number) => {
+    setProjectNavigationRequest(null);
     setCurrentTabIndex((prev) => {
       if (prev !== nextIndex) {
         SoundEngine.playPageFlip();
@@ -110,6 +118,30 @@ export default function App() {
       return nextIndex;
     });
   }, []);
+
+  const handleOpenProjectFromJob = useCallback((projectId?: string) => {
+    setExperienceShowJobCard(true);
+    setProjectNavigationRequest({
+      projectId: projectId || null,
+      returnTabIndex: 5,
+      nonce: Date.now(),
+    });
+    setCurrentTabIndex((prev) => {
+      if (prev !== 7) {
+        SoundEngine.playPageFlip();
+      } else {
+        SoundEngine.playTap();
+      }
+      return 7;
+    });
+  }, []);
+
+  const handleReturnFromProjectDetail = useCallback(() => {
+    const targetTab = projectNavigationRequest?.returnTabIndex ?? 5;
+    setProjectNavigationRequest(null);
+    SoundEngine.playPageFlip();
+    setCurrentTabIndex(targetTab);
+  }, [projectNavigationRequest]);
 
   // Lắng nghe sự kiện thay đổi slide từ các trang con (Thư Ngỏ, Giới thiệu, Kinh nghiệm, Tử vi)
   useEffect(() => {
@@ -358,13 +390,29 @@ export default function App() {
           <ExperienceView
             currentTheme={activeTheme}
             onShowNotification={showNotification}
-            onNavigateTab={(tabIndex) => setCurrentTabIndex(tabIndex)}
+            onNavigateTab={(tabIndex) => handleSelectTabWithSound(tabIndex)}
+            activeKey={experienceActiveKey}
+            onActiveKeyChange={setExperienceActiveKey}
+            showJobCard={experienceShowJobCard}
+            onShowJobCardChange={setExperienceShowJobCard}
+            onOpenProjectFromJob={handleOpenProjectFromJob}
           />
         );
       case 6:
         return <SkillsView currentTheme={activeTheme} />;
       case 7:
-        return <ProjectsView currentTheme={activeTheme} />;
+        return (
+          <ProjectsView
+            currentTheme={activeTheme}
+            requestedProject={projectNavigationRequest}
+            onReturnToOrigin={
+              projectNavigationRequest?.returnTabIndex !== null &&
+              projectNavigationRequest?.returnTabIndex !== undefined
+                ? handleReturnFromProjectDetail
+                : undefined
+            }
+          />
+        );
       case 8:
         return (
           <SystemsView

@@ -51,7 +51,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'light-multicolor-glass': {
     id: 'light-multicolor-glass',
     presetId: 'theme-bg-light-multicolor-glass',
-    label: 'Nền Glassmorphism Light Multicolor (Mica Prism)',
+    label: 'Nền Gương đa sắc Sáng (Mica Prism)',
     themeMode: 'light',
     imagePath: '/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg',
     fallbackGradient:
@@ -61,7 +61,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'light-multicolor-glass-dark': {
     id: 'light-multicolor-glass-dark',
     presetId: 'theme-bg-light-multicolor-glass-dark',
-    label: 'Nền Glassmorphism Light Multicolor Tối (Twilight Prism)',
+    label: 'Nền Gương đa sắc Tối (Twilight Prism)',
     themeMode: 'dark',
     imagePath: '/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg',
     fallbackGradient:

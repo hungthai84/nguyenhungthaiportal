@@ -3,32 +3,28 @@
 /* Alabaster White Embossed Crocodile Leather + Black Hand-Stitched Thread   */
 /* ========================================================================= */
 
+.card-white-pebbled-leather,
 .card-light-cowhide-leather {
-  background-color: #f8fafc;
-  background-image:
-    radial-gradient(ellipse 14px 10px at 50% 50%, rgba(15, 23, 42, 0.035) 0%, rgba(15, 23, 42, 0.065) 56%, rgba(255, 255, 255, 0.85) 72%, transparent 100%),
-    linear-gradient(145deg, #ffffff 0%, #f4f7fa 52%, #e8eef5 100%);
-  background-size: 22px 16px, 100% 100%;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
   border-radius: 14px;
-  border: 1.5px solid #94a3b8;
-  box-shadow:
-    0 16px 34px -10px rgba(15, 23, 42, 0.14),
-    inset 0 2px 4px rgba(255, 255, 255, 0.95),
-    inset 0 -2px 5px rgba(15, 23, 42, 0.08);
-  color: #000000;
-  outline: 1.5px dashed rgba(15, 23, 42, 0.82);
+  border: 2px solid #d1d5db;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
+  color: #111827;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
   outline-offset: -7px;
 }
 
+.white-leather-stitch {
+  border: 1.5px dashed rgba(17, 24, 39, 0.65);
+}
+
 html[data-card-style="light-cowhide-leather"] {
-  --croc-white-top: #ffffff;
-  --croc-white-mid: #f4f7fa;
-  --croc-white-deep: #e8eef5;
-  --croc-border: #94a3b8;
-  --croc-border-soft: #cbd5e1;
-  --croc-stitch-black: rgba(15, 23, 42, 0.82);
-  --croc-scale-tile:
-    radial-gradient(ellipse 13px 9px at 50% 50%, rgba(15, 23, 42, 0.032) 0%, rgba(15, 23, 42, 0.058) 56%, rgba(255, 255, 255, 0.82) 72%, transparent 100%);
+  --croc-white-top: #fbfcfc;
+  --croc-white-mid: #f4f7f9;
+  --croc-white-deep: #edf1f4;
+  --croc-border: #d1d5db;
+  --croc-border-soft: #e5e7eb;
+  --croc-stitch-black: rgba(17, 24, 39, 0.65);
 
   --bg-blur: 0px;
   --glass-blur: 0px;
@@ -46,131 +42,131 @@ html[data-card-style="light-cowhide-leather"] {
   --radius-input: 14px;
   --radius-header: 0 0 14px 14px;
   --radius-footer: 14px 14px 0 0;
-  --card-border-width: 1.5px;
+  --card-border-width: 2px;
 
-  /* Core Pearl-White Crocodile Leather & Pure Black Contrast Tokens */
-  --color-bg: #eef2f7;
-  --color-bg-soft: #f8fafc;
-  --color-bg-blue: #e8eef5;
-  --color-surface: #ffffff;
+  /* Core White Pebbled Leather & Charcoal Ink Contrast Tokens */
+  --color-bg: #edf1f4;
+  --color-bg-soft: #fbfcfc;
+  --color-bg-blue: #edf1f4;
+  --color-surface: #fbfcfc;
   --color-surface-elevated: #ffffff;
 
-  --color-heading: #000000;
-  --color-text: #000000;
-  --color-text-secondary: #111827;
-  --color-text-muted: #27272A;
+  --color-heading: #111827;
+  --color-text: #111827;
+  --color-text-secondary: #1f2937;
+  --color-text-muted: #374151;
   --color-text-inverse: #ffffff;
-  --color-link: #0F172A;
-  --text-primary: #000000;
-  --text-secondary: #111827;
-  --text-muted: #27272A;
-  --text-heading: #000000;
-  --text-link: #0F172A;
-  --icon-primary: #000000;
-  --icon-secondary: #111827;
-  --icon-muted: #27272A;
+  --color-link: #111827;
+  --text-primary: #111827;
+  --text-secondary: #1f2937;
+  --text-muted: #374151;
+  --text-heading: #111827;
+  --text-link: #111827;
+  --icon-primary: #111827;
+  --icon-secondary: #1f2937;
+  --icon-muted: #374151;
 
-  /* Luxury Craft Slate/Obsidian Primary Accents */
-  --color-primary: #0F172A;
-  --color-secondary: #334155;
-  --color-tertiary: #1E293B;
-  --color-focus-ring: #0F172A;
+  /* Luxury Craft Charcoal Primary Accents */
+  --color-primary: #111827;
+  --color-secondary: #374151;
+  --color-tertiary: #1f2937;
+  --color-focus-ring: #111827;
 
-  --color-border: #94a3b8;
-  --color-border-soft: rgba(148, 163, 184, 0.45);
-  --border-color: #94a3b8;
-  --border-default: #94a3b8;
-  --border-muted: #cbd5e1;
-  --border-strong: #475569;
-  --glass-bg: linear-gradient(145deg, #ffffff 0%, #f4f7fa 52%, #e8eef5 100%);
-  --glass-border: #94a3b8;
+  --color-border: #d1d5db;
+  --color-border-soft: rgba(209, 213, 219, 0.75);
+  --border-color: #d1d5db;
+  --border-default: #d1d5db;
+  --border-muted: #e5e7eb;
+  --border-strong: #9ca3af;
+  --glass-bg: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --glass-border: #d1d5db;
 
-  --bg-main: #eef2f7;
-  --bg-header: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 247, 250, 0.94) 55%, rgba(232, 238, 245, 0.94) 100%);
-  --bg-footer: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 247, 250, 0.94) 55%, rgba(232, 238, 245, 0.94) 100%);
-  --bg-card: linear-gradient(145deg, #ffffff 0%, #f4f7fa 52%, #e8eef5 100%);
-  --bg-subcard: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
-  --bg-subcard-hover: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-  --bg-nested-card: #f8fafc;
+  --bg-main: #edf1f4;
+  --bg-header: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --bg-footer: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --bg-card: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --bg-subcard: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --bg-subcard-hover: linear-gradient(145deg, #ffffff 0%, #f3f6f8 100%);
+  --bg-nested-card: #f8fafb;
 
-  /* Interactive Actions & Modals (Obsidian Stitched Buttons) */
-  --bg-button-primary: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  --bg-button-secondary: linear-gradient(145deg, #ffffff 0%, #edf2f7 100%);
-  --bg-popup: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
-  --bg-modal: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+  /* Interactive Actions & Modals */
+  --bg-button-primary: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  --bg-button-secondary: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --bg-popup: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --bg-modal: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
   --bg-modal-backdrop: rgba(15, 23, 42, 0.36);
-  --bg-modal-header: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
-  --bg-modal-footer: linear-gradient(145deg, #f8fafc 0%, #e8eef5 100%);
-  --border-modal: #94a3b8;
-  --bg-dropdown: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
-  --bg-navigation: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
-  --bg-tab: #f1f5f9;
-  --bg-input: #ffffff;
-  --border-input: #94a3b8;
-  --border-input-focus: #0f172a;
-  --text-input: #000000;
-  --text-placeholder: #374151;
-  --bg-table: #ffffff;
-  --bg-table-head: #f1f5f9;
-  --bg-table-row-alt: rgba(241, 245, 249, 0.72);
-  --border-table: #cbd5e1;
-  --bg-nav-button-opaque: #ffffff;
+  --bg-modal-header: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --bg-modal-footer: linear-gradient(145deg, #f7f9fb 0%, #edf1f4 100%);
+  --border-modal: #d1d5db;
+  --bg-dropdown: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --bg-navigation: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --bg-tab: #edf1f4;
+  --bg-input: #fbfcfc;
+  --border-input: #d1d5db;
+  --border-input-focus: #111827;
+  --text-input: #111827;
+  --text-placeholder: #4b5563;
+  --bg-table: #fbfcfc;
+  --bg-table-head: #edf1f4;
+  --bg-table-row-alt: rgba(237, 241, 244, 0.72);
+  --border-table: #d1d5db;
+  --bg-nav-button-opaque: #fbfcfc;
 
-  /* 5-Level Elevation Shadows (Crisp Alabaster Leather & Charcoal Contrast) */
+  /* 5-Level Elevation Shadows matching .card-white-pebbled-leather */
   --shadow-none: none;
-  --shadow-nested: 0 2px 6px -1px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.92);
-  --shadow-subcard: 0 6px 16px -4px rgba(15, 23, 42, 0.10), inset 0 1.5px 2px rgba(255, 255, 255, 0.94), inset 0 -2px 4px rgba(15, 23, 42, 0.05);
-  --shadow-subcard-hover: 0 12px 24px -6px rgba(15, 23, 42, 0.16), inset 0 1.5px 2px #ffffff;
-  --shadow-card: 0 16px 34px -8px rgba(15, 23, 42, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.96), inset 0 -2px 5px rgba(15, 23, 42, 0.07);
-  --shadow-card-hover: 0 22px 42px -8px rgba(15, 23, 42, 0.22), inset 0 2px 5px #ffffff, inset 0 -2px 5px rgba(15, 23, 42, 0.10);
-  --shadow-header: 0 14px 32px -8px rgba(15, 23, 42, 0.14), inset 0 1.5px 2px rgba(255, 255, 255, 0.95);
+  --shadow-nested: 0 2px 6px rgba(15, 23, 42, 0.06), inset 0 1px 2px #ffffff;
+  --shadow-subcard: 0 10px 24px rgba(15, 23, 42, 0.08), inset 0 2px 4px #ffffff, inset 0 -2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-subcard-hover: 0 14px 30px rgba(15, 23, 42, 0.13), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 22px 44px rgba(15, 23, 42, 0.17), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.10);
+  --shadow-header: 0 14px 32px rgba(15, 23, 42, 0.11), inset 0 2px 4px #ffffff, inset 0 -2px 5px rgba(0, 0, 0, 0.06);
   --shadow-main-card: var(--shadow-header);
   --shadow-footer: var(--shadow-header);
-  --shadow-popup: 0 22px 46px -8px rgba(15, 23, 42, 0.22), inset 0 2px 4px rgba(255, 255, 255, 0.96);
+  --shadow-popup: 0 20px 44px rgba(15, 23, 42, 0.16), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
   --shadow-floating: var(--shadow-popup);
-  --shadow-modal: 0 28px 60px -10px rgba(15, 23, 42, 0.28), inset 0 2px 4px rgba(255, 255, 255, 0.96);
+  --shadow-modal: 0 24px 54px rgba(15, 23, 42, 0.20), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
 
   /* Nav Pills & Controls */
-  --bg-nav-pill: linear-gradient(145deg, #ffffff 0%, #edf2f7 100%);
-  --shadow-nav-pill: 0 6px 14px -4px rgba(15, 23, 42, 0.12), inset 0 1.5px 2px #ffffff, inset 0 -2px 4px rgba(15, 23, 42, 0.06);
-  --outline-nav-pill: 1px dashed rgba(15, 23, 42, 0.78);
+  --bg-nav-pill: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --shadow-nav-pill: 0 6px 14px rgba(15, 23, 42, 0.09), inset 0 2px 3px #ffffff, inset 0 -2px 4px rgba(0, 0, 0, 0.06);
+  --outline-nav-pill: 1.5px dashed rgba(17, 24, 39, 0.65);
   --outline-offset-nav-pill: -4px;
-  --divider-nav-pill: rgba(15, 23, 42, 0.25);
+  --divider-nav-pill: rgba(17, 24, 39, 0.25);
 
-  --border-subcard: #cbd5e1;
-  --outline-subcard: 1px dashed rgba(15, 23, 42, 0.72);
+  --border-subcard: #d1d5db;
+  --outline-subcard: 1.5px dashed rgba(17, 24, 39, 0.65);
   --outline-offset-subcard: -5px;
-  --bg-nested-badge: #ffffff;
-  --border-nested-badge: #94a3b8;
+  --bg-nested-badge: #fbfcfc;
+  --border-nested-badge: #d1d5db;
 
-  --pillar-heading: #000000;
-  --pillar-sub: #0f172a;
+  --pillar-heading: #111827;
+  --pillar-sub: #1f2937;
   --pillar-body: #111827;
-  --pillar-badge-bg: rgba(15, 23, 42, 0.08);
-  --pillar-badge-text: #0f172a;
-  --pillar-divider: rgba(15, 23, 42, 0.16);
-  --pillar-progress-track: #e2e8f0;
-  --pillar-progress-fill: linear-gradient(90deg, #0f172a 0%, #334155 60%, #475569 100%);
+  --pillar-badge-bg: rgba(17, 24, 39, 0.08);
+  --pillar-badge-text: #111827;
+  --pillar-divider: rgba(17, 24, 39, 0.14);
+  --pillar-progress-track: #e5e7eb;
+  --pillar-progress-fill: linear-gradient(90deg, #111827 0%, #374151 60%, #4b5563 100%);
 
   /* Banner & Navigation Arrows */
-  --banner-border: #94a3b8;
+  --banner-border: #d1d5db;
   --banner-shadow: var(--shadow-card);
-  --bg-banner-pill: linear-gradient(145deg, #ffffff 0%, #edf2f7 100%);
-  --text-banner-pill: #000000;
-  --border-banner-pill: #94a3b8;
+  --bg-banner-pill: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --text-banner-pill: #111827;
+  --border-banner-pill: #d1d5db;
   --shadow-banner-pill: var(--shadow-nav-pill);
-  --bg-banner-cta: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  --bg-banner-cta: linear-gradient(135deg, #1f2937 0%, #111827 100%);
   --text-banner-cta: #ffffff;
-  --border-banner-cta: #334155;
-  --shadow-banner-cta: 0 8px 18px -4px rgba(15, 23, 42, 0.34);
-  --bg-banner-input: #ffffff;
-  --text-banner-input: #000000;
-  --border-banner-input: #94a3b8;
-  --bg-nav-arrow: linear-gradient(145deg, #ffffff 0%, #edf2f7 100%);
-  --border-nav-arrow: #94a3b8;
-  --text-nav-arrow: #000000;
+  --border-banner-cta: #374151;
+  --shadow-banner-cta: 0 8px 18px rgba(15, 23, 42, 0.28);
+  --bg-banner-input: #fbfcfc;
+  --text-banner-input: #111827;
+  --border-banner-input: #d1d5db;
+  --bg-nav-arrow: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --border-nav-arrow: #d1d5db;
+  --text-nav-arrow: #111827;
   --shadow-nav-arrow: var(--shadow-nav-pill);
-  --border-image-card: #94a3b8;
+  --border-image-card: #d1d5db;
   --shadow-image-card: var(--shadow-card);
 
   /* Global 5-Layer Cool White Pearl Crocodile Backdrop */
@@ -195,22 +191,22 @@ html[data-card-style="light-cowhide-leather"] {
   --ambient-edge-border: rgba(148, 163, 184, 0.72);
 
   /* 4-Tier Surface Tokens */
-  --surface-primary-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(244, 247, 250, 0.88) 55%, rgba(232, 238, 245, 0.88) 100%);
-  --surface-primary-border: #94a3b8;
+  --surface-primary-bg: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --surface-primary-border: #d1d5db;
   --surface-primary-shadow: var(--shadow-header);
-  --surface-primary-blur: 10px;
+  --surface-primary-blur: 0px;
   --surface-secondary-bg: var(--bg-card);
-  --surface-secondary-border: #94a3b8;
+  --surface-secondary-border: #d1d5db;
   --surface-secondary-shadow: var(--shadow-card);
   --surface-secondary-blur: 0px;
   --surface-tertiary-bg: var(--bg-subcard);
-  --surface-tertiary-border: #cbd5e1;
+  --surface-tertiary-border: #d1d5db;
   --surface-tertiary-shadow: var(--shadow-subcard);
   --surface-tertiary-blur: 0px;
   --surface-interactive-bg: var(--bg-nav-pill);
-  --surface-interactive-hover: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
-  --surface-interactive-active: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  --surface-interactive-border: #94a3b8;
+  --surface-interactive-hover: linear-gradient(145deg, #ffffff 0%, #f3f6f8 100%);
+  --surface-interactive-active: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  --surface-interactive-border: #d1d5db;
   --surface-interactive-shadow: var(--shadow-nav-pill);
   --surface-interactive-blur: 0px;
 
@@ -231,7 +227,7 @@ html[data-card-style="light-cowhide-leather"] {
   --accent-amber: #92400e;
   --accent-yellow: #a16207;
   --accent-orange: #c2410c;
-  --accent-slate: #000000;
+  --accent-slate: #111827;
 }
 
 /* ========================================================================= */
@@ -239,28 +235,20 @@ html[data-card-style="light-cowhide-leather"] {
 /* ========================================================================= */
 html[data-card-style="light-cowhide-leather"] #app-header,
 html[data-card-style="light-cowhide-leather"] #app-footer {
-  background-color: #f8fafc !important;
-  background-image:
-    var(--croc-scale-tile),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 247, 250, 0.94) 55%, rgba(232, 238, 245, 0.94) 100%) !important;
-  background-size: 22px 16px, 100% 100% !important;
-  border-color: #94a3b8 !important;
-  color: #000000 !important;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border-color: #d1d5db !important;
+  color: #111827 !important;
   box-shadow: var(--surface-primary-shadow) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  outline: 1.5px dashed rgba(15, 23, 42, 0.80);
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
   outline-offset: -6px;
 }
 
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule {
-  background-color: #ffffff !important;
-  background-image:
-    var(--croc-scale-tile),
-    linear-gradient(145deg, #ffffff 0%, #edf2f7 100%) !important;
-  background-size: 20px 14px, 100% 100% !important;
-  border: 1.5px solid #94a3b8 !important;
-  color: #000000 !important;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  color: #111827 !important;
   box-shadow: var(--shadow-nav-pill) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -269,17 +257,13 @@ html[data-card-style="light-cowhide-leather"] #footer-nav-capsule {
 html[data-card-style="light-cowhide-leather"] .main-card,
 html[data-card-style="light-cowhide-leather"] [id$="-page-container"],
 html[data-card-style="light-cowhide-leather"] [id$="-page-root"] {
-  background-color: #f8fafc !important;
-  background-image:
-    var(--croc-scale-tile),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.94) 0%, rgba(244, 247, 250, 0.90) 55%, rgba(232, 238, 245, 0.90) 100%) !important;
-  background-size: 24px 18px, 100% 100% !important;
-  border: 1.5px solid #94a3b8 !important;
-  box-shadow: var(--surface-primary-shadow) !important;
-  color: #000000 !important;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+  color: #111827 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  outline: 1.5px dashed rgba(15, 23, 42, 0.78);
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
   outline-offset: -7px;
 }
 
@@ -297,17 +281,13 @@ html[data-card-style="light-cowhide-leather"] .project-detail-section-card,
 html[data-card-style="light-cowhide-leather"] #contact-info-container,
 html[data-card-style="light-cowhide-leather"] #experience-job-detail-card,
 html[data-card-style="light-cowhide-leather"] #horoscope-lookup-card {
-  background-color: #f8fafc !important;
-  background-image:
-    var(--croc-scale-tile),
-    linear-gradient(145deg, #ffffff 0%, #f4f7fa 52%, #e8eef5 100%) !important;
-  background-size: 22px 16px, 100% 100% !important;
-  border: 1.5px solid #94a3b8 !important;
-  box-shadow: var(--shadow-card) !important;
-  color: #000000 !important;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+  color: #111827 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  outline: 1.5px dashed rgba(15, 23, 42, 0.82);
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
   outline-offset: -7px;
 }
 
@@ -320,15 +300,12 @@ html[data-card-style="light-cowhide-leather"] .bento-tone-emerald,
 html[data-card-style="light-cowhide-leather"] .bento-tone-purple,
 html[data-card-style="light-cowhide-leather"] .bento-tone-pink,
 html[data-card-style="light-cowhide-leather"] .bento-tone-amber {
-  background-color: #ffffff !important;
-  background-image:
-    var(--croc-scale-tile),
-    linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%) !important;
-  background-size: 20px 14px, 100% 100% !important;
-  border: 1.5px solid #94a3b8 !important;
-  outline: 1.5px dashed rgba(15, 23, 42, 0.78);
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
   outline-offset: -6px;
-  color: #000000 !important;
+  color: #111827 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] #horoscope-card-profile,
@@ -358,8 +335,8 @@ html[data-card-style="light-cowhide-leather"] #horoscope-card-work-synergy-check
 html[data-card-style="light-cowhide-leather"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]):hover,
 html[data-card-style="light-cowhide-leather"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]):hover,
 html[data-card-style="light-cowhide-leather"] .project-card:hover {
-  outline-color: #000000;
-  border-color: #475569 !important;
+  outline-color: rgba(17, 24, 39, 0.85);
+  border-color: #9ca3af !important;
   box-shadow: var(--shadow-card-hover) !important;
 }
 
@@ -387,16 +364,12 @@ html[data-card-style="light-cowhide-leather"] #experience-achievement-card,
 html[data-card-style="light-cowhide-leather"] #experience-commitments-card,
 html[data-card-style="light-cowhide-leather"] #experience-products-card,
 html[data-card-style="light-cowhide-leather"] #experience-memories-card {
-  background-color: #ffffff !important;
-  background-image:
-    var(--croc-scale-tile),
-    linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%) !important;
-  background-size: 18px 13px, 100% 100% !important;
-  border: 1.5px solid #cbd5e1 !important;
-  outline: 1px dashed rgba(15, 23, 42, 0.72);
-  outline-offset: -5px;
-  box-shadow: var(--shadow-subcard) !important;
-  color: #000000 !important;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
+  outline-offset: -6px;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+  color: #111827 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -406,19 +379,17 @@ html[data-card-style="light-cowhide-leather"] .exp-detail-subcard:hover,
 html[data-card-style="light-cowhide-leather"] .experience-milestone-card:hover,
 html[data-card-style="light-cowhide-leather"] .pillar-gradient-card:hover,
 html[data-card-style="light-cowhide-leather"] .education-subcard:hover {
-  background-image:
-    var(--croc-scale-tile),
-    linear-gradient(145deg, #ffffff 0%, #f8fafc 100%) !important;
-  outline-color: #000000;
-  border-color: #64748b !important;
+  background: linear-gradient(145deg, #ffffff 0%, #f3f6f8 100%) !important;
+  outline-color: rgba(17, 24, 39, 0.85);
+  border-color: #9ca3af !important;
   box-shadow: var(--shadow-subcard-hover) !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .about-info-label {
-  color: #27272A !important;
+  color: #374151 !important;
 }
 html[data-card-style="light-cowhide-leather"] .about-info-value {
-  color: #000000 !important;
+  color: #111827 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .pillar-progress-track,
@@ -483,6 +454,7 @@ html[data-card-style="light-cowhide-leather"] #app-header nav button.nav-pill:no
 html[data-card-style="light-cowhide-leather"] #header-btn-hungthai-avatar:not(.active),
 html[data-card-style="light-cowhide-leather"] #footer-lang-btn:not(.active),
 html[data-card-style="light-cowhide-leather"] #footer-appearance-btn:not(.active),
+html[data-card-style="light-cowhide-leather"] #footer-theme-mode-btn:not(.active),
 html[data-card-style="light-cowhide-leather"] #footer-wallpaper-btn:not(.active),
 html[data-card-style="light-cowhide-leather"] #footer-ai-btn:not(.active),
 html[data-card-style="light-cowhide-leather"] .banner-control-pill,
@@ -490,15 +462,11 @@ html[data-card-style="light-cowhide-leather"] .nav-arrow-btn,
 html[data-card-style="light-cowhide-leather"] .theme-prev-next-btn,
 html[data-card-style="light-cowhide-leather"] .theme-back-to-top-btn,
 html[data-card-style="light-cowhide-leather"] .radial-contact-pill {
-  background-color: #ffffff !important;
-  background-image:
-    var(--croc-scale-tile),
-    linear-gradient(145deg, #ffffff 0%, #edf2f7 100%) !important;
-  background-size: 16px 12px, 100% 100% !important;
-  border-color: #94a3b8 !important;
-  color: #000000 !important;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  color: #111827 !important;
   box-shadow: var(--shadow-nav-pill) !important;
-  outline: 1px dashed rgba(15, 23, 42, 0.78);
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
   outline-offset: -4px;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -508,48 +476,51 @@ html[data-card-style="light-cowhide-leather"] #app-header nav button.nav-pill:no
 html[data-card-style="light-cowhide-leather"] #header-btn-hungthai-avatar:not(.active):hover,
 html[data-card-style="light-cowhide-leather"] #footer-lang-btn:not(.active):hover,
 html[data-card-style="light-cowhide-leather"] #footer-appearance-btn:not(.active):hover,
+html[data-card-style="light-cowhide-leather"] #footer-theme-mode-btn:not(.active):hover,
 html[data-card-style="light-cowhide-leather"] #footer-wallpaper-btn:not(.active):hover,
 html[data-card-style="light-cowhide-leather"] #footer-ai-btn:not(.active):hover,
 html[data-card-style="light-cowhide-leather"] .banner-control-pill:hover {
-  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%) !important;
-  border-color: #0f172a !important;
-  outline-color: #000000 !important;
+  background: linear-gradient(145deg, #ffffff 0%, #f3f6f8 100%) !important;
+  border-color: #111827 !important;
+  outline-color: rgba(17, 24, 39, 0.85) !important;
 }
 
 html[data-card-style="light-cowhide-leather"] #app-header nav button.nav-pill.active,
 html[data-card-style="light-cowhide-leather"] #header-btn-hungthai-avatar.active,
 html[data-card-style="light-cowhide-leather"] #footer-lang-btn.active,
 html[data-card-style="light-cowhide-leather"] #footer-appearance-btn.active,
+html[data-card-style="light-cowhide-leather"] #footer-theme-mode-btn.active,
 html[data-card-style="light-cowhide-leather"] #footer-wallpaper-btn.active,
 html[data-card-style="light-cowhide-leather"] #footer-ai-btn.active,
 html[data-card-style="light-cowhide-leather"] .radial-contact-pill.active,
 html[data-card-style="light-cowhide-leather"] .banner-primary-cta {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
-  border-color: #334155 !important;
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
+  border-color: #374151 !important;
   color: #ffffff !important;
   box-shadow: 0 8px 18px rgba(15, 23, 42, 0.30), inset 0 1px 2px rgba(255, 255, 255, 0.16) !important;
-  outline: 1px dashed rgba(255, 255, 255, 0.72);
+  outline: 1.5px dashed rgba(255, 255, 255, 0.65);
   outline-offset: -4px;
 }
 
 html[data-card-style="light-cowhide-leather"] #app-header nav button.nav-pill:not(.active) .nav-pill-icon-badge,
 html[data-card-style="light-cowhide-leather"] #footer-lang-btn:not(.active) .nav-pill-icon-badge,
 html[data-card-style="light-cowhide-leather"] #footer-appearance-btn:not(.active) .nav-pill-icon-badge,
+html[data-card-style="light-cowhide-leather"] #footer-theme-mode-btn:not(.active) .nav-pill-icon-badge,
 html[data-card-style="light-cowhide-leather"] #footer-wallpaper-btn:not(.active) .nav-pill-icon-badge,
 html[data-card-style="light-cowhide-leather"] #footer-ai-btn:not(.active) .nav-pill-icon-badge,
 html[data-card-style="light-cowhide-leather"] .radial-contact-icon-badge {
-  background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%) !important;
-  border: 1px dashed rgba(15, 23, 42, 0.72) !important;
-  color: #000000 !important;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 1.5px dashed rgba(17, 24, 39, 0.65) !important;
+  color: #111827 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .nav-pill:not(.active) .nav-pill-title,
 html[data-card-style="light-cowhide-leather"] .radial-contact-title {
-  color: #000000 !important;
+  color: #111827 !important;
 }
 html[data-card-style="light-cowhide-leather"] .nav-pill:not(.active) .nav-pill-sub,
 html[data-card-style="light-cowhide-leather"] .radial-contact-sub {
-  color: #27272A !important;
+  color: #374151 !important;
 }
 html[data-card-style="light-cowhide-leather"] .nav-pill.active .nav-pill-title,
 html[data-card-style="light-cowhide-leather"] .nav-pill.active .nav-pill-sub {
@@ -571,16 +542,12 @@ html[data-card-style="light-cowhide-leather"] [role="dialog"],
 html[data-card-style="light-cowhide-leather"] .modal-dialog,
 html[data-card-style="light-cowhide-leather"] .theme-modal-card,
 html[data-card-style="light-cowhide-leather"] .theme-pip-player {
-  background-color: #ffffff !important;
-  background-image:
-    var(--croc-scale-tile),
-    linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%) !important;
-  background-size: 20px 14px, 100% 100% !important;
-  border: 1.5px solid #94a3b8 !important;
-  outline: 1.5px dashed rgba(15, 23, 42, 0.78);
-  outline-offset: -5px;
-  color: #000000 !important;
-  box-shadow: var(--shadow-modal) !important;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
+  outline-offset: -6px;
+  color: #111827 !important;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -589,66 +556,66 @@ html[data-card-style="light-cowhide-leather"] .theme-modal-header,
 html[data-card-style="light-cowhide-leather"] .theme-modal-footer,
 html[data-card-style="light-cowhide-leather"] .theme-pip-header,
 html[data-card-style="light-cowhide-leather"] .theme-pip-footer {
-  background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%) !important;
-  border-color: #cbd5e1 !important;
-  color: #000000 !important;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border-color: #d1d5db !important;
+  color: #111827 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .theme-modal-subcard {
-  background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%) !important;
-  border: 1.5px solid #cbd5e1 !important;
-  outline: 1px dashed rgba(15, 23, 42, 0.68);
-  outline-offset: -4px;
-  color: #000000 !important;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
+  outline-offset: -5px;
+  color: #111827 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
 html[data-card-style="light-cowhide-leather"] textarea,
 html[data-card-style="light-cowhide-leather"] select,
 html[data-card-style="light-cowhide-leather"] .banner-search-input {
-  background: #ffffff !important;
-  border: 1.5px solid #94a3b8 !important;
-  color: #000000 !important;
+  background: #fbfcfc !important;
+  border: 2px solid #d1d5db !important;
+  color: #111827 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] input::placeholder,
 html[data-card-style="light-cowhide-leather"] textarea::placeholder {
-  color: #374151 !important;
+  color: #4b5563 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .themed-image-card {
-  border: 1.5px solid #94a3b8 !important;
-  box-shadow: var(--shadow-image-card) !important;
-  outline: 1.5px dashed rgba(15, 23, 42, 0.78);
+  border: 2px solid #d1d5db !important;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
   outline-offset: -6px;
 }
 
 html[data-card-style="light-cowhide-leather"] .theme-table {
-  background: #ffffff !important;
-  border-color: #cbd5e1 !important;
-  color: #000000 !important;
+  background: #fbfcfc !important;
+  border-color: #d1d5db !important;
+  color: #111827 !important;
 }
 html[data-card-style="light-cowhide-leather"] .theme-table thead,
 html[data-card-style="light-cowhide-leather"] .theme-table th {
-  background: #f1f5f9 !important;
-  color: #000000 !important;
-  border-color: #cbd5e1 !important;
+  background: #edf1f4 !important;
+  color: #111827 !important;
+  border-color: #d1d5db !important;
 }
 
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-prev-btn,
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-next-btn {
-  background: linear-gradient(145deg, #ffffff 0%, #edf2f7 100%) !important;
-  border: 1.5px solid #94a3b8 !important;
-  color: #000000 !important;
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  color: #111827 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .project-detail-chip,
 html[data-card-style="light-cowhide-leather"] .education-skill-chip,
 html[data-card-style="light-cowhide-leather"] .project-card-tag,
 html[data-card-style="light-cowhide-leather"] .project-card-order-badge {
-  background: #f1f5f9 !important;
-  border: 1px dashed rgba(15, 23, 42, 0.72) !important;
-  color: #000000 !important;
+  background: #edf1f4 !important;
+  border: 1.5px dashed rgba(17, 24, 39, 0.65) !important;
+  color: #111827 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] button:focus-visible,

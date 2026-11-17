@@ -43,7 +43,6 @@ const X = ({ className }: { className?: string }) => <WebIcon name="cancel" clas
 const Target = ({ className }: { className?: string }) => <WebIcon name="target" className={className} />;
 const User = ({ className }: { className?: string }) => <WebIcon name="user" className={className} />;
 const BarChart3 = ({ className }: { className?: string }) => <WebIcon name="chart" className={className} />;
-const ArrowRight = ({ className }: { className?: string }) => <WebIcon name="arrow-right" className={className} />;
 const Heart = ({ className }: { className?: string }) => <WebIcon name="heart" className={className} />;
 const Leaf = ({ className }: { className?: string }) => <WebIcon name="leaf" className={className} />;
 const Star = ({ className }: { className?: string }) => <WebIcon name="star" className={className} />;
@@ -1252,9 +1251,6 @@ export function AboutView({
                       “Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.”
                     </blockquote>
                   </div>
-                  <p className="typo-body-sm italic text-[var(--text-secondary)] mt-2 text-center">
-                    “Tận tâm &amp; đồng hành cùng trải nghiệm khách hàng với giải pháp chuyển đổi số toàn diện.”
-                  </p>
                 </div>
                 <div className="mt-4 pt-2 border-t border-sky-200/40 dark:border-sky-400/20 flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">
                   <span>Nguyễn Hùng Thái</span>
@@ -1833,36 +1829,28 @@ export function AboutView({
                       'ring-2 ring-cyan-300 dark:ring-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-blue-600 dark:text-sky-300 shadow-2xs">
-                      <BarChart3 className="w-4 h-4" />
-                    </div>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-blue-600/12 dark:text-sky-300/15 transition-transform duration-300 group-hover:scale-110"
+                  >
+                    <BarChart3 className="w-24 h-24" />
+                  </div>
+
+                  <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       01
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading typo-h5 font-play">Hiệu quả vận hành</h5>
-                    <span className="pillar-sub typo-label block">Tối ưu &amp; Kết quả</span>
+                    <div className="pillar-heading flex items-center gap-2 text-blue-600 dark:text-sky-300">
+                      <BarChart3 className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-play m-0">Hiệu quả vận hành</h5>
+                    </div>
+                    <span className="pillar-sub typo-label block mt-0.5">Tối ưu &amp; Kết quả</span>
                     <p className="pillar-body typo-body-sm mt-1">
                       Chuẩn hóa SLAs, tối ưu hiệu suất quy trình và tạo kết quả đo lường rõ ràng.
                     </p>
-                  </div>
-
-                  <div className="self-end relative z-10">
-                    <button
-                      type="button"
-                      aria-label="Xem chi tiết trụ cột hiệu quả"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleOpenBentoFocus('pillars');
-                      }}
-                      className="pillar-badge w-6 h-6 rounded-full flex items-center justify-center cursor-pointer transition hover:scale-110"
-                      title="Xem chi tiết trụ cột hiệu quả"
-                    >
-                      <ArrowRight className="w-3 h-3" />
-                    </button>
                   </div>
                 </div>
 
@@ -1878,36 +1866,28 @@ export function AboutView({
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-rose-600 dark:text-rose-300 shadow-2xs">
-                      <Heart className="w-4 h-4" />
-                    </div>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-rose-600/12 dark:text-rose-300/15 transition-transform duration-300 group-hover:scale-110"
+                  >
+                    <Heart className="w-24 h-24" />
+                  </div>
+
+                  <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       02
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading typo-h5 font-play">Nhân văn con người</h5>
-                    <span className="pillar-sub typo-label block">Đồng cảm &amp; Thấu hiểu</span>
+                    <div className="pillar-heading flex items-center gap-2 text-rose-600 dark:text-rose-300">
+                      <Heart className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-play m-0">Nhân văn con người</h5>
+                    </div>
+                    <span className="pillar-sub typo-label block mt-0.5">Đồng cảm &amp; Thấu hiểu</span>
                     <p className="pillar-body typo-body-sm mt-1">
                       Lắng nghe chân thành, phục vụ từ tâm và lấy con người làm trọng tâm.
                     </p>
-                  </div>
-
-                  <div className="self-end relative z-10">
-                    <button
-                      type="button"
-                      aria-label="Xem chi tiết trụ cột nhân văn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleOpenBentoFocus('pillars');
-                      }}
-                      className="pillar-badge w-6 h-6 rounded-full flex items-center justify-center cursor-pointer transition hover:scale-110"
-                      title="Xem chi tiết trụ cột nhân văn"
-                    >
-                      <ArrowRight className="w-3 h-3" />
-                    </button>
                   </div>
                 </div>
 
@@ -1923,36 +1903,28 @@ export function AboutView({
                       'ring-2 ring-emerald-300 dark:ring-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-emerald-600 dark:text-emerald-300 shadow-2xs">
-                      <Leaf className="w-4 h-4" />
-                    </div>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-emerald-600/12 dark:text-emerald-300/15 transition-transform duration-300 group-hover:scale-110"
+                  >
+                    <Leaf className="w-24 h-24" />
+                  </div>
+
+                  <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       03
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading typo-h5 font-play">Bền vững dài hạn</h5>
-                    <span className="pillar-sub typo-label block">Giá trị &amp; Tin cậy</span>
+                    <div className="pillar-heading flex items-center gap-2 text-emerald-600 dark:text-emerald-300">
+                      <Leaf className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-play m-0">Bền vững dài hạn</h5>
+                    </div>
+                    <span className="pillar-sub typo-label block mt-0.5">Giá trị &amp; Tin cậy</span>
                     <p className="pillar-body typo-body-sm mt-1">
                       Xây dựng niềm tin vững bền, bảo chứng chất lượng và đồng hành lâu dài.
                     </p>
-                  </div>
-
-                  <div className="self-end relative z-10">
-                    <button
-                      type="button"
-                      aria-label="Xem chi tiết trụ cột bền vững"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleOpenBentoFocus('pillars');
-                      }}
-                      className="pillar-badge w-6 h-6 rounded-full flex items-center justify-center cursor-pointer transition hover:scale-110"
-                      title="Xem chi tiết trụ cột bền vững"
-                    >
-                      <ArrowRight className="w-3 h-3" />
-                    </button>
                   </div>
                 </div>
               </div>
@@ -1999,23 +1971,29 @@ export function AboutView({
                       'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-amber-600 dark:text-amber-300 shadow-2xs">
-                      <Award className="w-4 h-4" />
-                    </div>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-amber-600/12 dark:text-amber-300/15 transition-transform duration-300 group-hover:scale-110"
+                  >
+                    <Award className="w-24 h-24" />
+                  </div>
+
+                  <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       01
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading typo-h5 font-play">Tận tâm trách nhiệm</h5>
-                    <span className="pillar-sub typo-label block">Trách nhiệm &amp; Hết lòng</span>
+                    <div className="pillar-heading flex items-center gap-2 text-amber-600 dark:text-amber-300">
+                      <Award className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-play m-0">Tận tâm trách nhiệm</h5>
+                    </div>
+                    <span className="pillar-sub typo-label block mt-0.5">Trách nhiệm &amp; Hết lòng</span>
                     <p className="pillar-body typo-body-sm mt-1">
                       Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.
                     </p>
                   </div>
-
                 </div>
 
                 {/* Core Value 2: Kịp thời */}
@@ -2034,23 +2012,29 @@ export function AboutView({
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-pink-600 dark:text-pink-300 shadow-2xs">
-                      <Clock className="w-4 h-4" />
-                    </div>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-pink-600/12 dark:text-pink-300/15 transition-transform duration-300 group-hover:scale-110"
+                  >
+                    <Clock className="w-24 h-24" />
+                  </div>
+
+                  <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       02
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading typo-h5 font-play">Kịp thời nhanh nhạy</h5>
-                    <span className="pillar-sub typo-label block">Tốc độ &amp; Đúng lúc</span>
+                    <div className="pillar-heading flex items-center gap-2 text-pink-600 dark:text-pink-300">
+                      <Clock className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-play m-0">Kịp thời nhanh nhạy</h5>
+                    </div>
+                    <span className="pillar-sub typo-label block mt-0.5">Tốc độ &amp; Đúng lúc</span>
                     <p className="pillar-body typo-body-sm mt-1">
                       Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng mắc.
                     </p>
                   </div>
-
                 </div>
 
                 {/* Core Value 3: Đồng cảm chân thành */}
@@ -2069,23 +2053,29 @@ export function AboutView({
                       'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="exp-icon-badge w-8 h-8 rounded-full border flex items-center justify-center text-purple-600 dark:text-purple-300 shadow-2xs">
-                      <HeartHandshake className="w-4 h-4" />
-                    </div>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-purple-600/12 dark:text-purple-300/15 transition-transform duration-300 group-hover:scale-110"
+                  >
+                    <HeartHandshake className="w-24 h-24" />
+                  </div>
+
+                  <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
                       03
                     </span>
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading typo-h5 font-play">Đồng cảm chân thành</h5>
-                    <span className="pillar-sub typo-label block">Lắng nghe &amp; Thấu cảm</span>
+                    <div className="pillar-heading flex items-center gap-2 text-purple-600 dark:text-purple-300">
+                      <HeartHandshake className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-play m-0">Đồng cảm chân thành</h5>
+                    </div>
+                    <span className="pillar-sub typo-label block mt-0.5">Lắng nghe &amp; Thấu cảm</span>
                     <p className="pillar-body typo-body-sm mt-1">
                       Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng khách hàng.
                     </p>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -2123,13 +2113,6 @@ export function AboutView({
                   <blockquote className="typo-h5 font-play font-bold italic text-blue-700 dark:text-cyan-300 leading-snug text-balance m-0">
                     “Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.”
                   </blockquote>
-                  <div
-                    className="w-14 h-[1.5px] rounded-full bg-gradient-to-r from-transparent via-blue-500/60 dark:via-cyan-400/60 to-transparent"
-                    aria-hidden="true"
-                  />
-                  <p className="typo-body-sm italic text-[var(--text-secondary)] leading-relaxed max-w-[44ch] text-balance m-0">
-                    “Tận tâm &amp; đồng hành cùng trải nghiệm khách hàng với giải pháp chuyển đổi số toàn diện.”
-                  </p>
                 </div>
 
                 {/* Footer trích dẫn tác giả */}

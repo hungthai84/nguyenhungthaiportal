@@ -566,6 +566,37 @@ html[data-card-style="light-cowhide-leather"] .nav-pill.active .nav-pill-sub {
   color: #ffffff !important;
 }
 
+/* Sửa màu icon hiển thị rõ ràng trên giao diện sáng Da cá sấu trắng */
+html[data-card-style="light-cowhide-leather"] .nav-pill:not(.active) .nav-pill-icon-badge svg,
+html[data-card-style="light-cowhide-leather"] .nav-pill:not(.active) .nav-pill-icon-svg,
+html[data-card-style="light-cowhide-leather"] #app-header nav button.nav-pill:not(.active) svg,
+html[data-card-style="light-cowhide-leather"] #footer-nav-capsule button:not(.active) svg,
+html[data-card-style="light-cowhide-leather"] #footer-lang-btn:not(.active) svg,
+html[data-card-style="light-cowhide-leather"] #footer-appearance-btn:not(.active) svg,
+html[data-card-style="light-cowhide-leather"] #footer-theme-mode-btn:not(.active) svg,
+html[data-card-style="light-cowhide-leather"] #footer-wallpaper-btn:not(.active) svg,
+html[data-card-style="light-cowhide-leather"] #footer-ai-btn:not(.active) svg,
+html[data-card-style="light-cowhide-leather"] .radial-contact-icon-badge svg,
+html[data-card-style="light-cowhide-leather"] .card-header-sync svg,
+html[data-card-style="light-cowhide-leather"] .subcard-header-sync svg,
+html[data-card-style="light-cowhide-leather"] .card-title-icon {
+  color: #111827 !important;
+  stroke: #111827 !important;
+}
+
+html[data-card-style="light-cowhide-leather"] .nav-pill.active .nav-pill-icon-badge svg,
+html[data-card-style="light-cowhide-leather"] .nav-pill.active .nav-pill-icon-svg,
+html[data-card-style="light-cowhide-leather"] #app-header nav button.nav-pill.active svg,
+html[data-card-style="light-cowhide-leather"] #footer-nav-capsule button.active svg,
+html[data-card-style="light-cowhide-leather"] #footer-lang-btn.active svg,
+html[data-card-style="light-cowhide-leather"] #footer-appearance-btn.active svg,
+html[data-card-style="light-cowhide-leather"] #footer-theme-mode-btn.active svg,
+html[data-card-style="light-cowhide-leather"] #footer-wallpaper-btn.active svg,
+html[data-card-style="light-cowhide-leather"] #footer-ai-btn.active svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
 html[data-card-style="light-cowhide-leather"] #footer-theme-popup,
 html[data-card-style="light-cowhide-leather"] #footer-lang-popup,
 html[data-card-style="light-cowhide-leather"] #ai-assistant-droptop-menu-list,

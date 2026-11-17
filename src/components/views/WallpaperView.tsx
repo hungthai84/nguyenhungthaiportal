@@ -843,7 +843,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     : ''
                 }`}
               >
-                {/* NỀN HÌNH THU NHỎ DẠNG NGANG (100% COVER PHỦ TOÀN BỘ CARD) */}
+                {/* NỀN HÌNH THU NHỎ DẠNG NGANG (LẮP ĐẦY TOÀN BỘ CARD) */}
                 <div
                   id={`wallpaper-card-media-${wp.id}`}
                   className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-slate-950"
@@ -960,20 +960,16 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   )}
                 </div>
 
-                {/* OVERLAY TỐI DƯỚI ĐÁY TẤM HÌNH (LÀM TRONG SUỐT HƠN ĐỂ ẢNH RÕ RÀNG) */}
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent pointer-events-none z-10" />
+                {/* OVERLAY TỐI DƯỚI ĐÁY TẤM HÌNH */}
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950/75 via-slate-950/25 to-transparent pointer-events-none z-10" />
 
-                {/* NỘI DUNG VÀ CÁC NÚT ĐƯỢC ĐƯA VÀO BÊN TRONG TẤM HÌNH (CHUẨN PADDING 15PX ĐỒNG BỘ) */}
+                {/* NỘI DUNG VÀ CÁC NÚT ĐƯỢC ĐƯA VÀO BÊN TRONG CARD (PADDING 10PX THEO YÊU CẦU) */}
                 <div
                   id={`wallpaper-card-content-${wp.id}`}
                   style={{
-                    padding: '15px',
-                    paddingTop: '15px',
-                    paddingRight: '15px',
-                    paddingBottom: '15px',
-                    paddingLeft: '15px',
+                    padding: '10px',
                   }}
-                  className="absolute inset-0 z-20 w-full h-full flex flex-col justify-between text-white pointer-events-auto p-[15px]"
+                  className="absolute inset-0 z-20 w-full h-full flex flex-col justify-between text-white pointer-events-auto p-[10px]"
                 >
                   {/* Dòng trên: Huy hiệu loại media + Nút thao tác */}
                   <div className="flex items-center justify-between gap-1 w-full relative z-20">

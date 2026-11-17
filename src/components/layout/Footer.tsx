@@ -964,7 +964,7 @@ export const Footer: React.FC<FooterProps> = ({
                       <img
                         src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550149/Avata_AI_h%E1%BB%97_tr%E1%BB%A3.gif"
                         alt={isEn ? 'AI Assistant' : 'AI hỗ trợ'}
-                        className="w-full h-full object-cover rounded-full"
+                        className="w-full h-full object-cover rounded-full scale-[1.5] transition-transform duration-300"
                         onError={(e) => {
                           (e.target as HTMLElement).style.display = 'none';
                         }}

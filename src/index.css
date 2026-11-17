@@ -138,6 +138,27 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-97:nth
   height: auto !important;
 }
 
+/* Focus Mode Style Rules */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) > div#el-p1-div-77:nth-of-type(1) > div#letter-sections-list:nth-of-type(1) > div#el-p1-div-85:nth-of-type(1) {
+  padding-left: 25px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  padding-right: 25px;
+}
+
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) {
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;
+}
+
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p7-div-81:nth-of-type(1) > div#projects-page-container:nth-of-type(1) > div#el-p7-div-83:nth-of-type(1) > div#el-p7-div-84:nth-of-type(1) > div#el-p7-div-85:nth-of-type(1) {
+  padding-right: 0px;
+  border-radius: 14px;
+  border-style: none;
+}
+
 /* ========================================================================= */
 /* GLOBAL 14PX BORDER RADIUS ENFORCEMENT ACROSS ALL 10 THEMES                */
 /* ========================================================================= */

@@ -83,129 +83,129 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
     setSelectedDomain(domain);
   };
 
-  // Bộ cấu hình màu sắc & hình ảnh dịch vụ cho 6 thẻ (6.1 - 6.6)
+  // Bộ cấu hình màu sắc & hình ảnh dịch vụ cho 6 thẻ với màu sắc Gương đa sắc và độ trong suốt
   const getCardVisualConfig = (id: string) => {
     switch (id) {
-      case '01': // 6.1. Dịch vụ viễn thông - Blue / Sky
+      case '01': // 6.1. Dịch vụ di động - #1F5EAC
         return {
-          accentColor: isLight ? '#0284c7' : '#38bdf8',
+          accentColor: '#1F5EAC',
           cardBg: isLight
-            ? 'linear-gradient(135deg, #f0f7fe 0%, #ddf0fd 30%, #c4e2fa 65%, #beddf9 100%)'
-            : 'linear-gradient(135deg, rgba(12, 74, 110, 0.56) 0%, rgba(15, 23, 42, 0.88) 100%)',
+            ? 'linear-gradient(135deg, rgba(31, 94, 172, 0.12) 0%, rgba(31, 94, 172, 0.22) 100%)'
+            : 'linear-gradient(135deg, rgba(31, 94, 172, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
           cardBorder: isLight
-            ? 'border-[#93c5fd]/90 hover:border-[#38bdf8]'
-            : 'border-sky-400/45 hover:border-sky-300',
-          titleColor: isLight ? 'text-[#0284c7]' : 'text-sky-300',
+            ? 'border-[#1F5EAC]/35 hover:border-[#1F5EAC]'
+            : 'border-[#1F5EAC]/55 hover:border-[#1F5EAC]',
+          titleColor: isLight ? 'text-[#1F5EAC]' : 'text-sky-300',
           pillBg: isLight
-            ? 'bg-sky-100/90 border-sky-200/90 text-[#0369a1]'
-            : 'bg-sky-950/80 border-sky-500/40 text-sky-200',
-          arrowBg: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
-          arrowShadow: '0 4px 12px rgba(2, 132, 199, 0.4)',
+            ? 'bg-[#1F5EAC]/10 border-[#1F5EAC]/25 text-[#1F5EAC]'
+            : 'bg-sky-950/80 border-[#1F5EAC]/40 text-sky-200',
+          arrowBg: 'linear-gradient(135deg, #38bdf8 0%, #1F5EAC 100%)',
+          arrowShadow: '0 4px 12px rgba(31, 94, 172, 0.4)',
           illustrationSrc: 'https://i.ibb.co/4RYYfBvx/D-ch-v-vi-n-th-ng-removebg-preview.png',
           fallbackIllustration:
             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069236/Gemini_Generated_Image_9y00s39y00s39y00.png',
           pillText: 'SLA > 98% · CSAT 96,5% · 24/7/365',
         };
-      case '02': // 6.2. Thương mại điện tử - Orange / Warm Amber
+      case '02': // 6.2. Thương mại điện tử - #D97637
         return {
-          accentColor: isLight ? '#ea580c' : '#fb923c',
+          accentColor: '#D97637',
           cardBg: isLight
-            ? 'linear-gradient(135deg, #fffcf7 0%, #fef1e2 30%, #fccc9b 65%, #fbd2a6 100%)'
-            : 'linear-gradient(135deg, rgba(124, 45, 18, 0.52) 0%, rgba(15, 23, 42, 0.88) 100%)',
+            ? 'linear-gradient(135deg, rgba(217, 118, 55, 0.12) 0%, rgba(217, 118, 55, 0.22) 100%)'
+            : 'linear-gradient(135deg, rgba(217, 118, 55, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
           cardBorder: isLight
-            ? 'border-[#fdba74]/90 hover:border-[#fb923c]'
-            : 'border-orange-400/45 hover:border-orange-300',
-          titleColor: isLight ? 'text-[#ea580c]' : 'text-orange-300',
+            ? 'border-[#D97637]/35 hover:border-[#D97637]'
+            : 'border-[#D97637]/55 hover:border-[#D97637]',
+          titleColor: isLight ? 'text-[#D97637]' : 'text-orange-300',
           pillBg: isLight
-            ? 'bg-orange-100/80 border-orange-200/90 text-[#c2410c]'
-            : 'bg-orange-950/80 border-orange-500/40 text-orange-200',
-          arrowBg: 'linear-gradient(135deg, #fbbf24 0%, #ea580c 100%)',
-          arrowShadow: '0 4px 12px rgba(234, 88, 12, 0.4)',
+            ? 'bg-[#D97637]/10 border-[#D97637]/25 text-[#D97637]'
+            : 'bg-orange-950/80 border-[#D97637]/40 text-orange-200',
+          arrowBg: 'linear-gradient(135deg, #fbbf24 0%, #D97637 100%)',
+          arrowShadow: '0 4px 12px rgba(217, 118, 55, 0.4)',
           illustrationSrc:
             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542367/Th%C6%B0%C6%A1ng_m%E1%BA%A1i_%C4%91i%E1%BB%87n_t%E1%BB%AD-removebg-preview.png',
           fallbackIllustration:
             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069235/Gemini_Generated_Image_6g07kh6g07kh6g07.png',
           pillText: 'Chat < 30s · CSAT 96,5% · Mega-Sale',
         };
-      case '03': // 6.3. Tài chính bảo hiểm - Rose / Ruby
+      case '03': // 6.3. Tài chính bảo hiểm - #F54459
         return {
-          accentColor: isLight ? '#e11d48' : '#fb7185',
+          accentColor: '#F54459',
           cardBg: isLight
-            ? 'linear-gradient(135deg, #fff7f6 0%, #feeae5 30%, #fdd8cf 65%, #f9b3b1 100%)'
-            : 'linear-gradient(135deg, rgba(136, 19, 55, 0.52) 0%, rgba(15, 23, 42, 0.88) 100%)',
+            ? 'linear-gradient(135deg, rgba(245, 68, 89, 0.12) 0%, rgba(245, 68, 89, 0.22) 100%)'
+            : 'linear-gradient(135deg, rgba(245, 68, 89, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
           cardBorder: isLight
-            ? 'border-[#fca5a5]/90 hover:border-[#f43f5e]'
-            : 'border-rose-400/45 hover:border-rose-300',
-          titleColor: isLight ? 'text-[#e11d48]' : 'text-rose-300',
+            ? 'border-[#F54459]/35 hover:border-[#F54459]'
+            : 'border-[#F54459]/55 hover:border-[#F54459]',
+          titleColor: isLight ? 'text-[#F54459]' : 'text-rose-300',
           pillBg: isLight
-            ? 'bg-rose-100/80 border-rose-200/90 text-[#be123c]'
-            : 'bg-rose-950/80 border-rose-500/40 text-rose-200',
-          arrowBg: 'linear-gradient(135deg, #fb7185 0%, #e11d48 100%)',
-          arrowShadow: '0 4px 12px rgba(225, 29, 72, 0.4)',
+            ? 'bg-[#F54459]/10 border-[#F54459]/25 text-[#F54459]'
+            : 'bg-rose-950/80 border-[#F54459]/40 text-rose-200',
+          arrowBg: 'linear-gradient(135deg, #fb7185 0%, #F54459 100%)',
+          arrowShadow: '0 4px 12px rgba(245, 68, 89, 0.4)',
           illustrationSrc:
             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542365/D%E1%BB%8Bch_v%E1%BB%A5_b%E1%BA%A3o_hi%E1%BB%83m-removebg-preview.png',
           fallbackIllustration:
             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069237/Gemini_Generated_Image_r1a3t4r1a3t4r1a3.png',
           pillText: 'FCR > 92% · SLA 95% · Retention +15%',
         };
-      case '04': // 6.4. Thể thao điện tử - Purple / Violet
+      case '04': // 6.4. Thể thao điện tử - #8946EB
         return {
-          accentColor: isLight ? '#7c3aed' : '#c084fc',
+          accentColor: '#8946EB',
           cardBg: isLight
-            ? 'linear-gradient(135deg, #faf8fe 0%, #ede8fe 30%, #d9d0fb 65%, #c5b5f9 100%)'
-            : 'linear-gradient(135deg, rgba(88, 28, 135, 0.56) 0%, rgba(15, 23, 42, 0.88) 100%)',
+            ? 'linear-gradient(135deg, rgba(137, 70, 235, 0.12) 0%, rgba(137, 70, 235, 0.22) 100%)'
+            : 'linear-gradient(135deg, rgba(137, 70, 235, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
           cardBorder: isLight
-            ? 'border-[#c4b5fd]/90 hover:border-[#a855f7]'
-            : 'border-purple-400/45 hover:border-purple-300',
-          titleColor: isLight ? 'text-[#7c3aed]' : 'text-purple-300',
+            ? 'border-[#8946EB]/35 hover:border-[#8946EB]'
+            : 'border-[#8946EB]/55 hover:border-[#8946EB]',
+          titleColor: isLight ? 'text-[#8946EB]' : 'text-purple-300',
           pillBg: isLight
-            ? 'bg-purple-100/80 border-purple-200/90 text-[#5b21b6]'
-            : 'bg-purple-950/80 border-purple-500/40 text-purple-200',
-          arrowBg: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',
-          arrowShadow: '0 4px 12px rgba(124, 58, 237, 0.4)',
+            ? 'bg-[#8946EB]/10 border-[#8946EB]/25 text-[#8946EB]'
+            : 'bg-purple-950/80 border-[#8946EB]/40 text-purple-200',
+          arrowBg: 'linear-gradient(135deg, #c084fc 0%, #8946EB 100%)',
+          arrowShadow: '0 4px 12px rgba(137, 70, 235, 0.4)',
           illustrationSrc:
             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542366/Game_eSports-removebg-preview.png',
           fallbackIllustration:
             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069238/Gemini_Generated_Image_s1e5xks1e5xks1e5.png',
           pillText: '> 50.000 Ticket/ngày · CSAT 96%',
         };
-      case '05': // 6.5. Thanh toán điện tử - Indigo / Royal Blue
+      case '05': // 6.5. Thanh toán điện tử - #A669F3
         return {
-          accentColor: isLight ? '#4f46e5' : '#818cf8',
+          accentColor: '#A669F3',
           cardBg: isLight
-            ? 'linear-gradient(135deg, #f3f7fe 0%, #e0ebfd 30%, #c1d8fb 65%, #9ec1f7 100%)'
-            : 'linear-gradient(135deg, rgba(49, 46, 129, 0.56) 0%, rgba(15, 23, 42, 0.88) 100%)',
+            ? 'linear-gradient(135deg, rgba(166, 105, 243, 0.12) 0%, rgba(166, 105, 243, 0.22) 100%)'
+            : 'linear-gradient(135deg, rgba(166, 105, 243, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
           cardBorder: isLight
-            ? 'border-[#a5b4fc]/90 hover:border-[#6366f1]'
-            : 'border-indigo-400/45 hover:border-indigo-300',
-          titleColor: isLight ? 'text-[#4338ca]' : 'text-indigo-300',
+            ? 'border-[#A669F3]/35 hover:border-[#A669F3]'
+            : 'border-[#A669F3]/55 hover:border-[#A669F3]',
+          titleColor: isLight ? 'text-[#A669F3]' : 'text-indigo-300',
           pillBg: isLight
-            ? 'bg-indigo-100/80 border-indigo-200/90 text-[#3730a3]'
-            : 'bg-indigo-950/80 border-indigo-500/40 text-indigo-200',
-          arrowBg: 'linear-gradient(135deg, #818cf8 0%, #4f46e5 100%)',
-          arrowShadow: '0 4px 12px rgba(79, 70, 229, 0.4)',
+            ? 'bg-[#A669F3]/10 border-[#A669F3]/25 text-[#A669F3]'
+            : 'bg-indigo-950/80 border-[#A669F3]/40 text-indigo-200',
+          arrowBg: 'linear-gradient(135deg, #c084fc 0%, #A669F3 100%)',
+          arrowShadow: '0 4px 12px rgba(166, 105, 243, 0.4)',
           illustrationSrc:
             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542372/Thanh_to%C3%A1n_%C4%91i%E1%BB%87n_t%E1%BB%AD-removebg-preview.png',
           fallbackIllustration:
             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069234/Gemini_Generated_Image_3b9s6n3b9s6n3b9s.png',
           pillText: 'RPA 90 giây · CSAT 98,2% · SLA 98,6%',
         };
-      case '06': // 6.6. Xây dựng hệ thống - Mint / Teal Emerald
+      case '06': // 6.6. Xây dựng hệ thống - #88D2BB
       default:
         return {
-          accentColor: isLight ? '#059669' : '#34d399',
+          accentColor: '#88D2BB',
           cardBg: isLight
-            ? 'linear-gradient(135deg, #f3fbfa 0%, #dff4f2 30%, #b1dfdd 65%, #abd9d6 100%)'
-            : 'linear-gradient(135deg, rgba(6, 78, 59, 0.56) 0%, rgba(15, 23, 42, 0.88) 100%)',
+            ? 'linear-gradient(135deg, rgba(136, 210, 187, 0.14) 0%, rgba(136, 210, 187, 0.26) 100%)'
+            : 'linear-gradient(135deg, rgba(136, 210, 187, 0.48) 0%, rgba(15, 23, 42, 0.85) 100%)',
           cardBorder: isLight
-            ? 'border-[#6ee7b7]/90 hover:border-[#10b981]'
-            : 'border-emerald-400/45 hover:border-emerald-300',
-          titleColor: isLight ? 'text-[#059669]' : 'text-emerald-300',
+            ? 'border-[#88D2BB]/45 hover:border-[#88D2BB]'
+            : 'border-[#88D2BB]/60 hover:border-[#88D2BB]',
+          titleColor: isLight ? 'text-[#065f46]' : 'text-emerald-300',
           pillBg: isLight
-            ? 'bg-emerald-100/80 border-emerald-200/90 text-[#047857]'
-            : 'bg-emerald-950/80 border-emerald-500/40 text-emerald-200',
-          arrowBg: 'linear-gradient(135deg, #34d399 0%, #059669 100%)',
-          arrowShadow: '0 4px 12px rgba(5, 150, 105, 0.4)',
+            ? 'bg-[#88D2BB]/20 border-[#88D2BB]/35 text-[#065f46]'
+            : 'bg-emerald-950/80 border-[#88D2BB]/40 text-emerald-200',
+          arrowBg: 'linear-gradient(135deg, #88D2BB 0%, #059669 100%)',
+          arrowShadow: '0 4px 12px rgba(136, 210, 187, 0.4)',
           illustrationSrc:
             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542368/X%C3%A2y_d%E1%BB%B1ng_h%E1%BB%87_th%E1%BB%91ng-removebg-preview.png',
           fallbackIllustration:
@@ -438,6 +438,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   style={{
                     borderRadius: '14px',
                     padding: '15px',
+                    background: cfg.cardBg,
                   }}
                   className="service-card bento-card glass-card layered-card group relative rounded-[14px] p-[15px] transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[230px] shadow-sm hover:shadow-xl hover:-translate-y-0.5"
                 >

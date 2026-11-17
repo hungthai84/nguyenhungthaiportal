@@ -946,6 +946,10 @@ h3.card-title,
   padding: 0 !important;
 }
 
+#wallpaper-page-container [id^="wallpaper-card-content-"] {
+  padding: 10px !important;
+}
+
 /* ========================================================================= */
 /* PROJECT DETAIL BANNER, CARDS 1–10 & SUBCARDS THEME SYNC                   */
 /* ========================================================================= */
@@ -1799,6 +1803,148 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   background: var(--bg-subcard-hover, rgba(255, 255, 255, 0.64)) !important;
   box-shadow: var(--shadow-subcard-hover, var(--shadow-subcard)) !important;
 }
+
+/* ========================================================================= */
+/* GIAO DIỆN GƯƠNG ĐA SẮC SÁNG & TỐI: CẬP NHẬT 6 THẺ DỊCH VỤ THEO MÀU NỀN     */
+/* #8946EB Thể thao điện tử, #1F5EAC Dịch vụ di động, #D97637 Thương mại điện tử */
+/* #F54459 Tài chính bảo hiểm, #A669F3 Thanh toán điện tử, #88D2BB Xây dựng HT */
+/* GIỮ NGUYÊN ĐỘ TRONG SUỐT VỚI BACKDROP-FILTER BLUR VÀ SPECULAR GLASS HIGHLIGHT */
+/* ========================================================================= */
+
+/* --- 1. GƯƠNG ĐA SẮC SÁNG (LIGHT MULTICOLOR GLASS) --- */
+:is(
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"]
+) #service-card-esports {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(137, 70, 235, 0.18) 50%, rgba(137, 70, 235, 0.28) 100%) !important;
+  border: 1px solid rgba(137, 70, 235, 0.45) !important;
+  box-shadow: 0 10px 30px rgba(137, 70, 235, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+:is(
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"]
+) #service-card-telecom {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(31, 94, 172, 0.18) 50%, rgba(31, 94, 172, 0.28) 100%) !important;
+  border: 1px solid rgba(31, 94, 172, 0.45) !important;
+  box-shadow: 0 10px 30px rgba(31, 94, 172, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+:is(
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"]
+) #service-card-ecommerce {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(217, 118, 55, 0.18) 50%, rgba(217, 118, 55, 0.28) 100%) !important;
+  border: 1px solid rgba(217, 118, 55, 0.45) !important;
+  box-shadow: 0 10px 30px rgba(217, 118, 55, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+:is(
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"]
+) #service-card-insurance {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(245, 68, 89, 0.18) 50%, rgba(245, 68, 89, 0.28) 100%) !important;
+  border: 1px solid rgba(245, 68, 89, 0.45) !important;
+  box-shadow: 0 10px 30px rgba(245, 68, 89, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+:is(
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"]
+) #service-card-ewallet {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(166, 105, 243, 0.18) 50%, rgba(166, 105, 243, 0.28) 100%) !important;
+  border: 1px solid rgba(166, 105, 243, 0.45) !important;
+  box-shadow: 0 10px 30px rgba(166, 105, 243, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+:is(
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"]
+) #service-card-cx-ops {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(136, 210, 187, 0.22) 50%, rgba(136, 210, 187, 0.34) 100%) !important;
+  border: 1px solid rgba(136, 210, 187, 0.55) !important;
+  box-shadow: 0 10px 30px rgba(136, 210, 187, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+/* --- 2. GƯƠNG ĐA SẮC TỐI (DARK NEON / MULTICOLOR GLASS DARK) --- */
+:is(
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
+) #service-card-esports {
+  background: linear-gradient(145deg, rgba(137, 70, 235, 0.32) 0%, rgba(32, 16, 56, 0.65) 55%, rgba(15, 12, 32, 0.75) 100%) !important;
+  border: 1px solid rgba(137, 70, 235, 0.55) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(137, 70, 235, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+:is(
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
+) #service-card-telecom {
+  background: linear-gradient(145deg, rgba(31, 94, 172, 0.32) 0%, rgba(12, 28, 58, 0.65) 55%, rgba(10, 18, 38, 0.75) 100%) !important;
+  border: 1px solid rgba(31, 94, 172, 0.55) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(31, 94, 172, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+:is(
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
+) #service-card-ecommerce {
+  background: linear-gradient(145deg, rgba(217, 118, 55, 0.32) 0%, rgba(48, 24, 12, 0.65) 55%, rgba(28, 14, 10, 0.75) 100%) !important;
+  border: 1px solid rgba(217, 118, 55, 0.55) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(217, 118, 55, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+:is(
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
+) #service-card-insurance {
+  background: linear-gradient(145deg, rgba(245, 68, 89, 0.32) 0%, rgba(52, 14, 22, 0.65) 55%, rgba(30, 10, 16, 0.75) 100%) !important;
+  border: 1px solid rgba(245, 68, 89, 0.55) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(245, 68, 89, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+:is(
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
+) #service-card-ewallet {
+  background: linear-gradient(145deg, rgba(166, 105, 243, 0.32) 0%, rgba(38, 20, 62, 0.65) 55%, rgba(20, 12, 38, 0.75) 100%) !important;
+  border: 1px solid rgba(166, 105, 243, 0.55) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(166, 105, 243, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+:is(
+  html[data-card-style="light-multicolor-glass-dark"],
+  html[data-card-style="dark-neon-multicolor-glass"]
+) #service-card-cx-ops {
+  background: linear-gradient(145deg, rgba(136, 210, 187, 0.30) 0%, rgba(16, 48, 42, 0.65) 55%, rgba(10, 28, 24, 0.75) 100%) !important;
+  border: 1px solid rgba(136, 210, 187, 0.55) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(136, 210, 187, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
 
 
 

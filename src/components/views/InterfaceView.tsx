@@ -137,7 +137,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             group.presets.find((p) => p.isDark);
           const groupActive = group.presets.some((p) => p.id === cardStyle);
           const isDarkSelected = groupActive ? activePreset.isDark : isDark;
-          const isMergedMulticolor = group.id === 'light-multicolor-glass';
+          const isMergedMulticolor = false;
           const presetsToRender = isMergedMulticolor
             ? [
                 groupActive

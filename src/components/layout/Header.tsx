@@ -560,7 +560,9 @@ export const Header: React.FC<HeaderProps> = ({
                       <img
                         src={styleCfg.avatarGif}
                         alt={pageTitle}
-                        className="w-full h-full object-cover rounded-full"
+                        className={`w-full h-full object-cover rounded-full ${
+                          styleCfg.avatarGif.includes('Avata_AI') ? 'scale-[1.5] transition-transform duration-300' : ''
+                        }`}
                         onError={(e) => {
                           (e.target as HTMLElement).style.display = 'none';
                         }}

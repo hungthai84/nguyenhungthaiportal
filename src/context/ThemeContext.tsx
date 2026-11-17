@@ -227,15 +227,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         'data-theme',
         cardStyle === 'cowhide-leather'
           ? 'cowhide-leather'
-          : cardStyle === 'dark-ice-blue-neumorphism'
-            ? 'dark-ice-blue-neumorphism'
-            : cardStyle === 'dark-pastel-lilac-soft'
-              ? 'dark-pastel-lilac-soft'
-              : cardStyle === 'dark-neon-multicolor-glass'
-                ? 'dark-neon-multicolor-glass'
-                : cardStyle === 'light-multicolor-glass-dark'
-                  ? 'light-multicolor-glass-dark'
-                  : 'dark-glassmorphism'
+          : cardStyle === 'dark-neon-multicolor-glass'
+            ? 'dark-neon-multicolor-glass'
+            : cardStyle === 'light-multicolor-glass-dark'
+              ? 'light-multicolor-glass-dark'
+              : 'dark'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -414,15 +410,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         'data-theme',
         normalized === 'cowhide-leather'
           ? 'cowhide-leather'
-          : normalized === 'dark-ice-blue-neumorphism'
-            ? 'dark-ice-blue-neumorphism'
-            : normalized === 'dark-pastel-lilac-soft'
-              ? 'dark-pastel-lilac-soft'
-              : normalized === 'dark-neon-multicolor-glass'
-                ? 'dark-neon-multicolor-glass'
-                : normalized === 'light-multicolor-glass-dark'
-                  ? 'light-multicolor-glass-dark'
-                  : 'dark-glassmorphism'
+          : normalized === 'dark-neon-multicolor-glass'
+            ? 'dark-neon-multicolor-glass'
+            : normalized === 'light-multicolor-glass-dark'
+              ? 'light-multicolor-glass-dark'
+              : 'dark'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {

@@ -29,10 +29,8 @@
   scroll-behavior: smooth;
 }
 
-/* Đồng bộ khoảng cách, căn giữa ngang, scroll mượt và box-sizing chuẩn cho toàn bộ Main Card */
-.main-card,
-[id$="-page-container"]:not(#letter-page-container):not(#horoscope-page-container),
-[id$="-page-root"] {
+/* Đồng bộ khoảng cách, căn giữa ngang, scroll mượt và box-sizing chuẩn cho toàn bộ Page Container & Track */
+#pdf-page-container {
   width: 100%;
   max-width: var(--container-max-w, 1250px);
   min-width: 0;
@@ -43,6 +41,47 @@
   gap: var(--space-card-gap, 15px);
   box-sizing: border-box;
   scroll-behavior: smooth;
+}
+
+.main-card:not(#pdf-page-container),
+[id$="-page-container"]:not(#pdf-page-container),
+[id$="-page-root"] {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  gap: 15px;
+  row-gap: 15px;
+  column-gap: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+#about-cards-track,
+.page-cards-track {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 15px;
+  row-gap: 15px;
+  column-gap: 15px;
+  height: 100%;
+  min-height: 100%;
+  width: max-content;
+  box-sizing: border-box;
+}
+
+.page-cards-track {
+  padding-left: max(0px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) / 2));
+  padding-right: max(0px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) / 2));
 }
 
 /* Smooth scrolling across all scrollable sections & slide containers (non-blocking for active drag/wheel handlers) */
@@ -75,16 +114,16 @@
 }
 
 #app-header {
-  width: 100% !important;
-  max-width: 1250px !important;
+  width: var(--shared-frame-w, min(calc(100vw - 112px), var(--container-max-w, 1250px))) !important;
+  max-width: var(--container-max-w, 1250px) !important;
   margin-left: auto !important;
   margin-right: auto !important;
   border-radius: var(--radius-header, 0 0 14px 14px) !important;
 }
 
 #app-footer {
-  width: 100% !important;
-  max-width: 1250px !important;
+  width: var(--shared-frame-w, min(calc(100vw - 112px), var(--container-max-w, 1250px))) !important;
+  max-width: var(--container-max-w, 1250px) !important;
   margin-left: auto !important;
   margin-right: auto !important;
   border-radius: var(--radius-footer, 14px 14px 0 0) !important;
@@ -111,13 +150,14 @@
 }
 
 @media (min-width: 1024px) {
-  #contact-page-container {
+  #contact-main-card {
     display: flex;
     flex-direction: row;
     gap: var(--space-card-gap, 15px);
     align-items: stretch;
     height: 100%;
     min-height: 0;
+    overflow: hidden !important;
   }
 
   #contact-hero-banner {
@@ -144,10 +184,10 @@
     padding: 0;
   }
 
-  #ai-assistant-page-container {
+  #ai-assistant-main-card {
     display: flex;
     flex-direction: row;
-    overflow: hidden;
+    overflow: hidden !important;
     height: 100%;
     max-height: 100%;
     min-height: 0;
@@ -190,7 +230,7 @@
 }
 
 @media (max-width: 1023px) {
-  #contact-page-container {
+  #contact-main-card {
     display: flex !important;
     flex-direction: column !important;
     gap: 15px !important;
@@ -220,7 +260,7 @@
     padding: 0 !important;
   }
 
-  #ai-assistant-page-container {
+  #ai-assistant-main-card {
     display: flex !important;
     flex-direction: column !important;
     overflow: hidden !important;
@@ -249,13 +289,19 @@
   }
 }
 
-/* Ultra-wide (≥1920px & ≥2560px) đồng bộ chuẩn 1250px từ --container-max-w */
+/* Ultra-wide (≥1920px & ≥2560px): giữ viewport full-width cho tất cả trang có track căn giữa, chỉ giữ 1250px cho PdfView */
 @media (min-width: 1920px) {
-  #global-content-viewport:not(:has(#letter-main-card)):not(:has(#about-page-container)),
+  #global-content-viewport:has(#pdf-page-container) {
+    max-width: var(--container-max-w, 1250px);
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   #app-header,
   #app-footer {
     max-width: var(--container-max-w, 1250px);
-    width: 100%;
+    width: var(--shared-frame-w, 1250px);
     margin-left: auto;
     margin-right: auto;
   }
@@ -396,20 +442,17 @@
 #horoscope-card-leadership-philosophy:hover,
 #horoscope-card-work-synergy-check,
 #horoscope-card-work-synergy-check:hover,
-div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-profile,
-div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-management-style,
-div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-career-portrait,
-div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-five-elements,
-div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-leadership-philosophy,
-div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-card-work-synergy-check,
-div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-destiny-card,
-div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-pillars-container,
-div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-slide-3,
-div#root > div#website-root > main#global-content-viewport > div#horoscope-page-container > div#horoscope-lookup-card,
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#horoscope-page-container:nth-of-type(1) > div#horoscope-card-profile:nth-of-type(1),
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#horoscope-page-container:nth-of-type(1) > div#horoscope-card-management-style:nth-of-type(1),
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#horoscope-page-container:nth-of-type(1) > div#horoscope-destiny-card:nth-of-type(1),
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#horoscope-page-container:nth-of-type(1) > div[data-element-type="card"]:not(#horoscope-main-card):not(.main-card):not([data-main-card="true"]) {
+#horoscope-main-card #horoscope-card-profile,
+#horoscope-main-card #horoscope-card-management-style,
+#horoscope-main-card #horoscope-card-career-portrait,
+#horoscope-main-card #horoscope-card-five-elements,
+#horoscope-main-card #horoscope-card-leadership-philosophy,
+#horoscope-main-card #horoscope-card-work-synergy-check,
+#horoscope-main-card #horoscope-destiny-card,
+#horoscope-main-card #horoscope-pillars-container,
+#horoscope-main-card #horoscope-slide-3,
+#horoscope-main-card #horoscope-lookup-card,
+#horoscope-main-card > div[data-element-type="card"]:not(.page-main-card):not([data-main-card="true"]) {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;

@@ -419,20 +419,8 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
     },
   ];
 
-  return (
-    <div
-      id={embedded ? "skills-embedded-section" : "skills-page-container"}
-      data-element-name="Trang Kỹ Năng Cốt Lõi"
-      data-element-type={embedded ? "section" : "container"}
-      data-element-page="skills"
-      data-element-parent={embedded ? undefined : "global-content-viewport"}
-      className={
-        embedded
-          ? "w-full min-w-0 flex flex-col justify-start font-play text-left animate-fadeIn gap-[15px] box-border"
-          : "main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] rounded-none overflow-y-auto glass-scrollbar font-play text-left animate-fadeIn gap-[15px] box-border"
-      }
-    >
-      <div id="skills-main-wrapper" className="w-full flex-grow flex flex-col gap-[15px] justify-start">
+  const skillsMainBody = (
+    <div id="skills-main-wrapper" className="w-full flex-grow flex flex-col gap-[15px] justify-start">
         {/* Banner trang kỹ năng - Ẩn khi hiển thị chi tiết kỹ năng */}
         {!selectedSwot && (
           <motion.div
@@ -946,6 +934,51 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
             </div>
           </motion.div>
         )}
+      </div>
+  );
+
+  if (embedded) {
+    return (
+      <div
+        id="skills-embedded-section"
+        data-element-name="Trang Kỹ Năng Cốt Lõi"
+        data-element-type="section"
+        data-element-page="skills"
+        className="w-full min-w-0 flex flex-col justify-start font-play text-left animate-fadeIn gap-[15px] box-border"
+      >
+        {skillsMainBody}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      id="skills-page-container"
+      data-element-name="Trang Kỹ Năng Cốt Lõi"
+      data-element-type="container"
+      data-element-page="skills"
+      data-element-parent="global-content-viewport"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play text-left animate-fadeIn rounded-none box-border"
+    >
+      <div
+        id="skills-cards-track"
+        data-element-name="Track căn giữa Kỹ Năng"
+        data-element-type="container"
+        data-element-page="skills"
+        data-element-parent="skills-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="skills-main-card"
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang Kỹ Năng"
+          data-element-type="card"
+          data-element-page="skills"
+          data-element-parent="skills-cards-track"
+          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
+        >
+          {skillsMainBody}
+        </div>
       </div>
     </div>
   );

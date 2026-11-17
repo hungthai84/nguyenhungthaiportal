@@ -356,7 +356,7 @@ export interface LetterViewProps {
 }
 
 export const LetterView: React.FC<LetterViewProps> = ({
-  currentTheme = 'light-glass',
+  currentTheme = 'light-multicolor-glass',
   onOpenBannerStudio,
   onShowNotification,
   onOpenMilestoneModal,
@@ -376,7 +376,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
   const viewMode = 'slides' as const;
 
   // Current Theme detection
-  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
+  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
 
   // Chế độ thu gọn / mở rộng thanh tiện ích bên phải (Mặc định luôn hiển thị đầy đủ ở trang Thư Ngỏ)
   const [isRightDockCollapsed, setIsRightDockCollapsed] = useState<boolean>(false);
@@ -405,6 +405,110 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
   // Slides and Presentation State
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const currentSlideRef = useRef<number>(0);
+
+  useEffect(() => {
+    currentSlideRef.current = currentSlide;
+  }, [currentSlide]);
+
+  // Horizontal peek-carousel centering state for Card thư ngỏ 1..4 (giống AboutView)
+  const letterContainerRef = useRef<HTMLDivElement>(null);
+  const [viewportWidth, setViewportWidth] = useState<number>(() =>
+    typeof window !== 'undefined' ? window.innerWidth : 1440
+  );
+  const [letterContainerWidth, setLetterContainerWidth] = useState<number>(() =>
+    typeof window !== 'undefined' ? Math.max(320, window.innerWidth - 2) : 1440
+  );
+  const isProgrammaticScrollRef = useRef(false);
+  const scrollTimeoutRef = useRef<number | null>(null);
+
+  const peekReserve = viewportWidth < 640 ? 72 : 112;
+  const letterCardWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
+  const letterSideInset = Math.max(0, (letterContainerWidth - letterCardWidth) / 2);
+
+  useEffect(() => {
+    const el = letterContainerRef.current;
+    const updateWidth = () => {
+      if (typeof window !== 'undefined') {
+        setViewportWidth(window.innerWidth);
+      }
+      if (el) {
+        const w = el.clientWidth;
+        if (w > 0) setLetterContainerWidth(w);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    if (el && typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(updateWidth);
+      ro.observe(el);
+      return () => {
+        ro.disconnect();
+        window.removeEventListener('resize', updateWidth);
+      };
+    }
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+    };
+  }, []);
+
+  const [autoAdvance, setAutoAdvance] = useState<boolean>(false);
+  const [speechRate, setSpeechRate] = useState<number>(1.0);
+  const [slideDirection, setSlideDirection] = useState<'next' | 'prev'>('next');
+
+  const scrollToLetterCard = useCallback(
+    (targetSlide: number, smooth = true) => {
+      const clamped = Math.max(0, Math.min(3, targetSlide));
+      const prev = currentSlideRef.current;
+      if (clamped !== prev) {
+        setSlideDirection(clamped > prev ? 'next' : 'prev');
+      }
+      currentSlideRef.current = clamped;
+      setCurrentSlide(clamped);
+
+      const container = letterContainerRef.current;
+      if (!container) return;
+      const targetLeft = clamped * (letterCardWidth + 15);
+      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+      isProgrammaticScrollRef.current = true;
+      container.scrollTo({
+        left: targetLeft,
+        behavior: smooth ? 'smooth' : 'auto',
+      });
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        isProgrammaticScrollRef.current = false;
+      }, 550);
+    },
+    [letterCardWidth]
+  );
+
+  // Keep active card centered when viewport resizes
+  useEffect(() => {
+    const container = letterContainerRef.current;
+    if (!container || isProgrammaticScrollRef.current) return;
+    const expectedLeft = currentSlideRef.current * (letterCardWidth + 15);
+    if (Math.abs(container.scrollLeft - expectedLeft) > 2) {
+      container.scrollTo({ left: expectedLeft, behavior: 'auto' });
+    }
+  }, [letterCardWidth]);
+
+  const handleLetterContainerScroll = useCallback(() => {
+    if (isProgrammaticScrollRef.current) return;
+    const container = letterContainerRef.current;
+    if (!container) return;
+    const step = letterCardWidth + 15;
+    if (step <= 0) return;
+    const nextSlide = Math.max(0, Math.min(3, Math.round(container.scrollLeft / step)));
+    if (nextSlide !== currentSlideRef.current) {
+      setSlideDirection(nextSlide > currentSlideRef.current ? 'next' : 'prev');
+      currentSlideRef.current = nextSlide;
+      setCurrentSlide(nextSlide);
+    }
+  }, [letterCardWidth]);
 
   // Đồng bộ trạng thái Slide (0..3) với nút Tới trang / Qua trang ở Footer
   useEffect(() => {
@@ -418,19 +522,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
       const detail = (e as CustomEvent).detail;
       if (detail && (detail.tabIndex === undefined || detail.tabIndex === 1) && typeof detail.slide === 'number') {
         const target = Math.max(0, Math.min(3, detail.slide));
-        setSlideDirection(target >= currentSlide ? 'next' : 'prev');
-        setCurrentSlide(target);
+        scrollToLetterCard(target, true);
       }
     };
     window.addEventListener('app:set-slide', handleExternalSlide);
     return () => window.removeEventListener('app:set-slide', handleExternalSlide);
-  }, [currentSlide]);
+  }, [scrollToLetterCard]);
 
-  const [autoAdvance, setAutoAdvance] = useState<boolean>(false);
-  const [speechRate, setSpeechRate] = useState<number>(1.0);
-  const [slideDirection, setSlideDirection] = useState<'next' | 'prev'>('next');
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const lastWheelTimeRef = useRef<number>(0);
   const [isAutoplayPresentation, setIsAutoplayPresentation] = useState<boolean>(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
   const [isVideoMuted, setIsVideoMuted] = useState<boolean>(true);
@@ -465,9 +563,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
     SoundEngine.playTap();
     if (!circleVideoRef.current) return;
 
-    if (currentSlide !== 0) {
-      setSlideDirection(0 > currentSlide ? 'next' : 'prev');
-      setCurrentSlide(0);
+    if (currentSlideRef.current !== 0) {
+      scrollToLetterCard(0, true);
     }
 
     if (isCircleVideoPlaying) {
@@ -493,7 +590,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
         showToast('Đang phát video 2 (vui lòng chạm bật tiếng)');
       });
     }
-  }, [currentSlide, isCircleVideoPlaying, showToast]);
+  }, [isCircleVideoPlaying, scrollToLetterCard, showToast]);
 
   const handleCircleVideoEnded = useCallback(() => {
     setIsCircleVideoPlaying(false);
@@ -632,7 +729,19 @@ export const LetterView: React.FC<LetterViewProps> = ({
       if (savedSlide !== null) {
         const parsed = parseInt(savedSlide, 10);
         if (!isNaN(parsed) && parsed >= 0 && parsed <= 3) {
+          currentSlideRef.current = parsed;
           setCurrentSlide(parsed);
+          if (parsed !== 0) {
+            requestAnimationFrame(() => {
+              const container = letterContainerRef.current;
+              if (container) {
+                const w = window.innerWidth;
+                const reserve = w < 640 ? 72 : 112;
+                const cardW = Math.min(1250, Math.max(260, w - reserve));
+                container.scrollTo({ left: parsed * (cardW + 15), behavior: 'auto' });
+              }
+            });
+          }
         }
       }
       const savedAutoAdvance = localStorage.getItem('hungthai_letter_auto_advance');
@@ -879,14 +988,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
       isPausedRef.current = false;
 
       // Automatically switch slide if segment belongs to another slide
-      setCurrentSlide((prevSlide) => {
-        if (prevSlide !== segment.slideIndex) {
-          setSlideDirection(segment.slideIndex > prevSlide ? 'next' : 'prev');
-          SoundEngine.playPageFlip();
-          return segment.slideIndex;
-        }
-        return prevSlide;
-      });
+      if (currentSlideRef.current !== segment.slideIndex) {
+        SoundEngine.playPageFlip();
+        scrollToLetterCard(segment.slideIndex, true);
+      }
 
       const handleSegmentCompleted = () => {
         if (utteranceIdRef.current !== currentCallId || !isNarratingRef.current) return;
@@ -985,7 +1090,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
         fallbackTimerRef.current = setTimeout(handleSegmentCompleted, estimatedMs);
       }
     },
-    [narrationSegments, voices, clearFallbackTimer, clearKaraokeTimer, stopNarration]
+    [narrationSegments, voices, clearFallbackTimer, clearKaraokeTimer, stopNarration, scrollToLetterCard]
   );
 
   // Phát giọng đọc AI trực tiếp cho 1 cột mốc năm bất kỳ (từ Timeline Mini hoặc Thẻ)
@@ -1103,9 +1208,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
   const handleSelectSlide = useCallback(
     (targetSlide: number) => {
-      if (targetSlide === currentSlide) return;
-      setSlideDirection(targetSlide > currentSlide ? 'next' : 'prev');
-      setCurrentSlide(targetSlide);
+      if (targetSlide === currentSlideRef.current) return;
+      scrollToLetterCard(targetSlide, true);
       // If currently narrating, jump voice narration to the selected slide
       if (isNarratingRef.current) {
         const segIdx = narrationSegments.findIndex((s) => s.slideIndex === targetSlide);
@@ -1114,42 +1218,52 @@ export const LetterView: React.FC<LetterViewProps> = ({
         }
       }
     },
-    [currentSlide, narrationSegments, playSegmentAtIndex]
+    [scrollToLetterCard, narrationSegments, playSegmentAtIndex]
   );
 
   const handlePrevSlide = useCallback(() => {
-    setSlideDirection('prev');
-    const targetSlide = currentSlide > 0 ? currentSlide - 1 : 3;
-    setCurrentSlide(targetSlide);
+    const targetSlide = currentSlideRef.current > 0 ? currentSlideRef.current - 1 : 3;
+    scrollToLetterCard(targetSlide, true);
     if (isNarratingRef.current) {
       const segIdx = narrationSegments.findIndex((s) => s.slideIndex === targetSlide);
       if (segIdx !== -1) playSegmentAtIndex(segIdx);
     }
-  }, [currentSlide, narrationSegments, playSegmentAtIndex]);
+  }, [scrollToLetterCard, narrationSegments, playSegmentAtIndex]);
 
   const handleNextSlide = useCallback(() => {
-    setSlideDirection('next');
-    const targetSlide = currentSlide < 3 ? currentSlide + 1 : 0;
-    setCurrentSlide(targetSlide);
+    const targetSlide = currentSlideRef.current < 3 ? currentSlideRef.current + 1 : 0;
+    scrollToLetterCard(targetSlide, true);
     if (isNarratingRef.current) {
       const segIdx = narrationSegments.findIndex((s) => s.slideIndex === targetSlide);
       if (segIdx !== -1) playSegmentAtIndex(segIdx);
     }
-  }, [currentSlide, narrationSegments, playSegmentAtIndex]);
+  }, [scrollToLetterCard, narrationSegments, playSegmentAtIndex]);
 
-  // Keyboard navigation for slides
+  // Keyboard navigation for slides (clamped 0..3 like AboutView peek-carousel)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
       if (selectedMilestone) return;
       if (e.key === 'ArrowRight') {
-        handleNextSlide();
+        e.preventDefault();
+        scrollToLetterCard(Math.min(3, currentSlideRef.current + 1), true);
       } else if (e.key === 'ArrowLeft') {
-        handlePrevSlide();
+        e.preventDefault();
+        scrollToLetterCard(Math.max(0, currentSlideRef.current - 1), true);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleNextSlide, handlePrevSlide, selectedMilestone]);
+  }, [scrollToLetterCard, selectedMilestone]);
 
   // Floating Video Presentation Handlers & Synchronization
   const handleFloatingVideoLoadedMetadata = useCallback(() => {
@@ -1186,13 +1300,12 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
     if (cue && cue.id !== lastActiveCueIdRef.current) {
       lastActiveCueIdRef.current = cue.id;
-      if (autoSyncVideoWithSlides && cue.slideIndex !== currentSlide) {
-        setSlideDirection(cue.slideIndex > currentSlide ? 'next' : 'prev');
-        setCurrentSlide(cue.slideIndex);
+      if (autoSyncVideoWithSlides && cue.slideIndex !== currentSlideRef.current) {
+        scrollToLetterCard(cue.slideIndex, true);
         SoundEngine.playPageFlip();
       }
     }
-  }, [autoSyncVideoWithSlides, currentSlide]);
+  }, [autoSyncVideoWithSlides, scrollToLetterCard]);
 
   const toggleFloatingVideoPlay = useCallback((e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
@@ -1788,98 +1901,108 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
   return (
     <div
+      ref={letterContainerRef}
       id="letter-page-container"
       data-element-name="Trang Thư Ngỏ"
       data-element-type="container"
       data-element-page="letter"
       data-element-parent="global-content-viewport"
-      className="w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col justify-start p-0 m-0 relative z-10 select-none overflow-visible font-play text-left bg-transparent border-0 shadow-none box-border"
+      onScroll={handleLetterContainerScroll}
+      style={{
+        width: '100%',
+        maxWidth: '100%',
+        marginLeft: '0px',
+        marginRight: '0px',
+        paddingTop: '0px',
+        paddingLeft: '0px',
+        paddingRight: '0px',
+        paddingBottom: '0px',
+        gap: '15px',
+        rowGap: '15px',
+        columnGap: '15px',
+        borderRadius: '0px',
+        background: 'transparent',
+        ['--about-card-w' as any]: `${letterCardWidth}px`,
+        ['--about-side-inset' as any]: `${letterSideInset}px`,
+      }}
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-auto overflow-y-hidden no-scrollbar z-10 select-none box-border"
     >
+      <div
+        id="letter-cards-track"
+        data-element-name="Track căn giữa Thư Ngỏ"
+        data-element-type="container"
+        data-element-page="letter"
+        data-element-parent="letter-page-container"
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'stretch',
+          gap: '15px',
+          rowGap: '15px',
+          columnGap: '15px',
+          paddingLeft: `${letterSideInset}px`,
+          paddingRight: `${letterSideInset}px`,
+          height: '100%',
+          minHeight: '100%',
+          width: 'max-content',
+          boxSizing: 'border-box',
+        }}
+        className="page-cards-track flex flex-row items-stretch gap-[15px] h-full min-h-full box-border"
+      >
       {/* ========================================================================= */}
-      {/* THẺ CHÍNH (MAIN CARD) TRANG THƯ NGỎ: MAX FULL CHIỀU NGANG & CÁCH 15PX     */}
+      {/* CARD THƯ NGỎ 1: VIDEO THUYẾT MINH, THÔNG ĐIỆP HỢP TÁC & GIÁ TRỊ CỐT LÕI   */}
       {/* ========================================================================= */}
       <div
-        id="letter-main-card"
-        data-element-name="Thẻ chính Trang Thư Ngỏ"
+        id="letter-card-1"
+        data-element-name="Card thư ngỏ 1"
         data-element-type="card"
         data-main-card="true"
         data-element-page="letter"
-        data-element-parent="letter-page-container"
-        onWheel={(e) => {
-          if (selectedMilestone) return;
-          const target = e.target as HTMLElement | null;
-          if (target?.closest('.overflow-x-auto')) return;
-          if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 18) {
-            const now = Date.now();
-            if (now - lastWheelTimeRef.current < 320) return;
-            lastWheelTimeRef.current = now;
+        data-element-parent="letter-cards-track"
+        onClickCapture={(e) => {
+          if (currentSlide !== 0) {
+            e.preventDefault();
+            e.stopPropagation();
             SoundEngine.playTap();
-            if (e.deltaX > 0) {
-              handleNextSlide();
-            } else {
-              handlePrevSlide();
-            }
+            scrollToLetterCard(0, true);
           }
         }}
-        onTouchStart={(e) => {
-          if (selectedMilestone) return;
-          const target = e.target as HTMLElement | null;
-          if (target?.closest('.overflow-x-auto, button, input, select, textarea, video')) return;
-          touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        }}
-        onTouchEnd={(e) => {
-          if (!touchStartRef.current || selectedMilestone) return;
-          const diffX = touchStartRef.current.x - e.changedTouches[0].clientX;
-          const diffY = touchStartRef.current.y - e.changedTouches[0].clientY;
-          touchStartRef.current = null;
-          if (Math.abs(diffX) > 55 && Math.abs(diffX) > Math.abs(diffY) * 1.4) {
-            SoundEngine.playTap();
-            if (diffX > 0) {
-              handleNextSlide();
-            } else {
-              handlePrevSlide();
-            }
-          }
-        }}
+        title={currentSlide !== 0 ? 'Click để chuyển Card thư ngỏ 1 ra chính giữa màn hình' : undefined}
         style={{
-          width: '100%',
-          maxWidth: '100%',
-          marginLeft: '0px',
-          marginRight: '0px',
+          width: `${letterCardWidth}px`,
+          maxWidth: '1250px',
+          minWidth: `${letterCardWidth}px`,
+          flex: `0 0 ${letterCardWidth}px`,
+          flexShrink: 0,
+          height: '100%',
+          minHeight: '100%',
           padding: '15px',
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
-          borderRadius: '0px',
-          background: 'transparent',
+          borderRadius: '14px',
         }}
-        className="group/letter main-card w-full min-w-0 h-full max-w-full ml-0 mr-0 flex-1 min-h-0 flex flex-col justify-start p-[15px] gap-[15px] relative z-10 select-none overflow-hidden font-play text-left rounded-none box-border"
+        className={cn(
+          'group/letter page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
+          currentSlide !== 0 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
+        )}
       >
-      {/* ========================================================================= */}
-      {/* 4 PRESENTATION CARDS CONTAINER WITH ABSOLUTE EDGE NAVIGATION BUTTONS    */}
-      {/* ========================================================================= */}
-      <div
-        id="el-p1-div-77"
-        data-slide-direction={slideDirection}
-        className="relative w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-center justify-start overflow-y-auto overflow-x-clip glass-scrollbar gap-[15px] p-0 m-0 font-play"
-      >
-              {currentSlide === 0 && (
                 <div
                   id="el-p1-div-85"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 1)"
-                  className="w-full max-w-[1250px] mx-auto min-h-full h-auto flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch auto-rows-auto p-[15px] rounded-[14px] box-border"
+                  className="w-full max-w-full mx-auto min-h-full h-auto flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch auto-rows-auto p-0 rounded-none box-border"
                   style={{
                     width: '100%',
-                    maxWidth: '1250px',
+                    maxWidth: '100%',
                     minHeight: '100%',
                     height: 'auto',
                     marginLeft: 'auto',
                     marginRight: 'auto',
-                    padding: '15px',
+                    padding: '0px',
                     gap: '15px',
                     rowGap: '15px',
                     columnGap: '15px',
-                    borderRadius: '14px',
+                    borderRadius: '0px',
                   }}
                 >
                     {/* THẺ BENTO 1: Khung Video Thuyết Minh (7/12 cột trên Desktop, 6/6 trên Tablet, 1/1 trên Mobile) */}
@@ -2184,14 +2307,51 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       </p>
                     </article>
                 </div>
-              )}
+      </div>
 
-              {currentSlide === 1 && (
+      {/* ========================================================================= */}
+      {/* CARD THƯ NGỎ 2: HÀNH TRÌNH KHỞI ĐẦU SỰ NGHIỆP (2002 - 2011)               */}
+      {/* ========================================================================= */}
+      <div
+        id="letter-card-2"
+        data-element-name="Card thư ngỏ 2"
+        data-element-type="card"
+        data-main-card="true"
+        data-element-page="letter"
+        data-element-parent="letter-cards-track"
+        onClickCapture={(e) => {
+          if (currentSlide !== 1) {
+            e.preventDefault();
+            e.stopPropagation();
+            SoundEngine.playTap();
+            scrollToLetterCard(1, true);
+          }
+        }}
+        title={currentSlide !== 1 ? 'Click để chuyển Card thư ngỏ 2 ra chính giữa màn hình' : undefined}
+        style={{
+          width: `${letterCardWidth}px`,
+          maxWidth: '1250px',
+          minWidth: `${letterCardWidth}px`,
+          flex: `0 0 ${letterCardWidth}px`,
+          flexShrink: 0,
+          height: '100%',
+          minHeight: '100%',
+          padding: '15px',
+          gap: '15px',
+          rowGap: '15px',
+          columnGap: '15px',
+          borderRadius: '14px',
+        }}
+        className={cn(
+          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
+          currentSlide !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
+        )}
+      >
                 <div
                   id="letter-slide-2-card"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 2)"
-                  className="w-full max-w-[1250px] mx-auto min-h-full h-auto flex-1 flex flex-col gap-[15px] p-[15px] rounded-[14px] box-border"
-                  style={{ width: '100%', maxWidth: '1250px', marginLeft: 'auto', marginRight: 'auto', padding: '15px', gap: '15px', borderRadius: '14px' }}
+                  className="w-full max-w-full mx-auto min-h-full h-auto flex-1 flex flex-col gap-[15px] p-0 rounded-none box-border"
+                  style={{ width: '100%', maxWidth: '100%', marginLeft: 'auto', marginRight: 'auto', padding: '0px', gap: '15px', borderRadius: '0px' }}
                 >
                   <div
                     id="letter-slide-2-grid"
@@ -2203,14 +2363,51 @@ export const LetterView: React.FC<LetterViewProps> = ({
                     )}
                   </div>
                 </div>
-              )}
+      </div>
 
-              {currentSlide === 2 && (
+      {/* ========================================================================= */}
+      {/* CARD THƯ NGỎ 3: QUẢN TRỊ QUY MÔ LỚN & CHUYỂN ĐỔI SỐ (2013 - 2023)         */}
+      {/* ========================================================================= */}
+      <div
+        id="letter-card-3"
+        data-element-name="Card thư ngỏ 3"
+        data-element-type="card"
+        data-main-card="true"
+        data-element-page="letter"
+        data-element-parent="letter-cards-track"
+        onClickCapture={(e) => {
+          if (currentSlide !== 2) {
+            e.preventDefault();
+            e.stopPropagation();
+            SoundEngine.playTap();
+            scrollToLetterCard(2, true);
+          }
+        }}
+        title={currentSlide !== 2 ? 'Click để chuyển Card thư ngỏ 3 ra chính giữa màn hình' : undefined}
+        style={{
+          width: `${letterCardWidth}px`,
+          maxWidth: '1250px',
+          minWidth: `${letterCardWidth}px`,
+          flex: `0 0 ${letterCardWidth}px`,
+          flexShrink: 0,
+          height: '100%',
+          minHeight: '100%',
+          padding: '15px',
+          gap: '15px',
+          rowGap: '15px',
+          columnGap: '15px',
+          borderRadius: '14px',
+        }}
+        className={cn(
+          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
+          currentSlide !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
+        )}
+      >
                 <div
                   id="letter-slide-3-card"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 3)"
-                  className="w-full max-w-[1250px] mx-auto min-h-full h-auto flex-1 flex flex-col gap-[15px] p-[15px] rounded-[14px] box-border"
-                  style={{ width: '100%', maxWidth: '1250px', marginLeft: 'auto', marginRight: 'auto', padding: '15px', gap: '15px', borderRadius: '14px' }}
+                  className="w-full max-w-full mx-auto min-h-full h-auto flex-1 flex flex-col gap-[15px] p-0 rounded-none box-border"
+                  style={{ width: '100%', maxWidth: '100%', marginLeft: 'auto', marginRight: 'auto', padding: '0px', gap: '15px', borderRadius: '0px' }}
                 >
                   <div
                     id="letter-slide-3-grid"
@@ -2222,14 +2419,51 @@ export const LetterView: React.FC<LetterViewProps> = ({
                     )}
                   </div>
                 </div>
-              )}
+      </div>
 
-              {currentSlide === 3 && (
+      {/* ========================================================================= */}
+      {/* CARD THƯ NGỎ 4: TRIẾT LÝ QUẢN TRỊ & TÂM THƯ ĐỒNG HÀNH                     */}
+      {/* ========================================================================= */}
+      <div
+        id="letter-card-4"
+        data-element-name="Card thư ngỏ 4"
+        data-element-type="card"
+        data-main-card="true"
+        data-element-page="letter"
+        data-element-parent="letter-cards-track"
+        onClickCapture={(e) => {
+          if (currentSlide !== 3) {
+            e.preventDefault();
+            e.stopPropagation();
+            SoundEngine.playTap();
+            scrollToLetterCard(3, true);
+          }
+        }}
+        title={currentSlide !== 3 ? 'Click để chuyển Card thư ngỏ 4 ra chính giữa màn hình' : undefined}
+        style={{
+          width: `${letterCardWidth}px`,
+          maxWidth: '1250px',
+          minWidth: `${letterCardWidth}px`,
+          flex: `0 0 ${letterCardWidth}px`,
+          flexShrink: 0,
+          height: '100%',
+          minHeight: '100%',
+          padding: '15px',
+          gap: '15px',
+          rowGap: '15px',
+          columnGap: '15px',
+          borderRadius: '14px',
+        }}
+        className={cn(
+          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
+          currentSlide !== 3 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
+        )}
+      >
                 <div
                   id="letter-slide-4-card"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 4)"
-                  className="w-full max-w-[1250px] mx-auto min-h-full h-auto flex-1 min-h-0 flex flex-col gap-[15px] p-[15px] rounded-[14px] box-border"
-                  style={{ width: '100%', maxWidth: '1250px', marginLeft: 'auto', marginRight: 'auto', padding: '15px', gap: '15px', borderRadius: '14px' }}
+                  className="w-full max-w-full mx-auto min-h-full h-auto flex-1 min-h-0 flex flex-col gap-[15px] p-0 rounded-none box-border"
+                  style={{ width: '100%', maxWidth: '100%', marginLeft: 'auto', marginRight: 'auto', padding: '0px', gap: '15px', borderRadius: '0px' }}
                 >
                   <div
                     id="letter-slide-4-bento-grid"
@@ -2396,44 +2630,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                   </div>
                 </div>
-              )}
       </div>
-
-
-
-        {/* Nút LÙI TRANG (Chevron Left) hình tròn nổi ở chính giữa cạnh trái kèm hiệu ứng cuộn ngang */}
-        <button
-          type="button"
-          onClick={() => {
-            SoundEngine.playTap();
-            handlePrevSlide();
-          }}
-          title={`Lùi trang (${((currentSlide - 1 + 4) % 4) + 1}/4)`}
-          aria-label="Lùi trang"
-          className="nav-arrow-btn theme-prev-next-btn absolute left-1.5 sm:left-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/letter:opacity-100 hover:!opacity-100 sm:-translate-x-1 sm:group-hover/letter:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(236,125,33,0.35)] cursor-pointer group pointer-events-auto"
-        >
-          <WebIcon
-            name="chevron-left"
-            className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
-          />
-        </button>
-
-        {/* Nút TỚI TRANG (Chevron Right) hình tròn nổi ở chính giữa cạnh phải kèm hiệu ứng cuộn ngang */}
-        <button
-          type="button"
-          onClick={() => {
-            SoundEngine.playTap();
-            handleNextSlide();
-          }}
-          title={`Tới trang (${((currentSlide + 1) % 4) + 1}/4)`}
-          aria-label="Tới trang"
-          className="nav-arrow-btn theme-prev-next-btn absolute right-1.5 sm:right-2.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-55 sm:group-hover/letter:opacity-100 hover:!opacity-100 sm:translate-x-1 sm:group-hover/letter:translate-x-0 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(236,125,33,0.35)] cursor-pointer group pointer-events-auto"
-        >
-          <WebIcon
-            name="chevron-right"
-            className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110"
-          />
-        </button>
       </div>
 
       {/* ========================================================================= */}

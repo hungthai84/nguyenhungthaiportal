@@ -40,7 +40,7 @@ export interface VideoScreenItem {
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
-  currentTheme = 'light-glass',
+  currentTheme = 'light-multicolor-glass',
   onNavigateContact,
   onNavigatePage,
   onOpenPagesCarousel,
@@ -52,7 +52,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const { isDark: themeIsDark } = useTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
+  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
 
   // Danh sách video cho 3 màn hình: Màn hình chờ (idle), Chuyển cảnh (transition), Video phát (presentation)
   const VIDEO_SCREENS: VideoScreenItem[] = [
@@ -354,8 +354,25 @@ export const HomeView: React.FC<HomeViewProps> = ({
       data-element-page="home"
       data-element-parent="global-content-viewport"
       suppressHydrationWarning
-      className="main-card relative w-full min-w-0 h-full min-h-full mx-auto flex flex-col justify-between overflow-hidden select-none p-[25px] gap-[15px] font-play rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar select-none font-play rounded-none box-border"
     >
+      <div
+        id="home-cards-track"
+        data-element-name="Track căn giữa Trang chủ"
+        data-element-type="container"
+        data-element-page="home"
+        data-element-parent="home-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="home-main-card"
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang chủ cá nhân"
+          data-element-type="card"
+          data-element-page="home"
+          data-element-parent="home-cards-track"
+          className="page-main-card relative flex flex-col justify-between overflow-hidden select-none p-[15px] gap-[15px] font-play rounded-[14px] box-border"
+        >
       {/* 1. Main Background Video - Hiển Thị Toàn Bộ Thẻ Chính Lắp Đầy 100% Chiều Rộng và Chiều Cao */}
       <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none">
         <video
@@ -504,7 +521,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 data-element-name="Thẻ thông tin tổng quan trang chủ"
                 data-element-type="card"
                 data-element-page="home"
-                data-element-parent="home-page-container"
+                data-element-parent="home-main-card"
                 data-section-card="true"
                 key={`hero-card-${activeVideoScreen}`}
                 initial={{ opacity: 0, x: 30, y: 20 }}
@@ -552,65 +569,84 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     data-element-page="home"
                     className="pt-0.5 flex flex-col items-end gap-2 w-full"
                   >
-                    {/* Nút Giới Thiệu Video formatted theo chuẩn AboutView với màu sắc riêng biệt cho từng màn hình (1, 2, 3) */}
-                    <div 
+                    {/* Nút Giới Thiệu Video dạng nút capsule đồng bộ theo giao diện hiện hành */}
+                    <div
                       id="el-p0-div-78"
+                      role="button"
+                      tabIndex={0}
                       data-element-id="el-p0-div-78"
                       data-element-name="Nút bật âm và phát video giới thiệu"
-                      data-element-type="container"
+                      data-element-type="button"
                       data-element-page="home"
-                      className={`relative z-10 inline-flex items-center gap-2.5 px-3 py-1.5 rounded-[999px] text-white transition-all duration-500 cursor-pointer pointer-events-auto shrink-0 border border-white/35 active:scale-98 select-none ${
-                        activeVideoScreen === 1
-                          ? 'bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 hover:from-blue-600 hover:to-cyan-400 shadow-[0_4px_20px_rgba(14,165,233,0.5)] hover:shadow-[0_6px_24px_rgba(14,165,233,0.7)]'
-                          : activeVideoScreen === 3
-                          ? 'bg-gradient-to-r from-emerald-700 via-teal-600 to-cyan-600 hover:from-emerald-600 hover:to-cyan-500 shadow-[0_4px_20px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_24px_rgba(16,185,129,0.7)]'
-                          : 'bg-gradient-to-r from-indigo-700 via-purple-600 to-pink-600 hover:from-indigo-600 hover:to-pink-500 shadow-[0_4px_20px_rgba(236,72,153,0.5)] hover:shadow-[0_6px_24px_rgba(236,72,153,0.7)]'
+                      onClick={isIntroMode ? handleCancelIntro : handlePlayIntro}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          if (isIntroMode) {
+                            handleCancelIntro();
+                          } else {
+                            handlePlayIntro();
+                          }
+                        }
+                      }}
+                      title={isIntroMode ? 'Dừng phát video giới thiệu' : 'Phát video giới thiệu chuyên gia'}
+                      aria-label={isIntroMode ? 'Dừng phát video giới thiệu' : 'Phát video giới thiệu chuyên gia'}
+                      style={{ borderRadius: '999px' }}
+                      className={`theme-capsule-btn relative z-10 inline-flex items-center gap-2 px-2.5 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-200 cursor-pointer pointer-events-auto shrink-0 hover:-translate-y-[1.5px] active:scale-[0.98] select-none font-play ${
+                        isIntroMode ? 'is-playing' : ''
                       }`}
                     >
-                      {/* Speaker Toggle Button */}
-                      <button
+                      {/* Speaker Toggle Control */}
+                      <span
                         id="el-p0-btn-sound-toggle"
-                        type="button"
-                        onClick={handleToggleMute}
+                        role="button"
+                        tabIndex={0}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleToggleMute();
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleToggleMute();
+                          }
+                        }}
                         className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
                           !isMuted
-                            ? 'bg-white/25 hover:bg-white/40 text-white shadow-xs'
-                            : 'bg-red-600 hover:bg-red-500 text-white shadow-md'
+                            ? 'bg-black/10 dark:bg-white/15 hover:bg-black/20 dark:hover:bg-white/25 text-current shadow-xs'
+                            : 'is-muted bg-red-600 hover:bg-red-500 text-white shadow-md'
                         }`}
                         title={!isMuted ? 'Tắt tiếng video' : 'Bật âm thanh video'}
                         aria-label={!isMuted ? 'Tắt tiếng video' : 'Bật âm thanh video'}
                       >
                         <span className="flex items-center justify-center">
                           {!isMuted ? (
-                            <WebIcon name="volume-2" className="w-3.5 h-3.5 text-white" />
+                            <WebIcon name="volume-2" className="w-3.5 h-3.5 text-current" />
                           ) : (
                             <WebIcon name="volume-x" className="w-3.5 h-3.5 text-white" />
                           )}
                         </span>
-                      </button>
+                      </span>
 
-                      <div className="w-[1px] h-4 bg-white/35 shrink-0 mx-0.5" />
+                      <span className="w-[1px] h-4 bg-current opacity-25 shrink-0 mx-0.5" aria-hidden="true" />
 
-                      {/* Play / Pause Toggle Button */}
-                      <button
+                      {/* Play / Stop Label */}
+                      <span
                         id="el-p0-btn-intro-toggle"
-                        type="button"
-                        onClick={isIntroMode ? handleCancelIntro : handlePlayIntro}
-                        className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white font-black typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
-                        title={isIntroMode ? 'Dừng phát video giới thiệu' : 'Phát video giới thiệu chuyên gia'}
-                        aria-label={isIntroMode ? 'Dừng phát video giới thiệu' : 'Phát video giới thiệu chuyên gia'}
+                        className="inline-flex items-center justify-center gap-2 pr-1.5 py-0.5 rounded-[999px] font-black typo-button tracking-wide transition-all duration-200 font-play text-current"
                       >
                         <span className="flex items-center justify-center">
                           {!isIntroMode ? (
-                            <WebIcon name="play" className="w-4 h-4 fill-white text-white shrink-0" style={{ height: '16px', width: '16px' }} />
+                            <WebIcon name="play" className="w-4 h-4 fill-current text-current shrink-0" style={{ height: '16px', width: '16px' }} />
                           ) : (
-                            <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-white shrink-0" style={{ height: '16px', width: '16px' }} />
+                            <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-current shrink-0" style={{ height: '16px', width: '16px' }} />
                           )}
                         </span>
-                        <span className="drop-shadow-sm font-black typo-button text-white truncate font-play text-left" style={{ textAlign: 'left' }}>
+                        <span className="font-black typo-button truncate font-play text-left text-current" style={{ textAlign: 'left' }}>
                           {isIntroMode ? (isEn ? 'Stop Video' : 'Dừng phát') : isEn ? 'Play Video' : 'Phát Video'}
                         </span>
-                      </button>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -673,6 +709,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
           </div>
         </div>
       )}
+        </div>
+      </div>
     </div>
   );
 };

@@ -18,7 +18,7 @@ export interface MemoriesViewProps {
   currentTheme?: string;
 }
 
-export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'light-glass' }) => {
+export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'light-multicolor-glass' }) => {
   const { showToast } = useToast();
   const { isDark: themeIsDark } = useTheme();
   const isDark = themeIsDark || currentTheme.includes('dark');
@@ -138,8 +138,25 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
       data-element-type="container"
       data-element-page="memories"
       data-element-parent="global-content-viewport"
-      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
     >
+      <div
+        id="memories-cards-track"
+        data-element-name="Track căn giữa Kỷ Niệm"
+        data-element-type="container"
+        data-element-page="memories"
+        data-element-parent="memories-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="memories-main-card"
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang Kỷ Niệm"
+          data-element-type="card"
+          data-element-page="memories"
+          data-element-parent="memories-cards-track"
+          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+        >
       {/* Style for crisp bright image, smooth zoom & fly-up animation */}
       <style
         dangerouslySetInnerHTML={{
@@ -448,6 +465,8 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
             ))}
           </div>
         )}
+      </div>
+        </div>
       </div>
 
       {/* 3. Lightbox Modal với Slideshow & Filmstrip */}

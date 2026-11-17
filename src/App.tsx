@@ -352,7 +352,7 @@ export default function App() {
     [currentTabIndex, pageSlides]
   );
 
-  const activeTheme = isDark ? 'dark-glassmorphism' : 'light-glassmorphism';
+  const activeTheme = isDark ? 'dark-neon-multicolor-glass' : 'light-multicolor-glass';
 
   const renderActiveView = () => {
     switch (currentTabIndex) {
@@ -466,7 +466,7 @@ export default function App() {
       data-element-type="container"
       data-element-page="global"
       style={{ padding: '0px' }}
-      className="h-screen w-screen overflow-hidden flex flex-col justify-between m-0 p-0 select-text relative transition-colors duration-300 ease-in-out"
+      className="h-screen w-screen overflow-hidden flex flex-col justify-between items-center m-0 p-0 select-text relative transition-colors duration-300 ease-in-out"
     >
       {/* GLOBAL UNIFIED AMBIENT GLASS BACKGROUND & WALLPAPER SYSTEM */}
       <div
@@ -640,7 +640,7 @@ export default function App() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full shrink-0 relative z-40"
+          className="w-full shrink-0 relative z-40 flex justify-center"
         >
           <Header
             pages={TABS_DATA}
@@ -661,14 +661,14 @@ export default function App() {
         data-element-parent="website-root"
         style={{
           width: '100%',
-          maxWidth: currentTabIndex === 1 || currentTabIndex === 2 ? '100%' : '1250px',
+          maxWidth: currentTabIndex === 16 ? '1250px' : '100%',
           height: '100%',
           maxHeight: '100%',
           marginLeft: 'auto',
           marginRight: 'auto',
         }}
         className={`w-full ${
-          currentTabIndex === 1 || currentTabIndex === 2 ? 'max-w-full' : 'max-w-[1250px]'
+          currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-full'
         } mx-auto flex-1 my-[6px] sm:my-[8px] lg:my-[10px] min-h-0 rounded-[14px] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent transition-all duration-300 ease-in-out [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
         <motion.div
@@ -691,7 +691,7 @@ export default function App() {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full shrink-0 relative z-50"
+          className="w-full shrink-0 relative z-50 flex justify-center"
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}

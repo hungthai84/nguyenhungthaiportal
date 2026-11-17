@@ -664,7 +664,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isFilterDropdownOpen]);
-  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
+  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
 
   useEffect(() => {
     return () => {
@@ -1119,8 +1119,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
   return (
     <div
       id="systems-page-container"
-      ref={systemsGridRef}
-      onScroll={handleGridScroll}
       onClick={() => {
         if (expandedSystemId) {
           handleCollapseSystem();
@@ -1130,8 +1128,27 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       data-element-type="container"
       data-element-page="systems"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full min-w-0 h-full max-h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
     >
+      <div
+        id="systems-cards-track"
+        data-element-name="Track căn giữa Hệ Thống"
+        data-element-type="container"
+        data-element-page="systems"
+        data-element-parent="systems-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="systems-main-card"
+          ref={systemsGridRef}
+          onScroll={handleGridScroll}
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang Hệ Thống Vận Hành"
+          data-element-type="card"
+          data-element-page="systems"
+          data-element-parent="systems-cards-track"
+          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+        >
       {/* 100% Matching Animation CSS Rules */}
       <style
         dangerouslySetInnerHTML={{
@@ -2216,7 +2233,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
               })}
             </div>
           )}
-
+        </div>
+      </div>
 
       {/* VIDEO PLAYER LIGHTBOX MODAL (PHÁT LINK MP4 - ĐỒNG BỘ SÁNG & TỐI) */}
       {isVideoModalOpen && (

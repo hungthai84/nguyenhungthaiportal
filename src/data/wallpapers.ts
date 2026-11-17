@@ -248,54 +248,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1794400000005,
   },
   {
-    id: 'theme-bg-light-glassmorphism',
-    name: '✨ Nền Gương Sáng Pha Lê (Theme Background)',
-    type: 'image',
-    value: '/backgrounds/themes/light-glassmorphism/light-glassmorphism-light.jpg',
-    bg: "url('/backgrounds/themes/light-glassmorphism/light-glassmorphism-light.jpg') center/cover no-repeat",
-    previewStyle: {
-      background:
-        'radial-gradient(circle at 14% 14%, rgba(56, 189, 248, 0.34) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.30) 0%, transparent 50%), linear-gradient(135deg, #eaf2ff 0%, #eff1ff 45%, #e7f6ff 100%)',
-      backgroundImage: "url('/backgrounds/themes/light-glassmorphism/light-glassmorphism-light.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000001,
-  },
-  {
-    id: 'theme-bg-ice-blue-neumorphism',
-    name: '🧊 Nền Neumorphism Sáng Ice-Blue (Theme Background)',
-    type: 'image',
-    value: '/backgrounds/themes/ice-blue-neumorphism/ice-blue-neumorphism-light.jpg',
-    bg: "url('/backgrounds/themes/ice-blue-neumorphism/ice-blue-neumorphism-light.jpg') center/cover no-repeat",
-    previewStyle: {
-      background:
-        'radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.28) 0%, transparent 50%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 55%, #e4eef7 100%)',
-      backgroundImage: "url('/backgrounds/themes/ice-blue-neumorphism/ice-blue-neumorphism-light.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000003,
-  },
-  {
-    id: 'theme-bg-dark-glassmorphism',
-    name: '🌙 Nền Gương Tối Sâu Thẳm (Theme Background)',
-    type: 'image',
-    value: '/backgrounds/themes/dark-glassmorphism/dark-glassmorphism-dark.jpg',
-    bg: "url('/backgrounds/themes/dark-glassmorphism/dark-glassmorphism-dark.jpg') center/cover no-repeat",
-    previewStyle: {
-      background:
-        'radial-gradient(circle at 18% 18%, rgba(14, 165, 233, 0.32) 0%, transparent 50%), radial-gradient(circle at 84% 22%, rgba(99, 102, 241, 0.30) 0%, transparent 50%), linear-gradient(135deg, #020617 0%, #0f172a 45%, #082f49 100%)',
-      backgroundImage: "url('/backgrounds/themes/dark-glassmorphism/dark-glassmorphism-dark.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000004,
-  },
-  {
     id: 'theme-bg-cowhide-leather',
     name: '💼 Nền Da Bò Thủ Công (Theme Background)',
     type: 'image',
@@ -310,54 +262,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000005,
-  },
-  {
-    id: 'theme-bg-dark-ice-blue-neumorphism',
-    name: '🧊 Nền Neumorphism Tối Ice-Blue #152030 (Theme Background)',
-    type: 'image',
-    value: '/backgrounds/themes/dark-ice-blue-neumorphism/dark-ice-blue-neumorphism-dark.jpg',
-    bg: "url('/backgrounds/themes/dark-ice-blue-neumorphism/dark-ice-blue-neumorphism-dark.jpg') center/cover no-repeat",
-    previewStyle: {
-      background:
-        'radial-gradient(circle at 14% 12%, rgba(34, 211, 238, 0.16) 0%, transparent 54%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.14) 0%, transparent 54%), linear-gradient(145deg, #152030 0%, #182536 50%, #121c29 100%)',
-      backgroundImage: "url('/backgrounds/themes/dark-ice-blue-neumorphism/dark-ice-blue-neumorphism-dark.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000006,
-  },
-  {
-    id: 'theme-bg-pastel-lilac-soft',
-    name: '🪻 Nền Pastel Soft UI Oải Hương Sáng (Theme Background)',
-    type: 'image',
-    value: '/backgrounds/themes/pastel-lilac-soft/pastel-lilac-soft-light.jpg',
-    bg: "url('/backgrounds/themes/pastel-lilac-soft/pastel-lilac-soft-light.jpg') center/cover no-repeat",
-    previewStyle: {
-      background:
-        'radial-gradient(circle at 14% 14%, rgba(171, 162, 252, 0.24) 0%, transparent 56%), radial-gradient(circle at 86% 18%, rgba(253, 186, 116, 0.22) 0%, transparent 54%), linear-gradient(165deg, #ffffff 0%, #f8f7fc 55%, #f1effa 100%)',
-      backgroundImage: "url('/backgrounds/themes/pastel-lilac-soft/pastel-lilac-soft-light.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000007,
-  },
-  {
-    id: 'theme-bg-dark-pastel-lilac-soft',
-    name: '🪻 Nền Pastel Soft UI Tối Velvet Lilac (Theme Background)',
-    type: 'image',
-    value: '/backgrounds/themes/dark-pastel-lilac-soft/dark-pastel-lilac-soft-dark.jpg',
-    bg: "url('/backgrounds/themes/dark-pastel-lilac-soft/dark-pastel-lilac-soft-dark.jpg') center/cover no-repeat",
-    previewStyle: {
-      background:
-        'radial-gradient(circle at 14% 14%, rgba(167, 139, 250, 0.24) 0%, transparent 56%), radial-gradient(circle at 86% 18%, rgba(251, 146, 60, 0.16) 0%, transparent 54%), linear-gradient(165deg, #1b1730 0%, #151226 55%, #110e1f 100%)',
-      backgroundImage: "url('/backgrounds/themes/dark-pastel-lilac-soft/dark-pastel-lilac-soft-dark.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000008,
   },
   {
     id: 'theme-bg-light-cowhide-leather',

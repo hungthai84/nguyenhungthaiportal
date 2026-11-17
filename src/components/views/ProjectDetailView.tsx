@@ -311,10 +311,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     const checkTheme = () => {
       const isDarkClass = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
       const themeAttr = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null;
+      const isDarkThemeAttr =
+        themeAttr === 'dark-neon-multicolor-glass' ||
+        themeAttr === 'light-multicolor-glass-dark' ||
+        themeAttr === 'cowhide-leather';
       if (typeof isLight === 'boolean') {
-        setIsLightMode(isLight && !isDarkClass && themeAttr !== 'dark-glassmorphism');
+        setIsLightMode(isLight && !isDarkClass && !isDarkThemeAttr);
       } else {
-        setIsLightMode(!isDarkClass && themeAttr !== 'dark-glassmorphism');
+        setIsLightMode(!isDarkClass && !isDarkThemeAttr);
       }
     };
 

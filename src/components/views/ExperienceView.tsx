@@ -325,7 +325,7 @@ export interface ExperienceViewProps {
 }
 
 export const ExperienceView: React.FC<ExperienceViewProps> = ({ 
-  currentTheme = 'light-glass',
+  currentTheme = 'light-multicolor-glass',
   onShowNotification,
   onNavigateTab,
   activeKey: activeKeyProp,
@@ -336,7 +336,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 }) => {
   const { showToast } = useToast();
   const { isDark: themeIsDark, cardStyle } = useTheme();
-  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
+  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
   const isLeather = cardStyle === 'cowhide-leather';
   const isLightLeather = cardStyle === 'light-cowhide-leather';
   const isDarkSurface = isDark && !isLeather;
@@ -774,11 +774,28 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       data-element-type="container"
       data-element-page="experience"
       data-element-parent="global-content-viewport"
-      className={cn(
-        'main-card w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start p-[25px] gap-[15px] max-w-full mx-auto select-none relative text-[var(--text-primary)] glass-scrollbar font-play text-left animate-fadeIn rounded-none box-border',
-        showJobCard ? 'overflow-y-auto' : 'overflow-hidden'
-      )}
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar select-none text-[var(--text-primary)] font-play text-left animate-fadeIn rounded-none box-border"
     >
+      <div
+        id="experience-cards-track"
+        data-element-name="Track căn giữa Hành trình sự nghiệp"
+        data-element-type="container"
+        data-element-page="experience"
+        data-element-parent="experience-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="experience-main-card"
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang Hành trình sự nghiệp"
+          data-element-type="card"
+          data-element-page="experience"
+          data-element-parent="experience-cards-track"
+          className={cn(
+            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border',
+            showJobCard ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden'
+          )}
+        >
       {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH) */}
       {!showJobCard && (
         <section
@@ -787,7 +804,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           data-element-name="Bảng Timeline Hành trình sự nghiệp"
           data-element-type="section"
           data-element-page="experience"
-          data-element-parent="experience-page-container"
+          data-element-parent="experience-main-card"
           onWheel={handleWheelScroll}
           onMouseDown={(e) => handlePointerDown(e.clientX, e.target)}
           onMouseUp={(e) => handlePointerUp(e.clientX)}
@@ -2693,6 +2710,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           </div>
         );
       })()}
+        </div>
+      </div>
 
       {/* Lightbox Modal for Photo (Đã loại bỏ logo công ty) */}
       {isPhotoLightboxOpen && (() => {

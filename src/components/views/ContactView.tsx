@@ -8,7 +8,7 @@ export interface ContactViewProps {
   onShowNotification?: (msg: string) => void;
 }
 
-export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-glassmorphism' }) => {
+export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-multicolor-glass' }) => {
   void currentTheme;
 
   return (
@@ -18,11 +18,28 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
       data-element-type="container"
       data-element-page="contact"
       data-element-parent="global-content-viewport"
-      className="main-card w-full min-w-0 h-full max-h-full mx-auto flex flex-col lg:flex-row items-stretch p-[25px] rounded-none gap-[15px] overflow-y-auto lg:overflow-hidden font-play text-left animate-fadeIn flex-1 min-h-0 box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play text-left animate-fadeIn rounded-none box-border"
       style={{
         boxSizing: 'border-box',
       }}
     >
+      <div
+        id="contact-cards-track"
+        data-element-name="Track căn giữa Liên Hệ"
+        data-element-type="container"
+        data-element-page="contact"
+        data-element-parent="contact-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="contact-main-card"
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang Liên Hệ"
+          data-element-type="card"
+          data-element-page="contact"
+          data-element-parent="contact-cards-track"
+          className="page-main-card flex flex-col lg:flex-row items-stretch p-[15px] gap-[15px] rounded-[14px] overflow-y-auto lg:overflow-hidden font-play text-left box-border"
+        >
       {/* 1. HERO BANNER TRANG LIÊN HỆ (CHIỀU CAO CO GIÃN ĐỒNG BỘ THEO KHUNG ĐẶT LỊCH HẸN) */}
       <section
         id="contact-hero-banner"
@@ -30,7 +47,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
         data-element-type="banner-card"
         data-section-card="true"
         data-element-page="contact"
-        data-element-parent="contact-page-container"
+        data-element-parent="contact-main-card"
         className="banner-card hero-banner w-full lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] relative overflow-hidden shadow-xl text-white z-30 flex flex-col justify-between p-[15px] box-border"
         style={{
           padding: '15px',
@@ -90,7 +107,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
         data-element-type="card"
         data-section-card="true"
         data-element-page="contact"
-        data-element-parent="contact-page-container"
+        data-element-parent="contact-main-card"
         className="bento-card glass-card w-full flex-1 min-w-0 min-h-[480px] lg:min-h-0 h-full lg:self-stretch flex flex-col rounded-[14px] shadow-xl gap-0 overflow-hidden relative p-0 box-border"
         style={{
           padding: '0px',
@@ -122,6 +139,8 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
             title="Đặt lịch hẹn Google Calendar"
             className="w-full h-full flex-1 min-h-[480px] lg:min-h-0 rounded-[14px] p-0 m-0 block"
           />
+        </div>
+      </div>
         </div>
       </div>
     </div>

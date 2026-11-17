@@ -17,7 +17,7 @@ export interface InterviewViewProps {
   onShowNotification?: (msg: string) => void;
 }
 
-export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'light-glass' }) => {
+export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'light-multicolor-glass' }) => {
   const { showToast } = useToast();
   const videoRef = useRef<HTMLVideoElement>(null);
   const filterDropdownRef = useRef<HTMLDivElement>(null);
@@ -149,8 +149,25 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
       data-element-type="container"
       data-element-page="interview"
       data-element-parent="global-content-viewport"
-      className="main-card w-full min-w-0 h-full flex-1 flex flex-col p-[25px] rounded-none gap-[15px] max-w-full mx-auto justify-start select-none relative text-[var(--text-primary)] overflow-y-auto no-scrollbar font-play text-left animate-fadeIn box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar select-none text-[var(--text-primary)] font-play text-left animate-fadeIn rounded-none box-border"
     >
+      <div
+        id="interview-cards-track"
+        data-element-name="Track căn giữa Phỏng Vấn"
+        data-element-type="container"
+        data-element-page="interview"
+        data-element-parent="interview-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="interview-main-card"
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang Phỏng Vấn"
+          data-element-type="card"
+          data-element-page="interview"
+          data-element-parent="interview-cards-track"
+          className="page-main-card flex flex-col p-[15px] rounded-[14px] gap-[15px] justify-start select-none text-[var(--text-primary)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
+        >
       {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
       <div id="interview-main-content" className="w-full flex-1 flex flex-col lg:flex-row gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar">
         
@@ -562,6 +579,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               <span>Tiếp ›</span>
             </button>
           </div>
+        </div>
+      </div>
         </div>
       </div>
     </div>

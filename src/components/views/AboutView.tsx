@@ -523,7 +523,7 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
 };
 
 export function AboutView({ 
-  currentTheme = 'light-glass', 
+  currentTheme = 'light-multicolor-glass', 
   onNavigatePage,
   onShowNotification,
   onOpenMapModal,
@@ -545,6 +545,52 @@ export function AboutView({
   const [isAboutNavMenuOpen, setIsAboutNavMenuOpen] = useState(false);
   const [isAboutNavHovered, setIsAboutNavHovered] = useState(false);
   const aboutNavContainerRef = useRef<HTMLDivElement>(null);
+
+  // Horizontal peek-carousel centering state for Card 1 & Card 2
+  const aboutContainerRef = useRef<HTMLDivElement>(null);
+  const [activeIntroCard, setActiveIntroCard] = useState<1 | 2>(1);
+  const [viewportWidth, setViewportWidth] = useState<number>(() =>
+    typeof window !== 'undefined' ? window.innerWidth : 1440
+  );
+  const [aboutContainerWidth, setAboutContainerWidth] = useState<number>(() =>
+    typeof window !== 'undefined' ? Math.max(320, window.innerWidth - 2) : 1440
+  );
+  const isProgrammaticScrollRef = useRef(false);
+  const scrollTimeoutRef = useRef<number | null>(null);
+
+  const peekReserve = viewportWidth < 640 ? 72 : 112;
+  const aboutCardWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
+  const aboutSideInset = Math.max(0, (aboutContainerWidth - aboutCardWidth) / 2);
+
+  useEffect(() => {
+    const el = aboutContainerRef.current;
+    const updateWidth = () => {
+      if (typeof window !== 'undefined') {
+        setViewportWidth(window.innerWidth);
+      }
+      if (el) {
+        const w = el.clientWidth;
+        if (w > 0) setAboutContainerWidth(w);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    if (el && typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(updateWidth);
+      ro.observe(el);
+      return () => {
+        ro.disconnect();
+        window.removeEventListener('resize', updateWidth);
+      };
+    }
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     setIsClientMounted(true);
@@ -784,7 +830,47 @@ export function AboutView({
     return () => window.removeEventListener('app:set-slide', handleExternalSlide);
   }, [currentSlide]);
 
-  // Keyboard accessibility: ESC đóng modal/video, ArrowLeft/ArrowRight chuyển slide
+  const scrollToIntroCard = useCallback(
+    (targetCard: 1 | 2, smooth = true) => {
+      setActiveIntroCard(targetCard);
+      const container = aboutContainerRef.current;
+      if (!container) return;
+      const targetLeft = targetCard === 1 ? 0 : aboutCardWidth + 15;
+      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+      isProgrammaticScrollRef.current = true;
+      container.scrollTo({
+        left: targetLeft,
+        behavior: smooth ? 'smooth' : 'auto',
+      });
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        isProgrammaticScrollRef.current = false;
+      }, 550);
+    },
+    [aboutCardWidth]
+  );
+
+  // Keep active intro card centered when viewport resizes
+  useEffect(() => {
+    const container = aboutContainerRef.current;
+    if (!container || isProgrammaticScrollRef.current) return;
+    const expectedLeft = activeIntroCard === 1 ? 0 : aboutCardWidth + 15;
+    if (Math.abs(container.scrollLeft - expectedLeft) > 2) {
+      container.scrollTo({ left: expectedLeft, behavior: 'auto' });
+    }
+  }, [aboutCardWidth, activeIntroCard]);
+
+  const handleAboutContainerScroll = useCallback(() => {
+    if (isProgrammaticScrollRef.current) return;
+    const container = aboutContainerRef.current;
+    if (!container) return;
+    const threshold = (aboutCardWidth + 15) / 2;
+    const nextCard: 1 | 2 = container.scrollLeft >= threshold ? 2 : 1;
+    if (nextCard !== activeIntroCard) {
+      setActiveIntroCard(nextCard);
+    }
+  }, [aboutCardWidth, activeIntroCard]);
+
+  // Keyboard accessibility: ESC đóng modal/video, ArrowLeft/ArrowRight chuyển Card giới thiệu 1/2
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
@@ -807,16 +893,16 @@ export function AboutView({
       } else if (viewMode === 'slides' && !isPlayingIntro && !focusedBentoCard) {
         if (e.key === 'ArrowLeft') {
           e.preventDefault();
-          handlePrevSlide();
+          scrollToIntroCard(1, true);
         } else if (e.key === 'ArrowRight') {
           e.preventDefault();
-          handleNextSlide();
+          scrollToIntroCard(2, true);
         }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isPlayingIntro, viewMode, focusedBentoCard, handleCloseBentoFocus, handlePrevSlide, handleNextSlide]);
+  }, [isPlayingIntro, viewMode, focusedBentoCard, handleCloseBentoFocus, scrollToIntroCard]);
 
   // Video time tracking
   const handleTimeUpdate = () => {
@@ -1268,11 +1354,13 @@ export function AboutView({
 
   return (
     <div
+      ref={aboutContainerRef}
       id="about-page-container"
       data-element-name="Trang Giới Thiệu Chuyên Gia"
       data-element-type="container"
       data-element-page="about"
       data-element-parent="global-content-viewport"
+      onScroll={handleAboutContainerScroll}
       style={{
         width: '100%',
         maxWidth: '100%',
@@ -1287,9 +1375,29 @@ export function AboutView({
         columnGap: '15px',
         borderRadius: '0px',
         background: 'transparent',
+        ['--about-card-w' as any]: `${aboutCardWidth}px`,
+        ['--about-side-inset' as any]: `${aboutSideInset}px`,
       }}
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar z-10 select-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-auto overflow-y-hidden no-scrollbar z-10 select-none box-border"
     >
+      <div
+        id="about-cards-track"
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'stretch',
+          gap: '15px',
+          rowGap: '15px',
+          columnGap: '15px',
+          paddingLeft: `${aboutSideInset}px`,
+          paddingRight: `${aboutSideInset}px`,
+          height: '100%',
+          minHeight: '100%',
+          width: 'max-content',
+          boxSizing: 'border-box',
+        }}
+        className="flex flex-row items-stretch gap-[15px] h-full min-h-full box-border"
+      >
       {/* ========================================================================= */}
       {/* CARD GIỚI THIỆU 1: CHỨA CARD VIDEO VÀ CARD THÔNG TIN CHI TIẾT             */}
       {/* ========================================================================= */}
@@ -1299,18 +1407,33 @@ export function AboutView({
         data-element-type="card"
         data-element-page="about"
         data-element-parent="about-page-container"
+        onClickCapture={(e) => {
+          if (activeIntroCard !== 1) {
+            e.preventDefault();
+            e.stopPropagation();
+            SoundEngine.playTap();
+            scrollToIntroCard(1, true);
+          }
+        }}
+        title={activeIntroCard !== 1 ? 'Click để chuyển Card giới thiệu 1 ra chính giữa màn hình' : undefined}
         style={{
-          width: '100%',
+          width: `${aboutCardWidth}px`,
           maxWidth: '1250px',
-          marginLeft: 'auto',
-          marginRight: 'auto',
+          minWidth: `${aboutCardWidth}px`,
+          flex: `0 0 ${aboutCardWidth}px`,
+          flexShrink: 0,
+          height: '100%',
+          minHeight: '100%',
           padding: '15px',
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
           borderRadius: '14px',
         }}
-        className="w-full max-w-[1250px] mx-auto min-w-0 min-h-full h-auto shrink-0 flex flex-col p-[15px] gap-[15px] rounded-[14px] box-border"
+        className={cn(
+          'max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          activeIntroCard !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
+        )}
       >
         <div
           id="about-intro-grid-1"
@@ -1802,18 +1925,33 @@ export function AboutView({
         data-element-type="card"
         data-element-page="about"
         data-element-parent="about-page-container"
+        onClickCapture={(e) => {
+          if (activeIntroCard !== 2) {
+            e.preventDefault();
+            e.stopPropagation();
+            SoundEngine.playTap();
+            scrollToIntroCard(2, true);
+          }
+        }}
+        title={activeIntroCard !== 2 ? 'Click để chuyển Card giới thiệu 2 ra chính giữa màn hình' : undefined}
         style={{
-          width: '100%',
+          width: `${aboutCardWidth}px`,
           maxWidth: '1250px',
-          marginLeft: 'auto',
-          marginRight: 'auto',
+          minWidth: `${aboutCardWidth}px`,
+          flex: `0 0 ${aboutCardWidth}px`,
+          flexShrink: 0,
+          height: '100%',
+          minHeight: '100%',
           padding: '15px',
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
           borderRadius: '14px',
         }}
-        className="w-full max-w-[1250px] mx-auto min-w-0 min-h-full h-auto shrink-0 flex flex-col p-[15px] gap-[15px] rounded-[14px] box-border"
+        className={cn(
+          'max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          activeIntroCard !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
+        )}
       >
         <div
           id="about-intro-grid-2"
@@ -2191,6 +2329,7 @@ export function AboutView({
             </div>
 
           </div>
+      </div>
       </div>
 
       {/* Bento Card Focus / Expand Modal (Yêu Cầu 5) */}

@@ -197,12 +197,12 @@ export interface ProjectsViewProps {
 }
 
 export const ProjectsView: React.FC<ProjectsViewProps> = ({
-  currentTheme = 'light-glass',
+  currentTheme = 'light-multicolor-glass',
   requestedProject,
   onReturnToOrigin,
 }) => {
   const { isDark: themeIsDark } = useTheme();
-  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
+  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
   const isLight = !isDark;
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -441,8 +441,25 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
       data-element-type="container"
       data-element-page="projects"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-text text-left animate-fadeIn rounded-none text-[var(--text-primary)] box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-text text-left animate-fadeIn rounded-none text-[var(--text-primary)] box-border"
     >
+      <div
+        id="projects-cards-track"
+        data-element-name="Track căn giữa Dự Án"
+        data-element-type="container"
+        data-element-page="projects"
+        data-element-parent="projects-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="projects-main-card"
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang Dự Án"
+          data-element-type="card"
+          data-element-page="projects"
+          data-element-parent="projects-cards-track"
+          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-text text-left text-[var(--text-primary)] box-border"
+        >
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
       {!selectedGroup && !selectedArticle ? (
         <>
@@ -506,7 +523,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   className="typo-h1 font-bold font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
                   style={{ color: '#38bdf8', fontWeight: 700, textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
                 >
-                  Dự án trọng điểm
+                  Danh sách dự án
                 </h1>
               </div>
               <p
@@ -820,6 +837,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           </>
         )
       )}
+        </div>
+      </div>
 
       {/* Mindmap Lightbox Modal */}
       {mindmapProject && (

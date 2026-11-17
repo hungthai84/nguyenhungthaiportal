@@ -1807,15 +1807,23 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="container"
       data-element-page="horoscope"
       data-element-parent="global-content-viewport"
-      className="w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col justify-start p-0 m-0 relative z-10 select-none overflow-hidden font-play text-left bg-transparent border-0 shadow-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar z-10 select-none font-play text-left animate-fadeIn rounded-none box-border"
     >
+      <div
+        id="horoscope-cards-track"
+        data-element-name="Track căn giữa Tử Vi"
+        data-element-type="container"
+        data-element-page="horoscope"
+        data-element-parent="horoscope-page-container"
+        className="page-cards-track"
+      >
       <div
         id="horoscope-main-card"
         data-element-name="Thẻ chính Trang Tử Vi & Phong Thủy"
         data-element-type="card"
         data-main-card="true"
         data-element-page="horoscope"
-        data-element-parent="horoscope-page-container"
+        data-element-parent="horoscope-cards-track"
         onWheel={(e) => {
           const target = e.target as HTMLElement | null;
           if (target?.closest('.overflow-x-auto')) return;
@@ -1848,8 +1856,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             }
           }
         }}
-        style={{ width: '100%', maxWidth: '100%', borderRadius: '0px' }}
-        className="group/horoscope main-card relative w-full max-w-full min-w-0 h-full min-h-0 mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-hidden font-play select-none text-left animate-fadeIn rounded-none box-border"
+        className="group/horoscope page-main-card relative flex flex-col justify-start p-[15px] gap-[15px] overflow-hidden font-play select-none text-left rounded-[14px] box-border"
       >
         {/* Render thẻ được chọn trong 6 thẻ kèm hiệu ứng trượt ngang mượt mà */}
         <div className="w-full flex-1 min-h-0 flex flex-col overflow-y-auto overflow-x-clip no-scrollbar">
@@ -1898,6 +1905,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110"
           />
         </button>
+      </div>
       </div>
     </div>
   );

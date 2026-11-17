@@ -352,8 +352,25 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
       data-element-type="container"
       data-element-page="ai-assistant"
       data-element-parent="global-content-viewport"
-      className="main-card w-full min-w-0 h-full max-h-full mx-auto flex flex-col lg:flex-row p-[25px] rounded-none gap-[15px] overflow-y-auto lg:overflow-hidden font-play text-left animate-fadeIn flex-1 min-h-0 box-border justify-start"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play text-left animate-fadeIn rounded-none box-border"
     >
+      <div
+        id="ai-assistant-cards-track"
+        data-element-name="Track căn giữa Trợ lý AI"
+        data-element-type="container"
+        data-element-page="ai-assistant"
+        data-element-parent="ai-assistant-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="ai-assistant-main-card"
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang Trợ lý AI"
+          data-element-type="card"
+          data-element-page="ai-assistant"
+          data-element-parent="ai-assistant-cards-track"
+          className="page-main-card flex flex-col lg:flex-row items-stretch p-[15px] gap-[15px] rounded-[14px] overflow-y-auto lg:overflow-hidden font-play text-left justify-start box-border"
+        >
       {/* 1. HERO BANNER TRỢ LÝ AI TRÍ NHÂN */}
       <section
         id="ai-assistant-hero-banner"
@@ -361,7 +378,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-element-type="banner-card"
         data-section-card="true"
         data-element-page="ai-assistant"
-        data-element-parent="ai-assistant-page-container"
+        data-element-parent="ai-assistant-main-card"
         className="banner-card hero-banner w-full min-h-[170px] lg:min-h-0 lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] relative overflow-hidden shadow-xl text-white z-30 flex flex-col justify-between p-[15px] box-border"
         style={{
           padding: '15px',
@@ -427,7 +444,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-element-type="card"
         data-section-card="true"
         data-element-page="ai-assistant"
-        data-element-parent="ai-assistant-page-container"
+        data-element-parent="ai-assistant-main-card"
         className="bento-card glass-card min-w-0 min-h-0 flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
         style={{
           flex: '1 1 auto',
@@ -651,6 +668,8 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             <WebIcon name="send" className="w-3.5 h-3.5 text-white" />
           </button>
         </form>
+      </div>
+        </div>
       </div>
     </div>
   );

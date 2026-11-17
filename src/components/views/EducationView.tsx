@@ -243,7 +243,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const { isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
-  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
+  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -314,7 +314,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const handleOpenDetail = (course: EducationCourse) => {
     SoundEngine.playTap();
     setSelectedCourse(course);
-    document.getElementById('education-page-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('education-main-card')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNavigateSkillToSwot = (skill: string) => {
@@ -437,8 +437,28 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       data-element-type="container"
       data-element-page="education"
       data-element-parent="global-content-viewport"
-      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
     >
+      {/* ========================================================================= */}
+      {/* CARD HỌC VẤN: CHỨA TOÀN BỘ NỘI DUNG TRANG, FORMAT NHƯ CARD GIỚI THIỆU 1   */}
+      {/* ========================================================================= */}
+      <div
+        id="education-cards-track"
+        data-element-name="Track căn giữa Học Vấn"
+        data-element-type="container"
+        data-element-page="education"
+        data-element-parent="education-page-container"
+        className="page-cards-track"
+      >
+      <div
+        id="education-main-card"
+        data-main-card="true"
+        data-element-name="Card học vấn"
+        data-element-type="card"
+        data-element-page="education"
+        data-element-parent="education-cards-track"
+        className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
+      >
       {/* Banner trang Học Vấn (Format đồng bộ chuẩn banner Hình Nền h-200px desktop, responsive mobile) */}
       {!selectedCourse && (
         <section
@@ -725,128 +745,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         </div>
       )}
 
-      {/* 5. POPUP KIỂM TRA MÃ CHỨNG CHỈ & TRA CỨU TRỰC TUYẾN (CREDENTIAL VERIFICATION MODAL) */}
-      {verifyingCourse && (() => {
-        const verifyInfo = CREDENTIAL_VERIFICATION_MAP[verifyingCourse.id];
-        if (!verifyInfo) return null;
-        const isCopied = copiedCredentialId === verifyInfo.credentialId;
-
-        return (
-          <div
-            onClick={() => setVerifyingCourse(null)}
-            style={{
-              background: 'var(--bg-modal-backdrop)',
-              backdropFilter: 'blur(var(--blur-modal, 6px))',
-              WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
-            }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200"
-          >
-            <div
-              role="dialog"
-              aria-modal="true"
-              aria-label={formatCardTitle(verifyingCourse.title)}
-              onClick={(e) => e.stopPropagation()}
-              data-element-type="card"
-              className="theme-modal-card relative w-full max-w-md rounded-[14px] p-5 shadow-2xl space-y-4"
-            >
-              <div className="flex items-start justify-between gap-3 border-b pb-3" style={{ borderColor: 'var(--border-subcard)' }}>
-                <div className="card-header-sync flex items-center gap-2.5 text-emerald-600 dark:text-emerald-400">
-                  <WebIcon name="shield-check" className="w-6 h-6 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  <div>
-                    <span className="typo-label font-mono tracking-wider text-emerald-600 dark:text-emerald-400 block">
-                      Chứng chỉ xác thực số • Digital Credential
-                    </span>
-                    <h3 className="typo-popup-title card-title-synced font-play text-emerald-600 dark:text-emerald-400" data-card-title="true">
-                      {formatCardTitle(verifyingCourse.title)}
-                    </h3>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setVerifyingCourse(null)}
-                  aria-label="Đóng"
-                  className="theme-modal-close p-1 rounded-full transition cursor-pointer"
-                >
-                  <WebIcon name="cancel" className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="space-y-2.5 typo-body-sm">
-                <div className="theme-modal-subcard p-3 rounded-[14px] space-y-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Mã chứng chỉ số:</span>
-                    <div className="flex items-center gap-1.5">
-                      <code className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-mono typo-badge border border-emerald-400/30">
-                        {verifyInfo.credentialId}
-                      </code>
-                      <button
-                        type="button"
-                        onClick={() => handleCopyCredential(verifyInfo.credentialId)}
-                        className="theme-modal-close p-1 rounded-[14px] transition cursor-pointer"
-                        title="Sao chép mã chứng chỉ"
-                      >
-                        {isCopied ? <WebIcon name="check" className="w-3.5 h-3.5 text-emerald-500" /> : <WebIcon name="copy" className="w-3.5 h-3.5" />}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Tổ chức cấp:</span>
-                    <span className="font-semibold text-right">{verifyInfo.organization}</span>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Hệ thống đăng ký:</span>
-                    <span className="font-semibold text-right" style={{ color: 'var(--accent-cyan, var(--color-primary))' }}>{verifyInfo.registryName}</span>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Năm cấp &amp; Mã hồ sơ:</span>
-                    <span className="font-mono font-semibold">Năm {verifyingCourse.year} ({verifyingCourse.code})</span>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-2 pt-1 border-t" style={{ borderColor: 'var(--border-subcard)' }}>
-                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Trạng thái xác thực:</span>
-                    <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
-                      <WebIcon name="check-circle-02" className="w-3.5 h-3.5" />
-                      <span>{verifyInfo.status}</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-2 pt-1">
-                <a
-                  href={verifyInfo.verifyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => SoundEngine.playTap()}
-                  className="flex-1 py-2 px-3 rounded-full typo-button font-play text-white bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 shadow-md transition flex items-center justify-center gap-1.5"
-                >
-                  <span>Tra cứu trực tuyến</span>
-                  <WebIcon name="external-link" className="w-3.5 h-3.5" />
-                </a>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    const img = verifyingCourse.image;
-                    const title = verifyingCourse.title;
-                    setVerifyingCourse(null);
-                    handleOpenLightbox(img, title);
-                  }}
-                  className="theme-modal-close py-2 px-3 rounded-full typo-button font-play transition cursor-pointer flex items-center gap-1"
-                >
-                  <WebIcon name="maximize" className="w-3.5 h-3.5" />
-                  <span>Xem bản gốc</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        );
-      })()}
-
       {/* 6. EXPANDED COURSE DETAIL CARDS (ĐƯA TRỰC TIẾP RA THẺ CHÍNH, KHÔNG LỒNG KHUNG WRAPPER PHỤ) */}
       {selectedCourse && (() => {
         const course = selectedCourse;
@@ -1123,6 +1021,132 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           </motion.div>
         );
       })()}
+        </>
+      )}
+      </div>
+      </div>
+
+      {/* 5. POPUP KIỂM TRA MÃ CHỨNG CHỈ & TRA CỨU TRỰC TUYẾN (CREDENTIAL VERIFICATION MODAL) */}
+      {verifyingCourse && (() => {
+        const verifyInfo = CREDENTIAL_VERIFICATION_MAP[verifyingCourse.id];
+        if (!verifyInfo) return null;
+        const isCopied = copiedCredentialId === verifyInfo.credentialId;
+
+        return (
+          <div
+            onClick={() => setVerifyingCourse(null)}
+            style={{
+              background: 'var(--bg-modal-backdrop)',
+              backdropFilter: 'blur(var(--blur-modal, 6px))',
+              WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+            }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200"
+          >
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label={formatCardTitle(verifyingCourse.title)}
+              onClick={(e) => e.stopPropagation()}
+              data-element-type="card"
+              className="theme-modal-card relative w-full max-w-md rounded-[14px] p-5 shadow-2xl space-y-4"
+            >
+              <div className="flex items-start justify-between gap-3 border-b pb-3" style={{ borderColor: 'var(--border-subcard)' }}>
+                <div className="card-header-sync flex items-center gap-2.5 text-emerald-600 dark:text-emerald-400">
+                  <WebIcon name="shield-check" className="w-6 h-6 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  <div>
+                    <span className="typo-label font-mono tracking-wider text-emerald-600 dark:text-emerald-400 block">
+                      Chứng chỉ xác thực số • Digital Credential
+                    </span>
+                    <h3 className="typo-popup-title card-title-synced font-play text-emerald-600 dark:text-emerald-400" data-card-title="true">
+                      {formatCardTitle(verifyingCourse.title)}
+                    </h3>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setVerifyingCourse(null)}
+                  aria-label="Đóng"
+                  className="theme-modal-close p-1 rounded-full transition cursor-pointer"
+                >
+                  <WebIcon name="cancel" className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="space-y-2.5 typo-body-sm">
+                <div className="theme-modal-subcard p-3 rounded-[14px] space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Mã chứng chỉ số:</span>
+                    <div className="flex items-center gap-1.5">
+                      <code className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-mono typo-badge border border-emerald-400/30">
+                        {verifyInfo.credentialId}
+                      </code>
+                      <button
+                        type="button"
+                        onClick={() => handleCopyCredential(verifyInfo.credentialId)}
+                        className="theme-modal-close p-1 rounded-[14px] transition cursor-pointer"
+                        title="Sao chép mã chứng chỉ"
+                      >
+                        {isCopied ? <WebIcon name="check" className="w-3.5 h-3.5 text-emerald-500" /> : <WebIcon name="copy" className="w-3.5 h-3.5" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Tổ chức cấp:</span>
+                    <span className="font-semibold text-right">{verifyInfo.organization}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Hệ thống đăng ký:</span>
+                    <span className="font-semibold text-right" style={{ color: 'var(--accent-cyan, var(--color-primary))' }}>{verifyInfo.registryName}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Năm cấp &amp; Mã hồ sơ:</span>
+                    <span className="font-mono font-semibold">Năm {verifyingCourse.year} ({verifyingCourse.code})</span>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-2 pt-1 border-t" style={{ borderColor: 'var(--border-subcard)' }}>
+                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Trạng thái xác thực:</span>
+                    <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
+                      <WebIcon name="check-circle-02" className="w-3.5 h-3.5" />
+                      <span>{verifyInfo.status}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <a
+                  href={verifyInfo.verifyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => SoundEngine.playTap()}
+                  className="flex-1 py-2 px-3 rounded-full typo-button font-play text-white bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 shadow-md transition flex items-center justify-center gap-1.5"
+                >
+                  <span>Tra cứu trực tuyến</span>
+                  <WebIcon name="external-link" className="w-3.5 h-3.5" />
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const img = verifyingCourse.image;
+                    const title = verifyingCourse.title;
+                    setVerifyingCourse(null);
+                    handleOpenLightbox(img, title);
+                  }}
+                  className="theme-modal-close py-2 px-3 rounded-full typo-button font-play transition cursor-pointer flex items-center gap-1"
+                >
+                  <WebIcon name="maximize" className="w-3.5 h-3.5" />
+                  <span>Xem bản gốc</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* 7. LIGHTBOX PHÓNG TO ẢNH BẰNG CẤP FULL MÀN HÌNH */}
       {isLightboxOpen && (
@@ -1154,8 +1178,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </p>
           </div>
         </div>
-      )}
-        </>
       )}
     </div>
   );

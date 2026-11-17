@@ -55,24 +55,12 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   );
   const getThemeDemoVideo = (presetId: string) => {
     switch (presetId) {
-      case 'light-glassmorphism':
-        return 'https://cdn.scena.ai/project/10223/50cd00ea3adfb39fb5860c632402df091d620960b69aae65fd2bb08f4bea4fc6.mp4';
-      case 'dark-glassmorphism':
-        return 'https://strvid.nyc3.cdn.digitaloceanspaces.com/motionitems/source/1782066616542-motion_111.mp4';
       case 'light-multicolor-glass':
       case 'dark-neon-multicolor-glass-light':
         return 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4';
       case 'light-multicolor-glass-dark':
       case 'dark-neon-multicolor-glass':
         return 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4';
-      case 'ice-blue-neumorphism':
-        return 'https://cdn.scena.ai/project/10223/cc106cb37b8d219cca59af9a71a4d7a8cd019515a3e9a8282d16909bb21d88b9.mp4';
-      case 'dark-ice-blue-neumorphism':
-        return 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260613_180732_a54afbf6-b30d-470e-861f-669871f09f67.mp4';
-      case 'pastel-lilac-soft':
-        return 'https://cdn.scena.ai/project/10223/7bd12b39b9758378cc8f15b6169d42368b4778ad2f2f322b1ef8403c90268f24.mp4';
-      case 'dark-pastel-lilac-soft':
-        return 'https://cdn.scena.ai/project/10223/ddb11f6544a9a76e2b6c5946ee6805f53a61b1f57a3049bfba7856d2f52ee367.mp4';
       case 'light-cowhide-leather':
         return 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4';
       case 'cowhide-leather':
@@ -88,8 +76,25 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       data-element-type="container"
       data-element-page="interface"
       data-element-parent="global-content-viewport"
-      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
     >
+      <div
+        id="interface-cards-track"
+        data-element-name="Track căn giữa Giao Diện"
+        data-element-type="container"
+        data-element-page="interface"
+        data-element-parent="interface-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="interface-main-card"
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang Giao Diện"
+          data-element-type="card"
+          data-element-page="interface"
+          data-element-parent="interface-cards-track"
+          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+        >
       {/* Header + Nút trượt qua lại Sáng / Tối theo đúng họ giao diện đang kích hoạt */}
       <div
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b"
@@ -279,18 +284,18 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       : 'Gương Đa Sắc'
                     : preset.shortBadge;
                   const sampleProps = getCardStyleProperties(preset.id);
-                  const isLightGlass = preset.id === 'light-glassmorphism';
                   const isLightMulticolorGlass = preset.id === 'light-multicolor-glass';
                   const isLightMulticolorGlassDark = preset.id === 'light-multicolor-glass-dark';
-                  const isDarkGlass = preset.id === 'dark-glassmorphism';
                   const isDarkNeonMulticolorLight = preset.id === 'dark-neon-multicolor-glass-light';
                   const isDarkNeonMulticolor = preset.id === 'dark-neon-multicolor-glass';
-                  const isIceBlueNeu = preset.id === 'ice-blue-neumorphism';
-                  const isDarkIceBlueNeu = preset.id === 'dark-ice-blue-neumorphism';
-                  const isPastelLilac = preset.id === 'pastel-lilac-soft';
-                  const isDarkPastelLilac = preset.id === 'dark-pastel-lilac-soft';
                   const isLightLeather = preset.id === 'light-cowhide-leather';
                   const isLeather = preset.id === 'cowhide-leather';
+                  const isLightGlass = false;
+                  const isDarkGlass = false;
+                  const isIceBlueNeu = false;
+                  const isDarkIceBlueNeu = false;
+                  const isPastelLilac = false;
+                  const isDarkPastelLilac = false;
                   const cardRadius = '14px';
 
                   return (
@@ -892,6 +897,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             </section>
           );
         })}
+      </div>
+        </div>
       </div>
     </div>
   );

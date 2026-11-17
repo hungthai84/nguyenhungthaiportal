@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-glassmorphism"], [data-theme="dark-glassmorphism"] *, [data-theme="dark-neon-multicolor-glass"], [data-theme="dark-neon-multicolor-glass"] *, [data-theme="light-multicolor-glass-dark"], [data-theme="light-multicolor-glass-dark"] *, [data-theme="dark-ice-blue-neumorphism"], [data-theme="dark-ice-blue-neumorphism"] *, [data-theme="dark-pastel-lilac-soft"], [data-theme="dark-pastel-lilac-soft"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-neon-multicolor-glass"], [data-theme="dark-neon-multicolor-glass"] *, [data-theme="light-multicolor-glass-dark"], [data-theme="light-multicolor-glass-dark"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -23,14 +23,8 @@
 @import "./styles/base.css";
 @import "./styles/layout.css";
 @import "./styles/cards.css";
-@import "./styles/themes/light-glassmorphism.css";
 @import "./styles/themes/light-multicolor-glass.css";
-@import "./styles/themes/ice-blue-neumorphism.css";
-@import "./styles/themes/dark-glassmorphism.css";
 @import "./styles/themes/dark-neon-multicolor-glass.css";
-@import "./styles/themes/dark-ice-blue-neumorphism.css";
-@import "./styles/themes/pastel-lilac-soft.css";
-@import "./styles/themes/dark-pastel-lilac-soft.css";
 @import "./styles/themes/light-cowhide-leather.css";
 @import "./styles/themes/cowhide-leather.css";
 
@@ -143,19 +137,41 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-97:nth
   height: auto !important;
 }
 
-/* Main Card wrappers for Trang Thư Ngỏ (#letter-main-card) & Trang Tử Vi (#horoscope-main-card) */
-html #letter-page-container,
-html[data-card-style] #letter-page-container,
-html.dark[data-card-style] #letter-page-container,
-html #horoscope-page-container,
-html[data-card-style] #horoscope-page-container,
-html.dark[data-card-style] #horoscope-page-container {
+/* Unified Full-Width Viewport, Outer Page Container (100% Transparent, 0px, 1px Border) & Centered Level-01 .page-main-card */
+html #global-content-viewport:not(:has(#pdf-page-container)) {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+html #letter-cards-track #letter-slide-2-grid,
+html #letter-cards-track #letter-slide-3-grid,
+html #letter-cards-track #letter-slide-4-bento-grid {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  height: 100% !important;
   padding: 0 !important;
   margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+html #letter-cards-track #el-p1-div-85,
+html #el-p1-div-85,
+html #letter-cards-track #letter-slide-2-card,
+html #letter-cards-track #letter-slide-3-card,
+html #letter-cards-track #letter-slide-4-card,
+html #letter-slide-2-card,
+html #letter-slide-3-card,
+html #letter-slide-4-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
@@ -165,83 +181,10 @@ html.dark[data-card-style] #horoscope-page-container {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   border-radius: 0 !important;
-}
-
-html #global-content-viewport:has(#letter-main-card),
-html #global-content-viewport:has(#about-page-container) {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) > div#letter-main-card:nth-of-type(1),
-html #letter-main-card,
-html #letter-main-card:hover,
-html[data-card-style] #letter-main-card,
-html[data-card-style] #letter-main-card:hover,
-html.dark[data-card-style] #letter-main-card,
-html.dark[data-card-style] #letter-main-card:hover {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  height: 100% !important;
-  margin: 0 !important;
-  margin-left: 0px !important;
-  margin-right: 0px !important;
-  padding: 15px !important;
-  gap: 15px !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border-radius: 0px !important;
-  border: 10px solid var(--surface-primary-border, var(--glass-main-border, rgba(255, 255, 255, 0.8))) !important;
-  box-sizing: border-box !important;
-  box-shadow: none !important;
   transform: none !important;
-}
-
-html #letter-main-card > #el-p1-div-77,
-html #letter-main-card #letter-slide-2-grid,
-html #letter-main-card #letter-slide-3-grid,
-html #letter-main-card #letter-slide-4-bento-grid {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
   box-sizing: border-box !important;
 }
 
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) > div#letter-main-card:nth-of-type(1) > div#el-p1-div-77:nth-of-type(1) > div#el-p1-div-85:nth-of-type(1),
-html #letter-main-card #el-p1-div-85,
-html #el-p1-div-85,
-html #letter-main-card #letter-slide-2-card,
-html #letter-main-card #letter-slide-3-card,
-html #letter-main-card #letter-slide-4-card,
-html #letter-slide-2-card,
-html #letter-slide-3-card,
-html #letter-slide-4-card {
-  width: 100% !important;
-  max-width: var(--container-max-w, 1250px) !important;
-  min-width: 0 !important;
-  height: auto !important;
-  min-height: 100% !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: 15px !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
-  border-width: 1px !important;
-  border-style: solid !important;
-  border-radius: var(--radius-main, 14px) !important;
-  box-sizing: border-box !important;
-}
-
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-81:nth-of-type(1) > div#letter-page-container:nth-of-type(1) > div#letter-main-card:nth-of-type(1) > div#el-p1-div-77:nth-of-type(1) > div#el-p1-div-85:nth-of-type(1) > :is(article, div),
 html #el-p1-div-85 > :is(article, div),
 html #el-p1-div-85 #card-core-values-pursued [data-subcard="true"] {
   padding: 15px !important;
@@ -256,31 +199,14 @@ html #el-p1-div-85 #card-core-values-pursued > div.grid {
   column-gap: 15px !important;
 }
 
-html #horoscope-main-card,
-html[data-card-style] #horoscope-main-card,
-html.dark[data-card-style] #horoscope-main-card {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  height: 100% !important;
-  padding: var(--main-card-padding, 25px) !important;
-  gap: 15px !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  box-shadow: none !important;
-  border-radius: 0px !important;
-  border: 10px solid var(--surface-primary-border, var(--glass-main-border, rgba(255, 255, 255, 0.8))) !important;
-  box-sizing: border-box !important;
-}
-
-/* Trang Giới thiệu (#about-page-container) Max Full Width, Transparent, 0px Radius, 10px Line Border & Padding 0px */
+/* Outer Page Containers: Max Full Width, 100% Transparent, 0px Radius, 1px Line Border & Padding 0px */
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p2-div-81:nth-of-type(1) > div#about-page-container:nth-of-type(1),
-html #about-page-container,
-html[data-card-style] #about-page-container,
-html.dark[data-card-style] #about-page-container {
+html [id$="-page-container"]:not(#pdf-page-container),
+html[data-card-style] [id$="-page-container"]:not(#pdf-page-container),
+html.dark[data-card-style] [id$="-page-container"]:not(#pdf-page-container),
+html [id$="-page-root"],
+html[data-card-style] [id$="-page-root"],
+html.dark[data-card-style] [id$="-page-root"] {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -288,6 +214,7 @@ html.dark[data-card-style] #about-page-container {
   margin: 0 !important;
   margin-left: 0px !important;
   margin-right: 0px !important;
+  padding: 0px !important;
   padding-top: 0px !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
@@ -295,6 +222,8 @@ html.dark[data-card-style] #about-page-container {
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
@@ -302,18 +231,22 @@ html.dark[data-card-style] #about-page-container {
   -webkit-backdrop-filter: none !important;
   box-shadow: none !important;
   border-radius: 0px !important;
-  border: 10px solid var(--surface-primary-border, var(--glass-main-border, rgba(255, 255, 255, 0.8))) !important;
+  border: 1px solid var(--surface-primary-border, var(--glass-main-border, rgba(255, 255, 255, 0.4))) !important;
+  outline: none !important;
   box-sizing: border-box !important;
 }
 
-html #about-page-container::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 0px;
-  flex-shrink: 0;
+html [id$="-page-container"]::after {
+  display: none !important;
 }
 
+/* Centered Inner Main Cards (Level 01): Match #about-intro-card-1 Across All Website Pages */
+html .page-main-card,
+html .page-main-card:hover,
+html[data-card-style] .page-main-card,
+html[data-card-style] .page-main-card:hover,
+html.dark[data-card-style] .page-main-card,
+html.dark[data-card-style] .page-main-card:hover,
 html #about-intro-card-1,
 html #about-intro-card-1:hover,
 html #about-intro-card-2,
@@ -326,16 +259,19 @@ html.dark[data-card-style] #about-intro-card-1,
 html.dark[data-card-style] #about-intro-card-1:hover,
 html.dark[data-card-style] #about-intro-card-2,
 html.dark[data-card-style] #about-intro-card-2:hover {
-  width: 100% !important;
+  width: var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) !important;
   max-width: var(--container-max-w, 1250px) !important;
-  min-width: 0 !important;
+  min-width: var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) !important;
   min-height: 100% !important;
-  height: auto !important;
-  flex: 0 0 auto !important;
+  height: 100% !important;
+  flex: 0 0 var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) !important;
+  flex-shrink: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   padding: 15px !important;
   gap: 15px !important;
   row-gap: 15px !important;
@@ -345,6 +281,25 @@ html.dark[data-card-style] #about-intro-card-2:hover {
   border-radius: var(--radius-main, 14px) !important;
   box-sizing: border-box !important;
   transform: none !important;
+}
+
+html #home-main-card,
+html #experience-main-card:has(#experience-timeline-board) {
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+@media (min-width: 1024px) {
+  html #contact-main-card,
+  html #ai-assistant-main-card {
+    overflow: hidden !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  html #ai-assistant-main-card {
+    overflow: hidden !important;
+  }
 }
 
 html #about-intro-grid-1,
@@ -387,7 +342,7 @@ html :is(
   .sub-card,
   [data-subcard="true"],
   [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#app-header):not(#app-footer),
-  [data-element-type="card"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#app-header):not(#app-footer):not([data-element-type="button"]):not(#letter-main-card):not(#horoscope-main-card):not(.main-card),
+  [data-element-type="card"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#app-header):not(#app-footer):not([data-element-type="button"]):not(.page-main-card):not([data-main-card="true"]):not(.main-card),
   [data-multicolor-bento="true"],
   .hero-banner,
   .banner-card,
@@ -409,33 +364,21 @@ html :is(
   .theme-modal-subcard,
   .theme-popup
 ),
-.card-light-glassmorphism,
 .card-light-multicolor-glass,
 .card-light-multicolor-glass-dark,
-.card-dark-glassmorphism,
 .card-dark-neon-multicolor-glass,
 .card-dark-neon-multicolor-glass-light,
-.card-ice-blue-neu,
-.ice-neu-inset,
-.card-dark-ice-blue-neu,
-.dark-ice-neu-inset,
-.card-pastel-lilac-soft,
-.card-dark-pastel-lilac-soft,
-.lilac-soft-module,
-.dark-lilac-soft-module,
 .card-white-pebbled-leather,
 .card-light-cowhide-leather,
 .card-cowhide-leather {
   border-radius: 14px !important;
 }
 
-/* Enforce 0px border-radius, 100% transparent background & 10px line border on all main page containers */
+/* Enforce 0px border-radius, 100% transparent background, 1px line border & 0px padding on all outer page containers */
 html :is(
-  .main-card,
-  [id$="-page-container"]:not(#letter-page-container):not(#horoscope-page-container),
-  [id$="-page-root"],
-  #letter-main-card,
-  #horoscope-main-card
+  .main-card:not(#pdf-page-container),
+  [id$="-page-container"]:not(#pdf-page-container),
+  [id$="-page-root"]
 ) {
   background: transparent !important;
   background-color: transparent !important;
@@ -444,26 +387,25 @@ html :is(
   -webkit-backdrop-filter: none !important;
   box-shadow: none !important;
   border-radius: 0px !important;
-  border-width: 10px !important;
+  border-width: 1px !important;
   border-style: solid !important;
+  outline: none !important;
+  padding: 0px !important;
 }
 
 /* Preserve Pill Nav/Switch Controls & Enforce 14px Rectangular Action Buttons in Multicolor Glass Themes */
-html[data-card-style="light-multicolor-glass"] button:not(.nav-pill):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule),
-html[data-card-style="light-multicolor-glass-dark"] button:not(.nav-pill):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule),
-html[data-card-style="dark-neon-multicolor-glass"] button:not(.nav-pill):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule),
-html[data-card-style="dark-neon-multicolor-glass-light"] button:not(.nav-pill):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule) {
+html[data-card-style="light-multicolor-glass"] button:not(.nav-pill):not(.theme-capsule-btn):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78),
+html[data-card-style="light-multicolor-glass-dark"] button:not(.nav-pill):not(.theme-capsule-btn):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78),
+html[data-card-style="dark-neon-multicolor-glass"] button:not(.nav-pill):not(.theme-capsule-btn):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78),
+html[data-card-style="dark-neon-multicolor-glass-light"] button:not(.nav-pill):not(.theme-capsule-btn):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78) {
   border-radius: 14px !important;
 }
 
 /* ========================================================================= */
 /* ULTRA-CRISP PURE BLACK (#000000) / PURE WHITE (#FFFFFF) FONT SHARPNESS    */
 /* ========================================================================= */
-html[data-card-style="light-glassmorphism"],
 html[data-card-style="light-multicolor-glass"],
-html[data-card-style="dark-neon-multicolor-glass-light"],
-html[data-card-style="ice-blue-neumorphism"],
-html[data-card-style="pastel-lilac-soft"] {
+html[data-card-style="dark-neon-multicolor-glass-light"] {
   --color-heading: #000000 !important;
   --color-text: #000000 !important;
   --color-text-secondary: #111827 !important;
@@ -497,11 +439,8 @@ html[data-card-style="light-cowhide-leather"] {
   --text-nav-arrow: #111827 !important;
 }
 
-html[data-card-style="dark-glassmorphism"],
 html[data-card-style="dark-neon-multicolor-glass"],
 html[data-card-style="light-multicolor-glass-dark"],
-html[data-card-style="dark-ice-blue-neumorphism"],
-html[data-card-style="dark-pastel-lilac-soft"],
 html[data-card-style="cowhide-leather"] {
   --color-heading: #FFFFFF !important;
   --color-text: #FFFFFF !important;

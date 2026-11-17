@@ -21,7 +21,11 @@ export const CENTRAL_ELEMENT_REGISTRY: ElementRegistryItem[] = [
 
   // Letter Page
   { id: 'letter-page-container', name: 'Trang Thư Ngỏ', type: 'container', page: 'letter', parentId: 'global-content-viewport', description: 'Container trang Thư Ngỏ' },
-  { id: 'letter-main-card', name: 'Thẻ chính Trang Thư Ngỏ', type: 'card', page: 'letter', parentId: 'letter-page-container', description: 'Main card chứa toàn bộ nội dung trang Thư Ngỏ' },
+  { id: 'letter-cards-track', name: 'Track căn giữa Thư Ngỏ', type: 'container', page: 'letter', parentId: 'letter-page-container', description: 'Track ngang chứa 4 card Thư Ngỏ' },
+  { id: 'letter-card-1', name: 'Card thư ngỏ 1', type: 'card', page: 'letter', parentId: 'letter-cards-track', description: 'Card thư ngỏ 1 — Thông điệp hợp tác & Giá trị cốt lõi' },
+  { id: 'letter-card-2', name: 'Card thư ngỏ 2', type: 'card', page: 'letter', parentId: 'letter-cards-track', description: 'Card thư ngỏ 2 — Hành trình khởi đầu (2002–2011)' },
+  { id: 'letter-card-3', name: 'Card thư ngỏ 3', type: 'card', page: 'letter', parentId: 'letter-cards-track', description: 'Card thư ngỏ 3 — Quản trị quy mô lớn (2013–2023)' },
+  { id: 'letter-card-4', name: 'Card thư ngỏ 4', type: 'card', page: 'letter', parentId: 'letter-cards-track', description: 'Card thư ngỏ 4 — Triết lý quản trị & Tâm thư đồng hành' },
 
   // Education Page
   { id: 'education-page-container', name: 'Trang Học vấn & Bằng cấp', type: 'container', page: 'education', parentId: 'global-content-viewport', description: 'Danh mục trình độ học vấn và chứng chỉ' },

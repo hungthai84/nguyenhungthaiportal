@@ -24,10 +24,10 @@ const DOMAIN_DETAIL_ACCENTS: Record<string, { light: string; dark: string }> = {
   '06': { light: '#059669', dark: '#34d399' },
 };
 
-export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'light-glass' }) => {
+export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'light-multicolor-glass' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
-  const isDark = themeIsDark || currentTheme === 'dark-glassmorphism';
+  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
   const isLight = !isDark;
 
   const isEn = language === 'en';
@@ -218,9 +218,25 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
       data-element-type="container"
       data-element-page="services"
       data-element-parent="global-content-viewport"
-      style={{ padding: '25px' }}
-      className="main-card w-full min-w-0 h-full mx-auto block p-[25px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-none text-[var(--text-primary)] box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none text-[var(--text-primary)] box-border"
     >
+      <div
+        id="services-cards-track"
+        data-element-name="Track căn giữa Dịch Vụ"
+        data-element-type="container"
+        data-element-page="services"
+        data-element-parent="services-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="services-main-card"
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang Dịch Vụ"
+          data-element-type="card"
+          data-element-page="services"
+          data-element-parent="services-cards-track"
+          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
+        >
       <div
         id="services-main-content"
         className={
@@ -972,12 +988,15 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           })()
         )}
 
+      </div>
+        </div>
+      </div>
+
       {/* 4. MODAL KHÁM PHÁ TECH STACK */}
       <TechStackExplorerModal
         isOpen={isTechModalOpen}
         onClose={() => setIsTechModalOpen(false)}
       />
-      </div>
     </div>
   );
 };

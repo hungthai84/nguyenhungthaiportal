@@ -196,7 +196,7 @@ export const Footer: React.FC<FooterProps> = ({
       style={{
         ...cleanFooterStyle,
         maxWidth: '1250px',
-        width: '100%',
+        width: 'var(--shared-frame-w, 100%)',
         marginLeft: 'auto',
         marginRight: 'auto',
         borderBottom: 'none',
@@ -208,7 +208,7 @@ export const Footer: React.FC<FooterProps> = ({
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
       }}
-      className="w-full max-w-[1250px] mx-auto h-auto min-h-[64px] py-1.5 sm:min-h-[72px] sm:h-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 transition-all duration-300 rounded-b-none rounded-t-[14px] border-b-0 border-x border-t border-white/10 backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto h-auto min-h-[64px] py-1.5 sm:min-h-[72px] sm:h-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 transition-all duration-300 rounded-b-none rounded-t-[14px] border-b-0 border-x border-t border-white/10 backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
     >
       {/* Top highlight subtle */}
       <div className="absolute top-0 inset-x-8 h-[1px] pointer-events-none bg-gradient-to-r from-transparent via-white/25 dark:via-white/15 to-transparent"></div>
@@ -230,12 +230,11 @@ export const Footer: React.FC<FooterProps> = ({
       <div className="w-auto md:w-[160px] relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 pointer-events-auto flex items-center justify-center shrink-0">
         <div
           id="footer-nav-capsule"
-          role="navigation"
+          role="group"
           aria-label={isEn ? 'Page Navigation' : 'Điều hướng trang'}
           data-element-type="button"
-          data-section-card="true"
           style={{ borderRadius: '999px' }}
-          className="bento-card glass-card relative z-10 w-[118px] sm:w-[144px] md:w-[152px] h-[42px] sm:h-[44px] flex items-center justify-between px-1.5 py-1 !rounded-[999px] rounded-[999px] text-[var(--text-primary)] transition-all duration-300 hover:scale-[1.04] group font-play"
+          className="theme-capsule-btn nav-pill relative z-10 w-[118px] sm:w-[144px] md:w-[152px] h-[42px] sm:h-[44px] flex items-center justify-between px-1.5 py-1 !rounded-[999px] rounded-[999px] text-[var(--text-primary)] cursor-pointer transition-all duration-200 hover:-translate-y-[1.5px] active:scale-[0.98] group font-play"
         >
           {/* Prev Button */}
           <span

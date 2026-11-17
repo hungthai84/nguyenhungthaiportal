@@ -361,8 +361,10 @@
   --outline-image-card: none;
   --outline-offset-image-card: 0px;
 
-  /* Container Max Width */
+  /* Container Max Width & Unified Horizontal Frame Width */
   --container-max-w: 1250px;
+  --about-peek-reserve: 112px;
+  --shared-frame-w: clamp(260px, calc(100vw - var(--about-peek-reserve)), var(--container-max-w, 1250px));
 
   /* ========================================================================= */
   /* LỚP 3: GLOBAL 5-LAYER BACKGROUND & 4-TIER GLASS/MICA SURFACE SYSTEM       */
@@ -498,7 +500,7 @@
 }
 
 /* Dark Mode Overrides (WCAG 2.2 AA Compliant) */
-html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-glassmorphism"], [data-theme="dark-neon-multicolor-glass"], [data-theme="light-multicolor-glass-dark"], [data-theme="dark-ice-blue-neumorphism"], [data-theme="dark-pastel-lilac-soft"], [data-theme="vivid-glass"], [data-theme="cowhide-leather"] {
+html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-neon-multicolor-glass"], [data-theme="light-multicolor-glass-dark"], [data-theme="vivid-glass"], [data-theme="cowhide-leather"] {
   --color-bg: #0B1220;
   --color-bg-soft: #111827;
   --color-bg-blue: #1F2937;
@@ -790,6 +792,13 @@ html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-
     --glass-card-blur: 14px;
     --glass-subcard-blur: 10px;
     --glass-nested-blur: 8px;
+  }
+}
+
+@media (max-width: 639px) {
+  :root,
+  html.dark {
+    --about-peek-reserve: 72px;
   }
 }
 

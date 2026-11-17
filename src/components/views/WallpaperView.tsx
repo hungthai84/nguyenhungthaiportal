@@ -392,15 +392,32 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
       data-element-type="container"
       data-element-page="wallpaper"
       data-element-parent="global-content-viewport"
-      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
     >
+      <div
+        id="wallpaper-cards-track"
+        data-element-name="Track căn giữa Hình Nền"
+        data-element-type="container"
+        data-element-page="wallpaper"
+        data-element-parent="wallpaper-page-container"
+        className="page-cards-track"
+      >
+        <div
+          id="wallpaper-main-card"
+          data-main-card="true"
+          data-element-name="Thẻ chính Trang Hình Nền"
+          data-element-type="card"
+          data-element-page="wallpaper"
+          data-element-parent="wallpaper-cards-track"
+          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+        >
       {/* 1. BANNER HÌNH NỀN: FORMAT GIỐNG BANNER HỌC VẤN, XÓA NÚT GIAO DIỆN TỐI, CARD SECTION CÁCH 15PX */}
       <section
         id="wallpaper-hero-banner"
         data-element-name="Banner chính trang Hình Nền"
         data-element-type="section"
         data-element-page="wallpaper"
-        data-element-parent="wallpaper-page-container"
+        data-element-parent="wallpaper-main-card"
         data-section-card="true"
         className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30"
         style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
@@ -1030,6 +1047,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
           })}
       </div>
       )}
+        </div>
+      </div>
     </div>
   );
 };

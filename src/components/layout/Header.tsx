@@ -299,7 +299,7 @@ const HEADER_ORDER_IDS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 export const Header: React.FC<HeaderProps> = ({
   pages,
   currentPage,
-  currentTheme = 'light-glass',
+  currentTheme = 'light-multicolor-glass',
   onSelectPage,
   onShowNotification,
 }) => {
@@ -450,7 +450,7 @@ export const Header: React.FC<HeaderProps> = ({
       style={{
         ...cleanHeaderStyle,
         maxWidth: '1250px',
-        width: '100%',
+        width: 'var(--shared-frame-w, 100%)',
         marginLeft: 'auto',
         marginRight: 'auto',
         borderTop: 'none',
@@ -463,7 +463,7 @@ export const Header: React.FC<HeaderProps> = ({
         borderBottomRightRadius: '14px',
         zIndex: isRadialMenuOpen ? 99999 : 40,
       }}
-      className={`neonav-bar w-full max-w-[1250px] mx-auto min-h-[72px] h-auto py-1.5 flex items-center justify-between px-2 sm:px-3 ${
+      className={`neonav-bar mx-auto min-h-[72px] h-auto py-1.5 flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 rounded-t-none rounded-b-[14px] backdrop-blur-md border-white/10 group/header overflow-visible pointer-events-auto`}
     >

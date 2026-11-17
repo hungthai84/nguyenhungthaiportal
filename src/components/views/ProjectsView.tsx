@@ -438,10 +438,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     <div
       id="projects-page-container"
       data-element-name="Trang Dự Án & Sản Phẩm"
-      data-element-type="card"
-      data-section-card="true"
+      data-element-type="container"
       data-element-page="projects"
-      className="main-card bento-card glass-card relative w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-text text-left animate-fadeIn rounded-[14px] text-[var(--text-primary)] box-border"
+      data-element-parent="global-content-viewport"
+      className="main-card relative w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-text text-left animate-fadeIn rounded-[14px] text-[var(--text-primary)] box-border"
     >
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
       {!selectedGroup && !selectedArticle ? (
@@ -562,7 +562,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       exit={{ opacity: 0, y: 6, scale: 0.96 }}
                       transition={{ duration: 0.16 }}
                       role="listbox"
-                      className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-60 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                      className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-72 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                     >
                       {PROJECT_CATEGORIES.map((cat) => {
                         const isSelected = activeCategory === cat.id;
@@ -705,8 +705,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     />
                   </div>
 
-                  {/* Phần Thân Card: Nội dung cách thẻ dự án padding 10px */}
-                  <div className="project-card-body p-[10px] flex-1 flex flex-col justify-between space-y-2">
+                  {/* Phần Thân Card: Nội dung cách thẻ dự án padding 15px đồng bộ */}
+                  <div style={{ padding: '15px' }} className="project-card-body p-[15px] flex-1 flex flex-col justify-between space-y-2">
                     <div>
                       {/* Tiêu đề thẻ dự án: Số thứ tự (đồng bộ format tiêu đề) & Icon & Tên tiêu đề */}
                       <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: cfg.accentColor }}>

@@ -1804,9 +1804,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     <div
       id="horoscope-page-container"
       data-element-name="Trang Tử Vi & Phong Thủy"
-      data-element-type="card"
-      data-section-card="true"
+      data-element-type="container"
       data-element-page="horoscope"
+      data-element-parent="global-content-viewport"
       onWheel={(e) => {
         const target = e.target as HTMLElement | null;
         if (target?.closest('.overflow-x-auto')) return;
@@ -1839,7 +1839,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           }
         }
       }}
-      className="group/horoscope main-card bento-card glass-card relative w-full min-w-0 h-full min-h-0 mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
+      className="group/horoscope main-card relative w-full min-w-0 h-full min-h-0 mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
     >
       {/* Render thẻ được chọn trong 6 thẻ kèm hiệu ứng trượt ngang mượt mà */}
       <div className="w-full flex-1 min-h-0 flex flex-col overflow-x-clip">

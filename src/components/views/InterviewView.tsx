@@ -148,6 +148,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
       data-element-name="Trang Phỏng Vấn"
       data-element-type="container"
       data-element-page="interview"
+      data-element-parent="global-content-viewport"
       className="main-card w-full min-w-0 h-full flex-1 flex flex-col p-[25px] rounded-[14px] gap-[15px] max-w-full mx-auto justify-start select-none relative text-[var(--text-primary)] overflow-y-auto no-scrollbar font-play text-left animate-fadeIn box-border"
     >
       {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
@@ -257,7 +258,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    className="banner-dropdown-menu bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-72 sm:w-96 max-h-72 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-72 max-h-72 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                   >
                     <div className="px-2 py-1.5 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 sticky top-0 bg-[var(--bg-popup)] z-10 rounded-t-[10px]">
                       <div className="flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">

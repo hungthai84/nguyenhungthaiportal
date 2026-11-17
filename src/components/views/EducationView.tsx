@@ -434,10 +434,10 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     <div
       id="education-page-container"
       data-element-name="Trang Học Vấn & Bằng Cấp"
-      data-element-type="card"
-      data-section-card="true"
+      data-element-type="container"
       data-element-page="education"
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
+      data-element-parent="global-content-viewport"
+      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
     >
       {/* Banner trang Học Vấn (Format đồng bộ chuẩn banner Hình Nền h-200px desktop, responsive mobile) */}
       {!selectedCourse && (
@@ -530,7 +530,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
                   role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] bg-white/98 dark:bg-[#111827]/96 border border-cyan-200/90 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-slate-900 dark:text-[#E2E8F0]"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-72 rounded-[14px] bg-white/98 dark:bg-[#111827]/96 border border-cyan-200/90 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-slate-900 dark:text-[#E2E8F0]"
                 >
                   {TRAINING_TYPE_CATEGORIES.map((cat) => {
                     const isActive = activeCategory === cat.id;

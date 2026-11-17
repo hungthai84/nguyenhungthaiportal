@@ -58,10 +58,10 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     <div
       id="interface-page-container"
       data-element-name="Trang Cấu Hình Giao Diện & Kiểu Thẻ"
-      data-element-type="card"
-      data-section-card="true"
+      data-element-type="container"
       data-element-page="interface"
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
+      data-element-parent="global-content-viewport"
+      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
     >
       {/* Header + Nút trượt qua lại Sáng / Tối theo đúng họ giao diện đang kích hoạt */}
       <div

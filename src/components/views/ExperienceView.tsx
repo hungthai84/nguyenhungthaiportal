@@ -771,12 +771,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     <div
       id="experience-page-container"
       data-element-name="Trang Hành trình sự nghiệp"
-      data-element-type="card"
-      data-section-card="true"
+      data-element-type="container"
       data-element-page="experience"
       data-element-parent="global-content-viewport"
       className={cn(
-        'main-card bento-card glass-card w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start p-[25px] gap-[15px] max-w-full mx-auto select-none relative text-[var(--text-primary)] glass-scrollbar font-play text-left animate-fadeIn rounded-[14px] box-border',
+        'main-card w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start p-[25px] gap-[15px] max-w-full mx-auto select-none relative text-[var(--text-primary)] glass-scrollbar font-play text-left animate-fadeIn rounded-[14px] box-border',
         showJobCard ? 'overflow-y-auto' : 'overflow-hidden'
       )}
     >

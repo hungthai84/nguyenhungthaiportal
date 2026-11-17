@@ -425,6 +425,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
       data-element-name="Trang Kỹ Năng Cốt Lõi"
       data-element-type={embedded ? "section" : "container"}
       data-element-page="skills"
+      data-element-parent={embedded ? undefined : "global-content-viewport"}
       className={
         embedded
           ? "w-full min-w-0 flex flex-col justify-start font-play text-left animate-fadeIn gap-[15px] box-border"
@@ -531,7 +532,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-72 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                   >
                     {swotFilterOptions.map((opt) => {
                       const isActive = selectedSwot === opt.id;

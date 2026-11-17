@@ -1792,6 +1792,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
       data-element-name="Trang Thư Ngỏ"
       data-element-type="container"
       data-element-page="letter"
+      data-element-parent="global-content-viewport"
       onWheel={(e) => {
         if (selectedMilestone) return;
         const target = e.target as HTMLElement | null;

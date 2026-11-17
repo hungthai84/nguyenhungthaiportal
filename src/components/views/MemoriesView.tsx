@@ -135,10 +135,10 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
     <div
       id="memories-page-container"
       data-element-name="Trang Kỷ Niệm & Thư Thư"
-      data-element-type="card"
-      data-section-card="true"
+      data-element-type="container"
       data-element-page="memories"
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
+      data-element-parent="global-content-viewport"
+      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
     >
       {/* Style for crisp bright image, smooth zoom & fly-up animation */}
       <style
@@ -268,7 +268,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
                   role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 max-h-80 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-72 max-h-80 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
                   <div className="px-2.5 py-1 typo-label font-mono tracking-wider text-[var(--text-heading,var(--text-primary))]">
                     Theo chủ đề kỷ niệm
@@ -411,7 +411,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                 />
 
                 {/* Badge năm & tag luôn hiển thị trên thiết bị cảm ứng, hover mới hiện trên Desktop */}
-                <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1.5 pointer-events-none opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100 transition-opacity duration-300 z-10">
+                <div className="absolute top-[15px] left-[15px] right-[15px] flex items-center justify-between gap-1.5 pointer-events-none opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100 transition-opacity duration-300 z-10">
                   <span className="typo-badge font-mono tracking-wider text-white bg-[#0B1220]/75 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/20">
                     {item.tagVi}
                   </span>
@@ -421,7 +421,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                 </div>
 
                 {/* Tiêu đề & chi tiết luôn dễ đọc trên thiết bị cảm ứng, hover mới hiện trên Desktop */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/95 via-[#0B1220]/55 to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100 backdrop-blur-[1.5px] transition-opacity duration-300 flex flex-col justify-end p-3 pointer-events-none">
+                <div style={{ padding: '15px' }} className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/95 via-[#0B1220]/55 to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100 backdrop-blur-[1.5px] transition-opacity duration-300 flex flex-col justify-end p-[15px] pointer-events-none">
                   <span className="typo-label font-mono text-[#6EE7B7] uppercase tracking-wide block">
                     {item.companyId?.toUpperCase()}
                   </span>

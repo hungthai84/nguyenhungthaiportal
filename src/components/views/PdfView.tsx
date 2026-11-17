@@ -174,13 +174,13 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       ref={containerRef}
       id="pdf-page-container"
       data-element-name="Trang Website CV Portfolio Landing Page"
-      data-element-type="card"
-      data-section-card="true"
+      data-element-type="container"
       data-element-page="pdf"
+      data-element-parent="global-content-viewport"
       style={{
         gap: '20px',
       }}
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[20px] sm:gap-[28px] overflow-y-auto no-scrollbar font-play select-text text-left text-[var(--text-primary)] animate-fadeIn rounded-[14px] box-border"
+      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[20px] sm:gap-[28px] overflow-y-auto no-scrollbar font-play select-text text-left text-[var(--text-primary)] animate-fadeIn rounded-[14px] box-border"
     >
       <style>{`
         @media print {

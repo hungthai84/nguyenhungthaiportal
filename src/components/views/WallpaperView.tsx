@@ -389,10 +389,10 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     <div
       id="wallpaper-page-container"
       data-element-name="Trang Quản Lý Hình Nền & Giao Diện"
-      data-element-type="card"
-      data-section-card="true"
+      data-element-type="container"
       data-element-page="wallpaper"
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
+      data-element-parent="global-content-viewport"
+      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
     >
       {/* 1. BANNER HÌNH NỀN: FORMAT GIỐNG BANNER HỌC VẤN, XÓA NÚT GIAO DIỆN TỐI, CARD SECTION CÁCH 15PX */}
       <section
@@ -493,7 +493,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-72 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                   >
                     {filterCategories.map((cat) => {
                       const isActive = filterType === cat.id;
@@ -963,8 +963,18 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 {/* OVERLAY TỐI DƯỚI ĐÁY TẤM HÌNH (LÀM TRONG SUỐT HƠN ĐỂ ẢNH RÕ RÀNG) */}
                 <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent pointer-events-none z-10" />
 
-                {/* NỘI DUNG VÀ CÁC NÚT ĐƯỢC ĐƯA VÀO BÊN TRONG TẤM HÌNH (PADDING 10PX) */}
-                <div id={`wallpaper-card-content-${wp.id}`} style={{ padding: '10px' }} className="absolute inset-0 z-20 w-full h-full p-[10px] flex flex-col justify-between text-white pointer-events-auto">
+                {/* NỘI DUNG VÀ CÁC NÚT ĐƯỢC ĐƯA VÀO BÊN TRONG TẤM HÌNH (CHUẨN PADDING 15PX ĐỒNG BỘ) */}
+                <div
+                  id={`wallpaper-card-content-${wp.id}`}
+                  style={{
+                    padding: '15px',
+                    paddingTop: '15px',
+                    paddingRight: '15px',
+                    paddingBottom: '15px',
+                    paddingLeft: '15px',
+                  }}
+                  className="absolute inset-0 z-20 w-full h-full flex flex-col justify-between text-white pointer-events-auto p-[15px]"
+                >
                   {/* Dòng trên: Huy hiệu loại media + Nút thao tác */}
                   <div className="flex items-center justify-between gap-1 w-full relative z-20">
                     <span

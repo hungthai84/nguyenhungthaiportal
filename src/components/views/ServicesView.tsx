@@ -219,11 +219,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
     <div
       id="services-page-container"
       data-element-name="Trang Dịch Vụ & Giải Pháp"
-      data-element-type="card"
-      data-section-card="true"
+      data-element-type="container"
       data-element-page="services"
+      data-element-parent="global-content-viewport"
       style={{ padding: '25px' }}
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto block p-[25px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] text-[var(--text-primary)] box-border"
+      className="main-card w-full min-w-0 h-full mx-auto block p-[25px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] text-[var(--text-primary)] box-border"
     >
       <div
         id="services-main-content"
@@ -333,7 +333,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   transition={{ duration: 0.16 }}
                   id="services-filter-dropdown"
                   role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-72 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
                   {filterCategories.map((cat) => {
                     const isActive = activeCategory === cat.id;

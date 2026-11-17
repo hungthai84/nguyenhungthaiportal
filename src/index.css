@@ -289,3 +289,18 @@ html.dark [role="dialog"] :is(p, li, td, th, dd, dt):not([class*="text-blue-"]):
   color: #FFFFFF;
 }
 
+/* Hide horizontal and vertical scrollbars globally while keeping scroll functionality */
+html, body {
+  overflow-x: hidden !important;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE/Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+}
+

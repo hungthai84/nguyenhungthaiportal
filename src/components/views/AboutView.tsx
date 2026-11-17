@@ -1530,9 +1530,9 @@ export function AboutView({
               data-element-parent="about-page-container"
               style={{
                 borderRadius: '14px',
-                padding: '10px',
+                padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col gap-2 h-auto min-h-0 text-left rounded-[14px] p-[10px] overflow-hidden"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col gap-2 h-auto min-h-0 text-left rounded-[14px] p-[15px] overflow-hidden"
             >
                   {/* Header Bento Box Bar */}
                   <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 shrink-0">

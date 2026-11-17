@@ -776,12 +776,12 @@ html[data-card-style="cowhide-leather"] .card-title:not(.card-title-synced):not(
 }
 
 html[data-card-style="cowhide-leather"] #experience-job-detail-card p,
-html[data-card-style="cowhide-leather"] #experience-job-detail-card h2,
-html[data-card-style="cowhide-leather"] #experience-job-detail-card h3,
+html[data-card-style="cowhide-leather"] #experience-job-detail-card h2:not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="cowhide-leather"] #experience-job-detail-card h3:not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]),
 html[data-card-style="cowhide-leather"] .experience-milestone-card p,
-html[data-card-style="cowhide-leather"] .experience-milestone-card h4,
+html[data-card-style="cowhide-leather"] .experience-milestone-card h4:not(.subcard-title-synced):not([data-subcard-title]),
 html[data-card-style="cowhide-leather"] [id^="milestone-card-"] p,
-html[data-card-style="cowhide-leather"] [id^="milestone-card-"] h4 {
+html[data-card-style="cowhide-leather"] [id^="milestone-card-"] h4:not(.subcard-title-synced):not([data-subcard-title]) {
   color: #FFFFFF !important;
 }
 

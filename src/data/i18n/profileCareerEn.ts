@@ -127,6 +127,7 @@ export const PROFILE_CAREER_EN: Record<string, string> = {
   'Xây dựng niềm tin vững bền, bảo chứng chất lượng và đồng hành lâu dài.': 'Build enduring trust, guarantee quality, and grow together long-term.',
   '3 Cam kết vàng · Nhấp lật xem Case Study': '3 Golden Commitments · Click to Flip for Case Studies',
   'Sự tận tâm': 'Dedication',
+  'Tận tâm trách nhiệm': 'Dedicated Responsibility',
   'Trách nhiệm & Hết lòng': 'Accountability & Heart',
   'Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.': 'Invest full heart and precision into every customer touchpoint.',
   'FCR Cam kết': 'FCR Commitment',
@@ -155,6 +156,7 @@ export const PROFILE_CAREER_EN: Record<string, string> = {
   'Gắn kết: 96%': 'Retention: 96%',
   'Khách hàng tái ký hợp đồng 3 năm liên tiếp': 'VIP clients renewed for 3 consecutive years',
   '“ Tận Tâm & Đồng Hành Cùng Trải Nghiệm Khách Hàng ”.': '“ Dedicated Partnership Across Every Customer Experience ”.',
+  '“Tận tâm & đồng hành cùng trải nghiệm khách hàng”': '“Dedicated partnership across every customer experience”',
   'Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.':
     'I always strive to deliver high-quality products and services at fair cost—and above all, ensure every customer feels they are truly heard.',
   'Chân Dung Chuyên Gia & Trợ Lý Ảo': 'Executive Portrait & AI Companion',
@@ -188,6 +190,7 @@ export const PROFILE_CAREER_EN: Record<string, string> = {
   'Giá trị lâu dài.': 'Long-term value.',
 
   // EducationView & education.ts
+  'Tất cả': 'All',
   'Tất cả hình thức': 'All Formats',
   'Đào tạo nội bộ': 'Corporate Training',
   'Đào tạo bên ngoài': 'External Training',
@@ -198,6 +201,7 @@ export const PROFILE_CAREER_EN: Record<string, string> = {
   'Quản trị': 'Management',
   'Kỹ năng': 'Skills',
   'Banner Học vấn': 'Education Banner',
+  'Bộ lọc': 'Filter',
   'Bộ lọc danh mục': 'Category Filter',
   'Bộ lọc hình thức': 'Training Format Filter',
   'Sao chép mã chứng chỉ': 'Copy credential ID',
@@ -305,6 +309,7 @@ export const PROFILE_CAREER_EN: Record<string, string> = {
   'Lĩnh Vực & Dịch Vụ Chuyên Sâu': 'Domains & Specialized Services',
   'Hệ sinh thái giải pháp quản trị vận hành và trải nghiệm khách hàng đa ngành': 'Cross-industry CX & operational management solutions',
   'Kiến tạo trải nghiệm dịch vụ xuất sắc bằng sự tận tâm và công nghệ': 'Crafting service excellence with dedication and technology',
+  'Tất cả (6)': 'All (6)',
   'Tất cả dịch vụ (6)': 'All Domains (6)',
   '6.1 · Dịch vụ viễn thông': '6.1 · Mobile Telecom',
   '6.2 · Thương mại điện tử': '6.2 · E-Commerce',

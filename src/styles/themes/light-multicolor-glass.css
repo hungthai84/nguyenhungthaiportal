@@ -1,0 +1,806 @@
+/* ========================================================================= */
+/* THEME 01: GLASSMORPHISM LIGHT MULTICOLOR (PRIMARY LIGHT + DARK COMPAT)    */
+/* Bright · Colorful · Mica Glass · Soft Blur · Specular Border · WCAG 2.2   */
+/* Reference Palette: #FFDF25 #EC7D21 #E64C72 #DD4E9E #6353B5 #1480C0        */
+/*                    #3BB8E6 #5DC3C8 #50B347 #A3D43A #A78BFA #1E266D        */
+/* ========================================================================= */
+
+.card-light-multicolor-glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.80) 0%,
+    rgba(245, 243, 255, 0.72) 48%,
+    rgba(236, 254, 255, 0.74) 100%
+  );
+  backdrop-filter: blur(28px) saturate(165%);
+  -webkit-backdrop-filter: blur(28px) saturate(165%);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 14px;
+  box-shadow:
+    0 14px 34px -10px rgba(99, 83, 181, 0.14),
+    0 4px 12px -4px rgba(15, 23, 42, 0.06),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.96);
+  color: #000000;
+}
+
+.card-light-multicolor-glass-dark {
+  background: linear-gradient(
+    145deg,
+    rgba(24, 28, 54, 0.84) 0%,
+    rgba(19, 24, 48, 0.78) 52%,
+    rgba(30, 22, 50, 0.80) 100%
+  );
+  backdrop-filter: blur(26px) saturate(165%);
+  -webkit-backdrop-filter: blur(26px) saturate(165%);
+  border: 1px solid rgba(167, 139, 250, 0.28);
+  border-radius: 14px;
+  box-shadow:
+    0 18px 42px -12px rgba(4, 6, 18, 0.72),
+    0 4px 14px -4px rgba(99, 83, 181, 0.20),
+    inset 0 1px 1px rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+}
+
+/* ========================================================================= */
+/* 1. DESIGN TOKENS: LIGHT MODE (DEFAULT FOR GLASSMORPHISM LIGHT MULTICOLOR) */
+/* ========================================================================= */
+html[data-card-style="light-multicolor-glass"] {
+  --bg-blur: 28px;
+  --glass-blur: 28px;
+  --glass-opacity: 0.78;
+  --blur-subcard: 20px;
+  --blur-nav-pill: 24px;
+  --blur-modal: 28px;
+
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+  --card-border-width: 1px;
+
+  /* Base & Pure High-Contrast Text */
+  --color-bg: #F4F7FF;
+  --color-bg-soft: #FAF7FF;
+  --color-bg-blue: #EEF6FF;
+  --color-surface: rgba(255, 255, 255, 0.78);
+  --color-surface-elevated: rgba(255, 255, 255, 0.92);
+
+  --color-heading: #000000;
+  --color-text: #000000;
+  --color-text-secondary: #111827;
+  --color-text-muted: #27272A;
+  --color-link: #1480C0;
+  --text-primary: #000000;
+  --text-secondary: #111827;
+  --text-tertiary: #334155;
+  --text-muted: #27272A;
+  --text-heading: #000000;
+  --text-link: #1480C0;
+  --text-accent: #6353B5;
+  --text-neon: #6353B5;
+  --text-neon-glow: none;
+
+  --color-primary: #1480C0;
+  --color-secondary: #6353B5;
+  --color-tertiary: #DD4E9E;
+  --color-focus-ring: #1480C0;
+
+  /* 4-Tier Surface Architecture */
+  --bg-main: #F4F7FF;
+  --bg-header: linear-gradient(120deg, rgba(255, 255, 255, 0.82) 0%, rgba(243, 240, 255, 0.76) 48%, rgba(232, 248, 255, 0.80) 100%);
+  --bg-footer: linear-gradient(120deg, rgba(255, 255, 255, 0.82) 0%, rgba(243, 240, 255, 0.76) 48%, rgba(232, 248, 255, 0.80) 100%);
+  --bg-card: linear-gradient(145deg, rgba(255, 255, 255, 0.82) 0%, rgba(246, 248, 255, 0.68) 100%);
+  --bg-subcard: linear-gradient(145deg, rgba(255, 255, 255, 0.86) 0%, rgba(248, 250, 255, 0.68) 100%);
+  --bg-subcard-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(245, 247, 255, 0.84) 100%);
+  --bg-nested-card: rgba(255, 255, 255, 0.82);
+
+  /* Global Token Aliases */
+  --theme-page-background: var(--app-bg-gradient);
+  --theme-header-background: var(--bg-header);
+  --theme-footer-background: var(--bg-footer);
+  --theme-main-background: var(--surface-primary-bg);
+  --card-surface-primary: var(--bg-card);
+  --card-surface-secondary: var(--bg-subcard);
+  --card-surface-accent: linear-gradient(135deg, rgba(239, 246, 255, 0.88) 0%, rgba(253, 242, 248, 0.78) 100%);
+  --card-surface-gradient: linear-gradient(135deg, rgba(236, 254, 255, 0.84) 0%, rgba(245, 243, 255, 0.78) 50%, rgba(253, 242, 248, 0.82) 100%);
+  --card-border: rgba(255, 255, 255, 0.92);
+  --card-shadow: var(--shadow-card);
+  --card-highlight: rgba(255, 255, 255, 0.96);
+  --card-glow: none;
+  --glass-highlight: rgba(255, 255, 255, 0.96);
+  --glass-shadow: var(--shadow-card);
+
+  /* Interactive & Modal Surfaces */
+  --bg-button-primary: linear-gradient(135deg, #1480C0 0%, #6353B5 52%, #DD4E9E 100%);
+  --bg-button-secondary: rgba(255, 255, 255, 0.86);
+  --bg-popup: linear-gradient(145deg, rgba(255, 255, 255, 0.94) 0%, rgba(244, 247, 255, 0.88) 100%);
+  --bg-modal: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 255, 0.90) 100%);
+  --bg-modal-backdrop: rgba(15, 23, 42, 0.28);
+  --bg-modal-header: rgba(255, 255, 255, 0.90);
+  --bg-modal-footer: rgba(255, 255, 255, 0.90);
+  --border-modal: rgba(255, 255, 255, 0.96);
+  --bg-dropdown: rgba(255, 255, 255, 0.94);
+  --bg-navigation: rgba(255, 255, 255, 0.82);
+  --bg-tab: rgba(255, 255, 255, 0.80);
+  --bg-input: rgba(255, 255, 255, 0.90);
+  --border-input: rgba(148, 163, 184, 0.35);
+  --border-input-focus: #1480C0;
+  --text-input: #000000;
+  --text-placeholder: #374151;
+  --bg-table: rgba(255, 255, 255, 0.82);
+  --bg-table-head: rgba(248, 250, 252, 0.94);
+  --bg-table-row-alt: rgba(241, 245, 249, 0.56);
+  --border-table: rgba(203, 213, 225, 0.65);
+
+  --glass-bg: var(--bg-card);
+  --glass-border: rgba(255, 255, 255, 0.92);
+  --border-color: rgba(255, 255, 255, 0.92);
+  --color-border: rgba(203, 213, 225, 0.78);
+  --color-border-soft: rgba(15, 23, 42, 0.08);
+  --bg-nav-button-opaque: rgba(255, 255, 255, 0.92);
+
+  --bg-nav-pill: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(245, 248, 255, 0.78) 100%);
+  --shadow-nav-pill: 0 8px 22px -6px rgba(20, 128, 192, 0.14), 0 2px 6px rgba(15, 23, 42, 0.05), inset 0 1.5px 1px rgba(255, 255, 255, 0.96);
+  --divider-nav-pill: rgba(99, 83, 181, 0.24);
+
+  --border-subcard: rgba(255, 255, 255, 0.92);
+  --bg-nested-badge: rgba(255, 255, 255, 0.94);
+  --border-nested-badge: rgba(203, 213, 225, 0.70);
+
+  --pillar-heading: #000000;
+  --pillar-sub: #1E266D;
+  --pillar-body: #111827;
+  --pillar-badge-bg: rgba(20, 128, 192, 0.12);
+  --pillar-badge-text: #1E266D;
+  --pillar-divider: rgba(15, 23, 42, 0.12);
+  --pillar-progress-track: rgba(15, 23, 42, 0.10);
+  --pillar-progress-fill: linear-gradient(90deg, #DD4E9E 0%, #6353B5 35%, #1480C0 68%, #50B347 100%);
+
+  /* 5-Level Elevation Shadows */
+  --shadow-none: none;
+  --shadow-nested: 0 2px 6px -1px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --shadow-subcard: 0 6px 18px -4px rgba(99, 83, 181, 0.10), 0 2px 6px -1px rgba(15, 23, 42, 0.04), inset 0 1.5px 1px rgba(255, 255, 255, 0.96);
+  --shadow-subcard-hover: 0 12px 26px -6px rgba(99, 83, 181, 0.16), 0 4px 10px -2px rgba(15, 23, 42, 0.06), inset 0 1.5px 1.5px #FFFFFF;
+  --shadow-card: 0 14px 34px -8px rgba(20, 128, 192, 0.14), 0 4px 14px -4px rgba(15, 23, 42, 0.06), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.96);
+  --shadow-card-hover: 0 22px 48px -8px rgba(99, 83, 181, 0.22), 0 8px 20px -4px rgba(221, 78, 158, 0.12), inset 0 1.5px 2px #FFFFFF;
+  --shadow-header: 0 16px 40px -10px rgba(99, 83, 181, 0.15), 0 4px 14px -4px rgba(15, 23, 42, 0.07), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.96);
+  --shadow-main-card: var(--shadow-header);
+  --shadow-footer: var(--shadow-header);
+  --shadow-popup: 0 24px 52px -10px rgba(99, 83, 181, 0.22), 0 8px 22px -4px rgba(15, 23, 42, 0.10), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.98);
+  --shadow-floating: var(--shadow-popup);
+  --shadow-modal: 0 30px 70px -12px rgba(15, 23, 42, 0.28), 0 12px 32px -6px rgba(99, 83, 181, 0.16), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.98);
+
+  /* Banner & Nav Arrows */
+  --banner-border: rgba(255, 255, 255, 0.94);
+  --banner-shadow: var(--shadow-card);
+  --bg-banner-pill: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(244, 247, 255, 0.80) 100%);
+  --text-banner-pill: #000000;
+  --border-banner-pill: rgba(255, 255, 255, 0.95);
+  --shadow-banner-pill: var(--shadow-nav-pill);
+  --bg-banner-cta: linear-gradient(135deg, #1480C0 0%, #6353B5 52%, #DD4E9E 100%);
+  --text-banner-cta: #FFFFFF;
+  --border-banner-cta: rgba(255, 255, 255, 0.72);
+  --shadow-banner-cta: 0 8px 22px -4px rgba(99, 83, 181, 0.35);
+  --bg-banner-input: rgba(255, 255, 255, 0.92);
+  --text-banner-input: #000000;
+  --border-banner-input: rgba(203, 213, 225, 0.85);
+  --bg-nav-arrow: linear-gradient(145deg, rgba(255, 255, 255, 0.94) 0%, rgba(244, 247, 255, 0.80) 100%);
+  --border-nav-arrow: rgba(255, 255, 255, 0.95);
+  --text-nav-arrow: #000000;
+  --shadow-nav-arrow: var(--shadow-nav-pill);
+  --border-image-card: rgba(255, 255, 255, 0.94);
+  --shadow-image-card: var(--shadow-card);
+
+  /* 5-Layer Multicolor Light Background */
+  --app-bg-base: #F5F7FF;
+  --app-bg-gradient:
+    radial-gradient(ellipse 80% 62% at 10% 14%, rgba(221, 78, 158, 0.24) 0%, transparent 56%),
+    radial-gradient(ellipse 76% 60% at 88% 12%, rgba(59, 184, 230, 0.28) 0%, transparent 56%),
+    radial-gradient(ellipse 74% 62% at 82% 88%, rgba(80, 179, 71, 0.20) 0%, transparent 56%),
+    radial-gradient(ellipse 72% 60% at 14% 86%, rgba(236, 125, 33, 0.20) 0%, transparent 56%),
+    radial-gradient(ellipse 68% 58% at 50% 48%, rgba(167, 139, 250, 0.20) 0%, transparent 62%),
+    linear-gradient(135deg, #FDF2F8 0%, #F5F3FF 26%, #EFF6FF 52%, #ECFEFF 76%, #F0FDF4 100%);
+  --app-bg-glow-primary: rgba(221, 78, 158, 0.28);
+  --app-bg-glow-secondary: rgba(59, 184, 230, 0.30);
+  --app-bg-glow-accent: rgba(167, 139, 250, 0.28);
+  --app-bg-glow-cyan: rgba(93, 195, 200, 0.24);
+  --app-bg-opacity: 0.85;
+  --app-bg-shape-opacity: 0.72;
+  --app-bg-depth-veil:
+    radial-gradient(ellipse 88% 78% at 50% 48%, rgba(255, 255, 255, 0.12) 0%, rgba(241, 245, 249, 0.16) 68%, rgba(224, 231, 255, 0.24) 100%);
+  --app-bg-transition-scrim: rgba(245, 247, 255, 0.04);
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-wallpaper-opacity: 0.54;
+  --ambient-main-glow: 0 0 64px -8px rgba(221, 78, 158, 0.18), 0 0 110px -16px rgba(59, 184, 230, 0.18);
+  --ambient-edge-border: rgba(255, 255, 255, 0.94);
+
+  /* 4-Tier Surface Sync */
+  --surface-primary-bg: rgba(255, 255, 255, 0.66);
+  --surface-primary-border: rgba(255, 255, 255, 0.92);
+  --surface-primary-shadow: var(--shadow-header);
+  --surface-primary-blur: 24px;
+  --surface-secondary-bg: var(--bg-card);
+  --surface-secondary-border: rgba(255, 255, 255, 0.92);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-blur: 28px;
+  --surface-tertiary-bg: var(--bg-subcard);
+  --surface-tertiary-border: rgba(255, 255, 255, 0.92);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 20px;
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: rgba(255, 255, 255, 0.96);
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: rgba(255, 255, 255, 0.94);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 24px;
+
+  /* WCAG AA Sharp Accent Tokens synced to Reference Multicolor Palette */
+  --accent-blue: #1480C0;
+  --accent-sky: #0284C7;
+  --accent-cyan: #0E7490;
+  --accent-teal: #0F766E;
+  --accent-emerald: #15803D;
+  --accent-green: #166534;
+  --accent-indigo: #1E266D;
+  --accent-violet: #6353B5;
+  --accent-purple: #6D28D9;
+  --accent-fuchsia: #A21CAF;
+  --accent-pink: #BE185D;
+  --accent-rose: #BE123C;
+  --accent-red: #B91C1C;
+  --accent-amber: #B45309;
+  --accent-yellow: #854D0E;
+  --accent-orange: #C2410C;
+  --accent-slate: #1E293B;
+}
+
+/* ========================================================================= */
+/* 2. LEVEL 01 SHELL (HEADER, FOOTER, MAIN CARD, NAV CAPSULE) — LIGHT        */
+/* ========================================================================= */
+html[data-card-style="light-multicolor-glass"] #app-header,
+html[data-card-style="light-multicolor-glass"] #app-footer {
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.80) 0%, rgba(243, 240, 255, 0.74) 50%, rgba(232, 248, 255, 0.78) 100%) !important;
+  backdrop-filter: blur(26px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(165%) !important;
+  border-color: rgba(255, 255, 255, 0.94) !important;
+  box-shadow: var(--shadow-header) !important;
+  color: #000000 !important;
+}
+
+html[data-card-style="light-multicolor-glass"] .main-card,
+html[data-card-style="light-multicolor-glass"] [id$="-page-container"],
+html[data-card-style="light-multicolor-glass"] [id$="-page-root"] {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.70) 0%, rgba(248, 250, 255, 0.58) 100%) !important;
+  backdrop-filter: blur(24px) saturate(155%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(155%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+  box-shadow: var(--shadow-main-card) !important;
+  padding: 25px !important;
+  border-radius: 14px !important;
+  color: #000000 !important;
+}
+
+html[data-card-style="light-multicolor-glass"] #footer-nav-capsule {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(243, 244, 255, 0.80) 100%) !important;
+  backdrop-filter: blur(22px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  color: #000000 !important;
+}
+
+/* ========================================================================= */
+/* 3. LEVEL 02 PRIMARY CARDS — 8 MULTICOLOR FROSTED GLASS VARIANTS (LIGHT)   */
+/* (Blue, Pink, Purple, Cyan, Green, Orange, Yellow, Multicolor Gradient)    */
+/* ========================================================================= */
+html[data-card-style="light-multicolor-glass"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="light-multicolor-glass"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="light-multicolor-glass"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="light-multicolor-glass"] .project-card,
+html[data-card-style="light-multicolor-glass"] #projects-grid article,
+html[data-card-style="light-multicolor-glass"] .project-detail-section-card {
+  backdrop-filter: blur(26px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(165%) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #000000 !important;
+}
+
+/* Variant 1: Blue Glass (#1480C0 / #1E266D) */
+html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+1),
+html[data-card-style="light-multicolor-glass"] .bento-tone-blue,
+html[data-card-style="light-multicolor-glass"] .bento-tone-indigo,
+html[data-card-style="light-multicolor-glass"] [data-card-accent="blue"],
+html[data-card-style="light-multicolor-glass"] [data-card-accent="indigo"] {
+  --card-synced-accent: #1480C0;
+  background: linear-gradient(145deg, rgba(239, 246, 255, 0.88) 0%, rgba(219, 234, 254, 0.74) 55%, rgba(224, 231, 255, 0.76) 100%) !important;
+  border: 1px solid rgba(20, 128, 192, 0.34) !important;
+}
+
+/* Variant 2: Pink / Coral Glass (#DD4E9E / #E64C72) */
+html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+2),
+html[data-card-style="light-multicolor-glass"] .bento-tone-pink,
+html[data-card-style="light-multicolor-glass"] [data-card-accent="pink"],
+html[data-card-style="light-multicolor-glass"] [data-card-accent="rose"],
+html[data-card-style="light-multicolor-glass"] [data-card-accent="fuchsia"] {
+  --card-synced-accent: #BE185D;
+  background: linear-gradient(145deg, rgba(253, 242, 248, 0.88) 0%, rgba(252, 231, 243, 0.74) 55%, rgba(255, 228, 230, 0.76) 100%) !important;
+  border: 1px solid rgba(221, 78, 158, 0.36) !important;
+}
+
+/* Variant 3: Purple / Lavender Glass (#6353B5 / #A78BFA) */
+html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+3),
+html[data-card-style="light-multicolor-glass"] .bento-tone-purple,
+html[data-card-style="light-multicolor-glass"] [data-card-accent="purple"],
+html[data-card-style="light-multicolor-glass"] [data-card-accent="violet"] {
+  --card-synced-accent: #6353B5;
+  background: linear-gradient(145deg, rgba(245, 243, 255, 0.88) 0%, rgba(237, 233, 254, 0.74) 55%, rgba(243, 232, 255, 0.76) 100%) !important;
+  border: 1px solid rgba(99, 83, 181, 0.34) !important;
+}
+
+/* Variant 4: Cyan / Turquoise Glass (#3BB8E6 / #5DC3C8) */
+html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+4),
+html[data-card-style="light-multicolor-glass"] .bento-tone-cyan,
+html[data-card-style="light-multicolor-glass"] .bento-tone-sky,
+html[data-card-style="light-multicolor-glass"] [data-card-accent="cyan"],
+html[data-card-style="light-multicolor-glass"] [data-card-accent="sky"] {
+  --card-synced-accent: #0E7490;
+  background: linear-gradient(145deg, rgba(236, 254, 255, 0.88) 0%, rgba(207, 250, 254, 0.74) 55%, rgba(224, 242, 254, 0.76) 100%) !important;
+  border: 1px solid rgba(59, 184, 230, 0.38) !important;
+}
+
+/* Variant 5: Green / Mint Glass (#50B347 / #5DC3C8) */
+html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+5),
+html[data-card-style="light-multicolor-glass"] .bento-tone-emerald,
+html[data-card-style="light-multicolor-glass"] .bento-tone-teal,
+html[data-card-style="light-multicolor-glass"] [data-card-accent="emerald"],
+html[data-card-style="light-multicolor-glass"] [data-card-accent="green"],
+html[data-card-style="light-multicolor-glass"] [data-card-accent="teal"] {
+  --card-synced-accent: #15803D;
+  background: linear-gradient(145deg, rgba(236, 253, 245, 0.88) 0%, rgba(209, 250, 229, 0.74) 55%, rgba(204, 251, 241, 0.76) 100%) !important;
+  border: 1px solid rgba(80, 179, 71, 0.34) !important;
+}
+
+/* Variant 6: Orange / Peach Glass (#EC7D21) */
+html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+6),
+html[data-card-style="light-multicolor-glass"] .bento-tone-amber,
+html[data-card-style="light-multicolor-glass"] [data-card-accent="orange"],
+html[data-card-style="light-multicolor-glass"] [data-card-accent="amber"] {
+  --card-synced-accent: #C2410C;
+  background: linear-gradient(145deg, rgba(255, 247, 237, 0.88) 0%, rgba(255, 237, 213, 0.76) 55%, rgba(254, 226, 226, 0.72) 100%) !important;
+  border: 1px solid rgba(236, 125, 33, 0.36) !important;
+}
+
+/* Variant 7: Yellow / Lime Citrus Glass (#FFDF25 / #A3D43A) */
+html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+7),
+html[data-card-style="light-multicolor-glass"] [data-card-accent="yellow"] {
+  --card-synced-accent: #854D0E;
+  background: linear-gradient(145deg, rgba(254, 252, 232, 0.88) 0%, rgba(254, 249, 195, 0.74) 55%, rgba(236, 252, 203, 0.74) 100%) !important;
+  border: 1px solid rgba(202, 138, 4, 0.34) !important;
+}
+
+/* Variant 8: Multicolor Gradient Glass (Iridescent Cyan → Lavender → Pink) */
+html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+8) {
+  --card-synced-accent: #1E266D;
+  background: linear-gradient(
+    135deg,
+    rgba(224, 242, 254, 0.84) 0%,
+    rgba(243, 232, 255, 0.78) 48%,
+    rgba(252, 231, 243, 0.80) 100%
+  ) !important;
+  border: 1px solid rgba(167, 139, 250, 0.40) !important;
+}
+
+/* Hover Lift & Specular Highlight on Light Multicolor Cards */
+html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+/* Card Icon + Title Color Sync (only when component doesn't pass explicit custom color) */
+html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card) .card-header-sync:not([style*="color"]):not([class*="text-"]),
+html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card) .card-header-sync:not([style*="color"]):not([class*="text-"]) :is(h2, h3, h4, .card-title, .card-title-synced, [data-card-title], svg) {
+  color: var(--card-synced-accent, #1E266D) !important;
+}
+
+/* ========================================================================= */
+/* 4. LEVEL 03 SUBCARDS & LEVEL 01 NESTED CARDS (LIGHT MULTICOLOR)           */
+/* ========================================================================= */
+html[data-card-style="light-multicolor-glass"] [data-subcard="true"]:not(.skill-swot-subcard),
+html[data-card-style="light-multicolor-glass"] .sub-card:not(.skill-swot-subcard),
+html[data-card-style="light-multicolor-glass"] .exp-detail-subcard,
+html[data-card-style="light-multicolor-glass"] .education-subcard,
+html[data-card-style="light-multicolor-glass"] .letter-subcard,
+html[data-card-style="light-multicolor-glass"] .letter-header-subcard,
+html[data-card-style="light-multicolor-glass"] .letter-footer-subcard,
+html[data-card-style="light-multicolor-glass"] .project-detail-subcard,
+html[data-card-style="light-multicolor-glass"] .pillar-gradient-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0.64) 100%) !important;
+  backdrop-filter: blur(18px) saturate(155%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(155%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.94) !important;
+  box-shadow: var(--shadow-subcard) !important;
+  border-radius: 14px !important;
+  color: #000000 !important;
+}
+
+html[data-card-style="light-multicolor-glass"] [data-subcard="true"]:not(.skill-swot-subcard):hover,
+html[data-card-style="light-multicolor-glass"] .sub-card:not(.skill-swot-subcard):hover,
+html[data-card-style="light-multicolor-glass"] .exp-detail-subcard:hover,
+html[data-card-style="light-multicolor-glass"] .education-subcard:hover,
+html[data-card-style="light-multicolor-glass"] .pillar-gradient-card:hover {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.82) 100%) !important;
+  box-shadow: var(--shadow-subcard-hover) !important;
+}
+
+/* Nested Card Anti-Stacking (Elevation 1) */
+html[data-card-style="light-multicolor-glass"] :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard) :is([data-subcard="true"], .sub-card, .nested-card, .theme-muted-surface, [data-elevation="1"]) {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border: 1px solid rgba(203, 213, 225, 0.55) !important;
+  box-shadow: var(--shadow-nested) !important;
+  border-radius: 14px !important;
+}
+
+/* ========================================================================= */
+/* 5. LEVEL 04 NAV PILLS, POPUPS, MODALS, INPUTS & STATES (LIGHT)            */
+/* ========================================================================= */
+html[data-card-style="light-multicolor-glass"] #app-header nav button.nav-pill:not(.active),
+html[data-card-style="light-multicolor-glass"] #header-btn-hungthai-avatar:not(.active),
+html[data-card-style="light-multicolor-glass"] #footer-lang-btn:not(.active),
+html[data-card-style="light-multicolor-glass"] #footer-appearance-btn:not(.active),
+html[data-card-style="light-multicolor-glass"] #footer-wallpaper-btn:not(.active),
+html[data-card-style="light-multicolor-glass"] #footer-ai-btn:not(.active),
+html[data-card-style="light-multicolor-glass"] .banner-control-pill,
+html[data-card-style="light-multicolor-glass"] .nav-arrow-btn,
+html[data-card-style="light-multicolor-glass"] .theme-prev-next-btn,
+html[data-card-style="light-multicolor-glass"] .theme-back-to-top-btn,
+html[data-card-style="light-multicolor-glass"] .radial-contact-pill {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(245, 248, 255, 0.76) 100%) !important;
+  backdrop-filter: blur(22px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
+  border-color: rgba(255, 255, 255, 0.94) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  color: #000000 !important;
+}
+
+html[data-card-style="light-multicolor-glass"] #footer-theme-popup,
+html[data-card-style="light-multicolor-glass"] #footer-lang-popup,
+html[data-card-style="light-multicolor-glass"] .banner-dropdown-menu,
+html[data-card-style="light-multicolor-glass"] [role="dialog"],
+html[data-card-style="light-multicolor-glass"] .modal-dialog,
+html[data-card-style="light-multicolor-glass"] .theme-modal-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.94) 0%, rgba(243, 246, 255, 0.88) 100%) !important;
+  backdrop-filter: blur(28px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(165%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.96) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-modal) !important;
+  color: #000000 !important;
+}
+
+html[data-card-style="light-multicolor-glass"] .theme-modal-subcard {
+  background: rgba(255, 255, 255, 0.80) !important;
+  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-subcard) !important;
+  color: #000000 !important;
+}
+
+html[data-card-style="light-multicolor-glass"] :is(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid #1480C0 !important;
+  outline-offset: 2px !important;
+}
+
+/* ========================================================================= */
+/* 6. DARK COMPATIBLE MODE FOR GLASSMORPHISM LIGHT MULTICOLOR                */
+/*    (html[data-card-style="light-multicolor-glass-dark"])                  */
+/*    Preserves luminous multicolor prism glass identity on twilight base    */
+/*    Never renders bright white cards in Dark mode; crisp #FFFFFF copy      */
+/* ========================================================================= */
+html[data-card-style="light-multicolor-glass-dark"] {
+  --bg-blur: 26px;
+  --glass-blur: 26px;
+  --glass-opacity: 0.78;
+  --blur-subcard: 18px;
+  --blur-nav-pill: 22px;
+  --blur-modal: 26px;
+
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+
+  --color-bg: #090D1F;
+  --color-bg-soft: #121733;
+  --color-bg-blue: #14223D;
+  --color-surface: rgba(20, 24, 48, 0.80);
+  --color-surface-elevated: rgba(28, 34, 66, 0.88);
+
+  --color-heading: #FFFFFF;
+  --color-text: #FFFFFF;
+  --color-text-secondary: #F4F4F5;
+  --color-text-muted: #E4E4E7;
+  --color-link: #3BB8E6;
+  --text-primary: #FFFFFF;
+  --text-secondary: #F4F4F5;
+  --text-tertiary: #CBD5E1;
+  --text-muted: #E4E4E7;
+  --text-heading: #FFFFFF;
+  --text-link: #3BB8E6;
+  --text-accent: #A78BFA;
+
+  --color-primary: #3BB8E6;
+  --color-secondary: #A78BFA;
+  --color-tertiary: #F472B6;
+  --color-focus-ring: #3BB8E6;
+
+  --bg-main: #090D1F;
+  --bg-header: linear-gradient(120deg, rgba(16, 20, 42, 0.84) 0%, rgba(28, 22, 54, 0.78) 50%, rgba(14, 30, 48, 0.82) 100%);
+  --bg-footer: linear-gradient(120deg, rgba(16, 20, 42, 0.84) 0%, rgba(28, 22, 54, 0.78) 50%, rgba(14, 30, 48, 0.82) 100%);
+  --bg-card: linear-gradient(145deg, rgba(24, 29, 58, 0.80) 0%, rgba(18, 22, 46, 0.76) 100%);
+  --bg-subcard: linear-gradient(145deg, rgba(30, 36, 70, 0.76) 0%, rgba(20, 25, 50, 0.72) 100%);
+  --bg-subcard-hover: linear-gradient(145deg, rgba(40, 48, 92, 0.88) 0%, rgba(28, 34, 68, 0.82) 100%);
+  --bg-nested-card: rgba(20, 25, 50, 0.82);
+
+  --theme-page-background: var(--app-bg-gradient);
+  --theme-header-background: var(--bg-header);
+  --theme-footer-background: var(--bg-footer);
+  --theme-main-background: var(--surface-primary-bg);
+  --card-surface-primary: var(--bg-card);
+  --card-surface-secondary: var(--bg-subcard);
+  --card-border: rgba(167, 139, 250, 0.28);
+  --card-shadow: var(--shadow-card);
+  --card-highlight: rgba(255, 255, 255, 0.16);
+  --glass-highlight: rgba(255, 255, 255, 0.16);
+  --glass-shadow: var(--shadow-card);
+
+  --bg-button-primary: linear-gradient(135deg, #3BB8E6 0%, #A78BFA 52%, #DD4E9E 100%);
+  --bg-button-secondary: rgba(30, 36, 70, 0.84);
+  --bg-popup: linear-gradient(145deg, rgba(18, 22, 46, 0.94) 0%, rgba(26, 22, 54, 0.92) 100%);
+  --bg-modal: linear-gradient(145deg, rgba(18, 22, 46, 0.95) 0%, rgba(26, 22, 54, 0.93) 100%);
+  --bg-modal-backdrop: rgba(4, 6, 16, 0.76);
+  --bg-modal-header: rgba(22, 26, 52, 0.92);
+  --bg-modal-footer: rgba(22, 26, 52, 0.92);
+  --border-modal: rgba(167, 139, 250, 0.32);
+  --bg-dropdown: rgba(18, 22, 46, 0.94);
+  --bg-navigation: rgba(20, 24, 48, 0.82);
+  --bg-tab: rgba(26, 32, 62, 0.80);
+  --bg-input: rgba(16, 20, 42, 0.88);
+  --border-input: rgba(167, 139, 250, 0.30);
+  --border-input-focus: #3BB8E6;
+  --text-input: #FFFFFF;
+  --text-placeholder: #CBD5E1;
+
+  --glass-bg: var(--bg-card);
+  --glass-border: rgba(167, 139, 250, 0.28);
+  --border-color: rgba(167, 139, 250, 0.26);
+  --color-border: rgba(167, 139, 250, 0.26);
+  --color-border-soft: rgba(255, 255, 255, 0.12);
+  --border-subcard: rgba(167, 139, 250, 0.24);
+  --bg-nav-button-opaque: rgba(22, 27, 56, 0.92);
+  --bg-nav-pill: linear-gradient(145deg, rgba(28, 34, 68, 0.88) 0%, rgba(22, 26, 54, 0.80) 100%);
+  --shadow-nav-pill: 0 8px 22px -6px rgba(0, 0, 0, 0.56), inset 0 1px 1px rgba(255, 255, 255, 0.14);
+  --divider-nav-pill: rgba(167, 139, 250, 0.28);
+
+  --app-bg-base: #090D1F;
+  --app-bg-gradient:
+    radial-gradient(ellipse 80% 62% at 12% 14%, rgba(221, 78, 158, 0.20) 0%, transparent 56%),
+    radial-gradient(ellipse 76% 60% at 88% 12%, rgba(59, 184, 230, 0.22) 0%, transparent 56%),
+    radial-gradient(ellipse 74% 62% at 82% 88%, rgba(80, 179, 71, 0.16) 0%, transparent 56%),
+    radial-gradient(ellipse 72% 60% at 14% 86%, rgba(236, 125, 33, 0.16) 0%, transparent 56%),
+    linear-gradient(135deg, #090D1F 0%, #141230 48%, #0C1A2B 100%);
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-wallpaper-opacity: 0.62;
+
+  --surface-primary-bg: rgba(14, 18, 40, 0.70);
+  --surface-primary-border: rgba(167, 139, 250, 0.24);
+  --surface-primary-blur: 22px;
+
+  /* Bright WCAG Dark-Mode Accents */
+  --accent-blue: #60A5FA;
+  --accent-sky: #3BB8E6;
+  --accent-cyan: #5DC3C8;
+  --accent-teal: #2DD4BF;
+  --accent-emerald: #50B347;
+  --accent-green: #A3D43A;
+  --accent-indigo: #A78BFA;
+  --accent-violet: #C4B5FD;
+  --accent-purple: #C084FC;
+  --accent-fuchsia: #F0ABFC;
+  --accent-pink: #F472B6;
+  --accent-rose: #FB7185;
+  --accent-amber: #FBBF24;
+  --accent-yellow: #FFDF25;
+  --accent-orange: #FB923C;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] #app-header,
+html[data-card-style="light-multicolor-glass-dark"] #app-footer {
+  background: var(--bg-header) !important;
+  backdrop-filter: blur(24px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
+  border-color: rgba(167, 139, 250, 0.28) !important;
+  box-shadow: var(--shadow-header) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] .main-card,
+html[data-card-style="light-multicolor-glass-dark"] [id$="-page-container"],
+html[data-card-style="light-multicolor-glass-dark"] [id$="-page-root"] {
+  background: rgba(14, 18, 40, 0.70) !important;
+  backdrop-filter: blur(22px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
+  border: 1px solid rgba(167, 139, 250, 0.26) !important;
+  box-shadow: var(--shadow-main-card) !important;
+  padding: 25px !important;
+  border-radius: 14px !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] #footer-nav-capsule {
+  background: var(--bg-nav-pill) !important;
+  backdrop-filter: blur(20px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(165%) !important;
+  border: 1px solid rgba(167, 139, 250, 0.30) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="light-multicolor-glass-dark"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="light-multicolor-glass-dark"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="light-multicolor-glass-dark"] .project-card,
+html[data-card-style="light-multicolor-glass-dark"] #projects-grid article,
+html[data-card-style="light-multicolor-glass-dark"] .project-detail-section-card {
+  backdrop-filter: blur(24px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #FFFFFF !important;
+}
+
+/* Dark Compatible Multicolor Card Surfaces */
+html[data-card-style="light-multicolor-glass-dark"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+1),
+html[data-card-style="light-multicolor-glass-dark"] .bento-tone-blue,
+html[data-card-style="light-multicolor-glass-dark"] .bento-tone-indigo,
+html[data-card-style="light-multicolor-glass-dark"] [data-card-accent="blue"] {
+  background: linear-gradient(145deg, rgba(20, 42, 74, 0.84) 0%, rgba(15, 23, 46, 0.84) 100%) !important;
+  border: 1px solid rgba(59, 184, 230, 0.34) !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+2),
+html[data-card-style="light-multicolor-glass-dark"] .bento-tone-pink,
+html[data-card-style="light-multicolor-glass-dark"] [data-card-accent="pink"] {
+  background: linear-gradient(145deg, rgba(58, 20, 48, 0.84) 0%, rgba(22, 16, 36, 0.84) 100%) !important;
+  border: 1px solid rgba(221, 78, 158, 0.34) !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+3),
+html[data-card-style="light-multicolor-glass-dark"] .bento-tone-purple,
+html[data-card-style="light-multicolor-glass-dark"] [data-card-accent="purple"] {
+  background: linear-gradient(145deg, rgba(38, 26, 70, 0.84) 0%, rgba(18, 18, 42, 0.84) 100%) !important;
+  border: 1px solid rgba(167, 139, 250, 0.34) !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+4),
+html[data-card-style="light-multicolor-glass-dark"] .bento-tone-cyan,
+html[data-card-style="light-multicolor-glass-dark"] .bento-tone-sky {
+  background: linear-gradient(145deg, rgba(16, 48, 64, 0.84) 0%, rgba(14, 22, 42, 0.84) 100%) !important;
+  border: 1px solid rgba(93, 195, 200, 0.34) !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+5),
+html[data-card-style="light-multicolor-glass-dark"] .bento-tone-emerald,
+html[data-card-style="light-multicolor-glass-dark"] .bento-tone-teal {
+  background: linear-gradient(145deg, rgba(16, 46, 38, 0.84) 0%, rgba(14, 24, 34, 0.84) 100%) !important;
+  border: 1px solid rgba(80, 179, 71, 0.34) !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+6),
+html[data-card-style="light-multicolor-glass-dark"] .bento-tone-amber {
+  background: linear-gradient(145deg, rgba(54, 30, 18, 0.84) 0%, rgba(22, 18, 32, 0.84) 100%) !important;
+  border: 1px solid rgba(236, 125, 33, 0.34) !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+7) {
+  background: linear-gradient(145deg, rgba(46, 42, 18, 0.84) 0%, rgba(20, 22, 38, 0.84) 100%) !important;
+  border: 1px solid rgba(163, 212, 58, 0.34) !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] :is([data-section-card="true"], .bento-card, .project-card, .project-detail-section-card):not(.hero-banner):not(.banner-card):not([id$="-page-container"]):not([id^="horoscope-card-"]):nth-of-type(8n+8) {
+  background: linear-gradient(135deg, rgba(20, 38, 68, 0.84) 0%, rgba(36, 24, 62, 0.82) 50%, rgba(50, 20, 48, 0.84) 100%) !important;
+  border: 1px solid rgba(167, 139, 250, 0.38) !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] [data-subcard="true"]:not(.skill-swot-subcard),
+html[data-card-style="light-multicolor-glass-dark"] .sub-card:not(.skill-swot-subcard),
+html[data-card-style="light-multicolor-glass-dark"] .exp-detail-subcard,
+html[data-card-style="light-multicolor-glass-dark"] .education-subcard,
+html[data-card-style="light-multicolor-glass-dark"] .letter-subcard,
+html[data-card-style="light-multicolor-glass-dark"] .letter-header-subcard,
+html[data-card-style="light-multicolor-glass-dark"] .letter-footer-subcard,
+html[data-card-style="light-multicolor-glass-dark"] .project-detail-subcard,
+html[data-card-style="light-multicolor-glass-dark"] .pillar-gradient-card {
+  background: rgba(24, 28, 56, 0.74) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+  border: 1px solid rgba(167, 139, 250, 0.24) !important;
+  box-shadow: var(--shadow-subcard) !important;
+  border-radius: 14px !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] #app-header nav button.nav-pill:not(.active),
+html[data-card-style="light-multicolor-glass-dark"] #header-btn-hungthai-avatar:not(.active),
+html[data-card-style="light-multicolor-glass-dark"] #footer-lang-btn:not(.active),
+html[data-card-style="light-multicolor-glass-dark"] #footer-appearance-btn:not(.active),
+html[data-card-style="light-multicolor-glass-dark"] #footer-wallpaper-btn:not(.active),
+html[data-card-style="light-multicolor-glass-dark"] #footer-ai-btn:not(.active),
+html[data-card-style="light-multicolor-glass-dark"] .banner-control-pill,
+html[data-card-style="light-multicolor-glass-dark"] .nav-arrow-btn,
+html[data-card-style="light-multicolor-glass-dark"] .theme-prev-next-btn,
+html[data-card-style="light-multicolor-glass-dark"] .theme-back-to-top-btn,
+html[data-card-style="light-multicolor-glass-dark"] .radial-contact-pill {
+  background: var(--bg-nav-pill) !important;
+  backdrop-filter: blur(20px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(165%) !important;
+  border-color: rgba(167, 139, 250, 0.28) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] #footer-theme-popup,
+html[data-card-style="light-multicolor-glass-dark"] #footer-lang-popup,
+html[data-card-style="light-multicolor-glass-dark"] .banner-dropdown-menu,
+html[data-card-style="light-multicolor-glass-dark"] [role="dialog"],
+html[data-card-style="light-multicolor-glass-dark"] .modal-dialog,
+html[data-card-style="light-multicolor-glass-dark"] .theme-modal-card {
+  background: var(--bg-modal) !important;
+  backdrop-filter: blur(26px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(165%) !important;
+  border: 1px solid rgba(167, 139, 250, 0.34) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-modal) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] .theme-modal-subcard {
+  background: rgba(24, 28, 56, 0.78) !important;
+  border: 1px solid rgba(167, 139, 250, 0.26) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-subcard) !important;
+  color: #FFFFFF !important;
+}
+
+/* ========================================================================= */
+/* 7. MOBILE PERFORMANCE & REDUCED MOTION SAFEGUARDS                         */
+/* ========================================================================= */
+@media (max-width: 767px) {
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-dark"] {
+    --bg-blur: 16px;
+    --glass-blur: 16px;
+    --blur-subcard: 12px;
+    --blur-nav-pill: 14px;
+    --blur-modal: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-card-style="light-multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card):hover,
+  html[data-card-style="light-multicolor-glass-dark"] :is([data-section-card="true"], .bento-card, .project-card):hover {
+    transform: none !important;
+  }
+}

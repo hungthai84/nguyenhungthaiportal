@@ -173,7 +173,7 @@ export interface EducationViewProps {
 
 // Phân loại hình thức đào tạo chuẩn: Đào tạo nội bộ / Đào tạo bên ngoài / Đào tạo chính quy / Đào tạo học nghề / Tự học phát triển
 const TRAINING_TYPE_CATEGORIES = [
-  { id: 'all', label: 'Tất cả hình thức' },
+  { id: 'all', label: 'Tất cả' },
   { id: 'Đào tạo nội bộ', label: 'Đào tạo nội bộ' },
   { id: 'Đào tạo bên ngoài', label: 'Đào tạo bên ngoài' },
   { id: 'Đào tạo chính quy', label: 'Đào tạo chính quy' },
@@ -437,7 +437,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       data-element-type="card"
       data-section-card="true"
       data-element-page="education"
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] box-border"
+      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
     >
       {/* Banner trang Học Vấn (Format đồng bộ chuẩn banner Hình Nền h-200px desktop, responsive mobile) */}
       {!selectedCourse && (
@@ -500,12 +500,13 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
               className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-cyan-900 dark:text-cyan-200 border border-cyan-300 dark:border-cyan-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer typo-button font-play active:scale-95 group"
-              title="Bộ lọc danh mục"
+              title={isEn ? 'Filter' : 'Bộ lọc'}
+              aria-label="Bộ lọc hình thức"
               aria-expanded={isFilterDropdownOpen}
               aria-haspopup="listbox"
             >
               <WebIcon name="sliders" className="w-4 h-4 text-cyan-700 dark:text-cyan-400 transition-transform group-hover:rotate-45 shrink-0" />
-              <span>Bộ lọc hình thức</span>
+              <span>{isEn ? 'Filter' : 'Bộ lọc'}</span>
               {activeCategory !== 'all' && (
                 <span className="banner-count-pill px-1.5 py-0.5 rounded-full bg-cyan-100 dark:bg-cyan-950/80 border border-cyan-300 dark:border-cyan-500/50 typo-badge font-mono text-cyan-900 dark:text-cyan-200">
                   {TRAINING_TYPE_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory}
@@ -656,7 +657,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 }}
               >
                 {/* 1. Ảnh bìa khuôn viên/chứng nhận tỷ lệ 16:9 kèm nhãn niên khóa */}
-                <div className="relative w-full aspect-[16/9] rounded-[10px] overflow-hidden bg-slate-950/50 shrink-0 border-0 shadow-xs mb-3 group/img">
+                <div className="relative w-full aspect-[16/9] rounded-[14px] overflow-hidden bg-slate-950/50 shrink-0 border-0 shadow-xs mb-3 group/img">
                   <img
                     src={course.image}
                     alt={localizedCourseTitle}
@@ -861,7 +862,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               duration: 0.45,
               ease: [0.25, 1, 0.5, 1],
             }}
-            className="w-full bento-card glass-card bento-view-card p-[15px] sm:p-[20px] rounded-[20px] border shadow-lg flex flex-col gap-[15px] text-left font-play"
+            className="w-full bento-card glass-card bento-view-card p-[15px] sm:p-[20px] rounded-[14px] border shadow-lg flex flex-col gap-[15px] text-left font-play"
           >
             {/* Master Header */}
             <div className="flex items-center justify-between gap-2 pb-3 border-b border-[var(--border-subcard)]">
@@ -1001,7 +1002,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           <span>Xem bằng</span>
                         </span>
                       </div>
-                      <div className="relative aspect-[16/9] w-full rounded-[10px] overflow-hidden bg-slate-950 border border-rose-200/40">
+                      <div className="relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-rose-200/40">
                         <img
                           src={course.certImg || course.image}
                           alt="Chứng nhận bằng cấp"
@@ -1106,7 +1107,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           <span>Phóng to</span>
                         </span>
                       </div>
-                      <div className="relative aspect-[16/9] w-full rounded-[10px] overflow-hidden bg-slate-950 border border-purple-200/40">
+                      <div className="relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-purple-200/40">
                         <img
                           src={course.courseImg || course.image}
                           alt={course.title}
@@ -1118,51 +1119,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   </div>
                 </div>
 
-                {/* 4. QUICK COURSE SWITCHER BAR (CHUYỂN NHANH GIỮA CÁC KHÓA HỌC) */}
-                {(() => {
-                  const totalCourses = EDUCATION_COURSES.length;
-                  const currentIdx = Math.max(0, EDUCATION_COURSES.findIndex((c) => c.id === course.id));
-                  const prevCourse = EDUCATION_COURSES[(currentIdx - 1 + totalCourses) % totalCourses];
-                  const nextCourse = EDUCATION_COURSES[(currentIdx + 1) % totalCourses];
-                  return (
-                    <div
-                      id="education-quick-course-switcher"
-                      data-element-type="card"
-                      data-section-card="true"
-                      className="bento-card glass-card col-span-1 md:col-span-8 lg:col-span-12 rounded-[14px] px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2.5 shadow-sm"
-                    >
-                      <button
-                        id="education-prev-course-btn"
-                        type="button"
-                        onClick={() => handleOpenDetail(prevCourse)}
-                        className="nav-arrow-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition-all active:scale-95 min-w-0 max-w-full sm:max-w-[44%]"
-                        title={`${isEn ? 'Previous Course' : 'Khóa trước'}: ${prevCourse.title}`}
-                      >
-                        <span className="w-6 h-6 rounded-full bg-blue-500/15 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
-                          <WebIcon name="arrow-left" className="w-3.5 h-3.5" />
-                        </span>
-                        <span className="truncate">← Khóa trước · {prevCourse.title}</span>
-                      </button>
-
-                      <span className="px-3 py-1 rounded-full typo-badge font-mono bg-[var(--bg-nested-badge)] text-[var(--text-secondary)] border border-[var(--border-subcard)] shrink-0">
-                        {currentIdx + 1} / {totalCourses}
-                      </span>
-
-                      <button
-                        id="education-next-course-btn"
-                        type="button"
-                        onClick={() => handleOpenDetail(nextCourse)}
-                        className="nav-arrow-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition-all active:scale-95 min-w-0 max-w-full sm:max-w-[44%] ml-auto sm:ml-0"
-                        title={`${isEn ? 'Next Course' : 'Khóa tiếp theo'}: ${nextCourse.title}`}
-                      >
-                        <span className="truncate">{nextCourse.title} · Khóa tiếp theo →</span>
-                        <span className="w-6 h-6 rounded-full bg-blue-500/15 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
-                          <WebIcon name="arrow-right" className="w-3.5 h-3.5" />
-                        </span>
-                      </button>
-                    </div>
-                  );
-                })()}
             </div>
           </motion.div>
         );

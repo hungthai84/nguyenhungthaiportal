@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   INTERVIEW_QUESTIONS,
   INTERVIEW_TABS,
@@ -147,7 +148,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
       data-element-name="Trang Phỏng Vấn"
       data-element-type="container"
       data-element-page="interview"
-      className="main-card w-full min-w-0 h-full flex-1 flex flex-col p-[25px] rounded-[20px] gap-[15px] max-w-full mx-auto justify-start select-none relative text-[var(--text-primary)] overflow-y-auto no-scrollbar font-play text-left animate-fadeIn box-border"
+      className="main-card w-full min-w-0 h-full flex-1 flex flex-col p-[25px] rounded-[14px] gap-[15px] max-w-full mx-auto justify-start select-none relative text-[var(--text-primary)] overflow-y-auto no-scrollbar font-play text-left animate-fadeIn box-border"
     >
       {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
       <div id="interview-main-content" className="w-full flex-1 flex flex-col lg:flex-row gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar">
@@ -218,7 +219,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
                 className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group shrink-0"
-                title="Bộ lọc câu hỏi phỏng vấn"
+                title="Bộ lọc"
+                aria-label="Bộ lọc câu hỏi phỏng vấn"
                 aria-expanded={isFilterDropdownOpen}
                 aria-haspopup="listbox"
               >
@@ -226,7 +228,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                   name="sliders"
                   className="w-4 h-4 text-[var(--color-primary)] transition-transform group-hover:rotate-45 shrink-0"
                 />
-                <span className="shrink-0">Bộ lọc câu hỏi</span>
+                <span className="shrink-0">Bộ lọc</span>
                 {activeFilter !== 'all' ? (
                   <span className="banner-count-pill px-2 py-0.2 rounded-full border typo-badge font-mono font-bold shrink-0">
                     {INTERVIEW_TABS.find((t) => t.key === activeFilter)?.labelVi}
@@ -245,17 +247,23 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 />
               </button>
 
-              {isFilterDropdownOpen && (
-                <div
-                  id="interview-question-filter-listbox"
-                  role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-72 sm:w-96 max-h-72 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
-                >
-                  <div className="px-2 py-1.5 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 sticky top-0 bg-[var(--bg-popup)] z-10 rounded-t-[10px]">
-                    <div className="flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">
-                      <span className="font-bold text-[var(--text-heading,var(--color-primary))] font-play text-[13px]">
-                        Bộ lọc câu hỏi
-                      </span>
+              <AnimatePresence>
+                {isFilterDropdownOpen && (
+                  <motion.div
+                    id="interview-question-filter-listbox"
+                    data-element-type="card"
+                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                    transition={{ duration: 0.16 }}
+                    role="listbox"
+                    className="banner-dropdown-menu bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-72 sm:w-96 max-h-72 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                  >
+                    <div className="px-2 py-1.5 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 sticky top-0 bg-[var(--bg-popup)] z-10 rounded-t-[10px]">
+                      <div className="flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">
+                        <span className="font-bold text-[var(--text-heading,var(--color-primary))] font-play text-[13px]">
+                          Bộ lọc
+                        </span>
                       <span>
                         Hiển thị {filteredQuestions.length}/{INTERVIEW_QUESTIONS.length} câu hỏi
                       </span>
@@ -323,8 +331,9 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                       </button>
                     );
                   })}
-                </div>
-              )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Cụm phải: Nút Phát Video bên dưới bên phải banner */}

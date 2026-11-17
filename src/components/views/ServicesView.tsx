@@ -64,7 +64,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
 
   // Danh sách bộ lọc phân hệ dịch vụ (6.1 - 6.6)
   const filterCategories = [
-    { id: 'ALL', label: isEn ? 'All Services (6)' : 'Tất cả dịch vụ (6)', icon: 'grid' },
+    { id: 'ALL', label: isEn ? 'All (6)' : 'Tất cả (6)', icon: 'grid' },
     { id: '01', label: isEn ? '6.1 · Telecom Services' : '6.1 · Dịch vụ viễn thông', icon: 'phone' },
     { id: '02', label: isEn ? '6.2 · E-Commerce' : '6.2 · Thương mại điện tử', icon: 'shopping-cart' },
     { id: '03', label: isEn ? '6.3 · Finance & Insurance' : '6.3 · Tài chính bảo hiểm', icon: 'shield-check' },
@@ -223,7 +223,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
       data-section-card="true"
       data-element-page="services"
       style={{ padding: '25px' }}
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto block p-[25px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] text-[var(--text-primary)] box-border"
+      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto block p-[25px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] text-[var(--text-primary)] box-border"
     >
       <div
         id="services-main-content"
@@ -301,7 +301,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                 setIsFilterOpen((prev) => !prev);
               }}
               className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
-              title="Bộ lọc dịch vụ"
+              title={isEn ? 'Filter' : 'Bộ lọc'}
+              aria-label="Bộ lọc dịch vụ"
               aria-expanded={isFilterOpen}
               aria-haspopup="listbox"
             >
@@ -309,7 +310,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                 name="sliders"
                 className="w-4 h-4 text-[var(--color-primary)] transition-transform group-hover:rotate-45 shrink-0"
               />
-              <span>Bộ lọc dịch vụ</span>
+              <span>{isEn ? 'Filter' : 'Bộ lọc'}</span>
               {activeCategory !== 'ALL' && (
                 <span className="banner-count-pill px-2 py-0.5 rounded-full border typo-badge font-mono">
                   {DOMAINS_DATA.find((d) => d.id === activeCategory)?.serviceCode || activeCategory}
@@ -537,7 +538,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
               cardStyle === 'cowhide-leather'
                 ? '#FDE68A'
                 : cardStyle === 'light-cowhide-leather'
-                  ? '#9A3412'
+                  ? '#0F172A'
                   : isLight
                     ? accentPair.light
                     : accentPair.dark;
@@ -694,7 +695,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                             <div
                               key={rIdx}
                               data-subcard="true"
-                              className="exp-detail-subcard relative overflow-hidden p-3.5 rounded-[12px] flex flex-col justify-between gap-1.5 min-w-0 transition-transform duration-200 hover:-translate-y-0.5"
+                              className="exp-detail-subcard relative overflow-hidden p-3.5 rounded-[14px] flex flex-col justify-between gap-1.5 min-w-0 transition-transform duration-200 hover:-translate-y-0.5"
                             >
                               <div
                                 className="absolute top-0 left-0 right-0 h-1"
@@ -738,59 +739,71 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                       {(() => {
                         const logoList = selectedDomain.companyLogos || [];
                         const companyList = selectedDomain.companies || [];
-                        const itemCount = logoList.length > 0 ? logoList.length : companyList.length;
-                        const gridColsClass =
-                          itemCount <= 1
-                            ? 'grid-cols-1'
-                            : itemCount === 2
-                              ? 'grid-cols-2'
-                              : itemCount === 3
-                                ? 'grid-cols-2 sm:grid-cols-3'
-                                : 'grid-cols-2';
-                        const tileHeightClass =
-                          itemCount <= 1
-                            ? 'min-h-[120px] sm:min-h-[144px]'
-                            : 'min-h-[82px] sm:min-h-[96px]';
+                        const partnerNamesLine =
+                          logoList.length > 0
+                            ? logoList.map((p) => p.name).join(' · ')
+                            : companyList.join(' · ');
 
                         return (
-                          <div className={`flex-1 w-full grid ${gridColsClass} gap-2.5 items-stretch`}>
-                            {logoList.length > 0 ? (
-                              logoList.map((partner, i) => (
-                                <div
-                                  key={i}
-                                  data-subcard="true"
-                                  className={`exp-detail-subcard !p-1.5 w-full h-full ${tileHeightClass} rounded-[12px] shadow-sm flex items-center justify-center overflow-hidden select-none`}
-                                  title={partner.name}
-                                >
-                                  <img
-                                    src={partner.logo}
-                                    alt={partner.name}
-                                    className={`w-full h-full ${itemCount <= 1 ? 'max-h-[124px] sm:max-h-[140px]' : 'max-h-[82px] sm:max-h-[92px]'} object-contain bg-transparent`}
-                                    onError={(e) => {
-                                      if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
-                                        e.currentTarget.src = partner.fallbackLogo;
-                                      } else {
-                                        e.currentTarget.style.display = 'none';
-                                        const fallbackSpan = e.currentTarget.nextElementSibling as HTMLElement | null;
-                                        if (fallbackSpan) fallbackSpan.style.display = 'inline';
-                                      }
-                                    }}
-                                  />
-                                  <span style={{ display: 'none' }} className="typo-badge font-semibold text-[var(--text-primary)] text-center px-2 break-words">
-                                    {partner.name}
-                                  </span>
-                                </div>
-                              ))
-                            ) : (
-                              companyList.map((p, i) => (
-                                <div
-                                  key={i}
-                                  data-subcard="true"
-                                  className={`exp-detail-subcard !p-2 w-full h-full ${tileHeightClass} rounded-[12px] shadow-sm flex items-center justify-center typo-badge text-[var(--text-primary)] text-center select-none`}
-                                >
-                                  <span className="break-words">{p}</span>
-                                </div>
-                              ))
+                          <div className="flex-1 w-full flex flex-col justify-center gap-2.5 min-w-0 py-1">
+                            <div
+                              className="flex flex-row items-center justify-start flex-nowrap overflow-x-auto no-scrollbar py-1 min-w-0"
+                              role="group"
+                              aria-label={isEn ? 'Partner logos' : 'Nhóm logo đối tác tiêu biểu'}
+                            >
+                              {logoList.length > 0
+                                ? logoList.map((partner, i) => (
+                                    <div
+                                      key={partner.name || i}
+                                      title={partner.name}
+                                      style={{
+                                        borderRadius: '9999px',
+                                        marginInlineStart: i > 0 ? '-16px' : '0px',
+                                        zIndex: logoList.length - i,
+                                      }}
+                                      className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full bg-white p-2 border-2 border-white dark:border-slate-800 ring-1 ring-slate-200/90 dark:ring-white/25 shadow-[0_6px_16px_rgba(15,23,42,0.16)] flex items-center justify-center overflow-hidden shrink-0 select-none transition-transform duration-200 hover:-translate-y-0.5"
+                                    >
+                                      <img
+                                        src={partner.logo}
+                                        alt={partner.name}
+                                        referrerPolicy="no-referrer"
+                                        className="w-full h-full object-contain bg-transparent"
+                                        onError={(e) => {
+                                          if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
+                                            e.currentTarget.src = partner.fallbackLogo;
+                                          } else {
+                                            e.currentTarget.style.display = 'none';
+                                            const fallbackSpan = e.currentTarget.nextElementSibling as HTMLElement | null;
+                                            if (fallbackSpan) fallbackSpan.style.display = 'inline';
+                                          }
+                                        }}
+                                      />
+                                      <span style={{ display: 'none' }} className="typo-badge font-bold text-slate-900 text-center px-1 break-words leading-tight">
+                                        {partner.name}
+                                      </span>
+                                    </div>
+                                  ))
+                                : companyList.map((companyName, i) => (
+                                    <div
+                                      key={companyName || i}
+                                      title={companyName}
+                                      style={{
+                                        borderRadius: '9999px',
+                                        marginInlineStart: i > 0 ? '-16px' : '0px',
+                                        zIndex: companyList.length - i,
+                                      }}
+                                      className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full bg-white p-2 border-2 border-white dark:border-slate-800 ring-1 ring-slate-200/90 dark:ring-white/25 shadow-[0_6px_16px_rgba(15,23,42,0.16)] flex items-center justify-center overflow-hidden shrink-0 select-none"
+                                    >
+                                      <span className="typo-badge font-bold text-slate-900 text-center leading-tight truncate px-1">
+                                        {companyName}
+                                      </span>
+                                    </div>
+                                  ))}
+                            </div>
+                            {partnerNamesLine && selectedDomain.id !== '03' && (
+                              <p className="typo-body-sm font-semibold text-[var(--text-primary)] break-words leading-snug">
+                                {partnerNamesLine}
+                              </p>
                             )}
                           </div>
                         );
@@ -927,7 +940,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                             <div
                               key={tIdx}
                               data-subcard="true"
-                              className="exp-detail-subcard p-3 rounded-[12px] flex items-start gap-2.5 min-w-0 transition-all hover:shadow-2xs"
+                              className="exp-detail-subcard p-3 rounded-[14px] flex items-start gap-2.5 min-w-0 transition-all hover:shadow-2xs"
                             >
                               <span className="w-5 h-5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center typo-badge font-mono font-bold shrink-0 mt-0.5">
                                 {tIdx + 1}
@@ -1000,16 +1013,16 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                               key={i}
                               data-subcard="true"
                               data-subcard-accent={toolAccent}
-                              className="exp-detail-subcard !p-2.5 rounded-[12px] flex items-center gap-2.5 min-w-0 transition-transform duration-200 hover:-translate-y-0.5"
+                              className="exp-detail-subcard !p-2.5 rounded-[14px] flex items-center gap-2.5 min-w-0 transition-transform duration-200 hover:-translate-y-0.5"
                             >
                               <span
-                                className="w-7 h-7 rounded-[10px] shrink-0 flex items-center justify-center border border-[var(--border-subcard)]/70"
+                                className="w-7 h-7 rounded-[14px] shrink-0 flex items-center justify-center border border-[var(--border-subcard)]/70"
                                 style={{
                                   backgroundColor:
                                     cardStyle === 'cowhide-leather'
                                       ? 'rgba(61, 33, 11, 0.72)'
                                       : cardStyle === 'light-cowhide-leather'
-                                        ? 'rgba(139, 90, 43, 0.14)'
+                                        ? 'rgba(15, 23, 42, 0.08)'
                                         : 'rgba(255, 255, 255, 0.14)',
                                   color: `var(--accent-${toolAccent})`,
                                 }}

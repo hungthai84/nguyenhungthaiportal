@@ -5,14 +5,15 @@
 
 .card-ice-blue-neu {
   background: linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%);
-  border-radius: 28px;
+  border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow: 12px 12px 26px rgba(176, 198, 219, 0.7), -10px -10px 22px rgba(255, 255, 255, 0.95), inset 1px 1px 2px rgba(255, 255, 255, 0.9);
-  color: #334155;
+  color: #000000;
 }
 
 .ice-neu-inset {
   background: #e5eff8;
+  border-radius: 14px;
   box-shadow: inset 4px 4px 8px rgba(176, 198, 219, 0.65), inset -4px -4px 8px rgba(255, 255, 255, 0.95);
 }
 
@@ -23,12 +24,14 @@ html[data-card-style="ice-blue-neumorphism"] {
   --blur-nav-pill: 0px;
   --blur-modal: 12px;
 
-  --radius-main: 28px;
-  --radius-card: 28px;
-  --radius-subcard: 18px;
-  --radius-banner: 28px;
-  --radius-modal: 28px;
-  --radius-popup: 20px;
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
   --radius-header: 0 0 14px 14px;
   --radius-footer: 14px 14px 0 0;
   --card-border-width: 1px;
@@ -40,16 +43,16 @@ html[data-card-style="ice-blue-neumorphism"] {
   --color-surface: #e8f1f9;
   --color-surface-elevated: #edf4fa;
 
-  --color-heading: #1e293b;
-  --color-text: #334155;
-  --color-text-secondary: #475569;
-  --color-text-muted: #64748b;
-  --color-link: #0284c7;
-  --text-primary: #334155;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --text-heading: #1e293b;
-  --text-link: #0284c7;
+  --color-heading: #000000;
+  --color-text: #000000;
+  --color-text-secondary: #111827;
+  --color-text-muted: #27272A;
+  --color-link: #0369a1;
+  --text-primary: #000000;
+  --text-secondary: #111827;
+  --text-muted: #27272A;
+  --text-heading: #000000;
+  --text-link: #0369a1;
 
   /* Pastel-Neon Brand Accents (Cyan, Purple, Peach, Pink) */
   --color-primary: #0ea5e9;
@@ -255,10 +258,10 @@ html[data-card-style="ice-blue-neumorphism"] .bento-tone-sky {
   background: linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  border-radius: 28px !important;
+  border-radius: 14px !important;
   border: 1px solid rgba(255, 255, 255, 0.85) !important;
   box-shadow: 12px 12px 26px rgba(176, 198, 219, 0.7), -10px -10px 22px rgba(255, 255, 255, 0.95), inset 1px 1px 2px rgba(255, 255, 255, 0.9) !important;
-  color: #334155 !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="ice-blue-neumorphism"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not([id$="-page-container"]):not([id$="-page-root"]):hover,
@@ -285,10 +288,10 @@ html[data-card-style="ice-blue-neumorphism"] .project-detail-subcard {
   background: #e5eff8 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  border-radius: 18px !important;
+  border-radius: 14px !important;
   border: 1px solid rgba(255, 255, 255, 0.78) !important;
   box-shadow: inset 4px 4px 8px rgba(176, 198, 219, 0.65), inset -4px -4px 8px rgba(255, 255, 255, 0.95) !important;
-  color: #334155 !important;
+  color: #000000 !important;
 }
 
 html[data-card-style="ice-blue-neumorphism"] [data-subcard="true"]:not(.skill-swot-subcard):hover,

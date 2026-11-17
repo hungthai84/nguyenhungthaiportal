@@ -1829,7 +1829,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
         }
       }}
       style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
-      className="group/letter main-card w-full min-w-0 h-full max-w-full mx-auto flex-1 min-h-0 flex flex-col justify-start p-[25px] gap-[15px] relative z-10 select-none overflow-hidden font-play text-left rounded-[20px] box-border"
+      className="group/letter main-card w-full min-w-0 h-full max-w-full mx-auto flex-1 min-h-0 flex flex-col justify-start p-[25px] gap-[15px] relative z-10 select-none overflow-hidden font-play text-left rounded-[14px] box-border"
     >
 
 
@@ -2107,7 +2107,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       />
 
                       <div
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-3.5 items-stretch w-full"
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-[15px] items-stretch w-full"
+                        style={{ gap: '15px' }}
                       >
                         {CORE_VALUES_DATA.map((val) => {
                           const valIconName =
@@ -2125,8 +2126,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                               key={val.number}
                               id={`core-val-${val.number}`}
                               data-subcard="true"
-                              style={{ gap: '10px', padding: '14px', borderRadius: '12px' }}
-                              className={`sub-card letter-subcard relative overflow-hidden flex flex-col justify-between h-full p-3.5 gap-2.5 transition-all duration-200 hover:-translate-y-0.5 text-left group rounded-[12px] min-w-0 ${
+                              style={{ gap: '10px', padding: '14px', borderRadius: '14px' }}
+                              className={`sub-card letter-subcard relative overflow-hidden flex flex-col justify-between h-full p-3.5 gap-2.5 transition-all duration-200 hover:-translate-y-0.5 text-left group rounded-[14px] min-w-0 ${
                                 isValBeingRead
                                   ? 'ring-2 ring-emerald-500 dark:ring-cyan-400 shadow-[0_0_24px_rgba(16,185,129,0.28)] -translate-y-1'
                                   : ''
@@ -2350,14 +2351,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                       {/* Three Core Principles Bento Sub-Grid */}
                       <div
-                        className="flex flex-col gap-3 w-full flex-1 justify-between min-w-0"
+                        className="flex flex-col gap-[15px] w-full min-w-0"
+                        style={{ gap: '15px' }}
                       >
                         <p className="card-tag typo-body-sm font-semibold text-[var(--text-secondary)] tracking-wide font-mono">
                           Tôi luôn làm việc dựa trên ba nguyên tắc cốt lõi:
                         </p>
 
                         <div
-                          className="grid grid-cols-1 auto-rows-fr gap-3 w-full flex-1 items-stretch min-w-0"
+                          className="grid grid-cols-1 auto-rows-fr gap-[15px] w-full items-stretch min-w-0"
+                          style={{ gap: '15px' }}
                         >
                           {OPERATIONAL_PRINCIPLES_DATA.map((principle, idx) => {
                             const iconName = idx === 0 ? 'layers' : idx === 1 ? 'users' : 'network';
@@ -2368,8 +2371,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                               <div
                                 key={principle.id}
                                 data-subcard="true"
-                                style={{ padding: '14px', borderRadius: '12px' }}
-                                className="sub-card letter-subcard h-full p-3.5 rounded-[12px] text-left flex flex-col justify-between gap-1.5 transition-all hover:-translate-y-0.5 duration-200 min-w-0"
+                                style={{ padding: '14px', borderRadius: '14px' }}
+                                className="sub-card letter-subcard h-full p-3.5 rounded-[14px] text-left flex flex-col justify-between gap-1.5 transition-all hover:-translate-y-0.5 duration-200 min-w-0"
                               >
                                 <div className="flex items-center justify-between gap-2 min-w-0">
                                   <div
@@ -2448,8 +2451,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       {/* Quote box synthesis Bento Sub-card */}
                       <div
                         data-subcard="true"
-                        style={{ padding: '14px', borderRadius: '12px' }}
-                        className="sub-card letter-subcard w-full p-3.5 rounded-[12px] relative flex items-center gap-3 min-w-0"
+                        style={{ padding: '14px', borderRadius: '14px' }}
+                        className="sub-card letter-subcard w-full p-3.5 rounded-[14px] relative flex items-center gap-3 min-w-0"
                       >
                         <span className="text-amber-600 dark:text-amber-400 font-serif font-black text-xl leading-none shrink-0">
                           “

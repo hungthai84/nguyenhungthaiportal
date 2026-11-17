@@ -2,7 +2,11 @@ import React from 'react';
 
 export type CardStyleMode =
   | 'light-glassmorphism'
+  | 'light-multicolor-glass'
+  | 'light-multicolor-glass-dark'
   | 'dark-glassmorphism'
+  | 'dark-neon-multicolor-glass'
+  | 'dark-neon-multicolor-glass-light'
   | 'ice-blue-neumorphism'
   | 'dark-ice-blue-neumorphism'
   | 'pastel-lilac-soft'
@@ -12,6 +16,8 @@ export type CardStyleMode =
 
 export type ThemeFamilyId =
   | 'glassmorphism'
+  | 'light-multicolor-glass'
+  | 'dark-neon-multicolor-glass'
   | 'ice-blue-neumorphism'
   | 'pastel-soft-ui'
   | 'cowhide-leather';

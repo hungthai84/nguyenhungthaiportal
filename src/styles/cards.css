@@ -23,8 +23,21 @@
 }
 
 .hero-banner,
-.banner-card {
-  isolation: isolate;
+.banner-card,
+#interview-questions-card {
+  position: relative;
+  z-index: 40;
+}
+
+.hero-banner:has(.banner-dropdown-menu),
+.banner-card:has(.banner-dropdown-menu),
+#interview-questions-card:has(.banner-dropdown-menu) {
+  z-index: 250 !important;
+  isolation: auto !important;
+}
+
+.banner-dropdown-menu {
+  z-index: 999 !important;
 }
 
 [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
@@ -169,7 +182,7 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
   backdrop-filter: blur(var(--bg-blur, 20px)) !important;
   -webkit-backdrop-filter: blur(var(--bg-blur, 20px)) !important;
   box-shadow: var(--shadow-card);
-  padding: var(--space-card-padding, 18px) !important;
+  padding: var(--space-card-padding, 15px) !important;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
 }
 
@@ -269,7 +282,7 @@ html.dark .bento-tone-sky {
   -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, 0px)));
   outline: var(--outline-subcard, none);
   outline-offset: var(--outline-offset-subcard, 0px);
-  padding: 12px;
+  padding: 15px;
   transition: transform var(--motion-normal) var(--motion-ease), box-shadow var(--motion-normal) var(--motion-ease), border-color var(--motion-normal) var(--motion-ease);
 }
 
@@ -493,7 +506,7 @@ html.dark[data-card-style] #weather-widget-card {
   height: 64px !important;
   padding-left: 8px !important;
   padding-right: 8px !important;
-  border-radius: 12px !important;
+  border-radius: 14px !important;
   background-color: transparent !important;
   background: transparent !important;
   background-image: none !important;
@@ -656,27 +669,29 @@ h3.card-title,
 
 .card-ice-blue-neu {
   background: linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%);
-  border-radius: 28px;
+  border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow: 12px 12px 26px rgba(176, 198, 219, 0.7), -10px -10px 22px rgba(255, 255, 255, 0.95), inset 1px 1px 2px rgba(255, 255, 255, 0.9);
-  color: #334155;
+  color: #000000;
 }
 
 .ice-neu-inset {
   background: #e5eff8;
+  border-radius: 14px;
   box-shadow: inset 4px 4px 8px rgba(176, 198, 219, 0.65), inset -4px -4px 8px rgba(255, 255, 255, 0.95);
 }
 
 .card-dark-ice-blue-neu {
   background: linear-gradient(145deg, #182536 0%, #121c29 100%);
-  border-radius: 28px;
+  border-radius: 14px;
   border: 1px solid rgba(148, 197, 248, 0.12);
   box-shadow: 12px 12px 26px #0a1018, -10px -10px 22px #203147, inset 1px 1px 2px rgba(186, 230, 253, 0.14);
-  color: #e2e8f0;
+  color: #FFFFFF;
 }
 
 .dark-ice-neu-inset {
   background: #131d2b;
+  border-radius: 14px;
   box-shadow: inset 4px 4px 8px #0a1018, inset -4px -4px 8px #1e2e43;
 }
 
@@ -1048,7 +1063,7 @@ article.project-card:hover,
 .project-card-body,
 .project-card .project-card-body,
 #projects-grid article .project-card-body {
-  padding: 10px !important;
+  padding: 15px !important;
   box-sizing: border-box !important;
 }
 
@@ -1539,4 +1554,44 @@ button:focus-visible,
   gap: 15px !important;
   row-gap: 15px !important;
 }
+
+/* ========================================================================= */
+/* 5-LEVEL ELEVATION ANTI-STACKING & HOVER SHADOW CLIPPING PROTECTION        */
+/* ========================================================================= */
+/* Level 0: Flat regions */
+[data-elevation="0"] {
+  box-shadow: var(--elevation-0, none) !important;
+}
+
+/* Level 1: Nested elements inside Sub-cards (anti-stacking — subtle border & light lift) */
+:is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .theme-modal-subcard)
+  :is([data-subcard="true"], .sub-card, .nested-card, .project-detail-chip, .education-skill-chip, .theme-muted-surface, [data-elevation="1"]) {
+  box-shadow: var(--elevation-1, var(--shadow-nested)) !important;
+  border-radius: 14px !important;
+}
+
+:is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .theme-modal-subcard)
+  :is([data-subcard="true"], .sub-card):hover {
+  transform: none !important;
+  box-shadow: var(--elevation-1, var(--shadow-nested)) !important;
+}
+
+/* Prevent hover shadow clipping on card grids & scroll shelves */
+#projects-grid,
+#memories-grid,
+#wallpapers-grid,
+.bento-grid-responsive,
+.bento-subcard-grid {
+  overflow: visible !important;
+  padding-top: 4px;
+  padding-bottom: 6px;
+}
+
+.themed-image-card:hover,
+.memory-photo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover) !important;
+  z-index: 2;
+}
+
 

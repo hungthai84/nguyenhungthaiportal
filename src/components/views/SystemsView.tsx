@@ -833,7 +833,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
   const ecosystemSegments = [
     {
       id: 'all',
-      label: 'Tất cả hệ thống',
+      label: 'Tất cả',
       codesLabel: '12 Phân hệ',
       count: 12,
       icon: 'layers',
@@ -1130,7 +1130,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       data-element-type="card"
       data-section-card="true"
       data-element-page="systems"
-      className="main-card bento-card glass-card relative w-full min-w-0 h-full max-h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] box-border"
+      className="main-card bento-card glass-card relative w-full min-w-0 h-full max-h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
     >
       {/* 100% Matching Animation CSS Rules */}
       <style
@@ -1346,38 +1346,23 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
               className="relative z-30 flex flex-wrap items-end justify-between gap-2.5 mt-auto w-full"
               ref={filterDropdownRef}
             >
-              <div className="flex flex-wrap items-center gap-2.5 min-w-0">
-                {/* NÚT SƠ ĐỒ LIÊN KẾT HỆ THỐNG */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    SoundEngine.playTechChimeExpand();
-                    setIsEcosystemDiagramOpen(true);
-                  }}
-                  className="banner-primary-cta inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-[0_4px_16px_rgba(37,99,235,0.45)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.6)] border border-blue-300/40 backdrop-blur-md transition-all cursor-pointer typo-button font-play active:scale-95 group"
-                  title="Mở Sơ đồ liên kết 12 Phân hệ PowerService"
-                >
-                  <WebIcon name="git-merge" className="w-4 h-4 text-white animate-pulse shrink-0" />
-                  <span>Sơ đồ liên kết</span>
-                  <span className="banner-count-pill px-1.5 py-0.5 rounded-full bg-white/20 text-white typo-badge font-mono">
-                    12 Phân hệ
-                  </span>
-                </button>
-
+              <div className="flex flex-wrap items-center gap-2 min-w-0">
                 <div className="relative inline-block text-left">
                   <button
+                    id="systems-filter-toggle-btn"
                     type="button"
                     onClick={() => {
                       SoundEngine.playTap();
                       setIsFilterDropdownOpen((prev) => !prev);
                     }}
                     className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-orange-900 dark:text-orange-200 border border-orange-300 dark:border-orange-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer typo-button font-play active:scale-95 group"
-                    title="Bộ lọc hệ thống"
+                    title={isEn ? 'Filter' : 'Bộ lọc'}
+                    aria-label="Bộ lọc hệ thống"
                     aria-expanded={isFilterDropdownOpen}
                     aria-haspopup="listbox"
                   >
                     <WebIcon name="sliders" className="w-4 h-4 text-orange-700 dark:text-orange-400 transition-transform group-hover:rotate-45 shrink-0" />
-                    <span>Bộ lọc hệ thống</span>
+                    <span>{isEn ? 'Filter' : 'Bộ lọc'}</span>
                     {activeCategory !== 'all' && (
                       <span className="banner-count-pill px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-950/80 border border-orange-300 dark:border-orange-500/50 typo-badge font-mono text-orange-900 dark:text-orange-200">
                         {ecosystemSegments.find((s) => s.id === activeCategory)?.label}
@@ -1437,56 +1422,105 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                     )}
                   </AnimatePresence>
                 </div>
+
+                {/* NÚT SƠ ĐỒ LIÊN KẾT HỆ THỐNG */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    SoundEngine.playTechChimeExpand();
+                    setIsEcosystemDiagramOpen(true);
+                  }}
+                  className="banner-primary-cta inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-[0_4px_16px_rgba(37,99,235,0.45)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.6)] border border-blue-300/40 backdrop-blur-md transition-all cursor-pointer typo-button font-play active:scale-95 group"
+                  title="Mở Sơ đồ liên kết 12 Phân hệ PowerService"
+                >
+                  <WebIcon name="git-merge" className="w-4 h-4 text-white animate-pulse shrink-0" />
+                  <span>Sơ đồ liên kết</span>
+                  <span className="banner-count-pill px-1.5 py-0.5 rounded-full bg-white/20 text-white typo-badge font-mono">
+                    12 Phân hệ
+                  </span>
+                </button>
               </div>
 
-              {/* NÚT HÌNH TRÒN PHÁT VIDEO GIỚI THIỆU NẰM BÊN PHẢI BANNER */}
-              <button
-                id="systems-intro-video-circle-btn"
-                type="button"
-                onClick={handleToggleCircleVideo}
-                aria-label={isCircleVideoPlaying ? 'Đóng video giới thiệu hệ thống' : 'Xem video giới thiệu hệ thống'}
-                title={isCircleVideoPlaying ? 'Đóng video giới thiệu hệ thống' : 'Xem video giới thiệu hệ thống'}
-                className={cn(
-                  'relative ml-auto shrink-0 w-14 h-14 sm:w-16 sm:h-16 lg:w-[72px] lg:h-[72px] rounded-full aspect-square p-0.5 flex items-center justify-center cursor-pointer transition-all duration-300 group hover:scale-105 active:scale-95 video-circle-halo',
-                  isCircleVideoPlaying
-                    ? 'bg-gradient-to-br from-rose-500 via-pink-500 to-purple-600 ring-4 ring-rose-400/60 shadow-[0_0_24px_rgba(244,63,94,0.7)]'
-                    : 'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 ring-2 ring-cyan-300/70 shadow-[0_6px_22px_rgba(14,165,233,0.55)]'
-                )}
-              >
-                <div className="relative w-full h-full rounded-full overflow-hidden bg-slate-900 border border-white/60">
-                  <video
-                    ref={circleVideoRef}
-                    src={SYSTEM_FLOATING_IDLE_VIDEO_URL}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover object-center rounded-full pointer-events-none scale-[1.06]"
+              {/* CỤM TÌM KIẾM & VIDEO GIỚI THIỆU NẰM BÊN PHẢI GÓC DƯỚI BANNER */}
+              <div className="flex items-center gap-2 ml-auto shrink-0 max-w-full">
+                <div className="relative w-36 sm:w-44 md:w-48">
+                  <WebIcon
+                    name="search"
+                    className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
                   />
-                  <div
-                    className={cn(
-                      'absolute inset-0 rounded-full flex items-center justify-center transition-all duration-300',
-                      isCircleVideoPlaying
-                        ? 'bg-slate-950/45 group-hover:bg-slate-950/60'
-                        : 'bg-slate-950/20 group-hover:bg-slate-950/40'
-                    )}
-                  >
-                    <span
+                  <input
+                    id="systems-search-input"
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={isEn ? 'Search systems...' : 'Tìm hệ thống...'}
+                    aria-label={isEn ? 'Search systems' : 'Tìm kiếm hệ thống'}
+                    className="banner-search-input w-full pl-8 pr-7 py-1.5 rounded-full typo-input font-play focus:outline-none"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery('')}
+                      aria-label="Xóa từ khóa tìm kiếm"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 cursor-pointer"
+                    >
+                      <WebIcon name="cancel" className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+                <span className="banner-count-pill px-2.5 py-1.5 rounded-full typo-badge font-mono font-bold shrink-0">
+                  {filteredSystems.length}/{SYSTEMS_DATA.length}
+                </span>
+
+                {/* NÚT HÌNH TRÒN PHÁT VIDEO GIỚI THIỆU NẰM BÊN PHẢI BANNER */}
+                <button
+                  id="systems-intro-video-circle-btn"
+                  type="button"
+                  onClick={handleToggleCircleVideo}
+                  aria-label={isCircleVideoPlaying ? 'Đóng video giới thiệu hệ thống' : 'Xem video giới thiệu hệ thống'}
+                  title={isCircleVideoPlaying ? 'Đóng video giới thiệu hệ thống' : 'Xem video giới thiệu hệ thống'}
+                  className={cn(
+                    'relative shrink-0 w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full aspect-square p-0.5 flex items-center justify-center cursor-pointer transition-all duration-300 group hover:scale-105 active:scale-95 video-circle-halo',
+                    isCircleVideoPlaying
+                      ? 'bg-gradient-to-br from-rose-500 via-pink-500 to-purple-600 ring-4 ring-rose-400/60 shadow-[0_0_24px_rgba(244,63,94,0.7)]'
+                      : 'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 ring-2 ring-cyan-300/70 shadow-[0_6px_22px_rgba(14,165,233,0.55)]'
+                  )}
+                >
+                  <div className="relative w-full h-full rounded-full overflow-hidden bg-slate-900 border border-white/60">
+                    <video
+                      ref={circleVideoRef}
+                      src={SYSTEM_FLOATING_IDLE_VIDEO_URL}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover object-center rounded-full pointer-events-none scale-[1.06]"
+                    />
+                    <div
                       className={cn(
-                        'w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white border border-white/60 shadow-md backdrop-blur-sm transition-transform duration-300 group-hover:scale-110',
+                        'absolute inset-0 rounded-full flex items-center justify-center transition-all duration-300',
                         isCircleVideoPlaying
-                          ? 'bg-rose-600/90'
-                          : 'bg-black/60'
+                          ? 'bg-slate-950/45 group-hover:bg-slate-950/60'
+                          : 'bg-slate-950/20 group-hover:bg-slate-950/40'
                       )}
                     >
-                      <WebIcon
-                        name={isCircleVideoPlaying ? 'cancel' : 'play'}
-                        className={cn('w-3.5 h-3.5 sm:w-4 sm:h-4 text-white', !isCircleVideoPlaying && 'ml-0.5')}
-                      />
-                    </span>
+                      <span
+                        className={cn(
+                          'w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white border border-white/60 shadow-md backdrop-blur-sm transition-transform duration-300 group-hover:scale-110',
+                          isCircleVideoPlaying
+                            ? 'bg-rose-600/90'
+                            : 'bg-black/60'
+                        )}
+                      >
+                        <WebIcon
+                          name={isCircleVideoPlaying ? 'cancel' : 'play'}
+                          className={cn('w-3.5 h-3.5 sm:w-4 sm:h-4 text-white', !isCircleVideoPlaying && 'ml-0.5')}
+                        />
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </button>
+                </button>
+              </div>
             </div>
           </motion.section>
         )}
@@ -1760,7 +1794,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                   cardStyle === 'cowhide-leather'
                     ? '#FDE68A'
                     : cardStyle === 'light-cowhide-leather'
-                      ? '#9A3412'
+                      ? '#0F172A'
                       : isDark
                         ? config.darkAccent
                         : config.lightAccent;
@@ -1832,7 +1866,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             {/* 3 Thẻ thông tin định danh hệ thống nằm gọn trong thẻ Mô tả kiến trúc */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3 items-stretch min-w-0">
                               {/* Tên gọi hệ thống (4/12) */}
-                              <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                              <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                                 <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="sky">
                                   <WebIcon name={config.iconName} className="w-4 h-4 shrink-0" />
                                   <h4
@@ -1848,7 +1882,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               </div>
 
                               {/* Ký hiệu viết tắt (3/12) */}
-                              <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                              <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                                 <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="amber">
                                   <WebIcon name="file-text" className="w-4 h-4 shrink-0" />
                                   <h4
@@ -1867,7 +1901,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               </div>
 
                               {/* Tên viết đầy đủ (5/12) */}
-                              <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                              <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                                 <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="violet">
                                   <WebIcon name="globe" className="w-4 h-4 shrink-0" />
                                   <h4
@@ -1887,7 +1921,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               {(item.videoUrl || config.illustrationSrc || item.imageUrl) && (
                                 <div
                                   id={`system-detail-media-${item.id}`}
-                                  className={`md:col-span-5 relative w-full aspect-video rounded-[12px] overflow-hidden min-w-0 ${
+                                  className={`md:col-span-5 relative w-full aspect-video rounded-[14px] overflow-hidden min-w-0 ${
                                     item.videoUrl ? 'bg-black' : 'bg-transparent'
                                   }`}
                                 >
@@ -1950,7 +1984,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                   <li
                                     key={fIdx}
                                     data-subcard="true"
-                                    className="exp-detail-subcard flex items-start gap-2.5 p-2.5 rounded-[12px] text-[var(--text-primary)] min-w-0"
+                                    className="exp-detail-subcard flex items-start gap-2.5 p-2.5 rounded-[14px] text-[var(--text-primary)] min-w-0"
                                   >
                                     <span
                                       className="w-6 h-6 rounded-full text-white font-mono typo-badge flex items-center justify-center shrink-0 mt-0.5"
@@ -1991,19 +2025,19 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                 </h4>
                               </div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2 typo-body-sm">
-                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] min-w-0">
+                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] min-w-0">
                                   <span className="typo-label text-[var(--text-secondary)] block font-mono">Dữ liệu (DB)</span>
                                   <span className="font-semibold text-[var(--text-primary)] mt-0.5 block break-words">{tech.database}</span>
                                 </div>
-                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] min-w-0">
+                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] min-w-0">
                                   <span className="typo-label text-[var(--text-secondary)] block font-mono">Giao thức</span>
                                   <span className="font-semibold text-[var(--text-primary)] mt-0.5 block break-words">{tech.apiProtocol}</span>
                                 </div>
-                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] min-w-0">
+                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] min-w-0">
                                   <span className="typo-label text-[var(--text-secondary)] block font-mono">Bảo mật</span>
                                   <span className="font-semibold text-emerald-700 dark:text-emerald-300 mt-0.5 block break-words">{tech.isoSecurity}</span>
                                 </div>
-                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] min-w-0">
+                                <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] min-w-0">
                                   <span className="typo-label text-[var(--text-secondary)] block font-mono">Phân hệ</span>
                                   <span className="font-semibold text-amber-700 dark:text-amber-300 mt-0.5 block break-words">{tech.ecosystemLabel}</span>
                                 </div>
@@ -2110,7 +2144,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               setHoveredImgId(item.id);
                             }}
                             title={`Hình hệ thống ${item.abbr}`}
-                            className={`w-[30%] min-w-[75px] max-w-[130px] h-[85px] shrink-0 z-20 rounded-[10px] overflow-hidden flex items-center justify-center bg-transparent group/img cursor-pointer transition-all duration-300 border-0 shadow-none relative ${
+                            className={`w-[30%] min-w-[75px] max-w-[130px] h-[85px] shrink-0 z-20 rounded-[14px] overflow-hidden flex items-center justify-center bg-transparent group/img cursor-pointer transition-all duration-300 border-0 shadow-none relative ${
                               isImgHovered && item.videoUrl ? 'opacity-0' : 'opacity-100'
                             }`}
                             style={{
@@ -2317,7 +2351,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 cardStyle === 'cowhide-leather'
                   ? '#FDE68A'
                   : cardStyle === 'light-cowhide-leather'
-                    ? '#9A3412'
+                    ? '#0F172A'
                     : isDark
                       ? headerConfig?.darkAccent || '#60a5fa'
                       : headerConfig?.lightAccent || '#1d4ed8';
@@ -2387,7 +2421,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                       {/* 3 Thẻ thông tin định danh hệ thống bên trong Mô tả kiến trúc */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3 items-stretch min-w-0">
                         {/* Tên gọi hệ thống (4/12) */}
-                        <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                        <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                           <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="sky">
                             <WebIcon name={modalIconName} className="w-[18px] h-[18px] shrink-0" />
                             <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
@@ -2400,7 +2434,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         </div>
 
                         {/* Ký hiệu viết tắt (3/12) */}
-                        <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                        <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                           <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="amber">
                             <WebIcon name="file-text" className="w-[18px] h-[18px] shrink-0" />
                             <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
@@ -2413,7 +2447,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         </div>
 
                         {/* Tên viết đầy đủ (5/12) */}
-                        <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-3.5 rounded-[12px] min-w-0 flex flex-col justify-between gap-1.5">
+                        <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                           <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="violet">
                             <WebIcon name="globe" className="w-[18px] h-[18px] shrink-0" />
                             <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
@@ -2430,7 +2464,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         {(selectedSystem.videoUrl || modalConfig?.illustrationSrc || selectedSystem.imageUrl) && (
                           <div
                             id="systems-admin-card"
-                            className={`md:col-span-5 relative w-full aspect-video rounded-[12px] overflow-hidden min-w-0 ${
+                            className={`md:col-span-5 relative w-full aspect-video rounded-[14px] overflow-hidden min-w-0 ${
                               selectedSystem.videoUrl ? 'bg-black' : 'bg-transparent'
                             }`}
                           >
@@ -2484,7 +2518,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           <li
                             key={idx}
                             data-subcard="true"
-                            className="exp-detail-subcard flex items-start gap-2.5 typo-body-sm text-[var(--text-primary)] p-2.5 rounded-[12px] min-w-0"
+                            className="exp-detail-subcard flex items-start gap-2.5 typo-body-sm text-[var(--text-primary)] p-2.5 rounded-[14px] min-w-0"
                           >
                             <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
                               <WebIcon name="check" className="w-3 h-3 stroke-[3]" />
@@ -2507,22 +2541,22 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                       </div>
 
                       <div className="space-y-2 typo-body-sm">
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2 min-w-0">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] flex items-center justify-between gap-2 min-w-0">
                           <span className="text-[var(--text-secondary)] font-medium">Cơ sở dữ liệu:</span>
                           <span className="font-semibold text-sky-700 dark:text-[#67E8F9] font-mono text-right break-words">{specInfo.database}</span>
                         </div>
 
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2 min-w-0">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] flex items-center justify-between gap-2 min-w-0">
                           <span className="text-[var(--text-secondary)] font-medium">Giao thức API:</span>
                           <span className="font-semibold text-purple-700 dark:text-purple-300 font-mono text-right break-words">{specInfo.apiProtocol}</span>
                         </div>
 
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2 min-w-0">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] flex items-center justify-between gap-2 min-w-0">
                           <span className="text-[var(--text-secondary)] font-medium">Cam kết SLA:</span>
                           <span className="font-semibold text-emerald-700 dark:text-[#6EE7B7] font-mono text-right break-words">{specInfo.slaCommitment}</span>
                         </div>
 
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[12px] flex items-center justify-between gap-2 min-w-0">
+                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] flex items-center justify-between gap-2 min-w-0">
                           <span className="text-[var(--text-secondary)] font-medium">Bảo mật ISO:</span>
                           <span className="font-semibold text-amber-700 dark:text-[#FCD34D] font-mono text-right break-words">{specInfo.isoSecurity}</span>
                         </div>

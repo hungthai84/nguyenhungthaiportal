@@ -133,7 +133,7 @@ export const BentoSubCard: React.FC<BentoSubCardProps> = ({
     <div
       data-subcard="true"
       className={cn(
-        'sub-card rounded-[12px] p-3 min-w-0 max-w-full transition-all duration-200',
+        'sub-card rounded-[14px] p-[15px] min-w-0 max-w-full transition-all duration-200',
         interactive && 'cursor-pointer hover:-translate-y-0.5 hover:shadow-md',
         className
       )}

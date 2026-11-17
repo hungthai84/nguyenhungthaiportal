@@ -159,7 +159,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           if (parsed && parsed.id && !isCodePenWallpaper(parsed)) {
             if (parsed.id === 'none') return parsed;
             const presetMatch = WALLPAPER_PRESETS_LIST.find((w) => w.id === parsed.id);
-            const merged = presetMatch ? { ...presetMatch, ...parsed } : parsed;
+            const merged = presetMatch
+              ? presetMatch.id.startsWith('theme-bg-') && !presetMatch.isCustom
+                ? { ...parsed, ...presetMatch }
+                : { ...presetMatch, ...parsed }
+              : parsed;
             if (
               merged.value ||
               merged.bg ||
@@ -227,7 +231,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             ? 'dark-ice-blue-neumorphism'
             : cardStyle === 'dark-pastel-lilac-soft'
               ? 'dark-pastel-lilac-soft'
-              : 'dark-glassmorphism'
+              : cardStyle === 'dark-neon-multicolor-glass'
+                ? 'dark-neon-multicolor-glass'
+                : cardStyle === 'light-multicolor-glass-dark'
+                  ? 'light-multicolor-glass-dark'
+                  : 'dark-glassmorphism'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -376,17 +384,27 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const normalized = normalizeCardStyle(mode);
     const nextDark = resolveCardStyleDark(normalized);
     const defaultWp = getDefaultWallpaperForTheme(normalized);
+    let hasManualWallpaper = false;
+    try {
+      hasManualWallpaper = localStorage.getItem(WALLPAPER_MANUAL_STORAGE_KEY) === '1';
+    } catch {
+      hasManualWallpaper = false;
+    }
+
     setCardStyleState(normalized);
-    setActiveWallpaper(defaultWp);
+    if (!hasManualWallpaper) {
+      setActiveWallpaper(defaultWp);
+    }
     try {
       localStorage.setItem(CARD_STYLE_STORAGE_KEY, normalized);
       localStorage.setItem(
         nextDark ? 'hungthai_last_dark_style' : 'hungthai_last_light_style',
         normalized
       );
-      localStorage.removeItem(WALLPAPER_MANUAL_STORAGE_KEY);
-      localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(defaultWp));
-      localStorage.setItem('theme_wallpaper', defaultWp.value || defaultWp.bg || '');
+      if (!hasManualWallpaper) {
+        localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(defaultWp));
+        localStorage.setItem('theme_wallpaper', defaultWp.value || defaultWp.bg || '');
+      }
     } catch (e) {
       // ignore
     }
@@ -400,7 +418,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             ? 'dark-ice-blue-neumorphism'
             : normalized === 'dark-pastel-lilac-soft'
               ? 'dark-pastel-lilac-soft'
-              : 'dark-glassmorphism'
+              : normalized === 'dark-neon-multicolor-glass'
+                ? 'dark-neon-multicolor-glass'
+                : normalized === 'light-multicolor-glass-dark'
+                  ? 'light-multicolor-glass-dark'
+                  : 'dark-glassmorphism'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -413,7 +435,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       document.body.setAttribute('data-card-style', normalized);
     }
     window.dispatchEvent(new CustomEvent(CARD_STYLE_SYNC_EVENT, { detail: normalized }));
-    window.dispatchEvent(new CustomEvent(WALLPAPER_SYNC_EVENT, { detail: defaultWp }));
+    if (!hasManualWallpaper) {
+      window.dispatchEvent(new CustomEvent(WALLPAPER_SYNC_EVENT, { detail: defaultWp }));
+    }
   }, []);
 
   const toggleLightDark = useCallback(

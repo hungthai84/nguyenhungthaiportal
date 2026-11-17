@@ -33,6 +33,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isAvatarZoomed, setIsAvatarZoomed] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -95,23 +96,28 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
         {/* Header */}
         <div className="theme-modal-header flex items-center justify-between -mx-4 -mt-4 sm:-mx-5 sm:-mt-5 px-4 sm:px-5 py-3 rounded-t-[14px]">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-full bg-purple-950/80 text-white overflow-hidden ring-2 ring-purple-400 shrink-0">
+            <button
+              type="button"
+              onClick={() => setIsAvatarZoomed(!isAvatarZoomed)}
+              title="Bấm để phóng to/thu nhỏ hình Avatar AI gấp đôi (2x)"
+              className="w-9 h-9 rounded-full bg-purple-950/80 text-white overflow-hidden ring-2 ring-purple-400 shrink-0 cursor-pointer transition-transform duration-300 hover:scale-110 active:scale-95 focus:outline-none"
+            >
               <img
                 src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550149/Avata_AI_h%E1%BB%97_tr%E1%BB%A3.gif"
                 alt="AI Hỗ trợ Avatar"
-                className="w-full h-full object-cover scale-[1.8]"
+                className={`w-full h-full object-cover transition-transform duration-300 ${isAvatarZoomed ? 'scale-[3.6]' : 'scale-[1.8]'}`}
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
                 }}
               />
-            </div>
+            </button>
             <div>
               <h3 className="typo-popup-title leading-tight" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
                 Trợ Lý AI Hùng Thái 24/7
               </h3>
               <span className="typo-label text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                Sẵn sàng giải đáp tự động
+                Sẵn sàng giải đáp tự động {isAvatarZoomed && <span className="text-[11px] text-purple-600 dark:text-purple-300 font-semibold">(Phóng to 2x)</span>}
               </span>
             </div>
           </div>

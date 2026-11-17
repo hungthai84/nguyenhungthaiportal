@@ -549,12 +549,12 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
               ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.shortDate}`
               : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.shortDate}`
           }
-          className="relative h-[64px] px-2 py-1 rounded-[12px] border-0 bg-transparent flex items-center justify-between gap-2 md:gap-2.5 lg:gap-3.5 cursor-pointer transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none group overflow-hidden"
+          className="relative h-[64px] px-2 py-1 rounded-[14px] border-0 bg-transparent flex items-center justify-between gap-2 md:gap-2.5 lg:gap-3.5 cursor-pointer transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none group overflow-hidden"
           style={{
             height: '64px',
             paddingLeft: '8px',
             paddingRight: '8px',
-            borderRadius: '12px',
+            borderRadius: '14px',
             backgroundColor: 'transparent',
             background: 'transparent',
             backgroundImage: 'none',

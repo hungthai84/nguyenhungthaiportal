@@ -225,7 +225,7 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
         <div
           id="ai-sample-draft-guard"
           role="alert"
-          className="mx-3.5 sm:mx-4 mt-2.5 p-3 rounded-[12px] border flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shrink-0"
+          className="mx-3.5 sm:mx-4 mt-2.5 p-[15px] rounded-[14px] border flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shrink-0"
           style={{
             background: 'var(--bg-subcard)',
             borderColor: 'var(--color-primary)',
@@ -300,13 +300,13 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
                     setViewStep('questions');
                   }}
                   style={{
-                    borderRadius: '12px',
+                    borderRadius: '14px',
                     ...(isSelected ? { borderColor: `${catColor}90` } : {}),
                   }}
-                  className="theme-modal-subcard w-full h-full p-3.5 !rounded-[12px] text-left flex items-center gap-3 min-h-[78px] cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.99] group min-w-0"
+                  className="theme-modal-subcard w-full h-full p-[15px] !rounded-[14px] text-left flex items-center gap-3 min-h-[78px] cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.99] group min-w-0"
                 >
                   <span
-                    className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0"
+                    className="w-9 h-9 rounded-[14px] flex items-center justify-center shrink-0"
                     style={{ backgroundColor: `${cat.color}20`, color: catColor }}
                   >
                     <WebIcon name={cat.icon} className="w-[18px] h-[18px]" style={{ color: catColor }} />
@@ -334,7 +334,7 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
                     type="button"
                     data-subcard="true"
                     onClick={() => onSelectQuestion(item)}
-                    className="theme-modal-subcard w-full p-3 rounded-[12px] text-left transition cursor-pointer flex flex-col gap-1.5 hover:border-purple-400/70 hover:shadow-sm group min-w-0"
+                    className="theme-modal-subcard w-full p-[15px] rounded-[14px] text-left transition cursor-pointer flex flex-col gap-1.5 hover:border-purple-400/70 hover:shadow-sm group min-w-0"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-1.5">
                       <span className="typo-badge font-semibold" style={{ color: itemColor }}>
@@ -366,12 +366,12 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
           <div id="ai-category-questions-list" className="space-y-2.5">
             <div
               data-subcard="true"
-              className="theme-modal-subcard p-3 rounded-[12px] flex flex-wrap items-center justify-between gap-2"
+              className="theme-modal-subcard p-[15px] rounded-[14px] flex flex-wrap items-center justify-between gap-2"
               style={{ borderColor: `${activeColor}45` }}
             >
               <div className="flex items-center gap-2.5 min-w-0">
                 <span
-                  className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0"
+                  className="w-8 h-8 rounded-[14px] flex items-center justify-center shrink-0"
                   style={{ backgroundColor: `${selectedCategory.color}20`, color: activeColor }}
                 >
                   <WebIcon name={selectedCategory.icon} className="w-4 h-4" style={{ color: activeColor }} />
@@ -401,7 +401,7 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
                   type="button"
                   data-subcard="true"
                   onClick={() => onSelectQuestion(qItem)}
-                  className="theme-modal-subcard w-full p-3 rounded-[12px] text-left transition cursor-pointer flex flex-col gap-1.5 hover:border-purple-400/70 hover:shadow-sm group min-w-0"
+                  className="theme-modal-subcard w-full p-[15px] rounded-[14px] text-left transition cursor-pointer flex flex-col gap-1.5 hover:border-purple-400/70 hover:shadow-sm group min-w-0"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="typo-badge font-semibold" style={{ color: activeColor }}>

@@ -135,7 +135,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
       data-element-type="card"
       data-section-card="true"
       data-element-page="memories"
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] box-border"
+      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
     >
       {/* Style for crisp bright image, smooth zoom & fly-up animation */}
       <style
@@ -232,12 +232,13 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
               className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
-              title="Bộ lọc kỷ niệm"
+              title="Bộ lọc"
+              aria-label="Bộ lọc kỷ niệm"
               aria-expanded={isFilterDropdownOpen}
               aria-haspopup="listbox"
             >
               <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] transition-transform group-hover:rotate-45 shrink-0" />
-              <span>Bộ lọc kỷ niệm</span>
+              <span>Bộ lọc</span>
               {(categoryFilter !== 'all' || companyFilter !== 'all') && (
                 <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
                   {categoryFilter !== 'all'
@@ -329,7 +330,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
           )}
           </div>
 
-          <div className="flex items-center gap-2 flex-1 sm:flex-initial justify-end max-w-full sm:max-w-[300px]">
+          <div className="flex items-center gap-2 flex-1 sm:flex-initial justify-end ml-auto max-w-full sm:max-w-[300px]">
             <div className="relative flex-1 sm:w-52">
               <WebIcon
                 name="search"

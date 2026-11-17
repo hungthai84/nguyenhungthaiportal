@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   WALLPAPER_PRESETS_LIST,
   WallpaperPreset,
@@ -366,7 +367,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
   };
 
   const filterCategories = [
-    { id: 'all', label: isEn ? 'All Wallpapers' : 'Tất cả hình nền', count: allWallpapers.length },
+    { id: 'all', label: isEn ? 'All' : 'Tất cả', count: allWallpapers.length },
     {
       id: 'webgl',
       label: isEn ? '3D Dynamic (Page Morph)' : 'Nền Động 3D (Qua trang)',
@@ -391,7 +392,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
       data-element-type="card"
       data-section-card="true"
       data-element-page="wallpaper"
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] box-border"
+      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
     >
       {/* 1. BANNER HÌNH NỀN: FORMAT GIỐNG BANNER HỌC VẤN, XÓA NÚT GIAO DIỆN TỐI, CARD SECTION CÁCH 15PX */}
       <section
@@ -464,12 +465,13 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
                 className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
-                title="Bộ lọc hình nền"
+                title={isEn ? 'Filter' : 'Bộ lọc'}
+                aria-label="Bộ lọc hình nền"
                 aria-expanded={isFilterDropdownOpen}
                 aria-haspopup="listbox"
               >
                 <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] transition-transform group-hover:rotate-45 shrink-0" />
-                <span>Bộ lọc hình nền</span>
+                <span>{isEn ? 'Filter' : 'Bộ lọc'}</span>
                 <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
                   {filteredWallpapers.length}
                 </span>
@@ -481,41 +483,49 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 />
               </button>
 
-              {isFilterDropdownOpen && (
-                <div
-                  role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
-                >
-                  {filterCategories.map((cat) => {
-                    const isActive = filterType === cat.id;
-                    return (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        role="option"
-                        aria-selected={isActive}
-                        data-selected={isActive ? 'true' : 'false'}
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setFilterType(cat.id as any);
-                          setIsFilterDropdownOpen(false);
-                        }}
-                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
-                      >
-                        <span className="truncate">{cat.label}</span>
-                        <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
-                          {cat.count}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
+              <AnimatePresence>
+                {isFilterDropdownOpen && (
+                  <motion.div
+                    id="wallpaper-filter-listbox"
+                    data-element-type="card"
+                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                    transition={{ duration: 0.16 }}
+                    role="listbox"
+                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-64 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                  >
+                    {filterCategories.map((cat) => {
+                      const isActive = filterType === cat.id;
+                      return (
+                        <button
+                          key={cat.id}
+                          type="button"
+                          role="option"
+                          aria-selected={isActive}
+                          data-selected={isActive ? 'true' : 'false'}
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            setFilterType(cat.id as any);
+                            setIsFilterDropdownOpen(false);
+                          }}
+                          className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
+                        >
+                          <span className="truncate">{cat.label}</span>
+                          <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
+                            {cat.count}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
           {/* Tìm kiếm + Dạng thẻ + Thêm hình */}
-          <div id="wallpaper-banner-right-actions" className="flex items-center gap-2 flex-wrap">
+          <div id="wallpaper-banner-right-actions" className="flex items-center justify-end gap-2 flex-wrap ml-auto">
             <div id="wallpaper-search-wrapper" className="relative min-w-[180px] sm:min-w-[210px]">
               <WebIcon
                 name="search"

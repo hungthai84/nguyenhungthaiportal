@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-glassmorphism"], [data-theme="dark-glassmorphism"] *, [data-theme="dark-ice-blue-neumorphism"], [data-theme="dark-ice-blue-neumorphism"] *, [data-theme="dark-pastel-lilac-soft"], [data-theme="dark-pastel-lilac-soft"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-glassmorphism"], [data-theme="dark-glassmorphism"] *, [data-theme="dark-neon-multicolor-glass"], [data-theme="dark-neon-multicolor-glass"] *, [data-theme="light-multicolor-glass-dark"], [data-theme="light-multicolor-glass-dark"] *, [data-theme="dark-ice-blue-neumorphism"], [data-theme="dark-ice-blue-neumorphism"] *, [data-theme="dark-pastel-lilac-soft"], [data-theme="dark-pastel-lilac-soft"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -24,8 +24,10 @@
 @import "./styles/layout.css";
 @import "./styles/cards.css";
 @import "./styles/themes/light-glassmorphism.css";
+@import "./styles/themes/light-multicolor-glass.css";
 @import "./styles/themes/ice-blue-neumorphism.css";
 @import "./styles/themes/dark-glassmorphism.css";
+@import "./styles/themes/dark-neon-multicolor-glass.css";
 @import "./styles/themes/dark-ice-blue-neumorphism.css";
 @import "./styles/themes/pastel-lilac-soft.css";
 @import "./styles/themes/dark-pastel-lilac-soft.css";
@@ -163,9 +165,10 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-97:nth
 }
 
 /* ========================================================================= */
-/* GLOBAL 14PX BORDER RADIUS ENFORCEMENT FOR NON-NEUMORPHISM THEMES          */
+/* GLOBAL 14PX BORDER RADIUS ENFORCEMENT ACROSS ALL 10 THEMES                */
 /* ========================================================================= */
-html[data-card-style]:not([data-card-style="ice-blue-neumorphism"]):not([data-card-style="dark-ice-blue-neumorphism"]) {
+html,
+html[data-card-style] {
   --radius-main: 14px !important;
   --radius-card: 14px !important;
   --radius-subcard: 14px !important;
@@ -178,7 +181,7 @@ html[data-card-style]:not([data-card-style="ice-blue-neumorphism"]):not([data-ca
   --radius-footer: 14px 14px 0 0 !important;
 }
 
-html:not([data-card-style="ice-blue-neumorphism"]):not([data-card-style="dark-ice-blue-neumorphism"]) :is(
+html :is(
   .main-card,
   [id$="-page-container"],
   [id$="-page-root"],
@@ -211,7 +214,15 @@ html:not([data-card-style="ice-blue-neumorphism"]):not([data-card-style="dark-ic
   .theme-popup
 ),
 .card-light-glassmorphism,
+.card-light-multicolor-glass,
+.card-light-multicolor-glass-dark,
 .card-dark-glassmorphism,
+.card-dark-neon-multicolor-glass,
+.card-dark-neon-multicolor-glass-light,
+.card-ice-blue-neu,
+.ice-neu-inset,
+.card-dark-ice-blue-neu,
+.dark-ice-neu-inset,
 .card-pastel-lilac-soft,
 .card-dark-pastel-lilac-soft,
 .lilac-soft-module,
@@ -221,10 +232,21 @@ html:not([data-card-style="ice-blue-neumorphism"]):not([data-card-style="dark-ic
   border-radius: 14px !important;
 }
 
+/* Preserve Pill Nav/Switch Controls & Enforce 14px Rectangular Action Buttons in Multicolor Glass Themes */
+html[data-card-style="light-multicolor-glass"] button:not(.nav-pill):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule),
+html[data-card-style="light-multicolor-glass-dark"] button:not(.nav-pill):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule),
+html[data-card-style="dark-neon-multicolor-glass"] button:not(.nav-pill):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule),
+html[data-card-style="dark-neon-multicolor-glass-light"] button:not(.nav-pill):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule) {
+  border-radius: 14px !important;
+}
+
 /* ========================================================================= */
 /* ULTRA-CRISP PURE BLACK (#000000) / PURE WHITE (#FFFFFF) FONT SHARPNESS    */
 /* ========================================================================= */
 html[data-card-style="light-glassmorphism"],
+html[data-card-style="light-multicolor-glass"],
+html[data-card-style="dark-neon-multicolor-glass-light"],
+html[data-card-style="ice-blue-neumorphism"],
 html[data-card-style="pastel-lilac-soft"],
 html[data-card-style="light-cowhide-leather"] {
   --color-heading: #000000 !important;
@@ -244,6 +266,9 @@ html[data-card-style="light-cowhide-leather"] {
 }
 
 html[data-card-style="dark-glassmorphism"],
+html[data-card-style="dark-neon-multicolor-glass"],
+html[data-card-style="light-multicolor-glass-dark"],
+html[data-card-style="dark-ice-blue-neumorphism"],
 html[data-card-style="dark-pastel-lilac-soft"],
 html[data-card-style="cowhide-leather"] {
   --color-heading: #FFFFFF !important;
@@ -263,13 +288,13 @@ html[data-card-style="cowhide-leather"] {
 }
 
 /* Override low-contrast legacy slate/gray classes inside content cards for Light & Dark crispness */
-html:not(.dark):not([data-card-style="ice-blue-neumorphism"]) .main-card :is(p, li, td, th, dd, dt):not(.hero-banner *):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-white"]),
-html:not(.dark):not([data-card-style="ice-blue-neumorphism"]) [role="dialog"] :is(p, li, td, th, dd, dt):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-white"]) {
+html:not(.dark) .main-card :is(p, li, td, th, dd, dt):not(.hero-banner *):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-white"]),
+html:not(.dark) [role="dialog"] :is(p, li, td, th, dd, dt):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-white"]) {
   color: #000000;
 }
 
-html.dark:not([data-card-style="dark-ice-blue-neumorphism"]) .main-card :is(p, li, td, th, dd, dt):not(.hero-banner *):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-black"]),
-html.dark:not([data-card-style="dark-ice-blue-neumorphism"]) [role="dialog"] :is(p, li, td, th, dd, dt):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-black"]) {
+html.dark .main-card :is(p, li, td, th, dd, dt):not(.hero-banner *):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-black"]),
+html.dark [role="dialog"] :is(p, li, td, th, dd, dt):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-black"]) {
   color: #FFFFFF;
 }
 

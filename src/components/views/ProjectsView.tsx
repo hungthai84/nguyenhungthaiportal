@@ -178,7 +178,7 @@ export const PROJECT_CARD_GROUPS: ProjectCardGroup[] = [
 ];
 
 export const PROJECT_CATEGORIES = [
-  { id: 'all', label: 'Tất cả (21 Dự án)' },
+  { id: 'all', label: 'Tất cả (21)' },
   { id: 'strategy', label: 'Chiến Lược (3)' },
   { id: 'sop', label: 'Chuẩn Hóa SOP (5)' },
   { id: 'cx', label: 'Trải Nghiệm CX (5)' },
@@ -411,7 +411,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
       data-element-type="card"
       data-section-card="true"
       data-element-page="projects"
-      className="main-card bento-card glass-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-text text-left animate-fadeIn rounded-[20px] text-[var(--text-primary)] box-border"
+      className="main-card bento-card glass-card relative w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto no-scrollbar font-play select-text text-left animate-fadeIn rounded-[14px] text-[var(--text-primary)] box-border"
     >
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
       {!selectedGroup && !selectedArticle ? (
@@ -470,111 +470,113 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
               </p>
             </div>
 
-</motion.section>
-
-          {/* THANH BỘ LỌC VÀ TÌM KIẾM ĐƯỢC ĐƯA RA NGOÀI BANNER */}
-          <div
-            data-subcard="true"
-            className="sub-card w-full p-3.5 sm:p-4 rounded-[14px] flex flex-wrap items-center justify-between gap-3 shrink-0"
-            ref={filterMenuRef}
-          >
-            <div className="relative inline-block text-left">
-              <button
-                type="button"
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setIsFilterDropdownOpen((prev) => !prev);
-                }}
-                className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group"
-                title="Bộ lọc dự án"
-                aria-expanded={isFilterDropdownOpen}
-                aria-haspopup="listbox"
-              >
-                <WebIcon name="sliders" className="w-4 h-4 transition-transform group-hover:rotate-45 shrink-0" />
-                <span>Bộ lọc dự án</span>
-                {activeCategory !== 'all' && (
-                  <span className="banner-count-pill px-1.5 py-0.2 rounded-full border typo-badge font-mono font-bold">
-                    {PROJECT_CATEGORIES.find((c) => c.id === activeCategory)?.label}
-                  </span>
-                )}
-                <WebIcon
-                  name="chevron-down"
-                  className={cn(
-                    'w-3.5 h-3.5 transition-transform duration-200 shrink-0',
-                    isFilterDropdownOpen && 'rotate-180'
+            <div
+              id="projects-hero-banner-controls"
+              ref={filterMenuRef}
+              className="relative z-30 flex flex-wrap items-center justify-between gap-2.5 mt-auto w-full"
+            >
+              <div className="relative inline-block text-left">
+                <button
+                  id="projects-filter-toggle-btn"
+                  type="button"
+                  onClick={() => {
+                    SoundEngine.playTap();
+                    setIsFilterDropdownOpen((prev) => !prev);
+                  }}
+                  className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group"
+                  title="Bộ lọc"
+                  aria-label="Bộ lọc dự án"
+                  aria-expanded={isFilterDropdownOpen}
+                  aria-haspopup="listbox"
+                >
+                  <WebIcon name="sliders" className="w-4 h-4 transition-transform group-hover:rotate-45 shrink-0" />
+                  <span>Bộ lọc</span>
+                  {activeCategory !== 'all' && (
+                    <span className="banner-count-pill px-1.5 py-0.2 rounded-full border typo-badge font-mono font-bold">
+                      {PROJECT_CATEGORIES.find((c) => c.id === activeCategory)?.label}
+                    </span>
                   )}
-                />
-              </button>
+                  <WebIcon
+                    name="chevron-down"
+                    className={cn(
+                      'w-3.5 h-3.5 transition-transform duration-200 shrink-0',
+                      isFilterDropdownOpen && 'rotate-180'
+                    )}
+                  />
+                </button>
 
-              <AnimatePresence>
-                {isFilterDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                    transition={{ duration: 0.16 }}
-                    role="listbox"
-                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-60 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
-                  >
-                    {PROJECT_CATEGORIES.map((cat) => {
-                      const isSelected = activeCategory === cat.id;
-                      return (
-                        <button
-                          key={cat.id}
-                          type="button"
-                          role="option"
-                          aria-selected={isSelected}
-                          data-selected={isSelected ? 'true' : 'false'}
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            setActiveCategory(cat.id);
-                            setIsFilterDropdownOpen(false);
-                          }}
-                          className={cn(
-                            'theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-button font-play transition-all cursor-pointer text-left',
-                            isSelected ? 'font-bold shadow-xs' : 'font-medium'
-                          )}
-                        >
-                          <span>{cat.label}</span>
-                          {isSelected && <span className="w-2 h-2 rounded-full bg-white" />}
-                        </button>
-                      );
-                    })}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            <div className="flex items-center gap-2 flex-1 sm:flex-initial justify-end max-w-full sm:max-w-[300px]">
-              <div className="relative flex-1 sm:w-56">
-                <WebIcon
-                  name="search"
-                  className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-70"
-                />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Tìm tên, mã dự án..."
-                  aria-label="Tìm kiếm dự án"
-                  className="banner-search-input w-full pl-8 pr-7 py-1.5 rounded-full border shadow-sm typo-input font-play focus:outline-none focus:ring-2 focus:ring-cyan-500/60"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery('')}
-                    aria-label="Xóa từ khóa tìm kiếm"
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 cursor-pointer"
-                  >
-                    <WebIcon name="cancel" className="w-3.5 h-3.5" />
-                  </button>
-                )}
+                <AnimatePresence>
+                  {isFilterDropdownOpen && (
+                    <motion.div
+                      id="projects-filter-listbox"
+                      data-element-type="card"
+                      initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                      transition={{ duration: 0.16 }}
+                      role="listbox"
+                      className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-60 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                    >
+                      {PROJECT_CATEGORIES.map((cat) => {
+                        const isSelected = activeCategory === cat.id;
+                        return (
+                          <button
+                            key={cat.id}
+                            type="button"
+                            role="option"
+                            aria-selected={isSelected}
+                            data-selected={isSelected ? 'true' : 'false'}
+                            onClick={() => {
+                              SoundEngine.playTap();
+                              setActiveCategory(cat.id);
+                              setIsFilterDropdownOpen(false);
+                            }}
+                            className={cn(
+                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-button font-play transition-all cursor-pointer text-left',
+                              isSelected ? 'font-bold shadow-xs' : 'font-medium'
+                            )}
+                          >
+                            <span>{cat.label}</span>
+                            {isSelected && <span className="w-2 h-2 rounded-full bg-white" />}
+                          </button>
+                        );
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <span className="banner-count-pill px-2.5 py-1.5 rounded-full border typo-badge font-mono font-bold shadow-sm shrink-0">
-                {filteredProjects.length}/{PROJECTS_DATA.length}
-              </span>
+
+              <div className="flex items-center gap-2 flex-1 sm:flex-initial justify-end ml-auto max-w-full sm:max-w-[300px]">
+                <div className="relative flex-1 sm:w-52">
+                  <WebIcon
+                    name="search"
+                    className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                  />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Tìm tên, mã dự án..."
+                    aria-label="Tìm kiếm dự án"
+                    className="banner-search-input w-full pl-8 pr-7 py-1.5 rounded-full typo-input font-play focus:outline-none"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery('')}
+                      aria-label="Xóa từ khóa tìm kiếm"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 cursor-pointer"
+                    >
+                      <WebIcon name="cancel" className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+                <span className="banner-count-pill px-2.5 py-1.5 rounded-full typo-badge font-mono font-bold shrink-0">
+                  {filteredProjects.length}/{PROJECTS_DATA.length}
+                </span>
+              </div>
             </div>
-          </div>
+          </motion.section>
 
           {/* NỘI DUNG CHÍNH: RESPONSIVE CARD GRID VIEW HOẶC EMPTY STATE */}
           {filteredProjects.length === 0 ? (
@@ -661,6 +663,11 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                     <div>
                       {/* Tiêu đề thẻ dự án: Số thứ tự (đồng bộ format tiêu đề) & Icon & Tên tiêu đề */}
                       <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: cfg.accentColor }}>
+                        <WebIcon
+                          name={getProjectIconByTitle(proj)}
+                          className="w-[18px] h-[18px] shrink-0 mt-0.5"
+                          style={{ color: cfg.accentColor }}
+                        />
                         {orderNumber && (
                           <span
                             className="typo-h4 card-title-synced font-play font-bold leading-snug shrink-0 m-0 p-0"
@@ -670,11 +677,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
                             {orderNumber}
                           </span>
                         )}
-                        <WebIcon
-                          name={getProjectIconByTitle(proj)}
-                          className="w-[18px] h-[18px] shrink-0 mt-0.5"
-                          style={{ color: cfg.accentColor }}
-                        />
                         <h3
                           className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex-1 min-w-0"
                           data-card-title="true"
@@ -716,19 +718,31 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ currentTheme = 'ligh
       ) : (
         /* 3. CHI TIẾT DỰ ÁN & HỒ SƠ STAR TOÀN DIỆN */
         selectedArticle && (
-          <div className="w-full flex-1 min-h-0 relative flex flex-col overflow-hidden">
-            <ProjectDetailView
-              selectedArticle={selectedArticle}
-              selectedGroup={selectedGroup}
-              onSelectProject={(proj) => setSelectedArticle(proj)}
-              onClose={handleCloseDetail}
-              onOpenMindmap={(proj) => setMindmapProject(proj)}
-              getCardVisualConfig={getCardVisualConfig}
-              isLight={isLight}
-              activeSection={activeSection}
-              onSectionChange={setActiveSection}
-            />
-          </div>
+          <>
+            <button
+              id="project-detail-close-btn"
+              type="button"
+              onClick={handleCloseDetail}
+              title="Đóng bài viết"
+              aria-label="Đóng bài viết chi tiết dự án"
+              className="theme-modal-close absolute top-2.5 right-2.5 z-[120] w-8 h-8 rounded-full flex items-center justify-center cursor-pointer shadow-md transition-all duration-200 hover:scale-105 active:scale-95"
+            >
+              <WebIcon name="x" className="w-4 h-4" />
+            </button>
+            <div className="w-full flex-1 min-h-0 relative flex flex-col overflow-hidden">
+              <ProjectDetailView
+                selectedArticle={selectedArticle}
+                selectedGroup={selectedGroup}
+                onSelectProject={(proj) => setSelectedArticle(proj)}
+                onClose={handleCloseDetail}
+                onOpenMindmap={(proj) => setMindmapProject(proj)}
+                getCardVisualConfig={getCardVisualConfig}
+                isLight={isLight}
+                activeSection={activeSection}
+                onSectionChange={setActiveSection}
+              />
+            </div>
+          </>
         )
       )}
 

@@ -354,7 +354,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
       data-element-page="home"
       data-element-parent="global-content-viewport"
       suppressHydrationWarning
-      className="main-card relative w-full min-w-0 h-full min-h-full mx-auto flex flex-col justify-between overflow-hidden select-none p-[25px] gap-[15px] font-play rounded-[20px] box-border"
+      className="main-card relative w-full min-w-0 h-full min-h-full mx-auto flex flex-col justify-between overflow-hidden select-none p-[25px] gap-[15px] font-play rounded-[14px] box-border"
     >
       {/* 1. Main Background Video - Hiển Thị Toàn Bộ Thẻ Chính Lắp Đầy 100% Chiều Rộng và Chiều Cao */}
       <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none">

@@ -847,7 +847,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="card"
       data-section-card="true"
       style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full min-w-0 max-w-full min-h-full h-auto flex-1 shrink-0 self-stretch flex flex-col justify-start gap-[15px] p-0 m-0 rounded-none bg-transparent border-0 shadow-none"
+      className="bento-card glass-card w-full min-w-0 max-w-full min-h-full h-auto flex-1 shrink-0 self-stretch flex flex-col justify-start gap-[15px] p-0 m-0 rounded-[14px] bg-transparent border-0 shadow-none"
     >
       {/* Banner trang Tử Vi - Đưa vào trong Thẻ 1: Hồ Sơ Tử Vi */}
       <motion.section
@@ -945,7 +945,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
                 className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group max-w-full min-w-0"
-                title="Chọn thẻ phân tích Bản đồ tử vi"
+                title="Bộ lọc"
+                aria-label="Bộ lọc thẻ phân tích Bản đồ tử vi"
                 aria-expanded={isFilterDropdownOpen}
                 aria-haspopup="listbox"
               >
@@ -953,7 +954,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   name="sliders"
                   className="w-4 h-4 text-amber-600 dark:text-amber-400 transition-transform group-hover:rotate-45 shrink-0"
                 />
-                <span className="shrink-0">Thẻ phân tích</span>
+                <span className="shrink-0">Bộ lọc</span>
                 <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono truncate max-w-[140px]">
                   {HOROSCOPE_SLIDES[activeCardIndex]?.label || HOROSCOPE_SLIDES[0].label}
                 </span>
@@ -979,7 +980,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     className="banner-dropdown-menu dropdown-menu-enter absolute left-0 top-[calc(100%+8px)] w-72 max-w-[calc(100vw-3rem)] rounded-[14px] p-2 z-50 flex flex-col gap-1"
                   >
                     <div className="px-2.5 py-1 typo-label text-[var(--text-muted)] tracking-wider border-b border-[var(--border-subcard)] mb-1">
-                      Chọn thẻ tử vi &amp; quản trị
+                      Bộ lọc thẻ phân tích
                     </div>
                     {HOROSCOPE_SLIDES.map((slide) => {
                       const isCurrent = activeCardIndex === slide.idx;
@@ -1148,7 +1149,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] w-full min-w-0">
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
                   <Moon className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 truncate m-0" data-subcard-title="true">
@@ -1163,7 +1164,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
                   <Moon className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 truncate m-0" data-subcard-title="true">
@@ -1178,7 +1179,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-amber-600 dark:text-amber-400">
                   <Clock className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-amber-600 dark:text-amber-400 truncate m-0" data-subcard-title="true">
@@ -1193,7 +1194,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-emerald-600 dark:text-emerald-400">
                   <ShieldCheck className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-emerald-600 dark:text-emerald-400 truncate m-0" data-subcard-title="true">
@@ -1221,7 +1222,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   }
                 }}
                 title="Bấm để xoay la bàn bát quái (4 hướng cát khí: Tây Bắc, Tây Nam, Đông Bắc, Tây)"
-                className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5 cursor-pointer hover:border-cyan-400/60 hover:shadow-sm transition-all group relative overflow-hidden select-none"
+                className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5 cursor-pointer hover:border-cyan-400/60 hover:shadow-sm transition-all group relative overflow-hidden select-none"
               >
                 <div className="flex items-center justify-between gap-1.5 min-w-0">
                   <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-cyan-600 dark:text-cyan-400">
@@ -1237,7 +1238,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                       Cung mệnh la bàn
                     </h5>
                   </div>
-                  <span className="typo-badge px-1.5 py-0.2 rounded text-[10px] bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30 shrink-0 tabular-nums">
+                  <span className="typo-badge px-1.5 py-0.2 rounded-full text-[10px] bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30 shrink-0 tabular-nums">
                     {activeLuckyDirection.degree}°
                   </span>
                 </div>
@@ -1252,7 +1253,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[12px] flex flex-col justify-between gap-1.5">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-rose-600 dark:text-rose-400">
                   <Hash className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-rose-600 dark:text-rose-400 truncate m-0" data-subcard-title="true">
@@ -1419,7 +1420,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 key={palace.id}
                 data-subcard="true"
                 style={transparentSubCardStyle}
-                className="sub-card p-[15px] rounded-none flex flex-col justify-between space-y-3.5 transition-all"
+                className="sub-card p-[15px] rounded-[14px] flex flex-col justify-between space-y-3.5 transition-all"
               >
                 <div className="space-y-3">
                   <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
@@ -1499,15 +1500,16 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px]">
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-[15px] items-stretch">
           {FIVE_ELEMENTS_GOVERNANCE.map((item, idx) => {
             const IconComp = item.icon;
+            const spanClass = idx < 3 ? 'md:col-span-2' : 'md:col-span-3';
             return (
               <div
                 key={idx}
                 data-subcard="true"
                 style={transparentSubCardStyle}
-                className="sub-card p-[15px] rounded-none transition-all duration-300 flex flex-col justify-between space-y-4"
+                className={`sub-card p-[15px] rounded-[14px] transition-all duration-300 flex flex-col justify-between space-y-4 ${spanClass}`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between gap-2">
@@ -1587,7 +1589,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               key={idx}
               data-subcard="true"
               style={transparentSubCardStyle}
-              className="sub-card p-[15px] rounded-none transition-all duration-300 flex flex-col justify-between space-y-4"
+              className="sub-card p-[15px] rounded-[14px] transition-all duration-300 flex flex-col justify-between space-y-4"
             >
               <div className="space-y-3.5">
                 <div style={transparentLogoStyle} className="w-10 h-10 flex items-center justify-center text-amber-600 dark:text-amber-400">
@@ -1637,7 +1639,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       {/* TRA CỨU 12 CON GIÁP */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch flex-1">
           {/* CỘT TRÁI: TRA CỨU TUỔI LÀM VIỆC CHUNG */}
-          <div data-subcard="true" style={transparentSubCardStyle} className="sub-card lg:col-span-6 p-[15px] rounded-none flex flex-col justify-between space-y-5">
+          <div data-subcard="true" style={transparentSubCardStyle} className="sub-card lg:col-span-6 p-[15px] rounded-[14px] flex flex-col justify-between space-y-5">
             <div className="space-y-4">
               <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-[var(--border-subcard)]">
                 <h4 className="typo-h4 subcard-title-synced text-indigo-600 dark:text-purple-200 tracking-wider font-play" data-subcard-title="true">
@@ -1687,12 +1689,12 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                           setSearchYearInput(matchObj.yearDetail.split('•')[0].trim());
                         }}
                         style={{
-                          borderRadius: '12px',
+                          borderRadius: '14px',
                           ...(isSel
                             ? { background: 'var(--bg-button-primary)', color: '#FFFFFF', borderColor: 'transparent' }
                             : { background: 'var(--bg-subcard)', color: 'var(--text-primary)', borderColor: 'var(--border-subcard)' }),
                         }}
-                        className={`p-2.5 !rounded-[12px] border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
+                        className={`p-2.5 !rounded-[14px] border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
                           isSel ? 'shadow-md scale-105' : ''
                         }`}
                       >
@@ -1711,7 +1713,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           </div>
 
           {/* CỘT PHẢI: KẾT QUẢ ĐỐI CHIẾU */}
-          <div data-subcard="true" style={transparentSubCardStyle} className="sub-card lg:col-span-6 p-[15px] rounded-none flex flex-col justify-between space-y-4">
+          <div data-subcard="true" style={transparentSubCardStyle} className="sub-card lg:col-span-6 p-[15px] rounded-[14px] flex flex-col justify-between space-y-4">
             <div className="space-y-4">
               <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-[var(--border-subcard)]">
                 <div className="typo-h4 tracking-wider text-purple-600 dark:text-purple-300 font-play">
@@ -1837,7 +1839,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           }
         }
       }}
-      className="group/horoscope main-card bento-card glass-card relative w-full min-w-0 h-full min-h-0 mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-[20px] box-border"
+      className="group/horoscope main-card bento-card glass-card relative w-full min-w-0 h-full min-h-0 mx-auto flex flex-col justify-start p-[25px] gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-[14px] box-border"
     >
       {/* Render thẻ được chọn trong 6 thẻ kèm hiệu ứng trượt ngang mượt mà */}
       <div className="w-full flex-1 min-h-0 flex flex-col overflow-x-clip">

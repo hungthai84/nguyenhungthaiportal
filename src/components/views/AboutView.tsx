@@ -1082,7 +1082,7 @@ export function AboutView({
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-[12px] bg-[var(--bg-subcard)] border border-[var(--border-subcard)] typo-caption">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-[14px] bg-[var(--bg-subcard)] border border-[var(--border-subcard)] typo-caption">
               <div className="flex items-center gap-2 text-[var(--text-primary)]">
                 <span className="text-red-500 font-bold text-base">📍</span>
                 <div>
@@ -1246,11 +1246,14 @@ export function AboutView({
                       Kỷ Nguyên Mới
                     </span>
                   </div>
-                  <blockquote className="typo-h5 font-semibold text-blue-800 dark:text-cyan-300 font-play border-l-4 border-blue-500 pl-3 my-2">
-                    “ Tận Tâm &amp; Đồng Hành Cùng Trải Nghiệm Khách Hàng ”
-                  </blockquote>
-                  <p className="typo-body-sm text-[var(--text-secondary)] mt-2">
-                    Kết hợp hài hòa giữa công nghệ chuyển đổi số (AI CRM, tự động hóa) và trái tim phụng sự nhân văn để tạo nên sự gắn kết thương hiệu bền lâu.
+                  <div className="my-2 text-center space-y-2 py-2 px-3 rounded-[14px] bg-blue-500/8 dark:bg-cyan-500/10 border border-blue-500/20 dark:border-cyan-400/20">
+                    <WebIcon name="quote" className="w-5 h-5 text-blue-600 dark:text-cyan-400 mx-auto opacity-80" />
+                    <blockquote className="typo-h5 font-semibold italic text-blue-800 dark:text-cyan-300 font-play leading-snug text-balance">
+                      “Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.”
+                    </blockquote>
+                  </div>
+                  <p className="typo-body-sm italic text-[var(--text-secondary)] mt-2 text-center">
+                    “Tận tâm &amp; đồng hành cùng trải nghiệm khách hàng với giải pháp chuyển đổi số toàn diện.”
                   </p>
                 </div>
                 <div className="mt-4 pt-2 border-t border-sky-200/40 dark:border-sky-400/20 flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">
@@ -1274,7 +1277,7 @@ export function AboutView({
       data-element-type="container"
       data-element-page="about"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full min-w-0 h-full mx-auto flex-1 flex flex-col justify-start p-[25px] gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-[20px] overflow-y-auto glass-scrollbar z-10 select-none box-border"
+      className="main-card relative w-full min-w-0 h-full mx-auto flex-1 flex flex-col justify-start p-[25px] gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-[14px] overflow-y-auto glass-scrollbar z-10 select-none box-border"
     >
       <div className="w-full flex flex-col gap-[15px] h-auto min-h-full shrink-0">
         {/* ========================================================================= */}
@@ -1545,15 +1548,17 @@ export function AboutView({
                     </div>
                   </div>
 
-                  {/* Sub-Card Bento Responsive Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 content-start py-0.5">
+                  {/* Sub-Card Bento Masonry (Pinterest Grid) */}
+                  <div
+                    className="columns-1 min-[420px]:columns-2 gap-2 py-0.5"
+                    style={{ columnFill: 'balance' }}
+                  >
                     {[
                       {
                         id: 'gender',
                         label: 'Giới tính',
                         value: 'Nam giới',
                         icon: 'user',
-                        cardCls: '',
                         iconColorCls: 'text-sky-600 dark:text-sky-300',
                         action: () => showToast('Giới tính: Nam giới'),
                       },
@@ -1562,7 +1567,6 @@ export function AboutView({
                         label: 'Dân tộc',
                         value: 'Kinh',
                         icon: 'globe',
-                        cardCls: '',
                         iconColorCls: 'text-emerald-600 dark:text-emerald-300',
                         action: () => showToast('Dân tộc: Kinh'),
                       },
@@ -1571,7 +1575,6 @@ export function AboutView({
                         label: 'Hôn nhân',
                         value: 'Độc thân',
                         icon: 'heart',
-                        cardCls: '',
                         iconColorCls: 'text-rose-600 dark:text-rose-300',
                         action: () => showToast('Hôn nhân: Độc thân'),
                       },
@@ -1580,7 +1583,6 @@ export function AboutView({
                         label: 'Sinh nhật',
                         value: '22/06/1984',
                         icon: 'calendar',
-                        cardCls: '',
                         iconColorCls: 'text-amber-600 dark:text-amber-300',
                         action: () => showToast('Sinh nhật: 22/06/1984'),
                       },
@@ -1589,7 +1591,6 @@ export function AboutView({
                         label: 'Tử vi',
                         value: 'Giáp Tý',
                         icon: 'sparkles',
-                        cardCls: 'col-span-1 sm:col-span-2',
                         iconColorCls: 'text-purple-600 dark:text-purple-300',
                         action: () => showToast('Tử vi: Giáp Tý - Mệnh Hải Trung Kim'),
                       },
@@ -1601,25 +1602,45 @@ export function AboutView({
                           SoundEngine.playPop();
                           item.action();
                         }}
-                        className={cn(
-                          'about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border',
-                          item.cardCls
-                        )}
+                        style={{ breakInside: 'avoid' }}
+                        className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                       >
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <WebIcon name={item.icon} className={cn('w-3.5 h-3.5 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)} style={{ width: '14px', height: '14px' }} />
-                          <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">
-                            {item.label}
+                        <div className="flex flex-col justify-center gap-1">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <WebIcon name={item.icon} className={cn('w-3.5 h-3.5 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)} style={{ width: '14px', height: '14px' }} />
+                            <span className={cn('about-info-label typo-label font-medium leading-tight truncate', item.iconColorCls)}>
+                              {item.label}
+                            </span>
+                          </div>
+                          <span
+                            className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate"
+                            title={item.value}
+                          >
+                            {item.value}
                           </span>
                         </div>
-                        <span
-                          className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate"
-                          title={item.value}
-                        >
-                          {item.value}
-                        </span>
                       </div>
                     ))}
+
+                    {/* Sub Card: Điện Thoại (Orange) */}
+                    <a
+                      href="https://zalo.me/0909097882"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-subcard="true"
+                      onClick={() => SoundEngine.playPop()}
+                      title="+84 0909097882"
+                      style={{ breakInside: 'avoid' }}
+                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                    >
+                      <div className="flex flex-col justify-center gap-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <Phone className="w-3.5 h-3.5 shrink-0 text-orange-600 dark:text-orange-300 group-hover/subcard:scale-110 transition-transform" />
+                          <span className="about-info-label typo-label font-medium leading-tight truncate text-orange-600 dark:text-orange-300">Điện thoại</span>
+                        </div>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">+84 0909097882</span>
+                      </div>
+                    </a>
 
                     {/* Sub Card: Tạm Trú (Cyan) */}
                     <div
@@ -1632,16 +1653,19 @@ export function AboutView({
                         showToast('📍 Tạm trú: Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh');
                       }}
                       title="Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh"
-                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border"
+                      style={{ breakInside: 'avoid' }}
+                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
-                      <div className="flex items-center gap-1.5 min-w-0">
-                        <MapPin className="w-3.5 h-3.5 shrink-0 text-cyan-600 dark:text-cyan-300 group-hover/subcard:scale-110 transition-transform" />
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Tạm trú</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
+                      <div className="flex flex-col justify-center gap-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <MapPin className="w-3.5 h-3.5 shrink-0 text-cyan-600 dark:text-cyan-300 group-hover/subcard:scale-110 transition-transform" />
+                          <span className="about-info-label typo-label font-medium leading-tight truncate text-cyan-600 dark:text-cyan-300">Tạm trú</span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
+                        </div>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">
+                          Chung Cư Tân Mỹ, Q.7, TP.HCM
+                        </span>
                       </div>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">
-                        Chung Cư Tân Mỹ, Q.7, TP.HCM
-                      </span>
                     </div>
 
                     {/* Sub Card: Cư Trú (Teal) */}
@@ -1655,16 +1679,19 @@ export function AboutView({
                         showToast('📍 Cư trú: 7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp');
                       }}
                       title="7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp"
-                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border"
+                      style={{ breakInside: 'avoid' }}
+                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
-                      <div className="flex items-center gap-1.5 min-w-0">
-                        <Home className="w-3.5 h-3.5 shrink-0 text-teal-600 dark:text-teal-300 group-hover/subcard:scale-110 transition-transform" />
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Cư trú</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
+                      <div className="flex flex-col justify-center gap-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <Home className="w-3.5 h-3.5 shrink-0 text-teal-600 dark:text-teal-300 group-hover/subcard:scale-110 transition-transform" />
+                          <span className="about-info-label typo-label font-medium leading-tight truncate text-teal-600 dark:text-teal-300">Cư trú</span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
+                        </div>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">
+                          7D7 Hoàng Hoa Tám, Đồng Tháp
+                        </span>
                       </div>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">
-                        7D7 Hoàng Hoa Tám, Đồng Tháp
-                      </span>
                     </div>
 
                     {/* Sub Card: Hộp Thư (Pink) */}
@@ -1678,31 +1705,17 @@ export function AboutView({
                         }
                       }}
                       title="hungthai84@gmail.com"
-                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border col-span-1 sm:col-span-2"
+                      style={{ breakInside: 'avoid' }}
+                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
-                      <div className="flex items-center gap-1.5 min-w-0">
-                        <Mail className="w-3.5 h-3.5 shrink-0 text-pink-600 dark:text-pink-300 group-hover/subcard:scale-110 transition-transform" />
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Hộp thư</span>
+                      <div className="flex flex-col justify-center gap-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <Mail className="w-3.5 h-3.5 shrink-0 text-pink-600 dark:text-pink-300 group-hover/subcard:scale-110 transition-transform" />
+                          <span className="about-info-label typo-label font-medium leading-tight truncate text-pink-600 dark:text-pink-300">Hộp thư</span>
+                        </div>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">hungthai84@gmail.com</span>
                       </div>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">hungthai84@gmail.com</span>
                     </div>
-
-                    {/* Sub Card: Điện Thoại (Orange) */}
-                    <a
-                      href="https://zalo.me/0909097882"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-subcard="true"
-                      onClick={() => SoundEngine.playPop()}
-                      title="+84 0909097882"
-                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border"
-                    >
-                      <div className="flex items-center gap-1.5 min-w-0">
-                        <Phone className="w-3.5 h-3.5 shrink-0 text-orange-600 dark:text-orange-300 group-hover/subcard:scale-110 transition-transform" />
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Điện thoại</span>
-                      </div>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">+84 0909097882</span>
-                    </a>
 
                     {/* Sub Card: Website (Blue) */}
                     <a
@@ -1712,13 +1725,16 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="https://nguyenhungthai.powerservice.one/"
-                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border"
+                      style={{ breakInside: 'avoid' }}
+                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
-                      <div className="flex items-center gap-1.5 min-w-0">
-                        <Globe className="w-3.5 h-3.5 shrink-0 text-blue-600 dark:text-sky-300 group-hover/subcard:scale-110 transition-transform" />
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">Website</span>
+                      <div className="flex flex-col justify-center gap-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <Globe className="w-3.5 h-3.5 shrink-0 text-blue-600 dark:text-sky-300 group-hover/subcard:scale-110 transition-transform" />
+                          <span className="about-info-label typo-label font-medium leading-tight truncate text-blue-600 dark:text-sky-300">Website</span>
+                        </div>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">powerservice.one</span>
                       </div>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">powerservice.one</span>
                     </a>
 
                     {/* Sub Card: LinkedIn (Indigo) */}
@@ -1729,13 +1745,16 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="https://www.linkedin.com/in/hungthai84/"
-                      className="about-info-subcard p-2.5 rounded-[12px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard flex flex-col justify-center gap-1 overflow-hidden box-border col-span-1 sm:col-span-2"
+                      style={{ breakInside: 'avoid' }}
+                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
-                      <div className="flex items-center gap-1.5 min-w-0">
-                        <LinkedinIcon className="w-3.5 h-3.5 shrink-0 text-indigo-600 dark:text-indigo-300 group-hover/subcard:scale-110 transition-transform" />
-                        <span className="about-info-label typo-label text-[var(--text-secondary)] font-medium leading-tight truncate">LinkedIn</span>
+                      <div className="flex flex-col justify-center gap-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <LinkedinIcon className="w-3.5 h-3.5 shrink-0 text-indigo-600 dark:text-indigo-300 group-hover/subcard:scale-110 transition-transform" />
+                          <span className="about-info-label typo-label font-medium leading-tight truncate text-indigo-600 dark:text-indigo-300">LinkedIn</span>
+                        </div>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">linkedin.com/in/hungthai84</span>
                       </div>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">linkedin.com/in/hungthai84</span>
                     </a>
                   </div>
 
@@ -1964,7 +1983,7 @@ export function AboutView({
 
               {/* 3 Core Values Grid (Không có speaker, không lật thẻ) */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch flex-1">
-                {/* Core Value 1: Sự tận tâm */}
+                {/* Core Value 1: Tận tâm trách nhiệm */}
                 <div
                   data-subcard="true"
                   data-accent="amber"
@@ -1972,7 +1991,7 @@ export function AboutView({
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   onClick={() => {
                     SoundEngine.playPop();
-                    showToast('Giá trị 01: Sự Tận Tâm - Dốc trọn tâm sức');
+                    showToast('Giá trị 01: Tận tâm trách nhiệm - Dốc trọn tâm sức');
                   }}
                   className={cn(
                     'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
@@ -1990,7 +2009,7 @@ export function AboutView({
                   </div>
 
                   <div className="my-1.5 relative z-10">
-                    <h5 className="pillar-heading typo-h5 font-play">Sự tận tâm</h5>
+                    <h5 className="pillar-heading typo-h5 font-play">Tận tâm trách nhiệm</h5>
                     <span className="pillar-sub typo-label block">Trách nhiệm &amp; Hết lòng</span>
                     <p className="pillar-body typo-body-sm mt-1">
                       Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.
@@ -2071,7 +2090,7 @@ export function AboutView({
               </div>
             </div>
 
-            {/* CARD 6: CARD TRIẾT LÝ TẦM NHÌN (CX PHILOSOPHY) - THẺ ĐỘC LẬP */}
+            {/* CARD 6: CARD TRIẾT LÝ TẦM NHÌN (CÂU NÓI HAY / SIGNATURE QUOTE) */}
             <div
               id="about-philosophy-card"
               data-element-name="Card Triết Lý Tầm Nhìn CX 2026+"
@@ -2095,15 +2114,32 @@ export function AboutView({
                   </div>
                 </div>
 
-                {/* Nội dung */}
-                <div className="my-auto space-y-2">
-                  <p className="typo-h5 text-blue-700 dark:text-cyan-300 font-play leading-snug">
-                    “ Tận Tâm &amp; Đồng Hành Cùng Trải Nghiệm Khách Hàng ”.
+                {/* Bố cục Câu Nói Hay (Editorial Signature Quote) */}
+                <div className="flex-1 flex flex-col items-center justify-center text-center px-2 sm:px-3 py-1 gap-2.5 my-auto">
+                  <WebIcon
+                    name="quote"
+                    className="w-6 h-6 text-blue-500/80 dark:text-cyan-400/80 shrink-0"
+                  />
+                  <blockquote className="typo-h5 font-play font-bold italic text-blue-700 dark:text-cyan-300 leading-snug text-balance m-0">
+                    “Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.”
+                  </blockquote>
+                  <div
+                    className="w-14 h-[1.5px] rounded-full bg-gradient-to-r from-transparent via-blue-500/60 dark:via-cyan-400/60 to-transparent"
+                    aria-hidden="true"
+                  />
+                  <p className="typo-body-sm italic text-[var(--text-secondary)] leading-relaxed max-w-[44ch] text-balance m-0">
+                    “Tận tâm &amp; đồng hành cùng trải nghiệm khách hàng với giải pháp chuyển đổi số toàn diện.”
                   </p>
-                  <p className="typo-body-sm text-[var(--text-secondary)]">
-                    Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi
-                    khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.
-                  </p>
+                </div>
+
+                {/* Footer trích dẫn tác giả */}
+                <div className="pt-2 border-t border-[var(--border-subcard)] flex items-center justify-between gap-2 shrink-0">
+                  <span className="font-handwriting text-blue-600 dark:text-cyan-300 font-bold leading-none">
+                    Nguyễn Hùng Thái
+                  </span>
+                  <span className="typo-label font-mono text-[var(--text-muted)] truncate">
+                    22+ Năm Phụng Sự CX
+                  </span>
                 </div>
               </div>
             </div>

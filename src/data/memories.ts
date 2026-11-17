@@ -416,7 +416,7 @@ export const MEMORIES_DATA: MemoryPhoto[] = [
 ];
 
 export const MEMORIES_COMPANIES = [
-  { id: "all", labelVi: "Tất cả công ty" },
+  { id: "all", labelVi: "Tất cả" },
   { id: "finviet", labelVi: "Finviet (2023-2024)" },
   { id: "momo", labelVi: "MoMo Wallet (2020-2023)" },
   { id: "prudential", labelVi: "Prudential (2014-2020)" },
@@ -427,7 +427,7 @@ export const MEMORIES_COMPANIES = [
 ];
 
 export const MEMORIES_CATEGORIES = [
-  { id: "all", labelVi: "Tất cả thể loại", icon: "sparkles" },
+  { id: "all", labelVi: "Tất cả", icon: "sparkles" },
   { id: "awards", labelVi: "Giải thưởng & Vinh danh", icon: "trophy" },
   { id: "team", labelVi: "Văn hóa & Đội ngũ", icon: "users" },
   { id: "projects", labelVi: "Dự án Trọng điểm", icon: "folder" },

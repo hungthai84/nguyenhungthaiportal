@@ -591,7 +591,16 @@ export const Footer: React.FC<FooterProps> = ({
                         const darkPreset = group.presets.find((p) => p.isDark) || group.presets[group.presets.length - 1];
                         const groupActive = group.presets.some((p) => p.id === cardStyle);
                         const isDarkSelected = groupActive ? cardStyle === darkPreset.id : activeThemeConfig.isDark;
-                        const activeGroupPreset = isDarkSelected ? darkPreset : lightPreset;
+                        const defaultPreset = group.defaultMode
+                          ? group.presets.find((p) => p.id === group.defaultMode) || lightPreset
+                          : activeThemeConfig.isDark
+                            ? darkPreset
+                            : lightPreset;
+                        const activeGroupPreset = groupActive
+                          ? isDarkSelected
+                            ? darkPreset
+                            : lightPreset
+                          : defaultPreset;
                         const groupTitle = isEn ? group.labelEn : group.label;
 
                         return (
@@ -610,7 +619,11 @@ export const Footer: React.FC<FooterProps> = ({
                               type="button"
                               onClick={() => {
                                 SoundEngine.playGlassChime();
-                                const targetPreset = activeThemeConfig.isDark ? darkPreset : lightPreset;
+                                const targetPreset = group.defaultMode
+                                  ? defaultPreset
+                                  : activeThemeConfig.isDark
+                                    ? darkPreset
+                                    : lightPreset;
                                 setCardStyle(targetPreset.id);
                                 onShowNotification(
                                   isEn
@@ -621,7 +634,7 @@ export const Footer: React.FC<FooterProps> = ({
                               className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer bg-transparent border-0 p-0"
                             >
                               <div
-                                className="w-7 h-7 rounded-[10px] flex items-center justify-center shrink-0 border"
+                                className="w-7 h-7 rounded-[14px] flex items-center justify-center shrink-0 border"
                                 style={{
                                   backgroundColor: activeGroupPreset.color,
                                   borderColor: 'rgba(255,255,255,0.45)',
@@ -1023,7 +1036,7 @@ export const Footer: React.FC<FooterProps> = ({
                     );
                   }}
                   style={{ background: 'var(--bg-button-primary)' }}
-                  className="px-5 py-2.5 rounded-xl hover:opacity-90 text-white font-bold typo-button shadow-md inline-flex items-center gap-2 transition cursor-pointer shrink-0"
+                  className="px-5 py-2.5 rounded-[14px] hover:opacity-90 text-white font-bold typo-button shadow-md inline-flex items-center gap-2 transition cursor-pointer shrink-0"
                 >
                   <WebIcon name="file-text" className="w-4 h-4 text-white" />
                   <span>{isEn ? 'Download PDF' : 'Tải Xuống PDF'}</span>

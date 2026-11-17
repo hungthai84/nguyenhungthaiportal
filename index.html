@@ -22,19 +22,59 @@
     <script>
       (function() {
         try {
-          var cardStyle = localStorage.getItem('hungthai_card_style');
-          var validStyles = ['frosted-glass', 'mica-fluent', 'dark-frosted-glass', 'cowhide-leather'];
-          if (cardStyle && validStyles.indexOf(cardStyle) !== -1) {
-            document.documentElement.setAttribute('data-card-style', cardStyle);
-          } else {
-            cardStyle = 'frosted-glass';
-            document.documentElement.setAttribute('data-card-style', cardStyle);
+          var rawStyle = localStorage.getItem('hungthai_card_style');
+          var aliasMap = {
+            'frosted-glass': 'light-glassmorphism',
+            'mica-fluent': 'light-glassmorphism',
+            'light-glass': 'light-glassmorphism',
+            'guong-sang': 'light-glassmorphism',
+            'multicolor-glass': 'light-multicolor-glass',
+            'kinh-mo-da-sac': 'light-multicolor-glass',
+            'dark-frosted-glass': 'dark-glassmorphism',
+            'dark-glass': 'dark-glassmorphism',
+            'guong-toi': 'dark-glassmorphism',
+            'dark-neon': 'dark-neon-multicolor-glass',
+            'neon-dark': 'dark-neon-multicolor-glass',
+            'neumorphism': 'ice-blue-neumorphism',
+            'neu-dark': 'dark-ice-blue-neumorphism',
+            'pastel-soft-ui': 'pastel-lilac-soft',
+            'dark-pastel-soft': 'dark-pastel-lilac-soft',
+            'da-ca-sau-trang': 'light-cowhide-leather',
+            'da-bo-sang': 'light-cowhide-leather',
+            'leather': 'cowhide-leather',
+            'da-bo': 'cowhide-leather'
+          };
+          var validStyles = [
+            'light-glassmorphism',
+            'light-multicolor-glass',
+            'dark-glassmorphism',
+            'dark-neon-multicolor-glass',
+            'ice-blue-neumorphism',
+            'dark-ice-blue-neumorphism',
+            'pastel-lilac-soft',
+            'dark-pastel-lilac-soft',
+            'light-cowhide-leather',
+            'cowhide-leather'
+          ];
+          var cardStyle = rawStyle && aliasMap[rawStyle] ? aliasMap[rawStyle] : rawStyle;
+          if (!cardStyle || validStyles.indexOf(cardStyle) === -1) {
+            cardStyle = 'light-glassmorphism';
+          }
+          document.documentElement.setAttribute('data-card-style', cardStyle);
+          if (rawStyle !== cardStyle) {
             localStorage.setItem('hungthai_card_style', cardStyle);
           }
-          var isDarkInit = cardStyle === 'dark-frosted-glass' || cardStyle === 'cowhide-leather';
+          var darkThemes = [
+            'dark-glassmorphism',
+            'dark-neon-multicolor-glass',
+            'dark-ice-blue-neumorphism',
+            'dark-pastel-lilac-soft',
+            'cowhide-leather'
+          ];
+          var isDarkInit = darkThemes.indexOf(cardStyle) !== -1;
           if (isDarkInit) {
             document.documentElement.classList.add('dark');
-            document.documentElement.setAttribute('data-theme', cardStyle === 'cowhide-leather' ? 'cowhide-leather' : 'dark-frosted-glass');
+            document.documentElement.setAttribute('data-theme', cardStyle);
             document.documentElement.setAttribute('data-theme-mode', 'dark');
           } else {
             document.documentElement.classList.remove('dark');

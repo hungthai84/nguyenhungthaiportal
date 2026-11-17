@@ -752,7 +752,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       data-element-page="experience"
       data-element-parent="global-content-viewport"
       className={cn(
-        'main-card bento-card glass-card w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start p-[25px] gap-[15px] max-w-full mx-auto select-none relative text-[var(--text-primary)] glass-scrollbar font-play text-left animate-fadeIn rounded-[20px] box-border',
+        'main-card bento-card glass-card w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start p-[25px] gap-[15px] max-w-full mx-auto select-none relative text-[var(--text-primary)] glass-scrollbar font-play text-left animate-fadeIn rounded-[14px] box-border',
         showJobCard ? 'overflow-y-auto' : 'overflow-hidden'
       )}
     >
@@ -783,8 +783,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 }
               : isLightLeather
                 ? {
-                    background: 'linear-gradient(145deg, #FDF6EA 0%, #EFE0C4 100%)',
-                    outline: '1.5px dashed rgba(139, 90, 43, 0.44)',
+                    background: 'linear-gradient(145deg, #FFFFFF 0%, #F1F5F9 100%)',
+                    outline: '1.5px dashed rgba(15, 23, 42, 0.78)',
                     outlineOffset: '-7px',
                   }
                 : isDarkSurface
@@ -794,7 +794,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   : undefined
           }
           className={cn(
-            'group/board absolute inset-0 w-full h-full min-w-full min-h-full rounded-[20px] overflow-hidden select-none flex flex-col box-border z-[1]',
+            'group/board absolute inset-0 w-full h-full min-w-full min-h-full rounded-[14px] overflow-hidden select-none flex flex-col box-border z-[1]',
             !isLeather && !isLightLeather && !isDarkSurface && 'bg-[#E2E8F0]',
             isDragging ? 'cursor-grabbing' : 'cursor-grab'
           )}
@@ -830,7 +830,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       isLeather
                         ? '#F5DEB3'
                         : isLightLeather
-                          ? '#9A6331'
+                          ? '#0F172A'
                           : isDarkSurface
                             ? '#94A3B8'
                             : '#64748B'
@@ -895,7 +895,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   color: isLeather
                     ? '#FDE68A'
                     : isLightLeather
-                      ? '#9A3412'
+                      ? '#0F172A'
                       : isDarkSurface
                         ? '#38BDF8'
                         : '#0284C7',
@@ -909,7 +909,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   color: isLeather
                     ? '#FFF8DC'
                     : isLightLeather
-                      ? '#2C1606'
+                      ? '#000000'
                       : isDarkSurface
                         ? '#F8FAFC'
                         : '#1E293B',
@@ -930,7 +930,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     isDarkSurface || isLeather
                       ? 'bg-slate-200'
                       : isLightLeather
-                        ? 'bg-[#5C3415]'
+                        ? 'bg-[#0F172A]'
                         : 'bg-[#334155]'
                   )}
                 />
@@ -950,7 +950,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 isLeather
                   ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
                   : isLightLeather
-                    ? 'bg-[#FFFBF2]/95 text-[#2C1606] border-[#C89B6E] hover:bg-[#9A3412] hover:text-white'
+                    ? 'bg-white/95 text-[#000000] border-[#0F172A]/70 hover:bg-[#0F172A] hover:text-white'
                     : isDarkSurface
                       ? 'bg-slate-900/90 text-slate-100 border-white/25 hover:bg-[#0284C7] hover:text-white'
                       : 'bg-white/95 text-slate-800 border-slate-200/90 hover:bg-[#0284C7] hover:text-white'
@@ -970,7 +970,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 isLeather
                   ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
                   : isLightLeather
-                    ? 'bg-[#FFFBF2]/95 text-[#2C1606] border-[#C89B6E] hover:bg-[#9A3412] hover:text-white'
+                    ? 'bg-white/95 text-[#000000] border-[#0F172A]/70 hover:bg-[#0F172A] hover:text-white'
                     : isDarkSurface
                       ? 'bg-slate-900/90 text-slate-100 border-white/25 hover:bg-[#0284C7] hover:text-white'
                       : 'bg-white/95 text-slate-800 border-slate-200/90 hover:bg-[#0284C7] hover:text-white'
@@ -1010,8 +1010,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   ? item.colBgGradientLeather
                   : isLightLeather
                     ? isEven
-                      ? 'linear-gradient(to bottom, #FDF7EB, #F2E2C7)'
-                      : 'linear-gradient(to bottom, #F9EEDB, #EAD4B3)'
+                      ? 'linear-gradient(to bottom, #FFFFFF, #F1F5F9)'
+                      : 'linear-gradient(to bottom, #F8FAFC, #E2E8F0)'
                     : isDarkSurface
                       ? item.colBgGradientDark
                       : item.colBgGradient;
@@ -1019,7 +1019,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 const resolvedAccent = isLeather
                   ? '#FDE68A'
                   : isLightLeather
-                    ? '#9A3412'
+                    ? '#0F172A'
                     : isDarkSurface
                       ? item.darkAccentColor
                       : item.accentColor;
@@ -1027,7 +1027,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 const primaryTextColor = isLeather
                   ? '#FFF8DC'
                   : isLightLeather
-                    ? '#2C1606'
+                    ? '#000000'
                     : isDarkSurface
                       ? '#F8FAFC'
                       : '#0F172A';
@@ -1035,7 +1035,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 const secondaryTextColor = isLeather
                   ? '#F5DEB3'
                   : isLightLeather
-                    ? '#5C3415'
+                    ? '#1E293B'
                     : isDarkSurface
                       ? '#CBD5E1'
                       : '#475569';
@@ -1109,25 +1109,23 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       {/* 3. THÔNG TIN CÔNG TY, VỊ TRÍ, QUẢN LÝ & MÔ TẢ PHÍA DƯỚI */}
                       <div className="flex-1 min-h-0 px-[8%] sm:px-[10%] pt-3.5 sm:pt-4 lg:pt-5 pb-12 sm:pb-14 flex flex-col overflow-y-auto no-scrollbar">
                         <h3
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            handleOpenJobCard(item.key);
-                          }}
                           style={{ color: primaryTextColor }}
                           data-subcard-title="true"
-                          title={`Nhấn để xem chi tiết công việc tại ${item.companyLine1} ${item.companyLine2}`}
                           className={cn(
-                            'subcard-title-synced typo-h5 font-bold leading-[1.28] min-h-[2.8em] sm:min-h-[3.8em] lg:min-h-[4.2em] border-b pb-2 mb-2.5 break-words cursor-pointer hover:underline flex flex-col justify-center',
+                            'subcard-title-synced typo-h5 font-bold leading-[1.28] min-h-[2.8em] sm:min-h-[3.8em] lg:min-h-[4.2em] border-b pb-2 mb-2.5 break-words flex flex-col justify-center select-none',
                             isLeather
                               ? 'border-[#F5DEB3]/35'
                               : isLightLeather
-                                ? 'border-[#C89B6E]/60'
+                                ? 'border-[#0F172A]/35'
                                 : isDarkSurface
                                   ? 'border-white/15'
                                   : 'border-slate-300'
                           )}
                         >
-                          <span className="block leading-tight">{item.companyLine1}</span>
+                          <span className="leading-tight flex items-center gap-1.5">
+                            <WebIcon name="building" className="w-3.5 h-3.5 shrink-0 opacity-80" />
+                            <span>{item.companyLine1}</span>
+                          </span>
                           <span className="block leading-tight">{item.companyLine2}</span>
                         </h3>
 
@@ -1182,7 +1180,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               isLeather
                 ? 'bg-[#522E10]/90 border-[#F5DEB3]/45'
                 : isLightLeather
-                  ? 'bg-[#FFFBF2]/92 border-[#C89B6E]'
+                  ? 'bg-white/95 border-[#0F172A]/60'
                   : isDarkSurface
                     ? 'bg-slate-900/85 border-white/20'
                     : 'bg-white/80 border-slate-200/70'
@@ -1203,14 +1201,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     ? isLeather
                       ? 'w-7 bg-[#FDE68A]'
                       : isLightLeather
-                        ? 'w-7 bg-[#9A3412]'
+                        ? 'w-7 bg-[#0F172A]'
                         : isDarkSurface
                           ? 'w-7 bg-[#38BDF8]'
                           : 'w-7 bg-[#0284C7]'
                     : isLeather
                       ? 'w-2 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
                       : isLightLeather
-                        ? 'w-2 bg-[#8B5A2B]/35 hover:bg-[#8B5A2B]/70'
+                        ? 'w-2 bg-[#0F172A]/35 hover:bg-[#0F172A]/75'
                         : isDarkSurface
                           ? 'w-2 bg-slate-600 hover:bg-slate-400'
                           : 'w-2 bg-slate-300 hover:bg-slate-400'
@@ -1351,81 +1349,43 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           <div
             id="experience-job-detail-card"
             data-section-card="true"
-            className="bento-card glass-card w-full h-full flex-1 min-h-0 flex flex-col justify-start rounded-[14px] relative overflow-y-auto glass-scrollbar gap-[15px] text-left transition-all duration-300 animate-fadeIn font-play p-3.5 sm:p-5 lg:p-6"
+            className="bento-card glass-card w-full h-full flex-1 min-h-0 flex flex-col justify-start rounded-[14px] relative overflow-y-auto glass-scrollbar gap-[15px] text-left transition-all duration-300 animate-fadeIn font-play p-3.5 sm:p-5 lg:p-6 pt-12 sm:pt-14"
           >
-            {/* THANH ĐIỀU HƯỚNG NGỮ CẢNH: QUAY LẠI TIMELINE & CHUYỂN NHANH CỘT MỐC */}
-            <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-1 shrink-0 min-w-0">
-              <button
-                type="button"
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setShowJobCard(false);
-                }}
-                className="theme-prev-next-btn inline-flex items-center gap-2 px-3.5 py-2 rounded-full typo-button font-semibold cursor-pointer min-h-[40px]"
-                title="Quay lại Bảng Timeline 3D"
-              >
-                <WebIcon name="arrow-left" className="w-4 h-4 shrink-0" />
-                <span>Quay lại Timeline</span>
-              </button>
-
-              <div className="flex items-center gap-2 flex-wrap">
-                {prevKey && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      handleOpenJobCard(prevKey);
-                    }}
-                    className="theme-prev-next-btn inline-flex items-center gap-1.5 px-3 py-2 rounded-full typo-label font-semibold cursor-pointer min-h-[40px]"
-                    title={`Xem cột mốc trước (${prevKey})`}
-                  >
-                    <WebIcon name="chevron-left" className="w-4 h-4 shrink-0" />
-                    <span className="tabular-nums">{prevKey}</span>
-                  </button>
-                )}
-
-                <span className="typo-caption font-semibold text-[var(--text-secondary)] px-1.5 tabular-nums">
-                  {currentKeyIndex >= 0 ? `${currentKeyIndex + 1} / ${allMilestoneKeys.length}` : activeMilestone.year}
-                </span>
-
-                {nextKey && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      handleOpenJobCard(nextKey);
-                    }}
-                    className="theme-prev-next-btn inline-flex items-center gap-1.5 px-3 py-2 rounded-full typo-label font-semibold cursor-pointer min-h-[40px]"
-                    title={`Xem cột mốc tiếp theo (${nextKey})`}
-                  >
-                    <span className="tabular-nums">{nextKey === '2026' ? '2026+' : nextKey}</span>
-                    <WebIcon name="chevron-right" className="w-4 h-4 shrink-0" />
-                  </button>
-                )}
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    SoundEngine.playTap();
-                    setShowJobCard(false);
-                  }}
-                  className="w-8 h-8 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] hover:bg-[var(--bg-button-primary)] hover:text-white text-[var(--text-secondary)] flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-xs active:scale-95 ml-1"
-                  title="Đóng chi tiết"
-                  aria-label="Đóng chi tiết công việc"
-                >
-                  <WebIcon name="x" className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
+            {/* NÚT X ĐÓNG CHI TIẾT CÔNG VIỆC Ở GÓC TRÊN BÊN PHẢI */}
+            <button
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                setShowJobCard(false);
+              }}
+              className="absolute top-4 right-4 z-40 w-9 h-9 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] hover:bg-rose-600 hover:text-white text-[var(--text-secondary)] flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-md active:scale-95"
+              title="Đóng chi tiết công việc"
+              aria-label="Đóng chi tiết công việc"
+            >
+              <WebIcon name="x" className="w-4.5 h-4.5" />
+            </button>
 
             {/* KHỐI 1: THẺ TÊN CÔNG TY (BENTO 12 CỘT RESPONSIVE: TRÁI THÔNG TIN · PHẢI SẢN PHẨM) */}
             <section
               id="experience-info-card"
               data-subcard="true"
-              className="exp-detail-card w-full rounded-[14px] p-[15px] grid grid-cols-1 lg:grid-cols-12 items-stretch gap-[15px] shrink-0 min-w-0"
+              className="exp-detail-card w-full rounded-[14px] p-[15px] grid grid-cols-1 lg:grid-cols-12 items-stretch gap-[15px] shrink-0 min-w-0 relative overflow-hidden"
             >
+              {/* Hình nền banner công ty (Banner Background Overlay) */}
+              {activeMilestone.bannerUrl && (
+                <div className="absolute inset-0 z-0 pointer-events-none opacity-20 dark:opacity-25 overflow-hidden rounded-[14px]">
+                  <img
+                    src={activeMilestone.bannerUrl}
+                    alt={activeMilestone.company}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--card-bg,rgba(255,255,255,0.92))] via-[var(--card-bg,rgba(255,255,255,0.78))] to-transparent" />
+                </div>
+              )}
+
               {/* Cột trái: Thời gian · Lĩnh vực, Logo 1:1, Tên công ty, Chức danh, Hệ sinh thái */}
-              <div className="lg:col-span-6 xl:col-span-5 min-w-0 flex flex-col justify-center gap-3">
+              <div className="relative z-10 lg:col-span-6 xl:col-span-5 min-w-0 flex flex-col justify-center gap-3">
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1 typo-body-sm font-semibold text-[var(--text-secondary)] min-w-0">
                   <WebIcon name="calendar" className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
                   <span className="break-words font-bold">{activeMilestone.period}</span>
@@ -1438,31 +1398,23 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3.5 sm:gap-4 min-w-0">
                   <div
                     style={{ borderRadius: '50%', aspectRatio: '1 / 1' }}
-                    className="w-20 h-20 sm:w-[88px] sm:h-[88px] aspect-square rounded-full p-1 bg-white shadow-sm border border-slate-200/80 dark:border-white/15 flex items-center justify-center shrink-0 overflow-hidden"
+                    className="w-20 h-20 sm:w-[88px] sm:h-[88px] aspect-square rounded-full flex items-center justify-center shrink-0 overflow-hidden border-0 p-0 shadow-none bg-transparent"
                   >
-                    <div
-                      style={{ borderRadius: '50%' }}
-                      className="w-full h-full rounded-full bg-white p-1 flex items-center justify-center overflow-hidden"
-                    >
-                      <img
-                        src={activeMilestone.logo}
-                        alt={activeMilestone.company}
-                        referrerPolicy="no-referrer"
-                        style={{ borderRadius: '50%' }}
-                        className="w-full h-full object-cover rounded-full"
-                      />
-                    </div>
+                    <img
+                      src={activeMilestone.logo}
+                      alt={activeMilestone.company}
+                      referrerPolicy="no-referrer"
+                      style={{ borderRadius: '50%', aspectRatio: '1 / 1' }}
+                      className="w-full h-full object-cover rounded-full border-0 p-0 m-0 block"
+                    />
                   </div>
 
                   <div className="min-w-0 flex-1 space-y-1">
-                    <span className="typo-badge font-bold uppercase tracking-wider text-[var(--color-primary)] bg-[var(--bg-subcard)] px-2.5 py-0.5 rounded-full inline-block border border-[var(--border-subcard)]">
-                      {activeMilestone.roleTitle}
-                    </span>
                     <h2 className="typo-h2 font-play text-[var(--text-heading,var(--text-primary))] break-words [overflow-wrap:anywhere]">
                       {activeMilestone.company}
                     </h2>
                     {activeMilestone.subCompanies && (
-                      <p className="typo-body-sm font-medium text-[var(--text-secondary)] break-words [overflow-wrap:anywhere]">
+                      <p className="typo-h2 font-play text-[var(--text-secondary)] break-words [overflow-wrap:anywhere]">
                         {activeMilestone.subCompanies}
                       </p>
                     )}
@@ -1476,11 +1428,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 className="lg:col-span-6 xl:col-span-7 w-full pt-4 lg:pt-0 lg:pl-5 border-t lg:border-t-0 lg:border-l border-[var(--border-subcard)] flex flex-col justify-between gap-2.5 min-w-0"
               >
                 <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-[var(--border-subcard)] min-w-0">
-                  <div className="card-header-sync flex items-center gap-2 min-w-0 text-indigo-600 dark:text-indigo-400">
-                    <WebIcon name="shopping-bag" className="w-4.5 h-4.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                    <span className="typo-h4 tabular-nums text-indigo-600 dark:text-indigo-400">06</span>
-                    <h3 className="card-title card-title-synced typo-h4 font-play text-indigo-600 dark:text-indigo-400 m-0 truncate">
-                      Sản phẩm
+                  <div
+                    className="subcard-header-sync flex items-center gap-2 min-w-0 text-indigo-600 dark:text-indigo-400"
+                    data-subcard-accent="indigo"
+                  >
+                    <WebIcon name="shopping-bag" className="w-[18px] h-[18px] shrink-0" />
+                    <h3
+                      className="subcard-title-synced typo-h4 font-play m-0 truncate"
+                      data-subcard-title="true"
+                    >
+                      Danh mục sản phẩm
                     </h3>
                   </div>
                   <span className="typo-caption text-[var(--text-muted)] tabular-nums shrink-0">
@@ -1511,7 +1468,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       title={`${prod.name} — Click để xem chi tiết lĩnh vực & dịch vụ`}
                       className="exp-detail-subcard w-full max-w-full rounded-[14px] p-[15px] hover:border-indigo-500/70 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex items-center gap-[15px] min-w-0 text-left group/prod focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                     >
-                      <div className="w-10 h-10 aspect-square rounded-[10px] bg-white border border-indigo-200/80 p-1 flex items-center justify-center shrink-0 overflow-hidden">
+                      <div className="w-10 h-10 aspect-square rounded-[14px] bg-white border border-indigo-200/80 p-1 flex items-center justify-center shrink-0 overflow-hidden">
                         <img
                           src={prod.src}
                           alt={prod.name}
@@ -1545,102 +1502,83 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               id="experience-sections-container"
               className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch shrink-0 min-w-0"
             >
-              {/* 01 · Thông tin công tác */}
+              {/* Thông tin công tác (Hiển thị dạng List dọc) */}
               <section
                 id="experience-management-card"
                 data-subcard="true"
                 className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-6 lg:col-span-5 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
               >
-                <div className="card-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-sky-600 dark:text-sky-400" data-card-accent="sky">
+                <div className="subcard-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-sky-600 dark:text-sky-400" data-subcard-accent="sky">
                   <WebIcon name="user-group" className="w-5 h-5 shrink-0" />
-                  <span className="typo-h3 tabular-nums">01</span>
-                  <h3 className="card-title card-title-synced typo-h3 font-play m-0 truncate" data-card-title="true">
+                  <h3 className="subcard-title-synced typo-h3 font-play m-0 truncate" data-subcard-title="true">
                     Thông tin công tác
                   </h3>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px] items-stretch flex-1 min-w-0">
-                  {/* 1. Quy mô quản lý */}
-                  <div data-subcard="true" className="exp-detail-subcard w-full rounded-[14px] p-[15px] flex items-start gap-[15px] min-w-0">
-                    <div className="exp-icon-badge w-9 h-9 aspect-square rounded-full border text-sky-600 dark:text-sky-300 flex items-center justify-center shrink-0 mt-0.5">
-                      <WebIcon name="user-group" className="w-4 h-4" />
+                <div className="flex flex-col gap-2.5 flex-1 min-w-0">
+                  {/* 1. Quy mô */}
+                  <div data-subcard="true" className="exp-detail-subcard w-full rounded-[14px] px-3.5 py-2.5 flex items-center justify-between gap-3 min-w-0">
+                    <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-sky-600 dark:text-sky-300" data-subcard-accent="sky">
+                      <WebIcon name="user-group" className="w-4 h-4 shrink-0" />
+                      <h4 className="subcard-title-synced typo-body-sm font-semibold m-0 truncate" data-subcard-title="true">
+                        Quy mô
+                      </h4>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <span className="subcard-title-synced typo-h4 font-play text-sky-600 dark:text-sky-300 block break-words" data-subcard-title="true">
-                        Quy mô quản lý
-                      </span>
-                      <div className="flex items-baseline gap-1.5 flex-wrap mt-1">
-                        <span className="typo-kpi font-play tabular-nums text-sky-600 dark:text-sky-300 leading-none">
-                          {activeMilestone.headcount}
-                        </span>
-                        <span className="typo-caption font-medium text-[var(--text-secondary)]">
-                          nhân sự trực thuộc
-                        </span>
-                      </div>
-                    </div>
+                    <span className="typo-body-sm font-bold tabular-nums text-sky-600 dark:text-sky-300 shrink-0">
+                      {activeMilestone.headcount} nhân sự
+                    </span>
                   </div>
 
-                  {/* 2. Chức danh quản trị */}
-                  <div data-subcard="true" className="exp-detail-subcard w-full rounded-[14px] p-[15px] flex items-start gap-[15px] min-w-0">
-                    <div className="exp-icon-badge w-9 h-9 aspect-square rounded-full border text-purple-600 dark:text-purple-300 flex items-center justify-center shrink-0 mt-0.5">
-                      <WebIcon name="star" className="w-4 h-4" />
+                  {/* 2. Chức danh */}
+                  <div data-subcard="true" className="exp-detail-subcard w-full rounded-[14px] px-3.5 py-2.5 flex items-center justify-between gap-3 min-w-0">
+                    <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-purple-600 dark:text-purple-300" data-subcard-accent="purple">
+                      <WebIcon name="star" className="w-4 h-4 shrink-0" />
+                      <h4 className="subcard-title-synced typo-body-sm font-semibold m-0 truncate" data-subcard-title="true">
+                        Chức danh
+                      </h4>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <span className="subcard-title-synced typo-h4 font-play text-purple-600 dark:text-purple-300 block break-words" data-subcard-title="true">
-                        Chức danh quản trị
-                      </span>
-                      <span className="typo-body-sm font-semibold text-[var(--text-heading,var(--text-primary))] break-words [overflow-wrap:anywhere] block mt-1">
-                        {activeMilestone.roleTitle}
-                      </span>
-                    </div>
+                    <span className="typo-body-sm font-bold text-[var(--text-heading,var(--text-primary))] text-right truncate">
+                      {activeMilestone.roleTitle}
+                    </span>
                   </div>
 
-                  {/* 3. Thời gian công tác */}
-                  <div data-subcard="true" className="exp-detail-subcard w-full rounded-[14px] p-[15px] flex items-start gap-[15px] min-w-0">
-                    <div className="exp-icon-badge w-9 h-9 aspect-square rounded-full border text-violet-600 dark:text-violet-300 flex items-center justify-center shrink-0 mt-0.5">
-                      <WebIcon name="clock" className="w-4 h-4" />
+                  {/* 3. Thời gian */}
+                  <div data-subcard="true" className="exp-detail-subcard w-full rounded-[14px] px-3.5 py-2.5 flex items-center justify-between gap-3 min-w-0">
+                    <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-violet-600 dark:text-violet-300" data-subcard-accent="violet">
+                      <WebIcon name="clock" className="w-4 h-4 shrink-0" />
+                      <h4 className="subcard-title-synced typo-body-sm font-semibold m-0 truncate" data-subcard-title="true">
+                        Thời gian
+                      </h4>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <span className="subcard-title-synced typo-h4 font-play text-violet-600 dark:text-violet-300 block break-words" data-subcard-title="true">
-                        Thời Gian Công Tác
-                      </span>
-                      <p className="typo-body-sm font-semibold tabular-nums text-violet-600 dark:text-violet-300 mt-1 break-words">
-                        {activeMilestone.cardYearLabel}
-                      </p>
-                      <span className="typo-caption text-[var(--text-muted)] block break-words">
-                        ({activeMilestone.tenure})
-                      </span>
-                    </div>
+                    <span className="typo-body-sm font-bold tabular-nums text-violet-600 dark:text-violet-300 text-right truncate">
+                      {activeMilestone.cardYearLabel} ({activeMilestone.tenure})
+                    </span>
                   </div>
 
                   {/* 4. Địa điểm */}
-                  <div data-subcard="true" className="exp-detail-subcard w-full rounded-[14px] p-[15px] flex items-start gap-[15px] min-w-0">
-                    <div className="exp-icon-badge w-9 h-9 aspect-square rounded-full border text-pink-600 dark:text-pink-300 flex items-center justify-center shrink-0 mt-0.5">
-                      <WebIcon name="map-pin" className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <span className="subcard-title-synced typo-h4 font-play text-pink-600 dark:text-pink-300 block break-words" data-subcard-title="true">
+                  <div data-subcard="true" className="exp-detail-subcard w-full rounded-[14px] px-3.5 py-2.5 flex items-center justify-between gap-3 min-w-0">
+                    <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-pink-600 dark:text-pink-300" data-subcard-accent="pink">
+                      <WebIcon name="map-pin" className="w-4 h-4 shrink-0" />
+                      <h4 className="subcard-title-synced typo-body-sm font-semibold m-0 truncate" data-subcard-title="true">
                         Địa điểm
-                      </span>
-                      <p className="typo-body-sm font-semibold text-[var(--text-heading,var(--text-primary))] mt-1 break-words">
-                        {activeMilestone.location}
-                      </p>
+                      </h4>
                     </div>
+                    <span className="typo-body-sm font-bold text-[var(--text-heading,var(--text-primary))] text-right truncate">
+                      {activeMilestone.location}
+                    </span>
                   </div>
 
                   {/* 5. Lĩnh vực */}
-                  <div data-subcard="true" className="exp-detail-subcard w-full sm:col-span-2 rounded-[14px] p-[15px] flex items-start gap-[15px] min-w-0">
-                    <div className="exp-icon-badge w-9 h-9 aspect-square rounded-full border text-indigo-600 dark:text-indigo-300 flex items-center justify-center shrink-0 mt-0.5">
-                      <WebIcon name="game" className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <span className="subcard-title-synced typo-h4 font-play text-indigo-600 dark:text-indigo-300 block break-words" data-subcard-title="true">
+                  <div data-subcard="true" className="exp-detail-subcard w-full rounded-[14px] px-3.5 py-2.5 flex items-center justify-between gap-3 min-w-0">
+                    <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-indigo-600 dark:text-indigo-300" data-subcard-accent="indigo">
+                      <WebIcon name="game" className="w-4 h-4 shrink-0" />
+                      <h4 className="subcard-title-synced typo-body-sm font-semibold m-0 truncate" data-subcard-title="true">
                         Lĩnh vực
-                      </span>
-                      <p className="typo-body-sm font-semibold text-[var(--text-heading,var(--text-primary))] mt-1 break-words [overflow-wrap:anywhere] leading-snug">
-                        {industryParts.join(' · ')}
-                      </p>
+                      </h4>
                     </div>
+                    <span className="typo-body-sm font-bold text-[var(--text-heading,var(--text-primary))] text-right truncate max-w-[55%]">
+                      {industryParts.join(' · ')}
+                    </span>
                   </div>
                 </div>
               </section>
@@ -1651,9 +1589,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 data-subcard="true"
                 className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-6 lg:col-span-7 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
               >
-                <div className="card-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-[var(--text-link,var(--color-primary))]" data-card-accent="blue">
+                <div className="subcard-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-[var(--text-link,var(--color-primary))]" data-subcard-accent="blue">
                   <WebIcon name="shield-check" className="w-5 h-5 shrink-0" />
-                  <h3 className="card-title card-title-synced typo-h3 font-play break-words m-0" data-card-title="true">
+                  <h3 className="subcard-title-synced typo-h3 font-play break-words m-0" data-subcard-title="true">
                     Giới thiệu công tác
                   </h3>
                 </div>
@@ -1681,68 +1619,27 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </div>
               </section>
 
-              {/* 02 · Kết quả & KPI */}
-              <section
-                id="experience-stats-card"
-                data-subcard="true"
-                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
-              >
-                <div className="card-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-emerald-600 dark:text-emerald-400" data-card-accent="emerald">
-                  <WebIcon name="trophy" className="w-5 h-5 shrink-0" />
-                  <span className="typo-h3 tabular-nums">02</span>
-                  <h3 className="card-title card-title-synced typo-h3 font-play m-0 truncate" data-card-title="true">
-                    Kết quả đạt được
-                  </h3>
-                </div>
-
-                <div className="space-y-[15px] flex-1 flex flex-col justify-start pt-1 min-w-0">
-                  {kpisList.map((kpi, kIdx) => (
-                    <div key={kIdx} className="space-y-1.5 min-w-0">
-                      <div className="flex items-start justify-between gap-2 typo-body-sm font-semibold min-w-0">
-                        <span className="text-[var(--text-primary)] leading-snug break-words [overflow-wrap:anywhere] min-w-0 flex-1">
-                          {kpi.label}
-                        </span>
-                        <span className="font-mono font-bold tabular-nums text-emerald-600 dark:text-emerald-300 shrink-0">
-                          {kpi.displayValue}
-                        </span>
-                      </div>
-                      <div className="w-full h-2 bg-emerald-200/75 dark:bg-emerald-950/90 rounded-full overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-700"
-                          style={{ width: `${Math.min(100, Math.max(15, kpi.percent))}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* 03 · Nội dung nhiệm vụ */}
+              {/* Danh sách công việc (Cùng hàng với Dự án thực hiện) */}
               <section
                 id="experience-responsibility-card"
                 data-subcard="true"
-                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-8 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
+                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-6 lg:col-span-6 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
               >
-                <div className="card-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-purple-600 dark:text-purple-400" data-card-accent="purple">
+                <div className="subcard-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-purple-600 dark:text-purple-400" data-subcard-accent="purple">
                   <WebIcon name="briefcase" className="w-5 h-5 shrink-0" />
-                  <span className="typo-h3 tabular-nums">03</span>
-                  <h3 className="card-title card-title-synced typo-h3 font-play m-0 truncate" data-card-title="true">
-                    Nội dung nhiệm vụ
+                  <h3 className="subcard-title-synced typo-h3 font-play m-0 truncate" data-subcard-title="true">
+                    Danh sách công việc
                   </h3>
                 </div>
 
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-[15px] content-start flex-1 min-w-0 items-stretch">
+                <div className="grid grid-cols-1 gap-[15px] content-start flex-1 min-w-0 items-stretch">
                   {tasksList.map((task, idx) => {
                     const cleanTask = task.replace(/^\d+\.\s*/, '');
-                    const isOddLast = tasksList.length % 2 === 1 && idx === tasksList.length - 1;
                     return (
                       <div
                         key={idx}
                         data-subcard="true"
-                        className={cn(
-                          'exp-detail-subcard w-full flex items-start gap-[15px] p-[15px] rounded-[14px] min-w-0',
-                          isOddLast && 'xl:col-span-2'
-                        )}
+                        className="exp-detail-subcard w-full flex items-start gap-[15px] p-[15px] rounded-[14px] min-w-0"
                       >
                         <span className="exp-icon-badge w-6 h-6 rounded-full text-purple-600 dark:text-purple-300 border font-mono typo-badge flex items-center justify-center shrink-0 tabular-nums mt-0.5">
                           {idx + 1}
@@ -1756,18 +1653,17 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </div>
               </section>
 
-              {/* 04 · Hạng mục dự án */}
+              {/* Dự án thực hiện (Cùng hàng với Danh sách công việc) */}
               <section
                 id="experience-achievement-card"
                 data-subcard="true"
-                className="exp-detail-card col-span-1 sm:col-span-1 md:col-span-3 lg:col-span-5 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
+                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-6 lg:col-span-6 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
               >
                 <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
-                  <div className="card-header-sync flex items-center gap-2 min-w-0 text-amber-600 dark:text-amber-400" data-card-accent="amber">
+                  <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-amber-600 dark:text-amber-400" data-subcard-accent="amber">
                     <WebIcon name="network" className="w-5 h-5 shrink-0" />
-                    <span className="typo-h3 tabular-nums">04</span>
-                    <h3 className="card-title card-title-synced typo-h3 font-play truncate m-0" data-card-title="true">
-                      Hạng mục dự án
+                    <h3 className="subcard-title-synced typo-h3 font-play truncate m-0" data-subcard-title="true">
+                      Dự án thực hiện
                     </h3>
                   </div>
                   <button
@@ -1785,7 +1681,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </button>
                 </div>
 
-                <div className="flex flex-col gap-[15px] content-start flex-1 min-w-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-[15px] content-start flex-1 min-w-0 items-stretch">
                   {projectsList.map((proj, idx) => (
                     <button
                       key={idx}
@@ -1814,16 +1710,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </div>
               </section>
 
-              {/* 05 · Cam kết chất lượng */}
+              {/* Cam kết chất lượng (Cùng hàng với Kết quả đạt được & Hình ảnh kỷ niệm) */}
               <section
                 id="experience-commitments-card"
                 data-subcard="true"
-                className="exp-detail-card col-span-1 sm:col-span-1 md:col-span-3 lg:col-span-7 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
+                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-4 lg:col-span-4 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
               >
-                <div className="card-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-cyan-600 dark:text-cyan-400" data-card-accent="cyan">
+                <div className="subcard-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-cyan-600 dark:text-cyan-400" data-subcard-accent="cyan">
                   <WebIcon name="shield-check" className="w-5 h-5 shrink-0" />
-                  <span className="typo-h3 tabular-nums">05</span>
-                  <h3 className="card-title card-title-synced typo-h3 font-play m-0 truncate" data-card-title="true">
+                  <h3 className="subcard-title-synced typo-h3 font-play m-0 truncate" data-subcard-title="true">
                     Cam kết chất lượng
                   </h3>
                 </div>
@@ -1846,29 +1741,74 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </div>
               </section>
 
-              {/* KHỐI 4.5: THẺ HÌNH KỶ NIỆM (HIỂN THỊ ẢNH THỰC TẾ 16:9 + SCRIM CAPTION + TỚI/LÙI + LIGHTBOX) */}
+              {/* Kết quả đạt được (Cùng hàng với Cam kết chất lượng & Hình ảnh kỷ niệm) */}
+              <section
+                id="experience-stats-card"
+                data-subcard="true"
+                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-4 lg:col-span-4 rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
+              >
+                <div className="subcard-header-sync flex items-center gap-2 pb-2.5 border-b border-[var(--border-subcard)] text-emerald-600 dark:text-emerald-400" data-subcard-accent="emerald">
+                  <WebIcon name="trophy" className="w-5 h-5 shrink-0" />
+                  <h3 className="subcard-title-synced typo-h3 font-play m-0 truncate" data-subcard-title="true">
+                    Kết quả đạt được
+                  </h3>
+                </div>
+
+                <div className="space-y-[15px] flex-1 flex flex-col justify-start pt-1 min-w-0">
+                  {kpisList.map((kpi, kIdx) => (
+                    <div
+                      key={kIdx}
+                      data-subcard="true"
+                      className="exp-detail-subcard p-[15px] rounded-[14px] space-y-1.5 min-w-0"
+                    >
+                      <div className="flex items-start gap-2.5 min-w-0">
+                        <div className="exp-icon-badge w-6 h-6 rounded-full border text-emerald-600 dark:text-emerald-300 flex items-center justify-center shrink-0 font-mono typo-badge tabular-nums mt-0.5">
+                          {kIdx + 1}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-2 typo-body-sm font-semibold min-w-0">
+                            <span className="text-[var(--text-primary)] leading-snug break-words [overflow-wrap:anywhere] min-w-0 flex-1 flex items-center gap-1.5">
+                              <WebIcon name="award" className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                              <span>{kpi.label}</span>
+                            </span>
+                            <span className="font-mono font-bold tabular-nums text-emerald-600 dark:text-emerald-300 shrink-0">
+                              {kpi.displayValue}
+                            </span>
+                          </div>
+                          <div className="w-full h-2 bg-emerald-200/75 dark:bg-emerald-950/90 rounded-full overflow-hidden mt-2">
+                            <div
+                              className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-700"
+                              style={{ width: `${Math.min(100, Math.max(15, kpi.percent))}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Hình ảnh kỷ niệm (Cùng hàng với Cam kết chất lượng) */}
               <section
                 id="experience-memories-card"
                 data-subcard="true"
-                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-6 lg:col-span-12 w-full rounded-[14px] p-[15px] flex flex-col gap-[15px] shrink-0 min-w-0"
+                className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-4 lg:col-span-4 w-full rounded-[14px] p-[15px] flex flex-col gap-[15px] min-w-0"
                 onMouseEnter={() => setIsMemoryHovered(true)}
                 onMouseLeave={() => setIsMemoryHovered(false)}
               >
                 <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
-                  <div className="subcard-header-sync flex items-center gap-2.5 min-w-0 flex-wrap">
-                    <div className="exp-icon-badge w-8 h-8 aspect-square rounded-[10px] text-rose-500 dark:text-rose-300 border flex items-center justify-center shrink-0">
-                      <WebIcon name="image" className="w-4 h-4 text-rose-500 dark:text-rose-300" />
-                    </div>
-                    <h3 className="subcard-title-synced typo-h3 font-play text-rose-500 dark:text-rose-300 m-0" data-subcard-title="true">
-                      Card Kỷ niệm
+                  <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-rose-500 dark:text-rose-300" data-subcard-accent="rose">
+                    <WebIcon name="image" className="w-5 h-5 shrink-0" />
+                    <h3 className="subcard-title-synced typo-h3 font-play m-0 truncate" data-subcard-title="true">
+                      Hình ảnh kỷ niệm
                     </h3>
-                    <span className="typo-caption font-semibold text-[var(--text-muted)] tabular-nums">
-                      <span aria-hidden="true">· </span>
-                      {photosList.length > 0 ? `${memorySlideIdx + 1} / ${photosList.length} hình ảnh` : 'Chưa có hình ảnh'}
-                    </span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap shrink-0">
+                    <span className="typo-caption font-semibold text-[var(--text-muted)] tabular-nums">
+                      {photosList.length > 0 ? `${memorySlideIdx + 1} / ${photosList.length} hình ảnh` : 'Chưa có hình ảnh'}
+                    </span>
+
                     {photosList.length > 1 && (
                       <div className="flex items-center gap-1">
                         <button
@@ -1926,9 +1866,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       setCarouselSlideIdx(memorySlideIdx);
                       setIsPhotoLightboxOpen(true);
                     }}
-                    className="exp-detail-subcard w-full rounded-[14px] p-0 hover:shadow-md transition-all cursor-pointer group min-w-0 relative overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
+                    className="exp-detail-subcard w-full flex-1 flex flex-col rounded-[14px] overflow-hidden p-0 hover:shadow-md transition-all cursor-pointer group min-w-0 relative text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
                   >
-                    <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] max-h-[300px] overflow-hidden bg-slate-900/10 dark:bg-slate-950/60 flex items-center justify-center">
+                    <div className="relative w-full flex-1 aspect-[16/9] min-h-[200px] max-h-[290px] overflow-hidden rounded-[14px] bg-slate-900/10 dark:bg-slate-950/60 flex items-center justify-center">
                       {!memoryImgError && photosList[memorySlideIdx]?.src ? (
                         <img
                           src={photosList[memorySlideIdx].src}
@@ -1936,10 +1876,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           referrerPolicy="no-referrer"
                           loading="lazy"
                           onError={() => setMemoryImgError(true)}
-                          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+                          className="w-full h-full object-cover rounded-[14px] group-hover:scale-[1.03] transition-transform duration-300"
                         />
                       ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-4 bg-gradient-to-br from-rose-500/15 via-slate-500/10 to-indigo-500/15">
+                        <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-4 bg-gradient-to-br from-rose-500/15 via-slate-500/10 to-indigo-500/15 rounded-[14px]">
                           <WebIcon name="image" className="w-8 h-8 text-rose-500/70" />
                           <span className="typo-body-sm font-semibold text-[var(--text-primary)] text-center">
                             {photosList[memorySlideIdx]?.title || activeMilestone.company}
@@ -1947,7 +1887,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         </div>
                       )}
 
-                      <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/85 via-black/45 to-transparent flex items-end justify-between gap-3">
+                      <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/85 via-black/45 to-transparent flex items-end justify-between gap-3 rounded-b-[14px]">
                         <div className="min-w-0 flex-1">
                           <p className="typo-body-sm font-bold text-white truncate">
                             {photosList[memorySlideIdx]?.title || activeMilestone.company}
@@ -1968,7 +1908,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 ) : (
                   <div
                     data-subcard="true"
-                    className="exp-detail-subcard rounded-[14px] p-[15px] flex items-center gap-[15px] min-w-0"
+                    className="exp-detail-subcard rounded-[14px] p-[15px] flex-1 flex items-center gap-[15px] min-w-0"
                   >
                     <span className="typo-body-sm text-[var(--text-muted)]">
                       Chưa có hình ảnh kỷ niệm cho cột mốc này.
@@ -1977,15 +1917,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 )}
               </section>
 
-              {/* KHỐI 5: THANH TRÍCH DẪN TRIẾT LÝ QUẢN TRỊ Ở ĐÁY */}
-              <section data-subcard="true" className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-6 lg:col-span-12 w-full rounded-[14px] p-[15px] flex items-center justify-between gap-[15px] relative overflow-hidden shrink-0">
-                <div className="flex items-center gap-3.5 min-w-0 flex-1">
-                  <div className="w-11 h-11 aspect-square rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-md flex items-center justify-center shrink-0">
-                    <WebIcon name="quote" className="w-5 h-5" />
+              {/* KHỐI 5: THANH TRÍCH DẪN TRIẾT LÝ QUẢN TRỊ NỔI BẬT Ở ĐÁY */}
+              <section data-subcard="true" className="exp-detail-card col-span-1 sm:col-span-2 md:col-span-6 lg:col-span-12 w-full rounded-[14px] p-4 sm:p-5 flex items-center justify-between gap-4 relative overflow-hidden shrink-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 border border-indigo-500/30 shadow-sm">
+                <div className="flex items-center gap-4 min-w-0 flex-1">
+                  <div className="w-12 h-12 aspect-square rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-md flex items-center justify-center shrink-0">
+                    <WebIcon name="quote" className="w-6 h-6" />
                   </div>
-                  <p className="typo-body font-semibold text-[var(--text-heading,var(--text-primary))] break-words [overflow-wrap:anywhere] min-w-0">
-                    {philosophyText}
-                  </p>
+                  <div className="min-w-0 flex-1 space-y-1">
+                    <span className="typo-badge font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 block">
+                      Triết lý & Tầm nhìn quản trị
+                    </span>
+                    <p className="typo-quote italic font-semibold text-[var(--text-heading,var(--text-primary))] break-words [overflow-wrap:anywhere] min-w-0 leading-relaxed">
+                      &ldquo;{philosophyText}&rdquo;
+                    </p>
+                  </div>
                 </div>
 
                 <svg

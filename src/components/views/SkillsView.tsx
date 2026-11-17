@@ -323,7 +323,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
 
   // Bộ lọc 14 màu chuẩn
   const swotFilterOptions = [
-    { id: null, label: isVi ? "Tất cả năng lực (#SWOT)" : "All Competencies (#SWOT)", badge: "#ALL", color: "text-[#1480C0]" },
+    { id: null, label: isVi ? "Tất cả (#SWOT)" : "All (#SWOT)", badge: "#ALL", color: "text-[#1480C0]" },
     { id: "S", label: isVi ? "#S · Thế Mạnh Cốt Lõi" : "#S · Core Strengths", badge: "#S", color: "text-[#1480C0]" },
     { id: "W", label: isVi ? "#W · Khía Cạnh Hoàn Thiện" : "#W · Growth Areas", badge: "#W", color: "text-[#50B347]" },
     { id: "O", label: isVi ? "#O · Cơ Hội Phát Triển" : "#O · Opportunities", badge: "#O", color: "text-[#EC7D21]" },
@@ -424,7 +424,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
       data-element-name="Trang Kỹ Năng Cốt Lõi"
       data-element-type="container"
       data-element-page="skills"
-      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] rounded-[20px] overflow-y-auto glass-scrollbar font-play text-left animate-fadeIn gap-[15px] box-border"
+      className="main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[25px] rounded-[14px] overflow-y-auto glass-scrollbar font-play text-left animate-fadeIn gap-[15px] box-border"
     >
       <div id="skills-main-wrapper" className="w-full flex-grow flex flex-col gap-[15px] justify-start">
         {/* Banner trang kỹ năng - Ẩn khi hiển thị chi tiết kỹ năng */}
@@ -496,12 +496,13 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                   type="button"
                   onClick={() => setIsFilterOpen((prev) => !prev)}
                   className="banner-control-pill swot-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
-                  title={isVi ? "Bộ lọc năng lực" : "Skill Filter"}
+                  title={isVi ? "Bộ lọc" : "Filter"}
+                  aria-label="Bộ lọc kỹ năng"
                   aria-expanded={isFilterOpen}
                   aria-haspopup="listbox"
                 >
                   <WebIcon name="sliders" className="w-4 h-4 text-[var(--color-primary)] transition-transform group-hover:rotate-45 shrink-0" />
-                  <span>{isVi ? "Bộ lọc năng lực" : "Skill Filter"}</span>
+                  <span>{isVi ? "Bộ lọc" : "Filter"}</span>
                 {selectedSwot && (
                   <span className="banner-count-pill px-2 py-0.5 rounded-full border typo-badge font-mono">
                     #{selectedSwot}
@@ -737,9 +738,9 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                   toggleSkillAccordion(item.id);
                                 }
                               }}
-                              style={{ background: 'transparent', backgroundColor: 'transparent', borderRadius: '12px' }}
+                              style={{ background: 'transparent', backgroundColor: 'transparent', borderRadius: '14px' }}
                               className={cn(
-                                "skill-swot-subcard group/item flex flex-col gap-1.5 rounded-[12px] p-2.5 transition-all duration-200 cursor-pointer select-none bg-transparent",
+                                "skill-swot-subcard group/item flex flex-col gap-1.5 rounded-[14px] p-2.5 transition-all duration-200 cursor-pointer select-none bg-transparent",
                                 isExpanded
                                   ? "shadow-xs"
                                   : "hover:shadow-xs active:scale-[0.995]",
@@ -832,7 +833,7 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                                     transition={{ duration: 0.28, ease: [0.04, 0.62, 0.23, 0.98] }}
                                     className="overflow-hidden"
                                   >
-                                    <div className="swot-skill-disclosure mt-2 pt-2 text-left flex items-start gap-2 p-2.5 rounded-[12px]">
+                                    <div className="swot-skill-disclosure mt-2 pt-2 text-left flex items-start gap-2 p-2.5 rounded-[14px]">
                                       <WebIcon
                                         name="info"
                                         className="swot-skill-icon w-4 h-4 shrink-0 mt-0.5 opacity-90"
@@ -894,8 +895,8 @@ export function Skills({ currentTheme }: SkillsViewProps = {}) {
                     data-subcard="true"
                     data-element-name={`Thẻ ngôn ngữ: ${langItem.nameVi}`}
                     data-element-page="skills"
-                    style={{ borderRadius: '12px' }}
-                    className="sub-card exp-detail-subcard w-full h-full min-w-0 flex items-center gap-4 p-4 rounded-[12px] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none"
+                    style={{ borderRadius: '14px' }}
+                    className="sub-card exp-detail-subcard w-full h-full min-w-0 flex items-center gap-[15px] p-[15px] rounded-[14px] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none"
                   >
                     <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
                       <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">

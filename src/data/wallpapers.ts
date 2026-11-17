@@ -314,13 +314,15 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
     id: 'theme-bg-dark-ice-blue-neumorphism',
     name: '🧊 Nền Neumorphism Tối Ice-Blue #152030 (Theme Background)',
-    type: 'gradient',
-    value:
-      'background: radial-gradient(circle at 14% 12%, rgba(34, 211, 238, 0.16) 0%, transparent 54%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.14) 0%, transparent 54%), linear-gradient(145deg, #152030 0%, #182536 50%, #121c29 100%);',
-    bg: 'linear-gradient(145deg, #152030 0%, #182536 50%, #121c29 100%)',
+    type: 'image',
+    value: '/backgrounds/themes/dark-ice-blue-neumorphism/dark-ice-blue-neumorphism-dark.jpg',
+    bg: "url('/backgrounds/themes/dark-ice-blue-neumorphism/dark-ice-blue-neumorphism-dark.jpg') center/cover no-repeat",
     previewStyle: {
       background:
         'radial-gradient(circle at 14% 12%, rgba(34, 211, 238, 0.16) 0%, transparent 54%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.14) 0%, transparent 54%), linear-gradient(145deg, #152030 0%, #182536 50%, #121c29 100%)',
+      backgroundImage: "url('/backgrounds/themes/dark-ice-blue-neumorphism/dark-ice-blue-neumorphism-dark.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     isCustom: false,
     createdAt: 1794300000006,
@@ -328,13 +330,15 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
     id: 'theme-bg-pastel-lilac-soft',
     name: '🪻 Nền Pastel Soft UI Oải Hương Sáng (Theme Background)',
-    type: 'gradient',
-    value:
-      'background: radial-gradient(circle at 14% 14%, rgba(171, 162, 252, 0.24) 0%, transparent 56%), radial-gradient(circle at 86% 18%, rgba(253, 186, 116, 0.22) 0%, transparent 54%), linear-gradient(165deg, #ffffff 0%, #f8f7fc 55%, #f1effa 100%);',
-    bg: 'linear-gradient(165deg, #ffffff 0%, #f8f7fc 55%, #f1effa 100%)',
+    type: 'image',
+    value: '/backgrounds/themes/pastel-lilac-soft/pastel-lilac-soft-light.jpg',
+    bg: "url('/backgrounds/themes/pastel-lilac-soft/pastel-lilac-soft-light.jpg') center/cover no-repeat",
     previewStyle: {
       background:
         'radial-gradient(circle at 14% 14%, rgba(171, 162, 252, 0.24) 0%, transparent 56%), radial-gradient(circle at 86% 18%, rgba(253, 186, 116, 0.22) 0%, transparent 54%), linear-gradient(165deg, #ffffff 0%, #f8f7fc 55%, #f1effa 100%)',
+      backgroundImage: "url('/backgrounds/themes/pastel-lilac-soft/pastel-lilac-soft-light.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     isCustom: false,
     createdAt: 1794300000007,
@@ -342,30 +346,98 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
     id: 'theme-bg-dark-pastel-lilac-soft',
     name: '🪻 Nền Pastel Soft UI Tối Velvet Lilac (Theme Background)',
-    type: 'gradient',
-    value:
-      'background: radial-gradient(circle at 14% 14%, rgba(167, 139, 250, 0.24) 0%, transparent 56%), radial-gradient(circle at 86% 18%, rgba(251, 146, 60, 0.16) 0%, transparent 54%), radial-gradient(circle at 72% 84%, rgba(244, 114, 182, 0.14) 0%, transparent 56%), linear-gradient(165deg, #1b1730 0%, #151226 55%, #110e1f 100%);',
-    bg: 'linear-gradient(165deg, #1b1730 0%, #151226 55%, #110e1f 100%)',
+    type: 'image',
+    value: '/backgrounds/themes/dark-pastel-lilac-soft/dark-pastel-lilac-soft-dark.jpg',
+    bg: "url('/backgrounds/themes/dark-pastel-lilac-soft/dark-pastel-lilac-soft-dark.jpg') center/cover no-repeat",
     previewStyle: {
       background:
         'radial-gradient(circle at 14% 14%, rgba(167, 139, 250, 0.24) 0%, transparent 56%), radial-gradient(circle at 86% 18%, rgba(251, 146, 60, 0.16) 0%, transparent 54%), linear-gradient(165deg, #1b1730 0%, #151226 55%, #110e1f 100%)',
+      backgroundImage: "url('/backgrounds/themes/dark-pastel-lilac-soft/dark-pastel-lilac-soft-dark.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     isCustom: false,
     createdAt: 1794300000008,
   },
   {
     id: 'theme-bg-light-cowhide-leather',
-    name: '💼 Nền Da Bò Sáng Thủ Công Saddle Tan (Theme Background)',
-    type: 'gradient',
-    value:
-      'background: radial-gradient(circle at 18% 18%, rgba(217, 119, 6, 0.18) 0%, transparent 54%), radial-gradient(circle at 84% 22%, rgba(180, 115, 58, 0.16) 0%, transparent 54%), linear-gradient(145deg, #fbf4e8 0%, #f4e6d0 52%, #ead5b5 100%);',
-    bg: 'linear-gradient(145deg, #fbf4e8 0%, #f4e6d0 52%, #ead5b5 100%)',
+    name: '🐊 Nền Da Cá Sấu Trắng Thủ Công (Theme Background)',
+    type: 'image',
+    value: '/backgrounds/themes/light-cowhide-leather/light-cowhide-leather-light.jpg',
+    bg: "url('/backgrounds/themes/light-cowhide-leather/light-cowhide-leather-light.jpg') center/cover no-repeat",
     previewStyle: {
       background:
-        'radial-gradient(circle at 18% 18%, rgba(217, 119, 6, 0.18) 0%, transparent 54%), radial-gradient(circle at 84% 22%, rgba(180, 115, 58, 0.16) 0%, transparent 54%), linear-gradient(145deg, #fbf4e8 0%, #f4e6d0 52%, #ead5b5 100%)',
+        'radial-gradient(circle at 18% 16%, rgba(148, 163, 184, 0.20) 0%, transparent 52%), radial-gradient(circle at 82% 20%, rgba(203, 213, 225, 0.24) 0%, transparent 54%), linear-gradient(145deg, #ffffff 0%, #f8fafc 52%, #edf2f7 100%)',
+      backgroundImage: "url('/backgrounds/themes/light-cowhide-leather/light-cowhide-leather-light.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     isCustom: false,
     createdAt: 1794300000009,
+  },
+  {
+    id: 'theme-bg-light-multicolor-glass',
+    name: '🌈 Nền Glassmorphism Light Multicolor (Theme Background)',
+    type: 'image',
+    value: '/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg',
+    bg: "url('/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg') center/cover no-repeat",
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 12% 14%, rgba(59, 184, 230, 0.34) 0%, transparent 50%), radial-gradient(circle at 88% 16%, rgba(221, 78, 158, 0.28) 0%, transparent 50%), radial-gradient(circle at 80% 84%, rgba(167, 139, 250, 0.26) 0%, transparent 52%), radial-gradient(circle at 16% 86%, rgba(80, 179, 71, 0.22) 0%, transparent 52%), linear-gradient(135deg, #F0F6FF 0%, #F7EEFF 42%, #EEFDF8 76%, #FFF5EC 100%)',
+      backgroundImage: "url('/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000010,
+  },
+  {
+    id: 'theme-bg-light-multicolor-glass-dark',
+    name: '🌌 Nền Glassmorphism Light Multicolor Tối (Theme Background)',
+    type: 'image',
+    value: '/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg',
+    bg: "url('/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg') center/cover no-repeat",
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 14% 16%, rgba(59, 184, 230, 0.24) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(221, 78, 158, 0.22) 0%, transparent 50%), radial-gradient(circle at 78% 84%, rgba(99, 83, 181, 0.24) 0%, transparent 52%), linear-gradient(135deg, #090D1F 0%, #141230 48%, #0C1A2B 100%)',
+      backgroundImage: "url('/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000012,
+  },
+  {
+    id: 'theme-bg-dark-neon-multicolor-glass',
+    name: '⚡ Nền Glassmorphism Dark Neon Multicolor (Theme Background)',
+    type: 'image',
+    value: '/backgrounds/themes/dark-neon-multicolor-glass/dark-neon-multicolor-glass-dark.jpg',
+    bg: "url('/backgrounds/themes/dark-neon-multicolor-glass/dark-neon-multicolor-glass-dark.jpg') center/cover no-repeat",
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 14% 16%, rgba(0, 229, 255, 0.20) 0%, transparent 48%), radial-gradient(circle at 86% 18%, rgba(157, 78, 221, 0.22) 0%, transparent 50%), radial-gradient(circle at 78% 84%, rgba(255, 60, 172, 0.18) 0%, transparent 50%), radial-gradient(circle at 18% 82%, rgba(57, 255, 20, 0.12) 0%, transparent 48%), linear-gradient(145deg, #04060D 0%, #080D1B 50%, #090616 100%)',
+      backgroundImage: "url('/backgrounds/themes/dark-neon-multicolor-glass/dark-neon-multicolor-glass-dark.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000011,
+  },
+  {
+    id: 'theme-bg-dark-neon-multicolor-glass-light',
+    name: '💠 Nền Glassmorphism Dark Neon Sáng (Theme Background)',
+    type: 'image',
+    value: '/backgrounds/themes/dark-neon-multicolor-glass-light/dark-neon-multicolor-glass-light.jpg',
+    bg: "url('/backgrounds/themes/dark-neon-multicolor-glass-light/dark-neon-multicolor-glass-light.jpg') center/cover no-repeat",
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 14% 16%, rgba(14, 165, 233, 0.24) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(139, 92, 246, 0.22) 0%, transparent 50%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.18) 0%, transparent 52%), linear-gradient(135deg, #EDF4FF 0%, #F1EEFF 50%, #ECFAFF 100%)',
+      backgroundImage: "url('/backgrounds/themes/dark-neon-multicolor-glass-light/dark-neon-multicolor-glass-light.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000013,
   },
 
   {

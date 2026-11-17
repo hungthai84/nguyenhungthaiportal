@@ -9,6 +9,7 @@ export interface ThemeFamilyGroupMeta {
   description: string;
   descriptionEn: string;
   icon: string;
+  defaultMode?: CardStyleMode;
   presets: CardStyleConfig[];
 }
 
@@ -22,6 +23,24 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     icon: 'sparkles',
   },
   {
+    id: 'light-multicolor-glass',
+    label: 'Glassmorphism Light Multicolor',
+    labelEn: 'Glassmorphism Light Multicolor',
+    description: 'Kính mờ Mica đa sắc tươi sáng (Hồng, Tím, Xanh dương, Cyan, Xanh lá, Cam, Vàng) & hỗ trợ Tối',
+    descriptionEn: 'Bright colorful Mica Glass with Soft Blur & Light/Dark compatibility',
+    icon: 'sparkles',
+    defaultMode: 'light-multicolor-glass',
+  },
+  {
+    id: 'dark-neon-multicolor-glass',
+    label: 'Glassmorphism Dark Neon Multicolor',
+    labelEn: 'Glassmorphism Dark Neon Multicolor',
+    description: 'Kính mờ tối Obsidian đa sắc Neon phát quang có kiểm soát & hỗ trợ Sáng',
+    descriptionEn: 'Deep Obsidian Neon Multicolor Glass with Controlled Glow & Light/Dark compatibility',
+    icon: 'zap',
+    defaultMode: 'dark-neon-multicolor-glass',
+  },
+  {
     id: 'ice-blue-neumorphism',
     label: 'Neumorphism',
     labelEn: 'Ice-Blue Neumorphism',
@@ -33,16 +52,16 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     id: 'pastel-soft-ui',
     label: 'Pastel Soft UI',
     labelEn: 'Pastel Soft UI',
-    description: 'Thẻ tím oải hương phấn bo góc 32px đồng bộ Sáng / Tối',
-    descriptionEn: '32px soft pastel lilac modular cards in Light & Dark modes',
+    description: 'Thẻ tím oải hương phấn bo góc 14px đồng bộ Sáng / Tối',
+    descriptionEn: '14px soft pastel lilac modular cards in Light & Dark modes',
     icon: 'palette',
   },
   {
     id: 'cowhide-leather',
-    label: 'Da bò',
-    labelEn: 'Cowhide Leather Craft',
-    description: 'Chất liệu da bò thủ công chỉ khâu tay đồng bộ Sáng / Tối',
-    descriptionEn: 'Hand-stitched full-grain cowhide leather in Light Tan & Classic Dark',
+    label: 'Da Thủ Công',
+    labelEn: 'Artisan Leather Craft',
+    description: 'Chất liệu da cá sấu trắng chỉ đen (Sáng) & da bò nâu chỉ kem (Tối)',
+    descriptionEn: 'White Crocodile Leather with black stitching (Light) & Classic Brown Cowhide (Dark)',
     icon: 'briefcase',
   },
 ];
@@ -134,6 +153,180 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     badgeColorClass: 'bg-slate-900/85 text-white border-white/20',
   },
   {
+    id: 'light-multicolor-glass',
+    familyId: 'light-multicolor-glass',
+    familyLabel: 'Glassmorphism Light Multicolor',
+    familyLabelEn: 'Glassmorphism Light Multicolor',
+    counterpartMode: 'light-multicolor-glass-dark',
+    cardClassName: 'card-light-multicolor-glass',
+    name: 'Glassmorphism Light Multicolor',
+    label: 'Glassmorphism Light Multicolor (Sáng)',
+    shortBadge: 'Light Multicolor',
+    tagLabel: 'Glassmorphism Light Multicolor · Mica Prism',
+    modeLabel: 'Sáng (Chính)',
+    isDark: false,
+    icon: 'sparkles',
+    color: '#DD4E9E',
+    desc: 'Kính mờ Mica sáng đa sắc tươi tắn (Pink, Purple, Blue, Cyan, Green, Orange, Yellow, Multicolor Gradient Glass) kết hợp Blur sâu, viền phản quang tinh tế và chữ đen #000000 sắc nét.',
+    cardSampleStyle: {
+      background:
+        'linear-gradient(145deg, rgba(255, 255, 255, 0.84) 0%, rgba(239, 246, 255, 0.72) 48%, rgba(253, 242, 248, 0.72) 100%)',
+      backdropFilter: 'blur(28px) saturate(165%)',
+      WebkitBackdropFilter: 'blur(28px) saturate(165%)',
+      borderRadius: '14px',
+      border: '1px solid rgba(255, 255, 255, 0.92)',
+      boxShadow:
+        '0 14px 32px -10px rgba(99, 83, 181, 0.16), 0 6px 16px -6px rgba(221, 78, 158, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
+      color: '#000000',
+    },
+    miniPreviewWrapStyle: {
+      background:
+        'linear-gradient(135deg, rgba(239, 246, 255, 0.85) 0%, rgba(245, 243, 255, 0.80) 50%, rgba(253, 242, 248, 0.85) 100%)',
+      borderColor: 'rgba(255, 255, 255, 0.92)',
+      boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.96)',
+    },
+    miniTabStyle: {
+      background: 'rgba(255, 255, 255, 0.92)',
+      color: '#000000',
+      borderColor: 'rgba(20, 128, 192, 0.25)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #1480C0 0%, #6353B5 52%, #DD4E9E 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-white/85 text-black border-pink-200',
+  },
+  {
+    id: 'light-multicolor-glass-dark',
+    familyId: 'light-multicolor-glass',
+    familyLabel: 'Glassmorphism Light Multicolor',
+    familyLabelEn: 'Glassmorphism Light Multicolor',
+    counterpartMode: 'light-multicolor-glass',
+    cardClassName: 'card-light-multicolor-glass-dark',
+    name: 'Glassmorphism Light Multicolor (Tối)',
+    label: 'Glassmorphism Light Multicolor (Tương thích Tối)',
+    shortBadge: 'Light Multicolor · Tối',
+    tagLabel: 'Glassmorphism Light Multicolor · Dark Compatible',
+    modeLabel: 'Tương thích Tối',
+    isDark: true,
+    icon: 'moon',
+    color: '#6353B5',
+    desc: 'Phiên bản tương thích chế độ Tối của Glassmorphism Light Multicolor: kính mờ lăng kính đa sắc dịu sâu, không lóa, bảo toàn chữ trắng #FFFFFF chuẩn WCAG 2.2.',
+    cardSampleStyle: {
+      background:
+        'linear-gradient(145deg, rgba(26, 30, 56, 0.82) 0%, rgba(20, 24, 46, 0.78) 52%, rgba(30, 22, 48, 0.80) 100%)',
+      backdropFilter: 'blur(26px) saturate(160%)',
+      WebkitBackdropFilter: 'blur(26px) saturate(160%)',
+      borderRadius: '14px',
+      border: '1px solid rgba(167, 139, 250, 0.28)',
+      boxShadow:
+        '0 18px 42px -12px rgba(4, 6, 18, 0.72), 0 6px 16px -6px rgba(99, 83, 181, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.14)',
+      color: '#FFFFFF',
+    },
+    miniPreviewWrapStyle: {
+      background:
+        'linear-gradient(135deg, rgba(22, 28, 54, 0.88) 0%, rgba(30, 24, 52, 0.85) 100%)',
+      borderColor: 'rgba(167, 139, 250, 0.28)',
+      boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.12)',
+    },
+    miniTabStyle: {
+      background: 'rgba(30, 38, 72, 0.88)',
+      color: '#FFFFFF',
+      borderColor: 'rgba(167, 139, 250, 0.28)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #3BB8E6 0%, #A78BFA 52%, #DD4E9E 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-indigo-950/90 text-white border-violet-400/35',
+  },
+  {
+    id: 'dark-neon-multicolor-glass-light',
+    familyId: 'dark-neon-multicolor-glass',
+    familyLabel: 'Glassmorphism Dark Neon Multicolor',
+    familyLabelEn: 'Glassmorphism Dark Neon Multicolor',
+    counterpartMode: 'dark-neon-multicolor-glass',
+    cardClassName: 'card-dark-neon-multicolor-glass-light',
+    name: 'Glassmorphism Dark Neon Multicolor (Sáng)',
+    label: 'Glassmorphism Dark Neon Multicolor (Tương thích Sáng)',
+    shortBadge: 'Dark Neon · Sáng',
+    tagLabel: 'Glassmorphism Dark Neon Multicolor · Light Compatible',
+    modeLabel: 'Tương thích Sáng',
+    isDark: false,
+    icon: 'sun',
+    color: '#0E7490',
+    desc: 'Phiên bản tương thích chế độ Sáng của Glassmorphism Dark Neon Multicolor: kính công nghệ trong trẻo với viền Electric Jewel dịu mắt và chữ đen #0F172A sắc nét.',
+    cardSampleStyle: {
+      background:
+        'linear-gradient(145deg, rgba(248, 250, 255, 0.86) 0%, rgba(240, 249, 255, 0.80) 52%, rgba(245, 243, 255, 0.82) 100%)',
+      backdropFilter: 'blur(24px) saturate(165%)',
+      WebkitBackdropFilter: 'blur(24px) saturate(165%)',
+      borderRadius: '14px',
+      border: '1px solid rgba(14, 116, 144, 0.26)',
+      boxShadow:
+        '0 14px 32px -10px rgba(15, 23, 42, 0.14), 0 4px 14px -4px rgba(41, 121, 255, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.96)',
+      color: '#000000',
+    },
+    miniPreviewWrapStyle: {
+      background: 'rgba(241, 247, 255, 0.90)',
+      borderColor: 'rgba(14, 116, 144, 0.25)',
+      boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.96)',
+    },
+    miniTabStyle: {
+      background: 'rgba(255, 255, 255, 0.94)',
+      color: '#000000',
+      borderColor: 'rgba(14, 116, 144, 0.28)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #0E7490 0%, #2979FF 52%, #7E22CE 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-cyan-50/95 text-slate-900 border-cyan-600/30',
+  },
+  {
+    id: 'dark-neon-multicolor-glass',
+    familyId: 'dark-neon-multicolor-glass',
+    familyLabel: 'Glassmorphism Dark Neon Multicolor',
+    familyLabelEn: 'Glassmorphism Dark Neon Multicolor',
+    counterpartMode: 'dark-neon-multicolor-glass-light',
+    cardClassName: 'card-dark-neon-multicolor-glass',
+    name: 'Glassmorphism Dark Neon Multicolor',
+    label: 'Glassmorphism Dark Neon Multicolor (Tối)',
+    shortBadge: 'Dark Neon',
+    tagLabel: 'Glassmorphism Dark Neon Multicolor · Controlled Glow',
+    modeLabel: 'Tối (Chính)',
+    isDark: true,
+    icon: 'zap',
+    color: '#00E5FF',
+    desc: 'Kính mờ tối Obsidian đa sắc Neon phát quang có kiểm soát (Cyan, Blue, Electric Purple, Pink, Green, Lime, Yellow, Orange, Coral), tiêu đề & icon Neon dịu mắt, nội dung #FFFFFF sắc nét.',
+    cardSampleStyle: {
+      background:
+        'linear-gradient(145deg, rgba(13, 18, 32, 0.86) 0%, rgba(9, 13, 24, 0.84) 100%)',
+      backdropFilter: 'blur(24px) saturate(190%)',
+      WebkitBackdropFilter: 'blur(24px) saturate(190%)',
+      borderRadius: '14px',
+      border: '1px solid rgba(0, 229, 255, 0.35)',
+      boxShadow:
+        '0 18px 42px -12px rgba(0, 0, 0, 0.82), 0 0 22px -6px rgba(157, 78, 221, 0.28), inset 0 1px 0 rgba(0, 229, 255, 0.22)',
+      color: '#FFFFFF',
+    },
+    miniPreviewWrapStyle: {
+      background: 'rgba(8, 12, 22, 0.88)',
+      borderColor: 'rgba(157, 78, 221, 0.35)',
+      boxShadow: 'inset 0 1px 1px rgba(0, 229, 255, 0.16)',
+    },
+    miniTabStyle: {
+      background: 'rgba(15, 23, 42, 0.90)',
+      color: '#FFFFFF',
+      borderColor: 'rgba(0, 229, 255, 0.35)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #00E5FF 0%, #9D4EDD 52%, #FF3CAC 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-slate-950/90 text-white border-cyan-400/45',
+  },
+  {
     id: 'ice-blue-neumorphism',
     familyId: 'ice-blue-neumorphism',
     familyLabel: 'Nhóm Neumorphism Xanh Băng',
@@ -148,14 +341,14 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     isDark: false,
     icon: 'layers',
     color: '#0EA5E9',
-    desc: 'Phong cách Ice-Blue Soft UI (#e6f0f8) đổ bóng nổi/chìm mềm mại kết hợp các thanh tiến trình gradient Cyan, Tím, Cam đào & Hồng phát sáng chuẩn WCAG.',
+    desc: 'Phong cách Ice-Blue Soft UI (#e6f0f8) bo góc 14px đổ bóng nổi/chìm kép mềm mại kết hợp các thanh tiến trình gradient Cyan, Tím, Cam đào & Hồng phát sáng chuẩn WCAG.',
     cardSampleStyle: {
       background: 'linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%)',
-      borderRadius: '28px',
+      borderRadius: '14px',
       border: '1px solid rgba(255, 255, 255, 0.85)',
       boxShadow:
-        '12px 12px 26px rgba(176, 198, 219, 0.7), -10px -10px 22px rgba(255, 255, 255, 0.95), inset 1px 1px 2px rgba(255, 255, 255, 0.9)',
-      color: '#334155',
+        '10px 10px 22px rgba(176, 198, 219, 0.65), -8px -8px 18px rgba(255, 255, 255, 0.95), inset 1px 1px 2px rgba(255, 255, 255, 0.9)',
+      color: '#000000',
     },
     miniPreviewWrapStyle: {
       background: '#e5eff8',
@@ -190,14 +383,14 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     isDark: true,
     icon: 'cpu',
     color: '#38BDF8',
-    desc: 'Nền xanh băng thẫm (#152030) dập nổi mềm mại với đổ bóng kép lạnh (#0a1018 / #203147), lõi chìm .dark-ice-neu-inset và các thanh chỉ số gradient neon phát sáng.',
+    desc: 'Nền xanh băng thẫm (#152030) bo góc 14px dập nổi mềm mại với đổ bóng kép âm dương (#0a1018 / #203147), lõi chìm và các thanh chỉ số gradient neon phát sáng.',
     cardSampleStyle: {
       background: 'linear-gradient(145deg, #182536 0%, #121c29 100%)',
-      borderRadius: '28px',
-      border: '1px solid rgba(148, 197, 248, 0.12)',
+      borderRadius: '14px',
+      border: '1px solid rgba(148, 197, 248, 0.14)',
       boxShadow:
-        '12px 12px 26px #0a1018, -10px -10px 22px #203147, inset 1px 1px 2px rgba(186, 230, 253, 0.14)',
-      color: '#e2e8f0',
+        '10px 10px 22px #0a1018, -8px -8px 18px #203147, inset 1px 1px 2px rgba(186, 230, 253, 0.14)',
+      color: '#FFFFFF',
     },
     miniPreviewWrapStyle: {
       background: '#131d2b',
@@ -226,12 +419,12 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     name: 'Pastel Soft UI Sáng',
     label: 'Pastel Soft UI Sáng (Pastel Lilac Soft UI)',
     shortBadge: 'Pastel Lilac',
-    tagLabel: 'Pastel Soft UI Sáng · 32px Radius',
+    tagLabel: 'Pastel Soft UI Sáng · 14px Radius',
     modeLabel: 'Pastel Lilac Sáng',
     isDark: false,
     icon: 'palette',
     color: '#8B7EF8',
-    desc: 'Nền trắng kem pha sắc tím oải hương (#f8f7fc / #f4f2fa), bo góc siêu mềm 32px, module phân tầng nhẹ và điểm nhấn cam đào – tím pastel chuẩn WCAG (#1e1b2e).',
+    desc: 'Nền trắng kem pha sắc tím oải hương (#f8f7fc / #f4f2fa), bo góc chuẩn 14px, module phân tầng nhẹ và điểm nhấn cam đào – tím pastel chuẩn WCAG (#000000).',
     cardSampleStyle: {
       background: 'linear-gradient(165deg, #ffffff 0%, #f8f7fc 60%, #f1effa 100%)',
       border: '1.5px solid rgba(255, 255, 255, 0.95)',
@@ -265,12 +458,12 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     name: 'Pastel Soft UI Tối',
     label: 'Pastel Soft UI Tối (Dark Velvet Lilac Soft UI)',
     shortBadge: 'Pastel Lilac Tối',
-    tagLabel: 'Pastel Soft UI Tối · 32px Radius',
+    tagLabel: 'Pastel Soft UI Tối · 14px Radius',
     modeLabel: 'Pastel Lilac Tối',
     isDark: true,
     icon: 'sparkles',
     color: '#A78BFA',
-    desc: 'Nền tím than nhung mịn (#1e1a30), bo góc siêu mềm 32px, module phân tầng #2a2442 và điểm nhấn tím oải hương – cam đào pastel dịu mắt chuẩn WCAG (#f5f3ff).',
+    desc: 'Nền tím than nhung mịn (#1e1a30), bo góc chuẩn 14px, module phân tầng #2a2442 và điểm nhấn tím oải hương – cam đào pastel dịu mắt chuẩn WCAG (#FFFFFF).',
     cardSampleStyle: {
       background: 'linear-gradient(165deg, #25203b 0%, #1e1a30 60%, #181427 100%)',
       border: '1.5px solid rgba(216, 206, 255, 0.16)',
@@ -297,41 +490,42 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
   {
     id: 'light-cowhide-leather',
     familyId: 'cowhide-leather',
-    familyLabel: 'Nhóm Chất liệu Da Bò',
-    familyLabelEn: 'Cowhide Leather Group',
+    familyLabel: 'Nhóm Chất liệu Da Thủ Công',
+    familyLabelEn: 'Artisan Leather Group',
     counterpartMode: 'cowhide-leather',
     cardClassName: 'card-light-cowhide-leather',
-    name: 'Chất liệu da bò sáng',
-    label: 'Chất liệu da bò sáng (Light Saddle Tan Leather)',
-    shortBadge: 'Da Bò Sáng',
-    tagLabel: 'Chất liệu da bò sáng · Saddle Tan',
-    modeLabel: 'Da bò vàng sáng',
+    name: 'Da cá sấu trắng',
+    label: 'Da cá sấu trắng thủ công (White Crocodile Leather)',
+    shortBadge: 'Da Cá Sấu Trắng',
+    tagLabel: 'Da cá sấu trắng · Chỉ khâu đen',
+    modeLabel: 'Da cá sấu trắng',
     isDark: false,
     icon: 'sun',
-    color: '#B45309',
-    desc: 'Chất liệu da bò thuộc mộc tông vàng kem sáng (#FDF8F0 → #EBD4B4) với đường chỉ khâu tay nâu cổ điển và chữ nâu espresso #2C1606 sắc nét.',
+    color: '#0F172A',
+    desc: 'Chất liệu da cá sấu trắng ngọc trai (#FFFFFF → #F1F5F9) vân dập nổi thủ công kết hợp đường chỉ khâu tay màu đen tương phản sắc sảo và chữ #000000 chuẩn WCAG.',
     cardSampleStyle: {
-      background: 'linear-gradient(145deg, #FDF8F0 0%, #F5E6D0 52%, #EBD4B4 100%)',
-      border: '2px solid #C89B6E',
+      background: 'linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 52%, #EDF2F7 100%)',
+      borderRadius: '14px',
+      border: '2px solid rgba(15, 23, 42, 0.24)',
       boxShadow:
-        '0 18px 36px -10px rgba(120, 72, 28, 0.22), inset 0 2px 4px rgba(255, 255, 255, 0.85), inset 0 -3px 6px rgba(139, 90, 43, 0.14)',
+        '0 14px 32px -10px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.96), inset 0 -2px 4px rgba(148, 163, 184, 0.14)',
       color: '#000000',
     },
     miniPreviewWrapStyle: {
-      background: 'linear-gradient(145deg, #FBF2E4 0%, #EFE0C6 100%)',
-      borderColor: 'rgba(139, 90, 43, 0.42)',
+      background: 'linear-gradient(145deg, #FFFFFF 0%, #F1F5F9 100%)',
+      borderColor: 'rgba(15, 23, 42, 0.72)',
       borderStyle: 'dashed',
     },
     miniTabStyle: {
-      background: 'rgba(255, 250, 240, 0.92)',
+      background: '#FFFFFF',
       color: '#000000',
-      borderColor: 'rgba(180, 120, 62, 0.48)',
+      borderColor: 'rgba(15, 23, 42, 0.35)',
     },
     miniBtnStyle: {
-      background: 'linear-gradient(135deg, #B45309 0%, #8B4513 100%)',
+      background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
       color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-[#F5E6D0] text-black border-[#C89B6E]',
+    badgeColorClass: 'bg-white text-black border-slate-900/40',
   },
   {
     id: 'cowhide-leather',
@@ -413,6 +607,26 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     light: CARD_STYLES_MAP['light-glassmorphism'],
     dark: CARD_STYLES_MAP['dark-glassmorphism'],
   },
+  'light-multicolor-glass': {
+    familyId: 'light-multicolor-glass',
+    label: 'Glassmorphism Light Multicolor',
+    labelEn: 'Glassmorphism Light Multicolor',
+    description: 'Kính mờ Mica đa sắc tươi sáng & biến thể tương thích Tối',
+    descriptionEn: 'Light Mica Multicolor Prism & Dark Compatible',
+    icon: 'sparkles',
+    light: CARD_STYLES_MAP['light-multicolor-glass'],
+    dark: CARD_STYLES_MAP['light-multicolor-glass-dark'],
+  },
+  'dark-neon-multicolor-glass': {
+    familyId: 'dark-neon-multicolor-glass',
+    label: 'Glassmorphism Dark Neon Multicolor',
+    labelEn: 'Glassmorphism Dark Neon Multicolor',
+    description: 'Kính mờ tối Neon đa sắc phát quang có kiểm soát & biến thể tương thích Sáng',
+    descriptionEn: 'Dark Neon Multicolor Glass & Light Compatible',
+    icon: 'zap',
+    light: CARD_STYLES_MAP['dark-neon-multicolor-glass-light'],
+    dark: CARD_STYLES_MAP['dark-neon-multicolor-glass'],
+  },
   'ice-blue-neumorphism': {
     familyId: 'ice-blue-neumorphism',
     label: 'Neumorphism',
@@ -427,18 +641,18 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     familyId: 'pastel-soft-ui',
     label: 'Pastel Soft UI',
     labelEn: 'Pastel Soft UI',
-    description: 'Thẻ tím oải hương phấn bo góc 32px Sáng / Tối',
-    descriptionEn: '32px soft pastel lilac modular cards',
+    description: 'Thẻ tím oải hương phấn bo góc 14px Sáng / Tối',
+    descriptionEn: '14px soft pastel lilac modular cards',
     icon: 'palette',
     light: CARD_STYLES_MAP['pastel-lilac-soft'],
     dark: CARD_STYLES_MAP['dark-pastel-lilac-soft'],
   },
   'cowhide-leather': {
     familyId: 'cowhide-leather',
-    label: 'Da bò',
-    labelEn: 'Cowhide Leather Craft',
-    description: 'Chất liệu da bò thủ công chỉ khâu tay Sáng / Tối',
-    descriptionEn: 'Hand-stitched full-grain cowhide leather',
+    label: 'Da Thủ Công',
+    labelEn: 'Artisan Leather Craft',
+    description: 'Da cá sấu trắng chỉ đen (Sáng) & Da bò nâu chỉ kem (Tối)',
+    descriptionEn: 'White Crocodile Leather & Classic Brown Cowhide Leather',
     icon: 'briefcase',
     light: CARD_STYLES_MAP['light-cowhide-leather'],
     dark: CARD_STYLES_MAP['cowhide-leather'],
@@ -523,6 +737,37 @@ export function normalizeCardStyle(raw: string | null): CardStyleMode {
     return 'pastel-lilac-soft';
   }
   if (
+    raw === 'dark-neon-multicolor-glass-light' ||
+    raw === 'dark-neon-light'
+  ) {
+    return 'dark-neon-multicolor-glass-light';
+  }
+  if (
+    raw === 'dark-neon-multicolor-glass' ||
+    raw === 'dark-neon-glass' ||
+    raw === 'dark-neon' ||
+    raw === 'neon-dark' ||
+    raw === 'kinh-mo-toi-neon'
+  ) {
+    return 'dark-neon-multicolor-glass';
+  }
+  if (
+    raw === 'light-multicolor-glass-dark' ||
+    raw === 'light-multicolor-dark'
+  ) {
+    return 'light-multicolor-glass-dark';
+  }
+  if (
+    raw === 'light-multicolor-glass' ||
+    raw === 'multicolor-glass' ||
+    raw === 'kinh-mo-da-sac' ||
+    raw === 'kinh-mo-sang-da-sac' ||
+    raw === 'light-mica-multicolor' ||
+    raw === 'mica-multicolor'
+  ) {
+    return 'light-multicolor-glass';
+  }
+  if (
     raw === 'dark-glassmorphism' ||
     raw === 'dark-frosted-glass' ||
     raw === 'dark-glass' ||
@@ -536,6 +781,8 @@ export function normalizeCardStyle(raw: string | null): CardStyleMode {
     raw === 'light-cowhide-leather' ||
     raw === 'light-leather' ||
     raw === 'da-bo-sang' ||
+    raw === 'da-ca-sau-trang' ||
+    raw === 'white-crocodile' ||
     raw === 'cowhide-leather-light'
   ) {
     return 'light-cowhide-leather';
@@ -558,7 +805,6 @@ export function normalizeCardStyle(raw: string | null): CardStyleMode {
     raw === 'glass-glossy' ||
     raw === 'frosted-glass' ||
     raw === 'mica-fluent' ||
-    raw === 'multicolor-glass' ||
     raw === 'glass' ||
     raw === 'mica' ||
     raw === 'glass-flat' ||

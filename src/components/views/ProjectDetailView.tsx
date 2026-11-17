@@ -558,7 +558,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
             {/* Header Card Sơ Đồ Tư Duy */}
             <div
-              className={`relative z-10 shrink-0 flex items-center justify-between pb-2.5 border-b ${
+              className={`relative z-10 shrink-0 flex items-center justify-between pb-2.5 pr-8 md:pr-0 border-b ${
                 isLightMode ? 'border-slate-300/70' : 'border-white/20'
               }`}
             >
@@ -1778,7 +1778,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             } backdrop-blur-[0.2px] pointer-events-none`} />
 
             {/* Header: TIÊU ĐỀ KHÔNG ĐÓNG KHUNG THẺ, ICON & TIÊU ĐỀ KÍCH THƯỚC BẰNG NHAU, ĐỒNG MÀU */}
-            <div className="relative z-10 flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
+            <div className="relative z-10 flex items-center justify-between gap-2 pb-2 md:pr-7 border-b border-[var(--border-subcard)] shrink-0">
               <div className="card-header-sync flex items-center gap-2 max-w-full" style={{ color: 'var(--text-link, var(--color-primary))' }}>
                 <span className="shrink-0 flex items-center justify-center" style={{ color: 'var(--text-link, var(--color-primary))' }}>
                   <WebIcon name="layers" className="w-4 h-4 shrink-0" />

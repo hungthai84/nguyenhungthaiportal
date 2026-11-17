@@ -136,7 +136,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             (group.darkMode && group.presets.find((p) => p.id === group.darkMode)) ||
             group.presets.find((p) => p.isDark);
           const groupActive = group.presets.some((p) => p.id === cardStyle);
-          const isDarkSelected = groupActive && activePreset.isDark;
+          const isDarkSelected = groupActive ? activePreset.isDark : isDark;
           const isMergedMulticolor = group.id === 'light-multicolor-glass';
           const presetsToRender = isMergedMulticolor
             ? [
@@ -242,16 +242,16 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   const displayPresetName = isMergedMulticolor
                     ? isEn
                       ? 'Multicolor Glass'
-                      : 'Gương kính đa sắc'
+                      : 'Gương đa sắc'
                     : preset.name;
                   const displayModeLabel = isMergedMulticolor
                     ? isEn
                       ? isDarkSelected
-                        ? 'Dark · Active'
-                        : 'Light & Dark'
+                        ? 'Dark · Light & Dark'
+                        : 'Light · Light & Dark'
                       : isDarkSelected
-                        ? 'Tối · Đang bật'
-                        : 'Sáng & Tối'
+                        ? 'Tối · Sáng & Tối'
+                        : 'Sáng · Sáng & Tối'
                     : preset.modeLabel;
                   const displayShortBadge = isMergedMulticolor
                     ? isEn
@@ -600,7 +600,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                             : isDarkGlass
                                               ? 'border-white/20'
                                               : isLightLeather
-                                                ? 'white-leather-stitch border-[#111827]/65 border-dashed'
+                                                ? 'white-leather-stitch'
                                                 : isLeather
                                                   ? 'border-[#F5DEB3]/45 border-dashed'
                                                   : 'bg-slate-100/80 border-slate-200/80'

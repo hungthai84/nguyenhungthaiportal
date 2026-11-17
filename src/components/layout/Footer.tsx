@@ -596,12 +596,7 @@ export const Footer: React.FC<FooterProps> = ({
                           group.presets.find((p) => p.isDark) ||
                           group.presets[group.presets.length - 1];
                         const groupActive = group.presets.some((p) => p.id === cardStyle);
-                        const isDarkSelected = activeThemeConfig.isDark;
-                        const defaultPreset = group.defaultMode
-                          ? group.presets.find((p) => p.id === group.defaultMode) || lightPreset
-                          : activeThemeConfig.isDark
-                            ? darkPreset
-                            : lightPreset;
+                        const defaultPreset = activeThemeConfig.isDark ? darkPreset : lightPreset;
                         const activeGroupPreset = groupActive
                           ? activeThemeConfig
                           : defaultPreset;
@@ -623,11 +618,9 @@ export const Footer: React.FC<FooterProps> = ({
                               type="button"
                               onClick={() => {
                                 SoundEngine.playGlassChime();
-                                const targetPreset = group.defaultMode
-                                  ? defaultPreset
-                                  : activeThemeConfig.isDark
-                                    ? darkPreset
-                                    : lightPreset;
+                                const targetPreset = activeThemeConfig.isDark
+                                  ? darkPreset
+                                  : lightPreset;
                                 setCardStyle(targetPreset.id);
                                 onShowNotification(
                                   isEn

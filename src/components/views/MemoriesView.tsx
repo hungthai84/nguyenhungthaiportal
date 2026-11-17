@@ -12,6 +12,7 @@ import { MemoryPhoto } from '@/types';
 import { useToast } from '@/components/ui/Toast';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+import { useTheme } from '@/hooks/useTheme';
 
 export interface MemoriesViewProps {
   currentTheme?: string;
@@ -19,6 +20,8 @@ export interface MemoriesViewProps {
 
 export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'light-glass' }) => {
   const { showToast } = useToast();
+  const { isDark: themeIsDark } = useTheme();
+  const isDark = themeIsDark || currentTheme.includes('dark');
   const [companyFilter, setCompanyFilter] = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -392,7 +395,10 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                 data-element-name={`Thẻ kỷ niệm: ${item.titleVi}`}
                 key={item.id}
                 style={{ animationDelay: `${(idx % 16) * 35}ms`, padding: 0 }}
-                className="themed-image-card memory-photo-item break-inside-avoid mb-[15px] block w-full relative rounded-[14px] overflow-hidden p-0 m-0 group bg-[#0B1220]"
+                className={cn(
+                  'themed-image-card memory-photo-item break-inside-avoid mb-[15px] block w-full relative rounded-[14px] overflow-hidden p-0 m-0 group',
+                  isDark ? 'bg-[#0B1220]' : 'bg-slate-100/90'
+                )}
               >
                 <img
                   src={item.imageUrl}
@@ -468,13 +474,25 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
             onClick={(e) => e.stopPropagation()}
           >
             {/* Ảnh lớn & Điều khiển */}
-            <div className="relative w-full h-72 sm:h-[460px] md:h-[520px] bg-[#0B1220] flex items-center justify-center overflow-hidden">
+            <div
+              className={cn(
+                'relative w-full h-72 sm:h-[460px] md:h-[520px] flex items-center justify-center overflow-hidden',
+                isDark ? 'bg-[#0B1220]' : 'bg-slate-100'
+              )}
+            >
               <img
                 src={activePhoto.imageUrl}
                 alt={activePhoto.titleVi}
                 className="w-full h-full object-contain select-none"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-transparent to-[#0B1220]/60 pointer-events-none" />
+              <div
+                className={cn(
+                  'absolute inset-0 pointer-events-none',
+                  isDark
+                    ? 'bg-gradient-to-t from-[#111827] via-transparent to-[#0B1220]/60'
+                    : 'bg-gradient-to-t from-slate-900/75 via-transparent to-slate-900/20'
+                )}
+              />
 
               {/* Nút lùi */}
               <button

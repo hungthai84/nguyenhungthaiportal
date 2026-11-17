@@ -28,7 +28,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   },
   {
     id: 'light-multicolor-glass',
-    label: 'Gương kính đa sắc',
+    label: 'Gương đa sắc',
     labelEn: 'Multicolor Glass',
     description: 'Kính mờ Mica đa sắc tươi sáng (Sáng) & kính mờ tối Obsidian Neon đa sắc (Tối)',
     descriptionEn: 'Luminous Multicolor Mica Glass (Light) & Obsidian Neon Multicolor Glass (Dark)',
@@ -607,7 +607,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   },
   'light-multicolor-glass': {
     familyId: 'light-multicolor-glass',
-    label: 'Gương kính đa sắc',
+    label: 'Gương đa sắc',
     labelEn: 'Multicolor Glass',
     description: 'Kính mờ Mica đa sắc tươi sáng (Sáng) & Kính tối Obsidian Neon đa sắc (Tối)',
     descriptionEn: 'Multicolor Mica Glass (Light) & Obsidian Neon Multicolor (Dark)',

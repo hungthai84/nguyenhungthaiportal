@@ -1633,22 +1633,113 @@ html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-s
   color: #FFFFFF;
 }
 
-html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card,
-html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-item-card {
+html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card {
   background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
   border: 2px solid #d1d5db !important;
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
-  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.06) !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.7);
   outline-offset: -5px;
   color: #111827 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-item-card {
+  background: linear-gradient(145deg, #f4f7fa 0%, #e9eef3 100%) !important;
+  border: 1.5px solid #cbd5e1 !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), inset 0 1px 2px rgba(255, 255, 255, 0.92) !important;
+  outline: 1px dashed rgba(17, 24, 39, 0.45);
   outline-offset: -4px;
+  color: #111827 !important;
 }
 
-html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :is(h1, h2, h3, p) {
+html[data-card-style="light-cowhide-leather"] #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
+  background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%) !important;
+  border-color: #94a3b8 !important;
+  outline-color: rgba(17, 24, 39, 0.72);
+}
+
+html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :is(h1, h2, h3, p):not(.exp-bento-preserve-color) {
   color: #111827;
 }
+
+/* Light Modes Surface Synchronization for Experience Detail Bento Wrapper & Cards */
+:is(
+  html[data-card-style="light-glassmorphism"],
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"],
+  html[data-card-style="ice-blue-neumorphism"],
+  html[data-card-style="pastel-lilac-soft"],
+  html[data-card-style="light-cowhide-leather"]
+) #experience-job-detail-card,
+:is(
+  html[data-card-style="light-glassmorphism"],
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"],
+  html[data-card-style="ice-blue-neumorphism"],
+  html[data-card-style="pastel-lilac-soft"],
+  html[data-card-style="light-cowhide-leather"]
+) #experience-job-detail-card:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  padding: 4px 4px 8px !important;
+}
+
+:is(
+  html[data-card-style="light-glassmorphism"],
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"],
+  html[data-card-style="ice-blue-neumorphism"],
+  html[data-card-style="pastel-lilac-soft"],
+  html[data-card-style="light-cowhide-leather"]
+) #experience-job-detail-card::before {
+  display: none !important;
+}
+
+:is(
+  html[data-card-style="light-glassmorphism"],
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"],
+  html[data-card-style="ice-blue-neumorphism"],
+  html[data-card-style="pastel-lilac-soft"]
+) #experience-job-detail-card .exp-bento-surface-card {
+  background: var(--surface-secondary-bg, var(--bg-card)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-color, rgba(255, 255, 255, 0.85))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 18px))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 18px))) !important;
+  color: var(--text-primary, #000000) !important;
+}
+
+:is(
+  html[data-card-style="light-glassmorphism"],
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"],
+  html[data-card-style="ice-blue-neumorphism"],
+  html[data-card-style="pastel-lilac-soft"]
+) #experience-job-detail-card .exp-bento-item-card {
+  background: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
+  border: 1px solid var(--surface-tertiary-border, var(--border-subcard, rgba(255, 255, 255, 0.85))) !important;
+  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard, var(--shadow-nested, 0 2px 6px rgba(15, 23, 42, 0.06)))) !important;
+  color: var(--text-primary, #000000) !important;
+}
+
+:is(
+  html[data-card-style="light-glassmorphism"],
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="dark-neon-multicolor-glass-light"],
+  html[data-card-style="ice-blue-neumorphism"],
+  html[data-card-style="pastel-lilac-soft"]
+) #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
+  background: var(--bg-subcard-hover, rgba(255, 255, 255, 0.94)) !important;
+  box-shadow: var(--shadow-subcard-hover, var(--shadow-subcard)) !important;
+}
+
+
 
 

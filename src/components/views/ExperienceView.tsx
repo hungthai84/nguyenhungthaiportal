@@ -1317,18 +1317,18 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               const expectedId = `p${rawCode.replace('.', '_')}`;
               matchedProj = PROJECTS_DATA.find((p) => p.id === expectedId);
             }
-          } else if (lowerRaw.includes('copilot') || lowerRaw.includes('auto-qa')) {
+          } else if (lowerRaw.includes('copilot')) {
             matchedProj = PROJECTS_DATA.find((p) => p.id === 'p5_6');
+          } else if (lowerRaw.includes('auto-qa') || lowerRaw.includes('speech-to-text')) {
+            matchedProj = PROJECTS_DATA.find((p) => p.id === 'p4_4');
           } else if (lowerRaw.includes('contact center')) {
             matchedProj = PROJECTS_DATA.find((p) => p.id === 'p2_2');
           }
 
-          const hasExactCodeMatch = Boolean(matchedProj && codeMatch && rawCode.includes('.'));
-          const displayCode = hasExactCodeMatch && matchedProj ? matchedProj.code : rawCode;
-          const displayTitle =
-            hasExactCodeMatch && matchedProj
-              ? matchedProj.title.replace(/^[\d.]+\s*·\s*/, '').trim()
-              : rawTitle;
+          const displayCode = matchedProj ? matchedProj.code : rawCode;
+          const displayTitle = matchedProj
+            ? matchedProj.title.replace(/^[\d.]+\s*·\s*/, '').trim()
+            : rawTitle;
 
           return {
             code: displayCode,
@@ -1745,16 +1745,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     isLeather
                       ? 'bg-[#522E10]/85 border-[#F5DEB3]/40 text-[#FDE68A]'
                       : isLightLeather
-                        ? 'bg-slate-100 border-slate-400 text-slate-900'
+                        ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] shadow-xs'
                         : isDarkSurface
                           ? 'bg-slate-800/80 border-white/15 text-sky-300'
-                          : 'bg-white/90 border-slate-200 text-slate-800 shadow-xs'
+                          : 'bg-white/90 border-white/95 text-slate-900 shadow-xs'
                   )}
                 >
                   <Calendar className="w-3.5 h-3.5 shrink-0" />
-                  <span>Cột mốc {activeMilestone.year}</span>
-                  <span className="opacity-50">·</span>
-                  <span className="truncate max-w-[180px] sm:max-w-[280px]">
+                  <span className="text-current">Cột mốc {activeMilestone.year}</span>
+                  <span className="opacity-50 text-current">·</span>
+                  <span className="truncate max-w-[180px] sm:max-w-[280px] text-current">
                     {activeMilestone.subCompanies || activeMilestone.company}
                   </span>
                 </span>
@@ -1772,9 +1772,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       'w-8 h-8 rounded-full border flex items-center justify-center transition-all cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed active:scale-95',
                       isLeather
                         ? 'bg-[#522E10]/85 border-[#F5DEB3]/40 text-[#FDE68A] hover:bg-[#7A4A20]'
-                        : isDarkSurface
-                          ? 'bg-slate-800/85 border-white/15 text-slate-200 hover:bg-slate-700'
-                          : 'bg-white/90 border-slate-200 text-slate-700 hover:bg-slate-100 shadow-xs'
+                        : isLightLeather
+                          ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] hover:bg-[#edf1f4] shadow-xs'
+                          : isDarkSurface
+                            ? 'bg-slate-800/85 border-white/15 text-slate-200 hover:bg-slate-700'
+                            : 'bg-white/90 border-white/95 text-slate-800 hover:bg-white shadow-xs'
                     )}
                     title={prevKey ? `Xem cột mốc ${prevKey}` : 'Đang ở cột mốc đầu tiên'}
                     aria-label="Cột mốc trước"
@@ -1793,9 +1795,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       'w-8 h-8 rounded-full border flex items-center justify-center transition-all cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed active:scale-95',
                       isLeather
                         ? 'bg-[#522E10]/85 border-[#F5DEB3]/40 text-[#FDE68A] hover:bg-[#7A4A20]'
-                        : isDarkSurface
-                          ? 'bg-slate-800/85 border-white/15 text-slate-200 hover:bg-slate-700'
-                          : 'bg-white/90 border-slate-200 text-slate-700 hover:bg-slate-100 shadow-xs'
+                        : isLightLeather
+                          ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] hover:bg-[#edf1f4] shadow-xs'
+                          : isDarkSurface
+                            ? 'bg-slate-800/85 border-white/15 text-slate-200 hover:bg-slate-700'
+                            : 'bg-white/90 border-white/95 text-slate-800 hover:bg-white shadow-xs'
                     )}
                     title={nextKey ? `Xem cột mốc ${nextKey}` : 'Đang ở cột mốc mới nhất'}
                     aria-label="Cột mốc tiếp theo"
@@ -1815,39 +1819,46 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   'px-3.5 h-9 rounded-full border flex items-center gap-1.5 shrink-0 transition-all duration-200 cursor-pointer shadow-sm active:scale-95 text-xs sm:text-sm font-bold',
                   isLeather
                     ? 'bg-[#522E10]/90 border-[#F5DEB3]/45 text-[#FDE68A] hover:bg-rose-600 hover:text-white'
-                    : isDarkSurface
-                      ? 'bg-slate-800/90 border-white/20 text-slate-100 hover:bg-rose-600 hover:text-white hover:border-rose-500'
-                      : 'bg-white/95 border-slate-200 text-slate-700 hover:bg-rose-600 hover:text-white hover:border-rose-600'
+                    : isLightLeather
+                      ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] hover:bg-rose-600 hover:text-white hover:border-rose-600'
+                      : isDarkSurface
+                        ? 'bg-slate-800/90 border-white/20 text-slate-100 hover:bg-rose-600 hover:text-white hover:border-rose-500'
+                        : 'bg-white/95 border-white/95 text-slate-800 hover:bg-rose-600 hover:text-white hover:border-rose-600'
                 )}
                 title="Đóng chi tiết công việc"
                 aria-label="Đóng chi tiết công việc"
               >
                 <X className="w-4 h-4 shrink-0" />
-                <span>Đóng</span>
+                <span className="text-current">Đóng</span>
               </button>
             </div>
 
             {/* BENTO GRID LAYOUT CHÍNH (12 CỘT CHUẨN CODE THAM CHIẾU) */}
             <main className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] w-full min-w-0">
-              {/* 1. HERO CARD: Company Info & Banner (Col Span 8) */}
+              {/* 1. HERO CARD: Company Info, Banner & Dịch vụ sản phẩm (Col Span 12) */}
               <section
                 id="experience-info-card"
                 className={cn(
-                  'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 md:col-span-6 lg:col-span-8 rounded-[14px] overflow-hidden shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border flex flex-col justify-between relative group min-w-0',
+                  'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 md:col-span-6 lg:col-span-12 rounded-[14px] overflow-hidden shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border flex flex-col justify-between relative group min-w-0',
                   isDarkSurface
                     ? 'bg-slate-900/75 border-white/15 text-white'
                     : 'bg-white border-slate-100 text-slate-900'
                 )}
               >
                 {/* Banner Image Header */}
-                <div className="exp-bento-hero-banner relative h-44 sm:h-56 w-full overflow-hidden bg-slate-900">
+                <div
+                  className={cn(
+                    'exp-bento-hero-banner relative h-44 sm:h-56 w-full overflow-hidden',
+                    isDarkSurface || isLeather ? 'bg-slate-900' : 'bg-slate-200'
+                  )}
+                >
                   {!bannerImgError && activeMilestone.bannerUrl ? (
                     <img
                       src={activeMilestone.bannerUrl}
                       alt={`Banner ${activeMilestone.company}`}
                       referrerPolicy="no-referrer"
                       onError={() => setBannerImgError(true)}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-90"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-95"
                     />
                   ) : (
                     <div
@@ -1857,10 +1868,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       )}
                     />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent" />
+                  <div
+                    className={cn(
+                      'absolute inset-0 bg-gradient-to-t to-transparent',
+                      isDarkSurface || isLeather
+                        ? 'from-slate-950 via-slate-900/40'
+                        : 'from-slate-900/55 via-slate-900/15'
+                    )}
+                  />
 
                   {/* Time Badge */}
-                  <div className="absolute top-3.5 right-3.5 bg-white/95 backdrop-blur-md text-slate-900 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-extrabold shadow-lg flex items-center gap-2 max-w-[calc(100%-28px)]">
+                  <div
+                    className={cn(
+                      'absolute top-3.5 right-3.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-extrabold shadow-lg flex items-center gap-2 max-w-[calc(100%-28px)] border',
+                      isLightLeather
+                        ? 'bg-[#fbfcfc]/95 border-[#d1d5db] text-[#111827]'
+                        : 'bg-white/95 backdrop-blur-md border-white/85 text-slate-900'
+                    )}
+                  >
                     <Calendar className="w-4 h-4 text-red-600 shrink-0" />
                     <span className="truncate exp-bento-preserve-color">
                       {activeMilestone.period} ({activeMilestone.tenure})
@@ -1869,10 +1894,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </div>
 
                 {/* Company Content Body */}
-                <div className="p-5 sm:p-7 pt-0 relative flex-1 flex flex-col justify-between min-w-0">
-                  <div className="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-5 -mt-12 sm:-mt-14 mb-5 relative z-10 min-w-0">
-                    {/* Company Logo Box (Circular, Full Fill, No Border) */}
-                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white shadow-xl flex items-center justify-center shrink-0 overflow-hidden">
+                <div className="p-5 sm:p-7 pt-0 relative flex-1 flex flex-col justify-between gap-4 min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-5 -mt-12 sm:-mt-14 relative z-10 min-w-0">
+                    {/* Company Logo Box */}
+                    <div
+                      className={cn(
+                        'w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white shadow-xl flex items-center justify-center shrink-0 overflow-hidden',
+                        !isDarkSurface && !isLeather && 'ring-2 ring-white border border-slate-200/85'
+                      )}
+                    >
                       <img
                         src={activeMilestone.logo}
                         alt={activeMilestone.company}
@@ -1887,16 +1917,18 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           'exp-bento-light-chip inline-flex flex-wrap items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mb-2 border',
                           isDarkSurface
                             ? 'bg-rose-500/20 text-rose-200 border-rose-400/30'
-                            : 'bg-red-50 text-red-600 border-red-100'
+                            : isLightLeather
+                              ? 'bg-[#edf1f4] text-rose-700 border-[#cbd5e1]'
+                              : 'bg-rose-50/90 text-rose-700 border-rose-200/90'
                         )}
                       >
                         <Building2 className="w-3.5 h-3.5 shrink-0" />
-                        <span>{activeMilestone.tag}</span>
+                        <span className="text-current">{activeMilestone.tag}</span>
                         {activeMilestone.location && (
                           <>
-                            <span aria-hidden="true">·</span>
+                            <span aria-hidden="true" className="text-current">·</span>
                             <MapPin className="w-3 h-3 shrink-0" />
-                            <span>{activeMilestone.location}</span>
+                            <span className="text-current">{activeMilestone.location}</span>
                           </>
                         )}
                       </div>
@@ -1908,18 +1940,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         )}
                       >
                         {activeMilestone.company}
+                        {activeMilestone.subCompanies ? ` ${activeMilestone.subCompanies}` : ''}
                       </h1>
-
-                      {activeMilestone.subCompanies && (
-                        <p
-                          className={cn(
-                            'text-sm sm:text-base font-semibold mt-0.5 break-words',
-                            isDarkSurface ? 'text-orange-300' : 'text-orange-600'
-                          )}
-                        >
-                          {activeMilestone.subCompanies}
-                        </p>
-                      )}
                     </div>
                   </div>
 
@@ -1927,7 +1949,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <div
                     className={cn(
                       'grid grid-cols-1 sm:grid-cols-2 gap-[15px] pt-4 border-t',
-                      isDarkSurface ? 'border-white/10' : 'border-slate-100'
+                      isDarkSurface
+                        ? 'border-white/10'
+                        : isLightLeather
+                          ? 'border-slate-300/80'
+                          : 'border-slate-200/80'
                     )}
                   >
                     <div
@@ -1938,12 +1964,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           : 'bg-gradient-to-r from-orange-50 to-amber-50/70 border-orange-100'
                       )}
                     >
-                      <Briefcase className="w-6 h-6 text-orange-500 shrink-0" />
+                      <Briefcase className="w-6 h-6 text-orange-600 shrink-0" />
                       <div className="min-w-0 flex-1">
                         <p
                           className={cn(
                             'text-xs font-semibold tracking-wide',
-                            isDarkSurface ? 'text-slate-300' : 'text-slate-500'
+                            isDarkSurface ? 'text-slate-300' : 'text-slate-600'
                           )}
                         >
                           Chức vụ đảm nhiệm
@@ -1977,7 +2003,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         <p
                           className={cn(
                             'text-xs font-semibold tracking-wide',
-                            isDarkSurface ? 'text-slate-300' : 'text-slate-500'
+                            isDarkSurface ? 'text-slate-300' : 'text-slate-600'
                           )}
                         >
                           Quy mô vận hành
@@ -1993,143 +2019,149 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       </div>
                     </div>
                   </div>
-                </div>
-              </section>
 
-              {/* 2. RIGHT TOP STACK: Merged Dịch vụ sản phẩm Card (Col Span 4) */}
-              <div className="md:col-span-6 lg:col-span-4 flex flex-col gap-[15px] min-w-0">
-                <section
-                  id="experience-products-card"
-                  className={cn(
-                    'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border flex-1 flex flex-col justify-between gap-4 relative overflow-hidden min-w-0',
-                    isDarkSurface
-                      ? 'bg-gradient-to-br from-slate-900 via-slate-800/95 to-orange-950/35 border-orange-500/25 text-white'
-                      : 'bg-gradient-to-br from-amber-50/85 via-white to-orange-50/85 border-orange-200/75 text-slate-900'
-                  )}
-                >
-                  <div
-                    className={cn(
-                      'absolute -right-8 -top-8 w-32 h-32 rounded-full blur-2xl pointer-events-none',
-                      isDarkSurface ? 'bg-orange-500/15' : 'bg-amber-400/15'
-                    )}
-                  />
-
-                  <div className="flex items-center justify-between gap-2 relative z-10">
-                    <h2
+                  {/* Dịch vụ & Logo sản phẩm (2 thẻ tách biệt nằm trong thẻ công ty) */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px] min-w-0 relative z-10">
+                    {/* Thẻ 1: Dịch vụ */}
+                    <div
+                      id="experience-company-services"
                       className={cn(
-                        'text-base sm:text-lg font-bold flex items-center gap-2',
-                        isDarkSurface ? 'text-amber-400' : 'text-orange-600'
-                      )}
-                    >
-                      <Layers className="w-5 h-5 shrink-0" />
-                      <span>Dịch vụ sản phẩm</span>
-                    </h2>
-                    <button
-                      type="button"
-                      onClick={navigateToServices}
-                      className={cn(
-                        'px-2.5 py-1 rounded-full text-xs font-semibold border flex items-center gap-1 cursor-pointer transition-colors shrink-0',
+                        'exp-bento-item-card rounded-[14px] p-4 border flex flex-col justify-between gap-3 min-w-0',
                         isDarkSurface
-                          ? 'bg-orange-500/15 border-orange-400/30 text-orange-200 hover:bg-orange-500/30'
-                          : 'bg-white/90 border-orange-200 text-orange-700 hover:bg-orange-100'
+                          ? 'bg-slate-900/55 border-white/10 text-white'
+                          : 'bg-gradient-to-br from-amber-50/60 via-white/90 to-orange-50/60 border-orange-200/70 text-slate-900'
                       )}
-                      title="Xem chi tiết Lĩnh vực & Dịch vụ"
                     >
-                      <span>{productsWithServices.length} sản phẩm</span>
-                      <ArrowUpRight className="w-3 h-3 shrink-0" />
-                    </button>
-                  </div>
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <h2
+                          className={cn(
+                            'text-sm sm:text-base font-bold flex items-center gap-2',
+                            isDarkSurface
+                              ? 'text-amber-400'
+                              : isLightLeather
+                                ? 'text-[#111827]'
+                                : 'text-orange-700'
+                          )}
+                        >
+                          <Layers className={cn('w-4 h-4 sm:w-5 sm:h-5 shrink-0', isLightLeather && 'text-orange-700')} />
+                          <span>Dịch vụ</span>
+                        </h2>
+                        <button
+                          type="button"
+                          onClick={navigateToServices}
+                          className={cn(
+                            'px-2.5 py-1 rounded-full text-xs font-semibold border flex items-center gap-1 cursor-pointer transition-colors shrink-0',
+                            isDarkSurface
+                              ? 'bg-orange-500/15 border-orange-400/30 text-orange-200 hover:bg-orange-500/30'
+                              : isLightLeather
+                                ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827] hover:bg-slate-200/80'
+                                : 'bg-white/95 border-orange-300 text-orange-800 hover:bg-orange-100'
+                          )}
+                          title="Xem chi tiết Lĩnh vực & Dịch vụ"
+                        >
+                          <span className="text-current">{derivedServicesList.length} dịch vụ</span>
+                          <ArrowUpRight className="w-3 h-3 shrink-0" />
+                        </button>
+                      </div>
 
-                  {/* Nhóm Dịch vụ hoạt động */}
-                  <div
-                    className={cn(
-                      'flex flex-col gap-2 pb-3 border-b relative z-10',
-                      isDarkSurface ? 'border-white/10' : 'border-orange-200/60'
-                    )}
-                  >
-                    <div className="flex flex-wrap gap-2">
-                      {derivedServicesList.map((serviceName, idx) => {
-                        const { Icon, chipClass, iconClass } = getIndustryChipVisual(serviceName, idx);
-                        return (
-                          <button
-                            key={serviceName}
-                            type="button"
-                            onClick={navigateToServices}
-                            title={`${serviceName} — Click để xem chi tiết dịch vụ`}
-                            className={cn(
-                              'exp-bento-light-chip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] border text-xs sm:text-sm font-semibold leading-snug transition-colors cursor-pointer',
-                              chipClass
-                            )}
-                          >
-                            <Icon className={cn('w-3.5 h-3.5 shrink-0', iconClass)} />
-                            <span>{serviceName}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Overlapping Circular Logos */}
-                  <div className="flex flex-wrap items-center justify-center sm:justify-start -space-x-3 py-1 relative z-10">
-                    {productsWithServices.map((prod, pIdx) => (
-                      <button
-                        key={pIdx}
-                        type="button"
-                        onClick={navigateToServices}
-                        title={`${prod.name} (${prod.services.join(', ')}) — Click để xem chi tiết dịch vụ`}
-                        aria-label={`Xem dịch vụ ${prod.name}`}
-                        style={{ zIndex: pIdx + 1 }}
-                        className="w-15 h-15 sm:w-16 sm:h-16 rounded-full bg-white p-2 flex items-center justify-center shadow-md ring-2 ring-white/90 hover:-translate-y-1.5 hover:scale-110 hover:z-30 transition-all duration-300 relative overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
-                      >
-                        <img
-                          src={prod.src}
-                          alt={prod.name}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-contain rounded-full"
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).src = activeMilestone.logo;
-                          }}
-                        />
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Product Name Labels + Service Tags */}
-                  <div className="flex flex-wrap gap-2 pt-1 min-w-0 relative z-10">
-                    {productsWithServices.map((prod, pIdx) => (
-                      <button
-                        key={pIdx}
-                        type="button"
-                        onClick={navigateToServices}
-                        title={`${prod.name} — ${prod.services.join(' · ')}`}
-                        className={cn(
-                          'exp-bento-light-chip inline-flex flex-wrap items-center gap-1.5 px-2.5 py-1.5 rounded-[12px] text-xs font-semibold border transition-colors cursor-pointer text-left max-w-full',
-                          isDarkSurface
-                            ? 'bg-white/10 border-white/15 text-orange-100 hover:bg-white/20'
-                            : 'bg-white/90 border-orange-200/80 text-slate-800 hover:bg-orange-100/70'
-                        )}
-                      >
-                        <span className="font-bold">{prod.name}</span>
-                        {prod.services.map((svc, sIdx) => {
-                          const { Icon: SvcIcon, chipClass, iconClass } = getIndustryChipVisual(svc, sIdx);
+                      <div className="flex flex-wrap gap-2 min-w-0">
+                        {derivedServicesList.map((serviceName, idx) => {
+                          const { Icon, chipClass, iconClass } = getIndustryChipVisual(serviceName, idx);
                           return (
-                            <span
-                              key={svc}
+                            <button
+                              key={serviceName}
+                              type="button"
+                              onClick={navigateToServices}
+                              title={`${serviceName} — Click để xem chi tiết dịch vụ`}
                               className={cn(
-                                'exp-bento-preserve-color inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border',
+                                'exp-bento-light-chip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] border text-xs sm:text-sm font-semibold leading-snug transition-colors cursor-pointer',
                                 chipClass
                               )}
                             >
-                              <SvcIcon className={cn('w-3 h-3 shrink-0', iconClass)} />
-                              <span>{svc}</span>
-                            </span>
+                              <Icon className={cn('w-3.5 h-3.5 shrink-0', iconClass)} />
+                              <span className="text-current">{serviceName}</span>
+                            </button>
                           );
                         })}
-                      </button>
-                    ))}
+                      </div>
+                    </div>
+
+                    {/* Thẻ 2: Logo sản phẩm */}
+                    <div
+                      id="experience-company-product-logos"
+                      className={cn(
+                        'exp-bento-item-card rounded-[14px] p-4 border flex flex-col justify-between gap-3 min-w-0',
+                        isDarkSurface
+                          ? 'bg-slate-900/55 border-white/10 text-white'
+                          : 'bg-gradient-to-br from-slate-50/80 via-white/95 to-indigo-50/50 border-slate-200/80 text-slate-900'
+                      )}
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <h2
+                          className={cn(
+                            'text-sm sm:text-base font-bold flex items-center gap-2',
+                            isDarkSurface
+                              ? 'text-sky-300'
+                              : isLightLeather
+                                ? 'text-[#111827]'
+                                : 'text-slate-800'
+                          )}
+                        >
+                          <Sparkles className={cn('w-4 h-4 sm:w-5 sm:h-5 shrink-0', isDarkSurface ? 'text-sky-400' : 'text-indigo-600')} />
+                          <span>Logo sản phẩm</span>
+                        </h2>
+                        <button
+                          type="button"
+                          onClick={navigateToServices}
+                          className={cn(
+                            'px-2.5 py-1 rounded-full text-xs font-semibold border flex items-center gap-1 cursor-pointer transition-colors shrink-0',
+                            isDarkSurface
+                              ? 'bg-sky-500/15 border-sky-400/30 text-sky-200 hover:bg-sky-500/30'
+                              : isLightLeather
+                                ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827] hover:bg-slate-200/80'
+                                : 'bg-white/95 border-slate-300 text-slate-800 hover:bg-slate-100'
+                          )}
+                          title="Xem chi tiết Lĩnh vực & Dịch vụ"
+                        >
+                          <span className="text-current">{productsWithServices.length} sản phẩm</span>
+                          <ArrowUpRight className="w-3 h-3 shrink-0" />
+                        </button>
+                      </div>
+
+                      <div className="flex flex-wrap items-center -space-x-2.5 min-w-0 py-0.5">
+                        {productsWithServices.map((prod, pIdx) => (
+                          <button
+                            key={pIdx}
+                            type="button"
+                            onClick={navigateToServices}
+                            title={`${prod.name} (${prod.services.join(', ')}) — Click để xem chi tiết dịch vụ`}
+                            aria-label={`Xem dịch vụ ${prod.name}`}
+                            style={{ zIndex: pIdx + 1 }}
+                            className={cn(
+                              'w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white p-1.5 flex items-center justify-center shadow-md ring-2 hover:-translate-y-1 hover:scale-110 hover:z-30 transition-all duration-300 relative overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500',
+                              isDarkSurface
+                                ? 'ring-white/90'
+                                : isLightLeather
+                                  ? 'ring-white border border-slate-300'
+                                  : 'ring-white/95 border border-slate-200/85'
+                            )}
+                          >
+                            <img
+                              src={prod.src}
+                              alt={prod.name}
+                              referrerPolicy="no-referrer"
+                              className="w-full h-full object-contain rounded-full"
+                              onError={(e) => {
+                                (e.currentTarget as HTMLImageElement).src = activeMilestone.logo;
+                              }}
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </section>
-              </div>
+                </div>
+              </section>
 
               {/* 3. KPI RESULTS ROW: Vibrant Stat Bento Cards */}
               <section
@@ -2167,7 +2199,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       <div className="text-3xl sm:text-4xl font-extrabold tracking-tight my-1 tabular-nums relative z-10 exp-bento-preserve-color">
                         {kpi.displayValue}
                       </div>
-                      <p className={cn('font-medium text-sm leading-snug relative z-10 break-words', styleCfg.subText)}>
+                      <p className={cn('font-medium text-sm leading-snug relative z-10 break-words exp-bento-preserve-color', styleCfg.subText)}>
                         {kpi.label}
                       </p>
                     </div>
@@ -2189,10 +2221,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <h2
                     className={cn(
                       'text-base sm:text-lg font-bold flex items-center gap-2',
-                      isDarkSurface ? 'text-rose-300' : 'text-rose-600'
+                      isDarkSurface
+                        ? 'text-rose-300'
+                        : isLightLeather
+                          ? 'text-[#111827]'
+                          : 'text-rose-700'
                     )}
                   >
-                    <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
+                    <BookOpen className={cn('w-5 h-5 sm:w-6 sm:h-6 shrink-0', isLightLeather && 'text-rose-700')} />
                     <span>Giới thiệu hành trình</span>
                   </h2>
                   <span
@@ -2200,7 +2236,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       'exp-bento-light-chip text-xs sm:text-sm font-semibold px-3 py-1 rounded-full border self-start sm:self-auto',
                       isDarkSurface
                         ? 'bg-rose-500/15 border-rose-400/30 text-rose-200'
-                        : 'bg-white/90 border-rose-200 text-rose-700'
+                        : isLightLeather
+                          ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827]'
+                          : 'bg-white/85 border-rose-200/90 text-rose-700'
                     )}
                   >
                     {narrativeTitle}
@@ -2213,7 +2251,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       'exp-bento-item-card text-sm sm:text-base leading-relaxed mb-5 p-4 rounded-[14px] border break-words',
                       isDarkSurface
                         ? 'bg-slate-900/70 border-white/10 text-slate-200'
-                        : 'bg-white/85 border-rose-100/90 text-slate-700'
+                        : 'bg-white/85 border-rose-100/90 text-slate-800'
                     )}
                   >
                     {activeMilestone.highlightText || activeMilestone.cardDescription}
@@ -2242,12 +2280,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             )}
                           >
                             <ColIcon className={cn('w-4 h-4 shrink-0', colStyle.iconColor)} />
-                            <span className="break-words">{item.title}</span>
+                            <span className="break-words text-current">{item.title}</span>
                           </h3>
                           <p
                             className={cn(
                               'text-sm sm:text-base leading-relaxed break-words',
-                              isDarkSurface ? 'text-slate-300' : 'text-slate-600'
+                              isDarkSurface ? 'text-slate-300' : 'text-slate-700'
                             )}
                           >
                             {item.desc}
@@ -2260,7 +2298,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                 <div className="flex items-start sm:items-center gap-3 bg-rose-600 text-white px-4 py-3.5 rounded-[14px] shadow-sm">
                   <Gauge className="w-5 h-5 text-amber-300 shrink-0 mt-0.5 sm:mt-0" />
-                  <p className="text-sm sm:text-base font-medium leading-snug text-white break-words">
+                  <p className="text-sm sm:text-base font-medium leading-snug text-white break-words exp-bento-preserve-color">
                     {philosophyText}
                   </p>
                 </div>
@@ -2272,16 +2310,30 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <section
                   id="experience-commitments-card"
                   className={cn(
-                    'transition-all duration-300 hover:-translate-y-0.5 lg:col-span-5 text-white rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] relative overflow-hidden flex flex-col justify-between min-w-0',
-                    isLeather
-                      ? 'exp-bento-surface-card'
-                      : 'bg-gradient-to-br from-cyan-600 via-teal-600 to-emerald-700'
+                    'transition-all duration-300 hover:-translate-y-0.5 lg:col-span-5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] relative overflow-hidden flex flex-col justify-between min-w-0',
+                    isLightLeather
+                      ? 'exp-bento-surface-card text-[#111827]'
+                      : isLeather
+                        ? 'exp-bento-surface-card text-white'
+                        : 'bg-gradient-to-br from-cyan-600 via-teal-600 to-emerald-700 text-white'
                   )}
                 >
-                  <div className="absolute right-0 top-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-xl pointer-events-none" />
+                  {!isLightLeather && (
+                    <div className="absolute right-0 top-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-xl pointer-events-none" />
+                  )}
                   <div className="flex items-center gap-2.5 mb-4 relative z-10">
-                    <ShieldCheck className="w-6 h-6 text-amber-300 shrink-0" />
-                    <h2 className="text-base sm:text-lg font-bold text-amber-300">
+                    <ShieldCheck
+                      className={cn(
+                        'w-6 h-6 shrink-0',
+                        isLightLeather ? 'text-amber-700' : 'text-amber-300'
+                      )}
+                    />
+                    <h2
+                      className={cn(
+                        'text-base sm:text-lg font-bold',
+                        isLightLeather ? 'text-[#111827]' : 'text-amber-300'
+                      )}
+                    >
                       Cam kết chất lượng
                     </h2>
                   </div>
@@ -2289,14 +2341,30 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <div className="space-y-[15px] relative z-10 my-auto">
                     {commitmentsList.map((cmtText, cIdx) => {
                       const CmtIcon = cIdx % 2 === 0 ? Flame : Lock;
-                      const cmtIconColor = cIdx % 2 === 0 ? 'text-amber-300' : 'text-cyan-200';
+                      const cmtIconColor = isLightLeather
+                        ? cIdx % 2 === 0
+                          ? 'text-amber-700'
+                          : 'text-teal-700'
+                        : cIdx % 2 === 0
+                          ? 'text-amber-300'
+                          : 'text-cyan-200';
                       return (
                         <div
                           key={cIdx}
-                          className="bg-white/12 backdrop-blur-sm border border-white/20 rounded-[14px] p-3.5 flex items-start gap-3 min-w-0"
+                          className={cn(
+                            'rounded-[14px] p-3.5 flex items-start gap-3 min-w-0 border',
+                            isLightLeather
+                              ? 'exp-bento-item-card'
+                              : 'bg-white/12 backdrop-blur-sm border-white/20'
+                          )}
                         >
                           <CmtIcon className={cn('w-5 h-5 shrink-0 mt-0.5', cmtIconColor)} />
-                          <p className="text-sm sm:text-base font-medium leading-snug text-white break-words min-w-0 flex-1">
+                          <p
+                            className={cn(
+                              'text-sm sm:text-base font-medium leading-snug break-words min-w-0 flex-1',
+                              isLightLeather ? 'text-[#111827]' : 'text-white'
+                            )}
+                          >
                             {cmtText}
                           </p>
                         </div>
@@ -2319,18 +2387,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <h2
                       className={cn(
                         'text-base sm:text-lg font-bold flex items-center gap-2',
-                        isDarkSurface ? 'text-purple-300' : 'text-purple-600'
+                        isDarkSurface
+                          ? 'text-purple-300'
+                          : isLightLeather
+                            ? 'text-[#111827]'
+                            : 'text-purple-700'
                       )}
                     >
-                      <ListChecks className="w-5 h-5 shrink-0" />
+                      <ListChecks className={cn('w-5 h-5 shrink-0', isLightLeather && 'text-purple-700')} />
                       <span>Danh sách công việc</span>
                     </h2>
                     <span
                       className={cn(
-                        'exp-bento-light-chip text-xs font-bold px-2.5 py-1 rounded-full shrink-0 tabular-nums',
+                        'exp-bento-light-chip text-xs font-bold px-2.5 py-1 rounded-full shrink-0 tabular-nums border',
                         isDarkSurface
-                          ? 'bg-purple-500/20 text-purple-200 border border-purple-400/30'
-                          : 'bg-purple-100 text-purple-700'
+                          ? 'bg-purple-500/20 text-purple-200 border-purple-400/30'
+                          : isLightLeather
+                            ? 'bg-[#edf1f4] text-[#111827] border-[#cbd5e1]'
+                            : 'bg-purple-100/90 text-purple-800 border-purple-200/80'
                       )}
                     >
                       {tasksList.length} Hạng mục
@@ -2386,10 +2460,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <h2
                     className={cn(
                       'text-base sm:text-lg font-bold flex items-center gap-2',
-                      isDarkSurface ? 'text-orange-300' : 'text-orange-600'
+                      isDarkSurface
+                        ? 'text-orange-300'
+                        : isLightLeather
+                          ? 'text-[#111827]'
+                          : 'text-orange-700'
                     )}
                   >
-                    <FolderKanban className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
+                    <FolderKanban className={cn('w-5 h-5 sm:w-6 sm:h-6 shrink-0', isLightLeather && 'text-orange-700')} />
                     <span>Danh sách dự án</span>
                   </h2>
 
@@ -2400,11 +2478,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       'px-3 py-1.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95',
                       isDarkSurface
                         ? 'bg-orange-500/15 border-orange-400/30 text-orange-200 hover:bg-orange-500 hover:text-white'
-                        : 'bg-orange-50 border-orange-200 text-orange-700 hover:bg-orange-600 hover:text-white'
+                        : isLightLeather
+                          ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827] hover:bg-[#111827] hover:text-white hover:border-[#111827]'
+                          : 'bg-orange-50 border-orange-200 text-orange-800 hover:bg-orange-600 hover:text-white hover:border-orange-600'
                     )}
                     title="Chuyển đến trang Dự án"
                   >
-                    <span>Xem Dự án</span>
+                    <span className="text-current">Xem Dự án</span>
                     <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
                   </button>
                 </div>
@@ -2451,8 +2531,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         </div>
                         <ArrowUpRight
                           className={cn(
-                            'w-4 h-4 shrink-0 opacity-55 group-hover:opacity-100 transition-opacity',
-                            isDarkSurface ? 'text-slate-300' : 'text-slate-500'
+                            'w-4 h-4 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity',
+                            isDarkSurface ? 'text-slate-300' : 'text-slate-600'
                           )}
                         />
                       </button>
@@ -2476,13 +2556,17 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <h2
                       className={cn(
                         'text-base sm:text-lg font-bold flex items-center gap-2',
-                        isDarkSurface ? 'text-amber-400' : 'text-amber-600'
+                        isDarkSurface
+                          ? 'text-amber-400'
+                          : isLightLeather
+                            ? 'text-[#111827]'
+                            : 'text-amber-700'
                       )}
                     >
                       <Camera
                         className={cn(
                           'w-5 h-5 sm:w-6 sm:h-6 shrink-0',
-                          isDarkSurface ? 'text-amber-400' : 'text-amber-600'
+                          isDarkSurface ? 'text-amber-400' : 'text-amber-700'
                         )}
                       />
                       <span>Hình ảnh kỷ niệm</span>
@@ -2499,17 +2583,19 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           'text-xs flex items-center gap-1 shrink-0 cursor-pointer transition-colors font-semibold',
                           isDarkSurface
                             ? 'text-slate-300 hover:text-amber-300'
-                            : 'text-slate-600 hover:text-amber-700'
+                            : isLightLeather
+                              ? 'text-[#111827] hover:text-amber-700'
+                              : 'text-slate-700 hover:text-amber-700'
                         )}
                         title="Phóng to thư viện ảnh kỷ niệm"
                       >
                         <ZoomIn
                           className={cn(
                             'w-3.5 h-3.5 shrink-0',
-                            isDarkSurface ? 'text-amber-400' : 'text-amber-600'
+                            isDarkSurface ? 'text-amber-400' : 'text-amber-700'
                           )}
                         />
-                        <span>Phóng to ({photosList.length})</span>
+                        <span className="text-current">Phóng to ({photosList.length})</span>
                       </button>
                     )}
                   </div>
@@ -2537,7 +2623,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             'exp-bento-rect-btn group relative rounded-[14px] overflow-hidden border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer p-0 text-left',
                             isDarkSurface
                               ? 'bg-slate-800 border-slate-700/70'
-                              : 'bg-slate-100 border-amber-200/80',
+                              : isLightLeather
+                                ? 'bg-[#edf1f4] border-[#d1d5db]'
+                                : 'bg-white/80 border-slate-200/90 shadow-xs',
                             borderHover,
                             isFullRow ? 'col-span-2 min-h-[150px]' : 'min-h-[115px]'
                           )}
@@ -2559,7 +2647,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                 'w-full h-full min-h-[115px] flex flex-col items-center justify-center gap-1.5 p-3',
                                 isDarkSurface
                                   ? 'bg-slate-800 text-slate-300'
-                                  : 'bg-slate-100 text-slate-700'
+                                  : isLightLeather
+                                    ? 'bg-[#edf1f4] text-[#374151]'
+                                    : 'bg-slate-100 text-slate-700'
                               )}
                             >
                               <Camera
@@ -2589,7 +2679,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       'rounded-[14px] border p-4 flex-1 flex items-center justify-center',
                       isDarkSurface
                         ? 'bg-slate-800/70 border-slate-700 text-slate-300'
-                        : 'bg-amber-50/60 border-amber-200/70 text-slate-600'
+                        : isLightLeather
+                          ? 'bg-[#edf1f4] border-[#d1d5db] text-[#374151]'
+                          : 'bg-white/75 border-slate-200/80 text-slate-700'
                     )}
                   >
                     <span className="text-sm">
@@ -2646,7 +2738,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               onClick={(e) => e.stopPropagation()}
               className="theme-modal-card max-w-4xl w-full rounded-[14px] overflow-hidden shadow-2xl relative"
             >
-              <div className="relative aspect-[16/10] w-full bg-[#0B1220] flex items-center justify-center">
+              <div
+                className={cn(
+                  'relative aspect-[16/10] w-full flex items-center justify-center',
+                  isDarkSurface ? 'bg-[#0B1220]' : 'bg-slate-100'
+                )}
+              >
                 <img
                   src={curPhoto.src}
                   alt={curPhoto.title || activeMilestone.company}

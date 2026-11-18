@@ -305,12 +305,7 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
                   }}
                   className="theme-modal-subcard w-full h-full p-[15px] !rounded-[14px] text-left flex items-center gap-3 min-h-[78px] cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.99] group min-w-0"
                 >
-                  <span
-                    className="w-9 h-9 rounded-[14px] flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: `${cat.color}20`, color: catColor }}
-                  >
-                    <WebIcon name={cat.icon} className="w-[18px] h-[18px]" style={{ color: catColor }} />
-                  </span>
+                  <WebIcon name={cat.icon} className="w-[18px] h-[18px] shrink-0" style={{ color: catColor }} />
                   <h4
                     className="typo-h5 font-play leading-snug break-words min-w-0 flex-1"
                     style={{ color: catColor }}
@@ -370,12 +365,7 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
               style={{ borderColor: `${activeColor}45` }}
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <span
-                  className="w-8 h-8 rounded-[14px] flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${selectedCategory.color}20`, color: activeColor }}
-                >
-                  <WebIcon name={selectedCategory.icon} className="w-4 h-4" style={{ color: activeColor }} />
-                </span>
+                <WebIcon name={selectedCategory.icon} className="w-4 h-4 shrink-0" style={{ color: activeColor }} />
                 <div className="min-w-0">
                   <h4 className="typo-h5 font-play truncate" style={{ color: activeColor }}>
                     {selectedCategory.labelWithNumber}

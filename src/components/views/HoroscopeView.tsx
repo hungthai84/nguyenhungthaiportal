@@ -1066,7 +1066,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    className="banner-dropdown-menu dropdown-menu-enter absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-140px))] sm:w-72 max-w-full rounded-[14px] p-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu dropdown-menu-enter absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-full rounded-[14px] p-2 z-50 flex flex-col gap-1"
                   >
                     <div className="px-2.5 py-1 typo-label text-[var(--text-muted)] tracking-wider border-b border-[var(--border-subcard)] mb-1">
                       Bộ lọc thẻ phân tích
@@ -1241,61 +1241,61 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] w-full min-w-0">
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
-                  <Moon className="w-4 h-4 shrink-0" />
+                  <Calendar className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 truncate m-0" data-subcard-title="true">
                     Ngày sinh dương lịch
                   </h5>
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex flex-col gap-0.5">
                   <div className="typo-h5 text-[var(--text-primary)] break-words">22/06/1984</div>
-                  <div className="typo-caption text-[var(--text-secondary)] break-words">
+                  <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
                     (17:00 • Giáp Tý • Canh Ngọ • Quý Dậu)
                   </div>
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
                   <Moon className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 truncate m-0" data-subcard-title="true">
                     Ngày sinh âm lịch
                   </h5>
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex flex-col gap-0.5">
                   <div className="typo-h5 text-[var(--text-primary)] break-words">24/05/1984</div>
-                  <div className="typo-caption text-[var(--text-secondary)] break-words">
+                  <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
                     (Năm Giáp Tý 1984)
                   </div>
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-amber-600 dark:text-amber-400">
                   <Clock className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-amber-600 dark:text-amber-400 truncate m-0" data-subcard-title="true">
                     Giờ sinh can chi
                   </h5>
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex flex-col gap-0.5">
                   <div className="typo-h5 text-[var(--text-primary)] break-words">Giờ Quý Dậu (17h - 19h)</div>
-                  <div className="typo-caption text-[var(--text-secondary)] break-words">
+                  <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
                     (Thiên Can: Quý, Địa Chi: Dậu)
                   </div>
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-emerald-600 dark:text-emerald-400">
                   <ShieldCheck className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-emerald-600 dark:text-emerald-400 truncate m-0" data-subcard-title="true">
                     Năm sinh nạp âm
                   </h5>
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex flex-col gap-0.5">
                   <div className="typo-h5 text-emerald-700 dark:text-emerald-300 break-words">Hải Trung Kim</div>
-                  <div className="typo-caption text-[var(--text-secondary)] break-words">
+                  <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
                     (Vàng Ròng Đáy Biển Sâu)
                   </div>
                 </div>
@@ -1314,7 +1314,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   }
                 }}
                 title="Bấm để xoay la bàn bát quái (4 hướng cát khí: Tây Bắc, Tây Nam, Đông Bắc, Tây)"
-                className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5 cursor-pointer hover:border-cyan-400/60 hover:shadow-sm transition-all group relative overflow-hidden select-none"
+                className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2 cursor-pointer hover:border-cyan-400/60 hover:shadow-sm transition-all group relative overflow-hidden select-none"
               >
                 <div className="flex items-center justify-between gap-1.5 min-w-0">
                   <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-cyan-600 dark:text-cyan-400">
@@ -1334,27 +1334,27 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     {activeLuckyDirection.degree}°
                   </span>
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex flex-col gap-0.5">
                   <div className="typo-h5 text-cyan-700 dark:text-cyan-300 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
                     <span>Đoài Kim (Hành Kim)</span>
                     <span className="text-[11px] opacity-75">· {activeLuckyDirection.direction} ({activeLuckyDirection.starName})</span>
                   </div>
-                  <div className="typo-caption text-[var(--text-secondary)] break-words">
+                  <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
                     (Tây Tứ Mệnh • Hướng {activeLuckyDirection.direction} - {activeLuckyDirection.elementBadge})
                   </div>
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-between gap-1.5">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-rose-600 dark:text-rose-400">
                   <Hash className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-rose-600 dark:text-rose-400 truncate m-0" data-subcard-title="true">
                     Cục vận hàm số
                   </h5>
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex flex-col gap-0.5">
                   <div className="typo-h5 text-rose-700 dark:text-rose-300 break-words">Kim Tứ Cục (Số 4)</div>
-                  <div className="typo-caption text-[var(--text-secondary)] break-words">
+                  <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
                     (Khởi Đại Vận Năm 4 Tuổi)
                   </div>
                 </div>

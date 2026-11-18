@@ -327,13 +327,13 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-light-multicolor-glass',
-    name: '🌈 Nền Gương đa sắc Sáng (Theme Background)',
+    name: '🤍 Nền Gương đơn sắc (sáng) (Theme Background)',
     type: 'image',
     value: '/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg',
     bg: "url('/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg') center/cover no-repeat",
     previewStyle: {
       background:
-        'radial-gradient(circle at 12% 14%, rgba(59, 184, 230, 0.34) 0%, transparent 50%), radial-gradient(circle at 88% 16%, rgba(221, 78, 158, 0.28) 0%, transparent 50%), radial-gradient(circle at 80% 84%, rgba(167, 139, 250, 0.26) 0%, transparent 52%), radial-gradient(circle at 16% 86%, rgba(80, 179, 71, 0.22) 0%, transparent 52%), linear-gradient(135deg, #F0F6FF 0%, #F7EEFF 42%, #EEFDF8 76%, #FFF5EC 100%)',
+        'radial-gradient(circle at 16% 16%, rgba(148, 163, 184, 0.24) 0%, transparent 50%), radial-gradient(circle at 84% 18%, rgba(203, 213, 225, 0.28) 0%, transparent 52%), radial-gradient(circle at 76% 84%, rgba(148, 163, 184, 0.18) 0%, transparent 52%), linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 48%, #E2E8F0 100%)',
       backgroundImage: "url('/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg')",
       backgroundSize: 'cover',
       backgroundPosition: 'center',
@@ -343,7 +343,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-light-multicolor-glass-dark',
-    name: '🌌 Nền Gương đa sắc Tối (Theme Background)',
+    name: '🌌 Nền Gương Neon màu (tối) (Theme Background)',
     type: 'image',
     value: '/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg',
     bg: "url('/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg') center/cover no-repeat",
@@ -356,6 +356,22 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000012,
+  },
+  {
+    id: 'theme-bg-light-multicolor-glass-color',
+    name: '🌈 Nền Gương đa sắc (màu) (Theme Background)',
+    type: 'image',
+    value: '/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg',
+    bg: "url('/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg') center/cover no-repeat",
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 12% 14%, rgba(59, 184, 230, 0.34) 0%, transparent 50%), radial-gradient(circle at 88% 16%, rgba(221, 78, 158, 0.28) 0%, transparent 50%), radial-gradient(circle at 80% 84%, rgba(167, 139, 250, 0.26) 0%, transparent 52%), radial-gradient(circle at 16% 86%, rgba(80, 179, 71, 0.22) 0%, transparent 52%), linear-gradient(135deg, #F0F6FF 0%, #F7EEFF 42%, #EEFDF8 76%, #FFF5EC 100%)',
+      backgroundImage: "url('/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000013,
   },
 
   {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion } from 'motion/react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { Toast } from './components/common/Toast';
@@ -7,6 +6,7 @@ import { MapModal } from './components/common/MapModal';
 import { BentoFocusModal } from './components/common/BentoFocusModal';
 import { MilestoneModal } from './components/common/MilestoneModal';
 import { XRayInspector } from './components/common/XRayInspector';
+import { PullCord } from './components/ui/PullCord';
 
 import { HomeView } from './components/views/HomeView';
 import { LetterView } from './components/views/LetterView';
@@ -633,15 +633,12 @@ export default function App() {
         <div aria-hidden="true" className="ambient-layer-transition" />
       </div>
 
+      {/* ĐÈN KÉO DÂY (PULL CORD) Ở GÓC TRÊN BÊN TRÁI WEBSITE */}
+      {currentTabIndex !== 16 && <PullCord />}
+
       {/* HEADER (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
-        <motion.div
-          key="app-header-chrome"
-          initial={{ opacity: 0, y: -24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full shrink-0 relative z-40 flex justify-center shadow-none rounded-2xl transition-all duration-300"
-        >
+        <div className="w-full shrink-0 relative z-40 flex justify-center shadow-none rounded-2xl">
           <Header
             pages={TABS_DATA}
             currentPage={currentTabIndex}
@@ -649,7 +646,7 @@ export default function App() {
             onSelectPage={handleSelectTabWithSound}
             onShowNotification={showNotification}
           />
-        </motion.div>
+        </div>
       )}
 
       {/* MAIN CENTER CARD */}
@@ -669,33 +666,26 @@ export default function App() {
         }}
         className={`w-full ${
           currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-full'
-        } mx-auto flex-1 my-[2px] sm:my-[4px] lg:my-[4px] min-h-0 rounded-[14px] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent transition-all duration-300 ease-in-out [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
+        } mx-auto flex-1 my-[2px] sm:my-[4px] lg:my-[4px] min-h-0 rounded-[14px] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
-        <motion.div
+        <div
           key={`page-view-${currentTabIndex}`}
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
           className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
         >
           {renderActiveView()}
-        </motion.div>
+        </div>
 
         <Toast message={toastMessage} />
       </main>
 
       {/* FOOTER (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
-        <motion.div
-          key="app-footer-chrome"
+        <div
           id="el-p0-div-98"
           data-element-name="Phần tử DIV (#el-p0-div-98)"
           data-element-type="container"
           data-element-page="p0"
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-2xl transition-all duration-300"
+          className="w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-2xl"
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}
@@ -708,7 +698,7 @@ export default function App() {
               showNotification('Mở trang Hình Nền & Giao diện (Lưu trữ lâu dài)');
             }}
           />
-        </motion.div>
+        </div>
       )}
 
       {/* MODALS & INSPECTOR */}

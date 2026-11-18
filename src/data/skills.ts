@@ -143,7 +143,7 @@ export const LANGUAGE_SKILLS: LanguageSkill[] = [
     name: 'Tiếng Việt',
     percent: 90,
     level: 'Ngôn ngữ bản xứ',
-    desc: 'Ngôn ngữ bản xứ, thành thạo chuyên sâu trong giao tiếp và điều hành',
+    desc: '',
     strokeColor: '#10b981',
   },
   {
@@ -152,7 +152,7 @@ export const LANGUAGE_SKILLS: LanguageSkill[] = [
     name: 'Tiếng Anh',
     percent: 60,
     level: '',
-    desc: 'Giao tiếp chuyên nghiệp, đáp ứng công việc trong môi trường quốc tế',
+    desc: '',
     strokeColor: '#3b82f6',
   },
   {
@@ -161,7 +161,7 @@ export const LANGUAGE_SKILLS: LanguageSkill[] = [
     name: 'Ứng dụng AI',
     percent: 85,
     level: 'Thành thạo',
-    desc: 'Dịch thuật & Trợ lý AI thời gian thực hỗ trợ trao đổi đa quốc gia',
+    desc: '',
     strokeColor: '#8b5cf6',
   },
 ];
@@ -236,7 +236,7 @@ export const LANGUAGES_DATA: LanguageProficiencyItem[] = [
     levelEn: 'Native Proficiency',
     percent: 90,
     color: 'text-emerald-600 dark:text-emerald-400',
-    descVi: 'Ngôn ngữ bản xứ, thành thạo chuyên sâu trong giao tiếp và điều hành',
+    descVi: '',
   },
   {
     id: 'en',
@@ -248,7 +248,7 @@ export const LANGUAGES_DATA: LanguageProficiencyItem[] = [
     levelEn: 'Professional Working',
     percent: 60,
     color: 'text-blue-600 dark:text-sky-400',
-    descVi: 'Giao tiếp văn phòng, đáp ứng công việc trong môi trường quốc tế',
+    descVi: '',
   },
   {
     id: 'ai',
@@ -260,7 +260,7 @@ export const LANGUAGES_DATA: LanguageProficiencyItem[] = [
     levelEn: '',
     percent: 85,
     color: 'text-purple-600 dark:text-purple-400',
-    descVi: 'Dịch thuật & Trợ lý AI thời gian thực hỗ trợ trao đổi đa quốc gia',
+    descVi: '',
   },
 ];
 

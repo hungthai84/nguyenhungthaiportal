@@ -99,10 +99,10 @@ h3.card-title {
   line-height: var(--lh-body) !important;
 }
 
-/* Smooth 300ms transition fade for theme and surface material switching */
+/* Smooth 300ms transition fade for surface material switching (excludes Header, Main Container & Footer) */
 body,
-#global-content-viewport,
-.main-card,
+.page-main-card,
+[data-main-card="true"],
 .glass-card,
 .bento-card,
 .exp-detail-subcard,
@@ -151,25 +151,97 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-97:nth
   height: auto !important;
 }
 
+/* Focus Mode: #home-main-card & All Similar Main Cards (Padding 15px, Gap 15px at all screen sizes, Deep Shadow) */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1) > div#home-main-card:nth-of-type(1),
+#home-main-card,
+.page-main-card,
+[data-main-card="true"] {
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  box-shadow: 0 28px 65px -15px rgba(15, 23, 42, 0.32), 0 16px 36px -10px rgba(15, 23, 42, 0.2), 0 6px 16px -4px rgba(15, 23, 42, 0.12), 0 0 0 1px var(--surface-primary-border, rgba(255, 255, 255, 0.25)) !important;
+}
+
+.dark div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1) > div#home-main-card:nth-of-type(1),
+.dark #home-main-card,
+.dark .page-main-card,
+.dark [data-main-card="true"],
+html[data-theme-mode="dark"] #home-main-card,
+html[data-theme-mode="dark"] .page-main-card,
+html[data-theme-mode="dark"] [data-main-card="true"] {
+  box-shadow: 0 32px 75px -15px rgba(0, 0, 0, 0.85), 0 20px 40px -10px rgba(0, 0, 0, 0.65), 0 8px 20px -4px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15) !important;
+}
+
 /* Unified Full-Width Viewport, Outer Page Container (100% Transparent, 0px, 1px Border) & Centered Level-01 .page-main-card */
 html #global-content-viewport:not(:has(#pdf-page-container)) {
   width: 100% !important;
   max-width: 100% !important;
 }
 
+html #letter-cards-track #el-p1-div-85,
+html #el-p1-div-85,
 html #letter-cards-track #letter-slide-2-grid,
 html #letter-cards-track #letter-slide-3-grid,
-html #letter-cards-track #letter-slide-4-bento-grid {
+html #letter-cards-track #letter-slide-4-bento-grid,
+html #about-intro-grid-1,
+html #about-intro-grid-2,
+html #services-main-content {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  padding: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  flex: 1 0 auto !important;
   margin: 0 !important;
+  padding: 0px 0px 15px 0px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+  transform: none !important;
   box-sizing: border-box !important;
 }
 
-html #letter-cards-track #el-p1-div-85,
-html #el-p1-div-85,
+@media (min-width: 1024px) {
+  html #interview-main-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0px 0px 15px 0px !important;
+    gap: 15px !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  html #interview-main-content,
+  html #contact-main-card > div:first-child {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: 1 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0px 0px 15px 0px !important;
+    gap: 15px !important;
+    box-sizing: border-box !important;
+  }
+}
+
 html #letter-cards-track #letter-slide-2-card,
 html #letter-cards-track #letter-slide-3-card,
 html #letter-cards-track #letter-slide-4-card,
@@ -201,7 +273,11 @@ html #letter-slide-4-card {
 }
 
 html #el-p1-div-85 > :is(article, div):not(.partner-motto-container):not(.partner-motto-grid),
-html #el-p1-div-85 #card-core-values-pursued [data-subcard="true"] {
+html #el-p1-div-85 #card-core-values-pursued [data-subcard="true"],
+html #letter-slide-2-grid > :is(article, div),
+html #letter-slide-3-grid > :is(article, div),
+html #letter-slide-4-bento-grid > :is(article, div),
+html #letter-slide-4-bento-grid [data-subcard="true"] {
   padding: 15px !important;
   margin: 0 !important;
   box-sizing: border-box !important;
@@ -251,7 +327,7 @@ html.dark[data-card-style] [id$="-page-root"] {
   box-sizing: border-box !important;
 }
 
-html [id$="-page-container"]::after {
+html [id$="-page-container"]:not(#pdf-page-container)::after {
   display: none !important;
 }
 
@@ -291,7 +367,7 @@ html.dark[data-card-style] #about-intro-card-2 {
   margin-bottom: 0 !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
-  padding: 15px !important;
+  padding: 15px 15px 0px 15px !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
@@ -301,56 +377,39 @@ html.dark[data-card-style] #about-intro-card-2 {
   box-sizing: border-box !important;
 }
 
-/* Unified Floating Visual System: Header, Main Card & Footer (Transition + Hover Elevation) */
+/* Static Header, Main Container & Footer (zero transitions, animations, or mouse-over effects) */
 html #app-header,
+html #app-header:hover,
+html[data-card-style] #app-header,
+html[data-card-style] #app-header:hover,
+html #app-footer,
+html #app-footer:hover,
+html[data-card-style] #app-footer,
+html[data-card-style] #app-footer:hover,
+html #global-content-viewport,
+html #global-content-viewport:hover,
+html[data-card-style] #global-content-viewport,
+html[data-card-style] #global-content-viewport:hover,
+html .main-card:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container),
+html .main-card:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):hover,
+html [id$="-page-container"]:not(#pdf-page-container),
+html [id$="-page-container"]:not(#pdf-page-container):hover,
+html [id$="-page-root"],
+html [id$="-page-root"]:hover {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Main Cards (Level 01): Smooth hover border, shadow & subtle Pulse feedback */
 html .page-main-card,
 html [data-main-card="true"]:not(#pdf-page-container),
 html #about-intro-card-1,
-html #about-intro-card-2,
-html #app-footer {
-  transition: var(--surface-primary-transition, transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms ease, outline-color 300ms ease, background 300ms ease, color 300ms ease, backdrop-filter 300ms ease) !important;
+html #about-intro-card-2 {
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1), border-color 260ms ease, outline-color 260ms ease, background 260ms ease, color 260ms ease !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html #app-header:not(.is-header-hidden):hover,
-  html[data-card-style] #app-header:not(.is-header-hidden):hover {
-    transform: translateY(var(--surface-primary-hover-lift, -3px)) !important;
-  }
-
-  html #app-footer:hover,
-  html[data-card-style] #app-footer:hover {
-    transform: translateY(0) !important;
-  }
-
-  html #app-header:not(.is-header-hidden):hover,
-  html[data-card-style] #app-header:not(.is-header-hidden):hover,
-  html .page-main-card:hover,
-  html[data-card-style] .page-main-card:hover,
-  html [data-main-card="true"]:not(#pdf-page-container):hover,
-  html[data-card-style] [data-main-card="true"]:not(#pdf-page-container):hover,
-  html #about-intro-card-1:hover,
-  html[data-card-style] #about-intro-card-1:hover,
-  html #about-intro-card-2:hover,
-  html[data-card-style] #about-intro-card-2:hover,
-  html #app-footer:hover,
-  html[data-card-style] #app-footer:hover {
-    border-color: var(--surface-primary-border-hover, var(--surface-primary-border)) !important;
-  }
-
-  html[data-card-style*="leather"] #app-header:not(.is-header-hidden):hover,
-  html[data-card-style*="leather"] .page-main-card:hover,
-  html[data-card-style*="leather"] [data-main-card="true"]:not(#pdf-page-container):hover,
-  html[data-card-style*="leather"] #about-intro-card-1:hover,
-  html[data-card-style*="leather"] #about-intro-card-2:hover,
-  html[data-card-style*="leather"] #app-footer:hover {
-    outline-color: var(--surface-primary-outline-hover, currentColor) !important;
-  }
-
-  html #app-header:not(.is-header-hidden):hover,
-  html[data-card-style] #app-header:not(.is-header-hidden):hover {
-    box-shadow: var(--surface-header-shadow-hover, var(--surface-primary-shadow-hover)) !important;
-  }
-
   html .page-main-card:hover,
   html[data-card-style] .page-main-card:hover,
   html [data-main-card="true"]:not(#pdf-page-container):hover,
@@ -359,23 +418,25 @@ html #app-footer {
   html[data-card-style] #about-intro-card-1:hover,
   html #about-intro-card-2:hover,
   html[data-card-style] #about-intro-card-2:hover {
+    border-color: var(--surface-primary-border-hover, var(--surface-primary-border)) !important;
     box-shadow: var(--surface-primary-shadow-hover, var(--surface-primary-shadow)) !important;
   }
 
-  html #app-footer:hover,
-  html[data-card-style] #app-footer:hover {
-    box-shadow: var(--surface-footer-shadow-hover, var(--surface-primary-shadow-hover)) !important;
+  html[data-card-style*="leather"] .page-main-card:hover,
+  html[data-card-style*="leather"] [data-main-card="true"]:not(#pdf-page-container):hover,
+  html[data-card-style*="leather"] #about-intro-card-1:hover,
+  html[data-card-style*="leather"] #about-intro-card-2:hover {
+    outline-color: var(--surface-primary-outline-hover, currentColor) !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html #app-header:not(.is-header-hidden):hover,
   html .page-main-card:hover,
   html [data-main-card="true"]:not(#pdf-page-container):hover,
   html #about-intro-card-1:hover,
-  html #about-intro-card-2:hover,
-  html #app-footer:hover {
+  html #about-intro-card-2:hover {
     transform: none !important;
+    animation: none !important;
   }
 }
 
@@ -465,6 +526,7 @@ html :is(
 ),
 .card-light-multicolor-glass,
 .card-light-multicolor-glass-dark,
+.card-light-multicolor-glass-color,
 .card-white-pebbled-leather,
 .card-light-cowhide-leather,
 .card-black-cowhide-leather,
@@ -492,15 +554,17 @@ html :is(
 }
 
 /* Preserve Pill Nav/Switch Controls & Enforce 14px Rectangular Action Buttons in Multicolor Glass Themes */
-html[data-card-style="light-multicolor-glass"] button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle),
-html[data-card-style="light-multicolor-glass-dark"] button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle) {
+html[data-card-style="light-multicolor-glass"] button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle):not(#letter-circle-video-play-btn):not(#systems-intro-video-circle-btn),
+html[data-card-style="light-multicolor-glass-dark"] button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle):not(#letter-circle-video-play-btn):not(#systems-intro-video-circle-btn),
+html[data-card-style="light-multicolor-glass-color"] button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle):not(#letter-circle-video-play-btn):not(#systems-intro-video-circle-btn) {
   border-radius: 14px !important;
 }
 
 /* ========================================================================= */
 /* ULTRA-CRISP PURE BLACK (#000000) / PURE WHITE (#FFFFFF) FONT SHARPNESS    */
 /* ========================================================================= */
-html[data-card-style="light-multicolor-glass"] {
+html[data-card-style="light-multicolor-glass"],
+html[data-card-style="light-multicolor-glass-color"] {
   --color-heading: #000000 !important;
   --color-text: #000000 !important;
   --color-text-secondary: #111827 !important;
@@ -608,6 +672,11 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-102:nt
   border: 2px dashed var(--text-primary, rgba(148, 163, 184, 0.75)) !important;
 }
 
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-81:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1) {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
 /* ========================================================================= */
 /* COMPREHENSIVE RESPONSIVE & TOUCH OPTIMIZATION UTILITIES                   */
 /* ========================================================================= */
@@ -663,7 +732,18 @@ html .motto-quote-text {
   line-height: 1.35 !important;
 }
 
-/* 2. All Main Cards across all pages: exact Header Surface + Floating Motion + Drop Shadow + 15px inset */
+@keyframes main-card-hover-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: var(--surface-primary-shadow-hover, var(--shadow-floating));
+  }
+  50% {
+    transform: scale(1.0045);
+    box-shadow: var(--surface-primary-shadow-hover, var(--shadow-floating)), 0 0 22px 1px rgba(56, 189, 248, 0.22);
+  }
+}
+
+/* 2. All Main Cards across all pages: exact Header Surface + Drop Shadow + 15px inset + Hover Pulse */
 html .page-main-card,
 html[data-card-style] .page-main-card,
 html.dark[data-card-style] .page-main-card,
@@ -681,10 +761,45 @@ html.dark[data-card-style] #about-intro-card-2 {
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
   border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
   border-radius: 14px !important;
-  padding: 15px !important;
+  padding: 15px 15px 0px 15px !important;
   box-shadow: var(--shadow-floating, var(--surface-primary-shadow)) !important;
-  animation: float-gentle 5.5s ease-in-out infinite !important;
+  animation: none !important;
   box-sizing: border-box !important;
+}
+
+/* Non-scrolling main cards keep symmetric 15px padding on all 4 edges */
+html #home-main-card,
+html[data-card-style] #home-main-card,
+html #experience-main-card,
+html[data-card-style] #experience-main-card,
+html #ai-assistant-main-card,
+html[data-card-style] #ai-assistant-main-card {
+  padding: 15px !important;
+}
+
+@media (min-width: 1024px) {
+  html #contact-main-card,
+  html[data-card-style] #contact-main-card {
+    padding: 15px !important;
+  }
+}
+
+/* Multi-child scrollable main cards preserve exact 15px bottom inset at scroll end */
+html #education-main-card::after,
+html #skills-main-card::after,
+html #projects-main-card::after,
+html #systems-main-card::after,
+html #memories-main-card::after,
+html #wallpaper-main-card::after,
+html #interface-main-card::after {
+  content: "" !important;
+  display: block !important;
+  width: 100% !important;
+  height: 1px !important;
+  min-height: 1px !important;
+  flex: 0 0 1px !important;
+  margin-top: -1px !important;
+  pointer-events: none !important;
 }
 
 @media screen {
@@ -695,10 +810,22 @@ html.dark[data-card-style] #about-intro-card-2 {
     -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
     border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
     border-radius: 14px !important;
-    padding: 15px !important;
+    padding: 15px 15px 0px 15px !important;
+    row-gap: 20px !important;
     box-shadow: var(--shadow-floating, var(--surface-primary-shadow)) !important;
-    animation: float-gentle 5.5s ease-in-out infinite !important;
+    animation: none !important;
     box-sizing: border-box !important;
+  }
+
+  html #pdf-page-container::after {
+    content: "" !important;
+    display: block !important;
+    width: 100% !important;
+    height: 1px !important;
+    min-height: 1px !important;
+    flex: 0 0 1px !important;
+    margin-top: -6px !important;
+    pointer-events: none !important;
   }
 }
 
@@ -748,6 +875,10 @@ html[data-card-style="cowhide-leather"] #pdf-page-container {
     box-shadow: none !important;
     animation: none !important;
   }
+
+  html #pdf-page-container::after {
+    display: none !important;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -758,20 +889,31 @@ html[data-card-style="cowhide-leather"] #pdf-page-container {
   html #about-intro-card-1:hover,
   html[data-card-style] #about-intro-card-1:hover,
   html #about-intro-card-2:hover,
-  html[data-card-style] #about-intro-card-2:hover {
+  html[data-card-style] #about-intro-card-2:hover,
+  html #pdf-page-container:hover,
+  html[data-card-style] #pdf-page-container:hover {
+    animation: main-card-hover-pulse 1.9s ease-in-out infinite !important;
     box-shadow: var(--surface-primary-shadow-hover, var(--shadow-floating)) !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html .page-main-card,
+  html .page-main-card:hover,
   html[data-card-style] .page-main-card,
+  html[data-card-style] .page-main-card:hover,
   html [data-main-card="true"],
+  html [data-main-card="true"]:hover,
   html[data-card-style] [data-main-card="true"],
+  html[data-card-style] [data-main-card="true"]:hover,
   html #about-intro-card-1,
+  html #about-intro-card-1:hover,
   html #about-intro-card-2,
-  html #pdf-page-container {
+  html #about-intro-card-2:hover,
+  html #pdf-page-container,
+  html #pdf-page-container:hover {
     animation: none !important;
+    transform: none !important;
   }
 }
 

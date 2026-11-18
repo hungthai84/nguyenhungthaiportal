@@ -1425,21 +1425,24 @@ export function AboutView({
           flex: `0 0 ${aboutCardWidth}px`,
           height: '100%',
           minHeight: '100%',
-          padding: '15px',
+          paddingTop: '15px',
+          paddingRight: '15px',
+          paddingBottom: '0px',
+          paddingLeft: '15px',
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
           borderRadius: '14px',
         }}
         className={cn(
-          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col pt-[15px] pr-[15px] pb-0 pl-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
           activeIntroCard !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
         <div
           id="about-intro-grid-1"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
-          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] overflow-visible items-stretch"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', paddingBottom: '15px' }}
+          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] pb-[15px] overflow-visible items-stretch box-border"
         >
             
             {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA */}
@@ -1600,7 +1603,7 @@ export function AboutView({
                     <div 
                       id="el-p2-div-103"
                       style={{ borderRadius: '999px' }}
-                      className="theme-video-capsule absolute bottom-3 right-3 sm:bottom-3.5 sm:right-3.5 z-30 inline-flex items-center gap-2.5 px-3 py-1.5 !rounded-[999px] rounded-[999px] bg-slate-950/80 dark:bg-slate-900/85 backdrop-blur-md border border-white/30 text-white shadow-xl hover:bg-slate-900/90 transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none"
+                      className={`theme-video-capsule video-play-btn video-play-btn--about ${isPlayingIntro ? 'is-playing' : ''} absolute bottom-3 right-3 sm:bottom-3.5 sm:right-3.5 z-30 inline-flex items-center gap-2.5 px-3 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none`}
                     >
                       {/* Speaker / Sound Toggle Button */}
                       <button
@@ -1615,17 +1618,17 @@ export function AboutView({
                             videoRef.current.muted = nextMuted;
                           }
                         }}
-                        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
+                        className={`video-play-btn__sound w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
                           !isVideoMuted
-                            ? 'bg-white/25 hover:bg-white/40 text-white shadow-xs'
-                            : 'bg-red-600 hover:bg-red-500 text-white shadow-md'
+                            ? 'text-current shadow-xs'
+                            : 'is-muted text-white shadow-md'
                         }`}
                         title={!isVideoMuted ? 'Tắt tiếng video' : 'Bật âm thanh video'}
                         aria-label={!isVideoMuted ? 'Tắt tiếng video' : 'Bật âm thanh video'}
                       >
                         <span className="flex items-center justify-center">
                           {!isVideoMuted ? (
-                            <WebIcon name="volume-2" className="w-3.5 h-3.5 text-white" />
+                            <WebIcon name="volume-2" className="w-3.5 h-3.5 text-current" />
                           ) : (
                             <WebIcon name="volume-x" className="w-3.5 h-3.5 text-white" />
                           )}
@@ -1633,7 +1636,7 @@ export function AboutView({
                       </button>
 
                       {/* Vertical Divider */}
-                      <div className="w-[1px] h-4 bg-white/35 shrink-0 mx-0.5" />
+                      <div className="w-[1px] h-4 bg-current opacity-25 shrink-0 mx-0.5" />
 
                       {/* Play / Pause Toggle Button */}
                       {!isPlayingIntro ? (
@@ -1646,20 +1649,17 @@ export function AboutView({
                             handlePlayIntro();
                           }}
                           style={{
-                            background: 'var(--bg-button-primary, var(--color-primary, #1480C0))',
-                            border: '1px solid var(--surface-primary-border, rgba(255, 255, 255, 0.4))',
-                            boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
-                            paddingLeft: '10px',
-                            paddingRight: '12px',
+                            paddingLeft: '8px',
+                            paddingRight: '10px',
                             borderRadius: '999px',
                           }}
-                          className="inline-flex items-center justify-center gap-2 pr-2.5 py-1 !rounded-[999px] rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                           title="Bấm để phát video thuyết minh chân dung chuyên gia"
                         >
                           <span id="el-p2-span-36" className="flex items-center justify-center">
-                            <WebIcon id="el-p2-svg-17" name="play" className="w-4 h-4 fill-white text-white shrink-0" style={{ height: '16px', width: '16px' }} />
+                            <WebIcon id="el-p2-svg-17" name="play" className="w-4 h-4 fill-current text-current shrink-0" style={{ height: '16px', width: '16px' }} />
                           </span>
-                          <span id="el-p2-span-37" className="drop-shadow-sm typo-button text-white truncate font-play text-left" style={{ textAlign: 'left' }}>
+                          <span id="el-p2-span-37" className="typo-button text-current truncate font-play text-left" style={{ textAlign: 'left' }}>
                             Phát Video
                           </span>
                         </button>
@@ -1673,20 +1673,17 @@ export function AboutView({
                             handleCancelIntro();
                           }}
                           style={{
-                            background: 'var(--bg-button-primary, var(--color-primary, #1480C0))',
-                            border: '1px solid var(--surface-primary-border, rgba(255, 255, 255, 0.4))',
-                            boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
-                            paddingLeft: '10px',
-                            paddingRight: '12px',
+                            paddingLeft: '8px',
+                            paddingRight: '10px',
                             borderRadius: '999px',
                           }}
-                          className="inline-flex items-center justify-center gap-2 pr-2.5 py-1 !rounded-[999px] rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                           title="Bấm để hủy phát video"
                         >
                           <span id="el-p2-span-36" className="flex items-center justify-center">
-                            <WebIcon id="el-p2-svg-17" name="cancel" className="w-4 h-4 stroke-[2.8] text-white shrink-0" style={{ height: '16px', width: '16px' }} />
+                            <WebIcon id="el-p2-svg-17" name="cancel" className="w-4 h-4 stroke-[2.8] text-current shrink-0" style={{ height: '16px', width: '16px' }} />
                           </span>
-                          <span id="el-p2-span-37" className="drop-shadow-sm typo-button text-white truncate font-play text-left" style={{ textAlign: 'left' }}>
+                          <span id="el-p2-span-37" className="typo-button text-current truncate font-play text-left" style={{ textAlign: 'left' }}>
                             Hủy Phát
                           </span>
                         </button>
@@ -1719,11 +1716,8 @@ export function AboutView({
                     </div>
                   </div>
 
-                  {/* Sub-Card Bento Masonry (Pinterest Grid) */}
-                  <div
-                    className="columns-1 min-[420px]:columns-2 gap-2 py-0.5"
-                    style={{ columnFill: 'balance' }}
-                  >
+                    {/* Sub-Card Bento Grid (Equal height, 1-line truncate) */}
+                  <div className="grid grid-cols-1 min-[420px]:grid-cols-2 auto-rows-fr gap-2 py-0.5 flex-1 items-stretch">
                     {[
                       {
                         id: 'gender',
@@ -1773,10 +1767,9 @@ export function AboutView({
                           SoundEngine.playPop();
                           item.action();
                         }}
-                        style={{ breakInside: 'avoid' }}
-                        className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                        className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                       >
-                        <div className="flex flex-col justify-center gap-1">
+                        <div className="flex flex-col justify-center gap-1 min-w-0">
                           <div className="flex items-center gap-1.5 min-w-0">
                             <WebIcon name={item.icon} className={cn('w-3.5 h-3.5 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)} style={{ width: '14px', height: '14px' }} />
                             <span className={cn('about-info-label typo-label font-medium leading-tight truncate', item.iconColorCls)}>
@@ -1784,7 +1777,7 @@ export function AboutView({
                             </span>
                           </div>
                           <span
-                            className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words"
+                            className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0"
                             title={item.value}
                           >
                             {item.value}
@@ -1801,15 +1794,14 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="+84 0909097882"
-                      style={{ breakInside: 'avoid' }}
-                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
-                      <div className="flex flex-col justify-center gap-1">
+                      <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
                           <Phone className="w-3.5 h-3.5 shrink-0 text-orange-600 dark:text-orange-300 group-hover/subcard:scale-110 transition-transform" />
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-orange-600 dark:text-orange-300">Điện thoại</span>
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">+84 0909097882</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">+84 0909097882</span>
                       </div>
                     </a>
 
@@ -1821,20 +1813,19 @@ export function AboutView({
                         setActiveHeroMedia('map');
                         setActiveHeroMapType('tam_tru');
                         setActiveMapTab('tam_tru');
-                        showToast('📍 Tạm trú: Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh');
+                        showToast('📍 Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh');
                       }}
-                      title="Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh"
-                      style={{ breakInside: 'avoid' }}
-                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      title="P.Tân Phú (Q7) , TP. Hồ Chí Minh"
+                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
-                      <div className="flex flex-col justify-center gap-1">
+                      <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
                           <MapPin className="w-3.5 h-3.5 shrink-0 text-cyan-600 dark:text-cyan-300 group-hover/subcard:scale-110 transition-transform" />
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-cyan-600 dark:text-cyan-300">Tạm trú</span>
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">
-                          Chung Cư Tân Mỹ, Q.7, TP.HCM
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">
+                          P.Tân Phú (Q7) , TP. Hồ Chí Minh
                         </span>
                       </div>
                     </div>
@@ -1847,20 +1838,19 @@ export function AboutView({
                         setActiveHeroMedia('map');
                         setActiveHeroMapType('cu_tru');
                         setActiveMapTab('cu_tru');
-                        showToast('📍 Cư trú: 7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp');
+                        showToast('📍 Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp');
                       }}
-                      title="7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp"
-                      style={{ breakInside: 'avoid' }}
-                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      title="Phường Mỹ Tho, Tỉnh Đồng Tháp"
+                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
-                      <div className="flex flex-col justify-center gap-1">
+                      <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
                           <Home className="w-3.5 h-3.5 shrink-0 text-teal-600 dark:text-teal-300 group-hover/subcard:scale-110 transition-transform" />
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-teal-600 dark:text-teal-300">Cư trú</span>
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">
-                          7D7 Hoàng Hoa Tám, Đồng Tháp
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">
+                          Phường Mỹ Tho, Tỉnh Đồng Tháp
                         </span>
                       </div>
                     </div>
@@ -1876,15 +1866,14 @@ export function AboutView({
                         }
                       }}
                       title="hungthai84@gmail.com"
-                      style={{ breakInside: 'avoid' }}
-                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
-                      <div className="flex flex-col justify-center gap-1">
+                      <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
                           <Mail className="w-3.5 h-3.5 shrink-0 text-pink-600 dark:text-pink-300 group-hover/subcard:scale-110 transition-transform" />
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-pink-600 dark:text-pink-300">Hộp thư</span>
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">hungthai84@gmail.com</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">Gửi email</span>
                       </div>
                     </div>
 
@@ -1896,15 +1885,14 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="https://nguyenhungthai.powerservice.one/"
-                      style={{ breakInside: 'avoid' }}
-                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
-                      <div className="flex flex-col justify-center gap-1">
+                      <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
                           <Globe className="w-3.5 h-3.5 shrink-0 text-blue-600 dark:text-sky-300 group-hover/subcard:scale-110 transition-transform" />
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-blue-600 dark:text-sky-300">Website</span>
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">powerservice.one</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">Vào trang website</span>
                       </div>
                     </a>
 
@@ -1916,15 +1904,14 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="https://www.linkedin.com/in/hungthai84/"
-                      style={{ breakInside: 'avoid' }}
-                      className="about-info-subcard break-inside-avoid mb-2 w-full block p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
-                      <div className="flex flex-col justify-center gap-1">
+                      <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
                           <LinkedinIcon className="w-3.5 h-3.5 shrink-0 text-indigo-600 dark:text-indigo-300 group-hover/subcard:scale-110 transition-transform" />
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-indigo-600 dark:text-indigo-300">LinkedIn</span>
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">linkedin.com/in/hungthai84</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">Vào Linkedin</span>
                       </div>
                     </a>
                   </div>
@@ -1961,21 +1948,24 @@ export function AboutView({
           flex: `0 0 ${aboutCardWidth}px`,
           height: '100%',
           minHeight: '100%',
-          padding: '15px',
+          paddingTop: '15px',
+          paddingRight: '15px',
+          paddingBottom: '0px',
+          paddingLeft: '15px',
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
           borderRadius: '14px',
         }}
         className={cn(
-          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col pt-[15px] pr-[15px] pb-0 pl-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
           activeIntroCard !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
         <div
           id="about-intro-grid-2"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
-          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 lg:auto-rows-fr gap-[15px] overflow-visible items-stretch"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', paddingBottom: '15px' }}
+          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 lg:auto-rows-fr gap-[15px] pb-[15px] overflow-visible items-stretch box-border"
         >
             {/* CARD 3: CARD GIỚI THIỆU BẢN THÂN (ABOUT ME) - ĐÃ XÓA HÌNH NỀN THẺ VIDEO */}
             <div
@@ -2049,12 +2039,7 @@ export function AboutView({
                       'ring-2 ring-cyan-300 dark:ring-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-blue-600/12 dark:text-sky-300/15 transition-transform duration-300 group-hover:scale-110"
-                  >
-                    <BarChart3 className="w-24 h-24" />
-                  </div>
+
 
                   <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
@@ -2086,12 +2071,7 @@ export function AboutView({
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-rose-600/12 dark:text-rose-300/15 transition-transform duration-300 group-hover:scale-110"
-                  >
-                    <Heart className="w-24 h-24" />
-                  </div>
+
 
                   <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
@@ -2123,12 +2103,7 @@ export function AboutView({
                       'ring-2 ring-emerald-300 dark:ring-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-emerald-600/12 dark:text-emerald-300/15 transition-transform duration-300 group-hover:scale-110"
-                  >
-                    <Leaf className="w-24 h-24" />
-                  </div>
+
 
                   <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
@@ -2191,12 +2166,7 @@ export function AboutView({
                       'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-amber-600/12 dark:text-amber-300/15 transition-transform duration-300 group-hover:scale-110"
-                  >
-                    <Award className="w-24 h-24" />
-                  </div>
+
 
                   <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
@@ -2232,12 +2202,7 @@ export function AboutView({
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-pink-600/12 dark:text-pink-300/15 transition-transform duration-300 group-hover:scale-110"
-                  >
-                    <Clock className="w-24 h-24" />
-                  </div>
+
 
                   <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
@@ -2273,12 +2238,7 @@ export function AboutView({
                       'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none select-none absolute -right-3 -bottom-3 text-purple-600/12 dark:text-purple-300/15 transition-transform duration-300 group-hover:scale-110"
-                  >
-                    <HeartHandshake className="w-24 h-24" />
-                  </div>
+
 
                   <div className="flex items-center justify-end relative z-10">
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">

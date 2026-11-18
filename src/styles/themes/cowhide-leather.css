@@ -271,8 +271,7 @@ html[data-card-style="cowhide-leather"] #app-footer {
   outline-offset: -6px;
 }
 
-html[data-card-style="cowhide-leather"] #footer-nav-capsule,
-html[data-card-style="cowhide-leather"] #el-p0-div-78 {
+html[data-card-style="cowhide-leather"] #footer-nav-capsule {
   background: linear-gradient(145deg, #7A4A20 0%, #522E10 100%) !important;
   border: 2px solid #3D210B !important;
   color: #FFFFFF !important;
@@ -285,8 +284,7 @@ html[data-card-style="cowhide-leather"] #el-p0-div-78 {
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="cowhide-leather"] #footer-nav-capsule:hover,
-html[data-card-style="cowhide-leather"] #el-p0-div-78:hover {
+html[data-card-style="cowhide-leather"] #footer-nav-capsule:hover {
   background: linear-gradient(145deg, #8B5728 0%, #5F3613 100%) !important;
   border-color: #B45309 !important;
   outline-color: rgba(253, 230, 138, 0.85) !important;
@@ -578,22 +576,14 @@ html[data-card-style="cowhide-leather"] #footer-lang-popup button > div > div:fi
 }
 
 html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-prev-btn,
-html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-next-btn,
-html[data-card-style="cowhide-leather"] #el-p0-div-78 #el-p0-btn-sound-toggle:not(.is-muted) {
+html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-next-btn {
   background: #3D210B !important;
   border: 1px dashed rgba(245, 222, 179, 0.50) !important;
   color: #FFFFFF !important;
 }
 
-html[data-card-style="cowhide-leather"] #el-p0-div-78 #el-p0-btn-sound-toggle:not(.is-muted):hover {
-  background: linear-gradient(135deg, #B45309 0%, #78350F 100%) !important;
-  border-color: rgba(253, 230, 138, 0.85) !important;
-}
-
 html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-page-counter,
-html[data-card-style="cowhide-leather"] #footer-nav-capsule svg,
-html[data-card-style="cowhide-leather"] #el-p0-div-78 #el-p0-btn-intro-toggle,
-html[data-card-style="cowhide-leather"] #el-p0-div-78 svg {
+html[data-card-style="cowhide-leather"] #footer-nav-capsule svg {
   color: #FFFFFF !important;
 }
 

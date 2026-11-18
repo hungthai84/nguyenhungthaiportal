@@ -24,6 +24,14 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
   'Tối (Chính)': 'Dark (Primary)',
   'Tương thích Sáng': 'Light Compatible',
   'Tương thích Tối': 'Dark Compatible',
+  'Gương đơn sắc (sáng), Gương Neon màu (tối) & Gương đa sắc (màu)':
+    'Monochrome Glass (Light), Neon Color Glass (Dark) & Multicolor Glass (Color)',
+  'Kính mờ đơn sắc sáng tông trắng băng tinh khiết, độ mờ Blur sâu, viền phản quang sắc nét và chữ đen #000000 chuẩn WCAG 2.2.':
+    'Pure ice-white frosted monochrome glass with deep blur, crisp specular edges, and WCAG 2.2 #000000 typography.',
+  'Phiên bản chế độ tối Gương Neon màu: kính mờ lăng kính Neon đa màu dịu sâu, không lóa, bảo toàn chữ trắng #FFFFFF chuẩn WCAG 2.2.':
+    'Dark Neon Color Glass edition: deep glare-free Neon multicolor frosted prism glass preserving crisp #FFFFFF WCAG 2.2 typography.',
+  'Định dạng giống Gương đơn sắc (sáng) với kính mờ trong trẻo và chữ đen #000000 sắc nét, nhưng nền mỗi thẻ có nhiều màu sắc ngẫu nhiên tươi tắn.':
+    'Formatted identically to Monochrome Glass (Light) with crisp glass clarity and #000000 typography, enhanced with vibrant randomized multi-color card backgrounds.',
   'Kính mờ Mica đa sắc tươi tắn (Pink, Purple, Blue, Cyan, Green, Orange, Yellow, Multicolor Gradient Glass) kết hợp Blur sâu, viền phản quang tinh tế, hỗ trợ đầy đủ chế độ Sáng & Tối.':
     'Vibrant multicolor frosted Mica glass (Pink, Purple, Blue, Cyan, Green, Orange, Yellow, Multicolor Gradient Glass) with deep blur, crisp specular edges, and full Light & Dark support.',
   'Phiên bản chế độ Tối của Gương đa sắc: kính mờ lăng kính đa sắc dịu sâu, không lóa, bảo toàn chữ trắng #FFFFFF chuẩn WCAG 2.2.':

@@ -78,7 +78,6 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
   transition: transform var(--motion-normal) var(--motion-ease), box-shadow 300ms ease-in-out, border-color 300ms ease-in-out, background 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out !important;
 }
 
-#bento-letter-video,
 #about-hero-video-container {
   padding: 10px !important;
 }
@@ -417,7 +416,8 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   border-radius: var(--radius-header, 0 0 14px 14px) !important;
-  transition: var(--surface-primary-transition, transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms ease, outline-color 300ms ease, background 300ms ease, color 300ms ease, backdrop-filter 300ms ease);
+  transition: none !important;
+  animation: none !important;
 }
 
 #app-footer {
@@ -428,10 +428,51 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   border-radius: var(--radius-footer, 14px 14px 0 0) !important;
-  transition: var(--surface-primary-transition, transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms ease, outline-color 300ms ease, background 300ms ease, color 300ms ease, backdrop-filter 300ms ease);
+  transition: none !important;
+  animation: none !important;
 }
 
 #el-p1-div-85,
+#letter-slide-2-grid,
+#letter-slide-3-grid,
+#letter-slide-4-bento-grid,
+#about-intro-grid-1,
+#about-intro-grid-2,
+#services-main-content {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 1 0 auto !important;
+  margin: 0 !important;
+  padding: 0px 0px 15px 0px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+  transform: none !important;
+}
+
+#interview-main-content {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0px 0px 15px 0px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+}
+
 #letter-slide-2-card,
 #letter-slide-3-card,
 #letter-slide-4-card {
@@ -471,7 +512,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   overflow-y: auto !important;
   overflow-x: hidden !important;
   margin: 0 !important;
-  padding: 15px !important;
+  padding: 15px 15px 0px 15px !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
@@ -482,6 +523,12 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   border-radius: var(--radius-main, 14px) !important;
   transition: var(--surface-primary-transition, transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms ease, outline-color 300ms ease, background 300ms ease, color 300ms ease, backdrop-filter 300ms ease);
+}
+
+#home-main-card,
+#experience-main-card,
+#ai-assistant-main-card {
+  padding: 15px !important;
 }
 
 #home-main-card,
@@ -569,12 +616,12 @@ html[data-card-style] #horoscope-card-work-synergy-check,
   height: auto !important;
   max-height: none !important;
   min-height: 0 !important;
-  flex: 1 1 auto !important;
+  flex: 1 0 auto !important;
   flex-grow: 1 !important;
-  flex-shrink: 1 !important;
+  flex-shrink: 0 !important;
   align-self: stretch !important;
   margin: 0 !important;
-  padding: 0 !important;
+  padding: 0px 0px 15px 0px !important;
   box-sizing: border-box !important;
   background-color: transparent !important;
   background: transparent !important;
@@ -615,12 +662,15 @@ button,
 .btn-pill,
 .theme-capsule-btn,
 .theme-video-capsule,
+.video-play-btn,
 #el-p0-div-16,
 #el-p0-div-78,
 #el-p2-div-103,
 #el-p2-button-2,
 #interview-play-video-capsule,
 #interview-btn-play-toggle,
+#letter-circle-video-play-btn,
+#systems-intro-video-circle-btn,
 #app-footer #footer-nav-capsule {
   border-radius: var(--radius-button, 999px) !important;
 }
@@ -634,8 +684,7 @@ button,
 }
 
 #app-footer #footer-nav-capsule,
-#el-p0-div-78,
-.theme-capsule-btn {
+.theme-capsule-btn:not(.video-play-btn) {
   background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-button-primary))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-interactive-border, var(--border-nav-arrow, var(--border-color))) !important;
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 8px 20px -4px rgba(15, 23, 42, 0.22))),
@@ -654,16 +703,14 @@ button,
 }
 
 #app-footer #footer-nav-capsule:hover,
-#el-p0-div-78:hover,
-.theme-capsule-btn:hover {
+.theme-capsule-btn:not(.video-play-btn):hover {
   transform: translateY(-1.5px);
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 10px 26px -4px rgba(15, 23, 42, 0.28))),
     0 12px 28px -6px rgba(15, 23, 42, 0.26) !important;
 }
 
 #app-footer #footer-nav-capsule:active,
-#el-p0-div-78:active,
-.theme-capsule-btn:active {
+.theme-capsule-btn:not(.video-play-btn):active {
   transform: scale(0.98) translateY(0);
 }
 
@@ -721,7 +768,8 @@ h3.card-title,
 }
 
 #global-content-viewport {
-  transition: all 300ms ease-in-out;
+  transition: none !important;
+  animation: none !important;
   overflow: visible !important;
   scroll-behavior: smooth;
 }
@@ -772,7 +820,9 @@ h3.card-title,
   overflow-x: auto !important;
   overflow-y: hidden !important;
   scroll-behavior: smooth;
-  transition: background 300ms ease-in-out, background-color 300ms ease-in-out, border-color 300ms ease-in-out, box-shadow 300ms ease-in-out, color 300ms ease-in-out, border-radius 300ms ease-in-out, backdrop-filter 300ms ease-in-out;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
 }
 
 /* ========================================================================= */
@@ -994,6 +1044,8 @@ h3.card-title,
   -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--bg-blur, 18px))) saturate(165%) !important;
   outline: var(--outline-subcard, none);
   outline-offset: var(--outline-offset-subcard, 0px);
+  width: max-content !important;
+  max-width: min(26rem, calc(100vw - 48px)) !important;
 }
 
 /* ========================================================================= */
@@ -1740,6 +1792,7 @@ button:focus-visible,
 
 :is(
   html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-color"],
   html[data-card-style="light-multicolor-glass-dark"]
 ) :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .theme-modal-subcard)
   :is([data-subcard="true"], .sub-card, .nested-card, .theme-muted-surface, [data-elevation="1"]) {
@@ -1931,9 +1984,10 @@ html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-b
   color: #ffffff;
 }
 
-/* Chi tiết thẻ công việc (#experience-job-detail-card) — Khung thẻ Level 02 đồng bộ toàn bộ 5 theme, chứa <main> bên trong với đệm 15px */
+/* Chi tiết thẻ công việc (#experience-job-detail-card) — Khung thẻ Level 02 đồng bộ toàn bộ 6 theme, chứa <main> bên trong với đệm 15px */
 :is(
   html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-color"],
   html[data-card-style="light-cowhide-leather"],
   html[data-card-style="black-cowhide-leather"],
   html[data-card-style="cowhide-leather"],
@@ -1941,6 +1995,7 @@ html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-b
 ) #experience-job-detail-card,
 :is(
   html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-color"],
   html[data-card-style="light-cowhide-leather"],
   html[data-card-style="black-cowhide-leather"],
   html[data-card-style="cowhide-leather"],
@@ -1955,10 +2010,12 @@ html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-b
 
 :is(
   html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-color"],
   html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card,
 :is(
   html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-color"],
   html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card:hover {
   background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
@@ -2001,6 +2058,7 @@ html[data-card-style="cowhide-leather"] #experience-job-detail-card:hover {
 
 :is(
   html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-color"],
   html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card .exp-bento-surface-card {
   background: var(--surface-tertiary-bg, var(--surface-subcard-glass, var(--bg-subcard))) !important;
@@ -2013,6 +2071,7 @@ html[data-card-style="cowhide-leather"] #experience-job-detail-card:hover {
 
 :is(
   html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-color"],
   html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card .exp-bento-item-card {
   background: var(--surface-nested-bg, var(--surface-nested-glass, var(--bg-subcard))) !important;
@@ -2049,6 +2108,7 @@ html[data-card-style] .service-card .service-card-title-header .card-header-sync
 
 :is(
   html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-color"],
   html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
   background: var(--bg-subcard-hover, rgba(255, 255, 255, 0.64)) !important;
@@ -2056,14 +2116,28 @@ html[data-card-style] .service-card .service-card-title-header .card-header-sync
 }
 
 /* ========================================================================= */
-/* GIAO DIỆN GƯƠNG ĐA SẮC SÁNG & TỐI: CẬP NHẬT 6 THẺ DỊCH VỤ THEO MÀU NỀN     */
-/* #8946EB Thể thao điện tử, #1F5EAC Dịch vụ di động, #D97637 Thương mại điện tử */
-/* #F54459 Tài chính bảo hiểm, #A669F3 Thanh toán điện tử, #88D2BB Xây dựng HT */
-/* GIỮ NGUYÊN ĐỘ TRONG SUỐT VỚI BACKDROP-FILTER BLUR VÀ SPECULAR GLASS HIGHLIGHT */
+/* GIAO DIỆN GƯƠNG ĐƠN SẮC SÁNG, GƯƠNG ĐA SẮC MÀU & GƯƠNG NEON MÀU TỐI:     */
+/* CẬP NHẬT 6 THẺ DỊCH VỤ THEO MÀU NỀN & GIỮ ĐỒNG BỘ 15PX INSET              */
 /* ========================================================================= */
 
-/* --- 1. GƯƠNG ĐA SẮC SÁNG (LIGHT MULTICOLOR GLASS) --- */
-html[data-card-style="light-multicolor-glass"] #service-card-esports {
+/* --- 0. GƯƠNG ĐƠN SẮC (SÁNG) (MONOCHROME CRYSTAL GLASS) --- */
+html[data-card-style="light-multicolor-glass"] :is(
+  #service-card-esports,
+  #service-card-telecom,
+  #service-card-ecommerce,
+  #service-card-insurance,
+  #service-card-ewallet,
+  #service-card-cx-ops
+) {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(244, 247, 252, 0.74) 55%, rgba(236, 240, 246, 0.78) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.94) !important;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(20px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(135%) !important;
+}
+
+/* --- 1. GƯƠNG ĐA SẮC (MÀU) (MULTICOLOR GLASS COLOR) --- */
+html[data-card-style="light-multicolor-glass-color"] #service-card-esports {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(137, 70, 235, 0.18) 50%, rgba(137, 70, 235, 0.28) 100%) !important;
   border: 1px solid rgba(137, 70, 235, 0.45) !important;
   box-shadow: 0 10px 30px rgba(137, 70, 235, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -2071,7 +2145,7 @@ html[data-card-style="light-multicolor-glass"] #service-card-esports {
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-html[data-card-style="light-multicolor-glass"] #service-card-telecom {
+html[data-card-style="light-multicolor-glass-color"] #service-card-telecom {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(31, 94, 172, 0.18) 50%, rgba(31, 94, 172, 0.28) 100%) !important;
   border: 1px solid rgba(31, 94, 172, 0.45) !important;
   box-shadow: 0 10px 30px rgba(31, 94, 172, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -2079,7 +2153,7 @@ html[data-card-style="light-multicolor-glass"] #service-card-telecom {
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-html[data-card-style="light-multicolor-glass"] #service-card-ecommerce {
+html[data-card-style="light-multicolor-glass-color"] #service-card-ecommerce {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(217, 118, 55, 0.18) 50%, rgba(217, 118, 55, 0.28) 100%) !important;
   border: 1px solid rgba(217, 118, 55, 0.45) !important;
   box-shadow: 0 10px 30px rgba(217, 118, 55, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -2087,7 +2161,7 @@ html[data-card-style="light-multicolor-glass"] #service-card-ecommerce {
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-html[data-card-style="light-multicolor-glass"] #service-card-insurance {
+html[data-card-style="light-multicolor-glass-color"] #service-card-insurance {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(245, 68, 89, 0.18) 50%, rgba(245, 68, 89, 0.28) 100%) !important;
   border: 1px solid rgba(245, 68, 89, 0.45) !important;
   box-shadow: 0 10px 30px rgba(245, 68, 89, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -2095,7 +2169,7 @@ html[data-card-style="light-multicolor-glass"] #service-card-insurance {
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-html[data-card-style="light-multicolor-glass"] #service-card-ewallet {
+html[data-card-style="light-multicolor-glass-color"] #service-card-ewallet {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(166, 105, 243, 0.18) 50%, rgba(166, 105, 243, 0.28) 100%) !important;
   border: 1px solid rgba(166, 105, 243, 0.45) !important;
   box-shadow: 0 10px 30px rgba(166, 105, 243, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -2103,7 +2177,7 @@ html[data-card-style="light-multicolor-glass"] #service-card-ewallet {
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-html[data-card-style="light-multicolor-glass"] #service-card-cx-ops {
+html[data-card-style="light-multicolor-glass-color"] #service-card-cx-ops {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(136, 210, 187, 0.22) 50%, rgba(136, 210, 187, 0.34) 100%) !important;
   border: 1px solid rgba(136, 210, 187, 0.55) !important;
   box-shadow: 0 10px 30px rgba(136, 210, 187, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -2111,7 +2185,7 @@ html[data-card-style="light-multicolor-glass"] #service-card-cx-ops {
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-/* --- 2. GƯƠNG ĐA SẮC TỐI (MULTICOLOR GLASS DARK) --- */
+/* --- 2. GƯƠNG NEON MÀU (TỐI) (MULTICOLOR GLASS DARK) --- */
 html[data-card-style="light-multicolor-glass-dark"] #service-card-esports {
   background: linear-gradient(145deg, rgba(137, 70, 235, 0.32) 0%, rgba(32, 16, 56, 0.65) 55%, rgba(15, 12, 32, 0.75) 100%) !important;
   border: 1px solid rgba(137, 70, 235, 0.55) !important;
@@ -2409,7 +2483,8 @@ html[data-card-style="black-cowhide-leather"] #el-p3-div-90 {
 }
 
 /* Glass subcards styling for Communication Languages */
-html[data-card-style="light-multicolor-glass"] #skills-languages-section [id^="skills-language-card-"] {
+html[data-card-style="light-multicolor-glass"] #skills-languages-section [id^="skills-language-card-"],
+html[data-card-style="light-multicolor-glass-color"] #skills-languages-section [id^="skills-language-card-"] {
   background: rgba(255, 255, 255, 0.76) !important;
   border: 1px solid rgba(255, 255, 255, 0.90) !important;
   backdrop-filter: blur(16px) !important;
@@ -2734,16 +2809,474 @@ html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section #s
 .page-main-card,
 #about-intro-card-1,
 #about-intro-card-2 {
-  animation: float-gentle 5.5s ease-in-out infinite !important;
-  box-shadow: var(--shadow-floating, 0 24px 50px -12px rgba(0, 0, 0, 0.35)) !important;
+  animation: none !important;
+  box-shadow: 0 28px 65px -15px rgba(15, 23, 42, 0.32), 0 16px 36px -10px rgba(15, 23, 42, 0.2), 0 6px 16px -4px rgba(15, 23, 42, 0.12), 0 0 0 1px var(--surface-primary-border, rgba(255, 255, 255, 0.25)) !important;
+}
+
+.dark #home-main-card,
+.dark [data-main-card="true"],
+.dark .page-main-card,
+.dark #about-intro-card-1,
+.dark #about-intro-card-2,
+:root[data-theme-mode="dark"] #home-main-card,
+:root[data-theme-mode="dark"] [data-main-card="true"],
+:root[data-theme-mode="dark"] .page-main-card,
+:root[data-theme-mode="dark"] #about-intro-card-1,
+:root[data-theme-mode="dark"] #about-intro-card-2 {
+  box-shadow: 0 32px 75px -15px rgba(0, 0, 0, 0.85), 0 20px 40px -10px rgba(0, 0, 0, 0.65), 0 8px 20px -4px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #home-main-card:hover,
+  [data-main-card="true"]:hover,
+  .page-main-card:hover,
+  #about-intro-card-1:hover,
+  #about-intro-card-2:hover,
+  #pdf-page-container:hover {
+    animation: main-card-hover-pulse 1.9s ease-in-out infinite !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   #home-main-card,
+  #home-main-card:hover,
   [data-main-card="true"],
+  [data-main-card="true"]:hover,
   .page-main-card,
+  .page-main-card:hover,
   #about-intro-card-1,
-  #about-intro-card-2 {
+  #about-intro-card-1:hover,
+  #about-intro-card-2,
+  #about-intro-card-2:hover,
+  #pdf-page-container,
+  #pdf-page-container:hover {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* ========================================================================= */
+/* SERVICES VIEW: STRICT 15PX CONTENT INSET ACROSS ALL BREAKPOINTS           */
+/* ========================================================================= */
+#services-page-container #services-hero-banner,
+#services-page-container .service-card,
+#services-page-container [id^="services-detail-panel-"],
+#services-page-container [id^="services-detail-panel-"] [data-subcard="true"] {
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  box-sizing: border-box !important;
+}
+
+#services-page-container .services-cards-grid {
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+}
+
+#services-page-container .service-card > *,
+#services-page-container [id^="services-detail-panel-"] > * {
+  margin: 0 !important;
+}
+
+/* ========================================================================= */
+/* VIDEO PLAY BUTTONS (.video-play-btn) — MULTI-COLOR PALETTES, 6-THEME SYNC */
+/* DROP SHADOWS, IMPRESSIVE IN-PLACE MOTION & RUNNING HOVER BORDER           */
+/* ========================================================================= */
+@property --vp-border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes vp-border-chase {
+  to {
+    --vp-border-angle: 360deg;
+  }
+}
+
+@keyframes vp-float-pulse {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.03);
+    filter: brightness(1.06);
+  }
+}
+
+@keyframes vp-letter-float-pulse {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0px) scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-3px) scale(1.07);
+    filter: brightness(1.08);
+  }
+}
+
+/* Base Interactive Shell (Preserves layout position: relative or absolute) */
+.video-play-btn,
+html[data-card-style] .video-play-btn {
+  isolation: isolate;
+  overflow: visible !important;
+  border-radius: 999px !important;
+  background: var(--vp-bg) !important;
+  border: 1.5px solid var(--vp-border) !important;
+  color: var(--vp-text) !important;
+  outline: var(--vp-outline, none) !important;
+  outline-offset: var(--vp-outline-offset, -4px) !important;
+  backdrop-filter: var(--vp-backdrop, blur(18px) saturate(160%)) !important;
+  -webkit-backdrop-filter: var(--vp-backdrop, blur(18px) saturate(160%)) !important;
+  box-shadow:
+    var(--vp-shadow-ambient),
+    0 6px 16px -4px rgba(15, 23, 42, 0.24),
+    inset 0 1.5px 1px var(--vp-specular, rgba(255, 255, 255, 0.65)) !important;
+  animation: vp-float-pulse 3.1s ease-in-out infinite !important;
+  transition:
+    background 260ms ease,
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    color 220ms ease !important;
+  cursor: pointer;
+}
+
+.video-play-btn--letter,
+html[data-card-style] .video-play-btn--letter {
+  animation: vp-letter-float-pulse 2.9s ease-in-out infinite !important;
+}
+
+.video-play-btn:hover,
+.video-play-btn:focus-visible,
+html[data-card-style] .video-play-btn:hover,
+html[data-card-style] .video-play-btn:focus-visible {
+  background: var(--vp-bg-hover, var(--vp-bg)) !important;
+  box-shadow:
+    var(--vp-shadow-hover),
+    0 12px 28px -4px rgba(15, 23, 42, 0.34),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.85) !important;
+}
+
+.video-play-btn:active,
+html[data-card-style] .video-play-btn:active {
+  filter: brightness(0.95) !important;
+}
+
+/* Running Chase Border Ring on Mouse Hover / Focus-Visible */
+.video-play-btn::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  padding: 2.5px;
+  background: conic-gradient(
+    from var(--vp-border-angle, 0deg),
+    transparent 0deg 165deg,
+    rgba(255, 255, 255, 0.98) 215deg,
+    var(--vp-chase-a, #38bdf8) 265deg,
+    var(--vp-chase-b, #ec4899) 315deg,
+    rgba(255, 255, 255, 0.92) 345deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 25;
+  transition: opacity 220ms ease;
+}
+
+.video-play-btn:hover::before,
+.video-play-btn:focus-visible::before {
+  opacity: 1;
+  animation: vp-border-chase 1.35s linear infinite;
+}
+
+.video-play-btn.is-playing::before {
+  opacity: 0.72;
+  animation: vp-border-chase 2.4s linear infinite;
+}
+
+.video-play-btn.is-playing:hover::before {
+  opacity: 1;
+  animation: vp-border-chase 1.2s linear infinite;
+}
+
+/* Inner Sound Button & Action Text Sync inside Video Capsules */
+.video-play-btn .video-play-btn__sound {
+  background: var(--vp-sound-bg, rgba(255, 255, 255, 0.24)) !important;
+  border: 1px solid var(--vp-sound-border, rgba(255, 255, 255, 0.45)) !important;
+  color: inherit !important;
+}
+
+.video-play-btn .video-play-btn__sound.is-muted {
+  background: #DC2626 !important;
+  border-color: rgba(255, 255, 255, 0.65) !important;
+  color: #FFFFFF !important;
+}
+
+.video-play-btn .video-play-btn__sound:not(.is-muted):hover {
+  background: var(--vp-sound-hover, rgba(255, 255, 255, 0.40)) !important;
+}
+
+/* --- 5 Distinct Per-Button Color Palettes (Default / Glass Color Base) --- */
+/* 1. Home Capsule: Cyan → Cobalt Blue */
+.video-play-btn--home {
+  --vp-chase-a: #00E5FF;
+  --vp-chase-b: #2563EB;
+  --vp-bg: linear-gradient(135deg, rgba(224, 247, 255, 0.90) 0%, rgba(186, 230, 253, 0.84) 55%, rgba(191, 219, 254, 0.88) 100%);
+  --vp-bg-hover: linear-gradient(135deg, rgba(235, 250, 255, 0.96) 0%, rgba(147, 197, 253, 0.92) 100%);
+  --vp-border: rgba(14, 165, 233, 0.65);
+  --vp-text: #000000;
+  --vp-shadow-ambient: 0 10px 24px -4px rgba(14, 165, 233, 0.36);
+  --vp-shadow-hover: 0 16px 34px -4px rgba(37, 99, 235, 0.48), 0 0 18px rgba(0, 229, 255, 0.38);
+  --vp-sound-bg: rgba(14, 165, 233, 0.16);
+  --vp-sound-border: rgba(14, 165, 233, 0.36);
+  --vp-sound-hover: rgba(14, 165, 233, 0.32);
+}
+
+/* 2. About Capsule: Violet → Magenta Pink */
+.video-play-btn--about {
+  --vp-chase-a: #A855F7;
+  --vp-chase-b: #EC4899;
+  --vp-bg: linear-gradient(135deg, rgba(243, 232, 255, 0.92) 0%, rgba(233, 213, 255, 0.86) 50%, rgba(252, 231, 243, 0.90) 100%);
+  --vp-bg-hover: linear-gradient(135deg, rgba(245, 240, 255, 0.98) 0%, rgba(244, 114, 182, 0.42) 100%);
+  --vp-border: rgba(168, 85, 247, 0.65);
+  --vp-text: #000000;
+  --vp-shadow-ambient: 0 10px 24px -4px rgba(168, 85, 247, 0.38);
+  --vp-shadow-hover: 0 16px 34px -4px rgba(236, 72, 153, 0.48), 0 0 18px rgba(168, 85, 247, 0.40);
+  --vp-sound-bg: rgba(168, 85, 247, 0.16);
+  --vp-sound-border: rgba(168, 85, 247, 0.36);
+  --vp-sound-hover: rgba(236, 72, 153, 0.28);
+}
+
+/* 3. Letter Floating Circle Play Button: Crimson Rose → Coral Orange */
+.video-play-btn--letter {
+  --vp-chase-a: #FB7185;
+  --vp-chase-b: #F97316;
+  --vp-bg: linear-gradient(135deg, #F43F5E 0%, #E11D48 52%, #EA580C 100%);
+  --vp-bg-hover: linear-gradient(135deg, #FB7185 0%, #E11D48 50%, #F97316 100%);
+  --vp-border: rgba(255, 255, 255, 0.92);
+  --vp-text: #FFFFFF;
+  --vp-shadow-ambient: 0 8px 22px -2px rgba(225, 29, 72, 0.56), 0 0 16px rgba(249, 115, 22, 0.42);
+  --vp-shadow-hover: 0 12px 28px -2px rgba(225, 29, 72, 0.72), 0 0 24px rgba(251, 113, 133, 0.65);
+}
+
+/* 4. Systems Circle Video Button: Emerald → Teal Cyan */
+.video-play-btn--systems {
+  --vp-chase-a: #10B981;
+  --vp-chase-b: #06B6D4;
+  --vp-bg: linear-gradient(135deg, rgba(16, 185, 129, 0.88) 0%, rgba(13, 148, 136, 0.86) 50%, rgba(6, 182, 212, 0.90) 100%);
+  --vp-bg-hover: linear-gradient(135deg, #34D399 0%, #14B8A6 50%, #22D3EE 100%);
+  --vp-border: rgba(255, 255, 255, 0.92);
+  --vp-text: #FFFFFF;
+  --vp-shadow-ambient: 0 10px 26px -4px rgba(16, 185, 129, 0.48), 0 0 16px rgba(6, 182, 212, 0.34);
+  --vp-shadow-hover: 0 14px 32px -4px rgba(16, 185, 129, 0.65), 0 0 22px rgba(34, 211, 238, 0.52);
+}
+
+/* 5. Interview Capsule: Amber Gold → Tangerine */
+.video-play-btn--interview {
+  --vp-chase-a: #F59E0B;
+  --vp-chase-b: #EA580C;
+  --vp-bg: linear-gradient(135deg, rgba(254, 243, 199, 0.92) 0%, rgba(253, 230, 138, 0.86) 52%, rgba(254, 215, 170, 0.90) 100%);
+  --vp-bg-hover: linear-gradient(135deg, rgba(254, 249, 195, 0.98) 0%, rgba(251, 191, 36, 0.56) 100%);
+  --vp-border: rgba(245, 158, 11, 0.68);
+  --vp-text: #000000;
+  --vp-shadow-ambient: 0 10px 24px -4px rgba(245, 158, 11, 0.36);
+  --vp-shadow-hover: 0 16px 34px -4px rgba(234, 88, 12, 0.48), 0 0 18px rgba(251, 191, 36, 0.42);
+  --vp-sound-bg: rgba(217, 119, 6, 0.16);
+  --vp-sound-border: rgba(217, 119, 6, 0.38);
+  --vp-sound-hover: rgba(217, 119, 6, 0.30);
+}
+
+/* --- Theme 1: Gương đơn sắc (sáng) (Frosted Crystal Monochrome + Distinct Tinted Accents) --- */
+html[data-card-style="light-multicolor-glass"] .video-play-btn--home {
+  --vp-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(226, 238, 248, 0.84) 100%);
+  --vp-bg-hover: linear-gradient(135deg, #FFFFFF 0%, rgba(208, 230, 248, 0.94) 100%);
+  --vp-border: rgba(15, 23, 42, 0.24);
+  --vp-text: #000000;
+}
+html[data-card-style="light-multicolor-glass"] .video-play-btn--about {
+  --vp-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(238, 232, 248, 0.84) 100%);
+  --vp-bg-hover: linear-gradient(135deg, #FFFFFF 0%, rgba(224, 214, 248, 0.94) 100%);
+  --vp-border: rgba(71, 85, 105, 0.28);
+  --vp-text: #000000;
+}
+html[data-card-style="light-multicolor-glass"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, rgba(255, 240, 243, 0.95) 0%, rgba(225, 29, 72, 0.88) 100%);
+  --vp-border: rgba(255, 255, 255, 0.95);
+  --vp-text: #FFFFFF;
+}
+html[data-card-style="light-multicolor-glass"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(135deg, rgba(236, 253, 245, 0.92) 0%, rgba(16, 185, 129, 0.82) 100%);
+  --vp-border: rgba(255, 255, 255, 0.95);
+  --vp-text: #FFFFFF;
+}
+html[data-card-style="light-multicolor-glass"] .video-play-btn--interview {
+  --vp-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(245, 240, 228, 0.84) 100%);
+  --vp-bg-hover: linear-gradient(135deg, #FFFFFF 0%, rgba(242, 232, 210, 0.94) 100%);
+  --vp-border: rgba(51, 65, 85, 0.26);
+  --vp-text: #000000;
+}
+
+/* --- Theme 2: Gương Neon màu (tối) (Dark Luminous Neon Glass) --- */
+html[data-card-style="light-multicolor-glass-dark"] .video-play-btn {
+  --vp-specular: rgba(255, 255, 255, 0.24);
+  --vp-text: #FFFFFF;
+  --vp-sound-bg: rgba(255, 255, 255, 0.16);
+  --vp-sound-border: rgba(255, 255, 255, 0.32);
+  --vp-sound-hover: rgba(255, 255, 255, 0.30);
+}
+html[data-card-style="light-multicolor-glass-dark"] .video-play-btn--home {
+  --vp-bg: linear-gradient(135deg, rgba(8, 51, 68, 0.88) 0%, rgba(30, 58, 138, 0.84) 100%);
+  --vp-bg-hover: linear-gradient(135deg, rgba(14, 116, 144, 0.94) 0%, rgba(37, 99, 235, 0.90) 100%);
+  --vp-border: rgba(56, 189, 248, 0.68);
+  --vp-shadow-ambient: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 16px rgba(56, 189, 248, 0.34);
+  --vp-shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.78), 0 0 26px rgba(0, 229, 255, 0.55);
+}
+html[data-card-style="light-multicolor-glass-dark"] .video-play-btn--about {
+  --vp-bg: linear-gradient(135deg, rgba(59, 7, 100, 0.88) 0%, rgba(131, 24, 67, 0.84) 100%);
+  --vp-bg-hover: linear-gradient(135deg, rgba(126, 34, 206, 0.94) 0%, rgba(219, 39, 119, 0.90) 100%);
+  --vp-border: rgba(192, 132, 252, 0.68);
+  --vp-shadow-ambient: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 16px rgba(192, 132, 252, 0.34);
+  --vp-shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.78), 0 0 26px rgba(236, 72, 153, 0.55);
+}
+html[data-card-style="light-multicolor-glass-dark"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, rgba(159, 18, 57, 0.92) 0%, rgba(234, 88, 12, 0.90) 100%);
+  --vp-bg-hover: linear-gradient(135deg, rgba(225, 29, 72, 0.98) 0%, rgba(249, 115, 22, 0.96) 100%);
+  --vp-border: rgba(251, 113, 133, 0.82);
+  --vp-shadow-ambient: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 18px rgba(244, 63, 94, 0.48);
+  --vp-shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.80), 0 0 28px rgba(251, 113, 133, 0.70);
+}
+html[data-card-style="light-multicolor-glass-dark"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(135deg, rgba(6, 78, 59, 0.90) 0%, rgba(14, 116, 144, 0.86) 100%);
+  --vp-bg-hover: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(6, 182, 212, 0.92) 100%);
+  --vp-border: rgba(52, 211, 153, 0.75);
+  --vp-shadow-ambient: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 18px rgba(16, 185, 129, 0.42);
+  --vp-shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.78), 0 0 26px rgba(34, 211, 238, 0.62);
+}
+html[data-card-style="light-multicolor-glass-dark"] .video-play-btn--interview {
+  --vp-bg: linear-gradient(135deg, rgba(120, 53, 15, 0.90) 0%, rgba(67, 56, 202, 0.86) 100%);
+  --vp-bg-hover: linear-gradient(135deg, rgba(217, 119, 6, 0.94) 0%, rgba(99, 102, 241, 0.92) 100%);
+  --vp-border: rgba(251, 191, 36, 0.72);
+  --vp-shadow-ambient: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 16px rgba(251, 191, 36, 0.36);
+  --vp-shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.78), 0 0 26px rgba(251, 191, 36, 0.58);
+}
+
+/* --- Theme 3: Da bò trắng (Light Stitched Dyed Leather) --- */
+html[data-card-style="light-cowhide-leather"] .video-play-btn {
+  --vp-backdrop: none;
+  --vp-outline: 1.5px dashed rgba(17, 24, 39, 0.56);
+  --vp-outline-offset: -4px;
+  --vp-border: #cbd5e1;
+  --vp-text: #111827;
+  --vp-sound-bg: rgba(17, 24, 39, 0.08);
+  --vp-sound-border: rgba(17, 24, 39, 0.25);
+  --vp-sound-hover: rgba(17, 24, 39, 0.16);
+}
+html[data-card-style="light-cowhide-leather"] .video-play-btn--home {
+  --vp-bg: linear-gradient(145deg, #eff6ff 0%, #dbeafe 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #bfdbfe 100%);
+}
+html[data-card-style="light-cowhide-leather"] .video-play-btn--about {
+  --vp-bg: linear-gradient(145deg, #faf5ff 0%, #f3e8ff 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #e9d5ff 100%);
+}
+html[data-card-style="light-cowhide-leather"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(145deg, #e11d48 0%, #be123c 100%);
+  --vp-bg-hover: linear-gradient(145deg, #f43f5e 0%, #e11d48 100%);
+  --vp-border: #ffffff;
+  --vp-outline: 1.5px dashed rgba(255, 255, 255, 0.72);
+  --vp-text: #FFFFFF;
+}
+html[data-card-style="light-cowhide-leather"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, #ecfdf5 0%, #a7f3d0 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #6ee7b7 100%);
+  --vp-border: #6ee7b7;
+}
+html[data-card-style="light-cowhide-leather"] .video-play-btn--interview {
+  --vp-bg: linear-gradient(145deg, #fffbeb 0%, #fde68a 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #fcd34d 100%);
+}
+
+/* --- Theme 4: Da bò đen (Black Stitched Dyed Leather) --- */
+html[data-card-style="black-cowhide-leather"] .video-play-btn {
+  --vp-backdrop: none;
+  --vp-outline: 1.5px dashed rgba(226, 232, 240, 0.45);
+  --vp-outline-offset: -4px;
+  --vp-border: #090a0d;
+  --vp-text: #FFFFFF;
+  --vp-specular: rgba(255, 255, 255, 0.14);
+  --vp-sound-bg: rgba(255, 255, 255, 0.14);
+  --vp-sound-border: rgba(226, 232, 240, 0.34);
+  --vp-sound-hover: rgba(255, 255, 255, 0.26);
+}
+html[data-card-style="black-cowhide-leather"] .video-play-btn--home {
+  --vp-bg: linear-gradient(145deg, #172554 0%, #0f172a 100%);
+  --vp-bg-hover: linear-gradient(145deg, #1d4ed8 0%, #172554 100%);
+}
+html[data-card-style="black-cowhide-leather"] .video-play-btn--about {
+  --vp-bg: linear-gradient(145deg, #3b0764 0%, #1c102b 100%);
+  --vp-bg-hover: linear-gradient(145deg, #6d28d9 0%, #3b0764 100%);
+}
+html[data-card-style="black-cowhide-leather"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(145deg, #9f1239 0%, #4c0519 100%);
+  --vp-bg-hover: linear-gradient(145deg, #e11d48 0%, #881337 100%);
+}
+html[data-card-style="black-cowhide-leather"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, #064e3b 0%, #0d1f1a 100%);
+  --vp-bg-hover: linear-gradient(145deg, #059669 0%, #064e3b 100%);
+}
+html[data-card-style="black-cowhide-leather"] .video-play-btn--interview {
+  --vp-bg: linear-gradient(145deg, #451a03 0%, #1c1917 100%);
+  --vp-bg-hover: linear-gradient(145deg, #b45309 0%, #451a03 100%);
+}
+
+/* --- Theme 5: Da bò nâu (Brown Stitched Saddle Leather) --- */
+html[data-card-style="cowhide-leather"] .video-play-btn {
+  --vp-backdrop: none;
+  --vp-outline: 1.5px dashed rgba(245, 222, 179, 0.56);
+  --vp-outline-offset: -4px;
+  --vp-border: #3d210b;
+  --vp-text: #FFFFFF;
+  --vp-specular: rgba(245, 222, 179, 0.22);
+  --vp-sound-bg: rgba(245, 222, 179, 0.16);
+  --vp-sound-border: rgba(245, 222, 179, 0.40);
+  --vp-sound-hover: rgba(245, 222, 179, 0.30);
+}
+html[data-card-style="cowhide-leather"] .video-play-btn--home {
+  --vp-bg: linear-gradient(145deg, #1e4068 0%, #3d210b 100%);
+  --vp-bg-hover: linear-gradient(145deg, #2563eb 0%, #522e10 100%);
+}
+html[data-card-style="cowhide-leather"] .video-play-btn--about {
+  --vp-bg: linear-gradient(145deg, #6b215e 0%, #3d210b 100%);
+  --vp-bg-hover: linear-gradient(145deg, #9333ea 0%, #522e10 100%);
+}
+html[data-card-style="cowhide-leather"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(145deg, #b91c1c 0%, #522e10 100%);
+  --vp-bg-hover: linear-gradient(145deg, #dc2626 0%, #7c2d12 100%);
+}
+html[data-card-style="cowhide-leather"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, #166534 0%, #3d210b 100%);
+  --vp-bg-hover: linear-gradient(145deg, #059669 0%, #522e10 100%);
+}
+html[data-card-style="cowhide-leather"] .video-play-btn--interview {
+  --vp-bg: linear-gradient(145deg, #b45309 0%, #522e10 100%);
+  --vp-bg-hover: linear-gradient(145deg, #d97706 0%, #653a17 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-play-btn,
+  html[data-card-style] .video-play-btn,
+  .video-play-btn--letter,
+  html[data-card-style] .video-play-btn--letter,
+  .video-play-btn:hover::before,
+  .video-play-btn:focus-visible::before,
+  .video-play-btn.is-playing::before {
     animation: none !important;
   }
 }

@@ -1,0 +1,574 @@
+'use client';
+
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useTheme } from '@/hooks/useTheme';
+import { SoundEngine } from '@/components/ui/SoundEngine';
+
+interface SpringState {
+  x: number;
+  v: number;
+  t: number;
+  k: number;
+  c: number;
+}
+
+export const PullCord: React.FC = () => {
+  const { isDark, toggleLightDark, cardStyle } = useTheme();
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lampRef = useRef<HTMLDivElement>(null);
+  const wirePathRef = useRef<SVGPathElement>(null);
+  const headRef = useRef<HTMLDivElement>(null);
+  const bulbRef = useRef<HTMLElement>(null);
+  const cordPathRef = useRef<SVGPathElement>(null);
+  const beadRef = useRef<HTMLElement>(null);
+  const grabRef = useRef<HTMLButtonElement>(null);
+  const glowCircleRef = useRef<HTMLDivElement>(null);
+
+  const [isHeld, setIsHeld] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  // Constants based on designbookmark motion-src/pull-cord tokens & geometry
+  const WIRE = 76;
+  const SHADE_H = 42;
+  const AX = 22; // Offset where cord leaves the shade
+  const AY = SHADE_H - 4;
+  const N = 12; // 12 links Verlet rope
+  const SEG = 7.5;
+  const L = N * SEG; // 90px rope length
+  const CLICK = 22; // Stretch needed to trigger switch
+  const MAXS = 52; // Max stretch
+
+  // Springs: exact stiffness & damping from tokens.css
+  // TH: 46, 3; TUG: 300, 13; R: 120, 21; BP: 420, 13; HX/HY: 210, 22; K: 300, 17
+  const springsRef = useRef<{
+    TH: SpringState;
+    TUG: SpringState;
+    R: SpringState;
+    BP: SpringState;
+    HX: SpringState;
+    HY: SpringState;
+    K: SpringState;
+  }>({
+    TH: { x: 0, v: 0, t: 0, k: 46, c: 3 },
+    TUG: { x: 0, v: 0, t: 0, k: 300, c: 13 },
+    R: { x: isDark ? 0 : 1, v: 0, t: isDark ? 0 : 1, k: 120, c: 21 },
+    BP: { x: 1, v: 0, t: 1, k: 420, c: 13 },
+    HX: { x: 0, v: 0, t: 0, k: 210, c: 22 },
+    HY: { x: 0, v: 0, t: 0, k: 210, c: 22 },
+    K: { x: 1, v: 0, t: 1, k: 300, c: 17 },
+  });
+
+  const stateRef = useRef<{
+    pts: Array<{ x: number; y: number; vx: number; vy: number }>;
+    held: {
+      id: number;
+      x: number;
+      y: number;
+      ox: number;
+      oy: number;
+      moved: number;
+      sx: number;
+      sy: number;
+      flipped: boolean;
+    } | null;
+    ghost: boolean;
+    armed: boolean;
+    side: number;
+    clock: number;
+    userUntil: number;
+    originX: number;
+    originY: number;
+  }>({
+    pts: [],
+    held: null,
+    ghost: false,
+    armed: true,
+    side: 1,
+    clock: 0,
+    userUntil: 0,
+    originX: 48,
+    originY: 0,
+  });
+
+  const toggleRef = useRef(toggleLightDark);
+  useEffect(() => {
+    toggleRef.current = toggleLightDark;
+  }, [toggleLightDark]);
+
+  const isDarkRef = useRef(isDark);
+  useEffect(() => {
+    isDarkRef.current = isDark;
+    const { R } = springsRef.current;
+    R.t = isDark ? 0 : 1;
+    R.k = isDark ? 170 : 120;
+    R.c = isDark ? 27 : 21;
+  }, [isDark]);
+
+  // Spring step function
+  const stepSpring = (s: SpringState, dt: number) => {
+    const a = -s.k * (s.x - s.t) - s.c * s.v;
+    s.v += a * dt;
+    s.x += s.v * dt;
+  };
+
+  const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+
+  const getAnchor = useCallback(() => {
+    const { TH, TUG } = springsRef.current;
+    const { originX, originY } = stateRef.current;
+    const c = Math.cos(TH.x);
+    const s = Math.sin(TH.x);
+    const y = WIRE + TUG.x + AY;
+    return [originX + AX * c - y * s, originY + AX * s + y * c];
+  }, [AY, AX, WIRE]);
+
+  // Trigger simulated pull (from click, space, enter, or tap)
+  const triggerPull = useCallback(() => {
+    const s = stateRef.current;
+    if (s.ghost || s.held || s.pts.length < N + 1) return;
+    const b = s.pts[N];
+    const { HX, HY } = springsRef.current;
+    s.ghost = true;
+    s.armed = true;
+    s.side = -s.side;
+    HX.x = b.x;
+    HY.x = b.y;
+    HX.v = b.vx;
+    HY.v = b.vy;
+    const [ax, ay] = getAnchor();
+    HX.t = ax + s.side * 20;
+    HY.t = ay + L + 48;
+
+    setTimeout(() => {
+      s.ghost = false;
+    }, 950);
+  }, [getAnchor, L, N]);
+
+  // Flip light switch & trigger theme
+  const flip = useCallback(() => {
+    const { BP, TUG } = springsRef.current;
+    BP.x = isDarkRef.current ? 1.35 : 0.85;
+    TUG.v += 140;
+
+    SoundEngine.playPop();
+    toggleRef.current();
+  }, []);
+
+  // Main animation frame loop
+  useEffect(() => {
+    const s = stateRef.current;
+    const sp = springsRef.current;
+
+    // Init rope points if empty
+    if (!s.pts.length) {
+      const [ax, ay] = getAnchor();
+      for (let i = 0; i <= N; i++) {
+        s.pts.push({ x: ax, y: ay + i * SEG, vx: 0, vy: 0 });
+      }
+    }
+
+    let animationFrameId: number;
+    let lastTime = performance.now();
+
+    const loop = (now: number) => {
+      const dt = Math.min((now - lastTime) / 1000, 1 / 30);
+      lastTime = now;
+      s.clock += dt;
+
+      // Step springs
+      stepSpring(sp.TH, dt);
+      stepSpring(sp.TUG, dt);
+      stepSpring(sp.R, dt);
+      stepSpring(sp.BP, dt);
+      stepSpring(sp.HX, dt);
+      stepSpring(sp.HY, dt);
+      stepSpring(sp.K, dt);
+
+      const [ax, ay] = getAnchor();
+      const p = s.held ? [s.held.x, s.held.y] : s.ghost ? [sp.HX.x, sp.HY.x] : null;
+      const b = s.pts[N];
+
+      let px = 0;
+      let py = 0;
+      let stretch = 0;
+      let lean = 0;
+
+      if (p) {
+        const dx = p[0] - ax;
+        const dy = p[1] - ay;
+        const d = Math.hypot(dx, dy) || 1;
+        const over = Math.max(0, d - L);
+        const give = MAXS * (1 - Math.exp(-over / 65));
+        const r = Math.min(d, L) + give;
+        px = ax + (dx / d) * r;
+        py = ay + (dy / d) * r;
+        stretch = give;
+        lean = over > 0 ? dx / d : 0;
+
+        if (over > 0) {
+          sp.K.x = sp.K.t = r / L;
+          sp.K.v = 0;
+        }
+
+        // Past the click threshold
+        if (s.armed && give > CLICK) {
+          s.armed = false;
+          flip();
+          if (s.held) {
+            s.held.flipped = true;
+          } else {
+            setTimeout(() => {
+              s.ghost = false;
+            }, 100);
+          }
+        }
+      }
+
+      if (!p || !stretch) {
+        sp.K.t = 1;
+      }
+
+      const seg = SEG * Math.max(1, sp.K.x);
+      sp.TUG.t = stretch * 0.22;
+      sp.TH.t = clamp((-lean * stretch) / MAXS * 0.45, -0.28, 0.28);
+
+      // Rope physics: Verlet integration + relaxation
+      const prev = s.pts.map((q) => [q.x, q.y]);
+      for (let i = 1; i <= N; i++) {
+        const q = s.pts[i];
+        const k = Math.exp(-(i === N ? 1.1 : 2.4) * dt);
+        q.vy += 2600 * dt;
+        q.vx *= k;
+        q.vy *= k;
+        const spd = Math.hypot(q.vx, q.vy);
+        if (spd > 2600) {
+          q.vx *= 2600 / spd;
+          q.vy *= 2600 / spd;
+        }
+        q.x += q.vx * dt;
+        q.y += q.vy * dt;
+      }
+
+      // Constraints iterations
+      for (let it = 0; it < 8; it++) {
+        s.pts[0].x = ax;
+        s.pts[0].y = ay;
+        if (p) {
+          b.x = px;
+          b.y = py;
+        }
+        for (let i = 0; i < N; i++) {
+          const a = s.pts[i];
+          const c = s.pts[i + 1];
+          const dx = c.x - a.x;
+          const dy = c.y - a.y;
+          const d = Math.hypot(dx, dy) || 1e-6;
+          const f = ((d - seg) / d) * 0.5;
+          const wa = i === 0 ? 0 : 1;
+          const wc = i + 1 === N ? (p ? 0 : 0.3) : 1;
+          const sum = wa + wc || 1;
+          a.x += (dx * f * wa) / sum * 2;
+          a.y += (dy * f * wa) / sum * 2;
+          c.x -= (dx * f * wc) / sum * 2;
+          c.y -= (dy * f * wc) / sum * 2;
+        }
+      }
+
+      s.pts[0].x = ax;
+      s.pts[0].y = ay;
+      if (p) {
+        b.x = px;
+        b.y = py;
+      }
+
+      for (let i = 1; i <= N; i++) {
+        s.pts[i].vx = (s.pts[i].x - prev[i][0]) / dt;
+        s.pts[i].vy = (s.pts[i].y - prev[i][1]) / dt;
+      }
+
+      // Render transforms to DOM elements
+      const th = sp.TH.x;
+      const tug = sp.TUG.x;
+      const lastPt = s.pts[N];
+      const secondLastPt = s.pts[N - 1];
+
+      // Build smooth Bezier SVG path
+      let d = `M${s.pts[0].x.toFixed(1)} ${s.pts[0].y.toFixed(1)}`;
+      for (let i = 1; i < N; i++) {
+        const mx = ((s.pts[i].x + s.pts[i + 1].x) / 2).toFixed(1);
+        const my = ((s.pts[i].y + s.pts[i + 1].y) / 2).toFixed(1);
+        d += `Q${s.pts[i].x.toFixed(1)} ${s.pts[i].y.toFixed(1)} ${mx} ${my}`;
+      }
+      d += `L${lastPt.x.toFixed(1)} ${lastPt.y.toFixed(1)}`;
+
+      const ang = Math.atan2(secondLastPt.x - lastPt.x, lastPt.y - secondLastPt.y);
+      const wl = WIRE + tug - 2;
+      const wireD = `M${s.originX} 0 L${(s.originX - Math.sin(th) * wl).toFixed(2)} ${(Math.cos(th) * wl).toFixed(2)}`;
+
+      if (lampRef.current) {
+        lampRef.current.style.transform = `rotate(${th.toFixed(4)}rad)`;
+      }
+      if (wirePathRef.current) {
+        wirePathRef.current.setAttribute('d', wireD);
+      }
+      if (headRef.current) {
+        headRef.current.style.transform = `translateY(${(WIRE + tug).toFixed(2)}px)`;
+      }
+      if (bulbRef.current) {
+        bulbRef.current.style.transform = `scale(${sp.BP.x.toFixed(4)})`;
+      }
+      if (cordPathRef.current) {
+        cordPathRef.current.setAttribute('d', d);
+      }
+      if (beadRef.current) {
+        beadRef.current.style.transform = `translate(${lastPt.x.toFixed(2)}px, ${lastPt.y.toFixed(2)}px) rotate(${ang.toFixed(4)}rad)`;
+      }
+      if (grabRef.current) {
+        grabRef.current.style.transform = `translate(${lastPt.x.toFixed(2)}px, ${lastPt.y.toFixed(2)}px)`;
+      }
+      if (glowCircleRef.current) {
+        const rVal = Math.max(0, sp.R.x);
+        glowCircleRef.current.style.opacity = rVal.toFixed(3);
+        glowCircleRef.current.style.transform = `scale(${Math.max(0.2, rVal * 1.5).toFixed(3)})`;
+      }
+
+      animationFrameId = requestAnimationFrame(loop);
+    };
+
+    animationFrameId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [flip, getAnchor]);
+
+  // Pointer drag events on grab handle
+  const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const s = stateRef.current;
+    if (s.pts.length < N + 1) return;
+    const b = s.pts[N];
+
+    s.held = {
+      id: e.pointerId,
+      x: b.x,
+      y: b.y,
+      ox: b.x - x,
+      oy: b.y - y,
+      moved: 0,
+      sx: x,
+      sy: y,
+      flipped: false,
+    };
+    s.ghost = false;
+    s.armed = true;
+    s.userUntil = s.clock + 7;
+    setIsHeld(true);
+
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {}
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const s = stateRef.current;
+    if (!s.held || e.pointerId !== s.held.id || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    s.held.x = x + s.held.ox;
+    s.held.y = y + s.held.oy;
+    s.held.moved = Math.max(s.held.moved, Math.hypot(x - s.held.sx, y - s.held.sy));
+    s.userUntil = s.clock + 7;
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const s = stateRef.current;
+    if (!s.held || e.pointerId !== s.held.id) return;
+    const tap = s.held.moved < 6 && !s.held.flipped;
+    s.held = null;
+    setIsHeld(false);
+
+    if (tap) {
+      triggerPull();
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      triggerPull();
+    }
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      id="db-pull-cord-container"
+      data-element-name="Công tắc Đèn Kéo Dây"
+      data-element-type="widget"
+      className="fixed top-0 left-2 sm:left-4 lg:left-6 z-[60] pointer-events-none select-none"
+      style={{
+        width: '120px',
+        height: '240px',
+      }}
+      aria-hidden="false"
+    >
+      {/* Ceiling Mount Bracket */}
+      <div
+        className="absolute top-0 left-[41px] w-[14px] h-[5px] rounded-b-[4px] bg-slate-400 dark:bg-slate-600 shadow-xs z-10"
+        style={{
+          borderBottom: '1px solid rgba(255,255,255,0.3)',
+        }}
+      />
+
+      {/* Wire from ceiling to lamp head */}
+      <svg
+        className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none z-10"
+        aria-hidden="true"
+      >
+        <path
+          ref={wirePathRef}
+          fill="none"
+          stroke="currentColor"
+          className="text-slate-500 dark:text-slate-400"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+      </svg>
+
+      {/* Swinging Lamp Assembly */}
+      <div
+        ref={lampRef}
+        className="absolute top-0 left-[48px] w-0 h-0 will-change-transform z-20"
+        style={{ transformOrigin: '0 0' }}
+      >
+        <div ref={headRef} className="absolute left-0 top-0 will-change-transform">
+          {/* Bulb Radiant Glow Halo */}
+          <div
+            ref={glowCircleRef}
+            className="absolute left-[-42px] top-[14px] w-[84px] h-[84px] rounded-full pointer-events-none transition-all duration-300 blur-md"
+            style={{
+              background: isDark
+                ? 'radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%)'
+                : 'radial-gradient(circle, rgba(251, 191, 36, 0.45) 0%, rgba(245, 158, 11, 0.2) 50%, transparent 80%)',
+              opacity: isDark ? 0 : 1,
+            }}
+          />
+
+          {/* Glowing Light Bulb */}
+          <i
+            ref={bulbRef}
+            className={`absolute left-[-11px] top-[28px] w-[22px] h-[22px] rounded-full shadow-sm transition-colors duration-300 will-change-transform ${
+              !isDark
+                ? 'bg-amber-400 shadow-[0_0_16px_rgba(251,191,36,0.9)] ring-2 ring-amber-300/60'
+                : 'bg-slate-400/80 dark:bg-slate-500/80 shadow-[inset_0_1px_3px_rgba(255,255,255,0.4)]'
+            }`}
+            style={{
+              display: 'block',
+              transformOrigin: '50% 50%',
+            }}
+          />
+
+          {/* Lamp Shade (Modern Bell Shape with Theme Gradient) */}
+          <i
+            className="absolute left-[-34px] top-0 w-[68px] h-[36px] shadow-md transition-colors duration-300 backdrop-blur-md"
+            style={{
+              display: 'block',
+              borderRadius: '34px 34px 8px 8px / 32px 32px 8px 8px',
+              background: isDark
+                ? 'linear-gradient(180deg, #334155 0%, #1e293b 100%)'
+                : 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)',
+              border: '1px solid rgba(255, 255, 255, 0.35)',
+              boxShadow: isDark
+                ? '0 6px 14px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.15)'
+                : '0 6px 14px rgba(100,116,139,0.2), inset 0 1px 1px rgba(255,255,255,0.8)',
+            }}
+          />
+
+          {/* Cap above shade */}
+          <i
+            className="absolute left-[-5px] top-[-6px] w-[10px] h-[8px] rounded-t-[3px] bg-slate-400 dark:bg-slate-600 shadow-xs"
+            style={{ display: 'block' }}
+          />
+        </div>
+      </div>
+
+      {/* Rope SVG path hanging from the shade rim */}
+      <svg
+        className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none z-30"
+        aria-hidden="true"
+      >
+        <path
+          ref={cordPathRef}
+          fill="none"
+          stroke="currentColor"
+          className="text-amber-700/80 dark:text-amber-500/80"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+
+      {/* Bead at the end of cord */}
+      <i
+        ref={beadRef}
+        className="absolute left-[-5px] top-[-2px] w-[10px] h-[20px] rounded-full shadow-sm will-change-transform z-40 transition-colors pointer-events-none"
+        style={{
+          display: 'block',
+          transformOrigin: '5px 2px',
+          background: isDark
+            ? 'linear-gradient(180deg, #fbbf24 0%, #d97706 100%)'
+            : 'linear-gradient(180deg, #475569 0%, #1e293b 100%)',
+          border: '1px solid rgba(255, 255, 255, 0.5)',
+          boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
+        }}
+      />
+
+      {/* Grab interactive button */}
+      <button
+        ref={grabRef}
+        id="db-pull-cord-grab"
+        type="button"
+        role="switch"
+        aria-checked={!isDark}
+        aria-label="Công tắc đèn - Kéo dây chuyển giao diện Sáng / Tối"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onKeyDown={handleKeyDown}
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+        className={`absolute left-[-16px] top-[-8px] w-[32px] h-[36px] rounded-[10px] bg-transparent border-0 z-50 pointer-events-auto select-none ${
+          isHeld ? 'cursor-grabbing' : 'cursor-grab'
+        } focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2`}
+        style={{
+          touchAction: 'none',
+          WebkitTapHighlightColor: 'transparent',
+        }}
+        title="Kéo dây để bật / tắt đèn (Chuyển giao diện Sáng / Tối)"
+      />
+
+      {/* Hover Tooltip / Hint */}
+      <div
+        className={`absolute left-[30px] top-[140px] whitespace-nowrap px-2.5 py-1 rounded-[8px] text-[11px] font-play font-medium shadow-md transition-all duration-300 pointer-events-none z-[70] ${
+          showTooltip || isHeld
+            ? 'opacity-100 translate-x-0'
+            : 'opacity-0 -translate-x-2'
+        } ${
+          isDark
+            ? 'bg-slate-800/90 text-amber-300 border border-slate-700/80 backdrop-blur-md'
+            : 'bg-white/95 text-slate-800 border border-slate-200/90 backdrop-blur-md'
+        }`}
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+          <span>Kéo dây: {isDark ? 'Bật đèn sáng' : 'Tắt đèn tối'}</span>
+        </span>
+      </div>
+    </div>
+  );
+};

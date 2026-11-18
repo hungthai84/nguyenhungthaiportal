@@ -166,19 +166,23 @@ export const Footer: React.FC<FooterProps> = ({
     : viewportWidth >= 1280
       ? 104
       : 94;
-  const fanShiftRightPx =
-    viewportWidth >= 1280
-      ? overlapRightPx
-      : viewportWidth >= 1024
-        ? Math.min(overlapRightPx, 72)
-        : Math.min(overlapRightPx, 28);
+  const fanShiftRightPx = overlapRightPx;
+
+  const handleRightBtnMouseEnter = (index: number) => {
+    setHoveredRightBtn(index);
+    if (index === 0) SoundEngine.playPageSpecificSound(12);
+    else if (index === 1) SoundEngine.playPageSpecificSound(15);
+    else if (index === 2) SoundEngine.playGlassChime();
+    else if (index === 3) SoundEngine.playPageSpecificSound(14);
+    else if (index === 4) SoundEngine.playPageSpecificSound(13);
+  };
 
   const getDeckItemStyle = (index: number, isPopupOpen = false) => {
     const isHovered = hoveredRightBtn === index;
-    const isBeforeHovered = hoveredRightBtn !== null && index < hoveredRightBtn;
+    const isAfterHovered = hoveredRightBtn !== null && index > hoveredRightBtn;
     return {
       marginLeft: index === 0 ? '0px' : `-${overlapRightPx}px`,
-      transform: isBeforeHovered ? `translateX(-${fanShiftRightPx}px)` : 'translateX(0px)',
+      transform: isAfterHovered ? `translateX(${overlapRightPx}px)` : 'translateX(0px)',
       zIndex: isPopupOpen ? 9999 : isHovered ? 150 : index + 10,
     };
   };
@@ -208,10 +212,8 @@ export const Footer: React.FC<FooterProps> = ({
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
       }}
-      className="mx-auto h-auto min-h-[64px] py-1.5 sm:min-h-[72px] sm:h-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 transition-all duration-300 rounded-b-none rounded-t-[14px] border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto h-auto min-h-[64px] py-1.5 sm:min-h-[72px] sm:h-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 rounded-b-none rounded-t-[14px] border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
     >
-      {/* Top highlight subtle */}
-      <div className="absolute top-0 inset-x-8 h-[1px] pointer-events-none bg-gradient-to-r from-transparent via-white/25 dark:via-white/15 to-transparent"></div>
 
       {/* Area 1: Weather Widget co giãn tự động theo nội dung */}
       <div
@@ -226,21 +228,30 @@ export const Footer: React.FC<FooterProps> = ({
         <WeatherCard onShowNotification={onShowNotification} />
       </div>
 
-      {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md */}
-      <div className="w-auto md:w-[160px] relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 pointer-events-auto flex items-center justify-center shrink-0">
+      {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md (tạm ẩn khi over mouse nút bên phải) */}
+      <div
+        className={`w-auto md:w-[160px] relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 pointer-events-auto flex items-center justify-center shrink-0 transition-all duration-300 ease-out ${
+          hoveredRightBtn !== null
+            ? 'opacity-0 pointer-events-none scale-90 -translate-y-1'
+            : 'opacity-100 pointer-events-auto scale-100 translate-y-0'
+        }`}
+      >
         <div
           id="footer-nav-capsule"
           role="group"
           aria-label={isEn ? 'Page Navigation' : 'Điều hướng trang'}
           data-element-type="button"
           style={{ borderRadius: '999px' }}
-          className="theme-capsule-btn nav-pill relative z-10 w-[118px] sm:w-[144px] md:w-[152px] h-[42px] sm:h-[44px] flex items-center justify-between px-1.5 py-1 !rounded-[999px] rounded-[999px] text-[var(--text-primary)] cursor-pointer transition-all duration-200 hover:-translate-y-[1.5px] active:scale-[0.98] group font-play"
+          className={`theme-capsule-btn nav-pill relative z-10 w-[118px] sm:w-[144px] md:w-[152px] h-[42px] sm:h-[44px] flex items-center justify-between px-1.5 py-1 !rounded-[999px] rounded-[999px] text-[var(--text-primary)] cursor-pointer transition-all duration-300 hover:-translate-y-[1.5px] active:scale-[0.98] group font-play ${
+            hoveredRightBtn !== null ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100'
+          }`}
         >
           {/* Prev Button */}
           <span
             id="footer-prev-btn"
             role="button"
-            tabIndex={0}
+            tabIndex={hoveredRightBtn !== null ? -1 : 0}
+            aria-hidden={hoveredRightBtn !== null}
             aria-label={isEn ? 'Previous Page' : 'Trang trước'}
             onClick={(e) => {
               e.stopPropagation();
@@ -253,7 +264,9 @@ export const Footer: React.FC<FooterProps> = ({
               }
             }}
             title={isEn ? 'Previous Page' : 'Trang trước'}
-            className="theme-prev-next-btn w-8.5 h-8.5 rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition active:scale-95"
+            className={`theme-prev-next-btn w-8.5 h-8.5 rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-300 active:scale-95 ${
+              hoveredRightBtn !== null ? 'opacity-0 pointer-events-none' : ''
+            }`}
           >
             <WebIcon name="chevron-left" className="w-3.5 h-3.5" />
           </span>
@@ -278,7 +291,8 @@ export const Footer: React.FC<FooterProps> = ({
           <span
             id="footer-next-btn"
             role="button"
-            tabIndex={0}
+            tabIndex={hoveredRightBtn !== null ? -1 : 0}
+            aria-hidden={hoveredRightBtn !== null}
             aria-label={isEn ? 'Next Page' : 'Trang sau'}
             onClick={(e) => {
               e.stopPropagation();
@@ -291,7 +305,9 @@ export const Footer: React.FC<FooterProps> = ({
               }
             }}
             title={isEn ? 'Next Page' : 'Trang sau'}
-            className="theme-prev-next-btn w-8.5 h-8.5 rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition active:scale-95"
+            className={`theme-prev-next-btn w-8.5 h-8.5 rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-300 active:scale-95 ${
+              hoveredRightBtn !== null ? 'opacity-0 pointer-events-none' : ''
+            }`}
           >
             <WebIcon name="chevron-right" className="w-3.5 h-3.5" />
           </span>
@@ -301,12 +317,19 @@ export const Footer: React.FC<FooterProps> = ({
       {/* Area 3: Utility Buttons (Ngôn ngữ + Giao diện + Hình Nền + AI Hỗ trợ) - chiều ngang bằng nội dung lớn nhất & đồng bộ, padding top/bottom 2px, left/right 10px */}
       <div
         id="el-p0-div-112"
+        onMouseLeave={() => setHoveredRightBtn(null)}
         className="w-full sm:w-auto md:max-w-[calc(50%-88px)] h-auto sm:h-full flex items-center justify-center sm:justify-end overflow-visible sm:pl-2 min-w-0 relative z-20 shrink-0"
       >
         <div
           id="el-p0-div-113"
           onMouseLeave={() => setHoveredRightBtn(null)}
-          className="relative flex items-center justify-center sm:justify-end flex-nowrap py-0.5 overflow-visible"
+          className="relative flex items-center justify-center sm:justify-end flex-nowrap py-0.5 overflow-visible transition-transform duration-300 ease-out"
+          style={{
+            transform:
+              hoveredRightBtn !== null && hoveredRightBtn < 4
+                ? `translateX(-${overlapRightPx}px)`
+                : 'translateX(0px)',
+          }}
         >
           {/* Button 0: Ngôn Ngữ */}
           {(() => {
@@ -314,7 +337,7 @@ export const Footer: React.FC<FooterProps> = ({
             return (
               <div
                 ref={langMenuRef}
-                onMouseEnter={() => setHoveredRightBtn(0)}
+                onMouseEnter={() => handleRightBtnMouseEnter(0)}
                 style={getDeckItemStyle(0, isLangMenuOpen)}
                 className="relative pointer-events-auto shrink-0 transition-all duration-300 ease-out"
               >
@@ -471,7 +494,7 @@ export const Footer: React.FC<FooterProps> = ({
             return (
               <div
                 ref={themeMenuRef}
-                onMouseEnter={() => setHoveredRightBtn(1)}
+                onMouseEnter={() => handleRightBtnMouseEnter(1)}
                 style={getDeckItemStyle(1, isThemeMenuOpen)}
                 className="relative pointer-events-auto shrink-0 transition-all duration-300 ease-out"
               >
@@ -568,7 +591,7 @@ export const Footer: React.FC<FooterProps> = ({
                   <div
                     id="footer-theme-popup"
                     style={{ background: 'var(--bg-popup)' }}
-                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-fit min-w-0 max-w-[calc(100vw-24px)] h-auto sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-max sm:max-w-[calc(100vw-32px)] rounded-[14px] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
+                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(320px,calc(100vw-24px))] max-w-[calc(100vw-24px)] h-auto sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-[336px] sm:max-w-[calc(100vw-32px)] rounded-[14px] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
                   >
                     <div
                       className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
@@ -634,10 +657,43 @@ export const Footer: React.FC<FooterProps> = ({
                           );
                         };
 
+                        const groupTitleColor = groupActive
+                          ? 'var(--text-link, var(--color-primary))'
+                          : 'var(--text-primary)';
+                        const previewVariants = [
+                          lightPreset && {
+                            key: 'light' as const,
+                            label: isEn ? 'Light' : 'Sáng',
+                            preset: lightPreset,
+                            isSelected: isLightSelected,
+                          },
+                          darkPreset && {
+                            key: 'dark' as const,
+                            label: isEn ? 'Dark' : 'Tối',
+                            preset: darkPreset,
+                            isSelected: isDarkSelected,
+                          },
+                          colorPreset && {
+                            key: 'color' as const,
+                            label: isEn ? 'Color' : 'Màu',
+                            preset: colorPreset,
+                            isSelected: isColorSelected,
+                          },
+                        ].filter(
+                          (
+                            item
+                          ): item is {
+                            key: 'light' | 'dark' | 'color';
+                            label: string;
+                            preset: NonNullable<typeof fallbackPreset>;
+                            isSelected: boolean;
+                          } => Boolean(item)
+                        );
+
                         return (
                           <div
                             key={group.id}
-                            className={`w-full flex items-center justify-between gap-2.5 px-2.5 py-2 rounded-[14px] border transition-all ${
+                            className={`w-full flex flex-col gap-2 px-2.5 py-2.5 rounded-[14px] border transition-all ${
                               groupActive ? 'shadow-xs' : 'theme-dropdown-option'
                             }`}
                             style={{
@@ -645,38 +701,131 @@ export const Footer: React.FC<FooterProps> = ({
                               borderColor: groupActive ? 'var(--color-primary)' : 'var(--border-subcard)',
                             }}
                           >
-                            {/* Tên 1 giao diện theo nhóm */}
-                            <button
-                              type="button"
-                              onClick={() => handleApplyPreset(fallbackPreset)}
-                              className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer bg-transparent border-0 p-0"
-                            >
-                              <div className="flex items-center justify-center shrink-0">
-                                <WebIcon
-                                  name={group.icon}
-                                  className="w-4 h-4 shrink-0"
-                                  style={{ color: activeGroupPreset.color || 'var(--color-primary)' }}
-                                />
-                              </div>
-                              <div className="min-w-0 flex-1 flex items-center gap-1.5">
-                                <span
-                                  className="typo-body-sm font-bold truncate"
-                                  style={{ color: groupActive ? 'var(--text-link, var(--color-primary))' : 'var(--text-primary)' }}
-                                >
-                                  {groupTitle}
-                                </span>
-                                {groupActive && (
+                            {/* Tên 1 giao diện theo nhóm: Icon & Tiêu đề cùng màu, font in đậm */}
+                            <div className="w-full flex items-center justify-between gap-2 min-w-0">
+                              <button
+                                type="button"
+                                onClick={() => handleApplyPreset(fallbackPreset)}
+                                className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer bg-transparent border-0 px-1 py-0.5 rounded-[10px]"
+                              >
+                                <div className="flex items-center justify-center shrink-0" style={{ color: groupTitleColor }}>
+                                  <WebIcon
+                                    name={group.icon}
+                                    className="w-4 h-4 shrink-0"
+                                    style={{ color: groupTitleColor, strokeWidth: 2.35 }}
+                                  />
+                                </div>
+                                <div className="min-w-0 flex-1 flex items-center gap-1.5">
                                   <span
-                                    className="shrink-0 typo-badge font-bold"
-                                    style={{ color: 'var(--text-link, var(--color-primary))' }}
+                                    className="typo-body-sm font-bold truncate"
+                                    style={{ color: groupTitleColor, fontWeight: 700 }}
                                   >
-                                    ✓
+                                    {groupTitle}
                                   </span>
-                                )}
-                              </div>
-                            </button>
+                                  {groupActive && (
+                                    <span
+                                      className="shrink-0 typo-badge font-bold"
+                                      style={{ color: groupTitleColor, fontWeight: 700 }}
+                                    >
+                                      ✓
+                                    </span>
+                                  )}
+                                </div>
+                              </button>
+                            </div>
 
-                            {/* Nút Sáng / Tối / Màu kế bên tên giao diện (chỉ hiển thị dạng có hỗ trợ) */}
+                            {/* Demo xem trước dạng giao diện */}
+                            {previewVariants.length > 0 && (
+                              <div className="grid grid-cols-3 gap-1.5 w-full">
+                                {previewVariants.map(({ label, preset, isSelected }) => {
+                                  const isBrownLeather = preset.id === 'cowhide-leather';
+                                  const isBlackLeather = preset.id === 'black-cowhide-leather';
+                                  const isWhiteLeather = preset.id === 'light-cowhide-leather';
+                                  const isColorGlass = preset.id === 'light-multicolor-glass-color';
+                                  const isDarkGlass = preset.id === 'light-multicolor-glass-dark';
+                                  const demoTextColor = isBrownLeather
+                                    ? '#FFF8DC'
+                                    : preset.isDark
+                                      ? '#FFFFFF'
+                                      : '#0F172A';
+                                  const demoOutline = isBrownLeather
+                                    ? '1px dashed rgba(245, 222, 179, 0.58)'
+                                    : isBlackLeather
+                                      ? '1px dashed rgba(226, 232, 240, 0.48)'
+                                      : isWhiteLeather
+                                        ? '1px dashed rgba(17, 24, 39, 0.58)'
+                                        : undefined;
+
+                                  return (
+                                    <div
+                                      key={preset.id}
+                                      role="button"
+                                      tabIndex={0}
+                                      aria-pressed={isSelected}
+                                      title={isEn ? `Preview & apply ${t(preset.name)}` : `Xem demo & chọn ${preset.name}`}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleApplyPreset(preset);
+                                      }}
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          handleApplyPreset(preset);
+                                        }
+                                      }}
+                                      style={{
+                                        ...(preset.cardSampleStyle || {}),
+                                        borderRadius: '10px',
+                                        padding: '6px 7px',
+                                        outline: demoOutline,
+                                        outlineOffset: demoOutline ? '-3px' : undefined,
+                                        boxShadow: isSelected
+                                          ? '0 0 0 2px var(--color-primary), 0 4px 10px rgba(0,0,0,0.12)'
+                                          : '0 2px 6px rgba(0,0,0,0.08)',
+                                      }}
+                                      className="flex flex-col justify-between gap-1.5 cursor-pointer transition-transform duration-200 hover:scale-[1.03] min-w-0 select-none"
+                                    >
+                                      <div className="flex items-center justify-between gap-1 min-w-0">
+                                        <span
+                                          className="typo-badge font-bold leading-none truncate"
+                                          style={{ color: demoTextColor, fontWeight: 700 }}
+                                        >
+                                          {label}
+                                        </span>
+                                        <span className="flex items-center gap-0.5 shrink-0">
+                                          {(isColorGlass || isDarkGlass) ? (
+                                            <>
+                                              <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
+                                              <span className="w-1.5 h-1.5 rounded-full bg-[#A855F7]" />
+                                              <span className="w-1.5 h-1.5 rounded-full bg-[#EC4899]" />
+                                            </>
+                                          ) : (
+                                            <span
+                                              className="w-2 h-2 rounded-full"
+                                              style={{ background: preset.miniBtnStyle?.background || preset.color }}
+                                            />
+                                          )}
+                                        </span>
+                                      </div>
+
+                                      <div className="flex items-center gap-1">
+                                        <span
+                                          style={preset.miniTabStyle}
+                                          className="h-2.5 flex-1 rounded-[4px] border"
+                                        />
+                                        <span
+                                          style={preset.miniBtnStyle}
+                                          className="h-2.5 w-6 rounded-[4px] shrink-0"
+                                        />
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+
+                            {/* Nút Sáng / Tối / Màu kế bên dưới phần demo (chỉ hiển thị dạng có hỗ trợ) */}
                             {(hasLight || hasDark || hasColor) && (
                               <div
                                 role="group"
@@ -685,7 +834,7 @@ export const Footer: React.FC<FooterProps> = ({
                                     ? `${groupTitle} appearance mode`
                                     : `Chế độ giao diện cho ${groupTitle}`
                                 }
-                                className="inline-flex items-center gap-1 p-0.5 rounded-full border shrink-0"
+                                className="inline-flex items-center justify-between gap-1 p-0.5 rounded-full border w-full"
                                 style={{
                                   background: 'var(--bg-subcard)',
                                   borderColor: 'var(--border-subcard)',
@@ -701,7 +850,7 @@ export const Footer: React.FC<FooterProps> = ({
                                       handleApplyPreset(lightPreset);
                                     }}
                                     title={isEn ? `${groupTitle} - Light` : `${groupTitle} - Sáng`}
-                                    className={`theme-switch-btn inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                                    className={`theme-switch-btn flex-1 justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
                                       isLightSelected ? 'is-active' : ''
                                     }`}
                                   >
@@ -720,7 +869,7 @@ export const Footer: React.FC<FooterProps> = ({
                                       handleApplyPreset(darkPreset);
                                     }}
                                     title={isEn ? `${groupTitle} - Dark` : `${groupTitle} - Tối`}
-                                    className={`theme-switch-btn inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                                    className={`theme-switch-btn flex-1 justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
                                       isDarkSelected ? 'is-active' : ''
                                     }`}
                                   >
@@ -739,7 +888,7 @@ export const Footer: React.FC<FooterProps> = ({
                                       handleApplyPreset(colorPreset);
                                     }}
                                     title={isEn ? `${groupTitle} - Color` : `${groupTitle} - Màu`}
-                                    className={`theme-switch-btn inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                                    className={`theme-switch-btn flex-1 justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
                                       isColorSelected ? 'is-active' : ''
                                     }`}
                                   >
@@ -821,7 +970,7 @@ export const Footer: React.FC<FooterProps> = ({
 
             return (
               <div
-                onMouseEnter={() => setHoveredRightBtn(2)}
+                onMouseEnter={() => handleRightBtnMouseEnter(2)}
                 style={getDeckItemStyle(2)}
                 className="relative pointer-events-auto shrink-0 transition-all duration-300 ease-out"
               >
@@ -903,7 +1052,7 @@ export const Footer: React.FC<FooterProps> = ({
             const isSelected = currentTabIndex === 14;
             return (
               <div
-                onMouseEnter={() => setHoveredRightBtn(3)}
+                onMouseEnter={() => handleRightBtnMouseEnter(3)}
                 style={getDeckItemStyle(3)}
                 className="relative pointer-events-auto shrink-0 transition-all duration-300 ease-out"
               >
@@ -998,7 +1147,7 @@ export const Footer: React.FC<FooterProps> = ({
             const isSelected = currentTabIndex === 13;
             return (
               <div
-                onMouseEnter={() => setHoveredRightBtn(4)}
+                onMouseEnter={() => handleRightBtnMouseEnter(4)}
                 style={getDeckItemStyle(4)}
                 className="relative pointer-events-auto shrink-0 transition-all duration-300 ease-out"
               >

@@ -315,8 +315,7 @@ html[data-card-style="black-cowhide-leather"] #app-footer {
   outline-offset: -6px;
 }
 
-html[data-card-style="black-cowhide-leather"] #footer-nav-capsule,
-html[data-card-style="black-cowhide-leather"] #el-p0-div-78 {
+html[data-card-style="black-cowhide-leather"] #footer-nav-capsule {
   background: linear-gradient(145deg, #252830 0%, #14161b 100%) !important;
   border: 2px solid #090a0d !important;
   color: #ffffff !important;
@@ -329,8 +328,7 @@ html[data-card-style="black-cowhide-leather"] #el-p0-div-78 {
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="black-cowhide-leather"] #footer-nav-capsule:hover,
-html[data-card-style="black-cowhide-leather"] #el-p0-div-78:hover {
+html[data-card-style="black-cowhide-leather"] #footer-nav-capsule:hover {
   background: linear-gradient(145deg, #2e323c 0%, #191c23 100%) !important;
   border-color: rgba(226, 232, 240, 0.55) !important;
   outline-color: rgba(226, 232, 240, 0.78) !important;
@@ -606,22 +604,14 @@ html[data-card-style="black-cowhide-leather"] #footer-lang-popup button.bg-emera
 }
 
 html[data-card-style="black-cowhide-leather"] #footer-nav-capsule #footer-prev-btn,
-html[data-card-style="black-cowhide-leather"] #footer-nav-capsule #footer-next-btn,
-html[data-card-style="black-cowhide-leather"] #el-p0-div-78 #el-p0-btn-sound-toggle:not(.is-muted) {
+html[data-card-style="black-cowhide-leather"] #footer-nav-capsule #footer-next-btn {
   background: #121419 !important;
   border: 1px dashed rgba(226, 232, 240, 0.42) !important;
   color: #ffffff !important;
 }
 
-html[data-card-style="black-cowhide-leather"] #el-p0-div-78 #el-p0-btn-sound-toggle:not(.is-muted):hover {
-  background: linear-gradient(135deg, #334155 0%, #1e293b 100%) !important;
-  border-color: rgba(226, 232, 240, 0.80) !important;
-}
-
 html[data-card-style="black-cowhide-leather"] #footer-nav-capsule #footer-page-counter,
-html[data-card-style="black-cowhide-leather"] #footer-nav-capsule svg,
-html[data-card-style="black-cowhide-leather"] #el-p0-div-78 #el-p0-btn-intro-toggle,
-html[data-card-style="black-cowhide-leather"] #el-p0-div-78 svg {
+html[data-card-style="black-cowhide-leather"] #footer-nav-capsule svg {
   color: #ffffff !important;
 }
 

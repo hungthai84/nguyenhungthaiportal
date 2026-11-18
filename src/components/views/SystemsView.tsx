@@ -1419,7 +1419,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         exit={{ opacity: 0, y: 6, scale: 0.96 }}
                         transition={{ duration: 0.16 }}
                         role="listbox"
-                        className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-140px))] sm:w-72 max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                        className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                       >
                         {ecosystemSegments.map((seg) => {
                           const isActive = activeCategory === seg.id;
@@ -1509,10 +1509,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                   aria-label={isCircleVideoPlaying ? 'Đóng video giới thiệu hệ thống' : 'Xem video giới thiệu hệ thống'}
                   title={isCircleVideoPlaying ? 'Đóng video giới thiệu hệ thống' : 'Xem video giới thiệu hệ thống'}
                   className={cn(
-                    'relative shrink-0 w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full aspect-square p-0.5 flex items-center justify-center cursor-pointer transition-all duration-300 group hover:scale-105 active:scale-95 video-circle-halo',
-                    isCircleVideoPlaying
-                      ? 'bg-gradient-to-br from-rose-500 via-pink-500 to-purple-600 ring-4 ring-rose-400/60 shadow-[0_0_24px_rgba(244,63,94,0.7)]'
-                      : 'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 ring-2 ring-cyan-300/70 shadow-[0_6px_22px_rgba(14,165,233,0.55)]'
+                    'video-play-btn video-play-btn--systems relative shrink-0 w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full aspect-square p-0.5 flex items-center justify-center cursor-pointer transition-all duration-300 group active:scale-95 video-circle-halo',
+                    isCircleVideoPlaying ? 'is-playing ring-4 ring-rose-400/60' : ''
                   )}
                 >
                   <div className="relative w-full h-full rounded-full overflow-hidden bg-slate-900 border border-white/60">
@@ -1876,7 +1874,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
 
                         {/* Thân Thẻ Mở Rộng: Bento Responsive Grid Card (12 cột thống nhất) */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3.5 flex-1 min-h-0 text-left items-stretch">
-                          {/* BENTO CARD 1 (12/12): Mô tả kiến trúc (gồm Tên gọi hệ thống, Ký hiệu viết tắt, Tên viết đầy đủ & video/mô tả) */}
+                          {/* BENTO CARD 1 (12/12): Thông tin hệ thống (gồm Tên hệ thống, Tên viết tắt, Tên viết tắt tiếng Anh, video & Mô tả hệ thống) */}
                           <div
                             id={`system-detail-overview-${item.id}`}
                             data-subcard="true"
@@ -1891,13 +1889,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                 className="typo-h4 subcard-title-synced font-play m-0 break-words"
                                 data-subcard-title="true"
                               >
-                                Mô tả kiến trúc
+                                Thông tin hệ thống
                               </h4>
                             </div>
 
-                            {/* 3 Thẻ thông tin định danh hệ thống nằm gọn trong thẻ Mô tả kiến trúc */}
+                            {/* 3 Thẻ thông tin định danh hệ thống nằm gọn trong thẻ Thông tin hệ thống */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3 items-stretch min-w-0">
-                              {/* Tên gọi hệ thống (4/12) */}
+                              {/* Tên hệ thống (4/12) */}
                               <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                                 <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="sky">
                                   <WebIcon name={config.iconName} className="w-4 h-4 shrink-0" />
@@ -1905,7 +1903,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                     className="typo-h4 subcard-title-synced font-play m-0 break-words"
                                     data-subcard-title="true"
                                   >
-                                    Tên gọi hệ thống
+                                    Tên hệ thống
                                   </h4>
                                 </div>
                                 <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
@@ -1913,7 +1911,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                 </span>
                               </div>
 
-                              {/* Ký hiệu viết tắt (3/12) */}
+                              {/* Tên viết tắt (3/12) */}
                               <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                                 <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="amber">
                                   <WebIcon name="file-text" className="w-4 h-4 shrink-0" />
@@ -1921,7 +1919,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                     className="typo-h4 subcard-title-synced font-play m-0 break-words"
                                     data-subcard-title="true"
                                   >
-                                    Ký hiệu viết tắt
+                                    Tên viết tắt
                                   </h4>
                                 </div>
                                 <span
@@ -1932,7 +1930,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                 </span>
                               </div>
 
-                              {/* Tên viết đầy đủ (5/12) */}
+                              {/* Tên viết tắt tiếng Anh (5/12) */}
                               <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                                 <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="violet">
                                   <WebIcon name="globe" className="w-4 h-4 shrink-0" />
@@ -1940,11 +1938,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                     className="typo-h4 subcard-title-synced font-play m-0 break-words"
                                     data-subcard-title="true"
                                   >
-                                    Tên viết đầy đủ
+                                    Tên viết tắt tiếng Anh
                                   </h4>
                                 </div>
                                 <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
-                                  {item.fullName || item.nameEn || item.nameVi}
+                                  {item.nameEn || item.fullName?.split('—')[0]?.split('-')[0]?.trim() || item.abbr}
                                 </span>
                               </div>
                             </div>
@@ -2459,23 +2457,23 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
 
                 return (
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-[15px] items-stretch text-left">
-                    {/* BENTO CARD 1 (12/12): Mô tả kiến trúc (gồm Tên gọi hệ thống, Ký hiệu viết tắt, Tên viết đầy đủ & video hệ thống) */}
+                    {/* BENTO CARD 1 (12/12): Thông tin hệ thống (gồm Tên hệ thống, Tên viết tắt, Tên viết tắt tiếng Anh, video & Mô tả hệ thống) */}
                     <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-12 p-4 rounded-[14px] flex flex-col gap-3 min-w-0">
                       <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="indigo">
                         <WebIcon name="layers" className="w-[18px] h-[18px] shrink-0" />
                         <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
-                          Mô tả kiến trúc
+                          Thông tin hệ thống
                         </h4>
                       </div>
 
-                      {/* 3 Thẻ thông tin định danh hệ thống bên trong Mô tả kiến trúc */}
+                      {/* 3 Thẻ thông tin định danh hệ thống bên trong Thông tin hệ thống */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3 items-stretch min-w-0">
-                        {/* Tên gọi hệ thống (4/12) */}
+                        {/* Tên hệ thống (4/12) */}
                         <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-4 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                           <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="sky">
                             <WebIcon name={modalIconName} className="w-[18px] h-[18px] shrink-0" />
                             <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
-                              Tên gọi hệ thống
+                              Tên hệ thống
                             </h4>
                           </div>
                           <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">
@@ -2483,12 +2481,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           </span>
                         </div>
 
-                        {/* Ký hiệu viết tắt (3/12) */}
+                        {/* Tên viết tắt (3/12) */}
                         <div data-subcard="true" className="exp-detail-subcard sm:col-span-1 md:col-span-3 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                           <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="amber">
                             <WebIcon name="file-text" className="w-[18px] h-[18px] shrink-0" />
                             <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
-                              Ký hiệu viết tắt
+                              Tên viết tắt
                             </h4>
                           </div>
                           <span className="typo-h4 font-bold text-sky-700 dark:text-[#67E8F9] font-mono block break-words">
@@ -2496,12 +2494,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           </span>
                         </div>
 
-                        {/* Tên viết đầy đủ (5/12) */}
+                        {/* Tên viết tắt tiếng Anh (5/12) */}
                         <div data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-3.5 rounded-[14px] min-w-0 flex flex-col justify-between gap-1.5">
                           <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="violet">
                             <WebIcon name="globe" className="w-[18px] h-[18px] shrink-0" />
                             <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
-                              Tên viết đầy đủ
+                              Tên viết tắt tiếng Anh
                             </h4>
                           </div>
                           <span className="typo-body-sm font-semibold text-[var(--text-primary)] block break-words">

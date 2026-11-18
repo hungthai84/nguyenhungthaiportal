@@ -420,7 +420,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             : {}),
         }}
       >
-        <div id="ai-assistant-banner-video-wrap" className="absolute inset-0 pointer-events-none overflow-hidden rounded-[14px]">
+        <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[14px] z-0">
           <video
             id="ai-assistant-banner-video"
             src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
@@ -428,35 +428,29 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             loop
             muted
             playsInline
-            className="w-full h-full object-cover object-center opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500"
+            className="w-full h-full object-cover object-center transition-all duration-700"
           />
-          <div id="ai-assistant-banner-overlay" className="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/25 to-slate-950/55 pointer-events-none" />
         </div>
+        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
 
         <div className="relative z-10 flex flex-col items-start gap-1.5 w-full">
-          <div className="flex items-start gap-2 w-full min-w-0" style={{ color: '#c084fc' }}>
+          <div className="card-header-sync flex items-start gap-2 w-full min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
             <WebIcon
               name="bot"
-              className="w-[18px] h-[18px] shrink-0 mt-1 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#c084fc]"
-              style={{ color: '#c084fc', width: '18px', height: '18px', fontSize: '18px' }}
+              className="w-[18px] h-[18px] shrink-0 mt-1"
             />
             <h1
               id="ai-assistant-banner-h1"
-              className="typo-h3 font-play not-italic tracking-tight leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#c084fc] whitespace-normal min-w-0"
-              style={{
-                color: '#c084fc',
-                textTransform: 'none',
-                fontStyle: 'normal',
-                transform: 'none',
-              }}
+              className="typo-h3 card-title-synced font-play not-italic tracking-tight leading-tight whitespace-normal min-w-0"
+              data-card-title="true"
             >
               AI Hỗ Trợ • Trí Nhân
             </h1>
           </div>
           <p
             id="ai-assistant-banner-quote"
-            className="typo-h3 font-handwriting font-italianno not-italic font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left w-full whitespace-normal leading-snug"
-            style={{ color: '#c084fc', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 400, fontStyle: 'normal' }}
+            className="typo-h3 font-handwriting font-italianno not-italic font-normal select-none text-left w-full whitespace-normal leading-snug"
+            style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 400, fontStyle: 'normal' }}
           >
             &quot;Trí Nhân đồng hành giải đáp thông tin anh Hùng Thái 24/7 ♡&quot;
           </p>
@@ -670,8 +664,8 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             onKeyDown={handleTextareaKeyDown}
             placeholder={
               isEn
-                ? 'Ask Tri Nhan about Mr. Nguyen Hung Thai or click Categories...'
-                : 'Hỏi Trí Nhân về anh Nguyễn Hùng Thái hoặc bấm Danh mục...'
+                ? 'Enter question with Tri Nhan...'
+                : 'Nhập câu hỏi với Trí Nhân...'
             }
             style={{
               minHeight: `${chatControlHeight}px`,

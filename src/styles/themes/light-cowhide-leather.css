@@ -300,8 +300,7 @@ html[data-card-style="light-cowhide-leather"] #app-footer {
   box-shadow: var(--surface-footer-shadow) !important;
 }
 
-html[data-card-style="light-cowhide-leather"] #footer-nav-capsule,
-html[data-card-style="light-cowhide-leather"] #el-p0-div-78 {
+html[data-card-style="light-cowhide-leather"] #footer-nav-capsule {
   background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
   border: 2px solid #d1d5db !important;
   color: #111827 !important;
@@ -315,8 +314,7 @@ html[data-card-style="light-cowhide-leather"] #el-p0-div-78 {
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="light-cowhide-leather"] #footer-nav-capsule:hover,
-html[data-card-style="light-cowhide-leather"] #el-p0-div-78:hover {
+html[data-card-style="light-cowhide-leather"] #footer-nav-capsule:hover {
   background: linear-gradient(145deg, #ffffff 0%, #f3f6f8 100%) !important;
   border-color: #111827 !important;
   outline-color: rgba(17, 24, 39, 0.85) !important;
@@ -329,9 +327,7 @@ html[data-card-style="light-cowhide-leather"] #el-p0-div-78:hover {
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-page-counter,
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule span:not(#footer-prev-btn):not(#footer-next-btn) svg,
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-prev-btn:not(:hover) svg,
-html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-next-btn:not(:hover) svg,
-html[data-card-style="light-cowhide-leather"] #el-p0-div-78 #el-p0-btn-intro-toggle,
-html[data-card-style="light-cowhide-leather"] #el-p0-div-78 #el-p0-btn-intro-toggle svg {
+html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-next-btn:not(:hover) svg {
   color: #111827 !important;
 }
 
@@ -339,18 +335,6 @@ html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-prev-b
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-next-btn:hover,
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-prev-btn:hover svg,
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-next-btn:hover svg {
-  color: #ffffff !important;
-}
-
-html[data-card-style="light-cowhide-leather"] #el-p0-div-78 #el-p0-btn-sound-toggle:not(.is-muted) {
-  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
-  border: 1.5px dashed rgba(17, 24, 39, 0.65) !important;
-  color: #111827 !important;
-}
-
-html[data-card-style="light-cowhide-leather"] #el-p0-div-78 #el-p0-btn-sound-toggle:not(.is-muted):hover {
-  background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
-  border-color: #ffffff !important;
   color: #ffffff !important;
 }
 

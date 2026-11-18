@@ -61,6 +61,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const getThemeDemoVideo = (presetId: string) => {
     switch (presetId) {
       case 'light-multicolor-glass':
+      case 'light-multicolor-glass-color':
         return 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4';
       case 'light-multicolor-glass-dark':
         return 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4';
@@ -313,6 +314,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   const displayShortBadge = t(preset.shortBadge);
                   const sampleProps = getCardStyleProperties(preset.id).cardSampleStyle;
                   const isLightMulticolorGlass = preset.id === 'light-multicolor-glass';
+                  const isLightMulticolorGlassColor = preset.id === 'light-multicolor-glass-color';
                   const isLightMulticolorGlassDark = preset.id === 'light-multicolor-glass-dark';
                   const isLightLeather = preset.id === 'light-cowhide-leather';
                   const isBlackLeather = preset.id === 'black-cowhide-leather';
@@ -363,43 +365,49 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         ...(isActive
                           ? {
                               boxShadow: isLightMulticolorGlass
-                                ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #DD4E9E`
-                                : isLightMulticolorGlassDark
-                                  ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #A78BFA`
-                                  : isLightLeather
-                                    ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #111827`
-                                    : isBlackLeather
-                                      ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #E2E8F0`
-                                      : isLeather
-                                        ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #F5DEB3`
-                                        : `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px var(--color-indigo)`,
+                                ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #0F172A`
+                                : isLightMulticolorGlassColor
+                                  ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #DD4E9E`
+                                  : isLightMulticolorGlassDark
+                                    ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #A78BFA`
+                                    : isLightLeather
+                                      ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #111827`
+                                      : isBlackLeather
+                                        ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #E2E8F0`
+                                        : isLeather
+                                          ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #F5DEB3`
+                                          : `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px var(--color-indigo)`,
                             }
                           : {}),
                       }}
                       className={`relative flex flex-col justify-between p-[15px] cursor-pointer transition-all duration-300 border ${preset.cardClassName} ${
                         isLightMulticolorGlass
                           ? isActive
-                            ? 'border-pink-500'
-                            : 'border-white/95 hover:border-pink-300'
-                          : isLightMulticolorGlassDark
+                            ? 'border-slate-900'
+                            : 'border-white/95 hover:border-slate-400'
+                          : isLightMulticolorGlassColor
                             ? isActive
-                              ? 'border-violet-400'
-                              : 'border-violet-400/30 hover:border-pink-400/60'
-                            : isLightLeather
+                              ? 'border-pink-500'
+                              : 'border-white/95 hover:border-pink-300'
+                            : isLightMulticolorGlassDark
                               ? isActive
-                                ? 'border-[#111827]'
-                                : 'border-[#d1d5db] hover:border-[#9ca3af]'
-                              : isBlackLeather
+                                ? 'border-violet-400'
+                                : 'border-violet-400/30 hover:border-pink-400/60'
+                              : isLightLeather
                                 ? isActive
-                                  ? 'border-[#E2E8F0]'
-                                  : 'border-[#090a0d] hover:border-[#94A3B8]'
-                                : isLeather
+                                  ? 'border-[#111827]'
+                                  : 'border-[#d1d5db] hover:border-[#9ca3af]'
+                                : isBlackLeather
                                   ? isActive
-                                    ? 'border-[#F5DEB3]'
-                                    : 'border-[#522E10] hover:border-[#D4A373]'
-                                  : isActive
-                                    ? 'border-indigo-600 shadow-xl'
-                                    : 'border-white/80 hover:border-indigo-400'
+                                    ? 'border-[#E2E8F0]'
+                                    : 'border-[#090a0d] hover:border-[#94A3B8]'
+                                  : isLeather
+                                    ? isActive
+                                      ? 'border-[#F5DEB3]'
+                                      : 'border-[#522E10] hover:border-[#D4A373]'
+                                    : isActive
+                                      ? 'border-indigo-600 shadow-xl'
+                                      : 'border-white/80 hover:border-indigo-400'
                       }`}
                     >
                       <div className="flex flex-col gap-3">
@@ -407,15 +415,17 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           <span
                             className={`typo-badge font-bold font-mono px-2.5 py-0.5 rounded-full border ${
                               isActive
-                                ? isLightMulticolorGlass || isLightMulticolorGlassDark
-                                  ? 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white border-white/85'
-                                  : isLightLeather
-                                    ? 'bg-[#0F172A] text-white border-slate-900'
-                                    : isBlackLeather
-                                      ? 'bg-gradient-to-r from-[#334155] to-[#0f172a] text-white border-[#E2E8F0]/60'
-                                      : isLeather
-                                        ? 'bg-gradient-to-r from-[#D97706] to-[#92400E] text-[#FFF8DC] border-[#F5DEB3]/80'
-                                        : 'bg-indigo-600 text-white border-indigo-700'
+                                ? isLightMulticolorGlass
+                                  ? 'bg-[#0F172A] text-white border-white/85'
+                                  : isLightMulticolorGlassColor || isLightMulticolorGlassDark
+                                    ? 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white border-white/85'
+                                    : isLightLeather
+                                      ? 'bg-[#0F172A] text-white border-slate-900'
+                                      : isBlackLeather
+                                        ? 'bg-gradient-to-r from-[#334155] to-[#0f172a] text-white border-[#E2E8F0]/60'
+                                        : isLeather
+                                          ? 'bg-gradient-to-r from-[#D97706] to-[#92400E] text-[#FFF8DC] border-[#F5DEB3]/80'
+                                          : 'bg-indigo-600 text-white border-indigo-700'
                                 : preset.badgeColorClass
                             }`}
                           >
@@ -426,15 +436,17 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                               name={preset.icon}
                               className="w-5 h-5 shrink-0"
                               style={{
-                                color: isLightMulticolorGlass || isLightMulticolorGlassDark
-                                  ? '#DD4E9E'
-                                  : isLightLeather
-                                    ? '#111827'
-                                    : isBlackLeather
-                                      ? '#E2E8F0'
-                                      : isLeather
-                                        ? '#D97706'
-                                        : preset.color || 'var(--color-primary)',
+                                color: isLightMulticolorGlass
+                                  ? '#0F172A'
+                                  : isLightMulticolorGlassColor || isLightMulticolorGlassDark
+                                    ? '#DD4E9E'
+                                    : isLightLeather
+                                      ? '#111827'
+                                      : isBlackLeather
+                                        ? '#E2E8F0'
+                                        : isLeather
+                                          ? '#D97706'
+                                          : preset.color || 'var(--color-primary)',
                               }}
                             />
                           </div>
@@ -462,42 +474,46 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
 
                             const trackToneClass = isLightMulticolorGlass
                               ? isToggleDark
-                                ? 'bg-indigo-950/90 border-violet-300/60'
-                                : 'bg-sky-100/95 border-pink-300/80'
-                              : isLightMulticolorGlassDark
+                                ? 'bg-slate-900/95 border-slate-400/60'
+                                : 'bg-slate-200/95 border-slate-400/75'
+                              : isLightMulticolorGlassColor
                                 ? isToggleDark
-                                  ? 'bg-slate-900/95 border-violet-400/55'
-                                  : 'bg-sky-100/90 border-sky-300/80'
-                                : isLightLeather
+                                  ? 'bg-indigo-950/90 border-violet-300/60'
+                                  : 'bg-sky-100/95 border-pink-300/80'
+                                : isLightMulticolorGlassDark
                                   ? isToggleDark
-                                    ? 'bg-[#111827] border-[#334155]'
-                                    : 'bg-slate-200/95 border-slate-400/70'
-                                  : isBlackLeather
+                                    ? 'bg-slate-900/95 border-violet-400/55'
+                                    : 'bg-sky-100/90 border-sky-300/80'
+                                  : isLightLeather
                                     ? isToggleDark
-                                      ? 'bg-[#090a0d] border-[#E2E8F0]/45'
-                                      : 'bg-slate-200 border-slate-400'
-                                    : isLeather
+                                      ? 'bg-[#111827] border-[#334155]'
+                                      : 'bg-slate-200/95 border-slate-400/70'
+                                    : isBlackLeather
                                       ? isToggleDark
-                                        ? 'bg-[#3D210B] border-[#F5DEB3]/55'
-                                        : 'bg-[#FEF3C7] border-[#D97706]/60'
-                                      : isToggleDark
-                                        ? 'bg-slate-800 border-indigo-400/50'
-                                        : 'bg-sky-100 border-indigo-300';
+                                        ? 'bg-[#090a0d] border-[#E2E8F0]/45'
+                                        : 'bg-slate-200 border-slate-400'
+                                      : isLeather
+                                        ? isToggleDark
+                                          ? 'bg-[#3D210B] border-[#F5DEB3]/55'
+                                          : 'bg-[#FEF3C7] border-[#D97706]/60'
+                                        : isToggleDark
+                                          ? 'bg-slate-800 border-indigo-400/50'
+                                          : 'bg-sky-100 border-indigo-300';
 
                             const thumbToneClass = isToggleDark
                               ? isLeather
                                 ? 'bg-gradient-to-br from-[#FDE68A] to-[#D97706] text-[#3D210B]'
-                                : isBlackLeather || isLightLeather
+                                : isBlackLeather || isLightLeather || isLightMulticolorGlass
                                   ? 'bg-slate-100 text-slate-900'
                                   : 'bg-gradient-to-br from-indigo-500 to-violet-600 text-white'
                               : isLeather
                                 ? 'bg-gradient-to-br from-[#D97706] to-[#92400E] text-white'
-                                : isLightLeather || isBlackLeather
+                                : isLightLeather || isBlackLeather || isLightMulticolorGlass
                                   ? 'bg-[#0F172A] text-white'
                                   : 'bg-gradient-to-br from-amber-400 to-orange-500 text-white';
 
                             const toggleTextClass =
-                              isLightMulticolorGlass || isLightLeather
+                              isLightMulticolorGlass || isLightMulticolorGlassColor || isLightLeather
                                 ? 'text-[#000000]'
                                 : isLightMulticolorGlassDark || isBlackLeather
                                   ? 'text-[#FFFFFF]'
@@ -509,7 +525,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                               <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap sm:flex-nowrap">
                                 <h3
                                   className={`typo-h3 card-title-synced leading-snug min-w-0 ${
-                                    isLightMulticolorGlass || isLightLeather
+                                    isLightMulticolorGlass || isLightMulticolorGlassColor || isLightLeather
                                       ? 'text-[#000000]'
                                       : isLightMulticolorGlassDark || isBlackLeather
                                         ? 'text-[#FFFFFF]'
@@ -585,7 +601,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           })()}
                           <p
                             className={`typo-body-sm leading-relaxed font-medium ${
-                              isLightMulticolorGlass || isLightLeather
+                              isLightMulticolorGlass || isLightMulticolorGlassColor || isLightLeather
                                 ? 'text-[#000000]'
                                 : isLightMulticolorGlassDark || isBlackLeather
                                   ? 'text-[#FFFFFF]'
@@ -603,7 +619,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       <div
                         style={preset.miniPreviewWrapStyle}
                         className={`my-3 p-2.5 flex flex-col gap-2 transition-all shadow-2xs rounded-[14px] border ${
-                          isLightMulticolorGlass
+                          isLightMulticolorGlass || isLightMulticolorGlassColor
                             ? 'border-white/95'
                             : isLightMulticolorGlassDark
                               ? 'border-violet-400/28'
@@ -618,7 +634,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       >
                         <div
                           className={`flex items-center justify-between typo-label font-bold ${
-                            isLightMulticolorGlass || isLightLeather
+                            isLightMulticolorGlass || isLightMulticolorGlassColor || isLightLeather
                               ? 'text-[#000000]'
                               : isLightMulticolorGlassDark || isBlackLeather
                                 ? 'text-[#FFFFFF]'
@@ -631,16 +647,18 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           <span
                             className={`font-mono typo-label ${
                               isLightMulticolorGlass
-                                ? 'text-[#db2777]'
-                                : isLightMulticolorGlassDark
-                                  ? 'text-[#A78BFA]'
-                                  : isLightLeather
-                                    ? 'text-[#0F172A]'
-                                    : isBlackLeather
-                                      ? 'text-[#E2E8F0]'
-                                      : isLeather
-                                        ? 'text-[#F5DEB3]'
-                                        : 'text-[#475569]'
+                                ? 'text-[#0F172A]'
+                                : isLightMulticolorGlassColor
+                                  ? 'text-[#db2777]'
+                                  : isLightMulticolorGlassDark
+                                    ? 'text-[#A78BFA]'
+                                    : isLightLeather
+                                      ? 'text-[#0F172A]'
+                                      : isBlackLeather
+                                        ? 'text-[#E2E8F0]'
+                                        : isLeather
+                                          ? 'text-[#F5DEB3]'
+                                          : 'text-[#475569]'
                             }`}
                           >
                             {displayShortBadge}
@@ -666,7 +684,16 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                             {displayShortBadge}
                           </div>
                         </div>
-                        {(isLightMulticolorGlass || isLightMulticolorGlassDark) && (
+                        {isLightMulticolorGlass && (
+                          <div className="grid grid-cols-5 gap-1.5 py-0.5">
+                            <div className="h-2 rounded-full bg-gradient-to-r from-slate-200 to-slate-300" />
+                            <div className="h-2 rounded-full bg-gradient-to-r from-slate-300 to-slate-400" />
+                            <div className="h-2 rounded-full bg-gradient-to-r from-slate-400 to-slate-600" />
+                            <div className="h-2 rounded-full bg-gradient-to-r from-slate-600 to-slate-800" />
+                            <div className="h-2 rounded-full bg-gradient-to-r from-slate-800 to-slate-950" />
+                          </div>
+                        )}
+                        {(isLightMulticolorGlassColor || isLightMulticolorGlassDark) && (
                           <div className="grid grid-cols-5 gap-1.5 py-0.5">
                             <div className="h-2 rounded-full bg-gradient-to-r from-[#00E5FF] to-[#2979FF]" />
                             <div className="h-2 rounded-full bg-gradient-to-r from-[#9D4EDD] to-[#DD4E9E]" />
@@ -688,7 +715,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           <span
                             style={preset.miniTabStyle}
                             className={`px-2 py-1 typo-label font-bold flex-1 text-center truncate shadow-2xs rounded-[14px] border ${
-                              isLightMulticolorGlass || isLightLeather
+                              isLightMulticolorGlass || isLightMulticolorGlassColor || isLightLeather
                                 ? 'text-[#000000]'
                                 : isLightMulticolorGlassDark || isBlackLeather
                                   ? 'text-[#FFFFFF] border-white/20'
@@ -710,7 +737,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
 
                       <div
                         className={`mt-auto pt-2 flex items-center justify-between border-t ${
-                          isLightMulticolorGlass
+                          isLightMulticolorGlass || isLightMulticolorGlassColor
                             ? 'border-white/75'
                             : isLightMulticolorGlassDark
                               ? 'border-violet-400/25'
@@ -730,7 +757,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                             handleSelectTheme(preset.id, displayPresetName);
                           }}
                           className={`typo-button font-bold px-3 py-1.5 transition-all rounded-[14px] border flex items-center gap-1 cursor-pointer ${
-                            isLightMulticolorGlass
+                            isLightMulticolorGlass || isLightMulticolorGlassColor
                               ? 'bg-white/90 text-[#000000] border-white hover:bg-white shadow-2xs'
                               : isLightMulticolorGlassDark
                                 ? 'bg-indigo-950/90 text-[#FFFFFF] border-violet-400/35 hover:bg-indigo-900'
@@ -750,16 +777,18 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         <span
                           className={`typo-button font-bold px-3.5 py-1.5 transition-all rounded-full ${
                             isActive
-                              ? isLightMulticolorGlass || isLightMulticolorGlassDark
-                                ? 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white shadow-xs border border-white/85'
-                                : isLightLeather
-                                  ? 'bg-[#0F172A] text-white shadow-xs border border-slate-900'
-                                  : isBlackLeather
-                                    ? 'bg-gradient-to-r from-[#334155] to-[#0f172a] text-white shadow-xs border border-[#E2E8F0]/55'
-                                    : isLeather
-                                      ? 'bg-gradient-to-r from-[#D97706] to-[#92400E] text-[#FFF8DC] shadow-xs border border-[#F5DEB3]/60'
-                                      : 'bg-indigo-600 text-white shadow-xs'
-                              : isLightMulticolorGlass
+                              ? isLightMulticolorGlass
+                                ? 'bg-[#0F172A] text-white shadow-xs border border-white/85'
+                                : isLightMulticolorGlassColor || isLightMulticolorGlassDark
+                                  ? 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white shadow-xs border border-white/85'
+                                  : isLightLeather
+                                    ? 'bg-[#0F172A] text-white shadow-xs border border-slate-900'
+                                    : isBlackLeather
+                                      ? 'bg-gradient-to-r from-[#334155] to-[#0f172a] text-white shadow-xs border border-[#E2E8F0]/55'
+                                      : isLeather
+                                        ? 'bg-gradient-to-r from-[#D97706] to-[#92400E] text-[#FFF8DC] shadow-xs border border-[#F5DEB3]/60'
+                                        : 'bg-indigo-600 text-white shadow-xs'
+                              : isLightMulticolorGlass || isLightMulticolorGlassColor
                                 ? 'bg-white/90 text-[#000000] hover:bg-white border border-white'
                                 : isLightMulticolorGlassDark
                                   ? 'bg-indigo-950/90 text-[#FFFFFF] hover:bg-indigo-900 border border-violet-400/30'
@@ -777,15 +806,17 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         {isActive && (
                           <div
                             className={`w-6 h-6 rounded-full text-white flex items-center justify-center typo-label font-bold shadow-xs ${
-                              isLightMulticolorGlass || isLightMulticolorGlassDark
-                                ? 'bg-pink-600'
-                                : isLightLeather
-                                  ? 'bg-[#0F172A] text-white'
-                                  : isBlackLeather
-                                    ? 'bg-[#334155] text-white border border-[#E2E8F0]/60'
-                                    : isLeather
-                                      ? 'bg-[#D97706] text-[#FFF8DC]'
-                                      : 'bg-indigo-600'
+                              isLightMulticolorGlass
+                                ? 'bg-[#0F172A]'
+                                : isLightMulticolorGlassColor || isLightMulticolorGlassDark
+                                  ? 'bg-pink-600'
+                                  : isLightLeather
+                                    ? 'bg-[#0F172A] text-white'
+                                    : isBlackLeather
+                                      ? 'bg-[#334155] text-white border border-[#E2E8F0]/60'
+                                      : isLeather
+                                        ? 'bg-[#D97706] text-[#FFF8DC]'
+                                        : 'bg-indigo-600'
                             }`}
                           >
                             ✓

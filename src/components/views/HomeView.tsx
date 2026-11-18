@@ -596,7 +596,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       title={isIntroMode ? 'Dừng phát video giới thiệu' : 'Phát video giới thiệu chuyên gia'}
                       aria-label={isIntroMode ? 'Dừng phát video giới thiệu' : 'Phát video giới thiệu chuyên gia'}
                       style={{ borderRadius: '999px' }}
-                      className={`theme-capsule-btn relative z-10 inline-flex items-center gap-2 px-2.5 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-200 cursor-pointer pointer-events-auto shrink-0 hover:-translate-y-[1.5px] active:scale-[0.98] select-none font-play ${
+                      className={`theme-capsule-btn video-play-btn video-play-btn--home relative z-10 inline-flex items-center gap-2 px-2.5 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-200 cursor-pointer pointer-events-auto shrink-0 active:scale-[0.98] select-none font-play ${
                         isIntroMode ? 'is-playing' : ''
                       }`}
                     >
@@ -616,10 +616,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
                             handleToggleMute();
                           }
                         }}
-                        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
-                          !isMuted
-                            ? 'bg-black/10 dark:bg-white/15 hover:bg-black/20 dark:hover:bg-white/25 text-current shadow-xs'
-                            : 'is-muted bg-red-600 hover:bg-red-500 text-white shadow-md'
+                        className={`video-play-btn__sound w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
+                          !isMuted ? 'text-current shadow-xs' : 'is-muted text-white shadow-md'
                         }`}
                         title={!isMuted ? 'Tắt tiếng video' : 'Bật âm thanh video'}
                         aria-label={!isMuted ? 'Tắt tiếng video' : 'Bật âm thanh video'}

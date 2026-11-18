@@ -230,7 +230,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           }
           #pdf-page-container .print-card-bg,
           #pdf-page-container [data-section-card="true"].print-card-bg,
-          #pdf-page-container [data-subcard="true"].print-card-bg {
+          #pdf-page-container [data-subcard="true"].print-card-bg,
+          #pdf-page-container .nested-card.print-card-bg {
             background: #f8fafc !important;
             background-color: #f8fafc !important;
             border: 1px solid #cbd5e1 !important;
@@ -267,37 +268,53 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       {/* THANH ĐIỀU KHIỂN XUẤT TẢI PDF (NO-PRINT) */}
       <header
         data-section-card="true"
-        className="pdf-toolbar bento-card glass-card no-print w-full max-w-[1250px] mx-auto mb-4 p-3.5 sm:p-4 rounded-[14px] flex flex-col gap-3 shrink-0"
+        className="pdf-toolbar bento-card glass-card no-print w-full max-w-[1250px] mx-auto mb-4 p-4 sm:p-5 rounded-[14px] flex flex-col gap-3 shrink-0"
       >
-        <div className="flex items-center justify-end gap-2 shrink-0 flex-wrap w-full">
-              <button
-                type="button"
-                onClick={() => handlePrintOrExport('download')}
-                disabled={isExporting}
-                style={{ background: 'var(--bg-button-primary)', color: '#FFFFFF' }}
-                className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 active:scale-95 cursor-pointer disabled:opacity-60"
-                title="Tải tệp CV Portfolio dưới dạng PDF"
-              >
-                <WebIcon name="download" size={16} className="text-white animate-bounce" />
-                <span>Tải PDF</span>
-              </button>
+        <div className="flex items-center justify-between gap-3 flex-wrap w-full">
+          <div className="card-header-sync flex items-center gap-2.5 min-w-0 text-blue-600 dark:text-sky-400">
+            <span className="w-9 h-9 rounded-[10px] bg-blue-500/15 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+              <WebIcon name="file-text" size={18} className="text-blue-600 dark:text-sky-400 shrink-0" />
+            </span>
+            <div className="min-w-0">
+              <h1 className="typo-h3 card-title-synced font-bold font-play text-blue-600 dark:text-sky-400 leading-tight truncate" data-card-title="true">
+                Hồ sơ năng lực &amp; CV Portfolio
+              </h1>
+              <p className="typo-caption text-[var(--text-muted)] font-medium leading-snug truncate">
+                Nguyễn Hùng Thái · Bản in PDF chuẩn A4
+              </p>
+            </div>
+          </div>
 
-              <button
-                type="button"
-                onClick={() => {
-                  SoundEngine.playTap();
-                  if (onNavigateTab) {
-                    onNavigateTab(0);
-                  } else {
-                    window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 0, slide: 0 } }));
-                  }
-                }}
-                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
-                title="Trở về Trang chủ"
-              >
-                <WebIcon name="arrow-left" size={15} />
-                <span>Trở về</span>
-              </button>
+          <div className="flex items-center justify-end gap-2 shrink-0 flex-wrap">
+            <button
+              type="button"
+              onClick={() => handlePrintOrExport('download')}
+              disabled={isExporting}
+              style={{ background: 'var(--bg-button-primary)', color: '#FFFFFF' }}
+              className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 active:scale-95 cursor-pointer disabled:opacity-60"
+              title="Tải tệp CV Portfolio dưới dạng PDF"
+            >
+              <WebIcon name="download" size={16} className="text-white animate-bounce" />
+              <span>Tải PDF</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                if (onNavigateTab) {
+                  onNavigateTab(0);
+                } else {
+                  window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 0, slide: 0 } }));
+                }
+              }}
+              className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
+              title="Trở về Trang chủ"
+            >
+              <WebIcon name="arrow-left" size={15} />
+              <span>Trở về</span>
+            </button>
+          </div>
         </div>
 
         {/* Mục lục điều hướng nhanh 9 phần (ẩn khi in) */}
@@ -337,25 +354,26 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       </header>
 
       {/* PHẦN 01 – TỔNG QUAN NĂNG LỰC */}
-      <section id="cv-section-01-home" className="w-full flex flex-col gap-5 break-inside-avoid">
-        <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
-          <div className="card-header-sync flex items-center gap-2.5 text-blue-600 dark:text-sky-400">
-            <span className="px-2.5 py-0.5 rounded-[8px] bg-blue-500/15 text-blue-700 dark:text-blue-300 typo-badge font-bold font-mono tracking-wide">
-              01/09
-            </span>
-            <WebIcon name="home" size={22} className="text-blue-600 dark:text-sky-400 shrink-0" />
-            <h2 className="typo-h2 card-title-synced font-bold font-play text-blue-600 dark:text-sky-400" data-card-title="true">
-              Tổng quan năng lực
-            </h2>
-          </div>
-        </div>
-
+      <section id="cv-section-01-home" className="w-full flex flex-col break-inside-avoid">
         <div
           data-section-card="true"
-          className="bento-card glass-card grid grid-cols-1 lg:grid-cols-12 gap-5 items-center p-5 rounded-[14px] print-card-bg"
+          className="bento-card glass-card flex flex-col gap-5 p-5 rounded-[14px] print-card-bg"
         >
-          <div className="lg:col-span-4 flex flex-col items-center justify-center text-center">
-            <div className="relative w-44 h-44 sm:w-48 sm:h-48 rounded-[14px] overflow-hidden ring-4 ring-[var(--border-subcard)] shadow-xl">
+          <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
+            <div className="card-header-sync flex items-center gap-2.5 text-blue-600 dark:text-sky-400">
+              <span className="px-2.5 py-0.5 rounded-[8px] bg-blue-500/15 text-blue-700 dark:text-blue-300 typo-badge font-bold font-mono tracking-wide">
+                01/09
+              </span>
+              <WebIcon name="home" size={22} className="text-blue-600 dark:text-sky-400 shrink-0" />
+              <h2 className="typo-h2 card-title-synced font-bold font-play text-blue-600 dark:text-sky-400" data-card-title="true">
+                Tổng quan năng lực
+              </h2>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
+            <div className="lg:col-span-4 flex flex-col items-center justify-center text-center">
+              <div className="relative w-44 h-44 sm:w-48 sm:h-48 rounded-[14px] overflow-hidden ring-4 ring-[var(--border-subcard)] shadow-xl">
               <img
                 src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
                 alt="Nguyễn Hùng Thái - Chuyên Gia Vận Hành CSKH"
@@ -438,26 +456,26 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             </div>
           </div>
         </div>
+        </div>
       </section>
 
       {/* PHẦN 02 – THƯ NGỎ */}
-      <section id="cv-section-02-letter" className="w-full flex flex-col gap-4">
-        <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
-          <div className="card-header-sync flex items-center gap-2.5 text-cyan-600 dark:text-cyan-400">
-            <span className="px-2.5 py-0.5 rounded-[8px] bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 typo-badge font-bold font-mono tracking-wide">
-              02/09
-            </span>
-            <WebIcon name="mail" size={22} className="text-cyan-600 dark:text-cyan-400 shrink-0" />
-            <h2 className="typo-h2 card-title-synced font-bold font-play text-cyan-600 dark:text-cyan-400" data-card-title="true">
-              Thư ngỏ
-            </h2>
-          </div>
-        </div>
-
+      <section id="cv-section-02-letter" className="w-full flex flex-col">
         <div
           data-section-card="true"
           className="bento-card glass-card p-5 rounded-[14px] flex flex-col gap-4 print-card-bg min-w-0"
         >
+          <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
+            <div className="card-header-sync flex items-center gap-2.5 text-cyan-600 dark:text-cyan-400">
+              <span className="px-2.5 py-0.5 rounded-[8px] bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 typo-badge font-bold font-mono tracking-wide">
+                02/09
+              </span>
+              <WebIcon name="mail" size={22} className="text-cyan-600 dark:text-cyan-400 shrink-0" />
+              <h2 className="typo-h2 card-title-synced font-bold font-play text-cyan-600 dark:text-cyan-400" data-card-title="true">
+                Thư ngỏ
+              </h2>
+            </div>
+          </div>
           <div className="flex flex-col gap-2 break-inside-avoid">
             <h3 className="typo-h3 card-header-sync card-title-synced font-bold text-cyan-600 dark:text-cyan-400 flex items-center gap-2" data-card-title="true">
               <WebIcon name="mail" size={18} className="text-cyan-600 dark:text-cyan-400 shrink-0" />
@@ -548,467 +566,228 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       </section>
 
       {/* PHẦN 03 – GIỚI THIỆU BẢN THÂN */}
-      <section id="cv-section-03-about" className="w-full flex flex-col gap-4 break-inside-avoid">
-        <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
-          <div className="card-header-sync flex items-center gap-2.5 text-emerald-600 dark:text-emerald-400">
-            <span className="px-2.5 py-0.5 rounded-[8px] bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 typo-badge font-bold font-mono tracking-wide">
-              03/09
-            </span>
-            <WebIcon name="user-round" size={22} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-            <h2 className="typo-h2 card-title-synced font-bold font-play text-emerald-600 dark:text-emerald-400" data-card-title="true">
-              Giới thiệu bản thân
-            </h2>
+      <section id="cv-section-03-about" className="w-full flex flex-col break-inside-avoid">
+        <div
+          data-section-card="true"
+          className="bento-card glass-card p-5 rounded-[14px] flex flex-col gap-4 print-card-bg min-w-0"
+        >
+          <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
+            <div className="card-header-sync flex items-center gap-2.5 text-emerald-600 dark:text-emerald-400">
+              <span className="px-2.5 py-0.5 rounded-[8px] bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 typo-badge font-bold font-mono tracking-wide">
+                03/09
+              </span>
+              <WebIcon name="user-round" size={22} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <h2 className="typo-h2 card-title-synced font-bold font-play text-emerald-600 dark:text-emerald-400" data-card-title="true">
+                Giới thiệu bản thân
+              </h2>
+            </div>
           </div>
-        </div>
 
-        {/* Thông tin cá nhân đầy đủ (có icon trước tiêu đề mỗi sub-card) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-          {PERSONAL_DEMOGRAPHICS.map((item) => {
-            const iconColor = DEMO_ICON_COLORS[item.id] || '#059669';
-            const iconName = getDemoIconName(item.iconName);
-            const isExternalLink = item.type === 'link' || item.type === 'email';
+          {/* Thông tin cá nhân đầy đủ (có icon trước tiêu đề mỗi sub-card) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            {PERSONAL_DEMOGRAPHICS.map((item) => {
+              const iconColor = DEMO_ICON_COLORS[item.id] || '#059669';
+              const iconName = getDemoIconName(item.iconName);
+              const isExternalLink = item.type === 'link' || item.type === 'email';
 
-            return (
-              <div
-                key={item.id}
-                data-section-card="true"
-                className="bento-card glass-card p-3 rounded-[14px] flex flex-col justify-between gap-1.5 print-card-bg min-w-0 break-inside-avoid"
-              >
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <WebIcon name={iconName} size={14} className="shrink-0" style={{ color: iconColor }} />
-                  <span className="typo-label font-bold leading-tight truncate" style={{ color: iconColor }}>
-                    {item.labelVi}
-                  </span>
-                </div>
-                <div className="min-w-0">
-                  {isExternalLink && item.href ? (
-                    <a
-                      href={item.href}
-                      target={item.type === 'link' ? '_blank' : undefined}
-                      rel={item.type === 'link' ? 'noopener noreferrer' : undefined}
-                      className="typo-body-sm font-semibold text-[var(--text-primary)] hover:text-blue-600 dark:hover:text-cyan-400 transition-colors break-all block leading-snug"
-                    >
-                      {item.valueVi}
-                    </a>
-                  ) : (
-                    <span className="typo-body-sm font-semibold text-[var(--text-primary)] break-words block leading-snug">
-                      {item.valueVi}
+              return (
+                <div
+                  key={item.id}
+                  data-subcard="true"
+                  className="sub-card p-3 rounded-[14px] flex flex-col justify-between gap-1.5 print-card-bg min-w-0 break-inside-avoid"
+                >
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <WebIcon name={iconName} size={14} className="shrink-0" style={{ color: iconColor }} />
+                    <span className="typo-label font-bold leading-tight truncate" style={{ color: iconColor }}>
+                      {item.labelVi}
                     </span>
-                  )}
-                  {item.subtitleVi && (
-                    <span className="typo-label text-[var(--text-muted)] block mt-0.5 leading-snug break-words">
-                      {item.subtitleVi}
-                    </span>
-                  )}
+                  </div>
+                  <div className="min-w-0">
+                    {isExternalLink && item.href ? (
+                      <a
+                        href={item.href}
+                        target={item.type === 'link' ? '_blank' : undefined}
+                        rel={item.type === 'link' ? 'noopener noreferrer' : undefined}
+                        className="typo-body-sm font-semibold text-[var(--text-primary)] hover:text-blue-600 dark:hover:text-cyan-400 transition-colors break-all block leading-snug"
+                      >
+                        {item.valueVi}
+                      </a>
+                    ) : (
+                      <span className="typo-body-sm font-semibold text-[var(--text-primary)] break-words block leading-snug">
+                        {item.valueVi}
+                      </span>
+                    )}
+                    {item.subtitleVi && (
+                      <span className="typo-label text-[var(--text-muted)] block mt-0.5 leading-snug break-words">
+                        {item.subtitleVi}
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
       {/* PHẦN 04 – HỌC VẤN & BẰNG CẤP */}
       {/* ========================================================================= */}
-      <section id="cv-section-04-education" className="w-full flex flex-col gap-4 break-inside-avoid">
-        <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
-          <div className="card-header-sync flex items-center gap-2.5 text-purple-600 dark:text-purple-400">
-            <span className="px-2.5 py-0.5 rounded-[8px] bg-purple-500/15 text-purple-700 dark:text-purple-300 typo-badge font-bold font-mono tracking-wide">
-              04/09
-            </span>
-            <WebIcon name="graduation" size={22} className="text-purple-600 dark:text-purple-400 shrink-0" />
-            <h2 className="typo-h2 card-title-synced font-bold font-play text-purple-600 dark:text-purple-400" data-card-title="true">
-              Học vấn bằng cấp
-            </h2>
+      <section id="cv-section-04-education" className="w-full flex flex-col break-inside-avoid">
+        <div
+          data-section-card="true"
+          className="bento-card glass-card p-5 rounded-[14px] flex flex-col gap-4 print-card-bg min-w-0"
+        >
+          <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
+            <div className="card-header-sync flex items-center gap-2.5 text-purple-600 dark:text-purple-400">
+              <span className="px-2.5 py-0.5 rounded-[8px] bg-purple-500/15 text-purple-700 dark:text-purple-300 typo-badge font-bold font-mono tracking-wide">
+                04/09
+              </span>
+              <WebIcon name="graduation" size={22} className="text-purple-600 dark:text-purple-400 shrink-0" />
+              <h2 className="typo-h2 card-title-synced font-bold font-play text-purple-600 dark:text-purple-400" data-card-title="true">
+                Học vấn bằng cấp
+              </h2>
+            </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-          {EDUCATION_COURSES.map((course, idx) => {
-            const cardColor = getCourseColor(course, idx);
-            return (
-              <div
-                key={course.id}
-                data-section-card="true"
-                className="bento-card glass-card p-4 rounded-[14px] flex flex-col justify-between gap-2.5 break-inside-avoid print-card-bg relative overflow-hidden"
-                style={{ border: `1.5px solid ${cardColor}45` }}
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-1.5 font-bold" style={{ color: cardColor }}>
-                      <WebIcon name="calendar" size={14} />
-                      <span className="typo-label font-mono">Năm {course.year}</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            {EDUCATION_COURSES.map((course, idx) => {
+              const cardColor = getCourseColor(course, idx);
+              return (
+                <div
+                  key={course.id}
+                  data-subcard="true"
+                  className="sub-card p-4 rounded-[14px] flex flex-col justify-between gap-2.5 break-inside-avoid print-card-bg relative overflow-hidden"
+                  style={{ border: `1.5px solid ${cardColor}45` }}
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <div className="flex items-center gap-1.5 font-bold" style={{ color: cardColor }}>
+                        <WebIcon name="calendar" size={14} />
+                        <span className="typo-label font-mono">Năm {course.year}</span>
+                      </div>
+                      {course.code && (
+                        <span className="typo-badge font-mono font-black px-2 py-0.5 rounded-full border" style={{ backgroundColor: `${cardColor}15`, color: cardColor, borderColor: `${cardColor}40` }}>
+                          {course.code}
+                        </span>
+                      )}
                     </div>
-                    {course.code && (
-                      <span className="typo-badge font-mono font-black px-2 py-0.5 rounded-full border" style={{ backgroundColor: `${cardColor}15`, color: cardColor, borderColor: `${cardColor}40` }}>
-                        {course.code}
-                      </span>
-                    )}
-                  </div>
 
-                  <div className="card-header-sync flex items-start gap-2" style={{ color: cardColor }}>
-                    <WebIcon name="award" size={18} className="shrink-0 mt-0.5" style={{ color: cardColor }} />
-                    <h3 className="typo-h4 card-title-synced font-bold leading-snug" data-card-title="true" style={{ color: cardColor }}>
-                      {course.title}
-                    </h3>
-                  </div>
-
-                  <div className="space-y-1 mt-2.5 pt-2 border-t border-[var(--border-subcard)] typo-caption">
-                    <div className="flex items-start gap-1">
-                      <span className="font-bold text-[var(--text-muted)] shrink-0">Đơn vị:</span>
-                      <span className="font-semibold text-[var(--text-primary)]">{course.issuer}</span>
+                    <div className="subcard-header-sync flex items-start gap-2" style={{ color: cardColor }}>
+                      <WebIcon name="award" size={18} className="shrink-0 mt-0.5" style={{ color: cardColor }} />
+                      <h3 className="typo-h4 subcard-title-synced font-bold leading-snug" data-subcard-title="true" style={{ color: cardColor }}>
+                        {course.title}
+                      </h3>
                     </div>
-                    <div className="flex items-start gap-1">
-                      <span className="font-bold text-[var(--text-muted)] shrink-0">Hình thức đào tạo:</span>
-                      <span className="font-semibold text-[var(--text-primary)]">{course.type}</span>
-                    </div>
-                  </div>
 
-                  <p className="typo-caption text-[var(--text-secondary)] mt-2 line-clamp-3 leading-relaxed">
-                    {course.desc}
-                  </p>
+                    <div className="space-y-1 mt-2.5 pt-2 border-t border-[var(--border-subcard)] typo-caption">
+                      <div className="flex items-start gap-1">
+                        <span className="font-bold text-[var(--text-muted)] shrink-0">Đơn vị:</span>
+                        <span className="font-semibold text-[var(--text-primary)]">{course.issuer}</span>
+                      </div>
+                      <div className="flex items-start gap-1">
+                        <span className="font-bold text-[var(--text-muted)] shrink-0">Hình thức đào tạo:</span>
+                        <span className="font-semibold text-[var(--text-primary)]">{course.type}</span>
+                      </div>
+                    </div>
+
+                    <p className="typo-caption text-[var(--text-secondary)] mt-2 line-clamp-3 leading-relaxed">
+                      {course.desc}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
       {/* PHẦN 05 – DỊCH VỤ TRỌNG TÂM */}
       {/* ========================================================================= */}
-      <section id="cv-section-05-services" className="w-full flex flex-col gap-4 break-inside-avoid">
-        <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
-          <div className="card-header-sync flex items-center gap-2.5 text-amber-600 dark:text-amber-400">
-            <span className="px-2.5 py-0.5 rounded-[8px] bg-amber-500/15 text-amber-700 dark:text-amber-300 typo-badge font-bold font-mono tracking-wide">
-              05/09
-            </span>
-            <WebIcon name="heart-handshake" size={22} className="text-amber-600 dark:text-amber-400 shrink-0" />
-            <h2 className="typo-h2 card-title-synced font-bold font-play text-amber-600 dark:text-amber-400" data-card-title="true">
-              Dịch vụ trọng tâm
-            </h2>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-          {DOMAINS_DATA.map((domain) => {
-            const accentColor = SERVICE_ACCENT_COLORS[domain.color] || '#0d9488';
-
-            return (
-              <div
-                key={domain.id}
-                data-section-card="true"
-                className="bento-card glass-card p-4 rounded-[14px] flex flex-col justify-between gap-3 break-inside-avoid shadow-sm print-card-bg min-w-0"
-              >
-                <div className="min-w-0">
-                  <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: accentColor }}>
-                    <WebIcon
-                      name={(domain.icon || 'briefcase').toLowerCase()}
-                      size={18}
-                      className="shrink-0 mt-0.5"
-                      style={{ color: accentColor }}
-                    />
-                    <div className="min-w-0 flex-1">
-                      <h3 className="typo-h4 card-title-synced font-bold leading-tight break-words" data-card-title="true" style={{ color: accentColor }}>
-                        {domain.title}
-                      </h3>
-                      <p className="typo-caption text-[var(--text-secondary)] font-medium mt-0.5 leading-snug break-words">
-                        {domain.subtitle}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-2.5 border-t border-[var(--border-subcard)] typo-label min-w-0">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-semibold text-[var(--text-secondary)] shrink-0">Đơn vị:</span>
-                    <div className="flex items-center justify-end gap-1.5 flex-wrap">
-                      {domain.companyLogos && domain.companyLogos.length > 0 ? (
-                        domain.companyLogos.map((partner, pIdx) => {
-                          const logoSrc =
-                            partner.logo.toLowerCase().includes('.gif') && partner.fallbackLogo
-                              ? partner.fallbackLogo
-                              : partner.logo;
-                          return (
-                            <div
-                              key={pIdx}
-                              className="w-7 h-7 rounded-full overflow-hidden p-0 border border-[var(--border-subcard)] shadow-xs bg-white flex items-center justify-center shrink-0"
-                              title={partner.name}
-                            >
-                              <img
-                                src={logoSrc}
-                                alt={partner.name}
-                                className="w-full h-full object-cover rounded-full p-0"
-                                onError={(e) => {
-                                  if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
-                                    e.currentTarget.src = partner.fallbackLogo;
-                                  } else {
-                                    e.currentTarget.style.display = 'none';
-                                  }
-                                }}
-                              />
-                            </div>
-                          );
-                        })
-                      ) : (
-                        <span className="font-medium text-blue-600 dark:text-cyan-400 text-right break-words">
-                          {domain.typicalEntitiesLine}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* PHẦN 06 – KINH NGHIỆM */}
-      {/* ========================================================================= */}
-      <section id="cv-section-06-experience" className="w-full flex flex-col gap-4 break-inside-avoid">
-        <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
-          <div className="card-header-sync flex items-center gap-2.5 text-blue-600 dark:text-sky-400">
-            <span className="px-2.5 py-0.5 rounded-[8px] bg-blue-500/15 text-blue-700 dark:text-blue-300 typo-badge font-bold font-mono tracking-wide">
-              06/09
-            </span>
-            <WebIcon name="briefcase" size={22} className="text-blue-600 dark:text-sky-400 shrink-0" />
-            <h2 className="typo-h2 card-title-synced font-bold font-play text-blue-600 dark:text-sky-400" data-card-title="true">
-              Kinh nghiệm công tác
-            </h2>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-stretch">
-          {experienceList.map((m) => {
-            const formattedPeriod = (m.cardYearLabel === '2003 - 2007' || m.year === '2003')
-              ? 'Từ năm 2003 đến năm 2007'
-              : m.period;
-            const rawColor = m.hexColor || '#2563EB';
-            const expAccentColor =
-              rawColor.toUpperCase() === '#FFB300'
-                ? '#d97706'
-                : rawColor.toUpperCase() === '#00C853'
-                ? '#059669'
-                : rawColor;
-            const rawFields = [
-              m.tag,
-              ...(m.industry ? m.industry.split('/').map((s) => s.trim()) : []),
-            ].filter(Boolean);
-            const seenFields = new Set<string>();
-            const fieldTags = rawFields.filter((item) => {
-              const norm = item.toLowerCase();
-              if (seenFields.has(norm)) return false;
-              seenFields.add(norm);
-              return true;
-            });
-
-            return (
-              <div
-                key={m.key}
-                data-section-card="true"
-                className="bento-card glass-card p-4 rounded-[14px] flex flex-col justify-between gap-2.5 break-inside-avoid print-card-bg relative transition-all min-w-0"
-              >
-                {/* Sub-card 1: Thời gian, Logo & Tên công ty */}
-                <div data-subcard="true" className="sub-card p-3 rounded-[14px] flex flex-col gap-2 print-card-bg min-w-0">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="inline-block px-2.5 py-0.5 rounded-[8px] bg-blue-600 text-white font-bold font-play typo-badge">
-                      {formattedPeriod}
-                    </span>
-                  </div>
-
-                  <div className="subcard-header-sync flex items-center gap-2.5 min-w-0" style={{ color: expAccentColor }}>
-                    {m.logo ? (
-                      <div className="w-8 h-8 rounded-[14px] overflow-hidden bg-white border border-[var(--border-subcard)] p-0.5 shrink-0 flex items-center justify-center">
-                        <img src={m.logo} alt={m.company} className="w-full h-full object-contain rounded-[4px]" />
-                      </div>
-                    ) : (
-                      <WebIcon name="building" size={18} className="shrink-0" style={{ color: expAccentColor }} />
-                    )}
-                    <div className="min-w-0 flex-1">
-                      <h3 className="typo-h4 subcard-title-synced font-bold leading-snug break-words" data-subcard-title="true" style={{ color: expAccentColor }}>
-                        {m.company}
-                      </h3>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Sub-card 2: Vị trí & Quy mô nhân sự nằm dưới Vị trí */}
-                <ul data-subcard="true" className="sub-card p-3 rounded-[14px] flex flex-col gap-1.5 print-card-bg min-w-0 list-none m-0">
-                  <li className="typo-body-sm font-bold leading-snug flex items-center gap-1.5 min-w-0" style={{ color: expAccentColor }}>
-                    <WebIcon name="briefcase" size={14} className="shrink-0" style={{ color: expAccentColor }} />
-                    <span className="typo-body-sm break-words">Vị trí: {m.roleTitle}</span>
-                  </li>
-                  <li className="typo-body-sm font-medium text-purple-600 dark:text-purple-400 leading-snug flex items-center gap-1.5 min-w-0">
-                    <WebIcon name="user-group" size={14} className="shrink-0 text-purple-600 dark:text-purple-400" />
-                    <span className="typo-body-sm break-words">Quy mô nhân sự: {m.scaleDesc || `${m.headcount} nhân sự trực tiếp`}</span>
-                  </li>
-                </ul>
-
-                {/* Sub-card 3: Thẻ Lĩnh vực riêng dạng tag */}
-                <div data-subcard="true" className="sub-card p-3 rounded-[14px] flex flex-col gap-2 print-card-bg min-w-0">
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    <WebIcon name="layers" size={14} className="shrink-0" style={{ color: expAccentColor }} />
-                    <span className="typo-body-sm font-bold leading-tight" style={{ color: expAccentColor }}>
-                      Lĩnh vực
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5 min-w-0">
-                    {fieldTags.map((fieldTag, fIdx) => (
-                      <span
-                        key={fIdx}
-                        className="inline-flex items-center px-2.5 py-0.5 rounded-full typo-label font-semibold border"
-                        style={{
-                          backgroundColor: `${expAccentColor}14`,
-                          color: expAccentColor,
-                          borderColor: `${expAccentColor}35`,
-                        }}
-                      >
-                        {fieldTag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Sub-card 4: Mô tả & Nhiệm vụ trọng tâm (List format với cỡ chữ đồng nhất) */}
-                <ul data-subcard="true" className="sub-card p-3 rounded-[14px] flex-1 flex flex-col gap-1.5 print-card-bg min-w-0 list-none m-0">
-                  <li className="typo-body-sm text-[var(--text-secondary)] leading-relaxed break-words flex items-start gap-2">
-                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
-                    <span className="typo-body-sm min-w-0 flex-1">{m.cardDescription || m.descVi || m.highlightText}</span>
-                  </li>
-
-                  {m.tasks && m.tasks.length > 0 && (
-                    <>
-                      <li className="typo-body-sm font-bold text-[var(--text-primary)] pt-1.5 mt-0.5 border-t border-[var(--border-subcard)] break-words">
-                        Nhiệm vụ &amp; Trọng tâm vận hành:
-                      </li>
-                      {m.tasks.slice(0, 3).map((task: any, idx: number) => (
-                        <li key={idx} className="typo-body-sm text-[var(--text-secondary)] leading-relaxed break-words flex items-start gap-2">
-                          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[var(--text-muted)] shrink-0" />
-                          <span className="typo-body-sm min-w-0 flex-1">{task}</span>
-                        </li>
-                      ))}
-                    </>
-                  )}
-                </ul>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* PHẦN 07 – KỸ NĂNG */}
-      {/* ========================================================================= */}
-      <section id="cv-section-07-skills" className="w-full flex flex-col gap-4 break-inside-avoid">
-        <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
-          <div className="card-header-sync flex items-center gap-2.5 text-rose-600 dark:text-rose-400">
-            <span className="px-2.5 py-0.5 rounded-[8px] bg-rose-500/15 text-rose-700 dark:text-rose-300 typo-badge font-bold font-mono tracking-wide">
-              07/09
-            </span>
-            <WebIcon name="brain" size={22} className="text-rose-600 dark:text-rose-400 shrink-0" />
-            <h2 className="typo-h2 card-title-synced font-bold font-play text-rose-600 dark:text-rose-400" data-card-title="true">
-              Kỹ năng chuyên môn
-            </h2>
-          </div>
-        </div>
-
-        {/* 4 thẻ kỹ năng SWOT hiển thị trên 4 cột */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 items-stretch">
-          {[
-            { key: 'S', icon: 'shield-check', title: 'Thế mạnh cốt lõi', data: STRENGTHS_DATA, color: '#1480C0' },
-            { key: 'W', icon: 'trending-up', title: 'Khía cạnh hoàn thiện', data: WEAKNESSES_DATA, color: '#50B347' },
-            { key: 'O', icon: 'rocket', title: 'Cơ hội phát triển', data: OPPORTUNITIES_DATA, color: '#EC7D21' },
-            { key: 'T', icon: 'alert-triangle', title: 'Thách thức thích ứng', data: THREATS_DATA, color: '#E64C72' },
-          ].map((quad) => (
-            <div
-              key={quad.key}
-              data-section-card="true"
-              style={{ border: `1.5px solid ${quad.color}40` }}
-              className="bento-card glass-card p-3.5 rounded-[14px] flex flex-col gap-3 break-inside-avoid print-card-bg min-w-0"
-            >
-              <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 gap-2">
-                <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: quad.color }}>
-                  <WebIcon name={quad.icon} size={17} className="shrink-0" style={{ color: quad.color }} />
-                  <h3 className="typo-h4 card-title-synced font-bold truncate" data-card-title="true" style={{ color: quad.color }}>
-                    {quad.title}
-                  </h3>
-                </div>
-                <span className="typo-badge font-mono font-black px-2 py-0.5 rounded-full shrink-0" style={{ backgroundColor: `${quad.color}18`, color: quad.color }}>
-                  {quad.key}
-                </span>
-              </div>
-              <div className="space-y-2">
-                {quad.data.map((skill) => (
-                  <div key={skill.id} data-subcard="true" className="sub-card p-2.5 rounded-[14px] space-y-1.5 print-card-bg min-w-0">
-                    <div className="flex justify-between items-center gap-2 typo-caption font-bold">
-                      <span className="text-[var(--text-primary)] truncate">{skill.labelVi}</span>
-                      <span
-                        className="font-mono font-black shrink-0 tabular-nums"
-                        style={{ color: quad.color }}
-                        title={quad.key === 'T' ? 'Mức độ tác động' : undefined}
-                      >
-                        {quad.key === 'T' ? `Tác động ${skill.percent}%` : `${skill.percent}%`}
-                      </span>
-                    </div>
-                    <div className="w-full h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
-                      <div className="h-full rounded-full" style={{ width: `${skill.percent}%`, backgroundColor: quad.color }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Thẻ Ngôn ngữ giao tiếp tách riêng một hàng phía dưới */}
+      <section id="cv-section-05-services" className="w-full flex flex-col break-inside-avoid">
         <div
           data-section-card="true"
-          style={{ border: '1.5px solid #6366f140' }}
-          className="bento-card glass-card w-full p-4 rounded-[14px] flex flex-col justify-between gap-3 break-inside-avoid print-card-bg min-w-0"
+          className="bento-card glass-card p-5 rounded-[14px] flex flex-col gap-4 print-card-bg min-w-0"
         >
-          <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 gap-2">
-            <div className="card-header-sync flex items-center gap-2 min-w-0 text-indigo-600 dark:text-indigo-400">
-              <WebIcon name="globe" size={18} className="shrink-0 text-indigo-600 dark:text-indigo-400" />
-              <h3 className="typo-h4 card-title-synced font-bold text-indigo-600 dark:text-indigo-400 truncate" data-card-title="true">
-                Ngôn ngữ giao tiếp
-              </h3>
+          <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
+            <div className="card-header-sync flex items-center gap-2.5 text-amber-600 dark:text-amber-400">
+              <span className="px-2.5 py-0.5 rounded-[8px] bg-amber-500/15 text-amber-700 dark:text-amber-300 typo-badge font-bold font-mono tracking-wide">
+                05/09
+              </span>
+              <WebIcon name="heart-handshake" size={22} className="text-amber-600 dark:text-amber-400 shrink-0" />
+              <h2 className="typo-h2 card-title-synced font-bold font-play text-amber-600 dark:text-amber-400" data-card-title="true">
+                Dịch vụ trọng tâm
+              </h2>
             </div>
-            <span className="typo-badge font-mono font-black px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 shrink-0">
-              {LANGUAGES_DATA.length} Ngôn ngữ
-            </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 flex-1 items-stretch">
-            {LANGUAGES_DATA.map((lang) => {
-              const langHex = lang.id === 'vi' ? '#059669' : lang.id === 'en' ? '#0284c7' : '#7c3aed';
-              const langIcon = lang.id === 'ai' ? 'cpu' : 'globe';
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            {DOMAINS_DATA.map((domain) => {
+              const accentColor = SERVICE_ACCENT_COLORS[domain.color] || '#0d9488';
 
               return (
                 <div
-                  key={lang.id}
+                  key={domain.id}
                   data-subcard="true"
-                  className="sub-card p-3 rounded-[14px] flex flex-col justify-between gap-2.5 print-card-bg min-w-0"
+                  className="sub-card p-4 rounded-[14px] flex flex-col justify-between gap-3 break-inside-avoid shadow-sm print-card-bg min-w-0"
                 >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="subcard-header-sync flex items-center gap-2 min-w-0" style={{ color: langHex }}>
-                      <WebIcon name={langIcon} size={16} className="shrink-0" style={{ color: langHex }} />
-                      <h4 className="typo-h5 subcard-title-synced font-bold truncate" data-subcard-title="true" style={{ color: langHex }}>
-                        {lang.nameVi}
-                      </h4>
+                  <div className="min-w-0">
+                    <div className="subcard-header-sync flex items-start gap-2 min-w-0" style={{ color: accentColor }}>
+                      <WebIcon
+                        name={(domain.icon || 'briefcase').toLowerCase()}
+                        size={18}
+                        className="shrink-0 mt-0.5"
+                        style={{ color: accentColor }}
+                      />
+                      <div className="min-w-0 flex-1">
+                        <h3 className="typo-h4 subcard-title-synced font-bold leading-tight break-words" data-subcard-title="true" style={{ color: accentColor }}>
+                          {domain.title}
+                        </h3>
+                        <p className="typo-caption text-[var(--text-secondary)] font-medium mt-0.5 leading-snug break-words">
+                          {domain.subtitle}
+                        </p>
+                      </div>
                     </div>
-                    <span className="font-mono font-black typo-label shrink-0 tabular-nums" style={{ color: langHex }}>
-                      {lang.percent}%
-                    </span>
                   </div>
 
-                  <div className="space-y-1.5">
-                    <p className="typo-label font-semibold text-[var(--text-secondary)] break-words">
-                      {lang.roleVi || lang.levelVi}
-                    </p>
-                    <div className="w-full h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
-                      <div className="h-full rounded-full" style={{ width: `${lang.percent}%`, backgroundColor: langHex }} />
+                  <div className="pt-2.5 border-t border-[var(--border-subcard)] typo-label min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-semibold text-[var(--text-secondary)] shrink-0">Đơn vị:</span>
+                      <div className="flex items-center justify-end gap-1.5 flex-wrap">
+                        {domain.companyLogos && domain.companyLogos.length > 0 ? (
+                          domain.companyLogos.map((partner, pIdx) => {
+                            const logoSrc =
+                              partner.logo.toLowerCase().includes('.gif') && partner.fallbackLogo
+                                ? partner.fallbackLogo
+                                : partner.logo;
+                            return (
+                              <div
+                                key={pIdx}
+                                className="w-7 h-7 rounded-full overflow-hidden p-0 border border-[var(--border-subcard)] shadow-xs bg-white flex items-center justify-center shrink-0"
+                                title={partner.name}
+                              >
+                                <img
+                                  src={logoSrc}
+                                  alt={partner.name}
+                                  className="w-full h-full object-cover rounded-full p-0"
+                                  onError={(e) => {
+                                    if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
+                                      e.currentTarget.src = partner.fallbackLogo;
+                                    } else {
+                                      e.currentTarget.style.display = 'none';
+                                    }
+                                  }}
+                                />
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <span className="font-medium text-blue-600 dark:text-cyan-400 text-right break-words">
+                            {domain.typicalEntitiesLine}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1019,28 +798,291 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       </section>
 
       {/* ========================================================================= */}
-      {/* PHẦN 08 – DỰ ÁN TRỌNG ĐIỂM (HÀNG RIÊNG, CHIA 2 CỘT) */}
+      {/* PHẦN 06 – KINH NGHIỆM */}
       {/* ========================================================================= */}
-      <section id="cv-section-08-projects" className="w-full min-w-0 flex flex-col gap-3.5">
-        <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
-          <div className="card-header-sync flex items-center gap-2.5 min-w-0">
-            <span className="px-2.5 py-0.5 rounded-[8px] bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 typo-badge font-bold font-mono tracking-wide shrink-0">
-              08/09
-            </span>
-            <WebIcon name="folder" size={22} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
-            <h2 className="typo-h2 card-title-synced font-bold font-play text-indigo-600 dark:text-indigo-400 truncate" data-card-title="true">
-              Dự án trọng điểm
-            </h2>
-          </div>
-          <span className="typo-label font-mono font-bold text-indigo-600 dark:text-indigo-300 shrink-0">
-            {PROJECTS_DATA.length} dự án
-          </span>
-        </div>
-
+      <section id="cv-section-06-experience" className="w-full flex flex-col break-inside-avoid">
         <div
           data-section-card="true"
-          className="bento-card glass-card p-4 rounded-[14px] flex flex-col print-card-bg min-w-0"
+          className="bento-card glass-card p-5 rounded-[14px] flex flex-col gap-4 print-card-bg min-w-0"
         >
+          <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
+            <div className="card-header-sync flex items-center gap-2.5 text-blue-600 dark:text-sky-400">
+              <span className="px-2.5 py-0.5 rounded-[8px] bg-blue-500/15 text-blue-700 dark:text-blue-300 typo-badge font-bold font-mono tracking-wide">
+                06/09
+              </span>
+              <WebIcon name="briefcase" size={22} className="text-blue-600 dark:text-sky-400 shrink-0" />
+              <h2 className="typo-h2 card-title-synced font-bold font-play text-blue-600 dark:text-sky-400" data-card-title="true">
+                Kinh nghiệm công tác
+              </h2>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-stretch">
+            {experienceList.map((m) => {
+              const formattedPeriod = (m.cardYearLabel === '2003 - 2007' || m.year === '2003')
+                ? 'Từ năm 2003 đến năm 2007'
+                : m.period;
+              const rawColor = m.hexColor || '#2563EB';
+              const expAccentColor =
+                rawColor.toUpperCase() === '#FFB300'
+                  ? '#d97706'
+                  : rawColor.toUpperCase() === '#00C853'
+                  ? '#059669'
+                  : rawColor;
+              const rawFields = [
+                m.tag,
+                ...(m.industry ? m.industry.split('/').map((s) => s.trim()) : []),
+              ].filter(Boolean);
+              const seenFields = new Set<string>();
+              const fieldTags = rawFields.filter((item) => {
+                const norm = item.toLowerCase();
+                if (seenFields.has(norm)) return false;
+                seenFields.add(norm);
+                return true;
+              });
+
+              return (
+                <div
+                  key={m.key}
+                  data-subcard="true"
+                  className="sub-card p-4 rounded-[14px] flex flex-col justify-between gap-2.5 break-inside-avoid print-card-bg relative transition-all min-w-0"
+                >
+                  {/* Sub-card 1: Thời gian, Logo & Tên công ty */}
+                  <div className="nested-card border border-[var(--border-subcard)] bg-[var(--bg-nested-card)] p-3 rounded-[14px] flex flex-col gap-2 print-card-bg min-w-0">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="inline-block px-2.5 py-0.5 rounded-[8px] bg-blue-600 text-white font-bold font-play typo-badge">
+                        {formattedPeriod}
+                      </span>
+                    </div>
+
+                    <div className="subcard-header-sync flex items-center gap-2.5 min-w-0" style={{ color: expAccentColor }}>
+                      {m.logo ? (
+                        <div className="w-8 h-8 rounded-[14px] overflow-hidden bg-white border border-[var(--border-subcard)] p-0.5 shrink-0 flex items-center justify-center">
+                          <img src={m.logo} alt={m.company} className="w-full h-full object-contain rounded-[4px]" />
+                        </div>
+                      ) : (
+                        <WebIcon name="building" size={18} className="shrink-0" style={{ color: expAccentColor }} />
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <h3 className="typo-h4 subcard-title-synced font-bold leading-snug break-words" data-subcard-title="true" style={{ color: expAccentColor }}>
+                          {m.company}
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Sub-card 2: Vị trí & Quy mô nhân sự nằm dưới Vị trí */}
+                  <ul className="nested-card border border-[var(--border-subcard)] bg-[var(--bg-nested-card)] p-3 rounded-[14px] flex flex-col gap-1.5 print-card-bg min-w-0 list-none m-0">
+                    <li className="typo-body-sm font-bold leading-snug flex items-center gap-1.5 min-w-0" style={{ color: expAccentColor }}>
+                      <WebIcon name="briefcase" size={14} className="shrink-0" style={{ color: expAccentColor }} />
+                      <span className="typo-body-sm break-words">Vị trí: {m.roleTitle}</span>
+                    </li>
+                    <li className="typo-body-sm font-medium text-purple-600 dark:text-purple-400 leading-snug flex items-center gap-1.5 min-w-0">
+                      <WebIcon name="user-group" size={14} className="shrink-0 text-purple-600 dark:text-purple-400" />
+                      <span className="typo-body-sm break-words">Quy mô nhân sự: {m.scaleDesc || `${m.headcount} nhân sự trực tiếp`}</span>
+                    </li>
+                  </ul>
+
+                  {/* Sub-card 3: Thẻ Lĩnh vực riêng dạng tag */}
+                  <div className="nested-card border border-[var(--border-subcard)] bg-[var(--bg-nested-card)] p-3 rounded-[14px] flex flex-col gap-2 print-card-bg min-w-0">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <WebIcon name="layers" size={14} className="shrink-0" style={{ color: expAccentColor }} />
+                      <span className="typo-body-sm font-bold leading-tight" style={{ color: expAccentColor }}>
+                        Lĩnh vực
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 min-w-0">
+                      {fieldTags.map((fieldTag, fIdx) => (
+                        <span
+                          key={fIdx}
+                          className="inline-flex items-center px-2.5 py-0.5 rounded-full typo-label font-semibold border"
+                          style={{
+                            backgroundColor: `${expAccentColor}14`,
+                            color: expAccentColor,
+                            borderColor: `${expAccentColor}35`,
+                          }}
+                        >
+                          {fieldTag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Sub-card 4: Mô tả & Nhiệm vụ trọng tâm (List format với cỡ chữ đồng nhất) */}
+                  <ul className="nested-card border border-[var(--border-subcard)] bg-[var(--bg-nested-card)] p-3 rounded-[14px] flex-1 flex flex-col gap-1.5 print-card-bg min-w-0 list-none m-0">
+                    <li className="typo-body-sm text-[var(--text-secondary)] leading-relaxed break-words flex items-start gap-2">
+                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                      <span className="typo-body-sm min-w-0 flex-1">{m.cardDescription || m.descVi || m.highlightText}</span>
+                    </li>
+
+                    {m.tasks && m.tasks.length > 0 && (
+                      <>
+                        <li className="typo-body-sm font-bold text-[var(--text-primary)] pt-1.5 mt-0.5 border-t border-[var(--border-subcard)] break-words">
+                          Nhiệm vụ &amp; Trọng tâm vận hành:
+                        </li>
+                        {m.tasks.slice(0, 3).map((task: any, idx: number) => (
+                          <li key={idx} className="typo-body-sm text-[var(--text-secondary)] leading-relaxed break-words flex items-start gap-2">
+                            <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[var(--text-muted)] shrink-0" />
+                            <span className="typo-body-sm min-w-0 flex-1">{task}</span>
+                          </li>
+                        ))}
+                      </>
+                    )}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* PHẦN 07 – KỸ NĂNG */}
+      {/* ========================================================================= */}
+      <section id="cv-section-07-skills" className="w-full flex flex-col break-inside-avoid">
+        <div
+          data-section-card="true"
+          className="bento-card glass-card p-5 rounded-[14px] flex flex-col gap-4 print-card-bg min-w-0"
+        >
+          <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
+            <div className="card-header-sync flex items-center gap-2.5 text-rose-600 dark:text-rose-400">
+              <span className="px-2.5 py-0.5 rounded-[8px] bg-rose-500/15 text-rose-700 dark:text-rose-300 typo-badge font-bold font-mono tracking-wide">
+                07/09
+              </span>
+              <WebIcon name="brain" size={22} className="text-rose-600 dark:text-rose-400 shrink-0" />
+              <h2 className="typo-h2 card-title-synced font-bold font-play text-rose-600 dark:text-rose-400" data-card-title="true">
+                Kỹ năng chuyên môn
+              </h2>
+            </div>
+          </div>
+
+          {/* 4 thẻ kỹ năng SWOT hiển thị trên 4 cột */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 items-stretch">
+            {[
+              { key: 'S', icon: 'shield-check', title: 'Thế mạnh cốt lõi', data: STRENGTHS_DATA, color: '#1480C0' },
+              { key: 'W', icon: 'trending-up', title: 'Khía cạnh hoàn thiện', data: WEAKNESSES_DATA, color: '#50B347' },
+              { key: 'O', icon: 'rocket', title: 'Cơ hội phát triển', data: OPPORTUNITIES_DATA, color: '#EC7D21' },
+              { key: 'T', icon: 'alert-triangle', title: 'Thách thức thích ứng', data: THREATS_DATA, color: '#E64C72' },
+            ].map((quad) => (
+              <div
+                key={quad.key}
+                data-subcard="true"
+                style={{ border: `1.5px solid ${quad.color}40` }}
+                className="sub-card p-3.5 rounded-[14px] flex flex-col gap-3 break-inside-avoid print-card-bg min-w-0"
+              >
+                <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 gap-2">
+                  <div className="subcard-header-sync flex items-center gap-2 min-w-0" style={{ color: quad.color }}>
+                    <WebIcon name={quad.icon} size={17} className="shrink-0" style={{ color: quad.color }} />
+                    <h3 className="typo-h4 subcard-title-synced font-bold truncate" data-subcard-title="true" style={{ color: quad.color }}>
+                      {quad.title}
+                    </h3>
+                  </div>
+                  <span className="typo-badge font-mono font-black px-2 py-0.5 rounded-full shrink-0" style={{ backgroundColor: `${quad.color}18`, color: quad.color }}>
+                    {quad.key}
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {quad.data.map((skill) => (
+                    <div key={skill.id} className="nested-card border border-[var(--border-subcard)] bg-[var(--bg-nested-card)] p-2.5 rounded-[14px] space-y-1.5 print-card-bg min-w-0">
+                      <div className="flex justify-between items-center gap-2 typo-caption font-bold">
+                        <span className="text-[var(--text-primary)] truncate">{skill.labelVi}</span>
+                        <span
+                          className="font-mono font-black shrink-0 tabular-nums"
+                          style={{ color: quad.color }}
+                          title={quad.key === 'T' ? 'Mức độ tác động' : undefined}
+                        >
+                          {quad.key === 'T' ? `Tác động ${skill.percent}%` : `${skill.percent}%`}
+                        </span>
+                      </div>
+                      <div className="w-full h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
+                        <div className="h-full rounded-full" style={{ width: `${skill.percent}%`, backgroundColor: quad.color }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Thẻ Ngôn ngữ giao tiếp tách riêng một hàng phía dưới */}
+          <div
+            data-subcard="true"
+            style={{ border: '1.5px solid #6366f140' }}
+            className="sub-card w-full p-4 rounded-[14px] flex flex-col justify-between gap-3 break-inside-avoid print-card-bg min-w-0"
+          >
+            <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 gap-2">
+              <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-indigo-600 dark:text-indigo-400">
+                <WebIcon name="globe" size={18} className="shrink-0 text-indigo-600 dark:text-indigo-400" />
+                <h3 className="typo-h4 subcard-title-synced font-bold text-indigo-600 dark:text-indigo-400 truncate" data-subcard-title="true">
+                  Ngôn ngữ giao tiếp
+                </h3>
+              </div>
+              <span className="typo-badge font-mono font-black px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 shrink-0">
+                {LANGUAGES_DATA.length} Ngôn ngữ
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 flex-1 items-stretch">
+              {LANGUAGES_DATA.map((lang) => {
+                const langHex = lang.id === 'vi' ? '#059669' : lang.id === 'en' ? '#0284c7' : '#7c3aed';
+                const langIcon = lang.id === 'ai' ? 'cpu' : 'globe';
+
+                return (
+                  <div
+                    key={lang.id}
+                    className="nested-card border border-[var(--border-subcard)] bg-[var(--bg-nested-card)] p-3 rounded-[14px] flex flex-col justify-between gap-2.5 print-card-bg min-w-0"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0" style={{ color: langHex }}>
+                        <WebIcon name={langIcon} size={16} className="shrink-0" style={{ color: langHex }} />
+                        <h4 className="typo-h5 font-bold truncate" style={{ color: langHex }}>
+                          {lang.nameVi}
+                        </h4>
+                      </div>
+                      <span className="font-mono font-black typo-label shrink-0 tabular-nums" style={{ color: langHex }}>
+                        {lang.percent}%
+                      </span>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <p className="typo-label font-semibold text-[var(--text-secondary)] break-words">
+                        {lang.roleVi || lang.levelVi}
+                      </p>
+                      <div className="w-full h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
+                        <div className="h-full rounded-full" style={{ width: `${lang.percent}%`, backgroundColor: langHex }} />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* PHẦN 08 – DỰ ÁN TRỌNG ĐIỂM (HÀNG RIÊNG, CHIA 2 CỘT) */}
+      {/* ========================================================================= */}
+      <section id="cv-section-08-projects" className="w-full min-w-0 flex flex-col">
+        <div
+          data-section-card="true"
+          className="bento-card glass-card p-5 rounded-[14px] flex flex-col gap-4 print-card-bg min-w-0"
+        >
+          <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
+            <div className="card-header-sync flex items-center gap-2.5 min-w-0">
+              <span className="px-2.5 py-0.5 rounded-[8px] bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 typo-badge font-bold font-mono tracking-wide shrink-0">
+                08/09
+              </span>
+              <WebIcon name="folder" size={22} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <h2 className="typo-h2 card-title-synced font-bold font-play text-indigo-600 dark:text-indigo-400 truncate" data-card-title="true">
+                Dự án trọng điểm
+              </h2>
+            </div>
+            <span className="typo-label font-mono font-bold text-indigo-600 dark:text-indigo-300 shrink-0">
+              {PROJECTS_DATA.length} dự án
+            </span>
+          </div>
+
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {PROJECTS_DATA.map((p) => {
               const projColor =
@@ -1095,26 +1137,26 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       {/* ========================================================================= */}
       {/* PHẦN 09 – HỆ THỐNG CÔNG NGHỆ (HÀNG RIÊNG, CHIA 2 CỘT) */}
       {/* ========================================================================= */}
-      <section id="cv-section-09-systems" className="w-full min-w-0 flex flex-col gap-3.5">
-        <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
-          <div className="card-header-sync flex items-center gap-2.5 min-w-0 text-teal-600 dark:text-teal-400">
-            <span className="px-2.5 py-0.5 rounded-[8px] bg-teal-500/15 text-teal-700 dark:text-teal-300 typo-badge font-bold font-mono tracking-wide shrink-0">
-              09/09
-            </span>
-            <WebIcon name="server" size={22} className="text-teal-600 dark:text-teal-400 shrink-0" />
-            <h2 className="typo-h2 card-title-synced font-bold font-play text-teal-600 dark:text-teal-400 truncate" data-card-title="true">
-              Hệ thống công nghệ
-            </h2>
-          </div>
-          <span className="typo-label font-mono font-bold text-teal-600 dark:text-teal-300 shrink-0">
-            {ENTERPRISE_SYSTEMS_LIST.length} hệ thống
-          </span>
-        </div>
-
+      <section id="cv-section-09-systems" className="w-full min-w-0 flex flex-col">
         <div
           data-section-card="true"
-          className="bento-card glass-card p-4 rounded-[14px] flex flex-col print-card-bg min-w-0"
+          className="bento-card glass-card p-5 rounded-[14px] flex flex-col gap-4 print-card-bg min-w-0"
         >
+          <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid">
+            <div className="card-header-sync flex items-center gap-2.5 min-w-0 text-teal-600 dark:text-teal-400">
+              <span className="px-2.5 py-0.5 rounded-[8px] bg-teal-500/15 text-teal-700 dark:text-teal-300 typo-badge font-bold font-mono tracking-wide shrink-0">
+                09/09
+              </span>
+              <WebIcon name="server" size={22} className="text-teal-600 dark:text-teal-400 shrink-0" />
+              <h2 className="typo-h2 card-title-synced font-bold font-play text-teal-600 dark:text-teal-400 truncate" data-card-title="true">
+                Hệ thống công nghệ
+              </h2>
+            </div>
+            <span className="typo-label font-mono font-bold text-teal-600 dark:text-teal-300 shrink-0">
+              {ENTERPRISE_SYSTEMS_LIST.length} hệ thống
+            </span>
+          </div>
+
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {ENTERPRISE_SYSTEMS_LIST.map((sys) => {
               const rawColor = sys.themeColor || '#0284c7';

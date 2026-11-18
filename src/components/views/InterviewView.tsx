@@ -275,7 +275,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    className="banner-dropdown-menu bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-[min(18rem,calc(100vw-140px))] sm:w-72 max-w-full max-h-72 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-max min-w-[14rem] max-w-full max-h-72 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                   >
                     <div className="px-2 py-1.5 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 sticky top-0 bg-[var(--bg-popup)] z-10 rounded-t-[10px]">
                       <div className="flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">
@@ -360,7 +360,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 id="interview-play-video-capsule"
                 onClick={() => togglePlay()}
                 style={{ borderRadius: '999px' }}
-                className="theme-video-capsule inline-flex items-center gap-2.5 px-3 py-1.5 !rounded-[999px] rounded-[999px] bg-slate-950/80 dark:bg-slate-900/85 backdrop-blur-md border border-white/30 text-white shadow-xl hover:bg-slate-900/90 transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none"
+                className={`theme-video-capsule video-play-btn video-play-btn--interview ${isVideoPlaying ? 'is-playing' : ''} inline-flex items-center gap-2.5 px-3 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none`}
               >
                 {/* Speaker Toggle Button */}
                 <button
@@ -370,17 +370,17 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                     e.stopPropagation();
                     toggleAudio();
                   }}
-                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
+                  className={`video-play-btn__sound w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
                     isAudioOn
-                      ? 'bg-white/25 hover:bg-white/40 text-white shadow-xs'
-                      : 'bg-red-600 hover:bg-red-500 text-white shadow-md'
+                      ? 'text-current shadow-xs'
+                      : 'is-muted text-white shadow-md'
                   }`}
                   title={isAudioOn ? 'Tắt tiếng video phỏng vấn' : 'Bật âm thanh video phỏng vấn'}
                   aria-label={isAudioOn ? 'Tắt tiếng video phỏng vấn' : 'Bật âm thanh video phỏng vấn'}
                 >
                   <span className="flex items-center justify-center">
                     {isAudioOn ? (
-                      <WebIcon name="volume-2" className="w-3.5 h-3.5 text-white" />
+                      <WebIcon name="volume-2" className="w-3.5 h-3.5 text-current" />
                     ) : (
                       <WebIcon name="volume-x" className="w-3.5 h-3.5 text-white" />
                     )}
@@ -388,7 +388,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 </button>
 
                 {/* Vertical Divider */}
-                <div className="w-[1px] h-4 bg-white/35 shrink-0 mx-0.5" />
+                <div className="w-[1px] h-4 bg-current opacity-25 shrink-0 mx-0.5" />
 
                 {/* Play / Cancel Button */}
                 {!isVideoPlaying ? (
@@ -400,18 +400,18 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                       togglePlay();
                     }}
                     style={{ borderRadius: '999px' }}
-                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 !rounded-[999px] rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                     title="Bấm để phát video phỏng vấn"
                   >
                     <span className="flex items-center justify-center">
                       <WebIcon
                         name="play"
-                        className="w-4 h-4 fill-white text-white shrink-0"
+                        className="w-4 h-4 fill-current text-current shrink-0"
                         style={{ height: '16px', width: '16px' }}
                       />
                     </span>
                     <span
-                      className="drop-shadow-sm typo-button text-white truncate font-play text-left"
+                      className="typo-button text-current truncate font-play text-left"
                       style={{ textAlign: 'left' }}
                     >
                       Phát Video
@@ -426,18 +426,18 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                       togglePlay();
                     }}
                     style={{ borderRadius: '999px' }}
-                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 !rounded-[999px] rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                     title="Bấm để hủy phát video"
                   >
                     <span className="flex items-center justify-center">
                       <WebIcon
                         name="cancel"
-                        className="w-4 h-4 stroke-[2.8] text-white shrink-0"
+                        className="w-4 h-4 stroke-[2.8] text-current shrink-0"
                         style={{ height: '16px', width: '16px' }}
                       />
                     </span>
                     <span
-                      className="drop-shadow-sm typo-button text-white truncate font-play text-left"
+                      className="typo-button text-current truncate font-play text-left"
                       style={{ textAlign: 'left' }}
                     >
                       Hủy Phát

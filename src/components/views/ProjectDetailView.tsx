@@ -1839,23 +1839,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 </strong>
               </div>
 
-              {(selectedArticle.quote || spec.tagline) && (
-                <p className="banner-quote typo-h3 italic leading-snug line-clamp-3" style={{ color: 'var(--text-secondary)' }}>
-                  &ldquo;{selectedArticle.quote || spec.tagline}&rdquo;
-                </p>
-              )}
 
-              {/* Hashtag chips */}
-              <div className="flex items-center gap-1 flex-wrap pt-0.5">
-                {selectedArticle.hashtags.slice(0, 4).map((tag) => (
-                  <span
-                    key={tag}
-                    className="project-detail-chip px-2 py-0.5 rounded-full typo-badge font-mono font-medium border"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
             </div>
 
             {/* Danh sách 10 mục lục điều hướng - Thứ tự chuẩn: Số thứ tự & Icon & Tiêu đề */}
@@ -1915,22 +1899,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               })}
             </div>
 
-            {/* Bottom Actions trong Banner: Đồng bộ hoàn toàn nút theo Theme */}
-            <div className="relative z-10 pt-2 border-t border-[var(--border-subcard)] flex flex-col gap-1.5 shrink-0">
-              <button
-                type="button"
-                onClick={() => onOpenMindmap(selectedArticle)}
-                className="banner-control-pill w-full py-1.5 px-2.5 rounded-full typo-button font-bold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
-                title="Phóng to sơ đồ tư duy"
-              >
-                <span className="shrink-0 flex items-center">
-                  <WebIcon name="brain" className="w-3.5 h-3.5" />
-                </span>
-                <span className="font-play">
-                  Sơ Đồ Tư Duy
-                </span>
-              </button>
-            </div>
+
         </aside>
       )}
     </div>

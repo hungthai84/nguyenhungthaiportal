@@ -5,6 +5,7 @@ export type ThemeMechanismMode = 'light' | 'dark' | 'color';
 export type CardStyleMode =
   | 'light-multicolor-glass'
   | 'light-multicolor-glass-dark'
+  | 'light-multicolor-glass-color'
   | 'light-cowhide-leather'
   | 'black-cowhide-leather'
   | 'cowhide-leather';

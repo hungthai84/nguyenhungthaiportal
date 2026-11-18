@@ -1762,8 +1762,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
         aria-label={`${displayTitle} - ${item.roleVi}`}
         data-element-type="card"
         data-section-card="true"
-        style={{ gap: '12px', padding: '16px', borderRadius: '14px' }}
-        className={`bento-view-card bento-card glass-card flex flex-col justify-between p-4 gap-3 relative transition-all duration-200 overflow-hidden group/mcard w-full mx-auto h-full min-h-0 min-w-0 cursor-default text-left rounded-[14px] ${bentoSpan} ${
+        style={{ gap: '15px', padding: '15px', borderRadius: '14px' }}
+        className={`bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-all duration-200 overflow-hidden group/mcard w-full mx-auto h-full min-h-0 min-w-0 cursor-default text-left rounded-[14px] ${bentoSpan} ${
           isSelected
             ? 'ring-2 ring-cyan-400 dark:ring-cyan-300 scale-[1.01] z-10'
             : ''
@@ -1954,14 +1954,17 @@ export const LetterView: React.FC<LetterViewProps> = ({
           flex: `0 0 ${letterCardWidth}px`,
           height: '100%',
           minHeight: '100%',
-          padding: '15px',
+          paddingTop: '15px',
+          paddingRight: '15px',
+          paddingBottom: '0px',
+          paddingLeft: '15px',
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
           borderRadius: '14px',
         }}
         className={cn(
-          'group/letter page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
+          'group/letter page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start pt-[15px] pr-[15px] pb-0 pl-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
           currentSlide !== 0 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
@@ -1969,7 +1972,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   id="el-p1-div-85"
                   data-element-name="Lưới nội dung Thư ngỏ main card 1"
                   data-element-parent="letter-card-1"
-                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch auto-rows-auto p-0 rounded-none box-border"
+                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch auto-rows-auto pt-0 pr-0 pb-[15px] pl-0 rounded-none box-border"
                   style={{
                     width: '100%',
                     maxWidth: '100%',
@@ -1977,7 +1980,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
                     height: 'auto',
                     marginLeft: 'auto',
                     marginRight: 'auto',
-                    padding: '0px',
+                    paddingTop: '0px',
+                    paddingRight: '0px',
+                    paddingBottom: '15px',
+                    paddingLeft: '0px',
                     gap: '15px',
                     rowGap: '15px',
                     columnGap: '15px',
@@ -1992,15 +1998,15 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-section-card="true"
                       data-element-page="letter"
                       data-element-parent="letter-card-1"
-                      style={{ padding: '10px', borderRadius: '14px' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] min-h-[240px] sm:min-h-[280px] lg:min-h-[300px] w-full h-full min-w-0 relative overflow-hidden flex flex-col p-[10px] box-border transition-all duration-200 hover:-translate-y-0.5 group/vcard ${
+                      style={{ padding: '15px', borderRadius: '14px' }}
+                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] min-h-[240px] sm:min-h-[280px] lg:min-h-[300px] w-full h-full min-w-0 relative overflow-hidden flex flex-col p-[15px] box-border transition-all duration-200 hover:-translate-y-0.5 group/vcard ${
                         activeTargetId === 'bento-experience-intro' || activeTargetId === 'callout-salutation'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.3)]'
                           : ''
                       }`}
                     >
-                      {/* Video Container cách viền card 10px ở mọi chiều */}
-                      <div className="relative w-full h-full flex-1 rounded-[10px] overflow-hidden min-h-0">
+                      {/* Video Container cách viền card 15px ở mọi chiều */}
+                      <div className="relative w-full h-full flex-1 rounded-[14px] overflow-hidden min-h-0">
                         <video
                           ref={floatingVideoRef}
                           src={LETTER_SLIDE_1_VIDEO_URL}
@@ -2162,11 +2168,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
                                   {isValBeingRead && (
                                     <AudioWaveformVisualizer isPlaying={!isPaused} barCount={4} size="sm" />
                                   )}
-                                  <span
-                                    className={`font-mono tabular-nums font-bold typo-kpi select-none ${val.colorTheme.numberText}`}
-                                  >
-                                    {val.number}
-                                  </span>
                                 </div>
                               </div>
 
@@ -2329,14 +2330,17 @@ export const LetterView: React.FC<LetterViewProps> = ({
           flex: `0 0 ${letterCardWidth}px`,
           height: '100%',
           minHeight: '100%',
-          padding: '15px',
+          paddingTop: '15px',
+          paddingRight: '15px',
+          paddingBottom: '0px',
+          paddingLeft: '15px',
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
           borderRadius: '14px',
         }}
         className={cn(
-          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
+          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start pt-[15px] pr-[15px] pb-0 pl-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
           currentSlide !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
@@ -2344,8 +2348,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
           id="letter-slide-2-grid"
           data-element-name="Lưới nội dung Thư ngỏ main card 2"
           data-element-parent="letter-card-2"
-          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
+          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] pt-0 pr-0 pb-[15px] pl-0 items-stretch bg-transparent box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px 0px 15px 0px', background: 'transparent', width: '100%' }}
         >
           {CAREER_MILESTONES_DATA.slice(0, 4).map((item) =>
             renderCareerCard(item, 'min-w-0 col-span-1', false)
@@ -2379,14 +2383,17 @@ export const LetterView: React.FC<LetterViewProps> = ({
           flex: `0 0 ${letterCardWidth}px`,
           height: '100%',
           minHeight: '100%',
-          padding: '15px',
+          paddingTop: '15px',
+          paddingRight: '15px',
+          paddingBottom: '0px',
+          paddingLeft: '15px',
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
           borderRadius: '14px',
         }}
         className={cn(
-          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
+          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start pt-[15px] pr-[15px] pb-0 pl-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
           currentSlide !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
@@ -2394,8 +2401,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
           id="letter-slide-3-grid"
           data-element-name="Lưới nội dung Thư ngỏ main card 3"
           data-element-parent="letter-card-3"
-          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
+          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] pt-0 pr-0 pb-[15px] pl-0 items-stretch bg-transparent box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px 0px 15px 0px', background: 'transparent', width: '100%' }}
         >
           {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
             renderCareerCard(item, 'min-w-0 col-span-1', false)
@@ -2429,14 +2436,17 @@ export const LetterView: React.FC<LetterViewProps> = ({
           flex: `0 0 ${letterCardWidth}px`,
           height: '100%',
           minHeight: '100%',
-          padding: '15px',
+          paddingTop: '15px',
+          paddingRight: '15px',
+          paddingBottom: '0px',
+          paddingLeft: '15px',
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
           borderRadius: '14px',
         }}
         className={cn(
-          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
+          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start pt-[15px] pr-[15px] pb-0 pl-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
           currentSlide !== 3 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
@@ -2444,16 +2454,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
           id="letter-slide-4-bento-grid"
           data-element-name="Lưới nội dung Thư ngỏ main card 4"
           data-element-parent="letter-card-4"
-          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch bg-transparent box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
+          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] pt-0 pr-0 pb-[15px] pl-0 items-stretch bg-transparent box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px 0px 15px 0px', background: 'transparent', width: '100%' }}
         >
                     {/* BENTO CARD 1 (6/12 cols): TRIẾT LÝ QUẢN TRỊ & 3 NGUYÊN TẮC CỐT LÕI */}
                     <div
                       id="card-philosophy-gratitude"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '14px', padding: '16px', borderRadius: '14px' }}
-                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-6 w-full h-full min-w-0 relative overflow-hidden p-4 gap-3.5 rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
+                      style={{ gap: '15px', padding: '15px', borderRadius: '14px' }}
+                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-6 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
                         activeTargetId === 'card-philosophy-gratitude'
                           ? 'ring-2 ring-purple-500/80 dark:ring-cyan-400/80 shadow-[0_0_25px_rgba(168,85,247,0.22)]'
                           : ''
@@ -2494,8 +2504,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                               <div
                                 key={principle.id}
                                 data-subcard="true"
-                                style={{ padding: '14px', borderRadius: '14px' }}
-                                className="sub-card letter-subcard h-full p-3.5 rounded-[14px] text-left flex flex-col justify-between gap-1.5 transition-all hover:-translate-y-0.5 duration-200 min-w-0"
+                                style={{ padding: '15px', borderRadius: '14px' }}
+                                className="sub-card letter-subcard h-full p-[15px] rounded-[14px] text-left flex flex-col justify-between gap-1.5 transition-all hover:-translate-y-0.5 duration-200 min-w-0"
                               >
                                 <div className="flex items-center justify-between gap-2 min-w-0">
                                   <div
@@ -2532,8 +2542,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="bento-companion-letter"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '14px', padding: '16px', borderRadius: '14px' }}
-                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-6 w-full h-full min-w-0 relative overflow-hidden p-4 gap-3.5 rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
+                      style={{ gap: '15px', padding: '15px', borderRadius: '14px' }}
+                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-6 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
                         activeTargetId === 'card-philosophy-gratitude'
                           ? 'ring-2 ring-rose-500/70 dark:ring-cyan-400/70 shadow-[0_0_25px_rgba(244,63,94,0.18)]'
                           : ''
@@ -2574,8 +2584,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       {/* Quote box synthesis Bento Sub-card */}
                       <div
                         data-subcard="true"
-                        style={{ padding: '14px', borderRadius: '14px' }}
-                        className="sub-card letter-subcard w-full p-3.5 rounded-[14px] relative flex items-center gap-3 min-w-0"
+                        style={{ padding: '15px', borderRadius: '14px' }}
+                        className="sub-card letter-subcard w-full p-[15px] rounded-[14px] relative flex items-center gap-3 min-w-0"
                       >
                         <span className="text-amber-600 dark:text-amber-400 font-serif font-black text-xl leading-none shrink-0">
                           “
@@ -2768,20 +2778,24 @@ export const LetterView: React.FC<LetterViewProps> = ({
               )}
             </div>
 
-            {/* Nút Play hình tròn màu đỏ NẰM CHÍNH GIỮA CẠNH DƯỚI HÌNH TRÒN (CENTER BOTTOM) */}
+            {/* Nút Play hình tròn đồng bộ giao diện với viền chạy & hiệu ứng đổ bóng nằm dưới vòng tròn */}
             <button
+              id="letter-circle-video-play-btn"
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 handleToggleCircleVideo();
               }}
-              className="absolute -bottom-2 sm:-bottom-2.5 left-1/2 -translate-x-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#ef4444] hover:bg-[#dc2626] active:scale-95 text-white flex items-center justify-center shadow-[0_4px_16px_rgba(239,68,68,0.7),0_0_14px_rgba(239,68,68,0.9)] border-2 border-white dark:border-slate-900 transition-all duration-300 z-20 cursor-pointer group-hover/circle:scale-110"
+              className={`video-play-btn video-play-btn--letter ${
+                isCircleVideoPlaying ? 'is-playing' : ''
+              } absolute -bottom-2 sm:-bottom-2.5 left-1/2 -translate-x-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-full active:scale-95 flex items-center justify-center transition-all duration-300 z-20 cursor-pointer`}
               title={isCircleVideoPlaying ? "Tạm dừng video" : "Xem video giới thiệu"}
+              aria-label={isCircleVideoPlaying ? "Tạm dừng video" : "Xem video giới thiệu"}
             >
               {isCircleVideoPlaying ? (
-                <WebIcon name="pause" className="w-4 h-4 fill-white text-white" />
+                <WebIcon name="pause" className="w-4 h-4 fill-current text-current" />
               ) : (
-                <WebIcon name="play" className="w-4 h-4 fill-white text-white ml-0.5" />
+                <WebIcon name="play" className="w-4 h-4 fill-current text-current ml-0.5" />
               )}
             </button>
 

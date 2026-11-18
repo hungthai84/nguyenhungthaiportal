@@ -88,14 +88,17 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
   };
 
   // Bộ cấu hình màu sắc & hình ảnh dịch vụ cho 6 thẻ với màu sắc Gương đa sắc và độ trong suốt
+  const isMonoGlass = cardStyle === 'light-multicolor-glass';
   const getCardVisualConfig = (id: string) => {
     switch (id) {
       case '01': // 6.1. Dịch vụ di động - #1F5EAC
         return {
-          accentColor: '#1F5EAC',
-          cardBg: isLight
-            ? 'linear-gradient(135deg, rgba(31, 94, 172, 0.12) 0%, rgba(31, 94, 172, 0.22) 100%)'
-            : 'linear-gradient(135deg, rgba(31, 94, 172, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
+          accentColor: isMonoGlass ? '#0F172A' : '#1F5EAC',
+          cardBg: isMonoGlass
+            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
+            : isLight
+              ? 'linear-gradient(135deg, rgba(31, 94, 172, 0.12) 0%, rgba(31, 94, 172, 0.22) 100%)'
+              : 'linear-gradient(135deg, rgba(31, 94, 172, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
           cardBorder: isLight
             ? 'border-[#1F5EAC]/35 hover:border-[#1F5EAC]'
             : 'border-[#1F5EAC]/55 hover:border-[#1F5EAC]',
@@ -112,10 +115,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
         };
       case '02': // 6.2. Thương mại điện tử - #D97637
         return {
-          accentColor: '#D97637',
-          cardBg: isLight
-            ? 'linear-gradient(135deg, rgba(217, 118, 55, 0.12) 0%, rgba(217, 118, 55, 0.22) 100%)'
-            : 'linear-gradient(135deg, rgba(217, 118, 55, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
+          accentColor: isMonoGlass ? '#0F172A' : '#D97637',
+          cardBg: isMonoGlass
+            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
+            : isLight
+              ? 'linear-gradient(135deg, rgba(217, 118, 55, 0.12) 0%, rgba(217, 118, 55, 0.22) 100%)'
+              : 'linear-gradient(135deg, rgba(217, 118, 55, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
           cardBorder: isLight
             ? 'border-[#D97637]/35 hover:border-[#D97637]'
             : 'border-[#D97637]/55 hover:border-[#D97637]',
@@ -133,10 +138,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
         };
       case '03': // 6.3. Tài chính bảo hiểm - #F54459
         return {
-          accentColor: '#F54459',
-          cardBg: isLight
-            ? 'linear-gradient(135deg, rgba(245, 68, 89, 0.12) 0%, rgba(245, 68, 89, 0.22) 100%)'
-            : 'linear-gradient(135deg, rgba(245, 68, 89, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
+          accentColor: isMonoGlass ? '#0F172A' : '#F54459',
+          cardBg: isMonoGlass
+            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
+            : isLight
+              ? 'linear-gradient(135deg, rgba(245, 68, 89, 0.12) 0%, rgba(245, 68, 89, 0.22) 100%)'
+              : 'linear-gradient(135deg, rgba(245, 68, 89, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
           cardBorder: isLight
             ? 'border-[#F54459]/35 hover:border-[#F54459]'
             : 'border-[#F54459]/55 hover:border-[#F54459]',
@@ -154,10 +161,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
         };
       case '04': // 6.4. Thể thao điện tử - #8946EB
         return {
-          accentColor: '#8946EB',
-          cardBg: isLight
-            ? 'linear-gradient(135deg, rgba(137, 70, 235, 0.86) 0%, rgba(137, 70, 235, 0.76) 100%)'
-            : 'linear-gradient(135deg, rgba(137, 70, 235, 0.82) 0%, rgba(48, 16, 96, 0.88) 100%)',
+          accentColor: isMonoGlass ? '#0F172A' : '#8946EB',
+          cardBg: isMonoGlass
+            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
+            : isLight
+              ? 'linear-gradient(135deg, rgba(137, 70, 235, 0.86) 0%, rgba(137, 70, 235, 0.76) 100%)'
+              : 'linear-gradient(135deg, rgba(137, 70, 235, 0.82) 0%, rgba(48, 16, 96, 0.88) 100%)',
           cardBorder: 'border-[#8946EB]/80 hover:border-[#8946EB]',
           titleColor: 'text-white',
           pillBg: 'bg-white/20 border-white/40 text-white',
@@ -171,10 +180,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
         };
       case '05': // 6.5. Thanh toán điện tử - #A669F3
         return {
-          accentColor: '#A669F3',
-          cardBg: isLight
-            ? 'linear-gradient(135deg, rgba(166, 105, 243, 0.12) 0%, rgba(166, 105, 243, 0.22) 100%)'
-            : 'linear-gradient(135deg, rgba(166, 105, 243, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
+          accentColor: isMonoGlass ? '#0F172A' : '#A669F3',
+          cardBg: isMonoGlass
+            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
+            : isLight
+              ? 'linear-gradient(135deg, rgba(166, 105, 243, 0.12) 0%, rgba(166, 105, 243, 0.22) 100%)'
+              : 'linear-gradient(135deg, rgba(166, 105, 243, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
           cardBorder: isLight
             ? 'border-[#A669F3]/35 hover:border-[#A669F3]'
             : 'border-[#A669F3]/55 hover:border-[#A669F3]',
@@ -193,10 +204,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
       case '06': // 6.6. Xây dựng hệ thống - #88D2BB
       default:
         return {
-          accentColor: '#88D2BB',
-          cardBg: isLight
-            ? 'linear-gradient(135deg, rgba(136, 210, 187, 0.14) 0%, rgba(136, 210, 187, 0.26) 100%)'
-            : 'linear-gradient(135deg, rgba(136, 210, 187, 0.48) 0%, rgba(15, 23, 42, 0.85) 100%)',
+          accentColor: isMonoGlass ? '#0F172A' : '#88D2BB',
+          cardBg: isMonoGlass
+            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
+            : isLight
+              ? 'linear-gradient(135deg, rgba(136, 210, 187, 0.14) 0%, rgba(136, 210, 187, 0.26) 100%)'
+              : 'linear-gradient(135deg, rgba(136, 210, 187, 0.48) 0%, rgba(15, 23, 42, 0.85) 100%)',
           cardBorder: isLight
             ? 'border-[#88D2BB]/45 hover:border-[#88D2BB]'
             : 'border-[#88D2BB]/60 hover:border-[#88D2BB]',
@@ -254,13 +267,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
       {/* 1. HERO BANNER ĐẦU TRANG DỊCH VỤ */}
       {!selectedDomain && (
         <motion.div
+          id="services-hero-banner"
           data-element-type="section"
           data-section-card="true"
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 backdrop-blur-xl"
-          style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
+          className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-[15px] p-[15px] z-30 backdrop-blur-xl box-border"
+          style={{ padding: '15px', gap: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px', boxSizing: 'border-box' }}
         >
         <div
           className="absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
@@ -310,7 +324,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
         </div>
 
         {/* Nhóm các nút lại thành 1 filter icon ở bên dưới banner bên trái */}
-        <div className="relative z-30 flex items-center justify-between mt-auto pt-2 gap-2" ref={filterMenuRef}>
+        <div className="relative z-30 flex items-center justify-between mt-auto pt-0 gap-[15px]" ref={filterMenuRef}>
           <div className="relative inline-block text-left">
             <button
               type="button"
@@ -351,7 +365,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   transition={{ duration: 0.16 }}
                   id="services-filter-dropdown"
                   role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-140px))] sm:w-72 max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
                   {filterCategories.map((cat) => {
                     const isActive = activeCategory === cat.id;
@@ -428,7 +442,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
 
       {/* 2. VÙNG NỘI DUNG: KHI CHƯA CHỌN -> 6 THẺ DẠNG 3 CỘT 2 HÀNG; KHI CLICK XEM CHI TIẾT -> THẺ CHI TIẾT BẰNG KÍCH THƯỚC 6 THẺ CỘNG & VIEW 3 CỘT 2 HÀNG */}
         {!selectedDomain ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full lg:flex-1 min-w-0" style={{ gap: '15px' }}>
+          <div className="services-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full lg:flex-1 min-w-0" style={{ gap: '15px' }}>
             {filteredDomains.map((domain, idx) => {
               const cfg = getCardVisualConfig(domain.id);
               const bullets = (domain.details || domain.experienceItems || []).slice(0, 3);
@@ -456,13 +470,15 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   style={{
                     borderRadius: '14px',
                     padding: '15px',
+                    gap: '15px',
+                    boxSizing: 'border-box',
                     background: cfg.cardBg,
                   }}
-                  className="service-card bento-card glass-card layered-card group relative rounded-[14px] p-[15px] transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[230px] shadow-sm hover:shadow-xl hover:-translate-y-0.5"
+                  className="service-card bento-card glass-card layered-card group relative rounded-[14px] p-[15px] gap-[15px] box-border transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[230px] shadow-sm hover:shadow-xl hover:-translate-y-0.5"
                 >
                   {/* 1. TOP: Tiêu đề tên dịch vụ và icon dịch vụ (nền trong suốt 100%, không viền) */}
-                  <div className="service-card-title-header relative z-20 flex items-center justify-between pb-2 bg-transparent border-0 shadow-none shrink-0">
-                    <div className="card-header-sync flex items-center gap-2.5 min-w-0 flex-1 bg-transparent border-0 shadow-none" style={{ color: cfg.accentColor }}>
+                  <div className="service-card-title-header relative z-20 flex items-center justify-between pb-0 bg-transparent border-0 shadow-none shrink-0">
+                    <div className="card-header-sync flex items-center gap-[15px] min-w-0 flex-1 bg-transparent border-0 shadow-none" style={{ color: cfg.accentColor }}>
                       <span
                         className="shrink-0 flex items-center justify-center bg-transparent border-0 p-0 shadow-none"
                         style={{ color: cfg.accentColor }}
@@ -481,7 +497,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   </div>
 
                   {/* 2. CENTER: Chứa mô tả và hình dịch vụ */}
-                  <div className="relative z-20 flex flex-col sm:flex-row items-center gap-3 py-2.5 flex-1 min-h-0">
+                  <div className="relative z-20 flex flex-col sm:flex-row items-center gap-[15px] py-0 flex-1 min-h-0">
                     <div className="flex-1 min-w-0">
                       <p
                         id={`service-card-desc-${domain.id}`}
@@ -512,7 +528,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   </div>
 
                   {/* 3. BOTTOM: Logo công ty nền trong suốt, căn giữa gọn gàng */}
-                  <div className="service-divider relative z-20 pt-2 border-t border-[var(--border-subcard)] flex items-center justify-center shrink-0">
+                  <div className="service-divider relative z-20 pt-[15px] pb-0 border-t border-[var(--border-subcard)] flex items-center justify-center shrink-0">
                     {domain.companyLogos && domain.companyLogos.length > 0 ? (
                       <div className="flex items-center justify-center gap-2.5 flex-wrap">
                         {domain.companyLogos
@@ -555,15 +571,17 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
             const cfg = getCardVisualConfig(selectedDomain.id);
             const accentPair = DOMAIN_DETAIL_ACCENTS[selectedDomain.id] || DOMAIN_DETAIL_ACCENTS['01'];
             const accentColor =
-              cardStyle === 'cowhide-leather'
-                ? '#FDE68A'
-                : cardStyle === 'black-cowhide-leather'
-                  ? '#E2E8F0'
-                  : cardStyle === 'light-cowhide-leather'
-                    ? '#0F172A'
-                    : isLight
-                      ? accentPair.light
-                      : accentPair.dark;
+              isMonoGlass
+                ? '#0F172A'
+                : cardStyle === 'cowhide-leather'
+                  ? '#FDE68A'
+                  : cardStyle === 'black-cowhide-leather'
+                    ? '#E2E8F0'
+                    : cardStyle === 'light-cowhide-leather'
+                      ? '#0F172A'
+                      : isLight
+                        ? accentPair.light
+                        : accentPair.dark;
             const domainAccentKeyMap: Record<string, string> = {
               '01': 'sky',
               '02': 'orange',
@@ -604,9 +622,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   duration: 0.4,
                   ease: [0.25, 1, 0.5, 1],
                 }}
-                className="bento-card glass-card w-full flex-1 rounded-[14px] p-4 sm:p-5 gap-3.5 sm:gap-4 relative flex flex-col justify-start text-left font-play transition-all duration-300 text-[var(--text-primary)]"
+                className="bento-card glass-card w-full flex-1 rounded-[14px] p-[15px] gap-[15px] box-border relative flex flex-col justify-start text-left font-play transition-all duration-300 text-[var(--text-primary)]"
                 style={{
                   borderRadius: '14px',
+                  padding: '15px',
+                  gap: '15px',
+                  boxSizing: 'border-box',
                   background: 'var(--surface-secondary-bg, var(--bg-card))',
                   border: '1px solid var(--surface-secondary-border, var(--border-color))',
                   boxShadow: 'var(--surface-secondary-shadow, var(--shadow-card))',
@@ -615,9 +636,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                 }}
               >
                 {/* 1. TOP HEADER BAR: Icon + Tiêu đề 4 từ đồng màu icon + Nút tròn đóng (X) */}
-                <div className="flex items-center justify-between gap-3 sm:gap-4 pb-3 border-b border-[var(--border-subcard)] shrink-0">
+                <div className="flex items-center justify-between gap-[15px] pb-[15px] border-b border-[var(--border-subcard)] shrink-0">
                   <div
-                    className="card-header-sync flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1"
+                    className="card-header-sync flex items-center gap-[15px] min-w-0 flex-1"
                     data-card-accent={domainAccentKey}
                     style={{ color: accentColor }}
                   >
@@ -656,21 +677,25 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                 </div>
 
                 {/* 2. BENTO RESPONSIVE GRID VIEW (12 CỘT DESKTOP / 2 CỘT TABLET / 1 CỘT MOBILE) */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-stretch shrink-0 pb-1">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] items-stretch shrink-0 pb-0">
                   {/* BENTO CARD 1: Thông điệp chuyên môn & Hình ảnh dịch vụ (Cùng hàng với Đối tác tiêu biểu) */}
                   <div
                     data-subcard="true"
-                    className="exp-detail-subcard md:col-span-7 p-4 sm:p-5 rounded-[14px] border-l-4 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-4 min-w-0"
-                    style={{ borderLeftColor: accentColor }}
+                    className="exp-detail-subcard md:col-span-7 p-[15px] rounded-[14px] border-l-4 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-[15px] min-w-0 box-border"
+                    style={{ borderLeftColor: accentColor, padding: '15px', gap: '15px' }}
                   >
-                    <div className="relative z-10 flex-1 min-w-0 flex flex-col justify-between gap-2.5 w-full">
+                    <div className="relative z-10 flex-1 min-w-0 flex flex-col justify-between gap-[15px] w-full">
                       <div
                         className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
                         data-subcard-accent={domainAccentKey}
                       >
-                        <WebIcon name="sparkles" className="w-4.5 h-4.5 shrink-0" />
+                        <WebIcon name={selectedDomain.icon?.toLowerCase() || 'sparkles'} className="w-4.5 h-4.5 shrink-0" />
                         <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                          {isEn ? 'Core Professional Service Message' : 'Thông điệp chuyên môn'}
+                          {selectedDomain.id === '01'
+                            ? isEn
+                              ? 'Telecom Services'
+                              : 'Dịch vụ viễn thông'
+                            : serviceTitle}
                         </h3>
                       </div>
                       {professionalMsg && (
@@ -700,7 +725,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   </div>
 
                   {/* BENTO CARD 3: Đối tác tiêu biểu (Cùng hàng với Thông điệp chuyên môn) */}
-                  <div data-subcard="true" className="exp-detail-subcard md:col-span-5 p-4 sm:p-5 rounded-[14px] flex flex-col justify-between gap-3 min-w-0">
+                  <div data-subcard="true" className="exp-detail-subcard md:col-span-5 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0 box-border" style={{ padding: '15px', gap: '15px' }}>
                     <div
                       className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
                       data-subcard-accent="teal"
@@ -715,9 +740,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                       const companyList = selectedDomain.companies || [];
 
                       return (
-                        <div className="flex-1 w-full flex items-center justify-start min-w-0 py-1">
+                        <div className="flex-1 w-full flex items-center justify-start min-w-0 py-0">
                           <div
-                            className="flex flex-row flex-wrap items-center justify-start gap-2.5 sm:gap-3 min-w-0"
+                            className="flex flex-row flex-wrap items-center justify-start gap-[15px] min-w-0"
                             role="group"
                             aria-label={isEn ? 'Partner logos' : 'Nhóm logo đối tác tiêu biểu'}
                           >
@@ -771,7 +796,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   {selectedDomain.operationalResults && selectedDomain.operationalResults.length > 0 && (
                     <div
                       data-subcard="true"
-                      className="exp-detail-subcard md:col-span-12 lg:col-span-7 p-4 rounded-[14px] flex flex-col justify-between gap-3 min-w-0"
+                      style={{ padding: '15px', gap: '15px' }}
+                      className="exp-detail-subcard md:col-span-12 lg:col-span-7 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0 box-border"
                     >
                       <div
                         className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
@@ -783,14 +809,15 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                         </h3>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px]">
                         {selectedDomain.operationalResults.map((row, rIdx) => {
                           const topColors = ['#FFDF25', '#E64C72', '#3BB8E6', '#A78BFA'];
                           return (
                             <div
                               key={rIdx}
                               data-subcard="true"
-                              className="exp-detail-subcard relative overflow-hidden p-3.5 rounded-[14px] flex flex-col justify-between gap-1.5 min-w-0 transition-transform duration-200 hover:-translate-y-0.5"
+                              style={{ padding: '15px', gap: '15px' }}
+                              className="exp-detail-subcard relative overflow-hidden p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0 box-border transition-transform duration-200 hover:-translate-y-0.5"
                             >
                               <div
                                 className="absolute top-0 left-0 right-0 h-1"
@@ -811,7 +838,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                       </div>
 
                       {selectedDomain.summaryNote && (
-                        <p className="typo-body-sm text-[var(--text-secondary)] pt-2 border-t border-[var(--border-subcard)]/70 break-words">
+                        <p className="typo-body-sm text-[var(--text-secondary)] pt-[15px] border-t border-[var(--border-subcard)]/70 break-words">
                           {selectedDomain.summaryNote}
                         </p>
                       )}
@@ -821,11 +848,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   {/* BENTO CARD 4: Vai trò đảm nhiệm */}
                   <div
                     data-subcard="true"
+                    style={{ padding: '15px', gap: '15px' }}
                     className={`exp-detail-subcard ${
                       selectedDomain.operationalResults && selectedDomain.operationalResults.length > 0
                         ? 'md:col-span-12 lg:col-span-5'
                         : 'md:col-span-12'
-                    } p-4 rounded-[14px] flex flex-col justify-between gap-2 min-w-0`}
+                    } p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0 box-border`}
                   >
                     <div
                       className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
@@ -854,7 +882,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
 
                   {/* BENTO CARD 5: Kinh nghiệm chuyên môn */}
                   {selectedDomain.experienceItems && selectedDomain.experienceItems.length > 0 && (
-                    <div data-subcard="true" className="exp-detail-subcard md:col-span-6 p-4 rounded-[14px] space-y-2.5 min-w-0">
+                    <div data-subcard="true" style={{ padding: '15px', gap: '15px' }} className="exp-detail-subcard md:col-span-6 p-[15px] rounded-[14px] flex flex-col gap-[15px] min-w-0 box-border">
                       <div
                         className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
                         data-subcard-accent="sky"
@@ -877,7 +905,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
 
                   {/* BENTO CARD 6: Quy mô vận hành */}
                   {selectedDomain.scaleAndScope && selectedDomain.scaleAndScope.length > 0 && (
-                    <div data-subcard="true" className="exp-detail-subcard md:col-span-6 p-4 rounded-[14px] space-y-2.5 min-w-0">
+                    <div data-subcard="true" style={{ padding: '15px', gap: '15px' }} className="exp-detail-subcard md:col-span-6 p-[15px] rounded-[14px] flex flex-col gap-[15px] min-w-0 box-border">
                       <div
                         className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
                         data-subcard-accent="indigo"
@@ -904,11 +932,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   {selectedDomain.operationalChallenges && selectedDomain.operationalChallenges.length > 0 && (
                     <div
                       data-subcard="true"
+                      style={{ padding: '15px', gap: '15px' }}
                       className={`exp-detail-subcard ${
                         (selectedDomain.tools || []).length > 0
                           ? 'md:col-span-12 lg:col-span-5'
                           : 'md:col-span-12'
-                      } p-4 rounded-[14px] space-y-2.5 min-w-0`}
+                      } p-[15px] rounded-[14px] flex flex-col gap-[15px] min-w-0 box-border`}
                     >
                       <div
                         className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
@@ -934,13 +963,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   {(selectedDomain.tools || []).length > 0 && (
                     <div
                       data-subcard="true"
+                      style={{ padding: '15px', gap: '15px' }}
                       className={`exp-detail-subcard ${
                         selectedDomain.operationalChallenges && selectedDomain.operationalChallenges.length > 0
                           ? 'md:col-span-12 lg:col-span-7'
                           : 'md:col-span-12'
-                      } p-4 rounded-[14px] flex flex-col justify-between gap-3.5 min-w-0`}
+                      } p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0 box-border`}
                     >
-                      <div className="flex flex-wrap items-center justify-between gap-2.5 min-w-0">
+                      <div className="flex flex-wrap items-center justify-between gap-[15px] min-w-0">
                         <div
                           className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
                           data-subcard-accent="cyan"
@@ -964,7 +994,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                         </button>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-auto">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px] my-auto">
                         {(selectedDomain.tools || []).map((tech, i) => {
                           const toolIcon = toolIcons[i % toolIcons.length];
                           const toolAccent = toolAccents[i % toolAccents.length];
@@ -973,7 +1003,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                               key={i}
                               data-subcard="true"
                               data-subcard-accent={toolAccent}
-                              className="exp-detail-subcard !p-2.5 rounded-[14px] flex items-center gap-2.5 min-w-0 transition-transform duration-200 hover:-translate-y-0.5"
+                              style={{ padding: '15px', gap: '15px' }}
+                              className="exp-detail-subcard p-[15px] rounded-[14px] flex items-center gap-[15px] min-w-0 box-border transition-transform duration-200 hover:-translate-y-0.5"
                             >
                               <span
                                 className="w-7 h-7 rounded-[14px] shrink-0 flex items-center justify-center border border-[var(--border-subcard)]/70"

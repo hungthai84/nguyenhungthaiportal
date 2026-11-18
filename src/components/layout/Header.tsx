@@ -336,22 +336,6 @@ export const Header: React.FC<HeaderProps> = ({
   );
 
   const avatarPillRef = useRef<HTMLDivElement>(null);
-  const [isHeaderHidden, setIsHeaderHidden] = useState(false);
-  const lastScrollY = useRef(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY.current && currentScrollY > 120) {
-        setIsHeaderHidden(true);
-      } else {
-        setIsHeaderHidden(false);
-      }
-      lastScrollY.current = currentScrollY;
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Đo kích thước tự nhiên của toàn bộ các nút ở Header và đồng bộ chiều ngang bằng nút rộng nhất
   useLayoutEffect(() => {
@@ -481,7 +465,7 @@ export const Header: React.FC<HeaderProps> = ({
       }}
       className={`neonav-bar mx-auto min-h-[72px] h-auto py-1.5 flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
-      } ${isHeaderHidden ? 'is-header-hidden' : ''} relative flex-shrink-0 rounded-t-none rounded-b-[14px] backdrop-blur-md group/header overflow-visible pointer-events-auto`}
+      } relative flex-shrink-0 rounded-t-none rounded-b-[14px] backdrop-blur-md overflow-visible pointer-events-auto`}
     >
       {/* Khu vực Menu chính: Các nút định dạng xếp chồng với hiệu ứng lan màu khi chọn */}
       <nav

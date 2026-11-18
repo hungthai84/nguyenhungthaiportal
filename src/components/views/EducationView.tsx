@@ -554,7 +554,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
                   role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-140px))] sm:w-72 max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
                   {TRAINING_TYPE_CATEGORIES.map((cat) => {
                     const isActive = activeCategory === cat.id;
@@ -701,8 +701,9 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       >
                         {displayTitle}
                       </h3>
-                      <span className="typo-badge font-mono shrink-0 px-2 py-0.5 rounded-full" style={{ backgroundColor: `${cardColor}20`, color: cardColor }}>
-                        {course.year}
+                      <span className="typo-badge font-mono shrink-0 px-2 py-0.5 rounded-full inline-flex items-center gap-1.5" style={{ backgroundColor: `${cardColor}20`, color: cardColor }}>
+                        <WebIcon name="calendar" className="w-3 h-3 shrink-0" style={{ color: cardColor }} />
+                        <span>Năm {course.year}</span>
                       </span>
                     </div>
 

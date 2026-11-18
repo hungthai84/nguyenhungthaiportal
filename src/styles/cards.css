@@ -149,11 +149,14 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
   box-shadow: var(--shadow-card-hover) !important;
 }
 
-/* MEMORIES PAGE: FULL-BLEED PHOTO CARDS (HÌNH LẮP ĐẦY 100% CARD) */
+/* MEMORIES PAGE: FULL-BLEED PHOTO CARDS (HÌNH LẮP ĐẦY 100% CARD, NỀN TRONG SUỐT 100%, BO CONG 14PX) */
 #memories-page-container [id^="memory-card-"],
 .memory-photo-item {
   padding: 0 !important;
-  border: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-radius: 14px !important;
   overflow: hidden !important;
 }
 
@@ -162,6 +165,7 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
+  border-radius: 14px !important;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -999,13 +1003,13 @@ h3.card-title,
 #project-detail-banner,
 #contact-hero-banner,
 #ai-assistant-hero-banner {
-  background: var(--surface-secondary-bg, var(--bg-card)) !important;
+  background: rgba(255, 255, 255, 0.10) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--banner-border, var(--border-color))) !important;
   box-shadow: var(--banner-shadow, var(--shadow-card)) !important;
   outline: var(--banner-outline, none);
   outline-offset: var(--banner-outline-offset, 0px);
-  backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 18px))) saturate(var(--surface-secondary-saturate, 145%)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 18px))) saturate(var(--surface-secondary-saturate, 145%)) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   padding: 15px !important;
 }
 
@@ -1106,20 +1110,235 @@ h3.card-title,
 /* ========================================================================= */
 .themed-image-card {
   padding: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   overflow: hidden !important;
   border: var(--card-border-width, 1px) solid var(--border-image-card, var(--border-color)) !important;
   box-shadow: var(--shadow-image-card, var(--shadow-card)) !important;
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: 14px !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
 }
 
-#wallpaper-page-container [id^="wallpaper-card-"] {
+#wallpaper-page-container [id^="wallpaper-card-"],
+#wallpaper-page-container [id^="wallpaper-card-media-"],
+#memories-page-container [id^="memory-card-"] {
   padding: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 14px !important;
 }
 
-#wallpaper-page-container [id^="wallpaper-card-content-"] {
-  padding: 10px !important;
+#wallpaper-page-container [id^="wallpaper-card-content-"],
+#memories-page-container [id^="memory-card-content-"] {
+  padding: 15px !important;
+}
+
+/* Hover-only reveal for titles & objects inside Wallpaper & Memories cards */
+.themed-image-card .themed-image-card-scrim,
+.themed-image-card .themed-image-card-overlay {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.themed-image-card:hover .themed-image-card-scrim,
+.themed-image-card:focus-within .themed-image-card-scrim {
+  opacity: 1;
+}
+
+.themed-image-card:hover .themed-image-card-overlay,
+.themed-image-card:focus-within .themed-image-card-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Default / Light Glass hover overlay styling */
+.themed-image-card-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.90) 0%,
+    rgba(248, 250, 252, 0.56) 52%,
+    rgba(255, 255, 255, 0.18) 100%
+  );
+  backdrop-filter: blur(6px) saturate(135%);
+  -webkit-backdrop-filter: blur(6px) saturate(135%);
+}
+
+.themed-image-card-title {
+  color: var(--text-heading, #0F172A);
+}
+
+.themed-image-card-subtext {
+  color: var(--text-secondary, #334155);
+}
+
+.themed-image-card-kicker {
+  color: var(--color-primary, #2563EB);
+}
+
+.themed-image-card-divider {
+  border-color: rgba(15, 23, 42, 0.14);
+}
+
+.themed-image-card-badge {
+  background: var(--surface-tertiary-bg, rgba(255, 255, 255, 0.78));
+  border: 1px solid var(--surface-tertiary-border, rgba(15, 23, 42, 0.16));
+  color: var(--text-primary, #0F172A);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Theme 01B: Gương Neon màu (tối) */
+html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-scrim,
+html.dark .themed-image-card-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(7, 11, 26, 0.90) 0%,
+    rgba(12, 18, 38, 0.56) 52%,
+    rgba(7, 11, 26, 0.18) 100%
+  );
+  backdrop-filter: blur(6px) saturate(140%);
+  -webkit-backdrop-filter: blur(6px) saturate(140%);
+}
+
+html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-title,
+html.dark .themed-image-card-title {
+  color: #FFFFFF;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-subtext,
+html.dark .themed-image-card-subtext {
+  color: #E2E8F0;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-kicker,
+html.dark .themed-image-card-kicker {
+  color: #7DD3FC;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-divider,
+html.dark .themed-image-card-divider {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-badge,
+html.dark .themed-image-card-badge {
+  background: rgba(15, 23, 42, 0.72);
+  border-color: rgba(255, 255, 255, 0.24);
+  color: #F8FAFC;
+}
+
+/* Theme 01C: Gương đa sắc (màu) */
+html[data-card-style="light-multicolor-glass-color"] .themed-image-card-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(248, 245, 255, 0.92) 0%,
+    rgba(238, 246, 255, 0.58) 52%,
+    rgba(255, 240, 248, 0.20) 100%
+  );
+  backdrop-filter: blur(8px) saturate(160%);
+  -webkit-backdrop-filter: blur(8px) saturate(160%);
+}
+
+/* Theme 02A: Chất liệu da (màu trắng) */
+html[data-card-style="light-cowhide-leather"] .themed-image-card-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(251, 252, 252, 0.92) 0%,
+    rgba(237, 241, 244, 0.58) 54%,
+    rgba(251, 252, 252, 0.18) 100%
+  );
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html[data-card-style="light-cowhide-leather"] .themed-image-card-title {
+  color: #111827;
+}
+
+html[data-card-style="light-cowhide-leather"] .themed-image-card-subtext {
+  color: #374151;
+}
+
+html[data-card-style="light-cowhide-leather"] .themed-image-card-kicker {
+  color: #1D4ED8;
+}
+
+html[data-card-style="light-cowhide-leather"] .themed-image-card-badge {
+  background: #fbfcfc;
+  border: 1.5px solid #d1d5db;
+  color: #111827;
+}
+
+/* Theme 02B: Chất liệu da (màu đen) */
+html[data-card-style="black-cowhide-leather"] .themed-image-card-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(13, 15, 20, 0.92) 0%,
+    rgba(21, 23, 28, 0.58) 54%,
+    rgba(9, 10, 13, 0.20) 100%
+  );
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html[data-card-style="black-cowhide-leather"] .themed-image-card-title {
+  color: #FFFFFF;
+}
+
+html[data-card-style="black-cowhide-leather"] .themed-image-card-subtext {
+  color: #CBD5E1;
+}
+
+html[data-card-style="black-cowhide-leather"] .themed-image-card-kicker {
+  color: #E2E8F0;
+}
+
+html[data-card-style="black-cowhide-leather"] .themed-image-card-badge {
+  background: linear-gradient(145deg, #252830 0%, #15171c 100%);
+  border: 1px solid rgba(226, 232, 240, 0.35);
+  color: #FFFFFF;
+}
+
+/* Theme 02C: Chất liệu da (màu nâu) */
+html[data-card-style="cowhide-leather"] .themed-image-card-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(53, 27, 11, 0.92) 0%,
+    rgba(101, 58, 23, 0.58) 54%,
+    rgba(36, 18, 6, 0.20) 100%
+  );
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html[data-card-style="cowhide-leather"] .themed-image-card-title {
+  color: #FFFBEB;
+}
+
+html[data-card-style="cowhide-leather"] .themed-image-card-subtext {
+  color: #FDE68A;
+}
+
+html[data-card-style="cowhide-leather"] .themed-image-card-kicker {
+  color: #FCD34D;
+}
+
+html[data-card-style="cowhide-leather"] .themed-image-card-divider {
+  border-color: rgba(245, 222, 179, 0.32);
+}
+
+html[data-card-style="cowhide-leather"] .themed-image-card-badge {
+  background: linear-gradient(145deg, #7A4A20 0%, #522E10 100%);
+  border: 1px solid rgba(245, 222, 179, 0.48);
+  color: #FFFBEB;
 }
 
 /* ========================================================================= */
@@ -1137,7 +1356,7 @@ h3.card-title,
 
 .project-detail-banner-media img,
 .project-detail-banner-media video {
-  opacity: 0.18;
+  opacity: 1 !important;
   transition: opacity 0.45s ease, transform 0.7s ease;
 }
 
@@ -1148,15 +1367,15 @@ h3.card-title,
 #project-detail-banner:hover .project-detail-banner-media img,
 #contact-hero-banner:hover .project-detail-banner-media img,
 #ai-assistant-hero-banner:hover .project-detail-banner-media video {
-  opacity: 0.28;
+  opacity: 1 !important;
   transform: scale(1.03);
 }
 
 .project-detail-banner-scrim {
-  background: var(--surface-secondary-bg, var(--bg-card));
-  opacity: 0.86;
-  backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 16px))) saturate(140%);
-  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 16px))) saturate(140%);
+  background: rgba(15, 23, 42, 0.10) !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 .project-detail-toc-btn[data-active="false"] {
@@ -1855,71 +2074,46 @@ button:focus-visible,
   overflow: hidden !important;
 }
 
-/* Company Dedicated Card Background Banner & Theme-Aware Scrim */
+/* Company Dedicated Card Background Banner & Theme-Aware 90%-Transparent Scrim */
 #experience-dedicated-company-card .exp-company-banner-media img {
-  opacity: 0.28;
+  opacity: 1 !important;
 }
 
 #experience-dedicated-company-card:hover .exp-company-banner-media img {
-  opacity: 0.34;
+  opacity: 1 !important;
 }
 
 #experience-dedicated-company-card .exp-company-banner-scrim {
-  background: linear-gradient(
-    105deg,
-    rgba(255, 255, 255, 0.88) 0%,
-    rgba(248, 250, 252, 0.76) 55%,
-    rgba(238, 242, 255, 0.82) 100%
-  );
+  background: rgba(255, 255, 255, 0.10) !important;
 }
 
 html.dark #experience-dedicated-company-card .exp-company-banner-scrim,
 html[data-card-style="light-multicolor-glass-dark"] #experience-dedicated-company-card .exp-company-banner-scrim {
-  background: linear-gradient(
-    105deg,
-    rgba(15, 23, 42, 0.86) 0%,
-    rgba(30, 27, 75, 0.74) 55%,
-    rgba(15, 23, 42, 0.84) 100%
-  );
+  background: rgba(15, 23, 42, 0.10) !important;
 }
 
 html[data-card-style="light-cowhide-leather"] #experience-dedicated-company-card .exp-company-banner-media img {
-  opacity: 0.22;
+  opacity: 1 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] #experience-dedicated-company-card .exp-company-banner-scrim {
-  background: linear-gradient(
-    105deg,
-    rgba(251, 252, 253, 0.90) 0%,
-    rgba(237, 241, 244, 0.78) 55%,
-    rgba(251, 252, 253, 0.86) 100%
-  );
+  background: rgba(251, 252, 253, 0.10) !important;
 }
 
 html[data-card-style="black-cowhide-leather"] #experience-dedicated-company-card .exp-company-banner-media img {
-  opacity: 0.24;
+  opacity: 1 !important;
 }
 
 html[data-card-style="black-cowhide-leather"] #experience-dedicated-company-card .exp-company-banner-scrim {
-  background: linear-gradient(
-    105deg,
-    rgba(29, 32, 39, 0.88) 0%,
-    rgba(17, 19, 24, 0.76) 55%,
-    rgba(25, 28, 34, 0.84) 100%
-  );
+  background: rgba(21, 23, 28, 0.10) !important;
 }
 
 html[data-card-style="cowhide-leather"] #experience-dedicated-company-card .exp-company-banner-media img {
-  opacity: 0.24;
+  opacity: 1 !important;
 }
 
 html[data-card-style="cowhide-leather"] #experience-dedicated-company-card .exp-company-banner-scrim {
-  background: linear-gradient(
-    105deg,
-    rgba(105, 62, 25, 0.86) 0%,
-    rgba(82, 46, 16, 0.74) 55%,
-    rgba(58, 32, 11, 0.84) 100%
-  );
+  background: rgba(82, 46, 16, 0.10) !important;
 }
 
 html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card,

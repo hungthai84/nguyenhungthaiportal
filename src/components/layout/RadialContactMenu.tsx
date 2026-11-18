@@ -288,10 +288,10 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
                 <div
                   className={`radial-contact-pill ${isItemActive ? 'active' : ''} relative z-10 inline-flex items-center w-full h-full rounded-[999px] gap-1.5 cursor-pointer border-2 transition-all duration-300`}
                   style={{
-                    paddingTop: '2px',
-                    paddingRight: '10px',
-                    paddingBottom: '2px',
-                    paddingLeft: '10px',
+                    paddingTop: '5px',
+                    paddingRight: '5px',
+                    paddingBottom: '5px',
+                    paddingLeft: '5px',
                   }}
                 >
                   <div

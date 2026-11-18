@@ -1105,9 +1105,19 @@ html[data-card-style="cowhide-leather"] .hero-banner,
 html[data-card-style="cowhide-leather"] .banner-card,
 html[data-card-style="cowhide-leather"] #project-detail-banner,
 html[data-card-style="cowhide-leather"] .project-detail-banner-inner,
-html[data-card-style="cowhide-leather"] .project-detail-section-card,
 html[data-card-style="cowhide-leather"] #contact-hero-banner,
 html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner {
+  background: rgba(101, 58, 23, 0.10) !important;
+  border: 2px solid #522E10 !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #FFFFFF !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.52);
+  outline-offset: -7px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] .project-detail-section-card {
   background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%) !important;
   border: 2px solid #522E10 !important;
   box-shadow: var(--shadow-card) !important;
@@ -1131,7 +1141,7 @@ html[data-card-style="cowhide-leather"] .banner-card .project-detail-banner-medi
 html[data-card-style="cowhide-leather"] #project-detail-banner .project-detail-banner-media img,
 html[data-card-style="cowhide-leather"] #contact-hero-banner .project-detail-banner-media img,
 html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-media video {
-  opacity: 0.20;
+  opacity: 1 !important;
 }
 
 html[data-card-style="cowhide-leather"] .hero-banner:hover .project-detail-banner-media img,
@@ -1141,7 +1151,7 @@ html[data-card-style="cowhide-leather"] .banner-card:hover .project-detail-banne
 html[data-card-style="cowhide-leather"] #project-detail-banner:hover .project-detail-banner-media img,
 html[data-card-style="cowhide-leather"] #contact-hero-banner:hover .project-detail-banner-media img,
 html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner:hover .project-detail-banner-media video {
-  opacity: 0.28;
+  opacity: 1 !important;
 }
 
 html[data-card-style="cowhide-leather"] .hero-banner .project-detail-banner-scrim,
@@ -1149,7 +1159,7 @@ html[data-card-style="cowhide-leather"] .banner-card .project-detail-banner-scri
 html[data-card-style="cowhide-leather"] #project-detail-banner .project-detail-banner-scrim,
 html[data-card-style="cowhide-leather"] #contact-hero-banner .project-detail-banner-scrim,
 html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-scrim {
-  background: linear-gradient(145deg, rgba(139, 90, 43, 0.78) 0%, rgba(101, 58, 23, 0.88) 100%) !important;
+  background: rgba(101, 58, 23, 0.10) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;

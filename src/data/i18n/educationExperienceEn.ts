@@ -36,37 +36,14 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
     'Vibrant multicolor frosted Mica glass (Pink, Purple, Blue, Cyan, Green, Orange, Yellow, Multicolor Gradient Glass) with deep blur, crisp specular edges, and full Light & Dark support.',
   'Phiên bản chế độ Tối của Gương đa sắc: kính mờ lăng kính đa sắc dịu sâu, không lóa, bảo toàn chữ trắng #FFFFFF chuẩn WCAG 2.2.':
     'Dark edition of Multicolor Glass: deep, glare-free multicolor prism frosted glass preserving crisp #FFFFFF typography to WCAG 2.2 standards.',
-  'Gương đa sắc (Tương thích Sáng Neon)': 'Multicolor Glass (Light Neon Compatible)',
-  'Gương đa sắc · Light Neon Compatible': 'Multicolor Glass · Light Neon Compatible',
-  'Phiên bản tương thích chế độ Sáng của Gương đa sắc Neon: kính công nghệ trong trẻo với viền Electric Jewel dịu mắt và chữ đen #0F172A sắc nét.':
-    'Light-compatible edition of Neon Multicolor Glass: crystal-clear tech glass with refined Electric Jewel accents and crisp #0F172A typography.',
-  'Gương đa sắc (Tối Obsidian Neon)': 'Multicolor Glass (Obsidian Neon Dark)',
-  'Kính mờ tối Obsidian đa sắc Neon phát quang có kiểm soát (Cyan, Blue, Electric Purple, Pink, Green, Lime, Yellow, Orange, Coral), tiêu đề & icon Neon dịu mắt, nội dung #FFFFFF sắc nét.':
-    'Controlled-glow Obsidian dark frosted glass with Neon multicolor accents (Cyan, Blue, Electric Purple, Pink, Green, Lime, Yellow, Orange, Coral), gentle Neon headings, and crisp #FFFFFF copy.',
-  'Da cá sấu trắng': 'White Crocodile Leather',
-  'Da Cá Sấu Trắng': 'White Crocodile Leather',
-  'Da cá sấu trắng thủ công (White Crocodile Leather)': 'Handcrafted White Crocodile Leather',
-  'Da cá sấu trắng · Chỉ khâu đen': 'White Crocodile Leather · Black Stitching',
-  'Chất liệu da cá sấu trắng ngọc trai (#fbfcfc → #edf1f4) viền nổi 2px #d1d5db, đường chỉ khâu tay đứt nét rgba(17, 24, 39, 0.65) và chữ #111827 sắc nét.':
-    'Pearl white crocodile leather texture (#fbfcfc → #edf1f4) with 2px raised #d1d5db border, hand-stitched dashed black seam, and crisp #111827 typography.',
-  'Nhóm Chất liệu Da Thủ Công': 'Artisan Leather Group',
-  'Nhóm Chất liệu Da Bò': 'Cowhide Leather Group',
-  'Chất liệu da bò': 'Full-Grain Cowhide Leather',
-  'Chất liệu da bò (Full-Grain Cowhide Leather)': 'Full-Grain Cowhide Leather',
-  'Chất liệu da bò · Hand-Stitched': 'Cowhide Leather · Hand-Stitched',
-  'Da nâu bò thủ công': 'Handcrafted Brown Cowhide',
-  'Da Bò · Thủ Công': 'Cowhide · Handcrafted',
-  'Da thuộc thủ công': 'Artisan Leather Craft',
-  'Kính mờ Mica đa sắc tươi sáng (Sáng) & kính mờ tối Obsidian Neon đa sắc (Tối)':
-    'Luminous Multicolor Mica Glass (Light) & Obsidian Neon Multicolor Glass (Dark)',
+  'Gương đa sắc (Sáng) & Gương đa sắc (Tối)': 'Multicolor Glass (Light) & Multicolor Glass (Dark)',
+  'Chất liệu da (màu trắng) & Chất liệu da (màu nâu)': 'Leather Material (White) & Leather Material (Brown)',
   'Chất liệu da màu trắng thanh lịch viền nổi với đường chỉ khâu tay viền đứt nét và sắc chữ tương phản cao rõ ràng.':
     'Elegant white leather texture with raised border, hand-stitched dashed seam, and high-contrast crisp typography.',
   'Chất liệu da màu đen mờ lì (#252830 → #15171C) kết hợp chỉ khâu bạch kim đứt nét và độ tương phản chữ trắng #FFFFFF sắc nét.':
     'Matte obsidian black leather (#252830 → #15171C) paired with platinum dashed hand-stitching and sharp #FFFFFF typography.',
   'Mô phỏng chất liệu da màu nâu cổ điển (#8B5A2B → #653A17) với đường chỉ khâu tay viền đứt nét và sắc chữ kem #FFF8DC sang trọng.':
     'Classic brown cowhide leather texture (#8B5A2B → #653A17) with hand-stitched dashed borders and warm cream #FFF8DC accents.',
-  'Chất liệu da cá sấu trắng chỉ đen (Sáng) & da bò nâu chỉ kem (Tối)':
-    'White Crocodile Leather with black stitching (Light) & Classic Brown Cowhide with cream stitching (Dark)',
   'Đang sử dụng ✓': 'In Use ✓',
   'Đang dùng': 'Active',
   'Chọn': 'Select',

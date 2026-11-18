@@ -1878,8 +1878,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     className={cn(
                       'absolute inset-0 bg-gradient-to-t to-transparent pointer-events-none',
                       isDarkSurface || isLeather || isBlackLeather
-                        ? 'from-slate-950/90 via-slate-900/35'
-                        : 'from-slate-900/60 via-slate-900/15'
+                        ? 'from-slate-950/15 via-slate-900/10'
+                        : 'from-slate-900/10 via-slate-900/5'
                     )}
                   />
 

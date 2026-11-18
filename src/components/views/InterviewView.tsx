@@ -177,7 +177,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-name="Card Video Phỏng Vấn"
           data-element-type="card"
           data-section-card="true"
-          className="lg:w-[62%] xl:w-[68%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden bento-card glass-card shadow-xs text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group"
+          className="lg:w-[62%] xl:w-[68%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden bento-card glass-card shadow-xl text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group"
           style={{
             paddingTop: '25px',
             paddingLeft: '25px',
@@ -199,7 +199,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               onEnded={handleEnded}
               className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[10px] opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500 select-none pointer-events-none"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-black/35 pointer-events-none rounded-[10px]" />
+            <div className="absolute inset-0 bg-black/10 pointer-events-none rounded-[10px]" />
           </div>
 
           {/* Hàng trên: Icon + Tiêu đề bên trái, Câu nói chữ ký bên phải */}
@@ -224,8 +224,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               </h1>
             </div>
             <p
-              className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
-              style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+              className="typo-h2 font-moon-dance not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+              style={{ color: '#ffff18', fontFamily: "'Moon Dance', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
             >
               &quot;Giao lưu cởi mở để thấu hiểu và sẻ chia ♡&quot;
             </p>

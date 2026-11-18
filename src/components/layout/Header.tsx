@@ -538,10 +538,10 @@ export const Header: React.FC<HeaderProps> = ({
                       : `${styleCfg.accentBorder}`
                   }`}
                   style={{
-                    paddingTop: '2px',
-                    paddingRight: '10px',
-                    paddingBottom: '2px',
-                    paddingLeft: '10px',
+                    paddingTop: '5px',
+                    paddingRight: '5px',
+                    paddingBottom: '5px',
+                    paddingLeft: '5px',
                     ...(isSelected
                       ? {
                           boxShadow: `0 0 30px ${styleCfg.glowColor}, inset 0 0 12px rgba(255,255,255,0.4)`,
@@ -670,10 +670,10 @@ export const Header: React.FC<HeaderProps> = ({
                       : 'text-[var(--text-primary)]'
                   } gap-1.5 shadow-sm cursor-pointer border-2 border-indigo-400/80 dark:border-indigo-500/80 transition-colors`}
                   style={{
-                    paddingTop: '2px',
-                    paddingRight: '10px',
-                    paddingBottom: '2px',
-                    paddingLeft: '10px',
+                    paddingTop: '5px',
+                    paddingRight: '5px',
+                    paddingBottom: '5px',
+                    paddingLeft: '5px',
                   }}
                 >
                   <div className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-xs bg-indigo-500 text-white leading-none p-0 overflow-hidden ring-1 ring-indigo-300">

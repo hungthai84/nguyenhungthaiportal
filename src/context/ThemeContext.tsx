@@ -9,14 +9,14 @@ import {
   getThemeBackgroundForMode,
 } from '../data/wallpapers';
 import {
-  AUTO_COMPACT_NAV_STORAGE_KEY,
-  AUTO_COMPACT_NAV_SYNC_EVENT,
   CARD_STYLE_STORAGE_KEY,
   DEFAULT_CARD_STYLE,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
   SURFACE_DEPTH_STORAGE_KEY,
   SURFACE_DEPTH_SYNC_EVENT,
+  AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY,
+  AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT,
   THEME_BACKGROUNDS,
   THEME_DEFAULT_GLASS_SETTINGS,
   THEME_DEFAULT_WALLPAPER_ID,
@@ -136,9 +136,9 @@ export interface ThemeContextType {
   surfaceDepth: SurfaceDepthMode;
   setSurfaceDepth: (mode: SurfaceDepthMode) => void;
   toggleSurfaceDepth: () => void;
-  autoCompactNav: boolean;
-  setAutoCompactNav: (enabled: boolean) => void;
-  toggleAutoCompactNav: () => void;
+  autoCollapseOnScroll: boolean;
+  setAutoCollapseOnScroll: (enabled: boolean) => void;
+  toggleAutoCollapseOnScroll: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -204,12 +204,12 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   });
 
-  const [autoCompactNav, setAutoCompactNavState] = useState<boolean>(() => {
+  const [autoCollapseOnScroll, setAutoCollapseOnScrollState] = useState<boolean>(() => {
     try {
-      const saved = localStorage.getItem(AUTO_COMPACT_NAV_STORAGE_KEY);
-      return saved === '0' ? false : true;
+      const saved = localStorage.getItem(AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY);
+      return saved === 'true'; // Mặc định là false (off)
     } catch {
-      return true;
+      return false;
     }
   });
 
@@ -301,18 +301,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   }, [surfaceDepth]);
 
-  useEffect(() => {
-    try {
-      localStorage.setItem(AUTO_COMPACT_NAV_STORAGE_KEY, autoCompactNav ? '1' : '0');
-    } catch {
-      // ignore
-    }
-    document.documentElement.setAttribute('data-auto-compact-nav', autoCompactNav ? 'true' : 'false');
-    if (!autoCompactNav) {
-      document.documentElement.setAttribute('data-compact-chrome', 'false');
-    }
-  }, [autoCompactNav]);
-
   // Sync state between components
   useEffect(() => {
     const handleSync = (e: Event) => {
@@ -337,23 +325,23 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setSurfaceDepthState((prev) => (prev === detail ? prev : detail));
       }
     };
-    const handleAutoCompactSync = (e: Event) => {
+    const handleAutoCollapseSync = (e: Event) => {
       const detail = (e as CustomEvent<boolean>).detail;
       if (typeof detail === 'boolean') {
-        setAutoCompactNavState((prev) => (prev === detail ? prev : detail));
+        setAutoCollapseOnScrollState(detail);
       }
     };
     window.addEventListener(WALLPAPER_SYNC_EVENT, handleSync);
     window.addEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
     window.addEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
     window.addEventListener(SURFACE_DEPTH_SYNC_EVENT, handleSurfaceDepthSync);
-    window.addEventListener(AUTO_COMPACT_NAV_SYNC_EVENT, handleAutoCompactSync);
+    window.addEventListener(AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT, handleAutoCollapseSync);
     return () => {
       window.removeEventListener(WALLPAPER_SYNC_EVENT, handleSync);
       window.removeEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
       window.removeEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
       window.removeEventListener(SURFACE_DEPTH_SYNC_EVENT, handleSurfaceDepthSync);
-      window.removeEventListener(AUTO_COMPACT_NAV_SYNC_EVENT, handleAutoCompactSync);
+      window.removeEventListener(AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT, handleAutoCollapseSync);
     };
   }, []);
 
@@ -628,24 +616,21 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setSurfaceDepth(surfaceDepth === 'flat' ? 'depth' : 'flat');
   }, [surfaceDepth, setSurfaceDepth]);
 
-  const setAutoCompactNav = useCallback((enabled: boolean) => {
-    const next = Boolean(enabled);
-    setAutoCompactNavState(next);
-    document.documentElement.setAttribute('data-auto-compact-nav', next ? 'true' : 'false');
-    if (!next) {
-      document.documentElement.setAttribute('data-compact-chrome', 'false');
-    }
+  const setAutoCollapseOnScroll = useCallback((enabled: boolean) => {
+    setAutoCollapseOnScrollState(enabled);
     try {
-      localStorage.setItem(AUTO_COMPACT_NAV_STORAGE_KEY, next ? '1' : '0');
+      localStorage.setItem(AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY, String(enabled));
     } catch {
       // ignore
     }
-    window.dispatchEvent(new CustomEvent(AUTO_COMPACT_NAV_SYNC_EVENT, { detail: next }));
+    window.dispatchEvent(
+      new CustomEvent(AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT, { detail: enabled })
+    );
   }, []);
 
-  const toggleAutoCompactNav = useCallback(() => {
-    setAutoCompactNav(!autoCompactNav);
-  }, [autoCompactNav, setAutoCompactNav]);
+  const toggleAutoCollapseOnScroll = useCallback(() => {
+    setAutoCollapseOnScroll(!autoCollapseOnScroll);
+  }, [autoCollapseOnScroll, setAutoCollapseOnScroll]);
 
   return (
     <ThemeContext.Provider
@@ -666,9 +651,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         surfaceDepth,
         setSurfaceDepth,
         toggleSurfaceDepth,
-        autoCompactNav,
-        setAutoCompactNav,
-        toggleAutoCompactNav,
+        autoCollapseOnScroll,
+        setAutoCollapseOnScroll,
+        toggleAutoCollapseOnScroll,
       }}
     >
       {children}

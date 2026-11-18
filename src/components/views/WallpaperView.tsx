@@ -852,28 +852,26 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 style={{
                   borderRadius: '14px',
                   padding: '0px',
+                  background: 'transparent',
                 }}
-                className={`themed-image-card group relative flex flex-col rounded-[14px] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto bg-[var(--bg-subcard)] ${
+                className={`themed-image-card group relative flex flex-col rounded-[14px] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto bg-transparent ${
                   isSelected
                     ? 'ring-2 ring-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]'
                     : ''
                 }`}
               >
-                {/* NỀN HÌNH THU NHỎ DẠNG NGANG (LẮP ĐẦY TOÀN BỘ CARD - BO CONG 14PX) */}
+                {/* NỀN HÌNH THU NHỎ DẠNG NGANG (LẮP ĐẦY TOÀN BỘ CARD - NỀN TRONG SUỐT 100% - BO CONG 14PX) */}
                 <div
                   id={`wallpaper-card-media-${wp.id}`}
-                  style={{ borderRadius: '14px' }}
-                  className="absolute inset-0 w-full h-full z-0 rounded-[14px] overflow-hidden bg-[var(--bg-subcard)]"
+                  style={{ borderRadius: '14px', background: 'transparent' }}
+                  className="absolute inset-0 w-full h-full z-0 rounded-[14px] overflow-hidden bg-transparent"
                 >
                   {wp.id === 'none' ? (
                     <div
-                      id="wallpaper-card-content-none"
+                      id="wallpaper-card-preview-none"
                       style={{ ...activeCardStyleMeta.cardSampleStyle, borderRadius: '14px' }}
-                      className="w-full h-full rounded-[14px] flex flex-col items-center justify-center gap-1.5 p-3 text-center transition-all"
-                    >
-                      <WebIcon name="sparkles" className="w-8 h-8 text-[var(--color-primary)] drop-shadow-xs" />
-                      <span className="typo-badge font-play text-[var(--text-primary)] drop-shadow-xs">Mặc định (Hệ thống)</span>
-                    </div>
+                      className="w-full h-full rounded-[14px] flex items-center justify-center transition-all"
+                    />
                   ) : wp.type === 'video' ? (
                     wp.value.includes('youtube.com') || wp.value.includes('youtu.be') ? (
                       <div
@@ -977,30 +975,23 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   )}
                 </div>
 
-                {/* OVERLAY TỐI DƯỚI ĐÁY TẤM HÌNH */}
-                <div className="absolute inset-x-0 bottom-0 h-1/2 rounded-b-[14px] bg-gradient-to-t from-slate-950/75 via-slate-950/25 to-transparent pointer-events-none z-10" />
+                {/* LỚP PHỦ THEO GIAO DIỆN ĐANG CHỌN — CHỈ HIỆN KHI RÊ CHUỘT */}
+                <div
+                  style={{ borderRadius: '14px' }}
+                  className="themed-image-card-scrim absolute inset-0 rounded-[14px] pointer-events-none z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
+                />
 
-                {/* NỘI DUNG VÀ CÁC NÚT ĐƯỢC ĐƯA VÀO BÊN TRONG CARD (PADDING 15PX THEO YÊU CẦU) */}
+                {/* NỘI DUNG VÀ CÁC ĐỐI TƯỢNG TRONG CARD (PADDING 15PX, CHỈ HIỆN KHI OVER MOUSE) */}
                 <div
                   id={`wallpaper-card-content-${wp.id}`}
                   style={{
                     padding: '15px',
                   }}
-                  className="absolute inset-0 z-20 w-full h-full flex flex-col justify-between text-white pointer-events-auto p-[15px]"
+                  className="themed-image-card-overlay absolute inset-0 z-20 w-full h-full flex flex-col justify-between p-[15px] opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 group-hover:pointer-events-auto group-focus-within:pointer-events-auto transition-opacity duration-300"
                 >
                   {/* Dòng trên: Huy hiệu loại media + Nút thao tác */}
-                  <div className="flex items-center justify-between gap-1 w-full relative z-20">
-                    <span
-                      className={`px-2 py-0.5 rounded-full typo-badge font-mono text-white shadow-xs backdrop-blur-md border border-white/20 ${
-                        wp.type === 'webgl'
-                          ? 'bg-indigo-600/90'
-                          : wp.type === 'video'
-                          ? 'bg-purple-600/90'
-                          : wp.type === 'css' || wp.type === 'gradient'
-                          ? 'bg-emerald-600/90'
-                          : 'bg-sky-600/90'
-                      }`}
-                    >
+                  <div className="flex items-center justify-between gap-1.5 w-full relative z-20">
+                    <span className="themed-image-card-badge px-2.5 py-0.5 rounded-full typo-badge font-mono shadow-xs">
                       {wp.id === 'none'
                         ? 'Mặc định'
                         : wp.type === 'webgl'
@@ -1010,14 +1001,17 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                         : wp.type}
                     </span>
 
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1.5">
                       {isSelected ? (
-                        <span className="px-2 py-0.5 rounded-full bg-emerald-500 text-white typo-badge shadow-xs flex items-center gap-1 backdrop-blur-md">
+                        <span className="px-2.5 py-0.5 rounded-full bg-emerald-500 text-white typo-badge shadow-xs flex items-center gap-1">
                           <WebIcon name="check" className="w-2.5 h-2.5" />
                           <span>Mặc định</span>
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded-full bg-white/25 hover:bg-cyan-500 text-white typo-badge shadow-xs backdrop-blur-md transition-all">
+                        <span
+                          style={{ background: 'var(--bg-button-primary)' }}
+                          className="px-2.5 py-0.5 rounded-full text-white typo-badge shadow-xs transition-all"
+                        >
                           Áp dụng
                         </span>
                       )}
@@ -1035,10 +1029,10 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     </div>
                   </div>
 
-                  {/* Dòng dưới: Tiêu đề hình nền thu nhỏ rõ ràng */}
-                  <div className="w-full mt-auto flex items-center justify-between gap-1 pt-1 pointer-events-none">
-                    <span className="typo-badge font-play text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] truncate max-w-full">
-                      {title4Words}
+                  {/* Dòng dưới: Tiêu đề hình nền đồng bộ theo giao diện đang chọn */}
+                  <div className="w-full mt-auto flex items-center justify-between gap-1.5 pt-1 pointer-events-none">
+                    <span className="themed-image-card-title typo-badge font-play font-semibold truncate max-w-full">
+                      {wp.id === 'none' ? (isEn ? 'Default (System)' : 'Mặc định (Hệ thống)') : title4Words}
                     </span>
                   </div>
                 </div>

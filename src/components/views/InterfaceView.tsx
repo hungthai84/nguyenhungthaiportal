@@ -26,6 +26,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     isDark,
     surfaceDepth,
     setSurfaceDepth,
+    autoCollapseOnScroll,
+    setAutoCollapseOnScroll,
   } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
@@ -76,6 +78,23 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
           : isEn
             ? '✓ Switched to Layered Depth (Elevated Shadows)'
             : '✓ Đã bật Giao diện có chiều sâu'
+      );
+    }
+  };
+
+  const handleToggleAutoCollapse = (enabled: boolean) => {
+    if (enabled === autoCollapseOnScroll) return;
+    SoundEngine.playGlassChime();
+    setAutoCollapseOnScroll(enabled);
+    if (onShowNotification) {
+      onShowNotification(
+        enabled
+          ? isEn
+            ? '✓ Enabled: Auto-collapse header and footer on scroll'
+            : '✓ Đã bật tính năng: Thu gọn thanh đầu/chân trang khi cuộn'
+          : isEn
+            ? '✓ Disabled: Auto-collapse header and footer on scroll'
+            : '✓ Đã tắt tính năng: Thu gọn thanh đầu/chân trang khi cuộn'
       );
     }
   };
@@ -202,7 +221,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
         </div>
       </div>
 
-      {/* Bộ chuyển nhanh Độ phẳng giao diện & Thu gọn thanh điều hướng khi cuộn */}
+      {/* Bộ chuyển nhanh: Độ phẳng giao diện & Thu gọn thanh đầu/chân trang khi cuộn */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px]">
         {/* 1. Chế độ chuyển nhanh độ phẳng giao diện */}
         <div
@@ -283,7 +302,84 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
           </div>
         </div>
 
+        {/* 2. Chế độ Thu gọn thanh đầu/chân trang khi cuộn (Mặc định: Off) */}
+        <div
+          id="interface-auto-collapse-card"
+          data-subcard="true"
+          className="sub-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-[15px] rounded-[14px] border"
+          style={{
+            background: 'var(--bg-subcard)',
+            borderColor: 'var(--border-subcard)',
+          }}
+        >
+          <div className="min-w-0 flex items-start gap-2.5">
+            <div
+              className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
+              style={{
+                background: 'var(--bg-card)',
+                borderColor: 'var(--border-subcard)',
+                color: 'var(--color-primary)',
+              }}
+            >
+              <WebIcon name="chevrons-up-down" className="w-4 h-4 shrink-0" />
+            </div>
+            <div className="min-w-0">
+              <h4 className="typo-body font-bold tracking-tight">
+                {isEn ? 'Auto-collapse Header/Footer' : 'Thu gọn thanh đầu/chân trang khi cuộn'}
+              </h4>
+              <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
+                {autoCollapseOnScroll
+                  ? isEn
+                    ? 'Active: Header and footer auto-collapse when scrolling down'
+                    : 'Đang bật: Tự động thu gọn thanh đầu và chân trang khi cuộn'
+                  : isEn
+                    ? 'Default Off: Header and footer remain fixed at all times'
+                    : 'Mặc định Tắt: Thanh đầu và chân trang luôn hiển thị cố định'}
+              </p>
+            </div>
+          </div>
 
+          <div
+            role="group"
+            aria-label={isEn ? 'Auto-collapse Header and Footer on scroll switch' : 'Chuyển đổi tính năng thu gọn thanh đầu/chân trang khi cuộn'}
+            className="inline-grid grid-cols-2 p-1 rounded-full border shrink-0 w-full sm:w-auto"
+            style={{
+              background: 'var(--bg-card)',
+              borderColor: 'var(--border-subcard)',
+            }}
+          >
+            <button
+              id="btn-auto-collapse-off"
+              type="button"
+              aria-pressed={!autoCollapseOnScroll}
+              onClick={() => handleToggleAutoCollapse(false)}
+              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                !autoCollapseOnScroll
+                  ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white shadow-xs'
+                  : 'hover:opacity-90'
+              }`}
+              style={autoCollapseOnScroll ? { color: 'var(--text-muted)' } : undefined}
+            >
+              <WebIcon name="x" className="w-3.5 h-3.5 shrink-0" />
+              <span>{isEn ? 'Off (Default)' : 'Tắt (Mặc định)'}</span>
+            </button>
+            <button
+              id="btn-auto-collapse-on"
+              type="button"
+              aria-pressed={autoCollapseOnScroll}
+              onClick={() => handleToggleAutoCollapse(true)}
+              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                autoCollapseOnScroll
+                  ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white shadow-xs'
+                  : 'hover:opacity-90'
+              }`}
+              style={!autoCollapseOnScroll ? { color: 'var(--text-muted)' } : undefined}
+            >
+              <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />
+              <span>{isEn ? 'On' : 'Bật'}</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Danh sách các giao diện nhóm cùng loại */}

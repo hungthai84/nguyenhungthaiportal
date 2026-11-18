@@ -406,7 +406,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-section-card="true"
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
-        className="banner-card group w-full min-h-[170px] lg:min-h-0 lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xs transition-all duration-300"
+        className="banner-card bento-card glass-card group w-full min-h-[170px] lg:min-h-0 lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xl transition-all duration-300"
         style={{
           padding: '15px',
           borderRadius: '14px',
@@ -449,8 +449,8 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           </div>
           <p
             id="ai-assistant-banner-quote"
-            className="typo-h3 font-handwriting font-italianno not-italic font-normal select-none text-left w-full whitespace-normal leading-snug"
-            style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 400, fontStyle: 'normal' }}
+            className="typo-h2 font-moon-dance not-italic font-normal select-none text-left w-full whitespace-normal leading-snug"
+            style={{ color: 'var(--text-secondary)', fontFamily: "'Moon Dance', cursive, sans-serif", fontWeight: 400, fontStyle: 'normal' }}
           >
             &quot;Trí Nhân đồng hành giải đáp thông tin anh Hùng Thái 24/7 ♡&quot;
           </p>

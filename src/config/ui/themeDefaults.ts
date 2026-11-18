@@ -6,12 +6,12 @@ export const CARD_STYLE_STORAGE_KEY = 'hungthai_card_style';
 export const WALLPAPER_MANUAL_STORAGE_KEY = 'hungthai_wallpaper_manual_v2';
 export const GLASS_CUSTOMIZATION_STORAGE_KEY = 'hungthai_glass_customization_v1';
 export const SURFACE_DEPTH_STORAGE_KEY = 'hungthai_surface_depth_v1';
-export const AUTO_COMPACT_NAV_STORAGE_KEY = 'hungthai_auto_compact_nav_v1';
+export const AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY = 'hungthai_auto_collapse_on_scroll_v1';
 export const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
 export const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
 export const GLASS_CUSTOMIZATION_SYNC_EVENT = 'hungthai:glass-customization-changed';
 export const SURFACE_DEPTH_SYNC_EVENT = 'hungthai:surface-depth-changed';
-export const AUTO_COMPACT_NAV_SYNC_EVENT = 'hungthai:auto-compact-nav-changed';
+export const AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT = 'hungthai:auto-collapse-on-scroll-changed';
 
 export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   CardStyleMode,

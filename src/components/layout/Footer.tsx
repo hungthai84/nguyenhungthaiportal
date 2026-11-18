@@ -411,10 +411,10 @@ export const Footer: React.FC<FooterProps> = ({
                         : 'border-emerald-400/80 dark:border-emerald-400/70'
                     }`}
                     style={{
-                      paddingTop: '2px',
-                      paddingBottom: '2px',
-                      paddingLeft: '10px',
-                      paddingRight: '10px',
+                      paddingTop: '5px',
+                      paddingBottom: '5px',
+                      paddingLeft: '5px',
+                      paddingRight: '5px',
                       ...(isSelected
                         ? {
                             boxShadow:
@@ -568,10 +568,10 @@ export const Footer: React.FC<FooterProps> = ({
                         : 'border-indigo-400/80 dark:border-indigo-500/80'
                     }`}
                     style={{
-                      paddingTop: '2px',
-                      paddingBottom: '2px',
-                      paddingLeft: '10px',
-                      paddingRight: '10px',
+                      paddingTop: '5px',
+                      paddingBottom: '5px',
+                      paddingLeft: '5px',
+                      paddingRight: '5px',
                       ...(isSelected
                         ? {
                             boxShadow:
@@ -1003,10 +1003,10 @@ export const Footer: React.FC<FooterProps> = ({
                         : 'border-rose-400/80 dark:border-rose-500/80'
                     }`}
                     style={{
-                      paddingTop: '2px',
-                      paddingBottom: '2px',
-                      paddingLeft: '10px',
-                      paddingRight: '10px',
+                      paddingTop: '5px',
+                      paddingBottom: '5px',
+                      paddingLeft: '5px',
+                      paddingRight: '5px',
                       ...(isSelected
                         ? {
                             boxShadow:
@@ -1098,10 +1098,10 @@ export const Footer: React.FC<FooterProps> = ({
                         : 'border-purple-400/80 dark:border-purple-500/80'
                     }`}
                     style={{
-                      paddingTop: '2px',
-                      paddingBottom: '2px',
-                      paddingLeft: '10px',
-                      paddingRight: '10px',
+                      paddingTop: '5px',
+                      paddingBottom: '5px',
+                      paddingLeft: '5px',
+                      paddingRight: '5px',
                       ...(isSelected
                         ? {
                             boxShadow:

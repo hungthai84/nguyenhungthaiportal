@@ -1796,23 +1796,18 @@ html[data-card-style="light-multicolor-glass-color"] .banner-card,
 html[data-card-style="light-multicolor-glass-color"] #project-detail-banner,
 html[data-card-style="light-multicolor-glass-color"] #contact-hero-banner,
 html[data-card-style="light-multicolor-glass-color"] #ai-assistant-hero-banner {
-  background: linear-gradient(
-    145deg,
-    rgba(224, 242, 254, 0.88) 0%,
-    rgba(243, 232, 255, 0.86) 52%,
-    rgba(252, 231, 243, 0.88) 100%
-  ) !important;
+  background: rgba(255, 255, 255, 0.10) !important;
   border: 1px solid rgba(255, 255, 255, 0.92) !important;
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass)) !important;
-  backdrop-filter: blur(22px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   color: #000000 !important;
 }
 
 html[data-card-style="light-multicolor-glass-color"] #interview-questions-card {
   border: 1px solid rgba(255, 255, 255, 0.92) !important;
-  backdrop-filter: blur(22px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 html[data-card-style="light-multicolor-glass-color"] .hero-banner .project-detail-banner-media img,
@@ -1822,7 +1817,7 @@ html[data-card-style="light-multicolor-glass-color"] .banner-card .project-detai
 html[data-card-style="light-multicolor-glass-color"] #project-detail-banner .project-detail-banner-media img,
 html[data-card-style="light-multicolor-glass-color"] #contact-hero-banner .project-detail-banner-media img,
 html[data-card-style="light-multicolor-glass-color"] #ai-assistant-hero-banner .project-detail-banner-media video {
-  opacity: 0.16;
+  opacity: 1 !important;
 }
 
 html[data-card-style="light-multicolor-glass-color"] .hero-banner:hover .project-detail-banner-media img,
@@ -1832,7 +1827,7 @@ html[data-card-style="light-multicolor-glass-color"] .banner-card:hover .project
 html[data-card-style="light-multicolor-glass-color"] #project-detail-banner:hover .project-detail-banner-media img,
 html[data-card-style="light-multicolor-glass-color"] #contact-hero-banner:hover .project-detail-banner-media img,
 html[data-card-style="light-multicolor-glass-color"] #ai-assistant-hero-banner:hover .project-detail-banner-media video {
-  opacity: 0.24;
+  opacity: 1 !important;
 }
 
 html[data-card-style="light-multicolor-glass-color"] .hero-banner .project-detail-banner-scrim,
@@ -1840,15 +1835,10 @@ html[data-card-style="light-multicolor-glass-color"] .banner-card .project-detai
 html[data-card-style="light-multicolor-glass-color"] #project-detail-banner .project-detail-banner-scrim,
 html[data-card-style="light-multicolor-glass-color"] #contact-hero-banner .project-detail-banner-scrim,
 html[data-card-style="light-multicolor-glass-color"] #ai-assistant-hero-banner .project-detail-banner-scrim {
-  background: linear-gradient(
-    155deg,
-    rgba(240, 249, 255, 0.80) 0%,
-    rgba(245, 243, 255, 0.74) 50%,
-    rgba(253, 242, 248, 0.78) 100%
-  ) !important;
+  background: rgba(255, 255, 255, 0.10) !important;
   opacity: 1 !important;
-  backdrop-filter: blur(18px) saturate(155%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(155%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 html[data-card-style="light-multicolor-glass-color"] .project-detail-toc-btn[data-active="false"] {

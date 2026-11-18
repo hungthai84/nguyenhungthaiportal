@@ -11,7 +11,11 @@ import {
   getThemeForMechanism,
 } from '../config/ui/cardStyles';
 import type { ThemeFamilyGroupMeta } from '../config/ui/cardStyles';
-import { CARD_STYLE_STORAGE_KEY } from '../config/ui/themeDefaults';
+import {
+  CARD_STYLE_STORAGE_KEY,
+  AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY,
+  AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT,
+} from '../config/ui/themeDefaults';
 import { CardStyleMode, SurfaceDepthMode, ThemeMechanismMode } from '../config/ui/theme.types';
 import { useThemeContext } from '../context/ThemeContext';
 import { useThemeLegacy } from './useThemeLegacy';
@@ -27,6 +31,8 @@ export {
   getLightDarkCounterpart,
   getThemeForMechanism,
   CARD_STYLE_STORAGE_KEY,
+  AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY,
+  AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT,
 };
 export type { CardStyleMode, SurfaceDepthMode, ThemeFamilyGroupMeta, ThemeMechanismMode };
 

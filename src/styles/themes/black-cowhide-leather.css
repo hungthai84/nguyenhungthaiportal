@@ -1073,9 +1073,19 @@ html[data-card-style="black-cowhide-leather"] .hero-banner,
 html[data-card-style="black-cowhide-leather"] .banner-card,
 html[data-card-style="black-cowhide-leather"] #project-detail-banner,
 html[data-card-style="black-cowhide-leather"] .project-detail-banner-inner,
-html[data-card-style="black-cowhide-leather"] .project-detail-section-card,
 html[data-card-style="black-cowhide-leather"] #contact-hero-banner,
 html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner {
+  background: rgba(21, 23, 28, 0.10) !important;
+  border: 2px solid #090a0d !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #ffffff !important;
+  outline: 1.5px dashed rgba(226, 232, 240, 0.44);
+  outline-offset: -7px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .project-detail-section-card {
   background: linear-gradient(145deg, #252830 0%, #15171c 50%, #1d2027 100%) !important;
   border: 2px solid #090a0d !important;
   box-shadow: var(--shadow-card) !important;
@@ -1099,7 +1109,7 @@ html[data-card-style="black-cowhide-leather"] .banner-card .project-detail-banne
 html[data-card-style="black-cowhide-leather"] #project-detail-banner .project-detail-banner-media img,
 html[data-card-style="black-cowhide-leather"] #contact-hero-banner .project-detail-banner-media img,
 html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-media video {
-  opacity: 0.20;
+  opacity: 1 !important;
 }
 
 html[data-card-style="black-cowhide-leather"] .hero-banner:hover .project-detail-banner-media img,
@@ -1109,7 +1119,7 @@ html[data-card-style="black-cowhide-leather"] .banner-card:hover .project-detail
 html[data-card-style="black-cowhide-leather"] #project-detail-banner:hover .project-detail-banner-media img,
 html[data-card-style="black-cowhide-leather"] #contact-hero-banner:hover .project-detail-banner-media img,
 html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner:hover .project-detail-banner-media video {
-  opacity: 0.28;
+  opacity: 1 !important;
 }
 
 html[data-card-style="black-cowhide-leather"] .hero-banner .project-detail-banner-scrim,
@@ -1117,7 +1127,7 @@ html[data-card-style="black-cowhide-leather"] .banner-card .project-detail-banne
 html[data-card-style="black-cowhide-leather"] #project-detail-banner .project-detail-banner-scrim,
 html[data-card-style="black-cowhide-leather"] #contact-hero-banner .project-detail-banner-scrim,
 html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-scrim {
-  background: linear-gradient(145deg, rgba(37, 40, 48, 0.80) 0%, rgba(21, 23, 28, 0.90) 100%) !important;
+  background: rgba(21, 23, 28, 0.10) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;

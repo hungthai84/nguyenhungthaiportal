@@ -805,7 +805,7 @@ html[data-card-style="light-cowhide-leather"] #project-detail-banner,
 html[data-card-style="light-cowhide-leather"] .project-detail-banner-inner,
 html[data-card-style="light-cowhide-leather"] #contact-hero-banner,
 html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner {
-  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 55%, #f5f7f9 100%) !important;
+  background: rgba(251, 252, 252, 0.10) !important;
   border: 2px solid #d1d5db !important;
   box-shadow: var(--shadow-card) !important;
   outline: 1.5px dashed rgba(17, 24, 39, 0.65);
@@ -828,7 +828,7 @@ html[data-card-style="light-cowhide-leather"] .banner-card .project-detail-banne
 html[data-card-style="light-cowhide-leather"] #project-detail-banner .project-detail-banner-media img,
 html[data-card-style="light-cowhide-leather"] #contact-hero-banner .project-detail-banner-media img,
 html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-media video {
-  opacity: 0.16;
+  opacity: 1 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .hero-banner:hover .project-detail-banner-media img,
@@ -838,7 +838,7 @@ html[data-card-style="light-cowhide-leather"] .banner-card:hover .project-detail
 html[data-card-style="light-cowhide-leather"] #project-detail-banner:hover .project-detail-banner-media img,
 html[data-card-style="light-cowhide-leather"] #contact-hero-banner:hover .project-detail-banner-media img,
 html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner:hover .project-detail-banner-media video {
-  opacity: 0.24;
+  opacity: 1 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .hero-banner .project-detail-banner-scrim,
@@ -846,7 +846,7 @@ html[data-card-style="light-cowhide-leather"] .banner-card .project-detail-banne
 html[data-card-style="light-cowhide-leather"] #project-detail-banner .project-detail-banner-scrim,
 html[data-card-style="light-cowhide-leather"] #contact-hero-banner .project-detail-banner-scrim,
 html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-scrim {
-  background: linear-gradient(145deg, rgba(251, 252, 252, 0.84) 0%, rgba(237, 241, 244, 0.90) 100%) !important;
+  background: rgba(251, 252, 252, 0.10) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;

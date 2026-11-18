@@ -71,8 +71,8 @@ export default function App() {
     slide: number;
   } | null>(null);
 
-  const { isDark, cardStyle, activeWallpaper, setWallpaper, autoCompactNav } = useTheme();
-  const [isCompactChrome, setIsCompactChrome] = useState(false);
+  const { isDark, cardStyle, activeWallpaper, setWallpaper, autoCollapseOnScroll } = useTheme();
+  const [isNavCollapsed, setIsNavCollapsed] = useState(false);
   const mainViewportRef = useRef<HTMLElement | null>(null);
   const [loadedWallpaperUrl, setLoadedWallpaperUrl] = useState<string>('');
   const wallpaperImgRef = useRef<HTMLImageElement | null>(null);
@@ -80,49 +80,6 @@ export default function App() {
     activeWallpaper?.type === 'image' && activeWallpaper?.id !== 'none'
       ? getCleanImageUrl(activeWallpaper.value || activeWallpaper.bg || '')
       : '';
-
-  useEffect(() => {
-    setIsCompactChrome(false);
-  }, [currentTabIndex]);
-
-  useEffect(() => {
-    if (!autoCompactNav || currentTabIndex === 16) {
-      setIsCompactChrome(false);
-      document.documentElement.setAttribute('data-compact-chrome', 'false');
-      if (document.body) {
-        document.body.setAttribute('data-compact-chrome', 'false');
-      }
-      return;
-    }
-
-    const handleScrollCapture = (e: Event) => {
-      const target = e.target as HTMLElement | null;
-      const viewport = mainViewportRef.current;
-      if (!target || !viewport) return;
-      if (target !== viewport && !viewport.contains(target)) return;
-      if (target.scrollHeight <= target.clientHeight + 28) return;
-
-      const top = target.scrollTop;
-      if (top >= 68) {
-        setIsCompactChrome((prev) => (prev ? prev : true));
-      } else if (top <= 20) {
-        setIsCompactChrome((prev) => (prev ? false : prev));
-      }
-    };
-
-    document.addEventListener('scroll', handleScrollCapture, true);
-    return () => {
-      document.removeEventListener('scroll', handleScrollCapture, true);
-    };
-  }, [autoCompactNav, currentTabIndex]);
-
-  useEffect(() => {
-    const val = autoCompactNav && isCompactChrome && currentTabIndex !== 16 ? 'true' : 'false';
-    document.documentElement.setAttribute('data-compact-chrome', val);
-    if (document.body) {
-      document.body.setAttribute('data-compact-chrome', val);
-    }
-  }, [autoCompactNav, isCompactChrome, currentTabIndex]);
 
   useEffect(() => {
     if (!activeImageUrl) {
@@ -135,6 +92,80 @@ export default function App() {
   }, [activeImageUrl]);
 
   useGlobalHorizontalScroll();
+
+  // Tính năng: Thu gọn thanh đầu/chân trang khi cuộn (mặc định off)
+  useEffect(() => {
+    if (!autoCollapseOnScroll) {
+      setIsNavCollapsed(false);
+      return;
+    }
+
+    let lastScrollY = 0;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) < 15) return;
+      if (e.deltaY > 15) {
+        setIsNavCollapsed(true);
+      } else if (e.deltaY < -15) {
+        setIsNavCollapsed(false);
+      }
+    };
+
+    const handleScroll = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      if (!target || typeof target.scrollTop !== 'number') return;
+      const currentScrollTop = target.scrollTop;
+      const diff = currentScrollTop - lastScrollY;
+      if (currentScrollTop <= 10) {
+        setIsNavCollapsed(false);
+      } else if (diff > 15) {
+        setIsNavCollapsed(true);
+      } else if (diff < -15) {
+        setIsNavCollapsed(false);
+      }
+      lastScrollY = currentScrollTop;
+    };
+
+    let touchStartY = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    const handleTouchMove = (e: TouchEvent) => {
+      const touchY = e.touches[0].clientY;
+      const diff = touchStartY - touchY;
+      if (Math.abs(diff) < 20) return;
+      if (diff > 20) {
+        setIsNavCollapsed(true);
+      } else if (diff < -20) {
+        setIsNavCollapsed(false);
+      }
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (e.clientY < 45 || e.clientY > window.innerHeight - 45) {
+        setIsNavCollapsed(false);
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('scroll', handleScroll, { capture: true, passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', handleScroll, { capture: true });
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [autoCollapseOnScroll]);
+
+  // Luôn khôi phục hiển thị Header & Footer khi chuyển tab
+  useEffect(() => {
+    setIsNavCollapsed(false);
+  }, [currentTabIndex]);
 
   // Phát âm thanh khi chọn click & khi chuyển trang trên toàn ứng dụng
   useEffect(() => {
@@ -683,7 +714,14 @@ export default function App() {
 
       {/* HEADER (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
-        <div className="w-full shrink-0 relative z-40 flex justify-center shadow-none rounded-t-none rounded-b-[14px]">
+        <div
+          id="app-header-container"
+          className={`w-full shrink-0 relative z-40 flex justify-center shadow-none rounded-t-none rounded-b-[14px] transition-all duration-300 ease-in-out ${
+            isNavCollapsed && autoCollapseOnScroll
+              ? '-translate-y-full opacity-0 pointer-events-none -mb-12 max-h-0 overflow-hidden'
+              : 'translate-y-0 opacity-100 max-h-[80px]'
+          }`}
+        >
           <Header
             pages={TABS_DATA}
             currentPage={currentTabIndex}
@@ -731,7 +769,11 @@ export default function App() {
           data-element-name="Phần tử DIV (#el-p0-div-98)"
           data-element-type="container"
           data-element-page="p0"
-          className="w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-t-[14px] rounded-b-none"
+          className={`w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-t-[14px] rounded-b-none transition-all duration-300 ease-in-out ${
+            isNavCollapsed && autoCollapseOnScroll
+              ? 'translate-y-full opacity-0 pointer-events-none -mt-12 max-h-0 overflow-hidden'
+              : 'translate-y-0 opacity-100 max-h-[80px]'
+          }`}
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}
@@ -746,6 +788,7 @@ export default function App() {
           />
         </div>
       )}
+
 
       {/* MODALS & INSPECTOR */}
       <MapModal location={mapLocation} onClose={() => setMapLocation(null)} />

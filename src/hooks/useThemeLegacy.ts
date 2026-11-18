@@ -7,14 +7,14 @@ import {
   getCleanImageUrl,
 } from '../data/wallpapers';
 import {
-  AUTO_COMPACT_NAV_STORAGE_KEY,
-  AUTO_COMPACT_NAV_SYNC_EVENT,
   CARD_STYLE_STORAGE_KEY,
   DEFAULT_CARD_STYLE,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
   SURFACE_DEPTH_STORAGE_KEY,
   SURFACE_DEPTH_SYNC_EVENT,
+  AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY,
+  AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT,
   THEME_BACKGROUNDS,
   THEME_DEFAULT_GLASS_SETTINGS,
   THEME_DEFAULT_WALLPAPER_ID,
@@ -110,11 +110,11 @@ export function useThemeLegacy() {
     }
   });
 
-  const [autoCompactNav, setAutoCompactNavState] = useState<boolean>(() => {
+  const [autoCollapseOnScroll, setAutoCollapseOnScrollState] = useState<boolean>(() => {
     try {
-      return localStorage.getItem(AUTO_COMPACT_NAV_STORAGE_KEY) === '0' ? false : true;
+      return localStorage.getItem(AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY) === 'true';
     } catch {
-      return true;
+      return false;
     }
   });
 
@@ -444,24 +444,21 @@ export function useThemeLegacy() {
     setSurfaceDepth(surfaceDepth === 'flat' ? 'depth' : 'flat');
   }, [surfaceDepth, setSurfaceDepth]);
 
-  const setAutoCompactNav = useCallback((enabled: boolean) => {
-    const next = Boolean(enabled);
-    setAutoCompactNavState(next);
-    document.documentElement.setAttribute('data-auto-compact-nav', next ? 'true' : 'false');
-    if (!next) {
-      document.documentElement.setAttribute('data-compact-chrome', 'false');
-    }
+  const setAutoCollapseOnScroll = useCallback((enabled: boolean) => {
+    setAutoCollapseOnScrollState(enabled);
     try {
-      localStorage.setItem(AUTO_COMPACT_NAV_STORAGE_KEY, next ? '1' : '0');
+      localStorage.setItem(AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY, String(enabled));
     } catch {
       // ignore
     }
-    window.dispatchEvent(new CustomEvent(AUTO_COMPACT_NAV_SYNC_EVENT, { detail: next }));
+    window.dispatchEvent(
+      new CustomEvent(AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT, { detail: enabled })
+    );
   }, []);
 
-  const toggleAutoCompactNav = useCallback(() => {
-    setAutoCompactNav(!autoCompactNav);
-  }, [autoCompactNav, setAutoCompactNav]);
+  const toggleAutoCollapseOnScroll = useCallback(() => {
+    setAutoCollapseOnScroll(!autoCollapseOnScroll);
+  }, [autoCollapseOnScroll, setAutoCollapseOnScroll]);
 
   return {
     isDark,
@@ -480,8 +477,8 @@ export function useThemeLegacy() {
     surfaceDepth,
     setSurfaceDepth,
     toggleSurfaceDepth,
-    autoCompactNav,
-    setAutoCompactNav,
-    toggleAutoCompactNav,
+    autoCollapseOnScroll,
+    setAutoCollapseOnScroll,
+    toggleAutoCollapseOnScroll,
   };
 }

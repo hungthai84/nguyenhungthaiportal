@@ -411,59 +411,97 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                 id={`memory-card-${item.id}`}
                 data-element-name={`Thẻ kỷ niệm: ${item.titleVi}`}
                 key={item.id}
+                role="button"
+                tabIndex={0}
                 onClick={() => {
                   SoundEngine.playTap();
                   setActiveLightboxIdx(idx);
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    SoundEngine.playTap();
+                    setActiveLightboxIdx(idx);
+                  }
+                }}
                 style={{
                   animationDelay: `${(idx % 16) * 35}ms`,
-                  backgroundImage: `url(${item.imageUrl})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
                   borderRadius: '14px',
-                  minHeight: '260px',
-                  padding: '15px',
+                  minHeight: '250px',
+                  padding: '0px',
+                  background: 'transparent',
                   cursor: 'pointer',
                 }}
                 className={cn(
-                  'themed-image-card memory-photo-item break-inside-avoid mb-[15px] relative rounded-[14px] overflow-hidden flex flex-col justify-between group shadow-md transition-all duration-300 hover:scale-[1.01]'
+                  'themed-image-card memory-photo-item break-inside-avoid mb-[15px] relative rounded-[14px] overflow-hidden block group bg-transparent transition-all duration-300 hover:-translate-y-1'
                 )}
               >
-                {/* Scrim overlay for readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/90 via-[#0B1220]/40 to-[#0B1220]/25 rounded-[14px] pointer-events-none transition-opacity duration-300 lg:opacity-85 lg:group-hover:opacity-95" />
+                {/* HÌNH ẢNH LẮP ĐẦY 100% CARD - BO CONG 14PX */}
+                <img
+                  src={item.imageUrl}
+                  alt={item.titleVi}
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    const parent = e.currentTarget.parentElement;
+                    if (parent) {
+                      parent.style.background =
+                        'linear-gradient(135deg, rgba(15,23,42,0.55) 0%, rgba(30,41,59,0.75) 100%)';
+                    }
+                  }}
+                  style={{ borderRadius: '14px' }}
+                  className="memory-crisp-img w-full h-auto min-h-[250px] max-h-[440px] object-cover block rounded-[14px] transition-transform duration-500 group-hover:scale-105"
+                />
 
-                {/* Badge năm & tag */}
-                <div className="relative z-10 flex items-center justify-between gap-1.5 pointer-events-none">
-                  <span className="typo-badge font-mono tracking-wider text-white bg-[#0B1220]/75 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/20">
-                    {item.tagVi}
-                  </span>
-                  <span className="typo-badge font-mono text-white bg-[#0B1220]/75 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/20">
-                    {item.year}
-                  </span>
-                </div>
+                {/* LỚP PHỦ THEO GIAO DIỆN ĐANG CHỌN — CHỈ HIỆN KHI RÊ CHUỘT */}
+                <div
+                  style={{ borderRadius: '14px' }}
+                  className="themed-image-card-scrim absolute inset-0 rounded-[14px] pointer-events-none z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
+                />
 
-                {/* Tiêu đề & chi tiết */}
-                <div className="relative z-10 flex flex-col justify-end pt-12">
-                  <span className="typo-label font-mono text-[#6EE7B7] capitalize tracking-wide block">
-                    {item.companyId}
-                  </span>
-                  <h3 className="typo-h4 card-header-sync card-title-synced text-[#6EE7B7] break-words mt-0.5 flex items-center gap-1.5" data-card-title="true">
-                    <WebIcon name="camera" className="w-3.5 h-3.5 text-[#6EE7B7] shrink-0" />
-                    <span>{formatCardTitle(item.titleVi)}</span>
-                  </h3>
-                  <p className="typo-caption text-[#E2E8F0] break-words mt-1 line-clamp-2">
-                    {item.descVi}
-                  </p>
-                  <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-white/25 typo-label font-mono text-[#CBD5E1]">
-                    <span className="flex items-center gap-1 truncate">
-                      <WebIcon name="location" className="w-3 h-3 text-[#6EE7B7] shrink-0" />
-                      <span className="truncate">{item.locationVi}</span>
+                {/* TIÊU ĐỀ & CÁC ĐỐI TƯỢNG TRONG CARD (PADDING 15PX, CHỈ HIỆN KHI OVER MOUSE) */}
+                <div
+                  id={`memory-card-content-${item.id}`}
+                  style={{ padding: '15px' }}
+                  className="themed-image-card-overlay absolute inset-0 z-20 w-full h-full flex flex-col justify-between gap-2 p-[15px] opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
+                >
+                  {/* Badge năm & tag */}
+                  <div className="relative z-10 flex items-center justify-between gap-1.5 pointer-events-none">
+                    <span className="themed-image-card-badge typo-badge font-mono tracking-wide px-2.5 py-0.5 rounded-full">
+                      {item.tagVi}
                     </span>
-                    {item.teamSize && (
-                      <span className="text-[#67E8F9] font-bold shrink-0 ml-2">
-                        {item.teamSize}
+                    <span className="themed-image-card-badge typo-badge font-mono px-2.5 py-0.5 rounded-full">
+                      {item.year}
+                    </span>
+                  </div>
+
+                  {/* Tiêu đề & chi tiết */}
+                  <div className="relative z-10 flex flex-col justify-end min-w-0">
+                    <span className="themed-image-card-kicker typo-label font-mono capitalize tracking-wide block">
+                      {item.companyId}
+                    </span>
+                    <h3
+                      className="themed-image-card-title typo-h4 card-header-sync card-title-synced break-words line-clamp-2 mt-0.5 flex items-center gap-1.5"
+                      data-card-title="true"
+                    >
+                      <WebIcon name="camera" className="w-3.5 h-3.5 shrink-0" />
+                      <span>{formatCardTitle(item.titleVi)}</span>
+                    </h3>
+                    <p className="themed-image-card-subtext typo-caption break-words mt-1 line-clamp-2">
+                      {item.descVi}
+                    </p>
+                    <div className="themed-image-card-divider themed-image-card-subtext flex items-center justify-between mt-2 pt-1.5 border-t typo-label font-mono">
+                      <span className="flex items-center gap-1 truncate">
+                        <WebIcon name="location" className="w-3 h-3 shrink-0" />
+                        <span className="truncate">{item.locationVi}</span>
                       </span>
-                    )}
+                      {item.teamSize && (
+                        <span className="themed-image-card-kicker font-bold shrink-0 ml-2">
+                          {item.teamSize}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

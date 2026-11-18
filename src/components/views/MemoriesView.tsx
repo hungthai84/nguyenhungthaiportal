@@ -411,24 +411,29 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                 id={`memory-card-${item.id}`}
                 data-element-name={`Thẻ kỷ niệm: ${item.titleVi}`}
                 key={item.id}
-                style={{ animationDelay: `${(idx % 16) * 35}ms`, padding: 0 }}
+                onClick={() => {
+                  SoundEngine.playTap();
+                  setActiveLightboxIdx(idx);
+                }}
+                style={{
+                  animationDelay: `${(idx % 16) * 35}ms`,
+                  backgroundImage: `url(${item.imageUrl})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  borderRadius: '14px',
+                  minHeight: '260px',
+                  padding: '15px',
+                  cursor: 'pointer',
+                }}
                 className={cn(
-                  'themed-image-card memory-photo-item break-inside-avoid mb-[15px] block w-full relative rounded-[14px] overflow-hidden p-0 m-0 group',
-                  isDark ? 'bg-[#0B1220]' : 'bg-slate-100/90'
+                  'themed-image-card memory-photo-item break-inside-avoid mb-[15px] relative rounded-[14px] overflow-hidden flex flex-col justify-between group shadow-md transition-all duration-300 hover:scale-[1.01]'
                 )}
               >
-                <img
-                  src={item.imageUrl}
-                  alt={item.titleVi}
-                  className="memory-crisp-img w-full h-full min-h-[200px] object-cover rounded-[14px] transition-transform duration-500 block m-0 p-0 group-hover:scale-105"
-                  loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.style.opacity = '0';
-                  }}
-                />
+                {/* Scrim overlay for readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/90 via-[#0B1220]/40 to-[#0B1220]/25 rounded-[14px] pointer-events-none transition-opacity duration-300 lg:opacity-85 lg:group-hover:opacity-95" />
 
-                {/* Badge năm & tag luôn hiển thị trên thiết bị cảm ứng, hover mới hiện trên Desktop */}
-                <div className="absolute top-[15px] left-[15px] right-[15px] flex items-center justify-between gap-1.5 pointer-events-none opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100 transition-opacity duration-300 z-10">
+                {/* Badge năm & tag */}
+                <div className="relative z-10 flex items-center justify-between gap-1.5 pointer-events-none">
                   <span className="typo-badge font-mono tracking-wider text-white bg-[#0B1220]/75 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/20">
                     {item.tagVi}
                   </span>
@@ -437,8 +442,8 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                   </span>
                 </div>
 
-                {/* Tiêu đề & chi tiết luôn dễ đọc trên thiết bị cảm ứng, hover mới hiện trên Desktop */}
-                <div style={{ padding: '15px' }} className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/95 via-[#0B1220]/55 to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100 backdrop-blur-[1.5px] transition-opacity duration-300 flex flex-col justify-end p-[15px] pointer-events-none">
+                {/* Tiêu đề & chi tiết */}
+                <div className="relative z-10 flex flex-col justify-end pt-12">
                   <span className="typo-label font-mono text-[#6EE7B7] capitalize tracking-wide block">
                     {item.companyId}
                   </span>
@@ -449,7 +454,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                   <p className="typo-caption text-[#E2E8F0] break-words mt-1 line-clamp-2">
                     {item.descVi}
                   </p>
-                  <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-white/20 typo-label font-mono text-[#CBD5E1]">
+                  <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-white/25 typo-label font-mono text-[#CBD5E1]">
                     <span className="flex items-center gap-1 truncate">
                       <WebIcon name="location" className="w-3 h-3 text-[#6EE7B7] shrink-0" />
                       <span className="truncate">{item.locationVi}</span>

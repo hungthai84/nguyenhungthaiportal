@@ -177,11 +177,17 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-name="Card Video Phỏng Vấn"
           data-element-type="card"
           data-section-card="true"
-          className="lg:w-[62%] xl:w-[68%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden bento-card glass-card shadow-xs p-[10px] text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group"
-          style={{ padding: '10px', borderRadius: '14px' }}
+          className="lg:w-[62%] xl:w-[68%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden bento-card glass-card shadow-xs text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group"
+          style={{
+            paddingTop: '25px',
+            paddingLeft: '25px',
+            paddingRight: '25px',
+            paddingBottom: '25px',
+            borderRadius: '14px',
+          }}
         >
-          {/* Nền Video phỏng vấn trực tiếp với padding 10px */}
-          <div className="absolute inset-[10px] pointer-events-none overflow-hidden rounded-[10px] w-[calc(100%-20px)] h-[calc(100%-20px)]">
+          {/* Nền Video phỏng vấn trực tiếp với padding 25px */}
+          <div className="absolute inset-[25px] pointer-events-none overflow-hidden rounded-[10px] w-[calc(100%-50px)] h-[calc(100%-50px)]">
             <video
               ref={videoRef}
               autoPlay

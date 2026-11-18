@@ -980,13 +980,13 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 {/* OVERLAY TỐI DƯỚI ĐÁY TẤM HÌNH */}
                 <div className="absolute inset-x-0 bottom-0 h-1/2 rounded-b-[14px] bg-gradient-to-t from-slate-950/75 via-slate-950/25 to-transparent pointer-events-none z-10" />
 
-                {/* NỘI DUNG VÀ CÁC NÚT ĐƯỢC ĐƯA VÀO BÊN TRONG CARD (PADDING 10PX THEO YÊU CẦU) */}
+                {/* NỘI DUNG VÀ CÁC NÚT ĐƯỢC ĐƯA VÀO BÊN TRONG CARD (PADDING 15PX THEO YÊU CẦU) */}
                 <div
                   id={`wallpaper-card-content-${wp.id}`}
                   style={{
-                    padding: '10px',
+                    padding: '15px',
                   }}
-                  className="absolute inset-0 z-20 w-full h-full flex flex-col justify-between text-white pointer-events-auto p-[10px]"
+                  className="absolute inset-0 z-20 w-full h-full flex flex-col justify-between text-white pointer-events-auto p-[15px]"
                 >
                   {/* Dòng trên: Huy hiệu loại media + Nút thao tác */}
                   <div className="flex items-center justify-between gap-1 w-full relative z-20">

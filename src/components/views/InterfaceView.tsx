@@ -26,8 +26,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     isDark,
     surfaceDepth,
     setSurfaceDepth,
-    autoCompactNav,
-    setAutoCompactNav,
   } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
@@ -82,22 +80,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     }
   };
 
-  const handleToggleCompactScroll = (enabled: boolean) => {
-    if (enabled === autoCompactNav) return;
-    SoundEngine.playTap();
-    setAutoCompactNav(enabled);
-    if (onShowNotification) {
-      onShowNotification(
-        enabled
-          ? isEn
-            ? '✓ Enabled auto-compact header & footer on scroll'
-            : '✓ Đã bật chế độ thu gọn thanh đầu/chân trang khi cuộn'
-          : isEn
-            ? '✓ Disabled auto-compact header & footer on scroll'
-            : '✓ Đã tắt chế độ thu gọn thanh đầu/chân trang khi cuộn'
-      );
-    }
-  };
+
 
   const displayedThemesCount = UNIFIED_INTERFACE_THEMES.length;
   const getThemeDemoVideo = (presetId: string) => {
@@ -300,80 +283,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
           </div>
         </div>
 
-        {/* 2. Chế độ thu gọn thanh đầu/chân trang khi cuộn */}
-        <div
-          id="interface-compact-scroll-card"
-          data-subcard="true"
-          className="sub-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-[15px] rounded-[14px] border"
-          style={{
-            background: 'var(--bg-subcard)',
-            borderColor: 'var(--border-subcard)',
-          }}
-        >
-          <div className="min-w-0 flex items-start gap-2.5">
-            <div
-              className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
-              style={{
-                background: 'var(--bg-card)',
-                borderColor: 'var(--border-subcard)',
-                color: 'var(--color-primary)',
-              }}
-            >
-              <WebIcon name="minimize-2" className="w-4 h-4 shrink-0" />
-            </div>
-            <div className="min-w-0">
-              <h4 className="typo-body font-bold tracking-tight">
-                {isEn ? 'Auto-Compact Header & Footer' : 'Thu gọn thanh đầu/chân trang khi cuộn'}
-              </h4>
-              <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
-                {autoCompactNav
-                  ? isEn
-                    ? 'Automatically slims bars when scrolling deep for more reading space'
-                    : 'Tự động làm mảnh nhẹ khi cuộn sâu để mở rộng vùng đọc'
-                  : isEn
-                    ? 'Always keeps full header and footer height while scrolling'
-                    : 'Luôn giữ nguyên chiều cao đầy đủ của thanh điều hướng'}
-              </p>
-            </div>
-          </div>
 
-          <button
-            id="btn-auto-compact-scroll-toggle"
-            type="button"
-            role="switch"
-            aria-checked={autoCompactNav}
-            onClick={() => handleToggleCompactScroll(!autoCompactNav)}
-            className={`inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-full border typo-label font-bold transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
-              autoCompactNav
-                ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white border-emerald-400/70'
-                : ''
-            }`}
-            style={
-              !autoCompactNav
-                ? {
-                    background: 'var(--bg-card)',
-                    borderColor: 'var(--border-subcard)',
-                    color: 'var(--text-muted)',
-                  }
-                : undefined
-            }
-          >
-            <span
-              className={`w-2 h-2 rounded-full shrink-0 ${
-                autoCompactNav ? 'bg-white' : 'bg-slate-400'
-              }`}
-            />
-            <span>
-              {autoCompactNav
-                ? isEn
-                  ? 'Enabled'
-                  : 'Đang bật'
-                : isEn
-                  ? 'Disabled'
-                  : 'Đang tắt'}
-            </span>
-          </button>
-        </div>
       </div>
 
       {/* Danh sách các giao diện nhóm cùng loại */}

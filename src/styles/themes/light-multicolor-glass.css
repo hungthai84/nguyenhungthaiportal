@@ -1748,12 +1748,12 @@ html[data-card-style="light-multicolor-glass-color"] #el-p0-button-1,
 html[data-card-style="light-multicolor-glass-color"] #el-p0-button-2,
 html[data-card-style="light-multicolor-glass-color"] .theme-back-to-top-btn,
 html[data-card-style="light-multicolor-glass-color"] .radial-contact-pill {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(245, 248, 255, 0.76) 100%) !important;
-  backdrop-filter: blur(22px) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
-  border-color: rgba(255, 255, 255, 0.94) !important;
-  box-shadow: var(--shadow-nav-pill) !important;
-  color: #000000 !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(14px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  color: var(--text-primary) !important;
 }
 
 html[data-card-style="light-multicolor-glass-color"] #app-header nav button.nav-pill:not(.active):hover,

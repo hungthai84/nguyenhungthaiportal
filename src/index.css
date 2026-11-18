@@ -1248,6 +1248,24 @@ html #contact-main-card #contact-hero-banner .project-detail-banner-scrim {
   border-radius: 14px !important;
 }
 
+/* Enhanced Clarity & Sharpness for Hero Banners & Banner Background Images */
+html .hero-banner img,
+html .banner-card img,
+html [id$="-hero-banner"] img,
+html .education-card-banner img,
+html .project-card-banner img {
+  filter: brightness(1.08) contrast(1.08) saturate(1.06) !important;
+  image-rendering: -webkit-optimize-contrast;
+  object-fit: cover !important;
+}
+
+html .hero-banner .project-detail-banner-scrim,
+html .banner-card .project-detail-banner-scrim,
+html [id$="-hero-banner"] .project-detail-banner-scrim {
+  background: linear-gradient(135deg, rgba(11, 18, 32, 0.40) 0%, rgba(11, 18, 32, 0.20) 100%) !important;
+}
+
+
 @media (hover: hover) and (pointer: fine) {
   html .hero-banner:hover,
   html .banner-card:hover,
@@ -2040,5 +2058,26 @@ html[data-compact-chrome="true"] #app-footer #weather-widget-card {
   padding-top: 2px !important;
   padding-bottom: 2px !important;
 }
+
+/* 100% Transparent background for Weather Card in all Glassmorphism (Gương Kính mờ) themes */
+html[data-card-style="light-multicolor-glass"] #weather-card,
+html[data-card-style="light-multicolor-glass"] #weather-widget-card,
+html[data-card-style="light-multicolor-glass"] .weather-card,
+html[data-card-style="light-multicolor-glass-dark"] #weather-card,
+html[data-card-style="light-multicolor-glass-dark"] #weather-widget-card,
+html[data-card-style="light-multicolor-glass-dark"] .weather-card,
+html[data-card-style="light-multicolor-glass-color"] #weather-card,
+html[data-card-style="light-multicolor-glass-color"] #weather-widget-card,
+html[data-card-style="light-multicolor-glass-color"] .weather-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+
 
 

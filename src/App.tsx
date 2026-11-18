@@ -428,7 +428,7 @@ export default function App() {
     [currentTabIndex, pageSlides]
   );
 
-  const activeTheme = cardStyle || (isDark ? 'light-multicolor-glass-dark' : 'light-multicolor-glass');
+  const activeTheme = cardStyle || (isDark ? 'light-multicolor-glass-dark' : 'light-multicolor-glass-color');
 
   const renderActiveView = () => {
     switch (currentTabIndex) {

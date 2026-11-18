@@ -22,10 +22,14 @@
     <script>
       (function() {
         try {
+          var DEFAULT_THEME = 'light-multicolor-glass-color';
+          var MIGRATION_KEY = 'hungthai_default_theme_v';
           var rawStyle = localStorage.getItem('hungthai_card_style');
+          var isManual = localStorage.getItem('hungthai_card_style_manual') === '1';
           var aliasMap = {
-            'guong-da-sac': 'light-multicolor-glass',
-            'guong-da-sac-sang': 'light-multicolor-glass',
+            'guong-da-sac': 'light-multicolor-glass-color',
+            'guong-da-sac-sang': 'light-multicolor-glass-color',
+            'guong-don-sac': 'light-multicolor-glass',
             'guong-da-sac-toi': 'light-multicolor-glass-dark',
             'da-thuoc': 'light-cowhide-leather',
             'da-ca-sau-trang': 'light-cowhide-leather',
@@ -35,13 +39,20 @@
           var validStyles = [
             'light-multicolor-glass',
             'light-multicolor-glass-dark',
+            'light-multicolor-glass-color',
             'light-cowhide-leather',
             'black-cowhide-leather',
             'cowhide-leather'
           ];
           var cardStyle = rawStyle && aliasMap[rawStyle] ? aliasMap[rawStyle] : rawStyle;
           if (!cardStyle || validStyles.indexOf(cardStyle) === -1) {
-            cardStyle = 'light-multicolor-glass';
+            cardStyle = DEFAULT_THEME;
+          }
+          if (localStorage.getItem(MIGRATION_KEY) !== DEFAULT_THEME) {
+            if (!isManual && (!rawStyle || rawStyle === 'light-multicolor-glass')) {
+              cardStyle = DEFAULT_THEME;
+            }
+            localStorage.setItem(MIGRATION_KEY, DEFAULT_THEME);
           }
           document.documentElement.setAttribute('data-card-style', cardStyle);
           if (rawStyle !== cardStyle) {

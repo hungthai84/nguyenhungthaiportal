@@ -24,7 +24,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     description: 'Gương đơn sắc (sáng), Gương Neon màu (tối) & Gương đa sắc (màu)',
     descriptionEn: 'Monochrome Glass (Light), Neon Color Glass (Dark) & Multicolor Glass (Color)',
     icon: 'sparkles',
-    defaultMode: 'light-multicolor-glass',
+    defaultMode: 'light-multicolor-glass-color',
     lightMode: 'light-multicolor-glass',
     darkMode: 'light-multicolor-glass-dark',
     colorMode: 'light-multicolor-glass-color',

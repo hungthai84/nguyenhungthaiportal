@@ -493,6 +493,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
     try {
       localStorage.setItem(CARD_STYLE_STORAGE_KEY, normalized);
+      localStorage.setItem('hungthai_card_style_manual', '1');
       localStorage.setItem(
         nextDark ? 'hungthai_last_dark_style' : 'hungthai_last_light_style',
         normalized

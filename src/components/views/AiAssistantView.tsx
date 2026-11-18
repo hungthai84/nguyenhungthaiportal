@@ -6,7 +6,6 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { SiteTheme } from '@/types';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
-import { PageCardHeader } from './PageCardHeader';
 import {
   TRINHAN_SAMPLE_QUESTION_CATEGORIES,
   ALL_SAMPLE_QUESTIONS,
@@ -90,20 +89,46 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const chatCardRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [syncedBannerHeight, setSyncedBannerHeight] = useState<number | null>(null);
+  const [chatControlHeight, setChatControlHeight] = useState<number>(44);
 
   const showToast = (msg: string) => {
     if (onShowNotification) onShowNotification(msg);
   };
 
-  // Auto-resize textarea cleanly (base height = 44px matching Danh mục & Gửi câu hỏi buttons)
+  // Measure rendered height of #ai-assistant-droptop-menu-btn so input & submit match it across all viewports
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const syncControlHeight = () => {
+      const btn = document.getElementById('ai-assistant-droptop-menu-btn');
+      if (!btn) return;
+      const h = Math.round(btn.getBoundingClientRect().height);
+      if (h > 0) setChatControlHeight(h);
+    };
+    syncControlHeight();
+    const btn = document.getElementById('ai-assistant-droptop-menu-btn');
+    const ro =
+      typeof ResizeObserver !== 'undefined' && btn ? new ResizeObserver(syncControlHeight) : null;
+    if (ro && btn) ro.observe(btn);
+    window.addEventListener('resize', syncControlHeight);
+    return () => {
+      ro?.disconnect();
+      window.removeEventListener('resize', syncControlHeight);
+    };
+  }, [language, isSampleDropdownOpen]);
+
+  // Auto-resize textarea cleanly (base height dynamically matches Danh mục button height)
   useEffect(() => {
     const el = textareaRef.current;
     if (!el) return;
-    const baseHeight = 44;
+    const baseHeight = chatControlHeight || 44;
+    if (!inputValue) {
+      el.style.height = `${baseHeight}px`;
+      return;
+    }
     el.style.height = `${baseHeight}px`;
     const nextHeight = Math.min(Math.max(el.scrollHeight, baseHeight), 112);
     el.style.height = `${nextHeight}px`;
-  }, [inputValue]);
+  }, [inputValue, chatControlHeight]);
 
   useEffect(() => {
     const syncHeight = () => {
@@ -372,7 +397,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           data-element-parent="ai-assistant-cards-track"
           className="page-main-card flex flex-col items-stretch p-[15px] gap-[15px] rounded-[14px] overflow-y-auto lg:overflow-hidden font-play text-left justify-start box-border"
         >
-      <PageCardHeader tabIndex={13} pageId="ai-assistant" />
       <div className="flex-1 min-h-0 w-full flex flex-col lg:flex-row items-stretch gap-[15px]">
       {/* 1. HERO BANNER TRỢ LÝ AI TRÍ NHÂN */}
       <section
@@ -652,22 +676,28 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                 ? 'Ask Tri Nhan about Mr. Nguyen Hung Thai or click Categories...'
                 : 'Hỏi Trí Nhân về anh Nguyễn Hùng Thái hoặc bấm Danh mục...'
             }
-            className="theme-input box-border flex-1 min-w-0 h-[44px] min-h-[44px] max-h-[112px] py-[9px] px-3 sm:px-4 !rounded-[22px] border typo-input leading-[22px] resize-none focus:outline-none shadow-inner overflow-y-auto"
+            style={{
+              minHeight: `${chatControlHeight}px`,
+              borderRadius: `${Math.round(chatControlHeight / 2)}px`,
+            }}
+            className="theme-input box-border flex-1 min-w-0 max-h-[112px] py-2 px-3 sm:px-4 border typo-input leading-[22px] resize-none focus:outline-none shadow-inner overflow-y-auto"
           />
 
           <button
             id="ai-assistant-submit-button"
-            data-element-name="Nút gửi câu hỏi AI Trí Nhân"
+            data-element-name="Nút trao đổi AI Trí Nhân"
             data-element-type="button"
             data-element-page="ai-assistant"
             data-element-parent="ai-assistant-input-form"
             type="submit"
             disabled={isLoading || !inputValue.trim()}
-            style={{ background: 'var(--bg-button-primary)' }}
-            className="box-border h-[44px] px-3 sm:px-5 rounded-full text-white typo-button shadow-md cursor-pointer transition hover:opacity-90 active:scale-95 disabled:opacity-55 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2 shrink-0 border border-white/20"
+            style={{
+              background: 'var(--bg-button-primary)',
+              height: `${chatControlHeight}px`,
+            }}
+            className="box-border px-3 sm:px-5 rounded-full text-white typo-button shadow-md cursor-pointer transition hover:opacity-90 active:scale-95 disabled:opacity-55 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2 shrink-0 border border-white/20"
           >
-            <span className="sm:hidden">{isEn ? 'Send' : 'Gửi'}</span>
-            <span className="hidden sm:inline">{isEn ? 'Send' : 'Gửi câu hỏi'}</span>
+            <span>{isEn ? 'Chat' : 'Trao đổi'}</span>
             <WebIcon name="send" className="w-3.5 h-3.5 text-white" />
           </button>
         </form>

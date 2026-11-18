@@ -17,7 +17,6 @@ import {
 } from '@/data/letterData';
 import { SiteTheme } from '@/types';
 import { useTheme } from '@/hooks/useTheme';
-import { PageCardHeader } from './PageCardHeader';
 
 // Video thuyết minh Thư Ngỏ (Cloudinary Transition Studio)
 export const LETTER_SLIDE_1_VIDEO_URL =
@@ -1987,7 +1986,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
           currentSlide !== 0 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
-        <PageCardHeader tabIndex={1} pageId="letter-1" partLabel="Phần 1/4 · Thông Điệp Hợp Tác" />
                 <div
                   id="el-p1-div-85"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 1)"
@@ -2347,7 +2345,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
           currentSlide !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
-        <PageCardHeader tabIndex={1} pageId="letter-2" partLabel="Phần 2/4 · Sự Nghiệp 2002 – 2011" />
                 <div
                   id="letter-slide-2-card"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 2)"
@@ -2403,7 +2400,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
           currentSlide !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
-        <PageCardHeader tabIndex={1} pageId="letter-3" partLabel="Phần 3/4 · Sự Nghiệp 2013 – 2023" />
                 <div
                   id="letter-slide-3-card"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 3)"
@@ -2459,7 +2455,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
           currentSlide !== 3 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
-        <PageCardHeader tabIndex={1} pageId="letter-4" partLabel="Phần 4/4 · Triết Lý Quản Trị" />
                 <div
                   id="letter-slide-4-card"
                   data-element-name="Thẻ nội dung Thư Ngỏ (Trang 4)"

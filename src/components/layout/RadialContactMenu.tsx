@@ -47,7 +47,14 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
   const { language } = useLanguage();
   const isEn = language === 'en';
   const containerRef = useRef<HTMLDivElement>(null);
-  const [coords, setCoords] = useState<{ top?: number; bottom?: number; left?: number; right?: number } | null>(null);
+  const [coords, setCoords] = useState<{
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
+    width?: number;
+    height?: number;
+  } | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -59,19 +66,30 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
 
     const updateCoords = () => {
       if (anchorRef?.current) {
-        const rect = anchorRef.current.getBoundingClientRect();
+        const targetEl =
+          (anchorRef.current.querySelector('#header-btn-hungthai-avatar') as HTMLElement | null) ||
+          anchorRef.current;
+        const rect = targetEl.getBoundingClientRect();
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
-        const menuWidth = Math.min(176, viewportWidth - 16);
+        const measuredW = Math.round(rect.width);
+        const measuredH = Math.round(rect.height);
+        const menuWidth =
+          measuredW > 40
+            ? Math.min(measuredW, viewportWidth - 16)
+            : Math.min(176, viewportWidth - 16);
+        const pillHeight = measuredH > 24 ? measuredH : 44;
         const safeRight = Math.max(8, Math.min(viewportWidth - rect.right, viewportWidth - menuWidth - 8));
         const safeLeft = Math.max(8, Math.min(rect.left, viewportWidth - menuWidth - 8));
 
         if (position === 'top') {
-          // Attached to top (Header), dropdown goes DOWN
+          // Attached to top (Header), dropdown goes DOWN flush-aligned with anchor
           setCoords({
             top: Math.max(8, Math.min(rect.bottom + 8, viewportHeight - 120)),
             right: align === 'right' ? safeRight : undefined,
             left: align === 'left' ? safeLeft : undefined,
+            width: menuWidth,
+            height: pillHeight,
           });
         } else {
           // Attached to bottom (Footer), dropdown goes UP
@@ -79,6 +97,8 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
             bottom: Math.max(8, Math.min(viewportHeight - rect.top + 8, viewportHeight - 120)),
             right: align === 'right' ? safeRight : undefined,
             left: align === 'left' ? safeLeft : undefined,
+            width: menuWidth,
+            height: pillHeight,
           });
         }
       }
@@ -87,11 +107,19 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
     updateCoords();
     // Use a small timeout to ensure layout has settled
     const timer = setTimeout(updateCoords, 10);
-    
+    const resizeObserver =
+      typeof ResizeObserver !== 'undefined' && anchorRef?.current
+        ? new ResizeObserver(updateCoords)
+        : null;
+    if (resizeObserver && anchorRef?.current) {
+      resizeObserver.observe(anchorRef.current);
+    }
+
     window.addEventListener('resize', updateCoords);
     window.addEventListener('scroll', updateCoords, true);
     return () => {
       clearTimeout(timer);
+      resizeObserver?.disconnect();
       window.removeEventListener('resize', updateCoords);
       window.removeEventListener('scroll', updateCoords, true);
     };
@@ -224,7 +252,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: position === 'top' ? -14 : 14, scale: 0.95 }}
           transition={{ duration: 0.22, ease: 'easeOut' }}
-          className="flex flex-col gap-2 pointer-events-auto select-none shadow-2xl overflow-y-auto no-scrollbar"
+          className="flex flex-col gap-2 pointer-events-auto select-none overflow-y-auto no-scrollbar"
           style={{
             position: 'fixed',
             top: coords?.top !== undefined ? `${coords.top}px` : 'auto',
@@ -232,7 +260,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
             left: coords?.left !== undefined ? `${coords.left}px` : 'auto',
             right: coords?.right !== undefined ? `${coords.right}px` : 'auto',
             zIndex: 9999999,
-            width: '176px',
+            width: coords?.width ? `${coords.width}px` : '176px',
             maxWidth: 'calc(100vw - 16px)',
             maxHeight: 'calc(100vh - 24px)',
           }}
@@ -241,7 +269,10 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
             const isItemActive = item.id === 'booking' && currentTab === 12;
             const content = (
               <div
-                className={`radial-contact-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] p-[1.5px] select-none group/item transition-all duration-300 hover:scale-[1.05] w-[176px] h-[44px] overflow-hidden shadow-lg ring-1.5 ${item.ringColor}`}
+                className={`radial-contact-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] p-[1.5px] select-none group/item transition-all duration-300 hover:scale-[1.03] w-full overflow-hidden shadow-md ring-1.5 ${item.ringColor}`}
+                style={{
+                  height: coords?.height ? `${coords.height}px` : '44px',
+                }}
               >
                 {/* Rotating Laser Beam Border */}
                 <div
@@ -255,15 +286,21 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
 
                 {/* Inner Pill */}
                 <div
-                  className={`radial-contact-pill ${isItemActive ? 'active' : ''} relative z-10 inline-flex items-center w-full h-full rounded-[999px] px-2 py-0.5 gap-1.5 cursor-pointer border transition-all duration-300`}
+                  className={`radial-contact-pill ${isItemActive ? 'active' : ''} relative z-10 inline-flex items-center w-full h-full rounded-[999px] gap-1.5 cursor-pointer border-2 transition-all duration-300`}
+                  style={{
+                    paddingTop: '2px',
+                    paddingRight: '10px',
+                    paddingBottom: '2px',
+                    paddingLeft: '10px',
+                  }}
                 >
                   <div
-                    className={`radial-contact-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-sm ${item.circleBg} leading-none p-0 overflow-hidden typo-badge`}
+                    className={`radial-contact-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-xs ${item.circleBg} leading-none p-0 overflow-hidden typo-badge`}
                   >
                     <WebIcon name={item.iconName} className="w-3.5 h-3.5 text-white m-auto" />
                   </div>
-                  <div className="radial-contact-divider w-[1px] h-3.5 shrink-0 mx-0.5 rounded-[999px]" />
-                  <div className="flex flex-col text-left leading-none pr-1 min-w-0">
+                  <div className="radial-contact-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px]" />
+                  <div className="flex flex-col text-left leading-none flex-1 min-w-0">
                     <span className="radial-contact-title typo-nav leading-tight font-play truncate">
                       {item.title}
                     </span>

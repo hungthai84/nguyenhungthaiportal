@@ -30,9 +30,9 @@ function getGeminiClient(): GoogleGenAI | null {
   });
 }
 
-const TEXT_TRANSLATION_MODELS = ['gemini-2.5-flash', 'gemini-1.5-flash'] as const;
-const ASSISTANT_CHAT_MODELS = ['gemini-2.5-flash', 'gemini-1.5-flash'] as const;
-const TTS_MODEL = 'gemini-2.5-flash';
+const TEXT_TRANSLATION_MODELS = ['gemini-3.8-flash', 'gemini-1.5-flash'] as const;
+const ASSISTANT_CHAT_MODELS = ['gemini-3.8-flash', 'gemini-1.5-flash'] as const;
+const TTS_MODEL = 'gemini-3.8-flash';
 const DEFAULT_QUOTA_COOLDOWN_MS = 15 * 60 * 1000;
 const MAX_QUOTA_COOLDOWN_MS = 60 * 60 * 1000;
 const MAX_SERVER_TRANSLATION_CACHE = 4000;

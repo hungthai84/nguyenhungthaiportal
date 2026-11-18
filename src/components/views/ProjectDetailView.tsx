@@ -311,10 +311,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     const checkTheme = () => {
       const isDarkClass = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
       const themeAttr = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null;
+      const cardStyleAttr = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-card-style') : null;
+      const effectiveStyle = cardStyleAttr || themeAttr;
       const isDarkThemeAttr =
-        themeAttr === 'dark-neon-multicolor-glass' ||
-        themeAttr === 'light-multicolor-glass-dark' ||
-        themeAttr === 'cowhide-leather';
+        effectiveStyle === 'dark-neon-multicolor-glass' ||
+        effectiveStyle === 'light-multicolor-glass-dark' ||
+        effectiveStyle === 'cowhide-leather';
       if (typeof isLight === 'boolean') {
         setIsLightMode(isLight && !isDarkClass && !isDarkThemeAttr);
       } else {
@@ -328,7 +330,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       const observer = new MutationObserver(checkTheme);
       observer.observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ['class', 'data-theme'],
+        attributeFilter: ['class', 'data-theme', 'data-card-style'],
       });
       return () => observer.disconnect();
     }
@@ -821,7 +823,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             {/* Header Card */}
             <div
               className={`relative z-10 shrink-0 flex items-center justify-between pb-2.5 border-b ${
-                isLightMode ? 'border-slate-300/70' : 'border-white/20'
+                'border-[var(--border-subcard)]'
               }`}
             >
               <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('blue') }}>
@@ -847,7 +849,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
               {/* Overview Content with High-Fidelity Contextual Visual Banner */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
-                <div data-subcard="true" className="project-detail-subcard lg:col-span-8 p-4 rounded-[14px] border border-white/20 dark:border-white/10 space-y-3 shadow-xs flex flex-col justify-between">
+                <div data-subcard="true" className="project-detail-subcard lg:col-span-8 p-4 rounded-[14px] border border-[var(--border-subcard)] space-y-3 shadow-xs flex flex-col justify-between">
                   <div className="space-y-2.5">
                     {spec.overview.map((para: string, idx: number) => (
                       <p key={idx} className="typo-body-sm text-[var(--text-primary)] leading-relaxed font-medium">
@@ -886,7 +888,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               </div>
 
               {/* 4 Trụ Cột Vận Hành Cốt Lõi (4 Core Operational Pillars) */}
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 shadow-xs space-y-3">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] shadow-xs space-y-3">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-white/10">
                   <div className="subcard-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
                     <span className="font-mono typo-h4 text-blue-600 dark:text-cyan-400">04</span>
@@ -993,7 +995,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             {/* Header Card */}
             <div
               className={`relative z-10 shrink-0 flex items-center justify-between pb-2.5 border-b ${
-                isLightMode ? 'border-slate-300/70' : 'border-white/20'
+                'border-[var(--border-subcard)]'
               }`}
             >
               <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('amber') }}>
@@ -1017,7 +1019,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
             {/* Body Card Cuộn Mượt Mà */}
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-[var(--text-primary)] leading-relaxed font-semibold shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] leading-relaxed font-semibold shadow-xs">
                 {spec.context.intro}
               </div>
 
@@ -1032,7 +1034,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       className={`project-detail-subcard h-full p-3.5 rounded-[14px] ${palette.theme} border shadow-2xs flex flex-col justify-between transition duration-200`}
                     >
                       <div className="space-y-2">
-                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
+                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-[var(--border-subcard)]">
                           <span className="font-mono font-bold typo-h5">3.{idx + 1}</span>
                           <WebIcon name={palette.icon} className="w-4 h-4 shrink-0" />
                           <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide m-0" data-subcard-title="true">
@@ -1043,7 +1045,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                           {chDesc}
                         </p>
                       </div>
-                      <span className="typo-label font-mono font-bold text-[var(--text-muted)] pt-2 border-t border-black/5 dark:border-white/5 mt-2 block">
+                      <span className="typo-label font-mono font-bold text-[var(--text-muted)] pt-2 border-t border-[var(--border-subcard)] mt-2 block">
                         Thách thức vận hành 3.{idx + 1}
                       </span>
                     </div>
@@ -1077,7 +1079,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             {/* Header Card */}
             <div
               className={`relative z-10 shrink-0 flex items-center justify-between pb-2.5 border-b ${
-                isLightMode ? 'border-slate-300/70' : 'border-white/20'
+                'border-[var(--border-subcard)]'
               }`}
             >
               <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('teal') }}>
@@ -1129,7 +1131,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       className={`project-detail-subcard h-full p-4 rounded-[14px] ${t.theme} border shadow-2xs space-y-3 flex flex-col justify-between transition duration-200`}
                     >
                       <div className="space-y-3">
-                        <div className="flex items-center justify-between pb-2 border-b border-black/5 dark:border-white/10">
+                        <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)]">
                           <div className="subcard-header-sync flex items-center gap-2">
                             <span className="font-mono font-bold typo-h4">4.{idx + 1}</span>
                             <WebIcon name={t.icon} className="w-4 h-4 shrink-0" />
@@ -1155,7 +1157,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                         </ul>
                       </div>
 
-                      <div className="pt-2 border-t border-black/5 dark:border-white/10 typo-label font-mono font-bold text-[var(--text-muted)] text-right">
+                      <div className="pt-2 border-t border-[var(--border-subcard)] typo-label font-mono font-bold text-[var(--text-muted)] text-right">
                         Mục tiêu 0{idx + 1} / {spec.objectives.length}
                       </div>
                     </div>
@@ -1177,7 +1179,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             {/* Header Card */}
             <div
               className={`relative z-10 shrink-0 flex items-center justify-between pb-2.5 border-b ${
-                isLightMode ? 'border-slate-300/70' : 'border-white/20'
+                'border-[var(--border-subcard)]'
               }`}
             >
               <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('purple') }}>
@@ -1214,7 +1216,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       }`}
                     >
                       <div className="space-y-3">
-                        <div className="flex items-center justify-between pb-2 border-b border-black/5 dark:border-white/10 flex-wrap gap-2">
+                        <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] flex-wrap gap-2">
                           <div className="subcard-header-sync flex items-center gap-2">
                             <span className="font-mono font-bold typo-h4">5.{idx + 1}</span>
                             <WebIcon name={palette.icon} className="w-4 h-4 shrink-0" />
@@ -1222,7 +1224,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                               {scopeItem.title || scopeItem.code}
                             </h4>
                           </div>
-                          <span className="project-detail-chip typo-badge font-mono font-bold px-2 py-0.5 rounded-full border border-black/10 dark:border-white/10">
+                          <span className="project-detail-chip typo-badge font-mono font-bold px-2 py-0.5 rounded-full border border-[var(--border-subcard)]">
                             {scopeItem.code}
                           </span>
                         </div>
@@ -1231,7 +1233,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                           {scopeItem.intro}
                         </p>
 
-                        <div className="project-detail-chip space-y-1.5 p-3 rounded-[14px] border border-black/5 dark:border-white/10">
+                        <div className="project-detail-chip space-y-1.5 p-3 rounded-[14px] border border-[var(--border-subcard)]">
                           <p className="typo-label font-bold text-[var(--text-secondary)] flex items-center gap-1.5">
                             <WebIcon name="list" className="w-3 h-3 opacity-80" />
                             <span>Nhiệm vụ triển khai trọng tâm:</span>
@@ -1250,14 +1252,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                         </div>
 
                         {scopeItem.note && (
-                          <p className="project-detail-chip typo-caption italic text-[var(--text-secondary)] p-2.5 rounded-[14px] border border-black/5 dark:border-white/5">
+                          <p className="project-detail-chip typo-caption italic text-[var(--text-secondary)] p-2.5 rounded-[14px] border border-[var(--border-subcard)]">
                             💡 {scopeItem.note}
                           </p>
                         )}
                       </div>
 
                       {/* Highlighted Deliverable Pill */}
-                      <div className="project-detail-chip p-2.5 rounded-[14px] border border-black/10 dark:border-white/10 flex items-start gap-2 typo-caption mt-auto">
+                      <div className="project-detail-chip p-2.5 rounded-[14px] border border-[var(--border-subcard)] flex items-start gap-2 typo-caption mt-auto">
                         <WebIcon name="award" className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                         <div>
                           <strong className="font-bold text-emerald-600 dark:text-emerald-400 mr-1.5">
@@ -1285,7 +1287,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             {/* Header Card */}
             <div
               className={`relative z-10 shrink-0 flex items-center justify-between pb-2.5 border-b ${
-                isLightMode ? 'border-slate-300/70' : 'border-white/20'
+                'border-[var(--border-subcard)]'
               }`}
             >
               <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('cyan') }}>
@@ -1309,7 +1311,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
             {/* Body Card Cuộn Mượt Mà */}
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.methodology.intro}
               </div>
 
@@ -1331,7 +1333,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       className={`project-detail-subcard h-full p-3.5 rounded-[14px] ${p.theme} border shadow-2xs space-y-2 flex flex-col justify-between transition duration-200`}
                     >
                       <div className="space-y-2">
-                        <div className="subcard-header-sync flex items-center gap-1.5 pb-1.5 border-b border-black/5 dark:border-white/10">
+                        <div className="subcard-header-sync flex items-center gap-1.5 pb-1.5 border-b border-[var(--border-subcard)]">
                           <span className="font-mono font-bold typo-h5">6.{idx + 1}</span>
                           <WebIcon name={p.icon} className="w-4 h-4 shrink-0" />
                           <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide leading-tight m-0" data-subcard-title="true">
@@ -1343,7 +1345,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                         </p>
                       </div>
 
-                      <div className="pt-2 border-t border-black/5 dark:border-white/5 flex items-center justify-between typo-label font-mono font-bold opacity-80 mt-auto">
+                      <div className="pt-2 border-t border-[var(--border-subcard)] flex items-center justify-between typo-label font-mono font-bold opacity-80 mt-auto">
                         <span>{ph.stage}</span>
                         <span>Phase {idx + 1}</span>
                       </div>
@@ -1353,7 +1355,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               </div>
 
               {spec.methodology.outro && (
-                <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-white/20 dark:border-white/10 flex items-center gap-2">
+                <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-[var(--border-subcard)] flex items-center gap-2">
                   <WebIcon name="target" className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
                   <p className="typo-caption italic text-[var(--text-secondary)] leading-relaxed font-medium">
                     {spec.methodology.outro}
@@ -1375,7 +1377,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             {/* Header Card */}
             <div
               className={`relative z-10 shrink-0 flex items-center justify-between pb-2.5 border-b ${
-                isLightMode ? 'border-slate-300/70' : 'border-white/20'
+                'border-[var(--border-subcard)]'
               }`}
             >
               <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('emerald') }}>
@@ -1399,7 +1401,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
             {/* Body Card Cuộn Mượt Mà */}
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.metrics.intro}
               </div>
 
@@ -1425,7 +1427,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       }`}
                     >
                       <div className="space-y-2">
-                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
+                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-[var(--border-subcard)]">
                           <span className="font-mono font-bold typo-h5">7.{idx + 1}</span>
                           <WebIcon name={p.icon} className="w-4 h-4 shrink-0" />
                           <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide leading-tight m-0" data-subcard-title="true">
@@ -1437,7 +1439,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                           {m.indicators.split(/[,;·]/).filter(Boolean).map((ind: string, iIdx: number) => (
                             <span
                               key={iIdx}
-                              className="project-detail-chip px-2 py-0.5 rounded-[14px] border border-black/10 dark:border-white/10 text-slate-800 dark:text-slate-200 font-bold typo-badge"
+                              className="project-detail-chip px-2 py-0.5 rounded-[14px] border border-[var(--border-subcard)] text-slate-800 dark:text-slate-200 font-bold typo-badge"
                             >
                               {ind.trim()}
                             </span>
@@ -1445,7 +1447,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                         </div>
                       </div>
 
-                      <div className="pt-2 border-t border-black/5 dark:border-white/5 typo-label font-mono font-bold opacity-80 flex items-center justify-between mt-auto">
+                      <div className="pt-2 border-t border-[var(--border-subcard)] typo-label font-mono font-bold opacity-80 flex items-center justify-between mt-auto">
                         <span>{m.category}</span>
                         <span>Nhóm 7.{idx + 1}</span>
                       </div>
@@ -1455,7 +1457,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               </div>
 
               {spec.metrics.outro && (
-                <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-white/20 dark:border-white/10 flex items-center gap-2">
+                <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-[var(--border-subcard)] flex items-center gap-2">
                   <WebIcon name="chart" className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <p className="typo-caption italic text-[var(--text-secondary)] leading-relaxed font-medium">
                     {spec.metrics.outro}
@@ -1477,7 +1479,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             {/* Header Card */}
             <div
               className={`relative z-10 shrink-0 flex items-center justify-between pb-2.5 border-b ${
-                isLightMode ? 'border-slate-300/70' : 'border-white/20'
+                'border-[var(--border-subcard)]'
               }`}
             >
               <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('rose') }}>
@@ -1501,7 +1503,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
             {/* Body Card Cuộn Mượt Mà */}
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.pmRoles.intro}
               </div>
 
@@ -1527,7 +1529,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       }`}
                     >
                       <div className="space-y-1.5">
-                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
+                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-[var(--border-subcard)]">
                           <span className="font-mono font-bold typo-h5">8.{idx + 1}</span>
                           <WebIcon name={p.icon} className="w-4 h-4 shrink-0" />
                           <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide leading-tight m-0" data-subcard-title="true">
@@ -1539,7 +1541,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                         </p>
                       </div>
 
-                      <div className="pt-2 border-t border-black/5 dark:border-white/5 flex items-center justify-between typo-label font-mono font-bold opacity-80 mt-auto">
+                      <div className="pt-2 border-t border-[var(--border-subcard)] flex items-center justify-between typo-label font-mono font-bold opacity-80 mt-auto">
                         <span>{r.role}</span>
                         <span>Vai trò 8.{idx + 1}</span>
                       </div>
@@ -1563,7 +1565,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             {/* Header Card */}
             <div
               className={`relative z-10 shrink-0 flex items-center justify-between pb-2.5 border-b ${
-                isLightMode ? 'border-slate-300/70' : 'border-white/20'
+                'border-[var(--border-subcard)]'
               }`}
             >
               <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('teal') }}>
@@ -1587,7 +1589,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
             {/* Body Card Cuộn Mượt Mà */}
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.expectedOutcomes.intro}
               </div>
 
@@ -1610,7 +1612,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       className={`project-detail-subcard h-full p-4 rounded-[14px] ${p.theme} border shadow-2xs space-y-2 flex flex-col justify-between transition duration-200`}
                     >
                       <div className="space-y-1.5">
-                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
+                        <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-[var(--border-subcard)]">
                           <span className="font-mono font-bold typo-h5">9.{idx + 1}</span>
                           <WebIcon name={p.icon} className="w-4 h-4 shrink-0" />
                           <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide leading-tight m-0" data-subcard-title="true">
@@ -1621,7 +1623,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                           {item.desc}
                         </p>
                       </div>
-                      <div className="pt-2 border-t border-black/5 dark:border-white/5 flex items-center justify-between typo-label font-mono font-bold opacity-80 mt-auto">
+                      <div className="pt-2 border-t border-[var(--border-subcard)] flex items-center justify-between typo-label font-mono font-bold opacity-80 mt-auto">
                         <span>Giá trị 0{idx + 1}</span>
                         <span>Đã nghiệm thu ✓</span>
                       </div>
@@ -1631,7 +1633,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               </div>
 
               {spec.expectedOutcomes.outro && (
-                <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-white/20 dark:border-white/10 flex items-center gap-2">
+                <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-[var(--border-subcard)] flex items-center gap-2">
                   <WebIcon name="award" className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0" />
                   <p className="typo-caption italic text-[var(--text-secondary)] leading-relaxed font-medium">
                     {spec.expectedOutcomes.outro}
@@ -1653,7 +1655,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             {/* Header Card */}
             <div
               className={`relative z-10 shrink-0 flex items-center justify-between pb-2.5 border-b ${
-                isLightMode ? 'border-slate-300/70' : 'border-white/20'
+                'border-[var(--border-subcard)]'
               }`}
             >
               <div className="card-header-sync flex items-center gap-2.5" style={{ color: getCardAccentColor('violet') }}>
@@ -1677,7 +1679,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
             {/* Body Card Cuộn Mượt Mà */}
             <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-white/20 dark:border-white/10 space-y-2.5 shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] space-y-2.5 shadow-xs">
                 {spec.philosophy.paragraphs.map((p: string, idx: number) => (
                   <p key={idx} className="typo-body-sm text-[var(--text-primary)] leading-relaxed font-medium">
                     {p}
@@ -1716,7 +1718,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     className={`project-detail-subcard h-full p-4 rounded-[14px] ${item.theme} border shadow-2xs space-y-2 flex flex-col justify-between transition duration-200`}
                   >
                     <div className="space-y-1.5">
-                      <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-black/5 dark:border-white/10">
+                      <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-[var(--border-subcard)]">
                         <span className="font-mono font-bold typo-h5">{item.num}</span>
                         <WebIcon name={item.icon} className="w-4 h-4 shrink-0" />
                         <h5 className="typo-h5 subcard-title-synced font-semibold tracking-wide leading-tight m-0" data-subcard-title="true">
@@ -1728,7 +1730,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       </p>
                     </div>
 
-                    <div className="pt-2 border-t border-black/5 dark:border-white/5 typo-label font-mono font-bold opacity-80 text-right mt-auto">
+                    <div className="pt-2 border-t border-[var(--border-subcard)] typo-label font-mono font-bold opacity-80 text-right mt-auto">
                       Trụ cột 0{idx + 1}
                     </div>
                   </div>

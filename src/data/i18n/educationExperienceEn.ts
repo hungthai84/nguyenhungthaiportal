@@ -306,6 +306,8 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
   'Chợ Số Finviet': 'Finviet Digital Market',
   'Trưởng nhóm CSKH': 'Customer Service Team Lead',
   'Trưởng Phòng CallCenter': 'Call Center Manager',
+  'Trưởng phòng CSKH': 'Head of Customer Service',
+  'Trưởng Phòng CSKH': 'Head of Customer Service',
   'Head of CX / CS Director / Trưởng Phòng Dịch vụ Khách hàng':
     'Head of CX / CS Director / Customer Service Manager',
 
@@ -750,15 +752,15 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
   // =========================================================================
   // 5. PROJECTS_DATA (21 PROJECTS IN PDFVIEW & PROJECTSVIEW)
   // =========================================================================
-  '1.1 · Xây dựng và vận hành Phòng CSKH chuyên nghiệp':
+  '1.1 · Xây dựng & vận hành Phòng CSKH chuyên nghiệp':
     '1.1 · Building & Operating a Professional Customer Service Department',
   'Dự án quản trị tổng thể nhằm hình thành một bộ phận CSKH có cơ cấu tổ chức rõ ràng, chức năng nhiệm vụ đầy đủ, quy trình vận hành thống nhất và hệ thống đo lường hiệu quả minh bạch; kết nối con người, quy trình, công nghệ và dữ liệu thành một mô hình vận hành thống nhất.':
     'Comprehensive management initiative establishing a structured CS department with clear org design, unified workflows, and transparent KPI governance connecting people, process, tech, and data.',
-  '1.2 · Thiết lập mục tiêu và hệ thống KPI/OKR phòng ban':
+  '1.2 · Thiết lập mục tiêu và hệ thống KPI/OKR CSKH':
     '1.2 · Departmental Goal Setting & KPI/OKR Framework',
   'Chuẩn hóa bộ chỉ số đo lường hiệu suất cho toàn bộ đội ngũ >100 nhân sự trực tiếp và các đối tác BPO liên quan, kết nối mục tiêu CSKH với mục tiêu kinh doanh chung.':
     'Standardized performance scorecards for 100+ in-house staff and BPO partners, aligning CS metrics directly with enterprise business goals.',
-  '3.1 · Thiết kế hành trình và nâng cao trải nghiệm khách hàng':
+  '3.1 · Thiết kế hành trình & trải nghiệm khách hàng':
     '3.1 · Customer Journey Mapping & Experience Elevation',
   'Thiết kế và đồng bộ bản đồ hành trình khách hàng (CJM) trên toàn bộ hệ thống phục vụ hàng triệu người dùng, liên kết các điểm chạm đứt gãy.':
     'Designed and harmonized end-to-end Customer Journey Maps serving millions of users by eliminating fragmented touchpoints.',
@@ -766,15 +768,15 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
     '1.3 · CS Project Management & Continuous Improvement',
   'Điều hành trực tiếp các chuỗi dự án cải tiến hạ tầng và quy trình CSKH liên phòng ban theo phương pháp luận Agile/Kanban, kiểm soát tiến độ và khối lượng công việc WIP.':
     'Directed cross-functional CS infrastructure and process improvement projects using Agile/Kanban methodologies and WIP governance.',
-  '3.2 · Phân tích phản hồi và thúc đẩy cải tiến sản phẩm':
+  '3.2 · Phân tích phản hồi và cải tiến sản phẩm':
     '3.2 · Voice of Customer (VoC) Analytics & Product Enhancement',
   'Xây dựng cầu nối tương tác dữ liệu giữa phòng CSKH, Product và IT Team nhằm định lượng các pain-point người dùng và thúc đẩy cải tiến sản phẩm.':
     'Established structured data loops between CS, Product, and Engineering teams to quantify user pain points and drive product fixes.',
-  '3.3 · Ứng phó khủng hoảng và kiểm soát khách hàng rời bỏ':
+  '3.3 · Ứng phó khủng hoảng & giảm khách hàng rời bỏ':
     '3.3 · Crisis Response & Churn Prevention Framework',
   'Xây dựng cơ chế phản ứng khẩn cấp cho Contact Center và phối hợp cùng PR/Pháp lý để xử lý gián đoạn hệ thống lớn, giảm tỷ lệ rời bỏ dịch vụ.':
     'Built emergency Contact Center response protocols with PR and Legal to manage major outages and minimize customer churn.',
-  '2.1 · Chuẩn hóa quy trình và tiêu chuẩn vận hành CSKH':
+  '2.1 · Chuẩn hóa quy trình và tiêu chuẩn CSKH':
     '2.1 · Operational Standardization & Visual SOP Architecture',
   'Xây dựng và hệ thống hóa 100% quy trình vận hành tiêu chuẩn (Visual SOP) trực quan cho toàn bộ các dịch vụ, rút ngắn thời gian Onboarding nhân sự.':
     'Systematized 100% of service workflows into Visual SOP playbooks across product lines, accelerating agent onboarding speed.',
@@ -782,11 +784,11 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
     '2.2 · Omnichannel Support Integration & Optimization',
   'Hợp nhất các kênh tương tác (Hotline, Chat, Email, Social) về một không gian làm việc duy nhất (Single Agent Workspace), loại bỏ ma sát chuyển kênh.':
     'Unified Hotline, Chat, Email, and Social channels into a Single Agent Workspace to eliminate channel-switching friction.',
-  '4.3 · Tự động hóa quy trình CSKH bằng công nghệ RPA':
+  '4.3 · Tự động hóa quy trình CSKH bằng robot RPA':
     '4.3 · CS Process Automation with Robotic Process Automation (RPA)',
   'Tự động hóa các tác vụ thủ công lặp đi lặp lại như nhập liệu, đối soát giao dịch và hoàn tiền bằng RPA, giải phóng sức lao động cho Agent.':
     'Automated repetitive data entry, reconciliation, and refund tasks with RPA bots, freeing agents for high-empathy cases.',
-  '2.3 · Điều hành chiến dịch Outbound chăm sóc khách hàng':
+  '2.3 · Điều hành chiến dịch Outbound CSKH chủ động':
     '2.3 · Proactive Outbound Customer Care Campaigns',
   'Thiết kế kịch bản, quản trị dữ liệu cuộc gọi và điều hành các chiến dịch tiếp cận chủ động (Welcome Call, NPS, Win-back) nhằm giữ chân người dùng.':
     'Architected call scripts, campaign data pipelines, and proactive Welcome Call, NPS, and Win-back retention initiatives.',
@@ -794,7 +796,7 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
     '2.4 · BPO Partner Quality & SLA Governance',
   'Thiết lập khung quản trị chất lượng, KPIs và quy trình phối hợp cho các đối tác thuê ngoài (BPO), đảm bảo chất lượng dịch vụ đồng nhất.':
     'Implemented QA governance, KPI benchmarks, and coordination frameworks for external BPO partners to ensure uniform quality.',
-  '4.1 · Xây dựng nền tảng CRM và hồ sơ khách hàng 360':
+  '4.1 · Xây dựng hệ thống CRM & hồ sơ khách hàng 360':
     '4.1 · Enterprise CRM Platform & Customer 360 Profile',
   'Kiến trúc và thiết kế luồng dữ liệu CRM tập trung (MoMo Admin/Finviet CRM) phục vụ >5 triệu tài khoản, xây dựng hồ sơ khách hàng 360 độ.':
     'Architected centralized CRM data pipelines (MoMo Admin / Finviet CRM) serving 5M+ accounts with unified Customer 360 views.',
@@ -810,27 +812,27 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
     '4.4 · Omnichannel AI Chatbot & Voicebot Development',
   'Triển khai giải pháp Trợ lý ảo AI Bot (Generative AI & RAG) hỗ trợ tự động trả lời 24/7/365, giảm tải cho nhân viên tổng đài.':
     'Deployed Generative AI & RAG virtual assistants providing 24/7/365 automated customer support and reducing hotline load.',
-  '5.1 · Phát triển CS Academy và hệ thống đào tạo trực tuyến':
+  '5.1 · Phát triển CS Academy & đào tạo trực tuyến':
     '5.1 · CS Academy & Online Learning Management System',
   'Xây dựng Học viện Đào tạo trực tuyến CS Academy LMS với >85 module Micro-learning, mô phỏng cuộc gọi và sát hạch tự động.':
     'Launched CS Academy LMS featuring 85+ micro-learning modules, call simulations, and automated competency testing.',
-  '5.2 · Xây dựng khung năng lực ASK và lộ trình nghề nghiệp':
+  '5.2 · Xây dựng khung ASK và lộ trình thăng tiến':
     '5.2 · ASK Competency Matrix & Dual Career Path',
   'Thiết lập Khung năng lực ASK và Lộ trình thăng tiến kép (Dual Career Path), nâng cao sự gắn kết nhân sự và đào tạo lãnh đạo kế thừa.':
     'Established the ASK competency framework and Dual Career Path to drive retention and cultivate succession leaders.',
-  '5.3 · Xây dựng trung tâm hỗ trợ khách hàng tự phục vụ':
+  '5.3 · Xây dựng trung tâm hỗ trợ tự phục vụ 24/7':
     '5.3 · Self-Service Help Center Architecture',
   'Xây dựng Trung tâm Hỗ trợ Tự phục vụ (Self-Service Help Center) tập trung, biên soạn >650 bài viết FAQ chuẩn SEO giúp người dùng tự tra cứu.':
     'Built a centralized Self-Service Help Center with 650+ SEO-optimized FAQ articles empowering instant user resolution.',
-  '3.5 · Xây dựng văn hóa khách hàng và chuẩn chất lượng COPC':
+  '3.5 · Xây dựng văn hóa khách hàng & chuẩn COPC':
     '3.5 · Customer-Centric Culture & COPC Quality Standards',
   'Triển khai khung quản trị chất lượng TQA chuẩn COPC quốc tế cho đội ngũ >300 nhân sự, thẩm thấu văn hóa Customer-Centric vào vận hành.':
     'Rolled out COPC-aligned TQA governance across 300+ staff, embedding customer-centric culture into daily operations.',
-  '2.5 · Quản trị thay đổi và ứng phó khủng hoảng dịch vụ':
+  '2.5 · Quản trị thay đổi & khủng hoảng dịch vụ':
     '2.5 · Change Management & Service Crisis Response',
   'Quản trị sự thay đổi và ứng phó biến động cho toàn bộ khối dịch vụ khách hàng, thiết lập Ma trận cảnh báo sớm 4 cấp độ.':
     'Led organizational change management across the CS division and instituted a 4-tier early-warning escalation matrix.',
-  '4.5 · Ứng dụng AI Copilot và Auto-QA nâng cao hiệu suất':
+  '4.5 · Ứng dụng AI Copilot & Auto-QA hỗ trợ CSKH':
     '4.5 · AI Agent Copilot & Auto-QA Efficiency Suite',
   'Tiên phong ứng dụng AI Agent Copilot gợi ý câu trả lời và Speech-to-Text Auto-QA tự động chấm điểm 100% cuộc gọi toàn Contact Center.':
     'Pioneered AI Agent Copilot reply suggestions and Speech-to-Text Auto-QA scoring 100% of Contact Center calls automatically.',

@@ -14,7 +14,6 @@ import { EcosystemDiagramModal } from '@/components/common/EcosystemDiagramModal
 import { useTheme } from '@/hooks/useTheme';
 import { speakSiteText, stopActiveSpeech } from '@/utils/speechVoice';
 import { useLanguage } from '@/context/LanguageContext';
-import { PageCardHeader } from './PageCardHeader';
 
 export interface SystemsViewProps {
   currentTheme?: SiteTheme;
@@ -341,20 +340,20 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [hoveredImgId, setHoveredImgId] = useState<string | null>(null);
 
-  // Floating Circle Video & 6-Card Stage Intro Player (Trang Hệ Thống)
+  // Floating Circle Video & 9-Card Stage Intro Player (Trang Hệ Thống)
   const circleVideoRef = useRef<HTMLVideoElement>(null);
   const introStageVideoRef = useRef<HTMLVideoElement>(null);
   const cardsGridContainerRef = useRef<HTMLDivElement>(null);
   const [isCircleVideoPlaying, setIsCircleVideoPlaying] = useState<boolean>(false);
   const [isIntroStageMuted, setIsIntroStageMuted] = useState<boolean>(false);
-  const [sixCardBoxSize, setSixCardBoxSize] = useState<{ width: number; height: number } | null>(null);
+  const [nineCardBoxSize, setNineCardBoxSize] = useState<{ width: number; height: number } | null>(null);
   const [isClientMounted, setIsClientMounted] = useState<boolean>(false);
 
   useEffect(() => {
     setIsClientMounted(true);
   }, []);
 
-  const measureSixCardsBox = useCallback((): { width: number; height: number } | null => {
+  const measureNineCardsBox = useCallback((): { width: number; height: number } | null => {
     const gridEl = cardsGridContainerRef.current || systemsGridRef.current;
     if (!gridEl) return null;
     const gridRect = gridEl.getBoundingClientRect();
@@ -364,19 +363,30 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
     const firstCardEl = firstCardKey ? cardElementRefs.current[firstCardKey] : null;
     const cardRect = firstCardEl?.getBoundingClientRect();
 
-    const singleCardW = cardRect && cardRect.width > 0 ? cardRect.width : gridRect.width / 4;
-    const singleCardH = cardRect && cardRect.height > 0 ? cardRect.height : 140;
-    const sixCardsArea = 6 * singleCardW * singleCardH + 15 * singleCardH * 2;
+    const cols =
+      typeof window !== 'undefined'
+        ? window.innerWidth >= 1280
+          ? 4
+          : window.innerWidth >= 1024
+            ? 3
+            : window.innerWidth >= 640
+              ? 2
+              : 1
+        : 4;
+    const targetCols = Math.min(3, cols);
+    const targetRows = Math.ceil(9 / targetCols);
 
-    let targetWidth = Math.round(Math.sqrt((sixCardsArea * 16) / 9));
-    targetWidth = Math.min(Math.round(gridRect.width), Math.max(320, targetWidth));
-    let targetHeight = Math.round((targetWidth * 9) / 16);
+    const singleCardW =
+      cardRect && cardRect.width > 0
+        ? cardRect.width
+        : (gridRect.width - Math.max(0, cols - 1) * 15) / cols;
+    const singleCardH = cardRect && cardRect.height > 0 ? cardRect.height : 170;
 
-    const maxAvailHeight = Math.max(gridRect.height, singleCardH * 3 + 30);
-    if (targetHeight > maxAvailHeight && maxAvailHeight >= 240) {
-      targetHeight = Math.round(maxAvailHeight);
-      targetWidth = Math.round((targetHeight * 16) / 9);
-    }
+    const rawW = targetCols * singleCardW + Math.max(0, targetCols - 1) * 15;
+    const rawH = targetRows * singleCardH + Math.max(0, targetRows - 1) * 15;
+
+    const targetWidth = Math.min(Math.round(gridRect.width), Math.max(300, Math.round(rawW)));
+    const targetHeight = Math.max(240, Math.round(rawH));
 
     return { width: targetWidth, height: targetHeight };
   }, []);
@@ -422,15 +432,15 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       window.speechSynthesis.cancel();
     }
 
-    const measured = measureSixCardsBox();
+    const measured = measureNineCardsBox();
     if (measured) {
-      setSixCardBoxSize(measured);
+      setNineCardBoxSize(measured);
     }
     setExpandedSystemId(null);
     setSelectedSystem(null);
     setIsCircleVideoPlaying(true);
     showToast('Đang phát video giới thiệu hệ thống 🔊');
-  }, [isCircleVideoPlaying, handleCloseIntroVideo, measureSixCardsBox, showToast]);
+  }, [isCircleVideoPlaying, handleCloseIntroVideo, measureNineCardsBox, showToast]);
 
   const handleIntroVideoEnded = useCallback(() => {
     setIsCircleVideoPlaying(false);
@@ -1303,7 +1313,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       />
 
 
-        <PageCardHeader tabIndex={8} pageId="systems" />
         {/* BANNER HỆ THỐNG: Format đồng bộ chuẩn banner Hình Nền (h-200px, p-[15px], bo cong 14px) */}
         {!expandedSystemId && (
           <motion.section
@@ -1555,25 +1564,21 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 id="systems-intro-video-stage"
                 data-element-type="card"
                 data-section-card="true"
-                className="bento-card glass-card w-full max-w-[740px] flex flex-col rounded-[14px] overflow-hidden border border-slate-300/80 dark:border-white/20 shadow-2xl bg-slate-950/95 backdrop-blur-xl"
+                className="bento-card glass-card w-full flex flex-col rounded-[14px] overflow-hidden border border-slate-300/80 dark:border-white/20 shadow-2xl bg-black relative"
                 style={
-                  sixCardBoxSize
+                  nineCardBoxSize
                     ? {
-                        width: `${sixCardBoxSize.width}px`,
+                        width: `${nineCardBoxSize.width}px`,
+                        height: `${nineCardBoxSize.height}px`,
                         maxWidth: '100%',
                         borderRadius: '14px',
                       }
-                    : { borderRadius: '14px' }
+                    : { borderRadius: '14px', minHeight: '420px' }
                 }
               >
-                <div className="flex items-center justify-between gap-2 px-3.5 py-2 bg-slate-900/90 border-b border-white/10 text-white shrink-0">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse shrink-0" />
-                    <span className="typo-h4 font-play text-cyan-300 truncate">
-                      Video giới thiệu hệ thống vận hành
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1.5 shrink-0">
+                <div className="relative w-full h-full flex-1 bg-black overflow-hidden">
+                  {/* Floating Controls Inside Top-Right */}
+                  <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 shrink-0">
                     <button
                       type="button"
                       onClick={() => {
@@ -1585,7 +1590,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         showToast(nextMuted ? 'Đã tắt âm thanh video' : 'Đã bật âm thanh video 🔊');
                       }}
                       title={isIntroStageMuted ? 'Bật âm thanh' : 'Tắt âm thanh'}
-                      className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer"
+                      className="w-8 h-8 rounded-full bg-black/55 hover:bg-black/75 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition cursor-pointer shadow-md"
                     >
                       <WebIcon
                         name={isIntroStageMuted ? 'volume-x' : 'volume-2'}
@@ -1596,15 +1601,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                       type="button"
                       onClick={handleCloseIntroVideo}
                       title="Đóng video và hiện lại 12 thẻ hệ thống"
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white typo-button font-play transition cursor-pointer shadow-sm active:scale-95"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-600/90 hover:bg-rose-500 backdrop-blur-md border border-white/20 text-white typo-button font-play transition cursor-pointer shadow-md active:scale-95"
                     >
                       <WebIcon name="cancel" className="w-3.5 h-3.5" />
                       <span>Đóng video</span>
                     </button>
                   </div>
-                </div>
 
-                <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
                   <video
                     ref={introStageVideoRef}
                     src={SYSTEM_FLOATING_INTRO_VIDEO_URL}
@@ -1613,7 +1616,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                     playsInline
                     muted={isIntroStageMuted}
                     onEnded={handleIntroVideoEnded}
-                    className="w-full h-full object-contain bg-black"
+                    className="w-full h-full object-cover bg-black"
                   >
                     Trình duyệt của bạn không hỗ trợ phát video HTML5.
                   </video>
@@ -2480,7 +2483,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center min-w-0">
                         {(selectedSystem.videoUrl || modalConfig?.illustrationSrc || selectedSystem.imageUrl) && (
                           <div
-                            id="systems-admin-card"
+                            id={`system-modal-media-${selectedSystem.id}`}
                             className={`md:col-span-5 relative w-full aspect-video rounded-[14px] overflow-hidden min-w-0 ${
                               selectedSystem.videoUrl ? 'bg-black' : 'bg-transparent'
                             }`}

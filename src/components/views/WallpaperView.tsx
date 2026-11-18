@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { PageCardHeader } from './PageCardHeader';
 import {
   WALLPAPER_PRESETS_LIST,
   WallpaperPreset,
@@ -412,7 +411,6 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
           data-element-parent="wallpaper-cards-track"
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
-      <PageCardHeader tabIndex={14} pageId="wallpaper" />
       {/* 1. BANNER HÌNH NỀN: FORMAT GIỐNG BANNER HỌC VẤN, XÓA NÚT GIAO DIỆN TỐI, CARD SECTION CÁCH 15PX */}
       <section
         id="wallpaper-hero-banner"

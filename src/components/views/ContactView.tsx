@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { PageCardHeader } from './PageCardHeader';
 
 export interface ContactViewProps {
   currentTheme?: string;
@@ -41,7 +40,6 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
           data-element-parent="contact-cards-track"
           className="page-main-card flex flex-col items-stretch p-[15px] gap-[15px] rounded-[14px] overflow-y-auto lg:overflow-hidden font-play text-left box-border"
         >
-      <PageCardHeader tabIndex={12} pageId="contact" />
       <div className="flex-1 min-h-0 w-full flex flex-col lg:flex-row items-stretch gap-[15px]">
       {/* 1. HERO BANNER TRANG LIÊN HỆ (CHIỀU CAO CO GIÃN ĐỒNG BỘ THEO KHUNG ĐẶT LỊCH HẸN) */}
       <section

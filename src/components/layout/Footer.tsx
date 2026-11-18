@@ -568,7 +568,7 @@ export const Footer: React.FC<FooterProps> = ({
                   <div
                     id="footer-theme-popup"
                     style={{ background: 'var(--bg-popup)' }}
-                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(368px,calc(100vw-24px))] sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-[376px] rounded-[14px] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
+                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-fit min-w-0 max-w-[calc(100vw-24px)] h-auto sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-max sm:max-w-[calc(100vw-32px)] rounded-[14px] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
                   >
                     <div
                       className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"

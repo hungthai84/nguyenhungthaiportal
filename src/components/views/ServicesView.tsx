@@ -10,7 +10,6 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { formatCardTitle, formatSentenceFourWords } from '@/lib/utils';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
-import { PageCardHeader } from './PageCardHeader';
 
 export interface ServicesViewProps {
   currentTheme?: SiteTheme;
@@ -238,7 +237,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           data-element-parent="services-cards-track"
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
         >
-      <PageCardHeader tabIndex={4} pageId="services" />
       <div
         id="services-main-content"
         className={
@@ -731,7 +729,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                                         }
                                       }}
                                     />
-                                    <span style={{ display: 'none' }} className="typo-badge font-bold text-slate-900 text-center px-1 break-words leading-tight">
+                                    <span style={{ display: 'none' }} className="typo-badge font-bold text-[var(--text-primary)] text-center px-1 break-words leading-tight">
                                       {partner.name}
                                     </span>
                                   </div>
@@ -740,9 +738,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                                   <div
                                     key={companyName || i}
                                     title={companyName}
-                                    className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full bg-white/90 flex items-center justify-center overflow-hidden shrink-0 select-none"
+                                    className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full bg-[var(--bg-subcard)] border border-[var(--border-subcard)] flex items-center justify-center overflow-hidden shrink-0 select-none"
                                   >
-                                    <span className="typo-badge font-bold text-slate-900 text-center leading-tight truncate px-1">
+                                    <span className="typo-badge font-bold text-[var(--text-primary)] text-center leading-tight truncate px-1">
                                       {companyName}
                                     </span>
                                   </div>

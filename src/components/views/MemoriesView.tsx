@@ -13,7 +13,6 @@ import { useToast } from '@/components/ui/Toast';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
-import { PageCardHeader } from './PageCardHeader';
 
 export interface MemoriesViewProps {
   currentTheme?: string;
@@ -188,7 +187,6 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
         }}
       />
 
-      <PageCardHeader tabIndex={11} pageId="memories" />
       {/* BANNER KỶ NIỆM: Format chuẩn 100% theo phong cách banner Wallpaper (h-200px, p-[15px], bo cong 14px) */}
       <motion.div
         id="memories-hero-banner"

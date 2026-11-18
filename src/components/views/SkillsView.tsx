@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { WebIcon } from "@/components/ui/WebIcon";
 import { cn } from "@/lib/utils";
 import { SoundEngine } from "@/components/ui/SoundEngine";
-import { PageCardHeader } from "./PageCardHeader";
 import { 
   STRENGTHS_DATA, 
   WEAKNESSES_DATA, 
@@ -903,7 +902,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                         />
                         <path 
-                          className={cn("stroke-current", langItem.color)} 
+                          className={cn("skills-lang-ring-arc stroke-current", langItem.color)} 
                           strokeWidth="3.2" 
                           strokeDasharray={`${langItem.percent}, 100`} 
                           strokeLinecap="round" 
@@ -917,14 +916,14 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                     </div>
 
                     <div className="flex flex-col min-w-0 text-left">
-                      <h3 className={cn("typo-h4 subcard-title-synced font-play", langItem.color)} data-subcard-title="true">
+                      <h3 className={cn("skills-lang-title typo-h4 subcard-title-synced font-play", langItem.color)} data-subcard-title="true">
                         {isVi ? langItem.nameVi : langItem.nameEn}
                       </h3>
                       <span className="about-info-label typo-caption text-[var(--text-secondary)] mt-0.5">
                         {isVi ? langItem.roleVi : langItem.roleEn}
                       </span>
                       {(isVi ? langItem.levelVi : langItem.levelEn) && langItem.id !== "ai" && langItem.id !== "vi" && (
-                        <span className={cn("typo-badge mt-1", langItem.color)}>
+                        <span className={cn("skills-lang-level typo-badge mt-1", langItem.color)}>
                           {isVi ? langItem.levelVi : langItem.levelEn}
                         </span>
                       )}
@@ -978,7 +977,6 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           data-element-parent="skills-cards-track"
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
         >
-          <PageCardHeader tabIndex={6} pageId="skills" />
           {skillsMainBody}
         </div>
       </div>

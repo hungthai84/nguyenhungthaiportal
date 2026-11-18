@@ -11,7 +11,6 @@ import {
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { cn } from '@/lib/utils';
-import { PageCardHeader } from './PageCardHeader';
 
 export interface InterviewViewProps {
   currentTheme?: string;
@@ -169,7 +168,6 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-parent="interview-cards-track"
           className="page-main-card flex flex-col p-[15px] rounded-[14px] gap-[15px] justify-start select-none text-[var(--text-primary)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
         >
-      <PageCardHeader tabIndex={9} pageId="interview" />
       {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
       <div id="interview-main-content" className="w-full flex-1 flex flex-col lg:flex-row gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar">
         

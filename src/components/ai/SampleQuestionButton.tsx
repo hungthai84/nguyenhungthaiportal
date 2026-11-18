@@ -27,6 +27,7 @@ export const SampleQuestionButton: React.FC<SampleQuestionButtonProps> = ({
       data-element-name="Nút Danh mục"
       data-element-type="button"
       data-element-page="ai-assistant"
+      data-open={isOpen ? 'true' : 'false'}
       type="button"
       disabled={disabled}
       onClick={onToggle}
@@ -35,17 +36,9 @@ export const SampleQuestionButton: React.FC<SampleQuestionButtonProps> = ({
       aria-expanded={isOpen}
       aria-controls="ai-assistant-droptop-menu-list"
       aria-haspopup="dialog"
-      style={
-        isOpen
-          ? { background: 'var(--bg-button-primary)', color: '#FFFFFF', borderColor: 'transparent' }
-          : {
-              background: 'var(--bg-button-secondary, var(--bg-subcard))',
-              color: 'var(--text-primary)',
-              borderColor: 'var(--border-subcard, var(--border-color))',
-            }
-      }
-      className={`box-border h-[44px] px-2.5 sm:px-3.5 rounded-full typo-button border shadow-sm flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/70 shrink-0 whitespace-nowrap ${
-        isOpen ? 'shadow-md' : 'hover:border-purple-400/60 hover:shadow-md'
+      style={isOpen ? { background: 'var(--bg-button-primary)', color: '#FFFFFF', borderColor: 'transparent' } : undefined}
+      className={`theme-ai-cat-btn box-border h-[44px] px-2.5 sm:px-3.5 rounded-full typo-button border shadow-sm flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/70 shrink-0 whitespace-nowrap ${
+        isOpen ? 'shadow-md' : 'hover:shadow-md'
       } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
     >
       <WebIcon

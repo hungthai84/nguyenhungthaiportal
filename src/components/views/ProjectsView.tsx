@@ -10,7 +10,6 @@ import { cn, formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { ProjectDetailView } from './ProjectDetailView';
 import { useTheme } from '@/hooks/useTheme';
-import { PageCardHeader } from './PageCardHeader';
 
 export interface ProjectCardGroup {
   id: string;
@@ -461,7 +460,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           data-element-parent="projects-cards-track"
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-text text-left text-[var(--text-primary)] box-border"
         >
-      <PageCardHeader tabIndex={7} pageId="projects" />
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
       {!selectedGroup && !selectedArticle ? (
         <>
@@ -727,29 +725,19 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   {/* Phần Thân Card: Nội dung cách thẻ dự án padding 15px đồng bộ */}
                   <div style={{ padding: '15px' }} className="project-card-body p-[15px] flex-1 flex flex-col justify-between space-y-2">
                     <div>
-                      {/* Tiêu đề thẻ dự án: Số thứ tự (đồng bộ format tiêu đề) & Icon & Tên tiêu đề */}
+                      {/* Tiêu đề thẻ dự án: Hợp nhất Số thứ tự & Tên dự án đúng 2 dòng, kích thước chữ đồng đều */}
                       <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: cfg.accentColor }}>
                         <WebIcon
                           name={getProjectIconByTitle(proj)}
                           className="w-[18px] h-[18px] shrink-0 mt-0.5"
                           style={{ color: cfg.accentColor }}
                         />
-                        {orderNumber && (
-                          <span
-                            className="typo-h4 card-title-synced font-play font-bold leading-snug shrink-0 m-0 p-0"
-                            data-card-title="true"
-                            style={{ color: cfg.accentColor }}
-                          >
-                            {orderNumber}
-                          </span>
-                        )}
                         <h3
-                          className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex-1 min-w-0"
-                          data-card-title="true"
+                          className="typo-h4 font-play font-bold line-clamp-2 leading-[1.35] min-h-[2.7em] break-words m-0 p-0 flex-1 min-w-0"
                           style={{ color: cfg.accentColor }}
-                          title={cleanedTitle}
+                          title={formattedCardTitle}
                         >
-                          {cleanedTitle}
+                          {formattedCardTitle}
                         </h3>
                       </div>
 

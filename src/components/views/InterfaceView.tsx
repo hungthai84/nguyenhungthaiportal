@@ -12,7 +12,6 @@ import {
 import { CardStyleMode } from '@/config/ui/theme.types';
 import { motion } from 'motion/react';
 import { useLanguage } from '@/context/LanguageContext';
-import { PageCardHeader } from './PageCardHeader';
 
 export interface InterfaceViewProps {
   onShowNotification?: (msg: string) => void;
@@ -96,7 +95,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
           data-element-parent="interface-cards-track"
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
-      <PageCardHeader tabIndex={15} pageId="interface" />
       {/* Header + Nút trượt qua lại Sáng / Tối theo đúng họ giao diện đang kích hoạt */}
       <div
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b"

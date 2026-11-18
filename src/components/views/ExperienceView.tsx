@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { PageCardHeader } from './PageCardHeader';
 import {
   Calendar,
   Building2,
@@ -400,11 +399,45 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
   const [failedPhotoSrcs, setFailedPhotoSrcs] = useState<Record<string, boolean>>({});
   const [bannerImgError, setBannerImgError] = useState<boolean>(false);
+  const achievementCardRef = useRef<HTMLElement | null>(null);
+  const memoriesCardRef = useRef<HTMLElement | null>(null);
+  const [syncedMemoriesHeight, setSyncedMemoriesHeight] = useState<number | null>(null);
 
   useEffect(() => {
     setFailedPhotoSrcs({});
     setBannerImgError(false);
   }, [activeKey]);
+
+  useEffect(() => {
+    if (!showJobCard) {
+      setSyncedMemoriesHeight(null);
+      return;
+    }
+    const updateSyncedHeight = () => {
+      if (typeof window === 'undefined' || window.innerWidth < 1024) {
+        setSyncedMemoriesHeight(null);
+        return;
+      }
+      const achEl = achievementCardRef.current;
+      if (!achEl) return;
+      const measuredHeight = Math.round(achEl.getBoundingClientRect().height);
+      if (measuredHeight > 0) {
+        setSyncedMemoriesHeight(measuredHeight);
+      }
+    };
+
+    updateSyncedHeight();
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined' && achievementCardRef.current) {
+      ro = new ResizeObserver(updateSyncedHeight);
+      ro.observe(achievementCardRef.current);
+    }
+    window.addEventListener('resize', updateSyncedHeight);
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', updateSyncedHeight);
+    };
+  }, [showJobCard, activeKey]);
 
   const handleOpenJobCard = (key: string) => {
     setActiveKey(key);
@@ -509,7 +542,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       companyLine1: 'Công ty cổ phần',
       companyLine2: 'Vietnam eSport',
       shortName: 'Công ty cổ phần Vietnam eSport',
-      roleSummary: 'Trưởng Phòng Dịch vụ Khách hàng',
+      roleSummary: 'Trưởng phòng CSKH',
       headcountLabel: '130 Nhân sự',
       description: EXPERIENCE_MILESTONES['2013']?.cardDescription || '',
       logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070950/VED.png',
@@ -645,7 +678,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       companyLine1: 'Sẵn sàng',
       companyLine2: 'Cho thử thách mới',
       shortName: 'Sẵn sàng cho thử thách mới',
-      roleSummary: 'Head of CS / CS Director',
+      roleSummary: 'Trưởng phòng CSKH',
       headcountLabel: '100 Nhân sự',
       description: EXPERIENCE_MILESTONES['2026']?.cardDescription || '',
       logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Power_Service.png',
@@ -797,7 +830,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             showJobCard ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden'
           )}
         >
-      <PageCardHeader tabIndex={5} pageId="experience" />
       {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH) */}
       {!showJobCard && (
         <section
@@ -1914,27 +1946,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </div>
 
                 {/* Company Content Body */}
-                <div className="p-5 sm:p-7 pt-0 relative flex-1 flex flex-col justify-between gap-4 min-w-0">
-                  <div className="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-5 -mt-12 sm:-mt-14 relative z-10 min-w-0">
-                    {/* Company Logo Box */}
-                    <div
-                      className={cn(
-                        'w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white shadow-xl flex items-center justify-center shrink-0 overflow-hidden',
-                        !isDarkSurface && !isLeather && 'ring-2 ring-white border border-slate-200/85'
-                      )}
-                    >
-                      <img
-                        src={activeMilestone.logo}
-                        alt={activeMilestone.company}
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover rounded-full"
-                      />
-                    </div>
-
+                <div className="p-5 sm:p-7 pt-4 sm:pt-5 relative flex-1 flex flex-col justify-between gap-4 min-w-0">
+                  <div className="relative z-10 min-w-0">
                     <div className="pb-1 min-w-0 flex-1">
                       <div
                         className={cn(
-                          'exp-bento-light-chip inline-flex flex-wrap items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mb-2 border',
+                          'exp-bento-light-chip inline-flex flex-wrap items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mb-2.5 border',
                           isDarkSurface
                             ? 'bg-rose-500/20 text-rose-200 border-rose-400/30'
                             : isLightLeather
@@ -1953,15 +1970,63 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         )}
                       </div>
 
-                      <h1
-                        className={cn(
-                          'text-xl sm:text-2xl lg:text-3xl font-extrabold leading-tight break-words',
-                          isDarkSurface ? 'text-white' : 'text-slate-900'
-                        )}
-                      >
-                        {activeMilestone.company}
-                        {activeMilestone.subCompanies ? ` ${activeMilestone.subCompanies}` : ''}
-                      </h1>
+                      {(() => {
+                        const matchedRoadmapCard = roadmapCards.find((r) => r.key === activeKey);
+                        const inlineLogos = matchedRoadmapCard?.logos?.length
+                          ? matchedRoadmapCard.logos
+                          : [
+                              {
+                                src: activeMilestone.logo,
+                                fallback: activeMilestone.logo,
+                                alt: activeMilestone.company,
+                              },
+                            ];
+                        const useCompactLogo = inlineLogos.length >= 4;
+                        return (
+                          <div className="flex flex-wrap items-center gap-3 min-w-0">
+                            <div className="flex items-center shrink-0">
+                              {inlineLogos.map((logoItem, logoIdx) => (
+                                <div
+                                  key={`${logoItem.src}-${logoIdx}`}
+                                  style={{
+                                    zIndex: inlineLogos.length - logoIdx,
+                                    marginInlineStart: logoIdx > 0 ? '-12px' : '0px',
+                                  }}
+                                  className={cn(
+                                    'relative rounded-full overflow-hidden bg-white shadow-md ring-2 ring-white flex items-center justify-center shrink-0',
+                                    useCompactLogo
+                                      ? 'w-[40px] h-[40px] sm:w-[44px] sm:h-[44px]'
+                                      : 'w-[50px] h-[50px]'
+                                  )}
+                                >
+                                  <img
+                                    src={logoItem.src}
+                                    alt={logoItem.alt || activeMilestone.company}
+                                    referrerPolicy="no-referrer"
+                                    onError={(e) => {
+                                      const img = e.currentTarget as HTMLImageElement;
+                                      if (logoItem.fallback && img.src !== logoItem.fallback) {
+                                        img.src = logoItem.fallback;
+                                      }
+                                    }}
+                                    className="w-full h-full object-cover rounded-full"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+
+                            <h1
+                              className={cn(
+                                'text-xl sm:text-2xl lg:text-3xl font-extrabold leading-tight break-words min-w-0 flex-1',
+                                isDarkSurface ? 'text-white' : 'text-slate-900'
+                              )}
+                            >
+                              {activeMilestone.company}
+                              {activeMilestone.subCompanies ? ` ${activeMilestone.subCompanies}` : ''}
+                            </h1>
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
 
@@ -2040,8 +2105,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     </div>
                   </div>
 
-                  {/* Dịch vụ & Logo sản phẩm (2 thẻ tách biệt nằm trong thẻ công ty) */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px] min-w-0 relative z-10">
+                  {/* Dịch vụ (Chiếm toàn bộ chiều ngang thẻ công ty sau khi xóa thẻ Logo sản phẩm) */}
+                  <div className="grid grid-cols-1 gap-[15px] min-w-0 relative z-10">
                     {/* Thẻ 1: Dịch vụ */}
                     <div
                       id="experience-company-services"
@@ -2105,126 +2170,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         })}
                       </div>
                     </div>
-
-                    {/* Thẻ 2: Logo sản phẩm */}
-                    <div
-                      id="experience-company-product-logos"
-                      className={cn(
-                        'exp-bento-item-card rounded-[14px] p-4 border flex flex-col justify-between gap-3 min-w-0',
-                        isDarkSurface
-                          ? 'bg-slate-900/55 border-white/10 text-white'
-                          : 'bg-gradient-to-br from-slate-50/80 via-white/95 to-indigo-50/50 border-slate-200/80 text-slate-900'
-                      )}
-                    >
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <h2
-                          className={cn(
-                            'text-sm sm:text-base font-bold flex items-center gap-2',
-                            isDarkSurface
-                              ? 'text-sky-300'
-                              : isLightLeather
-                                ? 'text-[#111827]'
-                                : 'text-slate-800'
-                          )}
-                        >
-                          <Sparkles className={cn('w-4 h-4 sm:w-5 sm:h-5 shrink-0', isDarkSurface ? 'text-sky-400' : 'text-indigo-600')} />
-                          <span>Logo sản phẩm</span>
-                        </h2>
-                        <button
-                          type="button"
-                          onClick={navigateToServices}
-                          className={cn(
-                            'px-2.5 py-1 rounded-full text-xs font-semibold border flex items-center gap-1 cursor-pointer transition-colors shrink-0',
-                            isDarkSurface
-                              ? 'bg-sky-500/15 border-sky-400/30 text-sky-200 hover:bg-sky-500/30'
-                              : isLightLeather
-                                ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827] hover:bg-slate-200/80'
-                                : 'bg-white/95 border-slate-300 text-slate-800 hover:bg-slate-100'
-                          )}
-                          title="Xem chi tiết Lĩnh vực & Dịch vụ"
-                        >
-                          <span className="text-current">{productsWithServices.length} sản phẩm</span>
-                          <ArrowUpRight className="w-3 h-3 shrink-0" />
-                        </button>
-                      </div>
-
-                      <div className="flex flex-wrap items-center -space-x-2.5 min-w-0 py-0.5">
-                        {productsWithServices.map((prod, pIdx) => (
-                          <button
-                            key={pIdx}
-                            type="button"
-                            onClick={navigateToServices}
-                            title={`${prod.name} (${prod.services.join(', ')}) — Click để xem chi tiết dịch vụ`}
-                            aria-label={`Xem dịch vụ ${prod.name}`}
-                            style={{ zIndex: pIdx + 1 }}
-                            className={cn(
-                              'w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white p-1.5 flex items-center justify-center shadow-md ring-2 hover:-translate-y-1 hover:scale-110 hover:z-30 transition-all duration-300 relative overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500',
-                              isDarkSurface
-                                ? 'ring-white/90'
-                                : isLightLeather
-                                  ? 'ring-white border border-slate-300'
-                                  : 'ring-white/95 border border-slate-200/85'
-                            )}
-                          >
-                            <img
-                              src={prod.src}
-                              alt={prod.name}
-                              referrerPolicy="no-referrer"
-                              className="w-full h-full object-contain rounded-full"
-                              onError={(e) => {
-                                (e.currentTarget as HTMLImageElement).src = activeMilestone.logo;
-                              }}
-                            />
-                          </button>
-                        ))}
-                      </div>
-                    </div>
                   </div>
                 </div>
-              </section>
-
-              {/* 3. KPI RESULTS ROW: Vibrant Stat Bento Cards */}
-              <section
-                id="experience-stats-card"
-                className={cn(
-                  'md:col-span-6 lg:col-span-12 grid gap-[15px] min-w-0',
-                  kpisList.length <= 3
-                    ? 'grid-cols-1 sm:grid-cols-3'
-                    : kpisList.length === 4
-                      ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
-                      : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'
-                )}
-              >
-                {kpisList.map((kpi, kIdx) => {
-                  const styleCfg = kpiStyles[kIdx % kpiStyles.length];
-                  const TopIcon = styleCfg.TopIcon;
-                  const WatermarkIcon = styleCfg.WatermarkIcon;
-                  return (
-                    <div
-                      key={kIdx}
-                      className={cn(
-                        'transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br text-white rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] hover:shadow-[0_20px_35px_-10px_rgba(15,23,42,0.20)] relative overflow-hidden flex flex-col justify-between min-w-0',
-                        styleCfg.gradient
-                      )}
-                    >
-                      <div className="absolute -right-4 -bottom-4 opacity-15 pointer-events-none">
-                        <WatermarkIcon className="w-24 h-24" />
-                      </div>
-                      <div className="flex items-center justify-between gap-2 mb-3 relative z-10">
-                        <TopIcon className="w-6 h-6 text-white shrink-0" />
-                        <span className="text-xs font-bold bg-black/20 px-2.5 py-1 rounded-full truncate exp-bento-preserve-color">
-                          {styleCfg.badgeLabel}
-                        </span>
-                      </div>
-                      <div className="text-3xl sm:text-4xl font-extrabold tracking-tight my-1 tabular-nums relative z-10 exp-bento-preserve-color">
-                        {kpi.displayValue}
-                      </div>
-                      <p className={cn('font-medium text-sm leading-snug relative z-10 break-words exp-bento-preserve-color', styleCfg.subText)}>
-                        {kpi.label}
-                      </p>
-                    </div>
-                  );
-                })}
               </section>
 
               {/* 4. GIỚI THIỆU HÀNH TRÌNH (Col Span 12) */}
@@ -2330,28 +2277,37 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <section
                   id="experience-commitments-card"
                   className={cn(
-                    'transition-all duration-300 hover:-translate-y-0.5 lg:col-span-5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] relative overflow-hidden flex flex-col justify-between min-w-0',
+                    'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 lg:col-span-5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] relative overflow-hidden flex flex-col justify-between min-w-0 border',
                     isLightLeather
-                      ? 'exp-bento-surface-card text-[#111827]'
-                      : isLeather
-                        ? 'exp-bento-surface-card text-white'
-                        : 'bg-gradient-to-br from-cyan-600 via-teal-600 to-emerald-700 text-white'
+                      ? 'text-[#111827]'
+                      : isDarkSurface || isLeather
+                        ? 'text-white'
+                        : 'text-slate-900'
                   )}
                 >
-                  {!isLightLeather && (
-                    <div className="absolute right-0 top-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-xl pointer-events-none" />
-                  )}
                   <div className="flex items-center gap-2.5 mb-4 relative z-10">
                     <ShieldCheck
                       className={cn(
                         'w-6 h-6 shrink-0',
-                        isLightLeather ? 'text-amber-700' : 'text-amber-300'
+                        isLightLeather
+                          ? 'text-amber-700'
+                          : isLeather
+                            ? 'text-amber-300'
+                            : isDarkSurface
+                              ? 'text-teal-300'
+                              : 'text-teal-700'
                       )}
                     />
                     <h2
                       className={cn(
                         'text-base sm:text-lg font-bold',
-                        isLightLeather ? 'text-[#111827]' : 'text-amber-300'
+                        isLightLeather
+                          ? 'text-[#111827]'
+                          : isLeather
+                            ? 'text-amber-300'
+                            : isDarkSurface
+                              ? 'text-teal-300'
+                              : 'text-teal-700'
                       )}
                     >
                       Cam kết chất lượng
@@ -2365,24 +2321,31 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         ? cIdx % 2 === 0
                           ? 'text-amber-700'
                           : 'text-teal-700'
-                        : cIdx % 2 === 0
-                          ? 'text-amber-300'
-                          : 'text-cyan-200';
+                        : isLeather
+                          ? cIdx % 2 === 0
+                            ? 'text-amber-300'
+                            : 'text-cyan-200'
+                          : isDarkSurface
+                            ? cIdx % 2 === 0
+                              ? 'text-amber-300'
+                              : 'text-teal-300'
+                            : cIdx % 2 === 0
+                              ? 'text-amber-600'
+                              : 'text-teal-700';
                       return (
                         <div
                           key={cIdx}
-                          className={cn(
-                            'rounded-[14px] p-3.5 flex items-start gap-3 min-w-0 border',
-                            isLightLeather || isLeather
-                              ? 'exp-bento-item-card'
-                              : 'bg-white/12 backdrop-blur-sm border-white/20'
-                          )}
+                          className="exp-bento-item-card rounded-[14px] p-3.5 flex items-start gap-3 min-w-0 border"
                         >
                           <CmtIcon className={cn('w-5 h-5 shrink-0 mt-0.5', cmtIconColor)} />
                           <p
                             className={cn(
                               'text-sm sm:text-base font-medium leading-snug break-words min-w-0 flex-1',
-                              isLightLeather ? 'text-[#111827]' : 'text-white'
+                              isLightLeather
+                                ? 'text-[#111827]'
+                                : isDarkSurface || isLeather
+                                  ? 'text-white'
+                                  : 'text-slate-800'
                             )}
                           >
                             {cmtText}
@@ -2433,7 +2396,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                   <ul
                     className={cn(
-                      'grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm sm:text-base',
+                      'flex flex-col gap-2.5 text-sm sm:text-base',
                       isDarkSurface ? 'text-slate-100' : 'text-slate-800'
                     )}
                   >
@@ -2469,6 +2432,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               {/* 6. DANH SÁCH DỰ ÁN (Col Span 7) & HÌNH ẢNH KỶ NIỆM GALLERY (Col Span 5) */}
               <section
                 id="experience-achievement-card"
+                ref={achievementCardRef}
                 className={cn(
                   'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 md:col-span-6 lg:col-span-7 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border flex flex-col justify-between min-w-0',
                   isDarkSurface
@@ -2564,6 +2528,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               {/* HÌNH ẢNH KỶ NIỆM GALLERY (Col Span 5) */}
               <section
                 id="experience-memories-card"
+                ref={memoriesCardRef}
+                style={syncedMemoriesHeight ? { height: `${syncedMemoriesHeight}px`, minHeight: `${syncedMemoriesHeight}px` } : undefined}
                 className={cn(
                   'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 md:col-span-6 lg:col-span-5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border relative overflow-hidden flex flex-col justify-between min-w-0',
                   isDarkSurface
@@ -2715,6 +2681,50 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     </span>
                   </div>
                 )}
+              </section>
+
+              {/* 7. THÀNH TỰU KPI RESULTS ROW (Đưa xuống bên dưới thẻ Danh sách dự án & Hình ảnh kỷ niệm) */}
+              <section
+                id="experience-stats-card"
+                className={cn(
+                  'md:col-span-6 lg:col-span-12 grid gap-[15px] min-w-0',
+                  kpisList.length <= 3
+                    ? 'grid-cols-1 sm:grid-cols-3'
+                    : kpisList.length === 4
+                      ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+                      : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'
+                )}
+              >
+                {kpisList.map((kpi, kIdx) => {
+                  const styleCfg = kpiStyles[kIdx % kpiStyles.length];
+                  const TopIcon = styleCfg.TopIcon;
+                  const WatermarkIcon = styleCfg.WatermarkIcon;
+                  return (
+                    <div
+                      key={kIdx}
+                      className={cn(
+                        'transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br text-white rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] hover:shadow-[0_20px_35px_-10px_rgba(15,23,42,0.20)] relative overflow-hidden flex flex-col justify-between min-w-0',
+                        styleCfg.gradient
+                      )}
+                    >
+                      <div className="absolute -right-4 -bottom-4 opacity-15 pointer-events-none">
+                        <WatermarkIcon className="w-24 h-24" />
+                      </div>
+                      <div className="flex items-center justify-between gap-2 mb-3 relative z-10">
+                        <TopIcon className="w-6 h-6 text-white shrink-0" />
+                        <span className="text-xs font-bold bg-black/20 px-2.5 py-1 rounded-full truncate exp-bento-preserve-color">
+                          {styleCfg.badgeLabel}
+                        </span>
+                      </div>
+                      <div className="text-3xl sm:text-4xl font-extrabold tracking-tight my-1 tabular-nums relative z-10 exp-bento-preserve-color">
+                        {kpi.displayValue}
+                      </div>
+                      <p className={cn('font-medium text-sm leading-snug relative z-10 break-words exp-bento-preserve-color', styleCfg.subText)}>
+                        {kpi.label}
+                      </p>
+                    </div>
+                  );
+                })}
               </section>
             </main>
           </div>

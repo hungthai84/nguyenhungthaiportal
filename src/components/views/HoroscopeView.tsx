@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { PageCardHeader } from './PageCardHeader';
 import {
   Compass,
   Sparkles,
@@ -1989,11 +1988,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   !isActiveCard ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
                 )}
               >
-                <PageCardHeader
-                  tabIndex={10}
-                  pageId={`horoscope-${cardIdx + 1}`}
-                  partLabel={`Phần ${cardIdx + 1}/6 · ${slideInfo.shortLabel}`}
-                />
                 {cardMeta.render()}
               </div>
             );

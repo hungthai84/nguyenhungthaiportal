@@ -179,7 +179,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     familyLabelEn: 'Multicolor Glass',
     counterpartMode: 'light-multicolor-glass',
     cardClassName: 'card-dark-neon-multicolor-glass',
-    name: 'Gương đa sắc (Tối)',
+    name: 'Gương đa sắc (Tối Neon)',
     label: 'Gương đa sắc (Tối Obsidian Neon)',
     shortBadge: 'Gương Đa Sắc · Tối',
     tagLabel: 'Gương đa sắc · Obsidian Neon Dark',

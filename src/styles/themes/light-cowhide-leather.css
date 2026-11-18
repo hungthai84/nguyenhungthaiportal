@@ -755,19 +755,4 @@ html[data-card-style="light-cowhide-leather"] input:focus-visible {
   outline-offset: 2px !important;
 }
 
-html[data-card-style="light-cowhide-leather"] [data-element-type="page-card-header"][data-variant="overlay"] {
-  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
-  border: 2px solid #d1d5db !important;
-  outline: 1.5px dashed rgba(17, 24, 39, 0.65) !important;
-  outline-offset: -4px !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  color: #111827 !important;
-}
 
-html[data-card-style="light-cowhide-leather"] [data-element-type="page-card-header"] .page-card-header-icon {
-  background: #edf1f4 !important;
-  border: 1.5px solid #d1d5db !important;
-  outline: 1px dashed rgba(17, 24, 39, 0.55) !important;
-  outline-offset: -3px !important;
-}

@@ -1696,7 +1696,7 @@ html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-l
   color: #FDE68A !important;
 }
 
-html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :is(h1, h2, h3, p, span, div):not(.exp-bento-preserve-color) {
+html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :is(h1, h2, h3, p, span, li, div):not(.exp-bento-preserve-color) {
   color: #FFFFFF;
 }
 
@@ -1724,7 +1724,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card button
   outline-color: rgba(17, 24, 39, 0.72);
 }
 
-html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :is(h1, h2, h3, p):not(.exp-bento-preserve-color) {
+html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :is(h1, h2, h3, p, span, li):not(.exp-bento-preserve-color) {
   color: #111827;
 }
 
@@ -1946,6 +1946,202 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   backdrop-filter: blur(20px) saturate(160%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
+
+/* ========================================================================= */
+/* AI ASSISTANT CHAT & THEME SURFACE SYNCHRONIZATION (ALL 6 PRESETS)         */
+/* ========================================================================= */
+#ai-assistant-chat-container {
+  background: var(--surface-secondary-bg, var(--bg-card)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-color)) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, 19px)) saturate(var(--surface-secondary-saturate, 134%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 19px)) saturate(var(--surface-secondary-saturate, 134%)) !important;
+  color: var(--text-primary) !important;
+}
+
+#ai-assistant-chat-container .ai-assistant-bubble {
+  background: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
+  border: 1px solid var(--surface-tertiary-border, var(--border-subcard)) !important;
+  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;
+  color: var(--text-primary) !important;
+}
+
+#ai-assistant-input-text {
+  background: var(--bg-input, var(--bg-subcard)) !important;
+  border: 1px solid var(--border-input, var(--border-subcard)) !important;
+  color: var(--text-input, var(--text-primary)) !important;
+  border-radius: 9999px !important;
+}
+
+#ai-assistant-droptop-menu-btn.theme-ai-cat-btn {
+  background: var(--bg-nav-pill, var(--bg-subcard)) !important;
+  border: 1px solid var(--border-color, var(--border-subcard)) !important;
+  color: var(--text-primary) !important;
+  box-shadow: var(--shadow-nav-pill, var(--shadow-subcard)) !important;
+}
+
+#ai-assistant-droptop-menu-btn.theme-ai-cat-btn[data-open="true"] {
+  background: var(--bg-button-primary) !important;
+  color: #FFFFFF !important;
+  border-color: transparent !important;
+}
+
+#ai-assistant-submit-button {
+  background: var(--bg-button-primary) !important;
+  color: #FFFFFF !important;
+  border-radius: 9999px !important;
+}
+
+/* Cowhide Leather Light & Dark styling for AI Assistant */
+html[data-card-style="light-cowhide-leather"] #ai-assistant-chat-container {
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
+  outline-offset: -6px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-card-style="light-cowhide-leather"] #ai-assistant-chat-container .ai-assistant-bubble {
+  background: linear-gradient(145deg, #f4f7fa 0%, #e9eef3 100%) !important;
+  border: 1.5px solid #cbd5e1 !important;
+  outline: 1px dashed rgba(17, 24, 39, 0.45);
+  outline-offset: -4px;
+  color: #111827 !important;
+}
+html[data-card-style="light-cowhide-leather"] #ai-assistant-droptop-menu-btn.theme-ai-cat-btn,
+html[data-card-style="light-cowhide-leather"] #ai-assistant-input-text {
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  color: #111827 !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.55);
+  outline-offset: -4px;
+}
+html[data-card-style="light-cowhide-leather"] #ai-assistant-submit-button,
+html[data-card-style="light-cowhide-leather"] #ai-assistant-droptop-menu-btn.theme-ai-cat-btn[data-open="true"] {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
+  border: 1.5px solid #374151 !important;
+  color: #FFFFFF !important;
+  outline: 1.5px dashed rgba(255, 255, 255, 0.65);
+  outline-offset: -4px;
+}
+
+html[data-card-style="cowhide-leather"] #ai-assistant-chat-container {
+  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%) !important;
+  border: 2px solid #522E10 !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.52);
+  outline-offset: -6px;
+  color: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-card-style="cowhide-leather"] #ai-assistant-chat-container .ai-assistant-bubble {
+  background: linear-gradient(145deg, rgba(102, 58, 22, 0.94) 0%, rgba(58, 32, 11, 0.97) 100%) !important;
+  border: 1.5px solid #522E10 !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.45);
+  outline-offset: -4px;
+  color: #FFFFFF !important;
+}
+html[data-card-style="cowhide-leather"] #ai-assistant-droptop-menu-btn.theme-ai-cat-btn {
+  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 55%, #7A4A20 100%) !important;
+  border: 1.5px solid #522E10 !important;
+  color: #FFFFFF !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.52);
+  outline-offset: -4px;
+}
+html[data-card-style="cowhide-leather"] #ai-assistant-input-text {
+  background: rgba(43, 23, 9, 0.88) !important;
+  border: 1.5px solid #522E10 !important;
+  color: #FFFFFF !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.35);
+  outline-offset: -4px;
+}
+html[data-card-style="cowhide-leather"] #ai-assistant-submit-button,
+html[data-card-style="cowhide-leather"] #ai-assistant-droptop-menu-btn.theme-ai-cat-btn[data-open="true"] {
+  background: linear-gradient(135deg, #B45309 0%, #78350F 100%) !important;
+  border: 1.5px solid #F5DEB3 !important;
+  color: #FFFFFF !important;
+  outline: 1px dashed rgba(255, 248, 220, 0.65);
+  outline-offset: -4px;
+}
+
+/* ========================================================================= */
+/* DETAIL PANELS & SKILLS LANGUAGES THEME CONSISTENCY (ALL 6 PRESETS)       */
+/* ========================================================================= */
+:is([id^="services-detail-panel-"], [id^="education-detail-panel-"], [id^="system-expanded-card-"], [id^="system-detail-modal-"]) {
+  color: var(--text-primary) !important;
+}
+
+/* Cowhide leather surface & subcard styling for Systems modal/expanded & Detail panels */
+html[data-card-style="light-cowhide-leather"] :is([id^="services-detail-panel-"], [id^="education-detail-panel-"], [id^="system-expanded-card-"], [id^="system-detail-modal-"]) {
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
+  outline-offset: -6px;
+  color: #111827 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="light-cowhide-leather"] :is([id^="services-detail-panel-"], [id^="education-detail-panel-"], [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
+html[data-card-style="light-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] {
+  background: linear-gradient(145deg, #f4f7fa 0%, #e9eef3 100%) !important;
+  border: 1.5px solid #cbd5e1 !important;
+  outline: 1px dashed rgba(17, 24, 39, 0.50);
+  outline-offset: -4px;
+  color: #111827 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] :is([id^="services-detail-panel-"], [id^="education-detail-panel-"], [id^="system-expanded-card-"], [id^="system-detail-modal-"]) {
+  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%) !important;
+  border: 2px solid #522E10 !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.52);
+  outline-offset: -6px;
+  color: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] :is([id^="services-detail-panel-"], [id^="education-detail-panel-"], [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
+html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] {
+  background: linear-gradient(145deg, rgba(102, 58, 22, 0.94) 0%, rgba(58, 32, 11, 0.97) 100%) !important;
+  border: 1.5px solid #522E10 !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.45);
+  outline-offset: -4px;
+  color: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* High contrast on Communication Languages card across dark & leather themes */
+html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title,
+html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-ring-arc,
+html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-level {
+  color: #FDE68A !important;
+}
+html[data-card-style="light-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title {
+  color: #111827 !important;
+}
+:is(
+  html[data-card-style="dark-neon-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-dark"]
+) #skills-languages-section #skills-language-card-vi :is(.skills-lang-title, .skills-lang-ring-arc) {
+  color: #FB7185 !important;
+}
+:is(
+  html[data-card-style="dark-neon-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-dark"]
+) #skills-languages-section #skills-language-card-en :is(.skills-lang-title, .skills-lang-ring-arc, .skills-lang-level) {
+  color: #38BDF8 !important;
+}
+:is(
+  html[data-card-style="dark-neon-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-dark"]
+) #skills-languages-section #skills-language-card-ai :is(.skills-lang-title, .skills-lang-ring-arc, .skills-lang-level) {
+  color: #C084FC !important;
+}
+
 
 
 

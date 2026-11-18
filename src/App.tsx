@@ -640,7 +640,7 @@ export default function App() {
           initial={{ opacity: 0, y: -24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full shrink-0 relative z-40 flex justify-center shadow-[0_12px_40px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.45)] rounded-2xl transition-all duration-300"
+          className="w-full shrink-0 relative z-40 flex justify-center shadow-none rounded-2xl transition-all duration-300"
         >
           <Header
             pages={TABS_DATA}

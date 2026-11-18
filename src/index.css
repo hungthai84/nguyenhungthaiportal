@@ -45,7 +45,7 @@
 .typo-tab { font-size: var(--fs-tab) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
 .typo-input { font-size: var(--fs-input) !important; line-height: var(--lh-compact); font-weight: var(--fw-regular); font-family: var(--font-family-body); }
 .typo-kpi { font-size: var(--fs-kpi) !important; line-height: 1.2; font-weight: var(--fw-bold); font-family: var(--font-family-numeric); font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
-.typo-quote { font-size: var(--fs-quote, 18px) !important; line-height: 1.35 !important; font-family: var(--font-quote) !important; overflow-wrap: break-word; }
+.typo-quote { font-size: var(--fs-h3) !important; line-height: 1.35 !important; font-family: var(--font-quote) !important; overflow-wrap: break-word; }
 .typo-popup-title { font-size: var(--fs-popup-title) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
 
 /* Enforce uniform Banner H3, Quote H3 & Card Headings across all breakpoints & pages */
@@ -75,27 +75,7 @@
   font-family: var(--font-quote) !important;
 }
 
-/* Unified PageCardHeader Theme Synchronization */
-[data-element-type="page-card-header"][data-variant="default"] {
-  border-bottom: 1px solid var(--page-header-divider, var(--border-subcard));
-}
 
-[data-element-type="page-card-header"][data-variant="overlay"] {
-  background: var(--page-header-overlay-bg, rgba(255, 255, 255, 0.84));
-  border: 1px solid var(--page-header-overlay-border, rgba(255, 255, 255, 0.65));
-  box-shadow: var(--page-header-overlay-shadow, var(--shadow-subcard));
-  backdrop-filter: blur(var(--page-header-overlay-blur, 14px)) saturate(140%);
-  -webkit-backdrop-filter: blur(var(--page-header-overlay-blur, 14px)) saturate(140%);
-  outline: var(--page-header-overlay-outline, none);
-  outline-offset: var(--page-header-overlay-outline-offset, 0px);
-}
-
-[data-element-type="page-card-header"] .page-card-header-icon {
-  background: var(--page-header-icon-bg);
-  border-color: var(--page-header-icon-border);
-  outline: var(--page-header-icon-outline, none);
-  outline-offset: -3px;
-}
 
 [data-card-title="true"],
 .card-title-synced,

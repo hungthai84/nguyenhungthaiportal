@@ -1172,19 +1172,4 @@ html[data-card-style="cowhide-leather"] #horoscope-filter-listbox button:hover {
   color: #FDE68A !important;
 }
 
-html[data-card-style="cowhide-leather"] [data-element-type="page-card-header"][data-variant="overlay"] {
-  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 55%, #7A4A20 100%) !important;
-  border: 2px solid #522E10 !important;
-  outline: 1px dashed rgba(245, 222, 179, 0.56) !important;
-  outline-offset: -4px !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  color: #FFFFFF !important;
-}
 
-html[data-card-style="cowhide-leather"] [data-element-type="page-card-header"] .page-card-header-icon {
-  background: #3D210B !important;
-  border: 1px solid rgba(245, 222, 179, 0.45) !important;
-  outline: 1px dashed rgba(245, 222, 179, 0.42) !important;
-  outline-offset: -3px !important;
-}

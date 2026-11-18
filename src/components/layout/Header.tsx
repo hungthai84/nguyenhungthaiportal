@@ -733,7 +733,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onShowNotification={onShowNotification}
                 currentTab={currentPage}
                 position="top"
-                align="right"
+                align="left"
                 anchorRef={avatarPillRef}
               />
             </div>

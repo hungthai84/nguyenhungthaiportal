@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { ABOUT_PROFILE_STATS, PERSONAL_DEMOGRAPHICS, SERVICE_PHILOSOPHY_VALUES } from '@/data/about';
@@ -9,7 +8,6 @@ import { EDUCATION_COURSES } from '@/data/education';
 import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/domains';
 import { EXPERIENCE_MILESTONES } from '@/data/experience';
 import { cn } from '@/lib/utils';
-import { PageCardHeader } from './PageCardHeader';
 import { 
   STRENGTHS_DATA, 
   WEAKNESSES_DATA, 
@@ -271,12 +269,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         data-section-card="true"
         className="pdf-toolbar bento-card glass-card no-print w-full max-w-[1250px] mx-auto mb-4 p-3.5 sm:p-4 rounded-[14px] flex flex-col gap-3 shrink-0"
       >
-        <PageCardHeader
-          tabIndex={16}
-          pageId="pdf"
-          className="border-b-0 pb-0"
-          rightSlot={
-            <div className="flex items-center gap-2 shrink-0 flex-wrap">
+        <div className="flex items-center justify-end gap-2 shrink-0 flex-wrap w-full">
               <button
                 type="button"
                 onClick={() => handlePrintOrExport('download')}
@@ -305,9 +298,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 <WebIcon name="arrow-left" size={15} />
                 <span>Trở về</span>
               </button>
-            </div>
-          }
-        />
+        </div>
 
         {/* Mục lục điều hướng nhanh 9 phần (ẩn khi in) */}
         <nav
@@ -1187,25 +1178,21 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         </div>
       </footer>
 
-      {/* Back to Top Floating Button (Portal ra body để cố định ở góc phải bên dưới website với định dạng chuẩn giao diện) */}
-      {typeof document !== 'undefined' &&
-        createPortal(
-          <button
-            id="pdf-back-to-top-btn"
-            type="button"
-            onClick={() => {
-              const container = document.getElementById('pdf-page-container') || document.querySelector('.overflow-y-auto');
-              if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="theme-back-to-top-btn theme-back-to-top-icon no-print fixed bottom-[88px] right-4 sm:right-6 z-[9990] w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer pointer-events-auto"
-            title="Lên đầu trang"
-            aria-label="Lên đầu trang"
-          >
-            <WebIcon name="chevron-up" className="w-5 h-5" />
-          </button>,
-          document.body
-        )}
+      {/* Back to Top Floating Button (Đặt trực tiếp trong #pdf-page-container) */}
+      <button
+        id="pdf-back-to-top-btn"
+        type="button"
+        onClick={() => {
+          const container = document.getElementById('pdf-page-container') || document.querySelector('.overflow-y-auto');
+          if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        className="theme-back-to-top-btn theme-back-to-top-icon no-print fixed bottom-[88px] right-4 sm:right-6 z-[9990] w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer pointer-events-auto"
+        title="Lên đầu trang"
+        aria-label="Lên đầu trang"
+      >
+        <WebIcon name="chevron-up" className="w-5 h-5" />
+      </button>
     </div>
   );
 };

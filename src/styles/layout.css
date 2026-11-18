@@ -380,7 +380,7 @@
   }
 
   .hero-banner h1 {
-    font-size: var(--fs-h1) !important;
+    font-size: var(--fs-h3) !important;
     font-weight: var(--fw-bold) !important;
     line-height: var(--lh-heading) !important;
     white-space: normal !important;
@@ -389,10 +389,10 @@
   .hero-banner p.font-italianno,
   .hero-banner .banner-quote,
   .hero-banner p.font-handwriting {
-    font-size: 18px !important;
+    font-size: var(--fs-h3) !important;
     font-weight: 400 !important;
     font-style: normal !important;
-    line-height: 1.25 !important;
+    line-height: 1.35 !important;
     max-width: 100% !important;
     width: 100% !important;
     margin-left: 0 !important;

@@ -309,7 +309,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     headcount: 130,
     scaleDesc: "130 nhân sự trực tiếp (80+ Game Supporter, CSKH, Fraud)",
     tenure: "3 Năm",
-    roleTitle: "Trưởng Phòng Dịch vụ Khách hàng",
+    roleTitle: "Trưởng phòng CSKH",
     location: "TP. Hồ Chí Minh",
     highlightText:
       "Gia nhập Garena, tôi quản lý hoạt động chăm sóc khách hàng trong lĩnh vực game trực tuyến, nơi yêu cầu tốc độ xử lý nhanh, độ chính xác cao và khả năng đáp ứng lượng khách hàng rất lớn.",
@@ -646,7 +646,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     headcount: 150,
     scaleDesc: "Lãnh đạo cấp phòng ban (> 100 – 150+ nhân sự điều hành đa ca, đa kênh)",
     tenure: "Hiện tại",
-    roleTitle: "Head of CX / CS Director / Trưởng Phòng Dịch vụ Khách hàng",
+    roleTitle: "Trưởng phòng CSKH",
     location: "TP. Hồ Chí Minh",
     highlightText:
       "Sẵn sàng đảm nhận vị trí Trưởng phòng Dịch vụ Khách hàng (Head of CS) hoặc Giám đốc Trải nghiệm Khách hàng (CS Director) tại các doanh nghiệp Công nghệ, FinTech, Bảo hiểm.",

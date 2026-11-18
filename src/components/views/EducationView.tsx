@@ -7,7 +7,6 @@ import { SkillsView } from './SkillsView';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
-import { PageCardHeader } from './PageCardHeader';
 
 // Helper map skill tag to appropriate icon
 const getSkillTagIcon = (tag: string): string => {
@@ -460,7 +459,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         data-element-parent="education-cards-track"
         className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
       >
-      <PageCardHeader tabIndex={3} pageId="education" />
       {/* Banner trang Học Vấn (Format đồng bộ chuẩn banner Hình Nền h-200px desktop, responsive mobile) */}
       {!selectedCourse && (
         <section
@@ -712,7 +710,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
 
                     <div className="space-y-1.5 mt-2">
                       <div className="flex items-start gap-1.5 font-play">
-                        <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Đào tạo tại:</span>
+                        <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Đào tạo:</span>
                         <span className="typo-body-sm font-semibold line-clamp-1" style={{ color: 'var(--text-primary)' }}>{course.issuer}</span>
                       </div>
                       <div className="flex items-center gap-1.5 font-play">
@@ -759,6 +757,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               duration: 0.45,
               ease: [0.25, 1, 0.5, 1],
             }}
+            data-element-type="card"
+            data-section-card="true"
             className="w-full bento-card glass-card bento-view-card p-[15px] sm:p-[20px] rounded-[14px] border shadow-lg flex flex-col gap-[15px] text-left font-play"
           >
             {/* Master Header */}
@@ -813,7 +813,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       <WebIcon name="building" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
                       <span className="subcard-title-synced typo-h4 tracking-normal text-indigo-600 dark:text-indigo-400" data-subcard-title="true">Đơn vị đào tạo</span>
                     </div>
-                    <span className="typo-body-sm font-semibold text-slate-900 dark:text-white break-words">
+                    <span className="typo-body-sm font-semibold break-words" style={{ color: 'var(--text-primary)' }}>
                       {course.issuer}
                     </span>
                   </div>
@@ -838,7 +838,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-3.5 transition-all duration-300"
                   style={{ borderRadius: '14px', padding: '15px' }}
                 >
-                  <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-amber-200/70 dark:border-amber-500/30 flex-wrap">
+                  <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] flex-wrap">
                     <div className="card-header-sync flex items-center gap-2 text-amber-600 dark:text-amber-400" data-card-accent="amber">
                       <WebIcon name="book" className="w-[18px] h-[18px] shrink-0 text-amber-600 dark:text-amber-400" />
                       <h3 className="card-title card-title-synced typo-h3 font-play text-amber-600 dark:text-amber-400 m-0 p-0" data-card-title="true">
@@ -850,7 +850,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   <div className="flex flex-col gap-[15px] mt-0 w-full justify-start">
                     {/* Sub-card: Trọng tâm (nếu có) */}
                     {(course.focus || course.orientation) && (
-                      <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] typo-body-sm text-slate-700 dark:text-slate-200">
+                      <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] typo-body-sm" style={{ color: 'var(--text-secondary)' }}>
                         <span className="font-semibold text-amber-700 dark:text-amber-300 mr-1.5">Trọng tâm:</span>
                         {course.focus || course.orientation}
                       </div>
@@ -867,7 +867,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center typo-badge font-mono shrink-0 group-hover/mod:bg-amber-500 group-hover/mod:text-white transition-colors">
                             {idx + 1}
                           </span>
-                          <span className="typo-body-sm font-semibold text-slate-800 dark:text-slate-100 break-words flex-1 min-w-0">
+                          <span className="typo-body-sm font-semibold break-words flex-1 min-w-0" style={{ color: 'var(--text-primary)' }}>
                             {mod}
                           </span>
                         </li>
@@ -899,7 +899,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           <span>Xem bằng</span>
                         </span>
                       </div>
-                      <div className="relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-rose-200/40">
+                      <div className="relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
                         <img
                           src={course.certImg || course.image}
                           alt="Chứng nhận bằng cấp"
@@ -919,7 +919,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-3.5 transition-all duration-300"
                   style={{ borderRadius: '14px', padding: '15px' }}
                 >
-                  <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-emerald-200/70 dark:border-emerald-500/30">
+                  <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
                     <div className="card-header-sync flex items-center gap-2 text-emerald-600 dark:text-emerald-400" data-card-accent="emerald">
                       <WebIcon name="award" className="w-[18px] h-[18px] shrink-0 text-emerald-600 dark:text-emerald-400" />
                       <h3 className="card-title card-title-synced typo-h3 font-play text-emerald-600 dark:text-emerald-400 m-0 p-0" data-card-title="true">
@@ -1004,7 +1004,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           <span>Phóng to</span>
                         </span>
                       </div>
-                      <div className="relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-purple-200/40">
+                      <div className="relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
                         <img
                           src={course.courseImg || course.image}
                           alt={course.title}

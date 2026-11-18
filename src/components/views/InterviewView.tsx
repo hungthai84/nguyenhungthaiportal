@@ -169,7 +169,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           className="page-main-card flex flex-col p-[15px] rounded-[14px] gap-[15px] justify-start select-none text-[var(--text-primary)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
         >
       {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
-      <div id="interview-main-content" className="w-full flex-1 flex flex-col lg:flex-row gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar">
+      <div id="interview-main-content" className="w-full flex-1 flex flex-col lg:flex-row gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar rounded-[14px]">
         
         {/* 1. VIDEO BANNER SECTION (70% width on LG) */}
         <section
@@ -359,7 +359,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               <div
                 id="interview-play-video-capsule"
                 onClick={() => togglePlay()}
-                className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-[999px] bg-gradient-to-r from-rose-600 via-purple-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white shadow-[0_4px_20px_rgba(225,29,72,0.5)] hover:shadow-[0_6px_24px_rgba(225,29,72,0.7)] transition-all duration-300 cursor-pointer pointer-events-auto border border-white/35 active:scale-98 select-none"
+                style={{ borderRadius: '999px' }}
+                className="theme-video-capsule inline-flex items-center gap-2.5 px-3 py-1.5 !rounded-[999px] rounded-[999px] bg-slate-950/80 dark:bg-slate-900/85 backdrop-blur-md border border-white/30 text-white shadow-xl hover:bg-slate-900/90 transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none"
               >
                 {/* Speaker Toggle Button */}
                 <button
@@ -398,7 +399,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                       e.stopPropagation();
                       togglePlay();
                     }}
-                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                    style={{ borderRadius: '999px' }}
+                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 !rounded-[999px] rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                     title="Bấm để phát video phỏng vấn"
                   >
                     <span className="flex items-center justify-center">
@@ -423,7 +425,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                       e.stopPropagation();
                       togglePlay();
                     }}
-                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                    style={{ borderRadius: '999px' }}
+                    className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 !rounded-[999px] rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                     title="Bấm để hủy phát video"
                   >
                     <span className="flex items-center justify-center">

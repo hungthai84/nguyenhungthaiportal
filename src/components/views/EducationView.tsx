@@ -674,7 +674,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 }}
               >
                 {/* 1. Ảnh bìa banner tỷ lệ 16:10 bo cong 4 góc */}
-                <div className="education-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[#0B1220]/70 shrink-0 group/img rounded-[14px] m-0 p-0">
+                <div className="education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img rounded-[14px] m-0 p-0">
                   <img
                     src={course.image}
                     alt={localizedCourseTitle}
@@ -709,11 +709,11 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     <div className="space-y-1.5 mt-2 min-w-0">
                       <div className="flex items-start gap-1.5 font-play min-w-0">
                         <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Đào tạo:</span>
-                        <span className="typo-body-sm font-semibold whitespace-normal break-words" style={{ color: 'var(--text-primary)' }}>{course.issuer}</span>
+                        <span className="typo-body-sm font-semibold whitespace-normal break-words line-clamp-2" style={{ color: 'var(--text-primary)' }}>{course.issuer}</span>
                       </div>
                       <div className="flex items-start gap-1.5 font-play min-w-0">
                         <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Hình thức:</span>
-                        <span className="typo-body-sm font-semibold whitespace-normal break-words" style={{ color: 'var(--text-primary)' }}>{course.type}</span>
+                        <span className="typo-body-sm font-semibold whitespace-normal break-words line-clamp-2" style={{ color: 'var(--text-primary)' }}>{course.type}</span>
                       </div>
                     </div>
                   </div>
@@ -727,7 +727,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       }}
                     >
                       <WebIcon name="award" className="w-4 h-4 shrink-0 mt-0.5" style={{ color: cardColor }} />
-                      <p className="typo-caption font-semibold font-play whitespace-normal break-words min-w-0" style={{ color: cardColor }}>
+                      <p className="typo-caption font-semibold font-play whitespace-normal break-words min-w-0 line-clamp-2" style={{ color: cardColor }}>
                         {course.result}
                       </p>
                     </div>
@@ -801,7 +801,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   className="exp-detail-subcard col-span-1 md:col-span-8 lg:col-span-12 p-[15px] rounded-[14px] shadow-sm flex flex-col gap-[15px] min-w-0"
                   style={{ borderRadius: '14px', padding: '15px' }}
                 >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[15px] items-stretch min-w-0">
+                  <div className="education-detail-meta-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch min-w-0">
                     {/* Mục 1: Năm học và mã */}
                     <div className="flex flex-col justify-between gap-2 min-w-0">
                       <div className="subcard-header-sync flex items-center gap-1.5 text-sky-600 dark:text-sky-400" data-subcard-accent="sky">
@@ -841,9 +841,56 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                         {course.type || 'Chuyên sâu thực chiến'}
                       </span>
                     </div>
+                  </div>
+                </div>
 
-                    {/* Mục 4: Từ khóa kỷ năng */}
-                    <div className="flex flex-col justify-between gap-2 min-w-0">
+                {/* 2. THẺ DANH MỤC KHÓA HỌC (Sửa từ Danh sách chuyên đề, chuyển Hình ảnh khóa học vào thẻ này) */}
+                <div
+                  id="education-certificates-card"
+                  data-element-type="card"
+                  data-section-card="true"
+                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-3.5 transition-all duration-300 min-w-0"
+                  style={{ borderRadius: '14px', padding: '15px' }}
+                >
+                  <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] flex-wrap">
+                    <div className="card-header-sync flex items-center gap-2 text-amber-600 dark:text-amber-400" data-card-accent="amber">
+                      <WebIcon name="book" className="w-[18px] h-[18px] shrink-0 text-amber-600 dark:text-amber-400" />
+                      <h3 className="card-title card-title-synced typo-h3 font-play text-amber-600 dark:text-amber-400 m-0 p-0" data-card-title="true">
+                        Danh mục khóa học
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-[15px] mt-0 w-full justify-start">
+                    {/* Danh sách các chuyên đề */}
+                    <ul id="el-p3-ul-1" className="flex flex-col gap-[15px] list-none p-0 m-0 w-full">
+                      {course.modules.map((mod, idx) => (
+                        <li
+                          key={idx}
+                          data-subcard="true"
+                          className="exp-detail-subcard w-full flex items-center gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all hover:shadow-xs group/mod min-w-0"
+                        >
+                          <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center typo-badge font-mono shrink-0 group-hover/mod:bg-amber-500 group-hover/mod:text-white transition-colors">
+                            {idx + 1}
+                          </span>
+                          <span
+                            title={mod}
+                            className={`typo-body-sm font-semibold flex-1 min-w-0 ${
+                              course.id === 1 ? 'truncate whitespace-nowrap' : 'break-words'
+                            }`}
+                            style={{ color: 'var(--text-primary)' }}
+                          >
+                            {mod}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Sub-card: Từ khóa kỷ năng (Chuyển vào Danh mục khóa học) */}
+                    <div
+                      data-subcard="true"
+                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] flex flex-col gap-2 min-w-0"
+                    >
                       <div className="subcard-header-sync flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400" data-subcard-accent="emerald">
                         <WebIcon name="sparkles" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
                         <span className="subcard-title-synced typo-h4 tracking-normal text-emerald-700 dark:text-emerald-400" data-subcard-title="true">Từ khóa kỷ năng</span>
@@ -870,58 +917,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                         </span>
                       )}
                     </div>
-                  </div>
-                </div>
-
-                {/* 2. THẺ DANH MỤC KHÓA HỌC (Sửa từ Danh sách chuyên đề, chuyển Hình ảnh khóa học vào thẻ này) */}
-                <div
-                  id="education-certificates-card"
-                  data-element-type="card"
-                  data-section-card="true"
-                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-3.5 transition-all duration-300 min-w-0"
-                  style={{ borderRadius: '14px', padding: '15px' }}
-                >
-                  <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] flex-wrap">
-                    <div className="card-header-sync flex items-center gap-2 text-amber-600 dark:text-amber-400" data-card-accent="amber">
-                      <WebIcon name="book" className="w-[18px] h-[18px] shrink-0 text-amber-600 dark:text-amber-400" />
-                      <h3 className="card-title card-title-synced typo-h3 font-play text-amber-600 dark:text-amber-400 m-0 p-0" data-card-title="true">
-                        Danh mục khóa học
-                      </h3>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-[15px] mt-0 w-full justify-start">
-                    {/* Sub-card: Trọng tâm (nếu có) */}
-                    {(course.focus || course.orientation) && (
-                      <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] typo-body-sm" style={{ color: 'var(--text-secondary)' }}>
-                        <span className="font-semibold text-amber-700 dark:text-amber-300 mr-1.5">Trọng tâm:</span>
-                        {course.focus || course.orientation}
-                      </div>
-                    )}
-
-                    {/* Danh sách các chuyên đề */}
-                    <ul id="el-p3-ul-1" className="flex flex-col gap-[15px] list-none p-0 m-0 w-full">
-                      {course.modules.map((mod, idx) => (
-                        <li
-                          key={idx}
-                          data-subcard="true"
-                          className="exp-detail-subcard w-full flex items-center gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all hover:shadow-xs group/mod min-w-0"
-                        >
-                          <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center typo-badge font-mono shrink-0 group-hover/mod:bg-amber-500 group-hover/mod:text-white transition-colors">
-                            {idx + 1}
-                          </span>
-                          <span
-                            title={mod}
-                            className={`typo-body-sm font-semibold flex-1 min-w-0 ${
-                              course.id === 1 ? 'truncate whitespace-nowrap' : 'break-words'
-                            }`}
-                            style={{ color: 'var(--text-primary)' }}
-                          >
-                            {mod}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
 
                     {/* Sub-card: Hình ảnh khóa học (Chuyển vào thẻ Danh mục khóa học) */}
                     <div
@@ -935,7 +930,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           handleOpenLightbox(course.courseImg || course.image, `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${t(course.title)}`);
                         }
                       }}
-                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs transition-all cursor-pointer group/photo flex flex-col gap-[15px] hover:shadow-xs mt-1"
+                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs transition-all cursor-pointer group/photo flex flex-col gap-[15px] hover:shadow-xs"
                     >
                       <div className="flex items-center justify-between text-purple-600 dark:text-purple-400">
                         <div className="subcard-header-sync flex items-center gap-1.5 text-purple-600 dark:text-purple-400" data-subcard-accent="purple">
@@ -948,15 +943,23 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           <span>Phóng to</span>
                         </span>
                       </div>
-                      <div className="relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
+                      <div className="education-card-banner themed-image-frame relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
                         <img
                           src={course.courseImg || course.image}
                           alt={course.title}
-                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/photo:scale-105"
+                          className="w-full h-full object-cover object-top rounded-[14px] transition-transform duration-500 group-hover/photo:scale-105"
                           loading="lazy"
                         />
                       </div>
                     </div>
+
+                    {/* Sub-card: Trọng tâm (Chuyển xuống dưới cùng của Danh mục khóa học) */}
+                    {(course.focus || course.orientation) && (
+                      <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] typo-body-sm" style={{ color: 'var(--text-secondary)' }}>
+                        <span className="font-semibold text-amber-700 dark:text-amber-300 mr-1.5">Trọng tâm:</span>
+                        {course.focus || course.orientation}
+                      </div>
+                    )}
                   </div>
                 </div>
 

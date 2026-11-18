@@ -671,12 +671,13 @@ export const HomeView: React.FC<HomeViewProps> = ({
             data-element-page="home"
             style={{
               borderRadius: '999px',
-              background: 'var(--bg-header)',
-              borderColor: 'var(--border-subcard)',
-              boxShadow: 'var(--shadow-nav-pill)',
-              padding: '6px 10px',
+              background: 'var(--surface-secondary-bg, var(--bg-card))',
+              borderColor: 'var(--surface-secondary-border, var(--border-color))',
+              boxShadow: 'var(--surface-secondary-shadow, var(--shadow-card))',
+              backdropFilter: 'blur(20px)',
+              padding: '6px 12px',
             }}
-            className="inline-flex items-center gap-1.5 !rounded-[999px] border select-none transition-all duration-300 backdrop-blur-xl !px-2.5 !py-1.5 m-0"
+            className="inline-flex items-center gap-2 !rounded-[999px] glass-card border select-none transition-all duration-300 backdrop-blur-xl !px-3 !py-1.5 m-0"
             role="tablist"
             aria-label="Chuyển đổi màn hình trang chủ"
           >

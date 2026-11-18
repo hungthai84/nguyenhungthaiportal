@@ -94,8 +94,8 @@
   --radius-footer: 14px 14px 0 0;
 
   /* Component Dimensions & Unified Layout Tokens */
-  --main-card-padding: 25px;
-  --space-main-padding: 25px;
+  --main-card-padding: 15px;
+  --space-main-padding: 15px;
   --space-card-padding: 15px;
   --space-card-gap: 15px;
   --card-padding: var(--space-card-padding);

@@ -2440,7 +2440,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             })()}
 
             {/* Modal Body with Bento Responsive Grid */}
-            <div className="p-3 sm:p-5 space-y-4 max-h-[78vh] overflow-y-auto glass-scrollbar font-play flex-1">
+            <div className="p-3 sm:p-5 space-y-4 max-h-[78vh] overflow-y-auto glass-scrollbar rounded-[14px] font-play flex-1">
               {(() => {
                 const modalConfig = SYSTEM_DESIGN_MAP[selectedSystem.id];
                 const specInfo = SYSTEM_TECH_SPECS_MAP[selectedSystem.id] || {

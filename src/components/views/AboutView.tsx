@@ -1291,7 +1291,7 @@ export function AboutView({
             </div>
 
             <div data-subcard="true" className="exp-detail-subcard p-3.5 rounded-[14px] flex items-center justify-between typo-caption text-[var(--text-secondary)]">
-              <span className="font-handwriting text-blue-600 dark:text-cyan-400 text-[18px] font-bold">
+              <span className="typo-h3 font-handwriting text-blue-600 dark:text-cyan-400 font-bold">
                 Luôn bên bạn và tận tâm từng khoảnh khắc ♡
               </span>
               <span className="font-mono typo-label text-[var(--text-muted)]">22+ Năm Phụng Sự Dịch Vụ Khách Hàng</span>
@@ -1314,7 +1314,7 @@ export function AboutView({
                     Sự hài lòng không đến từ sự hoàn hảo tuyệt đối, mà đến từ <strong className="text-amber-700 dark:text-amber-300 font-semibold">sự tận tâm kịp thời</strong> và <strong className="text-amber-700 dark:text-amber-300 font-semibold">đồng cảm chân thành</strong> trong từng điểm chạm (Touchpoint).
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-amber-200/40 dark:border-amber-400/20 text-amber-700 dark:text-amber-300 font-handwriting text-[18px] font-bold">
+                <div className="mt-4 pt-2 border-t border-amber-200/40 dark:border-amber-400/20 text-amber-700 dark:text-amber-300 typo-h3 font-handwriting font-bold">
                   Tận tâm phụng sự ♡
                 </div>
               </div>
@@ -1451,11 +1451,11 @@ export function AboutView({
               data-element-parent="about-intro-card-1"
               style={{
                 borderRadius: '14px',
-                padding: '5px',
+                padding: '10px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[14px] overflow-hidden flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video p-[5px] text-left"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[14px] overflow-hidden flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video p-[10px] text-left"
             >
-                  {/* Hero Media Layer */}
+                  <div className="relative w-full h-full flex-1 rounded-[10px] overflow-hidden min-h-0 flex flex-col justify-between">
                   {activeHeroMedia === 'video' ? (
                     <video
                       ref={videoRef}
@@ -1599,7 +1599,8 @@ export function AboutView({
                   {activeHeroMedia === 'video' && (
                     <div 
                       id="el-p2-div-103"
-                      className="absolute bottom-3 right-3 sm:bottom-3.5 sm:right-3.5 z-30 inline-flex items-center gap-2.5 px-3 py-1.5 rounded-[999px] bg-gradient-to-r from-rose-600 via-purple-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white shadow-[0_4px_20px_rgba(225,29,72,0.5)] hover:shadow-[0_6px_24px_rgba(225,29,72,0.7)] transition-all duration-300 cursor-pointer pointer-events-auto border border-white/35 active:scale-98 select-none"
+                      style={{ borderRadius: '999px' }}
+                      className="theme-video-capsule absolute bottom-3 right-3 sm:bottom-3.5 sm:right-3.5 z-30 inline-flex items-center gap-2.5 px-3 py-1.5 !rounded-[999px] rounded-[999px] bg-slate-950/80 dark:bg-slate-900/85 backdrop-blur-md border border-white/30 text-white shadow-xl hover:bg-slate-900/90 transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none"
                     >
                       {/* Speaker / Sound Toggle Button */}
                       <button
@@ -1650,8 +1651,9 @@ export function AboutView({
                             boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
                             paddingLeft: '10px',
                             paddingRight: '12px',
+                            borderRadius: '999px',
                           }}
-                          className="inline-flex items-center justify-center gap-2 pr-2.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          className="inline-flex items-center justify-center gap-2 pr-2.5 py-1 !rounded-[999px] rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                           title="Bấm để phát video thuyết minh chân dung chuyên gia"
                         >
                           <span id="el-p2-span-36" className="flex items-center justify-center">
@@ -1676,8 +1678,9 @@ export function AboutView({
                             boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
                             paddingLeft: '10px',
                             paddingRight: '12px',
+                            borderRadius: '999px',
                           }}
-                          className="inline-flex items-center justify-center gap-2 pr-2.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          className="inline-flex items-center justify-center gap-2 pr-2.5 py-1 !rounded-[999px] rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                           title="Bấm để hủy phát video"
                         >
                           <span id="el-p2-span-36" className="flex items-center justify-center">
@@ -1690,6 +1693,7 @@ export function AboutView({
                       )}
                     </div>
                   )}
+                  </div>
                   </div>
 
             {/* CARD 2: CARD THÔNG TIN CHI TIẾT */}
@@ -2333,7 +2337,7 @@ export function AboutView({
 
                 {/* Footer trích dẫn tác giả */}
                 <div className="pt-2 border-t border-[var(--border-subcard)] flex items-center justify-between gap-2 shrink-0">
-                  <span className="font-handwriting text-blue-600 dark:text-cyan-300 font-bold leading-none">
+                  <span className="typo-h3 font-handwriting text-blue-600 dark:text-cyan-300 font-bold leading-none">
                     Nguyễn Hùng Thái
                   </span>
                   <span className="typo-label font-mono text-[var(--text-muted)] truncate">

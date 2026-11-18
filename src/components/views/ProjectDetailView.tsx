@@ -514,7 +514,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     selectedGroup && currentProjectIdx > 0 ? selectedGroup.projects[currentProjectIdx - 1] : null;
 
   return (
-    <div className="w-full h-full flex-1 min-h-0 flex flex-col md:flex-row gap-[15px] items-stretch relative overflow-y-auto md:overflow-hidden glass-scrollbar text-left font-play">
+    <div className="w-full h-full flex-1 min-h-0 flex flex-col md:flex-row gap-[15px] items-stretch relative overflow-y-auto md:overflow-hidden glass-scrollbar rounded-[14px] text-left font-play">
       {/* 1. KHỐI NỘI DUNG CHI TIẾT BÀI VIẾT DỰ ÁN (BÊN TRÁI) - SMART SINGLE CARD SNAP SCROLL */}
       <div
         ref={scrollContainerRef}
@@ -545,12 +545,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           if (Date.now() < stepLockUntilRef.current) return;
           stepCardByDirection(direction);
         }}
-        style={
-          !isDesktopMd && bannerHeight
+        style={{
+          paddingRight: '0px',
+          borderRadius: '14px',
+          ...(!isDesktopMd && bannerHeight
             ? { height: `${bannerHeight}px`, minHeight: `${bannerHeight}px`, maxHeight: `${bannerHeight}px` }
-            : undefined
-        }
-        className="flex-1 min-w-0 min-h-0 md:h-full overflow-y-auto snap-y snap-mandatory scroll-smooth glass-scrollbar md:pr-1.5 pb-0 flex flex-col gap-[15px] text-left shrink-0 md:shrink"
+            : {}),
+        }}
+        className="flex-1 min-w-0 min-h-0 md:h-full overflow-y-auto snap-y snap-mandatory scroll-smooth glass-scrollbar pr-0 pb-0 rounded-[14px] flex flex-col gap-[15px] text-left shrink-0 md:shrink"
       >
           {spec && (
             <>
@@ -588,7 +590,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Mind Map Canvas Body (Cuộn mượt mà bên trong, giữ nguyên chiều cao chuẩn) */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-4">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-4">
             {mindmapMode === 'interactive' ? (
               <div className="space-y-4">
                 {/* Connecting Visual Divider */}
@@ -846,7 +848,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
               {/* Overview Content with High-Fidelity Contextual Visual Banner */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
                 <div data-subcard="true" className="project-detail-subcard lg:col-span-8 p-4 rounded-[14px] border border-[var(--border-subcard)] space-y-3 shadow-xs flex flex-col justify-between">
@@ -1018,7 +1020,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
               <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] leading-relaxed font-semibold shadow-xs">
                 {spec.context.intro}
               </div>
@@ -1102,7 +1104,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
               {/* Objectives Cards (Equal Height, Distinct Colors, Unframed Icons, 4-word Titles) */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-3.5 items-stretch">
                 {spec.objectives.map((obj: any, idx: number) => {
@@ -1202,7 +1204,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
               {/* Work Items */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-stretch">
                 {spec.scopeItems.map((scopeItem: any, idx: number) => {
@@ -1310,7 +1312,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
               <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.methodology.intro}
               </div>
@@ -1400,7 +1402,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
               <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.metrics.intro}
               </div>
@@ -1502,7 +1504,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
               <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.pmRoles.intro}
               </div>
@@ -1588,7 +1590,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
               <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.expectedOutcomes.intro}
               </div>
@@ -1678,7 +1680,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar pr-1.5 py-2.5 space-y-3.5 text-left">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
               <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] space-y-2.5 shadow-xs">
                 {spec.philosophy.paragraphs.map((p: string, idx: number) => (
                   <p key={idx} className="typo-body-sm text-[var(--text-primary)] leading-relaxed font-medium">
@@ -1756,32 +1758,28 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       )}
       </div>
 
-      {/* 2. KHỐI BANNER MỤC LỤC BÊN PHẢI (BANNER DỌC CĂN GIỮA HÌNH ẢNH, NỀN TRONG SUỐT RÕ NÉT, TIÊU ĐỀ KHÔNG ĐÓNG KHUNG) */}
+      {/* 2. KHỐI BANNER MỤC LỤC BÊN PHẢI (ĐỒNG BỘ 100% THEO GIAO DIỆN ĐANG ĐƯỢC CHỌN) */}
       {spec && (
         <aside
           ref={bannerSidebarRef}
           id="project-detail-banner"
           data-banner-aspect="sidebar"
           data-section-card="true"
-          className="w-full md:w-[260px] lg:w-[285px] xl:w-[315px] shrink-0 h-auto max-h-[420px] sm:max-h-[460px] md:max-h-none md:h-full flex flex-col pointer-events-auto rounded-[14px] p-3 sm:p-3.5 justify-between overflow-hidden relative group"
+          className="bento-card glass-card w-full md:w-[260px] lg:w-[285px] xl:w-[315px] shrink-0 h-auto max-h-[420px] sm:max-h-[460px] md:max-h-none md:h-full flex flex-col pointer-events-auto rounded-[14px] p-[15px] justify-between overflow-hidden relative group"
         >
-            {/* HÌNH BANNER DỰ ÁN CĂN CHÍNH GIỮA (CENTER BANNER DỌC) VÀ NHÌN RÕ HÌNH NỀN BÊN DƯỚI */}
+            {/* HÌNH BANNER DỰ ÁN DẠNG NỀN MỜ TINH TẾ HÒA QUYỆN CÙNG CHẤT LIỆU GIAO DIỆN */}
             {selectedArticle.image && (
-              <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[inherit]">
+              <div className="project-detail-banner-media absolute inset-0 overflow-hidden pointer-events-none rounded-[14px] z-0">
                 <img
                   src={selectedArticle.image}
                   alt={selectedArticle.title}
-                  className="w-full h-full object-cover object-center pointer-events-none opacity-85 dark:opacity-80 group-hover:opacity-100 transition-all duration-700 scale-100"
+                  className="w-full h-full object-cover object-center pointer-events-none rounded-[14px] transition-all duration-700 scale-100"
                 />
               </div>
             )}
 
-            {/* Lớp phủ chuyển sắc siêu trong suốt giúp nhìn rõ 100% hình ảnh nền banner và chữ banner bên dưới */}
-            <div className={`absolute inset-0 ${
-              isLightMode
-                ? 'bg-gradient-to-b from-white/20 via-white/5 to-white/25'
-                : 'bg-gradient-to-b from-slate-950/25 via-slate-950/10 to-slate-950/35'
-            } backdrop-blur-[0.2px] pointer-events-none`} />
+            {/* Lớp phủ chất liệu theo Theme (Glass / Light Leather / Black Leather / Brown Leather) */}
+            <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
 
             {/* Header: TIÊU ĐỀ KHÔNG ĐÓNG KHUNG THẺ, ICON & TIÊU ĐỀ KÍCH THƯỚC BẰNG NHAU, ĐỒNG MÀU */}
             <div className="relative z-10 flex items-center justify-between gap-2 pb-2 md:pr-7 border-b border-[var(--border-subcard)] shrink-0">
@@ -1808,42 +1806,41 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             {/* THÔNG TIN DỰ ÁN TÍCH HỢP TRONG MỤC LỤC */}
             <div className="relative z-10 py-2 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 shrink-0">
               <div className="flex items-center gap-1.5 flex-wrap">
-                <span className={`px-2 py-0.5 rounded-[6px] font-mono typo-badge font-black border ${
-                  isStrategy
-                    ? 'bg-sky-100 dark:bg-sky-950/80 text-sky-800 dark:text-sky-200 border-sky-300 dark:border-sky-600/50'
-                    : 'bg-fuchsia-100 dark:bg-fuchsia-950/80 text-fuchsia-800 dark:text-fuchsia-200 border-fuchsia-300 dark:border-fuchsia-600/50'
-                }`}>
+                <span
+                  className="project-detail-chip px-2 py-0.5 rounded-[14px] font-mono typo-badge font-black border"
+                  style={{ color: isStrategy ? 'var(--accent-sky, #0284c7)' : 'var(--accent-fuchsia, #c026d3)' }}
+                >
                   {selectedArticle.code}
                 </span>
-                <span className={`px-2 py-0.5 rounded-[6px] typo-badge font-bold border truncate max-w-[140px] ${
-                  isStrategy
-                    ? 'bg-sky-100 dark:bg-sky-950/80 text-sky-800 dark:text-sky-200 border-sky-300 dark:border-sky-600/50'
-                    : 'bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-200 border-purple-300 dark:border-purple-600/50'
-                }`}>
+                <span
+                  className="project-detail-chip px-2 py-0.5 rounded-[14px] typo-badge font-bold border truncate max-w-[140px]"
+                  style={{ color: isStrategy ? 'var(--accent-blue, #1480C0)' : 'var(--accent-purple, #7c3aed)' }}
+                >
                   {selectedArticle.groupTitle}
                 </span>
               </div>
 
               <h4
-                className={`typo-h4 font-play font-bold flex items-start gap-1.5 leading-snug break-words ${
-                  isStrategy ? 'text-sky-600 dark:text-sky-400' : 'text-fuchsia-600 dark:text-fuchsia-400'
-                }`}
+                className="typo-h4 font-play font-bold flex items-start gap-1.5 leading-snug break-words"
+                style={{ color: isStrategy ? 'var(--accent-sky, #0284c7)' : 'var(--accent-fuchsia, #c026d3)' }}
               >
                 <WebIcon
                   name="brain"
-                  className={`w-4 h-4 shrink-0 mt-0.5 ${
-                    isStrategy ? 'text-sky-600 dark:text-sky-400' : 'text-fuchsia-600 dark:text-fuchsia-400'
-                  }`}
+                  className="w-4 h-4 shrink-0 mt-0.5"
+                  style={{ color: isStrategy ? 'var(--accent-sky, #0284c7)' : 'var(--accent-fuchsia, #c026d3)' }}
                 />
                 <span className="min-w-0">{selectedArticle.title}</span>
               </h4>
 
               <div className="typo-caption font-bold" style={{ color: 'var(--text-muted)' }}>
-                Vai trò: <strong className={isStrategy ? 'text-sky-700 dark:text-sky-300' : 'text-purple-700 dark:text-purple-300'}>{selectedArticle.role}</strong>
+                Vai trò:{' '}
+                <strong style={{ color: isStrategy ? 'var(--accent-sky, #0284c7)' : 'var(--accent-purple, #7c3aed)' }}>
+                  {selectedArticle.role}
+                </strong>
               </div>
 
               {(selectedArticle.quote || spec.tagline) && (
-                <p className="typo-caption italic leading-relaxed line-clamp-3" style={{ color: 'var(--text-secondary)' }}>
+                <p className="banner-quote typo-h3 italic leading-snug line-clamp-3" style={{ color: 'var(--text-secondary)' }}>
                   &ldquo;{selectedArticle.quote || spec.tagline}&rdquo;
                 </p>
               )}
@@ -1854,7 +1851,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   <span
                     key={tag}
                     className="project-detail-chip px-2 py-0.5 rounded-full typo-badge font-mono font-medium border"
-                    style={{ color: 'var(--text-primary)', borderColor: 'var(--border-subcard)' }}
                   >
                     {tag}
                   </span>
@@ -1863,7 +1859,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Danh sách 10 mục lục điều hướng - Thứ tự chuẩn: Số thứ tự & Icon & Tiêu đề */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar py-2 space-y-1.5 pr-0.5">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] py-2 space-y-1.5 pr-0.5">
               {[
                 { id: 'sec-mindmap', num: '1.', title: 'Sơ đồ tư duy', icon: 'brain', color: 'fuchsia' },
                 { id: 'sec-overview', num: '2.', title: 'Tổng quan dự án', icon: 'layers', color: 'blue' },
@@ -1919,18 +1915,18 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               })}
             </div>
 
-            {/* Bottom Actions trong Banner: Khung Hợp Nhất & Màu Chữ Giống Màu Icon */}
-            <div className="relative z-10 pt-2 border-t border-[var(--border-color)] flex flex-col gap-1.5 shrink-0">
+            {/* Bottom Actions trong Banner: Đồng bộ hoàn toàn nút theo Theme */}
+            <div className="relative z-10 pt-2 border-t border-[var(--border-subcard)] flex flex-col gap-1.5 shrink-0">
               <button
                 type="button"
                 onClick={() => onOpenMindmap(selectedArticle)}
                 className="banner-control-pill w-full py-1.5 px-2.5 rounded-full typo-button font-bold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
                 title="Phóng to sơ đồ tư duy"
               >
-                <span className="shrink-0 flex items-center" style={{ color: isLightMode ? '#4f46e5' : '#38bdf8' }}>
+                <span className="shrink-0 flex items-center">
                   <WebIcon name="brain" className="w-3.5 h-3.5" />
                 </span>
-                <span className="font-play" style={{ color: isLightMode ? '#4f46e5' : '#38bdf8' }}>
+                <span className="font-play">
                   Sơ Đồ Tư Duy
                 </span>
               </button>

@@ -860,16 +860,17 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     : ''
                 }`}
               >
-                {/* NỀN HÌNH THU NHỎ DẠNG NGANG (LẮP ĐẦY TOÀN BỘ CARD) */}
+                {/* NỀN HÌNH THU NHỎ DẠNG NGANG (LẮP ĐẦY TOÀN BỘ CARD - BO CONG 14PX) */}
                 <div
                   id={`wallpaper-card-media-${wp.id}`}
-                  className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-[var(--bg-subcard)]"
+                  style={{ borderRadius: '14px' }}
+                  className="absolute inset-0 w-full h-full z-0 rounded-[14px] overflow-hidden bg-[var(--bg-subcard)]"
                 >
                   {wp.id === 'none' ? (
                     <div
                       id="wallpaper-card-content-none"
-                      style={activeCardStyleMeta.cardSampleStyle}
-                      className="w-full h-full flex flex-col items-center justify-center gap-1.5 p-3 text-center transition-all"
+                      style={{ ...activeCardStyleMeta.cardSampleStyle, borderRadius: '14px' }}
+                      className="w-full h-full rounded-[14px] flex flex-col items-center justify-center gap-1.5 p-3 text-center transition-all"
                     >
                       <WebIcon name="sparkles" className="w-8 h-8 text-[var(--color-primary)] drop-shadow-xs" />
                       <span className="typo-badge font-play text-[var(--text-primary)] drop-shadow-xs">Mặc định (Hệ thống)</span>
@@ -877,7 +878,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   ) : wp.type === 'video' ? (
                     wp.value.includes('youtube.com') || wp.value.includes('youtu.be') ? (
                       <div
-                        className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full rounded-[14px] bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                         style={
                           wp.previewStyle || {
                             backgroundImage:
@@ -897,12 +898,12 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                           e.currentTarget.pause();
                           e.currentTarget.currentTime = 0;
                         }}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full rounded-[14px] object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                     )
                   ) : wp.type === 'webgl' ? (
                     <div
-                      className="relative w-full h-full overflow-hidden transition-transform duration-500 group-hover:scale-105"
+                      className="relative w-full h-full rounded-[14px] overflow-hidden transition-transform duration-500 group-hover:scale-105"
                       style={
                         wp.previewStyle && Object.keys(wp.previewStyle).length > 0
                           ? wp.previewStyle
@@ -947,7 +948,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     </div>
                   ) : wp.type === 'css' || wp.type === 'gradient' ? (
                     <div
-                      className="w-full h-full transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full rounded-[14px] transition-transform duration-500 group-hover:scale-110"
                       style={
                         wp.previewStyle && Object.keys(wp.previewStyle).length > 0
                           ? wp.previewStyle
@@ -972,13 +973,13 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                           parent.style.background = 'linear-gradient(135deg, #0284c7 0%, #4f46e5 50%, #e11d48 100%)';
                         }
                       }}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 brightness-110 contrast-110 saturate-110"
+                      className="w-full h-full rounded-[14px] object-cover transition-transform duration-500 group-hover:scale-110 brightness-110 contrast-110 saturate-110"
                     />
                   )}
                 </div>
 
                 {/* OVERLAY TỐI DƯỚI ĐÁY TẤM HÌNH */}
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950/75 via-slate-950/25 to-transparent pointer-events-none z-10" />
+                <div className="absolute inset-x-0 bottom-0 h-1/2 rounded-b-[14px] bg-gradient-to-t from-slate-950/75 via-slate-950/25 to-transparent pointer-events-none z-10" />
 
                 {/* NỘI DUNG VÀ CÁC NÚT ĐƯỢC ĐƯA VÀO BÊN TRONG CARD (PADDING 10PX THEO YÊU CẦU) */}
                 <div

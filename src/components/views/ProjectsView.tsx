@@ -700,14 +700,15 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       handleOpenGroup(parentGroup, proj);
                     }
                   }}
-                  className="project-card bento-card glass-card layered-card group relative rounded-[14px] overflow-hidden p-0 flex flex-col justify-between border select-text transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play"
+                  className="project-card bento-card glass-card layered-card group relative rounded-[14px] overflow-hidden p-[10px] flex flex-col justify-between gap-[10px] border select-text transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play"
                   style={{
                     borderColor: `${cfg.accentColor}45`,
-                    padding: 0,
+                    padding: '10px',
+                    gap: '10px',
                   }}
                 >
-                  {/* Khối Hình Ảnh Banner Card Dự Án (Lắp đầy phần top thẻ) */}
-                  <div className="project-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[#0B1220]/70 shrink-0 group/img rounded-t-[14px] m-0 p-0">
+                  {/* Khối Hình Ảnh Banner Card Dự Án (Đồng bộ theo giao diện đang chọn) */}
+                  <div className="project-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img rounded-[14px] m-0 p-0">
                     <img
                       src={bannerInfo.primaryUrl}
                       alt={proj.title}
@@ -722,12 +723,12 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png';
                         }
                       }}
-                      className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 block m-0 p-0"
+                      className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 block m-0 p-0 rounded-[14px]"
                     />
                   </div>
 
-                  {/* Phần Thân Card: Nội dung cách thẻ dự án padding 15px đồng bộ */}
-                  <div style={{ padding: '15px' }} className="project-card-body p-[15px] flex-1 flex flex-col justify-between space-y-2">
+                  {/* Phần Thân Card: Nội dung cách thẻ dự án gọn gàng đồng bộ */}
+                  <div style={{ padding: '5px' }} className="project-card-body p-[5px] flex-1 flex flex-col justify-between space-y-2">
                     <div>
                       {/* Tiêu đề thẻ dự án: Hợp nhất Số thứ tự & Tên dự án đúng 2 dòng, kích thước chữ đồng đều */}
                       <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: cfg.accentColor }}>
@@ -815,7 +816,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                 <WebIcon name="x" className="w-4 h-4" />
               </button>
             )}
-            <div className="w-full flex-1 min-h-0 relative flex flex-col overflow-hidden">
+            <div className="w-full flex-1 min-h-0 relative flex flex-col overflow-hidden rounded-[14px]">
               <ProjectDetailView
                 selectedArticle={selectedArticle}
                 selectedGroup={selectedGroup}
@@ -843,7 +844,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           maxWidth="5xl"
         >
           <div className="p-4 sm:p-5 flex flex-col gap-3">
-            <div className="p-3 sm:p-5 flex items-center justify-center bg-[#0B1220] rounded-[14px] overflow-auto horizontal-scroll-smooth max-h-[75vh]">
+            <div className="themed-image-frame bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-3 sm:p-5 flex items-center justify-center rounded-[14px] overflow-auto horizontal-scroll-smooth max-h-[75vh]">
               <img
                 src={mindmapProject.mindmap || mindmapProject.image}
                 alt="Sơ đồ tư duy"

@@ -431,8 +431,16 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 backdrop-blur-xl"
-          style={{ padding: "15px", width: "100%", maxWidth: "100%", borderRadius: "14px" }}
+          className="banner-card hero-banner bento-card glass-card w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-[var(--surface-secondary-border,rgba(255,255,255,0.2))] shadow-[var(--surface-secondary-shadow,0_10px_30px_rgba(15,23,42,0.12))] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 backdrop-blur-xl"
+          style={{
+            padding: "15px",
+            width: "100%",
+            maxWidth: "100%",
+            borderRadius: "14px",
+            background: "var(--surface-secondary-bg, var(--bg-card))",
+            borderColor: "var(--surface-secondary-border, var(--border-color))",
+            boxShadow: "var(--surface-secondary-shadow, var(--shadow-card))",
+          }}
         >
           {/* Lớp nền hình ảnh và gradient phủ */}
           <div

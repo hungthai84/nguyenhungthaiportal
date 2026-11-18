@@ -61,6 +61,10 @@
 .font-handwriting,
 .font-quote,
 .banner-quote,
+[id$="-banner-quote"],
+[id$="-hero-banner-quote"],
+#project-detail-banner .banner-quote,
+.motto-quote-text,
 .hero-banner p.font-italianno,
 .hero-banner p.font-handwriting,
 .banner-card p.font-italianno,
@@ -429,13 +433,13 @@ html[data-card-style] {
 }
 
 html :is(
-  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule),
-  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule),
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
   .bento-view-card,
   .sub-card,
   [data-subcard="true"],
-  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#app-header):not(#app-footer),
-  [data-element-type="card"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#app-header):not(#app-footer):not([data-element-type="button"]):not(.page-main-card):not([data-main-card="true"]):not(.main-card),
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
+  [data-element-type="card"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not([data-element-type="button"]):not(.page-main-card):not([data-main-card="true"]):not(.main-card),
   [data-multicolor-bento="true"],
   .hero-banner,
   .banner-card,
@@ -488,8 +492,8 @@ html :is(
 }
 
 /* Preserve Pill Nav/Switch Controls & Enforce 14px Rectangular Action Buttons in Multicolor Glass Themes */
-html[data-card-style="light-multicolor-glass"] button:not(.nav-pill):not(.theme-capsule-btn):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78),
-html[data-card-style="light-multicolor-glass-dark"] button:not(.nav-pill):not(.theme-capsule-btn):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78) {
+html[data-card-style="light-multicolor-glass"] button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle),
+html[data-card-style="light-multicolor-glass-dark"] button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle) {
   border-radius: 14px !important;
 }
 
@@ -639,5 +643,164 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-102:nt
 .smooth-responsive-transition {
   transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), max-width 300ms ease-in-out;
 }
+
+/* ========================================================================= */
+/* MASTER CASCADE: BANNER QUOTES H3, MAIN CARD HEADER PARITY + FLOAT + 15PX, */
+/* AND 14PX BANNER / THUMBNAIL ROUNDING ACROSS ALL 5 THEMES & BREAKPOINTS    */
+/* ========================================================================= */
+
+/* 1. Banner Quote Font Size strictly synced to H3 across all viewports */
+html .hero-banner .banner-quote,
+html .hero-banner p.font-italianno,
+html .hero-banner p.font-handwriting,
+html .banner-card p.font-italianno,
+html .banner-card p.font-handwriting,
+html [id$="-banner-quote"],
+html [id$="-hero-banner-quote"],
+html #project-detail-banner .banner-quote,
+html .motto-quote-text {
+  font-size: var(--fs-h3) !important;
+  line-height: 1.35 !important;
+}
+
+/* 2. All Main Cards across all pages: exact Header Surface + Floating Motion + Drop Shadow + 15px inset */
+html .page-main-card,
+html[data-card-style] .page-main-card,
+html.dark[data-card-style] .page-main-card,
+html [data-main-card="true"],
+html[data-card-style] [data-main-card="true"],
+html.dark[data-card-style] [data-main-card="true"],
+html #about-intro-card-1,
+html #about-intro-card-2,
+html[data-card-style] #about-intro-card-1,
+html[data-card-style] #about-intro-card-2,
+html.dark[data-card-style] #about-intro-card-1,
+html.dark[data-card-style] #about-intro-card-2 {
+  background: var(--surface-primary-bg, var(--bg-header)) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+  border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
+  border-radius: 14px !important;
+  padding: 15px !important;
+  box-shadow: var(--shadow-floating, var(--surface-primary-shadow)) !important;
+  animation: float-gentle 5.5s ease-in-out infinite !important;
+  box-sizing: border-box !important;
+}
+
+@media screen {
+  html #pdf-page-container,
+  html[data-card-style] #pdf-page-container {
+    background: var(--surface-primary-bg, var(--bg-header)) !important;
+    backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+    -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+    border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
+    border-radius: 14px !important;
+    padding: 15px !important;
+    box-shadow: var(--shadow-floating, var(--surface-primary-shadow)) !important;
+    animation: float-gentle 5.5s ease-in-out infinite !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* Sync leather stitched header surface onto all Main Cards (including screen #pdf-page-container) */
+html[data-card-style="light-cowhide-leather"] .page-main-card,
+html[data-card-style="light-cowhide-leather"] [data-main-card="true"],
+html[data-card-style="light-cowhide-leather"] #about-intro-card-1,
+html[data-card-style="light-cowhide-leather"] #about-intro-card-2,
+html[data-card-style="light-cowhide-leather"] #pdf-page-container {
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border-color: #d1d5db !important;
+  color: #111827 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.65) !important;
+  outline-offset: -6px !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .page-main-card,
+html[data-card-style="black-cowhide-leather"] [data-main-card="true"],
+html[data-card-style="black-cowhide-leather"] #about-intro-card-1,
+html[data-card-style="black-cowhide-leather"] #about-intro-card-2,
+html[data-card-style="black-cowhide-leather"] #pdf-page-container {
+  outline: 1.5px dashed rgba(226, 232, 240, 0.42) !important;
+  outline-offset: -6px !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="cowhide-leather"] .page-main-card,
+html[data-card-style="cowhide-leather"] [data-main-card="true"],
+html[data-card-style="cowhide-leather"] #about-intro-card-1,
+html[data-card-style="cowhide-leather"] #about-intro-card-2,
+html[data-card-style="cowhide-leather"] #pdf-page-container {
+  outline: 1.5px dashed rgba(245, 222, 179, 0.50) !important;
+  outline-offset: -6px !important;
+  color: #FFFFFF !important;
+}
+
+@media print {
+  html #pdf-page-container,
+  html[data-card-style] #pdf-page-container {
+    background: #ffffff !important;
+    border: none !important;
+    outline: none !important;
+    border-radius: 0px !important;
+    padding: 0px !important;
+    box-shadow: none !important;
+    animation: none !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html .page-main-card:hover,
+  html[data-card-style] .page-main-card:hover,
+  html [data-main-card="true"]:hover,
+  html[data-card-style] [data-main-card="true"]:hover,
+  html #about-intro-card-1:hover,
+  html[data-card-style] #about-intro-card-1:hover,
+  html #about-intro-card-2:hover,
+  html[data-card-style] #about-intro-card-2:hover {
+    box-shadow: var(--surface-primary-shadow-hover, var(--shadow-floating)) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html .page-main-card,
+  html[data-card-style] .page-main-card,
+  html [data-main-card="true"],
+  html[data-card-style] [data-main-card="true"],
+  html #about-intro-card-1,
+  html #about-intro-card-2,
+  html #pdf-page-container {
+    animation: none !important;
+  }
+}
+
+/* 3. Strict 14px Rounded Corners for Education Banners, Project Banners & Wallpaper Thumbnails */
+html #education-courses-grid .education-course-card .education-card-banner,
+html #education-certificates-card .education-card-banner,
+html #projects-grid .project-card .project-card-banner,
+html #project-detail-banner,
+html #project-detail-banner .project-detail-banner-media,
+html #project-detail-banner .project-detail-banner-scrim,
+html #wallpaper-page-container [id^="wallpaper-card-"],
+html #wallpaper-page-container [id^="wallpaper-card-media-"],
+html #wallpaper-page-container #wallpaper-card-content-none {
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  isolation: isolate;
+  -webkit-clip-path: inset(0 round 14px);
+  clip-path: inset(0 round 14px);
+}
+
+html #education-courses-grid .education-course-card .education-card-banner img,
+html #education-certificates-card .education-card-banner img,
+html #projects-grid .project-card .project-card-banner img,
+html #project-detail-banner .project-detail-banner-media img,
+html #wallpaper-page-container [id^="wallpaper-card-media-"] > img,
+html #wallpaper-page-container [id^="wallpaper-card-media-"] > video,
+html #wallpaper-page-container [id^="wallpaper-card-media-"] > div {
+  border-radius: 14px !important;
+}
+
 
 

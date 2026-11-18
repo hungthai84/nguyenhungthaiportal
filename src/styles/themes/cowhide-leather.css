@@ -181,7 +181,19 @@ html.dark[data-card-style="cowhide-leather"] {
   /* 4-Tier Surface Tokens (Warm Burnished Leather – Subtle Glassmorphism Level 01) */
   --surface-primary-bg: linear-gradient(145deg, rgba(101, 58, 23, 0.62) 0%, rgba(56, 30, 10, 0.58) 55%, rgba(82, 46, 16, 0.62) 100%);
   --surface-primary-border: rgba(255, 255, 255, 0.1);
+  --surface-primary-border-hover: rgba(245, 222, 179, 0.38);
+  --surface-primary-outline-hover: rgba(253, 230, 138, 0.78);
   --surface-primary-shadow: var(--shadow-header);
+  --surface-primary-shadow-hover:
+    0 28px 60px rgba(0, 0, 0, 0.68), inset 0 2px 4px rgba(255, 220, 180, 0.32), inset 0 -2px 4px rgba(0, 0, 0, 0.45);
+  --surface-header-shadow:
+    0 20px 46px rgba(0, 0, 0, 0.56), inset 0 1.5px 3px rgba(255, 220, 180, 0.24), inset 0 -1px 0 rgba(245, 222, 179, 0.14);
+  --surface-header-shadow-hover:
+    0 26px 56px rgba(0, 0, 0, 0.68), inset 0 2px 4px rgba(255, 220, 180, 0.34), inset 0 -1px 0 rgba(253, 230, 138, 0.26);
+  --surface-footer-shadow:
+    0 -20px 46px rgba(0, 0, 0, 0.56), inset 0 1.5px 3px rgba(255, 220, 180, 0.26);
+  --surface-footer-shadow-hover:
+    0 -26px 56px rgba(0, 0, 0, 0.68), inset 0 2px 4px rgba(255, 220, 180, 0.36);
   --surface-primary-blur: 12px;
   --surface-secondary-bg: var(--bg-card);
   --surface-secondary-border: #522E10;
@@ -233,11 +245,15 @@ html[data-card-style="cowhide-leather"] #about-intro-card-2 {
   outline-offset: -6px;
 }
 
+html[data-card-style="cowhide-leather"] #app-header {
+  box-shadow: var(--surface-header-shadow) !important;
+}
+
 html[data-card-style="cowhide-leather"] #app-footer {
   background: var(--surface-primary-bg) !important;
   border-color: var(--surface-primary-border) !important;
   color: #FFFFFF !important;
-  box-shadow: var(--surface-primary-shadow) !important;
+  box-shadow: var(--surface-footer-shadow) !important;
   backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
   outline: 1.5px dashed rgba(245, 222, 179, 0.50);
@@ -562,14 +578,13 @@ html[data-card-style="cowhide-leather"] #el-p0-div-78 svg {
 }
 
 /* Sub-Cards, Timeline Milestone Cards, Pillars, SWOT Skills & Experience Detail Leather Panels */
-html[data-card-style="cowhide-leather"] [data-subcard="true"],
-html[data-card-style="cowhide-leather"] .sub-card,
+html[data-card-style="cowhide-leather"] [data-subcard="true"]:not(.skill-swot-subcard),
+html[data-card-style="cowhide-leather"] .sub-card:not(.skill-swot-subcard),
 html[data-card-style="cowhide-leather"] .about-info-subcard,
 html[data-card-style="cowhide-leather"] .experience-milestone-card,
 html[data-card-style="cowhide-leather"] .exp-detail-card,
 html[data-card-style="cowhide-leather"] .exp-detail-subcard,
 html[data-card-style="cowhide-leather"] .pillar-gradient-card,
-html[data-card-style="cowhide-leather"] .skill-swot-subcard,
 html[data-card-style="cowhide-leather"] #experience-info-card,
 html[data-card-style="cowhide-leather"] #experience-banner-card,
 html[data-card-style="cowhide-leather"] #experience-management-card,
@@ -600,12 +615,20 @@ html[data-card-style="cowhide-leather"] #skills-languages-section .exp-detail-su
   outline-offset: -4px;
 }
 
+html[data-card-style="cowhide-leather"] .skill-swot-subcard,
+html[data-card-style="cowhide-leather"] [id^="skill-item-"],
+html[data-card-style="cowhide-leather"] .skill-swot-subcard:hover,
+html[data-card-style="cowhide-leather"] [id^="skill-item-"]:hover,
+html[data-card-style="cowhide-leather"] .skill-swot-subcard[data-expanded="true"],
+html[data-card-style="cowhide-leather"] [id^="skill-item-"][data-expanded="true"],
 html[data-card-style="cowhide-leather"] .swot-quadrant-card .skill-swot-subcard,
 html[data-card-style="cowhide-leather"] .swot-quadrant-card .skill-swot-subcard:hover,
 html[data-card-style="cowhide-leather"] .swot-quadrant-card .skill-swot-subcard[data-expanded="true"] {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: 1px solid var(--swot-accent-border) !important;
   box-shadow: none !important;
   outline: none !important;
@@ -653,7 +676,12 @@ html[data-card-style="cowhide-leather"] .skill-swot-subcard .swot-skill-track {
 }
 
 html[data-card-style="cowhide-leather"] .skill-swot-subcard .swot-skill-disclosure {
-  background: rgba(43, 23, 9, 0.88) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: 1px dashed rgba(245, 222, 179, 0.40) !important;
 }
 

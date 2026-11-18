@@ -1,9 +1,12 @@
 import React from 'react';
 
+export type ThemeMechanismMode = 'light' | 'dark' | 'color';
+
 export type CardStyleMode =
   | 'light-multicolor-glass'
   | 'light-multicolor-glass-dark'
   | 'light-cowhide-leather'
+  | 'black-cowhide-leather'
   | 'cowhide-leather';
 
 export type ThemeFamilyId =
@@ -15,6 +18,7 @@ export interface CardStyleConfig {
   familyId: ThemeFamilyId;
   familyLabel: string;
   familyLabelEn: string;
+  mechanism: ThemeMechanismMode;
   counterpartMode: CardStyleMode;
   cardClassName: string;
   name: string;

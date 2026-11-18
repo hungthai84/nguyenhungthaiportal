@@ -376,7 +376,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
   const viewMode = 'slides' as const;
 
   // Current Theme detection
-  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark =
+    themeIsDark ||
+    currentTheme === 'light-multicolor-glass-dark' ||
+    currentTheme === 'cowhide-leather' ||
+    currentTheme === 'black-cowhide-leather';
 
   // Chế độ thu gọn / mở rộng thanh tiện ích bên phải (Mặc định luôn hiển thị đầy đủ ở trang Thư Ngỏ)
   const [isRightDockCollapsed, setIsRightDockCollapsed] = useState<boolean>(false);
@@ -1795,18 +1799,18 @@ export const LetterView: React.FC<LetterViewProps> = ({
         {/* 1. HEADER ZONE: Focal Point (Logo 1:1, Title, Role Metadata & Year) */}
         <div className="w-full flex items-start justify-between gap-3 pb-3 border-b border-[var(--border-subcard)] shrink-0 relative z-10 min-w-0">
           <div className="flex items-center gap-3 min-w-0 flex-1 text-left">
-            <div className="w-11 h-11 aspect-square rounded-full overflow-hidden border border-[var(--border-subcard)] shrink-0 flex items-center justify-center bg-white/80 dark:bg-slate-800/80 transition-transform duration-200 group-hover/mcard:scale-105">
+            <div className="w-11 h-11 aspect-square rounded-full overflow-hidden border border-[var(--border-subcard)] shrink-0 flex items-center justify-center bg-white dark:bg-slate-900 p-1 transition-transform duration-200 group-hover/mcard:scale-105">
               <img
                 src={item.logo}
                 alt={item.company}
-                className="w-full h-full aspect-square object-cover rounded-full border-0 p-0"
+                className="w-full h-full object-contain"
                 referrerPolicy="no-referrer"
                 loading="lazy"
               />
             </div>
             <div className="min-w-0 flex-1 subcard-header-sync" style={{ color: item.color }}>
               <h4
-                className="card-title subcard-title-synced typo-h4 tracking-tight line-clamp-2 font-play leading-snug break-words"
+                className="card-title subcard-title-synced typo-h4 tracking-tight font-play leading-snug break-words"
                 data-subcard-title="true"
                 style={{ color: item.color }}
                 title={displayTitle}
@@ -1814,11 +1818,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
                 {displayTitle}
               </h4>
               <div
-                className="card-tag flex items-center gap-1.5 typo-caption font-semibold mt-0.5 min-w-0 opacity-90"
+                className="card-tag flex items-start gap-1.5 typo-caption font-semibold mt-0.5 min-w-0 opacity-90"
                 style={{ color: item.color }}
               >
-                <WebIcon name={roleIcon} className="w-3.5 h-3.5 shrink-0" />
-                <span className="truncate" title={item.roleVi}>{item.roleVi}</span>
+                <WebIcon name={roleIcon} className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                <span className="whitespace-normal break-words leading-snug" title={item.roleVi}>{item.roleVi}</span>
               </div>
             </div>
           </div>
@@ -1881,9 +1885,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
         {/* 3. FOOTER & CALL TO ACTION ZONE */}
         <div className="w-full pt-2.5 border-t border-[var(--border-subcard)] flex items-center justify-between gap-2 typo-body-sm font-semibold relative z-10 shrink-0 min-w-0">
-          <div className="flex items-center gap-1.5 min-w-0 flex-1" style={{ color: item.color }}>
-            <WebIcon name={highlightIcon} className="w-4 h-4 shrink-0" />
-            <span className="truncate leading-snug text-left" title={item.highlightVi}>
+          <div className="flex items-start gap-1.5 min-w-0 flex-1" style={{ color: item.color }}>
+            <WebIcon name={highlightIcon} className="w-4 h-4 shrink-0 mt-0.5" />
+            <span className="whitespace-normal break-words leading-snug text-left" title={item.highlightVi}>
               {item.highlightVi}
             </span>
           </div>
@@ -2198,113 +2202,125 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       </div>
                     </div>
 
-                    {/* THẺ BENTO 6: Thương hiệu đồng hành */}
-                    <article
-                      id="bento-brands-marquee"
-                      data-element-name="Thẻ Bento Thương Hiệu Đồng Hành"
-                      data-element-type="card"
-                      data-section-card="true"
-                      data-element-page="letter"
-                      style={{ padding: '15px', borderRadius: '14px' }}
-                      className="bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] overflow-hidden transition-all duration-200 hover:-translate-y-0.5 group/marquee min-w-0"
+                    {/* NHÓM RESPONSIVE: Thương hiệu đồng hành & Châm ngôn phụng sự */}
+                    <div
+                      id="letter-partner-motto-container"
+                      className="partner-motto-container col-span-1 md:col-span-6 lg:col-span-12 w-full min-w-0"
                     >
-                      <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] shrink-0 min-w-0">
-                        <div className="card-header-sync inline-flex items-center gap-2 text-blue-600 dark:text-cyan-400 leading-tight min-w-0">
-                          <WebIcon
-                            name="briefcase"
-                            size={16}
-                            className="w-[16px] h-[16px] shrink-0 card-title-icon text-blue-600 dark:text-cyan-400"
-                            style={{ width: '16px', height: '16px', fontSize: '16px' }}
-                          />
-                          <h3
-                            className="card-title card-title-synced typo-h3 font-play text-blue-600 dark:text-cyan-400 truncate"
-                            data-card-title="true"
-                          >
-                            Thương hiệu đồng hành
-                          </h3>
-                        </div>
-                        <span className="typo-badge font-bold font-play tabular-nums text-blue-700 dark:text-blue-200 whitespace-nowrap shrink-0">
-                          8 Tập đoàn
-                        </span>
-                      </div>
+                      <div
+                        id="letter-partner-motto-grid"
+                        className="partner-motto-grid"
+                      >
+                        {/* THẺ BENTO 6: Thương hiệu đồng hành */}
+                        <article
+                          id="bento-brands-marquee"
+                          data-element-name="Thẻ Bento Thương Hiệu Đồng Hành"
+                          data-element-type="card"
+                          data-section-card="true"
+                          data-element-page="letter"
+                          style={{ padding: '15px', borderRadius: '14px' }}
+                          className="partner-card bento-card glass-card p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] transition-all duration-200 hover:-translate-y-0.5 group/marquee min-w-0"
+                        >
+                          <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] shrink-0 min-w-0">
+                            <div className="card-header-sync inline-flex items-center gap-2 text-blue-600 dark:text-cyan-400 leading-tight min-w-0">
+                              <WebIcon
+                                name="briefcase"
+                                size={16}
+                                className="w-[16px] h-[16px] shrink-0 card-title-icon text-blue-600 dark:text-cyan-400"
+                                style={{ width: '16px', height: '16px', fontSize: '16px' }}
+                              />
+                              <h3
+                                className="card-title card-title-synced typo-h3 font-play text-blue-600 dark:text-cyan-400 whitespace-normal break-words"
+                                data-card-title="true"
+                              >
+                                Thương hiệu đồng hành
+                              </h3>
+                            </div>
+                            <span className="typo-badge font-bold font-play tabular-nums text-blue-700 dark:text-blue-200 whitespace-nowrap shrink-0">
+                              8 Tập đoàn
+                            </span>
+                          </div>
 
-                      <div className="relative w-full overflow-hidden h-12 sm:h-14 flex items-center my-auto [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]">
-                        <div className="animate-marquee flex items-center group-hover/marquee:[animation-play-state:paused]">
-                          {[0, 1].map((trackIdx) => (
-                            <div
-                              key={trackIdx}
-                              aria-hidden={trackIdx === 1}
-                              className="flex items-center gap-8 sm:gap-12 whitespace-nowrap pr-8 sm:pr-12 shrink-0"
-                            >
-                              {EXPERIENCE_BRANDS_MARQUEE.map((item, idx) => (
+                          <div className="partner-marquee-viewport my-auto [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+                            <div className="animate-marquee flex items-center group-hover/marquee:[animation-play-state:paused]">
+                              {[0, 1].map((trackIdx) => (
                                 <div
-                                  key={`${trackIdx}-${item.id}-${idx}`}
-                                  className="flex items-center gap-3 shrink-0 group/logo transition-all duration-300"
+                                  key={trackIdx}
+                                  aria-hidden={trackIdx === 1}
+                                  className="flex items-center gap-6 sm:gap-10 whitespace-nowrap pr-6 sm:pr-10 shrink-0"
                                 >
-                                  <div
-                                    className="w-10 h-10 sm:w-11 sm:h-11 aspect-square rounded-[99999px] overflow-hidden bg-white dark:bg-slate-800 p-0 border-2 border-[var(--border-subcard)] shadow-sm group-hover/logo:scale-110 group-hover/logo:border-blue-500/50 transition-all duration-500 relative flex items-center justify-center shrink-0"
-                                    style={{ borderRadius: '99999px' }}
-                                  >
-                                    <img
-                                      src={item.logo}
-                                      alt={item.company}
-                                      style={{ borderRadius: '99999px', aspectRatio: '1 / 1' }}
-                                      className="w-full h-full aspect-square object-cover rounded-[99999px] group-hover/logo:scale-110 transition-transform duration-700"
-                                      referrerPolicy="no-referrer"
-                                    />
-                                  </div>
-                                  <span className="card-tag typo-body-sm font-semibold font-play text-[var(--text-primary)] group-hover/logo:text-blue-700 dark:group-hover/logo:text-cyan-300 transition-colors whitespace-nowrap">
-                                    {item.company}
-                                  </span>
+                                  {EXPERIENCE_BRANDS_MARQUEE.map((item, idx) => (
+                                    <div
+                                      key={`${trackIdx}-${item.id}-${idx}`}
+                                      className="partner-logo-item group/logo transition-all duration-300"
+                                    >
+                                      <div
+                                        className="partner-logo-badge w-10 h-10 sm:w-11 sm:h-11 aspect-square rounded-[99999px] bg-white dark:bg-slate-800 border-2 border-[var(--border-subcard)] shadow-sm group-hover/logo:scale-110 group-hover/logo:border-blue-500/50 transition-all duration-500 relative shrink-0"
+                                        style={{ borderRadius: '99999px' }}
+                                      >
+                                        <img
+                                          src={item.logo}
+                                          alt={item.company}
+                                          className="partner-logo-img group-hover/logo:scale-105 transition-transform duration-500"
+                                          referrerPolicy="no-referrer"
+                                        />
+                                      </div>
+                                      <span className="card-tag typo-body-sm font-semibold font-play text-[var(--text-primary)] group-hover/logo:text-blue-700 dark:group-hover/logo:text-cyan-300 transition-colors whitespace-nowrap">
+                                        {item.company}
+                                      </span>
+                                    </div>
+                                  ))}
                                 </div>
                               ))}
                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    </article>
+                          </div>
+                        </article>
 
-                    {/* THẺ BENTO 7: Tuyên ngôn & Danh ngôn Phụng sự */}
-                    <article
-                      id="quote-banner-slide-1"
-                      data-element-name="Thẻ Bento Danh Ngôn Phụng Sự"
-                      data-element-type="card"
-                      data-section-card="true"
-                      data-element-page="letter"
-                      style={{ padding: '15px', borderRadius: '14px' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-5 relative overflow-hidden rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] transition-all duration-200 hover:-translate-y-0.5 group/quote min-w-0 ${
-                        activeTargetId === 'quote-banner-slide-1'
-                          ? 'ring-4 ring-sky-500/40 dark:ring-cyan-400/40 scale-[1.01]'
-                          : ''
-                      }`}
-                    >
-                      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-sky-400/40 to-transparent" />
-                      <div className="absolute -top-10 -left-10 w-28 h-28 bg-sky-400/15 blur-3xl rounded-full pointer-events-none" />
+                        {/* THẺ BENTO 7: Tuyên ngôn & Danh ngôn Phụng sự */}
+                        <article
+                          id="quote-banner-slide-1"
+                          data-element-name="Thẻ Bento Danh Ngôn Phụng Sự"
+                          data-element-type="card"
+                          data-section-card="true"
+                          data-element-page="letter"
+                          style={{ padding: '15px', borderRadius: '14px' }}
+                          className={`motto-card bento-card glass-card relative rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] transition-all duration-200 hover:-translate-y-0.5 group/quote min-w-0 ${
+                            activeTargetId === 'quote-banner-slide-1'
+                              ? 'ring-4 ring-sky-500/40 dark:ring-cyan-400/40 scale-[1.01]'
+                              : ''
+                          }`}
+                        >
+                          <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[14px]">
+                            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-sky-400/40 to-transparent" />
+                            <div className="absolute -top-10 -left-10 w-28 h-28 bg-sky-400/15 blur-3xl rounded-full" />
+                          </div>
 
-                      <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] relative z-10 min-w-0">
-                        <div className="card-header-sync inline-flex items-center gap-2 text-amber-600 dark:text-amber-300 leading-tight min-w-0">
-                          <WebIcon
-                            name="sparkles"
-                            size={16}
-                            className="w-[16px] h-[16px] shrink-0 card-title-icon text-amber-600 dark:text-amber-300"
-                            style={{ width: '16px', height: '16px', fontSize: '16px' }}
-                          />
-                          <h3
-                            className="card-title card-title-synced typo-h3 font-play text-amber-600 dark:text-amber-300 truncate"
-                            data-card-title="true"
+                          <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] relative z-10 min-w-0 shrink-0">
+                            <div className="card-header-sync inline-flex items-center gap-2 text-amber-600 dark:text-amber-300 leading-tight min-w-0">
+                              <WebIcon
+                                name="sparkles"
+                                size={16}
+                                className="w-[16px] h-[16px] shrink-0 card-title-icon text-amber-600 dark:text-amber-300"
+                                style={{ width: '16px', height: '16px', fontSize: '16px' }}
+                              />
+                              <h3
+                                className="card-title card-title-synced typo-h3 font-play text-amber-600 dark:text-amber-300 whitespace-normal break-words"
+                                data-card-title="true"
+                              >
+                                Châm ngôn phụng sự
+                              </h3>
+                            </div>
+                          </div>
+
+                          <p
+                            className="motto-quote-text typo-h3 font-handwriting font-italianno font-bold tracking-wide text-amber-700 dark:text-amber-200 text-left drop-shadow-xs select-none relative z-10 my-auto"
+                            style={{ fontFamily: "'Italianno', cursive, sans-serif" }}
                           >
-                            Châm ngôn phụng sự
-                          </h3>
-                        </div>
+                            &ldquo;Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự.&rdquo;
+                          </p>
+                        </article>
                       </div>
-
-                      <p
-                        className="typo-h3 font-handwriting font-italianno font-bold leading-snug tracking-wide text-amber-700 dark:text-amber-200 text-left drop-shadow-xs select-none relative z-10 my-auto break-words"
-                        style={{ fontFamily: "'Italianno', cursive, sans-serif" }}
-                      >
-                        &ldquo;Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự.&rdquo;
-                      </p>
-                    </article>
+                    </div>
                 </div>
       </div>
 

@@ -315,7 +315,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       const effectiveStyle = cardStyleAttr || themeAttr;
       const isDarkThemeAttr =
         effectiveStyle === 'light-multicolor-glass-dark' ||
-        effectiveStyle === 'cowhide-leather';
+        effectiveStyle === 'cowhide-leather' ||
+        effectiveStyle === 'black-cowhide-leather';
       if (typeof isLight === 'boolean') {
         setIsLightMode(isLight && !isDarkClass && !isDarkThemeAttr);
       } else {

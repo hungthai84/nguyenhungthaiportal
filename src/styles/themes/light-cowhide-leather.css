@@ -211,7 +211,19 @@ html[data-card-style="light-cowhide-leather"] {
   /* 4-Tier Surface Tokens */
   --surface-primary-bg: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
   --surface-primary-border: #d1d5db;
+  --surface-primary-border-hover: #9ca3af;
+  --surface-primary-outline-hover: rgba(17, 24, 39, 0.85);
   --surface-primary-shadow: var(--shadow-header);
+  --surface-primary-shadow-hover:
+    0 28px 56px rgba(15, 23, 42, 0.20), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.10);
+  --surface-header-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.14), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
+  --surface-header-shadow-hover:
+    0 24px 50px rgba(15, 23, 42, 0.20), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.10);
+  --surface-footer-shadow:
+    0 -18px 40px rgba(15, 23, 42, 0.14), inset 0 2px 4px #ffffff, inset 0 -2px 5px rgba(0, 0, 0, 0.07);
+  --surface-footer-shadow-hover:
+    0 -24px 50px rgba(15, 23, 42, 0.20), inset 0 2px 4px #ffffff, inset 0 -2px 5px rgba(0, 0, 0, 0.09);
   --surface-primary-blur: 0px;
   --surface-secondary-bg: var(--bg-card);
   --surface-secondary-border: #d1d5db;
@@ -274,6 +286,14 @@ html[data-card-style="light-cowhide-leather"] #about-intro-card-2 {
   -webkit-backdrop-filter: none !important;
   outline: 1.5px dashed rgba(17, 24, 39, 0.65);
   outline-offset: -6px;
+}
+
+html[data-card-style="light-cowhide-leather"] #app-header {
+  box-shadow: var(--surface-header-shadow) !important;
+}
+
+html[data-card-style="light-cowhide-leather"] #app-footer {
+  box-shadow: var(--surface-footer-shadow) !important;
 }
 
 html[data-card-style="light-cowhide-leather"] #footer-nav-capsule,
@@ -532,14 +552,29 @@ html[data-card-style="light-cowhide-leather"] [data-swot="T"] {
   --swot-accent-border: rgba(190, 18, 60, 0.34);
 }
 
-html[data-card-style="light-cowhide-leather"] .skill-swot-subcard {
-  background: rgba(255, 255, 255, 0.92) !important;
+html[data-card-style="light-cowhide-leather"] .skill-swot-subcard,
+html[data-card-style="light-cowhide-leather"] [id^="skill-item-"],
+html[data-card-style="light-cowhide-leather"] .skill-swot-subcard:hover,
+html[data-card-style="light-cowhide-leather"] [id^="skill-item-"]:hover,
+html[data-card-style="light-cowhide-leather"] .skill-swot-subcard[data-expanded="true"],
+html[data-card-style="light-cowhide-leather"] [id^="skill-item-"][data-expanded="true"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: 1px solid var(--swot-accent-border) !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .skill-swot-subcard .swot-skill-disclosure {
-  background: #f8fafc !important;
-  border: 1px dashed rgba(15, 23, 42, 0.52) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px dashed rgba(15, 23, 42, 0.45) !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .skill-swot-subcard .swot-skill-disclosure-text {

@@ -52,7 +52,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const { isDark: themeIsDark } = useTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark =
+    themeIsDark ||
+    currentTheme === 'light-multicolor-glass-dark' ||
+    currentTheme === 'cowhide-leather' ||
+    currentTheme === 'black-cowhide-leather';
 
   // Danh sách video cho 3 màn hình: Màn hình chờ (idle), Chuyển cảnh (transition), Video phát (presentation)
   const VIDEO_SCREENS: VideoScreenItem[] = [
@@ -372,26 +376,41 @@ export const HomeView: React.FC<HomeViewProps> = ({
           data-element-page="home"
           data-element-parent="home-cards-track"
           className="page-main-card relative flex flex-col justify-between overflow-hidden select-none p-[15px] gap-[15px] font-play rounded-[14px] box-border"
+          style={{ padding: '15px', gap: '15px', borderRadius: '14px' }}
         >
-      {/* 1. Main Background Video - Hiển Thị Toàn Bộ Thẻ Chính Lắp Đầy 100% Chiều Rộng và Chiều Cao */}
-      <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none">
-        <video
-          ref={videoRef}
-          key={activeVideoUrl}
-          autoPlay
-          muted={isMuted}
-          playsInline
-          loop={playbackMode === 'idle' && !isIntroMode}
-          src={activeVideoUrl}
-          onTimeUpdate={handleTimeUpdate}
-          onEnded={handleEnded}
-          className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center transition-all duration-700 brightness-110 contrast-105 scale-[1.01]"
-        />
-        {/* Lớp phủ sáng trong suốt nhẹ nhàng cho Giao diện Sáng (Light Mode), giữ video rõ nét tươi sáng */}
-        <div
-          className="absolute inset-0 pointer-events-none transition-colors duration-500 bg-gradient-to-t from-white/10 via-transparent to-white/5"
-        />
-      </div>
+          <div
+            id="home-main-content"
+            data-element-name="Nội dung Trang chủ cá nhân"
+            data-element-type="container"
+            data-element-page="home"
+            data-element-parent="home-main-card"
+            className="relative flex-1 w-full min-w-0 min-h-0 flex flex-col justify-between overflow-hidden rounded-[14px] p-[15px] gap-[15px] box-border"
+            style={{ borderRadius: '14px', padding: '15px', gap: '15px' }}
+          >
+            {/* 1. Main Background Video - Hiển thị gọn trong vùng nội dung, cách viền #home-main-card đúng 15px ở mọi kích thước */}
+            <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none rounded-[14px]">
+              <video
+                ref={videoRef}
+                key={activeVideoUrl}
+                autoPlay
+                muted={isMuted}
+                playsInline
+                loop={playbackMode === 'idle' && !isIntroMode}
+                src={activeVideoUrl}
+                onTimeUpdate={handleTimeUpdate}
+                onEnded={handleEnded}
+                className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center transition-all duration-700 brightness-110 contrast-105 scale-[1.01]"
+              />
+              {/* Lớp phủ nhẹ nhàng đồng bộ Sáng / Tối, giữ video rõ nét tươi sáng */}
+              <div
+                className={cn(
+                  'absolute inset-0 pointer-events-none transition-colors duration-500 bg-gradient-to-t',
+                  isDark
+                    ? 'from-black/20 via-transparent to-black/10'
+                    : 'from-white/10 via-transparent to-white/5'
+                )}
+              />
+            </div>
 
       {/* 2 Nút Center Trái và Center Phải qua lại giữa các màn hình trên Trang Chủ (Giao diện Sáng) - Ẩn khi đang phát video */}
       {!isIntroMode && (
@@ -403,7 +422,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             onClick={handlePrevVideoScreen}
             title="Màn hình trước (Chuyển màn hình video)"
             aria-label="Màn hình trước"
-            className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-xl border flex items-center justify-center hover:scale-110 hover:-translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto"
+            className="absolute left-[15px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-xl border flex items-center justify-center hover:scale-110 hover:-translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto"
             style={{
               background: 'var(--bg-header, rgba(255,255,255,0.85))',
               borderColor: currentScreen.accentColor,
@@ -423,7 +442,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             onClick={handleNextVideoScreen}
             title="Màn hình kế tiếp (Chuyển màn hình video)"
             aria-label="Màn hình kế tiếp"
-            className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-xl border flex items-center justify-center hover:scale-110 hover:translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto"
+            className="absolute right-[15px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-xl border flex items-center justify-center hover:scale-110 hover:translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto"
             style={{
               background: 'var(--bg-header, rgba(255,255,255,0.85))',
               borderColor: currentScreen.accentColor,
@@ -440,7 +459,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
       {/* Video Intro Controller Modal (When intro is active) */}
       {isIntroMode && (
-        <div className="theme-modal-card relative z-50 w-full max-w-md mx-auto my-auto p-3.5 rounded-[14px] shadow-2xl animate-fadeIn text-left pointer-events-auto">
+        <div className="theme-modal-card relative z-50 w-full max-w-md max-h-full overflow-y-auto mx-auto my-auto p-3.5 rounded-[14px] shadow-2xl animate-fadeIn text-left pointer-events-auto">
           <div
             className="flex items-center justify-between pb-2 border-b"
             style={{ borderColor: 'var(--border-subcard)' }}
@@ -479,7 +498,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-1.5 pt-0.5">
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5">
             <button
               type="button"
               onClick={handleTogglePlay}
@@ -709,6 +728,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
           </div>
         </div>
       )}
+          </div>
         </div>
       </div>
     </div>

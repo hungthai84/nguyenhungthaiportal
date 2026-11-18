@@ -1,4 +1,4 @@
-import { CardStyleMode } from './theme.types';
+import { CardStyleMode, ThemeMechanismMode } from './theme.types';
 
 export const DEFAULT_CARD_STYLE: CardStyleMode = 'light-multicolor-glass';
 
@@ -16,6 +16,7 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'light-multicolor-glass': { cardOpacity: 78, blurIntensity: 28 },
   'light-multicolor-glass-dark': { cardOpacity: 78, blurIntensity: 26 },
   'light-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
+  'black-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
 };
 
@@ -23,7 +24,7 @@ export interface ThemeBackgroundSpec {
   id: CardStyleMode;
   presetId: string;
   label: string;
-  themeMode: 'light' | 'dark';
+  themeMode: ThemeMechanismMode;
   imagePath: string;
   fallbackGradient: string;
   overlayBg: string;
@@ -60,11 +61,21 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(circle at 18% 16%, rgba(148, 163, 184, 0.20) 0%, transparent 52%), radial-gradient(circle at 82% 20%, rgba(203, 213, 225, 0.24) 0%, transparent 54%), radial-gradient(circle at 68% 84%, rgba(100, 116, 139, 0.14) 0%, transparent 56%), linear-gradient(145deg, #ffffff 0%, #f8fafc 52%, #edf2f7 100%)',
     overlayBg: 'rgba(255, 255, 255, 0.06)',
   },
+  'black-cowhide-leather': {
+    id: 'black-cowhide-leather',
+    presetId: 'theme-bg-black-cowhide-leather',
+    label: 'Nền Chất liệu da (màu đen)',
+    themeMode: 'dark',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 18% 18%, rgba(148, 163, 184, 0.14) 0%, transparent 52%), radial-gradient(circle at 82% 24%, rgba(56, 189, 248, 0.10) 0%, transparent 54%), radial-gradient(circle at 65% 84%, rgba(100, 116, 139, 0.14) 0%, transparent 56%), linear-gradient(145deg, #090a0e 0%, #14171f 52%, #0d0f14 100%)',
+    overlayBg: 'rgba(6, 7, 10, 0.14)',
+  },
   'cowhide-leather': {
     id: 'cowhide-leather',
     presetId: 'theme-bg-cowhide-leather',
     label: 'Nền Chất liệu da (màu nâu)',
-    themeMode: 'dark',
+    themeMode: 'color',
     imagePath: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.webp',
     fallbackGradient:
       'radial-gradient(circle at 20% 18%, rgba(217, 119, 6, 0.30) 0%, transparent 54%), radial-gradient(circle at 82% 24%, rgba(180, 115, 58, 0.28) 0%, transparent 54%), radial-gradient(circle at 65% 84%, rgba(154, 52, 18, 0.24) 0%, transparent 56%), linear-gradient(145deg, #351b0b 0%, #241206 50%, #44230e 100%)',
@@ -76,5 +87,6 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'light-multicolor-glass': THEME_BACKGROUNDS['light-multicolor-glass'].presetId,
   'light-multicolor-glass-dark': THEME_BACKGROUNDS['light-multicolor-glass-dark'].presetId,
   'light-cowhide-leather': THEME_BACKGROUNDS['light-cowhide-leather'].presetId,
+  'black-cowhide-leather': THEME_BACKGROUNDS['black-cowhide-leather'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
 };

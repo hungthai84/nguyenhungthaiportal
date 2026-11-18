@@ -475,7 +475,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
 
               <p
                 id="skills-hero-banner-quote"
-                className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+                className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
                 style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
               >
                 {isVi ? '"Kỹ năng là nền tảng nâng tầm dịch vụ ♡"' : '"Skills are the foundation that elevates service ♡"'}
@@ -732,13 +732,17 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                                   toggleSkillAccordion(item.id);
                                 }
                               }}
-                              style={{ background: 'transparent', backgroundColor: 'transparent', borderRadius: '14px' }}
+                              style={{
+                                background: 'transparent',
+                                backgroundColor: 'transparent',
+                                backgroundImage: 'none',
+                                boxShadow: 'none',
+                                borderRadius: '14px',
+                              }}
                               className={cn(
                                 "skill-swot-subcard group/item flex flex-col gap-1.5 rounded-[14px] p-2.5 transition-all duration-200 cursor-pointer select-none bg-transparent",
-                                isExpanded
-                                  ? "shadow-xs"
-                                  : "hover:shadow-xs active:scale-[0.995]",
-                                highlightedSkillId === item.id && "ring-2 ring-cyan-500 shadow-lg scale-[1.01]"
+                                !isExpanded && "active:scale-[0.995]",
+                                highlightedSkillId === item.id && "ring-2 ring-cyan-500 scale-[1.01]"
                               )}
                               title={
                                 isExpanded
@@ -802,7 +806,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
 
                                   {/* Icon mũi tên Accordion (Disclosure) xoay 180 độ khi mở */}
                                   <div
-                                    className="swot-skill-chevron-wrap w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 ml-0.5"
+                                    className="swot-skill-chevron-wrap w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 ml-0.5 bg-transparent"
                                     data-expanded={isExpanded ? "true" : "false"}
                                   >
                                     <WebIcon
@@ -825,9 +829,12 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                                     animate={{ opacity: 1, height: "auto" }}
                                     exit={{ opacity: 0, height: 0 }}
                                     transition={{ duration: 0.28, ease: [0.04, 0.62, 0.23, 0.98] }}
-                                    className="overflow-hidden"
+                                    className="overflow-hidden bg-transparent"
                                   >
-                                    <div className="swot-skill-disclosure mt-2 pt-2 text-left flex items-start gap-2 p-2.5 rounded-[14px]">
+                                    <div
+                                      className="swot-skill-disclosure mt-2 pt-2 text-left flex items-start gap-2 p-2.5 rounded-[14px] bg-transparent"
+                                      style={{ background: 'transparent', backgroundColor: 'transparent', boxShadow: 'none' }}
+                                    >
                                       <WebIcon
                                         name="info"
                                         className="swot-skill-icon w-4 h-4 shrink-0 mt-0.5 opacity-90"
@@ -868,19 +875,19 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="bento-card glass-card w-full p-5 sm:p-6 rounded-[14px] text-[var(--text-primary)] flex flex-col gap-4 text-left"
-            style={{ borderRadius: '14px' }}
+            className="bento-card glass-card w-full p-[15px] rounded-[14px] text-[var(--text-primary)] flex flex-col gap-[15px] text-left min-w-0 box-border"
+            style={{ borderRadius: '14px', padding: '15px' }}
           >
             <div id="skills-languages-header" className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3">
-              <div className="card-header-sync flex items-center gap-2 text-[#1480C0] dark:text-sky-400">
-                <WebIcon name="globe" className="w-5 h-5 text-[#1480C0] dark:text-sky-400" />
-                <h2 id="skills-languages-title" className="card-title-synced typo-h3 font-play text-[#1480C0] dark:text-sky-400">
+              <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-400">
+                <WebIcon name="globe" className="w-5 h-5 text-blue-600 dark:text-sky-400" />
+                <h2 id="skills-languages-title" className="card-title-synced typo-h3 font-play">
                   {isVi ? "Ngôn ngữ giao tiếp" : "Communication Languages"}
                 </h2>
               </div>
             </div>
 
-            <div id="skills-languages-grid" className="grid grid-cols-1 md:grid-cols-3 gap-[15px] items-stretch w-full" style={{ gap: "15px" }}>
+            <div id="skills-languages-grid" className="grid grid-cols-1 md:grid-cols-3 gap-[15px] items-stretch w-full min-w-0" style={{ gap: "15px" }}>
               {LANGUAGES_DATA.map((langItem) => {
                 return (
                   <div 
@@ -889,14 +896,14 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                     data-subcard="true"
                     data-element-name={`Thẻ ngôn ngữ: ${langItem.nameVi}`}
                     data-element-page="skills"
-                    style={{ borderRadius: '14px' }}
-                    className="sub-card exp-detail-subcard w-full h-full min-w-0 flex items-center gap-[15px] p-[15px] rounded-[14px] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none"
+                    style={{ borderRadius: '14px', padding: '15px' }}
+                    className="sub-card exp-detail-subcard w-full h-full min-w-0 flex items-center gap-[15px] p-[15px] rounded-[14px] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none box-border"
                   >
                     <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
                       <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
                         <path
-                          className="stroke-current"
-                          style={{ color: 'var(--border-subcard, rgba(148, 163, 184, 0.25))' }}
+                          className="stroke-current opacity-30"
+                          style={{ color: 'var(--border-subcard, rgba(148, 163, 184, 0.35))' }}
                           strokeWidth="3.2"
                           fill="none"
                           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -915,17 +922,24 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                       </span>
                     </div>
 
-                    <div className="flex flex-col min-w-0 text-left">
-                      <h3 className={cn("skills-lang-title typo-h4 subcard-title-synced font-play", langItem.color)} data-subcard-title="true">
-                        {isVi ? langItem.nameVi : langItem.nameEn}
-                      </h3>
-                      <span className="about-info-label typo-caption text-[var(--text-secondary)] mt-0.5">
+                    <div className="flex flex-col min-w-0 text-left flex-1">
+                      <div className="flex items-center justify-between gap-1.5 flex-wrap">
+                        <h3 className={cn("skills-lang-title typo-h4 subcard-title-synced font-play font-bold", langItem.color)} data-subcard-title="true">
+                          {isVi ? langItem.nameVi : langItem.nameEn}
+                        </h3>
+                        {(isVi ? langItem.levelVi : langItem.levelEn) ? (
+                          <span className="skills-lang-level typo-badge px-2 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-nested-badge)] text-[var(--text-secondary)] font-semibold shrink-0">
+                            {isVi ? langItem.levelVi : langItem.levelEn}
+                          </span>
+                        ) : null}
+                      </div>
+                      <span className="about-info-label typo-caption text-[var(--text-secondary)] mt-0.5 font-medium">
                         {isVi ? langItem.roleVi : langItem.roleEn}
                       </span>
-                      {(isVi ? langItem.levelVi : langItem.levelEn) && langItem.id !== "ai" && langItem.id !== "vi" && (
-                        <span className={cn("skills-lang-level typo-badge mt-1", langItem.color)}>
-                          {isVi ? langItem.levelVi : langItem.levelEn}
-                        </span>
+                      {langItem.descVi && (
+                        <p className="typo-caption text-[var(--text-muted)] mt-1.5 line-clamp-2 leading-relaxed">
+                          {isVi ? langItem.descVi : langItem.roleEn}
+                        </p>
                       )}
                     </div>
                   </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardStyleMode, CardStyleConfig, ThemeFamilyId } from './theme.types';
+import { CardStyleMode, CardStyleConfig, ThemeFamilyId, ThemeMechanismMode } from './theme.types';
 import { DEFAULT_CARD_STYLE } from './themeDefaults';
 
 export interface ThemeFamilyGroupMeta {
@@ -12,6 +12,7 @@ export interface ThemeFamilyGroupMeta {
   defaultMode?: CardStyleMode;
   lightMode?: CardStyleMode;
   darkMode?: CardStyleMode;
+  colorMode?: CardStyleMode;
   presets: CardStyleConfig[];
 }
 
@@ -31,12 +32,13 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     id: 'cowhide-leather',
     label: 'Chất liệu da',
     labelEn: 'Leather Material',
-    description: 'Chất liệu da (màu trắng) & Chất liệu da (màu nâu)',
-    descriptionEn: 'Leather Material (White) & Leather Material (Brown)',
+    description: 'Chất liệu da (màu trắng), Chất liệu da (màu đen) & Chất liệu da (màu nâu)',
+    descriptionEn: 'Leather Material (White), Leather Material (Black) & Leather Material (Brown)',
     icon: 'briefcase',
     defaultMode: 'cowhide-leather',
     lightMode: 'light-cowhide-leather',
-    darkMode: 'cowhide-leather',
+    darkMode: 'black-cowhide-leather',
+    colorMode: 'cowhide-leather',
   },
 ];
 
@@ -49,6 +51,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     familyId: 'light-multicolor-glass',
     familyLabel: 'Gương đa sắc',
     familyLabelEn: 'Multicolor Glass',
+    mechanism: 'light',
     counterpartMode: 'light-multicolor-glass-dark',
     cardClassName: 'card-light-multicolor-glass',
     name: 'Gương đa sắc (Sáng)',
@@ -93,6 +96,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     familyId: 'light-multicolor-glass',
     familyLabel: 'Gương đa sắc',
     familyLabelEn: 'Multicolor Glass',
+    mechanism: 'dark',
     counterpartMode: 'light-multicolor-glass',
     cardClassName: 'card-light-multicolor-glass-dark',
     name: 'Gương đa sắc (Tối)',
@@ -137,7 +141,8 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     familyId: 'cowhide-leather',
     familyLabel: 'Chất liệu da',
     familyLabelEn: 'Leather Material',
-    counterpartMode: 'cowhide-leather',
+    mechanism: 'light',
+    counterpartMode: 'black-cowhide-leather',
     cardClassName: 'card-light-cowhide-leather card-white-pebbled-leather',
     name: 'Chất liệu da (màu trắng)',
     label: 'Chất liệu da (màu trắng)',
@@ -174,10 +179,53 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     badgeColorClass: 'bg-[#fbfcfc] text-[#111827] border-[#d1d5db]',
   },
   {
+    id: 'black-cowhide-leather',
+    familyId: 'cowhide-leather',
+    familyLabel: 'Chất liệu da',
+    familyLabelEn: 'Leather Material',
+    mechanism: 'dark',
+    counterpartMode: 'light-cowhide-leather',
+    cardClassName: 'card-black-cowhide-leather',
+    name: 'Chất liệu da (màu đen)',
+    label: 'Chất liệu da (màu đen)',
+    shortBadge: 'Chất liệu da (màu đen)',
+    tagLabel: 'Chất liệu da (màu đen) · Chỉ khâu',
+    modeLabel: 'Chất liệu da (màu đen)',
+    isDark: true,
+    icon: 'moon',
+    color: '#94A3B8',
+    desc: 'Chất liệu da màu đen mờ lì (#252830 → #15171C) kết hợp chỉ khâu bạch kim đứt nét và độ tương phản chữ trắng #FFFFFF sắc nét.',
+    cardSampleStyle: {
+      background: 'linear-gradient(145deg, #252830 0%, #15171c 52%, #1d2027 100%)',
+      borderRadius: '14px',
+      border: '2px solid #090a0d',
+      boxShadow:
+        '0 18px 38px rgba(0, 0, 0, 0.65), inset 0 2px 4px rgba(255, 255, 255, 0.12), inset 0 -3px 6px rgba(0, 0, 0, 0.72)',
+      color: '#FFFFFF',
+    },
+    miniPreviewWrapStyle: {
+      background: 'linear-gradient(145deg, #1d2027 0%, #111318 100%)',
+      borderColor: 'rgba(226, 232, 240, 0.45)',
+      borderStyle: 'dashed',
+      borderWidth: '1.5px',
+    },
+    miniTabStyle: {
+      background: 'rgba(24, 27, 34, 0.94)',
+      color: '#FFFFFF',
+      borderColor: 'rgba(226, 232, 240, 0.34)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #334155 0%, #0f172a 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-[#121419] text-white border-[#334155]',
+  },
+  {
     id: 'cowhide-leather',
     familyId: 'cowhide-leather',
     familyLabel: 'Chất liệu da',
     familyLabelEn: 'Leather Material',
+    mechanism: 'color',
     counterpartMode: 'light-cowhide-leather',
     cardClassName: 'card-cowhide-leather',
     name: 'Chất liệu da (màu nâu)',
@@ -240,6 +288,7 @@ export interface ThemeFamilyRegistryEntry {
   icon: string;
   light: CardStyleConfig;
   dark: CardStyleConfig;
+  color?: CardStyleConfig;
 }
 
 export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
@@ -257,11 +306,12 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     familyId: 'cowhide-leather',
     label: 'Chất liệu da',
     labelEn: 'Leather Material',
-    description: 'Chất liệu da (màu trắng) & Chất liệu da (màu nâu)',
-    descriptionEn: 'Leather Material (White) & Leather Material (Brown)',
+    description: 'Chất liệu da (màu trắng), Chất liệu da (màu đen) & Chất liệu da (màu nâu)',
+    descriptionEn: 'Leather Material (White), Leather Material (Black) & Leather Material (Brown)',
     icon: 'briefcase',
     light: CARD_STYLES_MAP['light-cowhide-leather'],
-    dark: CARD_STYLES_MAP['cowhide-leather'],
+    dark: CARD_STYLES_MAP['black-cowhide-leather'],
+    color: CARD_STYLES_MAP['cowhide-leather'],
   },
 };
 
@@ -274,11 +324,37 @@ export const getCardStyleConfig = getCardStyleProperties;
 export const getLightDarkCounterpart = (styleId: CardStyleMode, targetDark?: boolean): CardStyleMode => {
   const config = CARD_STYLES_MAP[styleId];
   if (!config) return DEFAULT_CARD_STYLE;
+  const group = CARD_STYLE_GROUPS.find((g) => g.id === config.familyId);
   if (typeof targetDark === 'boolean') {
+    if (group) {
+      if (targetDark && group.darkMode) return group.darkMode;
+      if (!targetDark && group.lightMode) return group.lightMode;
+    }
     if (config.isDark === targetDark) return styleId;
     return config.counterpartMode || styleId;
   }
   return config.counterpartMode || styleId;
+};
+
+export const getThemeForMechanism = (
+  styleId: CardStyleMode,
+  mechanism: ThemeMechanismMode
+): CardStyleMode => {
+  const currentConfig = CARD_STYLES_MAP[styleId] || CARD_STYLES_MAP[DEFAULT_CARD_STYLE];
+  const currentGroup = CARD_STYLE_GROUPS.find((g) => g.id === currentConfig.familyId);
+
+  const pickFromGroup = (group: ThemeFamilyGroupMeta | undefined): CardStyleMode | undefined => {
+    if (!group) return undefined;
+    if (mechanism === 'light') return group.lightMode;
+    if (mechanism === 'dark') return group.darkMode;
+    return group.colorMode;
+  };
+
+  const sameFamilyMatch = pickFromGroup(currentGroup);
+  if (sameFamilyMatch) return sameFamilyMatch;
+
+  const fallbackGroup = CARD_STYLE_GROUPS.find((g) => Boolean(pickFromGroup(g)));
+  return pickFromGroup(fallbackGroup) || DEFAULT_CARD_STYLE;
 };
 
 export const normalizeCardStyle = (raw: string | null | undefined): CardStyleMode => {

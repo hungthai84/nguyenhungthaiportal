@@ -280,6 +280,20 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1794300000009,
   },
   {
+    id: 'theme-bg-black-cowhide-leather',
+    name: '🖤 Nền Chất Liệu Da Đen Thủ Công (Theme Background)',
+    type: 'css',
+    value:
+      'background: radial-gradient(circle at 18% 18%, rgba(148, 163, 184, 0.14) 0%, transparent 48%), radial-gradient(circle at 82% 80%, rgba(51, 65, 85, 0.22) 0%, transparent 54%), linear-gradient(145deg, #1b1e25 0%, #101217 52%, #07080b 100%);',
+    bg: 'radial-gradient(circle at 18% 18%, rgba(148, 163, 184, 0.14) 0%, transparent 48%), radial-gradient(circle at 82% 80%, rgba(51, 65, 85, 0.22) 0%, transparent 54%), linear-gradient(145deg, #1b1e25 0%, #101217 52%, #07080b 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 18% 18%, rgba(148, 163, 184, 0.16) 0%, transparent 48%), radial-gradient(circle at 82% 80%, rgba(51, 65, 85, 0.24) 0%, transparent 54%), linear-gradient(145deg, #252830 0%, #13151a 52%, #090a0d 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794300000011,
+  },
+  {
     id: 'theme-bg-light-multicolor-glass',
     name: '🌈 Nền Gương đa sắc Sáng (Theme Background)',
     type: 'image',

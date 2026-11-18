@@ -464,7 +464,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             </h1>
           </div>
           <p
-            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
             style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
           >
             &quot;Không gian trực quan khơi nguồn cảm hứng sáng tạo ♡&quot;
@@ -510,7 +510,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-72 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-96px))] sm:w-72 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                   >
                     {filterCategories.map((cat) => {
                       const isActive = filterType === cat.id;
@@ -542,8 +542,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
           </div>
 
           {/* Tìm kiếm + Dạng thẻ + Thêm hình */}
-          <div id="wallpaper-banner-right-actions" className="flex items-center justify-end gap-2 flex-wrap ml-auto">
-            <div id="wallpaper-search-wrapper" className="relative min-w-[180px] sm:min-w-[210px]">
+          <div id="wallpaper-banner-right-actions" className="flex items-center justify-end gap-2 flex-wrap ml-auto w-full sm:w-auto min-w-0">
+            <div id="wallpaper-search-wrapper" className="relative w-full sm:w-auto min-w-0 sm:min-w-[210px] max-w-full">
               <WebIcon
                 name="search"
                 className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"

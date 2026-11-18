@@ -1,0 +1,1156 @@
+/* ========================================================================= */
+/* THEME: CHẤT LIỆU DA (MÀU ĐEN) — MATTE BLACK LEATHER & SILVER HAND-STITCH  */
+/* Deep Charcoal Obsidian Leather (#1F2229 -> #0F1116) + Platinum Stitching  */
+/* ========================================================================= */
+
+.card-black-cowhide-leather {
+  background: linear-gradient(145deg, #252830 0%, #15171c 52%, #1d2027 100%);
+  border-radius: 14px;
+  border: 2px solid #090a0d;
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.65),
+    inset 0 2px 4px rgba(255, 255, 255, 0.12),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.72);
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.black-leather-stitch {
+  border: 1.5px dashed rgba(226, 232, 240, 0.45);
+}
+
+html[data-card-style="black-cowhide-leather"],
+html.dark[data-card-style="black-cowhide-leather"] {
+  --black-leather-light: #272a33;
+  --black-leather-mid: #1c1f26;
+  --black-leather-deep: #13151a;
+  --black-leather-darkest: #0b0c10;
+  --black-leather-border: rgba(226, 232, 240, 0.20);
+  --black-leather-stitch: rgba(226, 232, 240, 0.46);
+  --black-leather-platinum: #e2e8f0;
+
+  --bg-blur: 0px;
+  --glass-blur: 0px;
+  --blur-subcard: 0px;
+  --blur-nav-pill: 0px;
+  --blur-modal: 0px;
+
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+  --card-border-width: 2px;
+
+  --color-bg: #0b0c10;
+  --color-bg-soft: #13151a;
+  --color-bg-blue: #181c24;
+  --color-surface: #1b1e25;
+  --color-surface-elevated: #252932;
+  --color-surface-indigo: #171a22;
+  --color-surface-cyan: #161b22;
+  --color-surface-green: #141b19;
+  --color-surface-orange: #1d1a17;
+  --color-surface-pink: #1e171d;
+  --color-surface-purple: #1a1722;
+
+  --color-heading: #ffffff;
+  --color-text: #ffffff;
+  --color-text-secondary: #f1f5f9;
+  --color-text-muted: #cbd5e1;
+  --color-text-inverse: #0b0c10;
+  --color-link: #93c5fd;
+
+  --color-primary: #e2e8f0;
+  --color-secondary: #93c5fd;
+  --color-tertiary: #38bdf8;
+  --color-indigo: #c7d2fe;
+  --color-blue: #93c5fd;
+  --color-cyan: #67e8f9;
+  --color-green: #86efac;
+  --color-amber: #fde68a;
+  --color-pink: #fbcfe8;
+  --color-purple: #ddd6fe;
+  --color-coral: #fdba74;
+
+  --color-border: rgba(226, 232, 240, 0.22);
+  --color-border-soft: rgba(226, 232, 240, 0.24);
+  --color-focus-ring: #93c5fd;
+  --border-color: rgba(226, 232, 240, 0.22);
+  --glass-bg: linear-gradient(145deg, #252830 0%, #14161b 52%, #1d2027 100%);
+  --glass-border: rgba(226, 232, 240, 0.28);
+
+  --bg-main: #0b0c10;
+  --bg-header: linear-gradient(145deg, #22252d 0%, #121419 55%, #191c22 100%);
+  --bg-footer: linear-gradient(145deg, #22252d 0%, #121419 55%, #191c22 100%);
+  --bg-card: linear-gradient(145deg, #252830 0%, #15171c 50%, #1d2027 100%);
+  --bg-subcard: linear-gradient(145deg, rgba(35, 39, 47, 0.94) 0%, rgba(19, 21, 26, 0.96) 100%);
+  --bg-subcard-hover: linear-gradient(145deg, #2c303a 0%, #1a1d24 100%);
+  --bg-nested-card: rgba(20, 22, 28, 0.94);
+
+  --bg-button-primary: linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%);
+  --bg-button-secondary: rgba(26, 29, 36, 0.94);
+  --bg-popup: linear-gradient(145deg, #22252d 0%, #111318 100%);
+  --bg-modal: linear-gradient(145deg, #22252d 0%, #111318 100%);
+  --bg-modal-backdrop: rgba(4, 6, 10, 0.78);
+  --bg-modal-header: linear-gradient(145deg, #1d2027 0%, #111318 100%);
+  --bg-modal-footer: linear-gradient(145deg, #171a20 0%, #0e1014 100%);
+  --border-modal: rgba(226, 232, 240, 0.24);
+  --bg-dropdown: linear-gradient(145deg, #22252d 0%, #111318 100%);
+  --bg-navigation: linear-gradient(145deg, #1d2027 0%, #111318 100%);
+  --bg-tab: rgba(26, 29, 36, 0.94);
+  --bg-input: rgba(15, 17, 22, 0.92);
+  --border-input: rgba(226, 232, 240, 0.30);
+  --border-input-focus: #93c5fd;
+  --text-input: #ffffff;
+  --text-placeholder: rgba(203, 213, 225, 0.72);
+  --bg-table: rgba(22, 25, 31, 0.94);
+  --bg-table-head: rgba(15, 17, 22, 0.97);
+  --bg-table-row-alt: rgba(30, 34, 42, 0.60);
+  --border-table: rgba(226, 232, 240, 0.22);
+  --bg-nav-button-opaque: #17191f;
+
+  --text-primary: #ffffff;
+  --text-secondary: #f1f5f9;
+  --text-muted: #cbd5e1;
+  --text-link: #93c5fd;
+  --text-heading: #ffffff;
+  --icon-primary: #ffffff;
+  --icon-secondary: #e2e8f0;
+  --icon-muted: #cbd5e1;
+  --border-default: rgba(226, 232, 240, 0.22);
+  --border-muted: rgba(226, 232, 240, 0.16);
+  --border-strong: rgba(226, 232, 240, 0.44);
+
+  --shadow-header: 0 22px 48px rgba(0, 0, 0, 0.72), inset 0 1.5px 3px rgba(255, 255, 255, 0.12);
+  --shadow-main-card: var(--shadow-header);
+  --shadow-footer: var(--shadow-header);
+  --shadow-card:
+    0 15px 34px rgba(0, 0, 0, 0.62),
+    inset 0 2px 4px rgba(255, 255, 255, 0.12),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.72);
+  --shadow-card-hover:
+    0 22px 44px rgba(0, 0, 0, 0.74),
+    inset 0 2px 5px rgba(255, 255, 255, 0.16),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.78);
+  --shadow-popup:
+    0 22px 46px rgba(0, 0, 0, 0.76),
+    inset 0 2px 4px rgba(255, 255, 255, 0.14),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.75);
+
+  --bg-nav-pill: linear-gradient(145deg, #252830 0%, #15171c 50%, #1d2027 100%);
+  --shadow-nav-pill:
+    0 8px 18px rgba(0, 0, 0, 0.58),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.12),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.65);
+  --blur-nav-pill: 0px;
+  --outline-nav-pill: 1px dashed rgba(226, 232, 240, 0.44);
+  --outline-offset-nav-pill: -4px;
+  --divider-nav-pill: rgba(226, 232, 240, 0.30);
+
+  --border-subcard: rgba(226, 232, 240, 0.20);
+  --shadow-subcard:
+    0 9px 20px rgba(0, 0, 0, 0.48),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.09),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.62);
+  --shadow-subcard-hover:
+    0 14px 28px rgba(0, 0, 0, 0.60),
+    inset 0 2px 4px rgba(255, 255, 255, 0.14),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.70);
+  --blur-subcard: 0px;
+  --outline-subcard: 1px dashed rgba(226, 232, 240, 0.36);
+  --outline-offset-subcard: -5px;
+  --bg-nested-badge: #121419;
+  --border-nested-badge: rgba(226, 232, 240, 0.30);
+
+  --pillar-heading: #ffffff;
+  --pillar-sub: #cbd5e1;
+  --pillar-body: #f1f5f9;
+  --pillar-badge-bg: rgba(15, 17, 22, 0.85);
+  --pillar-badge-text: #ffffff;
+  --pillar-divider: rgba(226, 232, 240, 0.22);
+  --pillar-progress-track: rgba(15, 17, 22, 0.86);
+  --pillar-progress-fill: linear-gradient(90deg, #94a3b8 0%, #e2e8f0 100%);
+  --page-header-divider: rgba(226, 232, 240, 0.22);
+  --page-header-overlay-bg: linear-gradient(145deg, #252830 0%, #15171c 55%, #1d2027 100%);
+  --page-header-overlay-border: rgba(226, 232, 240, 0.24);
+  --page-header-overlay-shadow: 0 10px 22px rgba(0, 0, 0, 0.60), inset 0 1.5px 3px rgba(255, 255, 255, 0.12);
+  --page-header-overlay-blur: 0px;
+  --page-header-overlay-outline: 1px dashed rgba(226, 232, 240, 0.44);
+  --page-header-overlay-outline-offset: -4px;
+  --page-header-icon-bg: #121419;
+  --page-header-icon-border: rgba(226, 232, 240, 0.32);
+  --page-header-icon-outline: 1px dashed rgba(226, 232, 240, 0.36);
+
+  /* Global 5-Layer Obsidian Matte Leather Backdrop */
+  --app-bg-base: #090a0e;
+  --app-bg-gradient:
+    radial-gradient(ellipse 88% 68% at 15% 15%, rgba(148, 163, 184, 0.14) 0%, transparent 58%),
+    radial-gradient(ellipse 82% 65% at 85% 20%, rgba(100, 116, 139, 0.16) 0%, transparent 56%),
+    radial-gradient(ellipse 76% 64% at 76% 86%, rgba(56, 189, 248, 0.10) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 58% at 18% 82%, rgba(71, 85, 105, 0.16) 0%, transparent 56%),
+    linear-gradient(135deg, #07080b 0%, #12141a 42%, #191c24 72%, #0b0d11 100%);
+  --app-bg-glow-primary: rgba(148, 163, 184, 0.16);
+  --app-bg-glow-secondary: rgba(100, 116, 139, 0.16);
+  --app-bg-glow-accent: rgba(56, 189, 248, 0.12);
+  --app-bg-glow-cyan: rgba(226, 232, 240, 0.12);
+  --app-bg-opacity: 0.62;
+  --app-bg-shape-opacity: 0.48;
+  --app-bg-depth-veil:
+    radial-gradient(ellipse 88% 78% at 50% 48%, rgba(12, 14, 18, 0.08) 0%, rgba(7, 8, 12, 0.32) 72%, rgba(4, 5, 8, 0.50) 100%);
+  --app-bg-transition-scrim: rgba(9, 10, 14, 0.08);
+
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: var(--app-bg-glow-primary);
+  --ambient-glow-2: var(--app-bg-glow-secondary);
+  --ambient-glow-3: var(--app-bg-glow-accent);
+  --ambient-glow-4: var(--app-bg-glow-cyan);
+  --ambient-glow-opacity: var(--app-bg-opacity);
+  --ambient-wave-1: rgba(148, 163, 184, 0.10);
+  --ambient-wave-2: rgba(56, 189, 248, 0.07);
+  --ambient-wave-3: rgba(100, 116, 139, 0.10);
+  --ambient-wave-opacity: var(--app-bg-shape-opacity);
+  --ambient-depth-veil: var(--app-bg-depth-veil);
+  --ambient-wallpaper-opacity: 0.62;
+  --ambient-main-glow: 0 0 64px -10px rgba(148, 163, 184, 0.16), 0 0 110px -18px rgba(0, 0, 0, 0.55);
+  --ambient-edge-border: rgba(226, 232, 240, 0.24);
+
+  /* 4-Tier Surface Tokens */
+  --surface-primary-bg: linear-gradient(145deg, rgba(31, 34, 42, 0.78) 0%, rgba(15, 17, 22, 0.76) 55%, rgba(24, 27, 34, 0.78) 100%);
+  --surface-primary-border: rgba(226, 232, 240, 0.16);
+  --surface-primary-border-hover: rgba(226, 232, 240, 0.34);
+  --surface-primary-outline-hover: rgba(226, 232, 240, 0.68);
+  --surface-primary-shadow: var(--shadow-header);
+  --surface-primary-shadow-hover:
+    0 28px 60px rgba(0, 0, 0, 0.84), inset 0 2px 4px rgba(255, 255, 255, 0.18), inset 0 -2px 4px rgba(0, 0, 0, 0.65);
+  --surface-header-shadow:
+    0 20px 46px rgba(0, 0, 0, 0.72), inset 0 1.5px 3px rgba(255, 255, 255, 0.12), inset 0 -1px 0 rgba(226, 232, 240, 0.10);
+  --surface-header-shadow-hover:
+    0 26px 56px rgba(0, 0, 0, 0.84), inset 0 2px 4px rgba(255, 255, 255, 0.18), inset 0 -1px 0 rgba(226, 232, 240, 0.20);
+  --surface-footer-shadow:
+    0 -20px 46px rgba(0, 0, 0, 0.72), inset 0 1.5px 3px rgba(255, 255, 255, 0.14);
+  --surface-footer-shadow-hover:
+    0 -26px 56px rgba(0, 0, 0, 0.84), inset 0 2px 4px rgba(255, 255, 255, 0.22);
+  --surface-primary-blur: 12px;
+  --surface-secondary-bg: var(--bg-card);
+  --surface-secondary-border: rgba(226, 232, 240, 0.22);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-blur: 0px;
+  --surface-tertiary-bg: var(--bg-subcard);
+  --surface-tertiary-border: rgba(226, 232, 240, 0.20);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 0px;
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: rgba(44, 48, 58, 0.96);
+  --surface-interactive-active: linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%);
+  --surface-interactive-border: rgba(226, 232, 240, 0.24);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 0px;
+
+  /* High-Contrast Cool Platinum & Luminous Accents */
+  --accent-blue: #93c5fd;
+  --accent-sky: #7dd3fc;
+  --accent-cyan: #67e8f9;
+  --accent-teal: #5eead4;
+  --accent-emerald: #86efac;
+  --accent-green: #86efac;
+  --accent-indigo: #c7d2fe;
+  --accent-violet: #ddd6fe;
+  --accent-purple: #e9d5ff;
+  --accent-fuchsia: #f5d0fe;
+  --accent-pink: #fbcfe8;
+  --accent-rose: #fecdd3;
+  --accent-red: #fca5a5;
+  --accent-amber: #fde68a;
+  --accent-yellow: #fef08a;
+  --accent-orange: #fed7aa;
+  --accent-slate: #f8fafc;
+}
+
+/* Header, Footer & Level-01 Main Card */
+html[data-card-style="black-cowhide-leather"] #app-header,
+html[data-card-style="black-cowhide-leather"] .page-main-card,
+html[data-card-style="black-cowhide-leather"] #about-intro-card-1,
+html[data-card-style="black-cowhide-leather"] #about-intro-card-2 {
+  background: var(--surface-primary-bg) !important;
+  border-color: var(--surface-primary-border) !important;
+  color: #ffffff !important;
+  box-shadow: var(--surface-primary-shadow) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  outline: 1.5px dashed rgba(226, 232, 240, 0.42);
+  outline-offset: -6px;
+}
+
+html[data-card-style="black-cowhide-leather"] #app-header {
+  box-shadow: var(--surface-header-shadow) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #app-footer {
+  background: var(--surface-primary-bg) !important;
+  border-color: var(--surface-primary-border) !important;
+  color: #ffffff !important;
+  box-shadow: var(--surface-footer-shadow) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  outline: 1.5px dashed rgba(226, 232, 240, 0.42);
+  outline-offset: -6px;
+}
+
+html[data-card-style="black-cowhide-leather"] #footer-nav-capsule,
+html[data-card-style="black-cowhide-leather"] #el-p0-div-78 {
+  background: linear-gradient(145deg, #252830 0%, #14161b 100%) !important;
+  border: 2px solid #090a0d !important;
+  color: #ffffff !important;
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.65),
+    inset 0 1px 3px rgba(255, 255, 255, 0.14) !important;
+  outline: 1.5px dashed rgba(226, 232, 240, 0.48);
+  outline-offset: -4px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #footer-nav-capsule:hover,
+html[data-card-style="black-cowhide-leather"] #el-p0-div-78:hover {
+  background: linear-gradient(145deg, #2e323c 0%, #191c23 100%) !important;
+  border-color: rgba(226, 232, 240, 0.55) !important;
+  outline-color: rgba(226, 232, 240, 0.78) !important;
+}
+
+/* Outer Page Container Frame */
+html[data-card-style="black-cowhide-leather"] .main-card,
+html[data-card-style="black-cowhide-leather"] [id$="-page-container"],
+html[data-card-style="black-cowhide-leather"] [id$="-page-root"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 1px solid rgba(226, 232, 240, 0.24) !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  outline: none !important;
+}
+
+/* Standard Section Cards */
+html[data-card-style="black-cowhide-leather"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="black-cowhide-leather"] [data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#about-intro-card-1):not(#about-intro-card-2),
+html[data-card-style="black-cowhide-leather"] [data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="black-cowhide-leather"] article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="black-cowhide-leather"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="black-cowhide-leather"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="black-cowhide-leather"] .system-item:not(#app-header):not(#app-footer),
+html[data-card-style="black-cowhide-leather"] #horoscope-lookup-card {
+  background: linear-gradient(145deg, rgba(37, 40, 48, 0.94) 0%, rgba(21, 23, 28, 0.96) 50%, rgba(29, 32, 39, 0.95) 100%) !important;
+  border: 2px solid #090a0d !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  outline: 1.5px dashed rgba(226, 232, 240, 0.42);
+  outline-offset: -7px;
+}
+
+html[data-card-style="black-cowhide-leather"] #horoscope-card-profile,
+html[data-card-style="black-cowhide-leather"] #horoscope-card-profile:hover,
+html[data-card-style="black-cowhide-leather"] #horoscope-card-management-style,
+html[data-card-style="black-cowhide-leather"] #horoscope-card-management-style:hover,
+html[data-card-style="black-cowhide-leather"] #horoscope-card-career-portrait,
+html[data-card-style="black-cowhide-leather"] #horoscope-card-career-portrait:hover,
+html[data-card-style="black-cowhide-leather"] #horoscope-card-five-elements,
+html[data-card-style="black-cowhide-leather"] #horoscope-card-five-elements:hover,
+html[data-card-style="black-cowhide-leather"] #horoscope-card-leadership-philosophy,
+html[data-card-style="black-cowhide-leather"] #horoscope-card-leadership-philosophy:hover,
+html[data-card-style="black-cowhide-leather"] #horoscope-card-work-synergy-check,
+html[data-card-style="black-cowhide-leather"] #horoscope-card-work-synergy-check:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  padding: 0 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):hover,
+html[data-card-style="black-cowhide-leather"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):hover,
+html[data-card-style="black-cowhide-leather"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):hover {
+  outline-color: rgba(226, 232, 240, 0.72);
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+/* Header & Footer Nav Pills */
+html[data-card-style="black-cowhide-leather"] #app-header .nav-pill-wrapper,
+html[data-card-style="black-cowhide-leather"] #app-footer .nav-pill-wrapper {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #app-header .nav-pill-laser,
+html[data-card-style="black-cowhide-leather"] #app-footer .nav-pill-laser {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 210deg,
+    #ffffff 270deg,
+    #94a3b8 305deg,
+    transparent 360deg
+  ) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:not(.active),
+html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar:not(.active),
+html[data-card-style="black-cowhide-leather"] #footer-lang-btn:not(.active),
+html[data-card-style="black-cowhide-leather"] #footer-appearance-btn:not(.active),
+html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn:not(.active),
+html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:not(.active),
+html[data-card-style="black-cowhide-leather"] #footer-ai-btn:not(.active) {
+  background: linear-gradient(145deg, #252830 0%, #15171c 50%, #1d2027 100%) !important;
+  border-color: #090a0d !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:not(.active):hover,
+html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar:not(.active):hover,
+html[data-card-style="black-cowhide-leather"] #footer-lang-btn:not(.active):hover,
+html[data-card-style="black-cowhide-leather"] #footer-appearance-btn:not(.active):hover,
+html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn:not(.active):hover,
+html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:not(.active):hover,
+html[data-card-style="black-cowhide-leather"] #footer-ai-btn:not(.active):hover {
+  border-color: rgba(226, 232, 240, 0.52) !important;
+  outline-color: rgba(226, 232, 240, 0.78) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill.active,
+html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar.active,
+html[data-card-style="black-cowhide-leather"] #footer-lang-btn.active,
+html[data-card-style="black-cowhide-leather"] #footer-appearance-btn.active,
+html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn.active,
+html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn.active,
+html[data-card-style="black-cowhide-leather"] #footer-ai-btn.active {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%) !important;
+  border-color: #e2e8f0 !important;
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.65),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.20),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.55) !important;
+  outline: 1px dashed rgba(248, 250, 252, 0.70);
+  outline-offset: -4px;
+}
+
+html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:not(.active) .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar:not(.active) .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-lang-btn:not(.active) .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-appearance-btn:not(.active) .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn:not(.active) .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:not(.active) .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-ai-btn:not(.active) .nav-pill-icon-badge {
+  background: linear-gradient(145deg, #1d2027 0%, #0f1116 100%) !important;
+  background-color: #121419 !important;
+  border: 1px dashed rgba(226, 232, 240, 0.45) !important;
+  --tw-ring-color: rgba(15, 17, 22, 0.92) !important;
+  box-shadow:
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.14),
+    inset 0 -1.5px 3px rgba(0, 0, 0, 0.65),
+    0 2px 5px rgba(0, 0, 0, 0.5) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:not(.active):hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar:not(.active):hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-lang-btn:not(.active):hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-appearance-btn:not(.active):hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn:not(.active):hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:not(.active):hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-ai-btn:not(.active):hover .nav-pill-icon-badge {
+  background: linear-gradient(145deg, #2d323d 0%, #171a21 100%) !important;
+  border-color: rgba(226, 232, 240, 0.72) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill.active .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar.active .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-lang-btn.active .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-appearance-btn.active .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn.active .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn.active .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-ai-btn.active .nav-pill-icon-badge {
+  background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%) !important;
+  background-color: #0f172a !important;
+  border: 1px solid rgba(226, 232, 240, 0.78) !important;
+  --tw-ring-color: rgba(226, 232, 240, 0.42) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active) .nav-pill-icon-badge svg,
+html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active) .nav-pill-icon-svg {
+  color: #e2e8f0 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active):hover .nav-pill-icon-badge svg,
+html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active):hover .nav-pill-icon-svg,
+html[data-card-style="black-cowhide-leather"] .nav-pill.active .nav-pill-icon-badge svg,
+html[data-card-style="black-cowhide-leather"] .nav-pill.active .nav-pill-icon-svg {
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .nav-pill.active .nav-pill-divider {
+  background-color: rgba(226, 232, 240, 0.55) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active) .nav-pill-title,
+html[data-card-style="black-cowhide-leather"] .nav-pill.active .nav-pill-title {
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active) .nav-pill-sub {
+  color: #cbd5e1 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .nav-pill.active .nav-pill-sub {
+  color: #e2e8f0 !important;
+}
+
+/* Radial Contact Menu Pills */
+html[data-card-style="black-cowhide-leather"] .radial-contact-pill-wrapper {
+  --tw-ring-color: rgba(226, 232, 240, 0.36) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .radial-contact-laser {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 200deg,
+    #94a3b8 260deg,
+    #ffffff 320deg,
+    #94a3b8 360deg
+  ) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .radial-contact-pill {
+  background: linear-gradient(145deg, #252830 0%, #15171c 50%, #1d2027 100%) !important;
+  border-color: #090a0d !important;
+  outline: 1px dashed rgba(226, 232, 240, 0.45);
+  outline-offset: -4px;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .radial-contact-pill.active {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%) !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .radial-contact-icon-badge {
+  background: linear-gradient(145deg, #1d2027 0%, #0f1116 100%) !important;
+  border: 1px dashed rgba(226, 232, 240, 0.46) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .radial-contact-icon-badge svg {
+  color: #e2e8f0 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .radial-contact-divider {
+  background-color: rgba(226, 232, 240, 0.34) !important;
+  opacity: 1 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .radial-contact-title {
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .radial-contact-sub {
+  color: #cbd5e1 !important;
+}
+
+/* Footer Popups & Nav Capsule Controls */
+html[data-card-style="black-cowhide-leather"] #footer-lang-popup button,
+html[data-card-style="black-cowhide-leather"] #footer-theme-popup button {
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #footer-lang-popup button:hover,
+html[data-card-style="black-cowhide-leather"] #footer-theme-popup button:not(.theme-switch-btn):hover {
+  background: rgba(30, 34, 42, 0.85) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #footer-lang-popup button.bg-emerald-600 {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%) !important;
+  border: 1px dashed rgba(226, 232, 240, 0.55) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #footer-nav-capsule #footer-prev-btn,
+html[data-card-style="black-cowhide-leather"] #footer-nav-capsule #footer-next-btn,
+html[data-card-style="black-cowhide-leather"] #el-p0-div-78 #el-p0-btn-sound-toggle:not(.is-muted) {
+  background: #121419 !important;
+  border: 1px dashed rgba(226, 232, 240, 0.42) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #el-p0-div-78 #el-p0-btn-sound-toggle:not(.is-muted):hover {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%) !important;
+  border-color: rgba(226, 232, 240, 0.80) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #footer-nav-capsule #footer-page-counter,
+html[data-card-style="black-cowhide-leather"] #footer-nav-capsule svg,
+html[data-card-style="black-cowhide-leather"] #el-p0-div-78 #el-p0-btn-intro-toggle,
+html[data-card-style="black-cowhide-leather"] #el-p0-div-78 svg {
+  color: #ffffff !important;
+}
+
+/* Subcards, Timeline Milestone Cards, Pillars & Experience Detail Panels */
+html[data-card-style="black-cowhide-leather"] [data-subcard="true"]:not(.skill-swot-subcard),
+html[data-card-style="black-cowhide-leather"] .sub-card:not(.skill-swot-subcard),
+html[data-card-style="black-cowhide-leather"] .about-info-subcard,
+html[data-card-style="black-cowhide-leather"] .experience-milestone-card,
+html[data-card-style="black-cowhide-leather"] .exp-detail-card,
+html[data-card-style="black-cowhide-leather"] .exp-detail-subcard,
+html[data-card-style="black-cowhide-leather"] .pillar-gradient-card,
+html[data-card-style="black-cowhide-leather"] #experience-info-card,
+html[data-card-style="black-cowhide-leather"] #experience-banner-card,
+html[data-card-style="black-cowhide-leather"] #experience-management-card,
+html[data-card-style="black-cowhide-leather"] #experience-stats-card,
+html[data-card-style="black-cowhide-leather"] #experience-responsibility-card,
+html[data-card-style="black-cowhide-leather"] #experience-achievement-card,
+html[data-card-style="black-cowhide-leather"] #experience-commitments-card,
+html[data-card-style="black-cowhide-leather"] #experience-products-card,
+html[data-card-style="black-cowhide-leather"] #experience-memories-card {
+  background: linear-gradient(145deg, rgba(35, 39, 47, 0.95) 0%, rgba(18, 20, 25, 0.97) 100%) !important;
+  border: 1.5px solid #090a0d !important;
+  outline: 1px dashed rgba(226, 232, 240, 0.36);
+  outline-offset: -5px;
+  box-shadow: var(--shadow-subcard) !important;
+  color: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .experience-milestone-card [data-subcard="true"],
+html[data-card-style="black-cowhide-leather"] #experience-banner-card .exp-detail-subcard,
+html[data-card-style="black-cowhide-leather"] .exp-detail-card .exp-detail-subcard,
+html[data-card-style="black-cowhide-leather"] #skills-languages-section .exp-detail-subcard {
+  background: linear-gradient(145deg, rgba(25, 28, 34, 0.96) 0%, rgba(13, 15, 19, 0.98) 100%) !important;
+  border: 1px solid rgba(226, 232, 240, 0.20) !important;
+  outline: 1px dashed rgba(226, 232, 240, 0.28);
+  outline-offset: -4px;
+}
+
+/* SWOT Skill Items: 100% Transparent Background Across All States */
+html[data-card-style="black-cowhide-leather"] .skill-swot-subcard,
+html[data-card-style="black-cowhide-leather"] [id^="skill-item-"],
+html[data-card-style="black-cowhide-leather"] .skill-swot-subcard:hover,
+html[data-card-style="black-cowhide-leather"] [id^="skill-item-"]:hover,
+html[data-card-style="black-cowhide-leather"] .skill-swot-subcard[data-expanded="true"],
+html[data-card-style="black-cowhide-leather"] [id^="skill-item-"][data-expanded="true"],
+html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .skill-swot-subcard,
+html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .skill-swot-subcard:hover,
+html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .skill-swot-subcard[data-expanded="true"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid var(--swot-accent-border) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .about-info-subcard:hover,
+html[data-card-style="black-cowhide-leather"] .exp-detail-subcard:hover,
+html[data-card-style="black-cowhide-leather"] .pillar-gradient-card:hover {
+  outline-color: rgba(226, 232, 240, 0.72);
+  border-color: rgba(226, 232, 240, 0.40) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] [data-swot="S"] {
+  --swot-accent: #93c5fd;
+  --swot-accent-soft: rgba(147, 197, 253, 0.16);
+  --swot-accent-border: rgba(147, 197, 253, 0.42);
+}
+html[data-card-style="black-cowhide-leather"] [data-swot="W"] {
+  --swot-accent: #86efac;
+  --swot-accent-soft: rgba(134, 239, 172, 0.16);
+  --swot-accent-border: rgba(134, 239, 172, 0.42);
+}
+html[data-card-style="black-cowhide-leather"] [data-swot="O"] {
+  --swot-accent: #fde68a;
+  --swot-accent-soft: rgba(253, 230, 138, 0.16);
+  --swot-accent-border: rgba(253, 230, 138, 0.42);
+}
+html[data-card-style="black-cowhide-leather"] [data-swot="T"] {
+  --swot-accent: #fecdd3;
+  --swot-accent-soft: rgba(254, 205, 211, 0.16);
+  --swot-accent-border: rgba(254, 205, 211, 0.42);
+}
+
+html[data-card-style="black-cowhide-leather"] .skill-swot-subcard .swot-skill-icon,
+html[data-card-style="black-cowhide-leather"] .skill-swot-subcard .swot-skill-index,
+html[data-card-style="black-cowhide-leather"] .skill-swot-subcard .swot-skill-name {
+  color: var(--swot-accent) !important;
+  background: transparent !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .skill-swot-subcard .swot-skill-track {
+  background: rgba(11, 12, 16, 0.88) !important;
+  border: 1px solid rgba(226, 232, 240, 0.20);
+}
+
+html[data-card-style="black-cowhide-leather"] .skill-swot-subcard .swot-skill-disclosure {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px dashed rgba(226, 232, 240, 0.34) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .skill-swot-subcard .swot-skill-disclosure-text {
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .swot-quadrant-card[data-swot="S"] .swot-corner-outer {
+  fill: rgba(147, 197, 253, 0.22);
+}
+html[data-card-style="black-cowhide-leather"] .swot-quadrant-card[data-swot="S"] .swot-corner-inner {
+  fill: #1e3a8a;
+}
+html[data-card-style="black-cowhide-leather"] .swot-quadrant-card[data-swot="W"] .swot-corner-outer {
+  fill: rgba(134, 239, 172, 0.20);
+}
+html[data-card-style="black-cowhide-leather"] .swot-quadrant-card[data-swot="W"] .swot-corner-inner {
+  fill: #166534;
+}
+html[data-card-style="black-cowhide-leather"] .swot-quadrant-card[data-swot="O"] .swot-corner-outer {
+  fill: rgba(253, 230, 138, 0.20);
+}
+html[data-card-style="black-cowhide-leather"] .swot-quadrant-card[data-swot="O"] .swot-corner-inner {
+  fill: #92400e;
+}
+html[data-card-style="black-cowhide-leather"] .swot-quadrant-card[data-swot="T"] .swot-corner-outer {
+  fill: rgba(254, 205, 211, 0.20);
+}
+html[data-card-style="black-cowhide-leather"] .swot-quadrant-card[data-swot="T"] .swot-corner-inner {
+  fill: #9f1239;
+}
+
+html[data-card-style="black-cowhide-leather"] .swot-control-pill {
+  border-color: rgba(226, 232, 240, 0.24) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .swot-control-pill svg {
+  color: #e2e8f0 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #skills-languages-header {
+  border-color: rgba(226, 232, 240, 0.22) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #skills-languages-title,
+html[data-card-style="black-cowhide-leather"] #skills-languages-header svg {
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .about-info-label {
+  color: #cbd5e1 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .about-info-value {
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .service-card .service-ambient-glow {
+  opacity: 0.08 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .service-card .service-title-text,
+html[data-card-style="black-cowhide-leather"] #services-page-container .service-card h3 {
+  color: #f8fafc !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .service-card .service-divider {
+  border-color: rgba(226, 232, 240, 0.18) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .bento-tone-indigo,
+html[data-card-style="black-cowhide-leather"] .bento-tone-blue,
+html[data-card-style="black-cowhide-leather"] .bento-tone-sky,
+html[data-card-style="black-cowhide-leather"] .bento-tone-cyan,
+html[data-card-style="black-cowhide-leather"] .bento-tone-teal,
+html[data-card-style="black-cowhide-leather"] .bento-tone-emerald,
+html[data-card-style="black-cowhide-leather"] .bento-tone-purple,
+html[data-card-style="black-cowhide-leather"] .bento-tone-pink,
+html[data-card-style="black-cowhide-leather"] .bento-tone-amber {
+  background: linear-gradient(145deg, rgba(37, 40, 48, 0.95) 0%, rgba(19, 21, 26, 0.98) 100%) !important;
+  border: 1.5px dashed rgba(226, 232, 240, 0.38) !important;
+  color: #ffffff !important;
+}
+
+/* Popups, Dropdowns & Modals */
+html[data-card-style="black-cowhide-leather"] #ai-assistant-droptop-menu-list,
+html[data-card-style="black-cowhide-leather"] #ai-assistant-center-questions-modal,
+html[data-card-style="black-cowhide-leather"] #interview-question-filter-listbox,
+html[data-card-style="black-cowhide-leather"] #skills-filter-dropdown,
+html[data-card-style="black-cowhide-leather"] #services-filter-dropdown,
+html[data-card-style="black-cowhide-leather"] #footer-lang-popup,
+html[data-card-style="black-cowhide-leather"] #footer-theme-popup,
+html[data-card-style="black-cowhide-leather"] #app-footer [class*="rounded-"][class*="shadow-"],
+html[data-card-style="black-cowhide-leather"] [role="dialog"],
+html[data-card-style="black-cowhide-leather"] .modal-dialog,
+html[data-card-style="black-cowhide-leather"] .theme-modal-card {
+  background: linear-gradient(145deg, #22252d 0%, #111318 100%) !important;
+  border: 2px solid #090a0d !important;
+  outline: 1px dashed rgba(226, 232, 240, 0.42);
+  outline-offset: -5px;
+  color: #ffffff !important;
+  box-shadow: var(--shadow-popup) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .theme-modal-header,
+html[data-card-style="black-cowhide-leather"] .theme-modal-footer {
+  background: linear-gradient(145deg, #1d2027 0%, #111318 100%) !important;
+  border-color: rgba(226, 232, 240, 0.22) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .theme-modal-subcard {
+  background: linear-gradient(145deg, rgba(29, 32, 39, 0.96) 0%, rgba(15, 17, 22, 0.98) 100%) !important;
+  border: 1.5px solid #090a0d !important;
+  outline: 1px dashed rgba(226, 232, 240, 0.34);
+  outline-offset: -4px;
+  color: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="black-cowhide-leather"] [role="dialog"] [class*="text-slate-"],
+html[data-card-style="black-cowhide-leather"] [role="dialog"] [class*="text-gray-"],
+html[data-card-style="black-cowhide-leather"] .theme-modal-card [class*="text-slate-"],
+html[data-card-style="black-cowhide-leather"] #footer-lang-popup [class*="text-slate-"],
+html[data-card-style="black-cowhide-leather"] #footer-theme-popup [class*="text-slate-"] {
+  color: #e2e8f0 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .theme-modal-close {
+  background: #121419 !important;
+  border: 1px dashed rgba(226, 232, 240, 0.42) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] h1:not(.hero-banner h1):not(.card-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="black-cowhide-leather"] h2:not(.hero-banner h2):not(.card-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="black-cowhide-leather"] h3:not(.hero-banner h3):not(.card-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="black-cowhide-leather"] h4:not(.hero-banner h4):not(.card-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="black-cowhide-leather"] h5:not(.card-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="black-cowhide-leather"] .card-heading__title:not(.card-title-synced):not([data-card-title]),
+html[data-card-style="black-cowhide-leather"] .card-title:not(.card-title-synced):not([data-card-title]) {
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #experience-job-detail-card p,
+html[data-card-style="black-cowhide-leather"] #experience-job-detail-card h2:not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="black-cowhide-leather"] #experience-job-detail-card h3:not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="black-cowhide-leather"] .experience-milestone-card p,
+html[data-card-style="black-cowhide-leather"] .experience-milestone-card h4:not(.subcard-title-synced):not([data-subcard-title]),
+html[data-card-style="black-cowhide-leather"] [id^="milestone-card-"] p,
+html[data-card-style="black-cowhide-leather"] [id^="milestone-card-"] h4:not(.subcard-title-synced):not([data-subcard-title]) {
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] [data-section-card="true"]:not(.hero-banner):not(.banner-card) p:not([class*="text-yellow"]):not([class*="text-amber"]),
+html[data-card-style="black-cowhide-leather"] .bento-card:not(.hero-banner):not(.banner-card) p:not([class*="text-yellow"]):not([class*="text-amber"]) {
+  color: #ffffff;
+}
+
+html[data-card-style="black-cowhide-leather"] #interview-answers-card .exp-detail-subcard {
+  background: linear-gradient(145deg, rgba(29, 32, 39, 0.96) 0%, rgba(15, 17, 22, 0.98) 100%) !important;
+  border: 1px solid rgba(226, 232, 240, 0.24) !important;
+  outline: 1px dashed rgba(226, 232, 240, 0.30);
+  outline-offset: -4px;
+}
+
+html[data-card-style="black-cowhide-leather"] #interview-answers-card .interview-meta-accent,
+html[data-card-style="black-cowhide-leather"] #interview-answers-card .interview-asker-heading {
+  color: #93c5fd !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #interview-answers-card .interview-answerer-heading {
+  color: #86efac !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #interview-answers-card .interview-insights-heading {
+  color: #fde68a !important;
+}
+
+html[data-card-style="black-cowhide-leather"] button:focus-visible,
+html[data-card-style="black-cowhide-leather"] a:focus-visible,
+html[data-card-style="black-cowhide-leather"] input:focus-visible,
+html[data-card-style="black-cowhide-leather"] [role="button"]:focus-visible {
+  outline: 2px solid #93c5fd !important;
+  outline-offset: 2px !important;
+}
+
+/* Inputs & Textareas */
+html[data-card-style="black-cowhide-leather"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+html[data-card-style="black-cowhide-leather"] textarea,
+html[data-card-style="black-cowhide-leather"] select {
+  background-color: rgba(15, 17, 22, 0.92) !important;
+  border-color: rgba(226, 232, 240, 0.32) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] input::placeholder,
+html[data-card-style="black-cowhide-leather"] textarea::placeholder {
+  color: rgba(203, 213, 225, 0.68) !important;
+}
+
+/* Banners, Nav Arrows & Image Cards */
+html[data-card-style="black-cowhide-leather"] .hero-banner,
+html[data-card-style="black-cowhide-leather"] .banner-card,
+html[data-card-style="black-cowhide-leather"] #project-detail-banner {
+  border: 2px solid #090a0d !important;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.65), inset 0 2px 4px rgba(255, 255, 255, 0.12) !important;
+  outline: 1.5px dashed rgba(226, 232, 240, 0.44);
+  outline-offset: -7px;
+}
+
+html[data-card-style="black-cowhide-leather"] .banner-control-pill,
+html[data-card-style="black-cowhide-leather"] .nav-arrow-btn,
+html[data-card-style="black-cowhide-leather"] .theme-prev-next-btn,
+html[data-card-style="black-cowhide-leather"] .theme-back-to-top-btn,
+html[data-card-style="black-cowhide-leather"] .hero-banner button:not(.banner-primary-cta):not([role="option"]),
+html[data-card-style="black-cowhide-leather"] .hero-banner a.rounded-full,
+html[data-card-style="black-cowhide-leather"] .hero-banner label.rounded-full,
+html[data-card-style="black-cowhide-leather"] .banner-card button:not(.banner-primary-cta):not([role="option"]),
+html[data-card-style="black-cowhide-leather"] .banner-card a.rounded-full,
+html[data-card-style="black-cowhide-leather"] .banner-card label.rounded-full {
+  background: linear-gradient(145deg, #252830 0%, #15171c 55%, #1d2027 100%) !important;
+  color: #ffffff !important;
+  border: 1.5px solid #090a0d !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.56), inset 0 1px 3px rgba(255, 255, 255, 0.12) !important;
+  outline: 1px dashed rgba(226, 232, 240, 0.44);
+  outline-offset: -4px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .hero-banner button:not(.banner-primary-cta):not([role="option"]):hover,
+html[data-card-style="black-cowhide-leather"] .banner-card button:not(.banner-primary-cta):not([role="option"]):hover,
+html[data-card-style="black-cowhide-leather"] .banner-control-pill:hover {
+  background: linear-gradient(145deg, #323642 0%, #1e2129 55%, #252830 100%) !important;
+  border-color: rgba(226, 232, 240, 0.62) !important;
+  outline-color: rgba(226, 232, 240, 0.80) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .hero-banner button:not(.banner-primary-cta) span,
+html[data-card-style="black-cowhide-leather"] .banner-card button:not(.banner-primary-cta) span,
+html[data-card-style="black-cowhide-leather"] .banner-control-pill span {
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .banner-control-pill svg,
+html[data-card-style="black-cowhide-leather"] .nav-arrow-btn svg,
+html[data-card-style="black-cowhide-leather"] .theme-prev-next-btn svg,
+html[data-card-style="black-cowhide-leather"] .theme-back-to-top-btn svg,
+html[data-card-style="black-cowhide-leather"] .theme-back-to-top-icon,
+html[data-card-style="black-cowhide-leather"] .hero-banner button:not(.banner-primary-cta) svg,
+html[data-card-style="black-cowhide-leather"] .banner-card button:not(.banner-primary-cta) svg {
+  color: #e2e8f0 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .banner-primary-cta,
+html[data-card-style="black-cowhide-leather"] .hero-banner button.banner-primary-cta,
+html[data-card-style="black-cowhide-leather"] .banner-card button.banner-primary-cta {
+  background: linear-gradient(135deg, #334155 0%, #0f172a 100%) !important;
+  color: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.58), inset 0 1px 2px rgba(255, 255, 255, 0.16) !important;
+  outline: 1px dashed rgba(248, 250, 252, 0.65);
+  outline-offset: -4px;
+}
+
+html[data-card-style="black-cowhide-leather"] .banner-count-pill,
+html[data-card-style="black-cowhide-leather"] .hero-banner .rounded-full[class*="font-mono"],
+html[data-card-style="black-cowhide-leather"] .banner-card .rounded-full[class*="font-mono"],
+html[data-card-style="black-cowhide-leather"] .hero-banner button span.rounded-full,
+html[data-card-style="black-cowhide-leather"] .banner-card button span.rounded-full {
+  background: #0e1014 !important;
+  border: 1px solid rgba(226, 232, 240, 0.36) !important;
+  color: #e2e8f0 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .hero-banner .banner-search-input,
+html[data-card-style="black-cowhide-leather"] .banner-card .banner-search-input,
+html[data-card-style="black-cowhide-leather"] .hero-banner input[type="text"],
+html[data-card-style="black-cowhide-leather"] .hero-banner input[type="search"],
+html[data-card-style="black-cowhide-leather"] .banner-card input[type="text"],
+html[data-card-style="black-cowhide-leather"] .banner-card input[type="search"] {
+  background: rgba(11, 12, 16, 0.92) !important;
+  border: 1.5px solid rgba(226, 232, 240, 0.28) !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .banner-dropdown-menu,
+html[data-card-style="black-cowhide-leather"] .hero-banner [role="listbox"],
+html[data-card-style="black-cowhide-leather"] .banner-card [role="listbox"],
+html[data-card-style="black-cowhide-leather"] #systems-filter-listbox,
+html[data-card-style="black-cowhide-leather"] #memories-filter-listbox,
+html[data-card-style="black-cowhide-leather"] #horoscope-filter-listbox {
+  background: linear-gradient(145deg, #22252d 0%, #111318 100%) !important;
+  border: 2px solid #090a0d !important;
+  outline: 1px dashed rgba(226, 232, 240, 0.42);
+  outline-offset: -5px;
+  color: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .hero-banner [role="option"],
+html[data-card-style="black-cowhide-leather"] .banner-card [role="option"] {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .hero-banner [role="option"]:hover,
+html[data-card-style="black-cowhide-leather"] .banner-card [role="option"]:hover {
+  background: rgba(38, 43, 52, 0.85) !important;
+  border-color: rgba(226, 232, 240, 0.30) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .hero-banner [role="option"][aria-selected="true"],
+html[data-card-style="black-cowhide-leather"] .banner-card [role="option"][aria-selected="true"] {
+  background: linear-gradient(135deg, #334155 0%, #0f172a 100%) !important;
+  border: 1px dashed rgba(226, 232, 240, 0.72) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .project-detail-banner-inner,
+html[data-card-style="black-cowhide-leather"] .project-detail-section-card {
+  background: linear-gradient(145deg, #252830 0%, #15171c 50%, #1d2027 100%) !important;
+  border: 2px solid #090a0d !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #ffffff !important;
+  outline: 1.5px dashed rgba(226, 232, 240, 0.44);
+  outline-offset: -7px;
+}
+
+html[data-card-style="black-cowhide-leather"] .project-detail-subcard,
+html[data-card-style="black-cowhide-leather"] .education-subcard,
+html[data-card-style="black-cowhide-leather"] .letter-subcard,
+html[data-card-style="black-cowhide-leather"] .letter-header-subcard,
+html[data-card-style="black-cowhide-leather"] .letter-footer-subcard {
+  background: linear-gradient(145deg, rgba(31, 34, 41, 0.96) 0%, rgba(16, 18, 23, 0.98) 100%) !important;
+  border: 1.5px solid #090a0d !important;
+  outline: 1px dashed rgba(226, 232, 240, 0.36);
+  outline-offset: -5px;
+  box-shadow: var(--shadow-subcard) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .project-detail-chip,
+html[data-card-style="black-cowhide-leather"] .education-skill-chip,
+html[data-card-style="black-cowhide-leather"] .project-card-tag,
+html[data-card-style="black-cowhide-leather"] .project-card-order-badge {
+  background: #121419 !important;
+  border: 1px dashed rgba(226, 232, 240, 0.42) !important;
+  color: #e2e8f0 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .project-card-btn-secondary {
+  background: #17191f !important;
+  border: 1px solid rgba(226, 232, 240, 0.36) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .project-card-btn-primary {
+  background: linear-gradient(135deg, #334155 0%, #0f172a 100%) !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .project-detail-toc-btn[data-active="false"] {
+  background: rgba(18, 20, 25, 0.90) !important;
+  border: 1px dashed rgba(226, 232, 240, 0.32) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .project-detail-toc-btn[data-active="true"] {
+  background: linear-gradient(135deg, #334155 0%, #0f172a 100%) !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .themed-image-card {
+  border: 2px solid #090a0d !important;
+  box-shadow: var(--shadow-card) !important;
+  outline: 1.5px dashed rgba(226, 232, 240, 0.44);
+  outline-offset: -6px;
+}
+
+html[data-card-style="black-cowhide-leather"] .project-card {
+  background: linear-gradient(145deg, #252830 0%, #15171c 50%, #1d2027 100%) !important;
+  border: 2px solid #090a0d !important;
+  box-shadow: var(--shadow-card) !important;
+  outline: 1.5px dashed rgba(226, 232, 240, 0.42);
+  outline-offset: -6px;
+  color: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .theme-pip-player {
+  background: linear-gradient(145deg, #22252d 0%, #111318 100%) !important;
+  border: 2px solid #090a0d !important;
+  outline: 1px dashed rgba(226, 232, 240, 0.42);
+  outline-offset: -4px;
+  color: #ffffff !important;
+  box-shadow: var(--shadow-popup) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .theme-pip-header,
+html[data-card-style="black-cowhide-leather"] .theme-pip-footer {
+  background: linear-gradient(145deg, #1d2027 0%, #111318 100%) !important;
+  border-color: rgba(226, 232, 240, 0.22) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .theme-table {
+  background: rgba(20, 22, 28, 0.94) !important;
+  border-color: rgba(226, 232, 240, 0.22) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] .theme-table thead,
+html[data-card-style="black-cowhide-leather"] .theme-table th {
+  background: rgba(14, 16, 20, 0.98) !important;
+  color: #e2e8f0 !important;
+  border-color: rgba(226, 232, 240, 0.22) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #systems-filter-listbox button:not([data-selected="true"]),
+html[data-card-style="black-cowhide-leather"] #memories-filter-listbox button:not([data-selected="true"]),
+html[data-card-style="black-cowhide-leather"] #horoscope-filter-listbox button:not([data-selected="true"]) {
+  color: #ffffff !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #systems-filter-listbox button:hover,
+html[data-card-style="black-cowhide-leather"] #memories-filter-listbox button:hover,
+html[data-card-style="black-cowhide-leather"] #horoscope-filter-listbox button:hover {
+  background: rgba(38, 43, 52, 0.85) !important;
+  color: #93c5fd !important;
+}

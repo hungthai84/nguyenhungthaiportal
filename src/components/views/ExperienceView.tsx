@@ -84,13 +84,13 @@ const CircularLogo: React.FC<{
       style={{
         marginInlineStart: isStacked && index > 0 ? '-12px' : '0px',
         zIndex: total - index,
+        background: 'var(--bg-card)',
       }}
       title={`${logo.alt} — Nhấn vào logo để xem chi tiết công việc tại ${companyName}`}
       aria-label={`Xem chi tiết công việc tại ${companyName} (${logo.alt})`}
       className={cn(
         sizeClass,
-        'aspect-square bg-white rounded-full flex items-center justify-center shadow-md overflow-hidden shrink-0 transition-transform duration-300 hover:scale-110 hover:z-30 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white',
-        isStacked && 'ring-2 ring-white'
+        'aspect-square rounded-full p-0 border-0 ring-0 shadow-none outline-none flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-110 hover:z-30 active:scale-95 cursor-pointer focus-visible:outline-none'
       )}
     >
       {!hasFailedAll ? (
@@ -105,10 +105,10 @@ const CircularLogo: React.FC<{
             }
           }}
           alt={logo.alt}
-          className="w-full h-full object-cover pointer-events-none select-none"
+          className="w-full h-full object-cover rounded-full pointer-events-none select-none"
         />
       ) : (
-        <span className="typo-badge font-bold text-slate-800">{initials}</span>
+        <span className="typo-badge font-bold text-[var(--text-primary)]">{initials}</span>
       )}
     </button>
   );
@@ -336,10 +336,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 }) => {
   const { showToast } = useToast();
   const { isDark: themeIsDark, cardStyle } = useTheme();
-  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark =
+    themeIsDark ||
+    currentTheme === 'light-multicolor-glass-dark' ||
+    currentTheme === 'cowhide-leather' ||
+    currentTheme === 'black-cowhide-leather';
   const isLeather = cardStyle === 'cowhide-leather';
+  const isBlackLeather = cardStyle === 'black-cowhide-leather';
   const isLightLeather = cardStyle === 'light-cowhide-leather';
-  const isDarkSurface = isDark && !isLeather;
+  const isDarkSurface = isDark && !isLeather && !isBlackLeather;
+  const isDarkCardText = isDarkSurface || isBlackLeather;
 
   const [internalActiveKey, setInternalActiveKey] = useState<string>(activeKeyProp || '2013');
   const [internalShowJobCard, setInternalShowJobCard] = useState<boolean>(Boolean(showJobCardProp));
@@ -400,6 +406,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const [failedPhotoSrcs, setFailedPhotoSrcs] = useState<Record<string, boolean>>({});
   const [bannerImgError, setBannerImgError] = useState<boolean>(false);
   const achievementCardRef = useRef<HTMLElement | null>(null);
+  const commitmentsCardRef = useRef<HTMLElement | null>(null);
   const memoriesCardRef = useRef<HTMLElement | null>(null);
   const [syncedMemoriesHeight, setSyncedMemoriesHeight] = useState<number | null>(null);
 
@@ -418,9 +425,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         setSyncedMemoriesHeight(null);
         return;
       }
-      const achEl = achievementCardRef.current;
-      if (!achEl) return;
-      const measuredHeight = Math.round(achEl.getBoundingClientRect().height);
+      const cmtEl = commitmentsCardRef.current;
+      if (!cmtEl) return;
+      const measuredHeight = Math.round(cmtEl.getBoundingClientRect().height);
       if (measuredHeight > 0) {
         setSyncedMemoriesHeight(measuredHeight);
       }
@@ -428,9 +435,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
     updateSyncedHeight();
     let ro: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== 'undefined' && achievementCardRef.current) {
+    if (typeof ResizeObserver !== 'undefined' && commitmentsCardRef.current) {
       ro = new ResizeObserver(updateSyncedHeight);
-      ro.observe(achievementCardRef.current);
+      ro.observe(commitmentsCardRef.current);
     }
     window.addEventListener('resize', updateSyncedHeight);
     return () => {
@@ -826,11 +833,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           data-element-page="experience"
           data-element-parent="experience-cards-track"
           className={cn(
-            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border',
+            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border p-[15px] gap-[15px] rounded-[14px] w-full h-full',
             showJobCard ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden'
           )}
+          style={{ padding: '15px', borderRadius: '14px', gap: '15px' }}
         >
-      {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH) */}
+      {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH VỚI ĐỆM 15PX) */}
       {!showJobCard && (
         <section
           ref={boardRef}
@@ -854,22 +862,32 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   background: 'linear-gradient(145deg, #653A17 0%, #4A280E 100%)',
                   outline: '1.5px dashed rgba(245, 222, 179, 0.52)',
                   outlineOffset: '-7px',
+                  borderRadius: '14px',
                 }
-              : isLightLeather
-                ? {
-                    background: 'linear-gradient(145deg, #FFFFFF 0%, #F1F5F9 100%)',
-                    outline: '1.5px dashed rgba(15, 23, 42, 0.78)',
-                    outlineOffset: '-7px',
-                  }
-                : isDarkSurface
+                : isBlackLeather
                   ? {
-                      background: 'rgba(15, 23, 42, 0.86)',
+                      background: 'linear-gradient(145deg, #1b1e25 0%, #0b0c10 100%)',
+                      outline: '1.5px dashed rgba(226, 232, 240, 0.45)',
+                      outlineOffset: '-7px',
+                      borderRadius: '14px',
                     }
-                  : undefined
+                : isLightLeather
+                  ? {
+                      background: 'linear-gradient(145deg, #FFFFFF 0%, #F1F5F9 100%)',
+                      outline: '1.5px dashed rgba(15, 23, 42, 0.78)',
+                      outlineOffset: '-7px',
+                      borderRadius: '14px',
+                    }
+                  : isDarkSurface
+                    ? {
+                        background: 'rgba(15, 23, 42, 0.86)',
+                        borderRadius: '14px',
+                      }
+                    : { borderRadius: '14px' }
           }
           className={cn(
-            'group/board absolute inset-0 w-full h-full min-w-full min-h-full rounded-none overflow-hidden select-none flex flex-col box-border z-[1]',
-            !isLeather && !isLightLeather && !isDarkSurface && 'bg-[#E2E8F0]',
+            'group/board relative w-full h-full min-h-0 flex-1 rounded-[14px] overflow-hidden select-none flex flex-col box-border z-[1]',
+            !isLeather && !isBlackLeather && !isLightLeather && !isDarkSurface && 'bg-[#E2E8F0]',
             isDragging ? 'cursor-grabbing' : 'cursor-grab'
           )}
         >
@@ -877,7 +895,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           <div
             className={cn(
               'absolute inset-0 z-[15] pointer-events-none',
-              isLeather || isDarkSurface ? 'opacity-20 mix-blend-screen' : 'opacity-25 mix-blend-multiply'
+              isLeather || isBlackLeather || isDarkSurface ? 'opacity-20 mix-blend-screen' : 'opacity-25 mix-blend-multiply'
             )}
           >
             <svg
@@ -903,11 +921,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     fill={
                       isLeather
                         ? '#F5DEB3'
-                        : isLightLeather
-                          ? '#0F172A'
-                          : isDarkSurface
-                            ? '#94A3B8'
-                            : '#64748B'
+                        : isBlackLeather
+                          ? '#E2E8F0'
+                          : isLightLeather
+                            ? '#0F172A'
+                            : isDarkSurface
+                              ? '#94A3B8'
+                              : '#64748B'
                     }
                   />
                 </pattern>
@@ -968,11 +988,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 style={{
                   color: isLeather
                     ? '#FDE68A'
-                    : isLightLeather
-                      ? '#0F172A'
-                      : isDarkSurface
-                        ? '#38BDF8'
-                        : '#0284C7',
+                    : isBlackLeather
+                      ? '#E2E8F0'
+                      : isLightLeather
+                        ? '#0F172A'
+                        : isDarkSurface
+                          ? '#38BDF8'
+                          : '#0284C7',
                 }}
                 className="typo-h2 font-normal tracking-[0.06em] leading-[1.1]"
               >
@@ -982,11 +1004,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 style={{
                   color: isLeather
                     ? '#FFF8DC'
-                    : isLightLeather
-                      ? '#000000'
-                      : isDarkSurface
-                        ? '#F8FAFC'
-                        : '#1E293B',
+                    : isBlackLeather
+                      ? '#FFFFFF'
+                      : isLightLeather
+                        ? '#000000'
+                        : isDarkSurface
+                          ? '#F8FAFC'
+                          : '#1E293B',
                 }}
                 className="typo-h1 font-bold tracking-[0.06em] leading-[1.08] mt-1 m-0"
               >
@@ -1001,7 +1025,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <span
                   className={cn(
                     'w-[8px] h-[8px] rounded-full',
-                    isDarkSurface || isLeather
+                    isDarkSurface || isLeather || isBlackLeather
                       ? 'bg-slate-200'
                       : isLightLeather
                         ? 'bg-[#0F172A]'
@@ -1023,11 +1047,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 'absolute left-3 sm:left-3.5 top-1/2 -translate-y-1/2 z-[40] w-10 h-10 sm:w-11 sm:h-11 rounded-full backdrop-blur-md border shadow-[0_10px_25px_rgba(15,23,42,0.22)] flex items-center justify-center opacity-85 sm:opacity-0 sm:group-hover/board:opacity-100 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer',
                 isLeather
                   ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
-                  : isLightLeather
-                    ? 'bg-white/95 text-[#000000] border-[#0F172A]/70 hover:bg-[#0F172A] hover:text-white'
-                    : isDarkSurface
-                      ? 'bg-slate-900/90 text-slate-100 border-white/25 hover:bg-[#0284C7] hover:text-white'
-                      : 'bg-white/95 text-slate-800 border-slate-200/90 hover:bg-[#0284C7] hover:text-white'
+                  : isBlackLeather
+                    ? 'bg-[#1b1e25]/95 text-[#FFFFFF] border-[#E2E8F0]/40 hover:bg-[#334155]'
+                    : isLightLeather
+                      ? 'bg-white/95 text-[#000000] border-[#0F172A]/70 hover:bg-[#0F172A] hover:text-white'
+                      : isDarkSurface
+                        ? 'bg-slate-900/90 text-slate-100 border-white/25 hover:bg-[#0284C7] hover:text-white'
+                        : 'bg-white/95 text-slate-800 border-slate-200/90 hover:bg-[#0284C7] hover:text-white'
               )}
             >
               <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -1043,11 +1069,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 'absolute right-3 sm:right-3.5 top-1/2 -translate-y-1/2 z-[40] w-10 h-10 sm:w-11 sm:h-11 rounded-full backdrop-blur-md border shadow-[0_10px_25px_rgba(15,23,42,0.22)] flex items-center justify-center opacity-85 sm:opacity-0 sm:group-hover/board:opacity-100 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer',
                 isLeather
                   ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
-                  : isLightLeather
-                    ? 'bg-white/95 text-[#000000] border-[#0F172A]/70 hover:bg-[#0F172A] hover:text-white'
-                    : isDarkSurface
-                      ? 'bg-slate-900/90 text-slate-100 border-white/25 hover:bg-[#0284C7] hover:text-white'
-                      : 'bg-white/95 text-slate-800 border-slate-200/90 hover:bg-[#0284C7] hover:text-white'
+                  : isBlackLeather
+                    ? 'bg-[#1b1e25]/95 text-[#FFFFFF] border-[#E2E8F0]/40 hover:bg-[#334155]'
+                    : isLightLeather
+                      ? 'bg-white/95 text-[#000000] border-[#0F172A]/70 hover:bg-[#0F172A] hover:text-white'
+                      : isDarkSurface
+                        ? 'bg-slate-900/90 text-slate-100 border-white/25 hover:bg-[#0284C7] hover:text-white'
+                        : 'bg-white/95 text-slate-800 border-slate-200/90 hover:bg-[#0284C7] hover:text-white'
               )}
             >
               <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -1082,37 +1110,47 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                 const colBackground = isLeather
                   ? item.colBgGradientLeather
-                  : isLightLeather
+                  : isBlackLeather
                     ? isEven
-                      ? 'linear-gradient(to bottom, #FFFFFF, #F1F5F9)'
-                      : 'linear-gradient(to bottom, #F8FAFC, #E2E8F0)'
-                    : isDarkSurface
-                      ? item.colBgGradientDark
-                      : item.colBgGradient;
+                      ? 'linear-gradient(to bottom, #252830, #15171c)'
+                      : 'linear-gradient(to bottom, #1b1e25, #0f1116)'
+                    : isLightLeather
+                      ? isEven
+                        ? 'linear-gradient(to bottom, #FFFFFF, #F1F5F9)'
+                        : 'linear-gradient(to bottom, #F8FAFC, #E2E8F0)'
+                      : isDarkSurface
+                        ? item.colBgGradientDark
+                        : item.colBgGradient;
 
                 const resolvedAccent = isLeather
                   ? '#FDE68A'
-                  : isLightLeather
-                    ? '#0F172A'
-                    : isDarkSurface
-                      ? item.darkAccentColor
-                      : item.accentColor;
+                  : isBlackLeather
+                    ? '#93C5FD'
+                    : isLightLeather
+                      ? '#0F172A'
+                      : isDarkSurface
+                        ? item.darkAccentColor
+                        : item.accentColor;
 
                 const primaryTextColor = isLeather
                   ? '#FFF8DC'
-                  : isLightLeather
-                    ? '#000000'
-                    : isDarkSurface
-                      ? '#F8FAFC'
-                      : '#0F172A';
+                  : isBlackLeather
+                    ? '#FFFFFF'
+                    : isLightLeather
+                      ? '#000000'
+                      : isDarkSurface
+                        ? '#F8FAFC'
+                        : '#0F172A';
 
                 const secondaryTextColor = isLeather
                   ? '#F5DEB3'
-                  : isLightLeather
-                    ? '#1E293B'
-                    : isDarkSurface
-                      ? '#CBD5E1'
-                      : '#475569';
+                  : isBlackLeather
+                    ? '#CBD5E1'
+                    : isLightLeather
+                      ? '#1E293B'
+                      : isDarkSurface
+                        ? '#CBD5E1'
+                        : '#475569';
 
                 return (
                   <div
@@ -1137,7 +1175,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       <div
                         className="absolute inset-0 pointer-events-none z-[12] transition-opacity duration-300"
                         style={{
-                          background: isLeather || isDarkSurface
+                          background: isLeather || isBlackLeather || isDarkSurface
                             ? isEven
                               ? 'linear-gradient(to right, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0.22) 100%)'
                               : 'linear-gradient(to right, rgba(0,0,0,0.24) 0%, rgba(255,255,255,0.07) 50%, rgba(0,0,0,0.16) 100%)'
@@ -1189,11 +1227,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             'subcard-title-synced typo-h5 font-bold leading-[1.28] min-h-[2.8em] sm:min-h-[3.8em] lg:min-h-[4.2em] border-b pb-2 mb-2.5 break-words flex flex-col justify-center select-none',
                             isLeather
                               ? 'border-[#F5DEB3]/35'
-                              : isLightLeather
-                                ? 'border-[#0F172A]/35'
-                                : isDarkSurface
-                                  ? 'border-white/15'
-                                  : 'border-slate-300'
+                              : isBlackLeather
+                                ? 'border-[#E2E8F0]/25'
+                                : isLightLeather
+                                  ? 'border-[#0F172A]/35'
+                                  : isDarkSurface
+                                    ? 'border-white/15'
+                                    : 'border-slate-300'
                           )}
                         >
                           <span className="leading-tight flex items-center gap-1.5">
@@ -1253,11 +1293,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               'absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-[35] flex items-center gap-2 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border',
               isLeather
                 ? 'bg-[#522E10]/90 border-[#F5DEB3]/45'
-                : isLightLeather
-                  ? 'bg-white/95 border-[#0F172A]/60'
-                  : isDarkSurface
-                    ? 'bg-slate-900/85 border-white/20'
-                    : 'bg-white/80 border-slate-200/70'
+                : isBlackLeather
+                  ? 'bg-[#15171c]/95 border-[#E2E8F0]/35'
+                  : isLightLeather
+                    ? 'bg-white/95 border-[#0F172A]/60'
+                    : isDarkSurface
+                      ? 'bg-slate-900/85 border-white/20'
+                      : 'bg-white/80 border-slate-200/70'
             )}
           >
             {Array.from({ length: maxStartIndex + 1 }).map((_, idx) => (
@@ -1274,18 +1316,22 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   startIndex === idx
                     ? isLeather
                       ? 'w-7 bg-[#FDE68A]'
-                      : isLightLeather
-                        ? 'w-7 bg-[#0F172A]'
-                        : isDarkSurface
-                          ? 'w-7 bg-[#38BDF8]'
-                          : 'w-7 bg-[#0284C7]'
+                      : isBlackLeather
+                        ? 'w-7 bg-[#E2E8F0]'
+                        : isLightLeather
+                          ? 'w-7 bg-[#0F172A]'
+                          : isDarkSurface
+                            ? 'w-7 bg-[#38BDF8]'
+                            : 'w-7 bg-[#0284C7]'
                     : isLeather
                       ? 'w-2 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
-                      : isLightLeather
-                        ? 'w-2 bg-[#0F172A]/35 hover:bg-[#0F172A]/75'
-                        : isDarkSurface
-                          ? 'w-2 bg-slate-600 hover:bg-slate-400'
-                          : 'w-2 bg-slate-300 hover:bg-slate-400'
+                      : isBlackLeather
+                        ? 'w-2 bg-[#E2E8F0]/30 hover:bg-[#E2E8F0]/65'
+                        : isLightLeather
+                          ? 'w-2 bg-[#0F172A]/35 hover:bg-[#0F172A]/75'
+                          : isDarkSurface
+                            ? 'w-2 bg-slate-600 hover:bg-slate-400'
+                            : 'w-2 bg-slate-300 hover:bg-slate-400'
                 )}
               />
             ))}
@@ -1538,67 +1584,67 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           if (lower.includes('thể thao điện tử') || lower.includes('esport') || lower.includes('game')) {
             return {
               Icon: Trophy,
-              chipClass: isDarkSurface
+              chipClass: isDarkCardText
                 ? 'bg-red-500/20 border-red-400/35 text-red-100 hover:bg-red-500/30'
                 : 'bg-red-50 border-red-200/90 text-red-800 hover:bg-red-100/80',
-              iconClass: isDarkSurface ? 'text-red-300' : 'text-red-600',
+              iconClass: isDarkCardText ? 'text-red-300' : 'text-red-600',
             };
           }
           if (lower.includes('thương mại điện tử') || lower.includes('e-commerce') || lower.includes('tmđt') || lower.includes('bán lẻ')) {
             return {
               Icon: ShoppingBag,
-              chipClass: isDarkSurface
+              chipClass: isDarkCardText
                 ? 'bg-orange-500/20 border-orange-400/35 text-orange-100 hover:bg-orange-500/30'
                 : 'bg-orange-50 border-orange-200/90 text-orange-800 hover:bg-orange-100/80',
-              iconClass: isDarkSurface ? 'text-orange-300' : 'text-orange-600',
+              iconClass: isDarkCardText ? 'text-orange-300' : 'text-orange-600',
             };
           }
           if (lower.includes('bảo hiểm')) {
             return {
               Icon: ShieldCheck,
-              chipClass: isDarkSurface
+              chipClass: isDarkCardText
                 ? 'bg-rose-500/20 border-rose-400/35 text-rose-100 hover:bg-rose-500/30'
                 : 'bg-rose-50 border-rose-200/90 text-rose-800 hover:bg-rose-100/80',
-              iconClass: isDarkSurface ? 'text-rose-300' : 'text-rose-600',
+              iconClass: isDarkCardText ? 'text-rose-300' : 'text-rose-600',
             };
           }
           if (lower.includes('thanh toán') || lower.includes('ví') || lower.includes('fintech') || lower.includes('tài chính')) {
             return {
               Icon: Wallet,
-              chipClass: isDarkSurface
+              chipClass: isDarkCardText
                 ? 'bg-sky-500/20 border-sky-400/35 text-sky-100 hover:bg-sky-500/30'
                 : 'bg-sky-50 border-sky-200/90 text-sky-800 hover:bg-sky-100/80',
-              iconClass: isDarkSurface ? 'text-sky-300' : 'text-sky-600',
+              iconClass: isDarkCardText ? 'text-sky-300' : 'text-sky-600',
             };
           }
           if (lower.includes('truyền hình') || lower.includes('truyền thông')) {
             return {
               Icon: Tv,
-              chipClass: isDarkSurface
+              chipClass: isDarkCardText
                 ? 'bg-teal-500/20 border-teal-400/35 text-teal-100 hover:bg-teal-500/30'
                 : 'bg-teal-50 border-teal-200/90 text-teal-800 hover:bg-teal-100/80',
-              iconClass: isDarkSurface ? 'text-teal-300' : 'text-teal-600',
+              iconClass: isDarkCardText ? 'text-teal-300' : 'text-teal-600',
             };
           }
           if (lower.includes('viễn thông') || lower.includes('call center') || lower.includes('contact center')) {
             return {
               Icon: PhoneCall,
-              chipClass: isDarkSurface
+              chipClass: isDarkCardText
                 ? 'bg-indigo-500/20 border-indigo-400/35 text-indigo-100 hover:bg-indigo-500/30'
                 : 'bg-indigo-50 border-indigo-200/90 text-indigo-800 hover:bg-indigo-100/80',
-              iconClass: isDarkSurface ? 'text-indigo-300' : 'text-indigo-600',
+              iconClass: isDarkCardText ? 'text-indigo-300' : 'text-indigo-600',
             };
           }
           if (lower.includes('xây dựng hệ thống') || lower.includes('hệ thống')) {
             return {
               Icon: Layers,
-              chipClass: isDarkSurface
+              chipClass: isDarkCardText
                 ? 'bg-emerald-500/20 border-emerald-400/35 text-emerald-100 hover:bg-emerald-500/30'
                 : 'bg-emerald-50 border-emerald-200/90 text-emerald-800 hover:bg-emerald-100/80',
-              iconClass: isDarkSurface ? 'text-emerald-300' : 'text-emerald-600',
+              iconClass: isDarkCardText ? 'text-emerald-300' : 'text-emerald-600',
             };
           }
-          const fallbackPalettes = isDarkSurface
+          const fallbackPalettes = isDarkCardText
             ? [
                 { Icon: Monitor, chipClass: 'bg-emerald-500/20 border-emerald-400/35 text-emerald-100 hover:bg-emerald-500/30', iconClass: 'text-emerald-300' },
                 { Icon: Layers, chipClass: 'bg-violet-500/20 border-violet-400/35 text-violet-100 hover:bg-violet-500/30', iconClass: 'text-violet-300' },
@@ -1699,18 +1745,18 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         const introColumnStyles = [
           {
             Icon: Sparkles,
-            titleColor: isDarkSurface ? 'text-orange-300' : 'text-orange-600',
-            iconColor: isDarkSurface ? 'text-orange-300' : 'text-orange-600',
+            titleColor: isDarkCardText ? 'text-orange-300' : 'text-orange-600',
+            iconColor: isDarkCardText ? 'text-orange-300' : 'text-orange-600',
           },
           {
             Icon: Network,
-            titleColor: isDarkSurface ? 'text-sky-300' : 'text-blue-600',
-            iconColor: isDarkSurface ? 'text-sky-300' : 'text-blue-600',
+            titleColor: isDarkCardText ? 'text-sky-300' : 'text-blue-600',
+            iconColor: isDarkCardText ? 'text-sky-300' : 'text-blue-600',
           },
           {
             Icon: Headphones,
-            titleColor: isDarkSurface ? 'text-emerald-300' : 'text-emerald-600',
-            iconColor: isDarkSurface ? 'text-emerald-300' : 'text-emerald-600',
+            titleColor: isDarkCardText ? 'text-emerald-300' : 'text-emerald-600',
+            iconColor: isDarkCardText ? 'text-emerald-300' : 'text-emerald-600',
           },
         ];
 
@@ -1720,37 +1766,37 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             rowLight: 'from-rose-50 to-orange-50/40 border-rose-100 hover:border-rose-300',
             rowDark: 'from-rose-950/45 to-slate-900/80 border-rose-500/30 hover:border-rose-400/60',
             badge: 'bg-rose-600 text-white',
-            titleHover: isDarkSurface ? 'group-hover:text-rose-300' : 'group-hover:text-rose-700',
+            titleHover: isDarkCardText ? 'group-hover:text-rose-300' : 'group-hover:text-rose-700',
           },
           {
             rowLight: 'from-blue-50 to-sky-50/40 border-blue-100 hover:border-blue-300',
             rowDark: 'from-blue-950/45 to-slate-900/80 border-blue-500/30 hover:border-blue-400/60',
             badge: 'bg-blue-600 text-white',
-            titleHover: isDarkSurface ? 'group-hover:text-sky-300' : 'group-hover:text-blue-700',
+            titleHover: isDarkCardText ? 'group-hover:text-sky-300' : 'group-hover:text-blue-700',
           },
           {
             rowLight: 'from-amber-50 to-yellow-50/40 border-amber-100 hover:border-amber-300',
             rowDark: 'from-amber-950/45 to-slate-900/80 border-amber-500/30 hover:border-amber-400/60',
             badge: 'bg-amber-500 text-white',
-            titleHover: isDarkSurface ? 'group-hover:text-amber-300' : 'group-hover:text-amber-700',
+            titleHover: isDarkCardText ? 'group-hover:text-amber-300' : 'group-hover:text-amber-700',
           },
           {
             rowLight: 'from-emerald-50 to-teal-50/40 border-emerald-100 hover:border-emerald-300',
             rowDark: 'from-emerald-950/45 to-slate-900/80 border-emerald-500/30 hover:border-emerald-400/60',
             badge: 'bg-emerald-600 text-white',
-            titleHover: isDarkSurface ? 'group-hover:text-emerald-300' : 'group-hover:text-emerald-700',
+            titleHover: isDarkCardText ? 'group-hover:text-emerald-300' : 'group-hover:text-emerald-700',
           },
           {
             rowLight: 'from-purple-50 to-fuchsia-50/40 border-purple-100 hover:border-purple-300',
             rowDark: 'from-purple-950/45 to-slate-900/80 border-purple-500/30 hover:border-purple-400/60',
             badge: 'bg-purple-600 text-white',
-            titleHover: isDarkSurface ? 'group-hover:text-purple-300' : 'group-hover:text-purple-700',
+            titleHover: isDarkCardText ? 'group-hover:text-purple-300' : 'group-hover:text-purple-700',
           },
           {
             rowLight: 'from-indigo-50 to-violet-50/40 border-indigo-100 hover:border-indigo-300',
             rowDark: 'from-indigo-950/45 to-slate-900/80 border-indigo-500/30 hover:border-indigo-400/60',
             badge: 'bg-indigo-600 text-white',
-            titleHover: isDarkSurface ? 'group-hover:text-indigo-300' : 'group-hover:text-indigo-700',
+            titleHover: isDarkCardText ? 'group-hover:text-indigo-300' : 'group-hover:text-indigo-700',
           },
         ];
 
@@ -1784,7 +1830,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           <div
             id="experience-job-detail-card"
             data-section-card="true"
-            className="bento-card glass-card w-full h-full flex-1 min-h-0 flex flex-col justify-start rounded-[14px] relative overflow-y-auto glass-scrollbar gap-[15px] text-left transition-all duration-300 animate-fadeIn font-play p-3.5 sm:p-5 lg:p-6"
+            className="w-full flex-1 min-h-0 flex flex-col justify-start relative gap-[15px] text-left transition-all duration-300 animate-fadeIn font-play min-w-0"
           >
             {/* THANH ĐIỀU HƯỚNG CỘT MỐC & NÚT ĐÓNG GỌN GÀNG Ở ĐỈNH THẺ */}
             <div className="flex flex-wrap items-center justify-between gap-2 pb-1">
@@ -1794,11 +1840,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     'exp-bento-light-chip inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-bold border',
                     isLeather
                       ? 'bg-[#522E10]/85 border-[#F5DEB3]/40 text-[#FDE68A]'
-                      : isLightLeather
-                        ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] shadow-xs'
-                        : isDarkSurface
-                          ? 'bg-slate-800/80 border-white/15 text-sky-300'
-                          : 'bg-white/90 border-white/95 text-slate-900 shadow-xs'
+                      : isBlackLeather
+                        ? 'bg-[#1b1e25]/95 border-[#E2E8F0]/30 text-[#E2E8F0]'
+                        : isLightLeather
+                          ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] shadow-xs'
+                          : isDarkSurface
+                            ? 'bg-slate-800/80 border-white/15 text-sky-300'
+                            : 'bg-white/90 border-white/95 text-slate-900 shadow-xs'
                   )}
                 >
                   <Calendar className="w-3.5 h-3.5 shrink-0" />
@@ -1822,11 +1870,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       'w-8 h-8 rounded-full border flex items-center justify-center transition-all cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed active:scale-95',
                       isLeather
                         ? 'bg-[#522E10]/85 border-[#F5DEB3]/40 text-[#FDE68A] hover:bg-[#7A4A20]'
-                        : isLightLeather
-                          ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] hover:bg-[#edf1f4] shadow-xs'
-                          : isDarkSurface
-                            ? 'bg-slate-800/85 border-white/15 text-slate-200 hover:bg-slate-700'
-                            : 'bg-white/90 border-white/95 text-slate-800 hover:bg-white shadow-xs'
+                        : isBlackLeather
+                          ? 'bg-[#1b1e25]/95 border-[#E2E8F0]/30 text-[#E2E8F0] hover:bg-[#252830]'
+                          : isLightLeather
+                            ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] hover:bg-[#edf1f4] shadow-xs'
+                            : isDarkSurface
+                              ? 'bg-slate-800/85 border-white/15 text-slate-200 hover:bg-slate-700'
+                              : 'bg-white/90 border-white/95 text-slate-800 hover:bg-white shadow-xs'
                     )}
                     title={prevKey ? `Xem cột mốc ${prevKey}` : 'Đang ở cột mốc đầu tiên'}
                     aria-label="Cột mốc trước"
@@ -1845,11 +1895,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       'w-8 h-8 rounded-full border flex items-center justify-center transition-all cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed active:scale-95',
                       isLeather
                         ? 'bg-[#522E10]/85 border-[#F5DEB3]/40 text-[#FDE68A] hover:bg-[#7A4A20]'
-                        : isLightLeather
-                          ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] hover:bg-[#edf1f4] shadow-xs'
-                          : isDarkSurface
-                            ? 'bg-slate-800/85 border-white/15 text-slate-200 hover:bg-slate-700'
-                            : 'bg-white/90 border-white/95 text-slate-800 hover:bg-white shadow-xs'
+                        : isBlackLeather
+                          ? 'bg-[#1b1e25]/95 border-[#E2E8F0]/30 text-[#E2E8F0] hover:bg-[#252830]'
+                          : isLightLeather
+                            ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] hover:bg-[#edf1f4] shadow-xs'
+                            : isDarkSurface
+                              ? 'bg-slate-800/85 border-white/15 text-slate-200 hover:bg-slate-700'
+                              : 'bg-white/90 border-white/95 text-slate-800 hover:bg-white shadow-xs'
                     )}
                     title={nextKey ? `Xem cột mốc ${nextKey}` : 'Đang ở cột mốc mới nhất'}
                     aria-label="Cột mốc tiếp theo"
@@ -1869,11 +1921,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   'px-3.5 h-9 rounded-full border flex items-center gap-1.5 shrink-0 transition-all duration-200 cursor-pointer shadow-sm active:scale-95 text-xs sm:text-sm font-bold',
                   isLeather
                     ? 'bg-[#522E10]/90 border-[#F5DEB3]/45 text-[#FDE68A] hover:bg-rose-600 hover:text-white'
-                    : isLightLeather
-                      ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] hover:bg-rose-600 hover:text-white hover:border-rose-600'
-                      : isDarkSurface
-                        ? 'bg-slate-800/90 border-white/20 text-slate-100 hover:bg-rose-600 hover:text-white hover:border-rose-500'
-                        : 'bg-white/95 border-white/95 text-slate-800 hover:bg-rose-600 hover:text-white hover:border-rose-600'
+                    : isBlackLeather
+                      ? 'bg-[#1b1e25]/95 border-[#E2E8F0]/30 text-[#E2E8F0] hover:bg-rose-600 hover:text-white hover:border-rose-500'
+                      : isLightLeather
+                        ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827] hover:bg-rose-600 hover:text-white hover:border-rose-600'
+                        : isDarkSurface
+                          ? 'bg-slate-800/90 border-white/20 text-slate-100 hover:bg-rose-600 hover:text-white hover:border-rose-500'
+                          : 'bg-white/95 border-white/95 text-slate-800 hover:bg-rose-600 hover:text-white hover:border-rose-600'
                 )}
                 title="Đóng chi tiết công việc"
                 aria-label="Đóng chi tiết công việc"
@@ -1890,7 +1944,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 id="experience-info-card"
                 className={cn(
                   'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 md:col-span-6 lg:col-span-12 rounded-[14px] overflow-hidden shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border flex flex-col justify-between relative group min-w-0',
-                  isDarkSurface
+                  isDarkCardText
                     ? 'bg-slate-900/75 border-white/15 text-white'
                     : 'bg-white border-slate-100 text-slate-900'
                 )}
@@ -1899,7 +1953,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <div
                   className={cn(
                     'exp-bento-hero-banner relative h-44 sm:h-56 w-full overflow-hidden',
-                    isDarkSurface || isLeather ? 'bg-slate-900' : 'bg-slate-200'
+                    isDarkSurface || isLeather || isBlackLeather ? 'bg-slate-900' : 'bg-slate-200'
                   )}
                 >
                   {!bannerImgError && activeMilestone.bannerUrl ? (
@@ -1921,7 +1975,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <div
                     className={cn(
                       'absolute inset-0 bg-gradient-to-t to-transparent',
-                      isDarkSurface || isLeather
+                      isDarkSurface || isLeather || isBlackLeather
                         ? 'from-slate-950 via-slate-900/40'
                         : 'from-slate-900/55 via-slate-900/15'
                     )}
@@ -1933,9 +1987,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       'absolute top-3.5 right-3.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-extrabold shadow-lg flex items-center gap-2 max-w-[calc(100%-28px)] border',
                       isLightLeather
                         ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827]'
-                        : isLeather
-                          ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC]'
-                          : 'bg-white/95 backdrop-blur-md border-white/85 text-slate-900'
+                        : isBlackLeather
+                          ? 'bg-[#15171c] border-[#E2E8F0]/40 text-white'
+                          : isLeather
+                            ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC]'
+                            : 'bg-white/95 backdrop-blur-md border-white/85 text-slate-900'
                     )}
                   >
                     <Calendar className="w-4 h-4 text-red-600 shrink-0" />
@@ -1952,7 +2008,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       <div
                         className={cn(
                           'exp-bento-light-chip inline-flex flex-wrap items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mb-2.5 border',
-                          isDarkSurface
+                          isDarkCardText
                             ? 'bg-rose-500/20 text-rose-200 border-rose-400/30'
                             : isLightLeather
                               ? 'bg-[#edf1f4] text-rose-700 border-[#cbd5e1]'
@@ -1991,9 +2047,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                   style={{
                                     zIndex: inlineLogos.length - logoIdx,
                                     marginInlineStart: logoIdx > 0 ? '-12px' : '0px',
+                                    background: 'var(--bg-card)',
                                   }}
                                   className={cn(
-                                    'relative rounded-full overflow-hidden bg-white shadow-md ring-2 ring-white flex items-center justify-center shrink-0',
+                                    'relative rounded-full overflow-hidden p-0 border-0 ring-0 shadow-none outline-none flex items-center justify-center shrink-0',
                                     useCompactLogo
                                       ? 'w-[40px] h-[40px] sm:w-[44px] sm:h-[44px]'
                                       : 'w-[50px] h-[50px]'
@@ -2018,7 +2075,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             <h1
                               className={cn(
                                 'text-xl sm:text-2xl lg:text-3xl font-extrabold leading-tight break-words min-w-0 flex-1',
-                                isDarkSurface ? 'text-white' : 'text-slate-900'
+                                isDarkCardText ? 'text-white' : 'text-slate-900'
                               )}
                             >
                               {activeMilestone.company}
@@ -2030,98 +2087,103 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     </div>
                   </div>
 
-                  {/* Role & Team Highlight Bar */}
+                  {/* 3 THẺ CÙNG HÀNG: Chức vụ đảm nhiệm, Quy mô vận hành, Dịch vụ */}
                   <div
                     className={cn(
-                      'grid grid-cols-1 sm:grid-cols-2 gap-[15px] pt-4 border-t',
-                      isDarkSurface
+                      'grid grid-cols-1 md:grid-cols-3 gap-[15px] pt-4 border-t items-stretch min-w-0 relative z-10',
+                      isDarkCardText
                         ? 'border-white/10'
                         : isLightLeather
                           ? 'border-slate-300/80'
                           : 'border-slate-200/80'
                     )}
                   >
+                    {/* Thẻ 1: Chức vụ đảm nhiệm */}
                     <div
                       className={cn(
-                        'exp-bento-item-card flex items-center gap-3.5 p-3.5 rounded-[14px] border min-w-0',
-                        isDarkSurface
-                          ? 'bg-gradient-to-r from-orange-950/50 to-amber-950/35 border-orange-500/25'
-                          : 'bg-gradient-to-r from-orange-50 to-amber-50/70 border-orange-100'
+                        'exp-bento-item-card flex flex-col justify-between p-4 rounded-[14px] border min-w-0 h-full gap-2.5',
+                        isDarkCardText
+                          ? 'bg-gradient-to-br from-orange-950/50 to-amber-950/35 border-orange-500/25'
+                          : isLightLeather
+                            ? 'bg-[#edf1f4] border-[#cbd5e1]'
+                            : 'bg-gradient-to-br from-orange-50 to-amber-50/70 border-orange-100'
                       )}
                     >
-                      <Briefcase className="w-6 h-6 text-orange-600 shrink-0" />
-                      <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2.5">
+                        <Briefcase className="w-5 h-5 text-orange-600 shrink-0" />
                         <p
                           className={cn(
                             'text-xs font-semibold tracking-wide',
-                            isDarkSurface ? 'text-slate-300' : 'text-slate-600'
+                            isDarkCardText ? 'text-slate-300' : 'text-slate-600'
                           )}
                         >
                           Chức vụ đảm nhiệm
                         </p>
-                        <p
-                          className={cn(
-                            'font-bold text-sm sm:text-base leading-snug break-words',
-                            isDarkSurface ? 'text-white' : 'text-slate-900'
-                          )}
-                        >
-                          {activeMilestone.roleTitle}
-                        </p>
                       </div>
+                      <p
+                        className={cn(
+                          'font-bold text-sm sm:text-base leading-snug break-words',
+                          isDarkCardText ? 'text-white' : 'text-slate-900'
+                        )}
+                      >
+                        {activeMilestone.roleTitle}
+                      </p>
                     </div>
 
+                    {/* Thẻ 2: Quy mô vận hành */}
                     <div
                       className={cn(
-                        'exp-bento-item-card flex items-center gap-3.5 p-3.5 rounded-[14px] border min-w-0',
-                        isDarkSurface
-                          ? 'bg-gradient-to-r from-blue-950/50 to-indigo-950/35 border-blue-500/25'
-                          : 'bg-gradient-to-r from-blue-50 to-indigo-50/70 border-blue-100'
+                        'exp-bento-item-card flex flex-col justify-between p-4 rounded-[14px] border min-w-0 h-full gap-2.5',
+                        isDarkCardText
+                          ? 'bg-gradient-to-br from-blue-950/50 to-indigo-950/35 border-blue-500/25'
+                          : isLightLeather
+                            ? 'bg-[#edf1f4] border-[#cbd5e1]'
+                            : 'bg-gradient-to-br from-blue-50 to-indigo-50/70 border-blue-100'
                       )}
                     >
-                      <Users
-                        className={cn(
-                          'w-6 h-6 shrink-0',
-                          isDarkSurface ? 'text-sky-400' : 'text-blue-600'
-                        )}
-                      />
-                      <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2.5">
+                        <Users
+                          className={cn(
+                            'w-5 h-5 shrink-0',
+                            isDarkCardText ? 'text-sky-400' : 'text-blue-600'
+                          )}
+                        />
                         <p
                           className={cn(
                             'text-xs font-semibold tracking-wide',
-                            isDarkSurface ? 'text-slate-300' : 'text-slate-600'
+                            isDarkCardText ? 'text-slate-300' : 'text-slate-600'
                           )}
                         >
                           Quy mô vận hành
                         </p>
-                        <p
-                          className={cn(
-                            'font-bold text-sm sm:text-base leading-snug break-words',
-                            isDarkSurface ? 'text-white' : 'text-slate-900'
-                          )}
-                        >
-                          {activeMilestone.scaleDesc || `${activeMilestone.headcount} nhân sự`}
-                        </p>
                       </div>
+                      <p
+                        className={cn(
+                          'font-bold text-sm sm:text-base leading-snug break-words',
+                          isDarkCardText ? 'text-white' : 'text-slate-900'
+                        )}
+                      >
+                        {activeMilestone.scaleDesc || `${activeMilestone.headcount} nhân sự`}
+                      </p>
                     </div>
-                  </div>
 
-                  {/* Dịch vụ (Chiếm toàn bộ chiều ngang thẻ công ty sau khi xóa thẻ Logo sản phẩm) */}
-                  <div className="grid grid-cols-1 gap-[15px] min-w-0 relative z-10">
-                    {/* Thẻ 1: Dịch vụ */}
+                    {/* Thẻ 3: Dịch vụ */}
                     <div
                       id="experience-company-services"
                       className={cn(
-                        'exp-bento-item-card rounded-[14px] p-4 border flex flex-col justify-between gap-3 min-w-0',
-                        isDarkSurface
+                        'exp-bento-item-card rounded-[14px] p-4 border flex flex-col justify-between gap-3 min-w-0 h-full',
+                        isDarkCardText
                           ? 'bg-slate-900/55 border-white/10 text-white'
-                          : 'bg-gradient-to-br from-amber-50/60 via-white/90 to-orange-50/60 border-orange-200/70 text-slate-900'
+                          : isLightLeather
+                            ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827]'
+                            : 'bg-gradient-to-br from-amber-50/60 via-white/90 to-orange-50/60 border-orange-200/70 text-slate-900'
                       )}
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <h2
                           className={cn(
                             'text-sm sm:text-base font-bold flex items-center gap-2',
-                            isDarkSurface
+                            isDarkCardText
                               ? 'text-amber-400'
                               : isLightLeather
                                 ? 'text-[#111827]'
@@ -2135,11 +2197,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           type="button"
                           onClick={navigateToServices}
                           className={cn(
-                            'px-2.5 py-1 rounded-full text-xs font-semibold border flex items-center gap-1 cursor-pointer transition-colors shrink-0',
-                            isDarkSurface
+                            'px-2 py-0.5 rounded-full text-xs font-semibold border flex items-center gap-1 cursor-pointer transition-colors shrink-0',
+                            isDarkCardText
                               ? 'bg-orange-500/15 border-orange-400/30 text-orange-200 hover:bg-orange-500/30'
                               : isLightLeather
-                                ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827] hover:bg-slate-200/80'
+                                ? 'bg-white border-[#cbd5e1] text-[#111827] hover:bg-slate-200/80'
                                 : 'bg-white/95 border-orange-300 text-orange-800 hover:bg-orange-100'
                           )}
                           title="Xem chi tiết Lĩnh vực & Dịch vụ"
@@ -2149,7 +2211,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         </button>
                       </div>
 
-                      <div className="flex flex-wrap gap-2 min-w-0">
+                      <div className="flex flex-wrap gap-1.5 min-w-0">
                         {derivedServicesList.map((serviceName, idx) => {
                           const { Icon, chipClass, iconClass } = getIndustryChipVisual(serviceName, idx);
                           return (
@@ -2159,7 +2221,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               onClick={navigateToServices}
                               title={`${serviceName} — Click để xem chi tiết dịch vụ`}
                               className={cn(
-                                'exp-bento-light-chip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] border text-xs sm:text-sm font-semibold leading-snug transition-colors cursor-pointer',
+                                'exp-bento-light-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[10px] border text-xs font-semibold leading-snug transition-colors cursor-pointer',
                                 chipClass
                               )}
                             >
@@ -2179,7 +2241,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 id="experience-banner-card"
                 className={cn(
                   'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 md:col-span-6 lg:col-span-12 rounded-[14px] p-5 sm:p-7 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border min-w-0',
-                  isDarkSurface
+                  isDarkCardText
                     ? 'bg-gradient-to-br from-rose-950/35 via-slate-900/80 to-orange-950/30 border-rose-500/25 text-white'
                     : 'bg-gradient-to-br from-rose-50 via-white to-orange-50 border-rose-100 text-slate-900'
                 )}
@@ -2188,7 +2250,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <h2
                     className={cn(
                       'text-base sm:text-lg font-bold flex items-center gap-2',
-                      isDarkSurface
+                      isDarkCardText
                         ? 'text-rose-300'
                         : isLightLeather
                           ? 'text-[#111827]'
@@ -2201,7 +2263,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <span
                     className={cn(
                       'exp-bento-light-chip text-xs sm:text-sm font-semibold px-3 py-1 rounded-full border self-start sm:self-auto',
-                      isDarkSurface
+                      isDarkCardText
                         ? 'bg-rose-500/15 border-rose-400/30 text-rose-200'
                         : isLightLeather
                           ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827]'
@@ -2216,7 +2278,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <p
                     className={cn(
                       'exp-bento-item-card text-sm sm:text-base leading-relaxed mb-5 p-4 rounded-[14px] border break-words',
-                      isDarkSurface
+                      isDarkCardText
                         ? 'bg-slate-900/70 border-white/10 text-slate-200'
                         : 'bg-white/85 border-rose-100/90 text-slate-800'
                     )}
@@ -2235,7 +2297,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           key={idx}
                           className={cn(
                             'exp-bento-item-card p-4 rounded-[14px] border shadow-sm min-w-0',
-                            isDarkSurface
+                            isDarkCardText
                               ? 'bg-slate-900/75 border-white/10'
                               : 'bg-white border-slate-100'
                           )}
@@ -2252,7 +2314,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           <p
                             className={cn(
                               'text-sm sm:text-base leading-relaxed break-words',
-                              isDarkSurface ? 'text-slate-300' : 'text-slate-700'
+                              isDarkCardText ? 'text-slate-300' : 'text-slate-700'
                             )}
                           >
                             {item.desc}
@@ -2271,97 +2333,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </div>
               </section>
 
-              {/* 5. CAM KẾT CHẤT LƯỢNG (Col Span 5) & NHIỆM VỤ TRỌNG TÂM (Col Span 7) */}
+              {/* 5. DANH SÁCH CÔNG VIỆC (Col Span 7) & DANH SÁCH DỰ ÁN (Col Span 5) */}
               <div className="md:col-span-6 lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-[15px] min-w-0">
-                {/* Card: Cam kết chất lượng (Col Span 5) */}
-                <section
-                  id="experience-commitments-card"
-                  className={cn(
-                    'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 lg:col-span-5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] relative overflow-hidden flex flex-col justify-between min-w-0 border',
-                    isLightLeather
-                      ? 'text-[#111827]'
-                      : isDarkSurface || isLeather
-                        ? 'text-white'
-                        : 'text-slate-900'
-                  )}
-                >
-                  <div className="flex items-center gap-2.5 mb-4 relative z-10">
-                    <ShieldCheck
-                      className={cn(
-                        'w-6 h-6 shrink-0',
-                        isLightLeather
-                          ? 'text-amber-700'
-                          : isLeather
-                            ? 'text-amber-300'
-                            : isDarkSurface
-                              ? 'text-teal-300'
-                              : 'text-teal-700'
-                      )}
-                    />
-                    <h2
-                      className={cn(
-                        'text-base sm:text-lg font-bold',
-                        isLightLeather
-                          ? 'text-[#111827]'
-                          : isLeather
-                            ? 'text-amber-300'
-                            : isDarkSurface
-                              ? 'text-teal-300'
-                              : 'text-teal-700'
-                      )}
-                    >
-                      Cam kết chất lượng
-                    </h2>
-                  </div>
-
-                  <div className="space-y-[15px] relative z-10 my-auto">
-                    {commitmentsList.map((cmtText, cIdx) => {
-                      const CmtIcon = cIdx % 2 === 0 ? Flame : Lock;
-                      const cmtIconColor = isLightLeather
-                        ? cIdx % 2 === 0
-                          ? 'text-amber-700'
-                          : 'text-teal-700'
-                        : isLeather
-                          ? cIdx % 2 === 0
-                            ? 'text-amber-300'
-                            : 'text-cyan-200'
-                          : isDarkSurface
-                            ? cIdx % 2 === 0
-                              ? 'text-amber-300'
-                              : 'text-teal-300'
-                            : cIdx % 2 === 0
-                              ? 'text-amber-600'
-                              : 'text-teal-700';
-                      return (
-                        <div
-                          key={cIdx}
-                          className="exp-bento-item-card rounded-[14px] p-3.5 flex items-start gap-3 min-w-0 border"
-                        >
-                          <CmtIcon className={cn('w-5 h-5 shrink-0 mt-0.5', cmtIconColor)} />
-                          <p
-                            className={cn(
-                              'text-sm sm:text-base font-medium leading-snug break-words min-w-0 flex-1',
-                              isLightLeather
-                                ? 'text-[#111827]'
-                                : isDarkSurface || isLeather
-                                  ? 'text-white'
-                                  : 'text-slate-800'
-                            )}
-                          >
-                            {cmtText}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </section>
-
                 {/* Card: Danh sách công việc (Col Span 7) */}
                 <section
                   id="experience-responsibility-card"
                   className={cn(
                     'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 lg:col-span-7 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border flex-1 min-w-0',
-                    isDarkSurface
+                    isDarkCardText
                       ? 'bg-gradient-to-b from-purple-950/35 to-slate-900/80 border-purple-500/25 text-white'
                       : 'bg-gradient-to-b from-purple-50/85 to-white border-purple-100 text-slate-900'
                   )}
@@ -2370,7 +2349,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <h2
                       className={cn(
                         'text-base sm:text-lg font-bold flex items-center gap-2',
-                        isDarkSurface
+                        isDarkCardText
                           ? 'text-purple-300'
                           : isLightLeather
                             ? 'text-[#111827]'
@@ -2383,7 +2362,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <span
                       className={cn(
                         'exp-bento-light-chip text-xs font-bold px-2.5 py-1 rounded-full shrink-0 tabular-nums border',
-                        isDarkSurface
+                        isDarkCardText
                           ? 'bg-purple-500/20 text-purple-200 border-purple-400/30'
                           : isLightLeather
                             ? 'bg-[#edf1f4] text-[#111827] border-[#cbd5e1]'
@@ -2397,7 +2376,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <ul
                     className={cn(
                       'flex flex-col gap-2.5 text-sm sm:text-base',
-                      isDarkSurface ? 'text-slate-100' : 'text-slate-800'
+                      isDarkCardText ? 'text-slate-100' : 'text-slate-800'
                     )}
                   >
                     {tasksList.map((task, idx) => {
@@ -2408,7 +2387,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           key={idx}
                           className={cn(
                             'exp-bento-item-card p-3.5 rounded-[14px] border shadow-sm hover:shadow-md transition-all flex items-start gap-3 min-w-0',
-                            isDarkSurface ? taskPalette.dark : taskPalette.light
+                            isDarkCardText ? taskPalette.dark : taskPalette.light
                           )}
                         >
                           <span
@@ -2427,122 +2406,216 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     })}
                   </ul>
                 </section>
-              </div>
 
-              {/* 6. DANH SÁCH DỰ ÁN (Col Span 7) & HÌNH ẢNH KỶ NIỆM GALLERY (Col Span 5) */}
-              <section
-                id="experience-achievement-card"
-                ref={achievementCardRef}
-                className={cn(
-                  'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 md:col-span-6 lg:col-span-7 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border flex flex-col justify-between min-w-0',
-                  isDarkSurface
-                    ? 'bg-slate-900/75 border-white/15 text-white'
-                    : 'bg-white border-slate-100 text-slate-900'
-                )}
-              >
-                <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                  <h2
-                    className={cn(
-                      'text-base sm:text-lg font-bold flex items-center gap-2',
-                      isDarkSurface
-                        ? 'text-orange-300'
-                        : isLightLeather
-                          ? 'text-[#111827]'
-                          : 'text-orange-700'
-                    )}
-                  >
-                    <FolderKanban className={cn('w-5 h-5 sm:w-6 sm:h-6 shrink-0', isLightLeather && 'text-orange-700')} />
-                    <span>Danh sách dự án</span>
-                  </h2>
-
-                  <button
-                    type="button"
-                    onClick={() => navigateToProjects()}
-                    className={cn(
-                      'px-3 py-1.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95',
-                      isDarkSurface
-                        ? 'bg-orange-500/15 border-orange-400/30 text-orange-200 hover:bg-orange-500 hover:text-white'
-                        : isLightLeather
-                          ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827] hover:bg-[#111827] hover:text-white hover:border-[#111827]'
-                          : 'bg-orange-50 border-orange-200 text-orange-800 hover:bg-orange-600 hover:text-white hover:border-orange-600'
-                    )}
-                    title="Chuyển đến trang Dự án"
-                  >
-                    <span className="text-current">Xem Dự án</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
-                  </button>
-                </div>
-
-                <div
+                {/* Card: Danh sách dự án (Col Span 5) */}
+                <section
+                  id="experience-achievement-card"
+                  ref={achievementCardRef}
                   className={cn(
-                    'gap-2.5 flex-1 content-start',
-                    projectsList.length > 6
-                      ? 'grid grid-cols-1 sm:grid-cols-2'
-                      : 'flex flex-col'
+                    'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 lg:col-span-5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border flex flex-col justify-between min-w-0',
+                    isDarkCardText
+                      ? 'bg-slate-900/75 border-white/15 text-white'
+                      : 'bg-white border-slate-100 text-slate-900'
                   )}
                 >
-                  {projectsList.map((proj, pIdx) => {
-                    const palette = projectRowPalettes[pIdx % projectRowPalettes.length];
-                    return (
-                      <button
-                        key={pIdx}
-                        type="button"
-                        onClick={() => navigateToProjects(proj.projectId)}
-                        title={`${proj.rawTitle} — Click để xem chi tiết dự án`}
-                        className={cn(
-                          'exp-bento-rect-btn exp-bento-item-card group px-4 py-3 rounded-[14px] bg-gradient-to-r border transition-all flex items-center gap-3 text-left cursor-pointer min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500',
-                          isDarkSurface ? palette.rowDark : palette.rowLight
-                        )}
-                      >
-                        <span
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+                    <h2
+                      className={cn(
+                        'text-base sm:text-lg font-bold flex items-center gap-2',
+                        isDarkCardText
+                          ? 'text-orange-300'
+                          : isLightLeather
+                            ? 'text-[#111827]'
+                            : 'text-orange-700'
+                      )}
+                    >
+                      <FolderKanban className={cn('w-5 h-5 sm:w-6 sm:h-6 shrink-0', isLightLeather && 'text-orange-700')} />
+                      <span>Danh sách dự án</span>
+                    </h2>
+
+                    <button
+                      type="button"
+                      onClick={() => navigateToProjects()}
+                      className={cn(
+                        'px-3 py-1.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95',
+                        isDarkCardText
+                          ? 'bg-orange-500/15 border-orange-400/30 text-orange-200 hover:bg-orange-500 hover:text-white'
+                          : isLightLeather
+                            ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827] hover:bg-[#111827] hover:text-white hover:border-[#111827]'
+                            : 'bg-orange-50 border-orange-200 text-orange-800 hover:bg-orange-600 hover:text-white hover:border-orange-600'
+                      )}
+                      title="Chuyển đến trang Dự án"
+                    >
+                      <span className="text-current">Xem Dự án</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+                    </button>
+                  </div>
+
+                  <div
+                    className={cn(
+                      'gap-2.5 flex-1 content-start',
+                      projectsList.length > 6
+                        ? 'grid grid-cols-1 sm:grid-cols-2'
+                        : 'flex flex-col'
+                    )}
+                  >
+                    {projectsList.map((proj, pIdx) => {
+                      const palette = projectRowPalettes[pIdx % projectRowPalettes.length];
+                      return (
+                        <button
+                          key={pIdx}
+                          type="button"
+                          onClick={() => navigateToProjects(proj.projectId)}
+                          title={`${proj.rawTitle} — Click để xem chi tiết dự án`}
                           className={cn(
-                            'px-2.5 py-1 rounded-lg font-extrabold text-xs shrink-0 shadow-sm tabular-nums exp-bento-preserve-color',
-                            palette.badge
+                            'exp-bento-rect-btn exp-bento-item-card group px-4 py-3 rounded-[14px] bg-gradient-to-r border transition-all flex items-center gap-3 text-left cursor-pointer min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500',
+                            isDarkCardText ? palette.rowDark : palette.rowLight
                           )}
                         >
-                          {proj.code}
-                        </span>
-                        <div className="min-w-0 flex-1">
-                          <h3
+                          <span
                             className={cn(
-                              'font-bold text-sm sm:text-base transition-colors leading-snug break-words',
-                              isDarkSurface ? 'text-white' : 'text-slate-900',
-                              palette.titleHover
+                              'px-2.5 py-1 rounded-lg font-extrabold text-xs shrink-0 shadow-sm tabular-nums exp-bento-preserve-color',
+                              palette.badge
                             )}
                           >
-                            {proj.title}
-                          </h3>
-                        </div>
-                        <ArrowUpRight
-                          className={cn(
-                            'w-4 h-4 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity',
-                            isDarkSurface ? 'text-slate-300' : 'text-slate-600'
-                          )}
-                        />
-                      </button>
-                    );
-                  })}
-                </div>
-              </section>
+                            {proj.code}
+                          </span>
+                          <div className="min-w-0 flex-1">
+                            <h3
+                              className={cn(
+                                'font-bold text-sm sm:text-base transition-colors leading-snug break-words',
+                                isDarkCardText ? 'text-white' : 'text-slate-900',
+                                palette.titleHover
+                              )}
+                            >
+                              {proj.title}
+                            </h3>
+                          </div>
+                          <ArrowUpRight
+                            className={cn(
+                              'w-4 h-4 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity',
+                              isDarkCardText ? 'text-slate-300' : 'text-slate-600'
+                            )}
+                          />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
+              </div>
 
-              {/* HÌNH ẢNH KỶ NIỆM GALLERY (Col Span 5) */}
-              <section
-                id="experience-memories-card"
-                ref={memoriesCardRef}
-                style={syncedMemoriesHeight ? { height: `${syncedMemoriesHeight}px`, minHeight: `${syncedMemoriesHeight}px` } : undefined}
-                className={cn(
-                  'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 md:col-span-6 lg:col-span-5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border relative overflow-hidden flex flex-col justify-between min-w-0',
-                  isDarkSurface
-                    ? 'bg-slate-900 border-slate-800 text-white'
-                    : 'bg-gradient-to-br from-white via-amber-50/45 to-orange-50/55 border-amber-200/75 text-slate-900'
-                )}
-              >
+              {/* 6. CAM KẾT CHẤT LƯỢNG (Col Span 7) & HÌNH ẢNH KỶ NIỆM GALLERY (Col Span 5) */}
+              <div className="md:col-span-6 lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-[15px] min-w-0">
+                {/* Card: Cam kết chất lượng (Col Span 7) */}
+                <section
+                  id="experience-commitments-card"
+                  ref={commitmentsCardRef}
+                  className={cn(
+                    'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 lg:col-span-7 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] relative overflow-hidden flex flex-col justify-between min-w-0 border',
+                    isLightLeather
+                      ? 'text-[#111827]'
+                      : isDarkSurface || isLeather || isBlackLeather
+                        ? 'text-white'
+                        : 'text-slate-900'
+                  )}
+                >
+                  <div className="flex items-center gap-2.5 mb-4 relative z-10">
+                    <ShieldCheck
+                      className={cn(
+                        'w-6 h-6 shrink-0',
+                        isLightLeather
+                          ? 'text-amber-700'
+                          : isBlackLeather
+                            ? 'text-[#E2E8F0]'
+                            : isLeather
+                              ? 'text-amber-300'
+                              : isDarkSurface
+                                ? 'text-teal-300'
+                                : 'text-teal-700'
+                      )}
+                    />
+                    <h2
+                      className={cn(
+                        'text-base sm:text-lg font-bold',
+                        isLightLeather
+                          ? 'text-[#111827]'
+                          : isBlackLeather
+                            ? 'text-[#E2E8F0]'
+                            : isLeather
+                              ? 'text-amber-300'
+                              : isDarkSurface
+                                ? 'text-teal-300'
+                                : 'text-teal-700'
+                      )}
+                    >
+                      Cam kết chất lượng
+                    </h2>
+                  </div>
+
+                  <div className="space-y-[15px] relative z-10 my-auto">
+                    {commitmentsList.map((cmtText, cIdx) => {
+                      const CmtIcon = cIdx % 2 === 0 ? Flame : Lock;
+                      const cmtIconColor = isLightLeather
+                        ? cIdx % 2 === 0
+                          ? 'text-amber-700'
+                          : 'text-teal-700'
+                        : isBlackLeather
+                          ? cIdx % 2 === 0
+                            ? 'text-[#E2E8F0]'
+                            : 'text-sky-300'
+                          : isLeather
+                            ? cIdx % 2 === 0
+                              ? 'text-amber-300'
+                              : 'text-cyan-200'
+                            : isDarkSurface
+                              ? cIdx % 2 === 0
+                                ? 'text-amber-300'
+                                : 'text-teal-300'
+                              : cIdx % 2 === 0
+                                ? 'text-amber-600'
+                                : 'text-teal-700';
+                      return (
+                        <div
+                          key={cIdx}
+                          className="exp-bento-item-card rounded-[14px] p-3.5 flex items-start gap-3 min-w-0 border"
+                        >
+                          <CmtIcon className={cn('w-5 h-5 shrink-0 mt-0.5', cmtIconColor)} />
+                          <p
+                            className={cn(
+                              'text-sm sm:text-base font-medium leading-snug break-words min-w-0 flex-1',
+                              isLightLeather
+                                ? 'text-[#111827]'
+                                : isDarkSurface || isLeather || isBlackLeather
+                                  ? 'text-white'
+                                  : 'text-slate-800'
+                            )}
+                          >
+                            {cmtText}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </section>
+
+                {/* HÌNH ẢNH KỶ NIỆM GALLERY (Col Span 5) */}
+                <section
+                  id="experience-memories-card"
+                  ref={memoriesCardRef}
+                  style={syncedMemoriesHeight ? { height: `${syncedMemoriesHeight}px`, minHeight: `${syncedMemoriesHeight}px` } : undefined}
+                  className={cn(
+                    'exp-bento-surface-card transition-all duration-300 hover:-translate-y-0.5 md:col-span-6 lg:col-span-5 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border relative overflow-hidden flex flex-col justify-between min-w-0',
+                    isDarkCardText
+                      ? 'bg-slate-900 border-slate-800 text-white'
+                      : 'bg-gradient-to-br from-white via-amber-50/45 to-orange-50/55 border-amber-200/75 text-slate-900'
+                  )}
+                >
                 <div className="mb-4">
                   <div className="flex items-center justify-between gap-2">
                     <h2
                       className={cn(
                         'text-base sm:text-lg font-bold flex items-center gap-2',
-                        isDarkSurface
+                        isDarkCardText
                           ? 'text-amber-400'
                           : isLightLeather
                             ? 'text-[#111827]'
@@ -2552,7 +2625,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       <Camera
                         className={cn(
                           'w-5 h-5 sm:w-6 sm:h-6 shrink-0',
-                          isDarkSurface ? 'text-amber-400' : 'text-amber-700'
+                          isDarkCardText ? 'text-amber-400' : 'text-amber-700'
                         )}
                       />
                       <span>Hình ảnh kỷ niệm</span>
@@ -2567,7 +2640,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         }}
                         className={cn(
                           'text-xs flex items-center gap-1 shrink-0 cursor-pointer transition-colors font-semibold',
-                          isDarkSurface
+                          isDarkCardText
                             ? 'text-slate-300 hover:text-amber-300'
                             : isLightLeather
                               ? 'text-[#111827] hover:text-amber-700'
@@ -2578,7 +2651,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         <ZoomIn
                           className={cn(
                             'w-3.5 h-3.5 shrink-0',
-                            isDarkSurface ? 'text-amber-400' : 'text-amber-700'
+                            isDarkCardText ? 'text-amber-400' : 'text-amber-700'
                           )}
                         />
                         <span className="text-current">Phóng to ({photosList.length})</span>
@@ -2609,11 +2682,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             'exp-bento-rect-btn group relative rounded-[14px] overflow-hidden border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer p-0 text-left',
                             isDarkSurface
                               ? 'bg-slate-800 border-slate-700/70'
-                              : isLightLeather
-                                ? 'bg-[#edf1f4] border-[#d1d5db]'
-                                : isLeather
-                                  ? 'bg-[#522E10] border-[#F5DEB3]/35'
-                                  : 'bg-white/80 border-slate-200/90 shadow-xs',
+                              : isBlackLeather
+                                ? 'bg-[#1b1e25] border-[#E2E8F0]/25'
+                                : isLightLeather
+                                  ? 'bg-[#edf1f4] border-[#d1d5db]'
+                                  : isLeather
+                                    ? 'bg-[#522E10] border-[#F5DEB3]/35'
+                                    : 'bg-white/80 border-slate-200/90 shadow-xs',
                             borderHover,
                             isFullRow ? 'col-span-2 min-h-[150px]' : 'min-h-[115px]'
                           )}
@@ -2635,17 +2710,19 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                   'w-full h-full min-h-[115px] flex flex-col items-center justify-center gap-1.5 p-3',
                                   isDarkSurface
                                     ? 'bg-slate-800 text-slate-300'
-                                    : isLightLeather
-                                      ? 'bg-[#edf1f4] text-[#374151]'
-                                      : isLeather
-                                        ? 'bg-[#522E10] text-[#FFF8DC]'
-                                        : 'bg-slate-100 text-slate-700'
+                                    : isBlackLeather
+                                      ? 'bg-[#1b1e25] text-white'
+                                      : isLightLeather
+                                        ? 'bg-[#edf1f4] text-[#374151]'
+                                        : isLeather
+                                          ? 'bg-[#522E10] text-[#FFF8DC]'
+                                          : 'bg-slate-100 text-slate-700'
                                 )}
                             >
                               <Camera
                                 className={cn(
                                   'w-6 h-6',
-                                  isDarkSurface ? 'text-amber-400' : 'text-amber-600'
+                                  isDarkCardText ? 'text-amber-400' : 'text-amber-600'
                                 )}
                               />
                               <span className="text-xs font-semibold text-center truncate max-w-full">
@@ -2669,11 +2746,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       'rounded-[14px] border p-4 flex-1 flex items-center justify-center',
                       isDarkSurface
                         ? 'bg-slate-800/70 border-slate-700 text-slate-300'
-                        : isLightLeather
-                          ? 'bg-[#edf1f4] border-[#d1d5db] text-[#374151]'
-                          : isLeather
-                            ? 'bg-[#522E10] border-[#F5DEB3]/35 text-[#FFF8DC]'
-                            : 'bg-white/75 border-slate-200/80 text-slate-700'
+                        : isBlackLeather
+                          ? 'bg-[#1b1e25] border-[#E2E8F0]/25 text-white'
+                          : isLightLeather
+                            ? 'bg-[#edf1f4] border-[#d1d5db] text-[#374151]'
+                            : isLeather
+                              ? 'bg-[#522E10] border-[#F5DEB3]/35 text-[#FFF8DC]'
+                              : 'bg-white/75 border-slate-200/80 text-slate-700'
                     )}
                   >
                     <span className="text-sm">
@@ -2682,49 +2761,92 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </div>
                 )}
               </section>
+              </div>
 
-              {/* 7. THÀNH TỰU KPI RESULTS ROW (Đưa xuống bên dưới thẻ Danh sách dự án & Hình ảnh kỷ niệm) */}
+              {/* 7. THÀNH TỰU KPI RESULTS CARD (Tạo card Kết quả đạt được) */}
               <section
                 id="experience-stats-card"
                 className={cn(
-                  'md:col-span-6 lg:col-span-12 grid gap-[15px] min-w-0',
-                  kpisList.length <= 3
-                    ? 'grid-cols-1 sm:grid-cols-3'
-                    : kpisList.length === 4
-                      ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
-                      : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'
+                  'exp-bento-surface-card transition-all duration-300 md:col-span-6 lg:col-span-12 rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border relative overflow-hidden flex flex-col gap-4 min-w-0',
+                  isDarkSurface
+                    ? 'bg-slate-900 border-slate-800 text-white'
+                    : isBlackLeather
+                      ? 'bg-[#1b1e25] border-[#E2E8F0]/25 text-white'
+                      : isLightLeather
+                        ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827]'
+                        : isLeather
+                          ? 'bg-[#522E10] border-[#F5DEB3]/35 text-[#FFF8DC]'
+                          : 'bg-gradient-to-br from-white via-indigo-50/30 to-sky-50/40 border-indigo-200/75 text-slate-900'
                 )}
               >
-                {kpisList.map((kpi, kIdx) => {
-                  const styleCfg = kpiStyles[kIdx % kpiStyles.length];
-                  const TopIcon = styleCfg.TopIcon;
-                  const WatermarkIcon = styleCfg.WatermarkIcon;
-                  return (
-                    <div
-                      key={kIdx}
+                <div className="flex items-center justify-between gap-2">
+                  <h2
+                    className={cn(
+                      'text-base sm:text-lg font-bold flex items-center gap-2',
+                      isDarkCardText
+                        ? 'text-cyan-400'
+                        : isLightLeather
+                          ? 'text-[#111827]'
+                          : 'text-indigo-700'
+                    )}
+                  >
+                    <Trophy
                       className={cn(
-                        'transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br text-white rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] hover:shadow-[0_20px_35px_-10px_rgba(15,23,42,0.20)] relative overflow-hidden flex flex-col justify-between min-w-0',
-                        styleCfg.gradient
+                        'w-5 h-5 sm:w-6 sm:h-6 shrink-0',
+                        isDarkCardText ? 'text-cyan-400' : 'text-indigo-600'
                       )}
-                    >
-                      <div className="absolute -right-4 -bottom-4 opacity-15 pointer-events-none">
-                        <WatermarkIcon className="w-24 h-24" />
+                    />
+                    <span>Kết quả đạt được</span>
+                  </h2>
+                  <span className={cn(
+                    'text-xs font-semibold px-2.5 py-1 rounded-full border',
+                    isDarkCardText ? 'bg-slate-800 text-cyan-300 border-slate-700' : 'bg-indigo-50 text-indigo-700 border-indigo-200'
+                  )}>
+                    Key Metrics & KPIs ({kpisList.length})
+                  </span>
+                </div>
+
+                <div
+                  className={cn(
+                    'grid gap-[15px] min-w-0',
+                    kpisList.length <= 3
+                      ? 'grid-cols-1 sm:grid-cols-3'
+                      : kpisList.length === 4
+                        ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+                        : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'
+                  )}
+                >
+                  {kpisList.map((kpi, kIdx) => {
+                    const styleCfg = kpiStyles[kIdx % kpiStyles.length];
+                    const TopIcon = styleCfg.TopIcon;
+                    const WatermarkIcon = styleCfg.WatermarkIcon;
+                    return (
+                      <div
+                        key={kIdx}
+                        className={cn(
+                          'transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br text-white rounded-[14px] p-5 sm:p-6 shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] hover:shadow-[0_20px_35px_-10px_rgba(15,23,42,0.20)] relative overflow-hidden flex flex-col justify-between min-w-0',
+                          styleCfg.gradient
+                        )}
+                      >
+                        <div className="absolute -right-4 -bottom-4 opacity-15 pointer-events-none">
+                          <WatermarkIcon className="w-24 h-24" />
+                        </div>
+                        <div className="flex items-center justify-between gap-2 mb-3 relative z-10">
+                          <TopIcon className="w-6 h-6 text-white shrink-0" />
+                          <span className="text-xs font-bold bg-black/20 px-2.5 py-1 rounded-full truncate exp-bento-preserve-color">
+                            {styleCfg.badgeLabel}
+                          </span>
+                        </div>
+                        <div className="text-3xl sm:text-4xl font-extrabold tracking-tight my-1 tabular-nums relative z-10 exp-bento-preserve-color">
+                          {kpi.displayValue}
+                        </div>
+                        <p className={cn('font-medium text-sm leading-snug relative z-10 break-words exp-bento-preserve-color', styleCfg.subText)}>
+                          {kpi.label}
+                        </p>
                       </div>
-                      <div className="flex items-center justify-between gap-2 mb-3 relative z-10">
-                        <TopIcon className="w-6 h-6 text-white shrink-0" />
-                        <span className="text-xs font-bold bg-black/20 px-2.5 py-1 rounded-full truncate exp-bento-preserve-color">
-                          {styleCfg.badgeLabel}
-                        </span>
-                      </div>
-                      <div className="text-3xl sm:text-4xl font-extrabold tracking-tight my-1 tabular-nums relative z-10 exp-bento-preserve-color">
-                        {kpi.displayValue}
-                      </div>
-                      <p className={cn('font-medium text-sm leading-snug relative z-10 break-words exp-bento-preserve-color', styleCfg.subText)}>
-                        {kpi.label}
-                      </p>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </section>
             </main>
           </div>
@@ -2779,7 +2901,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <div
                 className={cn(
                   'relative aspect-[16/10] w-full flex items-center justify-center',
-                  isDarkSurface ? 'bg-[#0B1220]' : 'bg-slate-100'
+                  isDarkCardText ? 'bg-[#0B1220]' : 'bg-slate-100'
                 )}
               >
                 <img

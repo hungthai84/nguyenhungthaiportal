@@ -243,7 +243,11 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const { isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
-  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark =
+    themeIsDark ||
+    currentTheme === 'light-multicolor-glass-dark' ||
+    currentTheme === 'cowhide-leather' ||
+    currentTheme === 'black-cowhide-leather';
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -504,7 +508,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </h1>
           </div>
           <p
-            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[60%]"
+            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
             style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
           >
             &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
@@ -641,10 +645,10 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         /* Rendered below as a conditional block to maintain clean logic */
         null
       ) : (
-        /* CHẾ ĐỘ LƯỚI (GRID VIEW) - NỀN TRONG SUỐT 50%, CÁC CARD CÁCH NHAU 15PX Ở MỌI KÍCH THƯỚC THIẾT BỊ */
+        /* CHẾ ĐỘ LƯỚI (GRID VIEW) - RESPONSIVE GRID TỰ ĐỘNG THÍCH ỨNG Ở MỌI KÍCH THƯỚC MÀN HÌNH */
         <div
           id="education-courses-grid"
-          className="bento-grid-responsive grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-[15px] items-stretch"
+          className="education-responsive-grid w-full min-w-0 items-stretch"
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
         >
           {filteredCourses.map((course, idx) => {
@@ -669,26 +673,26 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     handleOpenDetail(course);
                   }
                 }}
-                className="project-card bento-card glass-card layered-card group relative rounded-[14px] overflow-hidden p-0 flex flex-col justify-between border select-none transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play"
+                className="education-course-card bento-card glass-card layered-card group relative rounded-[14px] p-[10px] flex flex-col justify-between gap-[10px] border select-none transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play min-w-0"
                 style={{
                   borderColor: `${cardColor}45`,
-                  padding: 0,
+                  padding: '10px',
                 }}
               >
-                {/* 1. Ảnh bìa banner tỷ lệ 16:10 đồng bộ card dự án */}
-                <div className="project-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[#0B1220]/70 shrink-0 group/img rounded-t-[14px] m-0 p-0">
+                {/* 1. Ảnh bìa banner tỷ lệ 16:10 bo cong 4 góc */}
+                <div className="education-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[#0B1220]/70 shrink-0 group/img rounded-[14px] m-0 p-0">
                   <img
                     src={course.image}
                     alt={localizedCourseTitle}
-                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 block m-0 p-0"
+                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 block m-0 p-0 rounded-[14px]"
                     loading="lazy"
                     referrerPolicy="no-referrer"
                   />
                 </div>
 
-                {/* 2. Thân Card: nội dung padding 15px đồng bộ card dự án */}
-                <div style={{ padding: '15px' }} className="project-card-body p-[15px] flex-1 flex flex-col justify-between space-y-2">
-                  <div>
+                {/* 2. Thân Card: nội dung bên trong cách mép thẻ học vấn 10px */}
+                <div className="education-card-body flex-1 flex flex-col justify-between gap-2 min-w-0">
+                  <div className="min-w-0">
                     <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: cardColor }}>
                       <WebIcon
                         name={titleIcon}
@@ -708,28 +712,28 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       </span>
                     </div>
 
-                    <div className="space-y-1.5 mt-2">
-                      <div className="flex items-start gap-1.5 font-play">
+                    <div className="space-y-1.5 mt-2 min-w-0">
+                      <div className="flex items-start gap-1.5 font-play min-w-0">
                         <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Đào tạo:</span>
-                        <span className="typo-body-sm font-semibold line-clamp-1" style={{ color: 'var(--text-primary)' }}>{course.issuer}</span>
+                        <span className="typo-body-sm font-semibold whitespace-normal break-words" style={{ color: 'var(--text-primary)' }}>{course.issuer}</span>
                       </div>
-                      <div className="flex items-center gap-1.5 font-play">
-                        <span className="typo-label shrink-0" style={{ color: 'var(--text-muted)' }}>Hình thức:</span>
-                        <span className="typo-body-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{course.type}</span>
+                      <div className="flex items-start gap-1.5 font-play min-w-0">
+                        <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Hình thức:</span>
+                        <span className="typo-body-sm font-semibold whitespace-normal break-words" style={{ color: 'var(--text-primary)' }}>{course.type}</span>
                       </div>
                     </div>
                   </div>
 
                   {course.result && (
-                    <div 
-                      className="mt-3 p-2.5 rounded-[10px] border flex items-center gap-2 transition-colors shadow-xs"
+                    <div
+                      className="mt-1 p-2.5 rounded-[10px] border flex items-start gap-2 transition-colors shadow-xs min-w-0"
                       style={{
                         backgroundColor: `${cardColor}10`,
                         borderColor: `${cardColor}30`,
                       }}
                     >
-                      <WebIcon name="award" className="w-4 h-4 shrink-0" style={{ color: cardColor }} />
-                      <p className="typo-caption font-semibold font-play line-clamp-1" style={{ color: cardColor }}>
+                      <WebIcon name="award" className="w-4 h-4 shrink-0 mt-0.5" style={{ color: cardColor }} />
+                      <p className="typo-caption font-semibold font-play whitespace-normal break-words min-w-0" style={{ color: cardColor }}>
                         {course.result}
                       </p>
                     </div>
@@ -747,7 +751,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         const course = selectedCourse;
         return (
           <motion.div
-            id={`education-detail-panel-${course.id}`}
+            id="el-p3-div-87"
             key={`education-detail-${course.id}`}
             layoutId={`education-card-${course.id}`}
             initial={{ opacity: 0.95 }}
@@ -759,14 +763,23 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             }}
             data-element-type="card"
             data-section-card="true"
-            className="w-full bento-card glass-card bento-view-card p-[15px] sm:p-[20px] rounded-[14px] border shadow-lg flex flex-col gap-[15px] text-left font-play"
+            className="w-full flex flex-col gap-[15px] text-left font-play bg-transparent border-0 shadow-none p-0"
+            style={{
+              background: 'transparent',
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              backdropFilter: 'none',
+              WebkitBackdropFilter: 'none',
+              padding: 0,
+            }}
           >
             {/* Master Header */}
-            <div className="flex items-center justify-between gap-2 pb-3 border-b border-[var(--border-subcard)]">
+            <div className="flex items-center justify-between gap-2 pb-3 border-b border-[var(--border-subcard)] min-w-0">
               <div className="card-header-sync flex items-center gap-2.5 min-w-0 text-blue-600 dark:text-sky-400" data-card-accent="blue">
                 <WebIcon name="graduation" className="w-5 h-5 text-blue-600 dark:text-sky-400 shrink-0" />
                 <div className="min-w-0">
-                  <h3 className="card-title card-title-synced typo-h3 font-play font-bold truncate text-blue-600 dark:text-sky-400 m-0" data-card-title="true">
+                  <h3 className="card-title card-title-synced typo-h3 font-play font-bold whitespace-normal break-words text-blue-600 dark:text-sky-400 m-0" data-card-title="true">
                     {course.title}
                   </h3>
                 </div>
@@ -786,63 +799,99 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </div>
 
             {/* Inner Content Grid grouping the detail cards */}
-            <div className="w-full grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-[15px] items-stretch content-start">
-                {/* 1. THÔNG TIN KHÓA HỌC (Đưa trực tiếp 3 Sub-card thông tin ra ngoài: Năm & Mã, Đơn vị đào tạo, Hình thức đào tạo) */}
-                <div className="bento-grid-responsive col-span-1 md:col-span-8 lg:col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch">
-                  {/* Sub-card 1: Năm học và mã */}
-                  <div data-subcard="true" className="exp-detail-subcard h-full flex flex-col justify-between gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all">
-                    <div className="subcard-header-sync flex items-center gap-1.5 text-sky-600 dark:text-sky-400" data-subcard-accent="sky">
-                      <WebIcon name="clock" className="w-4 h-4 shrink-0 text-sky-600 dark:text-sky-400" />
-                      <span className="subcard-title-synced typo-h4 tracking-normal text-sky-600 dark:text-sky-400" data-subcard-title="true">Năm học và mã</span>
+            <div className="w-full grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-[15px] items-stretch content-start min-w-0">
+                {/* 1. THÔNG TIN KHÓA HỌC: NHÓM LẠI THÀNH 1 CARD CHUNG (#el-p3-div-90) */}
+                <div
+                  id="el-p3-div-90"
+                  data-subcard="true"
+                  className="exp-detail-subcard col-span-1 md:col-span-8 lg:col-span-12 p-[15px] rounded-[14px] shadow-sm flex flex-col gap-[15px] min-w-0"
+                  style={{ borderRadius: '14px', padding: '15px' }}
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[15px] items-stretch min-w-0">
+                    {/* Mục 1: Năm học và mã */}
+                    <div className="flex flex-col justify-between gap-2 min-w-0">
+                      <div className="subcard-header-sync flex items-center gap-1.5 text-sky-600 dark:text-sky-400" data-subcard-accent="sky">
+                        <WebIcon name="clock" className="w-4 h-4 shrink-0 text-sky-600 dark:text-sky-400" />
+                        <span className="subcard-title-synced typo-h4 tracking-normal text-sky-600 dark:text-sky-400" data-subcard-title="true">Năm học và mã</span>
+                      </div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="typo-body font-semibold text-sky-700 dark:text-sky-300">
+                          Năm {course.year}
+                        </span>
+                        {course.code && (
+                          <span className="px-2 py-0.5 rounded-[14px] bg-sky-200/80 dark:bg-sky-900/70 text-sky-900 dark:text-sky-200 typo-badge font-mono">
+                            {course.code}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="typo-body font-semibold text-sky-700 dark:text-sky-300">
-                        Năm {course.year}
+
+                    {/* Mục 2: Đơn vị đào tạo */}
+                    <div className="flex flex-col justify-between gap-2 min-w-0">
+                      <div className="subcard-header-sync flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400" data-subcard-accent="indigo">
+                        <WebIcon name="building" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
+                        <span className="subcard-title-synced typo-h4 tracking-normal text-indigo-600 dark:text-indigo-400" data-subcard-title="true">Đơn vị đào tạo</span>
+                      </div>
+                      <span className="typo-body-sm font-semibold break-words" style={{ color: 'var(--text-primary)' }}>
+                        {course.issuer}
                       </span>
-                      {course.code && (
-                        <span className="px-2 py-0.5 rounded-[14px] bg-sky-200/80 dark:bg-sky-900/70 text-sky-900 dark:text-sky-200 typo-badge font-mono">
-                          {course.code}
+                    </div>
+
+                    {/* Mục 3: Hình thức đào tạo */}
+                    <div className="flex flex-col justify-between gap-2 min-w-0">
+                      <div className="subcard-header-sync flex items-center gap-1.5 text-teal-600 dark:text-teal-400" data-subcard-accent="teal">
+                        <WebIcon name="sparkles" className="w-4 h-4 shrink-0 text-teal-600 dark:text-teal-400" />
+                        <span className="subcard-title-synced typo-h4 tracking-normal text-teal-600 dark:text-teal-400" data-subcard-title="true">Hình thức đào tạo</span>
+                      </div>
+                      <span className="typo-body-sm font-semibold text-teal-700 dark:text-teal-300 break-words">
+                        {course.type || 'Chuyên sâu thực chiến'}
+                      </span>
+                    </div>
+
+                    {/* Mục 4: Từ khóa kỷ năng */}
+                    <div className="flex flex-col justify-between gap-2 min-w-0">
+                      <div className="subcard-header-sync flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400" data-subcard-accent="emerald">
+                        <WebIcon name="sparkles" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
+                        <span className="subcard-title-synced typo-h4 tracking-normal text-emerald-700 dark:text-emerald-400" data-subcard-title="true">Từ khóa kỷ năng</span>
+                      </div>
+                      {course.skills && course.skills.length > 0 ? (
+                        <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
+                          {course.skills.map((skill, sIdx) => (
+                            <button
+                              key={sIdx}
+                              type="button"
+                              onClick={() => handleNavigateSkillToSwot(skill)}
+                              title={isEn ? `View ${skill} in Core Skills SWOT` : `Xem kỹ năng "${skill}" trong Ma trận Kỹ năng SWOT`}
+                              className="education-skill-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge cursor-pointer transition-all hover:scale-[1.03] hover:shadow-xs active:scale-95"
+                            >
+                              <WebIcon name={getSkillTagIcon(skill)} className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                              <span>{skill}</span>
+                              <WebIcon name="arrow-right" className="w-2.5 h-2.5 opacity-60 shrink-0" />
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="typo-body-sm font-semibold" style={{ color: 'var(--text-muted)' }}>
+                          Thông tin chưa được cung cấp.
                         </span>
                       )}
                     </div>
                   </div>
-
-                  {/* Sub-card 2: Đơn vị đào tạo */}
-                  <div data-subcard="true" className="exp-detail-subcard h-full flex flex-col justify-between gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all">
-                    <div className="subcard-header-sync flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400" data-subcard-accent="indigo">
-                      <WebIcon name="building" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
-                      <span className="subcard-title-synced typo-h4 tracking-normal text-indigo-600 dark:text-indigo-400" data-subcard-title="true">Đơn vị đào tạo</span>
-                    </div>
-                    <span className="typo-body-sm font-semibold break-words" style={{ color: 'var(--text-primary)' }}>
-                      {course.issuer}
-                    </span>
-                  </div>
-
-                  {/* Sub-card 3: Hình thức đào tạo */}
-                  <div data-subcard="true" className="exp-detail-subcard h-full flex flex-col justify-between gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all">
-                    <div className="subcard-header-sync flex items-center gap-1.5 text-teal-600 dark:text-teal-400" data-subcard-accent="teal">
-                      <WebIcon name="sparkles" className="w-4 h-4 shrink-0 text-teal-600 dark:text-teal-400" />
-                      <span className="subcard-title-synced typo-h4 tracking-normal text-teal-600 dark:text-teal-400" data-subcard-title="true">Hình thức đào tạo</span>
-                    </div>
-                    <span className="typo-body-sm font-semibold text-teal-700 dark:text-teal-300 break-words">
-                      {course.type || 'Chuyên sâu thực chiến'}
-                    </span>
-                  </div>
                 </div>
 
-                {/* 2. THẺ DANH SÁCH CHUYÊN ĐỀ (Đổi lên trước, kèm sub-card Văn bằng chứng nhận) */}
+                {/* 2. THẺ DANH MỤC KHÓA HỌC (Sửa từ Danh sách chuyên đề, chuyển Hình ảnh khóa học vào thẻ này) */}
                 <div
                   id="education-certificates-card"
                   data-element-type="card"
                   data-section-card="true"
-                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-3.5 transition-all duration-300"
+                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-3.5 transition-all duration-300 min-w-0"
                   style={{ borderRadius: '14px', padding: '15px' }}
                 >
                   <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] flex-wrap">
                     <div className="card-header-sync flex items-center gap-2 text-amber-600 dark:text-amber-400" data-card-accent="amber">
                       <WebIcon name="book" className="w-[18px] h-[18px] shrink-0 text-amber-600 dark:text-amber-400" />
                       <h3 className="card-title card-title-synced typo-h3 font-play text-amber-600 dark:text-amber-400 m-0 p-0" data-card-title="true">
-                        Danh sách chuyên đề
+                        Danh mục khóa học
                       </h3>
                     </div>
                   </div>
@@ -857,7 +906,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     )}
 
                     {/* Danh sách các chuyên đề */}
-                    <ul className="flex flex-col gap-[15px] list-none p-0 m-0 w-full">
+                    <ul id="el-p3-ul-1" className="flex flex-col gap-[15px] list-none p-0 m-0 w-full">
                       {course.modules.map((mod, idx) => (
                         <li
                           key={idx}
@@ -874,36 +923,36 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       ))}
                     </ul>
 
-                    {/* Sub-card: Hình ảnh Văn bằng chứng nhận (Chuyển xuống dưới thẻ) */}
+                    {/* Sub-card: Hình ảnh khóa học (Chuyển vào thẻ Danh mục khóa học) */}
                     <div
                       data-subcard="true"
                       role="button"
                       tabIndex={0}
-                      onClick={() => handleOpenLightbox(course.certImg || course.image, `${isEn ? 'Credential' : 'Bằng cấp'}: ${t(course.title)}`)}
+                      onClick={() => handleOpenLightbox(course.courseImg || course.image, `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${t(course.title)}`)}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
-                          handleOpenLightbox(course.certImg || course.image, `${isEn ? 'Credential' : 'Bằng cấp'}: ${t(course.title)}`);
+                          handleOpenLightbox(course.courseImg || course.image, `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${t(course.title)}`);
                         }
                       }}
-                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs transition-all cursor-pointer group/cert flex flex-col gap-[15px] hover:shadow-xs mt-1"
+                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs transition-all cursor-pointer group/photo flex flex-col gap-[15px] hover:shadow-xs mt-1"
                     >
-                      <div className="flex items-center justify-between text-rose-600 dark:text-rose-400">
-                        <div className="subcard-header-sync flex items-center gap-1.5 text-rose-600 dark:text-rose-400" data-subcard-accent="rose">
-                          <WebIcon name="shield" className="w-4 h-4 shrink-0 text-rose-600 dark:text-rose-400" />
-                          <span className="subcard-title-synced typo-h4 tracking-normal text-rose-600 dark:text-rose-400" data-subcard-title="true">
-                            Văn bằng chứng nhận
+                      <div className="flex items-center justify-between text-purple-600 dark:text-purple-400">
+                        <div className="subcard-header-sync flex items-center gap-1.5 text-purple-600 dark:text-purple-400" data-subcard-accent="purple">
+                          <WebIcon name="image" className="w-4 h-4 shrink-0 text-purple-600 dark:text-purple-400" />
+                          <span className="subcard-title-synced typo-h4 tracking-normal text-purple-600 dark:text-purple-400" data-subcard-title="true">
+                            Hình ảnh khóa học
                           </span>
                         </div>
-                        <span className="typo-label text-rose-700 dark:text-rose-300 group-hover/cert:underline flex items-center gap-1">
-                          <span>Xem bằng</span>
+                        <span className="typo-label text-purple-700 dark:text-purple-300 group-hover/photo:underline flex items-center gap-1">
+                          <span>Phóng to</span>
                         </span>
                       </div>
                       <div className="relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
                         <img
-                          src={course.certImg || course.image}
-                          alt="Chứng nhận bằng cấp"
-                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/cert:scale-105"
+                          src={course.courseImg || course.image}
+                          alt={course.title}
+                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/photo:scale-105"
                           loading="lazy"
                         />
                       </div>
@@ -911,12 +960,12 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   </div>
                 </div>
 
-                {/* 3. THẺ KẾT QUẢ ĐẠT ĐƯỢC (Căn chỉnh top) */}
+                {/* 3. THẺ KẾT QUẢ ĐẠT ĐƯỢC (Chuyển hình bằng cấp / Văn bằng chứng nhận vào thẻ này) */}
                 <div
                   id="education-major-card"
                   data-element-type="card"
                   data-section-card="true"
-                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-3.5 transition-all duration-300"
+                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-3.5 transition-all duration-300 min-w-0"
                   style={{ borderRadius: '14px', padding: '15px' }}
                 >
                   <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
@@ -954,61 +1003,36 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       </div>
                     )}
 
-                    {/* Sub-card: Kỹ năng đầu ra */}
-                    {course.skills && course.skills.length > 0 && (
-                      <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs flex flex-col gap-[15px]">
-                        <div className="subcard-header-sync flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400" data-subcard-accent="emerald">
-                          <WebIcon name="sparkles" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
-                          <span className="subcard-title-synced typo-h4 tracking-normal text-emerald-700 dark:text-emerald-400" data-subcard-title="true">Kỹ năng đầu ra</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
-                          {course.skills.map((skill, sIdx) => (
-                            <button
-                              key={sIdx}
-                              type="button"
-                              onClick={() => handleNavigateSkillToSwot(skill)}
-                              title={isEn ? `View ${skill} in Core Skills SWOT` : `Xem kỹ năng "${skill}" trong Ma trận Kỹ năng SWOT`}
-                              className="education-skill-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge cursor-pointer transition-all hover:scale-[1.03] hover:shadow-xs active:scale-95"
-                            >
-                              <WebIcon name={getSkillTagIcon(skill)} className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                              <span>{skill}</span>
-                              <WebIcon name="arrow-right" className="w-2.5 h-2.5 opacity-60 shrink-0" />
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Sub-card: Hình ảnh khóa học */}
+                    {/* Sub-card: Hình ảnh Văn bằng chứng nhận (Chuyển vào thẻ Kết quả đạt được) */}
                     <div
                       data-subcard="true"
                       role="button"
                       tabIndex={0}
-                      onClick={() => handleOpenLightbox(course.courseImg || course.image, `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${t(course.title)}`)}
+                      onClick={() => handleOpenLightbox(course.certImg || course.image, `${isEn ? 'Credential' : 'Bằng cấp'}: ${t(course.title)}`)}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
-                          handleOpenLightbox(course.courseImg || course.image, `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${t(course.title)}`);
+                          handleOpenLightbox(course.certImg || course.image, `${isEn ? 'Credential' : 'Bằng cấp'}: ${t(course.title)}`);
                         }
                       }}
-                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs transition-all cursor-pointer group/photo flex flex-col gap-[15px] hover:shadow-xs"
+                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs transition-all cursor-pointer group/cert flex flex-col gap-[15px] hover:shadow-xs mt-1"
                     >
-                      <div className="flex items-center justify-between text-purple-600 dark:text-purple-400">
-                        <div className="subcard-header-sync flex items-center gap-1.5 text-purple-600 dark:text-purple-400" data-subcard-accent="purple">
-                          <WebIcon name="image" className="w-4 h-4 shrink-0 text-purple-600 dark:text-purple-400" />
-                          <span className="subcard-title-synced typo-h4 tracking-normal text-purple-600 dark:text-purple-400" data-subcard-title="true">
-                            Hình ảnh khóa học
+                      <div className="flex items-center justify-between text-rose-600 dark:text-rose-400">
+                        <div className="subcard-header-sync flex items-center gap-1.5 text-rose-600 dark:text-rose-400" data-subcard-accent="rose">
+                          <WebIcon name="shield" className="w-4 h-4 shrink-0 text-rose-600 dark:text-rose-400" />
+                          <span className="subcard-title-synced typo-h4 tracking-normal text-rose-600 dark:text-rose-400" data-subcard-title="true">
+                            Văn bằng chứng nhận
                           </span>
                         </div>
-                        <span className="typo-label text-purple-700 dark:text-purple-300 group-hover/photo:underline flex items-center gap-1">
-                          <span>Phóng to</span>
+                        <span className="typo-label text-rose-700 dark:text-rose-300 group-hover/cert:underline flex items-center gap-1">
+                          <span>Xem bằng</span>
                         </span>
                       </div>
                       <div className="relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
                         <img
-                          src={course.courseImg || course.image}
-                          alt={course.title}
-                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/photo:scale-105"
+                          src={course.certImg || course.image}
+                          alt="Chứng nhận bằng cấp"
+                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover/cert:scale-105"
                           loading="lazy"
                         />
                       </div>

@@ -1308,6 +1308,25 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               border-color: rgba(245, 222, 179, 0.35) !important;
               color: #FDE68A !important;
             }
+
+            /* Black Cowhide Leather inside Ecosystem Diagram Modal */
+            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal .glass-flat,
+            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
+              background: linear-gradient(145deg, #252830 0%, #15171c 100%) !important;
+              border: 1.5px solid #090a0d !important;
+              outline: 1px dashed rgba(226, 232, 240, 0.45);
+              outline-offset: -4px;
+              box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.08) !important;
+              color: #FFFFFF !important;
+            }
+            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal :is(.glass-flat, .theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) :is(.text-slate-950, .text-slate-900, .text-slate-800, .text-slate-700, .text-slate-600) {
+              color: #FFFFFF !important;
+            }
+            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal :is(.bg-white, .bg-white\\/90, .bg-white\\/85, .bg-white\\/80, .bg-slate-50, .bg-slate-100) {
+              background-color: rgba(17, 19, 24, 0.9) !important;
+              border-color: rgba(226, 232, 240, 0.28) !important;
+              color: #E2E8F0 !important;
+            }
           `}</style>
 
           {/* TOP HEADER */}

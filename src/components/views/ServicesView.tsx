@@ -27,7 +27,11 @@ const DOMAIN_DETAIL_ACCENTS: Record<string, { light: string; dark: string }> = {
 export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'light-multicolor-glass' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
-  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark =
+    themeIsDark ||
+    currentTheme === 'light-multicolor-glass-dark' ||
+    currentTheme === 'cowhide-leather' ||
+    currentTheme === 'black-cowhide-leather';
   const isLight = !isDark;
 
   const isEn = language === 'en';
@@ -229,20 +233,22 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
         className="page-cards-track"
       >
         <div
-          id="services-main-card"
+          id="service-main-card"
           data-main-card="true"
           data-element-name="Thẻ chính Trang Dịch Vụ"
           data-element-type="card"
           data-element-page="services"
           data-element-parent="services-cards-track"
-          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
+          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-hidden glass-scrollbar box-border"
+          style={{ padding: '15px', gap: '15px', borderRadius: '14px' }}
         >
       <div
         id="services-main-content"
+        data-element-parent="service-main-card"
         className={
           selectedDomain
-            ? 'w-full flex-1 min-h-0 flex flex-col justify-start gap-[15px] min-w-0'
-            : 'w-full flex-1 min-h-0 flex flex-col justify-between gap-[15px] min-w-0'
+            ? 'w-full flex-1 min-h-0 flex flex-col justify-start gap-[15px] min-w-0 overflow-y-auto overflow-x-hidden glass-scrollbar'
+            : 'w-full flex-1 min-h-0 flex flex-col justify-between gap-[15px] min-w-0 overflow-y-auto overflow-x-hidden glass-scrollbar'
         }
       >
       {/* 1. HERO BANNER ĐẦU TRANG DỊCH VỤ */}
@@ -296,7 +302,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
             </h1>
           </div>
           <p
-            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[65%]"
+            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
             style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
           >
             &quot;{t(DOMAINS_INTRO.quote)} ♡&quot;
@@ -345,7 +351,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   transition={{ duration: 0.16 }}
                   id="services-filter-dropdown"
                   role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-72 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-96px))] sm:w-72 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
                   {filterCategories.map((cat) => {
                     const isActive = activeCategory === cat.id;
@@ -422,7 +428,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
 
       {/* 2. VÙNG NỘI DUNG: KHI CHƯA CHỌN -> 6 THẺ DẠNG 3 CỘT 2 HÀNG; KHI CLICK XEM CHI TIẾT -> THẺ CHI TIẾT BẰNG KÍCH THƯỚC 6 THẺ CỘNG & VIEW 3 CỘT 2 HÀNG */}
         {!selectedDomain ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full flex-1" style={{ gap: '15px' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full lg:flex-1 min-w-0" style={{ gap: '15px' }}>
             {filteredDomains.map((domain, idx) => {
               const cfg = getCardVisualConfig(domain.id);
               const bullets = (domain.details || domain.experienceItems || []).slice(0, 3);
@@ -514,13 +520,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                           .map((partner, pIdx) => (
                           <div
                             key={pIdx}
-                            className="w-8 h-8 sm:w-9 sm:h-9 bg-transparent border-0 p-0 shadow-none flex items-center justify-center shrink-0 transition-transform duration-200 hover:scale-110"
+                            style={{ background: 'var(--bg-card)' }}
+                            className="w-8 h-8 sm:w-9 sm:h-9 aspect-square rounded-full overflow-hidden border-0 ring-0 p-0 shadow-none outline-none flex items-center justify-center shrink-0 transition-transform duration-200 hover:scale-110"
                             title={partner.name}
                           >
                             <img
                               src={partner.logo}
                               alt={partner.name}
-                              className="w-full h-full object-contain bg-transparent"
+                              className="w-full h-full object-cover rounded-full"
                               onError={(e) => {
                                 if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
                                   e.currentTarget.src = partner.fallbackLogo;
@@ -550,11 +557,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
             const accentColor =
               cardStyle === 'cowhide-leather'
                 ? '#FDE68A'
-                : cardStyle === 'light-cowhide-leather'
-                  ? '#0F172A'
-                  : isLight
-                    ? accentPair.light
-                    : accentPair.dark;
+                : cardStyle === 'black-cowhide-leather'
+                  ? '#E2E8F0'
+                  : cardStyle === 'light-cowhide-leather'
+                    ? '#0F172A'
+                    : isLight
+                      ? accentPair.light
+                      : accentPair.dark;
             const domainAccentKeyMap: Record<string, string> = {
               '01': 'sky',
               '02': 'orange',
@@ -712,13 +721,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                                   <div
                                     key={partner.name || i}
                                     title={partner.name}
-                                    className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full flex items-center justify-center overflow-hidden shrink-0 select-none transition-transform duration-200 hover:-translate-y-0.5"
+                                    style={{ background: 'var(--bg-card)' }}
+                                    className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full border-0 ring-0 p-0 shadow-none outline-none flex items-center justify-center overflow-hidden shrink-0 select-none transition-transform duration-200 hover:-translate-y-0.5"
                                   >
                                     <img
                                       src={partner.logo}
                                       alt={partner.name}
                                       referrerPolicy="no-referrer"
-                                      className="w-full h-full object-cover rounded-full bg-transparent"
+                                      className="w-full h-full object-cover rounded-full"
                                       onError={(e) => {
                                         if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
                                           e.currentTarget.src = partner.fallbackLogo;
@@ -738,9 +748,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                                   <div
                                     key={companyName || i}
                                     title={companyName}
-                                    className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full bg-[var(--bg-subcard)] border border-[var(--border-subcard)] flex items-center justify-center overflow-hidden shrink-0 select-none"
+                                    style={{ background: 'var(--bg-card)' }}
+                                    className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full border-0 ring-0 p-0 shadow-none outline-none flex items-center justify-center overflow-hidden shrink-0 select-none"
                                   >
-                                    <span className="typo-badge font-bold text-[var(--text-primary)] text-center leading-tight truncate px-1">
+                                    <span className="typo-badge font-bold text-[var(--text-primary)] text-center leading-tight break-words px-1">
                                       {companyName}
                                     </span>
                                   </div>
@@ -965,9 +976,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                                   backgroundColor:
                                     cardStyle === 'cowhide-leather'
                                       ? 'rgba(61, 33, 11, 0.72)'
-                                      : cardStyle === 'light-cowhide-leather'
-                                        ? 'rgba(15, 23, 42, 0.08)'
-                                        : 'rgba(255, 255, 255, 0.14)',
+                                      : cardStyle === 'black-cowhide-leather'
+                                        ? 'rgba(17, 19, 24, 0.88)'
+                                        : cardStyle === 'light-cowhide-leather'
+                                          ? 'rgba(15, 23, 42, 0.08)'
+                                          : 'rgba(255, 255, 255, 0.14)',
                                   color: `var(--accent-${toolAccent})`,
                                 }}
                               >

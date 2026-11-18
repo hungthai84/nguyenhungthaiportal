@@ -478,12 +478,10 @@ export const Header: React.FC<HeaderProps> = ({
         borderBottomLeftRadius: '14px',
         borderBottomRightRadius: '14px',
         zIndex: isRadialMenuOpen ? 99999 : 40,
-        transform: isHeaderHidden ? 'translateY(-105%)' : 'translateY(0)',
-        transition: 'transform 350ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 300ms ease, background 300ms ease',
       }}
       className={`neonav-bar mx-auto min-h-[72px] h-auto py-1.5 flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
-      } relative flex-shrink-0 rounded-t-none rounded-b-[14px] backdrop-blur-md border-white/10 group/header overflow-visible pointer-events-auto`}
+      } ${isHeaderHidden ? 'is-header-hidden' : ''} relative flex-shrink-0 rounded-t-none rounded-b-[14px] backdrop-blur-md border-white/10 group/header overflow-visible pointer-events-auto`}
     >
       {/* Khu vực Menu chính: Các nút định dạng xếp chồng với hiệu ứng lan màu khi chọn */}
       <nav

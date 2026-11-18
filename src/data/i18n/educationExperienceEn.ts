@@ -51,6 +51,12 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
   'Da thuộc thủ công': 'Artisan Leather Craft',
   'Kính mờ Mica đa sắc tươi sáng (Sáng) & kính mờ tối Obsidian Neon đa sắc (Tối)':
     'Luminous Multicolor Mica Glass (Light) & Obsidian Neon Multicolor Glass (Dark)',
+  'Chất liệu da màu trắng thanh lịch viền nổi với đường chỉ khâu tay viền đứt nét và sắc chữ tương phản cao rõ ràng.':
+    'Elegant white leather texture with raised border, hand-stitched dashed seam, and high-contrast crisp typography.',
+  'Chất liệu da màu đen mờ lì (#252830 → #15171C) kết hợp chỉ khâu bạch kim đứt nét và độ tương phản chữ trắng #FFFFFF sắc nét.':
+    'Matte obsidian black leather (#252830 → #15171C) paired with platinum dashed hand-stitching and sharp #FFFFFF typography.',
+  'Mô phỏng chất liệu da màu nâu cổ điển (#8B5A2B → #653A17) với đường chỉ khâu tay viền đứt nét và sắc chữ kem #FFF8DC sang trọng.':
+    'Classic brown cowhide leather texture (#8B5A2B → #653A17) with hand-stitched dashed borders and warm cream #FFF8DC accents.',
   'Chất liệu da cá sấu trắng chỉ đen (Sáng) & da bò nâu chỉ kem (Tối)':
     'White Crocodile Leather with black stitching (Light) & Classic Brown Cowhide with cream stitching (Dark)',
   'Đang sử dụng ✓': 'In Use ✓',
@@ -62,6 +68,7 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
   'Mẫu hiển thị & Video Demo': 'Sample Preview & Demo Video',
   'Video Demo Giao Diện': 'Theme Demo Video',
   'Biến thể Sáng & Tối': 'Light & Dark Variants',
+  'Cơ chế Sáng · Tối · Màu': 'Light · Dark · Color Variants',
 
   // =========================================================================
   // 3. EDUCATION COURSES (MODS, FOCUS, APPLICATION, RESULT)

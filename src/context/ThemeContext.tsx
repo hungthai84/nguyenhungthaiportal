@@ -221,15 +221,19 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       // ignore
     }
 
+    const mechanism = CARD_STYLES_MAP[cardStyle]?.mechanism || (nextDark ? 'dark' : 'light');
+
     if (nextDark) {
       document.documentElement.classList.add('dark');
       document.documentElement.setAttribute(
         'data-theme',
         cardStyle === 'cowhide-leather'
           ? 'cowhide-leather'
-          : cardStyle === 'light-multicolor-glass-dark'
-            ? 'light-multicolor-glass-dark'
-            : 'dark'
+          : cardStyle === 'black-cowhide-leather'
+            ? 'black-cowhide-leather'
+            : cardStyle === 'light-multicolor-glass-dark'
+              ? 'light-multicolor-glass-dark'
+              : 'dark'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -238,9 +242,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       document.documentElement.setAttribute('data-theme-mode', 'light');
     }
 
+    document.documentElement.setAttribute('data-theme-mechanism', mechanism);
     document.documentElement.setAttribute('data-card-style', cardStyle);
     if (document.body) {
       document.body.setAttribute('data-card-style', cardStyle);
+      document.body.setAttribute('data-theme-mechanism', mechanism);
     }
   }, [cardStyle]);
 
@@ -402,15 +408,18 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     } catch (e) {
       // ignore
     }
+    const mechanism = CARD_STYLES_MAP[normalized]?.mechanism || (nextDark ? 'dark' : 'light');
     if (nextDark) {
       document.documentElement.classList.add('dark');
       document.documentElement.setAttribute(
         'data-theme',
         normalized === 'cowhide-leather'
           ? 'cowhide-leather'
-          : normalized === 'light-multicolor-glass-dark'
-            ? 'light-multicolor-glass-dark'
-            : 'dark'
+          : normalized === 'black-cowhide-leather'
+            ? 'black-cowhide-leather'
+            : normalized === 'light-multicolor-glass-dark'
+              ? 'light-multicolor-glass-dark'
+              : 'dark'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -418,9 +427,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       document.documentElement.setAttribute('data-theme', 'light');
       document.documentElement.setAttribute('data-theme-mode', 'light');
     }
+    document.documentElement.setAttribute('data-theme-mechanism', mechanism);
     document.documentElement.setAttribute('data-card-style', normalized);
     if (document.body) {
       document.body.setAttribute('data-card-style', normalized);
+      document.body.setAttribute('data-theme-mechanism', mechanism);
     }
     window.dispatchEvent(new CustomEvent(CARD_STYLE_SYNC_EVENT, { detail: normalized }));
     if (!hasManualWallpaper) {

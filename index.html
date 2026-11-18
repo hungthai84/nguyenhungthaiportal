@@ -24,51 +24,29 @@
         try {
           var rawStyle = localStorage.getItem('hungthai_card_style');
           var aliasMap = {
-            'frosted-glass': 'light-glassmorphism',
-            'mica-fluent': 'light-glassmorphism',
-            'light-glass': 'light-glassmorphism',
-            'guong-sang': 'light-glassmorphism',
-            'multicolor-glass': 'light-multicolor-glass',
-            'kinh-mo-da-sac': 'light-multicolor-glass',
-            'dark-frosted-glass': 'dark-glassmorphism',
-            'dark-glass': 'dark-glassmorphism',
-            'guong-toi': 'dark-glassmorphism',
-            'dark-neon': 'dark-neon-multicolor-glass',
-            'neon-dark': 'dark-neon-multicolor-glass',
-            'neumorphism': 'ice-blue-neumorphism',
-            'neu-dark': 'dark-ice-blue-neumorphism',
-            'pastel-soft-ui': 'pastel-lilac-soft',
-            'dark-pastel-soft': 'dark-pastel-lilac-soft',
+            'guong-da-sac': 'light-multicolor-glass',
+            'guong-da-sac-sang': 'light-multicolor-glass',
+            'guong-da-sac-toi': 'light-multicolor-glass-dark',
+            'da-thuoc': 'light-cowhide-leather',
             'da-ca-sau-trang': 'light-cowhide-leather',
-            'da-bo-sang': 'light-cowhide-leather',
-            'leather': 'cowhide-leather',
             'da-bo': 'cowhide-leather'
           };
           var validStyles = [
-            'light-glassmorphism',
             'light-multicolor-glass',
-            'dark-glassmorphism',
-            'dark-neon-multicolor-glass',
-            'ice-blue-neumorphism',
-            'dark-ice-blue-neumorphism',
-            'pastel-lilac-soft',
-            'dark-pastel-lilac-soft',
+            'light-multicolor-glass-dark',
             'light-cowhide-leather',
             'cowhide-leather'
           ];
           var cardStyle = rawStyle && aliasMap[rawStyle] ? aliasMap[rawStyle] : rawStyle;
           if (!cardStyle || validStyles.indexOf(cardStyle) === -1) {
-            cardStyle = 'light-glassmorphism';
+            cardStyle = 'light-multicolor-glass';
           }
           document.documentElement.setAttribute('data-card-style', cardStyle);
           if (rawStyle !== cardStyle) {
             localStorage.setItem('hungthai_card_style', cardStyle);
           }
           var darkThemes = [
-            'dark-glassmorphism',
-            'dark-neon-multicolor-glass',
-            'dark-ice-blue-neumorphism',
-            'dark-pastel-lilac-soft',
+            'light-multicolor-glass-dark',
             'cowhide-leather'
           ];
           var isDarkInit = darkThemes.indexOf(cardStyle) !== -1;

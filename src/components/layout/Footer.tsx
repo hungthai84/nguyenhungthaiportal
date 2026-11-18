@@ -580,7 +580,7 @@ export const Footer: React.FC<FooterProps> = ({
                           : `Danh sách Giao diện (${CARD_STYLE_GROUPS.length})`}
                       </span>
                       <span className="typo-badge font-normal" style={{ color: 'var(--text-muted)' }}>
-                        {isEn ? 'Light / Dark' : 'Sáng / Tối'}
+                        {isEn ? 'Light / Dark / Color' : 'Sáng / Tối / Màu'}
                       </span>
                     </div>
 
@@ -588,23 +588,56 @@ export const Footer: React.FC<FooterProps> = ({
                       {CARD_STYLE_GROUPS.map((group) => {
                         const lightPreset =
                           (group.lightMode && group.presets.find((p) => p.id === group.lightMode)) ||
-                          group.presets.find((p) => !p.isDark) ||
-                          group.presets[0];
+                          undefined;
                         const darkPreset =
                           (group.darkMode && group.presets.find((p) => p.id === group.darkMode)) ||
-                          group.presets.find((p) => p.isDark) ||
-                          group.presets[group.presets.length - 1];
+                          undefined;
+                        const colorPreset =
+                          (group.colorMode && group.presets.find((p) => p.id === group.colorMode)) ||
+                          undefined;
+                        const hasLight = Boolean(lightPreset);
+                        const hasDark = Boolean(darkPreset);
+                        const hasColor = Boolean(colorPreset);
                         const groupActive = group.presets.some((p) => p.id === cardStyle);
-                        const defaultPreset = activeThemeConfig.isDark ? darkPreset : lightPreset;
+                        const fallbackPreset =
+                          (activeThemeConfig.mechanism === 'color'
+                            ? colorPreset
+                            : activeThemeConfig.isDark
+                              ? darkPreset
+                              : lightPreset) ||
+                          lightPreset ||
+                          darkPreset ||
+                          colorPreset ||
+                          group.presets[0];
                         const activeGroupPreset = groupActive
                           ? activeThemeConfig
-                          : defaultPreset;
+                          : fallbackPreset;
                         const groupTitle = isEn ? group.labelEn : group.label;
+                        const isLightSelected = Boolean(lightPreset && cardStyle === lightPreset.id);
+                        const isDarkSelected = Boolean(darkPreset && cardStyle === darkPreset.id);
+                        const isColorSelected = Boolean(colorPreset && cardStyle === colorPreset.id);
+
+                        const getModeLabel = (mech: 'light' | 'dark' | 'color') => {
+                          if (mech === 'light') return isEn ? 'Light' : 'Sáng';
+                          if (mech === 'dark') return isEn ? 'Dark' : 'Tối';
+                          return isEn ? 'Color' : 'Màu';
+                        };
+
+                        const handleApplyPreset = (preset: NonNullable<typeof fallbackPreset>) => {
+                          SoundEngine.playGlassChime();
+                          setCardStyle(preset.id);
+                          const modeText = getModeLabel(preset.mechanism || (preset.isDark ? 'dark' : 'light'));
+                          onShowNotification(
+                            isEn
+                              ? `✓ Applied theme: ${groupTitle} (${modeText})`
+                              : `✓ Đã áp dụng giao diện: ${groupTitle} (${modeText})`
+                          );
+                        };
 
                         return (
                           <div
                             key={group.id}
-                            className={`w-full flex items-center justify-between gap-2 px-2.5 py-2 rounded-[14px] border transition-all ${
+                            className={`w-full flex items-center justify-between gap-2.5 px-2.5 py-2 rounded-[14px] border transition-all ${
                               groupActive ? 'shadow-xs' : 'theme-dropdown-option'
                             }`}
                             style={{
@@ -615,18 +648,7 @@ export const Footer: React.FC<FooterProps> = ({
                             {/* Tên 1 giao diện theo nhóm */}
                             <button
                               type="button"
-                              onClick={() => {
-                                SoundEngine.playGlassChime();
-                                const targetPreset = activeThemeConfig.isDark
-                                  ? darkPreset
-                                  : lightPreset;
-                                setCardStyle(targetPreset.id);
-                                onShowNotification(
-                                  isEn
-                                    ? `✓ Applied theme: ${groupTitle} (${targetPreset.isDark ? 'Dark' : 'Light'})`
-                                    : `✓ Đã áp dụng giao diện: ${groupTitle} (${targetPreset.isDark ? 'Tối' : 'Sáng'})`
-                                );
-                              }}
+                              onClick={() => handleApplyPreset(fallbackPreset)}
                               className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer bg-transparent border-0 p-0"
                             >
                               <div className="flex items-center justify-center shrink-0">
@@ -653,6 +675,80 @@ export const Footer: React.FC<FooterProps> = ({
                                 )}
                               </div>
                             </button>
+
+                            {/* Nút Sáng / Tối / Màu kế bên tên giao diện (chỉ hiển thị dạng có hỗ trợ) */}
+                            {(hasLight || hasDark || hasColor) && (
+                              <div
+                                role="group"
+                                aria-label={
+                                  isEn
+                                    ? `${groupTitle} appearance mode`
+                                    : `Chế độ giao diện cho ${groupTitle}`
+                                }
+                                className="inline-flex items-center gap-1 p-0.5 rounded-full border shrink-0"
+                                style={{
+                                  background: 'var(--bg-subcard)',
+                                  borderColor: 'var(--border-subcard)',
+                                }}
+                              >
+                                {hasLight && lightPreset && (
+                                  <button
+                                    type="button"
+                                    data-mode="light"
+                                    aria-pressed={isLightSelected}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleApplyPreset(lightPreset);
+                                    }}
+                                    title={isEn ? `${groupTitle} - Light` : `${groupTitle} - Sáng`}
+                                    className={`theme-switch-btn inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                                      isLightSelected ? 'is-active' : ''
+                                    }`}
+                                  >
+                                    <WebIcon name="sun" className="w-3 h-3 shrink-0" />
+                                    <span>{isEn ? 'Light' : 'Sáng'}</span>
+                                  </button>
+                                )}
+
+                                {hasDark && darkPreset && (
+                                  <button
+                                    type="button"
+                                    data-mode="dark"
+                                    aria-pressed={isDarkSelected}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleApplyPreset(darkPreset);
+                                    }}
+                                    title={isEn ? `${groupTitle} - Dark` : `${groupTitle} - Tối`}
+                                    className={`theme-switch-btn inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                                      isDarkSelected ? 'is-active' : ''
+                                    }`}
+                                  >
+                                    <WebIcon name="moon" className="w-3 h-3 shrink-0" />
+                                    <span>{isEn ? 'Dark' : 'Tối'}</span>
+                                  </button>
+                                )}
+
+                                {hasColor && colorPreset && (
+                                  <button
+                                    type="button"
+                                    data-mode="color"
+                                    aria-pressed={isColorSelected}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleApplyPreset(colorPreset);
+                                    }}
+                                    title={isEn ? `${groupTitle} - Color` : `${groupTitle} - Màu`}
+                                    className={`theme-switch-btn inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                                      isColorSelected ? 'is-active' : ''
+                                    }`}
+                                  >
+                                    <WebIcon name="palette" className="w-3 h-3 shrink-0" />
+                                    <span>{isEn ? 'Color' : 'Màu'}</span>
+                                  </button>
+                                )}
+                              </div>
+                            )}
                           </div>
                         );
                       })}
@@ -702,13 +798,19 @@ export const Footer: React.FC<FooterProps> = ({
                     : '✓ Đã chuyển sang Chế độ Sáng'
               );
             };
-            const modeTitle = isDark
+            const activeModeTheme = getCardStyleConfig(cardStyle);
+            const isColorMode = activeModeTheme.mechanism === 'color';
+            const modeTitle = isColorMode
               ? isEn
-                ? 'Dark Mode'
-                : 'Chế độ Tối'
-              : isEn
-                ? 'Light Mode'
-                : 'Chế độ Sáng';
+                ? 'Color Mode'
+                : 'Chế độ Màu'
+              : isDark
+                ? isEn
+                  ? 'Dark Mode'
+                  : 'Chế độ Tối'
+                : isEn
+                  ? 'Light Mode'
+                  : 'Chế độ Sáng';
             const modeSub = isDark
               ? isEn
                 ? 'Switch Light'

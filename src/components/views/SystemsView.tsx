@@ -675,7 +675,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isFilterDropdownOpen]);
-  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark =
+    themeIsDark ||
+    currentTheme === 'light-multicolor-glass-dark' ||
+    currentTheme === 'cowhide-leather' ||
+    currentTheme === 'black-cowhide-leather';
 
   useEffect(() => {
     return () => {
@@ -1362,7 +1366,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 </h1>
               </div>
               <p
-                className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal sm:whitespace-nowrap overflow-hidden text-ellipsis max-w-full sm:max-w-[60%]"
+                className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
                 style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
               >
                 &quot;Hệ thống thông minh, vận hành tinh gọn và đồng bộ ♡&quot;
@@ -1812,11 +1816,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 const sysAccentColor =
                   cardStyle === 'cowhide-leather'
                     ? '#FDE68A'
-                    : cardStyle === 'light-cowhide-leather'
-                      ? '#0F172A'
-                      : isDark
-                        ? config.darkAccent
-                        : config.lightAccent;
+                    : cardStyle === 'black-cowhide-leather'
+                      ? '#E2E8F0'
+                      : cardStyle === 'light-cowhide-leather'
+                        ? '#0F172A'
+                        : isDark
+                          ? config.darkAccent
+                          : config.lightAccent;
 
                 return (
                   <div
@@ -1936,7 +1942,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center min-w-0">
+                            <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] items-stretch min-w-0">
                               {(item.videoUrl || config.illustrationSrc || item.imageUrl) && (
                                 <div
                                   id={`system-detail-media-${item.id}`}
@@ -1967,27 +1973,43 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                   )}
                                 </div>
                               )}
-                              <p
-                                className={`typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words ${
+                              <div
+                                id={`system-detail-desc-${item.id}`}
+                                data-subcard="true"
+                                className={`exp-detail-subcard p-[15px] rounded-[14px] flex flex-col justify-start gap-2.5 h-full min-w-0 ${
                                   item.videoUrl || config.illustrationSrc || item.imageUrl
                                     ? 'md:col-span-7'
                                     : 'md:col-span-12'
                                 }`}
                               >
-                                {item.descVi}
-                              </p>
+                                <div
+                                  className="subcard-header-sync flex items-center gap-2 min-w-0 pb-2 border-b border-[var(--border-subcard)]"
+                                  data-subcard-accent="blue"
+                                >
+                                  <WebIcon name="file-text" className="w-4 h-4 shrink-0" />
+                                  <h4
+                                    className="typo-h4 subcard-title-synced font-play m-0 break-words"
+                                    data-subcard-title="true"
+                                  >
+                                    Mô tả hệ thống
+                                  </h4>
+                                </div>
+                                <p className="typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words m-0">
+                                  {item.descVi}
+                                </p>
+                              </div>
                             </div>
                           </div>
 
-                          {/* BENTO CARD 6 (7/12): Tính năng cốt lõi */}
+                          {/* BENTO CARD 6 (7/12): Danh sách tính năng (dạng list) */}
                           {item.featuresVi && item.featuresVi.length > 0 && (
                             <div
                               id={`system-detail-features-${item.id}`}
                               data-subcard="true"
-                              className="exp-detail-subcard sm:col-span-2 md:col-span-7 p-4 rounded-[14px] flex flex-col gap-2.5 min-w-0"
+                              className="exp-detail-subcard sm:col-span-2 md:col-span-7 p-[15px] rounded-[14px] flex flex-col gap-2.5 min-w-0"
                             >
                               <div
-                                className="subcard-header-sync flex items-center gap-2 min-w-0"
+                                className="subcard-header-sync flex items-center gap-2 min-w-0 pb-2 border-b border-[var(--border-subcard)]"
                                 data-subcard-accent="emerald"
                               >
                                 <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
@@ -1995,15 +2017,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                   className="typo-h4 subcard-title-synced font-play m-0 break-words"
                                   data-subcard-title="true"
                                 >
-                                  Tính năng cốt lõi
+                                  Danh sách tính năng
                                 </h4>
                               </div>
-                              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                              <ul className="flex flex-col gap-2 list-none p-0 m-0 w-full">
                                 {item.featuresVi.map((feat: string, fIdx: number) => (
                                   <li
                                     key={fIdx}
-                                    data-subcard="true"
-                                    className="exp-detail-subcard flex items-start gap-2.5 p-2.5 rounded-[14px] text-[var(--text-primary)] min-w-0"
+                                    className="flex items-start gap-2.5 py-2 border-b border-[var(--border-subcard)] last:border-b-0 text-[var(--text-primary)] min-w-0"
                                   >
                                     <span
                                       className="w-6 h-6 rounded-full text-white font-mono typo-badge flex items-center justify-center shrink-0 mt-0.5"
@@ -2011,7 +2032,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                     >
                                       {fIdx + 1}
                                     </span>
-                                    <span className="typo-body-sm text-[var(--text-primary)] break-words min-w-0 flex-1">
+                                    <span className="typo-body-sm text-[var(--text-primary)] break-words min-w-0 flex-1 leading-relaxed">
                                       {feat}
                                     </span>
                                   </li>
@@ -2370,11 +2391,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
               const headerColor =
                 cardStyle === 'cowhide-leather'
                   ? '#FDE68A'
-                  : cardStyle === 'light-cowhide-leather'
-                    ? '#0F172A'
-                    : isDark
-                      ? headerConfig?.darkAccent || '#60a5fa'
-                      : headerConfig?.lightAccent || '#1d4ed8';
+                  : cardStyle === 'black-cowhide-leather'
+                    ? '#E2E8F0'
+                    : cardStyle === 'light-cowhide-leather'
+                      ? '#0F172A'
+                      : isDark
+                        ? headerConfig?.darkAccent || '#60a5fa'
+                        : headerConfig?.lightAccent || '#1d4ed8';
               return (
                 <div className="flex items-center justify-between gap-3 px-3 sm:px-5 pt-2 pb-3 border-b border-[var(--border-subcard)] shrink-0">
                   <div className="card-header-sync flex items-center gap-2.5 min-w-0 flex-1" style={{ color: headerColor }}>
@@ -2480,7 +2503,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center min-w-0">
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] items-stretch min-w-0">
                         {(selectedSystem.videoUrl || modalConfig?.illustrationSrc || selectedSystem.imageUrl) && (
                           <div
                             id={`system-modal-media-${selectedSystem.id}`}
@@ -2510,40 +2533,55 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             )}
                           </div>
                         )}
-                        <p
-                          className={`typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words ${
+                        <div
+                          id={`system-modal-desc-${selectedSystem.id}`}
+                          data-subcard="true"
+                          className={`exp-detail-subcard p-[15px] rounded-[14px] flex flex-col justify-start gap-2.5 h-full min-w-0 ${
                             selectedSystem.videoUrl || modalConfig?.illustrationSrc || selectedSystem.imageUrl
                               ? 'md:col-span-7'
                               : 'md:col-span-12'
                           }`}
                         >
-                          {selectedSystem.description || selectedSystem.descEn || selectedSystem.descVi}
-                        </p>
+                          <div
+                            className="subcard-header-sync flex items-center gap-2 min-w-0 pb-2 border-b border-[var(--border-subcard)]"
+                            data-subcard-accent="blue"
+                          >
+                            <WebIcon name="file-text" className="w-4 h-4 shrink-0" />
+                            <h4
+                              className="typo-h4 subcard-title-synced font-play m-0 break-words"
+                              data-subcard-title="true"
+                            >
+                              Mô tả hệ thống
+                            </h4>
+                          </div>
+                          <p className="typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words m-0">
+                            {selectedSystem.description || selectedSystem.descEn || selectedSystem.descVi}
+                          </p>
+                        </div>
                       </div>
                     </div>
 
-                    {/* BENTO CARD 6 (7/12): Tính năng cốt lõi */}
-                    <div id="systems-workflow-card" data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-7 p-4 rounded-[14px] shadow-md space-y-3 h-full min-w-0">
+                    {/* BENTO CARD 6 (7/12): Danh sách tính năng (dạng list) */}
+                    <div id="systems-workflow-card" data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-7 p-[15px] rounded-[14px] shadow-md space-y-3 h-full min-w-0">
                       <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
                         <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="emerald">
                           <WebIcon name="sparkles" className="w-[18px] h-[18px] shrink-0" />
                           <h4 className="typo-h4 subcard-title-synced font-play m-0 break-words" data-subcard-title="true">
-                            Tính năng cốt lõi
+                            Danh sách tính năng
                           </h4>
                         </div>
                       </div>
 
-                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <ul className="flex flex-col gap-2 list-none p-0 m-0 w-full">
                         {(selectedSystem.featuresVi || selectedSystem.features || []).map((feat: string, idx: number) => (
                           <li
                             key={idx}
-                            data-subcard="true"
-                            className="exp-detail-subcard flex items-start gap-2.5 typo-body-sm text-[var(--text-primary)] p-2.5 rounded-[14px] min-w-0"
+                            className="flex items-start gap-2.5 py-2 border-b border-[var(--border-subcard)] last:border-b-0 typo-body-sm text-[var(--text-primary)] min-w-0"
                           >
                             <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
                               <WebIcon name="check" className="w-3 h-3 stroke-[3]" />
                             </div>
-                            <span className="break-words min-w-0 flex-1">{feat}</span>
+                            <span className="break-words min-w-0 flex-1 leading-relaxed">{feat}</span>
                           </li>
                         ))}
                       </ul>

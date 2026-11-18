@@ -1764,7 +1764,7 @@ export function AboutView({
                             </span>
                           </div>
                           <span
-                            className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate"
+                            className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words"
                             title={item.value}
                           >
                             {item.value}
@@ -1789,7 +1789,7 @@ export function AboutView({
                           <Phone className="w-3.5 h-3.5 shrink-0 text-orange-600 dark:text-orange-300 group-hover/subcard:scale-110 transition-transform" />
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-orange-600 dark:text-orange-300">Điện thoại</span>
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">+84 0909097882</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">+84 0909097882</span>
                       </div>
                     </a>
 
@@ -1813,7 +1813,7 @@ export function AboutView({
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-cyan-600 dark:text-cyan-300">Tạm trú</span>
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">
                           Chung Cư Tân Mỹ, Q.7, TP.HCM
                         </span>
                       </div>
@@ -1839,7 +1839,7 @@ export function AboutView({
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-teal-600 dark:text-teal-300">Cư trú</span>
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">
                           7D7 Hoàng Hoa Tám, Đồng Tháp
                         </span>
                       </div>
@@ -1864,7 +1864,7 @@ export function AboutView({
                           <Mail className="w-3.5 h-3.5 shrink-0 text-pink-600 dark:text-pink-300 group-hover/subcard:scale-110 transition-transform" />
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-pink-600 dark:text-pink-300">Hộp thư</span>
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">hungthai84@gmail.com</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">hungthai84@gmail.com</span>
                       </div>
                     </div>
 
@@ -1884,7 +1884,7 @@ export function AboutView({
                           <Globe className="w-3.5 h-3.5 shrink-0 text-blue-600 dark:text-sky-300 group-hover/subcard:scale-110 transition-transform" />
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-blue-600 dark:text-sky-300">Website</span>
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">powerservice.one</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">powerservice.one</span>
                       </div>
                     </a>
 
@@ -1904,7 +1904,7 @@ export function AboutView({
                           <LinkedinIcon className="w-3.5 h-3.5 shrink-0 text-indigo-600 dark:text-indigo-300 group-hover/subcard:scale-110 transition-transform" />
                           <span className="about-info-label typo-label font-medium leading-tight truncate text-indigo-600 dark:text-indigo-300">LinkedIn</span>
                         </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-tight truncate">linkedin.com/in/hungthai84</span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-normal break-words">linkedin.com/in/hungthai84</span>
                       </div>
                     </a>
                   </div>

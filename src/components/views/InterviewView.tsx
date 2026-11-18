@@ -174,14 +174,14 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
         {/* 1. VIDEO BANNER SECTION (70% width on LG) */}
         <section
           id="interview-questions-card"
-          data-element-name="Banner Video Phỏng Vấn"
-          data-element-type="banner-card"
+          data-element-name="Card Video Phỏng Vấn"
+          data-element-type="card"
           data-section-card="true"
-          className="lg:w-[62%] xl:w-[68%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-visible border border-white/80 dark:border-[#334155] shadow-xl p-[15px] text-white shrink-0 z-30 flex flex-col justify-between bg-[#0B1220] group"
-          style={{ padding: '15px', borderRadius: '14px' }}
+          className="lg:w-[62%] xl:w-[68%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden bento-card glass-card shadow-xs p-[10px] text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group"
+          style={{ padding: '10px', borderRadius: '14px' }}
         >
-          {/* Nền Video phỏng vấn trực tiếp lắp đầy 100% banner */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[14px] w-full h-full">
+          {/* Nền Video phỏng vấn trực tiếp với padding 10px */}
+          <div className="absolute inset-[10px] pointer-events-none overflow-hidden rounded-[10px] w-[calc(100%-20px)] h-[calc(100%-20px)]">
             <video
               ref={videoRef}
               autoPlay
@@ -191,9 +191,9 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               src={isVideoPlaying ? INTERVIEW_VIDEO_2_URL : INTERVIEW_VIDEO_1_URL}
               onTimeUpdate={handleTimeUpdate}
               onEnded={handleEnded}
-              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500 select-none pointer-events-none"
+              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[10px] opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500 select-none pointer-events-none"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-black/30 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-black/35 pointer-events-none rounded-[10px]" />
           </div>
 
           {/* Hàng trên: Icon + Tiêu đề bên trái, Câu nói chữ ký bên phải */}
@@ -455,7 +455,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-name="Thẻ Chi Tiết Trả Lời Phỏng Vấn"
           data-element-type="card"
           data-section-card="true"
-          className="lg:w-[38%] xl:w-[32%] w-full min-h-[360px] lg:min-h-0 lg:h-full flex flex-col rounded-[14px] bento-card glass-card border p-[15px] transition-all duration-300 text-left justify-between gap-2.5 relative overflow-y-auto no-scrollbar"
+          className="lg:w-[38%] xl:w-[32%] w-full min-h-[360px] lg:min-h-0 lg:h-full flex flex-col rounded-[14px] bento-card glass-card border p-[15px] transition-all duration-300 text-left justify-between gap-[15px] relative overflow-y-auto no-scrollbar"
         >
             {/* Header Tiêu đề thẻ */}
             <div className="space-y-1.5 shrink-0">
@@ -500,7 +500,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 id="interview-asker-card"
                 data-element-type="card"
                 data-subcard="true"
-                className="exp-detail-subcard p-3 rounded-[14px] border space-y-1 shrink-0"
+                className="exp-detail-subcard p-[15px] rounded-[14px] border flex flex-col gap-[15px] shrink-0"
               >
                 <div className="interview-asker-heading subcard-header-sync typo-h4 flex items-center gap-1.5 flex-wrap text-indigo-600 dark:text-indigo-400">
                   <WebIcon name="building" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
@@ -523,7 +523,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 id="interview-answerer-card"
                 data-element-type="card"
                 data-subcard="true"
-                className="exp-detail-subcard p-3 rounded-[14px] border space-y-1 shrink-0"
+                className="exp-detail-subcard p-[15px] rounded-[14px] border flex flex-col gap-[15px] shrink-0"
               >
                 <div className="interview-answerer-heading subcard-header-sync typo-h4 flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
                   <WebIcon name="user" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
@@ -541,7 +541,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 id="interview-insights-card"
                 data-element-type="card"
                 data-subcard="true"
-                className="exp-detail-subcard p-3 rounded-[14px] border flex items-start gap-2 shrink-0"
+                className="exp-detail-subcard p-[15px] rounded-[14px] border flex items-start gap-[15px] shrink-0"
               >
                 <WebIcon name="trophy" className="interview-insights-heading w-4 h-4 text-amber-700 dark:text-amber-400 shrink-0 mt-1" />
                 <div className="typo-body text-[var(--text-secondary)]">

@@ -71,13 +71,58 @@ export default function App() {
     slide: number;
   } | null>(null);
 
-  const { isDark, cardStyle, activeWallpaper, setWallpaper } = useTheme();
+  const { isDark, cardStyle, activeWallpaper, setWallpaper, autoCompactNav } = useTheme();
+  const [isCompactChrome, setIsCompactChrome] = useState(false);
+  const mainViewportRef = useRef<HTMLElement | null>(null);
   const [loadedWallpaperUrl, setLoadedWallpaperUrl] = useState<string>('');
   const wallpaperImgRef = useRef<HTMLImageElement | null>(null);
   const activeImageUrl =
     activeWallpaper?.type === 'image' && activeWallpaper?.id !== 'none'
       ? getCleanImageUrl(activeWallpaper.value || activeWallpaper.bg || '')
       : '';
+
+  useEffect(() => {
+    setIsCompactChrome(false);
+  }, [currentTabIndex]);
+
+  useEffect(() => {
+    if (!autoCompactNav || currentTabIndex === 16) {
+      setIsCompactChrome(false);
+      document.documentElement.setAttribute('data-compact-chrome', 'false');
+      if (document.body) {
+        document.body.setAttribute('data-compact-chrome', 'false');
+      }
+      return;
+    }
+
+    const handleScrollCapture = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      const viewport = mainViewportRef.current;
+      if (!target || !viewport) return;
+      if (target !== viewport && !viewport.contains(target)) return;
+      if (target.scrollHeight <= target.clientHeight + 28) return;
+
+      const top = target.scrollTop;
+      if (top >= 68) {
+        setIsCompactChrome((prev) => (prev ? prev : true));
+      } else if (top <= 20) {
+        setIsCompactChrome((prev) => (prev ? false : prev));
+      }
+    };
+
+    document.addEventListener('scroll', handleScrollCapture, true);
+    return () => {
+      document.removeEventListener('scroll', handleScrollCapture, true);
+    };
+  }, [autoCompactNav, currentTabIndex]);
+
+  useEffect(() => {
+    const val = autoCompactNav && isCompactChrome && currentTabIndex !== 16 ? 'true' : 'false';
+    document.documentElement.setAttribute('data-compact-chrome', val);
+    if (document.body) {
+      document.body.setAttribute('data-compact-chrome', val);
+    }
+  }, [autoCompactNav, isCompactChrome, currentTabIndex]);
 
   useEffect(() => {
     if (!activeImageUrl) {
@@ -651,6 +696,7 @@ export default function App() {
 
       {/* MAIN CENTER CARD */}
       <main
+        ref={mainViewportRef}
         id="global-content-viewport"
         data-element-name="Khung hiển thị nội dung chính"
         data-element-type="container"

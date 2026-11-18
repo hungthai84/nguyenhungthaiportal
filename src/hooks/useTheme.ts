@@ -12,7 +12,7 @@ import {
 } from '../config/ui/cardStyles';
 import type { ThemeFamilyGroupMeta } from '../config/ui/cardStyles';
 import { CARD_STYLE_STORAGE_KEY } from '../config/ui/themeDefaults';
-import { CardStyleMode, ThemeMechanismMode } from '../config/ui/theme.types';
+import { CardStyleMode, SurfaceDepthMode, ThemeMechanismMode } from '../config/ui/theme.types';
 import { useThemeContext } from '../context/ThemeContext';
 import { useThemeLegacy } from './useThemeLegacy';
 
@@ -28,7 +28,7 @@ export {
   getThemeForMechanism,
   CARD_STYLE_STORAGE_KEY,
 };
-export type { CardStyleMode, ThemeFamilyGroupMeta, ThemeMechanismMode };
+export type { CardStyleMode, SurfaceDepthMode, ThemeFamilyGroupMeta, ThemeMechanismMode };
 
 export function useTheme() {
   try {

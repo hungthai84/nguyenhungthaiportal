@@ -2,6 +2,8 @@ import React from 'react';
 
 export type ThemeMechanismMode = 'light' | 'dark' | 'color';
 
+export type SurfaceDepthMode = 'flat' | 'depth';
+
 export type CardStyleMode =
   | 'light-multicolor-glass'
   | 'light-multicolor-glass-dark'

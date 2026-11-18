@@ -49,7 +49,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
         data-section-card="true"
         data-element-page="contact"
         data-element-parent="contact-main-card"
-        className="banner-card hero-banner group w-full lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border transition-all duration-300"
+        className="banner-card group w-full lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xs transition-all duration-300"
         style={{
           padding: '15px',
           borderRadius: '14px',

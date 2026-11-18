@@ -9,16 +9,20 @@ import {
   getThemeBackgroundForMode,
 } from '../data/wallpapers';
 import {
+  AUTO_COMPACT_NAV_STORAGE_KEY,
+  AUTO_COMPACT_NAV_SYNC_EVENT,
   CARD_STYLE_STORAGE_KEY,
   DEFAULT_CARD_STYLE,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
+  SURFACE_DEPTH_STORAGE_KEY,
+  SURFACE_DEPTH_SYNC_EVENT,
   THEME_BACKGROUNDS,
   THEME_DEFAULT_GLASS_SETTINGS,
   THEME_DEFAULT_WALLPAPER_ID,
   WALLPAPER_MANUAL_STORAGE_KEY,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode, GlassCustomization } from '../config/ui/theme.types';
+import { CardStyleMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
 import {
   CARD_STYLES_MAP,
   VALID_CARD_STYLES,
@@ -129,6 +133,12 @@ export interface ThemeContextType {
   isGlassCustomized: (mode?: CardStyleMode) => boolean;
   updateGlassSettings: (patch: Partial<GlassCustomization>, targetMode?: CardStyleMode) => void;
   resetGlassSettings: (targetMode?: CardStyleMode) => void;
+  surfaceDepth: SurfaceDepthMode;
+  setSurfaceDepth: (mode: SurfaceDepthMode) => void;
+  toggleSurfaceDepth: () => void;
+  autoCompactNav: boolean;
+  setAutoCompactNav: (enabled: boolean) => void;
+  toggleAutoCompactNav: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -184,6 +194,24 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [glassCustomizations, setGlassCustomizations] = useState<GlassCustomizationMap>(() =>
     readStoredGlassCustomizations()
   );
+
+  const [surfaceDepth, setSurfaceDepthState] = useState<SurfaceDepthMode>(() => {
+    try {
+      const saved = localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY);
+      return saved === 'flat' ? 'flat' : 'depth';
+    } catch {
+      return 'depth';
+    }
+  });
+
+  const [autoCompactNav, setAutoCompactNavState] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem(AUTO_COMPACT_NAV_STORAGE_KEY);
+      return saved === '0' ? false : true;
+    } catch {
+      return true;
+    }
+  });
 
   const activeWallpaperIdRef = useRef<string>(activeWallpaper.id);
   useEffect(() => {
@@ -261,6 +289,30 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   }, [cardStyle]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, surfaceDepth);
+    } catch {
+      // ignore
+    }
+    document.documentElement.setAttribute('data-surface-depth', surfaceDepth);
+    if (document.body) {
+      document.body.setAttribute('data-surface-depth', surfaceDepth);
+    }
+  }, [surfaceDepth]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(AUTO_COMPACT_NAV_STORAGE_KEY, autoCompactNav ? '1' : '0');
+    } catch {
+      // ignore
+    }
+    document.documentElement.setAttribute('data-auto-compact-nav', autoCompactNav ? 'true' : 'false');
+    if (!autoCompactNav) {
+      document.documentElement.setAttribute('data-compact-chrome', 'false');
+    }
+  }, [autoCompactNav]);
+
   // Sync state between components
   useEffect(() => {
     const handleSync = (e: Event) => {
@@ -279,13 +331,29 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setGlassCustomizations(detail);
       }
     };
+    const handleSurfaceDepthSync = (e: Event) => {
+      const detail = (e as CustomEvent<SurfaceDepthMode>).detail;
+      if (detail === 'flat' || detail === 'depth') {
+        setSurfaceDepthState((prev) => (prev === detail ? prev : detail));
+      }
+    };
+    const handleAutoCompactSync = (e: Event) => {
+      const detail = (e as CustomEvent<boolean>).detail;
+      if (typeof detail === 'boolean') {
+        setAutoCompactNavState((prev) => (prev === detail ? prev : detail));
+      }
+    };
     window.addEventListener(WALLPAPER_SYNC_EVENT, handleSync);
     window.addEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
     window.addEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
+    window.addEventListener(SURFACE_DEPTH_SYNC_EVENT, handleSurfaceDepthSync);
+    window.addEventListener(AUTO_COMPACT_NAV_SYNC_EVENT, handleAutoCompactSync);
     return () => {
       window.removeEventListener(WALLPAPER_SYNC_EVENT, handleSync);
       window.removeEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
       window.removeEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
+      window.removeEventListener(SURFACE_DEPTH_SYNC_EVENT, handleSurfaceDepthSync);
+      window.removeEventListener(AUTO_COMPACT_NAV_SYNC_EVENT, handleAutoCompactSync);
     };
   }, []);
 
@@ -541,6 +609,44 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     [cardStyle]
   );
 
+  const setSurfaceDepth = useCallback((mode: SurfaceDepthMode) => {
+    const next: SurfaceDepthMode = mode === 'depth' ? 'depth' : 'flat';
+    setSurfaceDepthState(next);
+    document.documentElement.setAttribute('data-surface-depth', next);
+    if (document.body) {
+      document.body.setAttribute('data-surface-depth', next);
+    }
+    try {
+      localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, next);
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(SURFACE_DEPTH_SYNC_EVENT, { detail: next }));
+  }, []);
+
+  const toggleSurfaceDepth = useCallback(() => {
+    setSurfaceDepth(surfaceDepth === 'flat' ? 'depth' : 'flat');
+  }, [surfaceDepth, setSurfaceDepth]);
+
+  const setAutoCompactNav = useCallback((enabled: boolean) => {
+    const next = Boolean(enabled);
+    setAutoCompactNavState(next);
+    document.documentElement.setAttribute('data-auto-compact-nav', next ? 'true' : 'false');
+    if (!next) {
+      document.documentElement.setAttribute('data-compact-chrome', 'false');
+    }
+    try {
+      localStorage.setItem(AUTO_COMPACT_NAV_STORAGE_KEY, next ? '1' : '0');
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(AUTO_COMPACT_NAV_SYNC_EVENT, { detail: next }));
+  }, []);
+
+  const toggleAutoCompactNav = useCallback(() => {
+    setAutoCompactNav(!autoCompactNav);
+  }, [autoCompactNav, setAutoCompactNav]);
+
   return (
     <ThemeContext.Provider
       value={{
@@ -557,6 +663,12 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         isGlassCustomized,
         updateGlassSettings,
         resetGlassSettings,
+        surfaceDepth,
+        setSurfaceDepth,
+        toggleSurfaceDepth,
+        autoCompactNav,
+        setAutoCompactNav,
+        toggleAutoCompactNav,
       }}
     >
       {children}

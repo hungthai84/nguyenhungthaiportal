@@ -7,16 +7,20 @@ import {
   getCleanImageUrl,
 } from '../data/wallpapers';
 import {
+  AUTO_COMPACT_NAV_STORAGE_KEY,
+  AUTO_COMPACT_NAV_SYNC_EVENT,
   CARD_STYLE_STORAGE_KEY,
   DEFAULT_CARD_STYLE,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
+  SURFACE_DEPTH_STORAGE_KEY,
+  SURFACE_DEPTH_SYNC_EVENT,
   THEME_BACKGROUNDS,
   THEME_DEFAULT_GLASS_SETTINGS,
   THEME_DEFAULT_WALLPAPER_ID,
   WALLPAPER_MANUAL_STORAGE_KEY,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode, GlassCustomization } from '../config/ui/theme.types';
+import { CardStyleMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
 import {
   CARD_STYLES_MAP,
   getCardStyleProperties,
@@ -96,6 +100,22 @@ export function useThemeLegacy() {
       // ignore
     }
     return {};
+  });
+
+  const [surfaceDepth, setSurfaceDepthState] = useState<SurfaceDepthMode>(() => {
+    try {
+      return localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY) === 'flat' ? 'flat' : 'depth';
+    } catch {
+      return 'depth';
+    }
+  });
+
+  const [autoCompactNav, setAutoCompactNavState] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(AUTO_COMPACT_NAV_STORAGE_KEY) === '0' ? false : true;
+    } catch {
+      return true;
+    }
   });
 
   const activeWallpaperIdRef = useRef<string>(activeWallpaper.id);
@@ -408,6 +428,41 @@ export function useThemeLegacy() {
     [cardStyle]
   );
 
+  const setSurfaceDepth = useCallback((mode: SurfaceDepthMode) => {
+    const next: SurfaceDepthMode = mode === 'depth' ? 'depth' : 'flat';
+    setSurfaceDepthState(next);
+    document.documentElement.setAttribute('data-surface-depth', next);
+    try {
+      localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, next);
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(SURFACE_DEPTH_SYNC_EVENT, { detail: next }));
+  }, []);
+
+  const toggleSurfaceDepth = useCallback(() => {
+    setSurfaceDepth(surfaceDepth === 'flat' ? 'depth' : 'flat');
+  }, [surfaceDepth, setSurfaceDepth]);
+
+  const setAutoCompactNav = useCallback((enabled: boolean) => {
+    const next = Boolean(enabled);
+    setAutoCompactNavState(next);
+    document.documentElement.setAttribute('data-auto-compact-nav', next ? 'true' : 'false');
+    if (!next) {
+      document.documentElement.setAttribute('data-compact-chrome', 'false');
+    }
+    try {
+      localStorage.setItem(AUTO_COMPACT_NAV_STORAGE_KEY, next ? '1' : '0');
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(AUTO_COMPACT_NAV_SYNC_EVENT, { detail: next }));
+  }, []);
+
+  const toggleAutoCompactNav = useCallback(() => {
+    setAutoCompactNav(!autoCompactNav);
+  }, [autoCompactNav, setAutoCompactNav]);
+
   return {
     isDark,
     currentWallpaper: activeWallpaper.value || activeWallpaper.bg || '',
@@ -422,5 +477,11 @@ export function useThemeLegacy() {
     isGlassCustomized,
     updateGlassSettings,
     resetGlassSettings,
+    surfaceDepth,
+    setSurfaceDepth,
+    toggleSurfaceDepth,
+    autoCompactNav,
+    setAutoCompactNav,
+    toggleAutoCompactNav,
   };
 }

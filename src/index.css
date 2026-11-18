@@ -28,25 +28,52 @@
 @import "./styles/themes/black-cowhide-leather.css";
 @import "./styles/themes/cowhide-leather.css";
 
-/* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection */
-.typo-h1 { font-size: var(--fs-h1) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
-.typo-h2 { font-size: var(--fs-h2) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
-.typo-h3 { font-size: var(--fs-h3) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
-.typo-h4 { font-size: var(--fs-h4) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
-.typo-h5 { font-size: var(--fs-h5) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
-.typo-body-lg { font-size: var(--fs-body-lg) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
-.typo-body { font-size: var(--fs-body) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
-.typo-body-sm { font-size: var(--fs-body-sm) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
-.typo-caption { font-size: var(--fs-caption) !important; line-height: var(--lh-compact); font-weight: var(--fw-regular); font-family: var(--font-family-body); overflow-wrap: break-word; }
-.typo-label { font-size: var(--fs-label) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
-.typo-badge { font-size: var(--fs-badge) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
-.typo-button { font-size: var(--fs-button) !important; line-height: var(--lh-compact); font-weight: var(--fw-bold); font-family: var(--font-family-body); }
-.typo-nav { font-size: var(--fs-nav) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
-.typo-tab { font-size: var(--fs-tab) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); }
+/* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection & Better-Typography Craft */
+.typo-h1 { font-size: var(--fs-h1) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h1, -0.022em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+.typo-h2 { font-size: var(--fs-h2) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h2, -0.016em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+.typo-h3 { font-size: var(--fs-h3) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h3, -0.01em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+.typo-h4 { font-size: var(--fs-h4) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h4, -0.005em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+.typo-h5 { font-size: var(--fs-h5) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h5, -0.005em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+.typo-body-lg { font-size: var(--fs-body-lg) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-body, 0.005em); text-wrap: pretty; overflow-wrap: break-word; }
+.typo-body { font-size: var(--fs-body) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-body, 0.005em); text-wrap: pretty; overflow-wrap: break-word; }
+.typo-body-sm { font-size: var(--fs-body-sm) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-body, 0.005em); text-wrap: pretty; overflow-wrap: break-word; }
+.typo-caption { font-size: var(--fs-caption) !important; line-height: var(--lh-compact); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-caption, 0.01em); overflow-wrap: break-word; }
+.typo-label { font-size: var(--fs-label) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: var(--ls-label, 0.025em); }
+.typo-badge { font-size: var(--fs-badge) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: var(--ls-label, 0.025em); }
+.typo-button { font-size: var(--fs-button) !important; line-height: var(--lh-compact); font-weight: var(--fw-bold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
+.typo-nav { font-size: var(--fs-nav) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
+.typo-tab { font-size: var(--fs-tab) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
 .typo-input { font-size: var(--fs-input) !important; line-height: var(--lh-compact); font-weight: var(--fw-regular); font-family: var(--font-family-body); }
-.typo-kpi { font-size: var(--fs-kpi) !important; line-height: 1.2; font-weight: var(--fw-bold); font-family: var(--font-family-numeric); font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
+.typo-kpi { font-size: var(--fs-kpi) !important; line-height: var(--lh-kpi, 1.18); font-weight: var(--fw-bold); font-family: var(--font-family-numeric); font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
 .typo-quote { font-size: var(--fs-h3) !important; line-height: 1.35 !important; font-family: var(--font-quote) !important; overflow-wrap: break-word; }
-.typo-popup-title { font-size: var(--fs-popup-title) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); overflow-wrap: break-word; word-break: break-word; }
+.typo-popup-title { font-size: var(--fs-popup-title) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: -0.015em; text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+
+/* Better-Typography: Optimal Reading Line Measure (45-75ch) & Antialiased Smoothing */
+.reading-measure,
+.typo-measure,
+[data-reading-measure="true"] {
+  max-width: var(--ch-measure, 68ch);
+}
+.reading-measure-compact {
+  max-width: var(--ch-measure-compact, 52ch);
+}
+.reading-measure-wide {
+  max-width: var(--ch-measure-wide, 75ch);
+}
+
+html, body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+@media (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
 
 /* Enforce uniform Banner H3, Quote H3 & Card Headings across all breakpoints & pages */
 .hero-banner h1,
@@ -416,32 +443,137 @@ html [id$="-page-root"]:hover {
   transform: none !important;
 }
 
-/* Main Cards (Level 01): Smooth hover border, shadow & subtle Pulse feedback */
-html .page-main-card,
-html [data-main-card="true"]:not(#pdf-page-container),
-html #about-intro-card-1,
-html #about-intro-card-2 {
+/* Main Cards (Level 01): Deep Shadow & Hover Lift for Depth & Visual Hierarchy */
+html:not([data-surface-depth="flat"]) .page-main-card,
+html:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container),
+html:not([data-surface-depth="flat"]) #about-intro-card-1,
+html:not([data-surface-depth="flat"]) #about-intro-card-2,
+html:not([data-surface-depth="flat"]) #contact-main-card,
+html:not([data-surface-depth="flat"]) #home-main-card,
+html:not([data-surface-depth="flat"]) #letter-card-1,
+html:not([data-surface-depth="flat"]) [id^="letter-card-"] {
+  box-shadow: var(--main-card-deep-shadow, 0 20px 48px -10px rgba(15, 23, 42, 0.22), 0 10px 24px -6px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85)) !important;
   transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1), border-color 260ms ease, outline-color 260ms ease, background 260ms ease, color 260ms ease !important;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  html .page-main-card:hover,
-  html[data-card-style] .page-main-card:hover,
-  html [data-main-card="true"]:not(#pdf-page-container):hover,
-  html[data-card-style] [data-main-card="true"]:not(#pdf-page-container):hover,
-  html #about-intro-card-1:hover,
-  html[data-card-style] #about-intro-card-1:hover,
-  html #about-intro-card-2:hover,
-  html[data-card-style] #about-intro-card-2:hover {
-    border-color: var(--surface-primary-border-hover, var(--surface-primary-border)) !important;
-    box-shadow: var(--surface-primary-shadow-hover, var(--surface-primary-shadow)) !important;
+html.dark:not([data-surface-depth="flat"]) .page-main-card,
+html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) .page-main-card,
+html.dark:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container),
+html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container),
+html.dark:not([data-surface-depth="flat"]) #about-intro-card-1,
+html.dark:not([data-surface-depth="flat"]) #about-intro-card-2,
+html.dark:not([data-surface-depth="flat"]) #contact-main-card,
+html.dark:not([data-surface-depth="flat"]) #home-main-card,
+html.dark:not([data-surface-depth="flat"]) #letter-card-1,
+html.dark:not([data-surface-depth="flat"]) [id^="letter-card-"] {
+  box-shadow: var(--main-card-deep-shadow-dark, 0 24px 60px -12px rgba(0, 0, 0, 0.85), 0 12px 28px -6px rgba(0, 0, 0, 0.60), inset 0 1px 0 rgba(255, 255, 255, 0.16)) !important;
+}
+
+/* Explicit Flat Mode: Only strip shadows when flat mode is actively selected */
+html[data-surface-depth="flat"] .page-main-card,
+html[data-surface-depth="flat"] [data-main-card="true"]:not(#pdf-page-container),
+html[data-surface-depth="flat"] #about-intro-card-1,
+html[data-surface-depth="flat"] #about-intro-card-2,
+html[data-surface-depth="flat"] #contact-main-card,
+html[data-surface-depth="flat"] #home-main-card,
+html[data-surface-depth="flat"] #letter-card-1,
+html[data-surface-depth="flat"] [id^="letter-card-"] {
+  box-shadow: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Optimal Responsive Child Gap inside Main Content Cards */
+.page-main-card,
+[data-main-card="true"] {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: clamp(12px, 1.4vw, 16px) !important;
+  row-gap: clamp(12px, 1.4vw, 16px) !important;
+  column-gap: clamp(12px, 1.4vw, 16px) !important;
+  box-sizing: border-box !important;
+}
+
+.page-main-card > *,
+[data-main-card="true"] > * {
+  margin-top: 0;
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+
+.page-main-card .bento-grid,
+.page-main-card .page-cards-grid,
+.page-main-card [data-section-grid="true"],
+.page-main-card .grid {
+  gap: clamp(12px, 1.4vw, 16px) !important;
+}
+
+@media (max-width: 640px) {
+  .page-main-card,
+  [data-main-card="true"] {
+    padding: 12px !important;
+    gap: 12px !important;
+    row-gap: 12px !important;
+    column-gap: 12px !important;
   }
 
-  html[data-card-style*="leather"] .page-main-card:hover,
-  html[data-card-style*="leather"] [data-main-card="true"]:not(#pdf-page-container):hover,
-  html[data-card-style*="leather"] #about-intro-card-1:hover,
-  html[data-card-style*="leather"] #about-intro-card-2:hover {
+  .page-main-card .bento-grid,
+  .page-main-card .page-cards-grid,
+  .page-main-card [data-section-grid="true"],
+  .page-main-card .grid {
+    gap: 12px !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:not([data-surface-depth="flat"]) .page-main-card:hover,
+  html:not([data-surface-depth="flat"])[data-card-style] .page-main-card:hover,
+  html:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container):hover,
+  html:not([data-surface-depth="flat"])[data-card-style] [data-main-card="true"]:not(#pdf-page-container):hover,
+  html:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
+  html:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-1:hover,
+  html:not([data-surface-depth="flat"]) #about-intro-card-2:hover,
+  html:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-2:hover,
+  html:not([data-surface-depth="flat"]) #contact-main-card:hover,
+  html:not([data-surface-depth="flat"]) #home-main-card:hover,
+  html:not([data-surface-depth="flat"]) #letter-card-1:hover,
+  html:not([data-surface-depth="flat"]) [id^="letter-card-"]:hover {
+    border-color: var(--surface-primary-border-hover, var(--surface-primary-border)) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: var(--main-card-deep-shadow-hover, 0 28px 64px -12px rgba(15, 23, 42, 0.28), 0 14px 30px -4px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95)) !important;
+  }
+
+  html.dark:not([data-surface-depth="flat"]) .page-main-card:hover,
+  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) .page-main-card:hover,
+  html.dark:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container):hover,
+  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container):hover,
+  html.dark:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
+  html.dark:not([data-surface-depth="flat"]) #about-intro-card-2:hover,
+  html.dark:not([data-surface-depth="flat"]) #contact-main-card:hover,
+  html.dark:not([data-surface-depth="flat"]) #home-main-card:hover,
+  html.dark:not([data-surface-depth="flat"]) #letter-card-1:hover,
+  html.dark:not([data-surface-depth="flat"]) [id^="letter-card-"]:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: var(--main-card-deep-shadow-dark-hover, 0 32px 76px -12px rgba(0, 0, 0, 0.92), 0 16px 36px -6px rgba(0, 0, 0, 0.70), inset 0 1px 0 rgba(255, 255, 255, 0.22)) !important;
+  }
+
+  html[data-card-style*="leather"]:not([data-surface-depth="flat"]) .page-main-card:hover,
+  html[data-card-style*="leather"]:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container):hover,
+  html[data-card-style*="leather"]:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
+  html[data-card-style*="leather"]:not([data-surface-depth="flat"]) #about-intro-card-2:hover {
     outline-color: var(--surface-primary-outline-hover, currentColor) !important;
+  }
+
+  html[data-surface-depth="flat"] .page-main-card:hover,
+  html[data-surface-depth="flat"] [data-main-card="true"]:not(#pdf-page-container):hover,
+  html[data-surface-depth="flat"] #about-intro-card-1:hover,
+  html[data-surface-depth="flat"] #about-intro-card-2:hover,
+  html[data-surface-depth="flat"] #contact-main-card:hover,
+  html[data-surface-depth="flat"] #home-main-card:hover,
+  html[data-surface-depth="flat"] #letter-card-1:hover,
+  html[data-surface-depth="flat"] [id^="letter-card-"]:hover {
+    transform: none !important;
+    box-shadow: none !important;
   }
 }
 
@@ -731,21 +863,27 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
   }
   .responsive-card-grid {
     grid-template-columns: 1fr !important;
-    gap: 12px !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
   }
 }
 
 @media (min-width: 641px) and (max-width: 1024px) {
   .responsive-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 16px !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
   }
 }
 
 @media (min-width: 1025px) {
   .responsive-card-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 20px !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
   }
 }
 
@@ -787,7 +925,7 @@ html .motto-quote-text {
   }
 }
 
-/* 2. All Main Cards across all pages: exact Header Surface + Deep Drop Shadow + 15px inset + 15px gap */
+/* 2. All Main Cards across all pages: exact Header Surface + Deep Drop Shadow + 15px inset + Balanced Gap */
 html .page-main-card,
 html[data-card-style] .page-main-card,
 html.dark[data-card-style] .page-main-card,
@@ -809,31 +947,56 @@ html.dark[data-card-style] #about-intro-card-2 {
   border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
   border-radius: 14px !important;
   padding: 15px !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
-  box-shadow: 0 32px 72px -12px rgba(15, 23, 42, 0.36), 0 18px 40px -8px rgba(15, 23, 42, 0.24), 0 8px 18px -4px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
-  animation: none !important;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  gap: clamp(12px, 1.4vw, 16px) !important;
+  row-gap: clamp(12px, 1.4vw, 16px) !important;
+  column-gap: clamp(12px, 1.4vw, 16px) !important;
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1), border-color 260ms ease, outline-color 260ms ease, background 260ms ease, color 260ms ease !important;
   box-sizing: border-box !important;
 }
 
-html.dark .page-main-card,
-html.dark[data-card-style] .page-main-card,
-html.dark [data-main-card="true"],
-html.dark[data-card-style] [data-main-card="true"],
-html.dark #contact-main-card,
-html.dark[data-card-style] #contact-main-card,
-html.dark #about-intro-card-1,
-html.dark #about-intro-card-2,
-html.dark[data-card-style] #about-intro-card-1,
-html.dark[data-card-style] #about-intro-card-2,
-html[data-theme-mode="dark"] .page-main-card,
-html[data-theme-mode="dark"] [data-main-card="true"],
-html[data-theme-mode="dark"] #contact-main-card,
-html[data-theme-mode="dark"] #about-intro-card-1,
-html[data-theme-mode="dark"] #about-intro-card-2 {
-  box-shadow: 0 36px 84px -12px rgba(0, 0, 0, 0.88), 0 22px 48px -8px rgba(0, 0, 0, 0.72), 0 10px 24px -4px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+html:not([data-surface-depth="flat"]) .page-main-card,
+html:not([data-surface-depth="flat"])[data-card-style] .page-main-card,
+html:not([data-surface-depth="flat"]) [data-main-card="true"],
+html:not([data-surface-depth="flat"])[data-card-style] [data-main-card="true"],
+html:not([data-surface-depth="flat"]) #contact-main-card,
+html:not([data-surface-depth="flat"])[data-card-style] #contact-main-card,
+html:not([data-surface-depth="flat"]) #about-intro-card-1,
+html:not([data-surface-depth="flat"]) #about-intro-card-2,
+html:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-1,
+html:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-2 {
+  box-shadow: var(--main-card-deep-shadow, 0 20px 48px -10px rgba(15, 23, 42, 0.22), 0 10px 24px -6px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85)) !important;
+}
+
+html.dark:not([data-surface-depth="flat"]) .page-main-card,
+html.dark:not([data-surface-depth="flat"])[data-card-style] .page-main-card,
+html.dark:not([data-surface-depth="flat"]) [data-main-card="true"],
+html.dark:not([data-surface-depth="flat"])[data-card-style] [data-main-card="true"],
+html.dark:not([data-surface-depth="flat"]) #contact-main-card,
+html.dark:not([data-surface-depth="flat"])[data-card-style] #contact-main-card,
+html.dark:not([data-surface-depth="flat"]) #about-intro-card-1,
+html.dark:not([data-surface-depth="flat"]) #about-intro-card-2,
+html.dark:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-1,
+html.dark:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-2,
+html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) .page-main-card,
+html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) [data-main-card="true"],
+html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) #contact-main-card,
+html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) #about-intro-card-1,
+html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) #about-intro-card-2 {
+  box-shadow: var(--main-card-deep-shadow-dark, 0 24px 60px -12px rgba(0, 0, 0, 0.85), 0 12px 28px -6px rgba(0, 0, 0, 0.60), inset 0 1px 0 rgba(255, 255, 255, 0.16)) !important;
+}
+
+html[data-surface-depth="flat"] .page-main-card,
+html[data-surface-depth="flat"][data-card-style] .page-main-card,
+html[data-surface-depth="flat"] [data-main-card="true"],
+html[data-surface-depth="flat"][data-card-style] [data-main-card="true"],
+html[data-surface-depth="flat"] #contact-main-card,
+html[data-surface-depth="flat"][data-card-style] #contact-main-card,
+html[data-surface-depth="flat"] #about-intro-card-1,
+html[data-surface-depth="flat"] #about-intro-card-2,
+html[data-surface-depth="flat"] [id^="letter-card-"],
+html[data-surface-depth="flat"] #letter-card-1 {
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 html #contact-main-card > div:first-child {
@@ -855,7 +1018,8 @@ html #contact-main-card > div:first-child {
     gap: 15px !important;
     row-gap: 15px !important;
     column-gap: 15px !important;
-    box-shadow: 0 32px 72px -12px rgba(15, 23, 42, 0.36), 0 18px 40px -8px rgba(15, 23, 42, 0.24), 0 8px 18px -4px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+    box-shadow: none !important;
+    transform: none !important;
     animation: none !important;
     box-sizing: border-box !important;
   }
@@ -863,7 +1027,8 @@ html #contact-main-card > div:first-child {
   html.dark #pdf-page-container,
   html.dark[data-card-style] #pdf-page-container,
   html[data-theme-mode="dark"] #pdf-page-container {
-    box-shadow: 0 36px 84px -12px rgba(0, 0, 0, 0.88), 0 22px 48px -8px rgba(0, 0, 0, 0.72), 0 10px 24px -4px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+    box-shadow: none !important;
+    transform: none !important;
   }
 }
 
@@ -920,42 +1085,56 @@ html[data-card-style="cowhide-leather"] #pdf-page-container {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html .page-main-card:hover,
-  html[data-card-style] .page-main-card:hover,
-  html [data-main-card="true"]:hover,
-  html[data-card-style] [data-main-card="true"]:hover,
-  html #contact-main-card:hover,
-  html[data-card-style] #contact-main-card:hover,
-  html #about-intro-card-1:hover,
-  html[data-card-style] #about-intro-card-1:hover,
-  html #about-intro-card-2:hover,
-  html[data-card-style] #about-intro-card-2:hover,
-  html #pdf-page-container:hover,
-  html[data-card-style] #pdf-page-container:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: var(--shadow-card-hover) !important;
+  html:not([data-surface-depth="flat"]) .page-main-card:hover,
+  html:not([data-surface-depth="flat"])[data-card-style] .page-main-card:hover,
+  html:not([data-surface-depth="flat"]) [data-main-card="true"]:hover,
+  html:not([data-surface-depth="flat"])[data-card-style] [data-main-card="true"]:hover,
+  html:not([data-surface-depth="flat"]) #contact-main-card:hover,
+  html:not([data-surface-depth="flat"])[data-card-style] #contact-main-card:hover,
+  html:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
+  html:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-1:hover,
+  html:not([data-surface-depth="flat"]) #about-intro-card-2:hover,
+  html:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-2:hover,
+  html:not([data-surface-depth="flat"]) #pdf-page-container:hover,
+  html:not([data-surface-depth="flat"])[data-card-style] #pdf-page-container:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: var(--main-card-deep-shadow-hover, 0 28px 64px -12px rgba(15, 23, 42, 0.28), 0 14px 30px -4px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95)) !important;
+    border-color: var(--surface-primary-border-hover, var(--surface-primary-border)) !important;
   }
 
-  html.dark .page-main-card:hover,
-  html.dark[data-card-style] .page-main-card:hover,
-  html.dark [data-main-card="true"]:hover,
-  html.dark[data-card-style] [data-main-card="true"]:hover,
-  html.dark #contact-main-card:hover,
-  html.dark[data-card-style] #contact-main-card:hover,
-  html.dark #about-intro-card-1:hover,
-  html.dark #about-intro-card-2:hover,
-  html.dark[data-card-style] #about-intro-card-1:hover,
-  html.dark[data-card-style] #about-intro-card-2:hover,
-  html.dark #pdf-page-container:hover,
-  html.dark[data-card-style] #pdf-page-container:hover,
-  html[data-theme-mode="dark"] .page-main-card:hover,
-  html[data-theme-mode="dark"] [data-main-card="true"]:hover,
-  html[data-theme-mode="dark"] #contact-main-card:hover,
-  html[data-theme-mode="dark"] #about-intro-card-1:hover,
-  html[data-theme-mode="dark"] #about-intro-card-2:hover,
-  html[data-theme-mode="dark"] #pdf-page-container:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: var(--shadow-card-hover) !important;
+  html.dark:not([data-surface-depth="flat"]) .page-main-card:hover,
+  html.dark:not([data-surface-depth="flat"])[data-card-style] .page-main-card:hover,
+  html.dark:not([data-surface-depth="flat"]) [data-main-card="true"]:hover,
+  html.dark:not([data-surface-depth="flat"])[data-card-style] [data-main-card="true"]:hover,
+  html.dark:not([data-surface-depth="flat"]) #contact-main-card:hover,
+  html.dark:not([data-surface-depth="flat"])[data-card-style] #contact-main-card:hover,
+  html.dark:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
+  html.dark:not([data-surface-depth="flat"]) #about-intro-card-2:hover,
+  html.dark:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-1:hover,
+  html.dark:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-2:hover,
+  html.dark:not([data-surface-depth="flat"]) #pdf-page-container:hover,
+  html.dark:not([data-surface-depth="flat"])[data-card-style] #pdf-page-container:hover,
+  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) .page-main-card:hover,
+  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) [data-main-card="true"]:hover,
+  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) #contact-main-card:hover,
+  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
+  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) #about-intro-card-2:hover,
+  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) #pdf-page-container:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: var(--main-card-deep-shadow-dark-hover, 0 32px 76px -12px rgba(0, 0, 0, 0.92), 0 16px 36px -6px rgba(0, 0, 0, 0.70), inset 0 1px 0 rgba(255, 255, 255, 0.22)) !important;
+  }
+
+  html[data-surface-depth="flat"] .page-main-card:hover,
+  html[data-surface-depth="flat"][data-card-style] .page-main-card:hover,
+  html[data-surface-depth="flat"] [data-main-card="true"]:hover,
+  html[data-surface-depth="flat"][data-card-style] [data-main-card="true"]:hover,
+  html[data-surface-depth="flat"] #contact-main-card:hover,
+  html[data-surface-depth="flat"][data-card-style] #contact-main-card:hover,
+  html[data-surface-depth="flat"] #about-intro-card-1:hover,
+  html[data-surface-depth="flat"] #about-intro-card-2:hover,
+  html[data-surface-depth="flat"] #pdf-page-container:hover {
+    transform: none !important;
+    box-shadow: none !important;
   }
 }
 
@@ -1022,15 +1201,27 @@ html[data-card-style] #contact-hero-banner,
 html[data-card-style] #ai-assistant-hero-banner,
 html[data-card-style] #interview-questions-card,
 html #contact-main-card #contact-hero-banner,
+html .hero-banner,
+html .banner-card,
+html #services-hero-banner,
+html #project-detail-banner,
+html #contact-hero-banner,
+html #ai-assistant-hero-banner,
+html #interview-questions-card,
+html[data-card-style] .hero-banner,
+html[data-card-style] .banner-card,
+html[data-card-style] #services-hero-banner,
+html[data-card-style] #project-detail-banner,
+html[data-card-style] #contact-hero-banner,
+html[data-card-style] #ai-assistant-hero-banner,
+html[data-card-style] #interview-questions-card,
+html #contact-main-card #contact-hero-banner,
 html[data-card-style] #contact-main-card #contact-hero-banner {
   border-radius: 14px !important;
   padding: 15px !important;
-  box-shadow:
-    0 24px 54px -10px rgba(15, 23, 42, 0.34),
-    0 12px 26px -6px rgba(15, 23, 42, 0.22),
-    0 4px 12px -2px rgba(15, 23, 42, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
-  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1), border-color 240ms ease, background 240ms ease !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
+  transform: none !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 html #contact-main-card #contact-hero-banner,
@@ -1043,61 +1234,6 @@ html[data-card-style] #project-detail-banner {
   isolation: isolate;
   -webkit-clip-path: inset(0 round 14px);
   clip-path: inset(0 round 14px);
-}
-
-html.dark .hero-banner,
-html.dark .banner-card,
-html.dark #services-hero-banner,
-html.dark #project-detail-banner,
-html.dark #contact-hero-banner,
-html.dark #ai-assistant-hero-banner,
-html.dark #interview-questions-card,
-html.dark[data-card-style] .hero-banner,
-html.dark[data-card-style] .banner-card,
-html.dark[data-card-style] #services-hero-banner,
-html.dark[data-card-style] #project-detail-banner,
-html.dark[data-card-style] #contact-hero-banner,
-html.dark[data-card-style] #ai-assistant-hero-banner,
-html.dark[data-card-style] #interview-questions-card,
-html[data-theme-mode="dark"] .hero-banner,
-html[data-theme-mode="dark"] .banner-card,
-html[data-theme-mode="dark"] #services-hero-banner,
-html[data-theme-mode="dark"] #project-detail-banner,
-html[data-theme-mode="dark"] #contact-hero-banner,
-html[data-theme-mode="dark"] #ai-assistant-hero-banner,
-html[data-theme-mode="dark"] #interview-questions-card,
-html[data-card-style="light-multicolor-glass-dark"] .hero-banner,
-html[data-card-style="light-multicolor-glass-dark"] .banner-card,
-html[data-card-style="light-multicolor-glass-dark"] #services-hero-banner,
-html[data-card-style="light-multicolor-glass-dark"] #project-detail-banner,
-html[data-card-style="light-multicolor-glass-dark"] #contact-hero-banner,
-html[data-card-style="light-multicolor-glass-dark"] #ai-assistant-hero-banner,
-html[data-card-style="light-multicolor-glass-dark"] #interview-questions-card,
-html[data-card-style="black-cowhide-leather"] .hero-banner,
-html[data-card-style="black-cowhide-leather"] .banner-card,
-html[data-card-style="black-cowhide-leather"] #services-hero-banner,
-html[data-card-style="black-cowhide-leather"] #project-detail-banner,
-html[data-card-style="black-cowhide-leather"] #contact-hero-banner,
-html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner,
-html[data-card-style="black-cowhide-leather"] #interview-questions-card,
-html[data-card-style="cowhide-leather"] .hero-banner,
-html[data-card-style="cowhide-leather"] .banner-card,
-html[data-card-style="cowhide-leather"] #services-hero-banner,
-html[data-card-style="cowhide-leather"] #project-detail-banner,
-html[data-card-style="cowhide-leather"] #contact-hero-banner,
-html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner,
-html[data-card-style="cowhide-leather"] #interview-questions-card,
-html.dark #contact-main-card #contact-hero-banner,
-html.dark[data-card-style] #contact-main-card #contact-hero-banner,
-html[data-theme-mode="dark"] #contact-main-card #contact-hero-banner,
-html[data-card-style="light-multicolor-glass-dark"] #contact-main-card #contact-hero-banner,
-html[data-card-style="black-cowhide-leather"] #contact-main-card #contact-hero-banner,
-html[data-card-style="cowhide-leather"] #contact-main-card #contact-hero-banner {
-  box-shadow:
-    0 28px 64px -10px rgba(0, 0, 0, 0.82),
-    0 14px 32px -6px rgba(0, 0, 0, 0.64),
-    0 6px 14px -2px rgba(0, 0, 0, 0.48),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
 }
 
 html .hero-banner .project-detail-banner-media,
@@ -1129,67 +1265,8 @@ html #contact-main-card #contact-hero-banner .project-detail-banner-scrim {
   html[data-card-style] #interview-questions-card:hover,
   html #contact-main-card #contact-hero-banner:hover,
   html[data-card-style] #contact-main-card #contact-hero-banner:hover {
-    transform: translateY(-2px);
-    box-shadow:
-      0 32px 68px -10px rgba(15, 23, 42, 0.42),
-      0 18px 36px -6px rgba(15, 23, 42, 0.28),
-      0 8px 16px -3px rgba(15, 23, 42, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
-  }
-
-  html.dark .hero-banner:hover,
-  html.dark .banner-card:hover,
-  html.dark #services-hero-banner:hover,
-  html.dark #project-detail-banner:hover,
-  html.dark #contact-hero-banner:hover,
-  html.dark #ai-assistant-hero-banner:hover,
-  html.dark #interview-questions-card:hover,
-  html.dark[data-card-style] .hero-banner:hover,
-  html.dark[data-card-style] .banner-card:hover,
-  html.dark[data-card-style] #services-hero-banner:hover,
-  html.dark[data-card-style] #project-detail-banner:hover,
-  html.dark[data-card-style] #contact-hero-banner:hover,
-  html.dark[data-card-style] #ai-assistant-hero-banner:hover,
-  html.dark[data-card-style] #interview-questions-card:hover,
-  html[data-theme-mode="dark"] .hero-banner:hover,
-  html[data-theme-mode="dark"] .banner-card:hover,
-  html[data-theme-mode="dark"] #services-hero-banner:hover,
-  html[data-theme-mode="dark"] #project-detail-banner:hover,
-  html[data-theme-mode="dark"] #contact-hero-banner:hover,
-  html[data-theme-mode="dark"] #ai-assistant-hero-banner:hover,
-  html[data-theme-mode="dark"] #interview-questions-card:hover,
-  html[data-card-style="light-multicolor-glass-dark"] .hero-banner:hover,
-  html[data-card-style="light-multicolor-glass-dark"] .banner-card:hover,
-  html[data-card-style="light-multicolor-glass-dark"] #services-hero-banner:hover,
-  html[data-card-style="light-multicolor-glass-dark"] #project-detail-banner:hover,
-  html[data-card-style="light-multicolor-glass-dark"] #contact-hero-banner:hover,
-  html[data-card-style="light-multicolor-glass-dark"] #ai-assistant-hero-banner:hover,
-  html[data-card-style="light-multicolor-glass-dark"] #interview-questions-card:hover,
-  html[data-card-style="black-cowhide-leather"] .hero-banner:hover,
-  html[data-card-style="black-cowhide-leather"] .banner-card:hover,
-  html[data-card-style="black-cowhide-leather"] #services-hero-banner:hover,
-  html[data-card-style="black-cowhide-leather"] #project-detail-banner:hover,
-  html[data-card-style="black-cowhide-leather"] #contact-hero-banner:hover,
-  html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner:hover,
-  html[data-card-style="black-cowhide-leather"] #interview-questions-card:hover,
-  html[data-card-style="cowhide-leather"] .hero-banner:hover,
-  html[data-card-style="cowhide-leather"] .banner-card:hover,
-  html[data-card-style="cowhide-leather"] #services-hero-banner:hover,
-  html[data-card-style="cowhide-leather"] #project-detail-banner:hover,
-  html[data-card-style="cowhide-leather"] #contact-hero-banner:hover,
-  html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner:hover,
-  html[data-card-style="cowhide-leather"] #interview-questions-card:hover,
-  html.dark #contact-main-card #contact-hero-banner:hover,
-  html.dark[data-card-style] #contact-main-card #contact-hero-banner:hover,
-  html[data-theme-mode="dark"] #contact-main-card #contact-hero-banner:hover,
-  html[data-card-style="light-multicolor-glass-dark"] #contact-main-card #contact-hero-banner:hover,
-  html[data-card-style="black-cowhide-leather"] #contact-main-card #contact-hero-banner:hover,
-  html[data-card-style="cowhide-leather"] #contact-main-card #contact-hero-banner:hover {
-    box-shadow:
-      0 36px 76px -10px rgba(0, 0, 0, 0.92),
-      0 20px 42px -6px rgba(0, 0, 0, 0.74),
-      0 8px 18px -3px rgba(0, 0, 0, 0.54),
-      inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-card-hover) !important;
   }
 }
 
@@ -1281,3 +1358,687 @@ html [id$="-cards-track"]::after {
   animation: none !important;
   transition: none !important;
 }
+
+/* ========================================================================= */
+/* MASTER OVERRIDE A: STRICT 15PX PADDING & 15PX GAP AT ALL VIEWPORTS        */
+/* ========================================================================= */
+@media all {
+  html #experience-job-detail-card,
+  html[data-card-style] #experience-job-detail-card,
+  html .exp-bento-surface-card,
+  html[data-card-style] .exp-bento-surface-card,
+  html .exp-bento-item-card:not(.exp-bento-rect-btn.aspect-\[16\/10\]),
+  html[data-card-style] .exp-bento-item-card:not(.exp-bento-rect-btn.aspect-\[16\/10\]),
+  html .exp-detail-card,
+  html[data-card-style] .exp-detail-card,
+  html .exp-detail-subcard,
+  html[data-card-style] .exp-detail-subcard,
+  html .project-detail-section-card,
+  html[data-card-style] .project-detail-section-card,
+  html .project-detail-subcard,
+  html[data-card-style] .project-detail-subcard,
+  html .education-card,
+  html[data-card-style] .education-card,
+  html .education-subcard,
+  html[data-card-style] .education-subcard,
+  html .letter-subcard,
+  html[data-card-style] .letter-subcard,
+  html .swot-quadrant-card,
+  html[data-card-style] .swot-quadrant-card,
+  html .theme-modal-card,
+  html[data-card-style] .theme-modal-card,
+  html .theme-modal-subcard,
+  html[data-card-style] .theme-modal-subcard,
+  html [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(.main-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video):not(#interview-questions-card):not(.project-card):not(.education-course-card):not([id^="memory-card-"]):not(.memory-photo-item):not([id^="wallpaper-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
+  html [data-subcard="true"]:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video),
+  html .sub-card:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video) {
+    padding: 15px !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Inner structural grid & stack containers inside #experience-job-detail-card and similar cards */
+  html #experience-job-detail-card > *,
+  html #experience-bento-grid,
+  html #experience-bento-col-left,
+  html #experience-bento-col-right,
+  html #experience-detail-cards-stack,
+  html #experience-company-cards-stack,
+  html #experience-info-card,
+  html #experience-dedicated-company-card,
+  html #experience-products-section,
+  html #experience-achievements-section,
+  html .responsive-card-grid,
+  html .exp-bento-surface-card > *,
+  html [data-main-card="true"] > div.grid,
+  html [data-main-card="true"] > div.flex-col {
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
+  }
+
+  /* Preserve explicit 10px card rules */
+  html #about-hero-video-container,
+  html #bento-letter-video,
+  html #interview-questions-card,
+  html #wallpaper-page-container [id^="wallpaper-card-content-"],
+  html #projects-grid .project-card,
+  html .project-card {
+    padding: 10px !important;
+  }
+
+  html #projects-grid .project-card,
+  html .project-card,
+  html #education-courses-grid .education-course-card {
+    padding: 10px !important;
+    gap: 10px !important;
+    row-gap: 10px !important;
+    column-gap: 10px !important;
+  }
+
+  /* Preserve 0px padding transparent containers & full-bleed media frames */
+  html #card-main-letter-content,
+  html [id^="horoscope-card-"],
+  html #el-p3-div-87,
+  html [id^="education-detail-panel-"],
+  html #el-p1-div-85,
+  html #memories-page-container [id^="memory-card-"],
+  html .memory-photo-item,
+  html #wallpaper-page-container [id^="wallpaper-card-"],
+  html .project-card-banner,
+  html button.exp-bento-rect-btn.aspect-\[16\/10\] {
+    padding: 0px !important;
+  }
+}
+
+/* ========================================================================= */
+/* MASTER OVERRIDE B: EXACT css.glass LIGHT & DARK FROSTED GLASS THEMES      */
+/*   - Light Frosted Glass: html[data-card-style="light-multicolor-glass"]   */
+/*   - Dark Frosted Glass : html[data-card-style="light-multicolor-glass-dark"] */
+/*   - Untouched: light-multicolor-glass-color & all 3 cowhide-leather themes */
+/* ========================================================================= */
+html[data-card-style="light-multicolor-glass"] {
+  --radius-main: 16px !important;
+  --radius-card: 16px !important;
+  --radius-subcard: 16px !important;
+  --radius-banner: 16px !important;
+  --radius-modal: 16px !important;
+  --radius-popup: 16px !important;
+  --radius-widget: 16px !important;
+  --radius-input: 16px !important;
+  --radius-header: 0 0 16px 16px !important;
+  --radius-footer: 16px 16px 0 0 !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] {
+  --radius-main: 16px !important;
+  --radius-card: 16px !important;
+  --radius-subcard: 16px !important;
+  --radius-banner: 16px !important;
+  --radius-modal: 16px !important;
+  --radius-popup: 16px !important;
+  --radius-widget: 16px !important;
+  --radius-input: 16px !important;
+  --radius-header: 0 0 16px 16px !important;
+  --radius-footer: 16px 16px 0 0 !important;
+}
+
+html[data-card-style="light-multicolor-glass"] :is(
+  .page-main-card,
+  [data-main-card="true"],
+  #contact-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #pdf-page-container,
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
+  .bento-view-card,
+  .layered-card,
+  [data-subcard="true"]:not(.skill-swot-subcard):not([id^="skill-item-"]),
+  .sub-card:not(.skill-swot-subcard):not([id^="skill-item-"]),
+  .nested-card,
+  .hero-banner,
+  .banner-card,
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"],
+  .exp-bento-surface-card,
+  .exp-bento-item-card:not(.exp-bento-rect-btn.aspect-\[16\/10\]),
+  .exp-detail-card,
+  .exp-detail-subcard,
+  .education-card,
+  .education-subcard,
+  .education-course-card,
+  .letter-subcard,
+  .letter-header-subcard,
+  .letter-footer-subcard,
+  .project-card,
+  [id^="project-card-"],
+  .project-detail-section-card,
+  .project-detail-subcard,
+  .project-detail-chip,
+  .education-skill-chip,
+  .project-card-tag,
+  .project-card-order-badge,
+  .themed-image-card,
+  .themed-image-frame,
+  [id^="service-card-"],
+  #skills-languages-section [id^="skills-language-card-"],
+  #home-stats-card,
+  #home-intro-card,
+  #home-capabilities-card,
+  #home-achievements-card,
+  #bento-letter-video,
+  #footer-theme-popup,
+  #footer-lang-popup,
+  .banner-dropdown-menu,
+  [role="dialog"],
+  .modal-dialog,
+  .theme-modal-card,
+  .theme-modal-subcard,
+  .theme-popup,
+  .theme-pip-player
+) {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+html[data-card-style="light-multicolor-glass"] #app-header {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 0 0 16px 16px !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+html[data-card-style="light-multicolor-glass"] #app-footer {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 16px 16px 0 0 !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] :is(
+  .page-main-card,
+  [data-main-card="true"],
+  #contact-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #pdf-page-container,
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
+  .bento-view-card,
+  .layered-card,
+  [data-subcard="true"]:not(.skill-swot-subcard):not([id^="skill-item-"]),
+  .sub-card:not(.skill-swot-subcard):not([id^="skill-item-"]),
+  .nested-card,
+  .hero-banner,
+  .banner-card,
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"],
+  .exp-bento-surface-card,
+  .exp-bento-item-card:not(.exp-bento-rect-btn.aspect-\[16\/10\]),
+  .exp-detail-card,
+  .exp-detail-subcard,
+  .education-card,
+  .education-subcard,
+  .education-course-card,
+  .letter-subcard,
+  .letter-header-subcard,
+  .letter-footer-subcard,
+  .project-card,
+  [id^="project-card-"],
+  .project-detail-section-card,
+  .project-detail-subcard,
+  .project-detail-chip,
+  .education-skill-chip,
+  .project-card-tag,
+  .project-card-order-badge,
+  .themed-image-card,
+  .themed-image-frame,
+  [id^="service-card-"],
+  #skills-languages-section [id^="skills-language-card-"],
+  #home-stats-card,
+  #home-intro-card,
+  #home-capabilities-card,
+  #home-achievements-card,
+  #bento-letter-video,
+  #footer-theme-popup,
+  #footer-lang-popup,
+  .banner-dropdown-menu,
+  [role="dialog"],
+  .modal-dialog,
+  .theme-modal-card,
+  .theme-modal-subcard,
+  .theme-popup,
+  .theme-pip-player
+) {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] #app-header {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-radius: 0 0 16px 16px !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] #app-footer {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-radius: 16px 16px 0 0 !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  color: #FFFFFF !important;
+}
+
+/* 16px Clip-Path & Media Rounding for Light & Dark Frosted Glass ONLY */
+html:is([data-card-style="light-multicolor-glass"], [data-card-style="light-multicolor-glass-dark"]) :is(
+  #education-courses-grid .education-course-card .education-card-banner,
+  #education-certificates-card .education-card-banner,
+  #projects-grid .project-card .project-card-banner,
+  #project-detail-banner,
+  #project-detail-banner .project-detail-banner-media,
+  #project-detail-banner .project-detail-banner-scrim,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #wallpaper-page-container [id^="wallpaper-card-"],
+  #wallpaper-page-container [id^="wallpaper-card-media-"],
+  #wallpaper-page-container #wallpaper-card-content-none,
+  .project-detail-banner-inner
+) {
+  border-radius: 16px !important;
+  -webkit-clip-path: inset(0 round 16px);
+  clip-path: inset(0 round 16px);
+}
+
+html:is([data-card-style="light-multicolor-glass"], [data-card-style="light-multicolor-glass-dark"]) :is(
+  #global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]),
+  .theme-modal-card video:not(.rounded-full):not([class*="rounded-full"]),
+  .theme-pip-player video:not(.rounded-full):not([class*="rounded-full"]),
+  [data-section-card="true"] video:not(.rounded-full):not([class*="rounded-full"]),
+  #global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
+  .theme-modal-card img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
+  [data-section-card="true"] img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
+  button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle):not(#letter-circle-video-play-btn):not(#systems-intro-video-circle-btn)
+) {
+  border-radius: 16px !important;
+}
+
+/* Keep transparent layout containers & print PDF clean in Frosted Glass themes */
+html:is([data-card-style="light-multicolor-glass"], [data-card-style="light-multicolor-glass-dark"]) :is(
+  .main-card:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container),
+  [id$="-page-container"]:not(#pdf-page-container),
+  [id$="-page-root"],
+  .skill-swot-subcard,
+  [id^="skill-item-"]
+) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+@media print {
+  html:is([data-card-style="light-multicolor-glass"], [data-card-style="light-multicolor-glass-dark"]) #pdf-page-container {
+    background: #ffffff !important;
+    border: none !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* ========================================================================= */
+/* MASTER OVERRIDE C: SURFACE DEPTH MODE ('flat' vs 'depth')                 */
+/*   - Default / 'flat': Minimalist flat, zero shadow, zero floating lift    */
+/*   - 'depth'          : Restores layered shadows & gentle hover elevation    */
+/* ========================================================================= */
+html:not([data-surface-depth="depth"]) :is(
+  #el-p0-div-14,
+  div#el-p0-div-14,
+  #website-root > div:has(> #app-header),
+  #app-header,
+  #el-p0-div-98,
+  div#el-p0-div-98,
+  #website-root > div:has(> #app-footer),
+  #app-footer,
+  #letter-cards-track,
+  .page-cards-track,
+  [id$="-cards-track"]
+),
+html[data-card-style]:not([data-surface-depth="depth"]) :is(
+  #el-p0-div-14,
+  div#el-p0-div-14,
+  #website-root > div:has(> #app-header),
+  #app-header,
+  #el-p0-div-98,
+  div#el-p0-div-98,
+  #website-root > div:has(> #app-footer),
+  #app-footer,
+  #letter-cards-track,
+  .page-cards-track,
+  [id$="-cards-track"]
+),
+html:not([data-surface-depth="depth"]) :is(
+  #el-p0-div-14,
+  div#el-p0-div-14,
+  #website-root > div:has(> #app-header),
+  #app-header,
+  #el-p0-div-98,
+  div#el-p0-div-98,
+  #website-root > div:has(> #app-footer),
+  #app-footer,
+  #letter-cards-track,
+  .page-cards-track,
+  [id$="-cards-track"]
+):is(:hover, :focus, :focus-within, :active),
+html[data-card-style]:not([data-surface-depth="depth"]) :is(
+  #el-p0-div-14,
+  div#el-p0-div-14,
+  #website-root > div:has(> #app-header),
+  #app-header,
+  #el-p0-div-98,
+  div#el-p0-div-98,
+  #website-root > div:has(> #app-footer),
+  #app-footer,
+  #letter-cards-track,
+  .page-cards-track,
+  [id$="-cards-track"]
+):is(:hover, :focus, :focus-within, :active) {
+  box-shadow: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+  animation: none !important;
+  will-change: auto !important;
+  transition: min-height 240ms ease, padding 240ms ease !important;
+}
+
+html:not([data-surface-depth="depth"]) :is(
+  #letter-card-1,
+  [id^="letter-card-"],
+  .page-main-card,
+  [data-main-card="true"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #pdf-page-container,
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
+  [data-subcard="true"],
+  .sub-card,
+  .hero-banner,
+  .banner-card,
+  .project-card,
+  .education-card,
+  .education-course-card,
+  .exp-bento-surface-card,
+  .exp-bento-item-card
+),
+html[data-card-style]:not([data-surface-depth="depth"]) :is(
+  #letter-card-1,
+  [id^="letter-card-"],
+  .page-main-card,
+  [data-main-card="true"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #pdf-page-container,
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
+  [data-subcard="true"],
+  .sub-card,
+  .hero-banner,
+  .banner-card,
+  .project-card,
+  .education-card,
+  .education-course-card,
+  .exp-bento-surface-card,
+  .exp-bento-item-card
+),
+html:not([data-surface-depth="depth"]) :is(
+  #letter-card-1,
+  [id^="letter-card-"],
+  .page-main-card,
+  [data-main-card="true"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #pdf-page-container,
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
+  [data-subcard="true"],
+  .sub-card,
+  .hero-banner,
+  .banner-card,
+  .project-card,
+  .education-card,
+  .education-course-card,
+  .exp-bento-surface-card,
+  .exp-bento-item-card
+):is(:hover, :focus, :focus-within, :active),
+html[data-card-style]:not([data-surface-depth="depth"]) :is(
+  #letter-card-1,
+  [id^="letter-card-"],
+  .page-main-card,
+  [data-main-card="true"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #pdf-page-container,
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
+  [data-subcard="true"],
+  .sub-card,
+  .hero-banner,
+  .banner-card,
+  .project-card,
+  .education-card,
+  .education-course-card,
+  .exp-bento-surface-card,
+  .exp-bento-item-card
+):is(:hover, :focus, :focus-within, :active) {
+  box-shadow: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+  animation: none !important;
+  will-change: auto !important;
+  transition: opacity 260ms ease, border-color 260ms ease, outline-color 260ms ease, background 260ms ease, color 260ms ease !important;
+}
+
+/* Layered Depth Mode ('depth'): Restore elevated shadows & gentle hover lift */
+html[data-surface-depth="depth"] #app-header {
+  box-shadow: var(--surface-header-shadow, 0 18px 40px -12px rgba(15, 23, 42, 0.22), 0 6px 16px -4px rgba(15, 23, 42, 0.12)) !important;
+  transition: min-height 240ms ease, padding 240ms ease, box-shadow 260ms ease !important;
+}
+
+html[data-surface-depth="depth"] #app-footer {
+  box-shadow: var(--surface-footer-shadow, 0 -14px 36px -12px rgba(15, 23, 42, 0.20), 0 -4px 14px -4px rgba(15, 23, 42, 0.10)) !important;
+  transition: min-height 240ms ease, padding 240ms ease, box-shadow 260ms ease !important;
+}
+
+html[data-surface-depth="depth"] :is(
+  #letter-card-1,
+  [id^="letter-card-"],
+  .page-main-card,
+  [data-main-card="true"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #pdf-page-container
+) {
+  box-shadow: var(--surface-primary-shadow, 0 26px 60px -12px rgba(15, 23, 42, 0.26), 0 12px 26px -6px rgba(15, 23, 42, 0.15)) !important;
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1), opacity 260ms ease, border-color 260ms ease, background 260ms ease, color 260ms ease !important;
+}
+
+html.dark[data-surface-depth="depth"] :is(
+  #letter-card-1,
+  [id^="letter-card-"],
+  .page-main-card,
+  [data-main-card="true"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #pdf-page-container
+) {
+  box-shadow: var(--surface-primary-shadow, 0 28px 68px -12px rgba(0, 0, 0, 0.72), 0 12px 28px -6px rgba(0, 0, 0, 0.50)) !important;
+}
+
+html[data-surface-depth="depth"]:is([data-card-style="light-multicolor-glass"], [data-card-style="light-multicolor-glass-dark"]) :is(
+  #app-header,
+  #app-footer,
+  #letter-card-1,
+  [id^="letter-card-"],
+  .page-main-card,
+  [data-main-card="true"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #pdf-page-container
+) {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-surface-depth="depth"] :is(
+    #letter-card-1,
+    [id^="letter-card-"],
+    .page-main-card,
+    [data-main-card="true"],
+    #about-intro-card-1,
+    #about-intro-card-2,
+    #contact-main-card,
+    #pdf-page-container,
+    .project-card,
+    .education-course-card,
+    .exp-bento-surface-card,
+    .hero-banner,
+    .banner-card
+  ):hover {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--surface-primary-shadow-hover, var(--shadow-card-hover, 0 24px 54px -12px rgba(15, 23, 42, 0.28))) !important;
+  }
+}
+
+/* ========================================================================= */
+/* MASTER OVERRIDE D: COMPACT HEADER & FOOTER WHEN SCROLLING DEEP            */
+/*   - Triggered automatically by html[data-compact-chrome="true"]           */
+/*   - Maximizes reading viewport on small & medium screens                  */
+/* ========================================================================= */
+html #app-header,
+html #app-footer {
+  transition: min-height 240ms ease, padding-top 240ms ease, padding-bottom 240ms ease !important;
+}
+
+html #app-header .nav-pill-sub,
+html #app-footer .nav-pill-sub {
+  transition: max-height 200ms ease, opacity 180ms ease, margin-top 200ms ease !important;
+  max-height: 20px;
+}
+
+html #app-header .nav-pill-icon-badge,
+html #app-footer .nav-pill-icon-badge {
+  transition: width 220ms ease, height 220ms ease !important;
+}
+
+html[data-compact-chrome="true"] #app-header {
+  min-height: 46px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+html[data-compact-chrome="true"] #app-footer {
+  min-height: 46px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+html[data-compact-chrome="true"] #app-header #header-center {
+  padding-top: 1px !important;
+  padding-bottom: 1px !important;
+}
+
+html[data-compact-chrome="true"] #app-header .nav-pill,
+html[data-compact-chrome="true"] #app-footer .nav-pill {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+html[data-compact-chrome="true"] #app-header .nav-pill-icon-badge,
+html[data-compact-chrome="true"] #app-footer .nav-pill-icon-badge {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+html[data-compact-chrome="true"] #app-header .nav-pill-icon-svg,
+html[data-compact-chrome="true"] #app-footer .nav-pill-icon-svg {
+  width: 13px !important;
+  height: 13px !important;
+}
+
+html[data-compact-chrome="true"] #app-header .nav-pill-divider,
+html[data-compact-chrome="true"] #app-footer .nav-pill-divider {
+  height: 12px !important;
+}
+
+html[data-compact-chrome="true"] #app-header .nav-pill-sub,
+html[data-compact-chrome="true"] #app-footer .nav-pill-sub {
+  max-height: 0px !important;
+  opacity: 0 !important;
+  margin-top: 0px !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+html[data-compact-chrome="true"] #app-footer #footer-nav-capsule {
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+html[data-compact-chrome="true"] #app-footer #weather-card,
+html[data-compact-chrome="true"] #app-footer #weather-widget-card {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+

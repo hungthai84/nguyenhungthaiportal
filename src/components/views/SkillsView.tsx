@@ -616,7 +616,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.35, delay: qIdx * 0.05 }}
                     className={cn(
-                      "swot-quadrant-card bento-card glass-card w-full rounded-[14px] relative text-[var(--text-primary)] transition-all duration-300 flex flex-col justify-between overflow-hidden p-5 sm:p-6 min-h-[300px]",
+                      "swot-quadrant-card bento-card glass-card w-full rounded-[14px] relative text-[var(--text-primary)] transition-all duration-300 flex flex-col justify-between overflow-hidden p-[15px] gap-[15px] min-h-[300px]",
                       isSelected && "md:col-span-2 ring-2 ring-cyan-500"
                     )}
                   >

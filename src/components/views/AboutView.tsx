@@ -1904,7 +1904,7 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="https://www.linkedin.com/in/hungthai84/"
-                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      className="about-info-subcard h-full w-full flex flex-col justify-center p-[15px] rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
                       <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
@@ -1955,7 +1955,6 @@ export function AboutView({
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
-          borderRadius: '14px',
         }}
         className={cn(
           'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
@@ -1975,12 +1974,11 @@ export function AboutView({
               data-element-page="about"
               data-element-parent="about-intro-card-2"
               style={{
-                borderRadius: '14px',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-full flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-full flex flex-col justify-between gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
-              <div className="relative z-10 flex flex-col justify-between h-full gap-3">
+              <div className="relative z-10 flex flex-col justify-between h-full gap-[15px]">
                 {/* Header */}
                 <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
                   <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
@@ -2010,10 +2008,9 @@ export function AboutView({
               data-element-page="about"
               data-element-parent="about-intro-card-2"
               style={{
-                borderRadius: '14px',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-full flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-full flex flex-col justify-between gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2026,7 +2023,7 @@ export function AboutView({
               </div>
 
               {/* 3 Pillars Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch flex-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-[15px] items-stretch flex-1">
                 {/* Pillar 1: Hiệu Quả */}
                 <div
                   data-subcard="true"
@@ -2034,7 +2031,7 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-1')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-1') &&
                       'ring-2 ring-cyan-300 dark:ring-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.7)] scale-[1.02] -translate-y-1'
                   )}
@@ -2066,7 +2063,7 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-2')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.7)] scale-[1.02] -translate-y-1'
                   )}
@@ -2098,7 +2095,7 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-3')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-3') &&
                       'ring-2 ring-emerald-300 dark:ring-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.7)] scale-[1.02] -translate-y-1'
                   )}
@@ -2133,10 +2130,9 @@ export function AboutView({
               data-element-page="about"
               data-element-parent="about-intro-card-2"
               style={{
-                borderRadius: '14px',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-full flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-full flex flex-col justify-between gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2149,7 +2145,7 @@ export function AboutView({
               </div>
 
               {/* 3 Core Values Grid (Không có speaker, không lật thẻ) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch flex-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-[15px] items-stretch flex-1">
                 {/* Core Value 1: Tận tâm trách nhiệm */}
                 <div
                   data-subcard="true"
@@ -2161,7 +2157,7 @@ export function AboutView({
                     showToast('Giá trị 01: Tận tâm trách nhiệm - Dốc trọn tâm sức');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-1') &&
                       'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
                   )}
@@ -2197,7 +2193,7 @@ export function AboutView({
                     showToast('Giá trị 02: Kịp Thời - Nhanh nhạy & Đúng lúc');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
                   )}
@@ -2233,7 +2229,7 @@ export function AboutView({
                     showToast('Giá trị 03: Đồng Cảm Chân Thành - Lắng nghe & Thấu cảm');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-3.5 shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-3') &&
                       'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
                   )}
@@ -2268,12 +2264,11 @@ export function AboutView({
               data-element-page="about"
               data-element-parent="about-intro-card-2"
               style={{
-                borderRadius: '14px',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-full flex flex-col justify-between gap-3 text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-full flex flex-col justify-between gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
-              <div className="relative z-10 flex flex-col justify-between h-full gap-3">
+              <div className="relative z-10 flex flex-col justify-between h-full gap-[15px]">
                 {/* Header */}
                 <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
                   <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">

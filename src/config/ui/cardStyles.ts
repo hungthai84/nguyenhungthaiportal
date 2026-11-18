@@ -65,26 +65,23 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     color: '#334155',
     desc: 'Kính mờ đơn sắc sáng tông trắng băng tinh khiết, độ mờ Blur sâu, viền phản quang sắc nét và chữ đen #000000 chuẩn WCAG 2.2.',
     cardSampleStyle: {
-      background:
-        'linear-gradient(145deg, rgba(255, 255, 255, 0.86) 0%, rgba(244, 247, 252, 0.74) 50%, rgba(235, 240, 248, 0.78) 100%)',
-      backdropFilter: 'blur(28px) saturate(135%)',
-      WebkitBackdropFilter: 'blur(28px) saturate(135%)',
-      borderRadius: '14px',
-      border: '1px solid rgba(255, 255, 255, 0.94)',
-      boxShadow:
-        '0 14px 32px -10px rgba(15, 23, 42, 0.12), 0 6px 16px -6px rgba(51, 65, 85, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.96)',
+      background: 'rgba(255, 255, 255, 0.2)',
+      backdropFilter: 'blur(5px)',
+      WebkitBackdropFilter: 'blur(5px)',
+      borderRadius: '16px',
+      border: '1px solid rgba(255, 255, 255, 0.3)',
+      boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
       color: '#000000',
     },
     miniPreviewWrapStyle: {
-      background:
-        'linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.82) 100%)',
-      borderColor: 'rgba(255, 255, 255, 0.94)',
-      boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.96)',
+      background: 'rgba(255, 255, 255, 0.2)',
+      borderColor: 'rgba(255, 255, 255, 0.3)',
+      boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
     },
     miniTabStyle: {
-      background: 'rgba(255, 255, 255, 0.94)',
+      background: 'rgba(255, 255, 255, 0.2)',
       color: '#000000',
-      borderColor: 'rgba(148, 163, 184, 0.35)',
+      borderColor: 'rgba(255, 255, 255, 0.3)',
     },
     miniBtnStyle: {
       background: 'linear-gradient(135deg, #334155 0%, #1E293B 55%, #0F172A 100%)',
@@ -110,26 +107,23 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     color: '#8B5CF6',
     desc: 'Phiên bản chế độ tối Gương Neon màu: kính mờ lăng kính Neon đa màu dịu sâu, không lóa, bảo toàn chữ trắng #FFFFFF chuẩn WCAG 2.2.',
     cardSampleStyle: {
-      background:
-        'linear-gradient(145deg, rgba(26, 30, 56, 0.82) 0%, rgba(20, 24, 46, 0.78) 52%, rgba(30, 22, 48, 0.80) 100%)',
-      backdropFilter: 'blur(26px) saturate(160%)',
-      WebkitBackdropFilter: 'blur(26px) saturate(160%)',
-      borderRadius: '14px',
-      border: '1px solid rgba(167, 139, 250, 0.28)',
-      boxShadow:
-        '0 18px 42px -12px rgba(4, 6, 18, 0.72), 0 6px 16px -6px rgba(99, 83, 181, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.14)',
+      background: 'rgba(0, 0, 0, 0.2)',
+      backdropFilter: 'blur(5px)',
+      WebkitBackdropFilter: 'blur(5px)',
+      borderRadius: '16px',
+      border: '1px solid rgba(0, 0, 0, 0.3)',
+      boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
       color: '#FFFFFF',
     },
     miniPreviewWrapStyle: {
-      background:
-        'linear-gradient(135deg, rgba(22, 28, 54, 0.88) 0%, rgba(30, 24, 52, 0.85) 100%)',
-      borderColor: 'rgba(167, 139, 250, 0.28)',
-      boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.12)',
+      background: 'rgba(0, 0, 0, 0.2)',
+      borderColor: 'rgba(0, 0, 0, 0.3)',
+      boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
     },
     miniTabStyle: {
-      background: 'rgba(30, 38, 72, 0.88)',
+      background: 'rgba(0, 0, 0, 0.2)',
       color: '#FFFFFF',
-      borderColor: 'rgba(167, 139, 250, 0.28)',
+      borderColor: 'rgba(0, 0, 0, 0.3)',
     },
     miniBtnStyle: {
       background: 'linear-gradient(135deg, #3BB8E6 0%, #A78BFA 52%, #DD4E9E 100%)',

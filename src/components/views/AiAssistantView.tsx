@@ -406,7 +406,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-section-card="true"
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
-        className="banner-card hero-banner group w-full min-h-[170px] lg:min-h-0 lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border transition-all duration-300"
+        className="banner-card group w-full min-h-[170px] lg:min-h-0 lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xs transition-all duration-300"
         style={{
           padding: '15px',
           borderRadius: '14px',
@@ -503,7 +503,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                     data-element-type={m.sender === 'ai' ? 'card' : undefined}
                     data-subcard={m.sender === 'ai' ? 'true' : undefined}
                     style={m.sender === 'user' ? { background: 'var(--bg-button-primary)' } : undefined}
-                    className={`max-w-[92%] sm:max-w-[82%] p-3.5 sm:p-4 rounded-[14px] leading-relaxed shadow-sm ${
+                    className={`max-w-[92%] sm:max-w-[82%] p-[15px] rounded-[14px] leading-relaxed shadow-sm ${
                       m.sender === 'user'
                         ? 'text-white rounded-br-none font-medium'
                         : 'ai-assistant-bubble sub-card rounded-bl-none shadow-xs'
@@ -580,7 +580,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
               <div id="ai-assistant-loading-indicator" className="flex justify-start">
                 <div
                   data-subcard="true"
-                  className="ai-assistant-bubble sub-card p-3 rounded-[14px] flex items-center gap-2 typo-body-sm font-semibold font-play"
+                  className="ai-assistant-bubble sub-card p-[15px] rounded-[14px] flex items-center gap-[15px] typo-body-sm font-semibold font-play"
                 >
                   <WebIcon name="bot" className="w-5 h-5 animate-spin" style={{ color: 'var(--color-primary)' }} />
                   <span style={{ color: 'var(--text-secondary)' }}>

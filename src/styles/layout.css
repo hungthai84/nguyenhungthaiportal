@@ -418,11 +418,13 @@
     margin-left: auto !important;
     margin-right: auto !important;
     border-radius: var(--radius-banner, 14px) !important;
-    padding: 12px 14px !important;
+    padding: 15px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
-    gap: 10px !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
   }
 
   .hero-banner > div.relative.z-10:first-of-type,

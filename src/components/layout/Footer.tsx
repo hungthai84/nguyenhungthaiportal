@@ -29,6 +29,7 @@ export const Footer: React.FC<FooterProps> = ({
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [hoveredRightBtn, setHoveredRightBtn] = useState<number | null>(null);
   const [uniformRightWidth, setUniformRightWidth] = useState<number | null>(null);
+  const [uniformRightBtnSize, setUniformRightBtnSize] = useState<{ width: number; height: number } | null>(null);
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== 'undefined' ? window.innerWidth : 1280
   );
@@ -93,7 +94,7 @@ export const Footer: React.FC<FooterProps> = ({
     }
   };
 
-  const { cardStyle, setCardStyle, isDark, toggleLightDark } = useTheme();
+  const { cardStyle, setCardStyle, isDark } = useTheme();
   const footerCardStyle = getCardStyleProperties(cardStyle);
   const {
     border: _b,
@@ -117,6 +118,8 @@ export const Footer: React.FC<FooterProps> = ({
       if (typeof window !== 'undefined') {
         setViewportWidth(window.innerWidth);
       }
+      rightPillWrapperRefs.current = rightPillWrapperRefs.current.slice(0, 4);
+      rightPillBtnRefs.current = rightPillBtnRefs.current.slice(0, 4);
       const wrappers = rightPillWrapperRefs.current.filter(Boolean) as HTMLDivElement[];
       const btns = rightPillBtnRefs.current.filter(Boolean) as HTMLButtonElement[];
       if (wrappers.length === 0 || btns.length === 0) return;
@@ -144,6 +147,23 @@ export const Footer: React.FC<FooterProps> = ({
       if (maxW > 0) {
         setUniformRightWidth((prev) => (prev !== maxW ? maxW : prev));
       }
+
+      let maxBtnW = 0;
+      let maxBtnH = 0;
+      btns.forEach((b) => {
+        const rect = b.getBoundingClientRect();
+        const bw = Math.ceil(rect.width);
+        const bh = Math.ceil(rect.height);
+        if (bw > maxBtnW) maxBtnW = bw;
+        if (bh > maxBtnH) maxBtnH = bh;
+      });
+      if (maxBtnW > 0 && maxBtnH > 0) {
+        setUniformRightBtnSize((prev) =>
+          prev && prev.width === maxBtnW && prev.height === maxBtnH
+            ? prev
+            : { width: maxBtnW, height: maxBtnH }
+        );
+      }
     };
 
     measureRightPills();
@@ -166,15 +186,12 @@ export const Footer: React.FC<FooterProps> = ({
     : viewportWidth >= 1280
       ? 104
       : 94;
-  const fanShiftRightPx = overlapRightPx;
-
   const handleRightBtnMouseEnter = (index: number) => {
     setHoveredRightBtn(index);
     if (index === 0) SoundEngine.playPageSpecificSound(12);
     else if (index === 1) SoundEngine.playPageSpecificSound(15);
-    else if (index === 2) SoundEngine.playGlassChime();
-    else if (index === 3) SoundEngine.playPageSpecificSound(14);
-    else if (index === 4) SoundEngine.playPageSpecificSound(13);
+    else if (index === 2) SoundEngine.playPageSpecificSound(14);
+    else if (index === 3) SoundEngine.playPageSpecificSound(13);
   };
 
   const getDeckItemStyle = (index: number, isPopupOpen = false) => {
@@ -230,7 +247,7 @@ export const Footer: React.FC<FooterProps> = ({
 
       {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md (tạm ẩn khi over mouse nút bên phải) */}
       <div
-        className={`w-auto md:w-[160px] relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 pointer-events-auto flex items-center justify-center shrink-0 transition-all duration-300 ease-out ${
+        className={`w-auto relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 pointer-events-auto flex items-center justify-center shrink-0 transition-all duration-300 ease-out ${
           hoveredRightBtn !== null
             ? 'opacity-0 pointer-events-none scale-90 -translate-y-1'
             : 'opacity-100 pointer-events-auto scale-100 translate-y-0'
@@ -244,8 +261,14 @@ export const Footer: React.FC<FooterProps> = ({
           style={{
             ...(footerCardStyle?.cardSampleStyle || {}),
             borderRadius: '999px',
+            ...(uniformRightBtnSize
+              ? {
+                  width: `${uniformRightBtnSize.width}px`,
+                  height: `${uniformRightBtnSize.height}px`,
+                }
+              : {}),
           }}
-          className={`theme-capsule-btn nav-pill relative z-10 w-[118px] sm:w-[144px] md:w-[152px] h-[42px] sm:h-[44px] flex items-center justify-between px-1.5 py-1 !rounded-[999px] rounded-[999px] text-[var(--text-primary)] cursor-pointer transition-all duration-300 hover:-translate-y-[1.5px] active:scale-[0.98] group font-play font-bold ${
+          className={`theme-capsule-btn nav-pill relative z-10 w-[118px] sm:w-[144px] md:w-[152px] h-[42px] sm:h-[44px] flex items-center justify-between px-1.5 py-[3px] !rounded-[999px] rounded-[999px] text-[var(--text-primary)] cursor-pointer transition-all duration-300 hover:-translate-y-[1.5px] active:scale-[0.98] group font-play font-bold ${
             hoveredRightBtn !== null ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100'
           }`}
         >
@@ -267,7 +290,7 @@ export const Footer: React.FC<FooterProps> = ({
               }
             }}
             title={isEn ? 'Previous Page' : 'Trang trước'}
-            className={`theme-prev-next-btn w-8.5 h-8.5 rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-300 active:scale-95 ${
+            className={`theme-prev-next-btn h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-300 active:scale-95 ${
               hoveredRightBtn !== null ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
@@ -275,7 +298,7 @@ export const Footer: React.FC<FooterProps> = ({
           </span>
 
           {/* Page Number with Active Page Icon */}
-          <span className="flex-1 h-8 mx-1 flex items-center justify-center gap-1.5 select-none pointer-events-none">
+          <span className="flex-1 h-full mx-1 flex items-center justify-center gap-1.5 select-none pointer-events-none">
             <WebIcon
               name={TABS_DATA[currentTabIndex]?.icon || 'grid'}
               className="w-3.5 h-3.5 shrink-0 stroke-[2.5]"
@@ -308,7 +331,7 @@ export const Footer: React.FC<FooterProps> = ({
               }
             }}
             title={isEn ? 'Next Page' : 'Trang sau'}
-            className={`theme-prev-next-btn w-8.5 h-8.5 rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-300 active:scale-95 ${
+            className={`theme-prev-next-btn h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-300 active:scale-95 ${
               hoveredRightBtn !== null ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
@@ -329,7 +352,7 @@ export const Footer: React.FC<FooterProps> = ({
           className="relative flex items-center justify-center sm:justify-end flex-nowrap py-0.5 overflow-visible transition-transform duration-300 ease-out"
           style={{
             transform:
-              hoveredRightBtn !== null && hoveredRightBtn < 4
+              hoveredRightBtn !== null && hoveredRightBtn < 3
                 ? `translateX(-${overlapRightPx}px)`
                 : 'translateX(0px)',
           }}
@@ -932,45 +955,9 @@ export const Footer: React.FC<FooterProps> = ({
             );
           })()}
 
-          {/* Button 2: Chế độ Sáng / Tối */}
+          {/* Button 2: Hình Nền */}
           {(() => {
-            const handleToggleDarkMode = () => {
-              SoundEngine.playGlassChime();
-              setIsLangMenuOpen(false);
-              setIsThemeMenuOpen(false);
-              const nextDark = !isDark;
-              toggleLightDark(nextDark);
-              onShowNotification(
-                isEn
-                  ? nextDark
-                    ? '✓ Switched to Dark Mode'
-                    : '✓ Switched to Light Mode'
-                  : nextDark
-                    ? '✓ Đã chuyển sang Chế độ Tối'
-                    : '✓ Đã chuyển sang Chế độ Sáng'
-              );
-            };
-            const activeModeTheme = getCardStyleConfig(cardStyle);
-            const isColorMode = activeModeTheme.mechanism === 'color';
-            const modeTitle = isColorMode
-              ? isEn
-                ? 'Color Mode'
-                : 'Chế độ Màu'
-              : isDark
-                ? isEn
-                  ? 'Dark Mode'
-                  : 'Chế độ Tối'
-                : isEn
-                  ? 'Light Mode'
-                  : 'Chế độ Sáng';
-            const modeSub = isDark
-              ? isEn
-                ? 'Switch Light'
-                : 'Chuyển Sáng'
-              : isEn
-                ? 'Switch Dark'
-                : 'Chuyển Tối';
-
+            const isSelected = currentTabIndex === 14;
             return (
               <div
                 onMouseEnter={() => handleRightBtnMouseEnter(2)}
@@ -980,88 +967,6 @@ export const Footer: React.FC<FooterProps> = ({
                 <div
                   ref={(el) => {
                     rightPillWrapperRefs.current[2] = el;
-                  }}
-                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-max h-auto p-[1.5px] overflow-hidden shadow-[0_4px_14px_rgba(0,0,0,0.1)]"
-                  style={{
-                    width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
-                    boxShadow: 'none',
-                  }}
-                >
-                  <button
-                    ref={(el) => {
-                      rightPillBtnRefs.current[2] = el;
-                    }}
-                    id="footer-theme-mode-btn"
-                    type="button"
-                    aria-pressed={isDark}
-                    onClick={handleToggleDarkMode}
-                    title={
-                      isEn
-                        ? `${modeTitle} (${modeSub})`
-                        : `${modeTitle} (${modeSub})`
-                    }
-                    className={`nav-pill relative z-10 inline-flex items-center w-full h-auto rounded-[999px] gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
-                      isDark
-                        ? 'border-sky-400/80 dark:border-sky-400/70'
-                        : 'border-amber-400/80 dark:border-amber-400/70'
-                    }`}
-                    style={{
-                      paddingTop: '2px',
-                      paddingBottom: '2px',
-                      paddingLeft: '10px',
-                      paddingRight: '10px',
-                    }}
-                  >
-                    <div
-                      className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
-                      style={{
-                        backgroundColor: isDark ? '#0EA5E9' : '#F59E0B',
-                      }}
-                    >
-                      <WebIcon
-                        name={isDark ? 'moon' : 'sun'}
-                        className="nav-pill-icon-svg w-4 h-4 text-white shrink-0"
-                      />
-                    </div>
-                    <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 bg-[var(--divider-nav-pill)]" />
-                    <div className="flex flex-col text-left leading-none shrink-0">
-                      <span
-                        className={`nav-pill-title typo-nav leading-tight font-play tracking-tight whitespace-nowrap transition-colors duration-300 ${
-                          isDark
-                            ? 'text-sky-950 dark:text-sky-100'
-                            : 'text-amber-950 dark:text-amber-100'
-                        }`}
-                      >
-                        {modeTitle}
-                      </span>
-                      <span
-                        className={`nav-pill-sub typo-label leading-none mt-0.5 whitespace-nowrap font-play transition-colors duration-300 ${
-                          isDark
-                            ? 'text-sky-700 dark:text-sky-300'
-                            : 'text-amber-700 dark:text-amber-300'
-                        }`}
-                      >
-                        {modeSub}
-                      </span>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            );
-          })()}
-
-          {/* Button 3: Hình Nền */}
-          {(() => {
-            const isSelected = currentTabIndex === 14;
-            return (
-              <div
-                onMouseEnter={() => handleRightBtnMouseEnter(3)}
-                style={getDeckItemStyle(3)}
-                className="relative pointer-events-auto shrink-0 transition-all duration-300 ease-out"
-              >
-                <div
-                  ref={(el) => {
-                    rightPillWrapperRefs.current[3] = el;
                   }}
                   className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-max h-auto p-[1.5px] overflow-hidden ${
                     isSelected ? '' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
@@ -1082,7 +987,7 @@ export const Footer: React.FC<FooterProps> = ({
                   )}
                   <button
                     ref={(el) => {
-                      rightPillBtnRefs.current[3] = el;
+                      rightPillBtnRefs.current[2] = el;
                     }}
                     id="footer-wallpaper-btn"
                     type="button"
@@ -1145,18 +1050,18 @@ export const Footer: React.FC<FooterProps> = ({
             );
           })()}
 
-          {/* Button 4: AI Hỗ trợ */}
+          {/* Button 3: AI Hỗ trợ */}
           {(() => {
             const isSelected = currentTabIndex === 13;
             return (
               <div
-                onMouseEnter={() => handleRightBtnMouseEnter(4)}
-                style={getDeckItemStyle(4)}
+                onMouseEnter={() => handleRightBtnMouseEnter(3)}
+                style={getDeckItemStyle(3)}
                 className="relative pointer-events-auto shrink-0 transition-all duration-300 ease-out"
               >
                 <div
                   ref={(el) => {
-                    rightPillWrapperRefs.current[4] = el;
+                    rightPillWrapperRefs.current[3] = el;
                   }}
                   className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-max h-auto p-[1.5px] overflow-hidden ${
                     isSelected ? '' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
@@ -1177,7 +1082,7 @@ export const Footer: React.FC<FooterProps> = ({
                   )}
                   <button
                     ref={(el) => {
-                      rightPillBtnRefs.current[4] = el;
+                      rightPillBtnRefs.current[3] = el;
                     }}
                     id="footer-ai-btn"
                     type="button"

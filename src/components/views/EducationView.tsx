@@ -850,8 +850,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   id="education-certificates-card"
                   data-element-type="card"
                   data-section-card="true"
-                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-3.5 transition-all duration-300 min-w-0"
-                  style={{ borderRadius: '14px', padding: '15px' }}
+                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-[15px] transition-all duration-300 min-w-0"
+                  style={{ padding: '15px' }}
                 >
                   <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] flex-wrap">
                     <div className="card-header-sync flex items-center gap-2 text-amber-600 dark:text-amber-400" data-card-accent="amber">
@@ -890,7 +890,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     {/* Sub-card: Từ khóa kỷ năng (Chuyển vào Danh mục khóa học) */}
                     <div
                       data-subcard="true"
-                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] flex flex-col gap-2 min-w-0"
+                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] flex flex-col gap-[15px] min-w-0"
                     >
                       <div className="subcard-header-sync flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400" data-subcard-accent="emerald">
                         <WebIcon name="sparkles" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
@@ -969,8 +969,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   id="education-major-card"
                   data-element-type="card"
                   data-section-card="true"
-                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-3.5 transition-all duration-300 min-w-0"
-                  style={{ borderRadius: '14px', padding: '15px' }}
+                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-[15px] transition-all duration-300 min-w-0"
+                  style={{ padding: '15px' }}
                 >
                   <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
                     <div className="card-header-sync flex items-center gap-2 text-emerald-600 dark:text-emerald-400" data-card-accent="emerald">
@@ -1075,7 +1075,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               aria-label={formatCardTitle(verifyingCourse.title)}
               onClick={(e) => e.stopPropagation()}
               data-element-type="card"
-              className="theme-modal-card relative w-full max-w-md rounded-[14px] p-5 shadow-2xl space-y-4"
+              className="theme-modal-card relative w-full max-w-md rounded-[14px] p-[15px] shadow-2xl flex flex-col gap-[15px]"
             >
               <div className="flex items-start justify-between gap-3 border-b pb-3" style={{ borderColor: 'var(--border-subcard)' }}>
                 <div className="card-header-sync flex items-center gap-2.5 text-emerald-600 dark:text-emerald-400">
@@ -1100,8 +1100,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 </button>
               </div>
 
-              <div className="space-y-2.5 typo-body-sm">
-                <div className="theme-modal-subcard p-3 rounded-[14px] space-y-2">
+              <div className="flex flex-col gap-[15px] typo-body-sm">
+                <div className="theme-modal-subcard p-[15px] rounded-[14px] flex flex-col gap-[15px]">
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Mã chứng chỉ số:</span>
                     <div className="flex items-center gap-1.5">

@@ -3,6 +3,8 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useTheme } from '@/hooks/useTheme';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+import { CARD_STYLES_MAP, getThemeForMechanism } from '@/config/ui/cardStyles';
+import { ThemeMechanismMode } from '@/config/ui/theme.types';
 
 interface SpringState {
   x: number;
@@ -12,8 +14,79 @@ interface SpringState {
   c: number;
 }
 
+interface BulbColorStop {
+  name: string;
+  core: string;
+  shadow: string;
+  ring: string;
+  haloInner: string;
+  haloMid: string;
+}
+
+const COLOR_MODE_BULB_PALETTE: BulbColorStop[] = [
+  {
+    name: 'Vàng ấm',
+    core: '#FBBF24',
+    shadow: '0 0 18px rgba(251, 191, 36, 0.92)',
+    ring: 'rgba(253, 224, 71, 0.7)',
+    haloInner: 'rgba(251, 191, 36, 0.5)',
+    haloMid: 'rgba(245, 158, 11, 0.24)',
+  },
+  {
+    name: 'Hồng ngọc',
+    core: '#F472B6',
+    shadow: '0 0 18px rgba(244, 114, 182, 0.92)',
+    ring: 'rgba(249, 168, 212, 0.7)',
+    haloInner: 'rgba(244, 114, 182, 0.5)',
+    haloMid: 'rgba(236, 72, 153, 0.24)',
+  },
+  {
+    name: 'Tím thạch anh',
+    core: '#A78BFA',
+    shadow: '0 0 18px rgba(167, 139, 250, 0.92)',
+    ring: 'rgba(196, 181, 253, 0.7)',
+    haloInner: 'rgba(167, 139, 250, 0.5)',
+    haloMid: 'rgba(139, 92, 246, 0.24)',
+  },
+  {
+    name: 'Xanh thiên thanh',
+    core: '#38BDF8',
+    shadow: '0 0 18px rgba(56, 189, 248, 0.92)',
+    ring: 'rgba(125, 211, 252, 0.7)',
+    haloInner: 'rgba(56, 189, 248, 0.5)',
+    haloMid: 'rgba(14, 165, 233, 0.24)',
+  },
+  {
+    name: 'Xanh ngọc lục',
+    core: '#34D399',
+    shadow: '0 0 18px rgba(52, 211, 153, 0.92)',
+    ring: 'rgba(110, 231, 183, 0.7)',
+    haloInner: 'rgba(52, 211, 153, 0.5)',
+    haloMid: 'rgba(16, 185, 129, 0.24)',
+  },
+  {
+    name: 'Cam rực rỡ',
+    core: '#FB923C',
+    shadow: '0 0 18px rgba(251, 146, 60, 0.92)',
+    ring: 'rgba(253, 186, 116, 0.7)',
+    haloInner: 'rgba(251, 146, 60, 0.5)',
+    haloMid: 'rgba(249, 115, 22, 0.24)',
+  },
+];
+
+const NEXT_MECHANISM_MAP: Record<ThemeMechanismMode, ThemeMechanismMode> = {
+  light: 'dark',
+  dark: 'color',
+  color: 'light',
+};
+
 export const PullCord: React.FC = () => {
-  const { isDark, toggleLightDark, cardStyle } = useTheme();
+  const { isDark, cardStyle, setCardStyle } = useTheme();
+
+  const activeMechanism: ThemeMechanismMode =
+    CARD_STYLES_MAP[cardStyle]?.mechanism || (isDark ? 'dark' : 'light');
+  const isColorMode = activeMechanism === 'color';
+  const isLit = activeMechanism !== 'dark';
 
   const containerRef = useRef<HTMLDivElement>(null);
   const lampRef = useRef<HTMLDivElement>(null);
@@ -27,6 +100,7 @@ export const PullCord: React.FC = () => {
 
   const [isHeld, setIsHeld] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [colorIndex, setColorIndex] = useState(0);
 
   // Constants based on designbookmark motion-src/pull-cord tokens & geometry
   const WIRE = 76;
@@ -52,7 +126,7 @@ export const PullCord: React.FC = () => {
   }>({
     TH: { x: 0, v: 0, t: 0, k: 46, c: 3 },
     TUG: { x: 0, v: 0, t: 0, k: 300, c: 13 },
-    R: { x: isDark ? 0 : 1, v: 0, t: isDark ? 0 : 1, k: 120, c: 21 },
+    R: { x: isLit ? 1 : 0, v: 0, t: isLit ? 1 : 0, k: 120, c: 21 },
     BP: { x: 1, v: 0, t: 1, k: 420, c: 13 },
     HX: { x: 0, v: 0, t: 0, k: 210, c: 22 },
     HY: { x: 0, v: 0, t: 0, k: 210, c: 22 },
@@ -91,19 +165,38 @@ export const PullCord: React.FC = () => {
     originY: 0,
   });
 
-  const toggleRef = useRef(toggleLightDark);
+  const setCardStyleRef = useRef(setCardStyle);
   useEffect(() => {
-    toggleRef.current = toggleLightDark;
-  }, [toggleLightDark]);
+    setCardStyleRef.current = setCardStyle;
+  }, [setCardStyle]);
 
-  const isDarkRef = useRef(isDark);
+  const cardStyleRef = useRef(cardStyle);
   useEffect(() => {
-    isDarkRef.current = isDark;
+    cardStyleRef.current = cardStyle;
+  }, [cardStyle]);
+
+  const activeMechanismRef = useRef(activeMechanism);
+  useEffect(() => {
+    activeMechanismRef.current = activeMechanism;
     const { R } = springsRef.current;
-    R.t = isDark ? 0 : 1;
-    R.k = isDark ? 170 : 120;
-    R.c = isDark ? 27 : 21;
-  }, [isDark]);
+    const nextLit = activeMechanism !== 'dark';
+    R.t = nextLit ? 1 : 0;
+    R.k = nextLit ? 120 : 170;
+    R.c = nextLit ? 21 : 27;
+  }, [activeMechanism]);
+
+  // Color-changing bulb cycle every 3s when Color mode is active
+  useEffect(() => {
+    if (!isColorMode) {
+      setColorIndex(0);
+      return;
+    }
+    setColorIndex(0);
+    const intervalId = window.setInterval(() => {
+      setColorIndex((prev) => (prev + 1) % COLOR_MODE_BULB_PALETTE.length);
+    }, 3000);
+    return () => window.clearInterval(intervalId);
+  }, [isColorMode]);
 
   // Spring step function
   const stepSpring = (s: SpringState, dt: number) => {
@@ -145,14 +238,18 @@ export const PullCord: React.FC = () => {
     }, 950);
   }, [getAnchor, L, N]);
 
-  // Flip light switch & trigger theme
+  // Flip light switch & cycle theme mechanism: Light -> Dark -> Color -> Light
   const flip = useCallback(() => {
     const { BP, TUG } = springsRef.current;
-    BP.x = isDarkRef.current ? 1.35 : 0.85;
+    const currentMech = activeMechanismRef.current;
+    const nextMech = NEXT_MECHANISM_MAP[currentMech] || 'light';
+
+    BP.x = nextMech === 'dark' ? 0.85 : 1.35;
     TUG.v += 140;
 
     SoundEngine.playPop();
-    toggleRef.current();
+    const nextStyle = getThemeForMechanism(cardStyleRef.current, nextMech);
+    setCardStyleRef.current(nextStyle);
   }, []);
 
   // Main animation frame loop
@@ -403,12 +500,63 @@ export const PullCord: React.FC = () => {
     }
   };
 
+  const activeBulbStop = isColorMode
+    ? COLOR_MODE_BULB_PALETTE[colorIndex]
+    : COLOR_MODE_BULB_PALETTE[0];
+
+  const glowBackground = isLit
+    ? `radial-gradient(circle, ${activeBulbStop.haloInner} 0%, ${activeBulbStop.haloMid} 50%, transparent 80%)`
+    : 'radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%)';
+
+  const bulbInlineStyle: React.CSSProperties = isLit
+    ? {
+        display: 'block',
+        transformOrigin: '50% 50%',
+        backgroundColor: activeBulbStop.core,
+        boxShadow: `${activeBulbStop.shadow}, 0 0 0 2px ${activeBulbStop.ring}`,
+        transition: 'background-color 900ms ease, box-shadow 900ms ease, opacity 300ms ease',
+      }
+    : {
+        display: 'block',
+        transformOrigin: '50% 50%',
+        backgroundColor: isDark ? 'rgba(100, 116, 139, 0.8)' : 'rgba(148, 163, 184, 0.8)',
+        boxShadow: 'inset 0 1px 3px rgba(255,255,255,0.4)',
+        transition: 'background-color 300ms ease, box-shadow 300ms ease, opacity 300ms ease',
+      };
+
+  const shadeBackground = isColorMode
+    ? 'linear-gradient(180deg, rgba(248, 250, 252, 0.96) 0%, rgba(224, 231, 255, 0.88) 100%)'
+    : isDark
+      ? 'linear-gradient(180deg, #334155 0%, #1e293b 100%)'
+      : 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)';
+
+  const beadBackground = isColorMode
+    ? 'linear-gradient(180deg, #fbbf24 0%, #f472b6 50%, #38bdf8 100%)'
+    : isDark
+      ? 'linear-gradient(180deg, #fbbf24 0%, #d97706 100%)'
+      : 'linear-gradient(180deg, #475569 0%, #1e293b 100%)';
+
+  const nextModeHint =
+    activeMechanism === 'light'
+      ? 'Tắt đèn tối'
+      : activeMechanism === 'dark'
+        ? 'Bật đèn màu (3 giây/lần)'
+        : 'Bật đèn sáng';
+
+  const currentModeLabel =
+    activeMechanism === 'light'
+      ? 'Chế độ Sáng'
+      : activeMechanism === 'dark'
+        ? 'Chế độ Tối'
+        : `Chế độ Màu (${activeBulbStop.name})`;
+
   return (
     <div
       ref={containerRef}
       id="db-pull-cord-container"
       data-element-name="Công tắc Đèn Kéo Dây"
       data-element-type="widget"
+      data-pull-cord-mode={activeMechanism}
       className="fixed top-0 left-2 sm:left-4 lg:left-6 z-[60] pointer-events-none select-none"
       style={{
         width: '120px',
@@ -449,27 +597,19 @@ export const PullCord: React.FC = () => {
           {/* Bulb Radiant Glow Halo */}
           <div
             ref={glowCircleRef}
-            className="absolute left-[-42px] top-[14px] w-[84px] h-[84px] rounded-full pointer-events-none transition-all duration-300 blur-md"
+            className="absolute left-[-42px] top-[14px] w-[84px] h-[84px] rounded-full pointer-events-none blur-md"
             style={{
-              background: isDark
-                ? 'radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%)'
-                : 'radial-gradient(circle, rgba(251, 191, 36, 0.45) 0%, rgba(245, 158, 11, 0.2) 50%, transparent 80%)',
-              opacity: isDark ? 0 : 1,
+              background: glowBackground,
+              opacity: isLit ? 1 : 0,
+              transition: 'background 900ms ease, opacity 300ms ease',
             }}
           />
 
           {/* Glowing Light Bulb */}
           <i
             ref={bulbRef}
-            className={`absolute left-[-11px] top-[28px] w-[22px] h-[22px] rounded-full shadow-sm transition-colors duration-300 will-change-transform ${
-              !isDark
-                ? 'bg-amber-400 shadow-[0_0_16px_rgba(251,191,36,0.9)] ring-2 ring-amber-300/60'
-                : 'bg-slate-400/80 dark:bg-slate-500/80 shadow-[inset_0_1px_3px_rgba(255,255,255,0.4)]'
-            }`}
-            style={{
-              display: 'block',
-              transformOrigin: '50% 50%',
-            }}
+            className="absolute left-[-11px] top-[28px] w-[22px] h-[22px] rounded-full shadow-sm will-change-transform"
+            style={bulbInlineStyle}
           />
 
           {/* Lamp Shade (Modern Bell Shape with Theme Gradient) */}
@@ -478,9 +618,7 @@ export const PullCord: React.FC = () => {
             style={{
               display: 'block',
               borderRadius: '34px 34px 8px 8px / 32px 32px 8px 8px',
-              background: isDark
-                ? 'linear-gradient(180deg, #334155 0%, #1e293b 100%)'
-                : 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)',
+              background: shadeBackground,
               border: '1px solid rgba(255, 255, 255, 0.35)',
               boxShadow: isDark
                 ? '0 6px 14px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.15)'
@@ -519,9 +657,7 @@ export const PullCord: React.FC = () => {
         style={{
           display: 'block',
           transformOrigin: '5px 2px',
-          background: isDark
-            ? 'linear-gradient(180deg, #fbbf24 0%, #d97706 100%)'
-            : 'linear-gradient(180deg, #475569 0%, #1e293b 100%)',
+          background: beadBackground,
           border: '1px solid rgba(255, 255, 255, 0.5)',
           boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
         }}
@@ -533,8 +669,9 @@ export const PullCord: React.FC = () => {
         id="db-pull-cord-grab"
         type="button"
         role="switch"
-        aria-checked={!isDark}
-        aria-label="Công tắc đèn - Kéo dây chuyển giao diện Sáng / Tối"
+        aria-checked={isLit}
+        aria-valuetext={currentModeLabel}
+        aria-label={`Công tắc đèn - Kéo dây chuyển chế độ Sáng / Tối / Màu (Hiện tại: ${currentModeLabel})`}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -549,7 +686,7 @@ export const PullCord: React.FC = () => {
           touchAction: 'none',
           WebkitTapHighlightColor: 'transparent',
         }}
-        title="Kéo dây để bật / tắt đèn (Chuyển giao diện Sáng / Tối)"
+        title="Kéo dây để chuyển Sáng / Tối / Màu"
       />
 
       {/* Hover Tooltip / Hint */}
@@ -565,8 +702,13 @@ export const PullCord: React.FC = () => {
         }`}
       >
         <span className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-          <span>Kéo dây: {isDark ? 'Bật đèn sáng' : 'Tắt đèn tối'}</span>
+          <span
+            className="w-1.5 h-1.5 rounded-full animate-pulse transition-colors duration-700"
+            style={{ backgroundColor: isLit ? activeBulbStop.core : '#FBBF24' }}
+          />
+          <span>
+            {currentModeLabel} · Kéo: {nextModeHint}
+          </span>
         </span>
       </div>
     </div>

@@ -1312,13 +1312,13 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 flex flex-col gap-[15px] text-left">
+              <div data-subcard="true" className="project-detail-subcard p-[15px] rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.methodology.intro}
               </div>
 
               {/* Process Timeline */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-stretch">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-[15px] items-stretch">
                 {spec.methodology.phases.map((ph: any, idx: number) => {
                   const phasePalettes = [
                     { theme: 'border-blue-200/90 dark:border-blue-500/30 text-blue-600 dark:text-blue-400', icon: 'search' },
@@ -1332,7 +1332,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     <div
                       key={idx}
                       data-subcard="true"
-                      className={`project-detail-subcard h-full p-3.5 rounded-[14px] ${p.theme} border shadow-2xs space-y-2 flex flex-col justify-between transition duration-200`}
+                      className={`project-detail-subcard h-full p-[15px] gap-[15px] rounded-[14px] ${p.theme} border shadow-2xs flex flex-col justify-between transition duration-200`}
                     >
                       <div className="space-y-2">
                         <div className="subcard-header-sync flex items-center gap-1.5 pb-1.5 border-b border-[var(--border-subcard)]">
@@ -1357,7 +1357,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               </div>
 
               {spec.methodology.outro && (
-                <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-[var(--border-subcard)] flex items-center gap-2">
+                <div data-subcard="true" className="project-detail-subcard p-[15px] rounded-[14px] border border-[var(--border-subcard)] flex items-center gap-[15px]">
                   <WebIcon name="target" className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
                   <p className="typo-caption italic text-[var(--text-secondary)] leading-relaxed font-medium">
                     {spec.methodology.outro}
@@ -1402,13 +1402,13 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 flex flex-col gap-[15px] text-left">
+              <div data-subcard="true" className="project-detail-subcard p-[15px] rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.metrics.intro}
               </div>
 
               {/* KPI Categories Grid Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 items-stretch">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[15px] items-stretch">
                 {spec.metrics.table.map((m: any, idx: number) => {
                   const metricPalettes = [
                     { theme: 'border-sky-200/90 dark:border-sky-500/30 text-sky-600 dark:text-sky-400', icon: 'phone' },
@@ -1424,7 +1424,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     <div
                       key={idx}
                       data-subcard="true"
-                      className={`project-detail-subcard h-full p-3.5 rounded-[14px] ${p.theme} border shadow-2xs space-y-2.5 flex flex-col justify-between transition duration-200 ${
+                      className={`project-detail-subcard h-full p-[15px] gap-[15px] rounded-[14px] ${p.theme} border shadow-2xs flex flex-col justify-between transition duration-200 ${
                         idx === spec.metrics.table.length - 1 && spec.metrics.table.length % 2 !== 0 ? 'sm:col-span-2 lg:col-span-2 xl:col-span-1' : ''
                       }`}
                     >
@@ -1459,7 +1459,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               </div>
 
               {spec.metrics.outro && (
-                <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-[var(--border-subcard)] flex items-center gap-2">
+                <div data-subcard="true" className="project-detail-subcard p-[15px] rounded-[14px] border border-[var(--border-subcard)] flex items-center gap-[15px]">
                   <WebIcon name="chart" className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <p className="typo-caption italic text-[var(--text-secondary)] leading-relaxed font-medium">
                     {spec.metrics.outro}
@@ -1504,13 +1504,13 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 flex flex-col gap-[15px] text-left">
+              <div data-subcard="true" className="project-detail-subcard p-[15px] rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.pmRoles.intro}
               </div>
 
               {/* Leadership Roles */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 items-stretch">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[15px] items-stretch">
                 {spec.pmRoles.items.map((r: any, idx: number) => {
                   const rolePalettes = [
                     { theme: 'border-sky-200/90 dark:border-sky-500/30 text-sky-600 dark:text-sky-400', icon: 'compass' },
@@ -1526,7 +1526,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     <div
                       key={idx}
                       data-subcard="true"
-                      className={`project-detail-subcard h-full p-3.5 rounded-[14px] ${p.theme} border shadow-2xs space-y-2 flex flex-col justify-between transition duration-200 ${
+                      className={`project-detail-subcard h-full p-[15px] gap-[15px] rounded-[14px] ${p.theme} border shadow-2xs flex flex-col justify-between transition duration-200 ${
                         idx === spec.pmRoles.items.length - 1 && spec.pmRoles.items.length % 2 !== 0 ? 'sm:col-span-2 lg:col-span-1' : ''
                       }`}
                     >
@@ -1590,13 +1590,13 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 flex flex-col gap-[15px] text-left">
+              <div data-subcard="true" className="project-detail-subcard p-[15px] rounded-[14px] border border-[var(--border-subcard)] typo-body-sm text-[var(--text-primary)] font-semibold leading-relaxed shadow-xs">
                 {spec.expectedOutcomes.intro}
               </div>
 
               {/* Value Outcomes */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 items-stretch">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch">
                 {spec.expectedOutcomes.items.map((item: any, idx: number) => {
                   const outcomePalettes = [
                     { theme: 'border-indigo-200/90 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400', icon: 'building' },
@@ -1611,7 +1611,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     <div
                       key={idx}
                       data-subcard="true"
-                      className={`project-detail-subcard h-full p-4 rounded-[14px] ${p.theme} border shadow-2xs space-y-2 flex flex-col justify-between transition duration-200`}
+                      className={`project-detail-subcard h-full p-[15px] gap-[15px] rounded-[14px] ${p.theme} border shadow-2xs flex flex-col justify-between transition duration-200`}
                     >
                       <div className="space-y-1.5">
                         <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-[var(--border-subcard)]">
@@ -1635,7 +1635,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               </div>
 
               {spec.expectedOutcomes.outro && (
-                <div data-subcard="true" className="project-detail-subcard p-3.5 rounded-[14px] border border-[var(--border-subcard)] flex items-center gap-2">
+                <div data-subcard="true" className="project-detail-subcard p-[15px] rounded-[14px] border border-[var(--border-subcard)] flex items-center gap-[15px]">
                   <WebIcon name="award" className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0" />
                   <p className="typo-caption italic text-[var(--text-secondary)] leading-relaxed font-medium">
                     {spec.expectedOutcomes.outro}
@@ -1680,8 +1680,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
 
             {/* Body Card Cuộn Mượt Mà */}
-            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 space-y-3.5 text-left">
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border border-[var(--border-subcard)] space-y-2.5 shadow-xs">
+            <div className="relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[14px] pr-1.5 py-2.5 flex flex-col gap-[15px] text-left">
+              <div data-subcard="true" className="project-detail-subcard p-[15px] rounded-[14px] border border-[var(--border-subcard)] flex flex-col gap-[15px] shadow-xs">
                 {spec.philosophy.paragraphs.map((p: string, idx: number) => (
                   <p key={idx} className="typo-body-sm text-[var(--text-primary)] leading-relaxed font-medium">
                     {p}
@@ -1690,7 +1690,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               </div>
 
               {/* 3 Philosophy Pillars */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 items-stretch">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-[15px] items-stretch">
                 {[
                   {
                     num: '10.1',
@@ -1717,7 +1717,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   <div
                     key={idx}
                     data-subcard="true"
-                    className={`project-detail-subcard h-full p-4 rounded-[14px] ${item.theme} border shadow-2xs space-y-2 flex flex-col justify-between transition duration-200`}
+                    className={`project-detail-subcard h-full p-[15px] gap-[15px] rounded-[14px] ${item.theme} border shadow-2xs flex flex-col justify-between transition duration-200`}
                   >
                     <div className="space-y-1.5">
                       <div className="subcard-header-sync flex items-center gap-2 pb-1.5 border-b border-[var(--border-subcard)]">
@@ -1740,7 +1740,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               </div>
 
               {/* Golden Core Message Box */}
-              <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border-2 border-purple-400/60 space-y-2 shadow-xs">
+              <div data-subcard="true" className="project-detail-subcard p-[15px] rounded-[14px] border-2 border-purple-400/60 flex flex-col gap-[15px] shadow-xs">
                 <span className="typo-h5 font-mono font-bold tracking-wider text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
                   <WebIcon name="sparkles" className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
                   <span>Thông điệp cốt lõi từ lãnh đạo dự án:</span>

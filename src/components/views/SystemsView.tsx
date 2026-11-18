@@ -2593,7 +2593,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                     </div>
 
                     {/* BENTO CARD 7 (5/12): Hạ tầng kỹ thuật */}
-                    <div id="systems-tech-card" data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-4 rounded-[14px] shadow-md space-y-3 h-full min-w-0">
+                    <div id="systems-tech-card" data-subcard="true" className="exp-detail-subcard sm:col-span-2 md:col-span-5 p-[15px] rounded-[14px] shadow-md flex flex-col gap-[15px] h-full min-w-0">
                       <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
                         <div className="subcard-header-sync flex items-center gap-2 min-w-0" data-subcard-accent="purple">
                           <WebIcon name="cpu" className="w-[18px] h-[18px] shrink-0" />
@@ -2603,23 +2603,23 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         </div>
                       </div>
 
-                      <div className="space-y-2 typo-body-sm">
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] flex items-center justify-between gap-2 min-w-0">
+                      <div className="flex flex-col gap-[15px] typo-body-sm">
+                        <div data-subcard="true" className="exp-detail-subcard p-[15px] rounded-[14px] flex items-center justify-between gap-[15px] min-w-0">
                           <span className="text-[var(--text-secondary)] font-medium">Cơ sở dữ liệu:</span>
                           <span className="font-semibold text-sky-700 dark:text-[#67E8F9] font-mono text-right break-words">{specInfo.database}</span>
                         </div>
 
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] flex items-center justify-between gap-2 min-w-0">
+                        <div data-subcard="true" className="exp-detail-subcard p-[15px] rounded-[14px] flex items-center justify-between gap-[15px] min-w-0">
                           <span className="text-[var(--text-secondary)] font-medium">Giao thức API:</span>
                           <span className="font-semibold text-purple-700 dark:text-purple-300 font-mono text-right break-words">{specInfo.apiProtocol}</span>
                         </div>
 
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] flex items-center justify-between gap-2 min-w-0">
+                        <div data-subcard="true" className="exp-detail-subcard p-[15px] rounded-[14px] flex items-center justify-between gap-[15px] min-w-0">
                           <span className="text-[var(--text-secondary)] font-medium">Cam kết SLA:</span>
                           <span className="font-semibold text-emerald-700 dark:text-[#6EE7B7] font-mono text-right break-words">{specInfo.slaCommitment}</span>
                         </div>
 
-                        <div data-subcard="true" className="exp-detail-subcard p-2.5 rounded-[14px] flex items-center justify-between gap-2 min-w-0">
+                        <div data-subcard="true" className="exp-detail-subcard p-[15px] rounded-[14px] flex items-center justify-between gap-[15px] min-w-0">
                           <span className="text-[var(--text-secondary)] font-medium">Bảo mật ISO:</span>
                           <span className="font-semibold text-amber-700 dark:text-[#FCD34D] font-mono text-right break-words">{specInfo.isoSecurity}</span>
                         </div>

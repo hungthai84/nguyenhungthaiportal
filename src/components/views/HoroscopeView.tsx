@@ -1228,7 +1228,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] w-full min-w-0">
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-[15px]">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
                   <Calendar className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 truncate m-0" data-subcard-title="true">
@@ -1243,7 +1243,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-[15px]">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
                   <Moon className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 truncate m-0" data-subcard-title="true">
@@ -1258,7 +1258,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-[15px]">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-amber-600 dark:text-amber-400">
                   <Clock className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-amber-600 dark:text-amber-400 truncate m-0" data-subcard-title="true">
@@ -1273,7 +1273,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-[15px]">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-emerald-600 dark:text-emerald-400">
                   <ShieldCheck className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-emerald-600 dark:text-emerald-400 truncate m-0" data-subcard-title="true">
@@ -1301,7 +1301,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   }
                 }}
                 title="Bấm để xoay la bàn bát quái (4 hướng cát khí: Tây Bắc, Tây Nam, Đông Bắc, Tây)"
-                className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2 cursor-pointer hover:border-cyan-400/60 hover:shadow-sm transition-all group relative overflow-hidden select-none"
+                className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-[15px] cursor-pointer hover:border-cyan-400/60 hover:shadow-sm transition-all group relative overflow-hidden select-none"
               >
                 <div className="flex items-center justify-between gap-1.5 min-w-0">
                   <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-cyan-600 dark:text-cyan-400">
@@ -1332,7 +1332,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
 
-              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-2">
+              <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 p-[15px] rounded-[14px] flex flex-col justify-start gap-[15px]">
                 <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-rose-600 dark:text-rose-400">
                   <Hash className="w-4 h-4 shrink-0" />
                   <h5 className="typo-label subcard-title-synced font-play font-semibold tracking-wide text-rose-600 dark:text-rose-400 truncate m-0" data-subcard-title="true">

@@ -20,7 +20,15 @@ export interface InterfaceViewProps {
 }
 
 export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification }) => {
-  const { cardStyle, setCardStyle, isDark } = useTheme();
+  const {
+    cardStyle,
+    setCardStyle,
+    isDark,
+    surfaceDepth,
+    setSurfaceDepth,
+    autoCompactNav,
+    setAutoCompactNav,
+  } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
   const activePreset = getCardStyleConfig(cardStyle);
@@ -53,6 +61,40 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
         isEn
           ? `✓ Switched to ${t(nextPreset.name)} (${getMechanismLabel(mechanism)})`
           : `✓ Đã chuyển sang ${nextPreset.name} (Cơ chế ${getMechanismLabel(mechanism)})`
+      );
+    }
+  };
+
+  const handleSelectSurfaceDepth = (mode: 'flat' | 'depth') => {
+    if (mode === surfaceDepth) return;
+    SoundEngine.playGlassChime();
+    setSurfaceDepth(mode);
+    if (onShowNotification) {
+      onShowNotification(
+        mode === 'flat'
+          ? isEn
+            ? '✓ Switched to Minimalist Flat (No Shadow)'
+            : '✓ Đã bật Giao diện phẳng tối giản (không bóng)'
+          : isEn
+            ? '✓ Switched to Layered Depth (Elevated Shadows)'
+            : '✓ Đã bật Giao diện có chiều sâu'
+      );
+    }
+  };
+
+  const handleToggleCompactScroll = (enabled: boolean) => {
+    if (enabled === autoCompactNav) return;
+    SoundEngine.playTap();
+    setAutoCompactNav(enabled);
+    if (onShowNotification) {
+      onShowNotification(
+        enabled
+          ? isEn
+            ? '✓ Enabled auto-compact header & footer on scroll'
+            : '✓ Đã bật chế độ thu gọn thanh đầu/chân trang khi cuộn'
+          : isEn
+            ? '✓ Disabled auto-compact header & footer on scroll'
+            : '✓ Đã tắt chế độ thu gọn thanh đầu/chân trang khi cuộn'
       );
     }
   };
@@ -177,8 +219,165 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
         </div>
       </div>
 
+      {/* Bộ chuyển nhanh Độ phẳng giao diện & Thu gọn thanh điều hướng khi cuộn */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px]">
+        {/* 1. Chế độ chuyển nhanh độ phẳng giao diện */}
+        <div
+          id="interface-surface-depth-card"
+          data-subcard="true"
+          className="sub-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-[15px] rounded-[14px] border"
+          style={{
+            background: 'var(--bg-subcard)',
+            borderColor: 'var(--border-subcard)',
+          }}
+        >
+          <div className="min-w-0 flex items-start gap-2.5">
+            <div
+              className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
+              style={{
+                background: 'var(--bg-card)',
+                borderColor: 'var(--border-subcard)',
+                color: 'var(--color-primary)',
+              }}
+            >
+              <WebIcon name="layers" className="w-4 h-4 shrink-0" />
+            </div>
+            <div className="min-w-0">
+              <h4 className="typo-body font-bold tracking-tight">
+                {isEn ? 'Interface Surface Depth' : 'Độ phẳng & chiều sâu giao diện'}
+              </h4>
+              <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
+                {surfaceDepth === 'flat'
+                  ? isEn
+                    ? 'Minimalist flat surfaces without drop shadows'
+                    : 'Đang bật: Giao diện phẳng tối giản (không bóng)'
+                  : isEn
+                    ? 'Layered depth with soft shadows and gentle hover lift'
+                    : 'Đang bật: Giao diện có chiều sâu (đổ bóng & nổi nhẹ)'}
+              </p>
+            </div>
+          </div>
+
+          <div
+            role="group"
+            aria-label={isEn ? 'Switch between Flat Minimalist and Layered Depth' : 'Chuyển đổi giữa Giao diện phẳng tối giản và Giao diện có chiều sâu'}
+            className="inline-grid grid-cols-2 p-1 rounded-full border shrink-0 w-full sm:w-auto"
+            style={{
+              background: 'var(--bg-card)',
+              borderColor: 'var(--border-subcard)',
+            }}
+          >
+            <button
+              id="btn-surface-depth-flat"
+              type="button"
+              aria-pressed={surfaceDepth === 'flat'}
+              onClick={() => handleSelectSurfaceDepth('flat')}
+              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                surfaceDepth === 'flat'
+                  ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white'
+                  : 'hover:opacity-90'
+              }`}
+              style={surfaceDepth !== 'flat' ? { color: 'var(--text-muted)' } : undefined}
+            >
+              <WebIcon name="square" className="w-3.5 h-3.5 shrink-0" />
+              <span>{isEn ? 'Flat Minimal' : 'Giao diện phẳng tối giản'}</span>
+            </button>
+            <button
+              id="btn-surface-depth-layered"
+              type="button"
+              aria-pressed={surfaceDepth === 'depth'}
+              onClick={() => handleSelectSurfaceDepth('depth')}
+              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                surfaceDepth === 'depth'
+                  ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white'
+                  : 'hover:opacity-90'
+              }`}
+              style={surfaceDepth !== 'depth' ? { color: 'var(--text-muted)' } : undefined}
+            >
+              <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
+              <span>{isEn ? 'Layered Depth' : 'Giao diện có chiều sâu'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 2. Chế độ thu gọn thanh đầu/chân trang khi cuộn */}
+        <div
+          id="interface-compact-scroll-card"
+          data-subcard="true"
+          className="sub-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-[15px] rounded-[14px] border"
+          style={{
+            background: 'var(--bg-subcard)',
+            borderColor: 'var(--border-subcard)',
+          }}
+        >
+          <div className="min-w-0 flex items-start gap-2.5">
+            <div
+              className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
+              style={{
+                background: 'var(--bg-card)',
+                borderColor: 'var(--border-subcard)',
+                color: 'var(--color-primary)',
+              }}
+            >
+              <WebIcon name="minimize-2" className="w-4 h-4 shrink-0" />
+            </div>
+            <div className="min-w-0">
+              <h4 className="typo-body font-bold tracking-tight">
+                {isEn ? 'Auto-Compact Header & Footer' : 'Thu gọn thanh đầu/chân trang khi cuộn'}
+              </h4>
+              <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
+                {autoCompactNav
+                  ? isEn
+                    ? 'Automatically slims bars when scrolling deep for more reading space'
+                    : 'Tự động làm mảnh nhẹ khi cuộn sâu để mở rộng vùng đọc'
+                  : isEn
+                    ? 'Always keeps full header and footer height while scrolling'
+                    : 'Luôn giữ nguyên chiều cao đầy đủ của thanh điều hướng'}
+              </p>
+            </div>
+          </div>
+
+          <button
+            id="btn-auto-compact-scroll-toggle"
+            type="button"
+            role="switch"
+            aria-checked={autoCompactNav}
+            onClick={() => handleToggleCompactScroll(!autoCompactNav)}
+            className={`inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-full border typo-label font-bold transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+              autoCompactNav
+                ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white border-emerald-400/70'
+                : ''
+            }`}
+            style={
+              !autoCompactNav
+                ? {
+                    background: 'var(--bg-card)',
+                    borderColor: 'var(--border-subcard)',
+                    color: 'var(--text-muted)',
+                  }
+                : undefined
+            }
+          >
+            <span
+              className={`w-2 h-2 rounded-full shrink-0 ${
+                autoCompactNav ? 'bg-white' : 'bg-slate-400'
+              }`}
+            />
+            <span>
+              {autoCompactNav
+                ? isEn
+                  ? 'Enabled'
+                  : 'Đang bật'
+                : isEn
+                  ? 'Disabled'
+                  : 'Đang tắt'}
+            </span>
+          </button>
+        </div>
+      </div>
+
       {/* Danh sách các giao diện nhóm cùng loại */}
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-[15px]">
         {CARD_STYLE_GROUPS.map((group) => {
           const lightPreset =
             (group.lightMode && group.presets.find((p) => p.id === group.lightMode)) ||
@@ -319,7 +518,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   const isLightLeather = preset.id === 'light-cowhide-leather';
                   const isBlackLeather = preset.id === 'black-cowhide-leather';
                   const isLeather = preset.id === 'cowhide-leather';
-                  const cardRadius = '14px';
+                  const cardRadius = (isLightMulticolorGlass || isLightMulticolorGlassDark) ? '16px' : '14px';
 
                   return (
                     <motion.div

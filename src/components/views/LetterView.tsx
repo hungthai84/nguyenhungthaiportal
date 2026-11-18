@@ -376,7 +376,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
   const viewMode = 'slides' as const;
 
   // Current Theme detection
-  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
 
   // Chế độ thu gọn / mở rộng thanh tiện ích bên phải (Mặc định luôn hiển thị đầy đủ ở trang Thư Ngỏ)
   const [isRightDockCollapsed, setIsRightDockCollapsed] = useState<boolean>(false);

@@ -311,38 +311,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     isCustom: false,
     createdAt: 1794300000012,
   },
-  {
-    id: 'theme-bg-dark-neon-multicolor-glass',
-    name: '⚡ Nền Glassmorphism Dark Neon Multicolor (Theme Background)',
-    type: 'image',
-    value: '/backgrounds/themes/dark-neon-multicolor-glass/dark-neon-multicolor-glass-dark.jpg',
-    bg: "url('/backgrounds/themes/dark-neon-multicolor-glass/dark-neon-multicolor-glass-dark.jpg') center/cover no-repeat",
-    previewStyle: {
-      background:
-        'radial-gradient(circle at 14% 16%, rgba(0, 229, 255, 0.20) 0%, transparent 48%), radial-gradient(circle at 86% 18%, rgba(157, 78, 221, 0.22) 0%, transparent 50%), radial-gradient(circle at 78% 84%, rgba(255, 60, 172, 0.18) 0%, transparent 50%), radial-gradient(circle at 18% 82%, rgba(57, 255, 20, 0.12) 0%, transparent 48%), linear-gradient(145deg, #04060D 0%, #080D1B 50%, #090616 100%)',
-      backgroundImage: "url('/backgrounds/themes/dark-neon-multicolor-glass/dark-neon-multicolor-glass-dark.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000011,
-  },
-  {
-    id: 'theme-bg-dark-neon-multicolor-glass-light',
-    name: '💠 Nền Glassmorphism Dark Neon Sáng (Theme Background)',
-    type: 'image',
-    value: '/backgrounds/themes/dark-neon-multicolor-glass-light/dark-neon-multicolor-glass-light.jpg',
-    bg: "url('/backgrounds/themes/dark-neon-multicolor-glass-light/dark-neon-multicolor-glass-light.jpg') center/cover no-repeat",
-    previewStyle: {
-      background:
-        'radial-gradient(circle at 14% 16%, rgba(14, 165, 233, 0.24) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(139, 92, 246, 0.22) 0%, transparent 50%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.18) 0%, transparent 52%), linear-gradient(135deg, #EDF4FF 0%, #F1EEFF 50%, #ECFAFF 100%)',
-      backgroundImage: "url('/backgrounds/themes/dark-neon-multicolor-glass-light/dark-neon-multicolor-glass-light.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000013,
-  },
 
   {
     id: 'glass-ui-vang',

@@ -243,7 +243,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const { isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
-  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');

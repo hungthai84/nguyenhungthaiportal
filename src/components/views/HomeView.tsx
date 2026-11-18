@@ -52,7 +52,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const { isDark: themeIsDark } = useTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
 
   // Danh sách video cho 3 màn hình: Màn hình chờ (idle), Chuyển cảnh (transition), Video phát (presentation)
   const VIDEO_SCREENS: VideoScreenItem[] = [

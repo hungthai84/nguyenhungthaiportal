@@ -314,7 +314,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       const cardStyleAttr = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-card-style') : null;
       const effectiveStyle = cardStyleAttr || themeAttr;
       const isDarkThemeAttr =
-        effectiveStyle === 'dark-neon-multicolor-glass' ||
         effectiveStyle === 'light-multicolor-glass-dark' ||
         effectiveStyle === 'cowhide-leather';
       if (typeof isLight === 'boolean') {

@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-neon-multicolor-glass"], [data-theme="dark-neon-multicolor-glass"] *, [data-theme="light-multicolor-glass-dark"], [data-theme="light-multicolor-glass-dark"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="light-multicolor-glass-dark"], [data-theme="light-multicolor-glass-dark"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -24,7 +24,6 @@
 @import "./styles/layout.css";
 @import "./styles/cards.css";
 @import "./styles/themes/light-multicolor-glass.css";
-@import "./styles/themes/dark-neon-multicolor-glass.css";
 @import "./styles/themes/light-cowhide-leather.css";
 @import "./styles/themes/cowhide-leather.css";
 
@@ -377,8 +376,6 @@ html :is(
 ),
 .card-light-multicolor-glass,
 .card-light-multicolor-glass-dark,
-.card-dark-neon-multicolor-glass,
-.card-dark-neon-multicolor-glass-light,
 .card-white-pebbled-leather,
 .card-light-cowhide-leather,
 .card-cowhide-leather {
@@ -406,17 +403,14 @@ html :is(
 
 /* Preserve Pill Nav/Switch Controls & Enforce 14px Rectangular Action Buttons in Multicolor Glass Themes */
 html[data-card-style="light-multicolor-glass"] button:not(.nav-pill):not(.theme-capsule-btn):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78),
-html[data-card-style="light-multicolor-glass-dark"] button:not(.nav-pill):not(.theme-capsule-btn):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78),
-html[data-card-style="dark-neon-multicolor-glass"] button:not(.nav-pill):not(.theme-capsule-btn):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78),
-html[data-card-style="dark-neon-multicolor-glass-light"] button:not(.nav-pill):not(.theme-capsule-btn):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78) {
+html[data-card-style="light-multicolor-glass-dark"] button:not(.nav-pill):not(.theme-capsule-btn):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78) {
   border-radius: 14px !important;
 }
 
 /* ========================================================================= */
 /* ULTRA-CRISP PURE BLACK (#000000) / PURE WHITE (#FFFFFF) FONT SHARPNESS    */
 /* ========================================================================= */
-html[data-card-style="light-multicolor-glass"],
-html[data-card-style="dark-neon-multicolor-glass-light"] {
+html[data-card-style="light-multicolor-glass"] {
   --color-heading: #000000 !important;
   --color-text: #000000 !important;
   --color-text-secondary: #111827 !important;
@@ -450,7 +444,6 @@ html[data-card-style="light-cowhide-leather"] {
   --text-nav-arrow: #111827 !important;
 }
 
-html[data-card-style="dark-neon-multicolor-glass"],
 html[data-card-style="light-multicolor-glass-dark"],
 html[data-card-style="cowhide-leather"] {
   --color-heading: #FFFFFF !important;
@@ -497,6 +490,8 @@ body::-webkit-scrollbar,
 }
 
 /* Focus Mode element styling requested by user */
+#el-p0-div-98,
+div#el-p0-div-98,
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-9:nth-of-type(2),
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-81:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-102:nth-of-type(3) {

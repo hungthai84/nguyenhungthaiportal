@@ -1245,45 +1245,33 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               animation: ecoDashStream 2s linear infinite;
             }
 
-            /* Dark Glass & Dark Neon themes inside Ecosystem Diagram Modal */
-            :is(
-              html[data-card-style="dark-neon-multicolor-glass"],
-              html[data-card-style="light-multicolor-glass-dark"]
-            ) #ecosystem-diagram-modal .glass-flat {
+            /* Dark Glass theme inside Ecosystem Diagram Modal */
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .glass-flat {
               background: rgba(12, 18, 36, 0.88) !important;
               border: 1px solid rgba(59, 184, 230, 0.34) !important;
               box-shadow: 0 12px 32px -6px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
               color: #FFFFFF !important;
             }
-            :is(
-              html[data-card-style="dark-neon-multicolor-glass"],
-              html[data-card-style="light-multicolor-glass-dark"]
-            ) #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
               color: #FFFFFF !important;
               box-shadow: 0 10px 26px -6px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
             }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-sdp { background: linear-gradient(135deg, rgba(16, 40, 76, 0.92) 0%, rgba(12, 24, 52, 0.94) 100%); border-color: rgba(56, 189, 248, 0.72); }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-crm { background: linear-gradient(135deg, rgba(14, 48, 64, 0.92) 0%, rgba(12, 24, 46, 0.94) 100%); border-color: rgba(34, 211, 238, 0.68); }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-csc { background: linear-gradient(135deg, rgba(30, 32, 74, 0.92) 0%, rgba(14, 18, 46, 0.94) 100%); border-color: rgba(129, 140, 248, 0.68); }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-clp { background: linear-gradient(135deg, rgba(64, 48, 12, 0.92) 0%, rgba(28, 22, 16, 0.94) 100%); border-color: rgba(250, 204, 21, 0.68); }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-pos { background: linear-gradient(135deg, rgba(14, 54, 42, 0.92) 0%, rgba(10, 26, 26, 0.94) 100%); border-color: rgba(52, 211, 153, 0.68); }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-erp { background: linear-gradient(135deg, rgba(48, 24, 72, 0.92) 0%, rgba(22, 14, 40, 0.94) 100%); border-color: rgba(192, 132, 252, 0.68); }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-hrm { background: linear-gradient(135deg, rgba(66, 20, 48, 0.92) 0%, rgba(28, 12, 28, 0.94) 100%); border-color: rgba(244, 114, 182, 0.68); }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-bpm { background: linear-gradient(135deg, rgba(24, 34, 72, 0.92) 0%, rgba(14, 20, 44, 0.94) 100%); border-color: rgba(99, 102, 241, 0.68); }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-okr { background: linear-gradient(135deg, rgba(68, 34, 14, 0.92) 0%, rgba(28, 18, 14, 0.94) 100%); border-color: rgba(251, 146, 60, 0.68); }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-lms { background: linear-gradient(135deg, rgba(14, 52, 52, 0.92) 0%, rgba(10, 26, 30, 0.94) 100%); border-color: rgba(45, 212, 191, 0.68); }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-ai { background: linear-gradient(135deg, rgba(42, 26, 76, 0.92) 0%, rgba(20, 14, 42, 0.94) 100%); border-color: rgba(167, 139, 250, 0.72); }
-            :is(html[data-card-style="dark-neon-multicolor-glass"], html[data-card-style="light-multicolor-glass-dark"]) #ecosystem-diagram-modal .theme-bi { background: linear-gradient(135deg, rgba(18, 52, 28, 0.92) 0%, rgba(12, 26, 20, 0.94) 100%); border-color: rgba(74, 222, 128, 0.68); }
-            :is(
-              html[data-card-style="dark-neon-multicolor-glass"],
-              html[data-card-style="light-multicolor-glass-dark"]
-            ) #ecosystem-diagram-modal :is(.glass-flat, .theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) :is(.text-slate-950, .text-slate-900, .text-slate-800, .text-slate-700, .text-slate-600) {
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-sdp { background: linear-gradient(135deg, rgba(16, 40, 76, 0.92) 0%, rgba(12, 24, 52, 0.94) 100%); border-color: rgba(56, 189, 248, 0.72); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-crm { background: linear-gradient(135deg, rgba(14, 48, 64, 0.92) 0%, rgba(12, 24, 46, 0.94) 100%); border-color: rgba(34, 211, 238, 0.68); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-csc { background: linear-gradient(135deg, rgba(30, 32, 74, 0.92) 0%, rgba(14, 18, 46, 0.94) 100%); border-color: rgba(129, 140, 248, 0.68); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-clp { background: linear-gradient(135deg, rgba(64, 48, 12, 0.92) 0%, rgba(28, 22, 16, 0.94) 100%); border-color: rgba(250, 204, 21, 0.68); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-pos { background: linear-gradient(135deg, rgba(14, 54, 42, 0.92) 0%, rgba(10, 26, 26, 0.94) 100%); border-color: rgba(52, 211, 153, 0.68); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-erp { background: linear-gradient(135deg, rgba(48, 24, 72, 0.92) 0%, rgba(22, 14, 40, 0.94) 100%); border-color: rgba(192, 132, 252, 0.68); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-hrm { background: linear-gradient(135deg, rgba(66, 20, 48, 0.92) 0%, rgba(28, 12, 28, 0.94) 100%); border-color: rgba(244, 114, 182, 0.68); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-bpm { background: linear-gradient(135deg, rgba(24, 34, 72, 0.92) 0%, rgba(14, 20, 44, 0.94) 100%); border-color: rgba(99, 102, 241, 0.68); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-okr { background: linear-gradient(135deg, rgba(68, 34, 14, 0.92) 0%, rgba(28, 18, 14, 0.94) 100%); border-color: rgba(251, 146, 60, 0.68); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-lms { background: linear-gradient(135deg, rgba(14, 52, 52, 0.92) 0%, rgba(10, 26, 30, 0.94) 100%); border-color: rgba(45, 212, 191, 0.68); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-ai { background: linear-gradient(135deg, rgba(42, 26, 76, 0.92) 0%, rgba(20, 14, 42, 0.94) 100%); border-color: rgba(167, 139, 250, 0.72); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal .theme-bi { background: linear-gradient(135deg, rgba(18, 52, 28, 0.92) 0%, rgba(12, 26, 20, 0.94) 100%); border-color: rgba(74, 222, 128, 0.68); }
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal :is(.glass-flat, .theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) :is(.text-slate-950, .text-slate-900, .text-slate-800, .text-slate-700, .text-slate-600) {
               color: #F8FAFC !important;
             }
-            :is(
-              html[data-card-style="dark-neon-multicolor-glass"],
-              html[data-card-style="light-multicolor-glass-dark"]
-            ) #ecosystem-diagram-modal :is(.bg-white, .bg-white\\/90, .bg-white\\/85, .bg-white\\/80, .bg-slate-50, .bg-slate-100) {
+            html[data-card-style="light-multicolor-glass-dark"] #ecosystem-diagram-modal :is(.bg-white, .bg-white\\/90, .bg-white\\/85, .bg-white\\/80, .bg-slate-50, .bg-slate-100) {
               background-color: rgba(15, 23, 42, 0.72) !important;
               border-color: rgba(148, 163, 184, 0.25) !important;
             }

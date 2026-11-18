@@ -27,7 +27,7 @@ const DOMAIN_DETAIL_ACCENTS: Record<string, { light: string; dark: string }> = {
 export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'light-multicolor-glass' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
-  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
   const isLight = !isDark;
 
   const isEn = language === 'en';

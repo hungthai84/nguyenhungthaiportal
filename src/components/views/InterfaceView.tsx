@@ -56,10 +56,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const getThemeDemoVideo = (presetId: string) => {
     switch (presetId) {
       case 'light-multicolor-glass':
-      case 'dark-neon-multicolor-glass-light':
         return 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4';
       case 'light-multicolor-glass-dark':
-      case 'dark-neon-multicolor-glass':
         return 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4';
       case 'light-cowhide-leather':
         return 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4';
@@ -286,8 +284,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   const sampleProps = getCardStyleProperties(preset.id);
                   const isLightMulticolorGlass = preset.id === 'light-multicolor-glass';
                   const isLightMulticolorGlassDark = preset.id === 'light-multicolor-glass-dark';
-                  const isDarkNeonMulticolorLight = preset.id === 'dark-neon-multicolor-glass-light';
-                  const isDarkNeonMulticolor = preset.id === 'dark-neon-multicolor-glass';
+                  const isDarkNeonMulticolorLight = false;
+                  const isDarkNeonMulticolor = false;
                   const isLightLeather = preset.id === 'light-cowhide-leather';
                   const isLeather = preset.id === 'cowhide-leather';
                   const isLightGlass = false;

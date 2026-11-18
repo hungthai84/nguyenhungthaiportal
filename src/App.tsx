@@ -352,7 +352,7 @@ export default function App() {
     [currentTabIndex, pageSlides]
   );
 
-  const activeTheme = isDark ? 'dark-neon-multicolor-glass' : 'light-multicolor-glass';
+  const activeTheme = isDark ? 'light-multicolor-glass-dark' : 'light-multicolor-glass';
 
   const renderActiveView = () => {
     switch (currentTabIndex) {
@@ -688,6 +688,10 @@ export default function App() {
       {currentTabIndex !== 16 && (
         <motion.div
           key="app-footer-chrome"
+          id="el-p0-div-98"
+          data-element-name="Phần tử DIV (#el-p0-div-98)"
+          data-element-type="container"
+          data-element-page="p0"
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}

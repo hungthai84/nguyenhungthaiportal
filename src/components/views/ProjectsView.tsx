@@ -202,7 +202,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
   onReturnToOrigin,
 }) => {
   const { isDark: themeIsDark } = useTheme();
-  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
   const isLight = !isDark;
 
   const [activeCategory, setActiveCategory] = useState<string>('all');

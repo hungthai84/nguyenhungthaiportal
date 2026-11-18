@@ -3,8 +3,6 @@ import React from 'react';
 export type CardStyleMode =
   | 'light-multicolor-glass'
   | 'light-multicolor-glass-dark'
-  | 'dark-neon-multicolor-glass'
-  | 'dark-neon-multicolor-glass-light'
   | 'light-cowhide-leather'
   | 'cowhide-leather';
 

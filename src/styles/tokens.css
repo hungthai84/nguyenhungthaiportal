@@ -510,7 +510,7 @@
 }
 
 /* Dark Mode Overrides (WCAG 2.2 AA Compliant) */
-html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-neon-multicolor-glass"], [data-theme="light-multicolor-glass-dark"], [data-theme="vivid-glass"], [data-theme="cowhide-leather"] {
+html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="light-multicolor-glass-dark"], [data-theme="vivid-glass"], [data-theme="cowhide-leather"] {
   --color-bg: #0B1220;
   --color-bg-soft: #111827;
   --color-bg-blue: #1F2937;

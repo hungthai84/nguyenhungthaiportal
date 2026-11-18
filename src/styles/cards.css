@@ -1627,9 +1627,7 @@ button:focus-visible,
 
 :is(
   html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"]
+  html[data-card-style="light-multicolor-glass-dark"]
 ) :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .theme-modal-subcard)
   :is([data-subcard="true"], .sub-card, .nested-card, .theme-muted-surface, [data-elevation="1"]) {
   background: var(--surface-nested-bg, var(--surface-nested-glass)) !important;
@@ -1731,19 +1729,15 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
 /* Light & Dark Glass Surface Synchronization for Experience Detail Bento Wrapper & Cards */
 :is(
   html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"],
   html[data-card-style="light-cowhide-leather"],
   html[data-card-style="cowhide-leather"],
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
+  html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card,
 :is(
   html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"],
   html[data-card-style="light-cowhide-leather"],
   html[data-card-style="cowhide-leather"],
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
+  html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card:hover {
   background: transparent !important;
   background-color: transparent !important;
@@ -1759,20 +1753,16 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
 
 :is(
   html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"],
   html[data-card-style="light-cowhide-leather"],
   html[data-card-style="cowhide-leather"],
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
+  html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card::before {
   display: none !important;
 }
 
 :is(
   html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"],
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
+  html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card .exp-bento-surface-card {
   background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
@@ -1784,9 +1774,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
 
 :is(
   html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"],
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
+  html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card .exp-bento-item-card {
   background: var(--surface-tertiary-bg, var(--surface-subcard-glass, var(--bg-subcard))) !important;
   border: 1px solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard))) !important;
@@ -1798,9 +1786,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
 
 :is(
   html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"],
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
+  html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
   background: var(--bg-subcard-hover, rgba(255, 255, 255, 0.64)) !important;
   box-shadow: var(--shadow-subcard-hover, var(--shadow-subcard)) !important;
@@ -1814,10 +1800,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
 /* ========================================================================= */
 
 /* --- 1. GƯƠNG ĐA SẮC SÁNG (LIGHT MULTICOLOR GLASS) --- */
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"]
-) #service-card-esports {
+html[data-card-style="light-multicolor-glass"] #service-card-esports {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(137, 70, 235, 0.18) 50%, rgba(137, 70, 235, 0.28) 100%) !important;
   border: 1px solid rgba(137, 70, 235, 0.45) !important;
   box-shadow: 0 10px 30px rgba(137, 70, 235, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -1825,10 +1808,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"]
-) #service-card-telecom {
+html[data-card-style="light-multicolor-glass"] #service-card-telecom {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(31, 94, 172, 0.18) 50%, rgba(31, 94, 172, 0.28) 100%) !important;
   border: 1px solid rgba(31, 94, 172, 0.45) !important;
   box-shadow: 0 10px 30px rgba(31, 94, 172, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -1836,10 +1816,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"]
-) #service-card-ecommerce {
+html[data-card-style="light-multicolor-glass"] #service-card-ecommerce {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(217, 118, 55, 0.18) 50%, rgba(217, 118, 55, 0.28) 100%) !important;
   border: 1px solid rgba(217, 118, 55, 0.45) !important;
   box-shadow: 0 10px 30px rgba(217, 118, 55, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -1847,10 +1824,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"]
-) #service-card-insurance {
+html[data-card-style="light-multicolor-glass"] #service-card-insurance {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(245, 68, 89, 0.18) 50%, rgba(245, 68, 89, 0.28) 100%) !important;
   border: 1px solid rgba(245, 68, 89, 0.45) !important;
   box-shadow: 0 10px 30px rgba(245, 68, 89, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -1858,10 +1832,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"]
-) #service-card-ewallet {
+html[data-card-style="light-multicolor-glass"] #service-card-ewallet {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(166, 105, 243, 0.18) 50%, rgba(166, 105, 243, 0.28) 100%) !important;
   border: 1px solid rgba(166, 105, 243, 0.45) !important;
   box-shadow: 0 10px 30px rgba(166, 105, 243, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -1869,10 +1840,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="dark-neon-multicolor-glass-light"]
-) #service-card-cx-ops {
+html[data-card-style="light-multicolor-glass"] #service-card-cx-ops {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(136, 210, 187, 0.22) 50%, rgba(136, 210, 187, 0.34) 100%) !important;
   border: 1px solid rgba(136, 210, 187, 0.55) !important;
   box-shadow: 0 10px 30px rgba(136, 210, 187, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
@@ -1880,11 +1848,8 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-/* --- 2. GƯƠNG ĐA SẮC TỐI (DARK NEON / MULTICOLOR GLASS DARK) --- */
-:is(
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
-) #service-card-esports {
+/* --- 2. GƯƠNG ĐA SẮC TỐI (MULTICOLOR GLASS DARK) --- */
+html[data-card-style="light-multicolor-glass-dark"] #service-card-esports {
   background: linear-gradient(145deg, rgba(137, 70, 235, 0.32) 0%, rgba(32, 16, 56, 0.65) 55%, rgba(15, 12, 32, 0.75) 100%) !important;
   border: 1px solid rgba(137, 70, 235, 0.55) !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(137, 70, 235, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
@@ -1892,10 +1857,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
-) #service-card-telecom {
+html[data-card-style="light-multicolor-glass-dark"] #service-card-telecom {
   background: linear-gradient(145deg, rgba(31, 94, 172, 0.32) 0%, rgba(12, 28, 58, 0.65) 55%, rgba(10, 18, 38, 0.75) 100%) !important;
   border: 1px solid rgba(31, 94, 172, 0.55) !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(31, 94, 172, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
@@ -1903,10 +1865,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
-) #service-card-ecommerce {
+html[data-card-style="light-multicolor-glass-dark"] #service-card-ecommerce {
   background: linear-gradient(145deg, rgba(217, 118, 55, 0.32) 0%, rgba(48, 24, 12, 0.65) 55%, rgba(28, 14, 10, 0.75) 100%) !important;
   border: 1px solid rgba(217, 118, 55, 0.55) !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(217, 118, 55, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
@@ -1914,10 +1873,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
-) #service-card-insurance {
+html[data-card-style="light-multicolor-glass-dark"] #service-card-insurance {
   background: linear-gradient(145deg, rgba(245, 68, 89, 0.32) 0%, rgba(52, 14, 22, 0.65) 55%, rgba(30, 10, 16, 0.75) 100%) !important;
   border: 1px solid rgba(245, 68, 89, 0.55) !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(245, 68, 89, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
@@ -1925,10 +1881,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
-) #service-card-ewallet {
+html[data-card-style="light-multicolor-glass-dark"] #service-card-ewallet {
   background: linear-gradient(145deg, rgba(166, 105, 243, 0.32) 0%, rgba(38, 20, 62, 0.65) 55%, rgba(20, 12, 38, 0.75) 100%) !important;
   border: 1px solid rgba(166, 105, 243, 0.55) !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(166, 105, 243, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
@@ -1936,10 +1889,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-b
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass-dark"],
-  html[data-card-style="dark-neon-multicolor-glass"]
-) #service-card-cx-ops {
+html[data-card-style="light-multicolor-glass-dark"] #service-card-cx-ops {
   background: linear-gradient(145deg, rgba(136, 210, 187, 0.30) 0%, rgba(16, 48, 42, 0.65) 55%, rgba(10, 28, 24, 0.75) 100%) !important;
   border: 1px solid rgba(136, 210, 187, 0.55) !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 18px rgba(136, 210, 187, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
@@ -2123,22 +2073,13 @@ html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-l
 html[data-card-style="light-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title {
   color: #111827 !important;
 }
-:is(
-  html[data-card-style="dark-neon-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) #skills-languages-section #skills-language-card-vi :is(.skills-lang-title, .skills-lang-ring-arc) {
+html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section #skills-language-card-vi :is(.skills-lang-title, .skills-lang-ring-arc) {
   color: #FB7185 !important;
 }
-:is(
-  html[data-card-style="dark-neon-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) #skills-languages-section #skills-language-card-en :is(.skills-lang-title, .skills-lang-ring-arc, .skills-lang-level) {
+html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section #skills-language-card-en :is(.skills-lang-title, .skills-lang-ring-arc, .skills-lang-level) {
   color: #38BDF8 !important;
 }
-:is(
-  html[data-card-style="dark-neon-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) #skills-languages-section #skills-language-card-ai :is(.skills-lang-title, .skills-lang-ring-arc, .skills-lang-level) {
+html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section #skills-language-card-ai :is(.skills-lang-title, .skills-lang-ring-arc, .skills-lang-level) {
   color: #C084FC !important;
 }
 

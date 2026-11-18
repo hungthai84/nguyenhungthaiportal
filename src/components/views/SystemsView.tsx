@@ -675,7 +675,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isFilterDropdownOpen]);
-  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
 
   useEffect(() => {
     return () => {

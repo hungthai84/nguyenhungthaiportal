@@ -336,7 +336,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 }) => {
   const { showToast } = useToast();
   const { isDark: themeIsDark, cardStyle } = useTheme();
-  const isDark = themeIsDark || currentTheme === 'dark-neon-multicolor-glass' || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
+  const isDark = themeIsDark || currentTheme === 'light-multicolor-glass-dark' || currentTheme === 'cowhide-leather';
   const isLeather = cardStyle === 'cowhide-leather';
   const isLightLeather = cardStyle === 'light-cowhide-leather';
   const isDarkSurface = isDark && !isLeather;

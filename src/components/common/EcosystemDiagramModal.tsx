@@ -1081,7 +1081,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
         ref={el => { nodeRefs.current[sysKey] = el; }}
         onPointerDown={e => handlePointerDown(e, sysKey)}
         style={getNodeVisualStyle(sysKey)}
-        className={`draggable-card ${themeClass} glass-flat-hover rounded-[12px] p-2 sm:p-2.5 flex items-center justify-between gap-2 shadow-md ${isDragging ? 'dragging' : ''}`}
+        className={`draggable-card ${themeClass} glass-flat-hover rounded-[14px] p-2 sm:p-2.5 flex items-center justify-between gap-2 shadow-md ${isDragging ? 'dragging' : ''}`}
       >
         <div className="flex items-center gap-2 min-w-0">
           <DynamicIcon
@@ -1714,7 +1714,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                       ref={el => { nodeRefs.current['SDP'] = el; }}
                       onPointerDown={e => handlePointerDown(e, 'SDP')}
                       style={getNodeVisualStyle('SDP')}
-                      className={`draggable-card theme-sdp !max-w-[365px] !w-full relative group rounded-[12px] shadow-2xl p-2.5 sm:p-3 my-auto shrink-0 ${
+                      className={`draggable-card theme-sdp !max-w-[365px] !w-full relative group rounded-[14px] shadow-2xl p-2.5 sm:p-3 my-auto shrink-0 ${
                         draggingId === 'SDP' ? 'dragging' : ''
                       }`}
                     >
@@ -1727,7 +1727,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                           </span>
 
                           <div
-                            className="flex items-center gap-1 bg-white border-2 border-blue-500 px-1.5 py-0.5 rounded-[10px] shadow-xs"
+                            className="flex items-center gap-1 bg-white border-2 border-blue-500 px-1.5 py-0.5 rounded-[14px] shadow-xs"
                             onClick={e => e.stopPropagation()}
                           >
                             <ShieldCheck className="w-3 h-3 text-blue-700 shrink-0" />
@@ -1764,25 +1764,25 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
 
                         {/* Core 4 Capabilities Chips */}
                         <div className="mt-1.5 grid grid-cols-2 gap-1 sm:gap-1.5 w-full text-left text-[9.5px] sm:text-[10.5px]">
-                          <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-blue-400 shadow-xs">
+                          <div className="bg-white p-1 sm:p-1.5 rounded-[14px] border border-blue-400 shadow-xs">
                             <div className="font-bold text-blue-900 flex items-center gap-1">
                               <KeyRound className="w-2.5 h-2.5 text-blue-700 shrink-0" /> SSO &amp; Portal
                             </div>
                             <span className="text-[8.5px] sm:text-[9.5px] text-slate-800 font-bold">Đăng nhập tập trung</span>
                           </div>
-                          <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-cyan-400 shadow-xs">
+                          <div className="bg-white p-1 sm:p-1.5 rounded-[14px] border border-cyan-400 shadow-xs">
                             <div className="font-bold text-cyan-900 flex items-center gap-1">
                               <GitMerge className="w-2.5 h-2.5 text-cyan-700 shrink-0" /> Hub Tích Hợp
                             </div>
                             <span className="text-[8.5px] sm:text-[9.5px] text-slate-800 font-bold">Chuyển tiếp Data</span>
                           </div>
-                          <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-indigo-400 shadow-xs">
+                          <div className="bg-white p-1 sm:p-1.5 rounded-[14px] border border-indigo-400 shadow-xs">
                             <div className="font-bold text-indigo-900 flex items-center gap-1">
                               <Bot className="w-2.5 h-2.5 text-indigo-700 shrink-0" /> AI Workspace
                             </div>
                             <span className="text-[8.5px] sm:text-[9.5px] text-slate-800 font-bold">Bàn làm việc Agent</span>
                           </div>
-                          <div className="bg-white p-1 sm:p-1.5 rounded-[10px] border border-emerald-400 shadow-xs">
+                          <div className="bg-white p-1 sm:p-1.5 rounded-[14px] border border-emerald-400 shadow-xs">
                             <div className="font-bold text-emerald-900 flex items-center gap-1">
                               <Gauge className="w-2.5 h-2.5 text-emerald-700 shrink-0" /> Giám Sát Realtime
                             </div>
@@ -1791,7 +1791,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                         </div>
 
                         {/* Phân quyền hiện hành */}
-                        <div className="mt-1.5 w-full px-2 py-0.5 sm:py-1 bg-blue-100/95 border-2 border-blue-400 rounded-[10px] text-left text-[9px] sm:text-[10px] text-blue-950 flex items-center justify-between gap-2 shadow-xs">
+                        <div className="mt-1.5 w-full px-2 py-0.5 sm:py-1 bg-blue-100/95 border-2 border-blue-400 rounded-[14px] text-left text-[9px] sm:text-[10px] text-blue-950 flex items-center justify-between gap-2 shadow-xs">
                           <span className="flex items-center gap-1 font-bold truncate">
                             <Lock className="w-2.5 h-2.5 text-blue-800 shrink-0" />
                             <span className="truncate">Quyền: {currentRoleData.title}</span>

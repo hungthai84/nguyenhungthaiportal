@@ -666,14 +666,14 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         </div>
 
                         {/* Video Demo trước 1 phần giao diện trong danh sách */}
-                        <div className="relative w-full h-[120px] sm:h-[135px] rounded-[10px] overflow-hidden my-1 bg-black/40 group/video border border-white/20 shadow-inner">
+                        <div className="relative w-full h-[120px] sm:h-[135px] rounded-[14px] overflow-hidden my-1 bg-black/40 group/video border border-white/20 shadow-inner">
                           <video
                             src={getThemeDemoVideo(preset.id)}
                             autoPlay
                             loop
                             muted
                             playsInline
-                            className="w-full h-full object-cover brightness-105 contrast-105 transition-transform duration-700 group-hover/video:scale-105 pointer-events-none"
+                            className="w-full h-full object-cover rounded-[14px] brightness-105 contrast-105 transition-transform duration-700 group-hover/video:scale-105 pointer-events-none"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30 pointer-events-none" />
                           <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/25 text-white typo-badge">

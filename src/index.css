@@ -151,26 +151,37 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-97:nth
   height: auto !important;
 }
 
-/* Focus Mode: #home-main-card & All Similar Main Cards (Padding 15px, Gap 15px at all screen sizes, Deep Shadow) */
+/* Focus Mode: #contact-main-card, #home-main-card & All Similar Main Cards (Padding 15px, Gap 15px at all screen sizes, Deep Shadow) */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p12-div-87:nth-of-type(1) > div#contact-page-container:nth-of-type(1) > div#contact-cards-track:nth-of-type(1) > div#contact-main-card:nth-of-type(1),
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1) > div#home-main-card:nth-of-type(1),
+#contact-main-card,
 #home-main-card,
 .page-main-card,
-[data-main-card="true"] {
+[data-main-card="true"],
+#about-intro-card-1,
+#about-intro-card-2 {
   padding: 15px !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  box-shadow: 0 28px 65px -15px rgba(15, 23, 42, 0.32), 0 16px 36px -10px rgba(15, 23, 42, 0.2), 0 6px 16px -4px rgba(15, 23, 42, 0.12), 0 0 0 1px var(--surface-primary-border, rgba(255, 255, 255, 0.25)) !important;
+  box-shadow: 0 32px 72px -12px rgba(15, 23, 42, 0.36), 0 18px 40px -8px rgba(15, 23, 42, 0.24), 0 8px 18px -4px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
 }
 
+.dark div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p12-div-87:nth-of-type(1) > div#contact-page-container:nth-of-type(1) > div#contact-cards-track:nth-of-type(1) > div#contact-main-card:nth-of-type(1),
 .dark div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1) > div#home-main-card:nth-of-type(1),
+.dark #contact-main-card,
 .dark #home-main-card,
 .dark .page-main-card,
 .dark [data-main-card="true"],
+.dark #about-intro-card-1,
+.dark #about-intro-card-2,
+html[data-theme-mode="dark"] #contact-main-card,
 html[data-theme-mode="dark"] #home-main-card,
 html[data-theme-mode="dark"] .page-main-card,
-html[data-theme-mode="dark"] [data-main-card="true"] {
-  box-shadow: 0 32px 75px -15px rgba(0, 0, 0, 0.85), 0 20px 40px -10px rgba(0, 0, 0, 0.65), 0 8px 20px -4px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15) !important;
+html[data-theme-mode="dark"] [data-main-card="true"],
+html[data-theme-mode="dark"] #about-intro-card-1,
+html[data-theme-mode="dark"] #about-intro-card-2 {
+  box-shadow: 0 36px 84px -12px rgba(0, 0, 0, 0.88), 0 22px 48px -8px rgba(0, 0, 0, 0.72), 0 10px 24px -4px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
 }
 
 /* Unified Full-Width Viewport, Outer Page Container (100% Transparent, 0px, 1px Border) & Centered Level-01 .page-main-card */
@@ -194,7 +205,7 @@ html #services-main-content {
   min-height: 0 !important;
   flex: 1 0 auto !important;
   margin: 0 !important;
-  padding: 0px 0px 15px 0px !important;
+  padding: 0px !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
@@ -219,8 +230,10 @@ html #services-main-content {
     flex: 1 1 0% !important;
     min-height: 0 !important;
     margin: 0 !important;
-    padding: 0px 0px 15px 0px !important;
+    padding: 0px !important;
     gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
     box-sizing: border-box !important;
   }
 }
@@ -236,8 +249,10 @@ html #services-main-content {
     min-height: 0 !important;
     overflow: visible !important;
     margin: 0 !important;
-    padding: 0px 0px 15px 0px !important;
+    padding: 0px !important;
     gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
     box-sizing: border-box !important;
   }
 }
@@ -367,7 +382,7 @@ html.dark[data-card-style] #about-intro-card-2 {
   margin-bottom: 0 !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
-  padding: 15px 15px 0px 15px !important;
+  padding: 15px !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
@@ -445,6 +460,35 @@ html #experience-main-card:has(#experience-timeline-board),
 html #experience-main-card:has(#experience-job-detail-card) {
   overflow: hidden !important;
   position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
+html #experience-page-container,
+html[data-card-style] #experience-page-container {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+
+html #experience-job-detail-card,
+html[data-card-style] #experience-job-detail-card,
+html.dark[data-card-style] #experience-job-detail-card {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior-y: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+  touch-action: pan-y !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  border-radius: 14px !important;
+  box-sizing: border-box !important;
 }
 
 @media (min-width: 1024px) {
@@ -659,7 +703,6 @@ div#el-p0-div-98 {
 }
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-9:nth-of-type(2),
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-81:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-102:nth-of-type(3) {
   border-radius: 0 !important;
   background: transparent !important;
@@ -672,7 +715,8 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-102:nt
   border: 2px dashed var(--text-primary, rgba(148, 163, 184, 0.75)) !important;
 }
 
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-81:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1) {
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-81:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1) {
   padding-top: 15px;
   padding-bottom: 15px;
 }
@@ -743,13 +787,16 @@ html .motto-quote-text {
   }
 }
 
-/* 2. All Main Cards across all pages: exact Header Surface + Drop Shadow + 15px inset + Hover Pulse */
+/* 2. All Main Cards across all pages: exact Header Surface + Deep Drop Shadow + 15px inset + 15px gap */
 html .page-main-card,
 html[data-card-style] .page-main-card,
 html.dark[data-card-style] .page-main-card,
 html [data-main-card="true"],
 html[data-card-style] [data-main-card="true"],
 html.dark[data-card-style] [data-main-card="true"],
+html #contact-main-card,
+html[data-card-style] #contact-main-card,
+html.dark[data-card-style] #contact-main-card,
 html #about-intro-card-1,
 html #about-intro-card-2,
 html[data-card-style] #about-intro-card-1,
@@ -761,45 +808,45 @@ html.dark[data-card-style] #about-intro-card-2 {
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
   border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
   border-radius: 14px !important;
-  padding: 15px 15px 0px 15px !important;
-  box-shadow: var(--shadow-floating, var(--surface-primary-shadow)) !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
   animation: none !important;
+  transition: none !important;
   box-sizing: border-box !important;
 }
 
-/* Non-scrolling main cards keep symmetric 15px padding on all 4 edges */
-html #home-main-card,
-html[data-card-style] #home-main-card,
-html #experience-main-card,
-html[data-card-style] #experience-main-card,
-html #ai-assistant-main-card,
-html[data-card-style] #ai-assistant-main-card {
-  padding: 15px !important;
+html.dark .page-main-card,
+html.dark[data-card-style] .page-main-card,
+html.dark [data-main-card="true"],
+html.dark[data-card-style] [data-main-card="true"],
+html.dark #contact-main-card,
+html.dark[data-card-style] #contact-main-card,
+html.dark #about-intro-card-1,
+html.dark #about-intro-card-2,
+html.dark[data-card-style] #about-intro-card-1,
+html.dark[data-card-style] #about-intro-card-2,
+html[data-theme-mode="dark"] .page-main-card,
+html[data-theme-mode="dark"] [data-main-card="true"],
+html[data-theme-mode="dark"] #contact-main-card,
+html[data-theme-mode="dark"] #about-intro-card-1,
+html[data-theme-mode="dark"] #about-intro-card-2 {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
 }
 
-@media (min-width: 1024px) {
-  html #contact-main-card,
-  html[data-card-style] #contact-main-card {
-    padding: 15px !important;
-  }
-}
-
-/* Multi-child scrollable main cards preserve exact 15px bottom inset at scroll end */
-html #education-main-card::after,
-html #skills-main-card::after,
-html #projects-main-card::after,
-html #systems-main-card::after,
-html #memories-main-card::after,
-html #wallpaper-main-card::after,
-html #interface-main-card::after {
-  content: "" !important;
-  display: block !important;
-  width: 100% !important;
-  height: 1px !important;
-  min-height: 1px !important;
-  flex: 0 0 1px !important;
-  margin-top: -1px !important;
-  pointer-events: none !important;
+html #contact-main-card > div:first-child {
+  padding: 0 !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
 }
 
 @media screen {
@@ -810,22 +857,19 @@ html #interface-main-card::after {
     -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
     border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
     border-radius: 14px !important;
-    padding: 15px 15px 0px 15px !important;
-    row-gap: 20px !important;
-    box-shadow: var(--shadow-floating, var(--surface-primary-shadow)) !important;
+    padding: 15px !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
+    box-shadow: 0 32px 72px -12px rgba(15, 23, 42, 0.36), 0 18px 40px -8px rgba(15, 23, 42, 0.24), 0 8px 18px -4px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
     animation: none !important;
     box-sizing: border-box !important;
   }
 
-  html #pdf-page-container::after {
-    content: "" !important;
-    display: block !important;
-    width: 100% !important;
-    height: 1px !important;
-    min-height: 1px !important;
-    flex: 0 0 1px !important;
-    margin-top: -6px !important;
-    pointer-events: none !important;
+  html.dark #pdf-page-container,
+  html.dark[data-card-style] #pdf-page-container,
+  html[data-theme-mode="dark"] #pdf-page-container {
+    box-shadow: 0 36px 84px -12px rgba(0, 0, 0, 0.88), 0 22px 48px -8px rgba(0, 0, 0, 0.72), 0 10px 24px -4px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
   }
 }
 
@@ -886,14 +930,38 @@ html[data-card-style="cowhide-leather"] #pdf-page-container {
   html[data-card-style] .page-main-card:hover,
   html [data-main-card="true"]:hover,
   html[data-card-style] [data-main-card="true"]:hover,
+  html #contact-main-card:hover,
+  html[data-card-style] #contact-main-card:hover,
   html #about-intro-card-1:hover,
   html[data-card-style] #about-intro-card-1:hover,
   html #about-intro-card-2:hover,
   html[data-card-style] #about-intro-card-2:hover,
   html #pdf-page-container:hover,
   html[data-card-style] #pdf-page-container:hover {
-    animation: main-card-hover-pulse 1.9s ease-in-out infinite !important;
-    box-shadow: var(--surface-primary-shadow-hover, var(--shadow-floating)) !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  html.dark .page-main-card:hover,
+  html.dark[data-card-style] .page-main-card:hover,
+  html.dark [data-main-card="true"]:hover,
+  html.dark[data-card-style] [data-main-card="true"]:hover,
+  html.dark #contact-main-card:hover,
+  html.dark[data-card-style] #contact-main-card:hover,
+  html.dark #about-intro-card-1:hover,
+  html.dark #about-intro-card-2:hover,
+  html.dark[data-card-style] #about-intro-card-1:hover,
+  html.dark[data-card-style] #about-intro-card-2:hover,
+  html.dark #pdf-page-container:hover,
+  html.dark[data-card-style] #pdf-page-container:hover,
+  html[data-theme-mode="dark"] .page-main-card:hover,
+  html[data-theme-mode="dark"] [data-main-card="true"]:hover,
+  html[data-theme-mode="dark"] #contact-main-card:hover,
+  html[data-theme-mode="dark"] #about-intro-card-1:hover,
+  html[data-theme-mode="dark"] #about-intro-card-2:hover,
+  html[data-theme-mode="dark"] #pdf-page-container:hover {
+    transform: none !important;
+    box-shadow: none !important;
   }
 }
 
@@ -944,5 +1012,640 @@ html #wallpaper-page-container [id^="wallpaper-card-media-"] > div {
   border-radius: 14px !important;
 }
 
+/* 4. Hero Banners (#services-hero-banner & All Similar Banners): All-Theme Sync + Deep Drop Shadow across All Viewports */
+html .hero-banner,
+html .banner-card,
+html #services-hero-banner,
+html #project-detail-banner,
+html #contact-hero-banner,
+html #ai-assistant-hero-banner,
+html #interview-questions-card,
+html[data-card-style] .hero-banner,
+html[data-card-style] .banner-card,
+html[data-card-style] #services-hero-banner,
+html[data-card-style] #project-detail-banner,
+html[data-card-style] #contact-hero-banner,
+html[data-card-style] #ai-assistant-hero-banner,
+html[data-card-style] #interview-questions-card,
+html #contact-main-card #contact-hero-banner,
+html[data-card-style] #contact-main-card #contact-hero-banner {
+  border-radius: 14px !important;
+  padding: 15px !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
+  transition: border-color 240ms ease, background 240ms ease !important;
+}
 
+html #contact-main-card #contact-hero-banner,
+html[data-card-style] #contact-main-card #contact-hero-banner,
+html #ai-assistant-main-card #ai-assistant-hero-banner,
+html[data-card-style] #ai-assistant-main-card #ai-assistant-hero-banner,
+html #project-detail-banner,
+html[data-card-style] #project-detail-banner {
+  overflow: hidden !important;
+  isolation: isolate;
+  -webkit-clip-path: inset(0 round 14px);
+  clip-path: inset(0 round 14px);
+}
+
+html.dark .hero-banner,
+html.dark .banner-card,
+html.dark #services-hero-banner,
+html.dark #project-detail-banner,
+html.dark #contact-hero-banner,
+html.dark #ai-assistant-hero-banner,
+html.dark #interview-questions-card,
+html.dark[data-card-style] .hero-banner,
+html.dark[data-card-style] .banner-card,
+html.dark[data-card-style] #services-hero-banner,
+html.dark[data-card-style] #project-detail-banner,
+html.dark[data-card-style] #contact-hero-banner,
+html.dark[data-card-style] #ai-assistant-hero-banner,
+html.dark[data-card-style] #interview-questions-card,
+html[data-theme-mode="dark"] .hero-banner,
+html[data-theme-mode="dark"] .banner-card,
+html[data-theme-mode="dark"] #services-hero-banner,
+html[data-theme-mode="dark"] #project-detail-banner,
+html[data-theme-mode="dark"] #contact-hero-banner,
+html[data-theme-mode="dark"] #ai-assistant-hero-banner,
+html[data-theme-mode="dark"] #interview-questions-card,
+html[data-card-style="light-multicolor-glass-dark"] .hero-banner,
+html[data-card-style="light-multicolor-glass-dark"] .banner-card,
+html[data-card-style="light-multicolor-glass-dark"] #services-hero-banner,
+html[data-card-style="light-multicolor-glass-dark"] #project-detail-banner,
+html[data-card-style="light-multicolor-glass-dark"] #contact-hero-banner,
+html[data-card-style="light-multicolor-glass-dark"] #ai-assistant-hero-banner,
+html[data-card-style="light-multicolor-glass-dark"] #interview-questions-card,
+html[data-card-style="black-cowhide-leather"] .hero-banner,
+html[data-card-style="black-cowhide-leather"] .banner-card,
+html[data-card-style="black-cowhide-leather"] #services-hero-banner,
+html[data-card-style="black-cowhide-leather"] #project-detail-banner,
+html[data-card-style="black-cowhide-leather"] #contact-hero-banner,
+html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner,
+html[data-card-style="black-cowhide-leather"] #interview-questions-card,
+html[data-card-style="cowhide-leather"] .hero-banner,
+html[data-card-style="cowhide-leather"] .banner-card,
+html[data-card-style="cowhide-leather"] #services-hero-banner,
+html[data-card-style="cowhide-leather"] #project-detail-banner,
+html[data-card-style="cowhide-leather"] #contact-hero-banner,
+html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner,
+html[data-card-style="cowhide-leather"] #interview-questions-card,
+html.dark #contact-main-card #contact-hero-banner,
+html.dark[data-card-style] #contact-main-card #contact-hero-banner,
+html[data-theme-mode="dark"] #contact-main-card #contact-hero-banner,
+html[data-card-style="light-multicolor-glass-dark"] #contact-main-card #contact-hero-banner,
+html[data-card-style="black-cowhide-leather"] #contact-main-card #contact-hero-banner,
+html[data-card-style="cowhide-leather"] #contact-main-card #contact-hero-banner {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
+}
+
+html .hero-banner .project-detail-banner-media,
+html .hero-banner .project-detail-banner-media :is(img, video),
+html .hero-banner .project-detail-banner-scrim,
+html .banner-card .project-detail-banner-media,
+html .banner-card .project-detail-banner-media :is(img, video),
+html .banner-card .project-detail-banner-scrim,
+html #contact-main-card #contact-hero-banner .project-detail-banner-media,
+html #contact-main-card #contact-hero-banner .project-detail-banner-media img,
+html #contact-main-card #contact-hero-banner .project-detail-banner-scrim {
+  border-radius: 14px !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html .hero-banner:hover,
+  html .banner-card:hover,
+  html #services-hero-banner:hover,
+  html #project-detail-banner:hover,
+  html #contact-hero-banner:hover,
+  html #ai-assistant-hero-banner:hover,
+  html #interview-questions-card:hover,
+  html[data-card-style] .hero-banner:hover,
+  html[data-card-style] .banner-card:hover,
+  html[data-card-style] #services-hero-banner:hover,
+  html[data-card-style] #project-detail-banner:hover,
+  html[data-card-style] #contact-hero-banner:hover,
+  html[data-card-style] #ai-assistant-hero-banner:hover,
+  html[data-card-style] #interview-questions-card:hover,
+  html #contact-main-card #contact-hero-banner:hover,
+  html[data-card-style] #contact-main-card #contact-hero-banner:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  html.dark .hero-banner:hover,
+  html.dark .banner-card:hover,
+  html.dark #services-hero-banner:hover,
+  html.dark #project-detail-banner:hover,
+  html.dark #contact-hero-banner:hover,
+  html.dark #ai-assistant-hero-banner:hover,
+  html.dark #interview-questions-card:hover,
+  html.dark[data-card-style] .hero-banner:hover,
+  html.dark[data-card-style] .banner-card:hover,
+  html.dark[data-card-style] #services-hero-banner:hover,
+  html.dark[data-card-style] #project-detail-banner:hover,
+  html.dark[data-card-style] #contact-hero-banner:hover,
+  html.dark[data-card-style] #ai-assistant-hero-banner:hover,
+  html.dark[data-card-style] #interview-questions-card:hover,
+  html[data-theme-mode="dark"] .hero-banner:hover,
+  html[data-theme-mode="dark"] .banner-card:hover,
+  html[data-theme-mode="dark"] #services-hero-banner:hover,
+  html[data-theme-mode="dark"] #project-detail-banner:hover,
+  html[data-theme-mode="dark"] #contact-hero-banner:hover,
+  html[data-theme-mode="dark"] #ai-assistant-hero-banner:hover,
+  html[data-theme-mode="dark"] #interview-questions-card:hover,
+  html[data-card-style="light-multicolor-glass-dark"] .hero-banner:hover,
+  html[data-card-style="light-multicolor-glass-dark"] .banner-card:hover,
+  html[data-card-style="light-multicolor-glass-dark"] #services-hero-banner:hover,
+  html[data-card-style="light-multicolor-glass-dark"] #project-detail-banner:hover,
+  html[data-card-style="light-multicolor-glass-dark"] #contact-hero-banner:hover,
+  html[data-card-style="light-multicolor-glass-dark"] #ai-assistant-hero-banner:hover,
+  html[data-card-style="light-multicolor-glass-dark"] #interview-questions-card:hover,
+  html[data-card-style="black-cowhide-leather"] .hero-banner:hover,
+  html[data-card-style="black-cowhide-leather"] .banner-card:hover,
+  html[data-card-style="black-cowhide-leather"] #services-hero-banner:hover,
+  html[data-card-style="black-cowhide-leather"] #project-detail-banner:hover,
+  html[data-card-style="black-cowhide-leather"] #contact-hero-banner:hover,
+  html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner:hover,
+  html[data-card-style="black-cowhide-leather"] #interview-questions-card:hover,
+  html[data-card-style="cowhide-leather"] .hero-banner:hover,
+  html[data-card-style="cowhide-leather"] .banner-card:hover,
+  html[data-card-style="cowhide-leather"] #services-hero-banner:hover,
+  html[data-card-style="cowhide-leather"] #project-detail-banner:hover,
+  html[data-card-style="cowhide-leather"] #contact-hero-banner:hover,
+  html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner:hover,
+  html[data-card-style="cowhide-leather"] #interview-questions-card:hover,
+  html.dark #contact-main-card #contact-hero-banner:hover,
+  html.dark[data-card-style] #contact-main-card #contact-hero-banner:hover,
+  html[data-theme-mode="dark"] #contact-main-card #contact-hero-banner:hover,
+  html[data-card-style="light-multicolor-glass-dark"] #contact-main-card #contact-hero-banner:hover,
+  html[data-card-style="black-cowhide-leather"] #contact-main-card #contact-hero-banner:hover,
+  html[data-card-style="cowhide-leather"] #contact-main-card #contact-hero-banner:hover {
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    filter: none !important;
+    outline: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html .hero-banner,
+  html .hero-banner:hover,
+  html .banner-card,
+  html .banner-card:hover,
+  html #services-hero-banner,
+  html #services-hero-banner:hover,
+  html #project-detail-banner,
+  html #project-detail-banner:hover,
+  html #contact-main-card #contact-hero-banner,
+  html #contact-main-card #contact-hero-banner:hover,
+  html #ai-assistant-hero-banner,
+  html #ai-assistant-hero-banner:hover,
+  html #interview-questions-card,
+  html #interview-questions-card:hover {
+    transform: none !important;
+  }
+}
+
+/* 5. Remove ALL visual & motion effects on #home-cards-track and all similar cards-track containers */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1):hover,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1):focus,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1):active,
+html #home-cards-track,
+html #home-cards-track:hover,
+html #home-cards-track:focus,
+html #home-cards-track:active,
+html #about-cards-track,
+html #about-cards-track:hover,
+html #about-cards-track:focus,
+html #about-cards-track:active,
+html .page-cards-track,
+html .page-cards-track:hover,
+html .page-cards-track:focus,
+html .page-cards-track:active,
+html [id$="-cards-track"],
+html [id$="-cards-track"]:hover,
+html [id$="-cards-track"]:focus,
+html [id$="-cards-track"]:active,
+html[data-card-style] .page-cards-track,
+html[data-card-style] .page-cards-track:hover,
+html[data-card-style] #about-cards-track,
+html[data-card-style] #about-cards-track:hover,
+html[data-card-style] [id$="-cards-track"],
+html[data-card-style] [id$="-cards-track"]:hover,
+html.dark .page-cards-track,
+html.dark .page-cards-track:hover,
+html.dark #about-cards-track,
+html.dark #about-cards-track:hover,
+html.dark [id$="-cards-track"],
+html.dark [id$="-cards-track"]:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  opacity: 1 !important;
+}
+
+html #home-cards-track::before,
+html #home-cards-track::after,
+html #about-cards-track::before,
+html #about-cards-track::after,
+html .page-cards-track::before,
+html .page-cards-track::after,
+html [id$="-cards-track"]::before,
+html [id$="-cards-track"]::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+/* ========================================================================= */
+/* 6. FOCUS MODE & SITE-WIDE: REMOVE DROP SHADOW & LAYER CARD EFFECTS        */
+/* Targeted: Services (Selectors 1-4), Education, Header, Footer, and All     */
+/* Similar Main Cards, Banners, Tracks, and Layered Components               */
+/* ========================================================================= */
+
+/* Focus Elements: Services Page Elements */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1) > div#service-main-card:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1) > div#service-main-card:nth-of-type(1) > div#services-main-content:nth-of-type(1) > div#services-hero-banner:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1) > div#service-main-card:nth-of-type(1) > div#services-main-content:nth-of-type(1),
+html #services-cards-track,
+html #services-cards-track:hover,
+html #services-cards-track:focus,
+html #services-cards-track:active,
+html #service-main-card,
+html #service-main-card:hover,
+html #service-main-card:focus,
+html #service-main-card:active,
+html #services-hero-banner,
+html #services-hero-banner:hover,
+html #services-hero-banner:focus,
+html #services-hero-banner:active,
+html #services-main-content,
+html #services-main-content:hover,
+html #services-main-content:focus,
+html #services-main-content:active,
+/* Focus Elements: Education Page Elements */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p3-div-87:nth-of-type(1) > div#education-page-container:nth-of-type(1) > div#education-cards-track:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p3-div-87:nth-of-type(1) > div#education-page-container:nth-of-type(1) > div#education-cards-track:nth-of-type(1) > div#education-main-card:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p3-div-87:nth-of-type(1) > div#education-page-container:nth-of-type(1) > div#education-cards-track:nth-of-type(1) > div#education-main-card:nth-of-type(1) > section#education-hero-banner:nth-of-type(1),
+html #education-cards-track,
+html #education-cards-track:hover,
+html #education-cards-track:focus,
+html #education-cards-track:active,
+html #education-main-card,
+html #education-main-card:hover,
+html #education-main-card:focus,
+html #education-main-card:active,
+html #education-hero-banner,
+html #education-hero-banner:hover,
+html #education-hero-banner:focus,
+html #education-hero-banner:active,
+/* Header & Footer: Remove Layer Card & Shadow Effects */
+html #app-header,
+html #app-header:hover,
+html #app-header:focus,
+html #app-header:active,
+html #app-footer,
+html #app-footer:hover,
+html #app-footer:focus,
+html #app-footer:active,
+html.dark #app-header,
+html.dark #app-footer,
+html[data-theme-mode="dark"] #app-header,
+html[data-theme-mode="dark"] #app-footer,
+html[data-card-style] #app-header,
+html[data-card-style] #app-footer,
+html.dark[data-card-style] #app-header,
+html.dark[data-card-style] #app-footer,
+/* Site-Wide: All Similar Main Cards, Banners, Tracks, and Layered Cards */
+html .page-main-card,
+html .page-main-card:hover,
+html [data-main-card="true"],
+html [data-main-card="true"]:hover,
+html .layered-card,
+html .layered-card:hover,
+html .hero-banner,
+html .hero-banner:hover,
+html .banner-card,
+html .banner-card:hover,
+html [id$="-hero-banner"],
+html [id$="-hero-banner"]:hover,
+html [id$="-cards-track"],
+html [id$="-cards-track"]:hover,
+html [id$="-main-content"],
+html [id$="-main-content"]:hover,
+html #project-detail-banner,
+html #project-detail-banner:hover,
+html #contact-hero-banner,
+html #contact-hero-banner:hover,
+html #ai-assistant-hero-banner,
+html #ai-assistant-hero-banner:hover,
+html #interview-questions-card,
+html #interview-questions-card:hover,
+html #contact-main-card,
+html #contact-main-card:hover,
+html #home-main-card,
+html #home-main-card:hover,
+html #about-intro-card-1,
+html #about-intro-card-1:hover,
+html #about-intro-card-2,
+html #about-intro-card-2:hover,
+html #pdf-page-container,
+html #pdf-page-container:hover,
+html.dark .page-main-card,
+html.dark .page-main-card:hover,
+html.dark [data-main-card="true"],
+html.dark [data-main-card="true"]:hover,
+html.dark .hero-banner,
+html.dark .hero-banner:hover,
+html.dark .banner-card,
+html.dark .banner-card:hover,
+html.dark .layered-card,
+html.dark .layered-card:hover,
+html[data-theme-mode="dark"] .page-main-card,
+html[data-theme-mode="dark"] .page-main-card:hover,
+html[data-theme-mode="dark"] [data-main-card="true"],
+html[data-theme-mode="dark"] [data-main-card="true"]:hover,
+html[data-theme-mode="dark"] .hero-banner,
+html[data-theme-mode="dark"] .hero-banner:hover,
+html[data-theme-mode="dark"] .banner-card,
+html[data-theme-mode="dark"] .banner-card:hover,
+html[data-theme-mode="dark"] .layered-card,
+html[data-theme-mode="dark"] .layered-card:hover,
+html[data-card-style] .page-main-card,
+html[data-card-style] .page-main-card:hover,
+html[data-card-style] [data-main-card="true"],
+html[data-card-style] [data-main-card="true"]:hover,
+html[data-card-style] .hero-banner,
+html[data-card-style] .hero-banner:hover,
+html[data-card-style] .banner-card,
+html[data-card-style] .banner-card:hover,
+html[data-card-style] .layered-card,
+html[data-card-style] .layered-card:hover,
+html.dark[data-card-style] .page-main-card,
+html.dark[data-card-style] .page-main-card:hover,
+html.dark[data-card-style] [data-main-card="true"],
+html.dark[data-card-style] [data-main-card="true"]:hover,
+html.dark[data-card-style] .hero-banner,
+html.dark[data-card-style] .hero-banner:hover,
+html.dark[data-card-style] .banner-card,
+html.dark[data-card-style] .banner-card:hover,
+html.dark[data-card-style] .layered-card,
+html.dark[data-card-style] .layered-card:hover {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  text-shadow: none !important;
+  outline: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Remove hover elevation/transforms across all cards & banners */
+html .page-main-card:hover,
+html [data-main-card="true"]:hover,
+html .hero-banner:hover,
+html .banner-card:hover,
+html .layered-card:hover,
+html #service-main-card:hover,
+html #services-hero-banner:hover,
+html #education-main-card:hover,
+html #education-hero-banner:hover,
+html #app-header:hover,
+html #app-footer:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+/* Remove layer effects: pseudo-elements, reflection overlays, scrims */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1)::before,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1)::after,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1) > div#service-main-card:nth-of-type(1)::before,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1) > div#service-main-card:nth-of-type(1)::after,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1) > div#service-main-card:nth-of-type(1) > div#services-main-content:nth-of-type(1)::before,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1) > div#service-main-card:nth-of-type(1) > div#services-main-content:nth-of-type(1)::after,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1) > div#service-main-card:nth-of-type(1) > div#services-main-content:nth-of-type(1) > div#services-hero-banner:nth-of-type(1)::before,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p4-div-87:nth-of-type(1) > div#services-page-container:nth-of-type(1) > div#services-cards-track:nth-of-type(1) > div#service-main-card:nth-of-type(1) > div#services-main-content:nth-of-type(1) > div#services-hero-banner:nth-of-type(1)::after,
+html #app-header::before,
+html #app-header::after,
+html #app-footer::before,
+html #app-footer::after,
+html .page-main-card::before,
+html .page-main-card::after,
+html [data-main-card="true"]::before,
+html [data-main-card="true"]::after,
+html .hero-banner::before,
+html .hero-banner::after,
+html .banner-card::before,
+html .banner-card::after,
+html .layered-card::before,
+html .layered-card::after,
+html [id$="-hero-banner"]::before,
+html [id$="-hero-banner"]::after,
+html [id$="-cards-track"]::before,
+html [id$="-cards-track"]::after,
+html [id$="-main-content"]::before,
+html [id$="-main-content"]::after,
+html #service-main-card::before,
+html #service-main-card::after,
+html #services-hero-banner::before,
+html #services-hero-banner::after,
+html #services-cards-track::before,
+html #services-cards-track::after,
+html #services-main-content::before,
+html #services-main-content::after,
+html #education-cards-track::before,
+html #education-cards-track::after,
+html #education-main-card::before,
+html #education-main-card::after,
+html #education-hero-banner::before,
+html #education-hero-banner::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Remove all scrim/darkening layer overlays across all hero banners */
+html .project-detail-banner-scrim,
+html .hero-banner-scrim,
+html .banner-scrim,
+html #services-hero-banner .project-detail-banner-scrim,
+html #education-hero-banner .project-detail-banner-scrim {
+  display: none !important;
+  background: transparent !important;
+  opacity: 0 !important;
+}
+
+/* Header & Footer Laser / Glow Pseudo Layers Removal */
+#app-header .nav-pill-laser,
+#app-footer .nav-pill-laser {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* ========================================================================= */
+/* 7. UNIFIED BENTO CARD TYPOGRAPHY SCALE (H1-H6) & DARK MODE ENFORCEMENT    */
+/* ========================================================================= */
+:is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h1, .typo-h1):not(.hero-banner h1):not(.banner-card h1):not([id$="-hero-banner"] h1) {
+  font-size: var(--fs-h1, 28px) !important;
+  line-height: var(--lh-heading, 1.3) !important;
+  font-weight: var(--fw-bold, 700) !important;
+  font-family: var(--font-family-heading, var(--font-primary)) !important;
+  letter-spacing: -0.015em;
+  text-transform: none !important;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+:is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h2, .typo-h2) {
+  font-size: var(--fs-h2, 22px) !important;
+  line-height: var(--lh-heading, 1.3) !important;
+  font-weight: var(--fw-bold, 700) !important;
+  font-family: var(--font-family-heading, var(--font-primary)) !important;
+  letter-spacing: -0.01em;
+  text-transform: none !important;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+:is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h3, .typo-h3, [data-card-title="true"], .card-title-synced):not(.font-italianno):not(.font-handwriting):not(.font-quote):not(.banner-quote) {
+  font-size: var(--fs-h3, 18px) !important;
+  line-height: var(--lh-heading, 1.3) !important;
+  font-weight: var(--fw-semibold, 600) !important;
+  font-family: var(--font-family-heading, var(--font-primary)) !important;
+  letter-spacing: -0.005em;
+  text-transform: none !important;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+:is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h4, .typo-h4, [data-subcard-title="true"], .subcard-title-synced) {
+  font-size: var(--fs-h4, 16px) !important;
+  line-height: var(--lh-heading, 1.3) !important;
+  font-weight: var(--fw-semibold, 600) !important;
+  font-family: var(--font-family-heading, var(--font-primary)) !important;
+  text-transform: none !important;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+:is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h5, .typo-h5) {
+  font-size: var(--fs-h5, 15px) !important;
+  line-height: var(--lh-heading, 1.3) !important;
+  font-weight: var(--fw-semibold, 600) !important;
+  font-family: var(--font-family-heading, var(--font-primary)) !important;
+  text-transform: none !important;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+:is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h6, .typo-caption) {
+  font-size: var(--fs-caption, 13px) !important;
+  line-height: var(--lh-compact, 1.4) !important;
+  font-weight: var(--fw-semibold, 600) !important;
+  font-family: var(--font-family-heading, var(--font-primary)) !important;
+  text-transform: none !important;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Dark Mode Typography Scale & Contrast Strictness */
+html.dark :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h1, h2, h3, h4, h5, h6, .card-title-synced, .subcard-title-synced),
+html[data-theme-mode="dark"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h1, h2, h3, h4, h5, h6, .card-title-synced, .subcard-title-synced),
+html[data-card-style="black-cowhide-leather"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h1, h2, h3, h4, h5, h6, .card-title-synced, .subcard-title-synced),
+html[data-card-style="cowhide-leather"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h1, h2, h3, h4, h5, h6, .card-title-synced, .subcard-title-synced),
+html[data-card-style="light-multicolor-glass-dark"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h1, h2, h3, h4, h5, h6, .card-title-synced, .subcard-title-synced) {
+  line-height: var(--lh-heading, 1.3) !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+html.dark :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h1, h2),
+html[data-theme-mode="dark"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h1, h2),
+html[data-card-style="black-cowhide-leather"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h1, h2),
+html[data-card-style="cowhide-leather"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h1, h2),
+html[data-card-style="light-multicolor-glass-dark"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h1, h2) {
+  font-weight: 700 !important;
+}
+
+html.dark :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h3, h4, h5, h6, [data-card-title="true"], .card-title-synced, [data-subcard-title="true"], .subcard-title-synced):not(.font-italianno):not(.font-handwriting):not(.font-quote):not(.banner-quote),
+html[data-theme-mode="dark"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h3, h4, h5, h6, [data-card-title="true"], .card-title-synced, [data-subcard-title="true"], .subcard-title-synced):not(.font-italianno):not(.font-handwriting):not(.font-quote):not(.banner-quote),
+html[data-card-style="black-cowhide-leather"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h3, h4, h5, h6, [data-card-title="true"], .card-title-synced, [data-subcard-title="true"], .subcard-title-synced):not(.font-italianno):not(.font-handwriting):not(.font-quote):not(.banner-quote),
+html[data-card-style="cowhide-leather"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h3, h4, h5, h6, [data-card-title="true"], .card-title-synced, [data-subcard-title="true"], .subcard-title-synced):not(.font-italianno):not(.font-handwriting):not(.font-quote):not(.banner-quote),
+html[data-card-style="light-multicolor-glass-dark"] :is(.bento-card, [data-section-card="true"], [data-subcard="true"], .glass-card, .exp-bento-item-card, .education-course-card, .project-card, .service-card, .layered-card) :is(h3, h4, h5, h6, [data-card-title="true"], .card-title-synced, [data-subcard-title="true"], .subcard-title-synced):not(.font-italianno):not(.font-handwriting):not(.font-quote):not(.banner-quote) {
+  font-weight: 600 !important;
+}
+
+/* ========================================================================= */
+/* 8. UNIFIED BENTO GRID RESPONSIVE SYSTEM & ZERO REDUNDANT MARGINS          */
+/* ========================================================================= */
+:is(
+  .bento-grid-responsive,
+  .bento-subcard-grid,
+  .education-responsive-grid,
+  #education-courses-grid,
+  #projects-grid,
+  .services-cards-grid,
+  #skills-swot-grid,
+  .experience-cards-grid,
+  #systems-grid,
+  #memories-grid
+) {
+  display: grid !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+:is(
+  .bento-grid-responsive,
+  .bento-subcard-grid,
+  .education-responsive-grid,
+  #education-courses-grid,
+  #projects-grid,
+  .services-cards-grid,
+  #skills-swot-grid,
+  .experience-cards-grid,
+  #systems-grid,
+  #memories-grid
+) > * {
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
 

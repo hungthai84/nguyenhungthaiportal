@@ -399,7 +399,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 src={activeVideoUrl}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleEnded}
-                className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center transition-all duration-700 brightness-110 contrast-105 scale-[1.01]"
+                className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] transition-all duration-700 brightness-110 contrast-105 scale-[1.01]"
               />
               {/* Lớp phủ nhẹ nhàng đồng bộ Sáng / Tối, giữ video rõ nét tươi sáng */}
               <div

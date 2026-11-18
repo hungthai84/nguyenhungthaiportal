@@ -241,8 +241,11 @@ export const Footer: React.FC<FooterProps> = ({
           role="group"
           aria-label={isEn ? 'Page Navigation' : 'Điều hướng trang'}
           data-element-type="button"
-          style={{ borderRadius: '999px' }}
-          className={`theme-capsule-btn nav-pill relative z-10 w-[118px] sm:w-[144px] md:w-[152px] h-[42px] sm:h-[44px] flex items-center justify-between px-1.5 py-1 !rounded-[999px] rounded-[999px] text-[var(--text-primary)] cursor-pointer transition-all duration-300 hover:-translate-y-[1.5px] active:scale-[0.98] group font-play ${
+          style={{
+            ...(footerCardStyle?.cardSampleStyle || {}),
+            borderRadius: '999px',
+          }}
+          className={`theme-capsule-btn nav-pill relative z-10 w-[118px] sm:w-[144px] md:w-[152px] h-[42px] sm:h-[44px] flex items-center justify-between px-1.5 py-1 !rounded-[999px] rounded-[999px] text-[var(--text-primary)] cursor-pointer transition-all duration-300 hover:-translate-y-[1.5px] active:scale-[0.98] group font-play font-bold ${
             hoveredRightBtn !== null ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100'
           }`}
         >
@@ -268,19 +271,19 @@ export const Footer: React.FC<FooterProps> = ({
               hoveredRightBtn !== null ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
-            <WebIcon name="chevron-left" className="w-3.5 h-3.5" />
+            <WebIcon name="chevron-left" className="w-3.5 h-3.5 stroke-[2.5]" />
           </span>
 
           {/* Page Number with Active Page Icon */}
           <span className="flex-1 h-8 mx-1 flex items-center justify-center gap-1.5 select-none pointer-events-none">
             <WebIcon
               name={TABS_DATA[currentTabIndex]?.icon || 'grid'}
-              className="w-3.5 h-3.5 shrink-0"
+              className="w-3.5 h-3.5 shrink-0 stroke-[2.5]"
               style={{ color: 'var(--text-link, var(--color-primary))' }}
             />
             <span
               id="footer-page-counter"
-              className="typo-caption font-mono font-bold leading-none"
+              className="typo-caption font-mono font-extrabold tracking-wider leading-none"
               style={{ color: 'var(--text-link, var(--color-primary))' }}
             >
               {String(currentTabIndex + 1).padStart(2, '0')}/{String(TABS_DATA.length).padStart(2, '0')}
@@ -309,7 +312,7 @@ export const Footer: React.FC<FooterProps> = ({
               hoveredRightBtn !== null ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
-            <WebIcon name="chevron-right" className="w-3.5 h-3.5" />
+            <WebIcon name="chevron-right" className="w-3.5 h-3.5 stroke-[2.5]" />
           </span>
         </div>
       </div>

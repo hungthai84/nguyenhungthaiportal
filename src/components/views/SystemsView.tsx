@@ -1329,13 +1329,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.35 }}
-            className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border border-white/80 dark:border-white/20 shadow-[0_10px_30px_rgba(15,23,42,0.12)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 backdrop-blur-xl"
+            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
             style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
           >
             <div
-              className="absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
+              className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
               style={{
-                background: 'linear-gradient(135deg, #0c4a6e 0%, #0284c7 50%, #0f172a 100%)',
                 borderRadius: '14px',
               }}
             >
@@ -1346,28 +1345,29 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                 }}
-                className="w-full h-full object-cover object-center opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500"
+                className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/25 to-slate-950/55 pointer-events-none" />
             </div>
+            <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
 
             <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
-              <div className="flex items-center gap-2 min-w-0">
+              <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
                 <WebIcon
                   name="network"
-                  className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
-                  style={{ color: '#38bdf8', width: '22px', height: '22px' }}
+                  className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                  style={{ width: '22px', height: '22px' }}
                 />
                 <h1
-                  className="typo-h3 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
-                  style={{ color: '#38bdf8', textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+                  className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
+                  data-card-title="true"
+                  style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
                 >
                   Hệ thống vận hành
                 </h1>
               </div>
               <p
-                className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
-                style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+                className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
+                style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
               >
                 &quot;Hệ thống thông minh, vận hành tinh gọn và đồng bộ ♡&quot;
               </p>
@@ -1578,7 +1578,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                     : { borderRadius: '14px', minHeight: '420px' }
                 }
               >
-                <div className="relative w-full h-full flex-1 bg-black overflow-hidden">
+                <div className="relative w-full h-full flex-1 bg-black rounded-[14px] overflow-hidden">
                   {/* Floating Controls Inside Top-Right */}
                   <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 shrink-0">
                     <button
@@ -1618,7 +1618,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                     playsInline
                     muted={isIntroStageMuted}
                     onEnded={handleIntroVideoEnded}
-                    className="w-full h-full object-cover bg-black"
+                    className="w-full h-full object-cover bg-black rounded-[14px]"
                   >
                     Trình duyệt của bạn không hỗ trợ phát video HTML5.
                   </video>
@@ -1965,7 +1965,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                       muted
                                       playsInline
                                       preload="auto"
-                                      className="w-full h-full object-cover pointer-events-none select-none"
+                                      className="w-full h-full object-cover rounded-[14px] pointer-events-none select-none"
                                     >
                                       Trình duyệt của bạn không hỗ trợ phát video HTML5.
                                     </video>
@@ -1973,7 +1973,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                     <img
                                       src={config.illustrationSrc || item.imageUrl}
                                       alt={item.nameVi}
-                                      className="w-full h-full object-contain bg-transparent p-2"
+                                      className="w-full h-full object-contain rounded-[14px] bg-transparent p-2"
                                     />
                                   )}
                                 </div>
@@ -2309,13 +2309,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             </div>
 
             {/* HTML5 MP4 Video Player Frame */}
-            <div className="relative w-full aspect-video bg-black flex items-center justify-center">
+            <div className="relative w-full aspect-video bg-black rounded-[14px] overflow-hidden flex items-center justify-center">
               <video
                 key={activeBannerVideo}
                 controls
                 autoPlay
                 playsInline
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain rounded-[14px]"
                 poster="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80"
               >
                 <source src={activeBannerVideo} type="video/mp4" />
@@ -2525,7 +2525,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                                 muted
                                 playsInline
                                 preload="auto"
-                                className="w-full h-full object-cover pointer-events-none select-none"
+                                className="w-full h-full object-cover rounded-[14px] pointer-events-none select-none"
                               >
                                 Trình duyệt của bạn không hỗ trợ phát video HTML5.
                               </video>
@@ -2533,7 +2533,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               <img
                                 src={modalConfig?.illustrationSrc || selectedSystem.imageUrl}
                                 alt={selectedSystem.nameVi}
-                                className="w-full h-full object-contain bg-transparent p-2"
+                                className="w-full h-full object-contain rounded-[14px] bg-transparent p-2"
                               />
                             )}
                           </div>
@@ -2765,7 +2765,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
           </div>
 
           {/* Video preview nhỏ */}
-          <div className="relative aspect-video bg-black overflow-hidden group">
+          <div className="relative aspect-video bg-black rounded-[14px] overflow-hidden group">
             <video
               ref={pipVideoRef}
               src={VIDEO_2_URL}
@@ -2773,7 +2773,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
               playsInline
               loop
               muted={isBannerMuted}
-              className="w-full h-full object-cover pointer-events-none"
+              className="w-full h-full object-cover rounded-[14px] pointer-events-none"
             />
             {/* Overlay badge thời gian */}
             <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-xs typo-badge font-mono text-rose-300 border border-white/20 flex items-center gap-1.5">

@@ -197,13 +197,12 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30"
+        className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
         style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
       >
         <div
-          className="absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
+          className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
           style={{
-            background: 'linear-gradient(135deg, #064e3b 0%, #047857 50%, #0f172a 100%)',
             borderRadius: '14px',
           }}
         >
@@ -214,28 +213,29 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
             onError={(e) => {
               e.currentTarget.style.display = 'none';
             }}
-            className="w-full h-full object-cover object-center opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500"
+            className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0B1220]/75 via-[#0B1220]/25 to-[#0B1220]/55 pointer-events-none" />
         </div>
+        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
 
         <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
-          <div className="flex items-center gap-2 min-w-0">
+          <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
             <WebIcon
               name="camera"
-              className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
-              style={{ color: '#38bdf8', width: '22px', height: '22px' }}
+              className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+              style={{ width: '22px', height: '22px' }}
             />
             <h1
-              className="typo-h3 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
-              style={{ color: '#38bdf8', textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+              className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
+              data-card-title="true"
+              style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
             >
               Khoảnh khắc kỷ niệm
             </h1>
           </div>
           <p
-            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
-            style={{ color: '#ffff18', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+            className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+            style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
           >
             &quot;Mỗi khoảnh khắc là một mảnh ghép tự hào của hành trình ♡&quot;
           </p>
@@ -420,7 +420,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                 <img
                   src={item.imageUrl}
                   alt={item.titleVi}
-                  className="memory-crisp-img w-full h-full min-h-[200px] object-cover transition-transform duration-500 block m-0 p-0 group-hover:scale-105"
+                  className="memory-crisp-img w-full h-full min-h-[200px] object-cover rounded-[14px] transition-transform duration-500 block m-0 p-0 group-hover:scale-105"
                   loading="lazy"
                   onError={(e) => {
                     e.currentTarget.style.opacity = '0';
@@ -495,14 +495,14 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
             {/* Ảnh lớn & Điều khiển */}
             <div
               className={cn(
-                'relative w-full h-72 sm:h-[460px] md:h-[520px] flex items-center justify-center overflow-hidden',
+                'relative w-full h-72 sm:h-[460px] md:h-[520px] rounded-[14px] flex items-center justify-center overflow-hidden',
                 isDark ? 'bg-[#0B1220]' : 'bg-slate-100'
               )}
             >
               <img
                 src={activePhoto.imageUrl}
                 alt={activePhoto.titleVi}
-                className="w-full h-full object-contain select-none"
+                className="w-full h-full object-contain rounded-[14px] select-none"
               />
               <div
                 className={cn(
@@ -628,7 +628,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                       : 'border-transparent opacity-65 hover:opacity-100'
                   }`}
                 >
-                  <img src={thumb.imageUrl} alt={thumb.titleVi} className="w-full h-full object-cover" />
+                  <img src={thumb.imageUrl} alt={thumb.titleVi} className="w-full h-full object-cover rounded-[14px]" />
                 </button>
               ))}
             </div>

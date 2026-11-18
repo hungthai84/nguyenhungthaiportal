@@ -267,16 +267,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     padding: '0px',
   };
 
-  const transparentGridContainerStyle: React.CSSProperties = {
-    background: 'transparent',
-    backgroundColor: 'transparent',
-    backgroundImage: 'none',
-    boxShadow: 'none',
-    border: 'none',
-    outline: 'none',
-    padding: '0px',
-  };
-
   const subCardPaddingStyle: React.CSSProperties = {
     padding: '15px',
   };
@@ -936,7 +926,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="card"
       data-section-card="true"
       style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full min-w-0 max-w-full min-h-full h-auto flex-1 shrink-0 self-stretch flex flex-col justify-start gap-[15px] p-0 m-0 rounded-[14px] bg-transparent border-0 shadow-none"
+      className="bento-card glass-card w-full min-w-0 max-w-full min-h-full h-auto flex-1 shrink-0 self-stretch grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_auto_1fr] content-start items-stretch gap-[15px] p-0 m-0 rounded-[14px] bg-transparent border-0 shadow-none"
     >
       {/* Banner trang Tử Vi - Đưa vào trong Thẻ 1: Hồ Sơ Tử Vi */}
       <motion.section
@@ -948,7 +938,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="banner-card hero-banner w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30"
+        className="banner-card hero-banner group col-span-full w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
         style={{
           padding: '15px',
           width: '100%',
@@ -959,9 +949,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         {/* Lớp nền hình ảnh và gradient phủ */}
         <div
           id="horoscope-hero-banner-bg"
-          className="absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
+          className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
           style={{
-            background: 'linear-gradient(135deg, #7c2d12 0%, #ea580c 50%, #0f172a 100%)',
             borderRadius: '14px',
           }}
         >
@@ -973,27 +962,27 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             onError={(e) => {
               e.currentTarget.style.display = 'none';
             }}
-            className="w-full h-full object-cover object-center opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500"
+            className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/25 to-slate-950/55 pointer-events-none" />
         </div>
+        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
 
         {/* Vùng Tiêu Đề: Icon và Tiêu đề bên trái, Sub tiêu đề cùng hàng nằm bên phải */}
         <div
           id="horoscope-hero-banner-header"
           className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full"
         >
-          <div className="flex items-center gap-2 min-w-0">
+          <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
             <WebIcon
               name="compass"
-              className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
-              style={{ color: '#38bdf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
+              className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+              style={{ width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
             />
             <h1
               id="horoscope-hero-banner-title"
-              className="typo-h3 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+              className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
+              data-card-title="true"
               style={{
-                color: '#38bdf8',
                 textTransform: 'none',
                 fontStyle: 'normal',
                 transform: 'none',
@@ -1005,9 +994,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
           <p
             id="horoscope-hero-banner-quote"
-            className="typo-h3 font-handwriting font-italianno not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+            className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
             style={{
-              color: '#ffff18',
+              color: 'var(--text-secondary)',
               fontFamily: "'Italianno', cursive, sans-serif",
               fontWeight: 700,
               fontStyle: 'normal',
@@ -1114,7 +1103,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </div>
       </motion.section>
 
-      <div className="flex flex-wrap items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)] min-w-0">
+      <div className="col-span-full flex flex-wrap items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)] min-w-0">
         <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
           <Compass className="w-[18px] h-[18px] text-purple-600 dark:text-purple-400 animate-pulse shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-purple-600 dark:text-purple-400">
@@ -1126,9 +1115,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch flex-1 w-full min-w-0">
-        {/* Cột trái: Luận giải lá số tử vi */}
-        <div data-subcard="true" style={subCardPaddingStyle} className="sub-card lg:col-span-4 w-full min-w-0 rounded-[14px] p-[15px] flex flex-col items-center justify-between text-center space-y-4">
+      {/* Cột trái: Luận giải lá số tử vi */}
+      <div data-subcard="true" style={subCardPaddingStyle} className="sub-card lg:col-span-4 w-full min-w-0 h-full rounded-[14px] p-[15px] flex flex-col items-center justify-between text-center space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-purple-200/40 dark:border-purple-800/40 w-full text-left min-w-0">
             <div className="subcard-header-sync flex items-center gap-2 text-purple-600 dark:text-purple-400">
               <span className="w-2 h-4 bg-purple-600 rounded-full shrink-0" />
@@ -1226,9 +1214,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           </div>
         </div>
 
-        {/* Cột phải: Thông tin nhân thân chuẩn 22/06/1984 17:00 */}
-        <div className="lg:col-span-8 w-full min-w-0 flex flex-col justify-between gap-[15px]">
-          <div data-subcard="true" style={subCardPaddingStyle} className="sub-card w-full min-w-0 flex-1 space-y-4 p-[15px] rounded-[14px] h-full flex flex-col justify-between">
+      {/* Cột phải: Thông tin nhân thân chuẩn 22/06/1984 17:00 */}
+      <div data-subcard="true" style={subCardPaddingStyle} className="sub-card lg:col-span-8 w-full min-w-0 space-y-4 p-[15px] rounded-[14px] h-full flex flex-col justify-between">
             <div className="w-full flex flex-col gap-2 pb-3 border-b border-[var(--border-subcard)] min-w-0">
               <div className="flex items-center justify-between flex-wrap gap-2 min-w-0">
                 <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-purple-600 dark:text-purple-400">
@@ -1360,8 +1347,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -1375,9 +1360,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="card"
       data-section-card="true"
       style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 flex flex-col justify-start gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-[auto_1fr_1fr] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
     >
-      <div className="flex items-center justify-between pb-3.5 border-b border-[var(--border-subcard)]">
+      <div className="col-span-full flex items-center justify-between pb-3.5 border-b border-[var(--border-subcard)]">
         <div className="card-header-sync flex items-center gap-2.5 text-left">
           <Briefcase style={transparentLogoStyle} className="w-6 h-6 text-blue-600 dark:text-cyan-400 animate-pulse shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-blue-600 dark:text-cyan-400">
@@ -1389,49 +1374,47 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-2 gap-[15px] w-full min-w-0 flex-1 items-stretch">
-        {WORK_PERSONALITY_TRAITS.map((trait, index) => {
-          const palettes = [
-            { bar: 'bg-sky-600', text: 'text-sky-700 dark:text-sky-300', bg: 'bg-sky-500/10', border: 'border-sky-500/25' },
-            { bar: 'bg-violet-600', text: 'text-violet-700 dark:text-violet-300', bg: 'bg-violet-500/10', border: 'border-violet-500/25' },
-            { bar: 'bg-emerald-600', text: 'text-emerald-700 dark:text-emerald-300', bg: 'bg-emerald-500/10', border: 'border-emerald-500/25' },
-            { bar: 'bg-amber-600', text: 'text-amber-700 dark:text-amber-300', bg: 'bg-amber-500/10', border: 'border-amber-500/25' },
-          ];
-          const p = palettes[index % 4];
-          return (
-            <div
-              key={trait.id}
-              data-subcard="true"
-              style={transparentSubCardStyle}
-              className="sub-card p-[15px] rounded-[14px] border border-[var(--border-subcard)] transition-all duration-300 flex flex-col justify-between space-y-3 bg-[var(--bg-subcard)]"
-            >
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
-                  <div className="subcard-header-sync flex items-center gap-2">
-                    <span className={`w-1.5 h-4 ${p.bar} rounded-full shrink-0`} />
-                    <h5 className={`typo-h5 subcard-title-synced ${p.text} font-play`} data-subcard-title="true">{trait.title}</h5>
-                  </div>
-                  <span className={`px-2 py-0.5 rounded-full ${p.bg} ${p.text} border ${p.border} typo-badge shrink-0`}>
-                    {trait.tag}
-                  </span>
+      {WORK_PERSONALITY_TRAITS.map((trait, index) => {
+        const palettes = [
+          { bar: 'bg-sky-600', text: 'text-sky-700 dark:text-sky-300', bg: 'bg-sky-500/10', border: 'border-sky-500/25' },
+          { bar: 'bg-violet-600', text: 'text-violet-700 dark:text-violet-300', bg: 'bg-violet-500/10', border: 'border-violet-500/25' },
+          { bar: 'bg-emerald-600', text: 'text-emerald-700 dark:text-emerald-300', bg: 'bg-emerald-500/10', border: 'border-emerald-500/25' },
+          { bar: 'bg-amber-600', text: 'text-amber-700 dark:text-amber-300', bg: 'bg-amber-500/10', border: 'border-amber-500/25' },
+        ];
+        const p = palettes[index % 4];
+        return (
+          <div
+            key={trait.id}
+            data-subcard="true"
+            style={transparentSubCardStyle}
+            className="sub-card p-[15px] rounded-[14px] border border-[var(--border-subcard)] transition-all duration-300 flex flex-col justify-between space-y-3 bg-[var(--bg-subcard)] min-w-0"
+          >
+            <div className="space-y-2">
+              <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
+                <div className="subcard-header-sync flex items-center gap-2">
+                  <span className={`w-1.5 h-4 ${p.bar} rounded-full shrink-0`} />
+                  <h5 className={`typo-h5 subcard-title-synced ${p.text} font-play`} data-subcard-title="true">{trait.title}</h5>
                 </div>
-                <div className="typo-caption font-semibold text-[var(--text-secondary)]">{trait.subtitle}</div>
-                <p className="typo-body-sm text-[var(--text-primary)] text-justify">
-                  {trait.description}
-                </p>
+                <span className={`px-2 py-0.5 rounded-full ${p.bg} ${p.text} border ${p.border} typo-badge shrink-0`}>
+                  {trait.tag}
+                </span>
               </div>
-              <div className="pt-2 border-t border-[var(--border-subcard)] flex flex-wrap gap-1.5">
-                {trait.highlights.map((h, hIdx) => (
-                  <span key={hIdx} className="project-detail-chip px-2 py-0.5 rounded-full typo-badge flex items-center gap-1">
-                    <Check className="w-3 h-3 text-emerald-500 shrink-0 stroke-[2.5]" />
-                    <span>{h}</span>
-                  </span>
-                ))}
-              </div>
+              <div className="typo-caption font-semibold text-[var(--text-secondary)]">{trait.subtitle}</div>
+              <p className="typo-body-sm text-[var(--text-primary)] text-justify">
+                {trait.description}
+              </p>
             </div>
-          );
-        })}
-      </div>
+            <div className="pt-2 border-t border-[var(--border-subcard)] flex flex-wrap gap-1.5">
+              {trait.highlights.map((h, hIdx) => (
+                <span key={hIdx} className="project-detail-chip px-2 py-0.5 rounded-full typo-badge flex items-center gap-1">
+                  <Check className="w-3 h-3 text-emerald-500 shrink-0 stroke-[2.5]" />
+                  <span>{h}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 
@@ -1444,9 +1427,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="card"
       data-section-card="true"
       style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 flex flex-col justify-start gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr_1fr] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
     >
-      <div className="flex items-center justify-between pb-3.5 border-b border-emerald-200/50 dark:border-emerald-800/50">
+      <div className="col-span-full flex items-center justify-between pb-3.5 border-b border-emerald-200/50 dark:border-emerald-800/50">
         <div className="card-header-sync flex items-center gap-2.5 text-left">
           <Target style={transparentLogoStyle} className="w-6 h-6 text-emerald-600 dark:text-emerald-400 animate-pulse shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-emerald-600 dark:text-emerald-400">
@@ -1458,104 +1441,100 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </span>
       </div>
 
-      <div className="flex flex-col gap-[15px] flex-1">
-        <div className="subcard-header-sync flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
-          <span className="w-1.5 h-4 bg-emerald-600 dark:bg-emerald-400 rounded-full shrink-0" />
-          <h4 className="typo-h4 subcard-title-synced text-emerald-600 dark:text-emerald-400 tracking-wider font-play" data-subcard-title="true">
-            Lục Cung Trọng Yếu (Tam Hợp Thân – Tý – Thìn)
-          </h4>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px]" style={transparentGridContainerStyle}>
-          {SIX_CORE_PALACES.map((palace, index) => {
-            const palettes = [
-              {
-                bar: 'bg-rose-600',
-                text: 'text-rose-700 dark:text-rose-300',
-                bg: 'bg-rose-500/10',
-                border: 'border-rose-500/25 dark:border-rose-500/35',
-              },
-              {
-                bar: 'bg-amber-600',
-                text: 'text-amber-700 dark:text-amber-300',
-                bg: 'bg-amber-500/10',
-                border: 'border-amber-500/25 dark:border-amber-500/35',
-              },
-              {
-                bar: 'bg-emerald-600',
-                text: 'text-emerald-700 dark:text-emerald-300',
-                bg: 'bg-emerald-500/10',
-                border: 'border-emerald-500/25 dark:border-emerald-500/35',
-              },
-              {
-                bar: 'bg-cyan-600',
-                text: 'text-cyan-700 dark:text-cyan-300',
-                bg: 'bg-cyan-500/10',
-                border: 'border-cyan-500/25 dark:border-cyan-500/35',
-              },
-              {
-                bar: 'bg-indigo-600',
-                text: 'text-indigo-700 dark:text-indigo-300',
-                bg: 'bg-indigo-500/10',
-                border: 'border-indigo-500/25 dark:border-indigo-500/35',
-              },
-              {
-                bar: 'bg-fuchsia-600',
-                text: 'text-fuchsia-700 dark:text-fuchsia-300',
-                bg: 'bg-fuchsia-500/10',
-                border: 'border-fuchsia-500/25 dark:border-fuchsia-500/35',
-              },
-            ];
-            const p = palettes[index % 6];
-            return (
-              <div
-                key={palace.id}
-                data-subcard="true"
-                style={transparentSubCardStyle}
-                className="sub-card p-[15px] rounded-[14px] flex flex-col justify-between space-y-3.5 transition-all"
-              >
-                <div className="space-y-3">
-                  <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
-                    <div className="subcard-header-sync flex items-center gap-2">
-                      <span className={`w-1.5 h-5 ${p.bar} rounded-full shrink-0`} />
-                      <Target className={`w-4 h-4 ${p.text} shrink-0`} />
-                      <h5 className={`typo-h5 subcard-title-synced ${p.text} font-play`} data-subcard-title="true">{palace.name}</h5>
-                    </div>
-                    <span className={`typo-badge px-2.5 py-0.5 rounded-full ${p.bg} ${p.text} border ${p.border} shrink-0`}>
-                      {palace.tag}
-                    </span>
-                  </div>
-                  <p className="typo-body-sm text-[var(--text-primary)] text-justify">
-                    {palace.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 pt-0.5">
-                    {palace.stars.map((star, sIdx) => (
-                      <span
-                        key={sIdx}
-                        className={`px-2.5 py-0.5 rounded-full typo-badge border ${
-                          sIdx === 0
-                            ? 'bg-amber-500/15 text-amber-800 dark:text-amber-300 border-amber-500/30'
-                            : 'project-detail-chip'
-                        }`}
-                      >
-                        ★ {star}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div className="space-y-1.5 pt-2.5 border-t border-[var(--border-subcard)]">
-                  {palace.bullets.map((b, bIdx) => (
-                    <div key={bIdx} className="flex items-center gap-2 typo-body-sm text-[var(--text-primary)]">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>{b}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+      <div className="col-span-full subcard-header-sync flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+        <span className="w-1.5 h-4 bg-emerald-600 dark:bg-emerald-400 rounded-full shrink-0" />
+        <h4 className="typo-h4 subcard-title-synced text-emerald-600 dark:text-emerald-400 tracking-wider font-play" data-subcard-title="true">
+          Lục Cung Trọng Yếu (Tam Hợp Thân – Tý – Thìn)
+        </h4>
       </div>
+
+      {SIX_CORE_PALACES.map((palace, index) => {
+        const palettes = [
+          {
+            bar: 'bg-rose-600',
+            text: 'text-rose-700 dark:text-rose-300',
+            bg: 'bg-rose-500/10',
+            border: 'border-rose-500/25 dark:border-rose-500/35',
+          },
+          {
+            bar: 'bg-amber-600',
+            text: 'text-amber-700 dark:text-amber-300',
+            bg: 'bg-amber-500/10',
+            border: 'border-amber-500/25 dark:border-amber-500/35',
+          },
+          {
+            bar: 'bg-emerald-600',
+            text: 'text-emerald-700 dark:text-emerald-300',
+            bg: 'bg-emerald-500/10',
+            border: 'border-emerald-500/25 dark:border-emerald-500/35',
+          },
+          {
+            bar: 'bg-cyan-600',
+            text: 'text-cyan-700 dark:text-cyan-300',
+            bg: 'bg-cyan-500/10',
+            border: 'border-cyan-500/25 dark:border-cyan-500/35',
+          },
+          {
+            bar: 'bg-indigo-600',
+            text: 'text-indigo-700 dark:text-indigo-300',
+            bg: 'bg-indigo-500/10',
+            border: 'border-indigo-500/25 dark:border-indigo-500/35',
+          },
+          {
+            bar: 'bg-fuchsia-600',
+            text: 'text-fuchsia-700 dark:text-fuchsia-300',
+            bg: 'bg-fuchsia-500/10',
+            border: 'border-fuchsia-500/25 dark:border-fuchsia-500/35',
+          },
+        ];
+        const p = palettes[index % 6];
+        return (
+          <div
+            key={palace.id}
+            data-subcard="true"
+            style={transparentSubCardStyle}
+            className="sub-card p-[15px] rounded-[14px] flex flex-col justify-between space-y-3.5 transition-all min-w-0"
+          >
+            <div className="space-y-3">
+              <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
+                <div className="subcard-header-sync flex items-center gap-2">
+                  <span className={`w-1.5 h-5 ${p.bar} rounded-full shrink-0`} />
+                  <Target className={`w-4 h-4 ${p.text} shrink-0`} />
+                  <h5 className={`typo-h5 subcard-title-synced ${p.text} font-play`} data-subcard-title="true">{palace.name}</h5>
+                </div>
+                <span className={`typo-badge px-2.5 py-0.5 rounded-full ${p.bg} ${p.text} border ${p.border} shrink-0`}>
+                  {palace.tag}
+                </span>
+              </div>
+              <p className="typo-body-sm text-[var(--text-primary)] text-justify">
+                {palace.description}
+              </p>
+              <div className="flex flex-wrap gap-1.5 pt-0.5">
+                {palace.stars.map((star, sIdx) => (
+                  <span
+                    key={sIdx}
+                    className={`px-2.5 py-0.5 rounded-full typo-badge border ${
+                      sIdx === 0
+                        ? 'bg-amber-500/15 text-amber-800 dark:text-amber-300 border-amber-500/30'
+                        : 'project-detail-chip'
+                    }`}
+                  >
+                    ★ {star}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-1.5 pt-2.5 border-t border-[var(--border-subcard)]">
+              {palace.bullets.map((b, bIdx) => (
+                <div key={bIdx} className="flex items-center gap-2 typo-body-sm text-[var(--text-primary)]">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                  <span>{b}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 
@@ -1568,9 +1547,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="card"
       data-section-card="true"
       style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 flex flex-col justify-start gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 md:grid-cols-6 md:grid-rows-[auto_auto_1fr_1fr] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
     >
-      <div className="flex items-center justify-between pb-3.5 border-b border-cyan-200/50 dark:border-cyan-800/50">
+      <div className="col-span-full flex items-center justify-between pb-3.5 border-b border-cyan-200/50 dark:border-cyan-800/50">
         <div className="card-header-sync flex items-center gap-2.5 text-left">
           <Layers style={transparentLogoStyle} className="w-6 h-6 text-cyan-600 dark:text-cyan-400 animate-pulse shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-cyan-600 dark:text-cyan-400">
@@ -1582,71 +1561,67 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </span>
       </div>
 
-      <div className="flex flex-col gap-[15px] flex-1">
-        <div className="flex items-center justify-between flex-wrap gap-2">
-          <div className="subcard-header-sync flex items-center gap-2 text-cyan-600 dark:text-cyan-400">
-            <span className="w-1.5 h-4 bg-cyan-600 dark:bg-cyan-400 rounded-full shrink-0" />
-            <h4 className="typo-h4 subcard-title-synced text-cyan-600 dark:text-cyan-400 tracking-wider font-play" data-subcard-title="true">
-              Hệ Thống Quản Trị Đa Chiều (Kim - Thủy - Mộc - Hỏa - Thổ)
-            </h4>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-[15px] items-stretch">
-          {FIVE_ELEMENTS_GOVERNANCE.map((item, idx) => {
-            const IconComp = item.icon;
-            const spanClass = idx < 3 ? 'md:col-span-2' : 'md:col-span-3';
-            return (
-              <div
-                key={idx}
-                data-subcard="true"
-                style={transparentSubCardStyle}
-                className={`sub-card p-[15px] rounded-[14px] transition-all duration-300 flex flex-col justify-between space-y-4 ${spanClass}`}
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className={`typo-h3 font-bold ${item.theme.hanziColor} leading-none select-none`}>
-                      {item.hanzi}
-                    </span>
-                    <span className="project-detail-chip typo-badge px-2.5 py-0.5 rounded-full">
-                      {item.palaceBadge}
-                    </span>
-                  </div>
-
-                  <div className="subcard-header-sync flex items-center gap-2 pt-0.5">
-                    <IconComp style={transparentLogoStyle} className={`w-4 h-4 ${item.theme.iconColor} shrink-0`} />
-                    <h5 className={`typo-h5 subcard-title-synced ${item.theme.iconColor} tracking-tight font-play`} data-subcard-title="true">
-                      {item.title}
-                    </h5>
-                  </div>
-
-                  <p className="typo-body-sm text-[var(--text-primary)]">
-                    {item.desc}
-                  </p>
-                </div>
-
-                <div className="space-y-2.5 pt-1">
-                  <div className="project-detail-chip p-3 rounded-[14px] space-y-1">
-                    <div className={`typo-label tracking-wider ${item.theme.labelColor}`}>
-                      {item.boxLabel}
-                    </div>
-                    <div className="typo-body-sm font-semibold text-[var(--text-primary)] leading-snug">
-                      {item.boxContent}
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <div className="project-detail-chip px-3 py-1.5 rounded-[14px] typo-caption font-semibold">
-                      {item.footer}
-                    </div>
-                    <div className={`h-1 w-full rounded-full ${item.theme.bottomBar}`} />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+      <div className="col-span-full flex items-center justify-between flex-wrap gap-2">
+        <div className="subcard-header-sync flex items-center gap-2 text-cyan-600 dark:text-cyan-400">
+          <span className="w-1.5 h-4 bg-cyan-600 dark:bg-cyan-400 rounded-full shrink-0" />
+          <h4 className="typo-h4 subcard-title-synced text-cyan-600 dark:text-cyan-400 tracking-wider font-play" data-subcard-title="true">
+            Hệ Thống Quản Trị Đa Chiều (Kim - Thủy - Mộc - Hỏa - Thổ)
+          </h4>
         </div>
       </div>
+
+      {FIVE_ELEMENTS_GOVERNANCE.map((item, idx) => {
+        const IconComp = item.icon;
+        const spanClass = idx < 3 ? 'md:col-span-2' : 'md:col-span-3';
+        return (
+          <div
+            key={idx}
+            data-subcard="true"
+            style={transparentSubCardStyle}
+            className={`sub-card p-[15px] rounded-[14px] transition-all duration-300 flex flex-col justify-between space-y-4 min-w-0 ${spanClass}`}
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-2">
+                <span className={`typo-h3 font-bold ${item.theme.hanziColor} leading-none select-none`}>
+                  {item.hanzi}
+                </span>
+                <span className="project-detail-chip typo-badge px-2.5 py-0.5 rounded-full">
+                  {item.palaceBadge}
+                </span>
+              </div>
+
+              <div className="subcard-header-sync flex items-center gap-2 pt-0.5">
+                <IconComp style={transparentLogoStyle} className={`w-4 h-4 ${item.theme.iconColor} shrink-0`} />
+                <h5 className={`typo-h5 subcard-title-synced ${item.theme.iconColor} tracking-tight font-play`} data-subcard-title="true">
+                  {item.title}
+                </h5>
+              </div>
+
+              <p className="typo-body-sm text-[var(--text-primary)]">
+                {item.desc}
+              </p>
+            </div>
+
+            <div className="space-y-2.5 pt-1">
+              <div className="project-detail-chip p-3 rounded-[14px] space-y-1">
+                <div className={`typo-label tracking-wider ${item.theme.labelColor}`}>
+                  {item.boxLabel}
+                </div>
+                <div className="typo-body-sm font-semibold text-[var(--text-primary)] leading-snug">
+                  {item.boxContent}
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <div className="project-detail-chip px-3 py-1.5 rounded-[14px] typo-caption font-semibold">
+                  {item.footer}
+                </div>
+                <div className={`h-1 w-full rounded-full ${item.theme.bottomBar}`} />
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 
@@ -1659,9 +1634,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="card"
       data-section-card="true"
       style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 flex flex-col justify-start gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[auto_1fr_1fr] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
     >
-      <div className="flex items-center justify-between pb-3.5 border-b border-[var(--border-subcard)]">
+      <div className="col-span-full flex items-center justify-between pb-3.5 border-b border-[var(--border-subcard)]">
         <div className="card-header-sync flex items-center gap-2.5 text-left">
           <Award style={transparentLogoStyle} className="w-6 h-6 text-amber-600 dark:text-amber-400 shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-amber-600 dark:text-amber-400">
@@ -1673,33 +1648,31 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] flex-1 items-stretch">
-        {ACTION_PHILOSOPHY_CARDS.map((card, idx) => {
-          const IconComp = card.icon;
-          return (
-            <div
-              key={idx}
-              data-subcard="true"
-              style={transparentSubCardStyle}
-              className="sub-card p-[15px] rounded-[14px] transition-all duration-300 flex flex-col justify-between space-y-4"
-            >
-              <div className="space-y-3.5">
-                <div style={transparentLogoStyle} className="w-10 h-10 flex items-center justify-center text-amber-600 dark:text-amber-400">
-                  <IconComp className="w-5 h-5" />
-                </div>
-                <div className="space-y-2">
-                  <h4 className="typo-h4 subcard-title-synced text-amber-600 dark:text-amber-400 leading-snug font-play" data-subcard-title="true">
-                    {card.title}
-                  </h4>
-                  <p className="typo-body-sm text-[var(--text-primary)] text-justify">
-                    {card.desc}
-                  </p>
-                </div>
+      {ACTION_PHILOSOPHY_CARDS.map((card, idx) => {
+        const IconComp = card.icon;
+        return (
+          <div
+            key={idx}
+            data-subcard="true"
+            style={transparentSubCardStyle}
+            className="sub-card p-[15px] rounded-[14px] transition-all duration-300 flex flex-col justify-between space-y-4 min-w-0"
+          >
+            <div className="space-y-3.5">
+              <div style={transparentLogoStyle} className="w-10 h-10 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                <IconComp className="w-5 h-5" />
+              </div>
+              <div className="space-y-2">
+                <h4 className="typo-h4 subcard-title-synced text-amber-600 dark:text-amber-400 leading-snug font-play" data-subcard-title="true">
+                  {card.title}
+                </h4>
+                <p className="typo-body-sm text-[var(--text-primary)] text-justify">
+                  {card.desc}
+                </p>
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
   );
 
@@ -1712,9 +1685,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="card"
       data-section-card="true"
       style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 flex flex-col justify-start gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_1fr] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
     >
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-purple-200/50 dark:border-purple-800/50">
+      <div className="col-span-full flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-purple-200/50 dark:border-purple-800/50">
         <div className="card-header-sync flex items-center gap-2.5 text-left">
           <Users style={transparentLogoStyle} className="w-6 h-6 text-purple-600 dark:text-purple-400 animate-pulse shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-purple-600 dark:text-purple-400">
@@ -1728,10 +1701,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </div>
       </div>
 
-      {/* TRA CỨU 12 CON GIÁP */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch flex-1">
-          {/* CỘT TRÁI: TRA CỨU TUỔI LÀM VIỆC CHUNG */}
-          <div data-subcard="true" style={transparentSubCardStyle} className="sub-card lg:col-span-6 p-[15px] rounded-[14px] flex flex-col justify-between space-y-5">
+      {/* TRA CỨU 12 CON GIÁP - CỘT TRÁI */}
+      <div data-subcard="true" style={transparentSubCardStyle} className="sub-card lg:col-span-6 p-[15px] rounded-[14px] flex flex-col justify-between space-y-5 min-w-0">
             <div className="space-y-4">
               <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-[var(--border-subcard)]">
                 <h4 className="typo-h4 subcard-title-synced text-indigo-600 dark:text-purple-200 tracking-wider font-play" data-subcard-title="true">
@@ -1804,81 +1775,80 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             </div>
           </div>
 
-          {/* CỘT PHẢI: KẾT QUẢ ĐỐI CHIẾU */}
-          <div data-subcard="true" style={transparentSubCardStyle} className="sub-card lg:col-span-6 p-[15px] rounded-[14px] flex flex-col justify-between space-y-4">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-[var(--border-subcard)]">
-                <div className="typo-h4 tracking-wider text-purple-600 dark:text-purple-300 font-play">
-                  Kết Quả Đối Chiếu Với Giáp Tý 1984
-                </div>
-                <span className="px-3 py-1 rounded-full typo-badge bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-400/40">
-                  Mệnh Kim
+      {/* CỘT PHẢI: KẾT QUẢ ĐỐI CHIẾU */}
+      <div data-subcard="true" style={transparentSubCardStyle} className="sub-card lg:col-span-6 p-[15px] rounded-[14px] flex flex-col justify-between space-y-4 min-w-0">
+        <div className="space-y-4">
+          <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-[var(--border-subcard)]">
+            <div className="typo-h4 tracking-wider text-purple-600 dark:text-purple-300 font-play">
+              Kết Quả Đối Chiếu Với Giáp Tý 1984
+            </div>
+            <span className="px-3 py-1 rounded-full typo-badge bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-400/40">
+              Mệnh Kim
+            </span>
+          </div>
+
+          {/* Header Con Giáp Được Chọn */}
+          <div className="project-detail-chip flex items-start gap-3.5 p-3.5 rounded-[14px]">
+            <div style={transparentLogoStyle} className="w-12 h-12 flex items-center justify-center text-purple-600 dark:text-purple-300 typo-h3 shrink-0">
+              {zodiacIconsList.find((z) => z.id === currentMatch.id)?.emoji || '🌟'}
+            </div>
+            <div className="space-y-1">
+              <div className="typo-h4 text-[var(--text-heading)] font-play">
+                {currentMatch.name} ({currentMatch.yearDetail})
+              </div>
+              <div className="typo-caption font-semibold text-indigo-600 dark:text-indigo-400">
+                {currentMatch.nguHanh}
+              </div>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                <span className="px-2.5 py-0.5 rounded-full typo-badge bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                  {currentMatch.badge}
                 </span>
-              </div>
-
-              {/* Header Con Giáp Được Chọn */}
-              <div className="project-detail-chip flex items-start gap-3.5 p-3.5 rounded-[14px]">
-                <div style={transparentLogoStyle} className="w-12 h-12 flex items-center justify-center text-purple-600 dark:text-purple-300 typo-h3 shrink-0">
-                  {zodiacIconsList.find((z) => z.id === currentMatch.id)?.emoji || '🌟'}
-                </div>
-                <div className="space-y-1">
-                  <div className="typo-h4 text-[var(--text-heading)] font-play">
-                    {currentMatch.name} ({currentMatch.yearDetail})
-                  </div>
-                  <div className="typo-caption font-semibold text-indigo-600 dark:text-indigo-400">
-                    {currentMatch.nguHanh}
-                  </div>
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    <span className="px-2.5 py-0.5 rounded-full typo-badge bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
-                      {currentMatch.badge}
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full typo-badge bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">
-                      {currentMatch.role}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <p className="typo-body-sm text-[var(--text-primary)] text-justify">
-                {currentMatch.summary}
-              </p>
-
-              {/* Grid 2 Thẻ: Điểm mạnh & Điểm nghẽn */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px] pt-1">
-                <div className="project-detail-chip p-3.5 rounded-[14px] space-y-2">
-                  <div className="flex items-center gap-1.5 typo-h5 text-emerald-600 dark:text-emerald-400">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                    <span>Điểm mạnh kết hợp</span>
-                  </div>
-                  <p className="typo-body-sm text-[var(--text-primary)] text-justify">
-                    {currentMatch.pros}
-                  </p>
-                </div>
-
-                <div className="project-detail-chip p-3.5 rounded-[14px] space-y-2">
-                  <div className="flex items-center gap-1.5 typo-h5 text-amber-600 dark:text-amber-400">
-                    <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-                    <span>Điểm nghẽn chú ý</span>
-                  </div>
-                  <p className="typo-body-sm text-[var(--text-primary)] text-justify">
-                    {currentMatch.cons}
-                  </p>
-                </div>
-              </div>
-
-              {/* Gợi ý điều phối */}
-              <div className="project-detail-chip p-3.5 rounded-[14px] space-y-1.5">
-                <div className="flex items-center gap-1.5 typo-h5 text-purple-600 dark:text-purple-400">
-                  <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 shrink-0" />
-                  <span>Gợi ý điều phối</span>
-                </div>
-                <p className="typo-body-sm text-[var(--text-primary)] text-justify">
-                  {currentMatch.advice}
-                </p>
+                <span className="px-2.5 py-0.5 rounded-full typo-badge bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">
+                  {currentMatch.role}
+                </span>
               </div>
             </div>
           </div>
+
+          <p className="typo-body-sm text-[var(--text-primary)] text-justify">
+            {currentMatch.summary}
+          </p>
+
+          {/* Grid 2 Thẻ: Điểm mạnh & Điểm nghẽn */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px] pt-1">
+            <div className="project-detail-chip p-3.5 rounded-[14px] space-y-2">
+              <div className="flex items-center gap-1.5 typo-h5 text-emerald-600 dark:text-emerald-400">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span>Điểm mạnh kết hợp</span>
+              </div>
+              <p className="typo-body-sm text-[var(--text-primary)] text-justify">
+                {currentMatch.pros}
+              </p>
+            </div>
+
+            <div className="project-detail-chip p-3.5 rounded-[14px] space-y-2">
+              <div className="flex items-center gap-1.5 typo-h5 text-amber-600 dark:text-amber-400">
+                <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                <span>Điểm nghẽn chú ý</span>
+              </div>
+              <p className="typo-body-sm text-[var(--text-primary)] text-justify">
+                {currentMatch.cons}
+              </p>
+            </div>
+          </div>
+
+          {/* Gợi ý điều phối */}
+          <div className="project-detail-chip p-3.5 rounded-[14px] space-y-1.5">
+            <div className="flex items-center gap-1.5 typo-h5 text-purple-600 dark:text-purple-400">
+              <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 shrink-0" />
+              <span>Gợi ý điều phối</span>
+            </div>
+            <p className="typo-body-sm text-[var(--text-primary)] text-justify">
+              {currentMatch.advice}
+            </p>
+          </div>
         </div>
+      </div>
     </div>
   );
 

@@ -394,6 +394,7 @@ html[data-card-style="light-cowhide-leather"] #experience-basic-info-card::befor
 html[data-card-style="light-cowhide-leather"] #experience-banner-card::before,
 html[data-card-style="light-cowhide-leather"] #experience-responsibility-card::before,
 html[data-card-style="light-cowhide-leather"] #experience-achievement-card::before,
+html[data-card-style="light-cowhide-leather"] #experience-results-card::before,
 html[data-card-style="light-cowhide-leather"] #experience-commitments-card::before,
 html[data-card-style="light-cowhide-leather"] #experience-products-card::before,
 html[data-card-style="light-cowhide-leather"] #experience-memories-card::before {
@@ -479,6 +480,7 @@ html[data-card-style="light-cowhide-leather"] #experience-banner-card,
 html[data-card-style="light-cowhide-leather"] #experience-management-card,
 html[data-card-style="light-cowhide-leather"] #experience-responsibility-card,
 html[data-card-style="light-cowhide-leather"] #experience-achievement-card,
+html[data-card-style="light-cowhide-leather"] #experience-results-card,
 html[data-card-style="light-cowhide-leather"] #experience-commitments-card,
 html[data-card-style="light-cowhide-leather"] #experience-products-card,
 html[data-card-style="light-cowhide-leather"] #experience-memories-card {
@@ -799,15 +801,10 @@ html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-next-b
 
 html[data-card-style="light-cowhide-leather"] .hero-banner,
 html[data-card-style="light-cowhide-leather"] .banner-card,
-html[data-card-style="light-cowhide-leather"] #project-detail-banner {
-  border: 2px solid #d1d5db !important;
-  box-shadow: var(--shadow-card) !important;
-  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
-  outline-offset: -7px;
-}
-
 html[data-card-style="light-cowhide-leather"] #project-detail-banner,
-html[data-card-style="light-cowhide-leather"] .project-detail-banner-inner {
+html[data-card-style="light-cowhide-leather"] .project-detail-banner-inner,
+html[data-card-style="light-cowhide-leather"] #contact-hero-banner,
+html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner {
   background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 55%, #f5f7f9 100%) !important;
   border: 2px solid #d1d5db !important;
   box-shadow: var(--shadow-card) !important;
@@ -818,16 +815,38 @@ html[data-card-style="light-cowhide-leather"] .project-detail-banner-inner {
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="light-cowhide-leather"] #project-detail-banner .project-detail-banner-media img {
-  opacity: 0.14;
+html[data-card-style="light-cowhide-leather"] #interview-questions-card {
+  border: 2px solid #d1d5db !important;
+  outline: 1.5px dashed rgba(248, 250, 252, 0.55);
+  outline-offset: -7px;
 }
 
-html[data-card-style="light-cowhide-leather"] #project-detail-banner:hover .project-detail-banner-media img {
-  opacity: 0.20;
+html[data-card-style="light-cowhide-leather"] .hero-banner .project-detail-banner-media img,
+html[data-card-style="light-cowhide-leather"] .hero-banner .project-detail-banner-media video,
+html[data-card-style="light-cowhide-leather"] .banner-card .project-detail-banner-media img,
+html[data-card-style="light-cowhide-leather"] .banner-card .project-detail-banner-media video,
+html[data-card-style="light-cowhide-leather"] #project-detail-banner .project-detail-banner-media img,
+html[data-card-style="light-cowhide-leather"] #contact-hero-banner .project-detail-banner-media img,
+html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-media video {
+  opacity: 0.16;
 }
 
-html[data-card-style="light-cowhide-leather"] #project-detail-banner .project-detail-banner-scrim {
-  background: linear-gradient(145deg, rgba(251, 252, 252, 0.86) 0%, rgba(237, 241, 244, 0.92) 100%) !important;
+html[data-card-style="light-cowhide-leather"] .hero-banner:hover .project-detail-banner-media img,
+html[data-card-style="light-cowhide-leather"] .hero-banner:hover .project-detail-banner-media video,
+html[data-card-style="light-cowhide-leather"] .banner-card:hover .project-detail-banner-media img,
+html[data-card-style="light-cowhide-leather"] .banner-card:hover .project-detail-banner-media video,
+html[data-card-style="light-cowhide-leather"] #project-detail-banner:hover .project-detail-banner-media img,
+html[data-card-style="light-cowhide-leather"] #contact-hero-banner:hover .project-detail-banner-media img,
+html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner:hover .project-detail-banner-media video {
+  opacity: 0.24;
+}
+
+html[data-card-style="light-cowhide-leather"] .hero-banner .project-detail-banner-scrim,
+html[data-card-style="light-cowhide-leather"] .banner-card .project-detail-banner-scrim,
+html[data-card-style="light-cowhide-leather"] #project-detail-banner .project-detail-banner-scrim,
+html[data-card-style="light-cowhide-leather"] #contact-hero-banner .project-detail-banner-scrim,
+html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-scrim {
+  background: linear-gradient(145deg, rgba(251, 252, 252, 0.84) 0%, rgba(237, 241, 244, 0.90) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;

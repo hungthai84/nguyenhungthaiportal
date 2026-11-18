@@ -191,7 +191,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               src={isVideoPlaying ? INTERVIEW_VIDEO_2_URL : INTERVIEW_VIDEO_1_URL}
               onTimeUpdate={handleTimeUpdate}
               onEnded={handleEnded}
-              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500 select-none pointer-events-none"
+              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500 select-none pointer-events-none"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-black/30 pointer-events-none" />
           </div>

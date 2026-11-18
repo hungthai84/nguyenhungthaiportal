@@ -345,7 +345,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       {/* Hover Bounding Box */}
       {hoveredInfo && !selectedTarget && (
         <div
-          className="absolute border-2 border-cyan-500 bg-cyan-400/15 pointer-events-none transition-all duration-75 rounded-[12px] shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+          className="absolute border-2 border-cyan-500 bg-cyan-400/15 pointer-events-none transition-all duration-75 rounded-[14px] shadow-[0_0_12px_rgba(6,182,212,0.4)]"
           style={{
             left: `${hoveredInfo.rect.left}px`,
             top: `${hoveredInfo.rect.top}px`,
@@ -362,7 +362,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       {/* Selected Target Action Modal / Floating Action Card on Double Click */}
       {selectedTarget && (
         <div className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-auto flex items-center justify-center p-4">
-          <div className={`w-full max-w-lg p-6 rounded-[24px] border shadow-2xl relative font-play animate-in fade-in zoom-in-95 duration-150 ${
+          <div className={`w-full max-w-lg p-6 rounded-[14px] border shadow-2xl relative font-play animate-in fade-in zoom-in-95 duration-150 ${
             inspectorTheme === 'light'
               ? 'bg-white/95 text-slate-800 border-cyan-200 shadow-cyan-900/10'
               : 'bg-slate-900/95 text-slate-100 border-slate-700 shadow-black/50'
@@ -370,7 +370,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
             {/* Header */}
             <div className="flex items-center justify-between pb-3 border-b border-cyan-500/20 mb-4">
               <div className="flex items-center gap-2">
-                <span className="p-2 rounded-xl bg-cyan-500/15 text-cyan-500">
+                <span className="p-2 rounded-[14px] bg-cyan-500/15 text-cyan-500">
                   <WebIcon name="sparkles" className="w-5 h-5" />
                 </span>
                 <div>
@@ -392,7 +392,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
             </div>
 
             {/* Target Summary Badge */}
-            <div className="mb-4 p-3 rounded-xl bg-cyan-50 dark:bg-slate-800/80 border border-cyan-200 dark:border-slate-700 flex flex-col gap-1">
+            <div className="mb-4 p-3 rounded-[14px] bg-cyan-50 dark:bg-slate-800/80 border border-cyan-200 dark:border-slate-700 flex flex-col gap-1">
               <span className="typo-badge font-bold text-cyan-700 dark:text-cyan-300">
                 {selectedTarget.info.elementName}
               </span>
@@ -407,7 +407,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
               <button
                 type="button"
                 onClick={handleCopyIdentity}
-                className={`w-full py-3 px-4 rounded-xl font-play font-bold flex items-center justify-between border transition cursor-pointer shadow-sm ${
+                className={`w-full py-3 px-4 rounded-[14px] font-play font-bold flex items-center justify-between border transition cursor-pointer shadow-sm ${
                   copiedType === 'identity'
                     ? 'bg-emerald-600 text-white border-emerald-500 scale-[1.02]'
                     : 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white border-cyan-400/50'
@@ -426,7 +426,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
               <button
                 type="button"
                 onClick={handleCopyEffects}
-                className={`w-full py-3 px-4 rounded-xl font-play font-bold flex items-center justify-between border transition cursor-pointer shadow-sm ${
+                className={`w-full py-3 px-4 rounded-[14px] font-play font-bold flex items-center justify-between border transition cursor-pointer shadow-sm ${
                   copiedType === 'effects'
                     ? 'bg-emerald-600 text-white border-emerald-500 scale-[1.02]'
                     : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-purple-400/50'
@@ -445,7 +445,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
               <button
                 type="button"
                 onClick={handleCopyConfig}
-                className={`w-full py-3 px-4 rounded-xl font-play font-bold flex items-center justify-between border transition cursor-pointer shadow-sm ${
+                className={`w-full py-3 px-4 rounded-[14px] font-play font-bold flex items-center justify-between border transition cursor-pointer shadow-sm ${
                   copiedType === 'config'
                     ? 'bg-emerald-600 text-white border-emerald-500 scale-[1.02]'
                     : 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white border-amber-400/50'

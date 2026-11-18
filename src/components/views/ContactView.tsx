@@ -49,7 +49,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
         data-section-card="true"
         data-element-page="contact"
         data-element-parent="contact-main-card"
-        className="banner-card hero-banner w-full lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] relative overflow-hidden shadow-xl text-white z-30 flex flex-col justify-between p-[15px] box-border"
+        className="banner-card hero-banner group w-full lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border transition-all duration-300"
         style={{
           padding: '15px',
           borderRadius: '14px',
@@ -65,7 +65,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
             onError={(e) => {
               e.currentTarget.style.display = 'none';
             }}
-            className="w-full h-full object-cover object-center transition-all duration-700"
+            className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
           />
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
@@ -103,10 +103,10 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
         data-section-card="true"
         data-element-page="contact"
         data-element-parent="contact-main-card"
-        className="bento-card glass-card w-full flex-1 min-w-0 min-h-[480px] lg:min-h-0 h-full lg:self-stretch flex flex-col rounded-[14px] shadow-xl gap-0 overflow-hidden relative p-[15px] box-border"
+        className="bento-card glass-card w-full flex-1 min-w-0 min-h-[480px] lg:min-h-0 h-full lg:self-stretch flex flex-col rounded-[14px] shadow-xl gap-[15px] overflow-hidden relative p-[15px] box-border"
         style={{
           padding: '15px',
-          gap: '0px',
+          gap: '15px',
           borderRadius: '14px',
           boxSizing: 'border-box',
         }}

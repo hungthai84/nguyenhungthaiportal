@@ -858,7 +858,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                     <div className="subcard-header-sync flex items-center gap-2.5 min-w-0" style={{ color: expAccentColor }}>
                       {m.logo ? (
                         <div className="w-8 h-8 rounded-[14px] overflow-hidden bg-white border border-[var(--border-subcard)] p-0.5 shrink-0 flex items-center justify-center">
-                          <img src={m.logo} alt={m.company} className="w-full h-full object-contain rounded-[4px]" />
+                          <img src={m.logo} alt={m.company} className="w-full h-full object-contain rounded-[14px]" />
                         </div>
                       ) : (
                         <WebIcon name="building" size={18} className="shrink-0" style={{ color: expAccentColor }} />

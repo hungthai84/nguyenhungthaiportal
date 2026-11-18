@@ -602,6 +602,7 @@ html[data-card-style="cowhide-leather"] #experience-banner-card,
 html[data-card-style="cowhide-leather"] #experience-management-card,
 html[data-card-style="cowhide-leather"] #experience-responsibility-card,
 html[data-card-style="cowhide-leather"] #experience-achievement-card,
+html[data-card-style="cowhide-leather"] #experience-results-card,
 html[data-card-style="cowhide-leather"] #experience-commitments-card,
 html[data-card-style="cowhide-leather"] #experience-products-card,
 html[data-card-style="cowhide-leather"] #experience-memories-card {
@@ -1100,9 +1101,13 @@ html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner .rounded-full 
   border-color: rgba(245, 222, 179, 0.45) !important;
 }
 
+html[data-card-style="cowhide-leather"] .hero-banner,
+html[data-card-style="cowhide-leather"] .banner-card,
 html[data-card-style="cowhide-leather"] #project-detail-banner,
 html[data-card-style="cowhide-leather"] .project-detail-banner-inner,
-html[data-card-style="cowhide-leather"] .project-detail-section-card {
+html[data-card-style="cowhide-leather"] .project-detail-section-card,
+html[data-card-style="cowhide-leather"] #contact-hero-banner,
+html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner {
   background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%) !important;
   border: 2px solid #522E10 !important;
   box-shadow: var(--shadow-card) !important;
@@ -1113,16 +1118,38 @@ html[data-card-style="cowhide-leather"] .project-detail-section-card {
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="cowhide-leather"] #project-detail-banner .project-detail-banner-media img {
-  opacity: 0.18;
+html[data-card-style="cowhide-leather"] #interview-questions-card {
+  border: 2px solid #522E10 !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.52);
+  outline-offset: -7px;
 }
 
-html[data-card-style="cowhide-leather"] #project-detail-banner:hover .project-detail-banner-media img {
-  opacity: 0.26;
+html[data-card-style="cowhide-leather"] .hero-banner .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] .hero-banner .project-detail-banner-media video,
+html[data-card-style="cowhide-leather"] .banner-card .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] .banner-card .project-detail-banner-media video,
+html[data-card-style="cowhide-leather"] #project-detail-banner .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] #contact-hero-banner .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-media video {
+  opacity: 0.20;
 }
 
-html[data-card-style="cowhide-leather"] #project-detail-banner .project-detail-banner-scrim {
-  background: linear-gradient(145deg, rgba(139, 90, 43, 0.82) 0%, rgba(101, 58, 23, 0.92) 100%) !important;
+html[data-card-style="cowhide-leather"] .hero-banner:hover .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] .hero-banner:hover .project-detail-banner-media video,
+html[data-card-style="cowhide-leather"] .banner-card:hover .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] .banner-card:hover .project-detail-banner-media video,
+html[data-card-style="cowhide-leather"] #project-detail-banner:hover .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] #contact-hero-banner:hover .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner:hover .project-detail-banner-media video {
+  opacity: 0.28;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] .banner-card .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] #project-detail-banner .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] #contact-hero-banner .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-scrim {
+  background: linear-gradient(145deg, rgba(139, 90, 43, 0.78) 0%, rgba(101, 58, 23, 0.88) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;

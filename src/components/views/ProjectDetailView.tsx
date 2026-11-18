@@ -790,7 +790,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   <img
                     src={selectedArticle.mindmap}
                     alt={`Sơ đồ tư duy ${selectedArticle.code}`}
-                    className="w-full h-full object-contain bg-slate-900"
+                    className="w-full h-full object-contain bg-slate-900 rounded-[14px]"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = selectedArticle.image;
                     }}
@@ -873,7 +873,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   <img
                     src={selectedArticle.image}
                     alt={selectedArticle.title}
-                    className="w-full h-full object-cover opacity-90  transition-transform duration-500"
+                    className="w-full h-full object-cover rounded-[14px] opacity-90 transition-transform duration-500"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069894/Qu%C3%A3n_l%C3%BD_d%E1%BB%B1_%C3%A1n.png';
                     }}

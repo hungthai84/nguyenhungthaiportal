@@ -978,7 +978,7 @@ export function AboutView({
                   src={ABOUT_INTRO_VIDEO_URL}
                   controls
                   playsInline
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-[14px]"
                 />
               </div>
               <div className="flex flex-col justify-between gap-3 text-left">
@@ -1427,7 +1427,7 @@ export function AboutView({
           minHeight: '100%',
           paddingTop: '15px',
           paddingRight: '15px',
-          paddingBottom: '0px',
+          paddingBottom: '15px',
           paddingLeft: '15px',
           gap: '15px',
           rowGap: '15px',
@@ -1435,14 +1435,14 @@ export function AboutView({
           borderRadius: '14px',
         }}
         className={cn(
-          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col pt-[15px] pr-[15px] pb-0 pl-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
           activeIntroCard !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
         <div
           id="about-intro-grid-1"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', paddingBottom: '15px' }}
-          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] pb-[15px] overflow-visible items-stretch box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px' }}
+          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] p-0 overflow-visible items-stretch box-border"
         >
             
             {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA */}
@@ -1458,7 +1458,7 @@ export function AboutView({
               }}
               className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[14px] overflow-hidden flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video p-[10px] text-left"
             >
-                  <div className="relative w-full h-full flex-1 rounded-[10px] overflow-hidden min-h-0 flex flex-col justify-between">
+                  <div className="relative w-full h-full flex-1 rounded-[14px] overflow-hidden min-h-0 flex flex-col justify-between">
                   {activeHeroMedia === 'video' ? (
                     <video
                       ref={videoRef}
@@ -1474,7 +1474,7 @@ export function AboutView({
                       playsInline
                       onTimeUpdate={handleTimeUpdate}
                       onEnded={handleVideoEnded}
-                      className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center pointer-events-none z-0 opacity-100 transition-opacity duration-700 brightness-105 contrast-105 scale-[1.01]"
+                      className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] pointer-events-none z-0 opacity-100 transition-opacity duration-700 brightness-105 contrast-105 scale-[1.01]"
                       src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
                     />
                   ) : (
@@ -1950,7 +1950,7 @@ export function AboutView({
           minHeight: '100%',
           paddingTop: '15px',
           paddingRight: '15px',
-          paddingBottom: '0px',
+          paddingBottom: '15px',
           paddingLeft: '15px',
           gap: '15px',
           rowGap: '15px',
@@ -1958,14 +1958,14 @@ export function AboutView({
           borderRadius: '14px',
         }}
         className={cn(
-          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col pt-[15px] pr-[15px] pb-0 pl-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
           activeIntroCard !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
         <div
           id="about-intro-grid-2"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', paddingBottom: '15px' }}
-          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 lg:auto-rows-fr gap-[15px] pb-[15px] overflow-visible items-stretch box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px' }}
+          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 lg:auto-rows-fr gap-[15px] p-0 overflow-visible items-stretch box-border"
         >
             {/* CARD 3: CARD GIỚI THIỆU BẢN THÂN (ABOUT ME) - ĐÃ XÓA HÌNH NỀN THẺ VIDEO */}
             <div

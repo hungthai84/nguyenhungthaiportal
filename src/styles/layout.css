@@ -73,7 +73,8 @@
 }
 
 #about-cards-track,
-.page-cards-track {
+.page-cards-track,
+[id$="-cards-track"] {
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -86,6 +87,21 @@
   padding-top: 12px;
   padding-bottom: 18px;
   box-sizing: border-box;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  will-change: auto !important;
 }
 
 .page-cards-track {
@@ -162,7 +178,9 @@
   #contact-main-card {
     display: flex;
     flex-direction: row;
-    gap: var(--space-card-gap, 15px);
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
     align-items: stretch;
     height: 100%;
     min-height: 0;
@@ -172,6 +190,9 @@
 
   #contact-main-card > div:first-child {
     padding: 0 !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
   }
 
   #contact-hero-banner {
@@ -248,16 +269,21 @@
     display: flex !important;
     flex-direction: column !important;
     gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
     height: 100% !important;
     min-height: 0 !important;
     overflow-y: auto !important;
-    padding: 15px 15px 0px 15px !important;
+    padding: 15px !important;
   }
 
   #contact-main-card > div:first-child {
     flex: 1 0 auto !important;
     min-height: auto !important;
-    padding: 0px 0px 15px 0px !important;
+    padding: 0 !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
     box-sizing: border-box !important;
   }
 

@@ -638,7 +638,7 @@ export default function App() {
 
       {/* HEADER (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
-        <div className="w-full shrink-0 relative z-40 flex justify-center shadow-none rounded-2xl">
+        <div className="w-full shrink-0 relative z-40 flex justify-center shadow-none rounded-t-none rounded-b-[14px]">
           <Header
             pages={TABS_DATA}
             currentPage={currentTabIndex}
@@ -685,7 +685,7 @@ export default function App() {
           data-element-name="Phần tử DIV (#el-p0-div-98)"
           data-element-type="container"
           data-element-page="p0"
-          className="w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-2xl"
+          className="w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-t-[14px] rounded-b-none"
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}

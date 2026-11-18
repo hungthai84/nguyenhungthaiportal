@@ -523,23 +523,23 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 SoundEngine.playTap();
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
-              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-cyan-900 dark:text-cyan-200 border border-cyan-300 dark:border-cyan-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer typo-button font-play active:scale-95 group"
+              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
               title={isEn ? 'Filter' : 'Bộ lọc'}
               aria-label="Bộ lọc hình thức"
               aria-expanded={isFilterDropdownOpen}
               aria-haspopup="listbox"
             >
-              <WebIcon name="sliders" className="w-4 h-4 text-cyan-700 dark:text-cyan-400 transition-transform group-hover:rotate-45 shrink-0" />
+              <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] transition-transform group-hover:rotate-45 shrink-0" />
               <span>{isEn ? 'Filter' : 'Bộ lọc'}</span>
               {activeCategory !== 'all' && (
-                <span className="banner-count-pill px-1.5 py-0.5 rounded-full bg-cyan-100 dark:bg-cyan-950/80 border border-cyan-300 dark:border-cyan-500/50 typo-badge font-mono text-cyan-900 dark:text-cyan-200">
+                <span className="banner-count-pill px-1.5 py-0.5 rounded-full typo-badge font-mono">
                   {TRAINING_TYPE_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory}
                 </span>
               )}
               <WebIcon
                 name="chevron-down"
                 className={cn(
-                  'w-3.5 h-3.5 text-cyan-700 dark:text-cyan-400 transition-transform duration-200 shrink-0',
+                  'w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0',
                   isFilterDropdownOpen && 'rotate-180'
                 )}
               />
@@ -554,7 +554,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
                   role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-72 rounded-[14px] bg-white/98 dark:bg-[#111827]/96 border border-cyan-200/90 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-slate-900 dark:text-[#E2E8F0]"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-140px))] sm:w-72 max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
                   {TRAINING_TYPE_CATEGORIES.map((cat) => {
                     const isActive = activeCategory === cat.id;
@@ -584,27 +584,21 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       >
                         <span className="flex items-center gap-2 truncate">
                           <span
-                            className={cn(
-                              'w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-colors',
-                              isActive ? 'bg-cyan-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
-                            )}
+                            className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-colors"
+                            style={{
+                              background: isActive ? 'var(--color-primary)' : 'var(--bg-button-secondary)',
+                              color: isActive ? '#ffffff' : 'var(--text-secondary)',
+                            }}
                           >
                             {renderTrainingTypeIcon(cat.id, 'w-3 h-3')}
                           </span>
                           <span className="truncate">{cat.label}</span>
                         </span>
                         <span className="flex items-center gap-1.5 shrink-0">
-                          <span
-                            className={cn(
-                              'px-2 py-0.5 rounded-full typo-badge font-mono',
-                              isActive
-                                ? 'bg-cyan-200/90 dark:bg-cyan-500/30 text-cyan-950 dark:text-cyan-100 border border-cyan-300 dark:border-cyan-400/50'
-                                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/70 dark:border-slate-700'
-                            )}
-                          >
+                          <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
                             {count}
                           </span>
-                          {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-cyan-700 dark:text-cyan-300 stroke-[2.5] shrink-0" />}
+                          {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
                         </span>
                       </button>
                     );
@@ -911,12 +905,18 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                         <li
                           key={idx}
                           data-subcard="true"
-                          className="exp-detail-subcard w-full flex items-center gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all hover:shadow-xs group/mod"
+                          className="exp-detail-subcard w-full flex items-center gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all hover:shadow-xs group/mod min-w-0"
                         >
                           <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center typo-badge font-mono shrink-0 group-hover/mod:bg-amber-500 group-hover/mod:text-white transition-colors">
                             {idx + 1}
                           </span>
-                          <span className="typo-body-sm font-semibold break-words flex-1 min-w-0" style={{ color: 'var(--text-primary)' }}>
+                          <span
+                            title={mod}
+                            className={`typo-body-sm font-semibold flex-1 min-w-0 ${
+                              course.id === 1 ? 'truncate whitespace-nowrap' : 'break-words'
+                            }`}
+                            style={{ color: 'var(--text-primary)' }}
+                          >
                             {mod}
                           </span>
                         </li>

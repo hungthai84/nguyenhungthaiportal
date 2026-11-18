@@ -66,7 +66,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-black-cowhide-leather',
     label: 'Nền Chất liệu da (màu đen)',
     themeMode: 'dark',
-    imagePath: '',
+    imagePath: '/backgrounds/themes/black-cowhide-leather/black-cowhide-leather-dark.jpg',
     fallbackGradient:
       'radial-gradient(circle at 18% 18%, rgba(148, 163, 184, 0.14) 0%, transparent 52%), radial-gradient(circle at 82% 24%, rgba(56, 189, 248, 0.10) 0%, transparent 54%), radial-gradient(circle at 65% 84%, rgba(100, 116, 139, 0.14) 0%, transparent 56%), linear-gradient(145deg, #090a0e 0%, #14171f 52%, #0d0f14 100%)',
     overlayBg: 'rgba(6, 7, 10, 0.14)',
@@ -76,7 +76,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-cowhide-leather',
     label: 'Nền Chất liệu da (màu nâu)',
     themeMode: 'color',
-    imagePath: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.webp',
+    imagePath: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
     fallbackGradient:
       'radial-gradient(circle at 20% 18%, rgba(217, 119, 6, 0.30) 0%, transparent 54%), radial-gradient(circle at 82% 24%, rgba(180, 115, 58, 0.28) 0%, transparent 54%), radial-gradient(circle at 65% 84%, rgba(154, 52, 18, 0.24) 0%, transparent 56%), linear-gradient(145deg, #351b0b 0%, #241206 50%, #44230e 100%)',
     overlayBg: 'rgba(28, 14, 5, 0.08)',

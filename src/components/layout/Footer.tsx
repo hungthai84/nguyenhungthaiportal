@@ -108,7 +108,7 @@ export const Footer: React.FC<FooterProps> = ({
     WebkitBackdropFilter: _fwbf,
     ...cleanFooterStyle
   } = footerCardStyle as any;
-  const glassBorderVal = '1px solid rgba(255, 255, 255, 0.1)';
+  const glassBorderVal = '1px solid var(--surface-primary-border, rgba(255, 255, 255, 0.86))';
   const activeThemeConfig = getCardStyleConfig(cardStyle);
 
   // Đo chiều ngang nội dung tự nhiên của 4 nút bên phải Footer và đồng bộ chiều ngang bằng nút rộng nhất
@@ -184,7 +184,7 @@ export const Footer: React.FC<FooterProps> = ({
   };
 
   const activeLangTitle = language === 'en' ? 'English' : 'Tiếng Việt';
-  const activeLangSub = `${language.toUpperCase()} · ${isEn ? 'Active' : 'Đang dùng'}`;
+  const activeLangSub = `${language === 'en' ? 'En' : 'Vi'} · ${isEn ? 'Active' : 'Đang dùng'}`;
 
   const footerElement = (
     <footer
@@ -208,7 +208,7 @@ export const Footer: React.FC<FooterProps> = ({
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
       }}
-      className="mx-auto h-auto min-h-[64px] py-1.5 sm:min-h-[72px] sm:h-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 transition-all duration-300 rounded-b-none rounded-t-[14px] border-b-0 border-x border-t border-white/10 backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto h-auto min-h-[64px] py-1.5 sm:min-h-[72px] sm:h-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 transition-all duration-300 rounded-b-none rounded-t-[14px] border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
     >
       {/* Top highlight subtle */}
       <div className="absolute top-0 inset-x-8 h-[1px] pointer-events-none bg-gradient-to-r from-transparent via-white/25 dark:via-white/15 to-transparent"></div>
@@ -1173,11 +1173,11 @@ export const Footer: React.FC<FooterProps> = ({
               {/* Overview content preview inside modal */}
               <div className="theme-modal-subcard rounded-[14px] p-4 space-y-3">
                 <div className="flex items-center justify-between border-b border-current/15 pb-2">
-                  <span className="typo-label font-bold opacity-80 uppercase">
+                  <span className="typo-label font-bold opacity-80">
                     {isEn ? 'Profile Summary' : 'Tóm tắt thông tin hồ sơ'}
                   </span>
                   <span className="typo-badge font-bold text-[#047857] dark:text-[#6EE7B7] flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-[#047857] dark:bg-[#6EE7B7] animate-pulse"></span>
+                    <span className="w-2 h-2 rounded-full bg-[#047857] dark:bg-[#6EE7B7]"></span>
                     {isEn ? 'Verified' : 'Đã xác thực'}
                   </span>
                 </div>

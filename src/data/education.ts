@@ -175,8 +175,8 @@ export const EDUCATION_LIST: EducationCourse[] = [
     orientation: 'Phát triển năng lực thiết kế và xây dựng sản phẩm số hiện đại, kết hợp Web Development, Responsive UI/UX và AI Agent Workflows.',
     focus: 'Kỹ thuật lập trình web, Thiết kế giao diện UI/UX chuẩn Responsive, Ứng dụng AI Agent Workflows trong tự động hóa vận hành.',
     modules: [
-      'HTML5, CSS3, JavaScript, PHP, C++, GitHub và quản lý mã nguồn',
-      'Responsive Web Design, Bento Grid, UI/UX đa thiết bị & AI Agent Workflows'
+      'HTML5, CSS3, JS, PHP, C++, GitHub',
+      'Responsive UI/UX, Bento & AI Agent'
     ],
     application: 'Ứng dụng kiến thức Web, UI/UX và AI để phát triển các công cụ số phục vụ Chăm sóc Khách hàng, Quản trị vận hành, Knowledge Base, Đào tạo nội bộ, Phân tích trải nghiệm và Tự động hóa quy trình.',
     result: 'Xây dựng hoàn chỉnh các hệ thống website, Tối ưu giao diện trải nghiệm người dùng, Ứng dụng thành thạo AI vào tự động hóa vận hành.',

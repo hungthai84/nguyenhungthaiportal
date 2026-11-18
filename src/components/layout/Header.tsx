@@ -433,7 +433,7 @@ export const Header: React.FC<HeaderProps> = ({
     WebkitBackdropFilter: _hwbf,
     ...cleanHeaderStyle
   } = headerCardStyle as any;
-  const glassBorderVal = '1px solid rgba(255, 255, 255, 0.1)';
+  const glassBorderVal = '1px solid var(--surface-primary-border, rgba(255, 255, 255, 0.86))';
 
   // Tự động đóng menu phụ & cuộn tới nút trang đang được chọn nếu bị khuất
   useEffect(() => {
@@ -481,7 +481,7 @@ export const Header: React.FC<HeaderProps> = ({
       }}
       className={`neonav-bar mx-auto min-h-[72px] h-auto py-1.5 flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
-      } ${isHeaderHidden ? 'is-header-hidden' : ''} relative flex-shrink-0 rounded-t-none rounded-b-[14px] backdrop-blur-md border-white/10 group/header overflow-visible pointer-events-auto`}
+      } ${isHeaderHidden ? 'is-header-hidden' : ''} relative flex-shrink-0 rounded-t-none rounded-b-[14px] backdrop-blur-md group/header overflow-visible pointer-events-auto`}
     >
       {/* Khu vực Menu chính: Các nút định dạng xếp chồng với hiệu ứng lan màu khi chọn */}
       <nav

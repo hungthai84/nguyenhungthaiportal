@@ -669,7 +669,7 @@ export default function App() {
         }}
         className={`w-full ${
           currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-full'
-        } mx-auto flex-1 my-[6px] sm:my-[8px] lg:my-[10px] min-h-0 rounded-[14px] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent transition-all duration-300 ease-in-out [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
+        } mx-auto flex-1 my-[2px] sm:my-[4px] lg:my-[4px] min-h-0 rounded-[14px] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent transition-all duration-300 ease-in-out [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
         <motion.div
           key={`page-view-${currentTabIndex}`}
@@ -695,7 +695,7 @@ export default function App() {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full shrink-0 relative z-50 flex justify-center shadow-[0_-8px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_-8px_30px_rgba(0,0,0,0.4)] rounded-full transition-all duration-300"
+          className="w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-2xl transition-all duration-300"
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}

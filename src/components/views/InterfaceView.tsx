@@ -5,6 +5,7 @@ import {
   useTheme,
   getCardStyleProperties,
   getCardStyleConfig,
+  getLightDarkCounterpart,
   getThemeForMechanism,
   UNIFIED_INTERFACE_THEMES,
   CARD_STYLE_GROUPS,
@@ -440,39 +441,148 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         </div>
 
                         <div>
-                          <div className="flex items-center justify-between gap-2 mb-1.5">
-                            <h3
-                              className={`typo-h3 card-title-synced leading-snug ${
-                                isLightMulticolorGlass || isLightLeather
-                                  ? 'text-[#000000]'
-                                  : isLightMulticolorGlassDark || isBlackLeather
-                                    ? 'text-[#FFFFFF]'
+                          {(() => {
+                            const isFamilyActive = group.presets.some((p) => p.id === cardStyle);
+                            const isToggleDark = isFamilyActive ? activePreset.isDark : preset.isDark;
+                            const lightTargetId: CardStyleMode =
+                              group.lightMode || getLightDarkCounterpart(preset.id, false);
+                            const darkTargetId: CardStyleMode =
+                              group.darkMode || getLightDarkCounterpart(preset.id, true);
+                            const nextToggleTarget: CardStyleMode = isToggleDark
+                              ? lightTargetId
+                              : darkTargetId;
+                            const nextToggleConfig = getCardStyleConfig(nextToggleTarget);
+                            const toggleLabelText = isToggleDark
+                              ? isEn
+                                ? 'Dark'
+                                : 'Tối'
+                              : isEn
+                                ? 'Light'
+                                : 'Sáng';
+
+                            const trackToneClass = isLightMulticolorGlass
+                              ? isToggleDark
+                                ? 'bg-indigo-950/90 border-violet-300/60'
+                                : 'bg-sky-100/95 border-pink-300/80'
+                              : isLightMulticolorGlassDark
+                                ? isToggleDark
+                                  ? 'bg-slate-900/95 border-violet-400/55'
+                                  : 'bg-sky-100/90 border-sky-300/80'
+                                : isLightLeather
+                                  ? isToggleDark
+                                    ? 'bg-[#111827] border-[#334155]'
+                                    : 'bg-slate-200/95 border-slate-400/70'
+                                  : isBlackLeather
+                                    ? isToggleDark
+                                      ? 'bg-[#090a0d] border-[#E2E8F0]/45'
+                                      : 'bg-slate-200 border-slate-400'
                                     : isLeather
-                                      ? 'text-[#FFF8DC]'
-                                      : ''
-                              }`}
-                              data-card-title="true"
-                            >
-                              {displayPresetName}
-                            </h3>
-                            <span
-                              className={`typo-badge font-bold px-2 py-0.5 rounded-full border shrink-0 ${
-                                isLightMulticolorGlass
-                                  ? 'bg-white/90 text-[#000000] border-pink-200'
-                                  : isLightMulticolorGlassDark
-                                    ? 'bg-indigo-950/85 text-violet-200 border-violet-400/35'
-                                    : isLightLeather
-                                      ? 'bg-slate-100 text-[#000000] border-slate-900/35'
-                                      : isBlackLeather
-                                        ? 'bg-[#121419] text-[#E2E8F0] border-[#334155]'
+                                      ? isToggleDark
+                                        ? 'bg-[#3D210B] border-[#F5DEB3]/55'
+                                        : 'bg-[#FEF3C7] border-[#D97706]/60'
+                                      : isToggleDark
+                                        ? 'bg-slate-800 border-indigo-400/50'
+                                        : 'bg-sky-100 border-indigo-300';
+
+                            const thumbToneClass = isToggleDark
+                              ? isLeather
+                                ? 'bg-gradient-to-br from-[#FDE68A] to-[#D97706] text-[#3D210B]'
+                                : isBlackLeather || isLightLeather
+                                  ? 'bg-slate-100 text-slate-900'
+                                  : 'bg-gradient-to-br from-indigo-500 to-violet-600 text-white'
+                              : isLeather
+                                ? 'bg-gradient-to-br from-[#D97706] to-[#92400E] text-white'
+                                : isLightLeather || isBlackLeather
+                                  ? 'bg-[#0F172A] text-white'
+                                  : 'bg-gradient-to-br from-amber-400 to-orange-500 text-white';
+
+                            const toggleTextClass =
+                              isLightMulticolorGlass || isLightLeather
+                                ? 'text-[#000000]'
+                                : isLightMulticolorGlassDark || isBlackLeather
+                                  ? 'text-[#FFFFFF]'
+                                  : isLeather
+                                    ? 'text-[#FFF8DC]'
+                                    : 'text-slate-700';
+
+                            return (
+                              <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap sm:flex-nowrap">
+                                <h3
+                                  className={`typo-h3 card-title-synced leading-snug min-w-0 ${
+                                    isLightMulticolorGlass || isLightLeather
+                                      ? 'text-[#000000]'
+                                      : isLightMulticolorGlassDark || isBlackLeather
+                                        ? 'text-[#FFFFFF]'
                                         : isLeather
-                                          ? 'bg-[#522E10]/85 text-[#F5DEB3] border-[#F5DEB3]/45'
-                                          : 'bg-indigo-100 text-indigo-800 border-indigo-200'
-                              }`}
-                            >
-                              {displayModeLabel}
-                            </span>
-                          </div>
+                                          ? 'text-[#FFF8DC]'
+                                          : ''
+                                  }`}
+                                  data-card-title="true"
+                                >
+                                  {displayPresetName}
+                                </h3>
+                                <button
+                                  type="button"
+                                  role="switch"
+                                  aria-checked={isToggleDark}
+                                  aria-label={
+                                    isEn
+                                      ? `Toggle Light/Dark mode for ${displayPresetName} (current: ${toggleLabelText})`
+                                      : `Chuyển chế độ Sáng/Tối cho ${displayPresetName} (hiện tại: ${toggleLabelText})`
+                                  }
+                                  title={
+                                    isEn
+                                      ? `Switch to ${t(nextToggleConfig.name)}`
+                                      : `Chuyển nhanh sang ${nextToggleConfig.name}`
+                                  }
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleSelectTheme(nextToggleTarget, nextToggleConfig.name);
+                                  }}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      handleSelectTheme(nextToggleTarget, nextToggleConfig.name);
+                                    }
+                                  }}
+                                  className="inline-flex items-center gap-1.5 shrink-0 cursor-pointer group/toggle focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-full"
+                                >
+                                  <span
+                                    className={`typo-badge font-bold select-none transition-colors ${toggleTextClass}`}
+                                  >
+                                    {toggleLabelText}
+                                  </span>
+                                  <span
+                                    className={`relative inline-flex items-center w-[46px] h-[24px] p-[2px] rounded-full border transition-all duration-300 shadow-inner group-hover/toggle:scale-105 ${trackToneClass}`}
+                                  >
+                                    <WebIcon
+                                      name="sun"
+                                      className={`w-2.5 h-2.5 ml-1 transition-opacity duration-200 ${
+                                        isToggleDark ? 'opacity-50 text-amber-300' : 'opacity-0'
+                                      }`}
+                                    />
+                                    <WebIcon
+                                      name="moon"
+                                      className={`w-2.5 h-2.5 ml-auto mr-1 transition-opacity duration-200 ${
+                                        isToggleDark ? 'opacity-0' : 'opacity-55 text-slate-600'
+                                      }`}
+                                    />
+                                    <span
+                                      className={`absolute left-[2px] top-[2px] w-[18px] h-[18px] rounded-full flex items-center justify-center shadow-sm transition-transform duration-300 ease-out ${thumbToneClass} ${
+                                        isToggleDark ? 'translate-x-[22px]' : 'translate-x-0'
+                                      }`}
+                                    >
+                                      <WebIcon
+                                        name={isToggleDark ? 'moon' : 'sun'}
+                                        className="w-2.5 h-2.5 shrink-0"
+                                      />
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                            );
+                          })()}
                           <p
                             className={`typo-body-sm leading-relaxed font-medium ${
                               isLightMulticolorGlass || isLightLeather
@@ -549,7 +659,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30 pointer-events-none" />
                           <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/25 text-white typo-badge">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                             <span>{isEn ? 'Video Demo' : 'Video Demo Giao Diện'}</span>
                           </div>
                           <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/25 text-white typo-badge font-mono">
@@ -638,7 +748,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         </button>
 
                         <span
-                          style={{ borderRadius: '999px' }}
                           className={`typo-button font-bold px-3.5 py-1.5 transition-all rounded-full ${
                             isActive
                               ? isLightMulticolorGlass || isLightMulticolorGlassDark

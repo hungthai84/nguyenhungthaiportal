@@ -510,7 +510,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-96px))] sm:w-72 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-140px))] sm:w-72 max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                   >
                     {filterCategories.map((cat) => {
                       const isActive = filterType === cat.id;
@@ -854,7 +854,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   borderRadius: '14px',
                   padding: '0px',
                 }}
-                className={`themed-image-card group relative flex flex-col rounded-[14px] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto bg-slate-950 ${
+                className={`themed-image-card group relative flex flex-col rounded-[14px] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto bg-[var(--bg-subcard)] ${
                   isSelected
                     ? 'ring-2 ring-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]'
                     : ''
@@ -863,7 +863,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 {/* NỀN HÌNH THU NHỎ DẠNG NGANG (LẮP ĐẦY TOÀN BỘ CARD) */}
                 <div
                   id={`wallpaper-card-media-${wp.id}`}
-                  className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-slate-950"
+                  className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-[var(--bg-subcard)]"
                 >
                   {wp.id === 'none' ? (
                     <div

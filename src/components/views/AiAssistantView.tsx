@@ -472,14 +472,11 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-section-card="true"
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
-        className="bento-card glass-card min-w-0 min-h-0 flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
+        className="bento-card glass-card min-w-0 min-h-0 flex-1 lg:h-full lg:min-h-full lg:max-h-full flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
         style={{
-          flex: '1 1 auto',
+          flex: '1 1 0%',
           minWidth: 0,
           maxWidth: '100%',
-          height: '100%',
-          minHeight: '100%',
-          maxHeight: '100%',
           alignSelf: 'stretch',
           padding: '15px',
           gap: '12px',

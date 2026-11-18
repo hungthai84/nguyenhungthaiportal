@@ -14,6 +14,10 @@ function findHorizontalScrollContainer(target: EventTarget | null): HTMLElement 
   if (!(target instanceof Element)) return null;
   let el = target.closest(HORIZONTAL_CONTAINER_SELECTOR) as HTMLElement | null;
   while (el) {
+    if (el.getAttribute('data-no-wheel-horizontal') === 'true') {
+      el = el.parentElement?.closest(HORIZONTAL_CONTAINER_SELECTOR) as HTMLElement | null;
+      continue;
+    }
     if (el.scrollWidth > el.clientWidth + 2) {
       return el;
     }

@@ -422,15 +422,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             onClick={handlePrevVideoScreen}
             title="Màn hình trước (Chuyển màn hình video)"
             aria-label="Màn hình trước"
-            className="absolute left-[15px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-xl border flex items-center justify-center hover:scale-110 hover:-translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto"
-            style={{
-              background: 'var(--bg-header, rgba(255,255,255,0.85))',
-              borderColor: currentScreen.accentColor,
-              color: currentScreen.accentColor,
-              boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-            }}
+            className="nav-arrow-btn theme-prev-next-btn absolute left-[15px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center hover:scale-110 hover:-translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto shadow-md"
           >
             <WebIcon name="chevron-left" className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
           </button>
@@ -442,15 +434,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             onClick={handleNextVideoScreen}
             title="Màn hình kế tiếp (Chuyển màn hình video)"
             aria-label="Màn hình kế tiếp"
-            className="absolute right-[15px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-xl border flex items-center justify-center hover:scale-110 hover:translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto"
-            style={{
-              background: 'var(--bg-header, rgba(255,255,255,0.85))',
-              borderColor: currentScreen.accentColor,
-              color: currentScreen.accentColor,
-              boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-            }}
+            className="nav-arrow-btn theme-prev-next-btn absolute right-[15px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center hover:scale-110 hover:translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto shadow-md"
           >
             <WebIcon name="chevron-right" className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
           </button>
@@ -542,24 +526,25 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 data-element-page="home"
                 data-element-parent="home-main-card"
                 data-section-card="true"
+                data-card-theme-sync="true"
                 key={`hero-card-${activeVideoScreen}`}
                 initial={{ opacity: 0, x: 30, y: 20 }}
                 animate={{ opacity: 1, x: 0, y: 0 }}
                 exit={{ opacity: 0, x: 20, y: 10 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 style={{ borderRadius: '14px' }}
-                className="bento-card glass-card layered-card pointer-events-auto p-4 sm:p-5 md:p-6 rounded-[14px] relative overflow-hidden group transition-all duration-500 w-fit max-w-full sm:max-w-fit text-left"
+                className="home-hero-card bento-card glass-card layered-card pointer-events-auto p-4 sm:p-5 md:p-6 rounded-[14px] relative max-h-full overflow-y-auto overflow-x-hidden glass-scrollbar group transition-all duration-500 w-fit max-w-full sm:max-w-fit text-left"
               >
                 <div className="relative z-10 space-y-2.5 w-full sm:w-fit">
                   <div className="flex items-center justify-between gap-3">
                     <div
-                      className="inline-flex items-center gap-2 typo-h4 font-bold tracking-tight px-0 py-0 border-0 bg-transparent shadow-none"
-                      style={{ color: currentScreen.accentColor }}
+                      className="home-hero-badge inline-flex items-center gap-2 typo-h4 font-bold tracking-tight px-0 py-0 border-0 bg-transparent shadow-none"
+                      style={{ color: 'var(--card-synced-accent, var(--color-primary, ' + currentScreen.accentColor + '))' }}
                     >
                       <WebIcon
                         name={currentScreen.heroIcon}
-                        className="w-[18px] h-[18px] shrink-0"
-                        style={{ color: currentScreen.accentColor, width: '18px', height: '18px' }}
+                        className="home-hero-badge-icon w-[18px] h-[18px] shrink-0"
+                        style={{ color: 'inherit', width: '18px', height: '18px' }}
                       />
                       <span>{currentScreen.heroBadge}</span>
                     </div>
@@ -569,7 +554,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
                     <h3
                       className="card-title card-title-synced typo-h3 font-play tracking-tight leading-tight whitespace-normal"
-                      style={{ color: currentScreen.accentColor }}
+                      style={{ color: 'var(--card-synced-accent, var(--text-heading, ' + currentScreen.accentColor + '))' }}
                     >
                       {currentScreen.title}
                     </h3>

@@ -79,6 +79,8 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
     'Applying Web, UI/UX, and AI knowledge to build digital tools for Customer Service, Operations Management, Knowledge Base, Internal Training, Experience Analytics, and Workflow Automation.',
   'Xây dựng hoàn chỉnh các hệ thống website, Tối ưu giao diện trải nghiệm người dùng, Ứng dụng thành thạo AI vào tự động hóa vận hành.':
     'Delivered complete web systems, optimized user experience interfaces, and proficiently applied AI to operational automation.',
+  'HTML5, CSS3, JS, PHP, C++, GitHub': 'HTML5, CSS3, JS, PHP, C++, GitHub',
+  'Responsive UI/UX, Bento & AI Agent': 'Responsive UI/UX, Bento & AI Agent',
   'Responsive Web Design và nguyên lý UI/UX': 'Responsive Web Design & UI/UX Principles',
   'Thiết kế giao diện đa thiết bị: Desktop, Tablet, Mobile':
     'Multi-device interface design: Desktop, Tablet, and Mobile',

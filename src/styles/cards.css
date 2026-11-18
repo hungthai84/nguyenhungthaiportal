@@ -59,6 +59,11 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 #systems-tech-card,
 #projects-tech-card,
 #horoscope-lookup-card,
+#home-stats-card,
+#home-intro-card,
+#home-capabilities-card,
+#home-achievements-card,
+#bento-letter-video,
 #wallpaper-grid-section,
 #contact-calendar-card,
 #contact-info-card,
@@ -71,6 +76,10 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
   border-radius: var(--radius-card) !important;
   padding: var(--space-card-padding, 15px) !important;
   transition: transform var(--motion-normal) var(--motion-ease), box-shadow 300ms ease-in-out, border-color 300ms ease-in-out, background 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out !important;
+}
+
+#bento-letter-video {
+  padding: 10px !important;
 }
 
 #contact-info-container {
@@ -447,6 +456,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 }
 
 .page-main-card,
+[data-main-card="true"]:not(#pdf-page-container),
 #about-intro-card-1,
 #about-intro-card-2 {
   box-sizing: border-box !important;
@@ -474,8 +484,8 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 }
 
 #home-main-card,
-#service-main-card,
-#experience-main-card:has(#experience-timeline-board) {
+#experience-main-card:has(#experience-timeline-board),
+#experience-main-card:has(#experience-job-detail-card) {
   overflow: hidden !important;
   position: relative !important;
 }
@@ -970,7 +980,9 @@ h3.card-title,
 .nav-arrow-btn,
 .theme-prev-next-btn,
 #footer-nav-capsule #footer-prev-btn,
-#footer-nav-capsule #footer-next-btn {
+#footer-nav-capsule #footer-next-btn,
+#el-p0-button-1,
+#el-p0-button-2 {
   background: var(--bg-nav-arrow, var(--bg-nav-pill, #FFFFFF)) !important;
   border: 1px solid var(--border-nav-arrow, var(--border-color)) !important;
   color: var(--text-nav-arrow, var(--text-primary)) !important;
@@ -982,7 +994,9 @@ h3.card-title,
 .nav-arrow-btn:hover,
 .theme-prev-next-btn:hover,
 #footer-nav-capsule #footer-prev-btn:hover,
-#footer-nav-capsule #footer-next-btn:hover {
+#footer-nav-capsule #footer-next-btn:hover,
+#el-p0-button-1:hover,
+#el-p0-button-2:hover {
   background: var(--bg-button-primary) !important;
   color: #FFFFFF !important;
   border-color: transparent !important;
@@ -1797,7 +1811,7 @@ html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-b
   color: #ffffff;
 }
 
-/* Light & Dark Glass Surface Synchronization for Experience Detail Bento Wrapper & Cards */
+/* Chi tiết thẻ công việc (#experience-job-detail-card) — Khung thẻ Level 02 đồng bộ toàn bộ 5 theme, chứa <main> bên trong với đệm 15px */
 :is(
   html[data-card-style="light-multicolor-glass"],
   html[data-card-style="light-cowhide-leather"],
@@ -1812,32 +1826,21 @@ html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-b
   html[data-card-style="cowhide-leather"],
   html[data-card-style="light-multicolor-glass-dark"]
 ) #experience-job-detail-card:hover {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  border-radius: var(--radius-card, 14px) !important;
+  overflow: hidden !important;
   transform: none !important;
-  padding: 0 !important;
-}
-
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="light-cowhide-leather"],
-  html[data-card-style="black-cowhide-leather"],
-  html[data-card-style="cowhide-leather"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) #experience-job-detail-card::before {
-  display: none !important;
 }
 
 :is(
   html[data-card-style="light-multicolor-glass"],
   html[data-card-style="light-multicolor-glass-dark"]
-) #experience-job-detail-card .exp-bento-surface-card {
+) #experience-job-detail-card,
+:is(
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-dark"]
+) #experience-job-detail-card:hover {
   background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
@@ -1846,16 +1849,82 @@ html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-b
   color: var(--text-primary) !important;
 }
 
+html[data-card-style="light-cowhide-leather"] #experience-job-detail-card,
+html[data-card-style="light-cowhide-leather"] #experience-job-detail-card:hover {
+  background: linear-gradient(145deg, #fbfcfc 0%, #eef2f6 100%) !important;
+  border: 2px solid #cbd5e1 !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.55) !important;
+  outline-offset: -5px !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #111827 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #experience-job-detail-card,
+html[data-card-style="black-cowhide-leather"] #experience-job-detail-card:hover {
+  background: linear-gradient(145deg, #1d2027 0%, #111318 100%) !important;
+  border: 2px solid #090a0d !important;
+  outline: 1.5px dashed rgba(226, 232, 240, 0.42) !important;
+  outline-offset: -5px !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="cowhide-leather"] #experience-job-detail-card,
+html[data-card-style="cowhide-leather"] #experience-job-detail-card:hover {
+  background: linear-gradient(145deg, rgba(105, 62, 25, 0.96) 0%, rgba(70, 38, 12, 0.98) 100%) !important;
+  border: 2px solid #3d210b !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.45) !important;
+  outline-offset: -5px !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #ffffff !important;
+}
+
 :is(
   html[data-card-style="light-multicolor-glass"],
   html[data-card-style="light-multicolor-glass-dark"]
-) #experience-job-detail-card .exp-bento-item-card {
+) #experience-job-detail-card .exp-bento-surface-card {
   background: var(--surface-tertiary-bg, var(--surface-subcard-glass, var(--bg-subcard))) !important;
-  border: 1px solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard))) !important;
   box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass, var(--shadow-subcard))) !important;
   backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
   color: var(--text-primary) !important;
+}
+
+:is(
+  html[data-card-style="light-multicolor-glass"],
+  html[data-card-style="light-multicolor-glass-dark"]
+) #experience-job-detail-card .exp-bento-item-card {
+  background: var(--surface-nested-bg, var(--surface-nested-glass, var(--bg-subcard))) !important;
+  border: 1px solid var(--surface-nested-border, var(--glass-nested-border, var(--border-subcard))) !important;
+  box-shadow: var(--surface-nested-shadow, var(--shadow-nested-glass, var(--shadow-subcard))) !important;
+  backdrop-filter: blur(var(--surface-nested-blur, var(--glass-nested-blur, 10px))) saturate(var(--surface-nested-saturate, var(--glass-nested-saturate, 112%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-nested-blur, var(--glass-nested-blur, 10px))) saturate(var(--surface-nested-saturate, var(--glass-nested-saturate, 112%))) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Service Card Title Header (#el-p4-div-88 & các thành phần tương tự): Nền trong suốt 100%, không viền trên mọi giao diện */
+.service-card .service-card-title-header,
+.service-card .service-card-title-header .card-header-sync,
+html[data-card-style] .service-card .service-card-title-header,
+html[data-card-style] .service-card .service-card-title-header .card-header-sync,
+#el-p4-div-88 {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+@media (max-width: 639px) {
+  .banner-dropdown-menu {
+    max-width: calc(100vw - 140px) !important;
+  }
 }
 
 :is(

@@ -242,7 +242,7 @@ html.dark[data-card-style] [id$="-page-root"] {
   -webkit-backdrop-filter: none !important;
   box-shadow: none !important;
   border-radius: 0px !important;
-  border: 1px solid var(--surface-primary-border, var(--glass-main-border, rgba(255, 255, 255, 0.4))) !important;
+  border: none !important;
   outline: none !important;
   box-sizing: border-box !important;
 }
@@ -251,10 +251,23 @@ html [id$="-page-container"]::after {
   display: none !important;
 }
 
+html #letter-page-container,
+html #about-page-container,
+html #horoscope-page-container,
+html[data-card-style] #letter-page-container,
+html[data-card-style] #about-page-container,
+html[data-card-style] #horoscope-page-container,
+html [data-no-wheel-horizontal="true"] {
+  overflow-x: hidden !important;
+}
+
 /* Centered Inner Main Cards (Level 01): Match #about-intro-card-1 Across All Website Pages */
 html .page-main-card,
 html[data-card-style] .page-main-card,
 html.dark[data-card-style] .page-main-card,
+html [data-main-card="true"]:not(#pdf-page-container),
+html[data-card-style] [data-main-card="true"]:not(#pdf-page-container),
+html.dark[data-card-style] [data-main-card="true"]:not(#pdf-page-container),
 html #about-intro-card-1,
 html #about-intro-card-2,
 html[data-card-style] #about-intro-card-1,
@@ -282,12 +295,12 @@ html.dark[data-card-style] #about-intro-card-2 {
   border-style: solid !important;
   border-radius: var(--radius-main, 14px) !important;
   box-sizing: border-box !important;
-  transform: none;
 }
 
-/* Unified Floating Visual System: Header, Main Card & Footer (Transition + Hover Lift) */
+/* Unified Floating Visual System: Header, Main Card & Footer (Transition + Hover Elevation) */
 html #app-header,
 html .page-main-card,
+html [data-main-card="true"]:not(#pdf-page-container),
 html #about-intro-card-1,
 html #about-intro-card-2,
 html #app-footer {
@@ -296,21 +309,33 @@ html #app-footer {
 
 @media (hover: hover) and (pointer: fine) {
   html #app-header:not(.is-header-hidden):hover,
+  html[data-card-style] #app-header:not(.is-header-hidden):hover {
+    transform: translateY(var(--surface-primary-hover-lift, -3px)) !important;
+  }
+
+  html #app-footer:hover,
+  html[data-card-style] #app-footer:hover {
+    transform: translateY(0) !important;
+  }
+
+  html #app-header:not(.is-header-hidden):hover,
   html[data-card-style] #app-header:not(.is-header-hidden):hover,
   html .page-main-card:hover,
   html[data-card-style] .page-main-card:hover,
+  html [data-main-card="true"]:not(#pdf-page-container):hover,
+  html[data-card-style] [data-main-card="true"]:not(#pdf-page-container):hover,
   html #about-intro-card-1:hover,
   html[data-card-style] #about-intro-card-1:hover,
   html #about-intro-card-2:hover,
   html[data-card-style] #about-intro-card-2:hover,
   html #app-footer:hover,
   html[data-card-style] #app-footer:hover {
-    transform: translateY(var(--surface-primary-hover-lift, -3px)) !important;
     border-color: var(--surface-primary-border-hover, var(--surface-primary-border)) !important;
   }
 
   html[data-card-style*="leather"] #app-header:not(.is-header-hidden):hover,
   html[data-card-style*="leather"] .page-main-card:hover,
+  html[data-card-style*="leather"] [data-main-card="true"]:not(#pdf-page-container):hover,
   html[data-card-style*="leather"] #about-intro-card-1:hover,
   html[data-card-style*="leather"] #about-intro-card-2:hover,
   html[data-card-style*="leather"] #app-footer:hover {
@@ -324,6 +349,8 @@ html #app-footer {
 
   html .page-main-card:hover,
   html[data-card-style] .page-main-card:hover,
+  html [data-main-card="true"]:not(#pdf-page-container):hover,
+  html[data-card-style] [data-main-card="true"]:not(#pdf-page-container):hover,
   html #about-intro-card-1:hover,
   html[data-card-style] #about-intro-card-1:hover,
   html #about-intro-card-2:hover,
@@ -340,6 +367,7 @@ html #app-footer {
 @media (prefers-reduced-motion: reduce) {
   html #app-header:not(.is-header-hidden):hover,
   html .page-main-card:hover,
+  html [data-main-card="true"]:not(#pdf-page-container):hover,
   html #about-intro-card-1:hover,
   html #about-intro-card-2:hover,
   html #app-footer:hover {
@@ -348,8 +376,8 @@ html #app-footer {
 }
 
 html #home-main-card,
-html #service-main-card,
-html #experience-main-card:has(#experience-timeline-board) {
+html #experience-main-card:has(#experience-timeline-board),
+html #experience-main-card:has(#experience-job-detail-card) {
   overflow: hidden !important;
   position: relative !important;
 }
@@ -550,7 +578,18 @@ body::-webkit-scrollbar,
 
 /* Focus Mode element styling requested by user */
 #el-p0-div-98,
-div#el-p0-div-98,
+div#el-p0-div-98 {
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  border: none !important;
+}
+
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-9:nth-of-type(2),
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-81:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-102:nth-of-type(3) {

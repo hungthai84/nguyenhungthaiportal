@@ -29,12 +29,14 @@
             'guong-da-sac-toi': 'light-multicolor-glass-dark',
             'da-thuoc': 'light-cowhide-leather',
             'da-ca-sau-trang': 'light-cowhide-leather',
+            'da-den': 'black-cowhide-leather',
             'da-bo': 'cowhide-leather'
           };
           var validStyles = [
             'light-multicolor-glass',
             'light-multicolor-glass-dark',
             'light-cowhide-leather',
+            'black-cowhide-leather',
             'cowhide-leather'
           ];
           var cardStyle = rawStyle && aliasMap[rawStyle] ? aliasMap[rawStyle] : rawStyle;
@@ -47,6 +49,7 @@
           }
           var darkThemes = [
             'light-multicolor-glass-dark',
+            'black-cowhide-leather',
             'cowhide-leather'
           ];
           var isDarkInit = darkThemes.indexOf(cardStyle) !== -1;

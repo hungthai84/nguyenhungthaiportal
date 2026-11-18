@@ -832,10 +832,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           data-element-type="card"
           data-element-page="experience"
           data-element-parent="experience-cards-track"
-          className={cn(
-            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border p-[15px] gap-[15px] rounded-[14px] w-full h-full',
-            showJobCard ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden'
-          )}
+          className="page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border p-[15px] gap-[15px] rounded-[14px] w-full h-full overflow-hidden"
           style={{ padding: '15px', borderRadius: '14px', gap: '15px' }}
         >
       {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH VỚI ĐỆM 15PX) */}
@@ -1829,11 +1826,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         return (
           <div
             id="experience-job-detail-card"
+            data-element-name="Chi tiết thẻ công việc"
+            data-element-type="card"
+            data-element-page="experience"
+            data-element-parent="experience-main-card"
             data-section-card="true"
-            className="w-full flex-1 min-h-0 flex flex-col justify-start relative gap-[15px] text-left transition-all duration-300 animate-fadeIn font-play min-w-0"
+            className="bento-card glass-card w-full h-full flex-1 min-h-0 flex flex-col justify-start relative p-[15px] gap-[15px] rounded-[14px] overflow-hidden text-left transition-all duration-300 animate-fadeIn font-play min-w-0 box-border"
+            style={{ padding: '15px', gap: '15px', borderRadius: '14px' }}
           >
             {/* THANH ĐIỀU HƯỚNG CỘT MỐC & NÚT ĐÓNG GỌN GÀNG Ở ĐỈNH THẺ */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-1">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-1 shrink-0">
               <div className="flex items-center gap-2 min-w-0">
                 <span
                   className={cn(
@@ -1937,8 +1939,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </button>
             </div>
 
-            {/* BENTO GRID LAYOUT CHÍNH (12 CỘT CHUẨN CODE THAM CHIẾU) */}
-            <main className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] w-full min-w-0">
+            {/* BENTO GRID LAYOUT CHÍNH (12 CỘT CHUẨN CODE THAM CHIẾU) — NẰM GỌN TRONG CHI TIẾT THẺ CÔNG VIỆC */}
+            <main className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden glass-scrollbar grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] w-full min-w-0 pr-0.5 content-start">
               {/* 1. HERO CARD: Company Info, Banner & Dịch vụ sản phẩm (Col Span 12) */}
               <section
                 id="experience-info-card"
@@ -2003,7 +2005,17 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                 {/* Company Content Body */}
                 <div className="p-5 sm:p-7 pt-4 sm:pt-5 relative flex-1 flex flex-col justify-between gap-4 min-w-0">
-                  <div className="relative z-10 min-w-0">
+                  <div
+                    id="experience-company-name-card"
+                    className={cn(
+                      'p-4 sm:p-5 rounded-[12px] border shadow-xs flex flex-col gap-2.5 min-w-0 relative z-10',
+                      isDarkCardText
+                        ? 'bg-slate-800/80 border-white/15 text-white'
+                        : isLightLeather
+                          ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827]'
+                          : 'bg-white/90 border-slate-200/90 text-slate-900'
+                    )}
+                  >
                     <div className="pb-1 min-w-0 flex-1">
                       <div
                         className={cn(

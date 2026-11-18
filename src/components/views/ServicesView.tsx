@@ -239,7 +239,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
           data-element-type="card"
           data-element-page="services"
           data-element-parent="services-cards-track"
-          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-hidden glass-scrollbar box-border"
+          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
           style={{ padding: '15px', gap: '15px', borderRadius: '14px' }}
         >
       <div
@@ -247,8 +247,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
         data-element-parent="service-main-card"
         className={
           selectedDomain
-            ? 'w-full flex-1 min-h-0 flex flex-col justify-start gap-[15px] min-w-0 overflow-y-auto overflow-x-hidden glass-scrollbar'
-            : 'w-full flex-1 min-h-0 flex flex-col justify-between gap-[15px] min-w-0 overflow-y-auto overflow-x-hidden glass-scrollbar'
+            ? 'w-full flex-1 flex flex-col justify-start gap-[15px] min-w-0'
+            : 'w-full flex-1 flex flex-col justify-between gap-[15px] min-w-0'
         }
       >
       {/* 1. HERO BANNER ĐẦU TRANG DỊCH VỤ */}
@@ -351,7 +351,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   transition={{ duration: 0.16 }}
                   id="services-filter-dropdown"
                   role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-96px))] sm:w-72 rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-140px))] sm:w-72 max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
                   {filterCategories.map((cat) => {
                     const isActive = activeCategory === cat.id;
@@ -460,9 +460,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   }}
                   className="service-card bento-card glass-card layered-card group relative rounded-[14px] p-[15px] transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[230px] shadow-sm hover:shadow-xl hover:-translate-y-0.5"
                 >
-                  {/* 1. TOP: Tiêu đề tên dịch vụ và icon dịch vụ */}
-                  <div className="service-divider relative z-20 flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
-                    <div className="card-header-sync flex items-center gap-2.5 min-w-0 flex-1" style={{ color: cfg.accentColor }}>
+                  {/* 1. TOP: Tiêu đề tên dịch vụ và icon dịch vụ (nền trong suốt 100%, không viền) */}
+                  <div className="service-card-title-header relative z-20 flex items-center justify-between pb-2 bg-transparent border-0 shadow-none shrink-0">
+                    <div className="card-header-sync flex items-center gap-2.5 min-w-0 flex-1 bg-transparent border-0 shadow-none" style={{ color: cfg.accentColor }}>
                       <span
                         className="shrink-0 flex items-center justify-center bg-transparent border-0 p-0 shadow-none"
                         style={{ color: cfg.accentColor }}
@@ -604,9 +604,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   duration: 0.4,
                   ease: [0.25, 1, 0.5, 1],
                 }}
-                className="bento-card glass-card w-full flex-1 min-h-0 overflow-y-auto max-h-full rounded-[14px] p-4 sm:p-5 gap-3.5 sm:gap-4 relative flex flex-col justify-start text-left font-play transition-all duration-300 text-[var(--text-primary)]"
+                className="bento-card glass-card w-full flex-1 rounded-[14px] p-4 sm:p-5 gap-3.5 sm:gap-4 relative flex flex-col justify-start text-left font-play transition-all duration-300 text-[var(--text-primary)]"
                 style={{
                   borderRadius: '14px',
+                  background: 'var(--surface-secondary-bg, var(--bg-card))',
+                  border: '1px solid var(--surface-secondary-border, var(--border-color))',
+                  boxShadow: 'var(--surface-secondary-shadow, var(--shadow-card))',
+                  backdropFilter: 'blur(var(--surface-secondary-blur, 19px))',
+                  WebkitBackdropFilter: 'blur(var(--surface-secondary-blur, 19px))',
                 }}
               >
                 {/* 1. TOP HEADER BAR: Icon + Tiêu đề 4 từ đồng màu icon + Nút tròn đóng (X) */}

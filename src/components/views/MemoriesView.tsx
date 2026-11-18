@@ -285,7 +285,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
                   role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-72 max-h-80 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-140px))] sm:w-72 max-w-full max-h-80 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
                   <div className="px-2.5 py-1 typo-label font-mono tracking-wider text-[var(--text-heading,var(--text-primary))]">
                     Theo chủ đề kỷ niệm
@@ -439,8 +439,8 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
 
                 {/* Tiêu đề & chi tiết luôn dễ đọc trên thiết bị cảm ứng, hover mới hiện trên Desktop */}
                 <div style={{ padding: '15px' }} className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/95 via-[#0B1220]/55 to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100 backdrop-blur-[1.5px] transition-opacity duration-300 flex flex-col justify-end p-[15px] pointer-events-none">
-                  <span className="typo-label font-mono text-[#6EE7B7] uppercase tracking-wide block">
-                    {item.companyId?.toUpperCase()}
+                  <span className="typo-label font-mono text-[#6EE7B7] capitalize tracking-wide block">
+                    {item.companyId}
                   </span>
                   <h3 className="typo-h4 card-header-sync card-title-synced text-[#6EE7B7] break-words mt-0.5 flex items-center gap-1.5" data-card-title="true">
                     <WebIcon name="camera" className="w-3.5 h-3.5 text-[#6EE7B7] shrink-0" />
@@ -555,7 +555,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                     title={isSlideshowPlaying ? 'Tạm dừng trình chiếu' : 'Tự động trình chiếu 4s'}
                     className={`px-3 py-1 rounded-full typo-button flex items-center gap-1.5 transition-all cursor-pointer border ${
                       isSlideshowPlaying
-                        ? 'bg-emerald-600 text-white border-emerald-500 shadow animate-pulse'
+                        ? 'bg-emerald-600 text-white border-emerald-500 shadow ring-2 ring-emerald-400/50'
                         : 'bg-[#111827]/85 text-[#E2E8F0] border-white/20 hover:text-white'
                     }`}
                   >
@@ -596,14 +596,14 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
               {/* Tiêu đề & Thông tin hiển thị dưới ảnh */}
               <div className="absolute bottom-3 left-4 right-4 flex flex-col gap-1.5 z-20 pointer-events-none">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="typo-badge font-mono uppercase tracking-wider text-[#6EE7B7] bg-emerald-950/90 px-3 py-0.5 rounded-full border border-emerald-500/40">
+                  <span className="typo-badge font-mono tracking-wider text-[#6EE7B7] bg-emerald-950/90 px-3 py-0.5 rounded-full border border-emerald-500/40">
                     {activePhoto.tagVi}
                   </span>
                   <span className="typo-badge font-mono text-[#E2E8F0] bg-[#1F2937]/90 px-3 py-0.5 rounded-full border border-white/15">
                     {activePhoto.year}
                   </span>
-                  <span className="typo-badge font-mono uppercase text-[#FCD34D] bg-amber-950/80 px-3 py-0.5 rounded-full border border-amber-500/40">
-                    {activePhoto.companyId?.toUpperCase()}
+                  <span className="typo-badge font-mono capitalize text-[#FCD34D] bg-amber-950/80 px-3 py-0.5 rounded-full border border-amber-500/40">
+                    {activePhoto.companyId}
                   </span>
                 </div>
                 <h3 className="typo-popup-title text-[#F8FAFC]">

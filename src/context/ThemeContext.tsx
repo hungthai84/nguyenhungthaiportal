@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from 'react';
 import {
   WALLPAPER_PRESETS_LIST,
   WallpaperPreset,
@@ -6,6 +6,7 @@ import {
   parseCssStringToStyle,
   getCleanImageUrl,
   isCodePenWallpaper,
+  getThemeBackgroundForMode,
 } from '../data/wallpapers';
 import {
   CARD_STYLE_STORAGE_KEY,
@@ -184,6 +185,16 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     readStoredGlassCustomizations()
   );
 
+  const activeWallpaperIdRef = useRef<string>(activeWallpaper.id);
+  useEffect(() => {
+    activeWallpaperIdRef.current = activeWallpaper.id;
+  }, [activeWallpaper.id]);
+
+  const cardStyleRef = useRef<CardStyleMode>(cardStyle);
+  useEffect(() => {
+    cardStyleRef.current = cardStyle;
+  }, [cardStyle]);
+
   const isDark = resolveCardStyleDark(cardStyle);
 
   const getGlassSettingsForMode = useCallback(
@@ -299,16 +310,26 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     document.body.style.backgroundPosition = '';
     document.body.style.backgroundRepeat = '';
 
+    let activeWpToRender = activeWallpaper;
+    if (activeWallpaper.id.startsWith('theme-bg-') || activeWallpaper.id === THEME_DEFAULT_WALLPAPER_ID[cardStyle]) {
+      const autoBgUrl = getThemeBackgroundForMode(cardStyle, isDark);
+      activeWpToRender = {
+        ...activeWallpaper,
+        value: autoBgUrl,
+        bg: `url('${autoBgUrl}') center/cover no-repeat`,
+      };
+    }
+
     if (
-      activeWallpaper.id === 'none' ||
-      (!activeWallpaper.value &&
-        !activeWallpaper.bg &&
-        (!activeWallpaper.previewStyle || Object.keys(activeWallpaper.previewStyle).length === 0))
+      activeWpToRender.id === 'none' ||
+      (!activeWpToRender.value &&
+        !activeWpToRender.bg &&
+        (!activeWpToRender.previewStyle || Object.keys(activeWpToRender.previewStyle).length === 0))
     ) {
       root.style.setProperty('--theme-bg-image', 'none');
       document.body.style.background = 'var(--app-bg-gradient, var(--ambient-base-bg, var(--theme-bg-fallback)))';
-    } else if (activeWallpaper.type === 'image') {
-      const imgVal = activeWallpaper.value || activeWallpaper.bg || '';
+    } else if (activeWpToRender.type === 'image') {
+      const imgVal = activeWpToRender.value || activeWpToRender.bg || '';
       const cleanUrl = getCleanImageUrl(imgVal);
       if (cleanUrl) {
         root.style.setProperty('--theme-bg-image', `url('${cleanUrl}')`);
@@ -318,19 +339,19 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         document.body.style.backgroundRepeat = 'no-repeat';
         document.body.style.backgroundAttachment = 'fixed';
       }
-    } else if (activeWallpaper.type === 'webgl') {
+    } else if (activeWpToRender.type === 'webgl') {
       root.style.setProperty('--theme-bg-image', 'none');
       const fallbackBg =
-        activeWallpaper.value ||
-        activeWallpaper.bg ||
+        activeWpToRender.value ||
+        activeWpToRender.bg ||
         'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)';
       document.body.style.background = fallbackBg;
-    } else if (activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient') {
+    } else if (activeWpToRender.type === 'css' || activeWpToRender.type === 'gradient') {
       root.style.setProperty('--theme-bg-image', 'none');
-      const cssText = activeWallpaper.value || activeWallpaper.bg || '';
+      const cssText = activeWpToRender.value || activeWpToRender.bg || '';
       const parsed =
-        activeWallpaper.previewStyle && Object.keys(activeWallpaper.previewStyle).length > 0
-          ? activeWallpaper.previewStyle
+        activeWpToRender.previewStyle && Object.keys(activeWpToRender.previewStyle).length > 0
+          ? activeWpToRender.previewStyle
           : parseCssStringToStyle(cssText);
       if (parsed.background) {
         document.body.style.background = String(parsed.background);
@@ -372,10 +393,16 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       nextWp = { ...wpOrBg };
     }
     try {
-      localStorage.setItem(WALLPAPER_MANUAL_STORAGE_KEY, '1');
+      const activeDefaultId = THEME_DEFAULT_WALLPAPER_ID[cardStyleRef.current];
+      if (nextWp.id === activeDefaultId) {
+        localStorage.removeItem(WALLPAPER_MANUAL_STORAGE_KEY);
+      } else {
+        localStorage.setItem(WALLPAPER_MANUAL_STORAGE_KEY, '1');
+      }
     } catch (e) {
       // ignore
     }
+    activeWallpaperIdRef.current = nextWp.id;
     setActiveWallpaper(nextWp);
     window.dispatchEvent(new CustomEvent(WALLPAPER_SYNC_EVENT, { detail: nextWp }));
   }, []);
@@ -385,14 +412,27 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const nextDark = resolveCardStyleDark(normalized);
     const defaultWp = getDefaultWallpaperForTheme(normalized);
     let hasManualWallpaper = false;
+    let storedWpId = activeWallpaperIdRef.current;
     try {
       hasManualWallpaper = localStorage.getItem(WALLPAPER_MANUAL_STORAGE_KEY) === '1';
+      if (!storedWpId) {
+        const storedRaw = localStorage.getItem(ACTIVE_WALLPAPER_STORAGE_KEY);
+        if (storedRaw) {
+          storedWpId = (JSON.parse(storedRaw) as WallpaperPreset)?.id || '';
+        }
+      }
     } catch {
       hasManualWallpaper = false;
     }
 
+    const isThemeOwnedOrEmptyWp =
+      !storedWpId || storedWpId === 'none' || storedWpId.startsWith('theme-bg-');
+    const shouldApplyThemeDefaultWp = !hasManualWallpaper || isThemeOwnedOrEmptyWp;
+
+    cardStyleRef.current = normalized;
     setCardStyleState(normalized);
-    if (!hasManualWallpaper) {
+    if (shouldApplyThemeDefaultWp) {
+      activeWallpaperIdRef.current = defaultWp.id;
       setActiveWallpaper(defaultWp);
     }
     try {
@@ -401,7 +441,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         nextDark ? 'hungthai_last_dark_style' : 'hungthai_last_light_style',
         normalized
       );
-      if (!hasManualWallpaper) {
+      if (shouldApplyThemeDefaultWp) {
+        localStorage.removeItem(WALLPAPER_MANUAL_STORAGE_KEY);
         localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(defaultWp));
         localStorage.setItem('theme_wallpaper', defaultWp.value || defaultWp.bg || '');
       }
@@ -434,7 +475,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       document.body.setAttribute('data-theme-mechanism', mechanism);
     }
     window.dispatchEvent(new CustomEvent(CARD_STYLE_SYNC_EVENT, { detail: normalized }));
-    if (!hasManualWallpaper) {
+    if (shouldApplyThemeDefaultWp) {
       window.dispatchEvent(new CustomEvent(WALLPAPER_SYNC_EVENT, { detail: defaultWp }));
     }
   }, []);

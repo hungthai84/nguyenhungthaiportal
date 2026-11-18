@@ -1066,7 +1066,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    className="banner-dropdown-menu dropdown-menu-enter absolute left-0 top-[calc(100%+8px)] w-72 max-w-[calc(100vw-3rem)] rounded-[14px] p-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu dropdown-menu-enter absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-140px))] sm:w-72 max-w-full rounded-[14px] p-2 z-50 flex flex-col gap-1"
                   >
                     <div className="px-2.5 py-1 typo-label text-[var(--text-muted)] tracking-wider border-b border-[var(--border-subcard)] mb-1">
                       Bộ lọc thẻ phân tích
@@ -1901,6 +1901,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         data-element-type="container"
         data-element-page="horoscope"
         data-element-parent="global-content-viewport"
+        data-no-wheel-horizontal="true"
         onScroll={handleHoroscopeContainerScroll}
         style={{
           width: '100%',
@@ -1919,7 +1920,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           ['--about-card-w' as any]: `${horoscopeCardWidth}px`,
           ['--about-side-inset' as any]: `${horoscopeSideInset}px`,
         }}
-        className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-auto overflow-y-hidden no-scrollbar z-10 select-none box-border"
+        className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-hidden overflow-y-hidden no-scrollbar z-10 select-none box-border"
       >
         <div
           id="horoscope-cards-track"

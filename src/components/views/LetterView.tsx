@@ -352,14 +352,13 @@ export interface LetterViewProps {
   currentTheme?: string;
   onOpenBannerStudio?: (pageId: number) => void;
   onShowNotification: (msg: string) => void;
-  onOpenMilestoneModal: (item: any) => void;
+  onOpenMilestoneModal?: (item: any) => void;
 }
 
 export const LetterView: React.FC<LetterViewProps> = ({
   currentTheme = 'light-multicolor-glass',
   onOpenBannerStudio,
   onShowNotification,
-  onOpenMilestoneModal,
 }) => {
   const { showToast } = useToast();
   const { isDark: themeIsDark } = useTheme();
@@ -1759,30 +1758,12 @@ export const LetterView: React.FC<LetterViewProps> = ({
       <article
         key={item.id}
         id={item.id}
-        role={item.id === '2002' ? 'region' : 'button'}
-        tabIndex={item.id === '2002' ? undefined : 0}
+        role="region"
         aria-label={`${displayTitle} - ${item.roleVi}`}
         data-element-type="card"
         data-section-card="true"
-        onClick={() => {
-          if (item.id === '2002') return;
-          SoundEngine.playTap();
-          onOpenMilestoneModal(item);
-        }}
-        onKeyDown={(e) => {
-          if (item.id === '2002') return;
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            SoundEngine.playTap();
-            onOpenMilestoneModal(item);
-          }
-        }}
         style={{ gap: '12px', padding: '16px', borderRadius: '14px' }}
-        className={`bento-view-card bento-card glass-card flex flex-col justify-between p-4 gap-3 relative transition-all duration-200 overflow-hidden group/mcard w-full mx-auto h-full min-h-0 min-w-0 ${
-          item.id === '2002'
-            ? 'cursor-default'
-            : 'cursor-pointer hover:-translate-y-1 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500'
-        } text-left rounded-[14px] ${bentoSpan} ${
+        className={`bento-view-card bento-card glass-card flex flex-col justify-between p-4 gap-3 relative transition-all duration-200 overflow-hidden group/mcard w-full mx-auto h-full min-h-0 min-w-0 cursor-default text-left rounded-[14px] ${bentoSpan} ${
           isSelected
             ? 'ring-2 ring-cyan-400 dark:ring-cyan-300 scale-[1.01] z-10'
             : ''
@@ -1883,7 +1864,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           )}
         </div>
 
-        {/* 3. FOOTER & CALL TO ACTION ZONE */}
+        {/* 3. FOOTER & HIGHLIGHT ZONE */}
         <div className="w-full pt-2.5 border-t border-[var(--border-subcard)] flex items-center justify-between gap-2 typo-body-sm font-semibold relative z-10 shrink-0 min-w-0">
           <div className="flex items-start gap-1.5 min-w-0 flex-1" style={{ color: item.color }}>
             <WebIcon name={highlightIcon} className="w-4 h-4 shrink-0 mt-0.5" />
@@ -1891,13 +1872,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
               {item.highlightVi}
             </span>
           </div>
-          <span
-            className="typo-caption font-bold shrink-0 whitespace-nowrap inline-flex items-center gap-1 opacity-80 group-hover/mcard:opacity-100 group-hover/mcard:translate-x-0.5 transition-all duration-200"
-            style={{ color: item.color }}
-          >
-            <span>Chi tiết</span>
-            <span aria-hidden="true">→</span>
-          </span>
         </div>
       </article>
     );
@@ -1911,6 +1885,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
       data-element-type="container"
       data-element-page="letter"
       data-element-parent="global-content-viewport"
+      data-no-wheel-horizontal="true"
       onScroll={handleLetterContainerScroll}
       style={{
         width: '100%',
@@ -1929,7 +1904,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
         ['--about-card-w' as any]: `${letterCardWidth}px`,
         ['--about-side-inset' as any]: `${letterSideInset}px`,
       }}
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-auto overflow-y-hidden no-scrollbar z-10 select-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-hidden overflow-y-hidden no-scrollbar z-10 select-none box-border"
     >
       <div
         id="letter-cards-track"
@@ -1954,11 +1929,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
         className="page-cards-track flex flex-row items-stretch gap-[15px] h-full min-h-full box-border"
       >
       {/* ========================================================================= */}
-      {/* CARD THƯ NGỎ 1: VIDEO THUYẾT MINH, THÔNG ĐIỆP HỢP TÁC & GIÁ TRỊ CỐT LÕI   */}
+      {/* THƯ NGỎ MAIN CARD 1: VIDEO CARD, THÔNG ĐIỆP HỢP TÁC & GIÁ TRỊ CỐT LÕI     */}
       {/* ========================================================================= */}
       <div
         id="letter-card-1"
-        data-element-name="Card thư ngỏ 1"
+        data-element-name="Thư ngỏ main card 1"
         data-element-type="card"
         data-main-card="true"
         data-element-page="letter"
@@ -1971,7 +1946,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
             scrollToLetterCard(0, true);
           }
         }}
-        title={currentSlide !== 0 ? 'Click để chuyển Card thư ngỏ 1 ra chính giữa màn hình' : undefined}
+        title={currentSlide !== 0 ? 'Click để chuyển Thư ngỏ main card 1 ra chính giữa màn hình' : undefined}
         style={{
           width: `${letterCardWidth}px`,
           maxWidth: '1250px',
@@ -1992,7 +1967,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
       >
                 <div
                   id="el-p1-div-85"
-                  data-element-name="Thẻ nội dung Thư Ngỏ (Trang 1)"
+                  data-element-name="Lưới nội dung Thư ngỏ main card 1"
+                  data-element-parent="letter-card-1"
                   className="w-full max-w-full mx-auto min-h-0 h-auto flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch auto-rows-auto p-0 rounded-none box-border"
                   style={{
                     width: '100%',
@@ -2008,35 +1984,38 @@ export const LetterView: React.FC<LetterViewProps> = ({
                     borderRadius: '0px',
                   }}
                 >
-                    {/* THẺ BENTO 1: Khung Video Thuyết Minh (7/12 cột trên Desktop, 6/6 trên Tablet, 1/1 trên Mobile) */}
+                    {/* THẺ BENTO 1: Video Card Thuyết Minh (7/12 cột trên Desktop, 6/6 trên Tablet, 1/1 trên Mobile) */}
                     <article
                       id="bento-letter-video"
-                      data-element-name="Thẻ Bento Video Thư Ngỏ"
+                      data-element-name="Video card Thư ngỏ"
                       data-element-type="card"
                       data-section-card="true"
                       data-element-page="letter"
-                      style={{ padding: '15px', borderRadius: '14px' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] min-h-[240px] sm:min-h-[260px] lg:min-h-[280px] w-full h-full min-w-0 relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5 group/vcard ${
+                      data-element-parent="letter-card-1"
+                      style={{ padding: '10px', borderRadius: '14px' }}
+                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] min-h-[240px] sm:min-h-[280px] lg:min-h-[300px] w-full h-full min-w-0 relative overflow-hidden flex flex-col p-[10px] box-border transition-all duration-200 hover:-translate-y-0.5 group/vcard ${
                         activeTargetId === 'bento-experience-intro' || activeTargetId === 'callout-salutation'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.3)]'
                           : ''
                       }`}
                     >
-                      <video
-                        ref={floatingVideoRef}
-                        src={LETTER_SLIDE_1_VIDEO_URL}
-                        autoPlay
-                        loop
-                        playsInline
-                        muted={isVideoMuted}
-                        onTimeUpdate={handleFloatingVideoTimeUpdate}
-                        onLoadedMetadata={handleFloatingVideoLoadedMetadata}
-                        onPlay={() => setIsVideoPlaying(true)}
-                        onPause={() => setIsVideoPlaying(false)}
-                        className="absolute inset-0 w-full h-full object-cover object-center z-0 transition-transform duration-500 group-hover/vcard:scale-[1.02]"
-                      />
-
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-slate-950/15 z-10 pointer-events-none" />
+                      {/* Video Container cách viền card 10px ở mọi chiều */}
+                      <div className="relative w-full h-full flex-1 rounded-[10px] overflow-hidden min-h-0">
+                        <video
+                          ref={floatingVideoRef}
+                          src={LETTER_SLIDE_1_VIDEO_URL}
+                          autoPlay
+                          loop
+                          playsInline
+                          muted={isVideoMuted}
+                          onClick={() => toggleFloatingVideoPlay()}
+                          onTimeUpdate={handleFloatingVideoTimeUpdate}
+                          onLoadedMetadata={handleFloatingVideoLoadedMetadata}
+                          onPlay={() => setIsVideoPlaying(true)}
+                          onPause={() => setIsVideoPlaying(false)}
+                          className="absolute inset-0 w-full h-full object-cover object-center z-0 cursor-pointer transition-transform duration-500 group-hover/vcard:scale-[1.02] rounded-[10px]"
+                        />
+                      </div>
                     </article>
 
                     {/* THẺ BENTO 2: Thông Điệp Hợp Tác (5/12 cột trên Desktop, 6/6 trên Tablet, 1/1 trên Mobile) */}
@@ -2325,11 +2304,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
       </div>
 
       {/* ========================================================================= */}
-      {/* CARD THƯ NGỎ 2: HÀNH TRÌNH KHỞI ĐẦU SỰ NGHIỆP (2002 - 2011)               */}
+      {/* THƯ NGỎ MAIN CARD 2: HÀNH TRÌNH KHỞI ĐẦU SỰ NGHIỆP (2002 - 2011)          */}
       {/* ========================================================================= */}
       <div
         id="letter-card-2"
-        data-element-name="Card thư ngỏ 2"
+        data-element-name="Thư ngỏ main card 2"
         data-element-type="card"
         data-main-card="true"
         data-element-page="letter"
@@ -2342,7 +2321,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
             scrollToLetterCard(1, true);
           }
         }}
-        title={currentSlide !== 1 ? 'Click để chuyển Card thư ngỏ 2 ra chính giữa màn hình' : undefined}
+        title={currentSlide !== 1 ? 'Click để chuyển Thư ngỏ main card 2 ra chính giữa màn hình' : undefined}
         style={{
           width: `${letterCardWidth}px`,
           maxWidth: '1250px',
@@ -2361,30 +2340,25 @@ export const LetterView: React.FC<LetterViewProps> = ({
           currentSlide !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
-                <div
-                  id="letter-slide-2-card"
-                  data-element-name="Thẻ nội dung Thư Ngỏ (Trang 2)"
-                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-1 flex flex-col gap-[15px] p-0 rounded-none box-border"
-                  style={{ width: '100%', maxWidth: '100%', marginLeft: 'auto', marginRight: 'auto', padding: '0px', gap: '15px', borderRadius: '0px' }}
-                >
-                  <div
-                    id="letter-slide-2-grid"
-                    className="w-full min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent"
-                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
-                  >
-                    {CAREER_MILESTONES_DATA.slice(0, 4).map((item) =>
-                      renderCareerCard(item, 'min-w-0 col-span-1', false)
-                    )}
-                  </div>
-                </div>
+        <div
+          id="letter-slide-2-grid"
+          data-element-name="Lưới nội dung Thư ngỏ main card 2"
+          data-element-parent="letter-card-2"
+          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
+        >
+          {CAREER_MILESTONES_DATA.slice(0, 4).map((item) =>
+            renderCareerCard(item, 'min-w-0 col-span-1', false)
+          )}
+        </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* CARD THƯ NGỎ 3: QUẢN TRỊ QUY MÔ LỚN & CHUYỂN ĐỔI SỐ (2013 - 2023)         */}
+      {/* THƯ NGỎ MAIN CARD 3: QUẢN TRỊ QUY MÔ LỚN & CHUYỂN ĐỔI SỐ (2013 - 2023)    */}
       {/* ========================================================================= */}
       <div
         id="letter-card-3"
-        data-element-name="Card thư ngỏ 3"
+        data-element-name="Thư ngỏ main card 3"
         data-element-type="card"
         data-main-card="true"
         data-element-page="letter"
@@ -2397,7 +2371,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
             scrollToLetterCard(2, true);
           }
         }}
-        title={currentSlide !== 2 ? 'Click để chuyển Card thư ngỏ 3 ra chính giữa màn hình' : undefined}
+        title={currentSlide !== 2 ? 'Click để chuyển Thư ngỏ main card 3 ra chính giữa màn hình' : undefined}
         style={{
           width: `${letterCardWidth}px`,
           maxWidth: '1250px',
@@ -2416,30 +2390,25 @@ export const LetterView: React.FC<LetterViewProps> = ({
           currentSlide !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
-                <div
-                  id="letter-slide-3-card"
-                  data-element-name="Thẻ nội dung Thư Ngỏ (Trang 3)"
-                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-1 flex flex-col gap-[15px] p-0 rounded-none box-border"
-                  style={{ width: '100%', maxWidth: '100%', marginLeft: 'auto', marginRight: 'auto', padding: '0px', gap: '15px', borderRadius: '0px' }}
-                >
-                  <div
-                    id="letter-slide-3-grid"
-                    className="w-full min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent"
-                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
-                  >
-                    {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
-                      renderCareerCard(item, 'min-w-0 col-span-1', false)
-                    )}
-                  </div>
-                </div>
+        <div
+          id="letter-slide-3-grid"
+          data-element-name="Lưới nội dung Thư ngỏ main card 3"
+          data-element-parent="letter-card-3"
+          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] items-stretch bg-transparent box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
+        >
+          {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
+            renderCareerCard(item, 'min-w-0 col-span-1', false)
+          )}
+        </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* CARD THƯ NGỎ 4: TRIẾT LÝ QUẢN TRỊ & TÂM THƯ ĐỒNG HÀNH                     */}
+      {/* THƯ NGỎ MAIN CARD 4: TRIẾT LÝ QUẢN TRỊ & TÂM THƯ ĐỒNG HÀNH                */}
       {/* ========================================================================= */}
       <div
         id="letter-card-4"
-        data-element-name="Card thư ngỏ 4"
+        data-element-name="Thư ngỏ main card 4"
         data-element-type="card"
         data-main-card="true"
         data-element-page="letter"
@@ -2452,7 +2421,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
             scrollToLetterCard(3, true);
           }
         }}
-        title={currentSlide !== 3 ? 'Click để chuyển Card thư ngỏ 4 ra chính giữa màn hình' : undefined}
+        title={currentSlide !== 3 ? 'Click để chuyển Thư ngỏ main card 4 ra chính giữa màn hình' : undefined}
         style={{
           width: `${letterCardWidth}px`,
           maxWidth: '1250px',
@@ -2471,17 +2440,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
           currentSlide !== 3 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
-                <div
-                  id="letter-slide-4-card"
-                  data-element-name="Thẻ nội dung Thư Ngỏ (Trang 4)"
-                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-1 flex flex-col gap-[15px] p-0 rounded-none box-border"
-                  style={{ width: '100%', maxWidth: '100%', marginLeft: 'auto', marginRight: 'auto', padding: '0px', gap: '15px', borderRadius: '0px' }}
-                >
-                  <div
-                    id="letter-slide-4-bento-grid"
-                    className="w-full min-h-0 flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch bg-transparent"
-                    style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
-                  >
+        <div
+          id="letter-slide-4-bento-grid"
+          data-element-name="Lưới nội dung Thư ngỏ main card 4"
+          data-element-parent="letter-card-4"
+          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] items-stretch bg-transparent box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', background: 'transparent', width: '100%' }}
+        >
                     {/* BENTO CARD 1 (6/12 cols): TRIẾT LÝ QUẢN TRỊ & 3 NGUYÊN TẮC CỐT LÕI */}
                     <div
                       id="card-philosophy-gratitude"
@@ -2640,8 +2605,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       </div>
                     </div>
 
-                  </div>
-                </div>
+        </div>
       </div>
       </div>
 

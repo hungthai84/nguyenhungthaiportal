@@ -63,7 +63,7 @@ export const LanguageSwitcher: React.FC = () => {
           <span data-no-translate="true" className="typo-nav leading-tight font-play text-[var(--text-primary)] truncate">
             {language === 'en' ? 'English' : 'Tiếng Việt'}
           </span>
-          <span className="typo-label leading-none mt-0.5 text-[var(--text-secondary)] font-play uppercase tracking-wider truncate">
+          <span className="typo-label leading-none mt-0.5 text-[var(--text-secondary)] font-play tracking-wide truncate">
             {currentLangLabel}
           </span>
         </div>

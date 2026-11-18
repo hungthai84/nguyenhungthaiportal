@@ -213,17 +213,18 @@ html[data-card-style="light-cowhide-leather"] {
   --surface-primary-border: #d1d5db;
   --surface-primary-border-hover: #9ca3af;
   --surface-primary-outline-hover: rgba(17, 24, 39, 0.85);
-  --surface-primary-shadow: var(--shadow-header);
+  --surface-primary-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.14), 0 6px 16px -4px rgba(15, 23, 42, 0.08), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
   --surface-primary-shadow-hover:
-    0 28px 56px rgba(15, 23, 42, 0.20), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.10);
+    0 24px 52px rgba(15, 23, 42, 0.20), 0 10px 24px -4px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.10);
   --surface-header-shadow:
-    0 18px 40px rgba(15, 23, 42, 0.14), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
+    0 18px 40px rgba(15, 23, 42, 0.14), 0 6px 16px -4px rgba(15, 23, 42, 0.08), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.08);
   --surface-header-shadow-hover:
-    0 24px 50px rgba(15, 23, 42, 0.20), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.10);
+    0 24px 50px rgba(15, 23, 42, 0.20), 0 10px 24px -4px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.10);
   --surface-footer-shadow:
-    0 -18px 40px rgba(15, 23, 42, 0.14), inset 0 2px 4px #ffffff, inset 0 -2px 5px rgba(0, 0, 0, 0.07);
+    0 -18px 40px rgba(15, 23, 42, 0.14), 0 -6px 16px -4px rgba(15, 23, 42, 0.08), inset 0 2px 4px #ffffff, inset 0 -2px 5px rgba(0, 0, 0, 0.07);
   --surface-footer-shadow-hover:
-    0 -24px 50px rgba(15, 23, 42, 0.20), inset 0 2px 4px #ffffff, inset 0 -2px 5px rgba(0, 0, 0, 0.09);
+    0 -24px 50px rgba(15, 23, 42, 0.20), 0 -10px 24px -4px rgba(15, 23, 42, 0.12), inset 0 2px 4px #ffffff, inset 0 -2px 5px rgba(0, 0, 0, 0.09);
   --surface-primary-blur: 0px;
   --surface-secondary-bg: var(--bg-card);
   --surface-secondary-border: #d1d5db;
@@ -276,6 +277,7 @@ html[data-card-style="light-cowhide-leather"] {
 html[data-card-style="light-cowhide-leather"] #app-header,
 html[data-card-style="light-cowhide-leather"] #app-footer,
 html[data-card-style="light-cowhide-leather"] .page-main-card,
+html[data-card-style="light-cowhide-leather"] [data-main-card="true"]:not(#pdf-page-container),
 html[data-card-style="light-cowhide-leather"] #about-intro-card-1,
 html[data-card-style="light-cowhide-leather"] #about-intro-card-2 {
   background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
@@ -377,7 +379,12 @@ html[data-card-style="light-cowhide-leather"] .project-card,
 html[data-card-style="light-cowhide-leather"] #projects-grid article,
 html[data-card-style="light-cowhide-leather"] .project-detail-section-card,
 html[data-card-style="light-cowhide-leather"] #contact-info-container,
-html[data-card-style="light-cowhide-leather"] #horoscope-lookup-card {
+html[data-card-style="light-cowhide-leather"] #horoscope-lookup-card,
+html[data-card-style="light-cowhide-leather"] #home-stats-card,
+html[data-card-style="light-cowhide-leather"] #home-intro-card,
+html[data-card-style="light-cowhide-leather"] #home-capabilities-card,
+html[data-card-style="light-cowhide-leather"] #home-achievements-card,
+html[data-card-style="light-cowhide-leather"] #bento-letter-video {
   background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
   border: 2px solid #d1d5db !important;
   box-shadow: var(--shadow-card) !important;
@@ -387,6 +394,10 @@ html[data-card-style="light-cowhide-leather"] #horoscope-lookup-card {
   -webkit-backdrop-filter: none !important;
   outline: 1.5px dashed rgba(17, 24, 39, 0.7);
   outline-offset: -7px;
+}
+
+html[data-card-style="light-cowhide-leather"] #bento-letter-video {
+  padding: 10px !important;
 }
 
 html[data-card-style="light-cowhide-leather"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#footer-theme-popup):not(#footer-lang-popup):not(.banner-dropdown-menu)::before,
@@ -594,6 +605,8 @@ html[data-card-style="light-cowhide-leather"] #footer-ai-btn:not(.active),
 html[data-card-style="light-cowhide-leather"] .banner-control-pill,
 html[data-card-style="light-cowhide-leather"] .nav-arrow-btn,
 html[data-card-style="light-cowhide-leather"] .theme-prev-next-btn,
+html[data-card-style="light-cowhide-leather"] #el-p0-button-1,
+html[data-card-style="light-cowhide-leather"] #el-p0-button-2,
 html[data-card-style="light-cowhide-leather"] .theme-back-to-top-btn,
 html[data-card-style="light-cowhide-leather"] .radial-contact-pill {
   background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
@@ -613,10 +626,29 @@ html[data-card-style="light-cowhide-leather"] #footer-appearance-btn:not(.active
 html[data-card-style="light-cowhide-leather"] #footer-theme-mode-btn:not(.active):hover,
 html[data-card-style="light-cowhide-leather"] #footer-wallpaper-btn:not(.active):hover,
 html[data-card-style="light-cowhide-leather"] #footer-ai-btn:not(.active):hover,
-html[data-card-style="light-cowhide-leather"] .banner-control-pill:hover {
+html[data-card-style="light-cowhide-leather"] .banner-control-pill:hover,
+html[data-card-style="light-cowhide-leather"] #el-p0-button-1:hover,
+html[data-card-style="light-cowhide-leather"] #el-p0-button-2:hover {
   background: linear-gradient(145deg, #ffffff 0%, #f3f6f8 100%) !important;
   border-color: #111827 !important;
   outline-color: rgba(17, 24, 39, 0.85) !important;
+  color: #111827 !important;
+}
+
+html[data-card-style="light-cowhide-leather"] #el-p0-button-1 svg,
+html[data-card-style="light-cowhide-leather"] #el-p0-button-2 svg {
+  color: #111827 !important;
+  stroke: #111827 !important;
+}
+
+html[data-card-style="light-cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) :is(.card-title, .card-title-synced, h3) {
+  color: #111827 !important;
+}
+html[data-card-style="light-cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) p {
+  color: #1F2937 !important;
+}
+html[data-card-style="light-cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) .home-hero-badge {
+  color: #111827 !important;
 }
 
 html[data-card-style="light-cowhide-leather"] #app-header nav button.nav-pill.active,
@@ -701,6 +733,7 @@ html[data-card-style="light-cowhide-leather"] #skills-filter-dropdown,
 html[data-card-style="light-cowhide-leather"] #services-filter-dropdown,
 html[data-card-style="light-cowhide-leather"] .banner-dropdown-menu,
 html[data-card-style="light-cowhide-leather"] #systems-filter-listbox,
+html[data-card-style="light-cowhide-leather"] #wallpaper-filter-listbox,
 html[data-card-style="light-cowhide-leather"] #memories-filter-listbox,
 html[data-card-style="light-cowhide-leather"] #horoscope-filter-listbox,
 html[data-card-style="light-cowhide-leather"] [role="dialog"],

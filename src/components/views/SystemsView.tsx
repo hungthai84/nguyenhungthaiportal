@@ -1387,23 +1387,23 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                       SoundEngine.playTap();
                       setIsFilterDropdownOpen((prev) => !prev);
                     }}
-                    className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-[#111827]/95 hover:bg-white dark:hover:bg-[#1F2937] text-orange-900 dark:text-orange-200 border border-orange-300 dark:border-orange-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all cursor-pointer typo-button font-play active:scale-95 group"
+                    className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
                     title={isEn ? 'Filter' : 'Bộ lọc'}
                     aria-label="Bộ lọc hệ thống"
                     aria-expanded={isFilterDropdownOpen}
                     aria-haspopup="listbox"
                   >
-                    <WebIcon name="sliders" className="w-4 h-4 text-orange-700 dark:text-orange-400 transition-transform group-hover:rotate-45 shrink-0" />
+                    <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] transition-transform group-hover:rotate-45 shrink-0" />
                     <span>{isEn ? 'Filter' : 'Bộ lọc'}</span>
                     {activeCategory !== 'all' && (
-                      <span className="banner-count-pill px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-950/80 border border-orange-300 dark:border-orange-500/50 typo-badge font-mono text-orange-900 dark:text-orange-200">
+                      <span className="banner-count-pill px-1.5 py-0.5 rounded-full typo-badge font-mono">
                         {ecosystemSegments.find((s) => s.id === activeCategory)?.label}
                       </span>
                     )}
                     <WebIcon
                       name="chevron-down"
                       className={cn(
-                        'w-3.5 h-3.5 text-orange-700 dark:text-orange-400 transition-transform duration-200 shrink-0',
+                        'w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0',
                         isFilterDropdownOpen && 'rotate-180'
                       )}
                     />
@@ -1419,7 +1419,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         exit={{ opacity: 0, y: 6, scale: 0.96 }}
                         transition={{ duration: 0.16 }}
                         role="listbox"
-                        className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-72 rounded-[14px] bg-white/98 dark:bg-[#111827]/96 border border-orange-200 dark:border-[#334155] shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)] backdrop-blur-2xl py-2 px-2 z-50 flex flex-col gap-1 text-slate-800 dark:text-[#E2E8F0]"
+                        className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-[min(18rem,calc(100vw-140px))] sm:w-72 max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                       >
                         {ecosystemSegments.map((seg) => {
                           const isActive = activeCategory === seg.id;
@@ -1445,7 +1445,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                               )}
                             >
                               <span>{seg.label} ({seg.count})</span>
-                              {isActive && <span className="w-2 h-2 rounded-full bg-white" />}
+                              {isActive && <span className="w-2 h-2 rounded-full bg-current" />}
                             </button>
                           );
                         })}
@@ -1465,7 +1465,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                   className="banner-primary-cta inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-[0_4px_16px_rgba(37,99,235,0.45)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.6)] border border-blue-300/40 backdrop-blur-md transition-all cursor-pointer typo-button font-play active:scale-95 group"
                   title="Mở Sơ đồ hệ thống"
                 >
-                  <WebIcon name="git-merge" className="w-4 h-4 text-white animate-pulse shrink-0" />
+                  <WebIcon name="git-merge" className="w-4 h-4 text-white shrink-0" />
                   <span>Sơ đồ hệ thống</span>
                 </button>
               </div>
@@ -1731,18 +1731,25 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
 
                         {/* Cột 2: Nhóm phân hệ */}
                         <td className="py-2 px-2.5">
-                          <span className="px-2 py-0.5 rounded-full typo-badge bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200/70 dark:border-indigo-500/30">
+                          <span
+                            className="px-2 py-0.5 rounded-full typo-badge border"
+                            style={{
+                              background: 'var(--bg-button-secondary)',
+                              color: 'var(--text-link, var(--color-primary))',
+                              borderColor: 'var(--border-subcard)',
+                            }}
+                          >
                             {tech.ecosystemLabel}
                           </span>
                         </td>
 
                         {/* Cột 3: Cơ sở dữ liệu */}
-                        <td className="py-2 px-2.5 font-mono typo-caption font-semibold text-slate-700 dark:text-slate-200">
+                        <td className="py-2 px-2.5 font-mono typo-caption font-semibold" style={{ color: 'var(--text-primary)' }}>
                           {tech.database}
                         </td>
 
                         {/* Cột 4: API kết nối */}
-                        <td className="py-2 px-2.5 font-mono typo-caption text-sky-700 dark:text-cyan-300 font-semibold">
+                        <td className="py-2 px-2.5 font-mono typo-caption font-semibold" style={{ color: 'var(--accent-cyan, var(--color-primary))' }}>
                           {tech.apiProtocol}
                         </td>
 
@@ -1755,7 +1762,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
 
                         {/* Cột 6: Tiêu chuẩn an toàn thông tin ISO 27001 */}
                         <td className="py-2 px-2.5">
-                          <span className="inline-flex items-center gap-1 typo-caption font-semibold text-slate-700 dark:text-slate-200">
+                          <span className="inline-flex items-center gap-1 typo-caption font-semibold" style={{ color: 'var(--text-primary)' }}>
                             <WebIcon name="shield" className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                             <span>{tech.isoSecurity}</span>
                           </span>

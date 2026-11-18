@@ -22,6 +22,36 @@ export interface WallpaperPreset {
   createdAt?: number;
 }
 
+export interface ThemeBackground {
+  light: string;
+  dark: string;
+}
+
+export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
+  'light-multicolor-glass': {
+    light: '/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg',
+    dark: '/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg',
+  },
+  'light-cowhide-leather': {
+    light: '/backgrounds/themes/light-cowhide-leather/light-cowhide-leather-light.jpg',
+    dark: '/backgrounds/themes/light-cowhide-leather/light-cowhide-leather-dark.jpg',
+  },
+  'black-cowhide-leather': {
+    light: '/backgrounds/themes/black-cowhide-leather/black-cowhide-leather-light.jpg',
+    dark: '/backgrounds/themes/black-cowhide-leather/black-cowhide-leather-dark.jpg',
+  },
+  'cowhide-leather': {
+    light: '/backgrounds/themes/cowhide-leather/cowhide-leather-light.jpg',
+    dark: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
+  },
+};
+
+export function getThemeBackgroundForMode(themeId: string, isDark: boolean): string {
+  const cleanId = themeId.replace('-dark', '');
+  const config = THEME_BACKGROUND_CONFIGS[cleanId] || THEME_BACKGROUND_CONFIGS['light-multicolor-glass'];
+  return isDark ? config.dark : config.light;
+}
+
 export const CUSTOM_WALLPAPERS_STORAGE_KEY = 'hungthai_custom_wallpapers_v2';
 export const ACTIVE_WALLPAPER_STORAGE_KEY = 'hungthai_active_wallpaper_v2';
 
@@ -251,12 +281,12 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     id: 'theme-bg-cowhide-leather',
     name: '💼 Nền Da Bò Thủ Công (Theme Background)',
     type: 'image',
-    value: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.webp',
-    bg: "url('/backgrounds/themes/cowhide-leather/cowhide-leather-dark.webp') center/cover no-repeat",
+    value: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
+    bg: "url('/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg') center/cover no-repeat",
     previewStyle: {
       background:
         'radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
-      backgroundImage: "url('/backgrounds/themes/cowhide-leather/cowhide-leather-dark.webp')",
+      backgroundImage: "url('/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg')",
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },
@@ -282,13 +312,15 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
     id: 'theme-bg-black-cowhide-leather',
     name: '🖤 Nền Chất Liệu Da Đen Thủ Công (Theme Background)',
-    type: 'css',
-    value:
-      'background: radial-gradient(circle at 18% 18%, rgba(148, 163, 184, 0.14) 0%, transparent 48%), radial-gradient(circle at 82% 80%, rgba(51, 65, 85, 0.22) 0%, transparent 54%), linear-gradient(145deg, #1b1e25 0%, #101217 52%, #07080b 100%);',
-    bg: 'radial-gradient(circle at 18% 18%, rgba(148, 163, 184, 0.14) 0%, transparent 48%), radial-gradient(circle at 82% 80%, rgba(51, 65, 85, 0.22) 0%, transparent 54%), linear-gradient(145deg, #1b1e25 0%, #101217 52%, #07080b 100%)',
+    type: 'image',
+    value: '/backgrounds/themes/black-cowhide-leather/black-cowhide-leather-dark.jpg',
+    bg: "url('/backgrounds/themes/black-cowhide-leather/black-cowhide-leather-dark.jpg') center/cover no-repeat",
     previewStyle: {
       background:
         'radial-gradient(circle at 18% 18%, rgba(148, 163, 184, 0.16) 0%, transparent 48%), radial-gradient(circle at 82% 80%, rgba(51, 65, 85, 0.24) 0%, transparent 54%), linear-gradient(145deg, #252830 0%, #13151a 52%, #090a0d 100%)',
+      backgroundImage: "url('/backgrounds/themes/black-cowhide-leather/black-cowhide-leather-dark.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     isCustom: false,
     createdAt: 1794300000011,

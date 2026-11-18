@@ -1360,6 +1360,7 @@ export function AboutView({
       data-element-type="container"
       data-element-page="about"
       data-element-parent="global-content-viewport"
+      data-no-wheel-horizontal="true"
       onScroll={handleAboutContainerScroll}
       style={{
         width: '100%',
@@ -1378,7 +1379,7 @@ export function AboutView({
         ['--about-card-w' as any]: `${aboutCardWidth}px`,
         ['--about-side-inset' as any]: `${aboutSideInset}px`,
       }}
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-auto overflow-y-hidden no-scrollbar z-10 select-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-hidden overflow-y-hidden no-scrollbar z-10 select-none box-border"
     >
       <div
         id="about-cards-track"
@@ -1403,6 +1404,7 @@ export function AboutView({
       {/* ========================================================================= */}
       <div
         id="about-intro-card-1"
+        data-main-card="true"
         data-element-name="Card giới thiệu 1"
         data-element-type="card"
         data-element-page="about"
@@ -1430,7 +1432,7 @@ export function AboutView({
           borderRadius: '14px',
         }}
         className={cn(
-          'max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
           activeIntroCard !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
@@ -1449,9 +1451,9 @@ export function AboutView({
               data-element-parent="about-intro-card-1"
               style={{
                 borderRadius: '14px',
-                padding: '15px',
+                padding: '5px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[14px] overflow-hidden flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video p-[15px] text-left"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[14px] overflow-hidden flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video p-[5px] text-left"
             >
                   {/* Hero Media Layer */}
                   {activeHeroMedia === 'video' ? (
@@ -1583,7 +1585,7 @@ export function AboutView({
                             )}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white font-medium inline-flex items-center gap-1.5 transition-all"
+                            className="px-3 py-1.5 rounded-full bg-slate-900/10 hover:bg-slate-900/20 text-slate-900 dark:bg-white/20 dark:hover:bg-white/30 dark:text-white font-medium inline-flex items-center gap-1.5 transition-all"
                           >
                             <span>Chỉ đường</span>
                             <WebIcon name="navigation" className="w-3 h-3" />
@@ -1642,7 +1644,14 @@ export function AboutView({
                             e.stopPropagation();
                             handlePlayIntro();
                           }}
-                          className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          style={{
+                            background: 'var(--bg-button-primary, var(--color-primary, #1480C0))',
+                            border: '1px solid var(--surface-primary-border, rgba(255, 255, 255, 0.4))',
+                            boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
+                            paddingLeft: '10px',
+                            paddingRight: '12px',
+                          }}
+                          className="inline-flex items-center justify-center gap-2 pr-2.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                           title="Bấm để phát video thuyết minh chân dung chuyên gia"
                         >
                           <span id="el-p2-span-36" className="flex items-center justify-center">
@@ -1661,7 +1670,14 @@ export function AboutView({
                             e.stopPropagation();
                             handleCancelIntro();
                           }}
-                          className="inline-flex items-center justify-center gap-2 pr-1.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          style={{
+                            background: 'var(--bg-button-primary, var(--color-primary, #1480C0))',
+                            border: '1px solid var(--surface-primary-border, rgba(255, 255, 255, 0.4))',
+                            boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
+                            paddingLeft: '10px',
+                            paddingRight: '12px',
+                          }}
+                          className="inline-flex items-center justify-center gap-2 pr-2.5 py-1 rounded-[999px] text-white typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
                           title="Bấm để hủy phát video"
                         >
                           <span id="el-p2-span-36" className="flex items-center justify-center">
@@ -1920,6 +1936,7 @@ export function AboutView({
       {/* ========================================================================= */}
       <div
         id="about-intro-card-2"
+        data-main-card="true"
         data-element-name="Card giới thiệu 2"
         data-element-type="card"
         data-element-page="about"
@@ -1947,7 +1964,7 @@ export function AboutView({
           borderRadius: '14px',
         }}
         className={cn(
-          'max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
           activeIntroCard !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >

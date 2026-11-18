@@ -226,18 +226,20 @@ html.dark[data-card-style="black-cowhide-leather"] {
   --surface-primary-border: rgba(226, 232, 240, 0.16);
   --surface-primary-border-hover: rgba(226, 232, 240, 0.34);
   --surface-primary-outline-hover: rgba(226, 232, 240, 0.68);
-  --surface-primary-shadow: var(--shadow-header);
+  --surface-primary-shadow:
+    0 20px 46px rgba(0, 0, 0, 0.72), inset 0 1.5px 3px rgba(255, 255, 255, 0.12), inset 0 -1px 0 rgba(226, 232, 240, 0.10);
   --surface-primary-shadow-hover:
-    0 28px 60px rgba(0, 0, 0, 0.84), inset 0 2px 4px rgba(255, 255, 255, 0.18), inset 0 -2px 4px rgba(0, 0, 0, 0.65);
+    0 26px 58px rgba(0, 0, 0, 0.84), inset 0 2px 4px rgba(255, 255, 255, 0.18), inset 0 -1px 0 rgba(226, 232, 240, 0.20);
   --surface-header-shadow:
     0 20px 46px rgba(0, 0, 0, 0.72), inset 0 1.5px 3px rgba(255, 255, 255, 0.12), inset 0 -1px 0 rgba(226, 232, 240, 0.10);
   --surface-header-shadow-hover:
     0 26px 56px rgba(0, 0, 0, 0.84), inset 0 2px 4px rgba(255, 255, 255, 0.18), inset 0 -1px 0 rgba(226, 232, 240, 0.20);
   --surface-footer-shadow:
-    0 -20px 46px rgba(0, 0, 0, 0.72), inset 0 1.5px 3px rgba(255, 255, 255, 0.14);
+    0 -20px 46px rgba(0, 0, 0, 0.72), inset 0 1.5px 3px rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(226, 232, 240, 0.10);
   --surface-footer-shadow-hover:
-    0 -26px 56px rgba(0, 0, 0, 0.84), inset 0 2px 4px rgba(255, 255, 255, 0.22);
+    0 -26px 56px rgba(0, 0, 0, 0.84), inset 0 2px 4px rgba(255, 255, 255, 0.22), inset 0 -1px 0 rgba(226, 232, 240, 0.20);
   --surface-primary-blur: 12px;
+  --surface-primary-saturate: 118%;
   --surface-secondary-bg: var(--bg-card);
   --surface-secondary-border: rgba(226, 232, 240, 0.22);
   --surface-secondary-shadow: var(--shadow-card);
@@ -276,14 +278,15 @@ html.dark[data-card-style="black-cowhide-leather"] {
 /* Header, Footer & Level-01 Main Card */
 html[data-card-style="black-cowhide-leather"] #app-header,
 html[data-card-style="black-cowhide-leather"] .page-main-card,
+html[data-card-style="black-cowhide-leather"] [data-main-card="true"]:not(#pdf-page-container),
 html[data-card-style="black-cowhide-leather"] #about-intro-card-1,
 html[data-card-style="black-cowhide-leather"] #about-intro-card-2 {
   background: var(--surface-primary-bg) !important;
   border-color: var(--surface-primary-border) !important;
   color: #ffffff !important;
   box-shadow: var(--surface-primary-shadow) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) saturate(var(--surface-primary-saturate, 118%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) saturate(var(--surface-primary-saturate, 118%)) !important;
   outline: 1.5px dashed rgba(226, 232, 240, 0.42);
   outline-offset: -6px;
 }
@@ -297,8 +300,8 @@ html[data-card-style="black-cowhide-leather"] #app-footer {
   border-color: var(--surface-primary-border) !important;
   color: #ffffff !important;
   box-shadow: var(--surface-footer-shadow) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) saturate(var(--surface-primary-saturate, 118%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) saturate(var(--surface-primary-saturate, 118%)) !important;
   outline: 1.5px dashed rgba(226, 232, 240, 0.42);
   outline-offset: -6px;
 }
@@ -348,7 +351,12 @@ html[data-card-style="black-cowhide-leather"] article:not(#app-header):not(#app-
 html[data-card-style="black-cowhide-leather"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
 html[data-card-style="black-cowhide-leather"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
 html[data-card-style="black-cowhide-leather"] .system-item:not(#app-header):not(#app-footer),
-html[data-card-style="black-cowhide-leather"] #horoscope-lookup-card {
+html[data-card-style="black-cowhide-leather"] #horoscope-lookup-card,
+html[data-card-style="black-cowhide-leather"] #home-stats-card,
+html[data-card-style="black-cowhide-leather"] #home-intro-card,
+html[data-card-style="black-cowhide-leather"] #home-capabilities-card,
+html[data-card-style="black-cowhide-leather"] #home-achievements-card,
+html[data-card-style="black-cowhide-leather"] #bento-letter-video {
   background: linear-gradient(145deg, rgba(37, 40, 48, 0.94) 0%, rgba(21, 23, 28, 0.96) 50%, rgba(29, 32, 39, 0.95) 100%) !important;
   border: 2px solid #090a0d !important;
   box-shadow: var(--shadow-card) !important;
@@ -357,6 +365,10 @@ html[data-card-style="black-cowhide-leather"] #horoscope-lookup-card {
   -webkit-backdrop-filter: none !important;
   outline: 1.5px dashed rgba(226, 232, 240, 0.42);
   outline-offset: -7px;
+}
+
+html[data-card-style="black-cowhide-leather"] #bento-letter-video {
+  padding: 10px !important;
 }
 
 html[data-card-style="black-cowhide-leather"] #horoscope-card-profile,
@@ -926,6 +938,8 @@ html[data-card-style="black-cowhide-leather"] #project-detail-banner {
 html[data-card-style="black-cowhide-leather"] .banner-control-pill,
 html[data-card-style="black-cowhide-leather"] .nav-arrow-btn,
 html[data-card-style="black-cowhide-leather"] .theme-prev-next-btn,
+html[data-card-style="black-cowhide-leather"] #el-p0-button-1,
+html[data-card-style="black-cowhide-leather"] #el-p0-button-2,
 html[data-card-style="black-cowhide-leather"] .theme-back-to-top-btn,
 html[data-card-style="black-cowhide-leather"] .hero-banner button:not(.banner-primary-cta):not([role="option"]),
 html[data-card-style="black-cowhide-leather"] .hero-banner a.rounded-full,
@@ -945,10 +959,13 @@ html[data-card-style="black-cowhide-leather"] .banner-card label.rounded-full {
 
 html[data-card-style="black-cowhide-leather"] .hero-banner button:not(.banner-primary-cta):not([role="option"]):hover,
 html[data-card-style="black-cowhide-leather"] .banner-card button:not(.banner-primary-cta):not([role="option"]):hover,
-html[data-card-style="black-cowhide-leather"] .banner-control-pill:hover {
+html[data-card-style="black-cowhide-leather"] .banner-control-pill:hover,
+html[data-card-style="black-cowhide-leather"] #el-p0-button-1:hover,
+html[data-card-style="black-cowhide-leather"] #el-p0-button-2:hover {
   background: linear-gradient(145deg, #323642 0%, #1e2129 55%, #252830 100%) !important;
   border-color: rgba(226, 232, 240, 0.62) !important;
   outline-color: rgba(226, 232, 240, 0.80) !important;
+  color: #ffffff !important;
 }
 
 html[data-card-style="black-cowhide-leather"] .hero-banner button:not(.banner-primary-cta) span,
@@ -960,11 +977,24 @@ html[data-card-style="black-cowhide-leather"] .banner-control-pill span {
 html[data-card-style="black-cowhide-leather"] .banner-control-pill svg,
 html[data-card-style="black-cowhide-leather"] .nav-arrow-btn svg,
 html[data-card-style="black-cowhide-leather"] .theme-prev-next-btn svg,
+html[data-card-style="black-cowhide-leather"] #el-p0-button-1 svg,
+html[data-card-style="black-cowhide-leather"] #el-p0-button-2 svg,
 html[data-card-style="black-cowhide-leather"] .theme-back-to-top-btn svg,
 html[data-card-style="black-cowhide-leather"] .theme-back-to-top-icon,
 html[data-card-style="black-cowhide-leather"] .hero-banner button:not(.banner-primary-cta) svg,
 html[data-card-style="black-cowhide-leather"] .banner-card button:not(.banner-primary-cta) svg {
   color: #e2e8f0 !important;
+  stroke: #e2e8f0 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) :is(.card-title, .card-title-synced, h3) {
+  color: #ffffff !important;
+}
+html[data-card-style="black-cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) p {
+  color: rgba(244, 244, 245, 0.88) !important;
+}
+html[data-card-style="black-cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) .home-hero-badge {
+  color: #FDE68A !important;
 }
 
 html[data-card-style="black-cowhide-leather"] .banner-primary-cta,
@@ -1004,6 +1034,7 @@ html[data-card-style="black-cowhide-leather"] .banner-dropdown-menu,
 html[data-card-style="black-cowhide-leather"] .hero-banner [role="listbox"],
 html[data-card-style="black-cowhide-leather"] .banner-card [role="listbox"],
 html[data-card-style="black-cowhide-leather"] #systems-filter-listbox,
+html[data-card-style="black-cowhide-leather"] #wallpaper-filter-listbox,
 html[data-card-style="black-cowhide-leather"] #memories-filter-listbox,
 html[data-card-style="black-cowhide-leather"] #horoscope-filter-listbox {
   background: linear-gradient(145deg, #22252d 0%, #111318 100%) !important;

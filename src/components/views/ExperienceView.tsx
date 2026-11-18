@@ -84,7 +84,7 @@ const CircularLogo: React.FC<{
       aria-label={`Xem chi tiết công việc tại ${companyName} (${logo.alt})`}
       className={cn(
         sizeClass,
-        'aspect-square rounded-full p-0 border border-black/10 ring-0 shadow-lg hover:shadow-2xl hover:-translate-y-1 outline-none flex items-center justify-center overflow-hidden shrink-0 transition-all duration-300 hover:scale-105 hover:z-30 active:scale-95 cursor-pointer focus-visible:outline-none'
+        'aspect-square rounded-full p-0 border border-black/10 ring-0 shadow-sm outline-none flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-110 hover:z-30 active:scale-95 cursor-pointer focus-visible:outline-none'
       )}
     >
       {!hasFailedAll ? (
@@ -2006,7 +2006,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                     background: 'rgba(255, 255, 255, 0.96)',
                                   }}
                                   className={cn(
-                                    'relative rounded-full overflow-hidden p-0 border border-black/10 ring-0 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 hover:scale-105 outline-none flex items-center justify-center shrink-0',
+                                    'relative rounded-full overflow-hidden p-0 border border-black/10 ring-0 shadow-xs outline-none flex items-center justify-center shrink-0',
                                     useCompactLogo
                                       ? 'w-[40px] h-[40px] sm:w-[44px] sm:h-[44px]'
                                       : 'w-[48px] h-[48px]'
@@ -2229,7 +2229,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                 <div className="relative z-10 w-full flex-1 flex flex-col justify-between gap-[15px] min-w-0">
                   <div className="flex items-start justify-between gap-3 min-w-0">
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden shrink-0 border-2 border-indigo-500/40 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 bg-white flex items-center justify-center p-1">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden shrink-0 border-2 border-indigo-500/40 shadow-md bg-white flex items-center justify-center p-1">
                       <img
                         src={activeMilestone.logo}
                         alt={activeMilestone.company}

@@ -413,10 +413,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   background: var(--surface-primary-bg, var(--surface-main-glass)) !important;
   border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
   border-top: none !important;
-  box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  filter: none !important;
-  outline: none !important;
+  box-shadow: var(--surface-header-shadow, var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header)))) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   border-radius: var(--radius-header, 0 0 14px 14px) !important;
@@ -428,10 +425,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   background: var(--surface-primary-bg, var(--surface-main-glass)) !important;
   border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
   border-bottom: none !important;
-  box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  filter: none !important;
-  outline: none !important;
+  box-shadow: var(--surface-footer-shadow, var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header)))) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   border-radius: var(--radius-footer, 14px 14px 0 0) !important;
@@ -1001,11 +995,9 @@ h3.card-title,
 #ai-assistant-hero-banner {
   background: var(--surface-secondary-bg, var(--bg-card)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--banner-border, var(--border-color))) !important;
-  box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  filter: none !important;
-  outline: none !important;
-  outline-offset: 0px;
+  box-shadow: var(--banner-shadow, var(--shadow-card)) !important;
+  outline: var(--banner-outline, none);
+  outline-offset: var(--banner-outline-offset, 0px);
   backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 18px))) saturate(var(--surface-secondary-saturate, 145%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--bg-blur, 18px))) saturate(var(--surface-secondary-saturate, 145%)) !important;
   padding: 15px !important;
@@ -2876,23 +2868,9 @@ html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section #s
 [data-main-card="true"],
 .page-main-card,
 #about-intro-card-1,
-#about-intro-card-2,
-#service-main-card,
-#education-main-card,
-#projects-main-card,
-#skills-main-card,
-#systems-main-card,
-#memories-main-card,
-#horoscope-main-card,
-#contact-main-card,
-#ai-assistant-main-card,
-#interview-main-card,
-#pdf-page-container {
+#about-intro-card-2 {
   animation: none !important;
-  box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  filter: none !important;
-  outline: none !important;
+  box-shadow: 0 28px 65px -15px rgba(15, 23, 42, 0.32), 0 16px 36px -10px rgba(15, 23, 42, 0.2), 0 6px 16px -4px rgba(15, 23, 42, 0.12), 0 0 0 1px var(--surface-primary-border, rgba(255, 255, 255, 0.25)) !important;
 }
 
 .dark #home-main-card,
@@ -2900,109 +2878,12 @@ html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section #s
 .dark .page-main-card,
 .dark #about-intro-card-1,
 .dark #about-intro-card-2,
-.dark #service-main-card,
-.dark #education-main-card,
-.dark #projects-main-card,
-.dark #skills-main-card,
-.dark #systems-main-card,
-.dark #memories-main-card,
-.dark #horoscope-main-card,
-.dark #contact-main-card,
-.dark #ai-assistant-main-card,
-.dark #interview-main-card,
-.dark #pdf-page-container,
 :root[data-theme-mode="dark"] #home-main-card,
 :root[data-theme-mode="dark"] [data-main-card="true"],
 :root[data-theme-mode="dark"] .page-main-card,
 :root[data-theme-mode="dark"] #about-intro-card-1,
-:root[data-theme-mode="dark"] #about-intro-card-2,
-:root[data-theme-mode="dark"] #service-main-card,
-:root[data-theme-mode="dark"] #education-main-card,
-:root[data-theme-mode="dark"] #projects-main-card,
-:root[data-theme-mode="dark"] #skills-main-card,
-:root[data-theme-mode="dark"] #systems-main-card,
-:root[data-theme-mode="dark"] #memories-main-card,
-:root[data-theme-mode="dark"] #horoscope-main-card,
-:root[data-theme-mode="dark"] #contact-main-card,
-:root[data-theme-mode="dark"] #ai-assistant-main-card,
-:root[data-theme-mode="dark"] #interview-main-card,
-:root[data-theme-mode="dark"] #pdf-page-container {
-  box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  filter: none !important;
-  outline: none !important;
-}
-
-/* Explicit removal of drop shadow, hover elevation, and layer effects for main cards, banners & tracks */
-#education-main-card,
-#education-main-card:hover,
-#education-main-card:focus,
-#education-hero-banner,
-#education-hero-banner:hover,
-#education-hero-banner:focus,
-#education-cards-track,
-#education-cards-track:hover,
-#service-main-card,
-#service-main-card:hover,
-#service-main-card:focus,
-#services-hero-banner,
-#services-hero-banner:hover,
-#services-hero-banner:focus,
-#services-cards-track,
-#services-cards-track:hover,
-#services-main-content,
-#services-main-content:hover,
-.hero-banner,
-.hero-banner:hover,
-.banner-card,
-.banner-card:hover,
-.page-main-card,
-.page-main-card:hover,
-[data-main-card="true"],
-[data-main-card="true"]:hover {
-  box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  filter: none !important;
-  -webkit-filter: none !important;
-  text-shadow: none !important;
-  outline: none !important;
-  animation: none !important;
-  transform: none !important;
-}
-
-#education-main-card::before,
-#education-main-card::after,
-#education-hero-banner::before,
-#education-hero-banner::after,
-#education-cards-track::before,
-#education-cards-track::after,
-#service-main-card::before,
-#service-main-card::after,
-#services-hero-banner::before,
-#services-hero-banner::after,
-#services-cards-track::before,
-#services-cards-track::after,
-#services-main-content::before,
-#services-main-content::after,
-.hero-banner::before,
-.hero-banner::after,
-.banner-card::before,
-.banner-card::after,
-.page-main-card::before,
-.page-main-card::after,
-[data-main-card="true"]::before,
-[data-main-card="true"]::after {
-  content: none !important;
-  display: none !important;
-  box-shadow: none !important;
-}
-
-#education-hero-banner .project-detail-banner-scrim,
-#services-hero-banner .project-detail-banner-scrim,
-.hero-banner .project-detail-banner-scrim,
-.banner-card .project-detail-banner-scrim {
-  display: none !important;
-  background: transparent !important;
+:root[data-theme-mode="dark"] #about-intro-card-2 {
+  box-shadow: 0 32px 75px -15px rgba(0, 0, 0, 0.85), 0 20px 40px -10px rgba(0, 0, 0, 0.65), 0 8px 20px -4px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15) !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -3012,9 +2893,7 @@ html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section #s
   #about-intro-card-1:hover,
   #about-intro-card-2:hover,
   #pdf-page-container:hover {
-    transform: none !important;
-    box-shadow: none !important;
-    animation: none !important;
+    animation: main-card-hover-pulse 1.9s ease-in-out infinite !important;
   }
 }
 

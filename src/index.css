@@ -2147,9 +2147,19 @@ html :is(.hero-banner, .banner-card, [id$="-hero-banner"]) :is(p.font-italianno,
 
 
 /* ========================================================================= */
-/* UNIFIED MENU ICON PILL BUTTON SPEC                                        */
-/* - All pills including #header-btn-hungthai-avatar: 150px x 40px, pad 8/10 */
 /* ========================================================================= */
+/* UNIFIED MENU ICON PILL BUTTON SPEC & GOLDEN RULES OF UI/UX                */
+/* - 20% Translucent Glass Background across all similar pill controls      */
+/* - All pills including #header-btn-hungthai-avatar: 150px x 40px, pad 8/10 */
+/* - Clean non-stacking wrapper, accessible touch target >= 40px             */
+/* ========================================================================= */
+.nav-pill-wrapper {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
 button#footer-ai-btn,
 #footer-lang-btn,
 #footer-appearance-btn,
@@ -2169,9 +2179,66 @@ button#header-btn-hungthai-avatar {
   margin: 0 !important;
   font-weight: normal !important;
   border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: var(--radius-button, 999px) !important;
   align-items: center !important;
   gap: 6px !important;
   box-sizing: border-box !important;
+  background-color: var(--bg-nav-pill, rgba(255, 255, 255, 0.20)) !important;
+  border-color: var(--surface-interactive-border, rgba(255, 255, 255, 0.52)) !important;
+  box-shadow: var(--surface-interactive-shadow, 0 6px 18px rgba(50, 40, 80, 0.08)), inset 0 1px 0 rgba(255, 255, 255, 0.60) !important;
+  backdrop-filter: blur(var(--blur-nav-pill, 18px)) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(var(--blur-nav-pill, 18px)) saturate(140%) !important;
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease !important;
+}
+
+html.dark button#footer-ai-btn,
+html.dark #footer-lang-btn,
+html.dark #footer-appearance-btn,
+html.dark #footer-wallpaper-btn,
+html.dark #footer-theme-mode-btn,
+html.dark #app-header button.nav-pill,
+html.dark #app-footer button.nav-pill,
+html.dark button.nav-pill,
+html.dark button#header-btn-hungthai-avatar {
+  background-color: var(--bg-nav-pill, rgba(30, 39, 60, 0.20)) !important;
+  border-color: var(--surface-interactive-border, rgba(225, 235, 255, 0.18)) !important;
+  box-shadow: var(--surface-interactive-shadow, 0 6px 18px rgba(0, 0, 0, 0.30)), inset 0 1px 0 rgba(225, 235, 255, 0.16) !important;
+}
+
+/* Micro-interaction on hover & active */
+button#footer-ai-btn:hover,
+#footer-lang-btn:hover,
+#footer-appearance-btn:hover,
+#footer-wallpaper-btn:hover,
+#footer-theme-mode-btn:hover,
+#app-header button.nav-pill:hover,
+#app-footer button.nav-pill:hover,
+button.nav-pill:hover,
+button#header-btn-hungthai-avatar:hover {
+  background-color: var(--bg-nav-pill-hover, rgba(255, 255, 255, 0.34)) !important;
+  transform: translate3d(0, -1.5px, 0) scale(1.022) !important;
+  border-color: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 10px 24px -4px rgba(50, 40, 80, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.90) !important;
+}
+
+html.dark button#footer-ai-btn:hover,
+html.dark #footer-lang-btn:hover,
+html.dark #footer-appearance-btn:hover,
+html.dark #footer-wallpaper-btn:hover,
+html.dark #footer-theme-mode-btn:hover,
+html.dark #app-header button.nav-pill:hover,
+html.dark #app-footer button.nav-pill:hover,
+html.dark button.nav-pill:hover,
+html.dark button#header-btn-hungthai-avatar:hover {
+  background-color: var(--bg-nav-pill-hover, rgba(38, 49, 75, 0.42)) !important;
+  border-color: rgba(181, 167, 244, 0.40) !important;
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(225, 235, 255, 0.25) !important;
+}
+
+button#header-btn-hungthai-avatar:active,
+button.nav-pill:active {
+  transform: scale(0.98) !important;
 }
 
 .radial-contact-pill {
@@ -2184,16 +2251,22 @@ button#header-btn-hungthai-avatar {
   padding-right: 10px !important;
   font-weight: normal !important;
   border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: var(--radius-button, 999px) !important;
   align-items: center !important;
   gap: 6px !important;
   box-sizing: border-box !important;
+  background-color: var(--bg-nav-pill, rgba(255, 255, 255, 0.20)) !important;
+  border-color: var(--surface-interactive-border, rgba(255, 255, 255, 0.52)) !important;
+  backdrop-filter: blur(18px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(140%) !important;
 }
 
 /* SYNC #header-btn-hungthai-avatar SIZE & BADGE WITH HOME PILL (KEEP AVATAR GIF) */
 .nav-pill-wrapper:has(> #header-btn-hungthai-avatar) {
-  width: 153px !important;
+  width: 150px !important;
   height: auto !important;
-  padding: 1.5px !important;
+  padding: 0 !important;
   box-sizing: border-box !important;
 }
 
@@ -2218,6 +2291,7 @@ button.nav-pill .nav-pill-title,
   font-weight: var(--fw-bold, 700) !important;
   font-size: var(--fs-nav, 14px) !important;
   line-height: var(--lh-nav, 1.35) !important;
+  font-family: var(--font-primary, 'Play', sans-serif) !important;
 }
 
 button.nav-pill:not(#header-btn-hungthai-avatar) .nav-pill-icon-badge,
@@ -2234,19 +2308,19 @@ button.nav-pill:not(#header-btn-hungthai-avatar) .nav-pill-icon-badge,
   padding-left: 5px !important;
   padding-right: 5px !important;
   border-width: 1px !important;
+  border-radius: var(--radius-button, 999px) !important;
+  background-color: var(--bg-nav-pill, rgba(255, 255, 255, 0.20)) !important;
+  border-color: var(--surface-interactive-border, rgba(255, 255, 255, 0.52)) !important;
   box-sizing: border-box !important;
 }
 
-.nav-pill-wrapper {
-  overflow: visible !important;
-}
-
 button.nav-pill:focus-visible,
+button#header-btn-hungthai-avatar:focus-visible,
 .radial-contact-pill:focus-visible,
 .radial-contact-pill-wrapper a:focus-visible .radial-contact-pill,
 .radial-contact-pill-wrapper button:focus-visible .radial-contact-pill,
 #footer-nav-capsule button:focus-visible {
-  outline: 2px solid var(--color-focus-ring, #1480C0) !important;
+  outline: 2px solid var(--color-focus-ring, #7666D8) !important;
   outline-offset: 2px !important;
 }
 

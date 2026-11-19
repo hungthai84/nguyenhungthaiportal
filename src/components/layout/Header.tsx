@@ -487,7 +487,7 @@ export const Header: React.FC<HeaderProps> = ({
                 ref={(el) => {
                   pillWrapperRefs.current[index] = el;
                 }}
-                className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
+                className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-0 bg-transparent border-0"
                 style={{
                   width: uniformPillWidth ? `${uniformPillWidth}px` : undefined,
                 }}
@@ -499,6 +499,7 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                   id={`nav-item-${page.id}`}
                   type="button"
+                  role="button"
                   aria-current={isSelected ? 'page' : undefined}
                   onFocus={() => setFocusedNavIndex(index)}
                   onClick={() => {
@@ -598,7 +599,7 @@ export const Header: React.FC<HeaderProps> = ({
                 ref={(el) => {
                   pillWrapperRefs.current[avatarNavIndex] = el;
                 }}
-                className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
+                className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-0 bg-transparent border-0"
                 style={{
                   width: uniformPillWidth ? `${uniformPillWidth}px` : undefined,
                 }}
@@ -609,6 +610,13 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                   id="header-btn-hungthai-avatar"
                   type="button"
+                  role="button"
+                  aria-haspopup="dialog"
+                  aria-label={
+                    language === 'en'
+                      ? 'Expert Nguyen Hung Thai · Booking and Customer Support Menu'
+                      : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch và Chăm sóc khách hàng'
+                  }
                   aria-current={currentPage === 12 ? 'page' : undefined}
                   aria-expanded={isRadialMenuOpen}
                   onFocus={() => setFocusedNavIndex(avatarNavIndex)}
@@ -618,7 +626,7 @@ export const Header: React.FC<HeaderProps> = ({
                       ? 'Expert Nguyen Hung Thai · Booking & CS'
                       : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch & CSKH'
                   }
-                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer border transition-colors duration-200"
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer border transition-all duration-200"
                   style={{
                     width: '150px',
                     height: '40px',

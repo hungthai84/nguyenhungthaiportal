@@ -7,7 +7,7 @@
   background: linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border-radius: 28px;
+  border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow:
     12px 12px 26px rgba(176, 198, 219, 0.7),
@@ -27,7 +27,7 @@
   background: linear-gradient(145deg, #182536 0%, #121c29 100%);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border-radius: 28px;
+  border-radius: 14px;
   border: 1px solid rgba(148, 197, 248, 0.12);
   box-shadow:
     12px 12px 26px #0a1018,
@@ -100,16 +100,16 @@ html[data-card-style="ice-blue-neu"] {
   --shadow-subcard-glass: var(--neu-inset-shadow);
   --shadow-nested-glass: var(--neu-inset-shadow);
 
-  --radius-main: 28px;
-  --radius-card: 28px;
-  --radius-subcard: 22px;
-  --radius-banner: 28px;
-  --radius-modal: 28px;
-  --radius-popup: 28px;
-  --radius-widget: 24px;
-  --radius-input: 18px;
-  --radius-header: 0 0 28px 28px;
-  --radius-footer: 28px 28px 0 0;
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
   --card-border-width: 1px;
 
   --color-bg: #e6f0f8;
@@ -340,16 +340,16 @@ html[data-card-style="dark-ice-blue-neu"] {
   --shadow-subcard-glass: var(--neu-inset-shadow);
   --shadow-nested-glass: var(--neu-inset-shadow);
 
-  --radius-main: 28px;
-  --radius-card: 28px;
-  --radius-subcard: 22px;
-  --radius-banner: 28px;
-  --radius-modal: 28px;
-  --radius-popup: 28px;
-  --radius-widget: 24px;
-  --radius-input: 18px;
-  --radius-header: 0 0 28px 28px;
-  --radius-footer: 28px 28px 0 0;
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
   --card-border-width: 1px;
 
   --color-bg: #152030;
@@ -549,7 +549,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   background: var(--surface-primary-bg) !important;
   border: 1px solid var(--surface-primary-border) !important;
   border-top: none !important;
-  border-radius: 0 0 28px 28px !important;
+  border-radius: 0 0 14px 14px !important;
   box-shadow: var(--surface-header-shadow) !important;
   backdrop-filter: blur(18px) !important;
   -webkit-backdrop-filter: blur(18px) !important;
@@ -560,7 +560,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   background: var(--surface-primary-bg) !important;
   border: 1px solid var(--surface-primary-border) !important;
   border-bottom: none !important;
-  border-radius: 28px 28px 0 0 !important;
+  border-radius: 14px 14px 0 0 !important;
   box-shadow: var(--surface-footer-shadow) !important;
   backdrop-filter: blur(18px) !important;
   -webkit-backdrop-filter: blur(18px) !important;
@@ -578,7 +578,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 ) {
   background: var(--surface-primary-bg) !important;
   border: 1px solid var(--surface-primary-border) !important;
-  border-radius: 28px !important;
+  border-radius: 14px !important;
   box-shadow: var(--neu-raised-shadow) !important;
   backdrop-filter: blur(18px) !important;
   -webkit-backdrop-filter: blur(18px) !important;
@@ -614,7 +614,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 ) {
   background: var(--surface-secondary-bg) !important;
   border: 1px solid var(--surface-secondary-border) !important;
-  border-radius: 28px !important;
+  border-radius: 14px !important;
   box-shadow: var(--neu-raised-shadow) !important;
   backdrop-filter: blur(18px) !important;
   -webkit-backdrop-filter: blur(18px) !important;
@@ -636,7 +636,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 ) {
   background: var(--surface-tertiary-bg) !important;
   border: 1px solid var(--surface-tertiary-border) !important;
-  border-radius: 22px !important;
+  border-radius: 14px !important;
   box-shadow: var(--neu-inset-shadow) !important;
   color: var(--text-secondary) !important;
 }
@@ -663,7 +663,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   border: 1px solid var(--border-input) !important;
   box-shadow: var(--neu-inset-shadow) !important;
   color: var(--text-input) !important;
-  border-radius: 18px !important;
+  border-radius: 14px !important;
 }
 
 html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
@@ -678,7 +678,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) table {
   background: var(--bg-table) !important;
   border-color: var(--border-table) !important;
-  border-radius: 22px !important;
+  border-radius: 14px !important;
   overflow: hidden;
 }
 
@@ -707,7 +707,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 ) {
   background: var(--banner-transparent-bg) !important;
   border: 1px solid var(--banner-border) !important;
-  border-radius: var(--radius-banner, 28px) !important;
+  border-radius: var(--radius-banner, 14px) !important;
   box-shadow: var(--neu-raised-shadow) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;

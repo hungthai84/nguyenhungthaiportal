@@ -10,7 +10,7 @@
   backdrop-filter: blur(18px) saturate(132%) !important;
   -webkit-backdrop-filter: blur(18px) saturate(132%) !important;
   border: 1px solid rgba(255, 255, 255, 0.65) !important;
-  border-radius: 24px !important;
+  border-radius: 14px !important;
   box-shadow: 0 12px 28px -6px rgba(50, 40, 80, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
   color: #2D3850 !important;
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -29,7 +29,7 @@
   backdrop-filter: blur(18px) saturate(130%) !important;
   -webkit-backdrop-filter: blur(18px) saturate(130%) !important;
   border: 1px solid rgba(225, 235, 255, 0.16) !important;
-  border-radius: 24px !important;
+  border-radius: 14px !important;
   box-shadow: 0 14px 32px -6px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14) !important;
   color: #F2F4FC !important;
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -48,7 +48,7 @@
   backdrop-filter: blur(20px) saturate(138%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(138%) !important;
   border: 1px solid rgba(194, 183, 243, 0.24) !important;
-  border-radius: 24px !important;
+  border-radius: 14px !important;
   box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(225, 235, 255, 0.18) !important;
   color: #F2F4FC !important;
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -108,16 +108,16 @@ html[data-card-style="rainbow-glass"] {
   --color-text: #2D3850;
   --color-heading: #2D3850;
 
-  --radius-main: 30px;
-  --radius-card: 24px;
-  --radius-subcard: 16px;
-  --radius-banner: 24px;
-  --radius-modal: 24px;
-  --radius-popup: 20px;
-  --radius-input: 16px;
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-input: 14px;
   --radius-button: 999px;
-  --radius-header: 0 0 28px 28px;
-  --radius-footer: 28px 28px 0 0;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
 
   --bg-button-primary: linear-gradient(135deg, #7666D8 0%, #A99AE8 100%);
   --text-button-primary: #FFFFFF;
@@ -162,7 +162,7 @@ html[data-card-style="rainbow-glass"] :is(
   box-shadow: 0 18px 42px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.82), inset 1px 0 0 rgba(255, 255, 255, 0.42), inset 0 -1px 0 rgba(255, 255, 255, 0.24) !important;
   backdrop-filter: blur(24px) saturate(152%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(152%) !important;
-  border-radius: var(--radius-main, 30px) !important;
+  border-radius: var(--radius-main, 14px) !important;
 }
 
 /* Header & Footer Optical Liquid Glass Floating Bars */
@@ -190,7 +190,7 @@ html[data-card-style="rainbow-glass"] :is(
 ) {
   background: linear-gradient(135deg, rgba(251, 252, 255, 0.26) 0%, rgba(238, 233, 250, 0.22) 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.58) !important;
-  border-radius: var(--radius-banner, 24px) !important;
+  border-radius: var(--radius-banner, 14px) !important;
   box-shadow: 0 14px 32px -6px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.68) !important;
 }
 
@@ -207,7 +207,7 @@ html[data-card-style="rainbow-glass"] :is(
   background: linear-gradient(155deg, rgba(251, 252, 255, 0.88) 0%, rgba(247, 248, 253, 0.84) 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.68) !important;
   box-shadow: 0 12px 28px -6px rgba(50, 40, 80, 0.11), 0 4px 12px -2px rgba(50, 40, 80, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
-  border-radius: var(--radius-card, 24px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   backdrop-filter: blur(18px) saturate(132%) !important;
   -webkit-backdrop-filter: blur(18px) saturate(132%) !important;
   color: #2D3850;
@@ -255,7 +255,7 @@ html[data-card-style="rainbow-glass"] :is(
   background: rgba(251, 252, 255, 0.68) !important;
   border: 1px solid rgba(255, 255, 255, 0.62) !important;
   box-shadow: 0 6px 16px -4px rgba(50, 40, 80, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.62) !important;
-  border-radius: var(--radius-subcard, 16px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   color: #2D3850;
@@ -305,16 +305,16 @@ html[data-card-style="dark-rainbow-glass"] {
   --color-text: #F2F4FC;
   --color-heading: #F2F4FC;
 
-  --radius-main: 30px;
-  --radius-card: 24px;
-  --radius-subcard: 16px;
-  --radius-banner: 24px;
-  --radius-modal: 24px;
-  --radius-popup: 20px;
-  --radius-input: 16px;
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-input: 14px;
   --radius-button: 999px;
-  --radius-header: 0 0 28px 28px;
-  --radius-footer: 28px 28px 0 0;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
 
   --bg-button-primary: linear-gradient(135deg, #B5A7F4 0%, #9889EE 100%);
   --text-button-primary: #101A2B;
@@ -358,7 +358,7 @@ html[data-card-style="dark-rainbow-glass"] :is(
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(235, 244, 255, 0.26), inset 1px 0 0 rgba(225, 235, 255, 0.12), inset 0 -1px 0 rgba(225, 235, 255, 0.06) !important;
   backdrop-filter: blur(24px) saturate(148%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(148%) !important;
-  border-radius: var(--radius-main, 30px) !important;
+  border-radius: var(--radius-main, 14px) !important;
 }
 
 html[data-card-style="dark-rainbow-glass"] #app-header,
@@ -384,7 +384,7 @@ html[data-card-style="dark-rainbow-glass"] :is(
 ) {
   background: linear-gradient(135deg, rgba(32, 42, 64, 0.36) 0%, rgba(23, 31, 51, 0.32) 100%) !important;
   border: 1px solid rgba(225, 235, 255, 0.18) !important;
-  border-radius: var(--radius-banner, 24px) !important;
+  border-radius: var(--radius-banner, 14px) !important;
   box-shadow: 0 14px 32px -6px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14) !important;
 }
 
@@ -400,7 +400,7 @@ html[data-card-style="dark-rainbow-glass"] :is(
   background: linear-gradient(155deg, rgba(32, 42, 64, 0.90) 0%, rgba(26, 35, 55, 0.88) 100%) !important;
   border: 1px solid rgba(225, 235, 255, 0.16) !important;
   box-shadow: 0 14px 32px -6px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(225, 235, 255, 0.14) !important;
-  border-radius: var(--radius-card, 24px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   backdrop-filter: blur(18px) saturate(130%) !important;
   -webkit-backdrop-filter: blur(18px) saturate(130%) !important;
   color: #F2F4FC;
@@ -446,7 +446,7 @@ html[data-card-style="dark-rainbow-glass"] :is(
   background: rgba(36, 47, 72, 0.72) !important;
   border: 1px solid rgba(225, 235, 255, 0.14) !important;
   box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(225, 235, 255, 0.10) !important;
-  border-radius: var(--radius-subcard, 16px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   color: #F2F4FC;
@@ -473,16 +473,16 @@ html[data-card-style="special-rainbow-glass"] {
   --text-primary: #F2F4FC;
   --text-secondary: #C0C9DC;
   --text-muted: #98A6BF;
-  --radius-main: 30px;
-  --radius-card: 24px;
-  --radius-subcard: 16px;
-  --radius-banner: 24px;
-  --radius-modal: 24px;
-  --radius-popup: 20px;
-  --radius-input: 16px;
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-input: 14px;
   --radius-button: 999px;
-  --radius-header: 0 0 28px 28px;
-  --radius-footer: 28px 28px 0 0;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
   --bg-button-primary: linear-gradient(135deg, #B5A7F4 0%, #8E80BD 100%);
   --text-button-primary: #101A2B;
   --bg-nav-pill: rgba(30, 39, 60, 0.20);
@@ -505,7 +505,7 @@ html[data-card-style="special-rainbow-glass"] :is(
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(235, 244, 255, 0.28), inset 1px 0 0 rgba(194, 183, 243, 0.16), inset 0 -1px 0 rgba(78, 158, 170, 0.10) !important;
   backdrop-filter: blur(24px) saturate(150%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
-  border-radius: var(--radius-main, 30px) !important;
+  border-radius: var(--radius-main, 14px) !important;
 }
 
 html[data-card-style="special-rainbow-glass"] #app-header,
@@ -531,7 +531,7 @@ html[data-card-style="special-rainbow-glass"] :is(
 ) {
   background: linear-gradient(135deg, rgba(36, 42, 72, 0.42) 0%, rgba(21, 48, 57, 0.34) 100%) !important;
   border: 1px solid rgba(194, 183, 243, 0.26) !important;
-  border-radius: var(--radius-banner, 24px) !important;
+  border-radius: var(--radius-banner, 14px) !important;
   box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(225, 235, 255, 0.18) !important;
 }
 
@@ -547,7 +547,7 @@ html[data-card-style="special-rainbow-glass"] :is(
   background: linear-gradient(145deg, rgba(34, 42, 68, 0.90) 0%, rgba(25, 33, 56, 0.88) 100%) !important;
   border: 1px solid rgba(194, 183, 243, 0.22) !important;
   box-shadow: 0 14px 34px -6px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(225, 235, 255, 0.16) !important;
-  border-radius: var(--radius-card, 24px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   backdrop-filter: blur(18px) saturate(135%) !important;
   -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
   color: #F2F4FC;
@@ -568,7 +568,7 @@ html[data-card-style="special-rainbow-glass"] :is(
   background: rgba(38, 48, 76, 0.72) !important;
   border: 1px solid rgba(194, 183, 243, 0.18) !important;
   box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(225, 235, 255, 0.12) !important;
-  border-radius: var(--radius-subcard, 16px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   color: #F2F4FC;

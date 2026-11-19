@@ -9,8 +9,6 @@ export type SurfaceDepthMode = 'flat' | 'depth';
 export type FontScaleMode = 'normal' | 'large' | 'xlarge';
 
 export type CardStyleMode =
-  | 'soft-indigo-fintech'
-  | 'dark-soft-indigo-fintech'
   | 'light-cowhide-leather'
   | 'black-cowhide-leather'
   | 'cowhide-leather'
@@ -22,7 +20,6 @@ export type CardStyleMode =
   | 'special-rainbow-glass';
 
 export type ThemeFamilyId =
-  | 'soft-indigo-fintech'
   | 'cowhide-leather'
   | 'ice-blue-neu'
   | 'glass-flat'

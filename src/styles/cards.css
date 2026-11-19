@@ -6,6 +6,14 @@
   --radius-main: 14px;
   --radius-card: 14px;
   --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+  --radius-button: 999px;
   --space-card-padding: 15px;
   --space-card-gap: 15px;
 }

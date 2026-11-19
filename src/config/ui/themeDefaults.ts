@@ -1,6 +1,6 @@
 import { CardStyleMode, FontScaleMode, ThemeMechanismMode } from './theme.types';
 
-export const DEFAULT_CARD_STYLE: CardStyleMode = 'soft-indigo-fintech';
+export const DEFAULT_CARD_STYLE: CardStyleMode = 'rainbow-glass';
 export const DEFAULT_LAYER_DEPTH = 100;
 export const DEFAULT_FONT_SCALE: FontScaleMode = 'normal';
 
@@ -25,8 +25,6 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   CardStyleMode,
   { cardOpacity: number; blurIntensity: number }
 > = {
-  'soft-indigo-fintech': { cardOpacity: 98, blurIntensity: 18 },
-  'dark-soft-indigo-fintech': { cardOpacity: 96, blurIntensity: 18 },
   'light-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'black-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
@@ -49,26 +47,6 @@ export interface ThemeBackgroundSpec {
 }
 
 export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
-  'soft-indigo-fintech': {
-    id: 'soft-indigo-fintech',
-    presetId: 'theme-bg-soft-indigo-fintech',
-    label: 'Nền Soft Indigo FinTech (#EEF0FA)',
-    themeMode: 'light',
-    imagePath: '',
-    fallbackGradient:
-      'radial-gradient(circle at 14% 16%, rgba(108, 76, 230, 0.14) 0%, transparent 48%), radial-gradient(circle at 86% 18%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 76% 84%, rgba(163, 230, 53, 0.10) 0%, transparent 50%), linear-gradient(145deg, #EEF0FA 0%, #E5E9F8 52%, #DCE0F5 100%)',
-    overlayBg: 'rgba(238, 240, 250, 0.08)',
-  },
-  'dark-soft-indigo-fintech': {
-    id: 'dark-soft-indigo-fintech',
-    presetId: 'theme-bg-dark-soft-indigo-fintech',
-    label: 'Nền Soft Indigo FinTech (Tối #0E1225)',
-    themeMode: 'dark',
-    imagePath: '',
-    fallbackGradient:
-      'radial-gradient(circle at 14% 16%, rgba(108, 76, 230, 0.24) 0%, transparent 48%), radial-gradient(circle at 86% 18%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 76% 84%, rgba(163, 230, 53, 0.10) 0%, transparent 50%), linear-gradient(145deg, #0E1225 0%, #151A33 52%, #11162B 100%)',
-    overlayBg: 'rgba(14, 18, 37, 0.20)',
-  },
   'light-cowhide-leather': {
     id: 'light-cowhide-leather',
     presetId: 'theme-bg-light-cowhide-leather',
@@ -162,8 +140,6 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
-  'soft-indigo-fintech': THEME_BACKGROUNDS['soft-indigo-fintech'].presetId,
-  'dark-soft-indigo-fintech': THEME_BACKGROUNDS['dark-soft-indigo-fintech'].presetId,
   'light-cowhide-leather': THEME_BACKGROUNDS['light-cowhide-leather'].presetId,
   'black-cowhide-leather': THEME_BACKGROUNDS['black-cowhide-leather'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,

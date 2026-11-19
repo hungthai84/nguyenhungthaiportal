@@ -189,7 +189,7 @@ function readInitialColorSchemeMode(): ColorSchemeMode {
   } catch {
     // ignore
   }
-  return 'system';
+  return 'light';
 }
 
 function readInitialCardStyle(initialSchemeMode: ColorSchemeMode): CardStyleMode {
@@ -201,9 +201,7 @@ function readInitialCardStyle(initialSchemeMode: ColorSchemeMode): CardStyleMode
     }
     return baseStyle;
   } catch {
-    return initialSchemeMode === 'system'
-      ? getLightDarkCounterpart(DEFAULT_CARD_STYLE, getSystemPrefersDark())
-      : DEFAULT_CARD_STYLE;
+    return DEFAULT_CARD_STYLE;
   }
 }
 

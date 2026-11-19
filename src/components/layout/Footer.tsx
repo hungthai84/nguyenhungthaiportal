@@ -4,6 +4,7 @@ import { WeatherCard } from '../common/WeatherCard';
 import { WebIcon } from '../ui/WebIcon';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { CARD_STYLE_GROUPS, getCardStyleConfig } from '@/config/ui/cardStyles';
+import { FONT_SCALE_OPTIONS, LAYER_DEPTH_PRESETS } from '@/config/ui/layerDepth';
 import { useLanguage, LanguagePreference } from '@/context/LanguageContext';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 
@@ -97,7 +98,31 @@ export const Footer: React.FC<FooterProps> = ({
     }
   };
 
-  const { cardStyle, setCardStyle, isDark } = useTheme();
+  const {
+    cardStyle,
+    setCardStyle,
+    isDark,
+    layerDepth,
+    setLayerDepth,
+    fontScale,
+    setFontScale,
+    cycleFontScale,
+  } = useTheme();
+  const fontScaleOption =
+    FONT_SCALE_OPTIONS.find((opt) => opt.id === fontScale) || FONT_SCALE_OPTIONS[0];
+  const handleCycleFontScale = () => {
+    SoundEngine.playTap();
+    const currentIdx = FONT_SCALE_OPTIONS.findIndex((o) => o.id === fontScale);
+    const nextOption = FONT_SCALE_OPTIONS[(currentIdx + 1) % FONT_SCALE_OPTIONS.length];
+    cycleFontScale();
+    if (nextOption) {
+      onShowNotification(
+        isEn
+          ? `✓ Text size: ${nextOption.labelEn} (${nextOption.badge})`
+          : `✓ Cỡ chữ: ${nextOption.labelVi} (${nextOption.badge})`
+      );
+    }
+  };
   const footerCardStyle = getCardStyleProperties(cardStyle);
   const {
     border: _b,
@@ -182,11 +207,7 @@ export const Footer: React.FC<FooterProps> = ({
     ? 0
     : isThemeMenuOpen
       ? 1
-      : currentTabIndex === 14
-        ? 2
-        : currentTabIndex === 13
-          ? 3
-          : null;
+      : null;
   const activeRightIndex =
     hoveredRightBtn !== null
       ? hoveredRightBtn
@@ -219,8 +240,8 @@ export const Footer: React.FC<FooterProps> = ({
     }
     const isAfterActive = activeRightIndex !== null && index === activeRightIndex + 1;
     return {
-      marginLeft: index === 0 ? '0px' : isAfterActive ? '8px' : `-${overlapRightPx}px`,
-      zIndex: isPopupOpen ? 9999 : isHighlighted ? 150 : index + 10,
+      marginLeft: index === 0 ? '0px' : isAfterActive ? '-10px' : `-${overlapRightPx}px`,
+      zIndex: isPopupOpen ? 9999 : index + 10,
     };
   };
 
@@ -252,10 +273,10 @@ export const Footer: React.FC<FooterProps> = ({
       className="mx-auto h-auto min-h-[64px] py-1.5 sm:min-h-[72px] sm:h-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 rounded-b-none rounded-t-[14px] border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
     >
 
-      {/* Area 1: Weather Widget co giãn tự động theo nội dung */}
+      {/* Area 1: Weather Widget + Nút chuyển đổi cỡ chữ hỗ trợ đọc */}
       <div
         id="el-p0-div-109"
-        className="w-auto max-w-[58%] sm:max-w-[40%] md:max-w-[calc(50%-88px)] h-auto sm:h-full flex items-center justify-start min-w-0 relative z-10 shrink-0"
+        className="w-auto max-w-[64%] sm:max-w-[44%] md:max-w-[calc(50%-92px)] h-auto sm:h-full flex items-center justify-start gap-1.5 min-w-0 relative z-10 shrink-0"
         style={{
           paddingRight: '0px',
           paddingBottom: '0px',
@@ -263,6 +284,34 @@ export const Footer: React.FC<FooterProps> = ({
         }}
       >
         <WeatherCard onShowNotification={onShowNotification} />
+        <button
+          id="footer-font-size-btn"
+          type="button"
+          onClick={handleCycleFontScale}
+          aria-label={
+            isEn
+              ? `Adjust reading text size (${fontScaleOption.labelEn} ${fontScaleOption.badge})`
+              : `Đổi cỡ chữ toàn trang (${fontScaleOption.labelVi} ${fontScaleOption.badge})`
+          }
+          title={
+            isEn
+              ? `Reading text size: ${fontScaleOption.labelEn} (${fontScaleOption.badge}) — Click to cycle`
+              : `Cỡ chữ đọc trang: ${fontScaleOption.labelVi} (${fontScaleOption.badge}) — Nhấn để đổi`
+          }
+          style={{
+            height: '36px',
+            borderRadius: '999px',
+            borderColor: 'var(--border-card)',
+            background: 'var(--bg-subcard)',
+            color: fontScale === 'normal' ? 'var(--text-primary)' : 'var(--text-link, var(--color-primary))',
+          }}
+          className="inline-flex items-center gap-1 px-2.5 rounded-full border shrink-0 cursor-pointer transition-all duration-200 hover:opacity-90 active:scale-95 shadow-2xs"
+        >
+          <WebIcon name="type" className="w-3.5 h-3.5 shrink-0" />
+          <span className="typo-badge font-bold leading-none tabular-nums">
+            {fontScaleOption.badge}
+          </span>
+        </button>
       </div>
 
       {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md (tạm ẩn trên desktop khi nút bên phải bung ra) */}
@@ -367,10 +416,7 @@ export const Footer: React.FC<FooterProps> = ({
           }`}
         >
           {/* Button 0: Ngôn Ngữ */}
-          {(() => {
-            const isSelected = isLangMenuOpen;
-            return (
-              <div
+          <div
                 ref={langMenuRef}
                 onMouseEnter={() => handleRightBtnMouseEnter(0)}
                 style={getDeckItemStyle(0, isLangMenuOpen)}
@@ -403,9 +449,7 @@ export const Footer: React.FC<FooterProps> = ({
                         : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
                     }
                     aria-expanded={isLangMenuOpen}
-                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border ${
-                      isSelected ? 'active' : ''
-                    }`}
+                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border"
                     style={{
                       width: '150px',
                       height: '40px',
@@ -420,7 +464,7 @@ export const Footer: React.FC<FooterProps> = ({
                     <div
                       className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                       style={{
-                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.22)' : '#10B981',
+                        backgroundColor: '#10B981',
                       }}
                     >
                       <WebIcon name="languages" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
@@ -493,14 +537,9 @@ export const Footer: React.FC<FooterProps> = ({
                   </div>
                 )}
               </div>
-            );
-          })()}
 
           {/* Button 1: Giao diện */}
-          {(() => {
-            const isSelected = isThemeMenuOpen || currentTabIndex === 15;
-            return (
-              <div
+          <div
                 ref={themeMenuRef}
                 onMouseEnter={() => handleRightBtnMouseEnter(1)}
                 style={getDeckItemStyle(1, isThemeMenuOpen)}
@@ -534,9 +573,7 @@ export const Footer: React.FC<FooterProps> = ({
                         : `Giao diện (${activeThemeConfig.shortBadge})`
                     }
                     aria-expanded={isThemeMenuOpen}
-                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border ${
-                      isSelected ? 'active' : ''
-                    }`}
+                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border"
                     style={{
                       width: '150px',
                       height: '40px',
@@ -551,7 +588,7 @@ export const Footer: React.FC<FooterProps> = ({
                     <div
                       className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                       style={{
-                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.22)' : '#6366F1',
+                        backgroundColor: '#6366F1',
                       }}
                     >
                       <WebIcon name="layers" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
@@ -877,6 +914,93 @@ export const Footer: React.FC<FooterProps> = ({
                       })}
                     </div>
 
+                    {/* Điều chỉnh nhanh Cỡ chữ & Độ sâu Layer */}
+                    <div
+                      className="border-t pt-2 mt-1 flex flex-col gap-2 px-1"
+                      style={{ borderColor: 'var(--border-subcard)' }}
+                    >
+                      {/* Cỡ chữ đọc trang */}
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="typo-label font-bold flex items-center gap-1.5">
+                            <WebIcon name="type" className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
+                            <span>{isEn ? 'Reading Text Size' : 'Cỡ chữ hỗ trợ đọc'}</span>
+                          </span>
+                          <span className="typo-badge font-mono" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+                            {fontScaleOption.badge}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-3 gap-1">
+                          {FONT_SCALE_OPTIONS.map((opt) => {
+                            const isSelected = fontScale === opt.id;
+                            return (
+                              <button
+                                key={opt.id}
+                                type="button"
+                                aria-pressed={isSelected}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  SoundEngine.playTap();
+                                  setFontScale(opt.id);
+                                }}
+                                className={`theme-switch-btn justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                                  isSelected ? 'is-active' : ''
+                                }`}
+                              >
+                                <span>{isEn ? opt.labelEn : opt.labelVi}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Độ sâu Layer trực tiếp */}
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="typo-label font-bold flex items-center gap-1.5">
+                            <WebIcon name="layers" className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
+                            <span>{isEn ? 'Layer Depth' : 'Độ sâu Layer'}</span>
+                          </span>
+                          <span className="typo-badge font-mono tabular-nums" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+                            {layerDepth}%
+                          </span>
+                        </div>
+                        <input
+                          id="footer-layer-depth-slider"
+                          type="range"
+                          min={0}
+                          max={200}
+                          step={10}
+                          value={layerDepth}
+                          aria-label={isEn ? 'Adjust Layer Card depth percentage' : 'Điều chỉnh độ sâu Layer Card trực tiếp'}
+                          onChange={(e) => setLayerDepth(Number(e.target.value))}
+                          className="w-full accent-[var(--color-primary)] cursor-pointer h-1.5"
+                        />
+                        <div className="grid grid-cols-4 gap-1">
+                          {LAYER_DEPTH_PRESETS.filter((p) => p.value !== 60).map((preset) => {
+                            const isSelected = layerDepth === preset.value;
+                            return (
+                              <button
+                                key={preset.value}
+                                type="button"
+                                aria-pressed={isSelected}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  SoundEngine.playTap();
+                                  setLayerDepth(preset.value);
+                                }}
+                                className={`theme-switch-btn justify-center inline-flex items-center px-1.5 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer tabular-nums ${
+                                  isSelected ? 'is-active' : ''
+                                }`}
+                              >
+                                {preset.value}%
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="border-t pt-1.5 mt-1" style={{ borderColor: 'var(--border-subcard)' }}>
                       <button
                         type="button"
@@ -900,159 +1024,143 @@ export const Footer: React.FC<FooterProps> = ({
                   </div>
                 )}
               </div>
-            );
-          })()}
 
           {/* Button 2: Hình Nền */}
-          {(() => {
-            const isSelected = currentTabIndex === 14;
-            return (
-              <div
-                onMouseEnter={() => handleRightBtnMouseEnter(2)}
-                style={getDeckItemStyle(2)}
-                className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
+          <div
+            onMouseEnter={() => handleRightBtnMouseEnter(2)}
+            style={getDeckItemStyle(2)}
+            className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
+          >
+            <div
+              ref={(el) => {
+                rightPillWrapperRefs.current[2] = el;
+              }}
+              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
+              style={{
+                width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
+              }}
+            >
+              <button
+                ref={(el) => {
+                  rightPillBtnRefs.current[2] = el;
+                }}
+                id="footer-wallpaper-btn"
+                type="button"
+                aria-current={currentTabIndex === 14 ? 'page' : undefined}
+                onFocus={() => setFocusedRightBtn(2)}
+                onClick={() => {
+                  setIsLangMenuOpen(false);
+                  setIsThemeMenuOpen(false);
+                  handleWallpaperClick();
+                }}
+                title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border"
+                style={{
+                  width: '150px',
+                  height: '40px',
+                  paddingTop: '8px',
+                  paddingBottom: '8px',
+                  paddingLeft: '10px',
+                  paddingRight: '10px',
+                  fontWeight: 'normal',
+                  borderWidth: '1px',
+                }}
               >
                 <div
-                  ref={(el) => {
-                    rightPillWrapperRefs.current[2] = el;
-                  }}
-                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
+                  className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                   style={{
-                    width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
+                    backgroundColor: '#F43F5E',
                   }}
                 >
-                  <button
-                    ref={(el) => {
-                      rightPillBtnRefs.current[2] = el;
-                    }}
-                    id="footer-wallpaper-btn"
-                    type="button"
-                    aria-current={isSelected ? 'page' : undefined}
-                    onFocus={() => setFocusedRightBtn(2)}
-                    onClick={() => {
-                      setIsLangMenuOpen(false);
-                      setIsThemeMenuOpen(false);
-                      handleWallpaperClick();
-                    }}
-                    title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
-                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border ${
-                      isSelected ? 'active' : ''
-                    }`}
-                    style={{
-                      width: '150px',
-                      height: '40px',
-                      paddingTop: '8px',
-                      paddingBottom: '8px',
-                      paddingLeft: '10px',
-                      paddingRight: '10px',
-                      fontWeight: 'normal',
-                      borderWidth: '1px',
-                    }}
-                  >
-                    <div
-                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
-                      style={{
-                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.22)' : '#F43F5E',
-                      }}
-                    >
-                      <WebIcon name="image" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
-                    </div>
-                    <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
-                    <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
-                      <span
-                        style={{ fontWeight: 'bold', fontSize: '15px' }}
-                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
-                      >
-                        {isEn ? 'Wallpaper' : 'Hình Nền'}
-                      </span>
-                    </div>
-                  </button>
+                  <WebIcon name="image" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
                 </div>
-              </div>
-            );
-          })()}
+                <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
+                <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                  <span
+                    style={{ fontWeight: 'bold', fontSize: '15px' }}
+                    className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
+                  >
+                    {isEn ? 'Wallpaper' : 'Hình Nền'}
+                  </span>
+                </div>
+              </button>
+            </div>
+          </div>
 
           {/* Button 3: AI Hỗ trợ */}
-          {(() => {
-            const isSelected = currentTabIndex === 13;
-            return (
-              <div
-                onMouseEnter={() => handleRightBtnMouseEnter(3)}
-                style={getDeckItemStyle(3)}
-                className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
+          <div
+            onMouseEnter={() => handleRightBtnMouseEnter(3)}
+            style={getDeckItemStyle(3)}
+            className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
+          >
+            <div
+              ref={(el) => {
+                rightPillWrapperRefs.current[3] = el;
+              }}
+              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
+              style={{
+                width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
+              }}
+            >
+              <button
+                ref={(el) => {
+                  rightPillBtnRefs.current[3] = el;
+                }}
+                id="footer-ai-btn"
+                type="button"
+                aria-current={currentTabIndex === 13 ? 'page' : undefined}
+                aria-label={isEn ? 'Open AI Assistant (24/7 Support)' : 'Mở AI hỗ trợ (Trợ lý 24/7)'}
+                onFocus={() => setFocusedRightBtn(3)}
+                onClick={() => {
+                  SoundEngine.playTap();
+                  setIsLangMenuOpen(false);
+                  setIsThemeMenuOpen(false);
+                  onOpenAiAssistant();
+                }}
+                title={isEn ? 'AI Assistant (24/7 Support)' : 'AI hỗ trợ (Trợ lý 24/7)'}
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border"
+                style={{
+                  width: '150px',
+                  height: '40px',
+                  paddingTop: '8px',
+                  paddingBottom: '8px',
+                  paddingLeft: '10px',
+                  paddingRight: '10px',
+                  fontWeight: 'normal',
+                  borderWidth: '1px',
+                }}
               >
                 <div
-                  ref={(el) => {
-                    rightPillWrapperRefs.current[3] = el;
-                  }}
-                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
+                  className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                   style={{
-                    width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
+                    backgroundColor: '#A855F7',
                   }}
                 >
-                  <button
-                    ref={(el) => {
-                      rightPillBtnRefs.current[3] = el;
-                    }}
-                    id="footer-ai-btn"
-                    type="button"
-                    aria-current={isSelected ? 'page' : undefined}
-                    aria-label={isEn ? 'Open AI Assistant (24/7 Support)' : 'Mở AI hỗ trợ (Trợ lý 24/7)'}
-                    onFocus={() => setFocusedRightBtn(3)}
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      setIsLangMenuOpen(false);
-                      setIsThemeMenuOpen(false);
-                      onOpenAiAssistant();
-                    }}
-                    title={isEn ? 'AI Assistant (24/7 Support)' : 'AI hỗ trợ (Trợ lý 24/7)'}
-                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border ${
-                      isSelected ? 'active' : ''
-                    }`}
-                    style={{
-                      width: '150px',
-                      height: '40px',
-                      paddingTop: '8px',
-                      paddingBottom: '8px',
-                      paddingLeft: '10px',
-                      paddingRight: '10px',
-                      fontWeight: 'normal',
-                      borderWidth: '1px',
-                    }}
-                  >
-                    <div
-                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
-                      style={{
-                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.22)' : '#A855F7',
-                      }}
-                    >
-                      {aiAvatarError ? (
-                        <WebIcon name="bot" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
-                      ) : (
-                        <img
-                          src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550149/Avata_AI_h%E1%BB%97_tr%E1%BB%A3.gif"
-                          alt={isEn ? 'AI Assistant' : 'AI hỗ trợ'}
-                          loading="eager"
-                          decoding="async"
-                          className="w-full h-full object-cover rounded-full scale-[1.28]"
-                          onError={() => setAiAvatarError(true)}
-                        />
-                      )}
-                    </div>
-                    <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
-                    <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
-                      <span
-                        style={{ fontWeight: 'bold', fontSize: '15px' }}
-                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
-                      >
-                        {isEn ? 'AI Assistant' : 'AI hỗ trợ'}
-                      </span>
-                    </div>
-                  </button>
+                  {aiAvatarError ? (
+                    <WebIcon name="bot" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
+                  ) : (
+                    <img
+                      src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550149/Avata_AI_h%E1%BB%97_tr%E1%BB%A3.gif"
+                      alt={isEn ? 'AI Assistant' : 'AI hỗ trợ'}
+                      loading="eager"
+                      decoding="async"
+                      className="w-full h-full object-cover rounded-full scale-[1.28]"
+                      onError={() => setAiAvatarError(true)}
+                    />
+                  )}
                 </div>
-              </div>
-            );
-          })()}
+                <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
+                <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                  <span
+                    style={{ fontWeight: 'bold', fontSize: '15px' }}
+                    className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
+                  >
+                    {isEn ? 'AI Assistant' : 'AI hỗ trợ'}
+                  </span>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 

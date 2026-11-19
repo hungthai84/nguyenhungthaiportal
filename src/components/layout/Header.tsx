@@ -40,8 +40,6 @@ interface HeaderButtonStyle {
   gradient: string;
   circleBg: string;
   ringColor: string;
-  glowColor: string;
-  laserColor: string;
   subColor: string;
   subVi: string;
   subEn: string;
@@ -58,8 +56,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#B45309] via-[#D97706] to-[#F59E0B]',
     circleBg: 'bg-amber-500/90',
     ringColor: 'ring-amber-400/55',
-    glowColor: 'rgba(245, 158, 11, 0.45)',
-    laserColor: '#F59E0B',
     subColor: 'text-amber-600 dark:text-amber-300',
     subVi: 'Tổng quan',
     subEn: 'Overview',
@@ -73,8 +69,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#C2410C] via-[#EA580C] to-[#F97316]',
     circleBg: 'bg-orange-500/90',
     ringColor: 'ring-orange-400/55',
-    glowColor: 'rgba(249, 115, 22, 0.45)',
-    laserColor: '#F97316',
     subColor: 'text-orange-600 dark:text-orange-300',
     subVi: 'Tâm thư',
     subEn: 'Cover Letter',
@@ -88,8 +82,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#BE123C] via-[#E11D48] to-[#F43F5E]',
     circleBg: 'bg-rose-500/90',
     ringColor: 'ring-rose-400/55',
-    glowColor: 'rgba(244, 63, 94, 0.45)',
-    laserColor: '#F43F5E',
     subColor: 'text-rose-600 dark:text-rose-300',
     subVi: 'Hồ sơ',
     subEn: 'Profile',
@@ -103,8 +95,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#0369A1] via-[#0284C7] to-[#0EA5E9]',
     circleBg: 'bg-sky-500/90',
     ringColor: 'ring-sky-400/55',
-    glowColor: 'rgba(14, 165, 233, 0.45)',
-    laserColor: '#0EA5E9',
     subColor: 'text-sky-600 dark:text-sky-300',
     subVi: 'Đào tạo',
     subEn: 'Education',
@@ -118,8 +108,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#047857] via-[#059669] to-[#0D9488]',
     circleBg: 'bg-emerald-500/90',
     ringColor: 'ring-emerald-400/55',
-    glowColor: 'rgba(16, 185, 129, 0.45)',
-    laserColor: '#10B981',
     subColor: 'text-emerald-600 dark:text-emerald-300',
     subVi: 'Giải pháp',
     subEn: 'Services',
@@ -133,8 +121,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#0E7490] via-[#0891B2] to-[#06B6D4]',
     circleBg: 'bg-cyan-500/90',
     ringColor: 'ring-cyan-400/55',
-    glowColor: 'rgba(6, 182, 212, 0.45)',
-    laserColor: '#06B6D4',
     subColor: 'text-cyan-600 dark:text-cyan-300',
     subVi: '22+ Năm',
     subEn: '22+ Years',
@@ -148,8 +134,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#4C1D95] via-[#6D28D9] to-[#8B5CF6]',
     circleBg: 'bg-violet-500/90',
     ringColor: 'ring-violet-400/55',
-    glowColor: 'rgba(139, 92, 246, 0.45)',
-    laserColor: '#8B5CF6',
     subColor: 'text-violet-600 dark:text-violet-300',
     subVi: 'SWOT CX',
     subEn: 'SWOT Matrix',
@@ -163,8 +147,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#0F766E] via-[#0D9488] to-[#14B8A6]',
     circleBg: 'bg-teal-500/90',
     ringColor: 'ring-teal-400/55',
-    glowColor: 'rgba(20, 184, 166, 0.45)',
-    laserColor: '#14B8A6',
     subColor: 'text-teal-600 dark:text-teal-300',
     subVi: 'Thực chiến',
     subEn: 'Projects',
@@ -178,8 +160,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#1E40AF] via-[#2563EB] to-[#3B82F6]',
     circleBg: 'bg-blue-500/90',
     ringColor: 'ring-blue-400/55',
-    glowColor: 'rgba(59, 130, 246, 0.45)',
-    laserColor: '#3B82F6',
     subColor: 'text-blue-600 dark:text-blue-300',
     subVi: 'Công nghệ',
     subEn: 'Systems',
@@ -193,8 +173,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#3F6212] via-[#4D7C0F] to-[#65A30D]',
     circleBg: 'bg-lime-600/90',
     ringColor: 'ring-lime-400/55',
-    glowColor: 'rgba(132, 204, 22, 0.45)',
-    laserColor: '#84CC16',
     subColor: 'text-lime-600 dark:text-lime-300',
     subVi: 'Hỏi & Đáp',
     subEn: 'Interview',
@@ -208,8 +186,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#9A3412] via-[#C2410C] to-[#EA580C]',
     circleBg: 'bg-orange-600/90',
     ringColor: 'ring-orange-400/55',
-    glowColor: 'rgba(234, 88, 12, 0.45)',
-    laserColor: '#EA580C',
     subColor: 'text-orange-600 dark:text-orange-300',
     subVi: 'Phong thủy',
     subEn: 'Horoscope',
@@ -223,8 +199,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#5B21B6] via-[#7C3AED] to-[#A78BFA]',
     circleBg: 'bg-purple-500/90',
     ringColor: 'ring-purple-400/55',
-    glowColor: 'rgba(167, 139, 250, 0.45)',
-    laserColor: '#A78BFA',
     subColor: 'text-purple-600 dark:text-purple-300',
     subVi: 'Khoảnh khắc',
     subEn: 'Memories',
@@ -238,8 +212,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#312E81] via-[#4338CA] to-[#6366F1]',
     circleBg: 'bg-indigo-500/90',
     ringColor: 'ring-indigo-400/60',
-    glowColor: 'rgba(79, 70, 229, 0.5)',
-    laserColor: '#6366F1',
     subColor: 'text-indigo-600 dark:text-indigo-300',
     subVi: 'Kết nối',
     subEn: 'Contact',
@@ -253,8 +225,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#6B21A8] via-[#7E22CE] to-[#A855F7]',
     circleBg: 'bg-purple-950/80',
     ringColor: 'ring-purple-400/60',
-    glowColor: 'rgba(168, 85, 247, 0.5)',
-    laserColor: '#A855F7',
     subColor: 'text-purple-600 dark:text-purple-300',
     subVi: 'Trợ lý 24/7',
     subEn: '24/7 AI',
@@ -269,8 +239,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#BE123C] via-[#E11D48] to-[#FB7185]',
     circleBg: 'bg-rose-500/90',
     ringColor: 'ring-rose-400/55',
-    glowColor: 'rgba(244, 63, 94, 0.45)',
-    laserColor: '#F43F5E',
     subColor: 'text-rose-600 dark:text-rose-300',
     subVi: 'Tùy chỉnh',
     subEn: 'Wallpaper',
@@ -284,8 +252,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     gradient: 'from-[#4338CA] via-[#6366F1] to-[#818CF8]',
     circleBg: 'bg-indigo-500/90',
     ringColor: 'ring-indigo-400/55',
-    glowColor: 'rgba(99, 102, 241, 0.45)',
-    laserColor: '#6366F1',
     subColor: 'text-indigo-600 dark:text-indigo-300',
     subVi: 'Phong cách',
     subEn: 'Interface',
@@ -332,6 +298,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [focusedNavIndex, setFocusedNavIndex] = useState<number | null>(null);
   const [isRadialMenuOpen, setIsRadialMenuOpen] = useState(false);
   const [uniformPillWidth, setUniformPillWidth] = useState<number | null>(null);
+  const [trailingGapByIdx, setTrailingGapByIdx] = useState<number[]>([]);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(
     typeof window !== 'undefined' ? window.innerWidth < 640 : false
   );
@@ -341,7 +308,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   const avatarPillRef = useRef<HTMLDivElement>(null);
 
-  // Đo kích thước tự nhiên của toàn bộ các nút ở Header và đồng bộ chiều ngang bằng nút rộng nhất
+  // Đo kích thước tự nhiên và vị trí kết thúc chữ tiêu đề của từng nút ở Header
   useLayoutEffect(() => {
     const measureUniformWidth = () => {
       const small = typeof window !== 'undefined' ? window.innerWidth < 640 : false;
@@ -370,6 +337,31 @@ export const Header: React.FC<HeaderProps> = ({
       if (maxW > 0) {
         setUniformPillWidth((prev) => (prev !== maxW ? maxW : prev));
       }
+
+      const gaps = pillBtnRefs.current.slice(0, headerPages.length + 1).map((btn, idx) => {
+        const wrapper = pillWrapperRefs.current[idx];
+        if (!btn || !wrapper) return 14;
+        const titleEl = btn.querySelector('.nav-pill-title') as HTMLElement | null;
+        if (!titleEl) return 14;
+        const wrapperRect = wrapper.getBoundingClientRect();
+        let textRight = titleEl.getBoundingClientRect().right;
+        try {
+          if (typeof document !== 'undefined' && document.createRange) {
+            const range = document.createRange();
+            range.selectNodeContents(titleEl);
+            const textRect = range.getBoundingClientRect();
+            if (textRect.width > 0) {
+              textRight = textRect.right;
+            }
+          }
+        } catch {
+          // Fallback to titleEl rect right
+        }
+        return Math.max(0, Math.round(wrapperRect.right - textRight));
+      });
+      setTrailingGapByIdx((prev) =>
+        prev.length === gaps.length && prev.every((v, i) => v === gaps[i]) ? prev : gaps
+      );
     };
 
     measureUniformWidth();
@@ -436,6 +428,15 @@ export const Header: React.FC<HeaderProps> = ({
           ? activePageDeckIndex
           : null;
 
+  const getRevealOverlapPx = (prevIdx: number) => {
+    const trailingGap = trailingGapByIdx[prevIdx];
+    if (typeof trailingGap !== 'number' || Number.isNaN(trailingGap)) {
+      return 10;
+    }
+    // Chồng nhẹ vào phần đuôi trống sát ngay sau chữ tiêu đề nút trước, chừa tối thiểu 5px để không che mất chữ
+    return Math.max(2, Math.min(28, trailingGap - 5));
+  };
+
   const headerElement = (
     <header
       ref={headerRef}
@@ -474,8 +475,8 @@ export const Header: React.FC<HeaderProps> = ({
         {headerPages.map((page: any, index: number) => {
           const styleCfg = PAGE_FOOTER_STYLE_MAP[page.id] || PAGE_FOOTER_STYLE_MAP[0];
           const isSelected = page.id === currentPage;
-          const isRevealed = revealedNavIndex === index;
-          // Hiệu ứng nút sau nằm trên nút trước: z-index tăng dần từ trái sang phải
+          // Hiệu ứng nút sau nằm trên nút trước: z-index tăng dần từ trái sang phải, kể cả nút liền sau nút đang chọn
+          // Đồng thời tính khoảng chồng sát phần cuối tiêu đề của nút nằm dưới để thấy trọn vẹn tiêu đề nút đang chọn
           const baseZIndex = index + 10;
           const isAfterRevealed = revealedNavIndex !== null && index === revealedNavIndex + 1;
           const isAfterSelected = activePageDeckIndex >= 0 && index === activePageDeckIndex + 1;
@@ -484,7 +485,7 @@ export const Header: React.FC<HeaderProps> = ({
             : index === 0
               ? '0px'
               : (isAfterRevealed || isAfterSelected)
-                ? '8px'
+                ? `-${getRevealOverlapPx(index - 1)}px`
                 : `-${overlapPx}px`;
 
           const pageTitle =
@@ -526,9 +527,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectPage(page.id);
                   }}
                   title={`${pageTitle} · ${pageSub}`}
-                  className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border ${
-                    isSelected ? 'active' : ''
-                  }`}
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border"
                   style={{
                     width: '150px',
                     height: '40px',
@@ -544,7 +543,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <div
                     className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                     style={{
-                      backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.22)' : styleCfg.accentColor,
+                      backgroundColor: styleCfg.accentColor,
                     }}
                   >
                     {styleCfg.avatarGif ? (
@@ -589,8 +588,6 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Nút Avatar Hùng Thái nằm sau nút cuối */}
         {(() => {
           const avatarNavIndex = headerPages.length;
-          const isAvatarSelected = currentPage === 12 || isRadialMenuOpen;
-          const isRevealed = revealedNavIndex === avatarNavIndex;
           // Hiệu ứng nút sau nằm trên nút trước (nút avatar nằm ở cuối, z-index cao nhất)
           const baseZIndex = isRadialMenuOpen
             ? 99999
@@ -602,7 +599,7 @@ export const Header: React.FC<HeaderProps> = ({
             : headerPages.length === 0
               ? '0px'
               : (isAfterRevealed || isAfterSelected)
-                ? '8px'
+                ? `-${getRevealOverlapPx(avatarNavIndex - 1)}px`
                 : `-${overlapPx}px`;
 
           return (
@@ -643,9 +640,7 @@ export const Header: React.FC<HeaderProps> = ({
                       ? 'Expert Nguyen Hung Thai · Booking & CS'
                       : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch & CSKH'
                   }
-                  className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer border transition-colors duration-200 ${
-                    isAvatarSelected ? 'active' : ''
-                  }`}
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer border transition-colors duration-200"
                   style={{
                     width: '150px',
                     height: '40px',
@@ -660,7 +655,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <div
                     className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                     style={{
-                      backgroundColor: isAvatarSelected ? 'rgba(255, 255, 255, 0.22)' : '#4F46E5',
+                      backgroundColor: '#4F46E5',
                     }}
                   >
                     <img

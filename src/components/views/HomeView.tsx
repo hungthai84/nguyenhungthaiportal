@@ -533,7 +533,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 animate={{ opacity: 1, x: 0, y: 0 }}
                 exit={{ opacity: 0, x: 20, y: 10 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="home-hero-card bento-card glass-card layered-card pointer-events-auto p-[15px] rounded-[14px] relative max-h-full overflow-y-auto overflow-x-hidden glass-scrollbar group transition-all duration-500 w-fit max-w-full sm:max-w-fit text-left"
+                className="home-hero-card bento-card layered-card pointer-events-auto p-[15px] rounded-[14px] relative max-h-full overflow-y-auto overflow-x-hidden glass-scrollbar group transition-all duration-500 w-fit max-w-full sm:max-w-fit text-left"
               >
                 <div className="relative z-10 flex flex-col gap-[15px] w-full sm:w-fit">
                   <div className="flex items-center justify-between gap-3">

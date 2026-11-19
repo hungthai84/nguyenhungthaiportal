@@ -1515,10 +1515,16 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                   title={isCircleVideoPlaying ? 'Đóng video giới thiệu hệ thống' : 'Xem video giới thiệu hệ thống'}
                   className={cn(
                     'video-play-btn video-play-btn--systems relative shrink-0 w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full aspect-square p-0.5 flex items-center justify-center cursor-pointer transition-all duration-300 group active:scale-95 video-circle-halo',
-                    isCircleVideoPlaying ? 'is-playing ring-4 ring-rose-400/60' : ''
+                    isCircleVideoPlaying ? 'is-playing ring-4 ring-[var(--color-primary)]/45' : ''
                   )}
                 >
-                  <div className="relative w-full h-full rounded-full overflow-hidden bg-slate-900 border border-white/60">
+                  <div
+                    className="relative w-full h-full rounded-full overflow-hidden border"
+                    style={{
+                      background: 'var(--bg-card)',
+                      borderColor: 'var(--border-card)',
+                    }}
+                  >
                     <video
                       ref={circleVideoRef}
                       src={SYSTEM_FLOATING_IDLE_VIDEO_URL}
@@ -1537,12 +1543,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                       )}
                     >
                       <span
-                        className={cn(
-                          'w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white border border-white/60 shadow-md backdrop-blur-sm transition-transform duration-300 group-hover:scale-110',
+                        style={
                           isCircleVideoPlaying
-                            ? 'bg-rose-600/90'
-                            : 'bg-black/60'
-                        )}
+                            ? { background: '#E11D48', borderColor: 'rgba(255,255,255,0.75)' }
+                            : { background: 'var(--bg-button-primary)', borderColor: 'rgba(255,255,255,0.72)' }
+                        }
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white border shadow-md backdrop-blur-sm transition-transform duration-300 group-hover:scale-110"
                       >
                         <WebIcon
                           name={isCircleVideoPlaying ? 'cancel' : 'play'}

@@ -11,12 +11,16 @@ import {
 import {
   CARD_STYLE_STORAGE_KEY,
   DEFAULT_CARD_STYLE,
+  DEFAULT_FONT_SCALE,
+  DEFAULT_LAYER_DEPTH,
+  FONT_SCALE_STORAGE_KEY,
+  FONT_SCALE_SYNC_EVENT,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
+  LAYER_DEPTH_STORAGE_KEY,
+  LAYER_DEPTH_SYNC_EVENT,
   SURFACE_DEPTH_STORAGE_KEY,
   SURFACE_DEPTH_SYNC_EVENT,
-  AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY,
-  AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT,
   AUTO_TIME_THEME_STORAGE_KEY,
   AUTO_TIME_THEME_SYNC_EVENT,
   THEME_BACKGROUNDS,
@@ -24,7 +28,14 @@ import {
   THEME_DEFAULT_WALLPAPER_ID,
   WALLPAPER_MANUAL_STORAGE_KEY,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
+import { CardStyleMode, FontScaleMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
+import {
+  applyFontScaleCssVariables,
+  applyLayerDepthCssVariables,
+  clampLayerDepth,
+  normalizeFontScale,
+} from '../config/ui/layerDepth';
+import { setTypographyFontScaleMultiplier } from '../config/typographyScale';
 import {
   CARD_STYLES_MAP,
   VALID_CARD_STYLES,
@@ -138,9 +149,12 @@ export interface ThemeContextType {
   surfaceDepth: SurfaceDepthMode;
   setSurfaceDepth: (mode: SurfaceDepthMode) => void;
   toggleSurfaceDepth: () => void;
-  autoCollapseOnScroll: boolean;
-  setAutoCollapseOnScroll: (enabled: boolean) => void;
-  toggleAutoCollapseOnScroll: () => void;
+  layerDepth: number;
+  setLayerDepth: (depth: number) => void;
+  resetLayerDepth: () => void;
+  fontScale: FontScaleMode;
+  setFontScale: (scale: FontScaleMode) => void;
+  cycleFontScale: () => void;
   autoTimeTheme: boolean;
   setAutoTimeTheme: (enabled: boolean) => void;
   toggleAutoTimeTheme: () => void;
@@ -209,12 +223,21 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   });
 
-  const [autoCollapseOnScroll, setAutoCollapseOnScrollState] = useState<boolean>(() => {
+  const [layerDepth, setLayerDepthState] = useState<number>(() => {
     try {
-      const saved = localStorage.getItem(AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY);
-      return saved === 'true'; // Mặc định là false (off)
+      const savedDepth = localStorage.getItem(LAYER_DEPTH_STORAGE_KEY);
+      if (savedDepth !== null) return clampLayerDepth(Number(savedDepth));
+      return localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY) === 'flat' ? 0 : DEFAULT_LAYER_DEPTH;
     } catch {
-      return false;
+      return DEFAULT_LAYER_DEPTH;
+    }
+  });
+
+  const [fontScale, setFontScaleState] = useState<FontScaleMode>(() => {
+    try {
+      return normalizeFontScale(localStorage.getItem(FONT_SCALE_STORAGE_KEY));
+    } catch {
+      return DEFAULT_FONT_SCALE;
     }
   });
 
@@ -341,11 +364,13 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     } catch {
       // ignore
     }
-    document.documentElement.setAttribute('data-surface-depth', surfaceDepth);
-    if (document.body) {
-      document.body.setAttribute('data-surface-depth', surfaceDepth);
-    }
-  }, [surfaceDepth]);
+    applyLayerDepthCssVariables(layerDepth, cardStyle);
+  }, [surfaceDepth, layerDepth, cardStyle]);
+
+  useEffect(() => {
+    applyFontScaleCssVariables(fontScale);
+    setTypographyFontScaleMultiplier(fontScale);
+  }, [fontScale]);
 
   // Sync state between components
   useEffect(() => {
@@ -371,11 +396,14 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setSurfaceDepthState((prev) => (prev === detail ? prev : detail));
       }
     };
-    const handleAutoCollapseSync = (e: Event) => {
-      const detail = (e as CustomEvent<boolean>).detail;
-      if (typeof detail === 'boolean') {
-        setAutoCollapseOnScrollState(detail);
-      }
+    const handleLayerDepthSync = (e: Event) => {
+      const nextDepth = clampLayerDepth((e as CustomEvent<number>).detail);
+      setLayerDepthState((prev) => (prev === nextDepth ? prev : nextDepth));
+      setSurfaceDepthState(nextDepth === 0 ? 'flat' : 'depth');
+    };
+    const handleFontScaleSync = (e: Event) => {
+      const nextScale = normalizeFontScale((e as CustomEvent<FontScaleMode>).detail);
+      setFontScaleState((prev) => (prev === nextScale ? prev : nextScale));
     };
     const handleAutoTimeThemeSync = (e: Event) => {
       const detail = (e as CustomEvent<boolean>).detail;
@@ -387,14 +415,16 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     window.addEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
     window.addEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
     window.addEventListener(SURFACE_DEPTH_SYNC_EVENT, handleSurfaceDepthSync);
-    window.addEventListener(AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT, handleAutoCollapseSync);
+    window.addEventListener(LAYER_DEPTH_SYNC_EVENT, handleLayerDepthSync);
+    window.addEventListener(FONT_SCALE_SYNC_EVENT, handleFontScaleSync);
     window.addEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
     return () => {
       window.removeEventListener(WALLPAPER_SYNC_EVENT, handleSync);
       window.removeEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
       window.removeEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
       window.removeEventListener(SURFACE_DEPTH_SYNC_EVENT, handleSurfaceDepthSync);
-      window.removeEventListener(AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT, handleAutoCollapseSync);
+      window.removeEventListener(LAYER_DEPTH_SYNC_EVENT, handleLayerDepthSync);
+      window.removeEventListener(FONT_SCALE_SYNC_EVENT, handleFontScaleSync);
       window.removeEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
     };
   }, []);
@@ -633,40 +663,60 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     [cardStyle]
   );
 
+  const setLayerDepth = useCallback((rawDepth: number) => {
+    const nextDepth = clampLayerDepth(rawDepth);
+    const nextSurface: SurfaceDepthMode = nextDepth === 0 ? 'flat' : 'depth';
+    setLayerDepthState(nextDepth);
+    setSurfaceDepthState(nextSurface);
+    try {
+      localStorage.setItem(LAYER_DEPTH_STORAGE_KEY, String(nextDepth));
+      localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, nextSurface);
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(LAYER_DEPTH_SYNC_EVENT, { detail: nextDepth }));
+    window.dispatchEvent(new CustomEvent(SURFACE_DEPTH_SYNC_EVENT, { detail: nextSurface }));
+  }, []);
+
+  const resetLayerDepth = useCallback(() => {
+    setLayerDepth(DEFAULT_LAYER_DEPTH);
+  }, [setLayerDepth]);
+
   const setSurfaceDepth = useCallback((mode: SurfaceDepthMode) => {
     const next: SurfaceDepthMode = mode === 'depth' ? 'depth' : 'flat';
+    const nextDepth = next === 'flat' ? 0 : layerDepth === 0 ? DEFAULT_LAYER_DEPTH : layerDepth;
     setSurfaceDepthState(next);
-    document.documentElement.setAttribute('data-surface-depth', next);
-    if (document.body) {
-      document.body.setAttribute('data-surface-depth', next);
-    }
+    setLayerDepthState(nextDepth);
     try {
       localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, next);
+      localStorage.setItem(LAYER_DEPTH_STORAGE_KEY, String(nextDepth));
     } catch {
       // ignore
     }
     window.dispatchEvent(new CustomEvent(SURFACE_DEPTH_SYNC_EVENT, { detail: next }));
-  }, []);
+    window.dispatchEvent(new CustomEvent(LAYER_DEPTH_SYNC_EVENT, { detail: nextDepth }));
+  }, [layerDepth]);
 
   const toggleSurfaceDepth = useCallback(() => {
     setSurfaceDepth(surfaceDepth === 'flat' ? 'depth' : 'flat');
   }, [surfaceDepth, setSurfaceDepth]);
 
-  const setAutoCollapseOnScroll = useCallback((enabled: boolean) => {
-    setAutoCollapseOnScrollState(enabled);
+  const setFontScale = useCallback((scale: FontScaleMode) => {
+    const next = normalizeFontScale(scale);
+    setFontScaleState(next);
     try {
-      localStorage.setItem(AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY, String(enabled));
+      localStorage.setItem(FONT_SCALE_STORAGE_KEY, next);
     } catch {
       // ignore
     }
-    window.dispatchEvent(
-      new CustomEvent(AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT, { detail: enabled })
-    );
+    window.dispatchEvent(new CustomEvent(FONT_SCALE_SYNC_EVENT, { detail: next }));
   }, []);
 
-  const toggleAutoCollapseOnScroll = useCallback(() => {
-    setAutoCollapseOnScroll(!autoCollapseOnScroll);
-  }, [autoCollapseOnScroll, setAutoCollapseOnScroll]);
+  const cycleFontScale = useCallback(() => {
+    const next: FontScaleMode =
+      fontScale === 'normal' ? 'large' : fontScale === 'large' ? 'xlarge' : 'normal';
+    setFontScale(next);
+  }, [fontScale, setFontScale]);
 
   return (
     <ThemeContext.Provider
@@ -687,9 +737,12 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         surfaceDepth,
         setSurfaceDepth,
         toggleSurfaceDepth,
-        autoCollapseOnScroll,
-        setAutoCollapseOnScroll,
-        toggleAutoCollapseOnScroll,
+        layerDepth,
+        setLayerDepth,
+        resetLayerDepth,
+        fontScale,
+        setFontScale,
+        cycleFontScale,
         autoTimeTheme,
         setAutoTimeTheme,
         toggleAutoTimeTheme,

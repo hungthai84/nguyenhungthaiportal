@@ -9,12 +9,16 @@ import {
 import {
   CARD_STYLE_STORAGE_KEY,
   DEFAULT_CARD_STYLE,
+  DEFAULT_FONT_SCALE,
+  DEFAULT_LAYER_DEPTH,
+  FONT_SCALE_STORAGE_KEY,
+  FONT_SCALE_SYNC_EVENT,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
+  LAYER_DEPTH_STORAGE_KEY,
+  LAYER_DEPTH_SYNC_EVENT,
   SURFACE_DEPTH_STORAGE_KEY,
   SURFACE_DEPTH_SYNC_EVENT,
-  AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY,
-  AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT,
   AUTO_TIME_THEME_STORAGE_KEY,
   AUTO_TIME_THEME_SYNC_EVENT,
   THEME_BACKGROUNDS,
@@ -22,7 +26,14 @@ import {
   THEME_DEFAULT_WALLPAPER_ID,
   WALLPAPER_MANUAL_STORAGE_KEY,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
+import { CardStyleMode, FontScaleMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
+import {
+  applyFontScaleCssVariables,
+  applyLayerDepthCssVariables,
+  clampLayerDepth,
+  normalizeFontScale,
+} from '../config/ui/layerDepth';
+import { setTypographyFontScaleMultiplier } from '../config/typographyScale';
 import {
   CARD_STYLES_MAP,
   getCardStyleProperties,
@@ -112,11 +123,21 @@ export function useThemeLegacy() {
     }
   });
 
-  const [autoCollapseOnScroll, setAutoCollapseOnScrollState] = useState<boolean>(() => {
+  const [layerDepth, setLayerDepthState] = useState<number>(() => {
     try {
-      return localStorage.getItem(AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY) === 'true';
+      const savedDepth = localStorage.getItem(LAYER_DEPTH_STORAGE_KEY);
+      if (savedDepth !== null) return clampLayerDepth(Number(savedDepth));
+      return localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY) === 'flat' ? 0 : DEFAULT_LAYER_DEPTH;
     } catch {
-      return false;
+      return DEFAULT_LAYER_DEPTH;
+    }
+  });
+
+  const [fontScale, setFontScaleState] = useState<FontScaleMode>(() => {
+    try {
+      return normalizeFontScale(localStorage.getItem(FONT_SCALE_STORAGE_KEY));
+    } catch {
+      return DEFAULT_FONT_SCALE;
     }
   });
 
@@ -210,6 +231,15 @@ export function useThemeLegacy() {
   }, [cardStyle, isDark]);
 
   useEffect(() => {
+    applyLayerDepthCssVariables(layerDepth, cardStyle);
+  }, [layerDepth, cardStyle]);
+
+  useEffect(() => {
+    applyFontScaleCssVariables(fontScale);
+    setTypographyFontScaleMultiplier(fontScale);
+  }, [fontScale]);
+
+  useEffect(() => {
     const handleSync = (e: Event) => {
       const detail = (e as CustomEvent<WallpaperPreset>).detail;
       if (detail && detail.id) {
@@ -220,11 +250,24 @@ export function useThemeLegacy() {
       const nextStyle = normalizeCardStyle((e as CustomEvent<string>).detail);
       setCardStyleState((prev) => (prev === nextStyle ? prev : nextStyle));
     };
+    const handleLayerDepthSync = (e: Event) => {
+      const nextDepth = clampLayerDepth((e as CustomEvent<number>).detail);
+      setLayerDepthState(nextDepth);
+      setSurfaceDepthState(nextDepth === 0 ? 'flat' : 'depth');
+    };
+    const handleFontScaleSync = (e: Event) => {
+      const nextScale = normalizeFontScale((e as CustomEvent<FontScaleMode>).detail);
+      setFontScaleState(nextScale);
+    };
     window.addEventListener(WALLPAPER_SYNC_EVENT, handleSync);
     window.addEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
+    window.addEventListener(LAYER_DEPTH_SYNC_EVENT, handleLayerDepthSync);
+    window.addEventListener(FONT_SCALE_SYNC_EVENT, handleFontScaleSync);
     return () => {
       window.removeEventListener(WALLPAPER_SYNC_EVENT, handleSync);
       window.removeEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
+      window.removeEventListener(LAYER_DEPTH_SYNC_EVENT, handleLayerDepthSync);
+      window.removeEventListener(FONT_SCALE_SYNC_EVENT, handleFontScaleSync);
     };
   }, []);
 
@@ -449,37 +492,60 @@ export function useThemeLegacy() {
     [cardStyle]
   );
 
+  const setLayerDepth = useCallback((rawDepth: number) => {
+    const nextDepth = clampLayerDepth(rawDepth);
+    const nextSurface: SurfaceDepthMode = nextDepth === 0 ? 'flat' : 'depth';
+    setLayerDepthState(nextDepth);
+    setSurfaceDepthState(nextSurface);
+    try {
+      localStorage.setItem(LAYER_DEPTH_STORAGE_KEY, String(nextDepth));
+      localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, nextSurface);
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(LAYER_DEPTH_SYNC_EVENT, { detail: nextDepth }));
+    window.dispatchEvent(new CustomEvent(SURFACE_DEPTH_SYNC_EVENT, { detail: nextSurface }));
+  }, []);
+
+  const resetLayerDepth = useCallback(() => {
+    setLayerDepth(DEFAULT_LAYER_DEPTH);
+  }, [setLayerDepth]);
+
   const setSurfaceDepth = useCallback((mode: SurfaceDepthMode) => {
     const next: SurfaceDepthMode = mode === 'depth' ? 'depth' : 'flat';
+    const nextDepth = next === 'flat' ? 0 : layerDepth === 0 ? DEFAULT_LAYER_DEPTH : layerDepth;
     setSurfaceDepthState(next);
-    document.documentElement.setAttribute('data-surface-depth', next);
+    setLayerDepthState(nextDepth);
     try {
       localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, next);
+      localStorage.setItem(LAYER_DEPTH_STORAGE_KEY, String(nextDepth));
     } catch {
       // ignore
     }
     window.dispatchEvent(new CustomEvent(SURFACE_DEPTH_SYNC_EVENT, { detail: next }));
-  }, []);
+    window.dispatchEvent(new CustomEvent(LAYER_DEPTH_SYNC_EVENT, { detail: nextDepth }));
+  }, [layerDepth]);
 
   const toggleSurfaceDepth = useCallback(() => {
     setSurfaceDepth(surfaceDepth === 'flat' ? 'depth' : 'flat');
   }, [surfaceDepth, setSurfaceDepth]);
 
-  const setAutoCollapseOnScroll = useCallback((enabled: boolean) => {
-    setAutoCollapseOnScrollState(enabled);
+  const setFontScale = useCallback((scale: FontScaleMode) => {
+    const next = normalizeFontScale(scale);
+    setFontScaleState(next);
     try {
-      localStorage.setItem(AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY, String(enabled));
+      localStorage.setItem(FONT_SCALE_STORAGE_KEY, next);
     } catch {
       // ignore
     }
-    window.dispatchEvent(
-      new CustomEvent(AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT, { detail: enabled })
-    );
+    window.dispatchEvent(new CustomEvent(FONT_SCALE_SYNC_EVENT, { detail: next }));
   }, []);
 
-  const toggleAutoCollapseOnScroll = useCallback(() => {
-    setAutoCollapseOnScroll(!autoCollapseOnScroll);
-  }, [autoCollapseOnScroll, setAutoCollapseOnScroll]);
+  const cycleFontScale = useCallback(() => {
+    const next: FontScaleMode =
+      fontScale === 'normal' ? 'large' : fontScale === 'large' ? 'xlarge' : 'normal';
+    setFontScale(next);
+  }, [fontScale, setFontScale]);
 
   return {
     isDark,
@@ -498,9 +564,12 @@ export function useThemeLegacy() {
     surfaceDepth,
     setSurfaceDepth,
     toggleSurfaceDepth,
-    autoCollapseOnScroll,
-    setAutoCollapseOnScroll,
-    toggleAutoCollapseOnScroll,
+    layerDepth,
+    setLayerDepth,
+    resetLayerDepth,
+    fontScale,
+    setFontScale,
+    cycleFontScale,
     autoTimeTheme,
     setAutoTimeTheme,
     toggleAutoTimeTheme,

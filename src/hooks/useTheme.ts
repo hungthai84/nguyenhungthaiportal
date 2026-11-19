@@ -13,10 +13,12 @@ import {
 import type { ThemeFamilyGroupMeta } from '../config/ui/cardStyles';
 import {
   CARD_STYLE_STORAGE_KEY,
-  AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY,
-  AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT,
+  LAYER_DEPTH_STORAGE_KEY,
+  LAYER_DEPTH_SYNC_EVENT,
+  FONT_SCALE_STORAGE_KEY,
+  FONT_SCALE_SYNC_EVENT,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode, SurfaceDepthMode, ThemeMechanismMode } from '../config/ui/theme.types';
+import { CardStyleMode, FontScaleMode, SurfaceDepthMode, ThemeMechanismMode } from '../config/ui/theme.types';
 import { useThemeContext } from '../context/ThemeContext';
 import { useThemeLegacy } from './useThemeLegacy';
 
@@ -31,10 +33,12 @@ export {
   getLightDarkCounterpart,
   getThemeForMechanism,
   CARD_STYLE_STORAGE_KEY,
-  AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY,
-  AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT,
+  LAYER_DEPTH_STORAGE_KEY,
+  LAYER_DEPTH_SYNC_EVENT,
+  FONT_SCALE_STORAGE_KEY,
+  FONT_SCALE_SYNC_EVENT,
 };
-export type { CardStyleMode, SurfaceDepthMode, ThemeFamilyGroupMeta, ThemeMechanismMode };
+export type { CardStyleMode, FontScaleMode, SurfaceDepthMode, ThemeFamilyGroupMeta, ThemeMechanismMode };
 
 export function useTheme() {
   try {

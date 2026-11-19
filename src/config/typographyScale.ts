@@ -1,3 +1,6 @@
+import { FontScaleMode } from './ui/theme.types';
+import { getFontScaleMultiplier, normalizeFontScale } from './ui/layerDepth';
+
 export interface TypographyTokenSpec {
   token: string;
   cssVar: string;
@@ -313,6 +316,12 @@ const SCALE_LETTER_SPACING_VAR_MAP: Record<string, string> = {
 
 // Global singleton flag to prevent duplicate event listeners
 let isResizeListenerBound = false;
+let activeFontScaleMode: FontScaleMode = 'normal';
+
+export function setTypographyFontScaleMultiplier(scale: FontScaleMode): void {
+  activeFontScaleMode = normalizeFontScale(scale);
+  applyTypographyScaleToDocument();
+}
 
 /**
  * Cập nhật động kích thước phông chữ (Fluid Typography) theo chiều rộng màn hình thực tế,
@@ -380,15 +389,20 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
 
   // 6. Tính toán động kích thước phông chữ theo chiều rộng viewport thực tế cho toàn bộ token
   // Đảm bảo typo-h1 -> typo-caption luôn co giãn mượt mà và rõ nét trên mọi màn hình
+  const fontScaleMult = getFontScaleMultiplier(activeFontScaleMode);
+  rootEl.setAttribute('data-font-scale', activeFontScaleMode);
+  rootStyle.setProperty('--font-scale', String(fontScaleMult));
+
   Object.entries(TYPOGRAPHY_SCALE).forEach(([key, spec]) => {
-    const mobilePx = parsePxValue(spec.mobile);
-    const tabletPx = parsePxValue(spec.tablet);
-    const desktopPx = parsePxValue(spec.desktop);
+    const tokenMult = key === 'nav' ? 1 : fontScaleMult;
+    const mobilePx = parsePxValue(spec.mobile) * tokenMult;
+    const tabletPx = parsePxValue(spec.tablet) * tokenMult;
+    const desktopPx = parsePxValue(spec.desktop) * tokenMult;
 
     // Đảm bảo input trên thiết bị cảm ứng/mobile tối thiểu 16px tránh auto-zoom iOS Safari
     const dynamicSize =
       key === 'input' && isMobile
-        ? `${Math.max(16, mobilePx)}px`
+        ? `${Math.max(16, Math.round(mobilePx * 4) / 4)}px`
         : interpolateViewportFontSize(width, mobilePx, tabletPx, desktopPx);
 
     rootStyle.setProperty(spec.cssVar, dynamicSize);

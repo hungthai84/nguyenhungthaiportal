@@ -1064,27 +1064,32 @@ export function AboutView({
         return (
           <div className="space-y-4 text-left">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
-              {PERSONAL_DEMOGRAPHICS.map((item) => (
-                <div
-                  key={item.id}
-                  data-subcard="true"
-                  className={cn(
-                    'about-info-subcard p-2.5 rounded-[14px] border flex items-center gap-2.5 transition-all hover:scale-[1.02] cursor-default'
-                  )}
-                >
-                  <div className="exp-icon-badge w-9 h-9 rounded-[14px] border flex items-center justify-center shrink-0">
-                    <WebIcon name={getWebIconName(item.iconName)} className={cn('w-4.5 h-4.5', item.colorTheme.iconColor)} />
+              {PERSONAL_DEMOGRAPHICS.map((item) => {
+                const isWideRow = item.id === 'hometown' || item.id === 'residence' || item.valueVi.length > 22;
+                return (
+                  <div
+                    key={item.id}
+                    data-subcard="true"
+                    title={`${item.labelVi}: ${item.valueVi}`}
+                    className={cn(
+                      'about-info-subcard px-3 py-2.5 rounded-[14px] border flex flex-row items-center gap-2 transition-all hover:scale-[1.01] cursor-default min-w-0 overflow-hidden',
+                      isWideRow && 'sm:col-span-2'
+                    )}
+                  >
+                    <div className="exp-icon-badge w-7 h-7 rounded-[10px] border flex items-center justify-center shrink-0">
+                      <WebIcon name={getWebIconName(item.iconName)} className={cn('w-4 h-4', item.colorTheme.iconColor)} />
+                    </div>
+                    <div className="min-w-0 flex-1 flex flex-row items-center gap-1 whitespace-nowrap overflow-hidden">
+                      <span className="about-info-label typo-label text-[var(--text-secondary)] shrink-0">
+                        {item.labelVi}:
+                      </span>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] truncate min-w-0 flex-1">
+                        {item.valueVi}
+                      </span>
+                    </div>
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <span className="about-info-label typo-label text-[var(--text-secondary)] block truncate">
-                      {item.labelVi}
-                    </span>
-                    <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block truncate">
-                      {item.valueVi}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
 
@@ -1716,8 +1721,8 @@ export function AboutView({
                     </div>
                   </div>
 
-                    {/* Sub-Card Bento Grid (Content-fit height) */}
-                  <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-2 py-0.5 content-start items-start">
+                    {/* Sub-Card Bento Grid (Single-line inline info subcards) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 py-0.5 content-start items-start w-full min-w-0">
                     {[
                       {
                         id: 'gender',
@@ -1767,22 +1772,20 @@ export function AboutView({
                           SoundEngine.playPop();
                           item.action();
                         }}
-                        className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                        title={`${item.label}: ${item.value}`}
+                        className="about-info-subcard h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
                       >
-                        <div className="flex flex-col justify-center gap-1 min-w-0">
-                          <div className="flex items-center gap-1.5 min-w-0">
-                            <WebIcon name={item.icon} className={cn('w-3.5 h-3.5 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)} style={{ width: '14px', height: '14px' }} />
-                            <span className={cn('about-info-label typo-label font-medium leading-tight truncate', item.iconColorCls)}>
-                              {item.label}
-                            </span>
-                          </div>
-                          <span
-                            className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0"
-                            title={item.value}
-                          >
-                            {item.value}
-                          </span>
-                        </div>
+                        <WebIcon
+                          name={item.icon}
+                          className={cn('w-3.5 h-3.5 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)}
+                          style={{ width: '14px', height: '14px' }}
+                        />
+                        <span className={cn('about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0', item.iconColorCls)}>
+                          {item.label}:
+                        </span>
+                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
+                          {item.value}
+                        </span>
                       </div>
                     ))}
 
@@ -1793,16 +1796,16 @@ export function AboutView({
                       rel="noopener noreferrer"
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
-                      title="+84 0909097882"
-                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      title="Điện thoại: +84 0909097882"
+                      className="about-info-subcard h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
                     >
-                      <div className="flex flex-col justify-center gap-1 min-w-0">
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <Phone className="w-3.5 h-3.5 shrink-0 text-orange-600 dark:text-orange-300 group-hover/subcard:scale-110 transition-transform" />
-                          <span className="about-info-label typo-label font-medium leading-tight truncate text-orange-600 dark:text-orange-300">Điện thoại</span>
-                        </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">+84 0909097882</span>
-                      </div>
+                      <Phone className="w-3.5 h-3.5 shrink-0 text-orange-600 dark:text-orange-300 group-hover/subcard:scale-110 transition-transform" />
+                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-orange-600 dark:text-orange-300">
+                        Điện thoại:
+                      </span>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
+                        +84 0909097882
+                      </span>
                     </a>
 
                     {/* Sub Card: Tạm Trú (Cyan) */}
@@ -1815,19 +1818,17 @@ export function AboutView({
                         setActiveMapTab('tam_tru');
                         showToast('📍 Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh');
                       }}
-                      title="P.Tân Phú (Q7) , TP. Hồ Chí Minh"
-                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      title="Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh"
+                      className="about-info-subcard sm:col-span-2 h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
                     >
-                      <div className="flex flex-col justify-center gap-1 min-w-0">
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <MapPin className="w-3.5 h-3.5 shrink-0 text-cyan-600 dark:text-cyan-300 group-hover/subcard:scale-110 transition-transform" />
-                          <span className="about-info-label typo-label font-medium leading-tight truncate text-cyan-600 dark:text-cyan-300">Tạm trú</span>
-                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
-                        </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">
-                          P.Tân Phú (Q7) , TP. Hồ Chí Minh
-                        </span>
-                      </div>
+                      <MapPin className="w-3.5 h-3.5 shrink-0 text-cyan-600 dark:text-cyan-300 group-hover/subcard:scale-110 transition-transform" />
+                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-cyan-600 dark:text-cyan-300">
+                        Tạm trú:
+                      </span>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
+                        P.Tân Phú (Q7) , TP. Hồ Chí Minh
+                      </span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-1" />
                     </div>
 
                     {/* Sub Card: Cư Trú (Teal) */}
@@ -1840,19 +1841,17 @@ export function AboutView({
                         setActiveMapTab('cu_tru');
                         showToast('📍 Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp');
                       }}
-                      title="Phường Mỹ Tho, Tỉnh Đồng Tháp"
-                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      title="Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp"
+                      className="about-info-subcard sm:col-span-2 h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
                     >
-                      <div className="flex flex-col justify-center gap-1 min-w-0">
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <Home className="w-3.5 h-3.5 shrink-0 text-teal-600 dark:text-teal-300 group-hover/subcard:scale-110 transition-transform" />
-                          <span className="about-info-label typo-label font-medium leading-tight truncate text-teal-600 dark:text-teal-300">Cư trú</span>
-                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-auto" />
-                        </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">
-                          Phường Mỹ Tho, Tỉnh Đồng Tháp
-                        </span>
-                      </div>
+                      <Home className="w-3.5 h-3.5 shrink-0 text-teal-600 dark:text-teal-300 group-hover/subcard:scale-110 transition-transform" />
+                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-teal-600 dark:text-teal-300">
+                        Cư trú:
+                      </span>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
+                        Phường Mỹ Tho, Tỉnh Đồng Tháp
+                      </span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-1" />
                     </div>
 
                     {/* Sub Card: Hộp Thư (Pink) */}
@@ -1865,16 +1864,16 @@ export function AboutView({
                           showToast('✓ Đã sao chép Email: hungthai84@gmail.com');
                         }
                       }}
-                      title="hungthai84@gmail.com"
-                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      title="Hộp thư: hungthai84@gmail.com"
+                      className="about-info-subcard h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
                     >
-                      <div className="flex flex-col justify-center gap-1 min-w-0">
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <Mail className="w-3.5 h-3.5 shrink-0 text-pink-600 dark:text-pink-300 group-hover/subcard:scale-110 transition-transform" />
-                          <span className="about-info-label typo-label font-medium leading-tight truncate text-pink-600 dark:text-pink-300">Hộp thư</span>
-                        </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">Gửi email</span>
-                      </div>
+                      <Mail className="w-3.5 h-3.5 shrink-0 text-pink-600 dark:text-pink-300 group-hover/subcard:scale-110 transition-transform" />
+                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-pink-600 dark:text-pink-300">
+                        Hộp thư:
+                      </span>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
+                        Gửi email
+                      </span>
                     </div>
 
                     {/* Sub Card: Website (Blue) */}
@@ -1884,16 +1883,16 @@ export function AboutView({
                       rel="noopener noreferrer"
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
-                      title="https://nguyenhungthai.powerservice.one/"
-                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      title="Website: https://nguyenhungthai.powerservice.one/"
+                      className="about-info-subcard h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
                     >
-                      <div className="flex flex-col justify-center gap-1 min-w-0">
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <Globe className="w-3.5 h-3.5 shrink-0 text-blue-600 dark:text-sky-300 group-hover/subcard:scale-110 transition-transform" />
-                          <span className="about-info-label typo-label font-medium leading-tight truncate text-blue-600 dark:text-sky-300">Website</span>
-                        </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">Vào trang website</span>
-                      </div>
+                      <Globe className="w-3.5 h-3.5 shrink-0 text-blue-600 dark:text-sky-300 group-hover/subcard:scale-110 transition-transform" />
+                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-blue-600 dark:text-sky-300">
+                        Website:
+                      </span>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
+                        Vào trang website
+                      </span>
                     </a>
 
                     {/* Sub Card: LinkedIn (Indigo) */}
@@ -1903,16 +1902,16 @@ export function AboutView({
                       rel="noopener noreferrer"
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
-                      title="https://www.linkedin.com/in/hungthai84/"
-                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      title="LinkedIn: https://www.linkedin.com/in/hungthai84/"
+                      className="about-info-subcard min-[420px]:col-span-2 h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
                     >
-                      <div className="flex flex-col justify-center gap-1 min-w-0">
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <LinkedinIcon className="w-3.5 h-3.5 shrink-0 text-indigo-600 dark:text-indigo-300 group-hover/subcard:scale-110 transition-transform" />
-                          <span className="about-info-label typo-label font-medium leading-tight truncate text-indigo-600 dark:text-indigo-300">LinkedIn</span>
-                        </div>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] block leading-snug whitespace-nowrap truncate min-w-0">Vào Linkedin</span>
-                      </div>
+                      <LinkedinIcon className="w-3.5 h-3.5 shrink-0 text-indigo-600 dark:text-indigo-300 group-hover/subcard:scale-110 transition-transform" />
+                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-indigo-600 dark:text-indigo-300">
+                        LinkedIn:
+                      </span>
+                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
+                        Vào Linkedin
+                      </span>
                     </a>
                   </div>
 

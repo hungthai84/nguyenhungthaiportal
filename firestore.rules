@@ -63,7 +63,6 @@ service cloud.firestore {
           'photoUrl',
           'cardStyle',
           'surfaceDepth',
-          'autoCollapseOnScroll',
           'autoTimeTheme',
           'language',
           'activeWallpaperId',
@@ -76,7 +75,6 @@ service cloud.firestore {
           'photoUrl',
           'cardStyle',
           'surfaceDepth',
-          'autoCollapseOnScroll',
           'autoTimeTheme',
           'language',
           'activeWallpaperId',
@@ -93,7 +91,6 @@ service cloud.firestore {
         && isValidCardStyle(data.cardStyle)
         && data.surfaceDepth is string
         && data.surfaceDepth in ['flat', 'depth']
-        && data.autoCollapseOnScroll is bool
         && data.autoTimeTheme is bool
         && data.language is string
         && data.language in ['auto', 'vi', 'en']
@@ -214,7 +211,6 @@ service cloud.firestore {
           incoming().diff(existing()).affectedKeys().hasOnly([
             'cardStyle',
             'surfaceDepth',
-            'autoCollapseOnScroll',
             'autoTimeTheme',
             'language',
             'activeWallpaperId',

@@ -1,18 +1,22 @@
-import { CardStyleMode, ThemeMechanismMode } from './theme.types';
+import { CardStyleMode, FontScaleMode, ThemeMechanismMode } from './theme.types';
 
 export const DEFAULT_CARD_STYLE: CardStyleMode = 'ice-blue-neu';
+export const DEFAULT_LAYER_DEPTH = 100;
+export const DEFAULT_FONT_SCALE: FontScaleMode = 'normal';
 
 export const CARD_STYLE_STORAGE_KEY = 'hungthai_card_style';
 export const WALLPAPER_MANUAL_STORAGE_KEY = 'hungthai_wallpaper_manual_v2';
 export const GLASS_CUSTOMIZATION_STORAGE_KEY = 'hungthai_glass_customization_v1';
 export const SURFACE_DEPTH_STORAGE_KEY = 'hungthai_surface_depth_v1';
-export const AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY = 'hungthai_auto_collapse_on_scroll_v1';
+export const LAYER_DEPTH_STORAGE_KEY = 'hungthai_layer_depth_v1';
+export const FONT_SCALE_STORAGE_KEY = 'hungthai_font_scale_v1';
 export const AUTO_TIME_THEME_STORAGE_KEY = 'hungthai_auto_time_theme_v1';
 export const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
 export const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
 export const GLASS_CUSTOMIZATION_SYNC_EVENT = 'hungthai:glass-customization-changed';
 export const SURFACE_DEPTH_SYNC_EVENT = 'hungthai:surface-depth-changed';
-export const AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT = 'hungthai:auto-collapse-on-scroll-changed';
+export const LAYER_DEPTH_SYNC_EVENT = 'hungthai:layer-depth-changed';
+export const FONT_SCALE_SYNC_EVENT = 'hungthai:font-scale-changed';
 export const AUTO_TIME_THEME_SYNC_EVENT = 'hungthai:auto-time-theme-changed';
 
 export const THEME_DEFAULT_GLASS_SETTINGS: Record<

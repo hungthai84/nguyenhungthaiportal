@@ -585,11 +585,11 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 
 /* Level 02: Section Cards, Bento Cards, Project Cards, Modals & Popups */
 html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
-  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
-  .bento-card:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
-  .glass-card:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
+  [data-section-card="true"]:not(.home-hero-card):not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
+  .bento-card:not(.home-hero-card):not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
+  .glass-card:not(.home-hero-card):not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
   .bento-view-card,
-  .layered-card,
+  .layered-card:not(.home-hero-card),
   .exp-bento-surface-card,
   .exp-bento-item-card:not(.exp-bento-rect-btn),
   .exp-detail-card,
@@ -600,10 +600,6 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   .project-detail-section-card,
   [id^="service-card-"],
   #skills-languages-section [id^="skills-language-card-"],
-  #home-stats-card,
-  #home-intro-card,
-  #home-capabilities-card,
-  #home-achievements-card,
   #bento-letter-video,
   #footer-theme-popup,
   #footer-lang-popup,
@@ -694,6 +690,26 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 }
 
 /* Navigation Pills, Footer Capsule & Action Buttons */
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(#weather-widget-card, #weather-card, .weather-card) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
+  .themed-image-card,
+  .themed-image-frame
+) {
+  border: 1px solid var(--border-image-card, var(--surface-secondary-border)) !important;
+  box-shadow: var(--neu-raised-shadow) !important;
+  border-radius: 14px !important;
+}
+
 html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #footer-nav-capsule {
   background: var(--surface-interactive-bg) !important;
   border: 1px solid var(--surface-interactive-border) !important;
@@ -702,13 +718,13 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 }
 
 html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
-  #app-header nav button.nav-pill:not(.active),
-  #header-btn-hungthai-avatar:not(.active),
-  #footer-lang-btn:not(.active),
-  #footer-appearance-btn:not(.active),
-  #footer-theme-mode-btn:not(.active),
-  #footer-wallpaper-btn:not(.active),
-  #footer-ai-btn:not(.active),
+  #app-header nav button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
   .banner-control-pill,
   .nav-arrow-btn,
   .theme-prev-next-btn,
@@ -722,69 +738,17 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 }
 
 html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
-  #app-header nav button.nav-pill:not(.active):hover,
-  #header-btn-hungthai-avatar:not(.active):hover,
-  #footer-lang-btn:not(.active):hover,
-  #footer-appearance-btn:not(.active):hover,
-  #footer-theme-mode-btn:not(.active):hover,
-  #footer-wallpaper-btn:not(.active):hover,
-  #footer-ai-btn:not(.active):hover,
+  #app-header nav button.nav-pill:hover,
+  #header-btn-hungthai-avatar:hover,
+  #footer-lang-btn:hover,
+  #footer-appearance-btn:hover,
+  #footer-theme-mode-btn:hover,
+  #footer-wallpaper-btn:hover,
+  #footer-ai-btn:hover,
   .radial-contact-pill:hover
 ) {
   background: var(--surface-interactive-hover) !important;
   color: var(--text-accent) !important;
-}
-
-html[data-card-style="ice-blue-neu"] :is(
-  #app-header nav button.nav-pill.active,
-  #header-btn-hungthai-avatar.active,
-  #footer-lang-btn.active,
-  #footer-appearance-btn.active,
-  #footer-theme-mode-btn.active,
-  #footer-wallpaper-btn.active,
-  #footer-ai-btn.active,
-  .radial-contact-pill.active
-) {
-  background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%) !important;
-  border: 1px solid #4338CA !important;
-  box-shadow: var(--neu-pill-shadow) !important;
-  color: #FFFFFF !important;
-}
-
-html[data-card-style="dark-ice-blue-neu"] :is(
-  #app-header nav button.nav-pill.active,
-  #header-btn-hungthai-avatar.active,
-  #footer-lang-btn.active,
-  #footer-appearance-btn.active,
-  #footer-theme-mode-btn.active,
-  #footer-wallpaper-btn.active,
-  #footer-ai-btn.active,
-  .radial-contact-pill.active
-) {
-  background: linear-gradient(135deg, #0369A1 0%, #0284C7 100%) !important;
-  border: 1px solid #38BDF8 !important;
-  box-shadow: var(--neu-pill-shadow) !important;
-  color: #FFFFFF !important;
-}
-
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
-  #app-header nav button.nav-pill.active,
-  #header-btn-hungthai-avatar.active,
-  #footer-lang-btn.active,
-  #footer-appearance-btn.active,
-  #footer-theme-mode-btn.active,
-  #footer-wallpaper-btn.active,
-  #footer-ai-btn.active,
-  .radial-contact-pill.active
-) :is(.nav-pill-title, .nav-pill-sub, .radial-contact-title, .radial-contact-sub, svg) {
-  color: #FFFFFF !important;
-}
-
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
-  .nav-pill.active .nav-pill-divider,
-  .radial-contact-pill.active .radial-contact-divider
-) {
-  background-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 /* Typography Contrast Safeguards */

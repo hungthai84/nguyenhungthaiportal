@@ -47,10 +47,6 @@
           "minLength": 4,
           "maxLength": 5
         },
-        "autoCollapseOnScroll": {
-          "type": "boolean",
-          "description": "Whether header and footer automatically collapse while scrolling."
-        },
         "autoTimeTheme": {
           "type": "boolean",
           "description": "Whether Ice-Blue theme automatically toggles Light/Dark by time of day."
@@ -86,7 +82,6 @@
         "photoUrl",
         "cardStyle",
         "surfaceDepth",
-        "autoCollapseOnScroll",
         "autoTimeTheme",
         "language",
         "activeWallpaperId",

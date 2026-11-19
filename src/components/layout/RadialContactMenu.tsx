@@ -14,7 +14,6 @@ interface ContactPillItem {
   gradient: string;
   circleBg: string;
   ringColor: string;
-  laserColor: string;
   pillBg: string; // TailWind class for pill background
   pillBorder: string; // TailWind class for pill border
   textColor: string; // TailWind class for text
@@ -45,6 +44,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
   anchorRef,
 }) => {
   const { language } = useLanguage();
+  void currentTab;
   const isEn = language === 'en';
   const containerRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState<{
@@ -154,9 +154,8 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       iconName: 'calendar',
       gradient: 'from-[#312E81] via-[#4338CA] to-[#6366F1]',
       circleBg: 'bg-indigo-600 text-white',
-      ringColor: currentTab === 12 ? 'ring-indigo-500 ring-2' : 'ring-indigo-400/60',
-      laserColor: '#6366F1',
-      pillBg: currentTab === 12 ? 'bg-indigo-100/95 dark:bg-indigo-900/90' : 'bg-indigo-50/95 dark:bg-indigo-950/80',
+      ringColor: 'ring-indigo-400/60',
+      pillBg: 'bg-indigo-50/95 dark:bg-indigo-950/80',
       pillBorder: 'border-indigo-400/80 dark:border-indigo-500/80',
       textColor: 'text-indigo-950 dark:text-indigo-100',
       action: () => {
@@ -174,7 +173,6 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       gradient: 'from-[#BE123C] via-[#E11D48] to-[#F43F5E]',
       circleBg: 'bg-rose-600 text-white',
       ringColor: 'ring-rose-400/60',
-      laserColor: '#F43F5E',
       pillBg: 'bg-rose-50/95 dark:bg-rose-950/80',
       pillBorder: 'border-rose-400/80 dark:border-rose-500/80',
       textColor: 'text-rose-950 dark:text-rose-100',
@@ -188,7 +186,6 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       gradient: 'from-[#0369A1] via-[#0284C7] to-[#0EA5E9]',
       circleBg: 'bg-sky-600 text-white',
       ringColor: 'ring-sky-400/60',
-      laserColor: '#0EA5E9',
       pillBg: 'bg-sky-50/95 dark:bg-sky-950/80',
       pillBorder: 'border-sky-400/80 dark:border-sky-500/80',
       textColor: 'text-sky-950 dark:text-sky-100',
@@ -202,7 +199,6 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       gradient: 'from-[#047857] via-[#059669] to-[#10B981]',
       circleBg: 'bg-emerald-600 text-white',
       ringColor: 'ring-emerald-400/60',
-      laserColor: '#10B981',
       pillBg: 'bg-emerald-50/95 dark:bg-emerald-950/80',
       pillBorder: 'border-emerald-400/80 dark:border-emerald-500/80',
       textColor: 'text-emerald-950 dark:text-emerald-100',
@@ -217,7 +213,6 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       gradient: 'from-[#C2410C] via-[#EA580C] to-[#F59E0B]',
       circleBg: 'bg-amber-600 text-white',
       ringColor: 'ring-amber-400/60',
-      laserColor: '#F59E0B',
       pillBg: 'bg-amber-50/95 dark:bg-amber-950/80',
       pillBorder: 'border-amber-400/80 dark:border-amber-500/80',
       textColor: 'text-amber-950 dark:text-amber-100',
@@ -232,7 +227,6 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       gradient: 'from-[#0A66C2] via-[#0284C7] to-[#38BDF8]',
       circleBg: 'bg-blue-600 text-white',
       ringColor: 'ring-blue-400/60',
-      laserColor: '#38BDF8',
       pillBg: 'bg-blue-50/95 dark:bg-blue-950/80',
       pillBorder: 'border-blue-400/80 dark:border-blue-500/80',
       textColor: 'text-blue-950 dark:text-blue-100',
@@ -266,7 +260,6 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
           }}
         >
           {items.map((item, idx) => {
-            const isItemActive = item.id === 'booking' && currentTab === 12;
             const content = (
               <div
                 className="radial-contact-pill-wrapper nav-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] p-[1.5px] select-none group/item transition-colors duration-200 w-full"
@@ -277,7 +270,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
               >
                 {/* Inner Pill */}
                 <div
-                  className={`radial-contact-pill ${isItemActive ? 'active' : ''} relative z-10 inline-flex items-center w-full h-full rounded-[999px] gap-[6px] cursor-pointer border transition-colors duration-200`}
+                  className="radial-contact-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] gap-[6px] cursor-pointer border transition-colors duration-200"
                   style={{
                     paddingTop: '8px',
                     paddingRight: '10px',
@@ -293,15 +286,12 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
                     <WebIcon name={item.iconName} className="w-3.5 h-3.5 text-white m-auto" />
                   </div>
                   <div className="radial-contact-divider w-[1.5px] h-4 shrink-0 rounded-[999px]" />
-                  <div className="flex flex-col text-left leading-none flex-1 min-w-0">
+                  <div className="flex flex-col text-left justify-center leading-none flex-1 min-w-0">
                     <span
                       style={{ fontWeight: 'bold', fontSize: '15px' }}
                       className="radial-contact-title typo-nav leading-tight font-play truncate"
                     >
                       {item.title}
-                    </span>
-                    <span className="radial-contact-sub typo-label leading-none mt-0.5 opacity-85 truncate">
-                      {item.sub}
                     </span>
                   </div>
                 </div>

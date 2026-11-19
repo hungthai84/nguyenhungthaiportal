@@ -1806,4 +1806,16 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     isCustom: false,
     createdAt: 1794500000016,
   },
+  {
+    id: 'webgl-dot-grid-waves',
+    name: 'Lưới chấm sóng tương tác (Dot Grid Waves #363)',
+    type: 'webgl',
+    value: 'dot-grid-waves',
+    bg: 'radial-gradient(circle at center, rgba(106,87,242,0.12) 0%, transparent 70%), var(--ux-surface, #13141C)',
+    previewStyle: {
+      background: 'radial-gradient(circle at center, rgba(106,87,242,0.18) 0%, #13141C 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794500000017,
+  },
 ];

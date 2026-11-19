@@ -40,12 +40,12 @@
   z-index: 999 !important;
 }
 
-[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
-[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):not(#about-intro-card-1):not(#about-intro-card-2),
-[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
-article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#contact-info-container),
-.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
-.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+[data-section-card="true"]:not(.home-hero-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+[data-element-type="card"]:not(.home-hero-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):not(#about-intro-card-1):not(#about-intro-card-2),
+[data-ui="card"]:not(.home-hero-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#contact-info-container),
+.glass-card:not(.home-hero-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+.bento-card:not(.home-hero-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
 .system-item:not(#app-header):not(#app-footer),
 #about-unified-bento-card,
 #about-hero-video-container,
@@ -59,10 +59,6 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 #systems-tech-card,
 #projects-tech-card,
 #horoscope-lookup-card,
-#home-stats-card,
-#home-intro-card,
-#home-capabilities-card,
-#home-achievements-card,
 #bento-letter-video,
 #wallpaper-grid-section,
 #contact-calendar-card,
@@ -895,14 +891,14 @@ h3.card-title,
 /* ========================================================================= */
 /* NỀN & CHẤT LIỆU THEO GIAO DIỆN CHO NÚT MENU HEADER VÀ FOOTER BÊN PHẢI     */
 /* ========================================================================= */
-#app-header nav button.nav-pill:not(.active),
-#header-btn-hungthai-avatar:not(.active),
-#footer-lang-btn:not(.active),
-#footer-appearance-btn:not(.active),
-#footer-theme-mode-btn:not(.active),
-#footer-wallpaper-btn:not(.active),
-#footer-ai-btn:not(.active),
-.radial-contact-pill:not(.active) {
+#app-header nav button.nav-pill,
+#header-btn-hungthai-avatar,
+#footer-lang-btn,
+#footer-appearance-btn,
+#footer-theme-mode-btn,
+#footer-wallpaper-btn,
+#footer-ai-btn,
+.radial-contact-pill {
   background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-nav-button-opaque, #FFFFFF))) !important;
   border-color: var(--surface-interactive-border, var(--border-color)) !important;
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08))) !important;
@@ -914,62 +910,26 @@ h3.card-title,
   opacity: 1 !important;
 }
 
-#app-header nav button.nav-pill:not(.active) .nav-pill-sub,
-#header-btn-hungthai-avatar:not(.active) .nav-pill-sub,
-#footer-lang-btn:not(.active) .nav-pill-sub,
-#footer-appearance-btn:not(.active) .nav-pill-sub,
-#footer-theme-mode-btn:not(.active) .nav-pill-sub,
-#footer-wallpaper-btn:not(.active) .nav-pill-sub,
-#footer-ai-btn:not(.active) .nav-pill-sub,
-.radial-contact-pill:not(.active) .radial-contact-sub {
+#app-header nav button.nav-pill .nav-pill-sub,
+#header-btn-hungthai-avatar .nav-pill-sub,
+#footer-lang-btn .nav-pill-sub,
+#footer-appearance-btn .nav-pill-sub,
+#footer-theme-mode-btn .nav-pill-sub,
+#footer-wallpaper-btn .nav-pill-sub,
+#footer-ai-btn .nav-pill-sub,
+.radial-contact-pill .radial-contact-sub {
   color: var(--text-secondary, var(--text-muted));
 }
 
-#app-header nav button.nav-pill.active,
-#header-btn-hungthai-avatar.active,
-#footer-lang-btn.active,
-#footer-appearance-btn.active,
-#footer-theme-mode-btn.active,
-#footer-wallpaper-btn.active,
-#footer-ai-btn.active,
-.radial-contact-pill.active {
-  background: var(--surface-interactive-active, var(--bg-button-primary, #1E293B)) !important;
-  border-color: var(--color-primary, rgba(255, 255, 255, 0.35)) !important;
-  box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.12))) !important;
-  color: #FFFFFF !important;
-}
-
-#app-header nav button.nav-pill.active :is(.nav-pill-title, .nav-pill-sub),
-#header-btn-hungthai-avatar.active :is(.nav-pill-title, .nav-pill-sub),
-#footer-lang-btn.active :is(.nav-pill-title, .nav-pill-sub),
-#footer-appearance-btn.active :is(.nav-pill-title, .nav-pill-sub),
-#footer-theme-mode-btn.active :is(.nav-pill-title, .nav-pill-sub),
-#footer-wallpaper-btn.active :is(.nav-pill-title, .nav-pill-sub),
-#footer-ai-btn.active :is(.nav-pill-title, .nav-pill-sub),
-.radial-contact-pill.active :is(.radial-contact-title, .radial-contact-sub) {
-  color: #FFFFFF !important;
-}
-
-#app-header nav button.nav-pill:not(.active) .nav-pill-divider,
-#header-btn-hungthai-avatar:not(.active) .nav-pill-divider,
-#footer-lang-btn:not(.active) .nav-pill-divider,
-#footer-appearance-btn:not(.active) .nav-pill-divider,
-#footer-theme-mode-btn:not(.active) .nav-pill-divider,
-#footer-wallpaper-btn:not(.active) .nav-pill-divider,
-#footer-ai-btn:not(.active) .nav-pill-divider,
-.radial-contact-pill:not(.active) .radial-contact-divider {
+#app-header nav button.nav-pill .nav-pill-divider,
+#header-btn-hungthai-avatar .nav-pill-divider,
+#footer-lang-btn .nav-pill-divider,
+#footer-appearance-btn .nav-pill-divider,
+#footer-theme-mode-btn .nav-pill-divider,
+#footer-wallpaper-btn .nav-pill-divider,
+#footer-ai-btn .nav-pill-divider,
+.radial-contact-pill .radial-contact-divider {
   background-color: var(--divider-nav-pill, rgba(148, 163, 184, 0.55)) !important;
-}
-
-#app-header nav button.nav-pill.active .nav-pill-divider,
-#header-btn-hungthai-avatar.active .nav-pill-divider,
-#footer-lang-btn.active .nav-pill-divider,
-#footer-appearance-btn.active .nav-pill-divider,
-#footer-theme-mode-btn.active .nav-pill-divider,
-#footer-wallpaper-btn.active .nav-pill-divider,
-#footer-ai-btn.active .nav-pill-divider,
-.radial-contact-pill.active .radial-contact-divider {
-  background-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 /* ========================================================================= */
@@ -1181,9 +1141,7 @@ h3.card-title,
 /* ========================================================================= */
 .themed-image-card {
   padding: 0 !important;
-  background: transparent !important;
   background-color: transparent !important;
-  background-image: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   overflow: hidden !important;
@@ -1198,9 +1156,7 @@ h3.card-title,
 #wallpaper-page-container [id^="wallpaper-card-media-"],
 #memories-page-container [id^="memory-card-"] {
   padding: 0 !important;
-  background: transparent !important;
   background-color: transparent !important;
-  background-image: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   border-radius: 14px !important;
@@ -1412,6 +1368,76 @@ html[data-card-style="cowhide-leather"] .themed-image-card-badge {
   color: #FFFBEB;
 }
 
+/* Theme 03A: Ice-Blue Soft UI (Light Neumorphism) */
+html[data-card-style="ice-blue-neu"] .themed-image-card-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(237, 244, 250, 0.94) 0%,
+    rgba(228, 238, 247, 0.62) 52%,
+    rgba(230, 240, 248, 0.18) 100%
+  );
+  backdrop-filter: blur(8px) saturate(125%);
+  -webkit-backdrop-filter: blur(8px) saturate(125%);
+}
+
+html[data-card-style="ice-blue-neu"] .themed-image-card-title {
+  color: #0f172a;
+}
+
+html[data-card-style="ice-blue-neu"] .themed-image-card-subtext {
+  color: #334155;
+}
+
+html[data-card-style="ice-blue-neu"] .themed-image-card-kicker {
+  color: #4f46e5;
+}
+
+html[data-card-style="ice-blue-neu"] .themed-image-card-divider {
+  border-color: rgba(99, 102, 241, 0.22);
+}
+
+html[data-card-style="ice-blue-neu"] .themed-image-card-badge {
+  background: rgb(232, 241, 249);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: var(--neu-pill-shadow);
+  color: #0f172a;
+}
+
+/* Theme 03B: Dark Ice-Blue Neu (Dark Neumorphism) */
+html[data-card-style="dark-ice-blue-neu"] .themed-image-card-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(18, 28, 41, 0.94) 0%,
+    rgba(24, 37, 54, 0.62) 52%,
+    rgba(18, 28, 41, 0.20) 100%
+  );
+  backdrop-filter: blur(8px) saturate(130%);
+  -webkit-backdrop-filter: blur(8px) saturate(130%);
+}
+
+html[data-card-style="dark-ice-blue-neu"] .themed-image-card-title {
+  color: #f8fafc;
+}
+
+html[data-card-style="dark-ice-blue-neu"] .themed-image-card-subtext {
+  color: #cbd5e1;
+}
+
+html[data-card-style="dark-ice-blue-neu"] .themed-image-card-kicker {
+  color: #38bdf8;
+}
+
+html[data-card-style="dark-ice-blue-neu"] .themed-image-card-divider {
+  border-color: rgba(148, 197, 248, 0.24);
+}
+
+html[data-card-style="dark-ice-blue-neu"] .themed-image-card-badge {
+  background: rgb(22, 34, 50);
+  border: 1px solid rgba(148, 197, 248, 0.24);
+  box-shadow: var(--neu-pill-shadow);
+  color: #f8fafc;
+}
+
 /* ========================================================================= */
 /* PROJECT DETAIL BANNER, CARDS 1–10 & SUBCARDS THEME SYNC                   */
 /* ========================================================================= */
@@ -1558,7 +1584,7 @@ article.project-card:hover,
   box-shadow: var(--shadow-image-card, var(--shadow-subcard)) !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: 14px !important;
   overflow: hidden !important;
 }
 
@@ -1661,11 +1687,6 @@ article.project-card:hover,
   outline-offset: var(--outline-offset-nav-pill, 0px);
   color: var(--text-primary) !important;
   border-color: var(--surface-interactive-border, var(--border-color)) !important;
-}
-
-.radial-contact-pill.active {
-  background: var(--bg-button-primary) !important;
-  color: #FFFFFF !important;
 }
 
 .radial-contact-divider {
@@ -3487,103 +3508,189 @@ html[data-card-style="light-multicolor-glass-dark"] .video-play-btn--interview {
 /* --- Theme 3: Da bò trắng (Light Stitched Dyed Leather) --- */
 html[data-card-style="light-cowhide-leather"] .video-play-btn {
   --vp-backdrop: none;
-  --vp-outline: 1.5px dashed rgba(17, 24, 39, 0.56);
+  --vp-outline: 1.5px dashed rgba(17, 24, 39, 0.58);
   --vp-outline-offset: -4px;
-  --vp-border: #cbd5e1;
+  --vp-border: #d1d5db;
   --vp-text: #111827;
+  --vp-shadow-ambient: 0 8px 18px -4px rgba(15, 23, 42, 0.16);
+  --vp-shadow-hover: 0 12px 24px -4px rgba(15, 23, 42, 0.24);
   --vp-sound-bg: rgba(17, 24, 39, 0.08);
   --vp-sound-border: rgba(17, 24, 39, 0.25);
   --vp-sound-hover: rgba(17, 24, 39, 0.16);
 }
+html[data-card-style="light-cowhide-leather"] .video-play-btn::before,
+html[data-card-style="black-cowhide-leather"] .video-play-btn::before,
+html[data-card-style="cowhide-leather"] .video-play-btn::before {
+  display: none !important;
+  content: none !important;
+}
+html[data-card-style="light-cowhide-leather"] .video-play-btn:hover,
+html[data-card-style="light-cowhide-leather"] .video-play-btn:focus-visible {
+  --vp-outline: 1.5px dashed rgba(17, 24, 39, 0.88);
+  border-color: #9ca3af !important;
+}
 html[data-card-style="light-cowhide-leather"] .video-play-btn--home {
-  --vp-bg: linear-gradient(145deg, #eff6ff 0%, #dbeafe 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #bfdbfe 100%);
+  --vp-bg: linear-gradient(145deg, #fbfcfc 0%, #e5ebf1 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #dce5ee 100%);
 }
 html[data-card-style="light-cowhide-leather"] .video-play-btn--about {
-  --vp-bg: linear-gradient(145deg, #faf5ff 0%, #f3e8ff 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #e9d5ff 100%);
+  --vp-bg: linear-gradient(145deg, #fbfcfc 0%, #eceef5 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #e1e5ef 100%);
 }
 html[data-card-style="light-cowhide-leather"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(145deg, #e11d48 0%, #be123c 100%);
-  --vp-bg-hover: linear-gradient(145deg, #f43f5e 0%, #e11d48 100%);
-  --vp-border: #ffffff;
+  --vp-bg: linear-gradient(145deg, #1f2937 0%, #0f172a 100%);
+  --vp-bg-hover: linear-gradient(145deg, #334155 0%, #111827 100%);
+  --vp-border: #d1d5db;
   --vp-outline: 1.5px dashed rgba(255, 255, 255, 0.72);
   --vp-text: #FFFFFF;
 }
 html[data-card-style="light-cowhide-leather"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, #ecfdf5 0%, #a7f3d0 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #6ee7b7 100%);
-  --vp-border: #6ee7b7;
+  --vp-bg: linear-gradient(145deg, #fbfcfc 0%, #e8eef3 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #dbe5ed 100%);
+  --vp-border: #cbd5e1;
+  --vp-text: #111827;
 }
 html[data-card-style="light-cowhide-leather"] .video-play-btn--interview {
-  --vp-bg: linear-gradient(145deg, #fffbeb 0%, #fde68a 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #fcd34d 100%);
+  --vp-bg: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #e2e8f0 100%);
 }
 
 /* --- Theme 4: Da bò đen (Black Stitched Dyed Leather) --- */
 html[data-card-style="black-cowhide-leather"] .video-play-btn {
   --vp-backdrop: none;
-  --vp-outline: 1.5px dashed rgba(226, 232, 240, 0.45);
+  --vp-outline: 1.5px dashed rgba(226, 232, 240, 0.50);
   --vp-outline-offset: -4px;
   --vp-border: #090a0d;
   --vp-text: #FFFFFF;
   --vp-specular: rgba(255, 255, 255, 0.14);
+  --vp-shadow-ambient: 0 10px 22px rgba(0, 0, 0, 0.58);
+  --vp-shadow-hover: 0 14px 30px rgba(0, 0, 0, 0.76);
   --vp-sound-bg: rgba(255, 255, 255, 0.14);
   --vp-sound-border: rgba(226, 232, 240, 0.34);
   --vp-sound-hover: rgba(255, 255, 255, 0.26);
 }
+html[data-card-style="black-cowhide-leather"] .video-play-btn:hover,
+html[data-card-style="black-cowhide-leather"] .video-play-btn:focus-visible {
+  --vp-outline: 1.5px dashed rgba(248, 250, 252, 0.85);
+  border-color: rgba(226, 232, 240, 0.45) !important;
+}
 html[data-card-style="black-cowhide-leather"] .video-play-btn--home {
-  --vp-bg: linear-gradient(145deg, #172554 0%, #0f172a 100%);
-  --vp-bg-hover: linear-gradient(145deg, #1d4ed8 0%, #172554 100%);
+  --vp-bg: linear-gradient(145deg, #252830 0%, #14161b 100%);
+  --vp-bg-hover: linear-gradient(145deg, #2f333e 0%, #1c1f26 100%);
 }
 html[data-card-style="black-cowhide-leather"] .video-play-btn--about {
-  --vp-bg: linear-gradient(145deg, #3b0764 0%, #1c102b 100%);
-  --vp-bg-hover: linear-gradient(145deg, #6d28d9 0%, #3b0764 100%);
+  --vp-bg: linear-gradient(145deg, #262932 0%, #15171d 100%);
+  --vp-bg-hover: linear-gradient(145deg, #323642 0%, #1d2028 100%);
 }
 html[data-card-style="black-cowhide-leather"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(145deg, #9f1239 0%, #4c0519 100%);
-  --vp-bg-hover: linear-gradient(145deg, #e11d48 0%, #881337 100%);
+  --vp-bg: linear-gradient(145deg, #2d313b 0%, #16181f 100%);
+  --vp-bg-hover: linear-gradient(145deg, #3b404d 0%, #20232c 100%);
 }
 html[data-card-style="black-cowhide-leather"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, #064e3b 0%, #0d1f1a 100%);
-  --vp-bg-hover: linear-gradient(145deg, #059669 0%, #064e3b 100%);
+  --vp-bg: linear-gradient(145deg, #252830 0%, #14161b 100%);
+  --vp-bg-hover: linear-gradient(145deg, #313540 0%, #1c1f26 100%);
 }
 html[data-card-style="black-cowhide-leather"] .video-play-btn--interview {
-  --vp-bg: linear-gradient(145deg, #451a03 0%, #1c1917 100%);
-  --vp-bg-hover: linear-gradient(145deg, #b45309 0%, #451a03 100%);
+  --vp-bg: linear-gradient(145deg, #262932 0%, #15171d 100%);
+  --vp-bg-hover: linear-gradient(145deg, #323642 0%, #1d2028 100%);
 }
 
 /* --- Theme 5: Da bò nâu (Brown Stitched Saddle Leather) --- */
 html[data-card-style="cowhide-leather"] .video-play-btn {
   --vp-backdrop: none;
-  --vp-outline: 1.5px dashed rgba(245, 222, 179, 0.56);
+  --vp-outline: 1.5px dashed rgba(245, 222, 179, 0.58);
   --vp-outline-offset: -4px;
   --vp-border: #3d210b;
   --vp-text: #FFFFFF;
   --vp-specular: rgba(245, 222, 179, 0.22);
+  --vp-shadow-ambient: 0 10px 22px rgba(24, 10, 3, 0.56);
+  --vp-shadow-hover: 0 14px 30px rgba(24, 10, 3, 0.74);
   --vp-sound-bg: rgba(245, 222, 179, 0.16);
   --vp-sound-border: rgba(245, 222, 179, 0.40);
   --vp-sound-hover: rgba(245, 222, 179, 0.30);
 }
+html[data-card-style="cowhide-leather"] .video-play-btn:hover,
+html[data-card-style="cowhide-leather"] .video-play-btn:focus-visible {
+  --vp-outline: 1.5px dashed rgba(253, 230, 138, 0.90);
+  border-color: #b45309 !important;
+}
 html[data-card-style="cowhide-leather"] .video-play-btn--home {
-  --vp-bg: linear-gradient(145deg, #1e4068 0%, #3d210b 100%);
-  --vp-bg-hover: linear-gradient(145deg, #2563eb 0%, #522e10 100%);
+  --vp-bg: linear-gradient(145deg, #8b5a2b 0%, #5c3312 100%);
+  --vp-bg-hover: linear-gradient(145deg, #9d6834 0%, #6d3d16 100%);
 }
 html[data-card-style="cowhide-leather"] .video-play-btn--about {
-  --vp-bg: linear-gradient(145deg, #6b215e 0%, #3d210b 100%);
-  --vp-bg-hover: linear-gradient(145deg, #9333ea 0%, #522e10 100%);
+  --vp-bg: linear-gradient(145deg, #885628 0%, #583010 100%);
+  --vp-bg-hover: linear-gradient(145deg, #9a6330 0%, #693b15 100%);
 }
 html[data-card-style="cowhide-leather"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(145deg, #b91c1c 0%, #522e10 100%);
-  --vp-bg-hover: linear-gradient(145deg, #dc2626 0%, #7c2d12 100%);
+  --vp-bg: linear-gradient(145deg, #995823 0%, #5c2e0e 100%);
+  --vp-bg-hover: linear-gradient(145deg, #b46a2c 0%, #733912 100%);
 }
 html[data-card-style="cowhide-leather"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, #166534 0%, #3d210b 100%);
-  --vp-bg-hover: linear-gradient(145deg, #059669 0%, #522e10 100%);
+  --vp-bg: linear-gradient(145deg, #8b5a2b 0%, #5c3312 100%);
+  --vp-bg-hover: linear-gradient(145deg, #9d6834 0%, #6d3d16 100%);
 }
 html[data-card-style="cowhide-leather"] .video-play-btn--interview {
-  --vp-bg: linear-gradient(145deg, #b45309 0%, #522e10 100%);
-  --vp-bg-hover: linear-gradient(145deg, #d97706 0%, #653a17 100%);
+  --vp-bg: linear-gradient(145deg, #925b26 0%, #5c3210 100%);
+  --vp-bg-hover: linear-gradient(145deg, #a6692f 0%, #713e15 100%);
+}
+
+/* --- Theme 6: Ice-Blue Soft UI (Light Neumorphism) --- */
+html[data-card-style="ice-blue-neu"] .video-play-btn {
+  --vp-backdrop: blur(14px) saturate(120%);
+  --vp-border: rgba(255, 255, 255, 0.92);
+  --vp-text: #0f172a;
+  --vp-specular: rgba(255, 255, 255, 0.95);
+  --vp-chase-a: #06b6d4;
+  --vp-chase-b: #6366f1;
+  --vp-shadow-ambient: 6px 6px 14px rgba(176, 198, 219, 0.68), -4px -4px 10px rgba(255, 255, 255, 0.95);
+  --vp-shadow-hover: 8px 10px 22px rgba(148, 174, 202, 0.78), -6px -6px 14px rgba(255, 255, 255, 1);
+  --vp-sound-bg: rgba(99, 102, 241, 0.12);
+  --vp-sound-border: rgba(99, 102, 241, 0.28);
+  --vp-sound-hover: rgba(99, 102, 241, 0.22);
+}
+html[data-card-style="ice-blue-neu"] .video-play-btn--home,
+html[data-card-style="ice-blue-neu"] .video-play-btn--about,
+html[data-card-style="ice-blue-neu"] .video-play-btn--interview {
+  --vp-bg: linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #dce9f5 100%);
+}
+html[data-card-style="ice-blue-neu"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #06b6d4 0%, #6366f1 55%, #ec4899 100%);
+  --vp-bg-hover: linear-gradient(135deg, #22d3ee 0%, #818cf8 55%, #f472b6 100%);
+  --vp-text: #FFFFFF;
+}
+html[data-card-style="ice-blue-neu"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, #edf4fa 0%, #e2edf7 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #d9e8f6 100%);
+  --vp-text: #0f172a;
+}
+
+/* --- Theme 7: Dark Ice-Blue Neu (Dark Neumorphism) --- */
+html[data-card-style="dark-ice-blue-neu"] .video-play-btn {
+  --vp-backdrop: blur(14px) saturate(120%);
+  --vp-border: rgba(148, 197, 248, 0.24);
+  --vp-text: #f8fafc;
+  --vp-specular: rgba(186, 230, 253, 0.16);
+  --vp-chase-a: #38bdf8;
+  --vp-chase-b: #a855f7;
+  --vp-shadow-ambient: 6px 8px 18px #080d14, -4px -4px 12px #203147;
+  --vp-shadow-hover: 10px 12px 26px #060a10, -5px -5px 14px #253952, 0 0 18px rgba(56, 189, 248, 0.28);
+  --vp-sound-bg: rgba(56, 189, 248, 0.16);
+  --vp-sound-border: rgba(56, 189, 248, 0.34);
+  --vp-sound-hover: rgba(56, 189, 248, 0.28);
+}
+html[data-card-style="dark-ice-blue-neu"] .video-play-btn--home,
+html[data-card-style="dark-ice-blue-neu"] .video-play-btn--about,
+html[data-card-style="dark-ice-blue-neu"] .video-play-btn--interview,
+html[data-card-style="dark-ice-blue-neu"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, #1b2a3e 0%, #131d2b 100%);
+  --vp-bg-hover: linear-gradient(145deg, #243750 0%, #182536 100%);
+}
+html[data-card-style="dark-ice-blue-neu"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #0ea5e9 0%, #6366f1 55%, #ec4899 100%);
+  --vp-bg-hover: linear-gradient(135deg, #38bdf8 0%, #818cf8 55%, #f472b6 100%);
+  --vp-text: #FFFFFF;
 }
 
 @media (prefers-reduced-motion: reduce) {

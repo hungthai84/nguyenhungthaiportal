@@ -105,8 +105,6 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     setCardStyle,
     surfaceDepth,
     setSurfaceDepth,
-    autoCollapseOnScroll,
-    setAutoCollapseOnScroll,
     autoTimeTheme,
     setAutoTimeTheme,
     activeWallpaper,
@@ -119,7 +117,6 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   const latestUiRef = useRef({
     cardStyle,
     surfaceDepth,
-    autoCollapseOnScroll,
     autoTimeTheme,
     language,
     activeWallpaperId: activeWallpaper?.id || 'theme-bg-prism',
@@ -127,7 +124,6 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   latestUiRef.current = {
     cardStyle,
     surfaceDepth,
-    autoCollapseOnScroll,
     autoTimeTheme,
     language,
     activeWallpaperId: activeWallpaper?.id || 'theme-bg-prism',
@@ -169,7 +165,6 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
             photoUrl: safePhoto,
             cardStyle: latestUiRef.current.cardStyle,
             surfaceDepth: latestUiRef.current.surfaceDepth,
-            autoCollapseOnScroll: Boolean(latestUiRef.current.autoCollapseOnScroll),
             autoTimeTheme: Boolean(latestUiRef.current.autoTimeTheme),
             language: latestUiRef.current.language === 'en' ? 'en' : 'vi',
             activeWallpaperId: safeWpId,
@@ -190,9 +185,6 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
               if (data.surfaceDepth !== latestUiRef.current.surfaceDepth) {
                 setSurfaceDepth(data.surfaceDepth);
               }
-            }
-            if (typeof data.autoCollapseOnScroll === 'boolean' && data.autoCollapseOnScroll !== latestUiRef.current.autoCollapseOnScroll) {
-              setAutoCollapseOnScroll(data.autoCollapseOnScroll);
             }
             if (typeof data.autoTimeTheme === 'boolean' && data.autoTimeTheme !== latestUiRef.current.autoTimeTheme) {
               setAutoTimeTheme(data.autoTimeTheme);
@@ -230,7 +222,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     return () => {
       cancelled = true;
     };
-  }, [authReady, user, setCardStyle, setSurfaceDepth, setAutoCollapseOnScroll, setAutoTimeTheme, setLanguageMode, setWallpaper]);
+  }, [authReady, user, setCardStyle, setSurfaceDepth, setAutoTimeTheme, setLanguageMode, setWallpaper]);
 
   // Persist UI preference updates to /users/{uid} (Action 2 affectedKeys) when signed in
   useEffect(() => {
@@ -244,7 +236,6 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
       const prefPayload = {
         cardStyle,
         surfaceDepth,
-        autoCollapseOnScroll: Boolean(autoCollapseOnScroll),
         autoTimeTheme: Boolean(autoTimeTheme),
         language: language === 'en' ? 'en' : 'vi',
         activeWallpaperId: safeWpId,
@@ -256,7 +247,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     }, 350);
 
     return () => clearTimeout(timer);
-  }, [authReady, user, cardStyle, surfaceDepth, autoCollapseOnScroll, autoTimeTheme, language, activeWallpaper?.id]);
+  }, [authReady, user, cardStyle, surfaceDepth, autoTimeTheme, language, activeWallpaper?.id]);
 
   // Live listener for user's custom wallpapers (/users/{uid}/wallpapers)
   useEffect(() => {

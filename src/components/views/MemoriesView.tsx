@@ -429,7 +429,11 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                   borderRadius: '14px',
                   minHeight: '250px',
                   padding: '0px',
-                  background: 'transparent',
+                  backgroundColor: 'transparent',
+                  backgroundImage: `url("${item.imageUrl}")`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
                   cursor: 'pointer',
                 }}
                 className={cn(
@@ -443,10 +447,10 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ligh
                   loading="lazy"
                   referrerPolicy="no-referrer"
                   onError={(e) => {
-                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.style.opacity = '0';
                     const parent = e.currentTarget.parentElement;
                     if (parent) {
-                      parent.style.background =
+                      parent.style.backgroundImage =
                         'linear-gradient(135deg, rgba(15,23,42,0.55) 0%, rgba(30,41,59,0.75) 100%)';
                     }
                   }}

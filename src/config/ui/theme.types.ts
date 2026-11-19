@@ -4,6 +4,8 @@ export type ThemeMechanismMode = 'light' | 'dark' | 'color';
 
 export type SurfaceDepthMode = 'flat' | 'depth';
 
+export type FontScaleMode = 'normal' | 'large' | 'xlarge';
+
 export type CardStyleMode =
   | 'light-cowhide-leather'
   | 'black-cowhide-leather'

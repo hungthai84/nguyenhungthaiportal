@@ -1,0 +1,335 @@
+/* ========================================================================= */
+/* LAYER CARD HIERARCHY SYSTEM                                               */
+/* Level 1: Header · Main Card · Footer                                      */
+/* Level 2: Card · Banner                                                    */
+/* Level 3: Sub Card                                                         */
+/* Synchronizes dynamically across all 5 Themes & Layer Depth (0% - 200%)    */
+/* ========================================================================= */
+
+/* Level 1: Header & Footer Elevation */
+html:not([data-surface-depth="flat"]) #app-header {
+  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow)) !important;
+}
+
+html:not([data-surface-depth="flat"]) #app-footer {
+  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow)) !important;
+}
+
+/* Level 1: Main Card Surface */
+html:not([data-surface-depth="flat"]) :is(
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"],
+  .layer-preview-l1
+) {
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+}
+
+/* Level 2: Card Surface & Banner Surface */
+:is(
+  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
+  .bento-card:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
+  .layered-card,
+  .exp-bento-surface-card,
+  .exp-detail-card,
+  .education-card,
+  .education-course-card,
+  .project-card,
+  .project-detail-section-card,
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
+  #interview-questions-card,
+  #interview-answers-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card,
+  #horoscope-lookup-card,
+  #bento-letter-video,
+  .layer-preview-l2
+) {
+  transition:
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms ease,
+    border-color 220ms ease,
+    outline-color 220ms ease !important;
+  will-change: transform;
+}
+
+html:not([data-surface-depth="flat"]) :is(
+  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
+  .bento-card:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
+  .layered-card,
+  .exp-bento-surface-card,
+  .exp-detail-card,
+  .education-card,
+  .education-course-card,
+  .project-card,
+  .project-detail-section-card,
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
+  #interview-questions-card,
+  #interview-answers-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card,
+  #horoscope-lookup-card,
+  #bento-letter-video,
+  .layer-preview-l2
+) {
+  box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow)) !important;
+}
+
+/* Level 3: Sub Card Surface */
+:is(
+  [data-subcard="true"]:not(.skill-swot-subcard):not([id^="skill-item-"]),
+  .sub-card:not(.skill-swot-subcard):not([id^="skill-item-"]),
+  .nested-card,
+  .exp-bento-item-card:not(.exp-bento-rect-btn),
+  .exp-detail-subcard,
+  .education-subcard,
+  .letter-subcard,
+  .letter-header-subcard,
+  .letter-footer-subcard,
+  .project-detail-subcard,
+  .theme-modal-subcard,
+  .layer-preview-l3
+) {
+  transition:
+    transform 210ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 230ms ease,
+    border-color 200ms ease,
+    outline-color 200ms ease !important;
+}
+
+html:not([data-surface-depth="flat"]) :is(
+  [data-subcard="true"]:not(.skill-swot-subcard):not([id^="skill-item-"]),
+  .sub-card:not(.skill-swot-subcard):not([id^="skill-item-"]),
+  .nested-card,
+  .exp-bento-item-card:not(.exp-bento-rect-btn),
+  .exp-detail-subcard,
+  .education-subcard,
+  .letter-subcard,
+  .letter-header-subcard,
+  .letter-footer-subcard,
+  .project-detail-subcard,
+  .theme-modal-subcard,
+  .layer-preview-l3
+) {
+  box-shadow: var(--layer-l3-shadow, var(--surface-tertiary-shadow)) !important;
+}
+
+/* Hover Lift for Level 2 (Card & Banner) & Level 3 (Sub Card) on Desktop Fine Pointer */
+@media (hover: hover) and (pointer: fine) {
+  html:not([data-surface-depth="flat"]) :is(
+    [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#footer-theme-popup):not(#footer-lang-popup):not(.banner-dropdown-menu):not(:has(.banner-dropdown-menu)),
+    .bento-card:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]):not(#footer-theme-popup):not(#footer-lang-popup):not(:has(.banner-dropdown-menu)),
+    .layered-card,
+    .exp-bento-surface-card,
+    .exp-detail-card,
+    .education-card,
+    .education-course-card,
+    .project-card,
+    .project-detail-section-card,
+    .banner-card:not(:has(.banner-dropdown-menu)),
+    .hero-banner:not(:has(.banner-dropdown-menu)),
+    [id$="-hero-banner"]:not(:has(.banner-dropdown-menu)),
+    #interview-questions-card:not(:has(.banner-dropdown-menu)),
+    #interview-answers-card,
+    #home-intro-card,
+    #home-stats-card,
+    #home-capabilities-card,
+    #home-achievements-card,
+    #horoscope-lookup-card,
+    #bento-letter-video,
+    .layer-preview-l2
+  ):hover {
+    transform: translateY(var(--layer-l2-lift, -4px)) !important;
+    box-shadow: var(--layer-l2-shadow-hover, var(--layer-l2-shadow)) !important;
+  }
+
+  html:not([data-surface-depth="flat"]) :is(
+    [data-subcard="true"]:not(.skill-swot-subcard):not([id^="skill-item-"]),
+    .sub-card:not(.skill-swot-subcard):not([id^="skill-item-"]),
+    .nested-card,
+    .exp-bento-item-card:not(.exp-bento-rect-btn),
+    .exp-detail-subcard,
+    .education-subcard,
+    .letter-subcard,
+    .letter-header-subcard,
+    .letter-footer-subcard,
+    .project-detail-subcard,
+    .theme-modal-subcard,
+    .layer-preview-l3
+  ):hover {
+    transform: translateY(var(--layer-l3-lift, -3px)) !important;
+    box-shadow: var(--layer-l3-shadow-hover, var(--layer-l3-shadow)) !important;
+  }
+}
+
+/* Touch Press Feedback on Mobile & Tablet */
+@media (hover: none), (pointer: coarse) {
+  html:not([data-surface-depth="flat"]) :is(
+    .project-card,
+    .exp-bento-item-card:not(.exp-bento-rect-btn),
+    .education-card,
+    .layer-preview-l2,
+    .layer-preview-l3
+  ):active {
+    transform: scale(0.992) !important;
+  }
+}
+
+/* Flat Minimal Mode (Layer Depth = 0%) */
+html[data-surface-depth="flat"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  [data-section-card="true"],
+  .bento-card,
+  .layered-card,
+  .banner-card,
+  .hero-banner,
+  [data-subcard="true"],
+  .sub-card,
+  .nested-card,
+  .exp-bento-surface-card,
+  .exp-bento-item-card,
+  .exp-detail-card,
+  .exp-detail-subcard,
+  .education-card,
+  .education-course-card,
+  .education-subcard,
+  .project-card,
+  .project-detail-section-card,
+  .project-detail-subcard,
+  .home-hero-card,
+  .layer-preview-l1,
+  .layer-preview-l2,
+  .layer-preview-l3
+) {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* ========================================================================= */
+/* HOME HERO CARDS: 100% OPAQUE & SYNCHRONIZED PER ACTIVE THEME              */
+/* (#home-intro-card, #home-stats-card, #home-capabilities-card,             */
+/*  #home-achievements-card)                                                 */
+/* ========================================================================= */
+html :is(
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card
+),
+html[data-card-style] :is(
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card
+) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="ice-blue-neu"] :is(
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card
+) {
+  background: linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.94) !important;
+  border-radius: 28px !important;
+  outline: none !important;
+  color: #0f172a !important;
+}
+
+html[data-card-style="dark-ice-blue-neu"] :is(
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card
+) {
+  background: linear-gradient(145deg, #182536 0%, #121c29 100%) !important;
+  border: 1px solid rgba(148, 197, 248, 0.16) !important;
+  border-radius: 28px !important;
+  outline: none !important;
+  color: #f8fafc !important;
+}
+
+html[data-card-style="light-cowhide-leather"] :is(
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card
+) {
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  border: 2px solid #d1d5db !important;
+  outline: 1.5px dashed rgba(17, 24, 39, 0.72) !important;
+  outline-offset: -7px !important;
+  border-radius: 14px !important;
+  color: #111827 !important;
+}
+
+html[data-card-style="black-cowhide-leather"] :is(
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card
+) {
+  background: linear-gradient(145deg, #252830 0%, #15171c 50%, #1d2027 100%) !important;
+  border: 2px solid #090a0d !important;
+  outline: 1.5px dashed rgba(226, 232, 240, 0.48) !important;
+  outline-offset: -7px !important;
+  border-radius: 14px !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="cowhide-leather"] :is(
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card
+) {
+  background: linear-gradient(145deg, #8b5a2b 0%, #653a17 50%, #7a4a20 100%) !important;
+  border: 2px solid #522e10 !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.58) !important;
+  outline-offset: -7px !important;
+  border-radius: 14px !important;
+  color: #ffffff !important;
+}
+
+/* Reduced Motion Safety */
+@media (prefers-reduced-motion: reduce) {
+  [data-section-card="true"],
+  .bento-card,
+  .banner-card,
+  .hero-banner,
+  [data-subcard="true"],
+  .sub-card,
+  .project-card,
+  .home-hero-card {
+    transition: box-shadow 180ms ease, border-color 180ms ease, background 180ms ease !important;
+    transform: none !important;
+  }
+}

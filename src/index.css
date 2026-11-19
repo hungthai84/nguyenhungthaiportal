@@ -32,6 +32,7 @@
 @import "./styles/themes/black-cowhide-leather.css";
 @import "./styles/themes/cowhide-leather.css";
 @import "./styles/themes/ice-blue-neu.css";
+@import "./styles/layers.css";
 
 /* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection & Better-Typography Craft */
 .typo-h1 { font-size: var(--fs-h1) !important; line-height: var(--lh-h1, var(--lh-heading, 1.25)); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h1, -0.022em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
@@ -1260,16 +1261,10 @@ html[data-card-style] #project-detail-banner {
   clip-path: inset(0 round 14px);
 }
 
-html .hero-banner .project-detail-banner-media,
-html .hero-banner .project-detail-banner-media :is(img, video),
-html .hero-banner .project-detail-banner-scrim,
-html .banner-card .project-detail-banner-media,
-html .banner-card .project-detail-banner-media :is(img, video),
-html .banner-card .project-detail-banner-scrim,
-html #contact-main-card #contact-hero-banner .project-detail-banner-media,
-html #contact-main-card #contact-hero-banner .project-detail-banner-media img,
-html #contact-main-card #contact-hero-banner .project-detail-banner-scrim {
-  border-radius: 14px !important;
+html :is(.hero-banner, .banner-card, [id$="-hero-banner"], #interview-questions-card, #project-detail-banner, #contact-main-card #contact-hero-banner) .project-detail-banner-media,
+html :is(.hero-banner, .banner-card, [id$="-hero-banner"], #interview-questions-card, #project-detail-banner, #contact-main-card #contact-hero-banner) .project-detail-banner-media :is(img, video),
+html :is(.hero-banner, .banner-card, [id$="-hero-banner"], #interview-questions-card, #project-detail-banner, #contact-main-card #contact-hero-banner) .project-detail-banner-scrim {
+  border-radius: var(--radius-banner, var(--radius-card, 14px)) !important;
 }
 
 /* Enhanced Clarity & Sharpness for Hero Banners & Banner Background Images */
@@ -2233,48 +2228,45 @@ html[data-card-style] .project-detail-banner-media :is(img, video) {
   filter: brightness(1.03) contrast(1.06) saturate(1.08) !important;
 }
 
-html :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, [id$="-hero-banner"]) .project-detail-banner-scrim {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.54) 0%, rgba(255, 255, 255, 0.05) 45%, rgba(255, 255, 255, 0.24) 100%) !important;
+html :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.02) 42%, rgba(255, 255, 255, 0.16) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
-html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, [id$="-hero-banner"]) .project-detail-banner-scrim {
-  background: linear-gradient(180deg, rgba(8, 13, 28, 0.50) 0%, rgba(8, 13, 28, 0.06) 45%, rgba(8, 13, 28, 0.34) 100%) !important;
+html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
+  background: linear-gradient(180deg, rgba(8, 13, 28, 0.28) 0%, rgba(8, 13, 28, 0.03) 42%, rgba(8, 13, 28, 0.22) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
-/* 100% Transparent background for Weather Card in all Glassmorphism (Gương Kính mờ) themes */
-html[data-card-style="light-multicolor-glass"] #weather-card,
-html[data-card-style="light-multicolor-glass"] #weather-widget-card,
-html[data-card-style="light-multicolor-glass"] .weather-card,
-html[data-card-style="light-multicolor-glass-dark"] #weather-card,
-html[data-card-style="light-multicolor-glass-dark"] #weather-widget-card,
-html[data-card-style="light-multicolor-glass-dark"] .weather-card,
-html[data-card-style="light-multicolor-glass-color"] #weather-card,
-html[data-card-style="light-multicolor-glass-color"] #weather-widget-card,
-html[data-card-style="light-multicolor-glass-color"] .weather-card {
+/* 100% Transparent background for Weather Card in Glassmorphism & Ice-Blue Soft UI themes */
+html :is(#weather-card, #weather-widget-card, .weather-card),
+html[data-card-style="light-multicolor-glass"] :is(#weather-card, #weather-widget-card, .weather-card),
+html[data-card-style="light-multicolor-glass-dark"] :is(#weather-card, #weather-widget-card, .weather-card),
+html[data-card-style="light-multicolor-glass-color"] :is(#weather-card, #weather-widget-card, .weather-card),
+html[data-card-style="ice-blue-neu"] :is(#weather-card, #weather-widget-card, .weather-card),
+html[data-card-style="dark-ice-blue-neu"] :is(#weather-card, #weather-widget-card, .weather-card) {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
   border: none !important;
+  outline: none !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
 /* ========================================================================= */
-/* WALLPAPER & MEMORIES IMAGE CARDS OVERRIDE (ALL 6 THEMES)                  */
-/*   - 100% transparent card background (full-bleed imagery)                 */
-/*   - Strict 14px rounded corners across all themes including Frosted Glass */
+/* WALLPAPER & MEMORIES IMAGE CARDS OVERRIDE (ALL THEMES)                    */
+/*   - Uses inline thumbnail backgroundImage (preserves theme border/shadow) */
+/*   - Strict 14px rounded corners across ALL themes                         */
 /*   - Strict 15px padding for inner hover overlay elements                  */
-/*   - Preserves active theme border, outline & shadow tokens                */
 /* ========================================================================= */
 html #wallpaper-page-container [id^="wallpaper-card-"],
 html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-"],
@@ -2283,9 +2275,7 @@ html[data-card-style] #memories-page-container [id^="memory-card-"],
 html .themed-image-card,
 html[data-card-style] .themed-image-card {
   padding: 0 !important;
-  background: transparent !important;
   background-color: transparent !important;
-  background-image: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   border-radius: 14px !important;
@@ -2300,7 +2290,9 @@ html[data-card-style] .themed-image-card {
 html #wallpaper-page-container [id^="wallpaper-card-media-"],
 html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-media-"],
 html #wallpaper-page-container [id^="wallpaper-card-media-"] > :is(img, video, div),
-html #memories-page-container [id^="memory-card-"] > img.memory-crisp-img {
+html #memories-page-container [id^="memory-card-"] > img.memory-crisp-img,
+html .themed-image-frame,
+html[data-card-style] .themed-image-frame {
   border-radius: 14px !important;
   -webkit-clip-path: inset(0 round 14px) !important;
   clip-path: inset(0 round 14px) !important;
@@ -2339,17 +2331,17 @@ html :is(.hero-banner, .banner-card, [id$="-hero-banner"]) :is(p.font-italianno,
 
 /* ========================================================================= */
 /* UNIFIED MENU ICON PILL BUTTON SPEC                                        */
-/* - Standard pills: 150px x 40px, padding 8px top/bottom, 10px left/right   */
-/* - Focus Mode #header-btn-hungthai-avatar overrides: 196x50, wrapper 175x55 */
+/* - All pills including #header-btn-hungthai-avatar: 150px x 40px, pad 8/10 */
 /* ========================================================================= */
 button#footer-ai-btn,
 #footer-lang-btn,
 #footer-appearance-btn,
 #footer-wallpaper-btn,
 #footer-theme-mode-btn,
-#app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+#app-header button.nav-pill,
 #app-footer button.nav-pill,
-button.nav-pill:not(#header-btn-hungthai-avatar) {
+button.nav-pill,
+button#header-btn-hungthai-avatar {
   height: 40px !important;
   min-height: 40px !important;
   width: 150px !important;
@@ -2357,6 +2349,7 @@ button.nav-pill:not(#header-btn-hungthai-avatar) {
   padding-bottom: 8px !important;
   padding-left: 10px !important;
   padding-right: 10px !important;
+  margin: 0 !important;
   font-weight: normal !important;
   border-width: 1px !important;
   align-items: center !important;
@@ -2379,50 +2372,24 @@ button.nav-pill:not(#header-btn-hungthai-avatar) {
   box-sizing: border-box !important;
 }
 
-/* FOCUS-MODE RULES FOR #header-btn-hungthai-avatar & CHILDREN (CSS 1,2,4,5) */
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3) > header#app-header:nth-of-type(1) > nav#header-center:nth-of-type(1) > div#el-p0-div-84:nth-of-type(14) > div#el-p0-div-85:nth-of-type(1),
+/* SYNC #header-btn-hungthai-avatar SIZE & BADGE WITH HOME PILL (KEEP AVATAR GIF) */
 .nav-pill-wrapper:has(> #header-btn-hungthai-avatar) {
-  width: 175px !important;
-  height: 55px !important;
-  padding-top: 1px !important;
-  padding-left: 1px !important;
-  padding-right: 1px !important;
-  padding-bottom: 1px !important;
+  width: 153px !important;
+  height: auto !important;
+  padding: 1.5px !important;
   box-sizing: border-box !important;
 }
 
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3) > header#app-header:nth-of-type(1) > nav#header-center:nth-of-type(1) > div#el-p0-div-84:nth-of-type(14) > div#el-p0-div-85:nth-of-type(1) > button#header-btn-hungthai-avatar:nth-of-type(1),
-button#header-btn-hungthai-avatar {
-  height: 50px !important;
-  min-height: 50px !important;
-  width: 196px !important;
-  padding-top: 10px !important;
-  padding-left: 10px !important;
-  padding-right: 10px !important;
-  padding-bottom: 10px !important;
-  margin-left: 5px !important;
-  margin-right: 5px !important;
-  margin-bottom: 5px !important;
-  margin-top: 5px !important;
-  font-weight: normal !important;
-  border-width: 1px !important;
-  align-items: center !important;
-  gap: 6px !important;
-  box-sizing: border-box !important;
-}
-
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3) > header#app-header:nth-of-type(1) > nav#header-center:nth-of-type(1) > div#el-p0-div-84:nth-of-type(14) > div#el-p0-div-85:nth-of-type(1) > button#header-btn-hungthai-avatar:nth-of-type(1) > div#el-p0-div-86:nth-of-type(1),
 button#header-btn-hungthai-avatar .nav-pill-icon-badge {
-  height: 30px !important;
-  width: 30px !important;
+  height: 24px !important;
+  width: 24px !important;
 }
 
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3) > header#app-header:nth-of-type(1) > nav#header-center:nth-of-type(1) > div#el-p0-div-84:nth-of-type(14) > div#el-p0-div-85:nth-of-type(1) > button#header-btn-hungthai-avatar:nth-of-type(1) > div#el-p0-div-86:nth-of-type(1) > img#el-p0-img-2:nth-of-type(1),
 button#header-btn-hungthai-avatar .nav-pill-icon-badge > img {
-  width: 30.8571px !important;
-  height: 30.8571px !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
   margin-left: 0px !important;
-  max-width: none !important;
 }
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3) > header#app-header:nth-of-type(1) > nav#header-center:nth-of-type(1) > div#el-p0-div-84:nth-of-type(14) > div#el-p0-div-85:nth-of-type(1) > button#header-btn-hungthai-avatar:nth-of-type(1) > div#el-p0-div-88:nth-of-type(3) > span#el-p0-span-39:nth-of-type(1),
@@ -2454,11 +2421,6 @@ button.nav-pill:not(#header-btn-hungthai-avatar) .nav-pill-icon-badge,
 
 .nav-pill-wrapper {
   overflow: visible !important;
-}
-
-.nav-pill-wrapper:focus-within,
-.nav-pill-wrapper:hover {
-  z-index: 160;
 }
 
 button.nav-pill:focus-visible,
@@ -2556,25 +2518,28 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   #footer-theme-popup,
   #footer-lang-popup,
   [role="dialog"],
-  .modal-dialog,
-  #wallpaper-page-container [id^="wallpaper-card-"],
-  #memories-page-container [id^="memory-card-"],
-  .themed-image-card,
-  .themed-image-frame
+  .modal-dialog
 ) {
   border-radius: 28px !important;
 }
 
 html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
-  #wallpaper-page-container [id^="wallpaper-card-"],
-  #memories-page-container [id^="memory-card-"],
-  .themed-image-card,
-  #wallpaper-page-container [id^="wallpaper-card-media-"],
-  #wallpaper-page-container [id^="wallpaper-card-media-"] > :is(img, video, div),
-  #memories-page-container [id^="memory-card-"] > img.memory-crisp-img,
   #education-courses-grid .education-course-card .education-card-banner,
   #projects-grid .project-card .project-card-banner,
+  .hero-banner .project-detail-banner-media,
+  .hero-banner .project-detail-banner-media :is(img, video),
+  .hero-banner .project-detail-banner-scrim,
+  .banner-card .project-detail-banner-media,
+  .banner-card .project-detail-banner-media :is(img, video),
+  .banner-card .project-detail-banner-scrim,
+  [id$="-hero-banner"] .project-detail-banner-media,
+  [id$="-hero-banner"] .project-detail-banner-media :is(img, video),
+  [id$="-hero-banner"] .project-detail-banner-scrim,
+  #interview-questions-card .project-detail-banner-media,
+  #interview-questions-card .project-detail-banner-media :is(img, video),
+  #interview-questions-card .project-detail-banner-scrim,
   #project-detail-banner .project-detail-banner-media,
+  #project-detail-banner .project-detail-banner-media :is(img, video),
   #project-detail-banner .project-detail-banner-scrim
 ) {
   border-radius: 28px !important;

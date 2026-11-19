@@ -25,8 +25,8 @@ export const ENGAGEMENT_EXTRAS_EN: Record<string, string> = {
   // HoroscopeView & tuviData.ts / horoscope.ts
   'Bản đồ tử vi': 'Leadership Horoscope',
   '"Thấu hiểu định mệnh, chủ động kiến tạo tương lai ♡"': '"Understand destiny, proactively architect the future ♡"',
-  '01. Hồ sơ tử vi': '01. Horoscope Profile',
-  'Hồ sơ tử vi': 'Horoscope Profile',
+  '01. Hồ sơ Nguyễn Hùng Thái': '01. Nguyen Hung Thai Profile',
+  'Hồ sơ Nguyễn Hùng Thái': 'Nguyen Hung Thai Profile',
   '02. Phong Cách Quản Trị': '02. Management Style',
   'Phong Cách Quản Trị': 'Management Style',
   '03. Chân dung công việc': '03. Operational Palaces',

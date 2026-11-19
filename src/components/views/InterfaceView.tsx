@@ -10,8 +10,9 @@ import {
   CARD_STYLE_GROUPS,
   ThemeMechanismMode,
 } from '@/hooks/useTheme';
-import { CardStyleMode, ThemeFamilyId } from '@/config/ui/theme.types';
-import { DEFAULT_CARD_STYLE } from '@/config/ui/themeDefaults';
+import { CardStyleMode, FontScaleMode, ThemeFamilyId } from '@/config/ui/theme.types';
+import { DEFAULT_CARD_STYLE, DEFAULT_FONT_SCALE, DEFAULT_LAYER_DEPTH } from '@/config/ui/themeDefaults';
+import { FONT_SCALE_OPTIONS, LAYER_DEPTH_PRESETS } from '@/config/ui/layerDepth';
 import { motion } from 'motion/react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useFirebase } from '@/context/FirebaseContext';
@@ -194,8 +195,11 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     isDark,
     surfaceDepth,
     setSurfaceDepth,
-    autoCollapseOnScroll,
-    setAutoCollapseOnScroll,
+    layerDepth,
+    setLayerDepth,
+    resetLayerDepth,
+    fontScale,
+    setFontScale,
     autoTimeTheme,
     setAutoTimeTheme,
   } = useTheme();
@@ -257,19 +261,13 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     }
   };
 
-  const handleToggleAutoCollapse = (enabled: boolean) => {
-    if (enabled === autoCollapseOnScroll) return;
+  const handleSelectFontScale = (scale: FontScaleMode, label: string) => {
+    if (scale === fontScale) return;
     SoundEngine.playGlassChime();
-    setAutoCollapseOnScroll(enabled);
+    setFontScale(scale);
     if (onShowNotification) {
       onShowNotification(
-        enabled
-          ? isEn
-            ? '✓ Enabled: Auto-collapse header and footer on scroll'
-            : '✓ Đã bật tính năng: Thu gọn thanh đầu/chân trang khi cuộn'
-          : isEn
-            ? '✓ Disabled: Auto-collapse header and footer on scroll'
-            : '✓ Đã tắt tính năng: Thu gọn thanh đầu/chân trang khi cuộn'
+        isEn ? `✓ Text size updated: ${label}` : `✓ Đã chuyển cỡ chữ: ${label}`
       );
     }
   };
@@ -298,8 +296,11 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     if (surfaceDepth !== 'depth') {
       setSurfaceDepth('depth');
     }
-    if (autoCollapseOnScroll) {
-      setAutoCollapseOnScroll(false);
+    if (layerDepth !== DEFAULT_LAYER_DEPTH) {
+      resetLayerDepth();
+    }
+    if (fontScale !== DEFAULT_FONT_SCALE) {
+      setFontScale(DEFAULT_FONT_SCALE);
     }
     if (onShowNotification) {
       onShowNotification(
@@ -317,7 +318,10 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
 
   const displayedThemesCount = UNIFIED_INTERFACE_THEMES.length;
   const isDefaultConfig =
-    cardStyle === DEFAULT_CARD_STYLE && surfaceDepth === 'depth' && !autoCollapseOnScroll;
+    cardStyle === DEFAULT_CARD_STYLE &&
+    surfaceDepth === 'depth' &&
+    layerDepth === DEFAULT_LAYER_DEPTH &&
+    fontScale === DEFAULT_FONT_SCALE;
 
   return (
     <div
@@ -532,94 +536,161 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             </div>
           </div>
 
-          {/* 2. Tùy chỉnh nhanh: Độ sâu bề mặt & Thu gọn thanh đầu/chân trang */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px]">
+          {/* 2. Tùy chỉnh trực tiếp: Độ sâu Layer Card (3 cấp) & Kích cỡ chữ hỗ trợ đọc */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px]">
+            {/* Thẻ điều chỉnh độ sâu Layer trực tiếp */}
             <div
               id="interface-surface-depth-card"
               data-subcard="true"
-              className="sub-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-[15px] border"
+              className="sub-card lg:col-span-7 flex flex-col gap-3 p-[15px] border rounded-[14px]"
               style={{
                 background: 'var(--bg-subcard)',
                 borderColor: 'var(--border-subcard)',
               }}
             >
-              <div className="min-w-0 flex items-start gap-2.5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
+                <div className="min-w-0 flex items-start gap-2.5">
+                  <div
+                    className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
+                    style={{
+                      background: 'var(--bg-card)',
+                      borderColor: 'var(--border-subcard)',
+                      color: 'var(--color-primary)',
+                    }}
+                  >
+                    <WebIcon name="layers" className="w-4 h-4 shrink-0" />
+                  </div>
+                  <div className="min-w-0">
+                    <h4 className="typo-body font-bold tracking-tight flex items-center gap-2 flex-wrap">
+                      <span>{isEn ? 'Direct Layer Card Depth' : 'Điều chỉnh độ sâu Layer trực tiếp'}</span>
+                      <span
+                        className="typo-badge font-mono px-2 py-0.5 rounded-full border tabular-nums"
+                        style={{
+                          background: 'var(--bg-card)',
+                          borderColor: 'var(--border-subcard)',
+                          color: 'var(--text-link, var(--color-primary))',
+                        }}
+                      >
+                        {layerDepth}%
+                      </span>
+                    </h4>
+                    <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
+                      {surfaceDepth === 'flat' || layerDepth === 0
+                        ? isEn
+                          ? 'Minimalist flat surfaces without drop shadows (0%)'
+                          : 'Đang bật: Giao diện phẳng tối giản không đổ bóng (0%)'
+                        : isEn
+                          ? 'Level 1 Header/Main/Footer · Level 2 Card/Banner · Level 3 Sub Card'
+                          : 'Phân cấp 3 tầng bóng đổ riêng: Level 1 (Đầu/Chính/Chân) · Level 2 (Card/Banner) · Level 3 (Sub Card)'}
+                    </p>
+                  </div>
+                </div>
+
                 <div
-                  className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
+                  role="group"
+                  aria-label={
+                    isEn
+                      ? 'Switch between Flat Minimalist and Layered Depth'
+                      : 'Chuyển đổi giữa Giao diện phẳng tối giản và Giao diện có chiều sâu'
+                  }
+                  className="inline-grid grid-cols-2 p-1 rounded-full border shrink-0 w-full sm:w-auto"
                   style={{
                     background: 'var(--bg-card)',
                     borderColor: 'var(--border-subcard)',
-                    color: 'var(--color-primary)',
                   }}
                 >
-                  <WebIcon name="layers" className="w-4 h-4 shrink-0" />
-                </div>
-                <div className="min-w-0">
-                  <h4 className="typo-body font-bold tracking-tight">
-                    {isEn ? 'Interface Surface Depth' : 'Độ phẳng & chiều sâu giao diện'}
-                  </h4>
-                  <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
-                    {surfaceDepth === 'flat'
-                      ? isEn
-                        ? 'Minimalist flat surfaces without drop shadows'
-                        : 'Đang bật: Giao diện phẳng tối giản (không bóng)'
-                      : isEn
-                        ? 'Layered depth with soft shadows and gentle hover lift'
-                        : 'Đang bật: Giao diện có chiều sâu (đổ bóng & nổi nhẹ)'}
-                  </p>
+                  <button
+                    id="btn-surface-depth-flat"
+                    type="button"
+                    aria-pressed={surfaceDepth === 'flat'}
+                    onClick={() => handleSelectSurfaceDepth('flat')}
+                    className={`flex items-center justify-center gap-1.5 px-3 py-1 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                      surfaceDepth === 'flat'
+                        ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white'
+                        : 'hover:opacity-90'
+                    }`}
+                    style={surfaceDepth !== 'flat' ? { color: 'var(--text-muted)' } : undefined}
+                  >
+                    <WebIcon name="square" className="w-3.5 h-3.5 shrink-0" />
+                    <span>{isEn ? 'Flat' : 'Phẳng'}</span>
+                  </button>
+                  <button
+                    id="btn-surface-depth-layered"
+                    type="button"
+                    aria-pressed={surfaceDepth === 'depth'}
+                    onClick={() => handleSelectSurfaceDepth('depth')}
+                    className={`flex items-center justify-center gap-1.5 px-3 py-1 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                      surfaceDepth === 'depth'
+                        ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white'
+                        : 'hover:opacity-90'
+                    }`}
+                    style={surfaceDepth !== 'depth' ? { color: 'var(--text-muted)' } : undefined}
+                  >
+                    <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
+                    <span>{isEn ? 'Layered' : 'Nổi lớp'}</span>
+                  </button>
                 </div>
               </div>
 
-              <div
-                role="group"
-                aria-label={
-                  isEn
-                    ? 'Switch between Flat Minimalist and Layered Depth'
-                    : 'Chuyển đổi giữa Giao diện phẳng tối giản và Giao diện có chiều sâu'
-                }
-                className="inline-grid grid-cols-2 p-1 rounded-full border shrink-0 w-full sm:w-auto"
-                style={{
-                  background: 'var(--bg-card)',
-                  borderColor: 'var(--border-subcard)',
-                }}
-              >
-                <button
-                  id="btn-surface-depth-flat"
-                  type="button"
-                  aria-pressed={surfaceDepth === 'flat'}
-                  onClick={() => handleSelectSurfaceDepth('flat')}
-                  className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                    surfaceDepth === 'flat'
-                      ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white'
-                      : 'hover:opacity-90'
-                  }`}
-                  style={surfaceDepth !== 'flat' ? { color: 'var(--text-muted)' } : undefined}
-                >
-                  <WebIcon name="square" className="w-3.5 h-3.5 shrink-0" />
-                  <span>{isEn ? 'Flat Minimal' : 'Phẳng tối giản'}</span>
-                </button>
-                <button
-                  id="btn-surface-depth-layered"
-                  type="button"
-                  aria-pressed={surfaceDepth === 'depth'}
-                  onClick={() => handleSelectSurfaceDepth('depth')}
-                  className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                    surfaceDepth === 'depth'
-                      ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white'
-                      : 'hover:opacity-90'
-                  }`}
-                  style={surfaceDepth !== 'depth' ? { color: 'var(--text-muted)' } : undefined}
-                >
-                  <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
-                  <span>{isEn ? 'Layered Depth' : 'Có chiều sâu'}</span>
-                </button>
+              {/* Thanh trượt độ sâu Layer trực tiếp 0% - 200% */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-3">
+                  <span className="typo-badge font-mono shrink-0" style={{ color: 'var(--text-muted)' }}>0%</span>
+                  <input
+                    id="interface-layer-depth-slider"
+                    type="range"
+                    min={0}
+                    max={200}
+                    step={5}
+                    value={layerDepth}
+                    aria-label={isEn ? 'Direct Layer Card depth slider' : 'Thanh trượt điều chỉnh độ sâu Layer trực tiếp'}
+                    onChange={(e) => setLayerDepth(Number(e.target.value))}
+                    className="w-full accent-[var(--color-primary)] cursor-pointer h-2"
+                  />
+                  <span className="typo-badge font-mono shrink-0" style={{ color: 'var(--text-muted)' }}>200%</span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {LAYER_DEPTH_PRESETS.map((preset) => {
+                    const isPresetActive = layerDepth === preset.value;
+                    return (
+                      <button
+                        key={preset.value}
+                        id={`btn-layer-depth-${preset.value}`}
+                        type="button"
+                        aria-pressed={isPresetActive}
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          setLayerDepth(preset.value);
+                        }}
+                        className={`px-2.5 py-1 rounded-full typo-badge font-bold border transition-all cursor-pointer tabular-nums ${
+                          isPresetActive
+                            ? 'text-white border-transparent shadow-xs'
+                            : 'hover:opacity-90'
+                        }`}
+                        style={
+                          isPresetActive
+                            ? { background: 'var(--bg-button-primary)' }
+                            : {
+                                background: 'var(--bg-card)',
+                                borderColor: 'var(--border-subcard)',
+                                color: 'var(--text-secondary)',
+                              }
+                        }
+                      >
+                        {preset.value}% · {isEn ? preset.labelEn : preset.labelVi}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
+            {/* Thẻ Chuyển đổi kích cỡ chữ hỗ trợ đọc dễ dàng */}
             <div
-              id="interface-auto-collapse-card"
+              id="interface-font-scale-card"
               data-subcard="true"
-              className="sub-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-[15px] border"
+              className="sub-card lg:col-span-5 flex flex-col justify-between gap-3 p-[15px] border rounded-[14px]"
               style={{
                 background: 'var(--bg-subcard)',
                 borderColor: 'var(--border-subcard)',
@@ -634,67 +705,88 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     color: 'var(--color-primary)',
                   }}
                 >
-                  <WebIcon name="chevrons-up-down" className="w-4 h-4 shrink-0" />
+                  <WebIcon name="type" className="w-4 h-4 shrink-0" />
                 </div>
                 <div className="min-w-0">
                   <h4 className="typo-body font-bold tracking-tight">
-                    {isEn ? 'Auto-collapse Header/Footer' : 'Thu gọn thanh đầu/chân trang khi cuộn'}
+                    {isEn ? 'Reading Text Size' : 'Kích cỡ chữ hỗ trợ đọc'}
                   </h4>
                   <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
-                    {autoCollapseOnScroll
-                      ? isEn
-                        ? 'Active: Header and footer auto-collapse when scrolling down'
-                        : 'Đang bật: Tự động thu gọn thanh đầu và chân trang khi cuộn'
-                      : isEn
-                        ? 'Default Off: Header and footer remain fixed at all times'
-                        : 'Mặc định Tắt: Thanh đầu và chân trang luôn hiển thị cố định'}
+                    {isEn
+                      ? 'Scale page text cleanly for large monitors or mobile reading.'
+                      : 'Phóng to nhẹ cỡ chữ nội dung toàn trang trên màn hình lớn hoặc di động.'}
                   </p>
                 </div>
               </div>
 
               <div
                 role="group"
-                aria-label={
-                  isEn
-                    ? 'Auto-collapse Header and Footer on scroll switch'
-                    : 'Chuyển đổi tính năng thu gọn thanh đầu/chân trang khi cuộn'
-                }
-                className="inline-grid grid-cols-2 p-1 rounded-full border shrink-0 w-full sm:w-auto"
+                aria-label={isEn ? 'Page text size options' : 'Tùy chọn kích cỡ chữ toàn trang'}
+                className="grid grid-cols-3 gap-1.5 p-1 rounded-full border"
                 style={{
                   background: 'var(--bg-card)',
                   borderColor: 'var(--border-subcard)',
                 }}
               >
-                <button
-                  id="btn-auto-collapse-off"
-                  type="button"
-                  aria-pressed={!autoCollapseOnScroll}
-                  onClick={() => handleToggleAutoCollapse(false)}
-                  className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                    !autoCollapseOnScroll
-                      ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white shadow-xs'
-                      : 'hover:opacity-90'
-                  }`}
-                  style={autoCollapseOnScroll ? { color: 'var(--text-muted)' } : undefined}
-                >
-                  <WebIcon name="x" className="w-3.5 h-3.5 shrink-0" />
-                  <span>{isEn ? 'Off (Default)' : 'Tắt (Mặc định)'}</span>
-                </button>
-                <button
-                  id="btn-auto-collapse-on"
-                  type="button"
-                  aria-pressed={autoCollapseOnScroll}
-                  onClick={() => handleToggleAutoCollapse(true)}
-                  className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                    autoCollapseOnScroll
-                      ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white shadow-xs'
-                      : 'hover:opacity-90'
-                  }`}
-                  style={!autoCollapseOnScroll ? { color: 'var(--text-muted)' } : undefined}
-                >
-                  <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />
-                  <span>{isEn ? 'On' : 'Bật'}</span>
-                </button>
+                {FONT_SCALE_OPTIONS.map((opt) => {
+                  const isActiveScale = fontScale === opt.id;
+                  return (
+                    <button
+                      key={opt.id}
+                      id={`btn-font-scale-${opt.id}`}
+                      type="button"
+                      aria-pressed={isActiveScale}
+                      onClick={() => handleSelectFontScale(opt.id, isEn ? opt.labelEn : opt.labelVi)}
+                      className={`flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-full typo-label font-bold transition-all cursor-pointer whitespace-nowrap ${
+                        isActiveScale ? 'text-white shadow-xs' : 'hover:opacity-90'
+                      }`}
+                      style={
+                        isActiveScale
+                          ? { background: 'var(--bg-button-primary)' }
+                          : { color: 'var(--text-muted)' }
+                      }
+                    >
+                      <span>{isEn ? opt.labelEn : opt.labelVi}</span>
+                      <span className="opacity-85 tabular-nums">({opt.badge})</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Mô phỏng nhỏ phân cấp 3 Level Layer đang hoạt động */}
+              <div
+                id="interface-layer-hierarchy-preview"
+                data-main-card="true"
+                className="rounded-[14px] p-2.5 border flex flex-col gap-2"
+                style={{
+                  background: 'var(--bg-card)',
+                  borderColor: 'var(--border-card)',
+                }}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span id="layer-preview-l1" className="typo-badge font-bold" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+                    Level 1 · Header / Main Card / Footer
+                  </span>
+                  <span className="typo-badge tabular-nums" style={{ color: 'var(--text-muted)' }}>
+                    {layerDepth}%
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div
+                    id="layer-preview-l2"
+                    data-section-card="true"
+                    className="bento-card p-2 rounded-[10px] border transition-all"
+                  >
+                    <div className="typo-badge font-bold">Level 2 · Card &amp; Banner</div>
+                  </div>
+                  <div
+                    id="layer-preview-l3"
+                    data-subcard="true"
+                    className="sub-card p-2 rounded-[10px] border transition-all"
+                  >
+                    <div className="typo-badge font-bold">Level 3 · Sub Card</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

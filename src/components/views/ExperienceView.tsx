@@ -33,6 +33,9 @@ import {
   ArrowUpRight,
   TrendingUp,
   CheckCircle2,
+  ArrowLeftRight,
+  ChevronDown,
+  ChevronUp,
   X,
 } from 'lucide-react';
 import { EXPERIENCE_MILESTONES } from '@/data/experience';
@@ -382,6 +385,42 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const isFolded = true;
   const [hoveredCol, setHoveredCol] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [showAllBeforeAfter, setShowAllBeforeAfter] = useState<boolean>(false);
+  const [expandedBeforeAfterKeys, setExpandedBeforeAfterKeys] = useState<Record<string, boolean>>({});
+
+  const isMilestoneCompareOpen = (key: string) =>
+    showAllBeforeAfter || Boolean(expandedBeforeAfterKeys[key]);
+
+  const toggleMilestoneCompare = (key: string) => {
+    SoundEngine.playTap();
+    if (showAllBeforeAfter) {
+      const nextState: Record<string, boolean> = {};
+      Object.keys(EXPERIENCE_MILESTONES).forEach((k) => {
+        nextState[k] = k !== key;
+      });
+      setShowAllBeforeAfter(false);
+      setExpandedBeforeAfterKeys(nextState);
+      return;
+    }
+    setExpandedBeforeAfterKeys((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  const handleToggleAllBeforeAfter = () => {
+    SoundEngine.playTap();
+    const next = !showAllBeforeAfter;
+    setShowAllBeforeAfter(next);
+    if (!next) {
+      setExpandedBeforeAfterKeys({});
+    }
+    showToast(
+      next
+        ? 'Đã mở rộng so sánh Trước & Sau ở tất cả cột mốc'
+        : 'Đã thu gọn chế độ so sánh Trước & Sau'
+    );
+  };
 
   const boardRef = useRef<HTMLElement | null>(null);
   const detailCardRef = useRef<HTMLElement | null>(null);
@@ -1020,6 +1059,31 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <span className="w-[44px] h-[2px] bg-[#EE2A7B] ml-1" />
               </div>
             </header>
+
+            <button
+              id="exp-before-after-global-btn"
+              type="button"
+              aria-pressed={showAllBeforeAfter}
+              onClick={handleToggleAllBeforeAfter}
+              className={cn(
+                'pointer-events-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold border shadow-sm transition-all cursor-pointer active:scale-95',
+                showAllBeforeAfter
+                  ? 'text-white border-transparent'
+                  : isLeather
+                    ? 'bg-[#522E10]/90 text-[#FFF8DC] border-[#F5DEB3]/45 hover:bg-[#653A17]'
+                    : isBlackLeather
+                      ? 'bg-[#1b1e25]/95 text-white border-[#E2E8F0]/35 hover:bg-[#252830]'
+                      : isLightLeather
+                        ? 'bg-white/95 text-[#0F172A] border-[#0F172A]/35 hover:bg-slate-100'
+                        : isDarkSurface
+                          ? 'bg-slate-900/85 text-sky-200 border-white/25 hover:bg-slate-800'
+                          : 'bg-white/92 text-slate-800 border-slate-300/85 hover:bg-white'
+              )}
+              style={showAllBeforeAfter ? { background: 'var(--bg-button-primary)' } : undefined}
+            >
+              <ArrowLeftRight className="w-3.5 h-3.5 shrink-0" />
+              <span>{showAllBeforeAfter ? 'Thu gọn Trước & Sau' : 'So sánh Trước & Sau'}</span>
+            </button>
           </div>
 
           {/* NÚT CUỘN NỔI HAI BÊN MÉP TRÁI / PHẢI KHI RÊ CHUỘT VÀO THẺ */}
@@ -1263,10 +1327,113 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         {/* Mô tả chi tiết (Dữ liệu thật từ EXPERIENCE_MILESTONES) */}
                         <p
                           style={{ color: secondaryTextColor }}
-                          className="typo-caption font-normal leading-[1.45] break-words mb-3"
+                          className="typo-caption font-normal leading-[1.45] break-words mb-2.5"
                         >
                           {item.description}
                         </p>
+
+                        {/* Chế độ so sánh tóm tắt Trước & Sau dự án theo từng cột mốc */}
+                        {(() => {
+                          const milestoneData = EXPERIENCE_MILESTONES[item.key];
+                          const isCompareOpen = isMilestoneCompareOpen(item.key);
+                          const beforeItems = (milestoneData?.tasks || [])
+                            .slice(0, 2)
+                            .map((t) => t.replace(/^\d+\.\s*/, '').replace(/[;.]$/, '').trim())
+                            .filter(Boolean);
+                          const afterKpis = (milestoneData?.kpis || []).slice(0, 2);
+                          const afterProject = milestoneData?.projects?.[0];
+                          if (!milestoneData) return null;
+
+                          return (
+                            <div className="mb-2.5">
+                              <button
+                                id={`exp-compare-toggle-${item.key}`}
+                                type="button"
+                                aria-expanded={isCompareOpen}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleMilestoneCompare(item.key);
+                                }}
+                                style={{ color: resolvedAccent }}
+                                className={cn(
+                                  'w-full inline-flex items-center justify-between gap-1.5 px-2.5 py-1 rounded-[10px] typo-badge font-bold border transition-all cursor-pointer text-left',
+                                  isLeather
+                                    ? 'bg-[#3E200B]/70 border-[#F5DEB3]/30 hover:bg-[#522E10]'
+                                    : isBlackLeather
+                                      ? 'bg-[#12151b]/85 border-[#E2E8F0]/25 hover:bg-[#1b1e25]'
+                                      : isLightLeather
+                                        ? 'bg-slate-100/90 border-slate-300 hover:bg-white'
+                                        : isDarkSurface
+                                          ? 'bg-slate-900/60 border-white/15 hover:bg-slate-800/80'
+                                          : 'bg-white/75 border-slate-300/75 hover:bg-white'
+                                )}
+                              >
+                                <span className="inline-flex items-center gap-1 min-w-0 truncate">
+                                  <ArrowLeftRight className="w-3 h-3 shrink-0" />
+                                  <span className="truncate">Trước &amp; Sau dự án</span>
+                                </span>
+                                {isCompareOpen ? (
+                                  <ChevronUp className="w-3.5 h-3.5 shrink-0" />
+                                ) : (
+                                  <ChevronDown className="w-3.5 h-3.5 shrink-0" />
+                                )}
+                              </button>
+
+                              {isCompareOpen && (
+                                <div
+                                  id={`exp-compare-panel-${item.key}`}
+                                  className={cn(
+                                    'mt-1.5 p-2 rounded-[10px] border space-y-1.5 typo-badge leading-snug text-left',
+                                    isLeather
+                                      ? 'bg-[#3A1E0A]/80 border-[#F5DEB3]/30 text-[#FFF8DC]'
+                                      : isBlackLeather
+                                        ? 'bg-[#11141a]/90 border-[#E2E8F0]/25 text-slate-100'
+                                        : isLightLeather
+                                          ? 'bg-white/95 border-slate-300 text-slate-900'
+                                          : isDarkSurface
+                                            ? 'bg-slate-950/65 border-white/15 text-slate-100'
+                                            : 'bg-white/90 border-slate-200/90 text-slate-800'
+                                  )}
+                                >
+                                  <div>
+                                    <span className="font-bold block opacity-90" style={{ color: resolvedAccent }}>
+                                      Trước · Phạm vi đảm nhiệm:
+                                    </span>
+                                    {beforeItems.length > 0 ? (
+                                      <ul className="list-disc pl-3.5 space-y-0.5 mt-0.5 opacity-90">
+                                        {beforeItems.map((bItem, bIdx) => (
+                                          <li key={bIdx} className="break-words">
+                                            {bItem}
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    ) : (
+                                      <span className="opacity-85">{milestoneData.roleTitle}</span>
+                                    )}
+                                  </div>
+                                  <div className="pt-1 border-t border-current/15">
+                                    <span className="font-bold block text-emerald-600 dark:text-emerald-300">
+                                      Sau · Kết quả đạt được:
+                                    </span>
+                                    <ul className="space-y-0.5 mt-0.5">
+                                      {afterKpis.map((kpi, kIdx) => (
+                                        <li key={kIdx} className="flex items-start justify-between gap-1.5">
+                                          <span className="opacity-90 break-words">{kpi.label}</span>
+                                          <span className="font-bold tabular-nums shrink-0 text-emerald-600 dark:text-emerald-300">
+                                            {kpi.displayValue}
+                                          </span>
+                                        </li>
+                                      ))}
+                                      {afterProject && (
+                                        <li className="opacity-80 italic break-words">{afterProject}</li>
+                                      )}
+                                    </ul>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })()}
 
                         <div className="mt-auto pt-1 flex items-center">
                           <button
@@ -1867,7 +2034,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       alt={`Banner ${activeMilestone.company}`}
                       referrerPolicy="no-referrer"
                       onError={() => setBannerImgError(true)}
-                      className="w-full h-full object-cover object-center rounded-[14px] group-hover:scale-105 transition-transform duration-700 opacity-95"
+                      className="w-full h-full object-cover object-center rounded-[14px] group-hover:scale-105 transition-transform duration-700 opacity-100 brightness-105 contrast-105 saturate-105"
                     />
                   ) : (
                     <div
@@ -1881,8 +2048,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     className={cn(
                       'absolute inset-0 bg-gradient-to-t to-transparent pointer-events-none',
                       isDarkSurface || isLeather || isBlackLeather
-                        ? 'from-slate-950/15 via-slate-900/10'
-                        : 'from-slate-900/10 via-slate-900/5'
+                        ? 'from-slate-950/12 via-transparent'
+                        : 'from-slate-900/8 via-transparent'
                     )}
                   />
 
@@ -2739,19 +2906,98 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       <Trophy className={cn('w-5 h-5 sm:w-6 sm:h-6 shrink-0', isLightLeather && 'text-emerald-700')} />
                       <span>Kết quả đạt được</span>
                     </h2>
-                    <span
-                      className={cn(
-                        'exp-bento-light-chip text-xs font-bold px-2.5 py-1 rounded-full shrink-0 tabular-nums border',
-                        isDarkCardText
-                          ? 'bg-emerald-500/20 text-emerald-200 border-emerald-400/30'
-                          : isLightLeather
-                            ? 'bg-[#edf1f4] text-[#111827] border-[#cbd5e1]'
-                            : 'bg-emerald-100/90 text-emerald-800 border-emerald-200/80'
-                      )}
-                    >
-                      {kpisList.length} Chỉ số
-                    </span>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <button
+                        id="exp-detail-before-after-btn"
+                        type="button"
+                        aria-pressed={isMilestoneCompareOpen(activeMilestone.key)}
+                        onClick={() => toggleMilestoneCompare(activeMilestone.key)}
+                        className={cn(
+                          'exp-bento-light-chip inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full border cursor-pointer transition-all active:scale-95',
+                          isMilestoneCompareOpen(activeMilestone.key)
+                            ? 'text-white border-transparent'
+                            : isDarkCardText
+                              ? 'bg-emerald-500/20 text-emerald-200 border-emerald-400/30 hover:bg-emerald-500/30'
+                              : isLightLeather
+                                ? 'bg-[#edf1f4] text-[#111827] border-[#cbd5e1] hover:bg-white'
+                                : 'bg-white/90 text-emerald-800 border-emerald-200 hover:bg-white'
+                        )}
+                        style={
+                          isMilestoneCompareOpen(activeMilestone.key)
+                            ? { background: 'var(--bg-button-primary)' }
+                            : undefined
+                        }
+                      >
+                        <ArrowLeftRight className="w-3.5 h-3.5 shrink-0" />
+                        <span>Trước &amp; Sau dự án</span>
+                      </button>
+                      <span
+                        className={cn(
+                          'exp-bento-light-chip text-xs font-bold px-2.5 py-1 rounded-full shrink-0 tabular-nums border',
+                          isDarkCardText
+                            ? 'bg-emerald-500/20 text-emerald-200 border-emerald-400/30'
+                            : isLightLeather
+                              ? 'bg-[#edf1f4] text-[#111827] border-[#cbd5e1]'
+                              : 'bg-emerald-100/90 text-emerald-800 border-emerald-200/80'
+                        )}
+                      >
+                        {kpisList.length} Chỉ số
+                      </span>
+                    </div>
                   </div>
+
+                  {isMilestoneCompareOpen(activeMilestone.key) && (
+                    <div
+                      id="exp-detail-before-after-panel"
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-[12px] relative z-10"
+                    >
+                      <div
+                        className={cn(
+                          'exp-bento-item-card p-3 rounded-[14px] border flex flex-col gap-1.5',
+                          isDarkCardText
+                            ? 'bg-slate-900/75 border-white/15 text-slate-200'
+                            : isLightLeather
+                              ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827]'
+                              : 'bg-white/90 border-slate-200 text-slate-800'
+                        )}
+                      >
+                        <span className="typo-label font-bold text-amber-600 dark:text-amber-300">
+                          Trước · Bối cảnh &amp; Nhiệm vụ
+                        </span>
+                        <ul className="list-disc pl-4 space-y-1 typo-caption">
+                          {tasksList.slice(0, 3).map((task, tIdx) => (
+                            <li key={tIdx} className="break-words">
+                              {task.replace(/^\d+\.\s*/, '').replace(/[;.]$/, '').trim()}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div
+                        className={cn(
+                          'exp-bento-item-card p-3 rounded-[14px] border flex flex-col gap-1.5',
+                          isDarkCardText
+                            ? 'bg-emerald-950/45 border-emerald-400/25 text-slate-100'
+                            : isLightLeather
+                              ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827]'
+                              : 'bg-emerald-50/75 border-emerald-200 text-slate-800'
+                        )}
+                      >
+                        <span className="typo-label font-bold text-emerald-700 dark:text-emerald-300">
+                          Sau · Giá trị &amp; Kết quả đạt được
+                        </span>
+                        <ul className="space-y-1 typo-caption">
+                          {kpisList.map((kpi, kIdx) => (
+                            <li key={kIdx} className="flex items-start justify-between gap-2">
+                              <span className="break-words">{kpi.label}</span>
+                              <span className="font-bold tabular-nums shrink-0 text-emerald-700 dark:text-emerald-300">
+                                {kpi.displayValue}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
 
                   <div
                     className={cn(

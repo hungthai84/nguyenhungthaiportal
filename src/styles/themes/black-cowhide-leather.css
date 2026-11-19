@@ -364,7 +364,7 @@ html[data-card-style="black-cowhide-leather"] #home-intro-card,
 html[data-card-style="black-cowhide-leather"] #home-capabilities-card,
 html[data-card-style="black-cowhide-leather"] #home-achievements-card,
 html[data-card-style="black-cowhide-leather"] #bento-letter-video {
-  background: linear-gradient(145deg, rgba(37, 40, 48, 0.94) 0%, rgba(21, 23, 28, 0.96) 50%, rgba(29, 32, 39, 0.95) 100%) !important;
+  background: linear-gradient(145deg, #252830 0%, #15171c 50%, #1d2027 100%) !important;
   border: 2px solid #090a0d !important;
   box-shadow: var(--shadow-card) !important;
   color: #ffffff !important;
@@ -415,13 +415,13 @@ html[data-card-style="black-cowhide-leather"] #app-footer .nav-pill-wrapper {
   box-shadow: none !important;
 }
 
-html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:not(.active),
-html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar:not(.active),
-html[data-card-style="black-cowhide-leather"] #footer-lang-btn:not(.active),
-html[data-card-style="black-cowhide-leather"] #footer-appearance-btn:not(.active),
-html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn:not(.active),
-html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:not(.active),
-html[data-card-style="black-cowhide-leather"] #footer-ai-btn:not(.active) {
+html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill,
+html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar,
+html[data-card-style="black-cowhide-leather"] #footer-lang-btn,
+html[data-card-style="black-cowhide-leather"] #footer-appearance-btn,
+html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn,
+html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn,
+html[data-card-style="black-cowhide-leather"] #footer-ai-btn {
   background: linear-gradient(145deg, #252830 0%, #15171c 50%, #1d2027 100%) !important;
   border-color: #090a0d !important;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.10), inset 0 -2px 4px rgba(0, 0, 0, 0.55) !important;
@@ -430,41 +430,24 @@ html[data-card-style="black-cowhide-leather"] #footer-ai-btn:not(.active) {
   color: #ffffff !important;
 }
 
-html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:not(.active):hover,
-html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar:not(.active):hover,
-html[data-card-style="black-cowhide-leather"] #footer-lang-btn:not(.active):hover,
-html[data-card-style="black-cowhide-leather"] #footer-appearance-btn:not(.active):hover,
-html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn:not(.active):hover,
-html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:not(.active):hover,
-html[data-card-style="black-cowhide-leather"] #footer-ai-btn:not(.active):hover {
+html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:hover,
+html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar:hover,
+html[data-card-style="black-cowhide-leather"] #footer-lang-btn:hover,
+html[data-card-style="black-cowhide-leather"] #footer-appearance-btn:hover,
+html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn:hover,
+html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:hover,
+html[data-card-style="black-cowhide-leather"] #footer-ai-btn:hover {
   border-color: rgba(226, 232, 240, 0.52) !important;
   outline-color: rgba(226, 232, 240, 0.78) !important;
 }
 
-html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill.active,
-html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar.active,
-html[data-card-style="black-cowhide-leather"] #footer-lang-btn.active,
-html[data-card-style="black-cowhide-leather"] #footer-appearance-btn.active,
-html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn.active,
-html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn.active,
-html[data-card-style="black-cowhide-leather"] #footer-ai-btn.active {
-  background: linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%) !important;
-  border-color: #e2e8f0 !important;
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.65),
-    inset 0 1.5px 3px rgba(255, 255, 255, 0.20),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.55) !important;
-  outline: 1px dashed rgba(248, 250, 252, 0.70);
-  outline-offset: -4px;
-}
-
-html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:not(.active) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar:not(.active) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-lang-btn:not(.active) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-appearance-btn:not(.active) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn:not(.active) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:not(.active) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-ai-btn:not(.active) .nav-pill-icon-badge {
+html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-lang-btn .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-appearance-btn .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-ai-btn .nav-pill-icon-badge {
   background: linear-gradient(145deg, #1d2027 0%, #0f1116 100%) !important;
   background-color: #121419 !important;
   border: 1px dashed rgba(226, 232, 240, 0.45) !important;
@@ -475,57 +458,33 @@ html[data-card-style="black-cowhide-leather"] #footer-ai-btn:not(.active) .nav-p
     0 2px 5px rgba(0, 0, 0, 0.5) !important;
 }
 
-html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:not(.active):hover .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar:not(.active):hover .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-lang-btn:not(.active):hover .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-appearance-btn:not(.active):hover .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn:not(.active):hover .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:not(.active):hover .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-ai-btn:not(.active):hover .nav-pill-icon-badge {
+html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar:hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-lang-btn:hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-appearance-btn:hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn:hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:hover .nav-pill-icon-badge,
+html[data-card-style="black-cowhide-leather"] #footer-ai-btn:hover .nav-pill-icon-badge {
   background: linear-gradient(145deg, #2d323d 0%, #171a21 100%) !important;
   border-color: rgba(226, 232, 240, 0.72) !important;
 }
 
-html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill.active .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar.active .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-lang-btn.active .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-appearance-btn.active .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn.active .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn.active .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-ai-btn.active .nav-pill-icon-badge {
-  background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%) !important;
-  background-color: #0f172a !important;
-  border: 1px solid rgba(226, 232, 240, 0.78) !important;
-  --tw-ring-color: rgba(226, 232, 240, 0.42) !important;
-}
-
-html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active) .nav-pill-icon-badge svg,
-html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active) .nav-pill-icon-svg {
+html[data-card-style="black-cowhide-leather"] .nav-pill .nav-pill-icon-badge svg,
+html[data-card-style="black-cowhide-leather"] .nav-pill .nav-pill-icon-svg {
   color: #e2e8f0 !important;
 }
 
-html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active):hover .nav-pill-icon-badge svg,
-html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active):hover .nav-pill-icon-svg,
-html[data-card-style="black-cowhide-leather"] .nav-pill.active .nav-pill-icon-badge svg,
-html[data-card-style="black-cowhide-leather"] .nav-pill.active .nav-pill-icon-svg {
+html[data-card-style="black-cowhide-leather"] .nav-pill:hover .nav-pill-icon-badge svg,
+html[data-card-style="black-cowhide-leather"] .nav-pill:hover .nav-pill-icon-svg {
   color: #ffffff !important;
 }
 
-html[data-card-style="black-cowhide-leather"] .nav-pill.active .nav-pill-divider {
-  background-color: rgba(226, 232, 240, 0.55) !important;
-}
-
-html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active) .nav-pill-title,
-html[data-card-style="black-cowhide-leather"] .nav-pill.active .nav-pill-title {
+html[data-card-style="black-cowhide-leather"] .nav-pill .nav-pill-title {
   color: #ffffff !important;
 }
 
-html[data-card-style="black-cowhide-leather"] .nav-pill:not(.active) .nav-pill-sub {
+html[data-card-style="black-cowhide-leather"] .nav-pill .nav-pill-sub {
   color: #cbd5e1 !important;
-}
-
-html[data-card-style="black-cowhide-leather"] .nav-pill.active .nav-pill-sub {
-  color: #e2e8f0 !important;
 }
 
 /* Radial Contact Menu Pills */
@@ -539,11 +498,6 @@ html[data-card-style="black-cowhide-leather"] .radial-contact-pill {
   outline: 1px dashed rgba(226, 232, 240, 0.45);
   outline-offset: -4px;
   color: #ffffff !important;
-}
-
-html[data-card-style="black-cowhide-leather"] .radial-contact-pill.active {
-  background: linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%) !important;
-  border-color: #e2e8f0 !important;
 }
 
 html[data-card-style="black-cowhide-leather"] .radial-contact-icon-badge {

@@ -2751,12 +2751,14 @@ export const LetterView: React.FC<LetterViewProps> = ({
             {/* Vòng tròn avatar chân dung video lấp đầy 100% */}
             <div
               className={cn(
-                "relative w-14 h-14 sm:w-24 sm:h-24 rounded-full overflow-hidden transition-all duration-300 group-hover/circle:scale-110 border-[3px] shadow-[0_0_25px_rgba(6,182,212,0.8),0_0_45px_rgba(37,99,235,0.6)]",
-                isCircleVideoPlaying
-                  ? "border-cyan-300 ring-4 ring-cyan-400/60 shadow-[0_0_35px_rgba(6,182,212,0.95),0_0_60px_rgba(37,99,235,0.8)]"
-                  : "border-blue-400 dark:border-cyan-400 hover:border-cyan-300"
+                "relative w-14 h-14 sm:w-24 sm:h-24 rounded-full overflow-hidden transition-all duration-300 group-hover/circle:scale-110 border-[3px]",
+                isCircleVideoPlaying ? "ring-4 ring-[var(--color-primary)]/45" : ""
               )}
-              style={{ backgroundColor: '#1e3a5f' }}
+              style={{
+                backgroundColor: 'var(--bg-card)',
+                borderColor: 'var(--color-primary)',
+                boxShadow: 'var(--shadow-layer-2, 0 10px 24px rgba(15, 23, 42, 0.22))',
+              }}
             >
               {/* Video nền hoặc video đang phát chân dung chuyên gia: LẮP ĐẦY HÌNH TRÒN 100% */}
               <video
@@ -2773,7 +2775,14 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
               {/* Tag trạng thái nhỏ khi video đang phát */}
               {isCircleVideoPlaying && (
-                <div className="absolute top-1 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-black/85 backdrop-blur-xs typo-badge font-mono text-cyan-300 font-bold border border-cyan-400/50 pointer-events-none shadow-xs whitespace-nowrap z-10">
+                <div
+                  className="absolute top-1 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full backdrop-blur-xs typo-badge font-mono font-bold border pointer-events-none shadow-xs whitespace-nowrap z-10"
+                  style={{
+                    background: 'var(--bg-popup)',
+                    borderColor: 'var(--border-card)',
+                    color: 'var(--text-link, var(--color-primary))',
+                  }}
+                >
                   Đang phát 🔊
                 </div>
               )}
@@ -2811,10 +2820,15 @@ export const LetterView: React.FC<LetterViewProps> = ({
                     showToast(circleVideoRef.current.muted ? 'Đã tắt tiếng video' : 'Đã bật âm thanh video');
                   }
                 }}
-                className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-slate-900/90 text-white flex items-center justify-center border border-white/50 typo-badge shadow-md z-20 cursor-pointer hover:bg-slate-800"
+                style={{
+                  background: 'var(--bg-popup)',
+                  borderColor: 'var(--border-card)',
+                  color: 'var(--text-link, var(--color-primary))',
+                }}
+                className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border typo-badge shadow-md z-20 cursor-pointer hover:opacity-90"
                 title="Bật/Tắt âm thanh"
               >
-                <WebIcon name="volume-2" className="w-3 h-3 text-cyan-300" />
+                <WebIcon name="volume-2" className="w-3 h-3 text-current" />
               </button>
             )}
           </div>

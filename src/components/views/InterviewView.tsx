@@ -169,7 +169,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           className="page-main-card flex flex-col p-[15px] rounded-[14px] gap-[15px] justify-start select-none text-[var(--text-primary)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
         >
       {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
-      <div id="interview-main-content" className="w-full flex-1 flex flex-col lg:flex-row gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar rounded-[14px]">
+      <div id="interview-main-content" className="w-full flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[minmax(0,1fr)] gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar rounded-[14px]">
         
         {/* 1. VIDEO BANNER SECTION (70% width on LG) */}
         <section
@@ -177,17 +177,13 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-name="Card Video Phỏng Vấn"
           data-element-type="banner-card"
           data-section-card="true"
-          className="banner-card lg:w-[62%] xl:w-[68%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden bento-card glass-card shadow-xl text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group"
+          className="banner-card hero-banner w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden bento-card glass-card shadow-xl text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group p-[15px]"
           style={{
-            paddingTop: '25px',
-            paddingLeft: '25px',
-            paddingRight: '25px',
-            paddingBottom: '25px',
-            borderRadius: '14px',
+            padding: '15px',
           }}
         >
-          {/* Nền Video phỏng vấn trực tiếp với padding 25px */}
-          <div className="absolute inset-[25px] pointer-events-none overflow-hidden rounded-[10px] w-[calc(100%-50px)] h-[calc(100%-50px)]">
+          {/* Nền Video phỏng vấn trực tiếp lấp đầy banner-card & đồng bộ bo cong theo giao diện */}
+          <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0">
             <video
               ref={videoRef}
               autoPlay
@@ -197,10 +193,10 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               src={isVideoPlaying ? INTERVIEW_VIDEO_2_URL : INTERVIEW_VIDEO_1_URL}
               onTimeUpdate={handleTimeUpdate}
               onEnded={handleEnded}
-              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[10px] opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500 select-none pointer-events-none"
+              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500 select-none pointer-events-none"
             />
-            <div className="absolute inset-0 bg-black/10 pointer-events-none rounded-[10px]" />
           </div>
+          <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
           {/* Hàng trên: Icon + Tiêu đề bên trái, Câu nói chữ ký bên phải */}
           <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
@@ -461,7 +457,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-name="Thẻ Chi Tiết Trả Lời Phỏng Vấn"
           data-element-type="card"
           data-section-card="true"
-          className="lg:w-[38%] xl:w-[32%] w-full min-h-[360px] lg:min-h-0 lg:h-full flex flex-col rounded-[14px] bento-card glass-card border p-[15px] transition-all duration-300 text-left justify-between gap-[15px] relative overflow-y-auto no-scrollbar"
+          className="w-full min-h-[360px] lg:min-h-0 lg:h-full flex flex-col rounded-[14px] bento-card glass-card border p-[15px] transition-all duration-300 text-left justify-between gap-[15px] relative overflow-y-auto no-scrollbar"
         >
             {/* Header Tiêu đề thẻ */}
             <div className="space-y-1.5 shrink-0">

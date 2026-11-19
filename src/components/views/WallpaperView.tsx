@@ -869,7 +869,19 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 style={{
                   borderRadius: '14px',
                   padding: '0px',
-                  background: 'transparent',
+                  backgroundColor: 'transparent',
+                  ...(wp.id !== 'none' &&
+                  wp.type !== 'video' &&
+                  wp.type !== 'webgl' &&
+                  wp.type !== 'css' &&
+                  wp.type !== 'gradient'
+                    ? {
+                        backgroundImage: `url("${getWallpaperThumbnailUrl(wp.value || wp.bg || '')}")`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                      }
+                    : {}),
                 }}
                 className={`themed-image-card group relative flex flex-col rounded-[14px] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto bg-transparent ${
                   isSelected

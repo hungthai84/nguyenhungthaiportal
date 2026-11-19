@@ -13,6 +13,7 @@
   --font-family-numeric: var(--font-primary);
   --font-main: var(--font-primary);
   --font-quote: 'Italianno', cursive;
+  --font-scale: 1;
 
   /* Unified Fluid Typography Target Matrix (Consistent across Desktop, Tablet, Mobile) */
   --fs-h1: clamp(23px, 1.6vw + 17px, 28px);

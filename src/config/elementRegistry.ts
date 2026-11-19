@@ -58,7 +58,7 @@ export const CENTRAL_ELEMENT_REGISTRY: ElementRegistryItem[] = [
   // Horoscope Page
   { id: 'horoscope-page-container', name: 'Trang Bản đồ tử vi', type: 'container', page: 'horoscope', parentId: 'global-content-viewport', description: 'Phân tích phong thủy tử vi quản trị' },
   { id: 'horoscope-cards-track', name: 'Track căn giữa Tử Vi', type: 'container', page: 'horoscope', parentId: 'horoscope-page-container', description: 'Track ngang chứa 6 Main Card Tử Vi' },
-  { id: 'horoscope-card-1', name: 'Card tử vi 1', type: 'card', page: 'horoscope', parentId: 'horoscope-cards-track', description: 'Card tử vi 1 — Hồ sơ tử vi' },
+  { id: 'horoscope-card-1', name: 'Card tử vi 1', type: 'card', page: 'horoscope', parentId: 'horoscope-cards-track', description: 'Card tử vi 1 — Hồ sơ Nguyễn Hùng Thái' },
   { id: 'horoscope-card-2', name: 'Card tử vi 2', type: 'card', page: 'horoscope', parentId: 'horoscope-cards-track', description: 'Card tử vi 2 — Phong Cách Quản Trị' },
   { id: 'horoscope-card-3', name: 'Card tử vi 3', type: 'card', page: 'horoscope', parentId: 'horoscope-cards-track', description: 'Card tử vi 3 — Chân dung công việc' },
   { id: 'horoscope-card-4', name: 'Card tử vi 4', type: 'card', page: 'horoscope', parentId: 'horoscope-cards-track', description: 'Card tử vi 4 — Kỹ Năng Ngũ Hành' },

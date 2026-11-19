@@ -49,7 +49,7 @@ export interface HoroscopeViewProps {
 }
 
 export const HOROSCOPE_SLIDES = [
-  { idx: 0, label: '01. Hồ sơ tử vi', shortLabel: 'Hồ sơ tử vi', rawTitle: 'Hồ sơ tử vi' },
+  { idx: 0, label: '01. Hồ sơ Nguyễn Hùng Thái', shortLabel: 'Hồ sơ Nguyễn Hùng Thái', rawTitle: 'Hồ sơ Nguyễn Hùng Thái' },
   { idx: 1, label: '02. Phong Cách Quản Trị', shortLabel: 'Phong Cách Quản Trị', rawTitle: 'Phong Cách Quản Trị' },
   { idx: 2, label: '03. Chân dung công việc', shortLabel: 'Chân dung công việc', rawTitle: 'Chân dung công việc' },
   { idx: 3, label: '04. Kỹ Năng Ngũ Hành', shortLabel: 'Kỹ Năng Ngũ Hành', rawTitle: 'Kỹ Năng Ngũ Hành' },
@@ -1839,7 +1839,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
   // 6 Cards Mapping
   const HOROSCOPE_CARDS = [
-    { id: 0, title: 'Hồ sơ tử vi', icon: 'compass', render: renderCard1HoSoTuVi },
+    { id: 0, title: 'Hồ sơ Nguyễn Hùng Thái', icon: 'compass', render: renderCard1HoSoTuVi },
     { id: 1, title: 'Phong Cách Quản Trị', icon: 'shield-check', render: renderCard2PhongCachQuanTri },
     { id: 2, title: 'Chân dung công việc', icon: 'briefcase', render: renderCard3ChanDungCongViec },
     { id: 3, title: 'Kỹ Năng Ngũ Hành', icon: 'sparkles', render: renderCard4KyNangNguHanh },

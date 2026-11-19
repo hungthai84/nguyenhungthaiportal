@@ -39,6 +39,7 @@ import {
   GravityBackgroundCanvas,
   resolveGravityStage,
 } from './components/backgrounds/GravityBackgroundCanvas';
+import { DotGridWavesCanvas } from './components/ui/DotGridWavesCanvas';
 
 export default function App() {
   const [currentTabIndex, setCurrentTabIndex] = useState<number>(0);
@@ -72,8 +73,7 @@ export default function App() {
     slide: number;
   } | null>(null);
 
-  const { isDark, cardStyle, activeWallpaper, setWallpaper, autoCollapseOnScroll } = useTheme();
-  const [isNavCollapsed, setIsNavCollapsed] = useState(false);
+  const { isDark, cardStyle, activeWallpaper, setWallpaper } = useTheme();
   const mainViewportRef = useRef<HTMLElement | null>(null);
   const [loadedWallpaperUrl, setLoadedWallpaperUrl] = useState<string>('');
   const wallpaperImgRef = useRef<HTMLImageElement | null>(null);
@@ -93,80 +93,6 @@ export default function App() {
   }, [activeImageUrl]);
 
   useGlobalHorizontalScroll();
-
-  // Tính năng: Thu gọn thanh đầu/chân trang khi cuộn (mặc định off)
-  useEffect(() => {
-    if (!autoCollapseOnScroll) {
-      setIsNavCollapsed(false);
-      return;
-    }
-
-    let lastScrollY = 0;
-
-    const handleWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) < 15) return;
-      if (e.deltaY > 15) {
-        setIsNavCollapsed(true);
-      } else if (e.deltaY < -15) {
-        setIsNavCollapsed(false);
-      }
-    };
-
-    const handleScroll = (e: Event) => {
-      const target = e.target as HTMLElement | null;
-      if (!target || typeof target.scrollTop !== 'number') return;
-      const currentScrollTop = target.scrollTop;
-      const diff = currentScrollTop - lastScrollY;
-      if (currentScrollTop <= 10) {
-        setIsNavCollapsed(false);
-      } else if (diff > 15) {
-        setIsNavCollapsed(true);
-      } else if (diff < -15) {
-        setIsNavCollapsed(false);
-      }
-      lastScrollY = currentScrollTop;
-    };
-
-    let touchStartY = 0;
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-    };
-    const handleTouchMove = (e: TouchEvent) => {
-      const touchY = e.touches[0].clientY;
-      const diff = touchStartY - touchY;
-      if (Math.abs(diff) < 20) return;
-      if (diff > 20) {
-        setIsNavCollapsed(true);
-      } else if (diff < -20) {
-        setIsNavCollapsed(false);
-      }
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (e.clientY < 45 || e.clientY > window.innerHeight - 45) {
-        setIsNavCollapsed(false);
-      }
-    };
-
-    window.addEventListener('wheel', handleWheel, { passive: true });
-    window.addEventListener('scroll', handleScroll, { capture: true, passive: true });
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('scroll', handleScroll, { capture: true });
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, [autoCollapseOnScroll]);
-
-  // Luôn khôi phục hiển thị Header & Footer khi chuyển tab
-  useEffect(() => {
-    setIsNavCollapsed(false);
-  }, [currentTabIndex]);
 
   // Phát âm thanh khi chọn click & khi chuyển trang trên toàn ứng dụng
   useEffect(() => {
@@ -606,41 +532,58 @@ export default function App() {
                 />
               )
             ) : activeWallpaper.type === 'webgl' ? (
-              (() => {
-                const gConfig = activeWallpaper.gravityConfig;
-                const paletteId = gConfig?.paletteId || 'autoMorph';
-                const morphOnPageChange = gConfig?.morphOnPageChange ?? true;
-                const activeSlide = pageSlides[currentTabIndex] ?? 0;
-                const resolvedStage = resolveGravityStage(
-                  paletteId,
-                  currentTabIndex,
-                  activeSlide,
-                  morphOnPageChange
-                );
-                return (
+              activeWallpaper.id === 'webgl-dot-grid-waves' ? (
+                <div
+                  key={activeWallpaper.id}
+                  className="relative w-full h-full overflow-hidden"
+                >
                   <div
-                    key={activeWallpaper.id}
-                    className="relative w-full h-full overflow-hidden"
-                  >
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full pointer-events-none"
+                    style={{
+                      background: isDark ? '#07080D' : '#F4F2EE',
+                      transition: 'background 0.5s ease',
+                    }}
+                  />
+                  <DotGridWavesCanvas isDark={isDark} />
+                </div>
+              ) : (
+                (() => {
+                  const gConfig = activeWallpaper.gravityConfig;
+                  const paletteId = gConfig?.paletteId || 'autoMorph';
+                  const morphOnPageChange = gConfig?.morphOnPageChange ?? true;
+                  const activeSlide = pageSlides[currentTabIndex] ?? 0;
+                  const resolvedStage = resolveGravityStage(
+                    paletteId,
+                    currentTabIndex,
+                    activeSlide,
+                    morphOnPageChange
+                  );
+                  return (
                     <div
-                      id="gravity-gradient-backdrop"
-                      aria-hidden="true"
-                      className="absolute inset-0 w-full h-full pointer-events-none"
-                      style={{
-                        background: resolvedStage.bgGradient,
-                        transition: 'background 1.2s cubic-bezier(0.65, 0, 0.35, 1)',
-                      }}
-                    />
-                    <GravityBackgroundCanvas
-                      paletteId={paletteId}
-                      pageIndex={currentTabIndex}
-                      slideIndex={activeSlide}
-                      morphOnPageChange={morphOnPageChange}
-                      isDark={isDark}
-                    />
-                  </div>
-                );
-              })()
+                      key={activeWallpaper.id}
+                      className="relative w-full h-full overflow-hidden"
+                    >
+                      <div
+                        id="gravity-gradient-backdrop"
+                        aria-hidden="true"
+                        className="absolute inset-0 w-full h-full pointer-events-none"
+                        style={{
+                          background: resolvedStage.bgGradient,
+                          transition: 'background 1.2s cubic-bezier(0.65, 0, 0.35, 1)',
+                        }}
+                      />
+                      <GravityBackgroundCanvas
+                        paletteId={paletteId}
+                        pageIndex={currentTabIndex}
+                        slideIndex={activeSlide}
+                        morphOnPageChange={morphOnPageChange}
+                        isDark={isDark}
+                      />
+                    </div>
+                  );
+                })()
+              )
             ) : activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient' ? (
               <div
                 key={activeWallpaper.id}
@@ -717,11 +660,7 @@ export default function App() {
       {currentTabIndex !== 16 && (
         <div
           id="app-header-container"
-          className={`w-full shrink-0 relative z-40 flex justify-center bg-transparent border-0 shadow-none rounded-none transition-all duration-300 ease-in-out ${
-            isNavCollapsed && autoCollapseOnScroll
-              ? '-translate-y-full opacity-0 pointer-events-none -mb-12 max-h-0 overflow-hidden'
-              : 'translate-y-0 opacity-100 max-h-[80px]'
-          }`}
+          className="w-full shrink-0 relative z-40 flex justify-center bg-transparent border-0 shadow-none rounded-none translate-y-0 opacity-100 max-h-[80px]"
         >
           <Header
             pages={TABS_DATA}
@@ -774,11 +713,7 @@ export default function App() {
           data-element-name="Phần tử DIV (#el-p0-div-98)"
           data-element-type="container"
           data-element-page="p0"
-          className={`w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-t-[14px] rounded-b-none transition-all duration-300 ease-in-out ${
-            isNavCollapsed && autoCollapseOnScroll
-              ? 'translate-y-full opacity-0 pointer-events-none -mt-12 max-h-0 overflow-hidden'
-              : 'translate-y-0 opacity-100 max-h-[80px]'
-          }`}
+          className="w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-t-[14px] rounded-b-none translate-y-0 opacity-100 max-h-[80px]"
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}

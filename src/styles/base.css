@@ -4,6 +4,10 @@
     font-size: 16px;
     line-height: var(--lh-body);
     scroll-behavior: smooth;
+    font-optical-sizing: auto;
+    font-kerning: normal;
+    font-variant-ligatures: common-ligatures contextual;
+    font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -25,6 +29,10 @@
     transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
     user-select: text !important;
     -webkit-user-select: text !important;
+    font-optical-sizing: auto;
+    font-kerning: normal;
+    font-variant-ligatures: common-ligatures contextual;
+    font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -60,6 +68,11 @@
     font-family: var(--font-family-heading);
     line-height: var(--lh-heading);
     letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p, li, dd, blockquote, figcaption {
+    text-wrap: pretty;
   }
 
   p, span, li, td, th, label, button, input, select, textarea {
@@ -70,13 +83,20 @@
   textarea,
   select {
     font-size: var(--fs-input);
-    line-height: var(--lh-compact);
+    line-height: var(--lh-input, 1.45);
+  }
+
+  .tabular-nums,
+  .font-mono,
+  table,
+  td,
+  th {
+    font-variant-numeric: tabular-nums;
   }
 
   .tabular-nums,
   .font-mono {
     font-family: var(--font-family-numeric);
-    font-variant-numeric: tabular-nums;
   }
 
   .font-italianno,

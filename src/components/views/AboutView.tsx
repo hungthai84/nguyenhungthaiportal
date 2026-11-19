@@ -523,7 +523,7 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
 };
 
 export function AboutView({ 
-  currentTheme = 'light-multicolor-glass', 
+  currentTheme = 'light-multicolor-glass-color', 
   onNavigatePage,
   onShowNotification,
   onOpenMapModal,
@@ -1716,8 +1716,8 @@ export function AboutView({
                     </div>
                   </div>
 
-                    {/* Sub-Card Bento Grid (Equal height, 1-line truncate) */}
-                  <div className="grid grid-cols-1 min-[420px]:grid-cols-2 auto-rows-fr gap-2 py-0.5 flex-1 items-stretch">
+                    {/* Sub-Card Bento Grid (Content-fit height) */}
+                  <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-2 py-0.5 content-start items-start">
                     {[
                       {
                         id: 'gender',
@@ -1767,7 +1767,7 @@ export function AboutView({
                           SoundEngine.playPop();
                           item.action();
                         }}
-                        className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                        className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                       >
                         <div className="flex flex-col justify-center gap-1 min-w-0">
                           <div className="flex items-center gap-1.5 min-w-0">
@@ -1794,7 +1794,7 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="+84 0909097882"
-                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
                       <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
@@ -1816,7 +1816,7 @@ export function AboutView({
                         showToast('📍 Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh');
                       }}
                       title="P.Tân Phú (Q7) , TP. Hồ Chí Minh"
-                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
                       <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
@@ -1841,7 +1841,7 @@ export function AboutView({
                         showToast('📍 Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp');
                       }}
                       title="Phường Mỹ Tho, Tỉnh Đồng Tháp"
-                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
                       <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
@@ -1866,7 +1866,7 @@ export function AboutView({
                         }
                       }}
                       title="hungthai84@gmail.com"
-                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
                       <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
@@ -1885,7 +1885,7 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="https://nguyenhungthai.powerservice.one/"
-                      className="about-info-subcard h-full w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
                       <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
@@ -1904,7 +1904,7 @@ export function AboutView({
                       data-subcard="true"
                       onClick={() => SoundEngine.playPop()}
                       title="https://www.linkedin.com/in/hungthai84/"
-                      className="about-info-subcard h-full w-full flex flex-col justify-center p-[15px] rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
+                      className="about-info-subcard h-auto w-full flex flex-col justify-center p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border"
                     >
                       <div className="flex flex-col justify-center gap-1 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0">
@@ -2031,20 +2031,12 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-1')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-1') &&
                       'ring-2 ring-cyan-300 dark:ring-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-
-
-                  <div className="flex items-center justify-end relative z-10">
-                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
-                      01
-                    </span>
-                  </div>
-
-                  <div className="my-1.5 relative z-10">
+                  <div className="my-auto relative z-10">
                     <div className="pillar-heading flex items-center gap-2 text-blue-600 dark:text-sky-300">
                       <BarChart3 className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Hiệu quả vận hành</h5>
@@ -2063,20 +2055,12 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-2')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-
-
-                  <div className="flex items-center justify-end relative z-10">
-                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
-                      02
-                    </span>
-                  </div>
-
-                  <div className="my-1.5 relative z-10">
+                  <div className="my-auto relative z-10">
                     <div className="pillar-heading flex items-center gap-2 text-rose-600 dark:text-rose-300">
                       <Heart className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Nhân văn con người</h5>
@@ -2095,20 +2079,12 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-3')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-3') &&
                       'ring-2 ring-emerald-300 dark:ring-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-
-
-                  <div className="flex items-center justify-end relative z-10">
-                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
-                      03
-                    </span>
-                  </div>
-
-                  <div className="my-1.5 relative z-10">
+                  <div className="my-auto relative z-10">
                     <div className="pillar-heading flex items-center gap-2 text-emerald-600 dark:text-emerald-300">
                       <Leaf className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Bền vững dài hạn</h5>
@@ -2157,20 +2133,12 @@ export function AboutView({
                     showToast('Giá trị 01: Tận tâm trách nhiệm - Dốc trọn tâm sức');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-1') &&
                       'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-
-
-                  <div className="flex items-center justify-end relative z-10">
-                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
-                      01
-                    </span>
-                  </div>
-
-                  <div className="my-1.5 relative z-10">
+                  <div className="my-auto relative z-10">
                     <div className="pillar-heading flex items-center gap-2 text-amber-600 dark:text-amber-300">
                       <Award className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Tận tâm trách nhiệm</h5>
@@ -2193,20 +2161,12 @@ export function AboutView({
                     showToast('Giá trị 02: Kịp Thời - Nhanh nhạy & Đúng lúc');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-
-
-                  <div className="flex items-center justify-end relative z-10">
-                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
-                      02
-                    </span>
-                  </div>
-
-                  <div className="my-1.5 relative z-10">
+                  <div className="my-auto relative z-10">
                     <div className="pillar-heading flex items-center gap-2 text-pink-600 dark:text-pink-300">
                       <Clock className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Kịp thời nhanh nhạy</h5>
@@ -2229,20 +2189,12 @@ export function AboutView({
                     showToast('Giá trị 03: Đồng Cảm Chân Thành - Lắng nghe & Thấu cảm');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-between min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-3') &&
                       'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-
-
-                  <div className="flex items-center justify-end relative z-10">
-                    <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-full">
-                      03
-                    </span>
-                  </div>
-
-                  <div className="my-1.5 relative z-10">
+                  <div className="my-auto relative z-10">
                     <div className="pillar-heading flex items-center gap-2 text-purple-600 dark:text-purple-300">
                       <HeartHandshake className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Đồng cảm chân thành</h5>

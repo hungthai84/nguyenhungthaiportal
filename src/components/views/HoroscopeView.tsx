@@ -921,14 +921,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   // CARD 1: 1. HỒ SƠ TỬ VI
   // =========================================================================
   const renderCard1HoSoTuVi = () => (
-    <div
-      id="horoscope-card-profile"
-      data-element-type="card"
-      data-section-card="true"
-      style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full min-w-0 max-w-full min-h-full h-auto flex-1 shrink-0 self-stretch grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_auto_1fr] content-start items-stretch gap-[15px] p-0 m-0 rounded-[14px] bg-transparent border-0 shadow-none"
-    >
-      {/* Banner trang Tử Vi - Đưa vào trong Thẻ 1: Hồ Sơ Tử Vi */}
+    <>
+      {/* Banner trang Tử Vi */}
       <motion.section
         id="horoscope-hero-banner"
         data-element-name="Banner card"
@@ -938,7 +932,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="banner-card hero-banner group col-span-full w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+        className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
         style={{
           padding: '15px',
           width: '100%',
@@ -1103,7 +1097,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </div>
       </motion.section>
 
-      <div className="col-span-full flex flex-wrap items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)] min-w-0">
+      <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)] min-w-0 shrink-0">
         <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
           <Compass className="w-[18px] h-[18px] text-purple-600 dark:text-purple-400 animate-pulse shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-purple-600 dark:text-purple-400">
@@ -1115,6 +1109,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </span>
       </div>
 
+      <div className="w-full min-w-0 flex-1 grid grid-cols-1 lg:grid-cols-12 items-stretch gap-[15px]">
       {/* Cột trái: Luận giải lá số tử vi */}
       <div data-subcard="true" style={subCardPaddingStyle} className="sub-card lg:col-span-4 w-full min-w-0 h-full rounded-[14px] p-[15px] flex flex-col items-center justify-between text-center space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-purple-200/40 dark:border-purple-800/40 w-full text-left min-w-0">
@@ -1348,31 +1343,28 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               </div>
             </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 
   // =========================================================================
   // CARD 2: 2. PHONG CÁCH QUẢN TRỊ
   // =========================================================================
   const renderCard2PhongCachQuanTri = () => (
-    <div
-      id="horoscope-card-management-style"
-      data-element-type="card"
-      data-section-card="true"
-      style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-[auto_1fr_1fr] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
-    >
-      <div className="col-span-full flex items-center justify-between pb-3.5 border-b border-[var(--border-subcard)]">
+    <>
+      <div className="w-full flex items-center justify-between pb-3.5 border-b border-[var(--border-subcard)] shrink-0">
         <div className="card-header-sync flex items-center gap-2.5 text-left">
           <Briefcase style={transparentLogoStyle} className="w-6 h-6 text-blue-600 dark:text-cyan-400 animate-pulse shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-blue-600 dark:text-cyan-400">
             2. Phong Cách Quản Trị
           </h3>
         </div>
-        <span className="typo-badge px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/20">
+        <span className="typo-badge px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/20 shrink-0">
           4 Trụ Cột Quản Trị
         </span>
       </div>
+
+      <div className="w-full min-w-0 flex-1 grid grid-cols-1 sm:grid-cols-2 items-stretch gap-[15px]">
 
       {WORK_PERSONALITY_TRAITS.map((trait, index) => {
         const palettes = [
@@ -1415,7 +1407,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           </div>
         );
       })}
-    </div>
+      </div>
+    </>
   );
 
   // =========================================================================

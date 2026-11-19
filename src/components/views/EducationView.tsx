@@ -247,7 +247,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     themeIsDark ||
     currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather';
+    currentTheme === 'black-cowhide-leather' ||
+    currentTheme === 'dark-ice-blue-neu';
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -682,6 +683,13 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     loading="lazy"
                     referrerPolicy="no-referrer"
                   />
+                  <span
+                    className="absolute top-2.5 right-2.5 z-20 typo-badge font-mono px-2.5 py-1 rounded-full inline-flex items-center gap-1 shadow-md backdrop-blur-md"
+                    style={{ backgroundColor: 'rgba(15, 23, 42, 0.85)', color: '#ffffff', border: `1px solid ${cardColor}60` }}
+                  >
+                    <WebIcon name="calendar" className="w-3 h-3 shrink-0" style={{ color: cardColor }} />
+                    <span>Năm {course.year}</span>
+                  </span>
                 </div>
 
                 {/* 2. Thân Card: nội dung bên trong cách mép thẻ học vấn 10px */}
@@ -701,10 +709,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       >
                         {displayTitle}
                       </h3>
-                      <span className="typo-badge font-mono shrink-0 px-2 py-0.5 rounded-full inline-flex items-center gap-1.5" style={{ backgroundColor: `${cardColor}20`, color: cardColor }}>
-                        <WebIcon name="calendar" className="w-3 h-3 shrink-0" style={{ color: cardColor }} />
-                        <span>Năm {course.year}</span>
-                      </span>
                     </div>
 
                     <div className="space-y-1.5 mt-2 min-w-0">

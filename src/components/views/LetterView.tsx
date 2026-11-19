@@ -356,7 +356,7 @@ export interface LetterViewProps {
 }
 
 export const LetterView: React.FC<LetterViewProps> = ({
-  currentTheme = 'light-multicolor-glass',
+  currentTheme = 'light-multicolor-glass-color',
   onOpenBannerStudio,
   onShowNotification,
 }) => {
@@ -379,7 +379,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
     themeIsDark ||
     currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather';
+    currentTheme === 'black-cowhide-leather' ||
+    currentTheme === 'dark-ice-blue-neu';
 
   // Chế độ thu gọn / mở rộng thanh tiện ích bên phải (Mặc định luôn hiển thị đầy đủ ở trang Thư Ngỏ)
   const [isRightDockCollapsed, setIsRightDockCollapsed] = useState<boolean>(false);

@@ -8,7 +8,7 @@ export interface ContactViewProps {
   onShowNotification?: (msg: string) => void;
 }
 
-export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-multicolor-glass' }) => {
+export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-multicolor-glass-color' }) => {
   void currentTheme;
 
   return (

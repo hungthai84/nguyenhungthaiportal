@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="light-multicolor-glass-dark"], [data-theme="light-multicolor-glass-dark"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="light-multicolor-glass-dark"], [data-theme="light-multicolor-glass-dark"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="dark-ice-blue-neu"], [data-theme="dark-ice-blue-neu"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -32,31 +32,33 @@
 @import "./styles/themes/light-cowhide-leather.css";
 @import "./styles/themes/black-cowhide-leather.css";
 @import "./styles/themes/cowhide-leather.css";
+@import "./styles/themes/ice-blue-neu.css";
 
 /* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection & Better-Typography Craft */
-.typo-h1 { font-size: var(--fs-h1) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h1, -0.022em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
-.typo-h2 { font-size: var(--fs-h2) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h2, -0.016em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
-.typo-h3 { font-size: var(--fs-h3) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h3, -0.01em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
-.typo-h4 { font-size: var(--fs-h4) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h4, -0.005em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
-.typo-h5 { font-size: var(--fs-h5) !important; line-height: var(--lh-heading); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h5, -0.005em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
-.typo-body-lg { font-size: var(--fs-body-lg) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-body, 0.005em); text-wrap: pretty; overflow-wrap: break-word; }
-.typo-body { font-size: var(--fs-body) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-body, 0.005em); text-wrap: pretty; overflow-wrap: break-word; }
-.typo-body-sm { font-size: var(--fs-body-sm) !important; line-height: var(--lh-body); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-body, 0.005em); text-wrap: pretty; overflow-wrap: break-word; }
-.typo-caption { font-size: var(--fs-caption) !important; line-height: var(--lh-compact); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-caption, 0.01em); overflow-wrap: break-word; }
-.typo-label { font-size: var(--fs-label) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: var(--ls-label, 0.025em); }
-.typo-badge { font-size: var(--fs-badge) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: var(--ls-label, 0.025em); }
-.typo-button { font-size: var(--fs-button) !important; line-height: var(--lh-compact); font-weight: var(--fw-bold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
-.typo-nav { font-size: var(--fs-nav) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
-.typo-tab { font-size: var(--fs-tab) !important; line-height: var(--lh-compact); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
-.typo-input { font-size: var(--fs-input) !important; line-height: var(--lh-compact); font-weight: var(--fw-regular); font-family: var(--font-family-body); }
-.typo-kpi { font-size: var(--fs-kpi) !important; line-height: var(--lh-kpi, 1.18); font-weight: var(--fw-bold); font-family: var(--font-family-numeric); font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
+.typo-h1 { font-size: var(--fs-h1) !important; line-height: var(--lh-h1, var(--lh-heading, 1.25)); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h1, -0.022em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+.typo-h2 { font-size: var(--fs-h2) !important; line-height: var(--lh-h2, var(--lh-heading, 1.28)); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h2, -0.016em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+.typo-h3 { font-size: var(--fs-h3) !important; line-height: var(--lh-h3, var(--lh-heading, 1.3)); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h3, -0.01em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+.typo-h4 { font-size: var(--fs-h4) !important; line-height: var(--lh-h4, var(--lh-heading, 1.32)); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h4, -0.005em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+.typo-h5 { font-size: var(--fs-h5) !important; line-height: var(--lh-h5, var(--lh-heading, 1.35)); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h5, -0.005em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+.typo-body-lg { font-size: var(--fs-body-lg) !important; line-height: var(--lh-body-lg, var(--lh-body, 1.6)); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-body, 0.005em); text-wrap: pretty; overflow-wrap: break-word; }
+.typo-body { font-size: var(--fs-body) !important; line-height: var(--lh-body, 1.6); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-body, 0.005em); text-wrap: pretty; overflow-wrap: break-word; }
+.typo-body-sm { font-size: var(--fs-body-sm) !important; line-height: var(--lh-body-sm, 1.55); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-body, 0.005em); text-wrap: pretty; overflow-wrap: break-word; }
+.typo-caption { font-size: var(--fs-caption) !important; line-height: var(--lh-caption, var(--lh-compact, 1.4)); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-caption, 0.01em); text-wrap: pretty; overflow-wrap: break-word; }
+.typo-label { font-size: var(--fs-label) !important; line-height: var(--lh-label, var(--lh-compact, 1.38)); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: var(--ls-label, 0.025em); }
+.typo-badge { font-size: var(--fs-badge) !important; line-height: var(--lh-badge, var(--lh-compact, 1.38)); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: var(--ls-label, 0.025em); }
+.typo-button { font-size: var(--fs-button) !important; line-height: var(--lh-button, var(--lh-compact, 1.35)); font-weight: var(--fw-bold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
+.typo-nav { font-size: var(--fs-nav) !important; line-height: var(--lh-nav, var(--lh-compact, 1.35)); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
+.typo-tab { font-size: var(--fs-tab) !important; line-height: var(--lh-tab, var(--lh-compact, 1.35)); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
+.typo-input { font-size: var(--fs-input) !important; line-height: var(--lh-input, var(--lh-compact, 1.45)); font-weight: var(--fw-regular); font-family: var(--font-family-body); }
+.typo-kpi { font-size: var(--fs-kpi) !important; line-height: var(--lh-kpi, 1.18); font-weight: var(--fw-bold); font-family: var(--font-family-numeric); font-variant-numeric: tabular-nums; letter-spacing: var(--ls-kpi, -0.02em); overflow-wrap: break-word; }
 .typo-quote { font-size: var(--fs-h3) !important; line-height: 1.35 !important; font-family: var(--font-quote) !important; overflow-wrap: break-word; }
-.typo-popup-title { font-size: var(--fs-popup-title) !important; line-height: var(--lh-heading); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: -0.015em; text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
+.typo-popup-title { font-size: var(--fs-popup-title) !important; line-height: var(--lh-popup-title, var(--lh-heading, 1.28)); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-popup-title, -0.015em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
 
 /* Better-Typography: Optimal Reading Line Measure (45-75ch) & Antialiased Smoothing */
 .reading-measure,
 .typo-measure,
-[data-reading-measure="true"] {
+[data-reading-measure="true"],
+.card-body-text {
   max-width: var(--ch-measure, 68ch);
 }
 .reading-measure-compact {
@@ -66,7 +68,21 @@
   max-width: var(--ch-measure-wide, 75ch);
 }
 
+/* Enforce optimal character-per-line ratio across main content paragraphs without clipping headers/badges */
+#global-content-viewport :is([data-section-card="true"], .bento-card, .project-detail-section-card, article) p:not(.banner-quote):not(.motto-quote-text):not(.typo-kpi):not(.font-italianno):not(.font-handwriting):not([class*="truncate"]):not([class*="whitespace-nowrap"]) {
+  max-width: var(--ch-measure-wide, 75ch);
+  line-height: var(--lh-body, 1.6);
+  text-wrap: pretty;
+}
+#global-content-viewport :is([data-section-card="true"], .bento-card, .project-detail-section-card, article) p.text-center:not(.banner-quote):not(.motto-quote-text):not(.typo-kpi) {
+  margin-inline: auto;
+}
+
 html, body {
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures contextual;
+  font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -2001,10 +2017,11 @@ html[data-surface-depth="depth"]:is([data-card-style="light-multicolor-glass"], 
 }
 
 /* ========================================================================= */
-/* BANNER 100% TRANSPARENCY & LAYER CARD EFFECT (ALL PAGES & ALL THEMES)     */
-/*   - 100% transparent background across all themes                         */
-/*   - Synchronized border, multi-layer shadow, and leather stitching        */
-/*   - Layer card multi-level depth with gentle hover lift                   */
+/* ========================================================================= */
+/* BANNER CARD FORMAT & 3D FLOATING ELEVATION (ALL PAGES & ALL THEMES)       */
+/*   - Converted to genuine card format matching current website theme       */
+/*   - Elevated 3D multi-layer card depth with smooth hover floating lift    */
+/*   - Retains 100% transparent banner background media                      */
 /* ========================================================================= */
 html :is(
   .hero-banner,
@@ -2028,14 +2045,12 @@ html[data-card-style] :is(
   #interview-questions-card,
   [id$="-hero-banner"]
 ) {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
   border-radius: 14px !important;
   padding: 15px !important;
-  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 250ms ease, outline 250ms ease !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 20px 48px -10px rgba(15, 23, 42, 0.22), 0 8px 20px -4px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 250ms ease, outline 250ms ease, background 250ms ease !important;
 }
 
 /* 1. Gương đơn sắc (sáng) - light-multicolor-glass */
@@ -2050,13 +2065,16 @@ html[data-card-style="light-multicolor-glass"] :is(
   #interview-questions-card,
   [id$="-hero-banner"]
 ) {
-  border: 1px solid rgba(255, 255, 255, 0.90) !important;
+  background: rgba(255, 255, 255, 0.22) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
   outline: none !important;
-  box-shadow: 0 20px 48px -10px rgba(15, 23, 42, 0.22), 0 8px 20px -4px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 20px 48px -10px rgba(15, 23, 42, 0.18), 0 8px 20px -4px rgba(15, 23, 42, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
 }
 
-/* 2. Gương Neon màu (tối) - light-multicolor-glass-dark */
-html[data-card-style="light-multicolor-glass-dark"] :is(
+/* 2. Gương Neon màu (tối) - light-multicolor-glass-dark & dark-neon */
+html:is([data-card-style="light-multicolor-glass-dark"], [data-card-style="dark-neon-multicolor-glass"]) :is(
   .hero-banner,
   .banner-card,
   [data-element-type="banner-card"],
@@ -2067,6 +2085,9 @@ html[data-card-style="light-multicolor-glass-dark"] :is(
   #interview-questions-card,
   [id$="-hero-banner"]
 ) {
+  background: rgba(15, 23, 42, 0.72) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
   border: 1px solid rgba(167, 139, 250, 0.55) !important;
   outline: none !important;
   box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.90), 0 10px 24px -4px rgba(167, 139, 250, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
@@ -2084,6 +2105,9 @@ html[data-card-style="light-multicolor-glass-color"] :is(
   #interview-questions-card,
   [id$="-hero-banner"]
 ) {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.82) 0%, rgba(240, 246, 255, 0.72) 55%, rgba(253, 242, 248, 0.78) 100%) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
   border: 1px solid rgba(221, 78, 158, 0.60) !important;
   outline: none !important;
   box-shadow: 0 24px 60px -10px rgba(221, 78, 158, 0.32), 0 10px 24px -4px rgba(99, 83, 181, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
@@ -2101,10 +2125,13 @@ html[data-card-style="light-cowhide-leather"] :is(
   #interview-questions-card,
   [id$="-hero-banner"]
 ) {
+  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   border: 1.5px solid rgba(17, 24, 39, 0.45) !important;
   outline: 1.5px dashed rgba(17, 24, 39, 0.65) !important;
   outline-offset: -6px !important;
-  box-shadow: 0 18px 42px -8px rgba(15, 23, 42, 0.28), 0 8px 18px -4px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.90) !important;
+  box-shadow: 0 20px 48px -8px rgba(15, 23, 42, 0.28), 0 8px 20px -4px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.90) !important;
 }
 
 /* 5. Da đen - black-cowhide-leather */
@@ -2119,6 +2146,9 @@ html[data-card-style="black-cowhide-leather"] :is(
   #interview-questions-card,
   [id$="-hero-banner"]
 ) {
+  background: linear-gradient(145deg, #181d26 0%, #10141d 100%) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   border: 1.5px solid rgba(226, 232, 240, 0.40) !important;
   outline: 1.5px dashed rgba(226, 232, 240, 0.50) !important;
   outline-offset: -6px !important;
@@ -2137,37 +2167,83 @@ html[data-card-style="cowhide-leather"] :is(
   #interview-questions-card,
   [id$="-hero-banner"]
 ) {
+  background: linear-gradient(145deg, #381e0b 0%, #251307 100%) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   border: 1.5px solid rgba(245, 222, 179, 0.55) !important;
   outline: 1.5px dashed rgba(245, 222, 179, 0.65) !important;
   outline-offset: -6px !important;
   box-shadow: 0 26px 65px -12px rgba(61, 33, 11, 0.90), 0 12px 26px -4px rgba(217, 119, 6, 0.40), inset 0 1px 0 rgba(245, 222, 179, 0.28) !important;
 }
 
-/* Layer card hover lift for all themes */
+/* 7. Ice-Blue Soft UI (Light) - ice-blue-neu */
+html[data-card-style="ice-blue-neu"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"]
+) {
+  background: #e6f0fa !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  outline: none !important;
+  box-shadow: 14px 14px 30px rgba(176, 198, 219, 0.78), -12px -12px 26px rgba(255, 255, 255, 0.98), inset 1px 1px 2px rgba(255, 255, 255, 0.95) !important;
+}
+
+/* 8. Dark Ice-Blue Neu (Dark) - dark-ice-blue-neu */
+html[data-card-style="dark-ice-blue-neu"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"]
+) {
+  background: #162232 !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  border: 1px solid rgba(56, 189, 248, 0.20) !important;
+  outline: none !important;
+  box-shadow: 14px 14px 30px #070c12, -12px -12px 26px #253952, inset 1px 1px 2px rgba(186, 230, 253, 0.20) !important;
+}
+
+/* 3D Floating Elevation Hover Lift for all themes */
 @media (hover: hover) and (pointer: fine) {
-  html[data-card-style="light-multicolor-glass"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #services-hero-banner, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]):hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 28px 60px -12px rgba(15, 23, 42, 0.28), 0 12px 28px -6px rgba(15, 23, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+  html :is(.hero-banner, .banner-card, [data-element-type="banner-card"], [id$="-hero-banner"]):hover {
+    transform: translateY(-4px) !important;
   }
-  html[data-card-style="light-multicolor-glass-dark"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #services-hero-banner, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]):hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 32px 75px -12px rgba(0, 0, 0, 0.95), 0 14px 32px -4px rgba(167, 139, 250, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+  html[data-card-style="light-multicolor-glass"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #services-hero-banner, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]):hover {
+    box-shadow: 0 30px 65px -12px rgba(15, 23, 42, 0.26), 0 14px 30px -6px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+  }
+  html:is([data-card-style="light-multicolor-glass-dark"], [data-card-style="dark-neon-multicolor-glass"]) :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #services-hero-banner, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]):hover {
+    box-shadow: 0 34px 80px -12px rgba(0, 0, 0, 0.95), 0 16px 36px -4px rgba(167, 139, 250, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
   }
   html[data-card-style="light-multicolor-glass-color"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #services-hero-banner, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]):hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 32px 70px -12px rgba(221, 78, 158, 0.38), 0 14px 30px -4px rgba(99, 83, 181, 0.30), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+    box-shadow: 0 34px 75px -12px rgba(221, 78, 158, 0.40), 0 16px 32px -4px rgba(99, 83, 181, 0.32), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
   }
   html[data-card-style="light-cowhide-leather"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #services-hero-banner, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]):hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 26px 56px -10px rgba(15, 23, 42, 0.35), 0 12px 24px -4px rgba(15, 23, 42, 0.22) !important;
+    box-shadow: 0 28px 60px -10px rgba(15, 23, 42, 0.38), 0 14px 28px -4px rgba(15, 23, 42, 0.24) !important;
   }
   html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #services-hero-banner, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]):hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 34px 80px -14px rgba(0, 0, 0, 1), 0 16px 36px -4px rgba(0, 0, 0, 0.90) !important;
+    box-shadow: 0 36px 85px -14px rgba(0, 0, 0, 1), 0 18px 40px -4px rgba(0, 0, 0, 0.92) !important;
   }
   html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #services-hero-banner, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]):hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 32px 75px -14px rgba(61, 33, 11, 0.95), 0 14px 32px -4px rgba(217, 119, 6, 0.50) !important;
+    box-shadow: 0 34px 80px -14px rgba(61, 33, 11, 0.98), 0 16px 36px -4px rgba(217, 119, 6, 0.52) !important;
+  }
+  html[data-card-style="ice-blue-neu"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #services-hero-banner, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]):hover {
+    box-shadow: 18px 18px 36px rgba(176, 198, 219, 0.88), -14px -14px 30px rgba(255, 255, 255, 1), inset 1px 1px 2px rgba(255, 255, 255, 0.98) !important;
+  }
+  html[data-card-style="dark-ice-blue-neu"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #services-hero-banner, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]):hover {
+    box-shadow: 18px 18px 36px #05080d, -14px -14px 30px #2a415e, inset 1px 1px 2px rgba(186, 230, 253, 0.26) !important;
   }
 }
 
@@ -2260,34 +2336,316 @@ html :is(.hero-banner, .banner-card, [id$="-hero-banner"]) :is(p.font-italianno,
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
 }
 
-/* 80% TRANSPARENCY FOR HEADER MENU & RIGHT FOOTER BUTTONS IN GLASS THEMES */
-html[data-card-style="light-multicolor-glass"] :is(#app-header .nav-pill, #app-footer .nav-pill, #footer-nav-capsule, #footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn, #header-btn-hungthai-avatar),
-html[data-card-style="light-multicolor-glass-color"] :is(#app-header .nav-pill, #app-footer .nav-pill, #footer-nav-capsule, #footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn, #header-btn-hungthai-avatar) {
-  background-color: rgba(255, 255, 255, 0.80) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+/* 20% TRANSPARENT BACKGROUND & LAYERED SHADOW FOR INACTIVE HEADER MENU & RIGHT FOOTER BUTTONS ACROSS ALL THEMES */
+:is(#app-header .nav-pill:not(.active), #app-footer .nav-pill:not(.active), #footer-lang-btn:not(.active), #footer-appearance-btn:not(.active), #footer-wallpaper-btn:not(.active), #footer-ai-btn:not(.active), #header-btn-hungthai-avatar:not(.active)) {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
-html[data-card-style="light-multicolor-glass-dark"] :is(#app-header .nav-pill, #app-footer .nav-pill, #footer-nav-capsule, #footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn, #header-btn-hungthai-avatar) {
-  background-color: rgba(15, 23, 42, 0.80) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+:is(#app-header .nav-pill:not(.active):hover, #app-footer .nav-pill:not(.active):hover, #footer-lang-btn:not(.active):hover, #footer-appearance-btn:not(.active):hover, #footer-wallpaper-btn:not(.active):hover, #footer-ai-btn:not(.active):hover, #header-btn-hungthai-avatar:not(.active):hover) {
+  background-color: rgba(255, 255, 255, 0.28) !important;
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
 }
 
-/* FOCUS MODE: PADDING 5PX ON ALL SIDES FOR BUTTONS AND SIMILAR COMPONENTS */
-button#footer-ai-btn,
+html.dark :is(#app-header .nav-pill:not(.active), #app-footer .nav-pill:not(.active), #footer-lang-btn:not(.active), #footer-appearance-btn:not(.active), #footer-wallpaper-btn:not(.active), #footer-ai-btn:not(.active), #header-btn-hungthai-avatar:not(.active)),
+html[data-card-style*="dark"] :is(#app-header .nav-pill:not(.active), #app-footer .nav-pill:not(.active), #footer-lang-btn:not(.active), #footer-appearance-btn:not(.active), #footer-wallpaper-btn:not(.active), #footer-ai-btn:not(.active), #header-btn-hungthai-avatar:not(.active)),
+html[data-card-style="cowhide-leather"] :is(#app-header .nav-pill:not(.active), #app-footer .nav-pill:not(.active), #footer-lang-btn:not(.active), #footer-appearance-btn:not(.active), #footer-wallpaper-btn:not(.active), #footer-ai-btn:not(.active), #header-btn-hungthai-avatar:not(.active)),
+html[data-card-style="black-cowhide-leather"] :is(#app-header .nav-pill:not(.active), #app-footer .nav-pill:not(.active), #footer-lang-btn:not(.active), #footer-appearance-btn:not(.active), #footer-wallpaper-btn:not(.active), #footer-ai-btn:not(.active), #header-btn-hungthai-avatar:not(.active)) {
+  background-color: rgba(15, 23, 42, 0.2) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+html.dark :is(#app-header .nav-pill:not(.active):hover, #app-footer .nav-pill:not(.active):hover, #footer-lang-btn:not(.active):hover, #footer-appearance-btn:not(.active):hover, #footer-wallpaper-btn:not(.active):hover, #footer-ai-btn:not(.active):hover, #header-btn-hungthai-avatar:not(.active):hover),
+html[data-card-style*="dark"] :is(#app-header .nav-pill:not(.active):hover, #app-footer .nav-pill:not(.active):hover, #footer-lang-btn:not(.active):hover, #footer-appearance-btn:not(.active):hover, #footer-wallpaper-btn:not(.active):hover, #footer-ai-btn:not(.active):hover, #header-btn-hungthai-avatar:not(.active):hover),
+html[data-card-style="cowhide-leather"] :is(#app-header .nav-pill:not(.active):hover, #app-footer .nav-pill:not(.active):hover, #footer-lang-btn:not(.active):hover, #footer-appearance-btn:not(.active):hover, #footer-wallpaper-btn:not(.active):hover, #footer-ai-btn:not(.active):hover, #header-btn-hungthai-avatar:not(.active):hover),
+html[data-card-style="black-cowhide-leather"] :is(#app-header .nav-pill:not(.active):hover, #app-footer .nav-pill:not(.active):hover, #footer-lang-btn:not(.active):hover, #footer-appearance-btn:not(.active):hover, #footer-wallpaper-btn:not(.active):hover, #footer-ai-btn:not(.active):hover, #header-btn-hungthai-avatar:not(.active):hover) {
+  background-color: rgba(15, 23, 42, 0.32) !important;
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+}
+
+/* ========================================================================= */
+/* UNIFIED MENU ICON PILL BUTTON SPEC                                        */
+/* - Dimensions: 150px x 40px, 10px padding, 1px border, normal weight       */
+/* - Title span: 15px bold with crisp truncation inside fixed pill width     */
+/* - Unclipped focus-visible rings & reduced-motion support                  */
+/* ========================================================================= */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3) > header#app-header:nth-of-type(1) > nav#header-center:nth-of-type(1) > div#el-p0-div-84:nth-of-type(14) > div#el-p0-div-85:nth-of-type(1) > button#header-btn-hungthai-avatar:nth-of-type(1),
 button#header-btn-hungthai-avatar,
+button#footer-ai-btn,
 #footer-lang-btn,
 #footer-appearance-btn,
 #footer-wallpaper-btn,
 #footer-theme-mode-btn,
 #app-header button.nav-pill,
 #app-footer button.nav-pill,
-button.nav-pill,
-.radial-contact-pill {
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
-  padding-left: 5px !important;
-  padding-right: 5px !important;
+button.nav-pill {
+  height: 40px !important;
+  min-height: 40px !important;
+  width: 150px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  font-weight: normal !important;
+  border-width: 1px !important;
+  align-items: center !important;
+  gap: 6px !important;
+  box-sizing: border-box !important;
 }
+
+.radial-contact-pill {
+  height: 40px !important;
+  min-height: 40px !important;
+  width: 100% !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  font-weight: normal !important;
+  border-width: 1px !important;
+  align-items: center !important;
+  gap: 6px !important;
+  box-sizing: border-box !important;
+}
+
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3) > header#app-header:nth-of-type(1) > nav#header-center:nth-of-type(1) > div#el-p0-div-84:nth-of-type(14) > div#el-p0-div-85:nth-of-type(1) > button#header-btn-hungthai-avatar:nth-of-type(1) > div#el-p0-div-88:nth-of-type(3) > span#el-p0-span-39:nth-of-type(1),
+button#header-btn-hungthai-avatar .nav-pill-title,
+#app-header button.nav-pill .nav-pill-title,
+#app-footer button.nav-pill .nav-pill-title,
+#el-p0-div-98 button.nav-pill .nav-pill-title,
+button.nav-pill .nav-pill-title,
+.radial-contact-pill .radial-contact-title {
+  font-weight: bold !important;
+  font-size: 15px !important;
+  line-height: 1.1 !important;
+}
+
+button.nav-pill .nav-pill-icon-badge,
+.radial-contact-pill .radial-contact-icon-badge {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+#app-footer #footer-nav-capsule {
+  min-height: 40px !important;
+  height: 40px !important;
+  border-width: 1px !important;
+  box-sizing: border-box !important;
+}
+
+.nav-pill-wrapper {
+  overflow: visible !important;
+}
+
+.nav-pill-wrapper:focus-within,
+.nav-pill-wrapper:hover {
+  z-index: 160;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-pill-wrapper:hover {
+    transform: translateY(-1.5px) scale(1.02);
+  }
+}
+
+button.nav-pill:focus-visible,
+.radial-contact-pill:focus-visible,
+.radial-contact-pill-wrapper a:focus-visible .radial-contact-pill,
+.radial-contact-pill-wrapper button:focus-visible .radial-contact-pill,
+#footer-nav-capsule button:focus-visible {
+  outline: 2px solid var(--color-focus-ring, #1480C0) !important;
+  outline-offset: 2px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-pill-wrapper,
+  .nav-pill-wrapper:hover,
+  button.nav-pill,
+  .nav-pill-laser,
+  .radial-contact-laser,
+  .theme-capsule-btn,
+  .nav-arrow-btn,
+  .theme-prev-next-btn {
+    animation: none !important;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease !important;
+    transform: none !important;
+  }
+}
+
+/* ========================================================================= */
+/* FOCUS-MODE: KEEP TRACKS & OUTER HEADER CONTAINER TRANSPARENT              */
+/*   - header#app-header matches the active theme's card background          */
+/*   - #home-cards-track keeps 10px top/bottom padding & no border           */
+/* ========================================================================= */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
+html #home-page-container > #home-cards-track {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  border-style: none !important;
+}
+
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
+html #home-page-container > #home-cards-track,
+html[data-card-style] div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1):is(:hover, :focus, :focus-within, :active),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3),
+html[data-card-style] div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3),
+html[data-surface-depth] div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3),
+html[data-card-style] #app-header-container,
+html[data-surface-depth] #app-header-container,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3):is(:hover, :focus, :focus-within, :active) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  border-style: none !important;
+  border-width: 0 !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1)::before,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1)::after,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3)::before,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3)::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ========================================================================= */
+/* MASTER OVERRIDE D: 28PX BORDER-RADIUS & HEADER SYNC FOR ICE-BLUE NEU      */
+/* ========================================================================= */
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  [data-section-card="true"]:not(#app-header):not(#app-footer):not(#pdf-page-container):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule),
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
+  .layered-card,
+  .exp-bento-surface-card,
+  .exp-bento-item-card,
+  .education-course-card,
+  .project-card,
+  .project-detail-section-card,
+  .banner-card,
+  .hero-banner,
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"],
+  .theme-modal-card,
+  .theme-pip-player,
+  #footer-theme-popup,
+  #footer-lang-popup,
+  [role="dialog"],
+  .modal-dialog,
+  #wallpaper-page-container [id^="wallpaper-card-"],
+  #memories-page-container [id^="memory-card-"],
+  .themed-image-card,
+  .themed-image-frame
+) {
+  border-radius: 28px !important;
+}
+
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
+  #wallpaper-page-container [id^="wallpaper-card-"],
+  #memories-page-container [id^="memory-card-"],
+  .themed-image-card,
+  #wallpaper-page-container [id^="wallpaper-card-media-"],
+  #wallpaper-page-container [id^="wallpaper-card-media-"] > :is(img, video, div),
+  #memories-page-container [id^="memory-card-"] > img.memory-crisp-img,
+  #education-courses-grid .education-course-card .education-card-banner,
+  #projects-grid .project-card .project-card-banner,
+  #project-detail-banner .project-detail-banner-media,
+  #project-detail-banner .project-detail-banner-scrim
+) {
+  border-radius: 28px !important;
+  -webkit-clip-path: inset(0 round 28px) !important;
+  clip-path: inset(0 round 28px) !important;
+}
+
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #app-header {
+  border-radius: 0 0 28px 28px !important;
+}
+
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #app-footer {
+  border-radius: 28px 28px 0 0 !important;
+}
+
+/* Header card-surface sync: ensure header has exact card background & border across all themes */
+html #app-header {
+  background: var(--surface-primary-bg, var(--bg-card)) !important;
+  border-color: var(--surface-primary-border, var(--border-color)) !important;
+  border-width: var(--card-border-width, 1px) !important;
+  border-style: solid !important;
+  border-top: none !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 16px)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 16px)) saturate(160%) !important;
+  box-shadow: var(--surface-header-shadow, var(--shadow-card)) !important;
+}
+
+html[data-card-style="light-multicolor-glass"] #app-header {
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-top: none !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+html[data-card-style="light-multicolor-glass-dark"] #app-header {
+  background: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  border-top: none !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+html[data-card-style="light-multicolor-glass-color"] #app-header {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(235, 243, 255, 0.75) 100%) !important;
+  backdrop-filter: blur(19px) saturate(152%) !important;
+  -webkit-backdrop-filter: blur(19px) saturate(152%) !important;
+  border: 1px solid rgba(147, 197, 253, 0.6) !important;
+  border-top: none !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass)) !important;
+}
+
+/* Make banner background media 100% transparent across all website pages */
+.project-detail-banner-media,
+[id$="-hero-banner"] .project-detail-banner-media,
+.hero-banner .project-detail-banner-media,
+.banner-card .project-detail-banner-media {
+  opacity: 0 !important;
+}
+
+#service-card-desc-02 {
+  border-radius: 0px !important;
+  padding-top: 2px !important;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+  padding-bottom: 2px !important;
+  text-align: center !important;
+}
+#systems-cards-track {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+#about-personal-info-card-right .about-info-subcard {
+  height: auto !important;
+  min-height: 0 !important;
+}
+
 

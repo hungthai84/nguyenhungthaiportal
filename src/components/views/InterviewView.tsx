@@ -17,7 +17,7 @@ export interface InterviewViewProps {
   onShowNotification?: (msg: string) => void;
 }
 
-export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'light-multicolor-glass' }) => {
+export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'light-multicolor-glass-color' }) => {
   const { showToast } = useToast();
   const videoRef = useRef<HTMLVideoElement>(null);
   const filterDropdownRef = useRef<HTMLDivElement>(null);

@@ -706,23 +706,43 @@ button,
   outline-offset: var(--outline-offset-nav-pill, 0px);
   border-radius: 999px !important;
   color: var(--text-primary) !important;
-  cursor: pointer;
   transition: transform var(--motion-fast, 0.2s) var(--motion-ease, ease),
     box-shadow var(--motion-fast, 0.2s) var(--motion-ease, ease),
     border-color var(--motion-fast, 0.2s) var(--motion-ease, ease),
     background var(--motion-fast, 0.2s) var(--motion-ease, ease) !important;
 }
 
-#app-footer #footer-nav-capsule:hover,
-.theme-capsule-btn:not(.video-play-btn):hover {
+.theme-capsule-btn:not(#footer-nav-capsule):not(.video-play-btn) {
+  cursor: pointer;
+}
+
+.theme-capsule-btn:not(#footer-nav-capsule):not(.video-play-btn):hover {
   transform: translateY(-1.5px);
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 10px 26px -4px rgba(15, 23, 42, 0.28))),
     0 12px 28px -6px rgba(15, 23, 42, 0.26) !important;
 }
 
-#app-footer #footer-nav-capsule:active,
-.theme-capsule-btn:not(.video-play-btn):active {
+.theme-capsule-btn:not(#footer-nav-capsule):not(.video-play-btn):active {
   transform: scale(0.98) translateY(0);
+}
+
+#app-footer #footer-nav-capsule #footer-prev-btn,
+#app-footer #footer-nav-capsule #footer-next-btn {
+  min-width: 34px;
+  min-height: 34px;
+  transition: transform var(--motion-fast, 150ms) var(--motion-ease, ease),
+    background-color var(--motion-fast, 150ms) var(--motion-ease, ease),
+    box-shadow var(--motion-fast, 150ms) var(--motion-ease, ease);
+}
+
+#app-footer #footer-nav-capsule #footer-prev-btn:hover,
+#app-footer #footer-nav-capsule #footer-next-btn:hover {
+  transform: scale(1.06);
+}
+
+#app-footer #footer-nav-capsule #footer-prev-btn:active,
+#app-footer #footer-nav-capsule #footer-next-btn:active {
+  transform: scale(0.94);
 }
 
 /* GLOBAL CARD TITLE H3 FORMAT */

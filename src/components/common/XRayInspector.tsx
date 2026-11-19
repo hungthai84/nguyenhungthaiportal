@@ -20,7 +20,7 @@ interface ElementInfo {
   attributes: Record<string, string>;
 }
 
-// Generate a precise, unique CSS selector for any DOM element
+// Tạo CSS selector duy nhất cho đối tượng DOM
 function getUniqueSelector(el: HTMLElement): string {
   if (el.id) {
     return `#${CSS.escape(el.id)}`;
@@ -42,7 +42,15 @@ function getUniqueSelector(el: HTMLElement): string {
       const classes = current.className
         .trim()
         .split(/\s+/)
-        .filter((c) => c && !c.startsWith('hover:') && !c.startsWith('focus:') && !c.startsWith('active:') && !c.startsWith('group-') && !c.includes(':'))
+        .filter(
+          (c) =>
+            c &&
+            !c.startsWith('hover:') &&
+            !c.startsWith('focus:') &&
+            !c.startsWith('active:') &&
+            !c.startsWith('group-') &&
+            !c.includes(':')
+        )
         .slice(0, 2);
       if (classes.length) {
         selector += `.${classes.map((c) => CSS.escape(c)).join('.')}`;
@@ -74,6 +82,37 @@ function getUniqueSelector(el: HTMLElement): string {
   return path.join(' > ');
 }
 
+function copyTextToClipboard(text: string) {
+  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text).catch(() => {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    });
+    return;
+  }
+
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+  } finally {
+    document.body.removeChild(textarea);
+  }
+}
+
 export interface XRayInspectorProps {
   onShowNotification?: (msg: string) => void;
   onSwitchToLightMode?: () => void;
@@ -81,7 +120,6 @@ export interface XRayInspectorProps {
 
 export const XRayInspector: React.FC<XRayInspectorProps> = ({
   onShowNotification,
-  onSwitchToLightMode,
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [hoveredInfo, setHoveredInfo] = useState<ElementInfo | null>(null);
@@ -91,13 +129,17 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
     computed: CSSStyleDeclaration;
     rect: DOMRect;
   } | null>(null);
-  const [copiedType, setCopiedType] = useState<'identity' | 'effects' | 'config' | null>(null);
-  const [inspectorTheme, setInspectorTheme] = useState<'light' | 'dark'>('light');
 
   const activeRef = useRef<boolean>(false);
   activeRef.current = isActive;
 
-  // Toggle X-Ray mode via key 'x' or 'X'
+  const closeXRay = useCallback(() => {
+    setIsActive(false);
+    setHoveredInfo(null);
+    setSelectedTarget(null);
+  }, []);
+
+  // Bật / tắt chế độ X-Ray bằng phím 'x' hoặc 'X'
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const activeEl = document.activeElement;
@@ -116,10 +158,9 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
           if (!next) {
             setHoveredInfo(null);
             setSelectedTarget(null);
-            if (onShowNotification) onShowNotification('Đã tắt chế độ X-Ray Inspector');
+            onShowNotification?.('Đã tắt chế độ X-Ray');
           } else {
-            if (onShowNotification)
-              onShowNotification('🎯 Bật X-Ray Inspector: Di chuột & Double Click vào đối tượng để lấy thông tin, hiệu ứng và cấu hình [Nhấn X để tắt]');
+            onShowNotification?.('Đã bật chế độ X-Ray: Bấm chọn đối tượng cần kiểm tra [Nhấn X để tắt]');
           }
           return next;
         });
@@ -127,16 +168,15 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
         if (selectedTarget) {
           setSelectedTarget(null);
         } else {
-          setIsActive(false);
-          setHoveredInfo(null);
-          if (onShowNotification) onShowNotification('Đã tắt chế độ X-Ray Inspector');
+          closeXRay();
+          onShowNotification?.('Đã tắt chế độ X-Ray');
         }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onShowNotification, selectedTarget]);
+  }, [onShowNotification, selectedTarget, closeXRay]);
 
   const extractInfo = useCallback((target: HTMLElement): ElementInfo => {
     const closestWithData = (target.closest('[data-element-name]') as HTMLElement) || target;
@@ -163,15 +203,15 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag)) {
         derivedName = text ? `Tiêu đề: ${text.slice(0, 40)}` : `Tiêu đề ${tag.toUpperCase()}`;
       } else if (tag === 'button') {
-        derivedName = text ? `Nút: ${text.slice(0, 35)}` : 'Nút bấm tương tác';
+        derivedName = text ? `Nút: ${text.slice(0, 35)}` : 'Nút bấm';
       } else if (tag === 'a') {
-        derivedName = text ? `Liên kết: ${text.slice(0, 35)}` : 'Đường dẫn liên kết';
+        derivedName = text ? `Liên kết: ${text.slice(0, 35)}` : 'Liên kết';
       } else if (tag === 'img') {
         derivedName = target.getAttribute('alt') ? `Hình ảnh: ${target.getAttribute('alt')}` : 'Hình ảnh';
       } else if (target.classList.contains('bento-card') || target.classList.contains('glass-card')) {
-        derivedName = 'Thẻ Bento / Card';
+        derivedName = 'Thẻ nội dung';
       } else {
-        derivedName = `${tag.toUpperCase()} (${target.id || 'no-id'})`;
+        derivedName = `${tag.toUpperCase()}${target.id ? ` (#${target.id})` : ''}`;
       }
     }
 
@@ -179,10 +219,22 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       tag: target.tagName.toLowerCase(),
       id: target.id || closestWithData.id || '',
       elementName: derivedName,
-      elementType: target.getAttribute('data-element-type') || closestWithData.getAttribute('data-element-type') || 'container',
-      elementPage: target.getAttribute('data-element-page') || closestWithData.getAttribute('data-element-page') || 'global',
-      elementParent: target.getAttribute('data-element-parent') || closestWithData.getAttribute('data-element-parent') || undefined,
-      elementDescription: target.getAttribute('data-element-description') || closestWithData.getAttribute('data-element-description') || undefined,
+      elementType:
+        target.getAttribute('data-element-type') ||
+        closestWithData.getAttribute('data-element-type') ||
+        'container',
+      elementPage:
+        target.getAttribute('data-element-page') ||
+        closestWithData.getAttribute('data-element-page') ||
+        'global',
+      elementParent:
+        target.getAttribute('data-element-parent') ||
+        closestWithData.getAttribute('data-element-parent') ||
+        undefined,
+      elementDescription:
+        target.getAttribute('data-element-description') ||
+        closestWithData.getAttribute('data-element-description') ||
+        undefined,
       className: typeof target.className === 'string' ? target.className : '',
       selector,
       text,
@@ -192,18 +244,17 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
     };
   }, []);
 
-  // Track cursor hover & double-click to show the 3 inspection action buttons
+  // Theo dõi di chuột & bấm chọn đối tượng
   useEffect(() => {
     if (!isActive) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       const target = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
       if (!target || target.closest('#xray-inspector-root')) return;
-
       setHoveredInfo(extractInfo(target));
     };
 
-    const handleDblClick = (e: MouseEvent) => {
+    const selectDomElement = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target || target.closest('#xray-inspector-root')) return;
 
@@ -221,131 +272,128 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
         rect,
       });
       SoundEngine.playTap();
-      if (onShowNotification) {
-        onShowNotification(`🔍 Đã chọn đối tượng: ${info.elementName} (${info.selector}). Vui lòng chọn hành động trích xuất.`);
-      }
     };
 
     window.addEventListener('mousemove', handleMouseMove, true);
-    window.addEventListener('dblclick', handleDblClick, true);
+    window.addEventListener('click', selectDomElement, true);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove, true);
-      window.removeEventListener('dblclick', handleDblClick, true);
+      window.removeEventListener('click', selectDomElement, true);
     };
-  }, [isActive, extractInfo, onShowNotification]);
+  }, [isActive, extractInfo]);
 
-  // Handler for Action 1: Get Object Identification Info for AI
-  const handleCopyIdentity = () => {
+  // Cập nhật lại tọa độ viền màu khi cuộn hoặc thay đổi kích thước màn hình
+  useEffect(() => {
+    if (!isActive || !selectedTarget) return;
+
+    const updateSelectedRect = () => {
+      if (!document.body.contains(selectedTarget.target)) {
+        setSelectedTarget(null);
+        return;
+      }
+      const nextRect = selectedTarget.target.getBoundingClientRect();
+      setSelectedTarget((prev) =>
+        prev
+          ? {
+              ...prev,
+              rect: nextRect,
+              info: { ...prev.info, rect: nextRect },
+            }
+          : null
+      );
+    };
+
+    window.addEventListener('scroll', updateSelectedRect, true);
+    window.addEventListener('resize', updateSelectedRect);
+    return () => {
+      window.removeEventListener('scroll', updateSelectedRect, true);
+      window.removeEventListener('resize', updateSelectedRect);
+    };
+  }, [isActive, selectedTarget?.target]);
+
+  // Icon 1: Sao chép nhận dạng đối tượng & tự đóng X-Ray
+  const handleCopyIdentity = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!selectedTarget) return;
     const { info } = selectedTarget;
-    const payload = `[AI Target: "${info.elementName || info.tag}" | Tag: ${info.tag} | ID: ${info.id || 'none'} | Selector: ${info.selector} | Type: ${info.elementType} | Page: ${info.elementPage} | Text: "${info.text || ''}"]`;
+    const payload = `[Nhận dạng đối tượng: "${info.elementName || info.tag}" | Thẻ: ${info.tag} | ID: ${info.id || 'không có'} | Bộ chọn CSS: ${info.selector} | Loại: ${info.elementType} | Trang: ${info.elementPage} | Nội dung: "${info.text || ''}"]`;
 
-    navigator.clipboard.writeText(payload);
-    setCopiedType('identity');
+    copyTextToClipboard(payload);
     SoundEngine.playTap();
-    if (onSwitchToLightMode) onSwitchToLightMode();
-    if (onShowNotification) {
-      onShowNotification(`✓ [X-Ray] Đã sao chép nhận dạng đối tượng vào bộ nhớ tạm thành công!`);
-    }
-    setTimeout(() => setCopiedType(null), 2500);
+    onShowNotification?.(`✓ Đã sao chép nhận dạng "${info.elementName || info.tag}" vào bộ nhớ tạm`);
+    closeXRay();
   };
 
-  // Handler for Action 2: Get Object Effects
-  const handleCopyEffects = () => {
+  // Icon 2: Sao chép hiệu ứng đối tượng & tự đóng X-Ray
+  const handleCopyEffects = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!selectedTarget) return;
     const { computed, info } = selectedTarget;
-    const payload = `[Object CSS Effects & Animations for ${info.elementName}]
-- Transition: ${computed.transition}
-- Animation: ${computed.animation}
-- Transform: ${computed.transform}
-- Box Shadow: ${computed.boxShadow}
-- Drop Shadow / Filter: ${computed.filter}
-- Backdrop Filter: ${computed.backdropFilter}
-- Opacity: ${computed.opacity}
-- Cursor: ${computed.cursor}
-- Will Change: ${computed.willChange}`;
+    const payload = `[Hiệu ứng đối tượng: ${info.elementName || info.tag}]
+- Chuyển động (Transition): ${computed.transition}
+- Hoạt ảnh (Animation): ${computed.animation}
+- Biến đổi (Transform): ${computed.transform}
+- Đổ bóng (Box Shadow): ${computed.boxShadow}
+- Bộ lọc (Filter): ${computed.filter}
+- Kính mờ (Backdrop Filter): ${computed.backdropFilter}
+- Độ mờ (Opacity): ${computed.opacity}
+- Con trỏ (Cursor): ${computed.cursor}
+- Tối ưu GPU (Will Change): ${computed.willChange}`;
 
-    navigator.clipboard.writeText(payload);
-    setCopiedType('effects');
+    copyTextToClipboard(payload);
     SoundEngine.playTap();
-    if (onShowNotification) {
-      onShowNotification(`✓ [X-Ray] Đã sao chép hiệu ứng đối tượng vào bộ nhớ tạm thành công!`);
-    }
-    setTimeout(() => setCopiedType(null), 2500);
+    onShowNotification?.(`✓ Đã sao chép hiệu ứng "${info.elementName || info.tag}" vào bộ nhớ tạm`);
+    closeXRay();
   };
 
-  // Handler for Action 3: Get Object Configuration Info
-  const handleCopyConfig = () => {
+  // Icon 3: Sao chép thông tin cấu hình đối tượng & tự đóng X-Ray
+  const handleCopyConfig = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!selectedTarget) return;
     const { computed, info, rect } = selectedTarget;
-    const payload = `[Object Configuration & Metrics for ${info.elementName}]
-- Dimensions: Width ${Math.round(rect.width)}px, Height ${Math.round(rect.height)}px (Top: ${Math.round(rect.top)}, Left: ${Math.round(rect.left)})
-- Font Family: ${computed.fontFamily}
-- Font Size: ${computed.fontSize} (Weight: ${computed.fontWeight}, Line Height: ${computed.lineHeight})
-- Text Color: ${computed.color}
-- Background Color: ${computed.backgroundColor}
-- Border: Width ${computed.borderWidth}, Style ${computed.borderStyle}, Color ${computed.borderColor}
-- Border Radius: ${computed.borderRadius}
-- Spacing: Padding (${computed.padding}), Margin (${computed.margin})
-- Display / Layout: Display ${computed.display}, Flex Direction ${computed.flexDirection}, Gap ${computed.gap}
-- ClassName: ${info.className}
-- Selector: ${info.selector}`;
+    const payload = `[Thông tin cấu hình đối tượng: ${info.elementName || info.tag}]
+- Kích thước & Vị trí: Rộng ${Math.round(rect.width)}px, Cao ${Math.round(rect.height)}px (Top: ${Math.round(rect.top)}px, Left: ${Math.round(rect.left)}px)
+- Phông chữ: ${computed.fontFamily}
+- Cỡ chữ: ${computed.fontSize} (Độ đậm: ${computed.fontWeight}, Chiều cao dòng: ${computed.lineHeight})
+- Màu chữ: ${computed.color}
+- Màu nền: ${computed.backgroundColor}
+- Viền (Border): ${computed.borderWidth} ${computed.borderStyle} ${computed.borderColor}
+- Bo góc (Border Radius): ${computed.borderRadius}
+- Khoảng cách: Padding (${computed.padding}), Margin (${computed.margin})
+- Bố cục: Display ${computed.display}, Flex Direction ${computed.flexDirection}, Gap ${computed.gap}
+- Class: ${info.className}
+- Bộ chọn CSS: ${info.selector}`;
 
-    navigator.clipboard.writeText(payload);
-    setCopiedType('config');
+    copyTextToClipboard(payload);
     SoundEngine.playTap();
-    if (onShowNotification) {
-      onShowNotification(`✓ [X-Ray] Đã sao chép cấu hình đối tượng vào bộ nhớ tạm thành công!`);
-    }
-    setTimeout(() => setCopiedType(null), 2500);
+    onShowNotification?.(`✓ Đã sao chép cấu hình "${info.elementName || info.tag}" vào bộ nhớ tạm`);
+    closeXRay();
   };
 
   if (!isActive) return null;
 
+  const viewportW = typeof window !== 'undefined' ? window.innerWidth : 1280;
+  const selectedRect = selectedTarget?.rect;
+  const placeToolbarInsideTop = selectedRect ? selectedRect.top < 42 : false;
+  const toolbarLeft = selectedRect
+    ? Math.max(8, Math.min(selectedRect.left, viewportW - 340))
+    : 8;
+  const toolbarTop = selectedRect
+    ? placeToolbarInsideTop
+      ? Math.max(8, selectedRect.top + 6)
+      : Math.max(8, selectedRect.top - 38)
+    : 8;
+
   return (
     <div id="xray-inspector-root" className="fixed inset-0 pointer-events-none z-[99999] select-none font-play">
-      {/* Top Banner Indicator */}
-      <div className={`absolute top-2 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full border-2 shadow-[0_4px_24px_rgba(6,182,212,0.35)] backdrop-blur-xl typo-label font-play font-bold flex items-center gap-2.5 pointer-events-auto transition-all ${
-        inspectorTheme === 'light'
-          ? 'bg-white/98 text-cyan-950 border-cyan-500/80 shadow-md'
-          : 'bg-slate-900/98 text-cyan-200 border-cyan-400/80 shadow-xl'
-      }`}>
-        <span className="w-2.5 h-2.5 rounded-full bg-cyan-500 animate-ping" />
-        <span className="font-play tracking-wide">
-          X-RAY INSPECTOR: DOUBLE CLICK VÀO ĐỐI TƯỢNG ĐỂ TRÍCH XUẤT THÔNG TIN / HIỆU ỨNG / CẤU HÌNH [X ĐỂ TẮT]
-        </span>
-
-        <button
-          type="button"
-          onClick={() => setInspectorTheme((prev) => (prev === 'light' ? 'dark' : 'light'))}
-          className={`px-2.5 py-0.5 rounded-full typo-badge font-play font-bold border transition cursor-pointer flex items-center gap-1 ${
-            inspectorTheme === 'light'
-              ? 'bg-amber-100 hover:bg-amber-200 text-amber-900 border-amber-300'
-              : 'bg-slate-800 hover:bg-slate-700 text-amber-300 border-slate-600'
-          }`}
-        >
-          <WebIcon name={inspectorTheme === 'light' ? 'sun' : 'moon'} className="w-3 h-3" />
-          <span>{inspectorTheme === 'light' ? 'Sáng' : 'Tối'}</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => {
-            setIsActive(false);
-            setHoveredInfo(null);
-            setSelectedTarget(null);
-          }}
-          className="ml-1 px-2.5 py-0.5 rounded-full bg-rose-100 hover:bg-rose-600 hover:text-white text-rose-900 transition cursor-pointer typo-badge font-play font-bold border border-rose-300"
-        >
-          Tắt (X)
-        </button>
-      </div>
-
-      {/* Hover Bounding Box */}
-      {hoveredInfo && !selectedTarget && (
+      {/* Khung viền khi rê chuột */}
+      {hoveredInfo && (!selectedTarget || hoveredInfo.element !== selectedTarget.target) && (
         <div
-          className="absolute border-2 border-cyan-500 bg-cyan-400/15 pointer-events-none transition-all duration-75 rounded-[14px] shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+          className="fixed border-2 border-cyan-500 bg-cyan-400/10 pointer-events-none transition-all duration-75 rounded-[12px] shadow-[0_0_12px_rgba(6,182,212,0.35)]"
           style={{
             left: `${hoveredInfo.rect.left}px`,
             top: `${hoveredInfo.rect.top}px`,
@@ -353,127 +401,74 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
             height: `${hoveredInfo.rect.height}px`,
           }}
         >
-          <div className="absolute -top-6 left-0 bg-cyan-600 text-white px-2 py-0.5 rounded typo-badge font-play font-bold shadow-md whitespace-nowrap truncate max-w-xs">
-            {hoveredInfo.elementName ? `${hoveredInfo.elementName} (Double Click để kiểm tra)` : hoveredInfo.selector}
+          <div className="absolute -top-6 left-0 bg-cyan-600 text-white px-2 py-0.5 rounded-md typo-badge font-play font-bold shadow-md whitespace-nowrap truncate max-w-xs">
+            {hoveredInfo.elementName || hoveredInfo.selector}
           </div>
         </div>
       )}
 
-      {/* Selected Target Action Modal / Floating Action Card on Double Click */}
-      {selectedTarget && (
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-auto flex items-center justify-center p-4">
-          <div className={`w-full max-w-lg p-6 rounded-[14px] border shadow-2xl relative font-play animate-in fade-in zoom-in-95 duration-150 ${
-            inspectorTheme === 'light'
-              ? 'bg-white/95 text-slate-800 border-cyan-200 shadow-cyan-900/10'
-              : 'bg-slate-900/95 text-slate-100 border-slate-700 shadow-black/50'
-          }`}>
-            {/* Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-cyan-500/20 mb-4">
-              <div className="flex items-center gap-2">
-                <span className="p-2 rounded-[14px] bg-cyan-500/15 text-cyan-500">
-                  <WebIcon name="sparkles" className="w-5 h-5" />
-                </span>
-                <div>
-                  <h3 className="typo-h4 font-bold text-cyan-600 dark:text-cyan-400">
-                    X-Ray Inspector: Phân tích đối tượng
-                  </h3>
-                  <p className="typo-caption opacity-75">
-                    {selectedTarget.info.selector}
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSelectedTarget(null)}
-                className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center hover:bg-rose-500 hover:text-white transition cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
+      {/* Viền màu nổi bật + Tên đối tượng & 3 Icon sao chép ngay trên tên khi bấm chọn */}
+      {selectedTarget && selectedRect && (
+        <>
+          <div
+            aria-hidden="true"
+            className="fixed pointer-events-none rounded-[12px] border-[2.5px] border-rose-500 bg-rose-500/10 ring-2 ring-amber-400/80 shadow-[0_0_20px_rgba(244,63,94,0.45)] transition-all duration-100"
+            style={{
+              left: `${selectedRect.left}px`,
+              top: `${selectedRect.top}px`,
+              width: `${selectedRect.width}px`,
+              height: `${selectedRect.height}px`,
+            }}
+          />
 
-            {/* Target Summary Badge */}
-            <div className="mb-4 p-3 rounded-[14px] bg-cyan-50 dark:bg-slate-800/80 border border-cyan-200 dark:border-slate-700 flex flex-col gap-1">
-              <span className="typo-badge font-bold text-cyan-700 dark:text-cyan-300">
-                {selectedTarget.info.elementName}
-              </span>
-              <span className="typo-caption opacity-80 truncate">
-                Tag: &lt;{selectedTarget.info.tag}&gt; | ID: #{selectedTarget.info.id || 'none'} | Type: {selectedTarget.info.elementType}
-              </span>
-            </div>
+          <div
+            className="fixed pointer-events-auto z-[100000] inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-950/95 text-white border border-rose-400/80 shadow-[0_8px_24px_rgba(15,23,42,0.45)] backdrop-blur-md max-w-[calc(100vw-16px)]"
+            style={{
+              left: `${toolbarLeft}px`,
+              top: `${toolbarTop}px`,
+            }}
+          >
+            <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+            <span className="text-xs font-bold font-play truncate max-w-[190px] sm:max-w-[260px]">
+              {selectedTarget.info.elementName || selectedTarget.info.tag}
+            </span>
 
-            {/* Action Buttons (3 Requested Features) */}
-            <div className="flex flex-col gap-3">
-              {/* Button 1: Lấy thông tin đối tượng (AI Recognition) */}
-              <button
-                type="button"
-                onClick={handleCopyIdentity}
-                className={`w-full py-3 px-4 rounded-[14px] font-play font-bold flex items-center justify-between border transition cursor-pointer shadow-sm ${
-                  copiedType === 'identity'
-                    ? 'bg-emerald-600 text-white border-emerald-500 scale-[1.02]'
-                    : 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white border-cyan-400/50'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <WebIcon name="cpu" className="w-5 h-5 shrink-0" />
-                  <span className="text-left">
-                    {copiedType === 'identity' ? '✓ Đã sao chép nhận dạng đối tượng!' : 'Lấy thông tin nhận dạng đối tượng (cho AI)'}
-                  </span>
-                </div>
-                <span className="text-xs bg-white/20 px-2 py-1 rounded">Copy</span>
-              </button>
+            <div className="w-[1px] h-4 bg-white/20 mx-0.5 shrink-0" />
 
-              {/* Button 2: Lấy hiệu ứng đối tượng */}
-              <button
-                type="button"
-                onClick={handleCopyEffects}
-                className={`w-full py-3 px-4 rounded-[14px] font-play font-bold flex items-center justify-between border transition cursor-pointer shadow-sm ${
-                  copiedType === 'effects'
-                    ? 'bg-emerald-600 text-white border-emerald-500 scale-[1.02]'
-                    : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-purple-400/50'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <WebIcon name="sparkles" className="w-5 h-5 shrink-0" />
-                  <span className="text-left">
-                    {copiedType === 'effects' ? '✓ Đã sao chép hiệu ứng đối tượng!' : 'Lấy hiệu ứng đối tượng (Effects & Animation)'}
-                  </span>
-                </div>
-                <span className="text-xs bg-white/20 px-2 py-1 rounded">Copy</span>
-              </button>
+            {/* Icon 1: Nhận dạng đối tượng */}
+            <button
+              type="button"
+              onClick={handleCopyIdentity}
+              title="Sao chép nhận dạng đối tượng"
+              aria-label="Sao chép nhận dạng đối tượng"
+              className="w-6 h-6 rounded-full bg-cyan-500 hover:bg-cyan-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+            >
+              <WebIcon name="cpu" className="w-3.5 h-3.5" />
+            </button>
 
-              {/* Button 3: Lấy thông tin cấu hình đối tượng */}
-              <button
-                type="button"
-                onClick={handleCopyConfig}
-                className={`w-full py-3 px-4 rounded-[14px] font-play font-bold flex items-center justify-between border transition cursor-pointer shadow-sm ${
-                  copiedType === 'config'
-                    ? 'bg-emerald-600 text-white border-emerald-500 scale-[1.02]'
-                    : 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white border-amber-400/50'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <WebIcon name="settings" className="w-5 h-5 shrink-0" />
-                  <span className="text-left">
-                    {copiedType === 'config' ? '✓ Đã sao chép cấu hình đối tượng!' : 'Lấy thông tin cấu hình đối tượng (Kích thước, Font, Màu)'}
-                  </span>
-                </div>
-                <span className="text-xs bg-white/20 px-2 py-1 rounded">Copy</span>
-              </button>
-            </div>
+            {/* Icon 2: Hiệu ứng đối tượng */}
+            <button
+              type="button"
+              onClick={handleCopyEffects}
+              title="Sao chép hiệu ứng đối tượng"
+              aria-label="Sao chép hiệu ứng đối tượng"
+              className="w-6 h-6 rounded-full bg-purple-500 hover:bg-purple-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+            >
+              <WebIcon name="sparkles" className="w-3.5 h-3.5" />
+            </button>
 
-            {/* Footer Note */}
-            <div className="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center text-xs opacity-75">
-              <span>Bấm nút bất kỳ để sao chép dữ liệu vào Clipboard.</span>
-              <button
-                type="button"
-                onClick={() => setSelectedTarget(null)}
-                className="underline hover:opacity-100 cursor-pointer"
-              >
-                Đóng cửa sổ
-              </button>
-            </div>
+            {/* Icon 3: Thông tin cấu hình đối tượng */}
+            <button
+              type="button"
+              onClick={handleCopyConfig}
+              title="Sao chép thông tin cấu hình đối tượng"
+              aria-label="Sao chép thông tin cấu hình đối tượng"
+              className="w-6 h-6 rounded-full bg-amber-500 hover:bg-amber-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+            >
+              <WebIcon name="settings" className="w-3.5 h-3.5" />
+            </button>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

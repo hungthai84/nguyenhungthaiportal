@@ -167,6 +167,9 @@ const ICON_ALIAS_MAP: Record<string, keyof typeof LucideIcons> = {
   eye: 'Eye',
   'eye-off': 'EyeOff',
   tower: 'RadioTower',
+  snowflake: 'Snowflake',
+  'chevrons-up-down': 'ChevronsUpDown',
+  square: 'Square',
 };
 
 export const WebIcon: React.FC<WebIconProps> = ({

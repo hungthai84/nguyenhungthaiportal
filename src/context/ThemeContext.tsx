@@ -17,6 +17,8 @@ import {
   SURFACE_DEPTH_SYNC_EVENT,
   AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY,
   AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT,
+  AUTO_TIME_THEME_STORAGE_KEY,
+  AUTO_TIME_THEME_SYNC_EVENT,
   THEME_BACKGROUNDS,
   THEME_DEFAULT_GLASS_SETTINGS,
   THEME_DEFAULT_WALLPAPER_ID,
@@ -139,6 +141,9 @@ export interface ThemeContextType {
   autoCollapseOnScroll: boolean;
   setAutoCollapseOnScroll: (enabled: boolean) => void;
   toggleAutoCollapseOnScroll: () => void;
+  autoTimeTheme: boolean;
+  setAutoTimeTheme: (enabled: boolean) => void;
+  toggleAutoTimeTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -213,6 +218,47 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   });
 
+  const [autoTimeTheme, setAutoTimeThemeState] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem(AUTO_TIME_THEME_STORAGE_KEY);
+      return saved === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const setAutoTimeTheme = useCallback((enabled: boolean) => {
+    setAutoTimeThemeState(enabled);
+    try {
+      localStorage.setItem(AUTO_TIME_THEME_STORAGE_KEY, String(enabled));
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(AUTO_TIME_THEME_SYNC_EVENT, { detail: enabled }));
+  }, []);
+
+  const toggleAutoTimeTheme = useCallback(() => {
+    setAutoTimeTheme(!autoTimeTheme);
+  }, [autoTimeTheme, setAutoTimeTheme]);
+
+  useEffect(() => {
+    if (!autoTimeTheme) return;
+    const checkTimeTheme = () => {
+      const hour = new Date().getHours();
+      const isNight = hour >= 18 || hour < 6;
+      if (cardStyle === 'ice-blue-neu' || cardStyle === 'dark-ice-blue-neu') {
+        if (isNight && cardStyle !== 'dark-ice-blue-neu') {
+          setCardStyle('dark-ice-blue-neu');
+        } else if (!isNight && cardStyle !== 'ice-blue-neu') {
+          setCardStyle('ice-blue-neu');
+        }
+      }
+    };
+    checkTimeTheme();
+    const interval = setInterval(checkTimeTheme, 60000);
+    return () => clearInterval(interval);
+  }, [autoTimeTheme, cardStyle]);
+
   const activeWallpaperIdRef = useRef<string>(activeWallpaper.id);
   useEffect(() => {
     activeWallpaperIdRef.current = activeWallpaper.id;
@@ -272,7 +318,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             ? 'black-cowhide-leather'
             : cardStyle === 'light-multicolor-glass-dark'
               ? 'light-multicolor-glass-dark'
-              : 'dark'
+              : cardStyle === 'dark-ice-blue-neu'
+                ? 'dark-ice-blue-neu'
+                : 'dark'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -331,17 +379,25 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setAutoCollapseOnScrollState(detail);
       }
     };
+    const handleAutoTimeThemeSync = (e: Event) => {
+      const detail = (e as CustomEvent<boolean>).detail;
+      if (typeof detail === 'boolean') {
+        setAutoTimeThemeState(detail);
+      }
+    };
     window.addEventListener(WALLPAPER_SYNC_EVENT, handleSync);
     window.addEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
     window.addEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
     window.addEventListener(SURFACE_DEPTH_SYNC_EVENT, handleSurfaceDepthSync);
     window.addEventListener(AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT, handleAutoCollapseSync);
+    window.addEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
     return () => {
       window.removeEventListener(WALLPAPER_SYNC_EVENT, handleSync);
       window.removeEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
       window.removeEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
       window.removeEventListener(SURFACE_DEPTH_SYNC_EVENT, handleSurfaceDepthSync);
       window.removeEventListener(AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT, handleAutoCollapseSync);
+      window.removeEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
     };
   }, []);
 
@@ -367,7 +423,10 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     document.body.style.backgroundRepeat = '';
 
     let activeWpToRender = activeWallpaper;
-    if (activeWallpaper.id.startsWith('theme-bg-') || activeWallpaper.id === THEME_DEFAULT_WALLPAPER_ID[cardStyle]) {
+    if (
+      activeWallpaper.type === 'image' &&
+      (activeWallpaper.id.startsWith('theme-bg-') || activeWallpaper.id === THEME_DEFAULT_WALLPAPER_ID[cardStyle])
+    ) {
       const autoBgUrl = getThemeBackgroundForMode(cardStyle, isDark);
       activeWpToRender = {
         ...activeWallpaper,
@@ -517,7 +576,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             ? 'black-cowhide-leather'
             : normalized === 'light-multicolor-glass-dark'
               ? 'light-multicolor-glass-dark'
-              : 'dark'
+              : normalized === 'dark-ice-blue-neu'
+                ? 'dark-ice-blue-neu'
+                : 'dark'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -655,6 +716,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         autoCollapseOnScroll,
         setAutoCollapseOnScroll,
         toggleAutoCollapseOnScroll,
+        autoTimeTheme,
+        setAutoTimeTheme,
+        toggleAutoTimeTheme,
       }}
     >
       {children}

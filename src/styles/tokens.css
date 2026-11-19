@@ -31,7 +31,7 @@
   --fs-button: clamp(13px, 0.2vw + 12.5px, 14px);
   --fs-nav: clamp(13.5px, 0.15vw + 13px, 14px);
   --fs-tab: clamp(13.5px, 0.15vw + 13px, 14px);
-  --fs-input: clamp(15px, 0.2vw + 14px, 16px);
+  --fs-input: clamp(15px, 16px - 0.1vw, 16px);
   --fs-kpi: clamp(21px, 1.2vw + 17px, 26px);
   --fs-quote: var(--fs-h3);
   --fs-popup-title: clamp(17px, 0.7vw + 15px, 20px);
@@ -39,25 +39,38 @@
   /* Better-Typography: Unitless Line Heights, Letter Spacing & Reading Measures */
   --lh-heading: 1.28;
   --lh-body: 1.6;
+  --lh-body-lg: 1.6;
+  --lh-body-sm: 1.55;
   --lh-compact: 1.38;
   --lh-display: 1.18;
   --lh-kpi: 1.18;
-  --lh-h1: var(--lh-heading);
-  --lh-h2: var(--lh-heading);
-  --lh-h3: var(--lh-heading);
-  --lh-h4: var(--lh-heading);
-  --lh-card-title: var(--lh-heading);
+  --lh-h1: 1.25;
+  --lh-h2: 1.28;
+  --lh-h3: 1.3;
+  --lh-h4: 1.32;
+  --lh-h5: 1.35;
+  --lh-card-title: var(--lh-h3);
   --lh-secondary: var(--lh-body);
-  --lh-caption: var(--lh-compact);
-  --lh-button: var(--lh-compact);
+  --lh-caption: 1.4;
+  --lh-label: var(--lh-compact);
+  --lh-badge: var(--lh-compact);
+  --lh-button: 1.35;
+  --lh-nav: 1.35;
+  --lh-tab: 1.35;
+  --lh-input: 1.45;
+  --lh-popup-title: 1.28;
   --lh-tight: 1.22;
 
   --ls-h1: -0.022em;
   --ls-h2: -0.016em;
   --ls-h3: -0.01em;
+  --ls-h4: -0.005em;
+  --ls-h5: -0.005em;
   --ls-body: 0.005em;
   --ls-caption: 0.01em;
   --ls-label: 0.025em;
+  --ls-kpi: -0.02em;
+  --ls-popup-title: -0.015em;
 
   --ch-measure: 68ch;
   --ch-measure-compact: 52ch;

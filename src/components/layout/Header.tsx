@@ -5,7 +5,7 @@ import { PageMeta, SiteTheme } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useLanguage } from '@/context/LanguageContext';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+import { useTheme } from '@/hooks/useTheme';
 import { RadialContactMenu } from './RadialContactMenu';
 
 // Thêm keyframes cho hiệu ứng rung
@@ -299,7 +299,7 @@ const HEADER_ORDER_IDS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 export const Header: React.FC<HeaderProps> = ({
   pages,
   currentPage,
-  currentTheme = 'light-multicolor-glass',
+  currentTheme = 'light-multicolor-glass-color',
   onSelectPage,
   onShowNotification,
 }) => {
@@ -319,7 +319,7 @@ export const Header: React.FC<HeaderProps> = ({
   );
   const headerPages = [...orderedPages, ...extraPages];
 
-  const { cardStyle } = useTheme();
+  const { cardStyle, isDark } = useTheme();
   void currentTheme;
   void vibrateStyle;
 
@@ -329,10 +329,14 @@ export const Header: React.FC<HeaderProps> = ({
   const pillBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const [hoveredNavIndex, setHoveredNavIndex] = useState<number | null>(null);
+  const [focusedNavIndex, setFocusedNavIndex] = useState<number | null>(null);
   const [isRadialMenuOpen, setIsRadialMenuOpen] = useState(false);
   const [uniformPillWidth, setUniformPillWidth] = useState<number | null>(null);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(
     typeof window !== 'undefined' ? window.innerWidth < 640 : false
+  );
+  const [isCompactMobile, setIsCompactMobile] = useState<boolean>(
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
   );
 
   const avatarPillRef = useRef<HTMLDivElement>(null);
@@ -341,7 +345,9 @@ export const Header: React.FC<HeaderProps> = ({
   useLayoutEffect(() => {
     const measureUniformWidth = () => {
       const small = typeof window !== 'undefined' ? window.innerWidth < 640 : false;
+      const compactMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
       setIsSmallScreen(small);
+      setIsCompactMobile(compactMobile);
 
       const wrappers = pillWrapperRefs.current.filter(Boolean) as HTMLDivElement[];
       const btns = pillBtnRefs.current.filter(Boolean) as HTMLButtonElement[];
@@ -349,9 +355,6 @@ export const Header: React.FC<HeaderProps> = ({
 
       wrappers.forEach((w) => {
         w.style.width = 'max-content';
-      });
-      btns.forEach((b) => {
-        b.style.width = 'max-content';
       });
 
       let maxW = 0;
@@ -362,9 +365,6 @@ export const Header: React.FC<HeaderProps> = ({
 
       wrappers.forEach((w) => {
         w.style.width = maxW > 0 ? `${maxW}px` : '';
-      });
-      btns.forEach((b) => {
-        b.style.width = '100%';
       });
 
       if (maxW > 0) {
@@ -402,29 +402,14 @@ export const Header: React.FC<HeaderProps> = ({
     setIsRadialMenuOpen((prev) => !prev);
   };
 
-  const headerCardStyle = getCardStyleProperties(cardStyle);
-  const {
-    border: _b,
-    borderColor: _bc,
-    borderWidth: _bw,
-    borderStyle: _bs,
-    borderRadius: _br,
-    background: _hb,
-    backgroundColor: _hbc,
-    backgroundImage: _hbi,
-    boxShadow: _hbs,
-    backdropFilter: _hbf,
-    WebkitBackdropFilter: _hwbf,
-    ...cleanHeaderStyle
-  } = headerCardStyle as any;
-  const glassBorderVal = '1px solid var(--surface-primary-border, rgba(255, 255, 255, 0.86))';
-
   // Tự động đóng menu phụ & cuộn tới nút trang đang được chọn nếu bị khuất
   useEffect(() => {
     setIsRadialMenuOpen(false);
     setHoveredNavIndex(null);
+    setFocusedNavIndex(null);
     if (navRef.current) {
-      const activeEl = navRef.current.querySelector(`#nav-item-${currentPage}`);
+      const targetId = currentPage === 12 ? '#header-btn-hungthai-avatar' : `#nav-item-${currentPage}`;
+      const activeEl = navRef.current.querySelector(targetId);
       if (activeEl) {
         activeEl.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
       }
@@ -438,48 +423,66 @@ export const Header: React.FC<HeaderProps> = ({
       ? 96
       : 104;
 
+  const activePageDeckIndex =
+    currentPage === 12
+      ? headerPages.length
+      : headerPages.findIndex((p: any) => p.id === currentPage);
+  const revealedNavIndex =
+    hoveredNavIndex !== null
+      ? hoveredNavIndex
+      : focusedNavIndex !== null
+        ? focusedNavIndex
+        : activePageDeckIndex >= 0
+          ? activePageDeckIndex
+          : null;
+
   const headerElement = (
     <header
       ref={headerRef}
       id="app-header"
       data-element-name="Thanh điều hướng Header chính"
-      data-element-type="card"
+      data-element-type="container"
       data-element-page="global"
       data-element-parent="website-root"
       onMouseLeave={handleHeaderMouseLeave}
       style={{
-        ...cleanHeaderStyle,
         maxWidth: '1250px',
         width: 'var(--shared-frame-w, 100%)',
         marginLeft: 'auto',
         marginRight: 'auto',
-        borderTop: 'none',
-        borderBottom: glassBorderVal,
-        borderLeft: glassBorderVal,
-        borderRight: glassBorderVal,
-        borderTopLeftRadius: '0px',
-        borderTopRightRadius: '0px',
-        borderBottomLeftRadius: '14px',
-        borderBottomRightRadius: '14px',
         zIndex: isRadialMenuOpen ? 99999 : 40,
       }}
       className={`neonav-bar mx-auto min-h-[72px] h-auto py-1.5 flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
-      } relative flex-shrink-0 rounded-t-none rounded-b-[14px] backdrop-blur-md overflow-visible pointer-events-auto`}
+      } relative flex-shrink-0 overflow-visible pointer-events-auto`}
     >
-      {/* Khu vực Menu chính: Các nút định dạng xếp chồng với hiệu ứng lan màu khi chọn */}
+      {/* Khu vực Menu chính: Các nút định dạng xếp chồng trên desktop (tự tách rõ trên thiết bị chạm) */}
       <nav
         ref={navRef}
         id="header-center"
-        className="flex-1 min-w-0 h-full flex items-center justify-start lg:justify-center overflow-x-auto overflow-y-visible horizontal-scroll-smooth z-10 px-1 py-1 mx-auto cursor-grab active:cursor-grabbing bg-transparent relative flex-nowrap"
+        aria-label={language === 'en' ? 'Primary navigation' : 'Điều hướng chính'}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+            setFocusedNavIndex(null);
+          }
+        }}
+        className={`flex-1 min-w-0 h-full flex items-center justify-start lg:justify-center overflow-x-auto overflow-y-visible horizontal-scroll-smooth z-10 px-1.5 py-1.5 mx-auto bg-transparent relative flex-nowrap ${
+          isCompactMobile ? 'gap-2' : ''
+        }`}
         style={{ background: 'transparent' }}
       >
         {headerPages.map((page: any, index: number) => {
           const styleCfg = PAGE_FOOTER_STYLE_MAP[page.id] || PAGE_FOOTER_STYLE_MAP[0];
           const isSelected = page.id === currentPage;
-          const isHovered = hoveredNavIndex === index;
-          const isAfterHovered = hoveredNavIndex !== null && index > hoveredNavIndex;
-          const baseZIndex = isHovered ? 150 : index + 10;
+          const isRevealed = revealedNavIndex === index;
+          const baseZIndex = isRevealed ? 150 : isSelected ? 120 : index + 10;
+          const itemMarginLeft = isCompactMobile
+            ? '0px'
+            : index === 0
+              ? '0px'
+              : revealedNavIndex !== null && index === revealedNavIndex + 1
+                ? '8px'
+                : `-${overlapPx}px`;
 
           const pageTitle =
             language === 'en' && page.shortTitleEn
@@ -491,10 +494,9 @@ export const Header: React.FC<HeaderProps> = ({
             <div
               key={page.id}
               onMouseEnter={() => handleItemMouseEnter(index, page.id)}
-              className="relative pointer-events-auto shrink-0 transition-all duration-300 ease-out"
+              className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
               style={{
-                marginLeft: index === 0 ? '0px' : `-${overlapPx}px`,
-                transform: isAfterHovered ? `translateX(${overlapPx}px)` : 'translateX(0px)',
+                marginLeft: itemMarginLeft,
                 zIndex: baseZIndex,
               }}
             >
@@ -502,7 +504,7 @@ export const Header: React.FC<HeaderProps> = ({
                 ref={(el) => {
                   pillWrapperRefs.current[index] = el;
                 }}
-                className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-300 hover:scale-[1.05] w-max h-auto p-[1.5px] overflow-hidden ${
+                className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px] ${
                   isSelected ? '' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
                 }`}
                 style={{
@@ -510,48 +512,60 @@ export const Header: React.FC<HeaderProps> = ({
                   boxShadow: isSelected ? `0 4px 16px ${styleCfg.glowColor}` : 'none',
                 }}
               >
-                {/* HIỆU ỨNG LINE PHÁT SÁNG XOAY QUANH KHI ĐƯỢC CHỌN */}
+                {/* HIỆU ỨNG LINE PHÁT SÁNG XOAY QUANH KHI ĐƯỢC CHỌN (Clip tách biệt để không cắt focus ring) */}
                 {isSelected && (
                   <div
-                    className="nav-pill-laser absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none z-0"
-                    style={{
-                      background: `conic-gradient(from 0deg, transparent 0 210deg, #ffffff 270deg, ${styleCfg.laserColor || styleCfg.accentColor} 300deg, transparent 360deg)`,
-                    }}
-                  />
+                    aria-hidden="true"
+                    className="nav-pill-laser-clip absolute inset-0 rounded-[999px] overflow-hidden pointer-events-none z-0"
+                  >
+                    <div
+                      className="nav-pill-laser absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none"
+                      style={{
+                        background: `conic-gradient(from 0deg, transparent 0 210deg, #ffffff 270deg, ${styleCfg.laserColor || styleCfg.accentColor} 300deg, transparent 360deg)`,
+                      }}
+                    />
+                  </div>
                 )}
 
-                {/* Main Inner Button - chiều ngang tự động theo nội dung lớn nhất & đồng bộ tất cả nút, padding top/bottom 2px, left/right 10px */}
+                {/* Main Inner Button */}
                 <button
                   ref={(el) => {
                     pillBtnRefs.current[index] = el;
                   }}
                   id={`nav-item-${page.id}`}
                   type="button"
+                  aria-current={isSelected ? 'page' : undefined}
+                  onFocus={() => setFocusedNavIndex(index)}
                   onClick={() => {
                     SoundEngine.playPageSpecificSound(page.id);
                     onSelectPage(page.id);
                   }}
                   title={`${pageTitle} · ${pageSub}`}
-                  className={`nav-pill relative z-10 inline-flex items-center w-full h-auto rounded-[999px] gap-1.5 cursor-pointer transition-all duration-300 border-2 ${
+                  className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-all duration-200 border ${
                     isSelected
                       ? `bg-gradient-to-r ${styleCfg.gradient} border-white/80 active shadow-[0_0_25px_${styleCfg.glowColor}]`
                       : `${styleCfg.accentBorder}`
                   }`}
                   style={{
-                    paddingTop: '5px',
-                    paddingRight: '5px',
-                    paddingBottom: '5px',
-                    paddingLeft: '5px',
-                    ...(isSelected
-                      ? {
-                          boxShadow: `0 0 30px ${styleCfg.glowColor}, inset 0 0 12px rgba(255,255,255,0.4)`,
-                        }
-                      : {}),
+                    width: '150px',
+                    height: '40px',
+                    paddingTop: '10px',
+                    paddingRight: '10px',
+                    paddingBottom: '10px',
+                    paddingLeft: '10px',
+                    fontWeight: 'normal',
+                    borderWidth: '1px',
+                    backgroundColor: isSelected ? undefined : (isDark ? 'rgba(15, 23, 42, 0.2)' : 'rgba(255, 255, 255, 0.2)'),
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    boxShadow: isSelected
+                      ? `0 0 30px ${styleCfg.glowColor}, inset 0 0 12px rgba(255,255,255,0.4)`
+                      : '0 8px 24px -4px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.4)',
                   }}
                 >
                   {/* Round Circle Badge with Icon or Avatar */}
                   <div
-                    className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-300 shadow-xs"
+                    className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-200 shadow-xs"
                     style={{
                       backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.25)' : styleCfg.accentColor,
                     }}
@@ -570,7 +584,7 @@ export const Header: React.FC<HeaderProps> = ({
                     ) : (
                       <WebIcon
                         name={page.icon || 'home'}
-                        className="nav-pill-icon-svg w-4 h-4 text-center block stroke-[2] shrink-0"
+                        className="nav-pill-icon-svg w-3.5 h-3.5 text-center block stroke-[2] shrink-0"
                         style={{
                           color: '#ffffff',
                         }}
@@ -580,23 +594,24 @@ export const Header: React.FC<HeaderProps> = ({
 
                   {/* Vertical Divider */}
                   <div
-                    className={`nav-pill-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px] transition-colors duration-300 ${
+                    className={`nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200 ${
                       isSelected
                         ? 'bg-white/50'
                         : 'bg-[var(--divider-nav-pill)]'
                     }`}
                   />
 
-                  <div className="flex flex-col text-left leading-none shrink-0">
+                  <div className="flex flex-col text-left leading-none min-w-0 flex-1">
                     <span
-                      className={`nav-pill-title typo-nav leading-tight font-play tracking-tight whitespace-nowrap transition-colors duration-300 ${
+                      style={{ fontWeight: 'bold', fontSize: '15px' }}
+                      className={`nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200 ${
                         isSelected ? 'text-white' : styleCfg.mainTextColor
                       }`}
                     >
                       {pageTitle}
                     </span>
                     <span
-                      className={`nav-pill-sub typo-label leading-none mt-0.5 whitespace-nowrap font-play transition-colors duration-300 ${
+                      className={`nav-pill-sub typo-label leading-none mt-0.5 truncate font-play transition-colors duration-200 ${
                         isSelected ? 'text-white/90' : styleCfg.subTextColor
                       }`}
                     >
@@ -612,9 +627,22 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Nút Avatar Hùng Thái nằm sau nút cuối */}
         {(() => {
           const avatarNavIndex = headerPages.length;
-          const isHovered = hoveredNavIndex === avatarNavIndex;
-          const isAfterHovered = hoveredNavIndex !== null && avatarNavIndex > hoveredNavIndex;
-          const baseZIndex = isRadialMenuOpen ? 99999 : isHovered ? 150 : avatarNavIndex + 10;
+          const isAvatarSelected = currentPage === 12 || isRadialMenuOpen;
+          const isRevealed = revealedNavIndex === avatarNavIndex;
+          const baseZIndex = isRadialMenuOpen
+            ? 99999
+            : isRevealed
+              ? 150
+              : isAvatarSelected
+                ? 120
+                : avatarNavIndex + 10;
+          const itemMarginLeft = isCompactMobile
+            ? '0px'
+            : headerPages.length === 0
+              ? '0px'
+              : revealedNavIndex !== null && avatarNavIndex === revealedNavIndex + 1
+                ? '8px'
+                : `-${overlapPx}px`;
 
           return (
             <div
@@ -624,10 +652,9 @@ export const Header: React.FC<HeaderProps> = ({
                 setHoveredNavIndex(avatarNavIndex);
                 SoundEngine.playGlassChime();
               }}
-              className="relative pointer-events-auto shrink-0 transition-transform duration-300 ease-out"
+              className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
               style={{
-                marginLeft: headerPages.length === 0 ? '0px' : `-${overlapPx}px`,
-                transform: isAfterHovered ? `translateX(${overlapPx}px)` : 'translateX(0px)',
+                marginLeft: itemMarginLeft,
                 zIndex: baseZIndex,
               }}
             >
@@ -635,48 +662,59 @@ export const Header: React.FC<HeaderProps> = ({
                 ref={(el) => {
                   pillWrapperRefs.current[avatarNavIndex] = el;
                 }}
-                className={`nav-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] select-none group/hungthai transition-all duration-300 hover:scale-[1.05] w-max h-auto overflow-hidden p-[1.5px] ${
-                  isRadialMenuOpen || currentPage === 12 ? 'shadow-none' : 'shadow-[0_4px_16px_rgba(79,70,229,0.22)]'
+                className={`nav-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] select-none group/hungthai transition-all duration-200 w-max h-auto p-[1.5px] ${
+                  isAvatarSelected ? '' : 'shadow-[0_4px_16px_rgba(79,70,229,0.22)]'
                 }`}
                 style={{
                   width: uniformPillWidth ? `${uniformPillWidth}px` : undefined,
+                  boxShadow: isAvatarSelected ? '0 4px 16px rgba(79, 70, 229, 0.5)' : undefined,
                 }}
               >
-                {/* HIỆU ỨNG LINE PHÁT SÁNG XOAY QUANH KHI MỞ MENU HOẶC ĐANG CHỌN TRANG ĐẶT LỊCH */}
-                {(isRadialMenuOpen || currentPage === 12) && (
-                  <div
-                    className="nav-pill-laser absolute -inset-[200%] animate-[spin_3s_linear_infinite] opacity-100 pointer-events-none z-0"
-                    style={{
-                      background: `conic-gradient(from 0deg, transparent 0 240deg, #ffffff 300deg, #6366f1 330deg, transparent 360deg)`,
-                    }}
-                  />
-                )}
+
                 <button
                   ref={(el) => {
                     pillBtnRefs.current[avatarNavIndex] = el;
                   }}
                   id="header-btn-hungthai-avatar"
                   type="button"
+                  aria-current={currentPage === 12 ? 'page' : undefined}
+                  aria-expanded={isRadialMenuOpen}
+                  onFocus={() => setFocusedNavIndex(avatarNavIndex)}
                   onClick={toggleRadialMenu}
                   title={
                     language === 'en'
                       ? 'Expert Nguyen Hung Thai · Booking & CS'
                       : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch & CSKH'
                   }
-                  aria-expanded={isRadialMenuOpen}
-                  className={`nav-pill relative z-10 inline-flex items-center w-full h-auto rounded-[999px] ${
-                    currentPage === 12
-                      ? 'bg-indigo-100 dark:bg-indigo-900 text-indigo-950 dark:text-indigo-100 active'
-                      : 'text-[var(--text-primary)]'
-                  } gap-1.5 shadow-sm cursor-pointer border-2 border-indigo-400/80 dark:border-indigo-500/80 transition-colors`}
+                  className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer border transition-all duration-200 ${
+                    isAvatarSelected
+                      ? 'bg-gradient-to-r from-[#312E81] via-[#4338CA] to-[#6366F1] border-white/80 active shadow-[0_0_25px_rgba(79,70,229,0.5)]'
+                      : 'border-indigo-400/80 dark:border-indigo-500/80 text-[var(--text-primary)]'
+                  }`}
                   style={{
-                    paddingTop: '5px',
-                    paddingRight: '5px',
-                    paddingBottom: '5px',
-                    paddingLeft: '5px',
+                    width: '150px',
+                    height: '40px',
+                    paddingTop: '10px',
+                    paddingRight: '10px',
+                    paddingBottom: '10px',
+                    paddingLeft: '10px',
+                    fontWeight: 'normal',
+                    backgroundColor: isAvatarSelected ? undefined : (isDark ? 'rgba(15, 23, 42, 0.2)' : 'rgba(255, 255, 255, 0.2)'),
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    boxShadow: isAvatarSelected
+                      ? '0 0 30px rgba(79, 70, 229, 0.5), inset 0 0 12px rgba(255,255,255,0.4)'
+                      : '0 8px 24px -4px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.4)',
                   }}
                 >
-                  <div className="nav-pill-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-xs bg-indigo-500 text-white leading-none p-0 overflow-hidden ring-1 ring-indigo-300">
+                  <div
+                    className={`nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-xs text-white leading-none p-0 overflow-hidden ring-1 transition-all duration-200 ${
+                      isAvatarSelected ? 'ring-white/50' : 'ring-indigo-300'
+                    }`}
+                    style={{
+                      backgroundColor: isAvatarSelected ? 'rgba(255, 255, 255, 0.25)' : '#4F46E5',
+                    }}
+                  >
                     <img
                       src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.gif"
                       alt="Hùng Thái"
@@ -686,12 +724,25 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                     />
                   </div>
-                  <div className="nav-pill-divider w-[1.5px] h-4 bg-indigo-300/80 dark:bg-indigo-400/40 shrink-0 mx-0.5 rounded-[999px]"></div>
-                  <div className="flex flex-col text-left leading-none shrink-0">
-                    <span className="nav-pill-title typo-nav leading-tight font-play text-indigo-950 dark:text-indigo-100 whitespace-nowrap">
+                  <div
+                    className={`nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200 ${
+                      isAvatarSelected ? 'bg-white/50' : 'bg-[var(--divider-nav-pill)]'
+                    }`}
+                  />
+                  <div className="flex flex-col text-left leading-none min-w-0 flex-1">
+                    <span
+                      style={{ fontWeight: 'bold', fontSize: '15px' }}
+                      className={`nav-pill-title typo-nav leading-tight font-play truncate transition-colors duration-200 ${
+                        isAvatarSelected ? 'text-white' : 'text-indigo-950 dark:text-indigo-100'
+                      }`}
+                    >
                       {language === 'en' ? 'Hung Thai' : 'Hùng Thái'}
                     </span>
-                    <span className="nav-pill-sub typo-label leading-none mt-0.5 text-indigo-700 dark:text-indigo-400 font-play whitespace-nowrap">
+                    <span
+                      className={`nav-pill-sub typo-label leading-none mt-0.5 font-play truncate transition-colors duration-200 ${
+                        isAvatarSelected ? 'text-white/90' : 'text-indigo-700 dark:text-indigo-400'
+                      }`}
+                    >
                       {currentPage === 12
                         ? language === 'en'
                           ? 'Booking'

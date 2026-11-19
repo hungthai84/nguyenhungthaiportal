@@ -202,8 +202,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     tablet: '15px',
     // Mobile minimum 16px to prevent iOS Safari automatic zoom-in on focus
     mobile: '16px',
-    fluidClamp: 'clamp(15px, 0.2vw + 14px, 16px)',
-    lineHeight: '1.4',
+    fluidClamp: 'clamp(15px, 16px - 0.1vw, 16px)',
+    lineHeight: '1.45',
     letterSpacing: '0em',
     fontWeight: 400,
   },
@@ -234,68 +234,178 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
   },
 };
 
+// Breakpoints dùng cho nội suy kích thước phông chữ mượt mà theo viewport
+const VIEWPORT_MOBILE_MIN = 375;
+const VIEWPORT_TABLET_REF = 768;
+const VIEWPORT_DESKTOP_REF = 1280;
+
+function parsePxValue(val: string): number {
+  const num = parseFloat(val);
+  return Number.isFinite(num) ? num : 14;
+}
+
+/**
+ * Nội suy tuyến tính kích thước phông chữ theo chiều rộng viewport thực tế
+ * giữa các mốc Mobile (375px) -> Tablet (768px) -> Desktop (1280px).
+ * Làm tròn đến bước 0.25px để vừa mượt vừa tránh nhòe subpixel.
+ */
+function interpolateViewportFontSize(
+  width: number,
+  mobilePx: number,
+  tabletPx: number,
+  desktopPx: number
+): string {
+  const clampedW = Math.max(320, Math.min(1920, width));
+  let result: number;
+
+  if (clampedW <= VIEWPORT_MOBILE_MIN) {
+    result = mobilePx;
+  } else if (clampedW < VIEWPORT_TABLET_REF) {
+    const progress = (clampedW - VIEWPORT_MOBILE_MIN) / (VIEWPORT_TABLET_REF - VIEWPORT_MOBILE_MIN);
+    result = mobilePx + (tabletPx - mobilePx) * progress;
+  } else if (clampedW < VIEWPORT_DESKTOP_REF) {
+    const progress = (clampedW - VIEWPORT_TABLET_REF) / (VIEWPORT_DESKTOP_REF - VIEWPORT_TABLET_REF);
+    result = tabletPx + (desktopPx - tabletPx) * progress;
+  } else {
+    result = desktopPx;
+  }
+
+  const roundedQuarter = Math.round(result * 4) / 4;
+  return `${roundedQuarter}px`;
+}
+
+// Map tên key trong TYPOGRAPHY_SCALE sang biến CSS line-height & letter-spacing tương ứng
+const SCALE_LINE_HEIGHT_VAR_MAP: Record<string, string> = {
+  h1: '--lh-h1',
+  h2: '--lh-h2',
+  h3: '--lh-h3',
+  h4: '--lh-h4',
+  h5: '--lh-h5',
+  bodyLarge: '--lh-body-lg',
+  body: '--lh-body',
+  bodySmall: '--lh-body-sm',
+  caption: '--lh-caption',
+  label: '--lh-label',
+  badge: '--lh-badge',
+  button: '--lh-button',
+  nav: '--lh-nav',
+  tab: '--lh-tab',
+  input: '--lh-input',
+  kpi: '--lh-kpi',
+  popupTitle: '--lh-popup-title',
+};
+
+const SCALE_LETTER_SPACING_VAR_MAP: Record<string, string> = {
+  h1: '--ls-h1',
+  h2: '--ls-h2',
+  h3: '--ls-h3',
+  h4: '--ls-h4',
+  h5: '--ls-h5',
+  bodyLarge: '--ls-body',
+  body: '--ls-body',
+  bodySmall: '--ls-body',
+  caption: '--ls-caption',
+  label: '--ls-label',
+  badge: '--ls-label',
+  kpi: '--ls-kpi',
+  popupTitle: '--ls-popup-title',
+};
+
 // Global singleton flag to prevent duplicate event listeners
 let isResizeListenerBound = false;
 
 /**
  * Cập nhật động kích thước phông chữ (Fluid Typography) theo chiều rộng màn hình thực tế,
- * đồng thời áp dụng cấu hình Better-Typography (line-height chuẩn, tối ưu 45-75 ký tự/dòng,
- * làm mịn phông chữ và chống mồ côi dòng text-wrap).
+ * đồng thời áp dụng cấu hình Better-Typography toàn cục:
+ * - Thuộc tính gốc (font-optical-sizing, font-kerning, text-rendering, font-variant-ligatures)
+ * - Tỷ lệ ký tự trên dòng tối ưu (45–75ch) thích ứng theo viewport
+ * - Chiều cao dòng không đơn vị (unitless line-height) đồng bộ cho từng cấp độ typo-h1 -> typo-caption
  */
 export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   if (typeof document === 'undefined') return;
 
-  const width = forcedWidth || (typeof window !== 'undefined' ? window.innerWidth : 1280);
-  const rootStyle = document.documentElement.style;
+  const width =
+    typeof forcedWidth === 'number' && Number.isFinite(forcedWidth) && forcedWidth > 0
+      ? forcedWidth
+      : typeof window !== 'undefined'
+        ? window.innerWidth
+        : VIEWPORT_DESKTOP_REF;
 
-  // 1. Phông chữ chuẩn Play font
+  const rootEl = document.documentElement;
+  const rootStyle = rootEl.style;
+
+  // 1. Phông chữ chuẩn hệ thống (Play font)
   rootStyle.setProperty('--font-primary', "'Play', sans-serif");
   rootStyle.setProperty('--font-family-primary', "'Play', sans-serif");
   rootStyle.setProperty('--font-family-heading', "'Play', sans-serif");
   rootStyle.setProperty('--font-family-body', "'Play', sans-serif");
   rootStyle.setProperty('--font-family-numeric', "'Play', sans-serif");
 
-  // 2. Thuộc tính hiển thị & làm mịn cao cấp (Better-Typography Craft)
+  // 2. Better-Typography Native Properties (ưu tiên thuộc tính CSS gốc thay cho feature-settings thô)
+  rootStyle.setProperty('font-optical-sizing', 'auto');
+  rootStyle.setProperty('font-kerning', 'normal');
+  rootStyle.setProperty('font-variant-ligatures', 'common-ligatures contextual');
+  rootStyle.setProperty('font-synthesis-weight', 'none');
   rootStyle.setProperty('-webkit-font-smoothing', 'antialiased');
   rootStyle.setProperty('-moz-osx-font-smoothing', 'grayscale');
   rootStyle.setProperty('text-rendering', 'optimizeLegibility');
 
-  // 3. Tỷ lệ ký tự tối ưu trên dòng (Character-per-line / Optimal Measure: 45 - 75ch)
-  rootStyle.setProperty('--ch-measure', '68ch');
-  rootStyle.setProperty('--ch-measure-compact', '52ch');
-  rootStyle.setProperty('--ch-measure-wide', '75ch');
+  // 3. Tỷ lệ ký tự tối ưu trên dòng (Optimal Character-per-line Measure: 45–75ch) thích ứng viewport
+  const isSmallMobile = width < 480;
+  const isMobile = width < 768;
+  const isTablet = width >= 768 && width < 1200;
+  const tier = isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop';
+  rootEl.setAttribute('data-viewport-tier', tier);
+  rootEl.setAttribute('data-typography-ready', 'true');
 
-  // 4. Chiều cao dòng chuẩn thống nhất (Unitless Line Heights)
-  rootStyle.setProperty('--lh-heading', '1.28');
-  rootStyle.setProperty('--lh-body', '1.6');
+  rootStyle.setProperty('--ch-measure-compact', isSmallMobile ? '45ch' : '52ch');
+  rootStyle.setProperty('--ch-measure', isSmallMobile ? '54ch' : isMobile ? '60ch' : isTablet ? '65ch' : '68ch');
+  rootStyle.setProperty('--ch-measure-wide', isMobile ? '66ch' : '75ch');
+
+  // 4. Chiều cao dòng không đơn vị chuẩn thống nhất (Unitless Line Heights)
+  rootStyle.setProperty('--lh-heading', isMobile ? '1.25' : '1.28');
+  rootStyle.setProperty('--lh-body', isMobile ? '1.58' : '1.6');
   rootStyle.setProperty('--lh-compact', '1.38');
   rootStyle.setProperty('--lh-kpi', '1.18');
 
-  // 5. Letter spacing vi điều chỉnh cho từng cấp độ chữ
+  // 5. Letter spacing mặc định
   rootStyle.setProperty('--ls-h1', '-0.022em');
   rootStyle.setProperty('--ls-h2', '-0.016em');
   rootStyle.setProperty('--ls-h3', '-0.01em');
+  rootStyle.setProperty('--ls-h4', '-0.005em');
+  rootStyle.setProperty('--ls-h5', '-0.005em');
   rootStyle.setProperty('--ls-body', '0.005em');
   rootStyle.setProperty('--ls-caption', '0.01em');
   rootStyle.setProperty('--ls-label', '0.025em');
 
-  // 6. Tính toán giá trị fluid font size mượt mà theo viewport
-  // Nếu màn hình < 768px -> dùng mobile token; 768-1199px -> tablet token; >= 1200px -> desktop token
-  // Đồng thời gán kèm fluid clamp để CSS tự động nội suy giữa các mốc
-  const isMobile = width < 768;
-  const isTablet = width >= 768 && width < 1200;
+  // 6. Tính toán động kích thước phông chữ theo chiều rộng viewport thực tế cho toàn bộ token
+  // Đảm bảo typo-h1 -> typo-caption luôn co giãn mượt mà và rõ nét trên mọi màn hình
+  Object.entries(TYPOGRAPHY_SCALE).forEach(([key, spec]) => {
+    const mobilePx = parsePxValue(spec.mobile);
+    const tabletPx = parsePxValue(spec.tablet);
+    const desktopPx = parsePxValue(spec.desktop);
 
-  Object.values(TYPOGRAPHY_SCALE).forEach((spec) => {
-    // Luôn ưu tiên dùng fluidClamp để CSS tự co giãn mượt mà không bị giật nấc
-    if (spec.fluidClamp) {
-      rootStyle.setProperty(spec.cssVar, spec.fluidClamp);
-    } else {
-      const activeSize = isMobile ? spec.mobile : isTablet ? spec.tablet : spec.desktop;
-      rootStyle.setProperty(spec.cssVar, activeSize);
+    // Đảm bảo input trên thiết bị cảm ứng/mobile tối thiểu 16px tránh auto-zoom iOS Safari
+    const dynamicSize =
+      key === 'input' && isMobile
+        ? `${Math.max(16, mobilePx)}px`
+        : interpolateViewportFontSize(width, mobilePx, tabletPx, desktopPx);
+
+    rootStyle.setProperty(spec.cssVar, dynamicSize);
+    rootStyle.setProperty(`${spec.cssVar}-fluid`, spec.fluidClamp);
+
+    const lhVar = SCALE_LINE_HEIGHT_VAR_MAP[key];
+    if (lhVar) {
+      rootStyle.setProperty(lhVar, spec.lineHeight);
+    }
+
+    const lsVar = SCALE_LETTER_SPACING_VAR_MAP[key];
+    if (lsVar && spec.letterSpacing) {
+      rootStyle.setProperty(lsVar, spec.letterSpacing);
     }
   });
 
-  // 7. Gắn listener lắng nghe thay đổi kích thước màn hình (chỉ 1 lần)
+  // 7. Gắn listener lắng nghe thay đổi kích thước màn hình (chỉ gắn 1 lần duy nhất)
   if (typeof window !== 'undefined' && !isResizeListenerBound) {
     isResizeListenerBound = true;
     let rAFId: number | null = null;

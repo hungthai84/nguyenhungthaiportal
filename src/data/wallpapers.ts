@@ -28,6 +28,10 @@ export interface ThemeBackground {
 }
 
 export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
+  'light-multicolor-glass-color': {
+    light: '/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg',
+    dark: '/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg',
+  },
   'light-multicolor-glass': {
     light: '/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg',
     dark: '/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg',
@@ -44,11 +48,25 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     light: '/backgrounds/themes/cowhide-leather/cowhide-leather-light.jpg',
     dark: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
   },
+  'ice-blue-neu': {
+    light:
+      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
+    dark:
+      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
+  },
+  'dark-ice-blue-neu': {
+    light:
+      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
+    dark:
+      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
+  },
 };
 
 export function getThemeBackgroundForMode(themeId: string, isDark: boolean): string {
+  const direct = THEME_BACKGROUND_CONFIGS[themeId];
+  if (direct) return isDark ? direct.dark : direct.light;
   const cleanId = themeId.replace('-dark', '');
-  const config = THEME_BACKGROUND_CONFIGS[cleanId] || THEME_BACKGROUND_CONFIGS['light-multicolor-glass'];
+  const config = THEME_BACKGROUND_CONFIGS[cleanId] || THEME_BACKGROUND_CONFIGS['light-multicolor-glass-color'];
   return isDark ? config.dark : config.light;
 }
 
@@ -372,6 +390,34 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000013,
+  },
+  {
+    id: 'theme-bg-ice-blue-neu',
+    name: '❄️ Nền Ice-Blue Soft UI (#e6f0f8) (Theme Background)',
+    type: 'gradient',
+    value:
+      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
+    bg: 'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794300000014,
+  },
+  {
+    id: 'theme-bg-dark-ice-blue-neu',
+    name: '🌌 Nền Dark Ice-Blue Neu (#152030) (Theme Background)',
+    type: 'gradient',
+    value:
+      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
+    bg: 'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794300000015,
   },
 
   {

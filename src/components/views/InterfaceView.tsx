@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import {
@@ -11,13 +11,259 @@ import {
   CARD_STYLE_GROUPS,
   ThemeMechanismMode,
 } from '@/hooks/useTheme';
-import { CardStyleMode } from '@/config/ui/theme.types';
+import { CardStyleMode, ThemeFamilyId } from '@/config/ui/theme.types';
+import { DEFAULT_CARD_STYLE } from '@/config/ui/themeDefaults';
 import { motion } from 'motion/react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export interface InterfaceViewProps {
   onShowNotification?: (msg: string) => void;
 }
+
+interface ThemeVisualMeta {
+  radius: string;
+  activeRingColor: string;
+  activeBorderClass: string;
+  idleBorderClass: string;
+  activeBadgeClass: string;
+  iconColor: string;
+  titleTextClass: string;
+  bodyTextClass: string;
+  accentTextClass: string;
+  previewBorderClass: string;
+  dividerClass: string;
+  ctaIdleClass: string;
+  ctaActiveClass: string;
+  toggleTrackDarkClass: string;
+  toggleTrackLightClass: string;
+  toggleThumbDarkClass: string;
+  toggleThumbLightClass: string;
+  outlineStyle?: (isActive: boolean) => React.CSSProperties;
+  demoVideoUrl: string;
+  gradientBars: Array<{ label: string; width: string; gradient: string; glow?: string }>;
+}
+
+const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
+  'light-multicolor-glass': {
+    radius: '16px',
+    activeRingColor: '#0F172A',
+    activeBorderClass: 'border-slate-900',
+    idleBorderClass: 'border-white/95 hover:border-slate-400',
+    activeBadgeClass: 'bg-[#0F172A] text-white border-white/85',
+    iconColor: '#0F172A',
+    titleTextClass: 'text-[#000000]',
+    bodyTextClass: 'text-[#1E293B]',
+    accentTextClass: 'text-[#0F172A]',
+    previewBorderClass: 'border-white/95',
+    dividerClass: 'border-white/75',
+    ctaIdleClass: 'bg-white/90 text-[#0F172A] hover:bg-white border border-white',
+    ctaActiveClass: 'bg-[#0F172A] text-white shadow-xs border border-white/85',
+    toggleTrackDarkClass: 'bg-slate-900/95 border-slate-400/60',
+    toggleTrackLightClass: 'bg-slate-200/95 border-slate-400/75',
+    toggleThumbDarkClass: 'bg-slate-100 text-slate-900',
+    toggleThumbLightClass: 'bg-[#0F172A] text-white',
+    demoVideoUrl:
+      'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'B1', width: '92%', gradient: 'linear-gradient(90deg, #94a3b8, #475569)' },
+      { label: 'B2', width: '76%', gradient: 'linear-gradient(90deg, #64748b, #1e293b)' },
+      { label: 'B3', width: '64%', gradient: 'linear-gradient(90deg, #334155, #0f172a)' },
+    ],
+  },
+  'light-multicolor-glass-dark': {
+    radius: '16px',
+    activeRingColor: '#A78BFA',
+    activeBorderClass: 'border-violet-400',
+    idleBorderClass: 'border-violet-400/30 hover:border-pink-400/60',
+    activeBadgeClass: 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white border-white/85',
+    iconColor: '#DD4E9E',
+    titleTextClass: 'text-[#FFFFFF]',
+    bodyTextClass: 'text-[#E2E8F0]',
+    accentTextClass: 'text-[#A78BFA]',
+    previewBorderClass: 'border-violet-400/28',
+    dividerClass: 'border-violet-400/25',
+    ctaIdleClass: 'bg-indigo-950/90 text-[#FFFFFF] hover:bg-indigo-900 border border-violet-400/30',
+    ctaActiveClass: 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white shadow-xs border border-white/85',
+    toggleTrackDarkClass: 'bg-slate-900/95 border-violet-400/55',
+    toggleTrackLightClass: 'bg-sky-100/90 border-sky-300/80',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-indigo-500 to-violet-600 text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-amber-400 to-orange-500 text-white',
+    demoVideoUrl:
+      'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
+    gradientBars: [
+      { label: 'B1', width: '88%', gradient: 'linear-gradient(90deg, #00E5FF, #2979FF)' },
+      { label: 'B2', width: '74%', gradient: 'linear-gradient(90deg, #9D4EDD, #DD4E9E)' },
+      { label: 'B3', width: '62%', gradient: 'linear-gradient(90deg, #FF3CAC, #EC7D21)' },
+    ],
+  },
+  'light-multicolor-glass-color': {
+    radius: '14px',
+    activeRingColor: '#DD4E9E',
+    activeBorderClass: 'border-pink-500',
+    idleBorderClass: 'border-white/95 hover:border-pink-300',
+    activeBadgeClass: 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white border-white/85',
+    iconColor: '#DD4E9E',
+    titleTextClass: 'text-[#000000]',
+    bodyTextClass: 'text-[#1E293B]',
+    accentTextClass: 'text-[#db2777]',
+    previewBorderClass: 'border-white/95',
+    dividerClass: 'border-white/75',
+    ctaIdleClass: 'bg-white/90 text-[#000000] hover:bg-white border border-white',
+    ctaActiveClass: 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white shadow-xs border border-white/85',
+    toggleTrackDarkClass: 'bg-indigo-950/90 border-violet-300/60',
+    toggleTrackLightClass: 'bg-sky-100/95 border-pink-300/80',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-indigo-500 to-violet-600 text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-amber-400 to-orange-500 text-white',
+    demoVideoUrl:
+      'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'B1', width: '90%', gradient: 'linear-gradient(90deg, #00E5FF, #2979FF)' },
+      { label: 'B2', width: '78%', gradient: 'linear-gradient(90deg, #9D4EDD, #DD4E9E)' },
+      { label: 'B3', width: '66%', gradient: 'linear-gradient(90deg, #50B347, #3BB8E6)' },
+    ],
+  },
+  'light-cowhide-leather': {
+    radius: '14px',
+    activeRingColor: '#111827',
+    activeBorderClass: 'border-[#111827]',
+    idleBorderClass: 'border-[#d1d5db] hover:border-[#9ca3af]',
+    activeBadgeClass: 'bg-[#0F172A] text-white border-slate-900',
+    iconColor: '#111827',
+    titleTextClass: 'text-[#111827]',
+    bodyTextClass: 'text-[#334155]',
+    accentTextClass: 'text-[#0F172A]',
+    previewBorderClass: 'white-leather-stitch',
+    dividerClass: 'border-[#0F172A]/45 border-dashed',
+    ctaIdleClass: 'bg-slate-100 text-[#000000] hover:bg-white border border-slate-900/35',
+    ctaActiveClass: 'bg-[#0F172A] text-white shadow-xs border border-slate-900',
+    toggleTrackDarkClass: 'bg-[#111827] border-[#334155]',
+    toggleTrackLightClass: 'bg-slate-200/95 border-slate-400/70',
+    toggleThumbDarkClass: 'bg-slate-100 text-slate-900',
+    toggleThumbLightClass: 'bg-[#0F172A] text-white',
+    outlineStyle: (isActive) => ({
+      outline: isActive ? '2px dashed #111827' : '1.5px dashed rgba(17, 24, 39, 0.65)',
+      outlineOffset: '-6px',
+    }),
+    demoVideoUrl:
+      'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
+    gradientBars: [
+      { label: 'B1', width: '84%', gradient: 'linear-gradient(90deg, #334155, #0f172a)' },
+      { label: 'B2', width: '68%', gradient: 'linear-gradient(90deg, #64748b, #334155)' },
+    ],
+  },
+  'black-cowhide-leather': {
+    radius: '14px',
+    activeRingColor: '#E2E8F0',
+    activeBorderClass: 'border-[#E2E8F0]',
+    idleBorderClass: 'border-[#090a0d] hover:border-[#94A3B8]',
+    activeBadgeClass: 'bg-gradient-to-r from-[#334155] to-[#0f172a] text-white border-[#E2E8F0]/60',
+    iconColor: '#E2E8F0',
+    titleTextClass: 'text-[#FFFFFF]',
+    bodyTextClass: 'text-[#CBD5E1]',
+    accentTextClass: 'text-[#E2E8F0]',
+    previewBorderClass: 'border-[#E2E8F0]/35 border-dashed',
+    dividerClass: 'border-[#E2E8F0]/25 border-dashed',
+    ctaIdleClass: 'bg-[#1b1e25] text-[#FFFFFF] hover:bg-[#252830] border border-[#E2E8F0]/30',
+    ctaActiveClass: 'bg-gradient-to-r from-[#334155] to-[#0f172a] text-white shadow-xs border border-[#E2E8F0]/55',
+    toggleTrackDarkClass: 'bg-[#090a0d] border-[#E2E8F0]/45',
+    toggleTrackLightClass: 'bg-slate-200 border-slate-400',
+    toggleThumbDarkClass: 'bg-slate-100 text-slate-900',
+    toggleThumbLightClass: 'bg-[#0F172A] text-white',
+    outlineStyle: (isActive) => ({
+      outline: isActive ? '2px dashed #E2E8F0' : '1.5px dashed rgba(226, 232, 240, 0.48)',
+      outlineOffset: '-6px',
+    }),
+    demoVideoUrl:
+      'https://cdn.scena.ai/project/10223/50b7b30031d4b9124af4948a069cdf530ca8f0942767f6e6b713c350cb8bd6b2.mp4',
+    gradientBars: [
+      { label: 'B1', width: '86%', gradient: 'linear-gradient(90deg, #94a3b8, #e2e8f0)' },
+      { label: 'B2', width: '70%', gradient: 'linear-gradient(90deg, #475569, #94a3b8)' },
+    ],
+  },
+  'cowhide-leather': {
+    radius: '14px',
+    activeRingColor: '#F5DEB3',
+    activeBorderClass: 'border-[#F5DEB3]',
+    idleBorderClass: 'border-[#522E10] hover:border-[#D4A373]',
+    activeBadgeClass: 'bg-gradient-to-r from-[#D97706] to-[#92400E] text-[#FFF8DC] border-[#F5DEB3]/80',
+    iconColor: '#FDE68A',
+    titleTextClass: 'text-[#FFF8DC]',
+    bodyTextClass: 'text-[#F5DEB3]',
+    accentTextClass: 'text-[#FDE68A]',
+    previewBorderClass: 'border-[#F5DEB3]/45 border-dashed',
+    dividerClass: 'border-[#F5DEB3]/30 border-dashed',
+    ctaIdleClass: 'bg-[#522E10]/90 text-[#FFF8DC] hover:bg-[#3D210B] border border-[#F5DEB3]/35',
+    ctaActiveClass: 'bg-gradient-to-r from-[#D97706] to-[#92400E] text-[#FFF8DC] shadow-xs border border-[#F5DEB3]/60',
+    toggleTrackDarkClass: 'bg-[#3D210B] border-[#F5DEB3]/55',
+    toggleTrackLightClass: 'bg-[#FEF3C7] border-[#D97706]/60',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#FDE68A] to-[#D97706] text-[#3D210B]',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#D97706] to-[#92400E] text-white',
+    outlineStyle: (isActive) => ({
+      outline: isActive ? '2px dashed #FFF8DC' : '1.5px dashed rgba(245, 222, 179, 0.58)',
+      outlineOffset: '-6px',
+    }),
+    demoVideoUrl:
+      'https://cdn.scena.ai/project/10223/50b7b30031d4b9124af4948a069cdf530ca8f0942767f6e6b713c350cb8bd6b2.mp4',
+    gradientBars: [
+      { label: 'B1', width: '88%', gradient: 'linear-gradient(90deg, #f59e0b, #fde68a)' },
+      { label: 'B2', width: '72%', gradient: 'linear-gradient(90deg, #d97706, #fbbf24)' },
+    ],
+  },
+  'ice-blue-neu': {
+    radius: '28px',
+    activeRingColor: '#6366F1',
+    activeBorderClass: 'border-[#6366F1]',
+    idleBorderClass: 'border-white/90 hover:border-indigo-300',
+    activeBadgeClass: 'bg-[#e8f1f9] text-[#6366f1] border-[#6366f1]/45 shadow-xs',
+    iconColor: '#6366F1',
+    titleTextClass: 'text-[#0f172a]',
+    bodyTextClass: 'text-[#334155]',
+    accentTextClass: 'text-[#6366F1]',
+    previewBorderClass: 'border-white/85',
+    dividerClass: 'border-slate-300/60',
+    ctaIdleClass: 'bg-[#e8f1f9] text-[#6366f1] hover:bg-white border border-white/90 shadow-xs',
+    ctaActiveClass: 'bg-gradient-to-r from-[#06b6d4] via-[#6366f1] to-[#ec4899] text-white shadow-xs border border-white/85',
+    toggleTrackDarkClass: 'bg-[#162232] border-sky-400/45',
+    toggleTrackLightClass: 'bg-[#e5eff8] border-white/90',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#38bdf8] to-[#818cf8] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#06b6d4] to-[#6366f1] text-white',
+    demoVideoUrl:
+      'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Cyan', width: '88%', gradient: 'linear-gradient(90deg, #06b6d4, #38bdf8)', glow: '0 0 10px rgba(6, 182, 212, 0.5)' },
+      { label: 'Purple', width: '74%', gradient: 'linear-gradient(90deg, #6366f1, #a855f7)', glow: '0 0 10px rgba(139, 92, 246, 0.45)' },
+      { label: 'Peach', width: '62%', gradient: 'linear-gradient(90deg, #fb923c, #fdba74)', glow: '0 0 10px rgba(251, 146, 60, 0.45)' },
+      { label: 'Pink', width: '52%', gradient: 'linear-gradient(90deg, #ec4899, #f472b6)', glow: '0 0 10px rgba(236, 72, 153, 0.45)' },
+    ],
+  },
+  'dark-ice-blue-neu': {
+    radius: '28px',
+    activeRingColor: '#38BDF8',
+    activeBorderClass: 'border-[#38BDF8]',
+    idleBorderClass: 'border-[#94c5f8]/15 hover:border-sky-400/45',
+    activeBadgeClass: 'bg-[#162232] text-[#ffffff] border-[#38bdf8]/45 shadow-xs',
+    iconColor: '#38BDF8',
+    titleTextClass: 'text-[#f8fafc]',
+    bodyTextClass: 'text-[#94a3b8]',
+    accentTextClass: 'text-[#38BDF8]',
+    previewBorderClass: 'border-[#94c5f8]/15',
+    dividerClass: 'border-[#94c5f8]/15',
+    ctaIdleClass: 'bg-[#162232] text-[#f8fafc] hover:bg-[#1e2f44] border border-[#94c5f8]/20',
+    ctaActiveClass: 'bg-gradient-to-r from-[#00f2fe] via-[#6366f1] to-[#ec4899] text-white shadow-xs border border-sky-300/35',
+    toggleTrackDarkClass: 'bg-[#131d2b] border-[#94c5f8]/25',
+    toggleTrackLightClass: 'bg-[#e5eff8] border-white/85',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#00f2fe] to-[#6366f1] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#06b6d4] to-[#6366f1] text-white',
+    demoVideoUrl:
+      'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
+    gradientBars: [
+      { label: 'Cyan', width: '90%', gradient: 'linear-gradient(90deg, #00f2fe, #38bdf8)', glow: '0 0 12px rgba(56, 189, 248, 0.55)' },
+      { label: 'Purple', width: '78%', gradient: 'linear-gradient(90deg, #8b5cf6, #c084fc)', glow: '0 0 12px rgba(168, 85, 247, 0.55)' },
+      { label: 'Peach', width: '64%', gradient: 'linear-gradient(90deg, #fb923c, #f97316)', glow: '0 0 12px rgba(251, 146, 60, 0.5)' },
+      { label: 'Pink', width: '54%', gradient: 'linear-gradient(90deg, #f43f5e, #ec4899)', glow: '0 0 12px rgba(236, 72, 153, 0.55)' },
+    ],
+  },
+};
 
 export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification }) => {
   const {
@@ -28,11 +274,17 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     setSurfaceDepth,
     autoCollapseOnScroll,
     setAutoCollapseOnScroll,
+    autoTimeTheme,
+    setAutoTimeTheme,
   } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
   const activePreset = getCardStyleConfig(cardStyle);
   const activeMechanism: ThemeMechanismMode = activePreset.mechanism || (isDark ? 'dark' : 'light');
+
+  const [selectedFamilyFilter, setSelectedFamilyFilter] = useState<'all' | ThemeFamilyId>('all');
+  const [activeVideoPreviewId, setActiveVideoPreviewId] = useState<CardStyleMode | null>(null);
+  const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
 
   const getMechanismLabel = (mech: ThemeMechanismMode) => {
     if (mech === 'light') return isEn ? 'Light' : 'Sáng';
@@ -99,24 +351,50 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     }
   };
 
-
-
-  const displayedThemesCount = UNIFIED_INTERFACE_THEMES.length;
-  const getThemeDemoVideo = (presetId: string) => {
-    switch (presetId) {
-      case 'light-multicolor-glass':
-      case 'light-multicolor-glass-color':
-        return 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4';
-      case 'light-multicolor-glass-dark':
-        return 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4';
-      case 'light-cowhide-leather':
-        return 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4';
-      case 'black-cowhide-leather':
-      case 'cowhide-leather':
-      default:
-        return 'https://cdn.scena.ai/project/10223/50b7b30031d4b9124af4948a069cdf530ca8f0942767f6e6b713c350cb8bd6b2.mp4';
+  const handleToggleAutoTimeTheme = (enabled: boolean) => {
+    if (enabled === autoTimeTheme) return;
+    SoundEngine.playGlassChime();
+    setAutoTimeTheme(enabled);
+    if (onShowNotification) {
+      onShowNotification(
+        enabled
+          ? isEn
+            ? '✓ Enabled: Auto Ice-Blue time-based theme switching'
+            : '✓ Đã bật: Tự động đổi theme Ice-Blue theo giờ thực (Sáng/Tối)'
+          : isEn
+            ? '✓ Disabled: Auto Ice-Blue time-based theme switching'
+            : '✓ Đã tắt: Tự động đổi theme Ice-Blue theo giờ thực'
+      );
     }
   };
+
+  const handleResetDefault = () => {
+    const defaultCfg = getCardStyleConfig(DEFAULT_CARD_STYLE);
+    SoundEngine.playGlassChime();
+    setCardStyle(DEFAULT_CARD_STYLE);
+    if (surfaceDepth !== 'depth') {
+      setSurfaceDepth('depth');
+    }
+    if (autoCollapseOnScroll) {
+      setAutoCollapseOnScroll(false);
+    }
+    if (onShowNotification) {
+      onShowNotification(
+        isEn
+          ? `✓ Restored default interface: ${t(defaultCfg.name)}`
+          : `✓ Đã khôi phục giao diện mặc định: ${defaultCfg.name}`
+      );
+    }
+  };
+
+  const visibleGroups = useMemo(() => {
+    if (selectedFamilyFilter === 'all') return CARD_STYLE_GROUPS;
+    return CARD_STYLE_GROUPS.filter((g) => g.id === selectedFamilyFilter);
+  }, [selectedFamilyFilter]);
+
+  const displayedThemesCount = UNIFIED_INTERFACE_THEMES.length;
+  const isDefaultConfig =
+    cardStyle === DEFAULT_CARD_STYLE && surfaceDepth === 'depth' && !autoCollapseOnScroll;
 
   return (
     <div
@@ -142,900 +420,816 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
           data-element-type="card"
           data-element-page="interface"
           data-element-parent="interface-cards-track"
-          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
-      {/* Header + Bộ chuyển đổi 3 cơ chế: Sáng / Tối / Màu */}
-      <div
-        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b"
-        style={{ borderColor: 'var(--border-subcard)' }}
-      >
-        <div className="min-w-0 flex flex-col gap-0.5">
-          <h3 className="typo-h3 font-bold tracking-tight">
-            {isEn
-              ? `Unified Interface Themes (${displayedThemesCount} Themes)`
-              : `Danh sách ${displayedThemesCount} giao diện phân loại theo nhóm`}
-          </h3>
-          <p className="typo-body-sm" style={{ color: 'var(--text-muted)' }}>
-            {isEn
-              ? `Active: ${t(activePreset.name)} · Mode: ${getMechanismLabel(activeMechanism)} (Light / Dark / Color)`
-              : `Đang dùng: ${activePreset.name} · Cơ chế: ${getMechanismLabel(activeMechanism)} (Sáng / Tối / Màu)`}
-          </p>
-        </div>
-
-        {/* Nút trượt 3 cơ chế: Sáng / Tối / Màu */}
-        <div
-          role="group"
-          aria-label={isEn ? 'Light, Dark and Color theme mode switch' : 'Thanh chuyển đổi 3 cơ chế Sáng, Tối và Màu'}
-          className="relative inline-grid grid-cols-3 p-1 rounded-full border shrink-0 self-start sm:self-auto w-full sm:w-auto sm:min-w-[270px] max-w-full"
-          style={{
-            background: 'var(--bg-subcard)',
-            borderColor: 'var(--border-subcard)',
-          }}
-        >
-          <span
-            aria-hidden="true"
-            className={`pointer-events-none absolute top-1 bottom-1 left-1 w-[calc((100%-8px)/3)] rounded-full transition-transform duration-300 ease-out shadow-sm ${
-              activeMechanism === 'color'
-                ? 'translate-x-[200%] bg-gradient-to-r from-[#D97706] via-[#B45309] to-[#78350F] border border-amber-200/55'
-                : activeMechanism === 'dark'
-                  ? 'translate-x-full bg-gradient-to-r from-[#182536] via-sky-700 to-indigo-700 border border-sky-300/40'
-                  : 'translate-x-0 bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 border border-white/70'
-            }`}
-          />
-          <button
-            type="button"
-            aria-pressed={activeMechanism === 'light'}
-            onClick={() => handleSwitchMechanism('light')}
-            className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-2 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
-              activeMechanism === 'light' ? 'text-white' : 'hover:opacity-90'
-            }`}
-            style={activeMechanism !== 'light' ? { color: 'var(--text-muted)' } : undefined}
+          {/* BANNER TRANG GIAO DIỆN */}
+          <section
+            id="interface-hero-banner"
+            data-element-name="Banner card Giao diện"
+            data-element-type="banner-card"
+            data-element-page="interface"
+            data-section-card="true"
+            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+            style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
           >
-            <WebIcon name="sun" className="w-4 h-4 shrink-0" />
-            <span>{isEn ? 'Light' : 'Sáng'}</span>
-          </button>
-          <button
-            type="button"
-            aria-pressed={activeMechanism === 'dark'}
-            onClick={() => handleSwitchMechanism('dark')}
-            className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-2 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
-              activeMechanism === 'dark' ? 'text-white' : 'hover:opacity-90'
-            }`}
-            style={activeMechanism !== 'dark' ? { color: 'var(--text-muted)' } : undefined}
-          >
-            <WebIcon name="moon" className="w-4 h-4 shrink-0" />
-            <span>{isEn ? 'Dark' : 'Tối'}</span>
-          </button>
-          <button
-            type="button"
-            aria-pressed={activeMechanism === 'color'}
-            onClick={() => handleSwitchMechanism('color')}
-            className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-2 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
-              activeMechanism === 'color' ? 'text-white' : 'hover:opacity-90'
-            }`}
-            style={activeMechanism !== 'color' ? { color: 'var(--text-muted)' } : undefined}
-          >
-            <WebIcon name="palette" className="w-4 h-4 shrink-0" />
-            <span>{isEn ? 'Color' : 'Màu'}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Bộ chuyển nhanh: Độ phẳng giao diện & Thu gọn thanh đầu/chân trang khi cuộn */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px]">
-        {/* 1. Chế độ chuyển nhanh độ phẳng giao diện */}
-        <div
-          id="interface-surface-depth-card"
-          data-subcard="true"
-          className="sub-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-[15px] rounded-[14px] border"
-          style={{
-            background: 'var(--bg-subcard)',
-            borderColor: 'var(--border-subcard)',
-          }}
-        >
-          <div className="min-w-0 flex items-start gap-2.5">
             <div
-              className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
-              style={{
-                background: 'var(--bg-card)',
-                borderColor: 'var(--border-subcard)',
-                color: 'var(--color-primary)',
-              }}
+              className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
+              style={{ borderRadius: '14px' }}
             >
-              <WebIcon name="layers" className="w-4 h-4 shrink-0" />
+              <img
+                src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042016/H%E1%BB%8Dc_v%E1%BA%A5n.png"
+                alt="Banner Giao diện"
+                className="w-full h-full object-cover object-center rounded-[14px]"
+              />
             </div>
-            <div className="min-w-0">
-              <h4 className="typo-body font-bold tracking-tight">
-                {isEn ? 'Interface Surface Depth' : 'Độ phẳng & chiều sâu giao diện'}
-              </h4>
-              <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
-                {surfaceDepth === 'flat'
-                  ? isEn
-                    ? 'Minimalist flat surfaces without drop shadows'
-                    : 'Đang bật: Giao diện phẳng tối giản (không bóng)'
-                  : isEn
-                    ? 'Layered depth with soft shadows and gentle hover lift'
-                    : 'Đang bật: Giao diện có chiều sâu (đổ bóng & nổi nhẹ)'}
+            <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+
+            <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
+              <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+                <WebIcon
+                  name="palette"
+                  className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                  style={{ width: '22px', height: '22px' }}
+                />
+                <h1
+                  className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
+                  data-card-title="true"
+                >
+                  {isEn ? `Appearance Studio (${displayedThemesCount} Themes)` : `Kho ${displayedThemesCount} giao diện hệ thống`}
+                </h1>
+              </div>
+              <p
+                className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
+                style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+              >
+                &quot;Tinh tế từng sắc màu, kiến tạo không gian sống động ♡&quot;
               </p>
             </div>
-          </div>
 
-          <div
-            role="group"
-            aria-label={isEn ? 'Switch between Flat Minimalist and Layered Depth' : 'Chuyển đổi giữa Giao diện phẳng tối giản và Giao diện có chiều sâu'}
-            className="inline-grid grid-cols-2 p-1 rounded-full border shrink-0 w-full sm:w-auto"
-            style={{
-              background: 'var(--bg-card)',
-              borderColor: 'var(--border-subcard)',
-            }}
-          >
-            <button
-              id="btn-surface-depth-flat"
-              type="button"
-              aria-pressed={surfaceDepth === 'flat'}
-              onClick={() => handleSelectSurfaceDepth('flat')}
-              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                surfaceDepth === 'flat'
-                  ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white'
-                  : 'hover:opacity-90'
-              }`}
-              style={surfaceDepth !== 'flat' ? { color: 'var(--text-muted)' } : undefined}
-            >
-              <WebIcon name="square" className="w-3.5 h-3.5 shrink-0" />
-              <span>{isEn ? 'Flat Minimal' : 'Giao diện phẳng tối giản'}</span>
-            </button>
-            <button
-              id="btn-surface-depth-layered"
-              type="button"
-              aria-pressed={surfaceDepth === 'depth'}
-              onClick={() => handleSelectSurfaceDepth('depth')}
-              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                surfaceDepth === 'depth'
-                  ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white'
-                  : 'hover:opacity-90'
-              }`}
-              style={surfaceDepth !== 'depth' ? { color: 'var(--text-muted)' } : undefined}
-            >
-              <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
-              <span>{isEn ? 'Layered Depth' : 'Giao diện có chiều sâu'}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* 2. Chế độ Thu gọn thanh đầu/chân trang khi cuộn (Mặc định: Off) */}
-        <div
-          id="interface-auto-collapse-card"
-          data-subcard="true"
-          className="sub-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-[15px] rounded-[14px] border"
-          style={{
-            background: 'var(--bg-subcard)',
-            borderColor: 'var(--border-subcard)',
-          }}
-        >
-          <div className="min-w-0 flex items-start gap-2.5">
-            <div
-              className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
-              style={{
-                background: 'var(--bg-card)',
-                borderColor: 'var(--border-subcard)',
-                color: 'var(--color-primary)',
-              }}
-            >
-              <WebIcon name="chevrons-up-down" className="w-4 h-4 shrink-0" />
+            <div className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto">
+              <span className="typo-badge px-3 py-1 rounded-full border" style={{ background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }}>
+                {isEn ? activePreset.familyLabelEn : activePreset.familyLabel}
+              </span>
             </div>
-            <div className="min-w-0">
-              <h4 className="typo-body font-bold tracking-tight">
-                {isEn ? 'Auto-collapse Header/Footer' : 'Thu gọn thanh đầu/chân trang khi cuộn'}
-              </h4>
-              <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
-                {autoCollapseOnScroll
-                  ? isEn
-                    ? 'Active: Header and footer auto-collapse when scrolling down'
-                    : 'Đang bật: Tự động thu gọn thanh đầu và chân trang khi cuộn'
-                  : isEn
-                    ? 'Default Off: Header and footer remain fixed at all times'
-                    : 'Mặc định Tắt: Thanh đầu và chân trang luôn hiển thị cố định'}
+          </section>
+
+          {/* 1. Header tổng quan + Nút Khôi phục + Thanh chuyển 3 cơ chế Sáng / Tối / Màu */}
+          <div
+            className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 pb-3 border-b"
+            style={{ borderColor: 'var(--border-subcard)' }}
+          >
+            <div className="min-w-0 flex flex-col gap-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="typo-h3 font-bold tracking-tight">
+                  {isEn
+                    ? `Appearance Studio (${displayedThemesCount} Themes)`
+                    : `Kho ${displayedThemesCount} giao diện hệ thống`}
+                </h2>
+                <span
+                  className="typo-badge font-bold px-2.5 py-0.5 rounded-full border"
+                  style={{
+                    background: 'var(--bg-subcard)',
+                    borderColor: 'var(--border-subcard)',
+                    color: 'var(--color-primary)',
+                  }}
+                >
+                  {isEn ? activePreset.familyLabelEn : activePreset.familyLabel}
+                </span>
+              </div>
+              <p className="typo-body-sm" style={{ color: 'var(--text-muted)' }}>
+                {isEn
+                  ? `Active: ${t(activePreset.name)} · Mode: ${getMechanismLabel(activeMechanism)} · Header & surfaces synced`
+                  : `Đang dùng: ${activePreset.name} · Cơ chế: ${getMechanismLabel(activeMechanism)} · Header đồng bộ màu nền card`}
               </p>
             </div>
+
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              {!isDefaultConfig && (
+                <button
+                  id="btn-interface-reset-default"
+                  type="button"
+                  onClick={handleResetDefault}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full border typo-label font-bold cursor-pointer transition-all hover:opacity-90"
+                  style={{
+                    background: 'var(--bg-subcard)',
+                    borderColor: 'var(--border-subcard)',
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  <WebIcon name="rotate-ccw" className="w-3.5 h-3.5 shrink-0" />
+                  <span>{isEn ? 'Reset Default' : 'Khôi phục mặc định'}</span>
+                </button>
+              )}
+
+              <div
+                role="group"
+                aria-label={
+                  isEn
+                    ? 'Light, Dark and Color theme mode switch'
+                    : 'Thanh chuyển đổi 3 cơ chế Sáng, Tối và Màu'
+                }
+                className="relative inline-grid grid-cols-3 p-1 rounded-full border shrink-0 w-full sm:w-auto sm:min-w-[260px] max-w-full"
+                style={{
+                  background: 'var(--bg-subcard)',
+                  borderColor: 'var(--border-subcard)',
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute top-1 bottom-1 left-1 w-[calc((100%-8px)/3)] rounded-full transition-transform duration-300 ease-out shadow-sm ${
+                    activeMechanism === 'color'
+                      ? 'translate-x-[200%] bg-gradient-to-r from-[#D97706] via-[#B45309] to-[#78350F] border border-amber-200/55'
+                      : activeMechanism === 'dark'
+                        ? 'translate-x-full bg-gradient-to-r from-[#182536] via-sky-700 to-indigo-700 border border-sky-300/40'
+                        : 'translate-x-0 bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 border border-white/70'
+                  }`}
+                />
+                <button
+                  type="button"
+                  aria-pressed={activeMechanism === 'light'}
+                  onClick={() => handleSwitchMechanism('light')}
+                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                    activeMechanism === 'light' ? 'text-white' : 'hover:opacity-90'
+                  }`}
+                  style={activeMechanism !== 'light' ? { color: 'var(--text-muted)' } : undefined}
+                >
+                  <WebIcon name="sun" className="w-4 h-4 shrink-0" />
+                  <span>{isEn ? 'Light' : 'Sáng'}</span>
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={activeMechanism === 'dark'}
+                  onClick={() => handleSwitchMechanism('dark')}
+                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                    activeMechanism === 'dark' ? 'text-white' : 'hover:opacity-90'
+                  }`}
+                  style={activeMechanism !== 'dark' ? { color: 'var(--text-muted)' } : undefined}
+                >
+                  <WebIcon name="moon" className="w-4 h-4 shrink-0" />
+                  <span>{isEn ? 'Dark' : 'Tối'}</span>
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={activeMechanism === 'color'}
+                  onClick={() => handleSwitchMechanism('color')}
+                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                    activeMechanism === 'color' ? 'text-white' : 'hover:opacity-90'
+                  }`}
+                  style={activeMechanism !== 'color' ? { color: 'var(--text-muted)' } : undefined}
+                >
+                  <WebIcon name="palette" className="w-4 h-4 shrink-0" />
+                  <span>{isEn ? 'Color' : 'Màu'}</span>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div
-            role="group"
-            aria-label={isEn ? 'Auto-collapse Header and Footer on scroll switch' : 'Chuyển đổi tính năng thu gọn thanh đầu/chân trang khi cuộn'}
-            className="inline-grid grid-cols-2 p-1 rounded-full border shrink-0 w-full sm:w-auto"
-            style={{
-              background: 'var(--bg-card)',
-              borderColor: 'var(--border-subcard)',
-            }}
-          >
-            <button
-              id="btn-auto-collapse-off"
-              type="button"
-              aria-pressed={!autoCollapseOnScroll}
-              onClick={() => handleToggleAutoCollapse(false)}
-              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                !autoCollapseOnScroll
-                  ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white shadow-xs'
-                  : 'hover:opacity-90'
-              }`}
-              style={autoCollapseOnScroll ? { color: 'var(--text-muted)' } : undefined}
-            >
-              <WebIcon name="x" className="w-3.5 h-3.5 shrink-0" />
-              <span>{isEn ? 'Off (Default)' : 'Tắt (Mặc định)'}</span>
-            </button>
-            <button
-              id="btn-auto-collapse-on"
-              type="button"
-              aria-pressed={autoCollapseOnScroll}
-              onClick={() => handleToggleAutoCollapse(true)}
-              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                autoCollapseOnScroll
-                  ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white shadow-xs'
-                  : 'hover:opacity-90'
-              }`}
-              style={!autoCollapseOnScroll ? { color: 'var(--text-muted)' } : undefined}
-            >
-              <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />
-              <span>{isEn ? 'On' : 'Bật'}</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Danh sách các giao diện nhóm cùng loại */}
-      <div className="flex flex-col gap-[15px]">
-        {CARD_STYLE_GROUPS.map((group) => {
-          const lightPreset =
-            (group.lightMode && group.presets.find((p) => p.id === group.lightMode)) ||
-            undefined;
-          const darkPreset =
-            (group.darkMode && group.presets.find((p) => p.id === group.darkMode)) ||
-            undefined;
-          const colorPreset =
-            (group.colorMode && group.presets.find((p) => p.id === group.colorMode)) ||
-            undefined;
-          const groupActive = group.presets.some((p) => p.id === cardStyle);
-          const groupModes = [
-            lightPreset && {
-              key: 'light' as ThemeMechanismMode,
-              preset: lightPreset,
-              label: isEn ? 'Light' : 'Sáng',
-              icon: 'sun',
-            },
-            darkPreset && {
-              key: 'dark' as ThemeMechanismMode,
-              preset: darkPreset,
-              label: isEn ? 'Dark' : 'Tối',
-              icon: 'moon',
-            },
-            colorPreset && {
-              key: 'color' as ThemeMechanismMode,
-              preset: colorPreset,
-              label: isEn ? 'Color' : 'Màu',
-              icon: 'palette',
-            },
-          ].filter((item): item is { key: ThemeMechanismMode; preset: NonNullable<typeof lightPreset>; label: string; icon: string } => Boolean(item));
-          const activeGroupModeIdx = groupModes.findIndex((m) => m.preset.id === cardStyle);
-          const presetsToRender = group.presets;
-
-          return (
-            <section
-              key={group.id}
-              className="flex flex-col gap-[15px] p-[15px] rounded-[14px] border transition-all duration-300"
+          {/* 2. Tùy chỉnh nhanh: Độ sâu bề mặt & Thu gọn thanh đầu/chân trang */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px]">
+            <div
+              id="interface-surface-depth-card"
+              data-subcard="true"
+              className="sub-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-[15px] border"
               style={{
                 background: 'var(--bg-subcard)',
-                borderColor: groupActive ? 'var(--color-primary)' : 'var(--border-subcard)',
-                boxShadow: groupActive ? '0 10px 30px -8px rgba(2, 132, 199, 0.15)' : undefined,
+                borderColor: 'var(--border-subcard)',
               }}
             >
+              <div className="min-w-0 flex items-start gap-2.5">
+                <div
+                  className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
+                  style={{
+                    background: 'var(--bg-card)',
+                    borderColor: 'var(--border-subcard)',
+                    color: 'var(--color-primary)',
+                  }}
+                >
+                  <WebIcon name="layers" className="w-4 h-4 shrink-0" />
+                </div>
+                <div className="min-w-0">
+                  <h4 className="typo-body font-bold tracking-tight">
+                    {isEn ? 'Interface Surface Depth' : 'Độ phẳng & chiều sâu giao diện'}
+                  </h4>
+                  <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
+                    {surfaceDepth === 'flat'
+                      ? isEn
+                        ? 'Minimalist flat surfaces without drop shadows'
+                        : 'Đang bật: Giao diện phẳng tối giản (không bóng)'
+                      : isEn
+                        ? 'Layered depth with soft shadows and gentle hover lift'
+                        : 'Đang bật: Giao diện có chiều sâu (đổ bóng & nổi nhẹ)'}
+                  </p>
+                </div>
+              </div>
+
               <div
-                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b"
-                style={{ borderColor: 'var(--border-subcard)' }}
+                role="group"
+                aria-label={
+                  isEn
+                    ? 'Switch between Flat Minimalist and Layered Depth'
+                    : 'Chuyển đổi giữa Giao diện phẳng tối giản và Giao diện có chiều sâu'
+                }
+                className="inline-grid grid-cols-2 p-1 rounded-full border shrink-0 w-full sm:w-auto"
+                style={{
+                  background: 'var(--bg-card)',
+                  borderColor: 'var(--border-subcard)',
+                }}
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="flex items-center justify-center shrink-0" style={{ color: 'var(--color-primary)' }}>
-                    <WebIcon name={group.icon} className="w-6 h-6 shrink-0" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className="typo-h5 font-bold tracking-tight">
-                        {isEn ? group.labelEn : group.label}
-                      </h4>
-                      <span
-                        className="typo-badge font-semibold px-2.5 py-0.5 rounded-full border"
+                <button
+                  id="btn-surface-depth-flat"
+                  type="button"
+                  aria-pressed={surfaceDepth === 'flat'}
+                  onClick={() => handleSelectSurfaceDepth('flat')}
+                  className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                    surfaceDepth === 'flat'
+                      ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white'
+                      : 'hover:opacity-90'
+                  }`}
+                  style={surfaceDepth !== 'flat' ? { color: 'var(--text-muted)' } : undefined}
+                >
+                  <WebIcon name="square" className="w-3.5 h-3.5 shrink-0" />
+                  <span>{isEn ? 'Flat Minimal' : 'Phẳng tối giản'}</span>
+                </button>
+                <button
+                  id="btn-surface-depth-layered"
+                  type="button"
+                  aria-pressed={surfaceDepth === 'depth'}
+                  onClick={() => handleSelectSurfaceDepth('depth')}
+                  className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                    surfaceDepth === 'depth'
+                      ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white'
+                      : 'hover:opacity-90'
+                  }`}
+                  style={surfaceDepth !== 'depth' ? { color: 'var(--text-muted)' } : undefined}
+                >
+                  <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
+                  <span>{isEn ? 'Layered Depth' : 'Có chiều sâu'}</span>
+                </button>
+              </div>
+            </div>
+
+            <div
+              id="interface-auto-collapse-card"
+              data-subcard="true"
+              className="sub-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-[15px] border"
+              style={{
+                background: 'var(--bg-subcard)',
+                borderColor: 'var(--border-subcard)',
+              }}
+            >
+              <div className="min-w-0 flex items-start gap-2.5">
+                <div
+                  className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
+                  style={{
+                    background: 'var(--bg-card)',
+                    borderColor: 'var(--border-subcard)',
+                    color: 'var(--color-primary)',
+                  }}
+                >
+                  <WebIcon name="chevrons-up-down" className="w-4 h-4 shrink-0" />
+                </div>
+                <div className="min-w-0">
+                  <h4 className="typo-body font-bold tracking-tight">
+                    {isEn ? 'Auto-collapse Header/Footer' : 'Thu gọn thanh đầu/chân trang khi cuộn'}
+                  </h4>
+                  <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
+                    {autoCollapseOnScroll
+                      ? isEn
+                        ? 'Active: Header and footer auto-collapse when scrolling down'
+                        : 'Đang bật: Tự động thu gọn thanh đầu và chân trang khi cuộn'
+                      : isEn
+                        ? 'Default Off: Header and footer remain fixed at all times'
+                        : 'Mặc định Tắt: Thanh đầu và chân trang luôn hiển thị cố định'}
+                  </p>
+                </div>
+              </div>
+
+              <div
+                role="group"
+                aria-label={
+                  isEn
+                    ? 'Auto-collapse Header and Footer on scroll switch'
+                    : 'Chuyển đổi tính năng thu gọn thanh đầu/chân trang khi cuộn'
+                }
+                className="inline-grid grid-cols-2 p-1 rounded-full border shrink-0 w-full sm:w-auto"
+                style={{
+                  background: 'var(--bg-card)',
+                  borderColor: 'var(--border-subcard)',
+                }}
+              >
+                <button
+                  id="btn-auto-collapse-off"
+                  type="button"
+                  aria-pressed={!autoCollapseOnScroll}
+                  onClick={() => handleToggleAutoCollapse(false)}
+                  className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                    !autoCollapseOnScroll
+                      ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white shadow-xs'
+                      : 'hover:opacity-90'
+                  }`}
+                  style={autoCollapseOnScroll ? { color: 'var(--text-muted)' } : undefined}
+                >
+                  <WebIcon name="x" className="w-3.5 h-3.5 shrink-0" />
+                  <span>{isEn ? 'Off (Default)' : 'Tắt (Mặc định)'}</span>
+                </button>
+                <button
+                  id="btn-auto-collapse-on"
+                  type="button"
+                  aria-pressed={autoCollapseOnScroll}
+                  onClick={() => handleToggleAutoCollapse(true)}
+                  className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                    autoCollapseOnScroll
+                      ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white shadow-xs'
+                      : 'hover:opacity-90'
+                  }`}
+                  style={!autoCollapseOnScroll ? { color: 'var(--text-muted)' } : undefined}
+                >
+                  <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />
+                  <span>{isEn ? 'On' : 'Bật'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. Bộ lọc nhanh theo nhóm phong cách */}
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div
+              role="tablist"
+              aria-label={isEn ? 'Filter themes by family' : 'Lọc giao diện theo nhóm chất liệu'}
+              className="flex items-center gap-1.5 flex-wrap"
+            >
+              <button
+                type="button"
+                role="tab"
+                aria-selected={selectedFamilyFilter === 'all'}
+                onClick={() => setSelectedFamilyFilter('all')}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border typo-label font-bold cursor-pointer transition-all ${
+                  selectedFamilyFilter === 'all'
+                    ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white border-transparent shadow-xs'
+                    : 'hover:opacity-90'
+                }`}
+                style={
+                  selectedFamilyFilter !== 'all'
+                    ? {
+                        background: 'var(--bg-subcard)',
+                        borderColor: 'var(--border-subcard)',
+                        color: 'var(--text-primary)',
+                      }
+                    : undefined
+                }
+              >
+                <WebIcon name="grid" className="w-3.5 h-3.5 shrink-0" />
+                <span>
+                  {isEn ? `All (${displayedThemesCount})` : `Tất cả (${displayedThemesCount})`}
+                </span>
+              </button>
+
+              {CARD_STYLE_GROUPS.map((grp) => {
+                const isSelectedTab = selectedFamilyFilter === grp.id;
+                return (
+                  <button
+                    key={grp.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isSelectedTab}
+                    onClick={() => setSelectedFamilyFilter(grp.id)}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border typo-label font-bold cursor-pointer transition-all ${
+                      isSelectedTab
+                        ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white border-transparent shadow-xs'
+                        : 'hover:opacity-90'
+                    }`}
+                    style={
+                      !isSelectedTab
+                        ? {
+                            background: 'var(--bg-subcard)',
+                            borderColor: 'var(--border-subcard)',
+                            color: 'var(--text-primary)',
+                          }
+                        : undefined
+                    }
+                  >
+                    <WebIcon name={grp.icon} className="w-3.5 h-3.5 shrink-0" />
+                    <span>
+                      {isEn ? grp.labelEn : grp.label} ({grp.presets.length})
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 4. Danh sách nhóm giao diện & thẻ xem trước tương tác */}
+          <div className="flex flex-col gap-[15px]">
+            {visibleGroups.map((group) => {
+              const lightPreset =
+                (group.lightMode && group.presets.find((p) => p.id === group.lightMode)) ||
+                undefined;
+              const darkPreset =
+                (group.darkMode && group.presets.find((p) => p.id === group.darkMode)) ||
+                undefined;
+              const colorPreset =
+                (group.colorMode && group.presets.find((p) => p.id === group.colorMode)) ||
+                undefined;
+              const groupActive = group.presets.some((p) => p.id === cardStyle);
+              const groupModes = [
+                lightPreset && {
+                  key: 'light' as ThemeMechanismMode,
+                  preset: lightPreset,
+                  label: isEn ? 'Light' : 'Sáng',
+                  icon: 'sun',
+                },
+                darkPreset && {
+                  key: 'dark' as ThemeMechanismMode,
+                  preset: darkPreset,
+                  label: isEn ? 'Dark' : 'Tối',
+                  icon: 'moon',
+                },
+                colorPreset && {
+                  key: 'color' as ThemeMechanismMode,
+                  preset: colorPreset,
+                  label: isEn ? 'Color' : 'Màu',
+                  icon: 'palette',
+                },
+              ].filter(
+                (
+                  item
+                ): item is {
+                  key: ThemeMechanismMode;
+                  preset: NonNullable<typeof lightPreset>;
+                  label: string;
+                  icon: string;
+                } => Boolean(item)
+              );
+              const activeGroupModeIdx = groupModes.findIndex((m) => m.preset.id === cardStyle);
+              const gridColsClass =
+                group.presets.length <= 2
+                  ? 'grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch'
+                  : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch';
+
+              return (
+                <section
+                  key={group.id}
+                  data-subcard="true"
+                  className="sub-card flex flex-col gap-[15px] p-[15px] border transition-all duration-300"
+                  style={{
+                    background: 'var(--bg-subcard)',
+                    borderColor: groupActive ? 'var(--color-primary)' : 'var(--border-subcard)',
+                    boxShadow: groupActive ? '0 10px 30px -8px rgba(2, 132, 199, 0.16)' : undefined,
+                  }}
+                >
+                  <div
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b"
+                    style={{ borderColor: 'var(--border-subcard)' }}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 border"
                         style={{
                           background: 'var(--bg-card)',
                           borderColor: 'var(--border-subcard)',
-                          color: 'var(--text-muted)',
+                          color: 'var(--color-primary)',
                         }}
                       >
-                        {colorPreset
-                          ? isEn
-                            ? 'Light · Dark · Color Variants'
-                            : 'Cơ chế Sáng · Tối · Màu'
-                          : isEn
-                            ? 'Light & Dark Variants'
-                            : 'Biến thể Sáng & Tối'}
-                      </span>
+                        <WebIcon name={group.icon} className="w-5 h-5 shrink-0" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h4 className="typo-h5 font-bold tracking-tight">
+                            {isEn ? group.labelEn : group.label}
+                          </h4>
+                          <span
+                            className="typo-badge font-semibold px-2.5 py-0.5 rounded-full border"
+                            style={{
+                              background: 'var(--bg-card)',
+                              borderColor: 'var(--border-subcard)',
+                              color: 'var(--text-muted)',
+                            }}
+                          >
+                            {colorPreset
+                              ? isEn
+                                ? 'Light · Dark · Color'
+                                : 'Sáng · Tối · Màu'
+                              : isEn
+                                ? 'Light & Dark'
+                                : 'Sáng & Tối'}
+                          </span>
+                        </div>
+                        <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
+                          {isEn ? group.descriptionEn : group.description}
+                        </p>
+                      </div>
                     </div>
-                    <p className="typo-label" style={{ color: 'var(--text-muted)' }}>
-                      {isEn ? group.descriptionEn : group.description}
-                    </p>
-                  </div>
-                </div>
 
-                {groupModes.length > 0 && (
-                  <div
-                    role="group"
-                    aria-label={isEn ? `Switch ${group.label} mode` : `Chuyển chế độ ${group.label}`}
-                    className={`relative inline-grid p-1 rounded-full border shrink-0 shadow-xs w-full sm:w-auto max-w-full ${
-                      groupModes.length === 3 ? 'grid-cols-3 sm:min-w-[264px]' : 'grid-cols-2 sm:min-w-[200px]'
-                    }`}
-                    style={{ background: 'var(--bg-card)', borderColor: 'var(--border-subcard)' }}
-                  >
-                    {activeGroupModeIdx >= 0 && (
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          width: `calc((100% - 8px) / ${groupModes.length})`,
-                          transform: `translateX(${activeGroupModeIdx * 100}%)`,
-                        }}
-                        className={`pointer-events-none absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-300 ease-out shadow-sm ${
-                          groupModes[activeGroupModeIdx].key === 'color'
-                            ? 'bg-gradient-to-r from-[#D97706] via-[#B45309] to-[#78350F] border border-amber-200/55'
-                            : groupModes[activeGroupModeIdx].key === 'dark'
-                              ? 'bg-gradient-to-r from-slate-800 via-sky-800 to-indigo-900 border border-sky-400/30'
-                              : 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 border border-white/70'
+                    {groupModes.length > 0 && (
+                      <div
+                        role="group"
+                        aria-label={isEn ? `Switch ${group.label} mode` : `Chuyển chế độ ${group.label}`}
+                        className={`relative inline-grid p-1 rounded-full border shrink-0 shadow-xs w-full sm:w-auto max-w-full ${
+                          groupModes.length === 3
+                            ? 'grid-cols-3 sm:min-w-[264px]'
+                            : 'grid-cols-2 sm:min-w-[200px]'
                         }`}
-                      />
+                        style={{ background: 'var(--bg-card)', borderColor: 'var(--border-subcard)' }}
+                      >
+                        {activeGroupModeIdx >= 0 && (
+                          <span
+                            aria-hidden="true"
+                            style={{
+                              width: `calc((100% - 8px) / ${groupModes.length})`,
+                              transform: `translateX(${activeGroupModeIdx * 100}%)`,
+                            }}
+                            className={`pointer-events-none absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-300 ease-out shadow-sm ${
+                              groupModes[activeGroupModeIdx].key === 'color'
+                                ? 'bg-gradient-to-r from-[#D97706] via-[#B45309] to-[#78350F] border border-amber-200/55'
+                                : groupModes[activeGroupModeIdx].key === 'dark'
+                                  ? 'bg-gradient-to-r from-[#182536] via-sky-800 to-indigo-900 border border-sky-400/30'
+                                  : 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 border border-white/70'
+                            }`}
+                          />
+                        )}
+                        {groupModes.map((modeItem) => {
+                          const isModeSelected = cardStyle === modeItem.preset.id;
+                          return (
+                            <button
+                              key={modeItem.key}
+                              type="button"
+                              aria-pressed={isModeSelected}
+                              onClick={() => handleSelectTheme(modeItem.preset.id, modeItem.preset.name)}
+                              className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold cursor-pointer transition-colors whitespace-nowrap ${
+                                isModeSelected ? 'text-white font-bold' : 'hover:opacity-90'
+                              }`}
+                              style={!isModeSelected ? { color: 'var(--text-muted)' } : undefined}
+                            >
+                              <WebIcon name={modeItem.icon} className="w-3.5 h-3.5 shrink-0" />
+                              <span>{modeItem.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
                     )}
-                    {groupModes.map((modeItem) => {
-                      const isModeSelected = cardStyle === modeItem.preset.id;
+                  </div>
+
+                  <div className={gridColsClass}>
+                    {group.presets.map((preset) => {
+                      const isActive = cardStyle === preset.id;
+                      const meta = THEME_VISUAL_META[preset.id];
+                      const displayPresetName = t(preset.name);
+                      const displayShortBadge = t(preset.shortBadge);
+                      const sampleProps = getCardStyleProperties(preset.id).cardSampleStyle;
+                      const isVideoVisible =
+                        activeVideoPreviewId === preset.id && !failedVideoIds[preset.id];
+
+                      const isFamilyActive = group.presets.some((p) => p.id === cardStyle);
+                      const isToggleDark = isFamilyActive ? activePreset.isDark : preset.isDark;
+                      const lightTargetId: CardStyleMode =
+                        group.lightMode || getLightDarkCounterpart(preset.id, false);
+                      const darkTargetId: CardStyleMode =
+                        group.darkMode || getLightDarkCounterpart(preset.id, true);
+                      const nextToggleTarget: CardStyleMode = isToggleDark
+                        ? lightTargetId
+                        : darkTargetId;
+                      const nextToggleConfig = getCardStyleConfig(nextToggleTarget);
+                      const toggleLabelText = isToggleDark
+                        ? isEn
+                          ? 'Dark'
+                          : 'Tối'
+                        : isEn
+                          ? 'Light'
+                          : 'Sáng';
+
                       return (
-                        <button
-                          key={modeItem.key}
-                          type="button"
-                          aria-pressed={isModeSelected}
-                          onClick={() => handleSelectTheme(modeItem.preset.id, modeItem.preset.name)}
-                          className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold cursor-pointer transition-colors whitespace-nowrap ${
-                            isModeSelected ? 'text-white font-bold' : 'hover:opacity-90'
+                        <motion.article
+                          key={preset.id}
+                          whileHover={{ y: -2 }}
+                          whileTap={{ scale: 0.99 }}
+                          style={{
+                            ...sampleProps,
+                            borderRadius: meta.radius,
+                            padding: '16px',
+                            ...(meta.outlineStyle ? meta.outlineStyle(isActive) : {}),
+                            ...(isActive
+                              ? {
+                                  boxShadow: `${(sampleProps as any).boxShadow || ''}, 0 0 0 2.5px ${meta.activeRingColor}`,
+                                }
+                              : {}),
+                          }}
+                          className={`relative flex flex-col justify-between transition-all duration-300 border ${preset.cardClassName} ${
+                            isActive ? meta.activeBorderClass : meta.idleBorderClass
                           }`}
-                          style={!isModeSelected ? { color: 'var(--text-muted)' } : undefined}
                         >
-                          <WebIcon name={modeItem.icon} className="w-3.5 h-3.5 shrink-0" />
-                          <span>{modeItem.label}</span>
-                        </button>
+                          {/* Top Row: Badge + Family Icon */}
+                          <div className="flex flex-col gap-2.5">
+                            <div className="flex items-center justify-between gap-2">
+                              <span
+                                className={`typo-badge font-bold px-2.5 py-0.5 rounded-full border ${
+                                  isActive ? meta.activeBadgeClass : preset.badgeColorClass
+                                }`}
+                              >
+                                {isActive ? t('Đang sử dụng ✓') : displayShortBadge}
+                              </span>
+                              <WebIcon
+                                name={preset.icon}
+                                className="w-5 h-5 shrink-0"
+                                style={{ color: meta.iconColor }}
+                              />
+                            </div>
+
+                            {/* Title + Light/Dark Counterpart Switch */}
+                            <div className="flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
+                              <h3
+                                className={`typo-h4 font-bold leading-snug min-w-0 ${meta.titleTextClass}`}
+                                data-card-title="true"
+                              >
+                                {displayPresetName}
+                              </h3>
+
+                              <button
+                                type="button"
+                                role="switch"
+                                aria-checked={isToggleDark}
+                                aria-label={
+                                  isEn
+                                    ? `Toggle Light/Dark mode for ${displayPresetName}`
+                                    : `Chuyển chế độ Sáng/Tối cho ${displayPresetName}`
+                                }
+                                title={
+                                  isEn
+                                    ? `Switch to ${t(nextToggleConfig.name)}`
+                                    : `Chuyển nhanh sang ${nextToggleConfig.name}`
+                                }
+                                onClick={() =>
+                                  handleSelectTheme(nextToggleTarget, nextToggleConfig.name)
+                                }
+                                className="inline-flex items-center gap-1.5 shrink-0 cursor-pointer group/toggle focus-visible:outline-2 focus-visible:outline-offset-2 rounded-full"
+                              >
+                                <span className={`typo-badge font-bold select-none ${meta.titleTextClass}`}>
+                                  {toggleLabelText}
+                                </span>
+                                <span
+                                  className={`relative inline-flex items-center w-[44px] h-[22px] p-[2px] rounded-full border transition-all duration-300 shadow-inner ${
+                                    isToggleDark ? meta.toggleTrackDarkClass : meta.toggleTrackLightClass
+                                  }`}
+                                >
+                                  <span
+                                    className={`w-[16px] h-[16px] rounded-full flex items-center justify-center shadow-sm transition-transform duration-300 ease-out ${
+                                      isToggleDark
+                                        ? `translate-x-[22px] ${meta.toggleThumbDarkClass}`
+                                        : `translate-x-0 ${meta.toggleThumbLightClass}`
+                                    }`}
+                                  >
+                                    <WebIcon
+                                      name={isToggleDark ? 'moon' : 'sun'}
+                                      className="w-2.5 h-2.5 shrink-0"
+                                    />
+                                  </span>
+                                </span>
+                              </button>
+                            </div>
+
+                            <p className={`typo-body-sm leading-relaxed ${meta.bodyTextClass}`}>
+                              {t(preset.desc)}
+                            </p>
+                          </div>
+
+                          {/* Interactive Live Mini-UI Specimen + On-Demand Video Demo */}
+                          <div
+                            style={{
+                              ...preset.miniPreviewWrapStyle,
+                              borderRadius: preset.id.includes('ice-blue') ? '20px' : '14px',
+                            }}
+                            className={`my-3 p-3 flex flex-col gap-2.5 border ${meta.previewBorderClass}`}
+                          >
+                            <div className="flex items-center justify-between gap-2">
+                              <span className={`typo-label font-bold ${meta.titleTextClass}`}>
+                                {isEn ? 'Live UI Specimen' : 'Mẫu vật liệu trực quan'}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setActiveVideoPreviewId((prev) =>
+                                    prev === preset.id ? null : preset.id
+                                  )
+                                }
+                                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-semibold border cursor-pointer transition-opacity hover:opacity-90 ${meta.ctaIdleClass}`}
+                              >
+                                <WebIcon
+                                  name={isVideoVisible ? 'x' : 'play'}
+                                  className="w-3 h-3 shrink-0"
+                                />
+                                <span>
+                                  {isVideoVisible
+                                    ? isEn
+                                      ? 'Close Video'
+                                      : 'Đóng Video'
+                                    : isEn
+                                      ? 'Video'
+                                      : 'Video Demo'}
+                                </span>
+                              </button>
+                            </div>
+
+                            {isVideoVisible ? (
+                              <div className="relative w-full h-[112px] rounded-[14px] overflow-hidden bg-slate-950/60 border border-white/20">
+                                <video
+                                  src={meta.demoVideoUrl}
+                                  autoPlay
+                                  loop
+                                  muted
+                                  playsInline
+                                  onError={() =>
+                                    setFailedVideoIds((prev) => ({ ...prev, [preset.id]: true }))
+                                  }
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            ) : (
+                              <div className="flex flex-col gap-2">
+                                {/* Mini Header + Card Bar Specimen */}
+                                <div className="flex items-center justify-between gap-1.5">
+                                  <span
+                                    style={preset.miniTabStyle}
+                                    className="px-2.5 py-1 typo-badge font-bold flex-1 truncate rounded-full border text-center"
+                                  >
+                                    {isEn ? 'Header · Tab' : 'Header · Tab Mẫu'}
+                                  </span>
+                                  <span
+                                    style={preset.miniBtnStyle}
+                                    className="px-2.5 py-1 typo-badge font-bold rounded-full shadow-2xs shrink-0"
+                                  >
+                                    {isEn ? 'Accent' : 'Nút Nhấn'}
+                                  </span>
+                                </div>
+
+                                {/* Signature Material Gradient / Stitch Bars */}
+                                <div className="flex flex-col gap-1.5 pt-0.5">
+                                  {meta.gradientBars.map((bar) => (
+                                    <div key={bar.label} className="flex items-center gap-2">
+                                      <span
+                                        className={`w-9 shrink-0 typo-badge font-mono ${meta.accentTextClass}`}
+                                      >
+                                        {bar.label}
+                                      </span>
+                                      <div
+                                        className="flex-1 h-2 rounded-full overflow-hidden"
+                                        style={{
+                                          background: preset.isDark
+                                            ? 'rgba(15, 23, 42, 0.55)'
+                                            : 'rgba(148, 163, 184, 0.22)',
+                                        }}
+                                      >
+                                        <div
+                                          className="h-full rounded-full"
+                                          style={{
+                                            width: bar.width,
+                                            background: bar.gradient,
+                                            boxShadow: bar.glow,
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Single Clear Card Footer Action */}
+                          <div className={`mt-auto pt-2.5 flex items-center justify-between gap-2 border-t ${meta.dividerClass}`}>
+                            <span className={`typo-caption font-mono ${meta.accentTextClass}`}>
+                              {preset.id.includes('ice-blue') ? '28px · blur(18px)' : meta.radius}
+                            </span>
+
+                            <button
+                              type="button"
+                              aria-pressed={isActive}
+                              onClick={() => handleSelectTheme(preset.id, displayPresetName)}
+                              className={`typo-button font-bold px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 cursor-pointer ${
+                                isActive ? meta.ctaActiveClass : meta.ctaIdleClass
+                              }`}
+                            >
+                              <WebIcon
+                                name={isActive ? 'check' : 'sparkles'}
+                                className="w-3.5 h-3.5 shrink-0"
+                              />
+                              <span>
+                                {isActive
+                                  ? isEn
+                                    ? 'Active Theme'
+                                    : 'Đang áp dụng'
+                                  : isEn
+                                    ? 'Apply Theme'
+                                    : 'Áp dụng giao diện'}
+                              </span>
+                            </button>
+                          </div>
+                        </motion.article>
                       );
                     })}
                   </div>
-                )}
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch">
-                {presetsToRender.map((preset) => {
-                  const isActive = cardStyle === preset.id;
-                  const displayPresetName = t(preset.name);
-                  const displayModeLabel = t(preset.modeLabel);
-                  const displayShortBadge = t(preset.shortBadge);
-                  const sampleProps = getCardStyleProperties(preset.id).cardSampleStyle;
-                  const isLightMulticolorGlass = preset.id === 'light-multicolor-glass';
-                  const isLightMulticolorGlassColor = preset.id === 'light-multicolor-glass-color';
-                  const isLightMulticolorGlassDark = preset.id === 'light-multicolor-glass-dark';
-                  const isLightLeather = preset.id === 'light-cowhide-leather';
-                  const isBlackLeather = preset.id === 'black-cowhide-leather';
-                  const isLeather = preset.id === 'cowhide-leather';
-                  const cardRadius = (isLightMulticolorGlass || isLightMulticolorGlassDark) ? '16px' : '14px';
-
-                  return (
-                    <motion.div
-                      key={preset.id}
-                      role="button"
-                      tabIndex={0}
-                      aria-pressed={isActive}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => handleSelectTheme(preset.id, displayPresetName)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          handleSelectTheme(preset.id, displayPresetName);
-                        }
-                      }}
-                      style={{
-                        ...sampleProps,
-                        borderRadius: cardRadius,
-                        padding: '15px',
-                        ...(isLeather
-                          ? {
-                              outline: isActive
-                                ? '2px dashed #FFF8DC'
-                                : '1.5px dashed rgba(245, 222, 179, 0.58)',
-                              outlineOffset: '-6px',
-                            }
-                          : isBlackLeather
-                            ? {
-                                outline: isActive
-                                  ? '2px dashed #E2E8F0'
-                                  : '1.5px dashed rgba(226, 232, 240, 0.48)',
-                                outlineOffset: '-6px',
-                              }
-                            : isLightLeather
-                              ? {
-                                  outline: isActive
-                                    ? '2px dashed #111827'
-                                    : '1.5px dashed rgba(17, 24, 39, 0.65)',
-                                  outlineOffset: '-6px',
-                                }
-                              : {}),
-                        ...(isActive
-                          ? {
-                              boxShadow: isLightMulticolorGlass
-                                ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #0F172A`
-                                : isLightMulticolorGlassColor
-                                  ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #DD4E9E`
-                                  : isLightMulticolorGlassDark
-                                    ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #A78BFA`
-                                    : isLightLeather
-                                      ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #111827`
-                                      : isBlackLeather
-                                        ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #E2E8F0`
-                                        : isLeather
-                                          ? `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px #F5DEB3`
-                                          : `${(sampleProps as any).boxShadow || ''}, 0 0 0 3px var(--color-indigo)`,
-                            }
-                          : {}),
-                      }}
-                      className={`relative flex flex-col justify-between p-[15px] cursor-pointer transition-all duration-300 border ${preset.cardClassName} ${
-                        isLightMulticolorGlass
-                          ? isActive
-                            ? 'border-slate-900'
-                            : 'border-white/95 hover:border-slate-400'
-                          : isLightMulticolorGlassColor
-                            ? isActive
-                              ? 'border-pink-500'
-                              : 'border-white/95 hover:border-pink-300'
-                            : isLightMulticolorGlassDark
-                              ? isActive
-                                ? 'border-violet-400'
-                                : 'border-violet-400/30 hover:border-pink-400/60'
-                              : isLightLeather
-                                ? isActive
-                                  ? 'border-[#111827]'
-                                  : 'border-[#d1d5db] hover:border-[#9ca3af]'
-                                : isBlackLeather
-                                  ? isActive
-                                    ? 'border-[#E2E8F0]'
-                                    : 'border-[#090a0d] hover:border-[#94A3B8]'
-                                  : isLeather
-                                    ? isActive
-                                      ? 'border-[#F5DEB3]'
-                                      : 'border-[#522E10] hover:border-[#D4A373]'
-                                    : isActive
-                                      ? 'border-indigo-600 shadow-xl'
-                                      : 'border-white/80 hover:border-indigo-400'
-                      }`}
-                    >
-                      <div className="flex flex-col gap-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <span
-                            className={`typo-badge font-bold font-mono px-2.5 py-0.5 rounded-full border ${
-                              isActive
-                                ? isLightMulticolorGlass
-                                  ? 'bg-[#0F172A] text-white border-white/85'
-                                  : isLightMulticolorGlassColor || isLightMulticolorGlassDark
-                                    ? 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white border-white/85'
-                                    : isLightLeather
-                                      ? 'bg-[#0F172A] text-white border-slate-900'
-                                      : isBlackLeather
-                                        ? 'bg-gradient-to-r from-[#334155] to-[#0f172a] text-white border-[#E2E8F0]/60'
-                                        : isLeather
-                                          ? 'bg-gradient-to-r from-[#D97706] to-[#92400E] text-[#FFF8DC] border-[#F5DEB3]/80'
-                                          : 'bg-indigo-600 text-white border-indigo-700'
-                                : preset.badgeColorClass
-                            }`}
-                          >
-                            {isActive ? t('Đang sử dụng ✓') : displayShortBadge}
-                          </span>
-                          <div className="flex items-center justify-center shrink-0">
-                            <WebIcon
-                              name={preset.icon}
-                              className="w-5 h-5 shrink-0"
-                              style={{
-                                color: isLightMulticolorGlass
-                                  ? '#0F172A'
-                                  : isLightMulticolorGlassColor || isLightMulticolorGlassDark
-                                    ? '#DD4E9E'
-                                    : isLightLeather
-                                      ? '#111827'
-                                      : isBlackLeather
-                                        ? '#E2E8F0'
-                                        : isLeather
-                                          ? '#D97706'
-                                          : preset.color || 'var(--color-primary)',
-                              }}
-                            />
-                          </div>
-                        </div>
-
-                        <div>
-                          {(() => {
-                            const isFamilyActive = group.presets.some((p) => p.id === cardStyle);
-                            const isToggleDark = isFamilyActive ? activePreset.isDark : preset.isDark;
-                            const lightTargetId: CardStyleMode =
-                              group.lightMode || getLightDarkCounterpart(preset.id, false);
-                            const darkTargetId: CardStyleMode =
-                              group.darkMode || getLightDarkCounterpart(preset.id, true);
-                            const nextToggleTarget: CardStyleMode = isToggleDark
-                              ? lightTargetId
-                              : darkTargetId;
-                            const nextToggleConfig = getCardStyleConfig(nextToggleTarget);
-                            const toggleLabelText = isToggleDark
-                              ? isEn
-                                ? 'Dark'
-                                : 'Tối'
-                              : isEn
-                                ? 'Light'
-                                : 'Sáng';
-
-                            const trackToneClass = isLightMulticolorGlass
-                              ? isToggleDark
-                                ? 'bg-slate-900/95 border-slate-400/60'
-                                : 'bg-slate-200/95 border-slate-400/75'
-                              : isLightMulticolorGlassColor
-                                ? isToggleDark
-                                  ? 'bg-indigo-950/90 border-violet-300/60'
-                                  : 'bg-sky-100/95 border-pink-300/80'
-                                : isLightMulticolorGlassDark
-                                  ? isToggleDark
-                                    ? 'bg-slate-900/95 border-violet-400/55'
-                                    : 'bg-sky-100/90 border-sky-300/80'
-                                  : isLightLeather
-                                    ? isToggleDark
-                                      ? 'bg-[#111827] border-[#334155]'
-                                      : 'bg-slate-200/95 border-slate-400/70'
-                                    : isBlackLeather
-                                      ? isToggleDark
-                                        ? 'bg-[#090a0d] border-[#E2E8F0]/45'
-                                        : 'bg-slate-200 border-slate-400'
-                                      : isLeather
-                                        ? isToggleDark
-                                          ? 'bg-[#3D210B] border-[#F5DEB3]/55'
-                                          : 'bg-[#FEF3C7] border-[#D97706]/60'
-                                        : isToggleDark
-                                          ? 'bg-slate-800 border-indigo-400/50'
-                                          : 'bg-sky-100 border-indigo-300';
-
-                            const thumbToneClass = isToggleDark
-                              ? isLeather
-                                ? 'bg-gradient-to-br from-[#FDE68A] to-[#D97706] text-[#3D210B]'
-                                : isBlackLeather || isLightLeather || isLightMulticolorGlass
-                                  ? 'bg-slate-100 text-slate-900'
-                                  : 'bg-gradient-to-br from-indigo-500 to-violet-600 text-white'
-                              : isLeather
-                                ? 'bg-gradient-to-br from-[#D97706] to-[#92400E] text-white'
-                                : isLightLeather || isBlackLeather || isLightMulticolorGlass
-                                  ? 'bg-[#0F172A] text-white'
-                                  : 'bg-gradient-to-br from-amber-400 to-orange-500 text-white';
-
-                            const toggleTextClass =
-                              isLightMulticolorGlass || isLightMulticolorGlassColor || isLightLeather
-                                ? 'text-[#000000]'
-                                : isLightMulticolorGlassDark || isBlackLeather
-                                  ? 'text-[#FFFFFF]'
-                                  : isLeather
-                                    ? 'text-[#FFF8DC]'
-                                    : 'text-slate-700';
-
-                            return (
-                              <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap sm:flex-nowrap">
-                                <h3
-                                  className={`typo-h3 card-title-synced leading-snug min-w-0 ${
-                                    isLightMulticolorGlass || isLightMulticolorGlassColor || isLightLeather
-                                      ? 'text-[#000000]'
-                                      : isLightMulticolorGlassDark || isBlackLeather
-                                        ? 'text-[#FFFFFF]'
-                                        : isLeather
-                                          ? 'text-[#FFF8DC]'
-                                          : ''
-                                  }`}
-                                  data-card-title="true"
-                                >
-                                  {displayPresetName}
-                                </h3>
-                                <button
-                                  type="button"
-                                  role="switch"
-                                  aria-checked={isToggleDark}
-                                  aria-label={
-                                    isEn
-                                      ? `Toggle Light/Dark mode for ${displayPresetName} (current: ${toggleLabelText})`
-                                      : `Chuyển chế độ Sáng/Tối cho ${displayPresetName} (hiện tại: ${toggleLabelText})`
-                                  }
-                                  title={
-                                    isEn
-                                      ? `Switch to ${t(nextToggleConfig.name)}`
-                                      : `Chuyển nhanh sang ${nextToggleConfig.name}`
-                                  }
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleSelectTheme(nextToggleTarget, nextToggleConfig.name);
-                                  }}
-                                  onKeyDown={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      handleSelectTheme(nextToggleTarget, nextToggleConfig.name);
-                                    }
-                                  }}
-                                  className="inline-flex items-center gap-1.5 shrink-0 cursor-pointer group/toggle focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-full"
-                                >
-                                  <span
-                                    className={`typo-badge font-bold select-none transition-colors ${toggleTextClass}`}
-                                  >
-                                    {toggleLabelText}
-                                  </span>
-                                  <span
-                                    className={`relative inline-flex items-center w-[46px] h-[24px] p-[2px] rounded-full border transition-all duration-300 shadow-inner group-hover/toggle:scale-105 ${trackToneClass}`}
-                                  >
-                                    <WebIcon
-                                      name="sun"
-                                      className={`w-2.5 h-2.5 ml-1 transition-opacity duration-200 ${
-                                        isToggleDark ? 'opacity-50 text-amber-300' : 'opacity-0'
-                                      }`}
-                                    />
-                                    <WebIcon
-                                      name="moon"
-                                      className={`w-2.5 h-2.5 ml-auto mr-1 transition-opacity duration-200 ${
-                                        isToggleDark ? 'opacity-0' : 'opacity-55 text-slate-600'
-                                      }`}
-                                    />
-                                    <span
-                                      className={`absolute left-[2px] top-[2px] w-[18px] h-[18px] rounded-full flex items-center justify-center shadow-sm transition-transform duration-300 ease-out ${thumbToneClass} ${
-                                        isToggleDark ? 'translate-x-[22px]' : 'translate-x-0'
-                                      }`}
-                                    >
-                                      <WebIcon
-                                        name={isToggleDark ? 'moon' : 'sun'}
-                                        className="w-2.5 h-2.5 shrink-0"
-                                      />
-                                    </span>
-                                  </span>
-                                </button>
-                              </div>
-                            );
-                          })()}
-                          <p
-                            className={`typo-body-sm leading-relaxed font-medium ${
-                              isLightMulticolorGlass || isLightMulticolorGlassColor || isLightLeather
-                                ? 'text-[#000000]'
-                                : isLightMulticolorGlassDark || isBlackLeather
-                                  ? 'text-[#FFFFFF]'
-                                  : isLeather
-                                    ? 'text-[#F5DEB3]'
-                                    : 'text-slate-600'
-                            }`}
-                          >
-                            {t(preset.desc)}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Mẫu hiển thị trực quan mini card / module */}
-                      <div
-                        style={preset.miniPreviewWrapStyle}
-                        className={`my-3 p-2.5 flex flex-col gap-2 transition-all shadow-2xs rounded-[14px] border ${
-                          isLightMulticolorGlass || isLightMulticolorGlassColor
-                            ? 'border-white/95'
-                            : isLightMulticolorGlassDark
-                              ? 'border-violet-400/28'
-                              : isLightLeather
-                                ? 'white-leather-stitch'
-                                : isBlackLeather
-                                  ? 'border-[#E2E8F0]/35 border-dashed'
-                                  : isLeather
-                                    ? 'border-[#F5DEB3]/45 border-dashed'
-                                    : 'bg-slate-100/80 border-slate-200/80'
-                        }`}
-                      >
-                        <div
-                          className={`flex items-center justify-between typo-label font-bold ${
-                            isLightMulticolorGlass || isLightMulticolorGlassColor || isLightLeather
-                              ? 'text-[#000000]'
-                              : isLightMulticolorGlassDark || isBlackLeather
-                                ? 'text-[#FFFFFF]'
-                                : isLeather
-                                  ? 'text-[#FFF8DC]'
-                                  : 'text-[#334155]'
-                          }`}
-                        >
-                          <span>{t('Mẫu hiển thị & Video Demo')}</span>
-                          <span
-                            className={`font-mono typo-label ${
-                              isLightMulticolorGlass
-                                ? 'text-[#0F172A]'
-                                : isLightMulticolorGlassColor
-                                  ? 'text-[#db2777]'
-                                  : isLightMulticolorGlassDark
-                                    ? 'text-[#A78BFA]'
-                                    : isLightLeather
-                                      ? 'text-[#0F172A]'
-                                      : isBlackLeather
-                                        ? 'text-[#E2E8F0]'
-                                        : isLeather
-                                          ? 'text-[#F5DEB3]'
-                                          : 'text-[#475569]'
-                            }`}
-                          >
-                            {displayShortBadge}
-                          </span>
-                        </div>
-
-                        {/* Video Demo trước 1 phần giao diện trong danh sách */}
-                        <div className="relative w-full h-[120px] sm:h-[135px] rounded-[14px] overflow-hidden my-1 bg-black/40 group/video border border-white/20 shadow-inner">
-                          <video
-                            src={getThemeDemoVideo(preset.id)}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            className="w-full h-full object-cover rounded-[14px] brightness-105 contrast-105 transition-transform duration-700 group-hover/video:scale-105 pointer-events-none"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30 pointer-events-none" />
-                          <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/25 text-white typo-badge">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                            <span>{isEn ? 'Video Demo' : 'Video Demo Giao Diện'}</span>
-                          </div>
-                          <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/25 text-white typo-badge font-mono">
-                            {displayShortBadge}
-                          </div>
-                        </div>
-                        {isLightMulticolorGlass && (
-                          <div className="grid grid-cols-5 gap-1.5 py-0.5">
-                            <div className="h-2 rounded-full bg-gradient-to-r from-slate-200 to-slate-300" />
-                            <div className="h-2 rounded-full bg-gradient-to-r from-slate-300 to-slate-400" />
-                            <div className="h-2 rounded-full bg-gradient-to-r from-slate-400 to-slate-600" />
-                            <div className="h-2 rounded-full bg-gradient-to-r from-slate-600 to-slate-800" />
-                            <div className="h-2 rounded-full bg-gradient-to-r from-slate-800 to-slate-950" />
-                          </div>
-                        )}
-                        {(isLightMulticolorGlassColor || isLightMulticolorGlassDark) && (
-                          <div className="grid grid-cols-5 gap-1.5 py-0.5">
-                            <div className="h-2 rounded-full bg-gradient-to-r from-[#00E5FF] to-[#2979FF]" />
-                            <div className="h-2 rounded-full bg-gradient-to-r from-[#9D4EDD] to-[#DD4E9E]" />
-                            <div className="h-2 rounded-full bg-gradient-to-r from-[#FF3CAC] to-[#EC7D21]" />
-                            <div className="h-2 rounded-full bg-gradient-to-r from-[#50B347] to-[#3BB8E6]" />
-                            <div className="h-2 rounded-full bg-gradient-to-r from-[#FFDF25] to-[#A3D43A]" />
-                          </div>
-                        )}
-                        {isLightLeather && (
-                          <div className="w-full border-t-[1.5px] border-dashed border-[#111827]/65 my-0.5" />
-                        )}
-                        {isBlackLeather && (
-                          <div className="w-full border-t border-dashed border-[#E2E8F0]/45 my-0.5" />
-                        )}
-                        {isLeather && (
-                          <div className="w-full border-t border-dashed border-[#F5DEB3]/55 my-0.5" />
-                        )}
-                        <div className="flex items-center gap-1.5">
-                          <span
-                            style={preset.miniTabStyle}
-                            className={`px-2 py-1 typo-label font-bold flex-1 text-center truncate shadow-2xs rounded-[14px] border ${
-                              isLightMulticolorGlass || isLightMulticolorGlassColor || isLightLeather
-                                ? 'text-[#000000]'
-                                : isLightMulticolorGlassDark || isBlackLeather
-                                  ? 'text-[#FFFFFF] border-white/20'
-                                  : isLeather
-                                    ? 'text-[#FFF8DC] border-[#F5DEB3]/45'
-                                    : 'bg-white/95 text-slate-800 border-slate-200/70'
-                            }`}
-                          >
-                            {t('Tab Mẫu')}
-                          </span>
-                          <span
-                            style={preset.miniBtnStyle}
-                            className="px-2 py-1 typo-label font-bold flex-1 text-center truncate shadow-2xs rounded-[14px] text-white"
-                          >
-                            {t('Nút Áp Dụng')}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div
-                        className={`mt-auto pt-2 flex items-center justify-between border-t ${
-                          isLightMulticolorGlass || isLightMulticolorGlassColor
-                            ? 'border-white/75'
-                            : isLightMulticolorGlassDark
-                              ? 'border-violet-400/25'
-                              : isLightLeather
-                                ? 'border-[#0F172A]/45 border-dashed'
-                                : isBlackLeather
-                                  ? 'border-[#E2E8F0]/25 border-dashed'
-                                  : isLeather
-                                    ? 'border-[#F5DEB3]/30 border-dashed'
-                                    : 'border-slate-200/80'
-                        }`}
-                      >
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSelectTheme(preset.id, displayPresetName);
-                          }}
-                          className={`typo-button font-bold px-3 py-1.5 transition-all rounded-[14px] border flex items-center gap-1 cursor-pointer ${
-                            isLightMulticolorGlass || isLightMulticolorGlassColor
-                              ? 'bg-white/90 text-[#000000] border-white hover:bg-white shadow-2xs'
-                              : isLightMulticolorGlassDark
-                                ? 'bg-indigo-950/90 text-[#FFFFFF] border-violet-400/35 hover:bg-indigo-900'
-                                : isLightLeather
-                                  ? 'bg-slate-100 text-[#000000] border-slate-900/40 hover:bg-white'
-                                  : isBlackLeather
-                                    ? 'bg-[#1b1e25] text-[#FFFFFF] border-[#E2E8F0]/35 hover:bg-[#252830]'
-                                    : isLeather
-                                      ? 'bg-[#522E10]/85 text-[#FFF8DC] border-[#F5DEB3]/40 hover:bg-[#3D210B]'
-                                      : 'bg-slate-100 text-indigo-700 border-indigo-200 hover:bg-indigo-50'
-                          }`}
-                        >
-                          <WebIcon name="eye" className="w-3.5 h-3.5" />
-                          <span>{t('Xem thử')}</span>
-                        </button>
-
-                        <span
-                          className={`typo-button font-bold px-3.5 py-1.5 transition-all rounded-full ${
-                            isActive
-                              ? isLightMulticolorGlass
-                                ? 'bg-[#0F172A] text-white shadow-xs border border-white/85'
-                                : isLightMulticolorGlassColor || isLightMulticolorGlassDark
-                                  ? 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white shadow-xs border border-white/85'
-                                  : isLightLeather
-                                    ? 'bg-[#0F172A] text-white shadow-xs border border-slate-900'
-                                    : isBlackLeather
-                                      ? 'bg-gradient-to-r from-[#334155] to-[#0f172a] text-white shadow-xs border border-[#E2E8F0]/55'
-                                      : isLeather
-                                        ? 'bg-gradient-to-r from-[#D97706] to-[#92400E] text-[#FFF8DC] shadow-xs border border-[#F5DEB3]/60'
-                                        : 'bg-indigo-600 text-white shadow-xs'
-                              : isLightMulticolorGlass || isLightMulticolorGlassColor
-                                ? 'bg-white/90 text-[#000000] hover:bg-white border border-white'
-                                : isLightMulticolorGlassDark
-                                  ? 'bg-indigo-950/90 text-[#FFFFFF] hover:bg-indigo-900 border border-violet-400/30'
-                                  : isLightLeather
-                                    ? 'bg-slate-100 text-[#000000] hover:bg-white border border-slate-900/35'
-                                    : isBlackLeather
-                                      ? 'bg-[#1b1e25] text-[#FFFFFF] hover:bg-[#252830] border border-[#E2E8F0]/30'
-                                      : isLeather
-                                        ? 'bg-[#522E10]/90 text-[#FFF8DC] hover:bg-[#3D210B] border border-[#F5DEB3]/35'
-                                        : 'bg-slate-100 text-slate-700 hover:bg-indigo-50'
-                          }`}
-                        >
-                          {isActive ? t('Đang dùng') : t('Chọn')}
-                        </span>
-                        {isActive && (
-                          <div
-                            className={`w-6 h-6 rounded-full text-white flex items-center justify-center typo-label font-bold shadow-xs ${
-                              isLightMulticolorGlass
-                                ? 'bg-[#0F172A]'
-                                : isLightMulticolorGlassColor || isLightMulticolorGlassDark
-                                  ? 'bg-pink-600'
-                                  : isLightLeather
-                                    ? 'bg-[#0F172A] text-white'
-                                    : isBlackLeather
-                                      ? 'bg-[#334155] text-white border border-[#E2E8F0]/60'
-                                      : isLeather
-                                        ? 'bg-[#D97706] text-[#FFF8DC]'
-                                        : 'bg-indigo-600'
-                            }`}
-                          >
-                            ✓
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </section>
-          );
-        })}
-      </div>
+                </section>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

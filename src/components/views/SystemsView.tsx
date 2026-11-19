@@ -679,7 +679,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
     themeIsDark ||
     currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather';
+    currentTheme === 'black-cowhide-leather' ||
+    currentTheme === 'dark-ice-blue-neu';
 
   useEffect(() => {
     return () => {
@@ -1152,6 +1153,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
         data-element-page="systems"
         data-element-parent="systems-page-container"
         className="page-cards-track"
+        style={{
+          paddingTop: '10px',
+          paddingBottom: '10px',
+        }}
       >
         <div
           id="systems-main-card"

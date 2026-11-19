@@ -197,7 +197,7 @@ export interface ProjectsViewProps {
 }
 
 export const ProjectsView: React.FC<ProjectsViewProps> = ({
-  currentTheme = 'light-multicolor-glass',
+  currentTheme = 'light-multicolor-glass-color',
   requestedProject,
   onReturnToOrigin,
 }) => {
@@ -206,7 +206,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     themeIsDark ||
     currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather';
+    currentTheme === 'black-cowhide-leather' ||
+    currentTheme === 'dark-ice-blue-neu';
   const isLight = !isDark;
 
   const [activeCategory, setActiveCategory] = useState<string>('all');

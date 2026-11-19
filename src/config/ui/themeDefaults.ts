@@ -7,11 +7,13 @@ export const WALLPAPER_MANUAL_STORAGE_KEY = 'hungthai_wallpaper_manual_v2';
 export const GLASS_CUSTOMIZATION_STORAGE_KEY = 'hungthai_glass_customization_v1';
 export const SURFACE_DEPTH_STORAGE_KEY = 'hungthai_surface_depth_v1';
 export const AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY = 'hungthai_auto_collapse_on_scroll_v1';
+export const AUTO_TIME_THEME_STORAGE_KEY = 'hungthai_auto_time_theme_v1';
 export const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
 export const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
 export const GLASS_CUSTOMIZATION_SYNC_EVENT = 'hungthai:glass-customization-changed';
 export const SURFACE_DEPTH_SYNC_EVENT = 'hungthai:surface-depth-changed';
 export const AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT = 'hungthai:auto-collapse-on-scroll-changed';
+export const AUTO_TIME_THEME_SYNC_EVENT = 'hungthai:auto-time-theme-changed';
 
 export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   CardStyleMode,
@@ -23,6 +25,8 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'light-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'black-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
+  'ice-blue-neu': { cardOpacity: 96, blurIntensity: 18 },
+  'dark-ice-blue-neu': { cardOpacity: 96, blurIntensity: 18 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -96,6 +100,26 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(circle at 20% 18%, rgba(217, 119, 6, 0.30) 0%, transparent 54%), radial-gradient(circle at 82% 24%, rgba(180, 115, 58, 0.28) 0%, transparent 54%), radial-gradient(circle at 65% 84%, rgba(154, 52, 18, 0.24) 0%, transparent 56%), linear-gradient(145deg, #351b0b 0%, #241206 50%, #44230e 100%)',
     overlayBg: 'rgba(28, 14, 5, 0.08)',
   },
+  'ice-blue-neu': {
+    id: 'ice-blue-neu',
+    presetId: 'theme-bg-ice-blue-neu',
+    label: 'Nền Xanh băng nhạt (#e6f0f8)',
+    themeMode: 'light',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
+    overlayBg: 'rgba(230, 240, 248, 0.08)',
+  },
+  'dark-ice-blue-neu': {
+    id: 'dark-ice-blue-neu',
+    presetId: 'theme-bg-dark-ice-blue-neu',
+    label: 'Nền Xanh băng thẫm (#152030)',
+    themeMode: 'dark',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
+    overlayBg: 'rgba(15, 23, 35, 0.14)',
+  },
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
@@ -105,4 +129,6 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'light-cowhide-leather': THEME_BACKGROUNDS['light-cowhide-leather'].presetId,
   'black-cowhide-leather': THEME_BACKGROUNDS['black-cowhide-leather'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
+  'ice-blue-neu': THEME_BACKGROUNDS['ice-blue-neu'].presetId,
+  'dark-ice-blue-neu': THEME_BACKGROUNDS['dark-ice-blue-neu'].presetId,
 };

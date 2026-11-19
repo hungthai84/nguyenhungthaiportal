@@ -7,7 +7,7 @@ import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/domains';
 import { DomainData, SiteTheme } from '@/types';
 import { TechStackExplorerModal } from '@/components/domains/TechStackExplorerModal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { formatCardTitle, formatSentenceFourWords } from '@/lib/utils';
+import { cn, formatCardTitle, formatSentenceFourWords } from '@/lib/utils';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -24,14 +24,15 @@ const DOMAIN_DETAIL_ACCENTS: Record<string, { light: string; dark: string }> = {
   '06': { light: '#059669', dark: '#34d399' },
 };
 
-export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'light-multicolor-glass' }) => {
+export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'light-multicolor-glass-color' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
   const isDark =
     themeIsDark ||
     currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather';
+    currentTheme === 'black-cowhide-leather' ||
+    currentTheme === 'dark-ice-blue-neu';
   const isLight = !isDark;
 
   const isEn = language === 'en';
@@ -500,12 +501,25 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     <div className="flex-1 min-w-0">
                       <p
                         id={`service-card-desc-${domain.id}`}
-                        className="card-body-text typo-body line-clamp-4 text-[var(--text-secondary)]"
+                        className={cn(
+                          "card-body-text typo-body line-clamp-4 text-[var(--text-secondary)]",
+                          domain.id === '02' && "text-center"
+                        )}
                         style={{
                           display: '-webkit-box',
                           WebkitLineClamp: 4,
                           WebkitBoxOrient: 'vertical',
                           overflow: 'hidden',
+                          ...(domain.id === '02'
+                            ? {
+                                borderRadius: '0px',
+                                paddingTop: '2px',
+                                paddingLeft: '2px',
+                                paddingRight: '2px',
+                                paddingBottom: '2px',
+                                textAlign: 'center',
+                              }
+                            : {}),
                         }}
                         title={(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
                       >

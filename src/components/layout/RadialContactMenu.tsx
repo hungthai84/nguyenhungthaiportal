@@ -77,8 +77,8 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
         const menuWidth =
           measuredW > 40
             ? Math.min(measuredW, viewportWidth - 16)
-            : Math.min(176, viewportWidth - 16);
-        const pillHeight = measuredH > 24 ? measuredH : 44;
+            : Math.min(153, viewportWidth - 16);
+        const pillHeight = measuredH > 24 ? measuredH : 40;
         const safeRight = Math.max(8, Math.min(viewportWidth - rect.right, viewportWidth - menuWidth - 8));
         const safeLeft = Math.max(8, Math.min(rect.left, viewportWidth - menuWidth - 8));
 
@@ -269,39 +269,50 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
             const isItemActive = item.id === 'booking' && currentTab === 12;
             const content = (
               <div
-                className={`radial-contact-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] p-[1.5px] select-none group/item transition-all duration-300 hover:scale-[1.03] w-full overflow-hidden shadow-md ring-1.5 ${item.ringColor}`}
+                className={`radial-contact-pill-wrapper nav-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] p-[1.5px] select-none group/item transition-all duration-200 w-full shadow-md ring-1.5 ${item.ringColor}`}
                 style={{
-                  height: coords?.height ? `${coords.height}px` : '44px',
+                  minHeight: '40px',
+                  height: coords?.height ? `${coords.height}px` : '40px',
                 }}
               >
-                {/* Rotating Laser Beam Border */}
+                {/* Rotating Laser Beam Border (Clipped independently of focus ring) */}
                 <div
-                  className={`radial-contact-laser absolute -inset-[220%] animate-[spin_4s_linear_infinite] pointer-events-none ${
-                    isItemActive ? 'opacity-100' : 'opacity-0 group-hover/item:opacity-100'
-                  }`}
-                  style={{
-                    background: `conic-gradient(from 0deg, transparent 0 200deg, ${item.laserColor} 260deg, #ffffff 320deg, ${item.laserColor} 360deg)`,
-                  }}
-                />
+                  aria-hidden="true"
+                  className="radial-contact-laser-clip absolute inset-0 rounded-[999px] overflow-hidden pointer-events-none z-0"
+                >
+                  <div
+                    className={`radial-contact-laser absolute -inset-[220%] animate-[spin_4s_linear_infinite] pointer-events-none ${
+                      isItemActive ? 'opacity-100' : 'opacity-0 group-hover/item:opacity-100'
+                    }`}
+                    style={{
+                      background: `conic-gradient(from 0deg, transparent 0 200deg, ${item.laserColor} 260deg, #ffffff 320deg, ${item.laserColor} 360deg)`,
+                    }}
+                  />
+                </div>
 
                 {/* Inner Pill */}
                 <div
-                  className={`radial-contact-pill ${isItemActive ? 'active' : ''} relative z-10 inline-flex items-center w-full h-full rounded-[999px] gap-1.5 cursor-pointer border-2 transition-all duration-300`}
+                  className={`radial-contact-pill ${isItemActive ? 'active' : ''} relative z-10 inline-flex items-center w-full h-full rounded-[999px] gap-[6px] cursor-pointer border transition-all duration-200`}
                   style={{
-                    paddingTop: '5px',
-                    paddingRight: '5px',
-                    paddingBottom: '5px',
-                    paddingLeft: '5px',
+                    paddingTop: '10px',
+                    paddingRight: '10px',
+                    paddingBottom: '10px',
+                    paddingLeft: '10px',
+                    fontWeight: 'normal',
+                    borderWidth: '1px',
                   }}
                 >
                   <div
-                    className={`radial-contact-icon-badge w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-xs ${item.circleBg} leading-none p-0 overflow-hidden typo-badge`}
+                    className={`radial-contact-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-xs ${item.circleBg} leading-none p-0 overflow-hidden typo-badge`}
                   >
                     <WebIcon name={item.iconName} className="w-3.5 h-3.5 text-white m-auto" />
                   </div>
-                  <div className="radial-contact-divider w-[1.5px] h-4 shrink-0 mx-0.5 rounded-[999px]" />
+                  <div className="radial-contact-divider w-[1.5px] h-4 shrink-0 rounded-[999px]" />
                   <div className="flex flex-col text-left leading-none flex-1 min-w-0">
-                    <span className="radial-contact-title typo-nav leading-tight font-play truncate">
+                    <span
+                      style={{ fontWeight: 'bold', fontSize: '15px' }}
+                      className="radial-contact-title typo-nav leading-tight font-play truncate"
+                    >
                       {item.title}
                     </span>
                     <span className="radial-contact-sub typo-label leading-none mt-0.5 opacity-85 truncate">

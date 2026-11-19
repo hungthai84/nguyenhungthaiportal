@@ -316,7 +316,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       const isDarkThemeAttr =
         effectiveStyle === 'light-multicolor-glass-dark' ||
         effectiveStyle === 'cowhide-leather' ||
-        effectiveStyle === 'black-cowhide-leather';
+        effectiveStyle === 'black-cowhide-leather' ||
+        effectiveStyle === 'dark-ice-blue-neu';
       if (typeof isLight === 'boolean') {
         setIsLightMode(isLight && !isDarkClass && !isDarkThemeAttr);
       } else {

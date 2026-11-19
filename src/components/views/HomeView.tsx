@@ -40,7 +40,7 @@ export interface VideoScreenItem {
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
-  currentTheme = 'light-multicolor-glass',
+  currentTheme = 'light-multicolor-glass-color',
   onNavigateContact,
   onNavigatePage,
   onOpenPagesCarousel,
@@ -56,7 +56,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
     themeIsDark ||
     currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather';
+    currentTheme === 'black-cowhide-leather' ||
+    currentTheme === 'dark-ice-blue-neu';
 
   // Danh sách video cho 3 màn hình: Màn hình chờ (idle), Chuyển cảnh (transition), Video phát (presentation)
   const VIDEO_SCREENS: VideoScreenItem[] = [

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion } from 'motion/react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { Toast } from './components/common/Toast';
@@ -716,7 +717,7 @@ export default function App() {
       {currentTabIndex !== 16 && (
         <div
           id="app-header-container"
-          className={`w-full shrink-0 relative z-40 flex justify-center shadow-none rounded-t-none rounded-b-[14px] transition-all duration-300 ease-in-out ${
+          className={`w-full shrink-0 relative z-40 flex justify-center bg-transparent border-0 shadow-none rounded-none transition-all duration-300 ease-in-out ${
             isNavCollapsed && autoCollapseOnScroll
               ? '-translate-y-full opacity-0 pointer-events-none -mb-12 max-h-0 overflow-hidden'
               : 'translate-y-0 opacity-100 max-h-[80px]'
@@ -752,12 +753,16 @@ export default function App() {
           currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-full'
         } mx-auto flex-1 my-[2px] sm:my-[4px] lg:my-[4px] min-h-0 rounded-[14px] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
-        <div
+        <motion.div
           key={`page-view-${currentTabIndex}`}
+          initial={{ opacity: 0, y: 10, scale: 0.995 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.28, ease: 'easeOut' }}
           className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
         >
           {renderActiveView()}
-        </div>
+        </motion.div>
 
         <Toast message={toastMessage} />
       </main>

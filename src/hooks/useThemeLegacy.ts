@@ -15,6 +15,8 @@ import {
   SURFACE_DEPTH_SYNC_EVENT,
   AUTO_COLLAPSE_ON_SCROLL_STORAGE_KEY,
   AUTO_COLLAPSE_ON_SCROLL_SYNC_EVENT,
+  AUTO_TIME_THEME_STORAGE_KEY,
+  AUTO_TIME_THEME_SYNC_EVENT,
   THEME_BACKGROUNDS,
   THEME_DEFAULT_GLASS_SETTINGS,
   THEME_DEFAULT_WALLPAPER_ID,
@@ -118,6 +120,29 @@ export function useThemeLegacy() {
     }
   });
 
+  const [autoTimeTheme, setAutoTimeThemeState] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(AUTO_TIME_THEME_STORAGE_KEY) === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const setAutoTimeTheme = useCallback((enabled: boolean) => {
+    setAutoTimeThemeState(enabled);
+    try {
+      localStorage.setItem(AUTO_TIME_THEME_STORAGE_KEY, String(enabled));
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(AUTO_TIME_THEME_SYNC_EVENT, { detail: enabled }));
+  }, []);
+
+  const toggleAutoTimeTheme = useCallback(() => {
+    setAutoTimeTheme(!autoTimeTheme);
+  }, [autoTimeTheme, setAutoTimeTheme]);
+
+
   const activeWallpaperIdRef = useRef<string>(activeWallpaper.id);
   useEffect(() => {
     activeWallpaperIdRef.current = activeWallpaper.id;
@@ -168,7 +193,9 @@ export function useThemeLegacy() {
             ? 'black-cowhide-leather'
             : cardStyle === 'light-multicolor-glass-dark'
               ? 'light-multicolor-glass-dark'
-              : 'dark'
+              : cardStyle === 'dark-ice-blue-neu'
+                ? 'dark-ice-blue-neu'
+                : 'dark'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -356,7 +383,9 @@ export function useThemeLegacy() {
             ? 'black-cowhide-leather'
             : normalized === 'light-multicolor-glass-dark'
               ? 'light-multicolor-glass-dark'
-              : 'dark'
+              : normalized === 'dark-ice-blue-neu'
+                ? 'dark-ice-blue-neu'
+                : 'dark'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -385,6 +414,24 @@ export function useThemeLegacy() {
     },
     [cardStyle, isDark, setCardStyle]
   );
+
+  useEffect(() => {
+    if (!autoTimeTheme) return;
+    const checkTimeTheme = () => {
+      const hour = new Date().getHours();
+      const isNight = hour >= 18 || hour < 6;
+      if (cardStyle === 'ice-blue-neu' || cardStyle === 'dark-ice-blue-neu') {
+        if (isNight && cardStyle !== 'dark-ice-blue-neu') {
+          setCardStyle('dark-ice-blue-neu');
+        } else if (!isNight && cardStyle !== 'ice-blue-neu') {
+          setCardStyle('ice-blue-neu');
+        }
+      }
+    };
+    checkTimeTheme();
+    const interval = setInterval(checkTimeTheme, 60000);
+    return () => clearInterval(interval);
+  }, [autoTimeTheme, cardStyle, setCardStyle]);
 
   const getCardStyleProps = useCallback((mode?: CardStyleMode) => {
     return getCardStyleProperties(mode || cardStyle);
@@ -480,5 +527,8 @@ export function useThemeLegacy() {
     autoCollapseOnScroll,
     setAutoCollapseOnScroll,
     toggleAutoCollapseOnScroll,
+    autoTimeTheme,
+    setAutoTimeTheme,
+    toggleAutoTimeTheme,
   };
 }

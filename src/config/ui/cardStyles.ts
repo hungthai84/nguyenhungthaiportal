@@ -41,6 +41,17 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     darkMode: 'black-cowhide-leather',
     colorMode: 'cowhide-leather',
   },
+  {
+    id: 'ice-blue-neu',
+    label: 'Ice-Blue Soft UI',
+    labelEn: 'Ice-Blue Neumorphism',
+    description: 'Ice-Blue Soft UI (Sáng #e6f0f8) & Dark Ice-Blue Neu (Tối #152030) đổ bóng kép & thanh gradient phát sáng',
+    descriptionEn: 'Ice-Blue Soft UI (Light #e6f0f8) & Dark Ice-Blue Neu (Dark #152030) dual soft shadows & glowing bars',
+    icon: 'snowflake',
+    defaultMode: 'ice-blue-neu',
+    lightMode: 'ice-blue-neu',
+    darkMode: 'dark-ice-blue-neu',
+  },
 ];
 
 /**
@@ -300,6 +311,93 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     },
     badgeColorClass: 'bg-[#522E10]/90 text-white border-[#F5DEB3]/50',
   },
+  {
+    id: 'ice-blue-neu',
+    familyId: 'ice-blue-neu',
+    familyLabel: 'Ice-Blue Soft UI',
+    familyLabelEn: 'Ice-Blue Neumorphism',
+    mechanism: 'light',
+    counterpartMode: 'dark-ice-blue-neu',
+    cardClassName: 'card-ice-blue-neu',
+    name: 'Ice-Blue Soft UI (Sáng)',
+    label: 'Ice-Blue Soft UI (Sáng)',
+    shortBadge: 'Ice-Blue Neu',
+    tagLabel: '#77 Ice-Blue Soft UI · Neumorphism Sáng',
+    modeLabel: 'Ice-Blue Soft UI',
+    isDark: false,
+    icon: 'snowflake',
+    color: '#6366F1',
+    desc: 'Nền xanh băng nhạt (#e6f0f8) đổ bóng nổi/chìm mềm mại kết hợp bo góc 28px và các thanh tiến trình gradient Cyan, Tím, Cam đào & Hồng phát sáng.',
+    cardSampleStyle: {
+      background: 'linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%)',
+      backdropFilter: 'blur(18px)',
+      WebkitBackdropFilter: 'blur(18px)',
+      borderRadius: '28px',
+      border: '1px solid rgba(255, 255, 255, 0.85)',
+      boxShadow:
+        '12px 12px 26px rgba(176, 198, 219, 0.7), -10px -10px 22px rgba(255, 255, 255, 0.95), inset 1px 1px 2px rgba(255, 255, 255, 0.9)',
+      color: '#334155',
+    },
+    miniPreviewWrapStyle: {
+      background: '#e5eff8',
+      borderColor: 'rgba(255, 255, 255, 0.85)',
+      boxShadow:
+        'inset 4px 4px 8px rgba(176, 198, 219, 0.65), inset -4px -4px 8px rgba(255, 255, 255, 0.95)',
+    },
+    miniTabStyle: {
+      background: '#e5eff8',
+      color: '#0f172a',
+      borderColor: 'rgba(255, 255, 255, 0.85)',
+    },
+    miniBtnStyle: {
+      background: 'rgb(232, 241, 249)',
+      color: 'rgb(99, 102, 241)',
+    },
+    badgeColorClass: 'bg-[#e8f1f9] text-[#6366f1] border-white/85',
+  },
+  {
+    id: 'dark-ice-blue-neu',
+    familyId: 'ice-blue-neu',
+    familyLabel: 'Ice-Blue Soft UI',
+    familyLabelEn: 'Ice-Blue Neumorphism',
+    mechanism: 'dark',
+    counterpartMode: 'ice-blue-neu',
+    cardClassName: 'card-dark-ice-blue-neu',
+    name: 'Dark Ice-Blue Neu (Tối)',
+    label: 'Dark Ice-Blue Neu (Tối)',
+    shortBadge: 'Dark Ice Neu',
+    tagLabel: '#78 Dark Ice-Blue Neu · Neumorphism Tối',
+    modeLabel: 'Dark Ice-Blue Neu',
+    isDark: true,
+    icon: 'moon',
+    color: '#38BDF8',
+    desc: 'Nền xanh băng thẫm (#152030) dập nổi mềm mại với bo góc 28px, đổ bóng kép lạnh sâu và các thanh chỉ số gradient neon phát sáng.',
+    cardSampleStyle: {
+      background: 'linear-gradient(145deg, #182536 0%, #121c29 100%)',
+      backdropFilter: 'blur(18px)',
+      WebkitBackdropFilter: 'blur(18px)',
+      borderRadius: '28px',
+      border: '1px solid rgba(148, 197, 248, 0.12)',
+      boxShadow:
+        '12px 12px 26px #0a1018, -10px -10px 22px #203147, inset 1px 1px 2px rgba(186, 230, 253, 0.14)',
+      color: '#e2e8f0',
+    },
+    miniPreviewWrapStyle: {
+      background: '#131d2b',
+      borderColor: 'rgba(148, 197, 248, 0.14)',
+      boxShadow: 'inset 4px 4px 8px #0a1018, inset -4px -4px 8px #1e2e43',
+    },
+    miniTabStyle: {
+      background: '#131d2b',
+      color: '#f8fafc',
+      borderColor: 'rgba(148, 197, 248, 0.16)',
+    },
+    miniBtnStyle: {
+      background: 'rgb(22, 34, 50)',
+      color: '#ffffff',
+    },
+    badgeColorClass: 'bg-[#162232] text-[#f8fafc] border-[#94c5f8]/20',
+  },
 ];
 
 export const VALID_CARD_STYLES: CardStyleMode[] = UNIFIED_INTERFACE_THEMES.map((theme) => theme.id);
@@ -353,6 +451,16 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     light: CARD_STYLES_MAP['light-cowhide-leather'],
     dark: CARD_STYLES_MAP['black-cowhide-leather'],
     color: CARD_STYLES_MAP['cowhide-leather'],
+  },
+  'ice-blue-neu': {
+    familyId: 'ice-blue-neu',
+    label: 'Ice-Blue Soft UI',
+    labelEn: 'Ice-Blue Neumorphism',
+    description: 'Ice-Blue Soft UI (Sáng #e6f0f8) & Dark Ice-Blue Neu (Tối #152030)',
+    descriptionEn: 'Ice-Blue Soft UI (Light #e6f0f8) & Dark Ice-Blue Neu (Dark #152030)',
+    icon: 'snowflake',
+    light: CARD_STYLES_MAP['ice-blue-neu'],
+    dark: CARD_STYLES_MAP['dark-ice-blue-neu'],
   },
 };
 

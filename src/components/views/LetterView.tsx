@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { Modal } from '@/components/ui/Modal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { speakSiteText, stopActiveSpeech, VOICE_CHANGE_EVENT, getSavedVoiceURI, findBestVoice, findBestEnglishVoice, saveDefaultVoiceURI } from '@/utils/speechVoice';
+import { speakSiteText, stopActiveSpeech, VOICE_CHANGE_EVENT, getSavedVoiceURI, findBestVoice, findBestEnglishVoice, saveDefaultVoiceURI, applyActivePersonaToUtterance } from '@/utils/speechVoice';
 import { useToast } from '@/components/ui/Toast';
 import { formatCardTitle, cn } from '@/lib/utils';
 import { getSavedMutedPref, saveMutedPref, AUDIO_PREF_EVENT } from '@/utils/audioPreference';
@@ -327,7 +327,7 @@ const AnimatedCardTitle: React.FC<{
               name={iconName}
               size={16}
               className="w-[16px] h-[16px] shrink-0 card-title-icon"
-              style={{ width: '16px', height: '16px', fontSize: '16px' }}
+              style={{ width: '16px', height: '16px' }}
             />
           </span>
           <h3
@@ -356,7 +356,7 @@ export interface LetterViewProps {
 }
 
 export const LetterView: React.FC<LetterViewProps> = ({
-  currentTheme = 'light-multicolor-glass-color',
+  currentTheme = 'ice-blue-neu',
   onOpenBannerStudio,
   onShowNotification,
 }) => {
@@ -377,7 +377,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
   // Current Theme detection
   const isDark =
     themeIsDark ||
-    currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu';
@@ -659,7 +658,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
               return (
                 <span
                   key={idx}
-                  className="inline-block px-1 py-0.5 mx-0.5 rounded bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 dark:from-amber-400 dark:via-yellow-300 dark:to-amber-400 text-slate-950 font-black shadow-[0_0_12px_rgba(251,191,36,0.85)] ring-1 ring-amber-400 scale-[1.04] transition-all duration-150"
+                  className="inline-block px-1 py-0.5 mx-0.5 rounded bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 dark:from-amber-400 dark:via-yellow-300 dark:to-amber-400 text-slate-950 font-bold shadow-[0_0_12px_rgba(251,191,36,0.85)] ring-1 ring-amber-400 scale-[1.04] transition-all duration-150"
                 >
                   {w}{' '}
                 </span>
@@ -1047,24 +1046,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           window.speechSynthesis.cancel();
           const utterance = new SpeechSynthesisUtterance(segment.text);
           const isEn = narrationLanguageRef.current === 'en';
-
-          if (isEn) {
-            utterance.lang = 'en-US';
-            utterance.rate = speechRateRef.current * 0.96;
-            utterance.pitch = 1.0;
-            const chosenVoice = findBestEnglishVoice(voices);
-            if (chosenVoice) {
-              utterance.voice = chosenVoice;
-            }
-          } else {
-            utterance.lang = 'vi-VN';
-            utterance.rate = speechRateRef.current;
-            utterance.pitch = 1.02;
-            const chosenVoice = findBestVoice(voices);
-            if (chosenVoice) {
-              utterance.voice = chosenVoice;
-            }
-          }
+          applyActivePersonaToUtterance(utterance, voices, isEn ? 'en' : 'vi', speechRateRef.current);
 
           utterance.onboundary = (event) => {
             if (utteranceIdRef.current === currentCallId && segment.text.length > 0) {
@@ -1724,12 +1706,38 @@ export const LetterView: React.FC<LetterViewProps> = ({
 </body>
 </html>`;
 
-    const printWin = window.open('', '_blank', 'width=900,height=1000');
-    if (printWin) {
-      printWin.document.open();
-      printWin.document.write(printHtml);
-      printWin.document.close();
-    } else {
+    try {
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'fixed';
+      iframe.style.right = '0';
+      iframe.style.bottom = '0';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = '0';
+      iframe.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(iframe);
+
+      const doc = iframe.contentWindow?.document;
+      if (doc) {
+        doc.open();
+        doc.write(printHtml);
+        doc.close();
+        setTimeout(() => {
+          try {
+            iframe.contentWindow?.focus();
+            iframe.contentWindow?.print();
+          } catch {
+            window.print();
+          }
+          setTimeout(() => {
+            if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+          }, 2000);
+        }, 400);
+      } else {
+        if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+        window.print();
+      }
+    } catch {
       window.print();
     }
   }, [companyDisplay, showToast]);
@@ -2045,7 +2053,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                             name="book"
                             size={16}
                             className="w-[16px] h-[16px] shrink-0 card-title-icon text-cyan-600 dark:text-cyan-300"
-                            style={{ width: '16px', height: '16px', fontSize: '16px' }}
+                            style={{ width: '16px', height: '16px' }}
                           />
                           <h2
                             className="card-title card-title-synced typo-h3 font-play tracking-tight text-cyan-600 dark:text-cyan-300 truncate"
@@ -2208,7 +2216,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                                 name="briefcase"
                                 size={16}
                                 className="w-[16px] h-[16px] shrink-0 card-title-icon text-blue-600 dark:text-cyan-400"
-                                style={{ width: '16px', height: '16px', fontSize: '16px' }}
+                                style={{ width: '16px', height: '16px' }}
                               />
                               <h3
                                 className="card-title card-title-synced typo-h3 font-play text-blue-600 dark:text-cyan-400 whitespace-normal break-words"
@@ -2282,7 +2290,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                                 name="sparkles"
                                 size={16}
                                 className="w-[16px] h-[16px] shrink-0 card-title-icon text-amber-600 dark:text-amber-300"
-                                style={{ width: '16px', height: '16px', fontSize: '16px' }}
+                                style={{ width: '16px', height: '16px' }}
                               />
                               <h3
                                 className="card-title card-title-synced typo-h3 font-play text-amber-600 dark:text-amber-300 whitespace-normal break-words"
@@ -2588,7 +2596,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         style={{ padding: '15px', borderRadius: '14px' }}
                         className="sub-card letter-subcard w-full p-[15px] rounded-[14px] relative flex items-center gap-3 min-w-0"
                       >
-                        <span className="text-amber-600 dark:text-amber-400 font-serif font-black text-xl leading-none shrink-0">
+                        <span className="text-amber-600 dark:text-amber-400 font-serif font-bold text-xl leading-none shrink-0">
                           “
                         </span>
                         <p className="card-body-text typo-body text-amber-900 dark:text-amber-300 font-semibold italic leading-relaxed break-words [overflow-wrap:anywhere]">
@@ -2743,52 +2751,54 @@ export const LetterView: React.FC<LetterViewProps> = ({
             />
           </div>
 
-          {/* Vòng tròn Avatar chân dung phát sáng rực rỡ, chuyển động nhịp nhàng & nút Play đè ở chính giữa cạnh dưới */}
-          <div className="relative group/circle cursor-pointer" onClick={handleToggleCircleVideo}>
-            {/* Vòng sáng Laser Glow Aura bao quanh phát sáng & chuyển động */}
-            <div className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-80 blur-md animate-pulse pointer-events-none" />
+          {/* Vòng tròn Avatar chân dung phát sáng rực rỡ, chuyển động nhịp nhàng & nút Play nằm ở dưới hình tròn */}
+          <div className="relative group/circle cursor-pointer flex flex-col items-center" onClick={handleToggleCircleVideo}>
+            <div className="relative">
+              {/* Vòng sáng Laser Glow Aura bao quanh phát sáng & chuyển động */}
+              <div className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-80 blur-md animate-pulse pointer-events-none" />
 
-            {/* Vòng tròn avatar chân dung video lấp đầy 100% */}
-            <div
-              className={cn(
-                "relative w-14 h-14 sm:w-24 sm:h-24 rounded-full overflow-hidden transition-all duration-300 group-hover/circle:scale-110 border-[3px]",
-                isCircleVideoPlaying ? "ring-4 ring-[var(--color-primary)]/45" : ""
-              )}
-              style={{
-                backgroundColor: 'var(--bg-card)',
-                borderColor: 'var(--color-primary)',
-                boxShadow: 'var(--shadow-layer-2, 0 10px 24px rgba(15, 23, 42, 0.22))',
-              }}
-            >
-              {/* Video nền hoặc video đang phát chân dung chuyên gia: LẮP ĐẦY HÌNH TRÒN 100% */}
-              <video
-                ref={circleVideoRef}
-                src={isCircleVideoPlaying ? HOME_SCREEN_2_INTRO_URL : HOME_SCREEN_2_IDLE_URL}
-                autoPlay
-                loop={!isCircleVideoPlaying}
-                playsInline
-                muted={!isCircleVideoPlaying}
-                onTimeUpdate={handleCircleVideoTimeUpdate}
-                onEnded={handleCircleVideoEnded}
-                className="w-full h-full min-w-full min-h-full object-cover object-center pointer-events-none scale-[1.08] rounded-full"
-              />
+              {/* Vòng tròn avatar chân dung video lấp đầy 100% */}
+              <div
+                className={cn(
+                  "relative w-14 h-14 sm:w-24 sm:h-24 rounded-full overflow-hidden transition-all duration-300 group-hover/circle:scale-105 border-[3px]",
+                  isCircleVideoPlaying ? "ring-4 ring-[var(--color-primary)]/45" : ""
+                )}
+                style={{
+                  backgroundColor: 'var(--bg-card)',
+                  borderColor: 'var(--color-primary)',
+                  boxShadow: 'var(--shadow-layer-2, 0 10px 24px rgba(15, 23, 42, 0.22))',
+                }}
+              >
+                {/* Video nền hoặc video đang phát chân dung chuyên gia: LẮP ĐẦY HÌNH TRÒN 100% */}
+                <video
+                  ref={circleVideoRef}
+                  src={isCircleVideoPlaying ? HOME_SCREEN_2_INTRO_URL : HOME_SCREEN_2_IDLE_URL}
+                  autoPlay
+                  loop={!isCircleVideoPlaying}
+                  playsInline
+                  muted={!isCircleVideoPlaying}
+                  onTimeUpdate={handleCircleVideoTimeUpdate}
+                  onEnded={handleCircleVideoEnded}
+                  className="w-full h-full min-w-full min-h-full object-cover object-center pointer-events-none scale-[1.08] rounded-full"
+                />
 
-              {/* Tag trạng thái nhỏ khi video đang phát */}
-              {isCircleVideoPlaying && (
-                <div
-                  className="absolute top-1 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full backdrop-blur-xs typo-badge font-mono font-bold border pointer-events-none shadow-xs whitespace-nowrap z-10"
-                  style={{
-                    background: 'var(--bg-popup)',
-                    borderColor: 'var(--border-card)',
-                    color: 'var(--text-link, var(--color-primary))',
-                  }}
-                >
-                  Đang phát 🔊
-                </div>
-              )}
+                {/* Tag trạng thái nhỏ khi video đang phát */}
+                {isCircleVideoPlaying && (
+                  <div
+                    className="absolute top-1 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full backdrop-blur-xs typo-badge font-mono font-bold border pointer-events-none shadow-xs whitespace-nowrap z-10"
+                    style={{
+                      background: 'var(--bg-popup)',
+                      borderColor: 'var(--border-card)',
+                      color: 'var(--text-link, var(--color-primary))',
+                    }}
+                  >
+                    Đang phát 🔊
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Nút Play hình tròn đồng bộ giao diện với viền chạy & hiệu ứng đổ bóng nằm dưới vòng tròn */}
+            {/* Nút Play hình tròn đồng bộ giao diện nằm dưới hình tròn */}
             <button
               id="letter-circle-video-play-btn"
               type="button"
@@ -2798,7 +2808,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
               }}
               className={`video-play-btn video-play-btn--letter ${
                 isCircleVideoPlaying ? 'is-playing' : ''
-              } absolute -bottom-2 sm:-bottom-2.5 left-1/2 -translate-x-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-full active:scale-95 flex items-center justify-center transition-all duration-300 z-20 cursor-pointer`}
+              } relative mt-2 w-8 h-8 sm:w-9 sm:h-9 rounded-full active:scale-95 flex items-center justify-center transition-all duration-300 z-20 cursor-pointer shadow-md`}
               title={isCircleVideoPlaying ? "Tạm dừng video" : "Xem video giới thiệu"}
               aria-label={isCircleVideoPlaying ? "Tạm dừng video" : "Xem video giới thiệu"}
             >

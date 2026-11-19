@@ -245,7 +245,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const isEn = language === 'en';
   const isDark =
     themeIsDark ||
-    currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu';

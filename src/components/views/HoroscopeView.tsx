@@ -970,7 +970,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             <WebIcon
               name="compass"
               className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-              style={{ width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
+              style={{ width: '22px', height: '22px', fontWeight: 'bold' }}
             />
             <h1
               id="horoscope-hero-banner-title"
@@ -1087,7 +1087,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           {/* Badges thông tin bản mệnh nhanh */}
           <div className="hidden sm:flex items-center gap-2 shrink-0">
             <span className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-play">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-amber-400" />
               Giáp Tý 1984 · Hải Trung Kim
             </span>
             <span className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-play">
@@ -1304,14 +1304,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                       Cung mệnh la bàn
                     </h5>
                   </div>
-                  <span className="typo-badge px-1.5 py-0.2 rounded-full text-[10px] bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30 shrink-0 tabular-nums">
+                  <span className="typo-badge px-1.5 py-0.2 rounded-full bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30 shrink-0 tabular-nums">
                     {activeLuckyDirection.degree}°
                   </span>
                 </div>
                 <div className="min-w-0 flex flex-col gap-0.5">
                   <div className="typo-h5 text-cyan-700 dark:text-cyan-300 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
                     <span>Đoài Kim (Hành Kim)</span>
-                    <span className="text-[11px] opacity-75">· {activeLuckyDirection.direction} ({activeLuckyDirection.starName})</span>
+                    <span className="typo-caption opacity-75">· {activeLuckyDirection.direction} ({activeLuckyDirection.starName})</span>
                   </div>
                   <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
                     (Tây Tứ Mệnh • Hướng {activeLuckyDirection.direction} - {activeLuckyDirection.elementBadge})
@@ -1346,7 +1346,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     <>
       <div className="w-full flex items-center justify-between pb-3.5 border-b border-[var(--border-subcard)] shrink-0">
         <div className="card-header-sync flex items-center gap-2.5 text-left">
-          <Briefcase style={transparentLogoStyle} className="w-6 h-6 text-blue-600 dark:text-cyan-400 animate-pulse shrink-0" />
+          <Briefcase style={transparentLogoStyle} className="w-6 h-6 text-blue-600 dark:text-cyan-400 shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-blue-600 dark:text-cyan-400">
             2. Phong Cách Quản Trị
           </h3>
@@ -1416,7 +1416,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     >
       <div className="col-span-full flex items-center justify-between pb-3.5 border-b border-emerald-200/50 dark:border-emerald-800/50">
         <div className="card-header-sync flex items-center gap-2.5 text-left">
-          <Target style={transparentLogoStyle} className="w-6 h-6 text-emerald-600 dark:text-emerald-400 animate-pulse shrink-0" />
+          <Target style={transparentLogoStyle} className="w-6 h-6 text-emerald-600 dark:text-emerald-400 shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-emerald-600 dark:text-emerald-400">
             3. Chân Dung Công Việc
           </h3>
@@ -1536,7 +1536,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     >
       <div className="col-span-full flex items-center justify-between pb-3.5 border-b border-cyan-200/50 dark:border-cyan-800/50">
         <div className="card-header-sync flex items-center gap-2.5 text-left">
-          <Layers style={transparentLogoStyle} className="w-6 h-6 text-cyan-600 dark:text-cyan-400 animate-pulse shrink-0" />
+          <Layers style={transparentLogoStyle} className="w-6 h-6 text-cyan-600 dark:text-cyan-400 shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-cyan-600 dark:text-cyan-400">
             4. Kỹ Năng Ngũ Hành
           </h3>
@@ -1674,7 +1674,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     >
       <div className="col-span-full flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-purple-200/50 dark:border-purple-800/50">
         <div className="card-header-sync flex items-center gap-2.5 text-left">
-          <Users style={transparentLogoStyle} className="w-6 h-6 text-purple-600 dark:text-purple-400 animate-pulse shrink-0" />
+          <Users style={transparentLogoStyle} className="w-6 h-6 text-purple-600 dark:text-purple-400 shrink-0" />
           <h3 className="card-title-synced typo-h3 tracking-wide font-play text-purple-600 dark:text-purple-400">
             6. Kiểm Tra Công Việc
           </h3>

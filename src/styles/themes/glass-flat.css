@@ -1,0 +1,107 @@
+/* ========================================================================= */
+/* GLASS FLAT UI (MULTI-COLOR / LIGHT CLEAN CLEAN SHARP BORDER)              */
+/* ========================================================================= */
+
+.card-glass-flat {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(240, 244, 255, 0.85) 100%) !important;
+  backdrop-filter: blur(12px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
+  border: 1.5px solid rgba(14, 165, 233, 0.28) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+  color: #0f172a !important;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease !important;
+}
+
+.card-glass-flat:hover {
+  transform: translateY(-2.5px);
+  border-color: rgba(14, 165, 233, 0.65) !important;
+  box-shadow: 0 14px 32px -6px rgba(14, 165, 233, 0.16), 0 4px 12px rgba(15, 23, 42, 0.06) !important;
+}
+
+html[data-card-style="glass-flat"] {
+  --color-primary: #0284c7;
+  --color-secondary: #0ea5e9;
+  --color-accent: #38bdf8;
+  --bg-app: #f4f7fb;
+  --bg-card: rgba(255, 255, 255, 0.88);
+  --bg-subcard: rgba(240, 246, 255, 0.80);
+  --border-color: rgba(14, 165, 233, 0.22);
+  --border-subcard: rgba(14, 165, 233, 0.16);
+  --shadow-card: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
+  --shadow-card-hover: 0 14px 32px -6px rgba(14, 165, 233, 0.16);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --radius-card: 20px;
+  --radius-subcard: 14px;
+  --radius-banner: 20px;
+  --radius-button: 999px;
+  --bg-button-primary: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  --bg-nav-pill: rgba(255, 255, 255, 0.92);
+  --shadow-nav-pill: 0 6px 20px rgba(14, 165, 233, 0.12);
+  --blur-nav-pill: 14px;
+  --outline-nav-pill: none;
+}
+
+html[data-card-style="glass-flat"] #app-header,
+html[data-card-style="glass-flat"] #app-footer {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-color: rgba(14, 165, 233, 0.22) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06) !important;
+}
+
+html[data-card-style="glass-flat"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+) {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(224, 242, 254, 0.75) 100%) !important;
+  border: 1.5px solid rgba(14, 165, 233, 0.30) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 28px -6px rgba(14, 165, 233, 0.12) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+
+html[data-card-style="glass-flat"] :is(
+  [data-section-card="true"],
+  .bento-card,
+  .glass-card,
+  .project-card,
+  .exp-bento-surface-card,
+  .education-card
+) {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1.5px solid rgba(14, 165, 233, 0.20) !important;
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.07) !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+html[data-card-style="glass-flat"] :is(
+  [data-subcard="true"],
+  .sub-card,
+  .nested-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard
+) {
+  background: rgba(240, 246, 255, 0.85) !important;
+  border: 1px solid rgba(14, 165, 233, 0.18) !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+  border-radius: 14px !important;
+}

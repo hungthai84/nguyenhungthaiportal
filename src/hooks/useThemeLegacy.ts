@@ -117,9 +117,9 @@ export function useThemeLegacy() {
 
   const [surfaceDepth, setSurfaceDepthState] = useState<SurfaceDepthMode>(() => {
     try {
-      return localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY) === 'flat' ? 'flat' : 'depth';
+      return localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY) === 'depth' ? 'depth' : 'flat';
     } catch {
-      return 'depth';
+      return 'flat';
     }
   });
 
@@ -127,9 +127,9 @@ export function useThemeLegacy() {
     try {
       const savedDepth = localStorage.getItem(LAYER_DEPTH_STORAGE_KEY);
       if (savedDepth !== null) return clampLayerDepth(Number(savedDepth));
-      return localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY) === 'flat' ? 0 : DEFAULT_LAYER_DEPTH;
+      return localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY) === 'depth' ? DEFAULT_LAYER_DEPTH : 0;
     } catch {
-      return DEFAULT_LAYER_DEPTH;
+      return 0;
     }
   });
 

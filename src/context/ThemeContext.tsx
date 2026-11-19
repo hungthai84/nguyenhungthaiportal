@@ -217,9 +217,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [surfaceDepth, setSurfaceDepthState] = useState<SurfaceDepthMode>(() => {
     try {
       const saved = localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY);
-      return saved === 'flat' ? 'flat' : 'depth';
+      return saved === 'depth' ? 'depth' : 'flat';
     } catch {
-      return 'depth';
+      return 'flat';
     }
   });
 
@@ -227,9 +227,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     try {
       const savedDepth = localStorage.getItem(LAYER_DEPTH_STORAGE_KEY);
       if (savedDepth !== null) return clampLayerDepth(Number(savedDepth));
-      return localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY) === 'flat' ? 0 : DEFAULT_LAYER_DEPTH;
+      return localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY) === 'depth' ? DEFAULT_LAYER_DEPTH : 0;
     } catch {
-      return DEFAULT_LAYER_DEPTH;
+      return 0;
     }
   });
 

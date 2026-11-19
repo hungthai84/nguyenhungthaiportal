@@ -17,6 +17,7 @@ import {
 } from '@/data/skills';
 import { PROJECTS_DATA } from '@/data/projects';
 import { ENTERPRISE_SYSTEMS_LIST } from '@/data/systems';
+import { ExecutiveSummarySheet } from '@/components/views/ExecutiveSummarySheet';
 
 const SERVICE_ACCENT_COLORS: Record<string, string> = {
   cyan: '#0284c7',
@@ -146,6 +147,7 @@ const PDF_OPEN_LETTER_PRINCIPLES = [
 
 export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigateTab }) => {
   const [isExporting, setIsExporting] = useState<boolean>(false);
+  const [viewMode, setViewMode] = useState<'full' | 'executive'>('full');
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handlePrintOrExport = (mode: 'print' | 'download') => {
@@ -177,7 +179,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       data-element-page="pdf"
       data-element-parent="global-content-viewport"
       style={{
-        gap: '20px',
+        gap: '15px',
       }}
       className="main-card page-main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[15px] gap-[15px] overflow-y-auto no-scrollbar font-play select-text text-left text-[var(--text-primary)] animate-fadeIn rounded-[14px] box-border"
     >
@@ -305,6 +307,47 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           </div>
 
           <div className="flex items-center justify-end gap-2 shrink-0 flex-wrap">
+            {/* Chuyển đổi giữa CV Đầy đủ (9 phần) và Infographic 1 Trang */}
+            <div
+              role="tablist"
+              aria-label="Chế độ xem hồ sơ"
+              className="inline-flex items-center p-1 rounded-full border gap-1"
+              style={{ background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }}
+            >
+              <button
+                type="button"
+                role="tab"
+                aria-selected={viewMode === 'full'}
+                onClick={() => {
+                  SoundEngine.playTap();
+                  setViewMode('full');
+                }}
+                className={`px-3 py-1.5 rounded-full typo-badge cursor-pointer transition ${
+                  viewMode === 'full'
+                    ? 'bg-blue-600 text-white shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:opacity-80'
+                }`}
+              >
+                CV Đầy đủ (9 phần)
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={viewMode === 'executive'}
+                onClick={() => {
+                  SoundEngine.playTap();
+                  setViewMode('executive');
+                }}
+                className={`px-3 py-1.5 rounded-full typo-badge cursor-pointer transition ${
+                  viewMode === 'executive'
+                    ? 'bg-indigo-600 text-white shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:opacity-80'
+                }`}
+              >
+                Infographic 1 Trang
+              </button>
+            </div>
+
             <button
               type="button"
               onClick={() => handlePrintOrExport('download')}
@@ -313,7 +356,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 active:scale-95 cursor-pointer disabled:opacity-60"
               title="Tải tệp CV Portfolio dưới dạng PDF"
             >
-              <WebIcon name="download" size={16} className="text-white animate-bounce" />
+              <WebIcon name="download" size={16} className="text-white" />
               <span>Tải PDF</span>
             </button>
 
@@ -336,7 +379,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           </div>
         </div>
 
-        {/* Mục lục điều hướng nhanh 9 phần (ẩn khi in) */}
+        {/* Mục lục điều hướng nhanh 9 phần (ẩn khi in hoặc khi xem Infographic 1 trang) */}
+        {viewMode === 'full' && (
         <nav
           aria-label="Điều hướng nhanh các phần CV"
           className="no-print flex items-center gap-1.5 overflow-x-auto horizontal-scroll-smooth pt-2 border-t border-[var(--border-subcard)]"
@@ -370,8 +414,13 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             </button>
           ))}
         </nav>
+        )}
       </header>
 
+      {viewMode === 'executive' ? (
+        <ExecutiveSummarySheet onShowNotification={onShowNotification} />
+      ) : (
+        <>
       {/* PHẦN 01 – TỔNG QUAN NĂNG LỰC */}
       <section id="cv-section-01-home" className="w-full flex flex-col break-inside-avoid">
         <div
@@ -402,7 +451,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             </div>
             <div className="mt-3">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-semibold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 Sẵn sàng đảm nhận vai trò quản trị
               </span>
             </div>
@@ -427,19 +476,19 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
               <div data-subcard="true" className="sub-card p-3 rounded-[14px] shadow-sm text-center break-inside-avoid print-card-bg">
-                <span className="typo-kpi font-extrabold text-blue-600 dark:text-cyan-400 font-play">22+</span>
+                <span className="typo-kpi font-bold text-blue-600 dark:text-cyan-400 font-play">22+</span>
                 <span className="typo-label font-bold text-[var(--text-muted)] font-mono block mt-1">Năm kinh nghiệm</span>
               </div>
               <div data-subcard="true" className="sub-card p-3 rounded-[14px] shadow-sm text-center break-inside-avoid print-card-bg">
-                <span className="typo-kpi font-extrabold text-emerald-600 dark:text-emerald-400 font-play">100+</span>
+                <span className="typo-kpi font-bold text-emerald-600 dark:text-emerald-400 font-play">100+</span>
                 <span className="typo-label font-bold text-[var(--text-muted)] font-mono block mt-1">Dự án chuyển đổi</span>
               </div>
               <div data-subcard="true" className="sub-card p-3 rounded-[14px] shadow-sm text-center break-inside-avoid print-card-bg">
-                <span className="typo-kpi font-extrabold text-amber-600 dark:text-amber-400 font-play">98%+</span>
+                <span className="typo-kpi font-bold text-amber-600 dark:text-amber-400 font-play">98%+</span>
                 <span className="typo-label font-bold text-[var(--text-muted)] font-mono block mt-1">Hài lòng CSAT</span>
               </div>
               <div data-subcard="true" className="sub-card p-3 rounded-[14px] shadow-sm text-center break-inside-avoid print-card-bg">
-                <span className="typo-kpi font-extrabold text-purple-600 dark:text-purple-400 font-play">500+</span>
+                <span className="typo-kpi font-bold text-purple-600 dark:text-purple-400 font-play">500+</span>
                 <span className="typo-label font-bold text-[var(--text-muted)] font-mono block mt-1">Nhân sự dẫn dắt</span>
               </div>
             </div>
@@ -568,7 +617,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               Từ đó, tôi tập trung xây dựng các hệ thống CRM, Dashboard quản trị, AI Chatbot và các giải pháp tự động hóa, nhằm nâng cao hiệu quả vận hành, tối ưu trải nghiệm khách hàng và hỗ trợ nhà quản lý ra quyết định bằng dữ liệu. Bên cạnh công nghệ, tôi luôn xem con người là yếu tố quyết định thành công. Vì vậy, tôi chú trọng đào tạo đội ngũ biết lắng nghe, thấu hiểu và mang đến những trải nghiệm vượt mong đợi cho khách hàng. Tôi luôn tâm niệm:
             </p>
 
-            <blockquote className="px-4 py-2.5 rounded-[14px] border-l-4 border-cyan-500 bg-cyan-500/10 text-[var(--text-primary)] font-semibold italic typo-body-sm leading-relaxed">
+            <blockquote className="px-4 py-2.5 rounded-[14px] border border-[var(--border-subcard)] bg-cyan-500/10 text-[var(--text-primary)] font-semibold italic typo-body-sm leading-relaxed">
               &ldquo;Sự hài lòng của khách hàng không đến từ sự hoàn hảo, mà đến từ sự đồng cảm kịp thời.&rdquo;
             </blockquote>
           </div>
@@ -686,7 +735,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                         <span className="typo-label font-mono">Năm {course.year}</span>
                       </div>
                       {course.code && (
-                        <span className="typo-badge font-mono font-black px-2 py-0.5 rounded-full border" style={{ backgroundColor: `${cardColor}15`, color: cardColor, borderColor: `${cardColor}40` }}>
+                        <span className="typo-badge font-mono font-bold px-2 py-0.5 rounded-full border" style={{ backgroundColor: `${cardColor}15`, color: cardColor, borderColor: `${cardColor}40` }}>
                           {course.code}
                         </span>
                       )}
@@ -996,7 +1045,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                       {quad.title}
                     </h3>
                   </div>
-                  <span className="typo-badge font-mono font-black px-2 py-0.5 rounded-full shrink-0" style={{ backgroundColor: `${quad.color}18`, color: quad.color }}>
+                  <span className="typo-badge font-mono font-bold px-2 py-0.5 rounded-full shrink-0" style={{ backgroundColor: `${quad.color}18`, color: quad.color }}>
                     {quad.key}
                   </span>
                 </div>
@@ -1006,7 +1055,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                       <div className="flex justify-between items-center gap-2 typo-caption font-bold">
                         <span className="text-[var(--text-primary)] truncate">{skill.labelVi}</span>
                         <span
-                          className="font-mono font-black shrink-0 tabular-nums"
+                          className="font-mono font-bold shrink-0 tabular-nums"
                           style={{ color: quad.color }}
                           title={quad.key === 'T' ? 'Mức độ tác động' : undefined}
                         >
@@ -1036,7 +1085,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                   Ngôn ngữ giao tiếp
                 </h3>
               </div>
-              <span className="typo-badge font-mono font-black px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 shrink-0">
+              <span className="typo-badge font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 shrink-0">
                 {LANGUAGES_DATA.length} Ngôn ngữ
               </span>
             </div>
@@ -1058,7 +1107,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                           {lang.nameVi}
                         </h4>
                       </div>
-                      <span className="font-mono font-black typo-label shrink-0 tabular-nums" style={{ color: langHex }}>
+                      <span className="font-mono font-bold typo-label shrink-0 tabular-nums" style={{ color: langHex }}>
                         {lang.percent}%
                       </span>
                     </div>
@@ -1196,7 +1245,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 >
                   <div className="flex items-start gap-2.5 min-w-0 flex-1">
                     <span
-                      className="px-2 py-0.5 rounded-md font-mono typo-badge font-black shrink-0 mt-0.5 shadow-2xs"
+                      className="px-2 py-0.5 rounded-md font-mono typo-badge font-bold shrink-0 mt-0.5 shadow-2xs"
                       style={{ backgroundColor: rawColor, color: badgeTextColor }}
                     >
                       {sys.code || sys.abbr}
@@ -1230,7 +1279,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             Nguyễn Hùng Thái · Chuyên Gia Vận Hành CSKH & Chuyển Đổi Số
           </p>
           <p className="mt-0.5">
-            Email: hunghungthai@gmail.com · Hotline: 0903.007.444 · TP. Hồ Chí Minh, Việt Nam
+            Email: hungthai84@gmail.com · Hotline/Zalo: +84 0909097882 · TP. Hồ Chí Minh, Việt Nam
           </p>
         </div>
         <div className="text-center sm:text-right">
@@ -1238,6 +1287,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           <p className="mt-0.5 typo-label">Tài liệu xuất bản từ website Portfolio Nguyễn Hùng Thái</p>
         </div>
       </footer>
+        </>
+      )}
 
       {/* Back to Top Floating Button (Đặt trực tiếp trong #pdf-page-container) */}
       <button

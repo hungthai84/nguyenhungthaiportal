@@ -312,7 +312,13 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
       onNavigatePage(item.pageIndex);
       showToast(`Chuyển đến: ${item.label}`);
     } else if (item.type === 'link' && item.url) {
-      window.open(item.url, '_blank', 'noopener,noreferrer');
+      const a = document.createElement('a');
+      a.href = item.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     } else if (item.type === 'copy' && item.copyText) {
       if (typeof navigator !== 'undefined' && navigator.clipboard) {
         navigator.clipboard.writeText(item.copyText);
@@ -523,7 +529,7 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
 };
 
 export function AboutView({ 
-  currentTheme = 'light-multicolor-glass-color', 
+  currentTheme = 'ice-blue-neu', 
   onNavigatePage,
   onShowNotification,
   onOpenMapModal,
@@ -1042,7 +1048,7 @@ export function AboutView({
                       {stat.metric}
                     </span>
                     <span className="typo-label text-[var(--text-muted)] block mt-1 font-mono">
-                      {stat.unitVi || 'THỰC CHIẾN'}
+                      {stat.unitVi || 'Thực chiến'}
                     </span>
                   </div>
                   <p className="typo-body-sm text-[var(--text-secondary)] leading-snug">
@@ -1558,7 +1564,7 @@ export function AboutView({
                               <span className="font-bold text-sm text-cyan-700 dark:text-cyan-300">
                                 {activeHeroMapType === 'tam_tru' ? 'Tạm trú hiện tại' : 'Cư trú quê quán'}
                               </span>
-                              <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30 text-[10px] font-mono">
+                              <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30 typo-badge font-mono">
                                 Đã ghim đỏ trên Map
                               </span>
                             </div>
@@ -1721,8 +1727,8 @@ export function AboutView({
                     </div>
                   </div>
 
-                    {/* Sub-Card Bento Grid (Single-line inline info subcards) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 py-0.5 content-start items-start w-full min-w-0">
+                  {/* Sub-Card Bento Grid (Row 1: Icon & Title, Row 2: Single-line Value, Equal Height, Multicolor) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 py-1 content-start items-stretch w-full min-w-0">
                     {[
                       {
                         id: 'gender',
@@ -1730,7 +1736,9 @@ export function AboutView({
                         value: 'Nam giới',
                         icon: 'user',
                         iconColorCls: 'text-sky-600 dark:text-sky-300',
+                        bgCls: 'bg-sky-500/10 dark:bg-sky-500/15 border-sky-500/25 dark:border-sky-400/30',
                         action: () => showToast('Giới tính: Nam giới'),
+                        colSpan: 'col-span-1',
                       },
                       {
                         id: 'ethnicity',
@@ -1738,7 +1746,9 @@ export function AboutView({
                         value: 'Kinh',
                         icon: 'globe',
                         iconColorCls: 'text-emerald-600 dark:text-emerald-300',
+                        bgCls: 'bg-emerald-500/10 dark:bg-emerald-500/15 border-emerald-500/25 dark:border-emerald-400/30',
                         action: () => showToast('Dân tộc: Kinh'),
+                        colSpan: 'col-span-1',
                       },
                       {
                         id: 'marital',
@@ -1746,7 +1756,9 @@ export function AboutView({
                         value: 'Độc thân',
                         icon: 'heart',
                         iconColorCls: 'text-rose-600 dark:text-rose-300',
+                        bgCls: 'bg-rose-500/10 dark:bg-rose-500/15 border-rose-500/25 dark:border-rose-400/30',
                         action: () => showToast('Hôn nhân: Độc thân'),
+                        colSpan: 'col-span-1',
                       },
                       {
                         id: 'birthday',
@@ -1754,7 +1766,9 @@ export function AboutView({
                         value: '22/06/1984',
                         icon: 'calendar',
                         iconColorCls: 'text-amber-600 dark:text-amber-300',
+                        bgCls: 'bg-amber-500/10 dark:bg-amber-500/15 border-amber-500/25 dark:border-amber-400/30',
                         action: () => showToast('Sinh nhật: 22/06/1984'),
+                        colSpan: 'col-span-1',
                       },
                       {
                         id: 'horoscope',
@@ -1762,7 +1776,90 @@ export function AboutView({
                         value: 'Giáp Tý',
                         icon: 'sparkles',
                         iconColorCls: 'text-purple-600 dark:text-purple-300',
+                        bgCls: 'bg-purple-500/10 dark:bg-purple-500/15 border-purple-500/25 dark:border-purple-400/30',
                         action: () => showToast('Tử vi: Giáp Tý - Mệnh Hải Trung Kim'),
+                        colSpan: 'col-span-1',
+                      },
+                      {
+                        id: 'phone',
+                        label: 'Điện thoại',
+                        value: '+84 0909097882',
+                        icon: 'phone',
+                        iconColorCls: 'text-orange-600 dark:text-orange-300',
+                        bgCls: 'bg-orange-500/10 dark:bg-orange-500/15 border-orange-500/25 dark:border-orange-400/30',
+                        action: () => {
+                          window.open('https://zalo.me/0909097882', '_blank', 'noopener,noreferrer');
+                        },
+                        colSpan: 'col-span-1',
+                      },
+                      {
+                        id: 'tam_tru',
+                        label: 'Tạm trú',
+                        value: 'P.Tân Phú (Q7) , TP. Hồ Chí Minh',
+                        icon: 'map-pin',
+                        iconColorCls: 'text-cyan-600 dark:text-cyan-300',
+                        bgCls: 'bg-cyan-500/10 dark:bg-cyan-500/15 border-cyan-500/25 dark:border-cyan-400/30',
+                        action: () => {
+                          setActiveHeroMedia('map');
+                          setActiveHeroMapType('tam_tru');
+                          setActiveMapTab('tam_tru');
+                          showToast('📍 Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh');
+                        },
+                        colSpan: 'col-span-1 sm:col-span-2',
+                      },
+                      {
+                        id: 'cu_tru',
+                        label: 'Cư trú',
+                        value: 'Phường Mỹ Tho, Tỉnh Đồng Tháp',
+                        icon: 'home',
+                        iconColorCls: 'text-teal-600 dark:text-teal-300',
+                        bgCls: 'bg-teal-500/10 dark:bg-teal-500/15 border-teal-500/25 dark:border-teal-400/30',
+                        action: () => {
+                          setActiveHeroMedia('map');
+                          setActiveHeroMapType('cu_tru');
+                          setActiveMapTab('cu_tru');
+                          showToast('📍 Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp');
+                        },
+                        colSpan: 'col-span-1 sm:col-span-2',
+                      },
+                      {
+                        id: 'email',
+                        label: 'Hộp thư',
+                        value: 'Gửi email (hungthai84@gmail.com)',
+                        icon: 'mail',
+                        iconColorCls: 'text-pink-600 dark:text-pink-300',
+                        bgCls: 'bg-pink-500/10 dark:bg-pink-500/15 border-pink-500/25 dark:border-pink-400/30',
+                        action: () => {
+                          if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                            navigator.clipboard.writeText('hungthai84@gmail.com');
+                            showToast('✓ Đã sao chép Email: hungthai84@gmail.com');
+                          }
+                        },
+                        colSpan: 'col-span-1',
+                      },
+                      {
+                        id: 'website',
+                        label: 'Website',
+                        value: 'nguyenhungthai.powerservice.one',
+                        icon: 'globe',
+                        iconColorCls: 'text-blue-600 dark:text-sky-300',
+                        bgCls: 'bg-blue-500/10 dark:bg-blue-500/15 border-blue-500/25 dark:border-blue-400/30',
+                        action: () => {
+                          window.open('https://nguyenhungthai.powerservice.one/', '_blank', 'noopener,noreferrer');
+                        },
+                        colSpan: 'col-span-1',
+                      },
+                      {
+                        id: 'linkedin',
+                        label: 'LinkedIn',
+                        value: 'linkedin.com/in/hungthai84',
+                        icon: 'user-check',
+                        iconColorCls: 'text-indigo-600 dark:text-indigo-300',
+                        bgCls: 'bg-indigo-500/10 dark:bg-indigo-500/15 border-indigo-500/25 dark:border-indigo-400/30',
+                        action: () => {
+                          window.open('https://www.linkedin.com/in/hungthai84/', '_blank', 'noopener,noreferrer');
+                        },
+                        colSpan: 'col-span-1 sm:col-span-2',
                       },
                     ].map((item) => (
                       <div
@@ -1773,146 +1870,30 @@ export function AboutView({
                           item.action();
                         }}
                         title={`${item.label}: ${item.value}`}
-                        className="about-info-subcard h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
+                        className={cn(
+                          'about-info-subcard h-[68px] sm:h-[72px] w-full flex flex-col justify-between p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
+                          item.colSpan,
+                          item.bgCls
+                        )}
                       >
-                        <WebIcon
-                          name={item.icon}
-                          className={cn('w-3.5 h-3.5 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)}
-                          style={{ width: '14px', height: '14px' }}
-                        />
-                        <span className={cn('about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0', item.iconColorCls)}>
-                          {item.label}:
-                        </span>
-                        <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
+                        {/* Hàng 1: Icon & Tiêu đề */}
+                        <div className="flex items-center gap-1.5 min-w-0 w-full">
+                          <WebIcon
+                            name={item.icon}
+                            className={cn('w-3.5 h-3.5 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)}
+                            style={{ width: '14px', height: '14px' }}
+                          />
+                          <span className={cn('about-info-label typo-label font-bold leading-tight whitespace-nowrap truncate min-w-0', item.iconColorCls)}>
+                            {item.label}
+                          </span>
+                        </div>
+
+                        {/* Hàng 2: Chỉ hiển thị 1 dòng */}
+                        <div className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 w-full">
                           {item.value}
-                        </span>
+                        </div>
                       </div>
                     ))}
-
-                    {/* Sub Card: Điện Thoại (Orange) */}
-                    <a
-                      href="https://zalo.me/0909097882"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-subcard="true"
-                      onClick={() => SoundEngine.playPop()}
-                      title="Điện thoại: +84 0909097882"
-                      className="about-info-subcard h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
-                    >
-                      <Phone className="w-3.5 h-3.5 shrink-0 text-orange-600 dark:text-orange-300 group-hover/subcard:scale-110 transition-transform" />
-                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-orange-600 dark:text-orange-300">
-                        Điện thoại:
-                      </span>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
-                        +84 0909097882
-                      </span>
-                    </a>
-
-                    {/* Sub Card: Tạm Trú (Cyan) */}
-                    <div
-                      data-subcard="true"
-                      onClick={() => {
-                        SoundEngine.playPop();
-                        setActiveHeroMedia('map');
-                        setActiveHeroMapType('tam_tru');
-                        setActiveMapTab('tam_tru');
-                        showToast('📍 Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh');
-                      }}
-                      title="Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh"
-                      className="about-info-subcard sm:col-span-2 h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
-                    >
-                      <MapPin className="w-3.5 h-3.5 shrink-0 text-cyan-600 dark:text-cyan-300 group-hover/subcard:scale-110 transition-transform" />
-                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-cyan-600 dark:text-cyan-300">
-                        Tạm trú:
-                      </span>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
-                        P.Tân Phú (Q7) , TP. Hồ Chí Minh
-                      </span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-1" />
-                    </div>
-
-                    {/* Sub Card: Cư Trú (Teal) */}
-                    <div
-                      data-subcard="true"
-                      onClick={() => {
-                        SoundEngine.playPop();
-                        setActiveHeroMedia('map');
-                        setActiveHeroMapType('cu_tru');
-                        setActiveMapTab('cu_tru');
-                        showToast('📍 Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp');
-                      }}
-                      title="Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp"
-                      className="about-info-subcard sm:col-span-2 h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
-                    >
-                      <Home className="w-3.5 h-3.5 shrink-0 text-teal-600 dark:text-teal-300 group-hover/subcard:scale-110 transition-transform" />
-                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-teal-600 dark:text-teal-300">
-                        Cư trú:
-                      </span>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
-                        Phường Mỹ Tho, Tỉnh Đồng Tháp
-                      </span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 ml-1" />
-                    </div>
-
-                    {/* Sub Card: Hộp Thư (Pink) */}
-                    <div
-                      data-subcard="true"
-                      onClick={() => {
-                        SoundEngine.playPop();
-                        if (typeof navigator !== 'undefined' && navigator.clipboard) {
-                          navigator.clipboard.writeText('hungthai84@gmail.com');
-                          showToast('✓ Đã sao chép Email: hungthai84@gmail.com');
-                        }
-                      }}
-                      title="Hộp thư: hungthai84@gmail.com"
-                      className="about-info-subcard h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
-                    >
-                      <Mail className="w-3.5 h-3.5 shrink-0 text-pink-600 dark:text-pink-300 group-hover/subcard:scale-110 transition-transform" />
-                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-pink-600 dark:text-pink-300">
-                        Hộp thư:
-                      </span>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
-                        Gửi email
-                      </span>
-                    </div>
-
-                    {/* Sub Card: Website (Blue) */}
-                    <a
-                      href="https://nguyenhungthai.powerservice.one/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-subcard="true"
-                      onClick={() => SoundEngine.playPop()}
-                      title="Website: https://nguyenhungthai.powerservice.one/"
-                      className="about-info-subcard h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
-                    >
-                      <Globe className="w-3.5 h-3.5 shrink-0 text-blue-600 dark:text-sky-300 group-hover/subcard:scale-110 transition-transform" />
-                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-blue-600 dark:text-sky-300">
-                        Website:
-                      </span>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
-                        Vào trang website
-                      </span>
-                    </a>
-
-                    {/* Sub Card: LinkedIn (Indigo) */}
-                    <a
-                      href="https://www.linkedin.com/in/hungthai84/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-subcard="true"
-                      onClick={() => SoundEngine.playPop()}
-                      title="LinkedIn: https://www.linkedin.com/in/hungthai84/"
-                      className="about-info-subcard min-[420px]:col-span-2 h-auto w-full flex flex-row items-center gap-1.5 px-2.5 py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0"
-                    >
-                      <LinkedinIcon className="w-3.5 h-3.5 shrink-0 text-indigo-600 dark:text-indigo-300 group-hover/subcard:scale-110 transition-transform" />
-                      <span className="about-info-label typo-label font-medium leading-tight whitespace-nowrap shrink-0 text-indigo-600 dark:text-indigo-300">
-                        LinkedIn:
-                      </span>
-                      <span className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 flex-1">
-                        Vào Linkedin
-                      </span>
-                    </a>
                   </div>
 
 

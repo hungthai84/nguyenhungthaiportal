@@ -24,12 +24,11 @@ const DOMAIN_DETAIL_ACCENTS: Record<string, { light: string; dark: string }> = {
   '06': { light: '#059669', dark: '#34d399' },
 };
 
-export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'light-multicolor-glass-color' }) => {
+export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ice-blue-neu' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
   const isDark =
     themeIsDark ||
-    currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu';
@@ -680,8 +679,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                   {/* BENTO CARD 1: Thông điệp chuyên môn & Hình ảnh dịch vụ (Cùng hàng với Đối tác tiêu biểu) */}
                   <div
                     data-subcard="true"
-                    className="exp-detail-subcard md:col-span-7 p-[15px] rounded-[14px] border-l-4 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-[15px] min-w-0 box-border"
-                    style={{ borderLeftColor: accentColor, padding: '15px', gap: '15px' }}
+                    className="exp-detail-subcard md:col-span-7 p-[15px] rounded-[14px] border border-[var(--border-subcard)] relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-[15px] min-w-0 box-border"
+                    style={{ padding: '15px', gap: '15px' }}
                   >
                     <div className="relative z-10 flex-1 min-w-0 flex flex-col justify-between gap-[15px] w-full">
                       <div

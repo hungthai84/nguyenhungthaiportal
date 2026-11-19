@@ -102,9 +102,9 @@
   .font-italianno,
   .font-handwriting,
   .font-quote {
-    font-family: var(--font-quote) !important;
-    font-size: var(--fs-quote, 18px) !important;
-    line-height: 1.35 !important;
+    font-family: var(--font-quote);
+    font-size: var(--fs-quote, var(--fs-h3));
+    line-height: 1.35;
   }
 
   button:focus-visible,

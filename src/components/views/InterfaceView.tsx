@@ -186,6 +186,107 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Pink', width: '54%', gradient: 'linear-gradient(90deg, #f43f5e, #ec4899)', glow: '0 0 12px rgba(236, 72, 153, 0.55)' },
     ],
   },
+  'glass-flat': {
+    radius: '20px',
+    activeRingColor: '#0284C7',
+    activeBorderClass: 'border-[#0284C7]',
+    idleBorderClass: 'border-sky-500/25 hover:border-sky-500/50',
+    activeBadgeClass: 'bg-[#e0f2fe] text-[#0284c7] border-[#7dd3fc]/60 shadow-xs',
+    iconColor: '#0284C7',
+    titleTextClass: 'text-[#0f172a]',
+    bodyTextClass: 'text-[#334155]',
+    accentTextClass: 'text-[#0284C7]',
+    previewBorderClass: 'border-sky-500/25',
+    dividerClass: 'border-sky-500/20',
+    ctaIdleClass: 'bg-[#e0f2fe] text-[#0284c7] hover:bg-sky-100 border border-sky-500/30 shadow-xs',
+    ctaActiveClass: 'bg-gradient-to-r from-[#0284c7] to-[#0369a1] text-white shadow-xs border border-sky-300/50',
+    toggleTrackDarkClass: 'bg-slate-900 border-sky-500/40',
+    toggleTrackLightClass: 'bg-sky-50 border-sky-500/30',
+    toggleThumbDarkClass: 'bg-sky-400 text-slate-950',
+    toggleThumbLightClass: 'bg-sky-600 text-white',
+    demoVideoUrl:
+      'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Cyan', width: '88%', gradient: 'linear-gradient(90deg, #06b6d4, #38bdf8)', glow: '0 0 10px rgba(6, 182, 212, 0.4)' },
+      { label: 'Blue', width: '76%', gradient: 'linear-gradient(90deg, #0284c7, #0ea5e9)', glow: '0 0 10px rgba(14, 165, 233, 0.4)' },
+      { label: 'Indigo', width: '64%', gradient: 'linear-gradient(90deg, #6366f1, #818cf8)', glow: '0 0 10px rgba(99, 102, 241, 0.4)' },
+    ],
+  },
+  'rainbow-glass': {
+    radius: '24px',
+    activeRingColor: '#8b5cf6',
+    activeBorderClass: 'border-[#8b5cf6]',
+    idleBorderClass: 'border-white/80 hover:border-violet-300',
+    activeBadgeClass: 'bg-white/80 text-[#8b5cf6] border-[#8b5cf6]/40 shadow-xs backdrop-blur-md',
+    iconColor: '#8b5cf6',
+    titleTextClass: 'text-[#0f172a]',
+    bodyTextClass: 'text-[#334155]',
+    accentTextClass: 'text-[#8b5cf6]',
+    previewBorderClass: 'border-white/80',
+    dividerClass: 'border-white/60',
+    ctaIdleClass: 'bg-white/70 text-[#6366f1] hover:bg-white/90 border border-white/80 shadow-xs backdrop-blur-md',
+    ctaActiveClass: 'bg-gradient-to-r from-[#06b6d4] via-[#8b5cf6] to-[#ec4899] text-white shadow-xs border border-white/90',
+    toggleTrackDarkClass: 'bg-slate-900/80 border-violet-400/30',
+    toggleTrackLightClass: 'bg-white/80 border-violet-300/40',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#38bdf8] to-[#c084fc] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#8b5cf6] to-[#ec4899] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Iris', width: '90%', gradient: 'linear-gradient(90deg, #6366f1, #8b5cf6)', glow: '0 0 12px rgba(139, 92, 246, 0.45)' },
+      { label: 'Peach', width: '76%', gradient: 'linear-gradient(90deg, #fb923c, #f43f5e)', glow: '0 0 12px rgba(244, 63, 94, 0.4)' },
+      { label: 'Mint', width: '65%', gradient: 'linear-gradient(90deg, #10b981, #06b6d4)', glow: '0 0 12px rgba(6, 182, 212, 0.4)' },
+    ],
+  },
+  'dark-rainbow-glass': {
+    radius: '24px',
+    activeRingColor: '#a855f7',
+    activeBorderClass: 'border-[#a855f7]',
+    idleBorderClass: 'border-white/15 hover:border-violet-400/40',
+    activeBadgeClass: 'bg-[#18182b]/80 text-[#c084fc] border-[#a855f7]/40 shadow-xs backdrop-blur-md',
+    iconColor: '#c084fc',
+    titleTextClass: 'text-[#f8fafc]',
+    bodyTextClass: 'text-[#cbd5e1]',
+    accentTextClass: 'text-[#c084fc]',
+    previewBorderClass: 'border-white/15',
+    dividerClass: 'border-white/10',
+    ctaIdleClass: 'bg-[#1e1e36]/70 text-[#cbd5e1] hover:bg-[#252542] border border-white/20 backdrop-blur-md',
+    ctaActiveClass: 'bg-gradient-to-r from-[#00f2fe] via-[#a855f7] to-[#f43f5e] text-white shadow-xs border border-violet-400/40',
+    toggleTrackDarkClass: 'bg-[#0f0f1d] border-violet-500/30',
+    toggleTrackLightClass: 'bg-white/20 border-white/30',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#00f2fe] to-[#a855f7] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#a855f7] to-[#ec4899] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
+    gradientBars: [
+      { label: 'Neon Iris', width: '92%', gradient: 'linear-gradient(90deg, #818cf8, #c084fc)', glow: '0 0 14px rgba(192, 132, 252, 0.55)' },
+      { label: 'Cyber Rose', width: '80%', gradient: 'linear-gradient(90deg, #f43f5e, #fb7185)', glow: '0 0 14px rgba(244, 63, 94, 0.5)' },
+      { label: 'Electric Mint', width: '68%', gradient: 'linear-gradient(90deg, #00f2fe, #34d399)', glow: '0 0 14px rgba(0, 242, 254, 0.5)' },
+    ],
+  },
+  'special-rainbow-glass': {
+    radius: '24px',
+    activeRingColor: '#ec4899',
+    activeBorderClass: 'border-[#ec4899]',
+    idleBorderClass: 'border-pink-500/30 hover:border-pink-400/60',
+    activeBadgeClass: 'bg-[#2a133d]/85 text-[#f472b6] border-[#ec4899]/50 shadow-xs backdrop-blur-md',
+    iconColor: '#f472b6',
+    titleTextClass: 'text-[#fff1f2]',
+    bodyTextClass: 'text-[#fce7f3]',
+    accentTextClass: 'text-[#f472b6]',
+    previewBorderClass: 'border-pink-500/30',
+    dividerClass: 'border-pink-500/20',
+    ctaIdleClass: 'bg-[#2a133d]/70 text-[#fce7f3] hover:bg-[#3b1a54] border border-pink-400/30 backdrop-blur-md',
+    ctaActiveClass: 'bg-gradient-to-r from-[#ec4899] via-[#8b5cf6] to-[#06b6d4] text-white shadow-xs border border-pink-300/60',
+    toggleTrackDarkClass: 'bg-[#1b0c29] border-pink-500/40',
+    toggleTrackLightClass: 'bg-pink-100/50 border-pink-300/50',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#ec4899] to-[#8b5cf6] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#f472b6] to-[#ec4899] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Aurora Rose', width: '94%', gradient: 'linear-gradient(90deg, #ec4899, #f43f5e)', glow: '0 0 14px rgba(236, 72, 153, 0.6)' },
+      { label: 'Cosmic Violet', width: '82%', gradient: 'linear-gradient(90deg, #a855f7, #6366f1)', glow: '0 0 14px rgba(168, 85, 247, 0.55)' },
+      { label: 'Solar Amber', width: '70%', gradient: 'linear-gradient(90deg, #f59e0b, #fbbf24)', glow: '0 0 14px rgba(245, 158, 11, 0.5)' },
+    ],
+  },
 };
 
 export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification }) => {
@@ -200,8 +301,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     resetLayerDepth,
     fontScale,
     setFontScale,
-    autoTimeTheme,
-    setAutoTimeTheme,
   } = useTheme();
   const { language, t } = useLanguage();
   const { user, isSigningIn, signInWithGoogle, logout } = useFirebase();
@@ -212,6 +311,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const [selectedFamilyFilter, setSelectedFamilyFilter] = useState<'all' | ThemeFamilyId>('all');
   const [activeVideoPreviewId, setActiveVideoPreviewId] = useState<CardStyleMode | null>(null);
   const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
+  const [heroVideoFailed, setHeroVideoFailed] = useState(false);
 
   const getMechanismLabel = (mech: ThemeMechanismMode) => {
     if (mech === 'light') return isEn ? 'Light' : 'Sáng';
@@ -268,23 +368,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     if (onShowNotification) {
       onShowNotification(
         isEn ? `✓ Text size updated: ${label}` : `✓ Đã chuyển cỡ chữ: ${label}`
-      );
-    }
-  };
-
-  const handleToggleAutoTimeTheme = (enabled: boolean) => {
-    if (enabled === autoTimeTheme) return;
-    SoundEngine.playGlassChime();
-    setAutoTimeTheme(enabled);
-    if (onShowNotification) {
-      onShowNotification(
-        enabled
-          ? isEn
-            ? '✓ Enabled: Auto Ice-Blue time-based theme switching'
-            : '✓ Đã bật: Tự động đổi theme Ice-Blue theo giờ thực (Sáng/Tối)'
-          : isEn
-            ? '✓ Disabled: Auto Ice-Blue time-based theme switching'
-            : '✓ Đã tắt: Tự động đổi theme Ice-Blue theo giờ thực'
       );
     }
   };
@@ -356,22 +439,25 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             data-element-type="banner-card"
             data-element-page="interface"
             data-section-card="true"
-            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
-            style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
+            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
           >
-            <div
-              className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
-              style={{ borderRadius: '14px' }}
-            >
-              <img
-                src="/backgrounds/themes/dark-neon-multicolor-glass-light/dark-neon-multicolor-glass-light.jpg"
-                alt="Banner Giao diện"
-                className="w-full h-full object-cover object-center rounded-[14px]"
-              />
+            <div className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none">
+              {!heroVideoFailed && (
+                <video
+                  src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795095533/Digen_Video_1795095282666.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  onError={() => setHeroVideoFailed(true)}
+                  className="w-full h-full object-cover object-center rounded-[inherit]"
+                />
+              )}
             </div>
-            <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+            <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
-            <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
+            <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
               <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
                 <WebIcon
                   name="palette"
@@ -386,15 +472,15 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 </h1>
               </div>
               <p
-                className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
-                style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+                className="banner-quote typo-h3 font-handwriting font-italianno not-italic select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
+                style={{ color: 'var(--text-secondary)' }}
               >
                 &quot;Tinh tế từng sắc màu, kiến tạo không gian sống động ♡&quot;
               </p>
             </div>
 
             <div className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto">
-              <span className="typo-badge px-3 py-1 rounded-full border" style={{ background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }}>
+              <span className="banner-control-pill typo-badge font-semibold px-3 py-1 rounded-full border">
                 {isEn ? activePreset.familyLabelEn : activePreset.familyLabel}
               </span>
             </div>
@@ -542,7 +628,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             <div
               id="interface-surface-depth-card"
               data-subcard="true"
-              className="sub-card lg:col-span-7 flex flex-col gap-3 p-[15px] border rounded-[14px]"
+              className="sub-card lg:col-span-7 flex flex-col justify-between gap-3 p-[15px] border"
               style={{
                 background: 'var(--bg-subcard)',
                 borderColor: 'var(--border-subcard)',
@@ -605,11 +691,13 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     aria-pressed={surfaceDepth === 'flat'}
                     onClick={() => handleSelectSurfaceDepth('flat')}
                     className={`flex items-center justify-center gap-1.5 px-3 py-1 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                      surfaceDepth === 'flat'
-                        ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white'
-                        : 'hover:opacity-90'
+                      surfaceDepth === 'flat' ? 'text-white shadow-xs' : 'hover:opacity-90'
                     }`}
-                    style={surfaceDepth !== 'flat' ? { color: 'var(--text-muted)' } : undefined}
+                    style={
+                      surfaceDepth === 'flat'
+                        ? { background: 'var(--bg-button-primary)' }
+                        : { color: 'var(--text-muted)' }
+                    }
                   >
                     <WebIcon name="square" className="w-3.5 h-3.5 shrink-0" />
                     <span>{isEn ? 'Flat' : 'Phẳng'}</span>
@@ -620,11 +708,13 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     aria-pressed={surfaceDepth === 'depth'}
                     onClick={() => handleSelectSurfaceDepth('depth')}
                     className={`flex items-center justify-center gap-1.5 px-3 py-1 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                      surfaceDepth === 'depth'
-                        ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white'
-                        : 'hover:opacity-90'
+                      surfaceDepth === 'depth' ? 'text-white shadow-xs' : 'hover:opacity-90'
                     }`}
-                    style={surfaceDepth !== 'depth' ? { color: 'var(--text-muted)' } : undefined}
+                    style={
+                      surfaceDepth === 'depth'
+                        ? { background: 'var(--bg-button-primary)' }
+                        : { color: 'var(--text-muted)' }
+                    }
                   >
                     <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
                     <span>{isEn ? 'Layered' : 'Nổi lớp'}</span>
@@ -690,7 +780,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             <div
               id="interface-font-scale-card"
               data-subcard="true"
-              className="sub-card lg:col-span-5 flex flex-col justify-between gap-3 p-[15px] border rounded-[14px]"
+              className="sub-card lg:col-span-5 flex flex-col justify-between gap-3 p-[15px] border"
               style={{
                 background: 'var(--bg-subcard)',
                 borderColor: 'var(--border-subcard)',
@@ -756,8 +846,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               {/* Mô phỏng nhỏ phân cấp 3 Level Layer đang hoạt động */}
               <div
                 id="interface-layer-hierarchy-preview"
-                data-main-card="true"
-                className="rounded-[14px] p-2.5 border flex flex-col gap-2"
+                className="layer-preview-l1 rounded-[12px] p-2.5 border flex flex-col gap-2"
                 style={{
                   background: 'var(--bg-card)',
                   borderColor: 'var(--border-card)',
@@ -774,15 +863,21 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 <div className="grid grid-cols-2 gap-2">
                   <div
                     id="layer-preview-l2"
-                    data-section-card="true"
-                    className="bento-card p-2 rounded-[10px] border transition-all"
+                    className="layer-preview-l2 p-2 rounded-[10px] border transition-all"
+                    style={{
+                      background: 'var(--bg-card)',
+                      borderColor: 'var(--border-card)',
+                    }}
                   >
                     <div className="typo-badge font-bold">Level 2 · Card &amp; Banner</div>
                   </div>
                   <div
                     id="layer-preview-l3"
-                    data-subcard="true"
-                    className="sub-card p-2 rounded-[10px] border transition-all"
+                    className="layer-preview-l3 p-2 rounded-[10px] border transition-all"
+                    style={{
+                      background: 'var(--bg-subcard)',
+                      borderColor: 'var(--border-subcard)',
+                    }}
                   >
                     <div className="typo-badge font-bold">Level 3 · Sub Card</div>
                   </div>
@@ -805,17 +900,17 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 onClick={() => setSelectedFamilyFilter('all')}
                 className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border typo-label font-bold cursor-pointer transition-all ${
                   selectedFamilyFilter === 'all'
-                    ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white border-transparent shadow-xs'
+                    ? 'text-white border-transparent shadow-xs'
                     : 'hover:opacity-90'
                 }`}
                 style={
-                  selectedFamilyFilter !== 'all'
-                    ? {
+                  selectedFamilyFilter === 'all'
+                    ? { background: 'var(--bg-button-primary)' }
+                    : {
                         background: 'var(--bg-subcard)',
                         borderColor: 'var(--border-subcard)',
                         color: 'var(--text-primary)',
                       }
-                    : undefined
                 }
               >
                 <WebIcon name="grid" className="w-3.5 h-3.5 shrink-0" />
@@ -835,17 +930,17 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     onClick={() => setSelectedFamilyFilter(grp.id)}
                     className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border typo-label font-bold cursor-pointer transition-all ${
                       isSelectedTab
-                        ? 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white border-transparent shadow-xs'
+                        ? 'text-white border-transparent shadow-xs'
                         : 'hover:opacity-90'
                     }`}
                     style={
-                      !isSelectedTab
-                        ? {
+                      isSelectedTab
+                        ? { background: 'var(--bg-button-primary)' }
+                        : {
                             background: 'var(--bg-subcard)',
                             borderColor: 'var(--border-subcard)',
                             color: 'var(--text-primary)',
                           }
-                        : undefined
                     }
                   >
                     <WebIcon name={grp.icon} className="w-3.5 h-3.5 shrink-0" />
@@ -861,46 +956,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
           {/* 4. Danh sách nhóm giao diện & thẻ xem trước tương tác */}
           <div className="flex flex-col gap-[15px]">
             {visibleGroups.map((group) => {
-              const lightPreset =
-                (group.lightMode && group.presets.find((p) => p.id === group.lightMode)) ||
-                undefined;
-              const darkPreset =
-                (group.darkMode && group.presets.find((p) => p.id === group.darkMode)) ||
-                undefined;
-              const colorPreset =
-                (group.colorMode && group.presets.find((p) => p.id === group.colorMode)) ||
-                undefined;
+              const hasColorMode = Boolean(group.colorMode);
               const groupActive = group.presets.some((p) => p.id === cardStyle);
-              const groupModes = [
-                lightPreset && {
-                  key: 'light' as ThemeMechanismMode,
-                  preset: lightPreset,
-                  label: isEn ? 'Light' : 'Sáng',
-                  icon: 'sun',
-                },
-                darkPreset && {
-                  key: 'dark' as ThemeMechanismMode,
-                  preset: darkPreset,
-                  label: isEn ? 'Dark' : 'Tối',
-                  icon: 'moon',
-                },
-                colorPreset && {
-                  key: 'color' as ThemeMechanismMode,
-                  preset: colorPreset,
-                  label: isEn ? 'Color' : 'Màu',
-                  icon: 'palette',
-                },
-              ].filter(
-                (
-                  item
-                ): item is {
-                  key: ThemeMechanismMode;
-                  preset: NonNullable<typeof lightPreset>;
-                  label: string;
-                  icon: string;
-                } => Boolean(item)
-              );
-              const activeGroupModeIdx = groupModes.findIndex((m) => m.preset.id === cardStyle);
               const gridColsClass =
                 group.presets.length <= 2
                   ? 'grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch'
@@ -914,7 +971,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   style={{
                     background: 'var(--bg-subcard)',
                     borderColor: groupActive ? 'var(--color-primary)' : 'var(--border-subcard)',
-                    boxShadow: groupActive ? '0 10px 30px -8px rgba(2, 132, 199, 0.16)' : undefined,
                   }}
                 >
                   <div
@@ -937,76 +993,12 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           <h4 className="typo-h5 font-bold tracking-tight">
                             {isEn ? group.labelEn : group.label}
                           </h4>
-                          <span
-                            className="typo-badge font-semibold px-2.5 py-0.5 rounded-full border"
-                            style={{
-                              background: 'var(--bg-card)',
-                              borderColor: 'var(--border-subcard)',
-                              color: 'var(--text-muted)',
-                            }}
-                          >
-                            {colorPreset
-                              ? isEn
-                                ? 'Light · Dark · Color'
-                                : 'Sáng · Tối · Màu'
-                              : isEn
-                                ? 'Light & Dark'
-                                : 'Sáng & Tối'}
-                          </span>
                         </div>
                         <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
                           {isEn ? group.descriptionEn : group.description}
                         </p>
                       </div>
                     </div>
-
-                    {groupModes.length > 0 && (
-                      <div
-                        role="group"
-                        aria-label={isEn ? `Switch ${group.label} mode` : `Chuyển chế độ ${group.label}`}
-                        className={`relative inline-grid p-1 rounded-full border shrink-0 shadow-xs w-full sm:w-auto max-w-full ${
-                          groupModes.length === 3
-                            ? 'grid-cols-3 sm:min-w-[264px]'
-                            : 'grid-cols-2 sm:min-w-[200px]'
-                        }`}
-                        style={{ background: 'var(--bg-card)', borderColor: 'var(--border-subcard)' }}
-                      >
-                        {activeGroupModeIdx >= 0 && (
-                          <span
-                            aria-hidden="true"
-                            style={{
-                              width: `calc((100% - 8px) / ${groupModes.length})`,
-                              transform: `translateX(${activeGroupModeIdx * 100}%)`,
-                            }}
-                            className={`pointer-events-none absolute top-1 bottom-1 left-1 rounded-full transition-transform duration-300 ease-out shadow-sm ${
-                              groupModes[activeGroupModeIdx].key === 'color'
-                                ? 'bg-gradient-to-r from-[#D97706] via-[#B45309] to-[#78350F] border border-amber-200/55'
-                                : groupModes[activeGroupModeIdx].key === 'dark'
-                                  ? 'bg-gradient-to-r from-[#182536] via-sky-800 to-indigo-900 border border-sky-400/30'
-                                  : 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 border border-white/70'
-                            }`}
-                          />
-                        )}
-                        {groupModes.map((modeItem) => {
-                          const isModeSelected = cardStyle === modeItem.preset.id;
-                          return (
-                            <button
-                              key={modeItem.key}
-                              type="button"
-                              aria-pressed={isModeSelected}
-                              onClick={() => handleSelectTheme(modeItem.preset.id, modeItem.preset.name)}
-                              className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold cursor-pointer transition-colors whitespace-nowrap ${
-                                isModeSelected ? 'text-white font-bold' : 'hover:opacity-90'
-                              }`}
-                              style={!isModeSelected ? { color: 'var(--text-muted)' } : undefined}
-                            >
-                              <WebIcon name={modeItem.icon} className="w-3.5 h-3.5 shrink-0" />
-                              <span>{modeItem.label}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    )}
                   </div>
 
                   <div className={gridColsClass}>

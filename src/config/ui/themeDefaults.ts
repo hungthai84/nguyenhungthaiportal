@@ -28,6 +28,10 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'ice-blue-neu': { cardOpacity: 96, blurIntensity: 18 },
   'dark-ice-blue-neu': { cardOpacity: 96, blurIntensity: 18 },
+  'glass-flat': { cardOpacity: 94, blurIntensity: 12 },
+  'rainbow-glass': { cardOpacity: 92, blurIntensity: 16 },
+  'dark-rainbow-glass': { cardOpacity: 90, blurIntensity: 18 },
+  'special-rainbow-glass': { cardOpacity: 94, blurIntensity: 16 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -91,6 +95,46 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
     overlayBg: 'rgba(15, 23, 35, 0.14)',
   },
+  'glass-flat': {
+    id: 'glass-flat',
+    presetId: 'theme-bg-glass-flat',
+    label: 'Nền Glass Flat UI đa màu sắc',
+    themeMode: 'light',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 15% 15%, rgba(14, 165, 233, 0.18) 0%, transparent 52%), radial-gradient(circle at 85% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 54%), radial-gradient(circle at 70% 85%, rgba(99, 102, 241, 0.12) 0%, transparent 56%), linear-gradient(145deg, #f4f7fb 0%, #eef3fb 52%, #e2ecfb 100%)',
+    overlayBg: 'rgba(240, 246, 255, 0.10)',
+  },
+  'rainbow-glass': {
+    id: 'rainbow-glass',
+    presetId: 'theme-bg-rainbow-glass',
+    label: 'Nền Rainbow Glassmorphism (Sáng)',
+    themeMode: 'light',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 10% 15%, rgba(244, 63, 94, 0.12) 0%, transparent 45%), radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.14) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.10) 0%, transparent 50%), radial-gradient(circle at 80% 85%, rgba(245, 158, 11, 0.12) 0%, transparent 45%), radial-gradient(circle at 15% 85%, rgba(16, 185, 129, 0.12) 0%, transparent 45%), linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
+    overlayBg: 'rgba(255, 255, 255, 0.12)',
+  },
+  'dark-rainbow-glass': {
+    id: 'dark-rainbow-glass',
+    presetId: 'theme-bg-dark-rainbow-glass',
+    label: 'Nền Rainbow Glassmorphism (Tối)',
+    themeMode: 'dark',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 10% 15%, rgba(244, 63, 94, 0.18) 0%, transparent 45%), radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.18) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.16) 0%, transparent 50%), radial-gradient(circle at 80% 85%, rgba(245, 158, 11, 0.15) 0%, transparent 45%), radial-gradient(circle at 15% 85%, rgba(16, 185, 129, 0.15) 0%, transparent 45%), linear-gradient(135deg, #090d16 0%, #0f172a 100%)',
+    overlayBg: 'rgba(15, 23, 42, 0.20)',
+  },
+  'special-rainbow-glass': {
+    id: 'special-rainbow-glass',
+    presetId: 'theme-bg-special-rainbow-glass',
+    label: 'Nền Rainbow Glass Special (Aurora)',
+    themeMode: 'color',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 12% 18%, rgba(236, 72, 153, 0.25) 0%, transparent 50%), radial-gradient(circle at 88% 22%, rgba(59, 130, 246, 0.25) 0%, transparent 50%), radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.22) 0%, transparent 52%), radial-gradient(circle at 50% 15%, rgba(245, 158, 11, 0.20) 0%, transparent 48%), linear-gradient(135deg, #fdf4ff 0%, #eff6ff 50%, #ecfdf5 100%)',
+    overlayBg: 'rgba(255, 255, 255, 0.15)',
+  },
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
@@ -99,4 +143,8 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
   'ice-blue-neu': THEME_BACKGROUNDS['ice-blue-neu'].presetId,
   'dark-ice-blue-neu': THEME_BACKGROUNDS['dark-ice-blue-neu'].presetId,
+  'glass-flat': THEME_BACKGROUNDS['glass-flat'].presetId,
+  'rainbow-glass': THEME_BACKGROUNDS['rainbow-glass'].presetId,
+  'dark-rainbow-glass': THEME_BACKGROUNDS['dark-rainbow-glass'].presetId,
+  'special-rainbow-glass': THEME_BACKGROUNDS['special-rainbow-glass'].presetId,
 };

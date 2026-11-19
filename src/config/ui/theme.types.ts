@@ -11,11 +11,17 @@ export type CardStyleMode =
   | 'black-cowhide-leather'
   | 'cowhide-leather'
   | 'ice-blue-neu'
-  | 'dark-ice-blue-neu';
+  | 'dark-ice-blue-neu'
+  | 'glass-flat'
+  | 'rainbow-glass'
+  | 'dark-rainbow-glass'
+  | 'special-rainbow-glass';
 
 export type ThemeFamilyId =
   | 'cowhide-leather'
-  | 'ice-blue-neu';
+  | 'ice-blue-neu'
+  | 'glass-flat'
+  | 'rainbow-glass';
 
 export interface CardStyleConfig {
   id: CardStyleMode;

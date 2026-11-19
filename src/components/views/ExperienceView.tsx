@@ -326,7 +326,7 @@ export interface ExperienceViewProps {
 }
 
 export const ExperienceView: React.FC<ExperienceViewProps> = ({ 
-  currentTheme = 'light-multicolor-glass-color',
+  currentTheme = 'ice-blue-neu',
   onShowNotification,
   onNavigateTab,
   activeKey: activeKeyProp,
@@ -339,7 +339,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const { isDark: themeIsDark, cardStyle } = useTheme();
   const isDark =
     themeIsDark ||
-    currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu';
@@ -2136,7 +2135,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     {/* Time Badge */}
                     <div
                       className={cn(
-                        'px-3 py-1.5 rounded-full text-xs sm:text-sm font-extrabold shadow-lg flex items-center gap-1.5 max-w-full border',
+                        'px-3 py-1.5 rounded-full typo-caption sm:typo-body-sm font-bold shadow-lg flex items-center gap-1.5 max-w-full border',
                         isLightLeather
                           ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827]'
                           : isBlackLeather
@@ -2241,7 +2240,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                             <h1
                               className={cn(
-                                'text-lg sm:text-2xl lg:text-3xl font-extrabold leading-tight break-words min-w-0 max-w-full',
+                                'typo-h1 font-bold leading-tight break-words min-w-0 max-w-full',
                                 isDarkCardText ? 'text-white' : 'text-slate-900'
                               )}
                             >
@@ -3070,7 +3069,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             </span>
                             <span
                               className={cn(
-                                'text-xl sm:text-2xl font-extrabold tabular-nums tracking-tight shrink-0 exp-bento-preserve-color',
+                                'typo-kpi font-bold tabular-nums tracking-tight shrink-0 exp-bento-preserve-color',
                                 isLightLeather ? 'text-[#111827]' : pal.value
                               )}
                             >
@@ -3169,7 +3168,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       >
                         <span
                           className={cn(
-                            'px-2.5 py-1 rounded-lg font-extrabold text-xs shrink-0 shadow-sm tabular-nums exp-bento-preserve-color',
+                            'px-2.5 py-1 rounded-lg font-bold typo-badge shrink-0 shadow-sm tabular-nums exp-bento-preserve-color',
                             palette.badge
                           )}
                         >

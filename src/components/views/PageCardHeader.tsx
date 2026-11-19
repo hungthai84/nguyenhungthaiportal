@@ -84,14 +84,14 @@ export const PageCardHeader: React.FC<PageCardHeaderProps> = ({
       className={cn(
         'w-full shrink-0 min-w-0 flex items-center justify-between gap-3 font-play text-left transition-all duration-200',
         variant === 'overlay'
-          ? 'relative z-30 rounded-[12px] px-3.5 py-2.5'
+          ? 'relative z-30 rounded-[var(--radius-card,12px)] px-3.5 py-2.5'
           : 'pb-2.5',
         className
       )}
     >
       <div className="flex items-center gap-3 min-w-0 flex-1">
         <div
-          className="page-card-header-icon w-9 h-9 sm:w-10 sm:h-10 rounded-[10px] flex items-center justify-center shrink-0 border transition-colors duration-200"
+          className="page-card-header-icon w-9 h-9 sm:w-10 sm:h-10 rounded-[var(--radius-subcard,10px)] flex items-center justify-center shrink-0 border transition-colors duration-200"
           style={{ color: accentColor }}
         >
           <WebIcon name={resolvedIcon} className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0" style={{ color: accentColor }} />

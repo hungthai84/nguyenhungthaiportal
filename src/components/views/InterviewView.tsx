@@ -17,7 +17,7 @@ export interface InterviewViewProps {
   onShowNotification?: (msg: string) => void;
 }
 
-export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'light-multicolor-glass-color' }) => {
+export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ice-blue-neu' }) => {
   const { showToast } = useToast();
   const videoRef = useRef<HTMLVideoElement>(null);
   const filterDropdownRef = useRef<HTMLDivElement>(null);
@@ -169,18 +169,19 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           className="page-main-card flex flex-col p-[15px] rounded-[14px] gap-[15px] justify-start select-none text-[var(--text-primary)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
         >
       {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
-      <div id="interview-main-content" className="w-full flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[minmax(0,1fr)] gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar rounded-[14px]">
+      <div
+        id="interview-main-content"
+        className="w-full flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[minmax(0,1fr)] items-stretch gap-[15px] min-h-0 overflow-y-auto lg:overflow-visible no-scrollbar rounded-[14px]"
+      >
         
-        {/* 1. VIDEO BANNER SECTION (70% width on LG) */}
+        {/* 1. VIDEO BANNER SECTION (70% width on LG, equal height & Level 2 Layer Card parity with Chi tiết trả lời) */}
         <section
           id="interview-questions-card"
           data-element-name="Card Video Phỏng Vấn"
           data-element-type="banner-card"
           data-section-card="true"
-          className="banner-card hero-banner w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden bento-card glass-card shadow-xl text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group p-[15px]"
-          style={{
-            padding: '15px',
-          }}
+          data-layer-level="2"
+          className="banner-card hero-banner w-full min-h-[360px] lg:min-h-0 lg:h-full self-stretch rounded-[14px] relative overflow-visible bento-card glass-card text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group p-[15px]"
         >
           {/* Nền Video phỏng vấn trực tiếp lấp đầy banner-card & đồng bộ bo cong theo giao diện */}
           <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0">
@@ -204,7 +205,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               <WebIcon
                 name="mic"
                 className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
-                style={{ color: '#38bdf8', width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
+                style={{ color: '#38bdf8', width: '22px', height: '22px', fontWeight: 'bold' }}
               />
               <h1
                 id="interview-hero-banner-title"
@@ -281,7 +282,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                   >
                     <div className="px-2 py-1.5 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 sticky top-0 bg-[var(--bg-popup)] z-10 rounded-t-[10px]">
                       <div className="flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">
-                        <span className="font-bold text-[var(--text-heading,var(--color-primary))] font-play text-[13px]">
+                        <span className="font-bold text-[var(--text-heading,var(--color-primary))] font-play typo-body-sm">
                           Bộ lọc
                         </span>
                       <span>
@@ -457,7 +458,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-name="Thẻ Chi Tiết Trả Lời Phỏng Vấn"
           data-element-type="card"
           data-section-card="true"
-          className="w-full min-h-[360px] lg:min-h-0 lg:h-full flex flex-col rounded-[14px] bento-card glass-card border p-[15px] transition-all duration-300 text-left justify-between gap-[15px] relative overflow-y-auto no-scrollbar"
+          data-layer-level="2"
+          className="w-full min-h-[360px] lg:min-h-0 lg:h-full self-stretch flex flex-col rounded-[14px] bento-card glass-card border p-[15px] transition-all duration-300 text-left justify-between gap-[15px] relative overflow-y-auto no-scrollbar"
         >
             {/* Header Tiêu đề thẻ */}
             <div className="space-y-1.5 shrink-0">

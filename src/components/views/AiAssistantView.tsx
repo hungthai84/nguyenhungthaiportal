@@ -21,7 +21,11 @@ import {
   stopActiveSpeech,
   DEFAULT_PUCK_VOICE_PERSONA,
   ENGLISH_PUCK_VOICE_PERSONA,
+  VOICE_CHANGE_EVENT,
+  getVoicePersonaConfig,
+  getSavedVoicePersonaId,
 } from '@/utils/speechVoice';
+import { TtsVoiceSelector } from '@/components/ui/TtsVoiceSelector';
 
 export { TRI_NHAN_CATEGORIES } from '@/data/aiSampleQuestions';
 
@@ -78,10 +82,18 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const [voiceLanguage, setVoiceLanguage] = useState<AssistantVoiceLanguage>(language);
   const [isAutoVoiceEnabled] = useState<boolean>(true);
   const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
+  const [activeVoicePersonaId, setActiveVoicePersonaId] = useState<string>('gemini-puck');
 
   useEffect(() => {
     setVoiceLanguage(language);
   }, [language]);
+
+  useEffect(() => {
+    setActiveVoicePersonaId(getSavedVoicePersonaId());
+    const syncVoice = () => setActiveVoicePersonaId(getSavedVoicePersonaId());
+    window.addEventListener(VOICE_CHANGE_EVENT, syncVoice);
+    return () => window.removeEventListener(VOICE_CHANGE_EVENT, syncVoice);
+  }, []);
 
   const chatMessagesEndRef = useRef<HTMLDivElement>(null);
   const dropTopMenuRef = useRef<HTMLDivElement>(null);
@@ -466,18 +478,20 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-section-card="true"
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
-        className="bento-card glass-card min-w-0 min-h-0 flex-1 lg:h-full lg:min-h-full lg:max-h-full flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
+        className="bento-card glass-card min-w-0 min-h-0 flex-1 lg:h-full lg:min-h-full lg:max-h-full flex flex-col justify-between rounded-[14px] shadow-xl gap-[15px] overflow-hidden relative"
         style={{
           flex: '1 1 0%',
           minWidth: 0,
           maxWidth: '100%',
           alignSelf: 'stretch',
           padding: '15px',
-          gap: '12px',
+          gap: '15px',
           borderRadius: '14px',
           boxSizing: 'border-box',
         }}
       >
+        <TtsVoiceSelector isEn={isEn} variant="inline-select" />
+
         {/* Vùng hiển thị tin nhắn + Drop-up Câu hỏi mẫu neo ngay trên khung nhập */}
         <div className="relative flex-1 min-h-0 flex flex-col">
           <div
@@ -521,29 +535,29 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                         }
                       >
                         <span>{displayTitle}</span>
-                        {m.sender === 'ai' && (
-                          <button
-                            type="button"
-                            onClick={() => speakWithPuckVoice(m.id, displayText)}
-                            className="project-detail-chip inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge cursor-pointer transition shrink-0 hover:opacity-85"
-                            title={
-                              voiceLanguage === 'en'
-                                ? 'Play with Puck Male Voice (English)'
-                                : 'Đọc bằng giọng Puck Nam giới (Miền Nam Việt Nam)'
-                            }
-                          >
-                            <WebIcon name={speakingMessageId === m.id ? 'pause' : 'volume'} className="w-3.5 h-3.5" />
-                            <span>
-                              {speakingMessageId === m.id
-                                ? isEn
-                                  ? 'Stop'
-                                  : 'Dừng đọc'
-                                : voiceLanguage === 'en'
-                                ? 'Read (Puck)'
-                                : 'Đọc giọng Puck'}
-                            </span>
-                          </button>
-                        )}
+                        {m.sender === 'ai' && (() => {
+                          const activePersona = getVoicePersonaConfig(activeVoicePersonaId);
+                          const shortVoice = isEn ? activePersona.shortLabelEn : activePersona.shortLabelVi;
+                          return (
+                            <button
+                              type="button"
+                              onClick={() => speakWithPuckVoice(m.id, displayText)}
+                              className="project-detail-chip inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge cursor-pointer transition shrink-0 hover:opacity-85"
+                              title={shortVoice}
+                            >
+                              <WebIcon name={speakingMessageId === m.id ? 'pause' : 'volume'} className="w-3.5 h-3.5" />
+                              <span>
+                                {speakingMessageId === m.id
+                                  ? isEn
+                                    ? 'Stop'
+                                    : 'Dừng đọc'
+                                  : isEn
+                                  ? `Read (${shortVoice})`
+                                  : `Đọc (${shortVoice})`}
+                              </span>
+                            </button>
+                          );
+                        })()}
                       </div>
                     )}
 

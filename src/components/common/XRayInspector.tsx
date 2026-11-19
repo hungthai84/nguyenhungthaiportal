@@ -118,28 +118,42 @@ export interface XRayInspectorProps {
   onSwitchToLightMode?: () => void;
 }
 
+interface PinnedTarget {
+  key: string;
+  target: HTMLElement;
+  info: ElementInfo;
+  computed: CSSStyleDeclaration;
+  rect: DOMRect;
+}
+
 export const XRayInspector: React.FC<XRayInspectorProps> = ({
   onShowNotification,
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [hoveredInfo, setHoveredInfo] = useState<ElementInfo | null>(null);
-  const [selectedTarget, setSelectedTarget] = useState<{
-    target: HTMLElement;
-    info: ElementInfo;
-    computed: CSSStyleDeclaration;
-    rect: DOMRect;
-  } | null>(null);
+  const [pinnedTargets, setPinnedTargets] = useState<PinnedTarget[]>([]);
+  const [isShiftHeld, setIsShiftHeld] = useState<boolean>(false);
+  const [isShiftAddMode, setIsShiftAddMode] = useState<boolean>(false);
 
   const activeRef = useRef<boolean>(false);
   activeRef.current = isActive;
+  const pinnedRef = useRef<PinnedTarget[]>([]);
+  pinnedRef.current = pinnedTargets;
+  const shiftAddModeRef = useRef<boolean>(false);
+  shiftAddModeRef.current = isShiftAddMode;
+  const clickUsedDuringShiftRef = useRef<boolean>(false);
+  const nextPinIdRef = useRef<number>(1);
 
   const closeXRay = useCallback(() => {
     setIsActive(false);
     setHoveredInfo(null);
-    setSelectedTarget(null);
+    setPinnedTargets([]);
+    setIsShiftHeld(false);
+    setIsShiftAddMode(false);
+    clickUsedDuringShiftRef.current = false;
   }, []);
 
-  // Bật / tắt chế độ X-Ray bằng phím 'x' hoặc 'X'
+  // Bật / tắt chế độ X-Ray bằng phím 'x' hoặc 'X', và xử lý phím Shift / Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const activeEl = document.activeElement;
@@ -157,16 +171,36 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
           const next = !prev;
           if (!next) {
             setHoveredInfo(null);
-            setSelectedTarget(null);
+            setPinnedTargets([]);
+            setIsShiftHeld(false);
+            setIsShiftAddMode(false);
+            clickUsedDuringShiftRef.current = false;
             onShowNotification?.('Đã tắt chế độ X-Ray');
           } else {
-            onShowNotification?.('Đã bật chế độ X-Ray: Bấm chọn đối tượng cần kiểm tra [Nhấn X để tắt]');
+            onShowNotification?.(
+              'Đã bật chế độ X-Ray: Click để ghim đối tượng · Shift để chọn thêm · Double-click để sao chép tên'
+            );
           }
           return next;
         });
-      } else if (e.key === 'Escape' && activeRef.current) {
-        if (selectedTarget) {
-          setSelectedTarget(null);
+        return;
+      }
+
+      if (!activeRef.current) return;
+
+      if (e.key === 'Shift') {
+        if (!e.repeat) {
+          clickUsedDuringShiftRef.current = false;
+        }
+        setIsShiftHeld(true);
+      } else if (e.key === 'Escape') {
+        if (shiftAddModeRef.current) {
+          setIsShiftAddMode(false);
+          onShowNotification?.('Đã khóa lại danh sách đối tượng đang ghim');
+        } else if (pinnedRef.current.length > 0) {
+          setPinnedTargets([]);
+          setIsShiftAddMode(false);
+          onShowNotification?.('Đã bỏ ghim tất cả đối tượng X-Ray');
         } else {
           closeXRay();
           onShowNotification?.('Đã tắt chế độ X-Ray');
@@ -174,9 +208,40 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       }
     };
 
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === 'Shift') {
+        setIsShiftHeld(false);
+        // Nếu người dùng bấm phím tắt Shift mà không click trong lúc giữ Shift và đang có đối tượng ghim:
+        // bật/tắt chế độ chọn thêm đối tượng
+        if (activeRef.current && pinnedRef.current.length > 0 && !clickUsedDuringShiftRef.current) {
+          setIsShiftAddMode((prev) => {
+            const next = !prev;
+            SoundEngine.playTap();
+            onShowNotification?.(
+              next
+                ? 'Đã bật chọn thêm đối tượng (Shift): Click để thêm đối tượng mới · Bấm Shift lại để khóa'
+                : 'Đã khóa đối tượng đang ghim (bấm Shift để chọn thêm)'
+            );
+            return next;
+          });
+        }
+        clickUsedDuringShiftRef.current = false;
+      }
+    };
+
+    const handleWindowBlur = () => {
+      setIsShiftHeld(false);
+    };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onShowNotification, selectedTarget, closeXRay]);
+    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('blur', handleWindowBlur);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('blur', handleWindowBlur);
+    };
+  }, [onShowNotification, closeXRay]);
 
   const extractInfo = useCallback((target: HTMLElement): ElementInfo => {
     const closestWithData = (target.closest('[data-element-name]') as HTMLElement) || target;
@@ -244,13 +309,33 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
     };
   }, []);
 
-  // Theo dõi di chuột & bấm chọn đối tượng
+  const createPinnedTarget = useCallback(
+    (target: HTMLElement): PinnedTarget => {
+      const info = extractInfo(target);
+      const computed = window.getComputedStyle(target);
+      const rect = target.getBoundingClientRect();
+      const key = `pin-${nextPinIdRef.current++}`;
+      return { key, target, info, computed, rect };
+    },
+    [extractInfo]
+  );
+
+  // Theo dõi di chuột, click ghim đối tượng, Shift để chọn thêm & double click để copy tên
   useEffect(() => {
     if (!isActive) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       const target = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
-      if (!target || target.closest('#xray-inspector-root')) return;
+      if (!target || target.closest('#xray-inspector-root')) {
+        setHoveredInfo(null);
+        return;
+      }
+      const canPreviewOther =
+        pinnedRef.current.length === 0 || e.shiftKey || shiftAddModeRef.current;
+      if (!canPreviewOther) {
+        setHoveredInfo(null);
+        return;
+      }
       setHoveredInfo(extractInfo(target));
     };
 
@@ -261,68 +346,165 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       e.preventDefault();
       e.stopPropagation();
 
-      const info = extractInfo(target);
-      const computed = window.getComputedStyle(target);
-      const rect = target.getBoundingClientRect();
+      if (e.shiftKey) {
+        clickUsedDuringShiftRef.current = true;
+      }
 
-      setSelectedTarget({
-        target,
-        info,
-        computed,
-        rect,
-      });
+      const currentPinned = pinnedRef.current;
+      const allowAddMore = e.shiftKey || shiftAddModeRef.current;
+
+      // Chưa có đối tượng nào được ghim -> Click để ghim đối tượng đầu tiên
+      if (currentPinned.length === 0) {
+        const pinned = createPinnedTarget(target);
+        setPinnedTargets([pinned]);
+        setHoveredInfo(null);
+        SoundEngine.playTap();
+        onShowNotification?.(
+          `Đã ghim "${pinned.info.elementName || pinned.info.tag}" · Bấm Shift để chọn thêm · Double-click để chép tên`
+        );
+        return;
+      }
+
+      // Đã có đối tượng ghim nhưng KHÔNG bấm/bật Shift -> khóa chặt, không chọn đối tượng khác
+      if (!allowAddMore) {
+        const isAlreadyPinned = currentPinned.some((p) => p.target === target);
+        if (!isAlreadyPinned) {
+          onShowNotification?.(
+            'Đối tượng đang được ghim · Bấm phím Shift để chọn thêm đối tượng khác'
+          );
+        }
+        return;
+      }
+
+      // Đang giữ/bật Shift -> cho phép chọn thêm đối tượng (nếu đã ghim và có >1 thì bỏ chọn đối tượng đó)
+      const existingIdx = currentPinned.findIndex((p) => p.target === target);
+      if (existingIdx >= 0) {
+        if (currentPinned.length > 1) {
+          setPinnedTargets((prev) => prev.filter((_, idx) => idx !== existingIdx));
+          SoundEngine.playTap();
+        }
+        return;
+      }
+
+      const added = createPinnedTarget(target);
+      setPinnedTargets((prev) => [...prev, added]);
       SoundEngine.playTap();
+      onShowNotification?.(
+        `✓ Đã chọn thêm "${added.info.elementName || added.info.tag}" (${currentPinned.length + 1} đối tượng)`
+      );
+    };
+
+    const handleDoubleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target || target.closest('#xray-inspector-root')) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const currentPinned = pinnedRef.current;
+      let copiedNames: string[] = [];
+
+      if (currentPinned.length > 0 && !e.shiftKey && !shiftAddModeRef.current) {
+        const exactPinned =
+          currentPinned.find((p) => p.target === target) ||
+          currentPinned.find((p) => p.target.contains(target));
+        if (exactPinned) {
+          copiedNames = [exactPinned.info.elementName || exactPinned.info.tag];
+        } else if (currentPinned.length === 1) {
+          copiedNames = [currentPinned[0].info.elementName || currentPinned[0].info.tag];
+        } else {
+          copiedNames = currentPinned.map((p) => p.info.elementName || p.info.tag);
+        }
+      } else {
+        const info = extractInfo(target);
+        copiedNames = [info.elementName || info.tag];
+      }
+
+      const textToCopy = copiedNames.join(', ');
+      copyTextToClipboard(textToCopy);
+      SoundEngine.playTap();
+      onShowNotification?.(`✓ Đã sao chép tên đối tượng "${textToCopy}" vào bộ nhớ tạm`);
     };
 
     window.addEventListener('mousemove', handleMouseMove, true);
     window.addEventListener('click', selectDomElement, true);
+    window.addEventListener('dblclick', handleDoubleClick, true);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove, true);
       window.removeEventListener('click', selectDomElement, true);
+      window.removeEventListener('dblclick', handleDoubleClick, true);
     };
-  }, [isActive, extractInfo]);
+  }, [isActive, extractInfo, createPinnedTarget, onShowNotification]);
 
   // Cập nhật lại tọa độ viền màu khi cuộn hoặc thay đổi kích thước màn hình
   useEffect(() => {
-    if (!isActive || !selectedTarget) return;
+    if (!isActive || pinnedTargets.length === 0) return;
 
-    const updateSelectedRect = () => {
-      if (!document.body.contains(selectedTarget.target)) {
-        setSelectedTarget(null);
-        return;
-      }
-      const nextRect = selectedTarget.target.getBoundingClientRect();
-      setSelectedTarget((prev) =>
+    const updatePinnedRects = () => {
+      setPinnedTargets((prev) =>
         prev
-          ? {
-              ...prev,
+          .filter((item) => document.body.contains(item.target))
+          .map((item) => {
+            const nextRect = item.target.getBoundingClientRect();
+            return {
+              ...item,
               rect: nextRect,
-              info: { ...prev.info, rect: nextRect },
-            }
-          : null
+              info: { ...item.info, rect: nextRect },
+            };
+          })
       );
     };
 
-    window.addEventListener('scroll', updateSelectedRect, true);
-    window.addEventListener('resize', updateSelectedRect);
+    window.addEventListener('scroll', updatePinnedRects, true);
+    window.addEventListener('resize', updatePinnedRects);
     return () => {
-      window.removeEventListener('scroll', updateSelectedRect, true);
-      window.removeEventListener('resize', updateSelectedRect);
+      window.removeEventListener('scroll', updatePinnedRects, true);
+      window.removeEventListener('resize', updatePinnedRects);
     };
-  }, [isActive, selectedTarget?.target]);
+  }, [isActive, pinnedTargets.length]);
+
+  const handleUnpinOne = (e: React.MouseEvent, pinKey: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setPinnedTargets((prev) => {
+      const next = prev.filter((item) => item.key !== pinKey);
+      if (next.length === 0) {
+        setIsShiftAddMode(false);
+      }
+      return next;
+    });
+    SoundEngine.playTap();
+  };
+
+  const handleCopyPinnedName = (e: React.MouseEvent, item: PinnedTarget) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const name = item.info.elementName || item.info.tag;
+    copyTextToClipboard(name);
+    SoundEngine.playTap();
+    onShowNotification?.(`✓ Đã sao chép tên đối tượng "${name}" vào bộ nhớ tạm`);
+  };
 
   // Icon 1: Sao chép nhận dạng đối tượng & tự đóng X-Ray
   const handleCopyIdentity = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!selectedTarget) return;
-    const { info } = selectedTarget;
-    const payload = `[Nhận dạng đối tượng: "${info.elementName || info.tag}" | Thẻ: ${info.tag} | ID: ${info.id || 'không có'} | Bộ chọn CSS: ${info.selector} | Loại: ${info.elementType} | Trang: ${info.elementPage} | Nội dung: "${info.text || ''}"]`;
+    if (pinnedTargets.length === 0) return;
+    const payload = pinnedTargets
+      .map(
+        ({ info }) =>
+          `[Nhận dạng đối tượng: "${info.elementName || info.tag}" | Thẻ: ${info.tag} | ID: ${info.id || 'không có'} | Bộ chọn CSS: ${info.selector} | Loại: ${info.elementType} | Trang: ${info.elementPage} | Nội dung: "${info.text || ''}"]`
+      )
+      .join('\n\n');
 
     copyTextToClipboard(payload);
     SoundEngine.playTap();
-    onShowNotification?.(`✓ Đã sao chép nhận dạng "${info.elementName || info.tag}" vào bộ nhớ tạm`);
+    const labelSummary =
+      pinnedTargets.length === 1
+        ? `"${pinnedTargets[0].info.elementName || pinnedTargets[0].info.tag}"`
+        : `${pinnedTargets.length} đối tượng`;
+    onShowNotification?.(`✓ Đã sao chép nhận dạng ${labelSummary} vào bộ nhớ tạm`);
     closeXRay();
   };
 
@@ -330,9 +512,10 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
   const handleCopyEffects = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!selectedTarget) return;
-    const { computed, info } = selectedTarget;
-    const payload = `[Hiệu ứng đối tượng: ${info.elementName || info.tag}]
+    if (pinnedTargets.length === 0) return;
+    const payload = pinnedTargets
+      .map(({ computed, info }) => {
+        return `[Hiệu ứng đối tượng: ${info.elementName || info.tag}]
 - Chuyển động (Transition): ${computed.transition}
 - Hoạt ảnh (Animation): ${computed.animation}
 - Biến đổi (Transform): ${computed.transform}
@@ -342,10 +525,16 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
 - Độ mờ (Opacity): ${computed.opacity}
 - Con trỏ (Cursor): ${computed.cursor}
 - Tối ưu GPU (Will Change): ${computed.willChange}`;
+      })
+      .join('\n\n');
 
     copyTextToClipboard(payload);
     SoundEngine.playTap();
-    onShowNotification?.(`✓ Đã sao chép hiệu ứng "${info.elementName || info.tag}" vào bộ nhớ tạm`);
+    const labelSummary =
+      pinnedTargets.length === 1
+        ? `"${pinnedTargets[0].info.elementName || pinnedTargets[0].info.tag}"`
+        : `${pinnedTargets.length} đối tượng`;
+    onShowNotification?.(`✓ Đã sao chép hiệu ứng ${labelSummary} vào bộ nhớ tạm`);
     closeXRay();
   };
 
@@ -353,9 +542,10 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
   const handleCopyConfig = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!selectedTarget) return;
-    const { computed, info, rect } = selectedTarget;
-    const payload = `[Thông tin cấu hình đối tượng: ${info.elementName || info.tag}]
+    if (pinnedTargets.length === 0) return;
+    const payload = pinnedTargets
+      .map(({ computed, info, rect }) => {
+        return `[Thông tin cấu hình đối tượng: ${info.elementName || info.tag}]
 - Kích thước & Vị trí: Rộng ${Math.round(rect.width)}px, Cao ${Math.round(rect.height)}px (Top: ${Math.round(rect.top)}px, Left: ${Math.round(rect.left)}px)
 - Phông chữ: ${computed.fontFamily}
 - Cỡ chữ: ${computed.fontSize} (Độ đậm: ${computed.fontWeight}, Chiều cao dòng: ${computed.lineHeight})
@@ -367,31 +557,58 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
 - Bố cục: Display ${computed.display}, Flex Direction ${computed.flexDirection}, Gap ${computed.gap}
 - Class: ${info.className}
 - Bộ chọn CSS: ${info.selector}`;
+      })
+      .join('\n\n');
 
     copyTextToClipboard(payload);
     SoundEngine.playTap();
-    onShowNotification?.(`✓ Đã sao chép cấu hình "${info.elementName || info.tag}" vào bộ nhớ tạm`);
+    const labelSummary =
+      pinnedTargets.length === 1
+        ? `"${pinnedTargets[0].info.elementName || pinnedTargets[0].info.tag}"`
+        : `${pinnedTargets.length} đối tượng`;
+    onShowNotification?.(`✓ Đã sao chép cấu hình ${labelSummary} vào bộ nhớ tạm`);
     closeXRay();
   };
 
   if (!isActive) return null;
 
   const viewportW = typeof window !== 'undefined' ? window.innerWidth : 1280;
-  const selectedRect = selectedTarget?.rect;
-  const placeToolbarInsideTop = selectedRect ? selectedRect.top < 42 : false;
-  const toolbarLeft = selectedRect
-    ? Math.max(8, Math.min(selectedRect.left, viewportW - 340))
-    : 8;
-  const toolbarTop = selectedRect
-    ? placeToolbarInsideTop
-      ? Math.max(8, selectedRect.top + 6)
-      : Math.max(8, selectedRect.top - 38)
-    : 8;
+  const canHoverPreview = pinnedTargets.length === 0 || isShiftHeld || isShiftAddMode;
+  const isHoveredPinned = Boolean(
+    hoveredInfo && pinnedTargets.some((p) => p.target === hoveredInfo.element)
+  );
 
   return (
     <div id="xray-inspector-root" className="fixed inset-0 pointer-events-none z-[99999] select-none font-play">
-      {/* Khung viền khi rê chuột */}
-      {hoveredInfo && (!selectedTarget || hoveredInfo.element !== selectedTarget.target) && (
+      {/* Trạng thái thanh chỉ dẫn nhanh trên cùng khi đang bật X-Ray & có đối tượng ghim */}
+      {pinnedTargets.length > 0 && (
+        <div className="fixed top-3 left-1/2 -translate-x-1/2 pointer-events-auto z-[100001] inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/90 text-white border border-white/20 shadow-lg backdrop-blur-md text-[11px] font-play whitespace-nowrap max-w-[calc(100vw-24px)] overflow-x-auto no-scrollbar">
+          <span
+            className={`w-2 h-2 rounded-full shrink-0 ${
+              isShiftHeld || isShiftAddMode ? 'bg-emerald-400' : 'bg-rose-500'
+            }`}
+          />
+          <span className="font-bold">
+            {isShiftHeld || isShiftAddMode
+              ? `Đang bật chọn thêm (Shift) · Đã ghim ${pinnedTargets.length}`
+              : `Đã ghim ${pinnedTargets.length} đối tượng · Bấm Shift để chọn thêm · Double-click để chép tên`}
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              setPinnedTargets([]);
+              setIsShiftAddMode(false);
+            }}
+            className="px-2 py-0.5 rounded-full bg-white/15 hover:bg-white/25 text-white font-semibold cursor-pointer transition-colors"
+            title="Bỏ ghim tất cả (Esc)"
+          >
+            Bỏ ghim
+          </button>
+        </div>
+      )}
+
+      {/* Khung viền khi rê chuột (chỉ hiển thị khi chưa ghim hoặc đang giữ/bật Shift để chọn thêm) */}
+      {canHoverPreview && hoveredInfo && !isHoveredPinned && (
         <div
           className="fixed border-2 border-cyan-500 bg-cyan-400/10 pointer-events-none transition-all duration-75 rounded-[12px] shadow-[0_0_12px_rgba(6,182,212,0.35)]"
           style={{
@@ -402,74 +619,118 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
           }}
         >
           <div className="absolute -top-6 left-0 bg-cyan-600 text-white px-2 py-0.5 rounded-md typo-badge font-play font-bold shadow-md whitespace-nowrap truncate max-w-xs">
+            {isShiftHeld || isShiftAddMode ? '+ Thêm: ' : ''}
             {hoveredInfo.elementName || hoveredInfo.selector}
           </div>
         </div>
       )}
 
-      {/* Viền màu nổi bật + Tên đối tượng & 3 Icon sao chép ngay trên tên khi bấm chọn */}
-      {selectedTarget && selectedRect && (
-        <>
-          <div
-            aria-hidden="true"
-            className="fixed pointer-events-none rounded-[12px] border-[2.5px] border-rose-500 bg-rose-500/10 ring-2 ring-amber-400/80 shadow-[0_0_20px_rgba(244,63,94,0.45)] transition-all duration-100"
-            style={{
-              left: `${selectedRect.left}px`,
-              top: `${selectedRect.top}px`,
-              width: `${selectedRect.width}px`,
-              height: `${selectedRect.height}px`,
-            }}
-          />
+      {/* Viền màu nổi bật + Tên đối tượng & 3 Icon sao chép ngay trên tên cho từng đối tượng đang ghim */}
+      {pinnedTargets.map((item, idx) => {
+        const selectedRect = item.rect;
+        const placeToolbarInsideTop = selectedRect.top < 42;
+        const toolbarLeft = Math.max(8, Math.min(selectedRect.left, viewportW - 360));
+        const toolbarTop = placeToolbarInsideTop
+          ? Math.max(8, selectedRect.top + 6)
+          : Math.max(8, selectedRect.top - 38);
+        const isLast = idx === pinnedTargets.length - 1;
 
-          <div
-            className="fixed pointer-events-auto z-[100000] inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-950/95 text-white border border-rose-400/80 shadow-[0_8px_24px_rgba(15,23,42,0.45)] backdrop-blur-md max-w-[calc(100vw-16px)]"
-            style={{
-              left: `${toolbarLeft}px`,
-              top: `${toolbarTop}px`,
-            }}
-          >
-            <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
-            <span className="text-xs font-bold font-play truncate max-w-[190px] sm:max-w-[260px]">
-              {selectedTarget.info.elementName || selectedTarget.info.tag}
-            </span>
+        return (
+          <React.Fragment key={item.key}>
+            <div
+              aria-hidden="true"
+              className="fixed pointer-events-none rounded-[12px] border-[2.5px] border-rose-500 bg-rose-500/10 ring-2 ring-amber-400/80 shadow-[0_0_20px_rgba(244,63,94,0.45)] transition-all duration-100"
+              style={{
+                left: `${selectedRect.left}px`,
+                top: `${selectedRect.top}px`,
+                width: `${selectedRect.width}px`,
+                height: `${selectedRect.height}px`,
+              }}
+            />
 
-            <div className="w-[1px] h-4 bg-white/20 mx-0.5 shrink-0" />
-
-            {/* Icon 1: Nhận dạng đối tượng */}
-            <button
-              type="button"
-              onClick={handleCopyIdentity}
-              title="Sao chép nhận dạng đối tượng"
-              aria-label="Sao chép nhận dạng đối tượng"
-              className="w-6 h-6 rounded-full bg-cyan-500 hover:bg-cyan-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+            <div
+              onDoubleClick={(e) => handleCopyPinnedName(e, item)}
+              title="Double-click để sao chép tên đối tượng"
+              className="fixed pointer-events-auto z-[100000] inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-950/95 text-white border border-rose-400/80 shadow-[0_8px_24px_rgba(15,23,42,0.45)] backdrop-blur-md max-w-[calc(100vw-16px)]"
+              style={{
+                left: `${toolbarLeft}px`,
+                top: `${toolbarTop}px`,
+              }}
             >
-              <WebIcon name="cpu" className="w-3.5 h-3.5" />
-            </button>
+              <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+              {pinnedTargets.length > 1 && (
+                <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-rose-500/30 border border-rose-400/50 text-rose-100 shrink-0">
+                  #{idx + 1}
+                </span>
+              )}
+              <span className="text-xs font-bold font-play truncate max-w-[170px] sm:max-w-[240px]">
+                {item.info.elementName || item.info.tag}
+              </span>
 
-            {/* Icon 2: Hiệu ứng đối tượng */}
-            <button
-              type="button"
-              onClick={handleCopyEffects}
-              title="Sao chép hiệu ứng đối tượng"
-              aria-label="Sao chép hiệu ứng đối tượng"
-              className="w-6 h-6 rounded-full bg-purple-500 hover:bg-purple-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
-            >
-              <WebIcon name="sparkles" className="w-3.5 h-3.5" />
-            </button>
+              {isLast && (
+                <>
+                  <div className="w-[1px] h-4 bg-white/20 mx-0.5 shrink-0" />
 
-            {/* Icon 3: Thông tin cấu hình đối tượng */}
-            <button
-              type="button"
-              onClick={handleCopyConfig}
-              title="Sao chép thông tin cấu hình đối tượng"
-              aria-label="Sao chép thông tin cấu hình đối tượng"
-              className="w-6 h-6 rounded-full bg-amber-500 hover:bg-amber-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
-            >
-              <WebIcon name="settings" className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </>
-      )}
+                  {/* Icon 1: Nhận dạng đối tượng */}
+                  <button
+                    type="button"
+                    onClick={handleCopyIdentity}
+                    title={
+                      pinnedTargets.length > 1
+                        ? `Sao chép nhận dạng ${pinnedTargets.length} đối tượng`
+                        : 'Sao chép nhận dạng đối tượng'
+                    }
+                    aria-label="Sao chép nhận dạng đối tượng"
+                    className="w-6 h-6 rounded-full bg-cyan-500 hover:bg-cyan-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+                  >
+                    <WebIcon name="cpu" className="w-3.5 h-3.5" />
+                  </button>
+
+                  {/* Icon 2: Hiệu ứng đối tượng */}
+                  <button
+                    type="button"
+                    onClick={handleCopyEffects}
+                    title={
+                      pinnedTargets.length > 1
+                        ? `Sao chép hiệu ứng ${pinnedTargets.length} đối tượng`
+                        : 'Sao chép hiệu ứng đối tượng'
+                    }
+                    aria-label="Sao chép hiệu ứng đối tượng"
+                    className="w-6 h-6 rounded-full bg-purple-500 hover:bg-purple-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+                  >
+                    <WebIcon name="sparkles" className="w-3.5 h-3.5" />
+                  </button>
+
+                  {/* Icon 3: Thông tin cấu hình đối tượng */}
+                  <button
+                    type="button"
+                    onClick={handleCopyConfig}
+                    title={
+                      pinnedTargets.length > 1
+                        ? `Sao chép cấu hình ${pinnedTargets.length} đối tượng`
+                        : 'Sao chép thông tin cấu hình đối tượng'
+                    }
+                    aria-label="Sao chép thông tin cấu hình đối tượng"
+                    className="w-6 h-6 rounded-full bg-amber-500 hover:bg-amber-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+                  >
+                    <WebIcon name="settings" className="w-3.5 h-3.5" />
+                  </button>
+                </>
+              )}
+
+              <button
+                type="button"
+                onClick={(e) => handleUnpinOne(e, item.key)}
+                title="Bỏ ghim đối tượng này"
+                aria-label="Bỏ ghim đối tượng này"
+                className="w-5 h-5 rounded-full bg-white/10 hover:bg-rose-500 text-white/80 hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0 ml-0.5"
+              >
+                <WebIcon name="x" className="w-3 h-3" />
+              </button>
+            </div>
+          </React.Fragment>
+        );
+      })}
     </div>
   );
 };

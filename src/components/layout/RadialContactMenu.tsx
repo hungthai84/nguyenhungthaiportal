@@ -288,7 +288,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
                   <div className="radial-contact-divider w-[1.5px] h-4 shrink-0 rounded-[999px]" />
                   <div className="flex flex-col text-left justify-center leading-none flex-1 min-w-0">
                     <span
-                      style={{ fontWeight: 'bold', fontSize: '15px' }}
+                      style={{ fontWeight: 'bold' }}
                       className="radial-contact-title typo-nav leading-tight font-play truncate"
                     >
                       {item.title}

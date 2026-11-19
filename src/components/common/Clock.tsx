@@ -35,9 +35,9 @@ export const Clock: React.FC<ClockProps> = ({ isLight = true, currentTheme }) =>
   }, [language]);
 
   const isDark =
-    currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
+    currentTheme === 'dark-ice-blue-neu' ||
     !isLight;
 
   return (

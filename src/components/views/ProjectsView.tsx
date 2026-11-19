@@ -197,14 +197,13 @@ export interface ProjectsViewProps {
 }
 
 export const ProjectsView: React.FC<ProjectsViewProps> = ({
-  currentTheme = 'light-multicolor-glass-color',
+  currentTheme = 'ice-blue-neu',
   requestedProject,
   onReturnToOrigin,
 }) => {
   const { isDark: themeIsDark } = useTheme();
   const isDark =
     themeIsDark ||
-    currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu';
@@ -521,7 +520,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                 <WebIcon
                   name="folder"
                   className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                  style={{ width: '22px', height: '22px', fontSize: '22px', fontWeight: 'bold' }}
+                  style={{ width: '22px', height: '22px', fontWeight: 'bold' }}
                 />
                 <h1
                   className="typo-h3 card-title-synced font-bold font-play not-italic tracking-tight truncate"

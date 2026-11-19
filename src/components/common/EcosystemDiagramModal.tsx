@@ -1090,7 +1090,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
           />
           <div className="min-w-0">
             <div className="flex items-center justify-between gap-2">
-              <h4 className={`font-black text-slate-950 ${uniformTextSize} tracking-tight whitespace-nowrap leading-tight`}>
+              <h4 className={`font-bold text-slate-950 ${uniformTextSize} tracking-tight whitespace-nowrap leading-tight`}>
                 {sys.abbr}
               </h4>
               <span className={`${isCompact ? 'w-5 h-5 text-[8.5px]' : 'w-6 h-6 text-[9px] sm:text-[9.5px]'} rounded-full bg-transparent ${iconTextColorClass} flex items-center justify-center shrink-0 border-[1.5px] border-current font-bold leading-none`}>
@@ -1723,9 +1723,9 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                             <Layers className="w-5 h-5" />
                           </div>
                           <div className="text-left">
-                            <h2 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight leading-none">SDP</h2>
+                            <h2 className="text-xl sm:text-2xl font-bold text-slate-950 tracking-tight leading-none">SDP</h2>
                             <p className="text-[10px] sm:text-[11px] text-blue-900 font-bold font-mono mt-0.5">Service Delivery Platform</p>
-                            <p className="text-[10px] sm:text-[11px] text-slate-900 font-extrabold">Cổng làm việc CSKH</p>
+                            <p className="text-[10px] sm:text-[11px] text-slate-900 font-bold">Cổng làm việc CSKH</p>
                           </div>
                         </div>
 

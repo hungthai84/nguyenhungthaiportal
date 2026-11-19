@@ -61,6 +61,7 @@ html[data-card-style="light-cowhide-leather"] {
   --radius-header: 0 0 14px 14px;
   --radius-footer: 14px 14px 0 0;
   --card-border-width: 2px;
+  --banner-transparent-bg: rgba(251, 252, 252, 0.10);
 
   /* Core White Pebbled Leather & Charcoal Ink Contrast Tokens */
   --color-bg: #edf1f4;
@@ -588,6 +589,8 @@ html[data-card-style="light-cowhide-leather"] .skill-swot-subcard .swot-skill-di
 /* ========================================================================= */
 html[data-card-style="light-cowhide-leather"] #app-header nav button.nav-pill,
 html[data-card-style="light-cowhide-leather"] #header-btn-hungthai-avatar,
+html[data-card-style="light-cowhide-leather"] #footer-nav-capsule,
+html[data-card-style="light-cowhide-leather"] #el-p0-div-16,
 html[data-card-style="light-cowhide-leather"] #footer-lang-btn,
 html[data-card-style="light-cowhide-leather"] #footer-appearance-btn,
 html[data-card-style="light-cowhide-leather"] #footer-theme-mode-btn,
@@ -612,6 +615,8 @@ html[data-card-style="light-cowhide-leather"] .radial-contact-pill {
 
 html[data-card-style="light-cowhide-leather"] #app-header nav button.nav-pill:hover,
 html[data-card-style="light-cowhide-leather"] #header-btn-hungthai-avatar:hover,
+html[data-card-style="light-cowhide-leather"] #footer-nav-capsule:hover,
+html[data-card-style="light-cowhide-leather"] #el-p0-div-16:hover,
 html[data-card-style="light-cowhide-leather"] #footer-lang-btn:hover,
 html[data-card-style="light-cowhide-leather"] #footer-appearance-btn:hover,
 html[data-card-style="light-cowhide-leather"] #footer-theme-mode-btn:hover,
@@ -776,11 +781,16 @@ html[data-card-style="light-cowhide-leather"] #footer-nav-capsule #footer-next-b
 
 html[data-card-style="light-cowhide-leather"] .hero-banner,
 html[data-card-style="light-cowhide-leather"] .banner-card,
+html[data-card-style="light-cowhide-leather"] [data-element-type="banner-card"],
+html[data-card-style="light-cowhide-leather"] #services-hero-banner,
 html[data-card-style="light-cowhide-leather"] #project-detail-banner,
 html[data-card-style="light-cowhide-leather"] .project-detail-banner-inner,
 html[data-card-style="light-cowhide-leather"] #contact-hero-banner,
-html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner {
-  background: rgba(251, 252, 252, 0.10) !important;
+html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner,
+html[data-card-style="light-cowhide-leather"] #interview-questions-card,
+html[data-card-style="light-cowhide-leather"] #pdf-hero-banner,
+html[data-card-style="light-cowhide-leather"] [id$="-hero-banner"] {
+  background: var(--banner-transparent-bg, rgba(251, 252, 252, 0.10)) !important;
   border: 2px solid #d1d5db !important;
   box-shadow: var(--shadow-card) !important;
   outline: 1.5px dashed rgba(17, 24, 39, 0.65);
@@ -802,7 +812,9 @@ html[data-card-style="light-cowhide-leather"] .banner-card .project-detail-banne
 html[data-card-style="light-cowhide-leather"] .banner-card .project-detail-banner-media video,
 html[data-card-style="light-cowhide-leather"] #project-detail-banner .project-detail-banner-media img,
 html[data-card-style="light-cowhide-leather"] #contact-hero-banner .project-detail-banner-media img,
-html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-media video {
+html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-media video,
+html[data-card-style="light-cowhide-leather"] #pdf-hero-banner .project-detail-banner-media img,
+html[data-card-style="light-cowhide-leather"] [id$="-hero-banner"] .project-detail-banner-media :is(img, video) {
   opacity: 1 !important;
 }
 
@@ -812,7 +824,9 @@ html[data-card-style="light-cowhide-leather"] .banner-card:hover .project-detail
 html[data-card-style="light-cowhide-leather"] .banner-card:hover .project-detail-banner-media video,
 html[data-card-style="light-cowhide-leather"] #project-detail-banner:hover .project-detail-banner-media img,
 html[data-card-style="light-cowhide-leather"] #contact-hero-banner:hover .project-detail-banner-media img,
-html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner:hover .project-detail-banner-media video {
+html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner:hover .project-detail-banner-media video,
+html[data-card-style="light-cowhide-leather"] #pdf-hero-banner:hover .project-detail-banner-media img,
+html[data-card-style="light-cowhide-leather"] [id$="-hero-banner"]:hover .project-detail-banner-media :is(img, video) {
   opacity: 1 !important;
 }
 
@@ -820,7 +834,10 @@ html[data-card-style="light-cowhide-leather"] .hero-banner .project-detail-banne
 html[data-card-style="light-cowhide-leather"] .banner-card .project-detail-banner-scrim,
 html[data-card-style="light-cowhide-leather"] #project-detail-banner .project-detail-banner-scrim,
 html[data-card-style="light-cowhide-leather"] #contact-hero-banner .project-detail-banner-scrim,
-html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-scrim {
+html[data-card-style="light-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-scrim,
+html[data-card-style="light-cowhide-leather"] #interview-questions-card .project-detail-banner-scrim,
+html[data-card-style="light-cowhide-leather"] #pdf-hero-banner .project-detail-banner-scrim,
+html[data-card-style="light-cowhide-leather"] [id$="-hero-banner"] .project-detail-banner-scrim {
   background: rgba(251, 252, 252, 0.10) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;

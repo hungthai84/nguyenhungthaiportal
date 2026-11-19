@@ -40,7 +40,7 @@ export interface VideoScreenItem {
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
-  currentTheme = 'light-multicolor-glass-color',
+  currentTheme = 'ice-blue-neu',
   onNavigateContact,
   onNavigatePage,
   onOpenPagesCarousel,
@@ -54,7 +54,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
   const isDark =
     themeIsDark ||
-    currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu';
@@ -376,8 +375,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
           data-element-type="card"
           data-element-page="home"
           data-element-parent="home-cards-track"
-          className="page-main-card relative flex flex-col justify-between overflow-hidden select-none p-[15px] gap-[15px] font-play rounded-[14px] box-border"
-          style={{ padding: '15px', gap: '15px', borderRadius: '14px' }}
+          className="page-main-card relative flex flex-col justify-between overflow-hidden select-none p-[15px] gap-[15px] font-play rounded-[var(--radius-main,14px)] box-border"
+          style={{
+            padding: 'var(--main-card-padding, 15px)',
+            gap: '15px',
+            borderRadius: 'var(--radius-main, 14px)',
+          }}
         >
           <div
             id="home-main-content"
@@ -385,11 +388,15 @@ export const HomeView: React.FC<HomeViewProps> = ({
             data-element-type="container"
             data-element-page="home"
             data-element-parent="home-main-card"
-            className="relative flex-1 w-full min-w-0 min-h-0 flex flex-col justify-between overflow-hidden rounded-[14px] p-[15px] gap-[15px] box-border"
-            style={{ borderRadius: '14px', padding: '15px', gap: '15px' }}
+            className="relative flex-1 w-full min-w-0 min-h-0 flex flex-col justify-between overflow-hidden rounded-[var(--radius-card,14px)] p-[15px] gap-[15px] box-border"
+            style={{
+              borderRadius: 'var(--radius-card, 14px)',
+              padding: 'var(--main-card-padding, 15px)',
+              gap: '15px',
+            }}
           >
-            {/* 1. Main Background Video - Hiển thị gọn trong vùng nội dung, cách viền #home-main-card đúng 15px ở mọi kích thước */}
-            <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none rounded-[14px]">
+            {/* 1. Main Background Video - Hiển thị gọn trong vùng nội dung, cách viền #home-main-card đúng padding chuẩn ở mọi kích thước */}
+            <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none rounded-[var(--radius-card,14px)]">
               <video
                 ref={videoRef}
                 key={activeVideoUrl}
@@ -400,7 +407,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 src={activeVideoUrl}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleEnded}
-                className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] transition-all duration-700 brightness-110 contrast-105 scale-[1.01]"
+                className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[var(--radius-card,14px)] transition-all duration-700 brightness-110 contrast-105 scale-[1.01]"
               />
               {/* Lớp phủ nhẹ nhàng đồng bộ Sáng / Tối, giữ video rõ nét tươi sáng */}
               <div
@@ -636,7 +643,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       {/* Play / Stop Label */}
                       <span
                         id="el-p0-btn-intro-toggle"
-                        className="inline-flex items-center justify-center gap-2 pr-1.5 py-0.5 rounded-[999px] font-black typo-button tracking-wide transition-all duration-200 font-play text-current"
+                        className="inline-flex items-center justify-center gap-2 pr-1.5 py-0.5 rounded-[999px] font-bold typo-button tracking-wide transition-all duration-200 font-play text-current"
                       >
                         <span className="flex items-center justify-center">
                           {!isIntroMode ? (
@@ -645,7 +652,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                             <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-current shrink-0" style={{ height: '16px', width: '16px' }} />
                           )}
                         </span>
-                        <span className="font-black typo-button truncate font-play text-left text-current" style={{ textAlign: 'left' }}>
+                        <span className="font-bold typo-button truncate font-play text-left text-current" style={{ textAlign: 'left' }}>
                           {isIntroMode ? (isEn ? 'Stop Video' : 'Dừng phát') : isEn ? 'Play Video' : 'Phát Video'}
                         </span>
                       </span>
@@ -658,7 +665,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
       )}
 
-      {/* 5. Bottom Center Bar: Dock chuyển đổi 3 màn hình dạng Kính đa sắc cao cấp - Ẩn khi đang phát video */}
+      {/* 5. Bottom Center Bar: Dock chuyển đổi 3 màn hình đồng bộ theo giao diện website - Ẩn khi đang phát video */}
       {!isIntroMode && (
         <div className="relative z-30 w-full flex items-center justify-center pointer-events-auto shrink-0 pt-1">
           <div
@@ -667,15 +674,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             data-element-name="Thanh chuyển đổi màn hình trang chủ"
             data-element-type="card"
             data-element-page="home"
-            style={{
-              borderRadius: '999px',
-              background: 'var(--surface-secondary-bg, var(--bg-card))',
-              borderColor: 'var(--surface-secondary-border, var(--border-color))',
-              boxShadow: 'var(--surface-secondary-shadow, var(--shadow-card))',
-              backdropFilter: 'blur(20px)',
-              padding: '6px 12px',
-            }}
-            className="inline-flex items-center gap-2 !rounded-[999px] glass-card border select-none transition-all duration-300 backdrop-blur-xl !px-3 !py-1.5 m-0"
+            className="theme-screen-switcher-dock inline-flex items-center gap-2 !rounded-[999px] border select-none transition-all duration-300 px-4 py-2 m-0"
             role="tablist"
             aria-label="Chuyển đổi màn hình trang chủ"
           >
@@ -693,19 +692,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   onClick={() => handleSelectScreen(screen.id)}
                   className={`group relative h-2 sm:h-2.5 rounded-full transition-all duration-300 cursor-pointer focus:outline-none select-none ${
                     isActive
-                      ? 'w-7 sm:w-9 shadow-md scale-105'
+                      ? 'w-7 sm:w-9 scale-105'
                       : 'w-5 sm:w-6 hover:w-6 sm:hover:w-7 active:scale-95'
                   }`}
-                  style={
-                    isActive
-                      ? {
-                          background: `linear-gradient(135deg, ${screen.gradientFrom}, ${screen.gradientTo})`,
-                          boxShadow: `0 3px 10px ${screen.accentColor}66`,
-                        }
-                      : {
-                          background: 'var(--divider-nav-pill, rgba(148, 163, 184, 0.55))',
-                        }
-                  }
                 />
               );
             })}

@@ -105,8 +105,34 @@
 }
 
 .page-cards-track {
-  padding-left: max(0px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) / 2));
-  padding-right: max(0px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) / 2));
+  padding-left: max(0px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2));
+  padding-right: max(0px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2));
+}
+
+/* Anti-overflow & Responsive Content Auto-scaling & Internal Scroll for All Pages (User Options 1 & 3) */
+.page-main-card > *,
+[data-main-card="true"] > *,
+.main-card > * {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.page-main-card,
+[data-main-card="true"] {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
+}
+
+.page-main-card::-webkit-scrollbar,
+[data-main-card="true"]::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.page-main-card::-webkit-scrollbar-thumb,
+[data-main-card="true"]::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.4);
+  border-radius: 999px;
 }
 
 /* Smooth scrolling across all scrollable sections & slide containers (non-blocking for active drag/wheel handlers) */
@@ -139,7 +165,7 @@
 }
 
 #app-header {
-  width: var(--shared-frame-w, min(calc(100vw - 112px), var(--container-max-w, 1250px))) !important;
+  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
   max-width: var(--container-max-w, 1250px) !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -147,7 +173,7 @@
 }
 
 #app-footer {
-  width: var(--shared-frame-w, min(calc(100vw - 112px), var(--container-max-w, 1250px))) !important;
+  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
   max-width: var(--container-max-w, 1250px) !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -370,7 +396,7 @@
 }
 
 @media (max-width: 430px) {
-  .hero-banner:not(#ai-assistant-vertical-banner):not(#experience-hero-banner):not(#contact-hero-banner) {
+  .hero-banner:not(#ai-assistant-vertical-banner):not(#experience-hero-banner):not(#contact-hero-banner):not(#interview-questions-card) {
     max-width: 100% !important;
     height: auto !important;
     min-height: 148px !important;
@@ -380,8 +406,8 @@
 
 /* Desktop & Laptop (≥1024px) Hero Banner Rules */
 @media (min-width: 1024px) {
-  .hero-banner:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner),
-  .banner-card:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner) {
+  .hero-banner:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner):not(#interview-questions-card),
+  .banner-card:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner):not(#interview-questions-card) {
     width: 100% !important;
     max-width: 100% !important;
     height: 200px !important;
@@ -390,6 +416,23 @@
     margin-left: auto !important;
     margin-right: auto !important;
     border-radius: var(--radius-banner, 14px) !important;
+    padding: 15px !important;
+  }
+
+  #interview-main-content {
+    align-items: stretch !important;
+    overflow: visible !important;
+  }
+
+  #interview-questions-card,
+  #interview-answers-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: none !important;
+    align-self: stretch !important;
+    border-radius: var(--radius-card, 14px) !important;
     padding: 15px !important;
   }
 
@@ -408,8 +451,8 @@
 
 /* Tablet & Mobile (<1024px) Hero Banner Rules */
 @media (max-width: 1023px) {
-  .hero-banner,
-  .banner-card {
+  .hero-banner:not(#interview-questions-card),
+  .banner-card:not(#interview-questions-card) {
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
@@ -425,6 +468,20 @@
     gap: 15px !important;
     row-gap: 15px !important;
     column-gap: 15px !important;
+  }
+
+  #interview-questions-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 360px !important;
+    max-height: none !important;
+    border-radius: var(--radius-card, 14px) !important;
+    padding: 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    gap: 15px !important;
   }
 
   .hero-banner > div.relative.z-10:first-of-type,
@@ -448,10 +505,6 @@
   .hero-banner p.font-italianno,
   .hero-banner .banner-quote,
   .hero-banner p.font-handwriting {
-    font-size: var(--fs-h3) !important;
-    font-weight: 400 !important;
-    font-style: normal !important;
-    line-height: 1.35 !important;
     max-width: 100% !important;
     width: 100% !important;
     margin-left: 0 !important;

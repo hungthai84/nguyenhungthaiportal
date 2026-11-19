@@ -46,7 +46,7 @@ export const SampleQuestionButton: React.FC<SampleQuestionButtonProps> = ({
         className="w-4 h-4 shrink-0"
         style={{ color: isOpen ? '#FFFFFF' : 'var(--color-primary)' }}
       />
-      <span className="text-[12.5px] sm:text-[13.5px] font-semibold tracking-tight">{label}</span>
+      <span className="typo-button font-semibold tracking-tight">{label}</span>
       <WebIcon
         name="chevron-up"
         className={`w-3.5 h-3.5 shrink-0 transition-transform duration-200 ${

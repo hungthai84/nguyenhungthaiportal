@@ -47,6 +47,7 @@ html.dark[data-card-style="black-cowhide-leather"] {
   --radius-header: 0 0 14px 14px;
   --radius-footer: 14px 14px 0 0;
   --card-border-width: 2px;
+  --banner-transparent-bg: rgba(21, 23, 28, 0.10);
 
   --color-bg: #0b0c10;
   --color-bg-soft: #13151a;
@@ -315,7 +316,7 @@ html[data-card-style="black-cowhide-leather"] #app-footer {
   outline-offset: -6px;
 }
 
-html[data-card-style="black-cowhide-leather"] #footer-nav-capsule {
+html[data-card-style="black-cowhide-leather"] :is(#footer-nav-capsule, #el-p0-div-16) {
   background: linear-gradient(145deg, #252830 0%, #14161b 100%) !important;
   border: 2px solid #090a0d !important;
   color: #ffffff !important;
@@ -328,10 +329,20 @@ html[data-card-style="black-cowhide-leather"] #footer-nav-capsule {
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="black-cowhide-leather"] #footer-nav-capsule:hover {
+html[data-card-style="black-cowhide-leather"] :is(#footer-nav-capsule, #el-p0-div-16):hover {
   background: linear-gradient(145deg, #2e323c 0%, #191c23 100%) !important;
   border-color: rgba(226, 232, 240, 0.55) !important;
   outline-color: rgba(226, 232, 240, 0.78) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #el-p0-div-16 [role="tab"][aria-selected="true"] {
+  background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%) !important;
+  border-color: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 2px 10px rgba(226, 232, 240, 0.42) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] #el-p0-div-16 [role="tab"][aria-selected="false"] {
+  background: rgba(226, 232, 240, 0.30) !important;
 }
 
 /* Outer Page Container Frame */
@@ -1006,11 +1017,16 @@ html[data-card-style="black-cowhide-leather"] .banner-card [role="option"][aria-
 
 html[data-card-style="black-cowhide-leather"] .hero-banner,
 html[data-card-style="black-cowhide-leather"] .banner-card,
+html[data-card-style="black-cowhide-leather"] [data-element-type="banner-card"],
+html[data-card-style="black-cowhide-leather"] #services-hero-banner,
 html[data-card-style="black-cowhide-leather"] #project-detail-banner,
 html[data-card-style="black-cowhide-leather"] .project-detail-banner-inner,
 html[data-card-style="black-cowhide-leather"] #contact-hero-banner,
-html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner {
-  background: rgba(21, 23, 28, 0.10) !important;
+html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner,
+html[data-card-style="black-cowhide-leather"] #interview-questions-card,
+html[data-card-style="black-cowhide-leather"] #pdf-hero-banner,
+html[data-card-style="black-cowhide-leather"] [id$="-hero-banner"] {
+  background: var(--banner-transparent-bg, rgba(21, 23, 28, 0.10)) !important;
   border: 2px solid #090a0d !important;
   box-shadow: var(--shadow-card) !important;
   color: #ffffff !important;
@@ -1043,7 +1059,9 @@ html[data-card-style="black-cowhide-leather"] .banner-card .project-detail-banne
 html[data-card-style="black-cowhide-leather"] .banner-card .project-detail-banner-media video,
 html[data-card-style="black-cowhide-leather"] #project-detail-banner .project-detail-banner-media img,
 html[data-card-style="black-cowhide-leather"] #contact-hero-banner .project-detail-banner-media img,
-html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-media video {
+html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-media video,
+html[data-card-style="black-cowhide-leather"] #pdf-hero-banner .project-detail-banner-media img,
+html[data-card-style="black-cowhide-leather"] [id$="-hero-banner"] .project-detail-banner-media :is(img, video) {
   opacity: 1 !important;
 }
 
@@ -1053,7 +1071,9 @@ html[data-card-style="black-cowhide-leather"] .banner-card:hover .project-detail
 html[data-card-style="black-cowhide-leather"] .banner-card:hover .project-detail-banner-media video,
 html[data-card-style="black-cowhide-leather"] #project-detail-banner:hover .project-detail-banner-media img,
 html[data-card-style="black-cowhide-leather"] #contact-hero-banner:hover .project-detail-banner-media img,
-html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner:hover .project-detail-banner-media video {
+html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner:hover .project-detail-banner-media video,
+html[data-card-style="black-cowhide-leather"] #pdf-hero-banner:hover .project-detail-banner-media img,
+html[data-card-style="black-cowhide-leather"] [id$="-hero-banner"]:hover .project-detail-banner-media :is(img, video) {
   opacity: 1 !important;
 }
 
@@ -1061,7 +1081,10 @@ html[data-card-style="black-cowhide-leather"] .hero-banner .project-detail-banne
 html[data-card-style="black-cowhide-leather"] .banner-card .project-detail-banner-scrim,
 html[data-card-style="black-cowhide-leather"] #project-detail-banner .project-detail-banner-scrim,
 html[data-card-style="black-cowhide-leather"] #contact-hero-banner .project-detail-banner-scrim,
-html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-scrim {
+html[data-card-style="black-cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-scrim,
+html[data-card-style="black-cowhide-leather"] #interview-questions-card .project-detail-banner-scrim,
+html[data-card-style="black-cowhide-leather"] #pdf-hero-banner .project-detail-banner-scrim,
+html[data-card-style="black-cowhide-leather"] [id$="-hero-banner"] .project-detail-banner-scrim {
   background: rgba(21, 23, 28, 0.10) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;

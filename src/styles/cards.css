@@ -509,15 +509,17 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #about-intro-card-1,
 #about-intro-card-2 {
   box-sizing: border-box !important;
-  width: var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) !important;
-  max-width: var(--container-max-w, 1250px) !important;
-  min-width: var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) !important;
-  flex: 0 0 var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) !important;
+  width: var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) !important;
+  max-width: min(100%, var(--container-max-w, 1250px)) !important;
+  min-width: 0 !important;
+  flex: 0 0 var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) !important;
   flex-shrink: 0 !important;
   height: 100% !important;
   min-height: 100% !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  scroll-behavior: smooth !important;
   margin: 0 !important;
   padding: 15px !important;
   gap: 15px !important;
@@ -691,6 +693,7 @@ button,
 }
 
 #app-footer #footer-nav-capsule,
+#el-p0-div-16,
 .theme-capsule-btn:not(.video-play-btn) {
   background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-button-primary))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-interactive-border, var(--border-nav-arrow, var(--border-color))) !important;
@@ -706,6 +709,27 @@ button,
     box-shadow var(--motion-fast, 0.2s) var(--motion-ease, ease),
     border-color var(--motion-fast, 0.2s) var(--motion-ease, ease),
     background var(--motion-fast, 0.2s) var(--motion-ease, ease) !important;
+}
+
+#el-p0-div-16 [role="tab"][aria-selected="true"] {
+  background: var(--bg-button-primary) !important;
+  box-shadow: var(--glow-primary, 0 2px 8px rgba(15, 23, 42, 0.22)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+}
+
+#el-p0-div-16 [role="tab"][aria-selected="false"] {
+  background: var(--divider-nav-pill, rgba(148, 163, 184, 0.45)) !important;
+  border: 1px solid transparent;
+}
+
+#el-p0-div-16 [role="tab"][aria-selected="false"]:hover {
+  background: var(--color-primary, rgba(148, 163, 184, 0.72)) !important;
+  opacity: 0.85;
+}
+
+html[data-surface-depth="flat"] #el-p0-div-16,
+html[data-surface-depth="flat"] #el-p0-div-16 [role="tab"] {
+  box-shadow: none !important;
 }
 
 .theme-capsule-btn:not(#footer-nav-capsule):not(.video-play-btn) {
@@ -1031,16 +1055,21 @@ h3.card-title,
 /* ========================================================================= */
 .hero-banner,
 .banner-card,
+[data-element-type="banner-card"],
+#services-hero-banner,
 #project-detail-banner,
 #contact-hero-banner,
-#ai-assistant-hero-banner {
-  background: var(--surface-secondary-bg, var(--bg-card)) !important;
+#ai-assistant-hero-banner,
+#interview-questions-card,
+#pdf-hero-banner,
+[id$="-hero-banner"] {
+  background: var(--banner-transparent-bg, rgba(255, 255, 255, 0.10)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--banner-border, var(--border-color))) !important;
   box-shadow: var(--surface-secondary-shadow, var(--banner-shadow, var(--shadow-card))) !important;
   outline: var(--outline-card, var(--banner-outline, none));
   outline-offset: var(--outline-offset-card, var(--banner-outline-offset, -6px));
-  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 14px))) saturate(var(--surface-secondary-saturate, 140%)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 14px))) saturate(var(--surface-secondary-saturate, 140%)) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   padding: 15px !important;
 }
 
@@ -1222,8 +1251,7 @@ h3.card-title,
   -webkit-backdrop-filter: blur(8px);
 }
 
-/* Theme 01B: Gương Neon màu (tối) */
-html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-scrim,
+/* Dark Mode Themed Image Card Scrim */
 html.dark .themed-image-card-scrim {
   background: linear-gradient(
     to top,
@@ -1235,43 +1263,26 @@ html.dark .themed-image-card-scrim {
   -webkit-backdrop-filter: blur(6px) saturate(140%);
 }
 
-html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-title,
 html.dark .themed-image-card-title {
   color: #FFFFFF;
 }
 
-html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-subtext,
 html.dark .themed-image-card-subtext {
   color: #E2E8F0;
 }
 
-html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-kicker,
 html.dark .themed-image-card-kicker {
   color: #7DD3FC;
 }
 
-html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-divider,
 html.dark .themed-image-card-divider {
   border-color: rgba(255, 255, 255, 0.22);
 }
 
-html[data-card-style="light-multicolor-glass-dark"] .themed-image-card-badge,
 html.dark .themed-image-card-badge {
   background: rgba(15, 23, 42, 0.72);
   border-color: rgba(255, 255, 255, 0.24);
   color: #F8FAFC;
-}
-
-/* Theme 01C: Gương đa sắc (màu) */
-html[data-card-style="light-multicolor-glass-color"] .themed-image-card-scrim {
-  background: linear-gradient(
-    to top,
-    rgba(248, 245, 255, 0.92) 0%,
-    rgba(238, 246, 255, 0.58) 52%,
-    rgba(255, 240, 248, 0.20) 100%
-  );
-  backdrop-filter: blur(8px) saturate(160%);
-  -webkit-backdrop-filter: blur(8px) saturate(160%);
 }
 
 /* Theme 02A: Chất liệu da (màu trắng) */
@@ -2074,32 +2085,50 @@ button:focus-visible,
   }
 }
 
-/* Standardize padding to 15px, gap to 15px, and theme border-radius for all sub-cards in Experience and Education */
-#experience-page-container [data-subcard="true"],
-#experience-page-container .exp-detail-subcard,
-#experience-page-container .sub-card,
-#education-page-container [data-subcard="true"],
-#education-page-container .education-subcard,
-#education-page-container .exp-detail-subcard,
-#education-page-container .sub-card,
-.exp-detail-subcard,
-.education-subcard {
+/* Standardize padding to 15px, gap to 15px, equal height, and row 1 title / row 2 single-line clamp for all sub-cards */
+:is(
+  [data-subcard="true"],
+  .sub-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  .theme-modal-subcard,
+  .bento-subcard-grid > *,
+  .bento-grid-responsive > *
+) {
   padding: 15px !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
+  gap: 12px !important;
+  row-gap: 12px !important;
   column-gap: 15px !important;
   border-radius: var(--radius-subcard, 14px) !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+  box-sizing: border-box !important;
 }
 
-#experience-page-container .exp-detail-card,
-#experience-page-container .exp-detail-subcard,
-#education-page-container .education-card,
-#education-page-container .education-subcard,
-#education-page-container .exp-detail-card,
-#education-page-container .exp-detail-subcard {
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
+/* Row 1: Title or Header (unrestricted or single line flex) */
+:is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard) :is(h3, h4, h5, .subcard-title, [data-card-title], [data-subcard-title]) {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
+}
+
+/* Row 2: Description / Content paragraph strictly clamped to exactly 1 single line */
+:is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard) :is(p, span.subcard-desc, .subcard-text, .text-muted) {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: normal !important;
+  margin: 0 !important;
+  flex: 0 1 auto !important;
+  line-height: 1.45 !important;
 }
 
 /* ========================================================================= */
@@ -2117,18 +2146,7 @@ button:focus-visible,
   border-radius: 14px !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-color"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .theme-modal-subcard)
-  :is([data-subcard="true"], .sub-card, .nested-card, .theme-muted-surface, [data-elevation="1"]) {
-  background: var(--surface-nested-bg, var(--surface-nested-glass)) !important;
-  border: 1px solid var(--surface-nested-border, var(--glass-nested-border)) !important;
-  box-shadow: var(--surface-nested-shadow, var(--shadow-nested-glass)) !important;
-  backdrop-filter: blur(var(--surface-nested-blur, var(--glass-nested-blur, 10px))) saturate(var(--surface-nested-saturate, var(--glass-nested-saturate, 112%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-nested-blur, var(--glass-nested-blur, 10px))) saturate(var(--surface-nested-saturate, var(--glass-nested-saturate, 112%))) !important;
-}
+/* Sub Card nested inside Sub Card stays grounded without floating bounce */
 
 :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .theme-modal-subcard)
   :is([data-subcard="true"], .sub-card):hover {
@@ -2179,8 +2197,7 @@ button:focus-visible,
   background: rgba(255, 255, 255, 0.10) !important;
 }
 
-html.dark #experience-dedicated-company-card .exp-company-banner-scrim,
-html[data-card-style="light-multicolor-glass-dark"] #experience-dedicated-company-card .exp-company-banner-scrim {
+html.dark #experience-dedicated-company-card .exp-company-banner-scrim {
   background: rgba(15, 23, 42, 0.10) !important;
 }
 
@@ -2286,23 +2303,9 @@ html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-b
   color: #ffffff;
 }
 
-/* Chi tiết thẻ công việc (#experience-job-detail-card) — Bento Grid cuộn dọc mượt mà trên toàn bộ 6 theme */
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-color"],
-  html[data-card-style="light-cowhide-leather"],
-  html[data-card-style="black-cowhide-leather"],
-  html[data-card-style="cowhide-leather"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) #experience-job-detail-card,
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-color"],
-  html[data-card-style="light-cowhide-leather"],
-  html[data-card-style="black-cowhide-leather"],
-  html[data-card-style="cowhide-leather"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) #experience-job-detail-card:hover {
+/* Chi tiết thẻ công việc (#experience-job-detail-card) — Bento Grid cuộn dọc mượt mà trên toàn bộ 5 theme */
+html[data-card-style] #experience-job-detail-card,
+html[data-card-style] #experience-job-detail-card:hover {
   padding: 15px !important;
   gap: 15px !important;
   row-gap: 15px !important;
@@ -2320,21 +2323,13 @@ html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-b
   transform: none !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-color"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) #experience-job-detail-card,
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-color"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) #experience-job-detail-card:hover {
-  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
-  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #experience-job-detail-card,
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #experience-job-detail-card:hover {
+  background: var(--surface-secondary-bg, var(--bg-card)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-color)) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, 18px)) saturate(var(--surface-secondary-saturate, 118%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 18px)) saturate(var(--surface-secondary-saturate, 118%)) !important;
   color: var(--text-primary) !important;
 }
 
@@ -2368,76 +2363,17 @@ html[data-card-style="cowhide-leather"] #experience-job-detail-card:hover {
   color: #ffffff !important;
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-color"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) #experience-job-detail-card .exp-bento-surface-card {
-  background: var(--surface-tertiary-bg, var(--surface-subcard-glass, var(--bg-subcard))) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard))) !important;
-  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass, var(--shadow-subcard))) !important;
-  backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #experience-job-detail-card .exp-bento-surface-card {
+  background: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--border-subcard)) !important;
+  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;
   color: var(--text-primary) !important;
 }
 
-/* Sắc độ Bento đa sắc hài hòa cho Gương Đa Sắc (Màu) & Gương Đen Neon */
-html[data-card-style="light-multicolor-glass-color"] #experience-job-detail-card #experience-info-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.86) 0%, rgba(239, 246, 255, 0.72) 100%) !important;
-  border-color: rgba(147, 197, 253, 0.55) !important;
-}
-html[data-card-style="light-multicolor-glass-color"] #experience-job-detail-card #experience-dedicated-company-card {
-  background: linear-gradient(145deg, rgba(238, 242, 255, 0.84) 0%, rgba(224, 231, 255, 0.68) 100%) !important;
-  border-color: rgba(165, 180, 252, 0.58) !important;
-}
-html[data-card-style="light-multicolor-glass-color"] #experience-job-detail-card #experience-basic-info-card {
-  background: linear-gradient(145deg, rgba(236, 254, 255, 0.84) 0%, rgba(224, 242, 254, 0.68) 100%) !important;
-  border-color: rgba(103, 232, 249, 0.55) !important;
-}
-html[data-card-style="light-multicolor-glass-color"] #experience-job-detail-card #experience-results-card {
-  background: linear-gradient(145deg, rgba(236, 253, 245, 0.86) 0%, rgba(209, 250, 229, 0.68) 100%) !important;
-  border-color: rgba(110, 231, 183, 0.58) !important;
-}
-html[data-card-style="light-multicolor-glass-color"] #experience-job-detail-card #experience-banner-card {
-  background: linear-gradient(145deg, rgba(255, 241, 242, 0.86) 0%, rgba(255, 237, 213, 0.68) 100%) !important;
-  border-color: rgba(253, 164, 175, 0.56) !important;
-}
-html[data-card-style="light-multicolor-glass-color"] #experience-job-detail-card #experience-responsibility-card {
-  background: linear-gradient(145deg, rgba(245, 243, 255, 0.86) 0%, rgba(237, 233, 254, 0.68) 100%) !important;
-  border-color: rgba(196, 181, 253, 0.58) !important;
-}
-html[data-card-style="light-multicolor-glass-color"] #experience-job-detail-card #experience-achievement-card {
-  background: linear-gradient(145deg, rgba(255, 247, 237, 0.86) 0%, rgba(254, 215, 170, 0.62) 100%) !important;
-  border-color: rgba(253, 186, 116, 0.58) !important;
-}
-html[data-card-style="light-multicolor-glass-color"] #experience-job-detail-card #experience-commitments-card {
-  background: linear-gradient(145deg, rgba(240, 253, 250, 0.86) 0%, rgba(204, 251, 241, 0.66) 100%) !important;
-  border-color: rgba(94, 234, 212, 0.56) !important;
-}
-html[data-card-style="light-multicolor-glass-color"] #experience-job-detail-card #experience-memories-card {
-  background: linear-gradient(145deg, rgba(254, 252, 232, 0.86) 0%, rgba(254, 240, 138, 0.56) 100%) !important;
-  border-color: rgba(252, 211, 77, 0.58) !important;
-}
-
-html[data-card-style="light-multicolor-glass-dark"] #experience-job-detail-card .exp-bento-surface-card {
-  background: rgba(0, 0, 0, 0.2) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(0, 0, 0, 0.3) !important;
-}
-
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-color"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) #experience-job-detail-card .exp-bento-item-card {
-  background: var(--surface-nested-bg, var(--surface-nested-glass, var(--bg-subcard))) !important;
-  border: 1px solid var(--surface-nested-border, var(--glass-nested-border, var(--border-subcard))) !important;
-  box-shadow: var(--surface-nested-shadow, var(--shadow-nested-glass, var(--shadow-subcard))) !important;
-  backdrop-filter: blur(var(--surface-nested-blur, var(--glass-nested-blur, 10px))) saturate(var(--surface-nested-saturate, var(--glass-nested-saturate, 112%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-nested-blur, var(--glass-nested-blur, 10px))) saturate(var(--surface-nested-saturate, var(--glass-nested-saturate, 112%))) !important;
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #experience-job-detail-card .exp-bento-item-card {
+  background: var(--surface-nested-bg, var(--bg-nested-card)) !important;
+  border: 1px solid var(--surface-nested-border, var(--border-subcard)) !important;
+  box-shadow: var(--surface-nested-shadow, var(--shadow-subcard)) !important;
   color: var(--text-primary) !important;
 }
 
@@ -2465,101 +2401,9 @@ html[data-card-style] .service-card .service-card-title-header .card-header-sync
   }
 }
 
-:is(
-  html[data-card-style="light-multicolor-glass"],
-  html[data-card-style="light-multicolor-glass-color"],
-  html[data-card-style="light-multicolor-glass-dark"]
-) #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
-  background: var(--bg-subcard-hover, rgba(255, 255, 255, 0.64)) !important;
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
+  background: var(--bg-subcard-hover, var(--surface-interactive-hover)) !important;
   box-shadow: var(--shadow-subcard-hover, var(--shadow-subcard)) !important;
-}
-
-/* ========================================================================= */
-/* GIAO DIỆN GƯƠNG ĐƠN SẮC SÁNG, GƯƠNG ĐA SẮC MÀU & GƯƠNG NEON MÀU TỐI:     */
-/* CẬP NHẬT 6 THẺ DỊCH VỤ THEO MÀU NỀN & GIỮ ĐỒNG BỘ 15PX INSET              */
-/* ========================================================================= */
-
-/* --- 0. GƯƠNG KÍNH MỜ (SÁNG) (CSS.GLASS LIGHT FROSTED GLASS) --- */
-html[data-card-style="light-multicolor-glass"] :is(
-  #service-card-esports,
-  #service-card-telecom,
-  #service-card-ecommerce,
-  #service-card-insurance,
-  #service-card-ewallet,
-  #service-card-cx-ops
-) {
-  background: rgba(255, 255, 255, 0.2) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
-
-/* --- 1. GƯƠNG ĐA SẮC (MÀU) (MULTICOLOR GLASS COLOR) --- */
-html[data-card-style="light-multicolor-glass-color"] #service-card-esports {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(137, 70, 235, 0.18) 50%, rgba(137, 70, 235, 0.28) 100%) !important;
-  border: 1px solid rgba(137, 70, 235, 0.45) !important;
-  box-shadow: 0 10px 30px rgba(137, 70, 235, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(20px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-}
-
-html[data-card-style="light-multicolor-glass-color"] #service-card-telecom {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(31, 94, 172, 0.18) 50%, rgba(31, 94, 172, 0.28) 100%) !important;
-  border: 1px solid rgba(31, 94, 172, 0.45) !important;
-  box-shadow: 0 10px 30px rgba(31, 94, 172, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(20px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-}
-
-html[data-card-style="light-multicolor-glass-color"] #service-card-ecommerce {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(217, 118, 55, 0.18) 50%, rgba(217, 118, 55, 0.28) 100%) !important;
-  border: 1px solid rgba(217, 118, 55, 0.45) !important;
-  box-shadow: 0 10px 30px rgba(217, 118, 55, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(20px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-}
-
-html[data-card-style="light-multicolor-glass-color"] #service-card-insurance {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(245, 68, 89, 0.18) 50%, rgba(245, 68, 89, 0.28) 100%) !important;
-  border: 1px solid rgba(245, 68, 89, 0.45) !important;
-  box-shadow: 0 10px 30px rgba(245, 68, 89, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(20px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-}
-
-html[data-card-style="light-multicolor-glass-color"] #service-card-ewallet {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(166, 105, 243, 0.18) 50%, rgba(166, 105, 243, 0.28) 100%) !important;
-  border: 1px solid rgba(166, 105, 243, 0.45) !important;
-  box-shadow: 0 10px 30px rgba(166, 105, 243, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(20px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-}
-
-html[data-card-style="light-multicolor-glass-color"] #service-card-cx-ops {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(136, 210, 187, 0.22) 50%, rgba(136, 210, 187, 0.34) 100%) !important;
-  border: 1px solid rgba(136, 210, 187, 0.55) !important;
-  box-shadow: 0 10px 30px rgba(136, 210, 187, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(20px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-}
-
-/* --- 2. GƯƠNG KÍNH MỜ (TỐI) (CSS.GLASS DARK FROSTED GLASS) --- */
-html[data-card-style="light-multicolor-glass-dark"] :is(
-  #service-card-esports,
-  #service-card-telecom,
-  #service-card-ecommerce,
-  #service-card-insurance,
-  #service-card-ewallet,
-  #service-card-cx-ops
-) {
-  background: rgba(0, 0, 0, 0.2) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(0, 0, 0, 0.3) !important;
 }
 
 /* ========================================================================= */
@@ -2810,36 +2654,6 @@ html[data-card-style="black-cowhide-leather"] #el-p3-div-90 {
   -webkit-backdrop-filter: none !important;
 }
 
-/* Glass subcards styling for Communication Languages */
-html[data-card-style="light-multicolor-glass"] #skills-languages-section [id^="skills-language-card-"] {
-  background: rgba(255, 255, 255, 0.2) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  color: #000000 !important;
-}
-
-html[data-card-style="light-multicolor-glass-color"] #skills-languages-section [id^="skills-language-card-"] {
-  background: rgba(255, 255, 255, 0.76) !important;
-  border: 1px solid rgba(255, 255, 255, 0.90) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  box-shadow: 0 4px 14px rgba(99, 83, 181, 0.08) !important;
-  color: #0f172a !important;
-}
-
-html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section [id^="skills-language-card-"] {
-  background: rgba(0, 0, 0, 0.2) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(0, 0, 0, 0.3) !important;
-  color: #FFFFFF !important;
-}
-
 /* High contrast on Communication Languages card across dark & leather themes */
 html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title,
 html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-ring-arc,
@@ -2854,13 +2668,13 @@ html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="sk
 html[data-card-style="light-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title {
   color: #111827 !important;
 }
-html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section #skills-language-card-vi :is(.skills-lang-title, .skills-lang-ring-arc) {
+html.dark #skills-languages-section #skills-language-card-vi :is(.skills-lang-title, .skills-lang-ring-arc) {
   color: #FB7185 !important;
 }
-html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section #skills-language-card-en :is(.skills-lang-title, .skills-lang-ring-arc, .skills-lang-level) {
+html.dark #skills-languages-section #skills-language-card-en :is(.skills-lang-title, .skills-lang-ring-arc, .skills-lang-level) {
   color: #38BDF8 !important;
 }
-html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section #skills-language-card-ai :is(.skills-lang-title, .skills-lang-ring-arc, .skills-lang-level) {
+html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-title, .skills-lang-ring-arc, .skills-lang-level) {
   color: #C084FC !important;
 }
 
@@ -3164,16 +2978,7 @@ html[data-card-style="light-multicolor-glass-dark"] #skills-languages-section #s
   box-shadow: 0 32px 75px -15px rgba(0, 0, 0, 0.85), 0 20px 40px -10px rgba(0, 0, 0, 0.65), 0 8px 20px -4px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15) !important;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  #home-main-card:hover,
-  [data-main-card="true"]:hover,
-  .page-main-card:hover,
-  #about-intro-card-1:hover,
-  #about-intro-card-2:hover,
-  #pdf-page-container:hover {
-    animation: main-card-hover-pulse 1.9s ease-in-out infinite !important;
-  }
-}
+/* Main Card container stays stationary on hover so nested Card & Sub Card interactions remain stable */
 
 @media (prefers-reduced-motion: reduce) {
   #home-main-card,
@@ -3431,78 +3236,13 @@ html[data-card-style] .video-play-btn:active {
   --vp-sound-hover: rgba(217, 119, 6, 0.30);
 }
 
-/* --- Theme 1: Gương đơn sắc (sáng) (Frosted Crystal Monochrome + Distinct Tinted Accents) --- */
-html[data-card-style="light-multicolor-glass"] .video-play-btn--home {
-  --vp-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(226, 238, 248, 0.84) 100%);
-  --vp-bg-hover: linear-gradient(135deg, #FFFFFF 0%, rgba(208, 230, 248, 0.94) 100%);
-  --vp-border: rgba(15, 23, 42, 0.24);
-  --vp-text: #000000;
-}
-html[data-card-style="light-multicolor-glass"] .video-play-btn--about {
-  --vp-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(238, 232, 248, 0.84) 100%);
-  --vp-bg-hover: linear-gradient(135deg, #FFFFFF 0%, rgba(224, 214, 248, 0.94) 100%);
-  --vp-border: rgba(71, 85, 105, 0.28);
-  --vp-text: #000000;
-}
-html[data-card-style="light-multicolor-glass"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, rgba(255, 240, 243, 0.95) 0%, rgba(225, 29, 72, 0.88) 100%);
-  --vp-border: rgba(255, 255, 255, 0.95);
-  --vp-text: #FFFFFF;
-}
-html[data-card-style="light-multicolor-glass"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(135deg, rgba(236, 253, 245, 0.92) 0%, rgba(16, 185, 129, 0.82) 100%);
-  --vp-border: rgba(255, 255, 255, 0.95);
-  --vp-text: #FFFFFF;
-}
-html[data-card-style="light-multicolor-glass"] .video-play-btn--interview {
-  --vp-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(245, 240, 228, 0.84) 100%);
-  --vp-bg-hover: linear-gradient(135deg, #FFFFFF 0%, rgba(242, 232, 210, 0.94) 100%);
-  --vp-border: rgba(51, 65, 85, 0.26);
-  --vp-text: #000000;
-}
-
-/* --- Theme 2: Gương Neon màu (tối) (Dark Luminous Neon Glass) --- */
-html[data-card-style="light-multicolor-glass-dark"] .video-play-btn {
+/* --- Dark Mode Fallback for Video Play Buttons --- */
+html.dark .video-play-btn {
   --vp-specular: rgba(255, 255, 255, 0.24);
   --vp-text: #FFFFFF;
   --vp-sound-bg: rgba(255, 255, 255, 0.16);
   --vp-sound-border: rgba(255, 255, 255, 0.32);
   --vp-sound-hover: rgba(255, 255, 255, 0.30);
-}
-html[data-card-style="light-multicolor-glass-dark"] .video-play-btn--home {
-  --vp-bg: linear-gradient(135deg, rgba(8, 51, 68, 0.88) 0%, rgba(30, 58, 138, 0.84) 100%);
-  --vp-bg-hover: linear-gradient(135deg, rgba(14, 116, 144, 0.94) 0%, rgba(37, 99, 235, 0.90) 100%);
-  --vp-border: rgba(56, 189, 248, 0.68);
-  --vp-shadow-ambient: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 16px rgba(56, 189, 248, 0.34);
-  --vp-shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.78), 0 0 26px rgba(0, 229, 255, 0.55);
-}
-html[data-card-style="light-multicolor-glass-dark"] .video-play-btn--about {
-  --vp-bg: linear-gradient(135deg, rgba(59, 7, 100, 0.88) 0%, rgba(131, 24, 67, 0.84) 100%);
-  --vp-bg-hover: linear-gradient(135deg, rgba(126, 34, 206, 0.94) 0%, rgba(219, 39, 119, 0.90) 100%);
-  --vp-border: rgba(192, 132, 252, 0.68);
-  --vp-shadow-ambient: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 16px rgba(192, 132, 252, 0.34);
-  --vp-shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.78), 0 0 26px rgba(236, 72, 153, 0.55);
-}
-html[data-card-style="light-multicolor-glass-dark"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, rgba(159, 18, 57, 0.92) 0%, rgba(234, 88, 12, 0.90) 100%);
-  --vp-bg-hover: linear-gradient(135deg, rgba(225, 29, 72, 0.98) 0%, rgba(249, 115, 22, 0.96) 100%);
-  --vp-border: rgba(251, 113, 133, 0.82);
-  --vp-shadow-ambient: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 18px rgba(244, 63, 94, 0.48);
-  --vp-shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.80), 0 0 28px rgba(251, 113, 133, 0.70);
-}
-html[data-card-style="light-multicolor-glass-dark"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(135deg, rgba(6, 78, 59, 0.90) 0%, rgba(14, 116, 144, 0.86) 100%);
-  --vp-bg-hover: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(6, 182, 212, 0.92) 100%);
-  --vp-border: rgba(52, 211, 153, 0.75);
-  --vp-shadow-ambient: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 18px rgba(16, 185, 129, 0.42);
-  --vp-shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.78), 0 0 26px rgba(34, 211, 238, 0.62);
-}
-html[data-card-style="light-multicolor-glass-dark"] .video-play-btn--interview {
-  --vp-bg: linear-gradient(135deg, rgba(120, 53, 15, 0.90) 0%, rgba(67, 56, 202, 0.86) 100%);
-  --vp-bg-hover: linear-gradient(135deg, rgba(217, 119, 6, 0.94) 0%, rgba(99, 102, 241, 0.92) 100%);
-  --vp-border: rgba(251, 191, 36, 0.72);
-  --vp-shadow-ambient: 0 10px 26px rgba(0, 0, 0, 0.65), 0 0 16px rgba(251, 191, 36, 0.36);
-  --vp-shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.78), 0 0 26px rgba(251, 191, 36, 0.58);
 }
 
 /* --- Theme 3: Da bò trắng (Light Stitched Dyed Leather) --- */
@@ -3706,30 +3446,47 @@ html[data-card-style="dark-ice-blue-neu"] .video-play-btn--letter {
 }
 
 /* ========================================================================= */
-/* GLOBAL 14PX BORDER-RADIUS CONSISTENCY                                     */
-/* Áp dụng 14px cho Card, Sub-card, Video, Hình ảnh, Card hình, Card video,  */
-/* phần bo cong của Header (2 góc dưới) và Footer (2 góc trên).              */
+/* TOKEN-DRIVEN LAYER BORDER-RADIUS CONSISTENCY                              */
+/* Đồng bộ bán kính bo góc theo từng tầng Layer Card UI & Theme Token:       */
+/* --radius-main / --radius-card / --radius-subcard / --radius-banner        */
 /* Giữ nguyên dạng tròn (rounded-full) cho Avatar/Logo tròn và Nút pill.     */
 /* ========================================================================= */
 .page-main-card,
-[data-main-card="true"]:not(#pdf-page-container),
-[data-section-card="true"]:not(#pdf-page-container),
-[data-subcard="true"],
-.sub-card,
-.nested-card,
+[data-main-card="true"]:not(#pdf-page-container) {
+  border-radius: var(--radius-main, 14px) !important;
+}
+
+[data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#app-header):not(#app-footer),
 .bento-card,
 .glass-card,
 .layered-card,
 .exp-bento-surface-card,
+.themed-image-card,
+.themed-image-frame {
+  border-radius: var(--radius-card, 14px) !important;
+}
+
+[data-subcard="true"],
+.sub-card,
+.nested-card,
 .exp-bento-item-card,
 .exp-detail-subcard,
-.themed-image-card,
-.themed-image-frame,
+.theme-modal-subcard {
+  border-radius: var(--radius-subcard, 14px) !important;
+}
+
 .banner-card,
 .hero-banner,
+[id$="-hero-banner"],
+#project-detail-banner,
+#interview-questions-card,
+#pdf-hero-banner {
+  border-radius: var(--radius-banner, var(--radius-card, 14px)) !important;
+}
+
 .theme-modal-card,
 .theme-pip-player {
-  border-radius: 14px !important;
+  border-radius: var(--radius-modal, 14px) !important;
 }
 
 #global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]),
@@ -3739,13 +3496,13 @@ html[data-card-style="dark-ice-blue-neu"] .video-play-btn--letter {
 #global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
 .theme-modal-card img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
 [data-section-card="true"] img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]) {
-  border-radius: 14px !important;
+  border-radius: var(--radius-subcard, 14px) !important;
 }
 
 #app-header {
-  border-radius: 0 0 14px 14px !important;
+  border-radius: var(--radius-header, 0 0 14px 14px) !important;
 }
 
 #app-footer {
-  border-radius: 14px 14px 0 0 !important;
+  border-radius: var(--radius-footer, 14px 14px 0 0) !important;
 }

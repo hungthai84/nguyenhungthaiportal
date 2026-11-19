@@ -6,12 +6,12 @@ export const UI_AND_SERVICES_DETAILS_EN: Record<string, string> = {
     'Key operational benchmarks: CSAT 98.2%–99%, FCR > 92%–94.5%, Response SLA > 98%, Live Chat/Ticket first response under 30 seconds, and RPA refund automation under 90 seconds!',
   'Nguyên tắc xử lý khủng hoảng: 3 phút kết nối, 15 phút đưa giải pháp bước đầu (Fast-Track). Thiết lập War-Room khẩn cấp, minh bạch thông tin, chủ động đồng cảm và bồi thường thỏa đáng.':
     'Crisis management rule: 3 minutes to connect, 15 minutes to deliver a Fast-Track initial resolution. Activate an emergency War-Room, communicate transparently, lead with empathy, and provide fair compensation.',
-  'Bạn có thể gọi trực tiếp Hotline 0903.011.699, nhắn Zalo 0903011699, gửi email hungthai84@gmail.com hoặc chuyển tới Tab 12 (Liên Hệ) để gửi form đặt lịch trao đổi.':
-    'You can call Hotline 0903.011.699 directly, message via Zalo 0903011699, email hungthai84@gmail.com, or navigate to Tab 12 (Contact) to book a meeting.',
+  'Bạn có thể gọi trực tiếp Hotline +84 0909097882, nhắn Zalo +84 0909097882, gửi email hungthai84@gmail.com hoặc chuyển tới Tab 12 (Liên Hệ) để gửi form đặt lịch trao đổi.':
+    'You can call Hotline +84 0909097882 directly, message via Zalo +84 0909097882, email hungthai84@gmail.com, or navigate to Tab 12 (Contact) to book a meeting.',
 
   // PdfView & HoroscopeView & SkillsView & WallpaperView small UI bits
-  'Email: hunghungthai@gmail.com · Hotline: 0903.007.444 · TP. Hồ Chí Minh, Việt Nam':
-    'Email: hungthai84@gmail.com · Hotline: +84 0909097882 · Ho Chi Minh City, Vietnam',
+  'Email: hungthai84@gmail.com · Hotline/Zalo: +84 0909097882 · TP. Hồ Chí Minh, Việt Nam':
+    'Email: hungthai84@gmail.com · Hotline/Zalo: +84 0909097882 · Ho Chi Minh City, Vietnam',
   'Bật âm thanh': 'Unmute',
   'Tắt âm thanh': 'Mute',
   'Đóng video và hiện lại nội dung Bản đồ tử vi': 'Close video and show Horoscope Map',
@@ -303,7 +303,7 @@ export const UI_AND_SERVICES_DETAILS_EN: Record<string, string> = {
   'Đã dừng nghe — Quay về Video Ban đầu': 'Stopped listening — Returned to default video',
   'Đã tắt âm thanh video': 'Video muted',
   'Đã mở âm thanh video 🔊': 'Video audio enabled 🔊',
-  'THỰC CHIẾN': 'HANDS-ON',
+  'Thực chiến': 'Hands-on',
   'Hơn hai thập kỷ trực tiếp điều hành, thiết lập quy chuẩn và nâng cấp dịch vụ.':
     'Over two decades directly leading operations, setting standards, and elevating service.',
   'Từng quản lý và xây dựng hệ thống tại hơn 8 tập đoàn, doanh nghiệp quy mô lớn.':

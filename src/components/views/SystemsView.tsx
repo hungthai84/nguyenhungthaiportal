@@ -677,7 +677,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
   }, [isFilterDropdownOpen]);
   const isDark =
     themeIsDark ||
-    currentTheme === 'light-multicolor-glass-dark' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu';
@@ -1090,7 +1089,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
   const handleOpenUrl = (e: React.MouseEvent, url: string) => {
     e.stopPropagation();
     if (url && url !== '#') {
-      window.open(url, '_blank', 'noopener,noreferrer');
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
   };
 
@@ -2787,7 +2792,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             />
             {/* Overlay badge thời gian */}
             <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-xs typo-badge font-mono text-rose-300 border border-white/20 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping" />
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
               <span>{formatCountdown(videoTimeLeft)}</span>
             </div>
           </div>

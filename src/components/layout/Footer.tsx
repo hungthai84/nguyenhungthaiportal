@@ -7,6 +7,7 @@ import { CARD_STYLE_GROUPS, getCardStyleConfig } from '@/config/ui/cardStyles';
 import { FONT_SCALE_OPTIONS, LAYER_DEPTH_PRESETS } from '@/config/ui/layerDepth';
 import { useLanguage, LanguagePreference } from '@/context/LanguageContext';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+import { TtsVoiceSelector } from '@/components/ui/TtsVoiceSelector';
 
 interface FooterProps {
   currentTabIndex: number;
@@ -265,12 +266,9 @@ export const Footer: React.FC<FooterProps> = ({
         borderTop: glassBorderVal,
         borderLeft: glassBorderVal,
         borderRight: glassBorderVal,
-        borderTopLeftRadius: '14px',
-        borderTopRightRadius: '14px',
-        borderBottomLeftRadius: '0px',
-        borderBottomRightRadius: '0px',
+        borderRadius: 'var(--radius-footer, 14px 14px 0 0)',
       }}
-      className="mx-auto h-auto min-h-[64px] py-1.5 sm:min-h-[72px] sm:h-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 rounded-b-none rounded-t-[14px] border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto h-auto min-h-[64px] py-1.5 sm:min-h-[72px] sm:h-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
     >
 
       {/* Area 1: Weather Widget + Nút chuyển đổi cỡ chữ hỗ trợ đọc */}
@@ -369,7 +367,7 @@ export const Footer: React.FC<FooterProps> = ({
             />
             <span
               id="footer-page-counter"
-              className="typo-caption font-mono font-extrabold tracking-wider leading-none"
+              className="typo-caption font-mono font-bold tracking-wider leading-none"
               style={{ color: 'var(--text-link, var(--color-primary))' }}
             >
               {String(currentTabIndex + 1).padStart(2, '0')}/{String(TABS_DATA.length).padStart(2, '0')}
@@ -473,7 +471,7 @@ export const Footer: React.FC<FooterProps> = ({
                     <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         data-no-translate="true"
-                        style={{ fontWeight: 'bold', fontSize: '15px' }}
+                        style={{ fontWeight: 'bold' }}
                         className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                       >
                         {activeLangTitle}
@@ -487,7 +485,7 @@ export const Footer: React.FC<FooterProps> = ({
                   <div
                     id="footer-lang-popup"
                     style={{ background: 'var(--bg-popup)' }}
-                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(256px,calc(100vw-24px))] sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-64 rounded-[14px] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto"
+                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(288px,calc(100vw-24px))] sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-72 rounded-[14px] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto"
                   >
                     <div
                       className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
@@ -534,6 +532,8 @@ export const Footer: React.FC<FooterProps> = ({
                       </div>
                       {language === 'en' && <span className="shrink-0 font-bold ml-2">✓</span>}
                     </button>
+
+                    <TtsVoiceSelector isEn={isEn} variant="popup-list" />
                   </div>
                 )}
               </div>
@@ -596,7 +596,7 @@ export const Footer: React.FC<FooterProps> = ({
                     <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
                     <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
-                        style={{ fontWeight: 'bold', fontSize: '15px' }}
+                        style={{ fontWeight: 'bold' }}
                         className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                       >
                         {isEn ? 'Theme' : 'Giao diện'}
@@ -1077,7 +1077,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
                 <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
-                    style={{ fontWeight: 'bold', fontSize: '15px' }}
+                    style={{ fontWeight: 'bold' }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                   >
                     {isEn ? 'Wallpaper' : 'Hình Nền'}
@@ -1152,7 +1152,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
                 <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
-                    style={{ fontWeight: 'bold', fontSize: '15px' }}
+                    style={{ fontWeight: 'bold' }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                   >
                     {isEn ? 'AI Assistant' : 'AI hỗ trợ'}

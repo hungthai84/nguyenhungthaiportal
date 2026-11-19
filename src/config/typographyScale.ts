@@ -21,6 +21,19 @@ export interface TypographyTokenSpec {
  * chiều cao dòng đồng bộ (consistent line-heights) và kích thước co giãn mượt mà theo viewport (fluid typography).
  */
 export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
+  display: {
+    token: 'Display – Tiêu đề nổi bật',
+    cssVar: '--fs-display',
+    className: 'typo-display',
+    desktop: '48px',
+    tablet: '38px',
+    mobile: '30px',
+    fluidClamp: 'clamp(30px, 2.2vw + 21px, 48px)',
+    lineHeight: '1.16',
+    letterSpacing: '-0.025em',
+    fontWeight: 700,
+    textWrap: 'balance',
+  },
   h1: {
     token: 'H1 – Tiêu đề trang',
     cssVar: '--fs-h1',
@@ -161,6 +174,18 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     letterSpacing: '0.025em',
     fontWeight: 600,
   },
+  overline: {
+    token: 'Overline – Nhãn phân loại',
+    cssVar: '--fs-overline',
+    className: 'typo-overline',
+    desktop: '11px',
+    tablet: '11px',
+    mobile: '10.5px',
+    fluidClamp: 'clamp(10.5px, 0.1vw + 10px, 11px)',
+    lineHeight: '1.35',
+    letterSpacing: '0.03em',
+    fontWeight: 600,
+  },
   button: {
     token: 'Button',
     cssVar: '--fs-button',
@@ -279,6 +304,7 @@ function interpolateViewportFontSize(
 
 // Map tên key trong TYPOGRAPHY_SCALE sang biến CSS line-height & letter-spacing tương ứng
 const SCALE_LINE_HEIGHT_VAR_MAP: Record<string, string> = {
+  display: '--lh-display',
   h1: '--lh-h1',
   h2: '--lh-h2',
   h3: '--lh-h3',
@@ -290,6 +316,7 @@ const SCALE_LINE_HEIGHT_VAR_MAP: Record<string, string> = {
   caption: '--lh-caption',
   label: '--lh-label',
   badge: '--lh-badge',
+  overline: '--lh-overline',
   button: '--lh-button',
   nav: '--lh-nav',
   tab: '--lh-tab',
@@ -299,6 +326,7 @@ const SCALE_LINE_HEIGHT_VAR_MAP: Record<string, string> = {
 };
 
 const SCALE_LETTER_SPACING_VAR_MAP: Record<string, string> = {
+  display: '--ls-display',
   h1: '--ls-h1',
   h2: '--ls-h2',
   h3: '--ls-h3',
@@ -310,6 +338,7 @@ const SCALE_LETTER_SPACING_VAR_MAP: Record<string, string> = {
   caption: '--ls-caption',
   label: '--ls-label',
   badge: '--ls-label',
+  overline: '--ls-overline',
   kpi: '--ls-kpi',
   popupTitle: '--ls-popup-title',
 };

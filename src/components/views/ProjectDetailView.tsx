@@ -314,7 +314,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       const cardStyleAttr = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-card-style') : null;
       const effectiveStyle = cardStyleAttr || themeAttr;
       const isDarkThemeAttr =
-        effectiveStyle === 'light-multicolor-glass-dark' ||
         effectiveStyle === 'cowhide-leather' ||
         effectiveStyle === 'black-cowhide-leather' ||
         effectiveStyle === 'dark-ice-blue-neu';
@@ -604,7 +603,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   } shadow-2xs`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${
                       isStrategy ? 'bg-sky-500' : 'bg-fuchsia-500'
-                    } animate-ping`} />
+                    }`} />
                     4 Nhánh Triển Khai Chiến Lược & Vận Hành Cốt Lõi
                   </span>
                   <div className={`h-px flex-1 bg-gradient-to-r from-transparent ${
@@ -1058,7 +1057,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
               {/* Strategic Conclusion Callout */}
               <div data-subcard="true" className="project-detail-subcard p-4 rounded-[14px] border-2 border-amber-400/50 typo-body-sm font-bold text-amber-700 dark:text-amber-300 leading-relaxed flex items-center gap-3 shadow-xs">
-                <span className="font-mono font-black typo-body text-amber-600 dark:text-amber-400">03</span>
+                <span className="font-mono font-bold typo-body text-amber-600 dark:text-amber-400">03</span>
                 <WebIcon name="target" className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
                 <span className="flex-1 font-semibold">
                   <strong className="text-amber-600 dark:text-amber-400 mr-1.5 font-bold">
@@ -1809,7 +1808,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <div className="relative z-10 py-2 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 shrink-0">
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span
-                  className="project-detail-chip px-2 py-0.5 rounded-[14px] font-mono typo-badge font-black border"
+                  className="project-detail-chip px-2 py-0.5 rounded-[14px] font-mono typo-badge font-bold border"
                   style={{ color: isStrategy ? 'var(--accent-sky, #0284c7)' : 'var(--accent-fuchsia, #c026d3)' }}
                 >
                   {selectedArticle.code}
@@ -1883,7 +1882,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   >
                     <div className="flex items-center gap-1.5 truncate">
                       {/* 1. Số thứ tự */}
-                      <span className="font-mono font-black typo-label shrink-0" style={{ color: isActive ? '#ffffff' : itemColor }}>
+                      <span className="font-mono font-bold typo-label shrink-0" style={{ color: isActive ? '#ffffff' : itemColor }}>
                         {item.num}
                       </span>
                       {/* 2. Icon */}
@@ -1895,7 +1894,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                         {item.title}
                       </span>
                     </div>
-                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-white shrink-0 animate-pulse" />}
+                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-white shrink-0" />}
                   </button>
                 );
               })}

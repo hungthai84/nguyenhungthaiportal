@@ -80,6 +80,121 @@ const NEXT_MECHANISM_MAP: Record<ThemeMechanismMode, ThemeMechanismMode> = {
   color: 'light',
 };
 
+interface PullCordThemeVisual {
+  bracketBg: string;
+  bracketBorder: string;
+  wireStroke: string;
+  capBg: string;
+  capBorder: string;
+  shadeBg: string;
+  shadeBorder: string;
+  shadeShadow: string;
+  shadeStitchColor?: string;
+  cordStroke: string;
+  beadBg: string;
+  beadBorder: string;
+  beadShadow: string;
+  unlitBulbBg: string;
+  unlitBulbShadow: string;
+  accentDotColor: string;
+}
+
+const PULL_CORD_THEME_VISUALS: Record<string, PullCordThemeVisual> = {
+  'ice-blue-neu': {
+    bracketBg: 'linear-gradient(145deg, #edf4fa 0%, #dbe8f5 100%)',
+    bracketBorder: '1px solid rgba(255, 255, 255, 0.9)',
+    wireStroke: '#64748b',
+    capBg: 'linear-gradient(145deg, #e5eff8 0%, #cbd5e1 100%)',
+    capBorder: '1px solid rgba(255, 255, 255, 0.9)',
+    shadeBg: 'linear-gradient(145deg, #edf4fa 0%, #dfeaf4 100%)',
+    shadeBorder: '1px solid rgba(255, 255, 255, 0.92)',
+    shadeShadow:
+      '8px 8px 18px rgba(176, 198, 219, 0.72), -6px -6px 14px rgba(255, 255, 255, 0.96), inset 1px 1px 2px rgba(255, 255, 255, 0.92)',
+    cordStroke: '#6366f1',
+    beadBg: 'linear-gradient(180deg, #6366f1 0%, #0ea5e9 100%)',
+    beadBorder: '1px solid rgba(255, 255, 255, 0.85)',
+    beadShadow: '3px 3px 8px rgba(148, 163, 184, 0.45), -2px -2px 6px rgba(255, 255, 255, 0.9)',
+    unlitBulbBg: 'rgba(148, 163, 184, 0.75)',
+    unlitBulbShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.6)',
+    accentDotColor: '#6366f1',
+  },
+  'dark-ice-blue-neu': {
+    bracketBg: 'linear-gradient(145deg, #1d2c40 0%, #121c29 100%)',
+    bracketBorder: '1px solid rgba(148, 197, 248, 0.28)',
+    wireStroke: '#7dd3fc',
+    capBg: 'linear-gradient(145deg, #22344b 0%, #152030 100%)',
+    capBorder: '1px solid rgba(148, 197, 248, 0.3)',
+    shadeBg: 'linear-gradient(145deg, #1b2a3e 0%, #121c29 100%)',
+    shadeBorder: '1px solid rgba(148, 197, 248, 0.24)',
+    shadeShadow:
+      '8px 8px 18px #0a1018, -6px -6px 14px #203147, inset 1px 1px 2px rgba(186, 230, 253, 0.18)',
+    cordStroke: '#38bdf8',
+    beadBg: 'linear-gradient(180deg, #38bdf8 0%, #818cf8 100%)',
+    beadBorder: '1px solid rgba(186, 230, 253, 0.55)',
+    beadShadow: '0 4px 12px rgba(56, 189, 248, 0.35)',
+    unlitBulbBg: 'rgba(56, 189, 248, 0.38)',
+    unlitBulbShadow: '0 0 10px rgba(56, 189, 248, 0.25), inset 0 1px 2px rgba(186, 230, 253, 0.35)',
+    accentDotColor: '#38bdf8',
+  },
+  'light-cowhide-leather': {
+    bracketBg: 'linear-gradient(145deg, #fbfcfc 0%, #e5e7eb 100%)',
+    bracketBorder: '1px solid #cbd5e1',
+    wireStroke: '#334155',
+    capBg: 'linear-gradient(145deg, #f8fafc 0%, #cbd5e1 100%)',
+    capBorder: '1px solid #94a3b8',
+    shadeBg: 'linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%)',
+    shadeBorder: '1.5px solid #cbd5e1',
+    shadeShadow:
+      '0 10px 22px rgba(15, 23, 42, 0.16), inset 0 2px 3px #ffffff, inset 0 -2px 5px rgba(0, 0, 0, 0.08)',
+    shadeStitchColor: 'rgba(17, 24, 39, 0.45)',
+    cordStroke: '#334155',
+    beadBg: 'linear-gradient(180deg, #374151 0%, #111827 100%)',
+    beadBorder: '1px solid rgba(255, 255, 255, 0.7)',
+    beadShadow: '0 3px 8px rgba(15, 23, 42, 0.28)',
+    unlitBulbBg: 'rgba(148, 163, 184, 0.75)',
+    unlitBulbShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.55)',
+    accentDotColor: '#111827',
+  },
+  'black-cowhide-leather': {
+    bracketBg: 'linear-gradient(145deg, #252830 0%, #15171c 100%)',
+    bracketBorder: '1px solid rgba(226, 232, 240, 0.28)',
+    wireStroke: '#94a3b8',
+    capBg: 'linear-gradient(145deg, #2b2f3a 0%, #15171c 100%)',
+    capBorder: '1px solid rgba(226, 232, 240, 0.32)',
+    shadeBg: 'linear-gradient(145deg, #252830 0%, #15171c 60%, #1d2027 100%)',
+    shadeBorder: '1.5px solid #090a0d',
+    shadeShadow:
+      '0 10px 24px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.16), inset 0 -2px 5px rgba(0, 0, 0, 0.75)',
+    shadeStitchColor: 'rgba(226, 232, 240, 0.42)',
+    cordStroke: '#cbd5e1',
+    beadBg: 'linear-gradient(180deg, #94a3b8 0%, #334155 100%)',
+    beadBorder: '1px solid rgba(226, 232, 240, 0.45)',
+    beadShadow: '0 4px 10px rgba(0, 0, 0, 0.55)',
+    unlitBulbBg: 'rgba(100, 116, 139, 0.78)',
+    unlitBulbShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.25)',
+    accentDotColor: '#e2e8f0',
+  },
+  'cowhide-leather': {
+    bracketBg: 'linear-gradient(145deg, #8B5A2B 0%, #522E10 100%)',
+    bracketBorder: '1px solid rgba(245, 222, 179, 0.45)',
+    wireStroke: '#d97706',
+    capBg: 'linear-gradient(145deg, #9a6532 0%, #5c3413 100%)',
+    capBorder: '1px solid rgba(245, 222, 179, 0.5)',
+    shadeBg: 'linear-gradient(145deg, #8B5A2B 0%, #653A17 55%, #7A4A20 100%)',
+    shadeBorder: '1.5px solid #522E10',
+    shadeShadow:
+      '0 10px 22px rgba(0, 0, 0, 0.45), inset 0 2px 3px rgba(255, 220, 180, 0.28), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+    shadeStitchColor: 'rgba(245, 222, 179, 0.58)',
+    cordStroke: '#d97706',
+    beadBg: 'linear-gradient(180deg, #fbbf24 0%, #92400e 100%)',
+    beadBorder: '1px solid rgba(255, 248, 220, 0.6)',
+    beadShadow: '0 3px 9px rgba(82, 46, 16, 0.55)',
+    unlitBulbBg: 'rgba(180, 130, 80, 0.8)',
+    unlitBulbShadow: 'inset 0 1px 3px rgba(255, 248, 220, 0.4)',
+    accentDotColor: '#f59e0b',
+  },
+};
+
 export const PullCord: React.FC = () => {
   const { isDark, cardStyle, setCardStyle } = useTheme();
 
@@ -482,13 +597,16 @@ export const PullCord: React.FC = () => {
     }
   };
 
+  const themeVisual = PULL_CORD_THEME_VISUALS[cardStyle] || PULL_CORD_THEME_VISUALS['ice-blue-neu'];
+  const activeThemeLabel = CARD_STYLES_MAP[cardStyle]?.shortBadge || 'Ice-Blue Neu';
+
   const activeBulbStop = isColorMode
     ? COLOR_MODE_BULB_PALETTE[colorIndex]
     : COLOR_MODE_BULB_PALETTE[0];
 
   const glowBackground = isLit
     ? `radial-gradient(circle, ${activeBulbStop.haloInner} 0%, ${activeBulbStop.haloMid} 50%, transparent 80%)`
-    : 'radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%)';
+    : 'radial-gradient(circle, rgba(148, 197, 248, 0.14) 0%, transparent 70%)';
 
   const bulbInlineStyle: React.CSSProperties = isLit
     ? {
@@ -501,22 +619,10 @@ export const PullCord: React.FC = () => {
     : {
         display: 'block',
         transformOrigin: '50% 50%',
-        backgroundColor: isDark ? 'rgba(100, 116, 139, 0.8)' : 'rgba(148, 163, 184, 0.8)',
-        boxShadow: 'inset 0 1px 3px rgba(255,255,255,0.4)',
+        backgroundColor: themeVisual.unlitBulbBg,
+        boxShadow: themeVisual.unlitBulbShadow,
         transition: 'background-color 300ms ease, box-shadow 300ms ease, opacity 300ms ease',
       };
-
-  const shadeBackground = isColorMode
-    ? 'linear-gradient(180deg, rgba(248, 250, 252, 0.96) 0%, rgba(224, 231, 255, 0.88) 100%)'
-    : isDark
-      ? 'linear-gradient(180deg, #334155 0%, #1e293b 100%)'
-      : 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)';
-
-  const beadBackground = isColorMode
-    ? 'linear-gradient(180deg, #fbbf24 0%, #f472b6 50%, #38bdf8 100%)'
-    : isDark
-      ? 'linear-gradient(180deg, #fbbf24 0%, #d97706 100%)'
-      : 'linear-gradient(180deg, #475569 0%, #1e293b 100%)';
 
   const nextModeHint =
     activeMechanism === 'light'
@@ -527,10 +633,10 @@ export const PullCord: React.FC = () => {
 
   const currentModeLabel =
     activeMechanism === 'light'
-      ? 'Chế độ Sáng'
+      ? `Sáng · ${activeThemeLabel}`
       : activeMechanism === 'dark'
-        ? 'Chế độ Tối'
-        : `Chế độ Màu (${activeBulbStop.name})`;
+        ? `Tối · ${activeThemeLabel}`
+        : `Màu (${activeBulbStop.name}) · ${activeThemeLabel}`;
 
   return (
     <div
@@ -539,6 +645,7 @@ export const PullCord: React.FC = () => {
       data-element-name="Công tắc Đèn Kéo Dây"
       data-element-type="widget"
       data-pull-cord-mode={activeMechanism}
+      data-pull-cord-theme={cardStyle}
       className="fixed top-0 left-2 sm:left-4 lg:left-6 z-[60] pointer-events-none select-none"
       style={{
         width: '140px',
@@ -548,9 +655,11 @@ export const PullCord: React.FC = () => {
     >
       {/* Ceiling Mount Bracket */}
       <div
-        className="absolute top-0 left-[41px] w-[14px] h-[5px] rounded-b-[4px] bg-slate-400 dark:bg-slate-600 shadow-xs z-10"
+        id="db-pull-cord-bracket"
+        className="absolute top-0 left-[41px] w-[14px] h-[5px] rounded-b-[4px] shadow-xs z-10 transition-all duration-300"
         style={{
-          borderBottom: '1px solid rgba(255,255,255,0.3)',
+          background: themeVisual.bracketBg,
+          borderBottom: themeVisual.bracketBorder,
         }}
       />
 
@@ -562,8 +671,8 @@ export const PullCord: React.FC = () => {
         <path
           ref={wirePathRef}
           fill="none"
-          stroke="currentColor"
-          className="text-slate-500 dark:text-slate-400"
+          stroke={themeVisual.wireStroke}
+          className="transition-colors duration-300"
           strokeWidth="1.5"
           strokeLinecap="round"
         />
@@ -596,22 +705,37 @@ export const PullCord: React.FC = () => {
 
           {/* Lamp Shade */}
           <i
-            className="absolute left-[-34px] top-0 w-[68px] h-[36px] shadow-md transition-colors duration-300 backdrop-blur-md"
+            id="db-pull-cord-shade"
+            className="absolute left-[-34px] top-0 w-[68px] h-[36px] transition-all duration-300 backdrop-blur-md"
             style={{
               display: 'block',
               borderRadius: '34px 34px 8px 8px / 32px 32px 8px 8px',
-              background: shadeBackground,
-              border: '1px solid rgba(255, 255, 255, 0.35)',
-              boxShadow: isDark
-                ? '0 6px 14px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.15)'
-                : '0 6px 14px rgba(100,116,139,0.2), inset 0 1px 1px rgba(255,255,255,0.8)',
+              background: themeVisual.shadeBg,
+              border: themeVisual.shadeBorder,
+              boxShadow: themeVisual.shadeShadow,
             }}
-          />
+          >
+            {themeVisual.shadeStitchColor && (
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-[3px]"
+                style={{
+                  borderRadius: '30px 30px 6px 6px / 28px 28px 6px 6px',
+                  border: `1px dashed ${themeVisual.shadeStitchColor}`,
+                }}
+              />
+            )}
+          </i>
 
           {/* Cap above shade */}
           <i
-            className="absolute left-[-5px] top-[-6px] w-[10px] h-[8px] rounded-t-[3px] bg-slate-400 dark:bg-slate-600 shadow-xs"
-            style={{ display: 'block' }}
+            id="db-pull-cord-cap"
+            className="absolute left-[-5px] top-[-6px] w-[10px] h-[8px] rounded-t-[3px] shadow-xs transition-all duration-300"
+            style={{
+              display: 'block',
+              background: themeVisual.capBg,
+              border: themeVisual.capBorder,
+            }}
           />
         </div>
       </div>
@@ -624,8 +748,8 @@ export const PullCord: React.FC = () => {
         <path
           ref={cordPathRef}
           fill="none"
-          stroke="currentColor"
-          className="text-amber-700/80 dark:text-amber-500/80"
+          stroke={themeVisual.cordStroke}
+          className="transition-colors duration-300"
           strokeWidth="1.75"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -635,13 +759,14 @@ export const PullCord: React.FC = () => {
       {/* Right Bead at the end of cord */}
       <i
         ref={beadRef}
-        className="absolute left-[-5px] top-[-2px] w-[10px] h-[20px] rounded-full shadow-sm will-change-transform z-40 transition-colors pointer-events-none"
+        id="db-pull-cord-bead"
+        className="absolute left-[-5px] top-[-2px] w-[10px] h-[20px] rounded-full will-change-transform z-40 transition-all duration-300 pointer-events-none"
         style={{
           display: 'block',
           transformOrigin: '5px 2px',
-          background: beadBackground,
-          border: '1px solid rgba(255, 255, 255, 0.5)',
-          boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
+          background: themeVisual.beadBg,
+          border: themeVisual.beadBorder,
+          boxShadow: themeVisual.beadShadow,
         }}
       />
 
@@ -668,28 +793,30 @@ export const PullCord: React.FC = () => {
           touchAction: 'none',
           WebkitTapHighlightColor: 'transparent',
         }}
-        title="Kéo dây để đổi Bật/Tắt đèn"
+        title="Kéo dây để đổi giao diện Sáng / Tối / Màu"
       />
 
       {/* Hover Tooltip / Hint */}
       <div
-        className={`absolute left-[30px] top-[140px] whitespace-nowrap px-2.5 py-1 rounded-[8px] text-[11px] font-play font-medium shadow-md transition-all duration-300 pointer-events-none z-[70] ${
+        id="db-pull-cord-tooltip"
+        style={{
+          background: 'var(--bg-popup)',
+          color: 'var(--text-primary)',
+          border: '1px solid var(--border-card)',
+        }}
+        className={`absolute left-[30px] top-[140px] whitespace-nowrap px-2.5 py-1 rounded-[10px] typo-label font-play font-medium shadow-md backdrop-blur-md transition-all duration-300 pointer-events-none z-[70] ${
           showTooltip || isHeld
             ? 'opacity-100 translate-x-0'
             : 'opacity-0 -translate-x-2'
-        } ${
-          isDark
-            ? 'bg-slate-800/90 text-amber-300 border border-slate-700/80 backdrop-blur-md'
-            : 'bg-white/95 text-slate-800 border border-slate-200/90 backdrop-blur-md'
         }`}
       >
         <span className="flex items-center gap-1.5">
           <span
             className="w-1.5 h-1.5 rounded-full animate-pulse transition-colors duration-700"
-            style={{ backgroundColor: isLit ? activeBulbStop.core : '#FBBF24' }}
+            style={{ backgroundColor: isLit ? activeBulbStop.core : themeVisual.accentDotColor }}
           />
           <span>
-            {currentModeLabel} · Kéo đổi chế độ: {nextModeHint}
+            {currentModeLabel} · Kéo đổi: {nextModeHint}
           </span>
         </span>
       </div>

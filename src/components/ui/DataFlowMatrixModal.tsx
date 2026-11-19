@@ -42,7 +42,7 @@ export const DataFlowMatrixModal: React.FC<DataFlowMatrixModalProps> = ({
           <div className="theme-modal-header flex items-center justify-between p-4 sm:p-5">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-10 h-10 rounded-[14px] bg-sky-500/15 border border-sky-400/40 flex items-center justify-center text-sky-600 dark:text-[#67E8F9] shrink-0">
-                <WebIcon name="activity" className="w-5 h-5 text-sky-600 dark:text-[#67E8F9] animate-pulse" />
+                <WebIcon name="activity" className="w-5 h-5 text-sky-600 dark:text-[#67E8F9]" />
               </div>
               <div className="min-w-0">
                 <h3 className="typo-popup-title card-title-synced font-play tracking-wide" style={{ color: 'var(--accent-sky, #0284c7)' }}>
@@ -76,7 +76,7 @@ export const DataFlowMatrixModal: React.FC<DataFlowMatrixModalProps> = ({
                       {sys.abbr}
                     </span>
                     <span className="typo-label font-mono text-emerald-600 dark:text-[#6EE7B7] font-bold flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-[#6EE7B7] animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-[#6EE7B7]" />
                       Live Stream
                     </span>
                   </div>

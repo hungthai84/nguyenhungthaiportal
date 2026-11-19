@@ -18,7 +18,7 @@ const TOPIC_OPTIONS: Array<{ id: InquiryTopic; labelVi: string; labelEn: string 
   { id: 'other', labelVi: 'Trao đổi khác', labelEn: 'General Inquiry' },
 ];
 
-export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-multicolor-glass-color' }) => {
+export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'ice-blue-neu' }) => {
   void currentTheme;
   const { language } = useLanguage();
   const isEn = language === 'en';
@@ -212,10 +212,10 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'light-
               data-section-card="true"
               data-element-page="contact"
               data-element-parent="contact-main-card"
-              className="bento-card glass-card w-full flex-1 min-w-0 min-h-[480px] lg:min-h-0 h-full lg:self-stretch flex flex-col rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative p-[15px] box-border"
+              className="bento-card glass-card w-full flex-1 min-w-0 min-h-[480px] lg:min-h-0 h-full lg:self-stretch flex flex-col rounded-[14px] shadow-xl gap-[15px] overflow-hidden relative p-[15px] box-border"
               style={{
                 padding: '15px',
-                gap: '12px',
+                gap: '15px',
                 borderRadius: '14px',
                 boxSizing: 'border-box',
               }}

@@ -66,7 +66,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
       } else if (lower.includes('khủng hoảng') || lower.includes('sự cố')) {
         reply = 'Nguyên tắc xử lý khủng hoảng: 3 phút kết nối, 15 phút đưa giải pháp bước đầu (Fast-Track). Thiết lập War-Room khẩn cấp, minh bạch thông tin, chủ động đồng cảm và bồi thường thỏa đáng.';
       } else if (lower.includes('liên hệ') || lower.includes('tư vấn') || lower.includes('lịch')) {
-        reply = 'Bạn có thể gọi trực tiếp Hotline 0903.011.699, nhắn Zalo 0903011699, gửi email hungthai84@gmail.com hoặc chuyển tới Tab 12 (Liên Hệ) để gửi form đặt lịch trao đổi.';
+        reply = 'Bạn có thể gọi trực tiếp Hotline +84 0909097882, nhắn Zalo +84 0909097882, gửi email hungthai84@gmail.com hoặc chuyển tới Tab 12 (Liên Hệ) để gửi form đặt lịch trao đổi.';
       } else {
         reply = `Chuyên gia Nguyễn Hùng Thái sẵn sàng đồng hành cùng Quý Doanh Nghiệp nâng tầm trải nghiệm khách hàng (CX), chuẩn hóa SOP, tích hợp CRM/AI Agents. Bạn có thể xem chi tiết ở các Tab chuyên đề trên menu.`;
       }
@@ -116,8 +116,8 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
                 Trợ Lý AI Hùng Thái 24/7
               </h3>
               <span className="typo-label text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                Sẵn sàng giải đáp tự động {isAvatarZoomed && <span className="text-[11px] text-purple-600 dark:text-purple-300 font-semibold">(Phóng to 2x)</span>}
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                Sẵn sàng giải đáp tự động {isAvatarZoomed && <span className="typo-badge text-purple-600 dark:text-purple-300 font-semibold">(Phóng to 2x)</span>}
               </span>
             </div>
           </div>

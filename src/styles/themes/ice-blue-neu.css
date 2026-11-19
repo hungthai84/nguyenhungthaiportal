@@ -234,6 +234,7 @@ html[data-card-style="ice-blue-neu"] {
   --shadow-floating: var(--neu-raised-shadow);
   --shadow-modal: var(--neu-raised-shadow);
 
+  --banner-transparent-bg: rgba(237, 244, 250, 0.10);
   --banner-border: rgba(255, 255, 255, 0.85);
   --banner-shadow: var(--neu-raised-shadow);
   --bg-banner-pill: rgb(232, 241, 249);
@@ -473,6 +474,7 @@ html[data-card-style="dark-ice-blue-neu"] {
   --shadow-floating: var(--neu-raised-shadow);
   --shadow-modal: var(--neu-raised-shadow);
 
+  --banner-transparent-bg: rgba(21, 32, 48, 0.10);
   --banner-border: rgba(148, 197, 248, 0.16);
   --banner-shadow: var(--neu-raised-shadow);
   --bg-banner-pill: rgb(22, 34, 50);
@@ -689,6 +691,42 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   background: var(--bg-table-row-alt) !important;
 }
 
+/* 90% Transparent Hero Banners across Ice-Blue Soft UI & Dark Ice-Blue Neu */
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  .project-detail-banner-inner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+) {
+  background: var(--banner-transparent-bg) !important;
+  border: 1px solid var(--banner-border) !important;
+  border-radius: var(--radius-banner, 28px) !important;
+  box-shadow: var(--neu-raised-shadow) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="ice-blue-neu"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, #pdf-hero-banner, [id$="-hero-banner"]) .project-detail-banner-scrim {
+  background: linear-gradient(180deg, rgba(237, 244, 250, 0.10) 0%, rgba(237, 244, 250, 0.02) 45%, rgba(237, 244, 250, 0.08) 100%) !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="dark-ice-blue-neu"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, #pdf-hero-banner, [id$="-hero-banner"]) .project-detail-banner-scrim {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.10) 0%, rgba(15, 23, 42, 0.02) 45%, rgba(15, 23, 42, 0.08) 100%) !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
 /* Navigation Pills, Footer Capsule & Action Buttons */
 html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(#weather-widget-card, #weather-card, .weather-card) {
   background: transparent !important;
@@ -710,7 +748,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   border-radius: 14px !important;
 }
 
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #footer-nav-capsule {
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(#footer-nav-capsule, #el-p0-div-16) {
   background: var(--surface-interactive-bg) !important;
   border: 1px solid var(--surface-interactive-border) !important;
   box-shadow: var(--neu-pill-shadow) !important;

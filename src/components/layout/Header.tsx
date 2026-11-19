@@ -265,7 +265,7 @@ const HEADER_ORDER_IDS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 export const Header: React.FC<HeaderProps> = ({
   pages,
   currentPage,
-  currentTheme = 'light-multicolor-glass-color',
+  currentTheme = 'ice-blue-neu',
   onSelectPage,
   onShowNotification,
 }) => {
@@ -573,7 +573,7 @@ export const Header: React.FC<HeaderProps> = ({
 
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
-                      style={{ fontWeight: 'bold', fontSize: '15px' }}
+                      style={{ fontWeight: 'bold' }}
                       className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                     >
                       {pageTitle}
@@ -670,7 +670,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
-                      style={{ fontWeight: 'bold', fontSize: '15px' }}
+                      style={{ fontWeight: 'bold' }}
                       className="nav-pill-title typo-nav leading-tight font-play truncate transition-colors duration-200"
                     >
                       {language === 'en' ? 'Hung Thai' : 'Hùng Thái'}

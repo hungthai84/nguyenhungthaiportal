@@ -16,6 +16,7 @@
   --font-scale: 1;
 
   /* Unified Fluid Typography Target Matrix (Consistent across Desktop, Tablet, Mobile) */
+  --fs-display: clamp(30px, 2.2vw + 21px, 48px);
   --fs-h1: clamp(23px, 1.6vw + 17px, 28px);
   --fs-h2: clamp(19px, 1.1vw + 15px, 23px);
   --fs-h3: clamp(17px, 0.7vw + 14px, 19px);
@@ -29,8 +30,9 @@
   --fs-caption: clamp(12px, 0.15vw + 11.5px, 13px);
   --fs-label: clamp(11.5px, 0.15vw + 11px, 12px);
   --fs-badge: 12px;
+  --fs-overline: clamp(10.5px, 0.1vw + 10px, 11px);
   --fs-button: clamp(13px, 0.2vw + 12.5px, 14px);
-  --fs-nav: clamp(13.5px, 0.15vw + 13px, 14px);
+  --fs-nav: clamp(14px, 0.1vw + 13.5px, 15px);
   --fs-tab: clamp(13.5px, 0.15vw + 13px, 14px);
   --fs-input: clamp(15px, 16px - 0.1vw, 16px);
   --fs-kpi: clamp(21px, 1.2vw + 17px, 26px);
@@ -43,7 +45,7 @@
   --lh-body-lg: 1.6;
   --lh-body-sm: 1.55;
   --lh-compact: 1.38;
-  --lh-display: 1.18;
+  --lh-display: 1.16;
   --lh-kpi: 1.18;
   --lh-h1: 1.25;
   --lh-h2: 1.28;
@@ -55,6 +57,7 @@
   --lh-caption: 1.4;
   --lh-label: var(--lh-compact);
   --lh-badge: var(--lh-compact);
+  --lh-overline: 1.35;
   --lh-button: 1.35;
   --lh-nav: 1.35;
   --lh-tab: 1.35;
@@ -62,6 +65,7 @@
   --lh-popup-title: 1.28;
   --lh-tight: 1.22;
 
+  --ls-display: -0.025em;
   --ls-h1: -0.022em;
   --ls-h2: -0.016em;
   --ls-h3: -0.01em;
@@ -70,6 +74,7 @@
   --ls-body: 0.005em;
   --ls-caption: 0.01em;
   --ls-label: 0.025em;
+  --ls-overline: 0.03em;
   --ls-kpi: -0.02em;
   --ls-popup-title: -0.015em;
 
@@ -84,6 +89,7 @@
 
   /* Legacy font-size aliases bridged cleanly onto --fs-* */
   --text-micro: var(--fs-label);
+  --text-overline: var(--fs-overline);
   --text-caption: var(--fs-caption);
   --text-body: var(--fs-body);
   --text-h5: var(--fs-h5);
@@ -91,10 +97,11 @@
   --text-h3: var(--fs-h3);
   --text-h2: var(--fs-h2);
   --text-h1: var(--fs-h1);
-  --text-display: var(--fs-kpi);
+  --text-display: var(--fs-display);
   --text-card-title: var(--fs-h3);
   --text-card-body: var(--fs-body);
   --text-button: var(--fs-button);
+  --banner-transparent-bg: rgba(255, 255, 255, 0.10);
 
   /* Spacing Scale */
   --space-1: 4px;
@@ -556,7 +563,7 @@
 }
 
 /* Dark Mode Overrides (WCAG 2.2 AA Compliant) */
-html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="light-multicolor-glass-dark"], [data-theme="vivid-glass"], [data-theme="black-cowhide-leather"], [data-theme="cowhide-leather"] {
+html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-ice-blue-neu"], [data-theme="vivid-glass"], [data-theme="black-cowhide-leather"], [data-theme="cowhide-leather"] {
   --color-bg: #0B1220;
   --color-bg-soft: #111827;
   --color-bg-blue: #1F2937;
@@ -687,6 +694,7 @@ html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="light
   --pillar-progress-fill: #38BDF8;
 
   /* Banner, Nav Arrow, Back-to-Top & Image Card Tokens (Dark) */
+  --banner-transparent-bg: rgba(15, 23, 42, 0.10);
   --banner-border: rgba(255, 255, 255, 0.22);
   --banner-shadow: 0 14px 36px -6px rgba(0, 0, 0, 0.50);
   --bg-banner-pill: rgba(17, 24, 39, 0.92);
@@ -874,10 +882,17 @@ html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="light
   }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 1023px) {
   :root,
   html.dark {
-    --about-peek-reserve: 72px;
+    --about-peek-reserve: 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root,
+  html.dark {
+    --about-peek-reserve: 16px;
   }
 }
 

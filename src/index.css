@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="light-multicolor-glass-dark"], [data-theme="light-multicolor-glass-dark"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="dark-ice-blue-neu"], [data-theme="dark-ice-blue-neu"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="dark-ice-blue-neu"], [data-theme="dark-ice-blue-neu"] *, [data-theme="dark-rainbow-glass"], [data-theme="dark-rainbow-glass"] *, [data-theme="special-rainbow-glass"], [data-theme="special-rainbow-glass"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -32,9 +32,12 @@
 @import "./styles/themes/black-cowhide-leather.css";
 @import "./styles/themes/cowhide-leather.css";
 @import "./styles/themes/ice-blue-neu.css";
+@import "./styles/themes/glass-flat.css";
+@import "./styles/themes/rainbow-glass.css";
 @import "./styles/layers.css";
 
 /* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection & Better-Typography Craft */
+.typo-display { font-size: var(--fs-display) !important; line-height: var(--lh-display, 1.16); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-display, -0.025em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
 .typo-h1 { font-size: var(--fs-h1) !important; line-height: var(--lh-h1, var(--lh-heading, 1.25)); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h1, -0.022em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
 .typo-h2 { font-size: var(--fs-h2) !important; line-height: var(--lh-h2, var(--lh-heading, 1.28)); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h2, -0.016em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
 .typo-h3 { font-size: var(--fs-h3) !important; line-height: var(--lh-h3, var(--lh-heading, 1.3)); font-weight: var(--fw-semibold); font-family: var(--font-family-heading); letter-spacing: var(--ls-h3, -0.01em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
@@ -46,12 +49,13 @@
 .typo-caption { font-size: var(--fs-caption) !important; line-height: var(--lh-caption, var(--lh-compact, 1.4)); font-weight: var(--fw-regular); font-family: var(--font-family-body); letter-spacing: var(--ls-caption, 0.01em); text-wrap: pretty; overflow-wrap: break-word; }
 .typo-label { font-size: var(--fs-label) !important; line-height: var(--lh-label, var(--lh-compact, 1.38)); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: var(--ls-label, 0.025em); }
 .typo-badge { font-size: var(--fs-badge) !important; line-height: var(--lh-badge, var(--lh-compact, 1.38)); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: var(--ls-label, 0.025em); }
+.typo-overline { font-size: var(--fs-overline) !important; line-height: var(--lh-overline, 1.35); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: var(--ls-overline, 0.03em); }
 .typo-button { font-size: var(--fs-button) !important; line-height: var(--lh-button, var(--lh-compact, 1.35)); font-weight: var(--fw-bold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
 .typo-nav { font-size: var(--fs-nav) !important; line-height: var(--lh-nav, var(--lh-compact, 1.35)); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
 .typo-tab { font-size: var(--fs-tab) !important; line-height: var(--lh-tab, var(--lh-compact, 1.35)); font-weight: var(--fw-semibold); font-family: var(--font-family-body); letter-spacing: 0.01em; }
 .typo-input { font-size: var(--fs-input) !important; line-height: var(--lh-input, var(--lh-compact, 1.45)); font-weight: var(--fw-regular); font-family: var(--font-family-body); }
 .typo-kpi { font-size: var(--fs-kpi) !important; line-height: var(--lh-kpi, 1.18); font-weight: var(--fw-bold); font-family: var(--font-family-numeric); font-variant-numeric: tabular-nums; letter-spacing: var(--ls-kpi, -0.02em); overflow-wrap: break-word; }
-.typo-quote { font-size: var(--fs-h3) !important; line-height: 1.35 !important; font-family: var(--font-quote) !important; overflow-wrap: break-word; }
+.typo-quote { font-size: var(--fs-quote, var(--fs-h3)) !important; line-height: 1.35 !important; font-family: var(--font-quote) !important; overflow-wrap: break-word; }
 .typo-popup-title { font-size: var(--fs-popup-title) !important; line-height: var(--lh-popup-title, var(--lh-heading, 1.28)); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-popup-title, -0.015em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
 
 /* Better-Typography: Optimal Reading Line Measure (45-75ch) & Antialiased Smoothing */
@@ -105,20 +109,26 @@ html, body {
   font-weight: var(--fw-bold) !important;
 }
 
+/* Single Unified Banner Quote & Handwriting Scale */
 .font-italianno,
 .font-handwriting,
 .font-quote,
-.banner-quote,
-[id$="-banner-quote"],
-[id$="-hero-banner-quote"],
-#project-detail-banner .banner-quote,
-.motto-quote-text,
-.hero-banner p.font-italianno,
-.hero-banner p.font-handwriting,
-.banner-card p.font-italianno,
-.banner-card p.font-handwriting {
-  font-size: var(--fs-h3) !important;
+.motto-quote-text {
+  font-size: var(--fs-quote, var(--fs-h3)) !important;
   line-height: 1.35 !important;
+}
+
+.hero-banner :is(p.font-italianno, p.font-handwriting, .banner-quote),
+.banner-card :is(p.font-italianno, p.font-handwriting, .banner-quote),
+[id$="-hero-banner"] :is(p.font-italianno, p.font-handwriting, .banner-quote),
+#project-detail-banner .banner-quote,
+[id$="-banner-quote"],
+[id$="-hero-banner-quote"] {
+  font-family: 'Moon Dance', cursive, sans-serif !important;
+  font-size: clamp(1.35rem, 2.1vw + 0.7rem, 1.85rem) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  line-height: 1.25 !important;
 }
 
 .typo-h3.font-italianno,
@@ -417,15 +427,17 @@ html[data-card-style] #about-intro-card-1,
 html[data-card-style] #about-intro-card-2,
 html.dark[data-card-style] #about-intro-card-1,
 html.dark[data-card-style] #about-intro-card-2 {
-  width: var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) !important;
-  max-width: var(--container-max-w, 1250px) !important;
-  min-width: var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) !important;
+  width: var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) !important;
+  max-width: min(100%, var(--container-max-w, 1250px)) !important;
+  min-width: 0 !important;
   min-height: 100% !important;
   height: 100% !important;
-  flex: 0 0 var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - 112px), var(--container-max-w, 1250px)))) !important;
+  flex: 0 0 var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) !important;
   flex-shrink: 0 !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  scroll-behavior: smooth !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   margin-left: 0 !important;
@@ -674,64 +686,57 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
 }
 
 /* ========================================================================= */
-/* GLOBAL 14PX BORDER RADIUS ENFORCEMENT ACROSS ALL 10 THEMES                */
+/* TOKEN-BASED BORDER RADIUS ENFORCEMENT ACROSS ALL ACTIVE THEMES            */
 /* ========================================================================= */
-html,
-html[data-card-style] {
-  --radius-main: 14px !important;
-  --radius-card: 14px !important;
-  --radius-subcard: 14px !important;
-  --radius-banner: 14px !important;
-  --radius-modal: 14px !important;
-  --radius-popup: 14px !important;
-  --radius-widget: 14px !important;
-  --radius-input: 14px !important;
-  --radius-header: 0 0 14px 14px !important;
-  --radius-footer: 14px 14px 0 0 !important;
-}
-
 html :is(
   .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
   .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
   .bento-view-card,
-  .sub-card,
-  [data-subcard="true"],
-  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
+  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
   [data-element-type="card"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not([data-element-type="button"]):not(.page-main-card):not([data-main-card="true"]):not(.main-card),
   [data-multicolor-bento="true"],
-  .hero-banner,
-  .banner-card,
-  [id$="-hero-banner"],
   .exp-detail-card,
-  .exp-detail-subcard,
-  .education-subcard,
   .education-course-card,
-  .education-card-banner,
-  .letter-subcard,
-  .letter-header-subcard,
-  .letter-footer-subcard,
   .project-card,
   [id^="project-card-"],
   .project-detail-section-card,
-  .project-detail-subcard,
-  .project-detail-banner-inner,
-  .skill-swot-subcard,
   .themed-image-card,
   .theme-modal-card,
-  .theme-modal-subcard,
   .theme-popup
 ),
-.card-light-multicolor-glass,
-.card-light-multicolor-glass-dark,
-.card-light-multicolor-glass-color,
 .card-white-pebbled-leather,
 .card-light-cowhide-leather,
 .card-black-cowhide-leather,
 .card-cowhide-leather {
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 14px) !important;
 }
 
-/* Enforce 0px border-radius, 100% transparent background, 1px line border & 0px padding on all outer page containers */
+html :is(
+  .sub-card,
+  [data-subcard="true"],
+  .exp-detail-subcard,
+  .education-subcard,
+  .letter-subcard,
+  .letter-header-subcard,
+  .letter-footer-subcard,
+  .project-detail-subcard,
+  .skill-swot-subcard,
+  .theme-modal-subcard
+) {
+  border-radius: var(--radius-subcard, 14px) !important;
+}
+
+html :is(
+  .hero-banner,
+  .banner-card,
+  [id$="-hero-banner"],
+  .education-card-banner,
+  .project-detail-banner-inner
+) {
+  border-radius: var(--radius-banner, var(--radius-card, 14px)) !important;
+}
+
+/* Enforce 0px border-radius, 100% transparent background & 0px padding on all outer page containers */
 html :is(
   .main-card:not(#pdf-page-container),
   [id$="-page-container"]:not(#pdf-page-container),
@@ -750,34 +755,9 @@ html :is(
   padding: 0px !important;
 }
 
-/* Preserve Pill Nav/Switch Controls & Enforce 14px Rectangular Action Buttons in Multicolor Glass Themes */
-html[data-card-style="light-multicolor-glass"] button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle):not(#letter-circle-video-play-btn):not(#systems-intro-video-circle-btn),
-html[data-card-style="light-multicolor-glass-dark"] button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle):not(#letter-circle-video-play-btn):not(#systems-intro-video-circle-btn),
-html[data-card-style="light-multicolor-glass-color"] button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle):not(#letter-circle-video-play-btn):not(#systems-intro-video-circle-btn) {
-  border-radius: 14px !important;
-}
-
 /* ========================================================================= */
 /* ULTRA-CRISP PURE BLACK (#000000) / PURE WHITE (#FFFFFF) FONT SHARPNESS    */
 /* ========================================================================= */
-html[data-card-style="light-multicolor-glass"],
-html[data-card-style="light-multicolor-glass-color"] {
-  --color-heading: #000000 !important;
-  --color-text: #000000 !important;
-  --color-text-secondary: #111827 !important;
-  --color-text-muted: #27272A !important;
-  --text-primary: #000000 !important;
-  --text-secondary: #111827 !important;
-  --text-muted: #27272A !important;
-  --text-heading: #000000 !important;
-  --text-input: #000000 !important;
-  --pillar-heading: #000000 !important;
-  --pillar-body: #111827 !important;
-  --text-banner-pill: #000000 !important;
-  --text-banner-input: #000000 !important;
-  --text-nav-arrow: #000000 !important;
-}
-
 html[data-card-style="light-cowhide-leather"] {
   --color-heading: #111827 !important;
   --color-text: #111827 !important;
@@ -795,7 +775,6 @@ html[data-card-style="light-cowhide-leather"] {
   --text-nav-arrow: #111827 !important;
 }
 
-html[data-card-style="light-multicolor-glass-dark"],
 html[data-card-style="black-cowhide-leather"],
 html[data-card-style="cowhide-leather"] {
   --color-heading: #FFFFFF !important;
@@ -870,8 +849,8 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-102:nt
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-81:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1) {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 /* ========================================================================= */
@@ -917,36 +896,10 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
 }
 
 /* ========================================================================= */
-/* MASTER CASCADE: BANNER QUOTES H3, MAIN CARD HEADER PARITY + FLOAT + 15PX, */
-/* AND 14PX BANNER / THUMBNAIL ROUNDING ACROSS ALL 5 THEMES & BREAKPOINTS    */
+/* MASTER CASCADE: MAIN CARD HEADER PARITY + 15PX INSET + THEME RADIUS TOKEN */
 /* ========================================================================= */
 
-/* 1. Banner Quote Font Size strictly synced to H3 across all viewports */
-html .hero-banner .banner-quote,
-html .hero-banner p.font-italianno,
-html .hero-banner p.font-handwriting,
-html .banner-card p.font-italianno,
-html .banner-card p.font-handwriting,
-html [id$="-banner-quote"],
-html [id$="-hero-banner-quote"],
-html #project-detail-banner .banner-quote,
-html .motto-quote-text {
-  font-size: var(--fs-h3) !important;
-  line-height: 1.35 !important;
-}
-
-@keyframes main-card-hover-pulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: var(--surface-primary-shadow-hover, var(--shadow-floating));
-  }
-  50% {
-    transform: scale(1.0045);
-    box-shadow: var(--surface-primary-shadow-hover, var(--shadow-floating)), 0 0 22px 1px rgba(56, 189, 248, 0.22);
-  }
-}
-
-/* 2. All Main Cards across all pages: exact Header Surface + Deep Drop Shadow + 15px inset + Balanced Gap */
+/* All Main Cards across all pages: exact Header Surface + Deep Drop Shadow + 15px inset + Balanced Gap */
 html .page-main-card,
 html[data-card-style] .page-main-card,
 html.dark[data-card-style] .page-main-card,
@@ -966,12 +919,12 @@ html.dark[data-card-style] #about-intro-card-2 {
   backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
   border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
-  border-radius: 14px !important;
-  padding: 15px !important;
+  border-radius: var(--radius-main, 14px) !important;
+  padding: var(--main-card-padding, 15px) !important;
   gap: clamp(12px, 1.4vw, 16px) !important;
   row-gap: clamp(12px, 1.4vw, 16px) !important;
   column-gap: clamp(12px, 1.4vw, 16px) !important;
-  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1), border-color 260ms ease, outline-color 260ms ease, background 260ms ease, color 260ms ease !important;
+  transition: box-shadow 260ms ease, border-color 240ms ease, outline-color 240ms ease, background 260ms ease, color 260ms ease !important;
   box-sizing: border-box !important;
 }
 
@@ -1034,8 +987,8 @@ html #contact-main-card > div:first-child {
     backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
     -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
     border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
-    border-radius: 14px !important;
-    padding: 15px !important;
+    border-radius: var(--radius-main, 14px) !important;
+    padding: var(--main-card-padding, 15px) !important;
     gap: 15px !important;
     row-gap: 15px !important;
     column-gap: 15px !important;
@@ -1106,42 +1059,73 @@ html[data-card-style="cowhide-leather"] #pdf-page-container {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html:not([data-surface-depth="flat"]) .page-main-card:hover,
-  html:not([data-surface-depth="flat"])[data-card-style] .page-main-card:hover,
-  html:not([data-surface-depth="flat"]) [data-main-card="true"]:hover,
-  html:not([data-surface-depth="flat"])[data-card-style] [data-main-card="true"]:hover,
-  html:not([data-surface-depth="flat"]) #contact-main-card:hover,
-  html:not([data-surface-depth="flat"])[data-card-style] #contact-main-card:hover,
-  html:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
-  html:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-1:hover,
-  html:not([data-surface-depth="flat"]) #about-intro-card-2:hover,
-  html:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-2:hover,
-  html:not([data-surface-depth="flat"]) #pdf-page-container:hover,
-  html:not([data-surface-depth="flat"])[data-card-style] #pdf-page-container:hover {
-    transform: translateY(-3px) !important;
+  html:not([data-surface-depth="flat"]) :is(
+    .page-main-card,
+    [data-main-card="true"],
+    #contact-main-card,
+    #about-intro-card-1,
+    #about-intro-card-2,
+    #pdf-page-container
+  ):hover:not(:has(
+    [data-section-card="true"]:hover,
+    [data-subcard="true"]:hover,
+    .sub-card:hover,
+    .bento-card:hover,
+    .layered-card:hover,
+    .project-card:hover,
+    .education-card:hover,
+    .education-course-card:hover,
+    .exp-bento-surface-card:hover,
+    .exp-bento-item-card:hover,
+    .hero-banner:hover,
+    .banner-card:hover
+  )) {
     box-shadow: var(--main-card-deep-shadow-hover, 0 28px 64px -12px rgba(15, 23, 42, 0.28), 0 14px 30px -4px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95)) !important;
     border-color: var(--surface-primary-border-hover, var(--surface-primary-border)) !important;
   }
 
-  html.dark:not([data-surface-depth="flat"]) .page-main-card:hover,
-  html.dark:not([data-surface-depth="flat"])[data-card-style] .page-main-card:hover,
-  html.dark:not([data-surface-depth="flat"]) [data-main-card="true"]:hover,
-  html.dark:not([data-surface-depth="flat"])[data-card-style] [data-main-card="true"]:hover,
-  html.dark:not([data-surface-depth="flat"]) #contact-main-card:hover,
-  html.dark:not([data-surface-depth="flat"])[data-card-style] #contact-main-card:hover,
-  html.dark:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
-  html.dark:not([data-surface-depth="flat"]) #about-intro-card-2:hover,
-  html.dark:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-1:hover,
-  html.dark:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-2:hover,
-  html.dark:not([data-surface-depth="flat"]) #pdf-page-container:hover,
-  html.dark:not([data-surface-depth="flat"])[data-card-style] #pdf-page-container:hover,
-  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) .page-main-card:hover,
-  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) [data-main-card="true"]:hover,
-  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) #contact-main-card:hover,
-  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
-  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) #about-intro-card-2:hover,
-  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) #pdf-page-container:hover {
-    transform: translateY(-3px) !important;
+  html.dark:not([data-surface-depth="flat"]) :is(
+    .page-main-card,
+    [data-main-card="true"],
+    #contact-main-card,
+    #about-intro-card-1,
+    #about-intro-card-2,
+    #pdf-page-container
+  ):hover:not(:has(
+    [data-section-card="true"]:hover,
+    [data-subcard="true"]:hover,
+    .sub-card:hover,
+    .bento-card:hover,
+    .layered-card:hover,
+    .project-card:hover,
+    .education-card:hover,
+    .education-course-card:hover,
+    .exp-bento-surface-card:hover,
+    .exp-bento-item-card:hover,
+    .hero-banner:hover,
+    .banner-card:hover
+  )),
+  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) :is(
+    .page-main-card,
+    [data-main-card="true"],
+    #contact-main-card,
+    #about-intro-card-1,
+    #about-intro-card-2,
+    #pdf-page-container
+  ):hover:not(:has(
+    [data-section-card="true"]:hover,
+    [data-subcard="true"]:hover,
+    .sub-card:hover,
+    .bento-card:hover,
+    .layered-card:hover,
+    .project-card:hover,
+    .education-card:hover,
+    .education-course-card:hover,
+    .exp-bento-surface-card:hover,
+    .exp-bento-item-card:hover,
+    .hero-banner:hover,
+    .banner-card:hover
+  )) {
     box-shadow: var(--main-card-deep-shadow-dark-hover, 0 32px 76px -12px rgba(0, 0, 0, 0.92), 0 16px 36px -6px rgba(0, 0, 0, 0.70), inset 0 1px 0 rgba(255, 255, 255, 0.22)) !important;
   }
 
@@ -1179,7 +1163,7 @@ html[data-card-style="cowhide-leather"] #pdf-page-container {
   }
 }
 
-/* 3. Strict 14px Rounded Corners for Education Banners, Project Banners & Wallpaper Thumbnails */
+/* 3. Token-Consistent Rounded Corners for Education Banners, Project Banners & Wallpaper Thumbnails */
 html #education-courses-grid .education-course-card .education-card-banner,
 html #education-certificates-card .education-card-banner,
 html #projects-grid .project-card .project-card-banner,
@@ -1191,11 +1175,11 @@ html #wallpaper-page-container [id^="wallpaper-card-media-"],
 html #wallpaper-page-container #wallpaper-card-preview-none,
 html #memories-page-container [id^="memory-card-"],
 html .memory-photo-item {
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 14px) !important;
   overflow: hidden !important;
   isolation: isolate;
-  -webkit-clip-path: inset(0 round 14px);
-  clip-path: inset(0 round 14px);
+  -webkit-clip-path: inset(0 round var(--radius-card, 14px));
+  clip-path: inset(0 round var(--radius-card, 14px));
 }
 
 html #education-courses-grid .education-course-card .education-card-banner img,
@@ -1207,7 +1191,7 @@ html #wallpaper-page-container [id^="wallpaper-card-media-"] > video,
 html #wallpaper-page-container [id^="wallpaper-card-media-"] > div,
 html #memories-page-container [id^="memory-card-"] > img,
 html .memory-photo-item > img.memory-crisp-img {
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 14px) !important;
 }
 
 /* 4. Hero Banners (#services-hero-banner & All Similar Banners): All-Theme Sync + Deep Drop Shadow across All Viewports */
@@ -1218,6 +1202,7 @@ html #project-detail-banner,
 html #contact-hero-banner,
 html #ai-assistant-hero-banner,
 html #interview-questions-card,
+html #pdf-hero-banner,
 html[data-card-style] .hero-banner,
 html[data-card-style] .banner-card,
 html[data-card-style] #services-hero-banner,
@@ -1225,26 +1210,12 @@ html[data-card-style] #project-detail-banner,
 html[data-card-style] #contact-hero-banner,
 html[data-card-style] #ai-assistant-hero-banner,
 html[data-card-style] #interview-questions-card,
-html #contact-main-card #contact-hero-banner,
-html .hero-banner,
-html .banner-card,
-html #services-hero-banner,
-html #project-detail-banner,
-html #contact-hero-banner,
-html #ai-assistant-hero-banner,
-html #interview-questions-card,
-html[data-card-style] .hero-banner,
-html[data-card-style] .banner-card,
-html[data-card-style] #services-hero-banner,
-html[data-card-style] #project-detail-banner,
-html[data-card-style] #contact-hero-banner,
-html[data-card-style] #ai-assistant-hero-banner,
-html[data-card-style] #interview-questions-card,
+html[data-card-style] #pdf-hero-banner,
 html #contact-main-card #contact-hero-banner,
 html[data-card-style] #contact-main-card #contact-hero-banner {
-  border-radius: 14px !important;
+  border-radius: var(--radius-banner, var(--radius-card, 14px)) !important;
   padding: 15px !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
   transform: none !important;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
@@ -1257,8 +1228,8 @@ html #project-detail-banner,
 html[data-card-style] #project-detail-banner {
   overflow: hidden !important;
   isolation: isolate;
-  -webkit-clip-path: inset(0 round 14px);
-  clip-path: inset(0 round 14px);
+  -webkit-clip-path: inset(0 round var(--radius-banner, var(--radius-card, 14px)));
+  clip-path: inset(0 round var(--radius-banner, var(--radius-card, 14px)));
 }
 
 html :is(.hero-banner, .banner-card, [id$="-hero-banner"], #interview-questions-card, #project-detail-banner, #contact-main-card #contact-hero-banner) .project-detail-banner-media,
@@ -1283,21 +1254,9 @@ html .banner-card .project-detail-banner-media :is(img, video),
 html [id$="-hero-banner"] .project-detail-banner-media :is(img, video),
 html #project-detail-banner .project-detail-banner-media :is(img, video),
 html #contact-hero-banner .project-detail-banner-media :is(img, video),
-html #ai-assistant-hero-banner .project-detail-banner-media :is(img, video) {
+html #ai-assistant-hero-banner .project-detail-banner-media :is(img, video),
+html #pdf-hero-banner .project-detail-banner-media :is(img, video) {
   opacity: 1 !important;
-}
-
-html .hero-banner .project-detail-banner-scrim,
-html .banner-card .project-detail-banner-scrim,
-html [id$="-hero-banner"] .project-detail-banner-scrim,
-html #project-detail-banner .project-detail-banner-scrim,
-html #contact-hero-banner .project-detail-banner-scrim,
-html #ai-assistant-hero-banner .project-detail-banner-scrim {
-  background: transparent !important;
-  background-color: transparent !important;
-  opacity: 0 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
 }
 
 
@@ -1512,266 +1471,7 @@ html [id$="-cards-track"]::after {
 }
 
 /* ========================================================================= */
-/* MASTER OVERRIDE B: EXACT css.glass LIGHT & DARK FROSTED GLASS THEMES      */
-/*   - Light Frosted Glass: html[data-card-style="light-multicolor-glass"]   */
-/*   - Dark Frosted Glass : html[data-card-style="light-multicolor-glass-dark"] */
-/*   - Untouched: light-multicolor-glass-color & all 3 cowhide-leather themes */
-/* ========================================================================= */
-html[data-card-style="light-multicolor-glass"] {
-  --radius-main: 16px !important;
-  --radius-card: 16px !important;
-  --radius-subcard: 16px !important;
-  --radius-banner: 16px !important;
-  --radius-modal: 16px !important;
-  --radius-popup: 16px !important;
-  --radius-widget: 16px !important;
-  --radius-input: 16px !important;
-  --radius-header: 0 0 16px 16px !important;
-  --radius-footer: 16px 16px 0 0 !important;
-}
-
-html[data-card-style="light-multicolor-glass-dark"] {
-  --radius-main: 16px !important;
-  --radius-card: 16px !important;
-  --radius-subcard: 16px !important;
-  --radius-banner: 16px !important;
-  --radius-modal: 16px !important;
-  --radius-popup: 16px !important;
-  --radius-widget: 16px !important;
-  --radius-input: 16px !important;
-  --radius-header: 0 0 16px 16px !important;
-  --radius-footer: 16px 16px 0 0 !important;
-}
-
-html[data-card-style="light-multicolor-glass"] :is(
-  .page-main-card,
-  [data-main-card="true"],
-  #contact-main-card,
-  #about-intro-card-1,
-  #about-intro-card-2,
-  #pdf-page-container,
-  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
-  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
-  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
-  .bento-view-card,
-  .layered-card,
-  [data-subcard="true"]:not(.skill-swot-subcard):not([id^="skill-item-"]),
-  .sub-card:not(.skill-swot-subcard):not([id^="skill-item-"]),
-  .nested-card,
-  .hero-banner,
-  .banner-card,
-  #services-hero-banner,
-  #project-detail-banner,
-  #contact-hero-banner,
-  #ai-assistant-hero-banner,
-  #interview-questions-card,
-  [id$="-hero-banner"],
-  .exp-bento-surface-card,
-  .exp-bento-item-card:not(.exp-bento-rect-btn.aspect-\[16\/10\]),
-  .exp-detail-card,
-  .exp-detail-subcard,
-  .education-card,
-  .education-subcard,
-  .education-course-card,
-  .letter-subcard,
-  .letter-header-subcard,
-  .letter-footer-subcard,
-  .project-card,
-  [id^="project-card-"],
-  .project-detail-section-card,
-  .project-detail-subcard,
-  .project-detail-chip,
-  .education-skill-chip,
-  .project-card-tag,
-  .project-card-order-badge,
-  .themed-image-frame,
-  [id^="service-card-"],
-  #skills-languages-section [id^="skills-language-card-"],
-  #home-stats-card,
-  #home-intro-card,
-  #home-capabilities-card,
-  #home-achievements-card,
-  #bento-letter-video,
-  #footer-theme-popup,
-  #footer-lang-popup,
-  .banner-dropdown-menu,
-  [role="dialog"],
-  .modal-dialog,
-  .theme-modal-card,
-  .theme-modal-subcard,
-  .theme-popup,
-  .theme-pip-player
-) {
-  background: rgba(255, 255, 255, 0.2) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
-
-html[data-card-style="light-multicolor-glass"] #app-header {
-  background: rgba(255, 255, 255, 0.2) !important;
-  border-radius: 0 0 16px 16px !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
-
-html[data-card-style="light-multicolor-glass"] #app-footer {
-  background: rgba(255, 255, 255, 0.2) !important;
-  border-radius: 16px 16px 0 0 !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
-
-html[data-card-style="light-multicolor-glass-dark"] :is(
-  .page-main-card,
-  [data-main-card="true"],
-  #contact-main-card,
-  #about-intro-card-1,
-  #about-intro-card-2,
-  #pdf-page-container,
-  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
-  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
-  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
-  .bento-view-card,
-  .layered-card,
-  [data-subcard="true"]:not(.skill-swot-subcard):not([id^="skill-item-"]),
-  .sub-card:not(.skill-swot-subcard):not([id^="skill-item-"]),
-  .nested-card,
-  .hero-banner,
-  .banner-card,
-  #services-hero-banner,
-  #project-detail-banner,
-  #contact-hero-banner,
-  #ai-assistant-hero-banner,
-  #interview-questions-card,
-  [id$="-hero-banner"],
-  .exp-bento-surface-card,
-  .exp-bento-item-card:not(.exp-bento-rect-btn.aspect-\[16\/10\]),
-  .exp-detail-card,
-  .exp-detail-subcard,
-  .education-card,
-  .education-subcard,
-  .education-course-card,
-  .letter-subcard,
-  .letter-header-subcard,
-  .letter-footer-subcard,
-  .project-card,
-  [id^="project-card-"],
-  .project-detail-section-card,
-  .project-detail-subcard,
-  .project-detail-chip,
-  .education-skill-chip,
-  .project-card-tag,
-  .project-card-order-badge,
-  .themed-image-frame,
-  [id^="service-card-"],
-  #skills-languages-section [id^="skills-language-card-"],
-  #home-stats-card,
-  #home-intro-card,
-  #home-capabilities-card,
-  #home-achievements-card,
-  #bento-letter-video,
-  #footer-theme-popup,
-  #footer-lang-popup,
-  .banner-dropdown-menu,
-  [role="dialog"],
-  .modal-dialog,
-  .theme-modal-card,
-  .theme-modal-subcard,
-  .theme-popup,
-  .theme-pip-player
-) {
-  background: rgba(0, 0, 0, 0.2) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(0, 0, 0, 0.3) !important;
-  color: #FFFFFF !important;
-}
-
-html[data-card-style="light-multicolor-glass-dark"] #app-header {
-  background: rgba(0, 0, 0, 0.2) !important;
-  border-radius: 0 0 16px 16px !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(0, 0, 0, 0.3) !important;
-  color: #FFFFFF !important;
-}
-
-html[data-card-style="light-multicolor-glass-dark"] #app-footer {
-  background: rgba(0, 0, 0, 0.2) !important;
-  border-radius: 16px 16px 0 0 !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(0, 0, 0, 0.3) !important;
-  color: #FFFFFF !important;
-}
-
-/* 16px Clip-Path & Media Rounding for Light & Dark Frosted Glass ONLY */
-html:is([data-card-style="light-multicolor-glass"], [data-card-style="light-multicolor-glass-dark"]) :is(
-  #education-courses-grid .education-course-card .education-card-banner,
-  #education-certificates-card .education-card-banner,
-  #projects-grid .project-card .project-card-banner,
-  #project-detail-banner,
-  #project-detail-banner .project-detail-banner-media,
-  #project-detail-banner .project-detail-banner-scrim,
-  #contact-hero-banner,
-  #ai-assistant-hero-banner,
-  .project-detail-banner-inner
-) {
-  border-radius: 16px !important;
-  -webkit-clip-path: inset(0 round 16px);
-  clip-path: inset(0 round 16px);
-}
-
-html:is([data-card-style="light-multicolor-glass"], [data-card-style="light-multicolor-glass-dark"]) :is(
-  #global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]),
-  .theme-modal-card video:not(.rounded-full):not([class*="rounded-full"]),
-  .theme-pip-player video:not(.rounded-full):not([class*="rounded-full"]),
-  [data-section-card="true"] video:not(.rounded-full):not([class*="rounded-full"]),
-  #global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
-  .theme-modal-card img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
-  [data-section-card="true"] img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
-  button:not(.nav-pill):not(.theme-capsule-btn):not(.theme-video-capsule):not(.nav-arrow-btn):not(.theme-prev-next-btn):not(.theme-back-to-top-btn):not(.theme-switch-btn):not(.banner-control-pill):not(.radial-contact-pill):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999px]"]):not(#footer-prev-btn):not(#footer-next-btn):not(#footer-nav-capsule):not(#el-p0-div-78):not(#el-p2-button-2):not(#interview-btn-play-toggle):not(#letter-circle-video-play-btn):not(#systems-intro-video-circle-btn)
-) {
-  border-radius: 16px !important;
-}
-
-/* Keep transparent layout containers & print PDF clean in Frosted Glass themes */
-html:is([data-card-style="light-multicolor-glass"], [data-card-style="light-multicolor-glass-dark"]) :is(
-  .main-card:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container),
-  [id$="-page-container"]:not(#pdf-page-container),
-  [id$="-page-root"],
-  .skill-swot-subcard,
-  [id^="skill-item-"]
-) {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  box-shadow: none !important;
-}
-
-@media print {
-  html:is([data-card-style="light-multicolor-glass"], [data-card-style="light-multicolor-glass-dark"]) #pdf-page-container {
-    background: #ffffff !important;
-    border: none !important;
-    border-radius: 0px !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-}
+/* Legacy Frosted Glass overrides cleaned up (active themes use tokens & theme CSS files) */
 
 /* ========================================================================= */
 /* MASTER OVERRIDE C: SURFACE DEPTH MODE ('flat' vs 'depth')                 */
@@ -1974,48 +1674,24 @@ html.dark[data-surface-depth="depth"] :is(
   box-shadow: var(--surface-primary-shadow, 0 28px 68px -12px rgba(0, 0, 0, 0.72), 0 12px 28px -6px rgba(0, 0, 0, 0.50)) !important;
 }
 
-html[data-surface-depth="depth"]:is([data-card-style="light-multicolor-glass"], [data-card-style="light-multicolor-glass-dark"]) :is(
-  #app-header,
-  #app-footer,
-  #letter-card-1,
-  [id^="letter-card-"],
-  .page-main-card,
-  [data-main-card="true"],
-  #about-intro-card-1,
-  #about-intro-card-2,
-  #contact-main-card,
-  #pdf-page-container
-) {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14) !important;
-}
-
+/* Hover elevation for Depth Mode (Level 2 Cards & Banners only, avoiding parent lift when hovering nested Sub Cards) */
 @media (hover: hover) and (pointer: fine) {
   html[data-surface-depth="depth"] :is(
-    #letter-card-1,
-    [id^="letter-card-"],
-    .page-main-card,
-    [data-main-card="true"],
-    #about-intro-card-1,
-    #about-intro-card-2,
-    #contact-main-card,
-    #pdf-page-container,
     .project-card,
     .education-course-card,
     .exp-bento-surface-card,
     .hero-banner,
     .banner-card
-  ):hover {
+  ):hover:not(:has([data-subcard="true"]:hover, .sub-card:hover, .nested-card:hover, .exp-bento-item-card:hover)) {
     transform: translateY(-2px) !important;
-    box-shadow: var(--surface-primary-shadow-hover, var(--shadow-card-hover, 0 24px 54px -12px rgba(15, 23, 42, 0.28))) !important;
+    box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover, 0 24px 54px -12px rgba(15, 23, 42, 0.28))) !important;
   }
 }
 
 /* ========================================================================= */
-/* ========================================================================= */
 /* BANNER CARD FORMAT & PER-PAGE CARD HOVER PARITY (ALL PAGES & ALL THEMES)  */
-/*   - Uses active theme card frame tokens & respects [data-surface-depth]   */
+/*   - 90% transparent card background (alpha 0.10), zero backdrop blur      */
 /*   - Crisp, unblurred, clearly visible banner background media             */
-/*   - Banner card hover/media-zoom matches sibling cards on each page       */
 /* ========================================================================= */
 html :is(
   .hero-banner,
@@ -2042,10 +1718,12 @@ html[data-card-style] :is(
   [id$="-hero-banner"]
 ) {
   border-radius: var(--radius-banner, var(--radius-card, 14px)) !important;
-  background: var(--surface-secondary-bg, var(--bg-card)) !important;
+  background: var(--banner-transparent-bg, rgba(255, 255, 255, 0.10)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--banner-border, var(--border-color))) !important;
   outline: var(--outline-card, var(--banner-outline, none));
   outline-offset: var(--outline-offset-card, var(--banner-outline-offset, -6px));
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 250ms ease, outline-color 250ms ease, background 250ms ease !important;
 }
 
@@ -2073,7 +1751,7 @@ html[data-card-style]:not([data-surface-depth="flat"]) :is(
   #pdf-hero-banner,
   [id$="-hero-banner"]
 ) {
-  box-shadow: var(--surface-secondary-shadow, var(--banner-shadow, var(--shadow-card))) !important;
+  box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow, var(--banner-shadow, var(--shadow-card)))) !important;
 }
 
 html[data-surface-depth="flat"] :is(
@@ -2100,10 +1778,28 @@ html :is(
   #project-detail-banner,
   #contact-hero-banner,
   #ai-assistant-hero-banner,
+  #interview-questions-card,
   #pdf-hero-banner,
   [id$="-hero-banner"]
-):not(#interview-questions-card) {
+) {
   padding: 15px !important;
+}
+
+html #interview-questions-card,
+html[data-card-style] #interview-questions-card {
+  border-radius: var(--radius-card, 14px) !important;
+  transition:
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms ease,
+    border-color 220ms ease,
+    outline-color 220ms ease !important;
+  will-change: transform;
+}
+
+html #interview-questions-card .project-detail-banner-media,
+html #interview-questions-card .project-detail-banner-media :is(img, video),
+html #interview-questions-card .project-detail-banner-scrim {
+  border-radius: inherit !important;
 }
 
 html .project-detail-banner-media :is(img, video),
@@ -2128,7 +1824,7 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
   outline-offset: -7px !important;
 }
 
-/* Per-page banner card hover & media zoom parity with sibling page cards */
+/* Per-page banner card hover & media zoom parity with sibling Level 2 cards */
 @media (hover: hover) and (pointer: fine) {
   html:not([data-surface-depth="flat"]) :is(
     #skills-hero-banner,
@@ -2137,7 +1833,6 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
     #project-detail-banner,
     #contact-hero-banner,
     #ai-assistant-hero-banner,
-    #interview-questions-card,
     #pdf-hero-banner,
     #letter-hero-banner,
     #experience-hero-banner
@@ -2145,6 +1840,13 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
     transform: translateY(-2px) !important;
     border-color: var(--surface-primary-border-hover, var(--surface-secondary-border)) !important;
     box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover, 0 22px 48px -12px rgba(15, 23, 42, 0.24))) !important;
+  }
+
+  /* #interview-questions-card matches #interview-answers-card exact Level 2 Layer Card lift & shadow */
+  html:not([data-surface-depth="flat"]) #interview-questions-card:not(:has(.banner-dropdown-menu)):hover {
+    transform: translateY(var(--layer-l2-lift, -4px)) !important;
+    border-color: var(--surface-primary-border-hover, var(--surface-secondary-border)) !important;
+    box-shadow: var(--layer-l2-shadow-hover, var(--surface-secondary-shadow-hover, var(--layer-l2-shadow, var(--shadow-card-hover)))) !important;
   }
 
   html:not([data-surface-depth="flat"]) :is(
@@ -2188,6 +1890,7 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
     #project-detail-banner,
     #contact-hero-banner,
     #ai-assistant-hero-banner,
+    #interview-questions-card,
     #pdf-hero-banner,
     #letter-hero-banner,
     #experience-hero-banner
@@ -2229,7 +1932,7 @@ html[data-card-style] .project-detail-banner-media :is(img, video) {
 }
 
 html :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.02) 42%, rgba(255, 255, 255, 0.16) 100%) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 45%, rgba(255, 255, 255, 0.08) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -2239,17 +1942,14 @@ html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-
 html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
 html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
 html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
-  background: linear-gradient(180deg, rgba(8, 13, 28, 0.28) 0%, rgba(8, 13, 28, 0.03) 42%, rgba(8, 13, 28, 0.22) 100%) !important;
+  background: linear-gradient(180deg, rgba(8, 13, 28, 0.10) 0%, rgba(8, 13, 28, 0.02) 45%, rgba(8, 13, 28, 0.08) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
-/* 100% Transparent background for Weather Card in Glassmorphism & Ice-Blue Soft UI themes */
+/* 100% Transparent background for Weather Card across all active themes */
 html :is(#weather-card, #weather-widget-card, .weather-card),
-html[data-card-style="light-multicolor-glass"] :is(#weather-card, #weather-widget-card, .weather-card),
-html[data-card-style="light-multicolor-glass-dark"] :is(#weather-card, #weather-widget-card, .weather-card),
-html[data-card-style="light-multicolor-glass-color"] :is(#weather-card, #weather-widget-card, .weather-card),
 html[data-card-style="ice-blue-neu"] :is(#weather-card, #weather-widget-card, .weather-card),
 html[data-card-style="dark-ice-blue-neu"] :is(#weather-card, #weather-widget-card, .weather-card) {
   background: transparent !important;
@@ -2317,14 +2017,9 @@ html[data-card-style] #memories-page-container [id^="memory-card-content-"] {
   padding: 15px !important;
 }
 
-/* BANNER QUOTES: MOON DANCE FONT & H2 SIZE */
+/* Banner quote text shadow contrast without overriding unified quote typography scale */
 html :is(.hero-banner, .banner-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, .banner-quote) {
-  font-family: 'Moon Dance', cursive, sans-serif !important;
-  font-size: clamp(1.75rem, 3.5vw, 2.35rem) !important;
-  font-weight: 700 !important;
-  font-style: normal !important;
-  line-height: 1.15 !important;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
 }
 
 
@@ -2392,16 +2087,15 @@ button#header-btn-hungthai-avatar .nav-pill-icon-badge > img {
   margin-left: 0px !important;
 }
 
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3) > header#app-header:nth-of-type(1) > nav#header-center:nth-of-type(1) > div#el-p0-div-84:nth-of-type(14) > div#el-p0-div-85:nth-of-type(1) > button#header-btn-hungthai-avatar:nth-of-type(1) > div#el-p0-div-88:nth-of-type(3) > span#el-p0-span-39:nth-of-type(1),
 button#header-btn-hungthai-avatar .nav-pill-title,
 #app-header button.nav-pill .nav-pill-title,
 #app-footer button.nav-pill .nav-pill-title,
 #el-p0-div-98 button.nav-pill .nav-pill-title,
 button.nav-pill .nav-pill-title,
 .radial-contact-pill .radial-contact-title {
-  font-weight: bold !important;
-  font-size: 15px !important;
-  line-height: 1.1 !important;
+  font-weight: var(--fw-bold, 700) !important;
+  font-size: var(--fs-nav, 14px) !important;
+  line-height: var(--lh-nav, 1.35) !important;
 }
 
 button.nav-pill:not(#header-btn-hungthai-avatar) .nav-pill-icon-badge,
@@ -2491,38 +2185,8 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-conta
 }
 
 /* ========================================================================= */
-/* MASTER OVERRIDE D: 28PX BORDER-RADIUS & HEADER SYNC FOR ICE-BLUE NEU      */
+/* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL 5 ACTIVE THEMES)    */
 /* ========================================================================= */
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
-  .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
-  [data-section-card="true"]:not(#app-header):not(#app-footer):not(#pdf-page-container):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule),
-  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
-  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
-  .layered-card,
-  .exp-bento-surface-card,
-  .exp-bento-item-card,
-  .education-course-card,
-  .project-card,
-  .project-detail-section-card,
-  .banner-card,
-  .hero-banner,
-  #services-hero-banner,
-  #project-detail-banner,
-  #contact-hero-banner,
-  #ai-assistant-hero-banner,
-  #interview-questions-card,
-  [id$="-hero-banner"],
-  .theme-modal-card,
-  .theme-pip-player,
-  #footer-theme-popup,
-  #footer-lang-popup,
-  [role="dialog"],
-  .modal-dialog
-) {
-  border-radius: 28px !important;
-}
-
 html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
   #projects-grid .project-card .project-card-banner,
@@ -2542,17 +2206,9 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   #project-detail-banner .project-detail-banner-media :is(img, video),
   #project-detail-banner .project-detail-banner-scrim
 ) {
-  border-radius: 28px !important;
-  -webkit-clip-path: inset(0 round 28px) !important;
-  clip-path: inset(0 round 28px) !important;
-}
-
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #app-header {
-  border-radius: 0 0 28px 28px !important;
-}
-
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #app-footer {
-  border-radius: 28px 28px 0 0 !important;
+  border-radius: var(--radius-banner, 28px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-banner, 28px)) !important;
+  clip-path: inset(0 round var(--radius-banner, 28px)) !important;
 }
 
 /* Header card-surface sync: ensure header has exact card background & border across all themes */
@@ -2565,33 +2221,6 @@ html #app-header {
   backdrop-filter: blur(var(--surface-primary-blur, 16px)) saturate(160%) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 16px)) saturate(160%) !important;
   box-shadow: var(--surface-header-shadow, var(--shadow-card)) !important;
-}
-
-html[data-card-style="light-multicolor-glass"] #app-header {
-  background: rgba(255, 255, 255, 0.2) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  border-top: none !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-}
-
-html[data-card-style="light-multicolor-glass-dark"] #app-header {
-  background: rgba(0, 0, 0, 0.2) !important;
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  border: 1px solid rgba(0, 0, 0, 0.3) !important;
-  border-top: none !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-}
-
-html[data-card-style="light-multicolor-glass-color"] #app-header {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(235, 243, 255, 0.75) 100%) !important;
-  backdrop-filter: blur(19px) saturate(152%) !important;
-  -webkit-backdrop-filter: blur(19px) saturate(152%) !important;
-  border: 1px solid rgba(147, 197, 253, 0.6) !important;
-  border-top: none !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass)) !important;
 }
 
 /* Ensure banner background media remains 100% crisp and clearly visible across all pages */

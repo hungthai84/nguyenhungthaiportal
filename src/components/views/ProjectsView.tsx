@@ -197,7 +197,7 @@ export interface ProjectsViewProps {
 }
 
 export const ProjectsView: React.FC<ProjectsViewProps> = ({
-  currentTheme = 'ice-blue-neu',
+  currentTheme = 'rainbow-glass',
   requestedProject,
   onReturnToOrigin,
 }) => {
@@ -206,7 +206,9 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     themeIsDark ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu';
+    currentTheme === 'dark-ice-blue-neu' ||
+    currentTheme === 'dark-rainbow-glass' ||
+    currentTheme === 'special-rainbow-glass';
   const isLight = !isDark;
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -495,12 +497,12 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
             className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:min-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
-            style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
+            style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
           >
             <div
               className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
               style={{
-                borderRadius: '14px',
+                borderRadius: 'var(--radius-banner, 24px)',
               }}
             >
               <img

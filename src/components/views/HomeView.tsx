@@ -40,7 +40,7 @@ export interface VideoScreenItem {
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
-  currentTheme = 'ice-blue-neu',
+  currentTheme = 'rainbow-glass',
   onNavigateContact,
   onNavigatePage,
   onOpenPagesCarousel,
@@ -56,7 +56,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
     themeIsDark ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu';
+    currentTheme === 'dark-ice-blue-neu' ||
+    currentTheme === 'dark-rainbow-glass' ||
+    currentTheme === 'special-rainbow-glass';
 
   // Danh sách video cho 3 màn hình: Màn hình chờ (idle), Chuyển cảnh (transition), Video phát (presentation)
   const VIDEO_SCREENS: VideoScreenItem[] = [
@@ -375,11 +377,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
           data-element-type="card"
           data-element-page="home"
           data-element-parent="home-cards-track"
-          className="page-main-card relative flex flex-col justify-between overflow-hidden select-none p-[15px] gap-[15px] font-play rounded-[var(--radius-main,14px)] box-border"
+          className="page-main-card relative flex flex-col justify-between overflow-hidden select-none p-[15px] gap-[15px] font-play rounded-[var(--radius-main,30px)] box-border"
           style={{
             padding: 'var(--main-card-padding, 15px)',
             gap: '15px',
-            borderRadius: 'var(--radius-main, 14px)',
+            borderRadius: 'var(--radius-main, 30px)',
           }}
         >
           <div
@@ -388,15 +390,15 @@ export const HomeView: React.FC<HomeViewProps> = ({
             data-element-type="container"
             data-element-page="home"
             data-element-parent="home-main-card"
-            className="relative flex-1 w-full min-w-0 min-h-0 flex flex-col justify-between overflow-hidden rounded-[var(--radius-card,14px)] p-[15px] gap-[15px] box-border"
+            className="relative flex-1 w-full min-w-0 min-h-0 flex flex-col justify-between overflow-hidden rounded-[var(--radius-card,24px)] p-[15px] gap-[15px] box-border"
             style={{
-              borderRadius: 'var(--radius-card, 14px)',
+              borderRadius: 'var(--radius-card, 24px)',
               padding: 'var(--main-card-padding, 15px)',
               gap: '15px',
             }}
           >
             {/* 1. Main Background Video - Hiển thị gọn trong vùng nội dung, cách viền #home-main-card đúng padding chuẩn ở mọi kích thước */}
-            <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none rounded-[var(--radius-card,14px)]">
+            <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none rounded-[var(--radius-card,24px)]">
               <video
                 ref={videoRef}
                 key={activeVideoUrl}
@@ -407,7 +409,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 src={activeVideoUrl}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleEnded}
-                className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[var(--radius-card,14px)] transition-all duration-700 brightness-110 contrast-105 scale-[1.01]"
+                className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[var(--radius-card,24px)] transition-all duration-700 brightness-110 contrast-105 scale-[1.01]"
               />
               {/* Lớp phủ nhẹ nhàng đồng bộ Sáng / Tối, giữ video rõ nét tươi sáng */}
               <div
@@ -451,7 +453,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
       {/* Video Intro Controller Modal (When intro is active) */}
       {isIntroMode && (
-        <div className="theme-modal-card relative z-50 w-full max-w-md max-h-full overflow-y-auto mx-auto my-auto p-3.5 rounded-[14px] shadow-2xl animate-fadeIn text-left pointer-events-auto">
+        <div className="theme-modal-card relative z-50 w-full max-w-md max-h-full overflow-y-auto mx-auto my-auto p-3.5 rounded-[var(--radius-modal,24px)] shadow-2xl animate-fadeIn text-left pointer-events-auto">
           <div
             className="flex items-center justify-between pb-2 border-b"
             style={{ borderColor: 'var(--border-subcard)' }}
@@ -540,7 +542,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 animate={{ opacity: 1, x: 0, y: 0 }}
                 exit={{ opacity: 0, x: 20, y: 10 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="home-hero-card bento-card layered-card pointer-events-auto p-[15px] rounded-[14px] relative max-h-full overflow-y-auto overflow-x-hidden glass-scrollbar group transition-all duration-500 w-fit max-w-full sm:max-w-fit text-left"
+                className="home-hero-card bento-card layered-card pointer-events-auto p-[15px] rounded-[var(--radius-card,24px)] relative max-h-full overflow-y-auto overflow-x-hidden glass-scrollbar group transition-all duration-500 w-fit max-w-full sm:max-w-fit text-left"
               >
                 <div className="relative z-10 flex flex-col gap-[15px] w-full sm:w-fit">
                   <div className="flex items-center justify-between gap-3">

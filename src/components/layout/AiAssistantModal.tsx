@@ -90,11 +90,11 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
         role="dialog"
         aria-modal="true"
         aria-label="Trợ Lý AI Hùng Thái 24/7"
-        className="theme-modal-card relative w-full max-w-lg p-4 sm:p-5 rounded-[14px] shadow-2xl z-10 flex flex-col justify-between h-[520px] max-h-[90vh] font-play overflow-hidden"
+        className="theme-modal-card relative w-full max-w-lg p-4 sm:p-5 rounded-[var(--radius-modal,24px)] shadow-2xl z-10 flex flex-col justify-between h-[520px] max-h-[90vh] font-play overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="theme-modal-header flex items-center justify-between -mx-4 -mt-4 sm:-mx-5 sm:-mt-5 px-4 sm:px-5 py-3 rounded-t-[14px]">
+        <div className="theme-modal-header flex items-center justify-between -mx-4 -mt-4 sm:-mx-5 sm:-mt-5 px-4 sm:px-5 py-3 rounded-t-[var(--radius-modal,24px)]">
           <div className="flex items-center gap-2.5">
             <button
               type="button"
@@ -140,7 +140,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
             >
               <div
                 style={m.sender === 'user' ? { background: 'var(--bg-button-primary)' } : undefined}
-                className={`max-w-[85%] p-3 rounded-[14px] leading-relaxed shadow-xs ${
+                className={`max-w-[85%] p-3 rounded-[var(--radius-subcard,16px)] leading-relaxed shadow-xs ${
                   m.sender === 'user'
                     ? 'text-white rounded-br-none font-medium'
                     : 'theme-modal-subcard rounded-bl-none'
@@ -152,7 +152,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
           ))}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="theme-modal-subcard p-3 rounded-[14px] flex items-center gap-2 typo-body-sm">
+              <div className="theme-modal-subcard p-3 rounded-[var(--radius-subcard,16px)] flex items-center gap-2 typo-body-sm">
                 <i className="fa-solid fa-circle-notch animate-spin" style={{ color: 'var(--color-primary)' }}></i>
                 <span style={{ color: 'var(--text-secondary)' }}>Đang suy nghĩ...</span>
               </div>
@@ -179,7 +179,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
             e.preventDefault();
             handleSend();
           }}
-          className="theme-modal-footer -mx-4 -mb-4 sm:-mx-5 sm:-mb-5 px-4 sm:px-5 py-3 rounded-b-[14px] flex items-center gap-2"
+          className="theme-modal-footer -mx-4 -mb-4 sm:-mx-5 sm:-mb-5 px-4 sm:px-5 py-3 rounded-b-[var(--radius-modal,24px)] flex items-center gap-2"
         >
           <input
             type="text"

@@ -79,17 +79,88 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
   }
 
   const isDarkTheme =
+    cardStyle === 'dark-soft-indigo-fintech' ||
     cardStyle === 'dark-ice-blue-neu' ||
     cardStyle === 'black-cowhide-leather' ||
-    cardStyle === 'cowhide-leather';
+    cardStyle === 'cowhide-leather' ||
+    cardStyle === 'dark-rainbow-glass' ||
+    cardStyle === 'special-rainbow-glass';
   const isIceNeu = cardStyle === 'ice-blue-neu' || cardStyle === 'dark-ice-blue-neu';
 
-  // Hover lift per level (subtle & balanced at 100%, scales smoothly up to 200%)
-  const l2Lift = -Math.max(2, Math.min(8, Math.round(4 * scale)));
-  const l3Lift = -Math.max(1.5, Math.min(6, Math.round(3 * scale * 10) / 10));
+  // Hover lift per level: restrained max 3px lift
+  const l2Lift = -Math.max(1.5, Math.min(3, Math.round(3 * scale * 10) / 10));
+  const l3Lift = -Math.max(1, Math.min(2, Math.round(2 * scale * 10) / 10));
 
   root.style.setProperty('--layer-l2-lift', `${l2Lift}px`);
   root.style.setProperty('--layer-l3-lift', `${l3Lift}px`);
+
+  if (cardStyle === 'soft-indigo-fintech') {
+    const pA = Math.min(0.22, 0.12 * scale).toFixed(2);
+    const pHoverA = Math.min(0.28, 0.18 * scale).toFixed(2);
+    root.style.setProperty(
+      '--layer-l1-shadow',
+      `0 ${px(18 * scale)} ${px(42 * scale)} rgba(94, 72, 232, ${pA}), inset 0 1px 0 rgba(255, 255, 255, 0.85)`
+    );
+    root.style.setProperty(
+      '--layer-l1-header-shadow',
+      `0 ${px(10 * scale)} ${px(28 * scale)} rgba(94, 72, 232, ${pA}), inset 0 1px 0 rgba(255, 255, 255, 0.90)`
+    );
+    root.style.setProperty(
+      '--layer-l1-footer-shadow',
+      `0 -${px(10 * scale)} ${px(28 * scale)} rgba(94, 72, 232, ${pA}), inset 0 1px 0 rgba(255, 255, 255, 0.90)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow',
+      `0 ${px(10 * scale)} ${px(26 * scale)} -${px(4 * scale)} rgba(94, 72, 232, ${pA}), 5px 0 0 -1px rgba(94, 72, 232, 0.18), 9px 0 0 -3px rgba(56, 189, 248, 0.14)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow-hover',
+      `0 ${px(16 * scale)} ${px(34 * scale)} -${px(4 * scale)} rgba(94, 72, 232, ${pHoverA}), 6px 0 0 -1px rgba(94, 72, 232, 0.26), 11px 0 0 -3px rgba(56, 189, 248, 0.20)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow',
+      `0 ${px(6 * scale)} ${px(16 * scale)} -${px(2 * scale)} rgba(94, 72, 232, ${(0.09 * scale).toFixed(2)}), 3px 0 0 -1px rgba(94, 72, 232, 0.14)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow-hover',
+      `0 ${px(10 * scale)} ${px(22 * scale)} -${px(2 * scale)} rgba(94, 72, 232, ${pA}), 4px 0 0 -1px rgba(94, 72, 232, 0.22)`
+    );
+    return;
+  }
+
+  if (cardStyle === 'dark-soft-indigo-fintech') {
+    const dA = Math.min(0.56, 0.36 * scale).toFixed(2);
+    const pGlow = Math.min(0.28, 0.16 * scale).toFixed(2);
+    root.style.setProperty(
+      '--layer-l1-shadow',
+      `0 ${px(20 * scale)} ${px(44 * scale)} rgba(5, 8, 22, ${dA}), 0 0 ${px(24 * scale)} rgba(108, 76, 230, ${pGlow})`
+    );
+    root.style.setProperty(
+      '--layer-l1-header-shadow',
+      `0 ${px(12 * scale)} ${px(30 * scale)} rgba(5, 8, 22, ${dA}), inset 0 1px 0 rgba(196, 181, 253, 0.18)`
+    );
+    root.style.setProperty(
+      '--layer-l1-footer-shadow',
+      `0 -${px(12 * scale)} ${px(30 * scale)} rgba(5, 8, 22, ${dA}), inset 0 1px 0 rgba(196, 181, 253, 0.18)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow',
+      `0 ${px(12 * scale)} ${px(28 * scale)} -${px(4 * scale)} rgba(5, 8, 22, ${dA}), 5px 0 0 -1px rgba(108, 76, 230, 0.30), 9px 0 0 -3px rgba(56, 189, 248, 0.22)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow-hover',
+      `0 ${px(18 * scale)} ${px(38 * scale)} -${px(4 * scale)} rgba(5, 8, 22, 0.65), 0 0 ${px(20 * scale)} rgba(108, 76, 230, 0.26), 6px 0 0 -1px rgba(139, 123, 255, 0.42)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow',
+      `0 ${px(6 * scale)} ${px(16 * scale)} rgba(5, 8, 22, 0.34), 3px 0 0 -1px rgba(108, 76, 230, 0.22)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow-hover',
+      `0 ${px(10 * scale)} ${px(22 * scale)} rgba(5, 8, 22, 0.48), 4px 0 0 -1px rgba(139, 123, 255, 0.32)`
+    );
+    return;
+  }
 
   if (cardStyle === 'ice-blue-neu') {
     const a1 = Math.min(0.45, 0.22 * scale + 0.04).toFixed(2);
@@ -156,6 +227,74 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     root.style.setProperty(
       '--layer-l3-shadow-hover',
       `${px(7 * scale)} ${px(9 * scale)} ${px(20 * scale)} rgba(4, 8, 16, 0.72), 0 0 ${px(14 * scale)} rgba(56, 189, 248, ${(0.18 * scale).toFixed(2)})`
+    );
+    return;
+  }
+
+  if (cardStyle === 'rainbow-glass') {
+    const a1 = Math.min(0.24, 0.14 * scale).toFixed(2);
+    const a2 = Math.min(0.20, 0.10 * scale).toFixed(2);
+    root.style.setProperty(
+      '--layer-l1-shadow',
+      `0 ${px(18 * scale)} ${px(40 * scale)} rgba(50, 40, 80, ${a1}), inset 0 1px 0 rgba(255, 255, 255, 0.65)`
+    );
+    root.style.setProperty(
+      '--layer-l1-header-shadow',
+      `0 ${px(10 * scale)} ${px(28 * scale)} rgba(50, 40, 80, ${a2}), inset 0 1px 0 rgba(255, 255, 255, 0.68)`
+    );
+    root.style.setProperty(
+      '--layer-l1-footer-shadow',
+      `0 -${px(10 * scale)} ${px(28 * scale)} rgba(50, 40, 80, ${a2}), inset 0 1px 0 rgba(255, 255, 255, 0.68)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow',
+      `0 ${px(12 * scale)} ${px(28 * scale)} rgba(50, 40, 80, ${(0.09 * scale + 0.02).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.72)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow-hover',
+      `0 ${px(18 * scale)} ${px(38 * scale)} rgba(50, 40, 80, ${(0.15 * scale + 0.02).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.85)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow',
+      `0 ${px(6 * scale)} ${px(16 * scale)} rgba(50, 40, 80, ${(0.06 * scale + 0.01).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.68)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow-hover',
+      `0 ${px(10 * scale)} ${px(22 * scale)} rgba(50, 40, 80, ${(0.11 * scale + 0.01).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.80)`
+    );
+    return;
+  }
+
+  if (cardStyle === 'dark-rainbow-glass' || cardStyle === 'special-rainbow-glass') {
+    const a1 = Math.min(0.48, 0.32 * scale).toFixed(2);
+    const a2 = Math.min(0.36, 0.24 * scale).toFixed(2);
+    root.style.setProperty(
+      '--layer-l1-shadow',
+      `0 ${px(18 * scale)} ${px(40 * scale)} rgba(0, 0, 0, ${a1}), inset 0 1px 0 rgba(225, 235, 255, 0.14)`
+    );
+    root.style.setProperty(
+      '--layer-l1-header-shadow',
+      `0 ${px(12 * scale)} ${px(30 * scale)} rgba(0, 0, 0, ${a2}), inset 0 1px 0 rgba(225, 235, 255, 0.16)`
+    );
+    root.style.setProperty(
+      '--layer-l1-footer-shadow',
+      `0 -${px(12 * scale)} ${px(30 * scale)} rgba(0, 0, 0, ${a2}), inset 0 1px 0 rgba(225, 235, 255, 0.16)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow',
+      `0 ${px(10 * scale)} ${px(26 * scale)} rgba(0, 0, 0, ${a2}), inset 0 1px 0 rgba(225, 235, 255, 0.14)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow-hover',
+      `0 ${px(16 * scale)} ${px(36 * scale)} rgba(0, 0, 0, ${a1}), inset 0 1px 0 rgba(194, 183, 243, 0.26)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow',
+      `0 ${px(6 * scale)} ${px(16 * scale)} rgba(0, 0, 0, ${(0.20 * scale).toFixed(2)}), inset 0 1px 0 rgba(225, 235, 255, 0.10)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow-hover',
+      `0 ${px(10 * scale)} ${px(22 * scale)} rgba(0, 0, 0, ${a2}), inset 0 1px 0 rgba(194, 183, 243, 0.20)`
     );
     return;
   }

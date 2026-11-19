@@ -18,7 +18,7 @@ const TOPIC_OPTIONS: Array<{ id: InquiryTopic; labelVi: string; labelEn: string 
   { id: 'other', labelVi: 'Trao đổi khác', labelEn: 'General Inquiry' },
 ];
 
-export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'ice-blue-neu' }) => {
+export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'rainbow-glass' }) => {
   void currentTheme;
   const { language } = useLanguage();
   const isEn = language === 'en';
@@ -166,7 +166,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'ice-bl
               className="banner-card bento-card glass-card group w-full lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xl transition-all duration-300"
               style={{
                 padding: '15px',
-                borderRadius: '14px',
+                borderRadius: 'var(--radius-banner, 24px)',
                 boxSizing: 'border-box',
               }}
             >
@@ -216,7 +216,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'ice-bl
               style={{
                 padding: '15px',
                 gap: '15px',
-                borderRadius: '14px',
+                borderRadius: 'var(--radius-card, 24px)',
                 boxSizing: 'border-box',
               }}
             >
@@ -304,7 +304,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'ice-bl
                     style={{
                       display: 'block',
                       border: 0,
-                      borderRadius: '14px',
+                      borderRadius: 'var(--radius-subcard, 16px)',
                       width: '100%',
                       height: '100%',
                       minHeight: '700px',

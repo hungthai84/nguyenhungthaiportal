@@ -19,9 +19,9 @@ export const GlassmorphicIconFrame: React.FC<GlassmorphicIconFrameProps> = ({
   children,
 }) => {
   const sizeClasses = {
-    sm: 'w-7 h-7 rounded-[14px] typo-badge',
-    md: 'w-9 h-9 rounded-[14px] typo-body-sm',
-    lg: 'w-11 h-11 rounded-[14px] typo-body-lg',
+    sm: 'w-7 h-7 rounded-[var(--radius-subcard,16px)] typo-badge',
+    md: 'w-9 h-9 rounded-[var(--radius-subcard,16px)] typo-body-sm',
+    lg: 'w-11 h-11 rounded-[var(--radius-subcard,16px)] typo-body-lg',
   };
 
   return (

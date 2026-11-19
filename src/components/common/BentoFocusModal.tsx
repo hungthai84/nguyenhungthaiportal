@@ -34,10 +34,10 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
         role="dialog"
         aria-modal="true"
         aria-label="3 Trụ Cột Vận Hành Chiến Lược"
-        className="theme-modal-card relative w-full max-w-4xl p-5 sm:p-6 rounded-[14px] shadow-2xl z-10 flex flex-col gap-4 font-play overflow-y-auto no-scrollbar max-h-[90vh]"
+        className="theme-modal-card relative w-full max-w-4xl p-5 sm:p-6 rounded-[var(--radius-modal,24px)] shadow-2xl z-10 flex flex-col gap-4 font-play overflow-y-auto no-scrollbar max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="theme-modal-header flex items-center justify-between -mx-5 -mt-5 sm:-mx-6 sm:-mt-6 px-5 sm:px-6 py-3.5 rounded-t-[14px] shrink-0">
+        <div className="theme-modal-header flex items-center justify-between -mx-5 -mt-5 sm:-mx-6 sm:-mt-6 px-5 sm:px-6 py-3.5 rounded-t-[var(--radius-modal,24px)] shrink-0">
           <div className="flex items-center gap-2" style={{ color: 'var(--color-primary)' }}>
             <i className="fa-solid fa-bullseye typo-h4"></i>
             <h3 className="typo-popup-title card-title-synced" style={{ color: 'var(--color-primary)' }}>
@@ -54,7 +54,7 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
           </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 typo-body-sm text-left">
-          <div className="p-4 rounded-[14px] bg-gradient-to-br from-blue-600 to-sky-500 text-white flex flex-col justify-between shadow-md">
+          <div className="p-4 rounded-[var(--radius-card,24px)] bg-gradient-to-br from-blue-600 to-sky-500 text-white flex flex-col justify-between shadow-md">
             <div>
               <h4 className="typo-h4 font-bold text-white">01. Hiệu Quả</h4>
               <p className="mt-2 text-blue-100 leading-relaxed typo-body-sm">
@@ -65,7 +65,7 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
               ✓ Chuẩn hóa SOP & Đo lường ROI
             </span>
           </div>
-          <div className="p-4 rounded-[14px] bg-gradient-to-br from-rose-500 to-pink-500 text-white flex flex-col justify-between shadow-md">
+          <div className="p-4 rounded-[var(--radius-card,24px)] bg-gradient-to-br from-rose-500 to-pink-500 text-white flex flex-col justify-between shadow-md">
             <div>
               <h4 className="typo-h4 font-bold text-white">02. Nhân Văn</h4>
               <p className="mt-2 text-rose-100 leading-relaxed typo-body-sm">
@@ -76,7 +76,7 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
               ✓ Thấu cảm từ tâm & Trao quyền
             </span>
           </div>
-          <div className="p-4 rounded-[14px] bg-gradient-to-br from-emerald-600 to-teal-500 text-white flex flex-col justify-between shadow-md">
+          <div className="p-4 rounded-[var(--radius-card,24px)] bg-gradient-to-br from-emerald-600 to-teal-500 text-white flex flex-col justify-between shadow-md">
             <div>
               <h4 className="typo-h4 font-bold text-white">03. Bền Vững</h4>
               <p className="mt-2 text-emerald-100 leading-relaxed typo-body-sm">
@@ -88,7 +88,7 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
             </span>
           </div>
         </div>
-        <div className="theme-modal-footer -mx-5 -mb-5 sm:-mx-6 sm:-mb-6 px-5 sm:px-6 py-3 rounded-b-[14px] flex justify-end">
+        <div className="theme-modal-footer -mx-5 -mb-5 sm:-mx-6 sm:-mb-6 px-5 sm:px-6 py-3 rounded-b-[var(--radius-modal,24px)] flex justify-end">
           <button
             type="button"
             onClick={onClose}

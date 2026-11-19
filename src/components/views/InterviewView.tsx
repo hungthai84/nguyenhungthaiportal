@@ -17,7 +17,7 @@ export interface InterviewViewProps {
   onShowNotification?: (msg: string) => void;
 }
 
-export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ice-blue-neu' }) => {
+export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'rainbow-glass' }) => {
   const { showToast } = useToast();
   const videoRef = useRef<HTMLVideoElement>(null);
   const filterDropdownRef = useRef<HTMLDivElement>(null);
@@ -41,6 +41,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ic
   const selectQuestion = (idx: number) => {
     const clamped = Math.max(0, Math.min(INTERVIEW_QUESTIONS.length - 1, idx));
     setCurrentQIdx(clamped);
+    setProgressPct(0);
     const q = INTERVIEW_QUESTIONS[clamped];
 
     const video = videoRef.current;
@@ -166,12 +167,12 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ic
           data-element-type="card"
           data-element-page="interview"
           data-element-parent="interview-cards-track"
-          className="page-main-card flex flex-col p-[15px] rounded-[14px] gap-[15px] justify-start select-none text-[var(--text-primary)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
+          className="page-main-card flex flex-col p-[15px] rounded-[var(--radius-main,28px)] gap-[15px] justify-start select-none text-[var(--text-primary)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
         >
       {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
       <div
         id="interview-main-content"
-        className="w-full flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[minmax(0,1fr)] items-stretch gap-[15px] min-h-0 overflow-y-auto lg:overflow-visible no-scrollbar rounded-[14px]"
+        className="w-full flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[minmax(0,1fr)] items-stretch gap-[15px] min-h-0 overflow-y-auto lg:overflow-visible no-scrollbar rounded-[var(--radius-card,24px)]"
       >
         
         {/* 1. VIDEO BANNER SECTION (70% width on LG, equal height & Level 2 Layer Card parity with Chi tiết trả lời) */}
@@ -181,7 +182,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ic
           data-element-type="banner-card"
           data-section-card="true"
           data-layer-level="2"
-          className="banner-card hero-banner w-full min-h-[360px] lg:min-h-0 lg:h-full self-stretch rounded-[14px] relative overflow-visible bento-card glass-card text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group p-[15px]"
+          className="banner-card hero-banner w-full min-h-[360px] lg:min-h-0 lg:h-full self-stretch rounded-[var(--radius-card,24px)] relative overflow-visible bento-card glass-card text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group p-[15px]"
         >
           {/* Nền Video phỏng vấn trực tiếp lấp đầy banner-card & đồng bộ bo cong theo giao diện */}
           <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0">
@@ -459,111 +460,120 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ic
           data-element-type="card"
           data-section-card="true"
           data-layer-level="2"
-          className="w-full min-h-[360px] lg:min-h-0 lg:h-full self-stretch flex flex-col rounded-[14px] bento-card glass-card border p-[15px] transition-all duration-300 text-left justify-between gap-[15px] relative overflow-y-auto no-scrollbar"
+          className="w-full min-h-[380px] lg:min-h-0 lg:h-full self-stretch flex flex-col rounded-[var(--radius-card,24px)] bento-card glass-card border p-[15px] transition-all duration-300 text-left justify-start gap-3 relative overflow-hidden"
         >
-            {/* Header Tiêu đề thẻ */}
-            <div className="space-y-1.5 shrink-0">
-              <div className="flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
-                  <h3 className="card-title card-title-synced typo-h3 flex items-center gap-2 text-pink-600 dark:text-pink-400">
-                    <svg className="w-[18px] h-[18px] stroke-[2] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                    </svg>
-                    <span>Chi tiết trả lời</span>
-                  </h3>
-              </div>
-
-              <div className="h-[2px] w-full rounded-full bg-gradient-to-r from-pink-500 via-indigo-500 to-cyan-400 shadow-2xs" />
+          {/* Header Tiêu đề thẻ (Pinned) */}
+          <div className="space-y-2 shrink-0">
+            <div className="flex items-center justify-between gap-2 min-w-0">
+              <h3 className="card-title card-title-synced typo-h3 flex items-center gap-2 text-pink-600 dark:text-pink-400 min-w-0">
+                <WebIcon name="message-circle" className="w-[18px] h-[18px] shrink-0" />
+                <span className="truncate">Chi tiết trả lời</span>
+              </h3>
+              <span className="typo-caption font-semibold text-[var(--text-secondary)] shrink-0 tabular-nums whitespace-nowrap">
+                {String(currentQ.stt).padStart(2, '0')}/{String(INTERVIEW_QUESTIONS.length).padStart(2, '0')}
+                <span aria-hidden="true" className="mx-1.5 opacity-60">·</span>
+                <span className="text-[var(--text-link,var(--color-primary))]">{currentQ.categoryVi}</span>
+              </span>
             </div>
 
-            {/* Segment Progress Bar */}
+            <div className="h-[2px] w-full rounded-full bg-gradient-to-r from-pink-500 via-indigo-500 to-cyan-400 shadow-2xs" />
+          </div>
+
+          {/* Segment Progress Bar (Pinned) */}
+          <div
+            id="interview-progress-card"
+            data-element-type="card"
+            data-subcard="true"
+            className="exp-detail-subcard flex items-center justify-between gap-2.5 px-3.5 py-2 rounded-[var(--radius-subcard,16px)] border shrink-0 typo-label"
+          >
+            <div className="flex items-center gap-1.5 text-[var(--text-secondary)] font-mono typo-label shrink-0 tabular-nums">
+              <WebIcon name="clock" className="interview-meta-accent w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <span>{currentQ.timestamp}</span>
+            </div>
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <div className="w-full h-1.5 rounded-full bg-[var(--pillar-progress-track)] overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-pink-500 via-indigo-500 to-cyan-400 rounded-full transition-all duration-200"
+                  style={{ width: `${progressPct}%` }}
+                />
+              </div>
+              <span className="typo-badge font-mono tabular-nums text-[var(--text-muted)] shrink-0">
+                {Math.round(currentQ.endSec - currentQ.startSec)}s
+              </span>
+            </div>
+          </div>
+
+          {/* Scrollable Body (Asker + Answer + Insights) */}
+          <div
+            data-scrollable="true"
+            data-no-wheel-horizontal="true"
+            className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden glass-scrollbar flex flex-col gap-3 pr-0.5"
+          >
+            {/* Asker (Hiển thị Câu hỏi số ở đầu câu hỏi) */}
             <div
-              id="interview-progress-card"
+              id="interview-asker-card"
               data-element-type="card"
               data-subcard="true"
-              className="exp-detail-subcard flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] border shrink-0 typo-label"
+              className="exp-detail-subcard p-[15px] rounded-[var(--radius-subcard,16px)] border flex flex-col gap-2 shrink-0"
             >
-              <div className="flex items-center gap-1 text-[var(--text-secondary)] font-mono typo-label">
-                <WebIcon name="clock" className="interview-meta-accent w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                <span>{currentQ.timestamp}</span>
-              </div>
-              <div className="flex items-center gap-2 flex-1 min-w-0">
-                <div className="w-full h-1.5 rounded-full bg-[var(--pillar-progress-track)] overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-pink-500 to-indigo-600 rounded-full transition-all duration-200"
-                    style={{ width: `${progressPct}%` }}
-                  />
-                </div>
-                <span className="typo-badge font-mono text-[var(--text-muted)] shrink-0">
-                  {Math.round(currentQ.endSec - currentQ.startSec)}s
+              <div className="interview-asker-heading subcard-header-sync typo-h4 flex items-center gap-2 flex-wrap text-indigo-600 dark:text-indigo-400">
+                <WebIcon name="building" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
+                <span className="subcard-title-synced tracking-wide text-indigo-600 dark:text-indigo-400 break-words" data-subcard-title="true">
+                  Câu hỏi {String(currentQ.stt).padStart(2, '0')}: {currentQ.askerVi}
                 </span>
               </div>
+              <h3
+                id="interview-question-title"
+                className="typo-body font-semibold text-[var(--text-heading)] m-0 leading-relaxed break-words"
+              >
+                {currentQ.questionVi.replace(/^Câu hỏi\s*\d+:\s*/, '')}
+              </h3>
             </div>
 
-              {/* Asker (Hiển thị Câu hỏi số ở đầu câu hỏi) */}
-              <div
-                id="interview-asker-card"
-                data-element-type="card"
-                data-subcard="true"
-                className="exp-detail-subcard p-[15px] rounded-[14px] border flex flex-col gap-[15px] shrink-0"
-              >
-                <div className="interview-asker-heading subcard-header-sync typo-h4 flex items-center gap-1.5 flex-wrap text-indigo-600 dark:text-indigo-400">
-                  <WebIcon name="building" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
-                  <span className="subcard-title-synced tracking-wide text-indigo-600 dark:text-indigo-400 break-words" data-subcard-title="true">
-                    Câu hỏi {String(currentQ.stt).padStart(2, '0')}: {currentQ.askerVi}
-                  </span>
-                </div>
-                <h3
-                  id="interview-question-title"
-                  className="typo-body text-[var(--text-heading)] m-0"
-                >
-                  <span className="typo-body text-[var(--text-heading)]">
-                    {currentQ.questionVi.replace(/^Câu hỏi\s*\d+:\s*/, '')}
-                  </span>
-                </h3>
+            {/* Answerer */}
+            <div
+              id="interview-answerer-card"
+              data-element-type="card"
+              data-subcard="true"
+              className="exp-detail-subcard p-[15px] rounded-[var(--radius-subcard,16px)] border flex flex-col gap-2 shrink-0"
+            >
+              <div className="interview-answerer-heading subcard-header-sync typo-h4 flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+                <WebIcon name="user" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
+                <span className="subcard-title-synced tracking-wide text-emerald-700 dark:text-emerald-400" data-subcard-title="true">
+                  Trả lời: {currentQ.answererVi}
+                </span>
               </div>
+              <p className="typo-body text-[var(--text-secondary)] leading-relaxed break-words m-0">
+                {currentQ.answerVi}
+              </p>
+            </div>
 
-              {/* Answerer */}
-              <div
-                id="interview-answerer-card"
-                data-element-type="card"
-                data-subcard="true"
-                className="exp-detail-subcard p-[15px] rounded-[14px] border flex flex-col gap-[15px] shrink-0"
-              >
-                <div className="interview-answerer-heading subcard-header-sync typo-h4 flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
-                  <WebIcon name="user" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
-                  <span className="subcard-title-synced tracking-wide text-emerald-700 dark:text-emerald-400" data-subcard-title="true">
-                    Trả lời: {currentQ.answererVi}
-                  </span>
-                </div>
-                <p className="typo-body text-[var(--text-secondary)]">
-                  {currentQ.answerVi}
-                </p>
+            {/* Takeaway */}
+            <div
+              id="interview-insights-card"
+              data-element-type="card"
+              data-subcard="true"
+              className="exp-detail-subcard p-[15px] rounded-[var(--radius-subcard,16px)] border flex flex-col gap-2 shrink-0"
+            >
+              <div className="interview-insights-heading subcard-header-sync typo-h4 flex items-center gap-2 text-amber-700 dark:text-amber-400">
+                <WebIcon name="target" className="w-4 h-4 shrink-0 text-amber-700 dark:text-amber-400" />
+                <span className="subcard-title-synced tracking-wide text-amber-700 dark:text-amber-400" data-subcard-title="true">
+                  Trọng tâm
+                </span>
               </div>
+              <p className="typo-body text-[var(--text-secondary)] leading-relaxed break-words m-0">
+                {currentQ.keyTakeawayVi}
+              </p>
+            </div>
+          </div>
 
-              {/* Takeaway */}
-              <div
-                id="interview-insights-card"
-                data-element-type="card"
-                data-subcard="true"
-                className="exp-detail-subcard p-[15px] rounded-[14px] border flex items-start gap-[15px] shrink-0"
-              >
-                <WebIcon name="trophy" className="interview-insights-heading w-4 h-4 text-amber-700 dark:text-amber-400 shrink-0 mt-1" />
-                <div className="typo-body text-[var(--text-secondary)]">
-                  <span className="interview-insights-heading typo-h4 text-amber-700 dark:text-amber-400 inline-flex items-center gap-1.5 mr-1.5">
-                    <WebIcon name="target" className="w-4 h-4 shrink-0" />
-                    <span>Trọng tâm:</span>
-                  </span>
-                  <span>{currentQ.keyTakeawayVi}</span>
-                </div>
-              </div>
-
-          {/* Navigation Footer */}
-          <div className="pt-2 border-t border-[var(--pillar-divider)] flex items-center justify-between mt-auto shrink-0 relative z-10">
+          {/* Navigation Footer (Pinned) */}
+          <div className="pt-2.5 border-t border-[var(--pillar-divider)] flex items-center justify-between gap-2 shrink-0 relative z-10">
             <button
               type="button"
               disabled={currentQIdx === 0}
               onClick={() => selectQuestion(currentQIdx - 1)}
-              className="theme-prev-next-btn typo-button disabled:opacity-30 disabled:pointer-events-none cursor-pointer flex items-center gap-1 transition-colors py-1 px-2.5 rounded-[14px] border"
+              className="theme-prev-next-btn typo-button disabled:opacity-35 disabled:pointer-events-none cursor-pointer inline-flex items-center justify-center gap-1.5 transition-all min-h-[36px] py-1.5 px-3.5 rounded-full border active:scale-95"
             >
               <span>‹ Trước</span>
             </button>
@@ -571,9 +581,10 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ic
             <button
               type="button"
               onClick={() => selectQuestion(currentQIdx)}
-              className="typo-button text-[var(--text-link,var(--color-primary))] hover:underline flex items-center gap-1 cursor-pointer py-1 px-2 rounded-[14px]"
+              title="Phát lại câu hỏi hiện tại"
+              className="typo-button text-[var(--text-link,var(--color-primary))] hover:bg-[var(--bg-subcard)] inline-flex items-center justify-center gap-1.5 cursor-pointer min-h-[36px] py-1.5 px-3 rounded-full transition-all active:scale-95"
             >
-              <WebIcon name="refresh" className="w-3.5 h-3.5" />
+              <WebIcon name="refresh" className="w-3.5 h-3.5 shrink-0" />
               <span>Lại</span>
             </button>
 
@@ -581,7 +592,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ic
               type="button"
               disabled={currentQIdx === INTERVIEW_QUESTIONS.length - 1}
               onClick={() => selectQuestion(currentQIdx + 1)}
-              className="theme-prev-next-btn typo-button disabled:opacity-30 disabled:pointer-events-none cursor-pointer flex items-center gap-1 transition-colors py-1 px-2.5 rounded-[14px] border"
+              className="theme-prev-next-btn typo-button disabled:opacity-35 disabled:pointer-events-none cursor-pointer inline-flex items-center justify-center gap-1.5 transition-all min-h-[36px] py-1.5 px-3.5 rounded-full border active:scale-95"
             >
               <span>Tiếp ›</span>
             </button>

@@ -142,20 +142,20 @@ export const TechStackExplorerModal: React.FC<TechStackExplorerModalProps> = ({
           {filtered.map((item) => (
             <div
               key={item.id}
-              className="theme-modal-subcard p-4 rounded-[14px] shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-3"
+              className="theme-modal-subcard p-4 rounded-[var(--radius-subcard,16px)] shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-3"
             >
               <div>
                 <div className="flex items-start justify-between gap-3 mb-2">
                   <div className="flex items-center gap-2.5">
                     <div
-                      className="w-10 h-10 rounded-[14px] flex items-center justify-center text-white shrink-0 shadow-xs"
+                      className="w-10 h-10 rounded-[var(--radius-subcard,16px)] flex items-center justify-center text-white shrink-0 shadow-xs"
                       style={{ backgroundColor: item.color }}
                     >
                       <WebIcon name={item.icon} className="w-5 h-5" />
                     </div>
                     <div>
                       <span
-                        className="typo-badge font-mono font-bold px-2 py-0.5 rounded-[14px] inline-block mb-0.5"
+                        className="typo-badge font-mono font-bold px-2 py-0.5 rounded-[var(--radius-subcard,16px)] inline-block mb-0.5"
                         style={{
                           backgroundColor: `${item.color}18`,
                           color: item.color,
@@ -182,7 +182,7 @@ export const TechStackExplorerModal: React.FC<TechStackExplorerModalProps> = ({
                 {item.highlights.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="project-detail-chip px-2 py-0.5 rounded-[14px] typo-badge font-semibold"
+                    className="project-detail-chip px-2 py-0.5 rounded-[var(--radius-subcard,16px)] typo-badge font-semibold"
                   >
                     ✓ {tag}
                   </span>

@@ -8,19 +8,6 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { useTheme } from '@/hooks/useTheme';
 import { RadialContactMenu } from './RadialContactMenu';
 
-// Thêm keyframes cho hiệu ứng rung
-const vibrateStyle = `
-  @keyframes vibrate {
-    0% { transform: translate(0); }
-    20% { transform: translate(-1px, 1px); }
-    40% { transform: translate(1px, -1px); }
-    60% { transform: translate(-1px, -1px); }
-    80% { transform: translate(1px, 1px); }
-    100% { transform: translate(0); }
-  }
-  .vibrate { animation: vibrate 0.3s linear infinite; }
-`;
-
 export interface HeaderProps {
   pages: PageMeta[];
   currentPage: number;
@@ -265,7 +252,7 @@ const HEADER_ORDER_IDS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 export const Header: React.FC<HeaderProps> = ({
   pages,
   currentPage,
-  currentTheme = 'ice-blue-neu',
+  currentTheme = 'rainbow-glass',
   onSelectPage,
   onShowNotification,
 }) => {
@@ -285,9 +272,8 @@ export const Header: React.FC<HeaderProps> = ({
   );
   const headerPages = [...orderedPages, ...extraPages];
 
-  const { cardStyle, isDark } = useTheme();
+  const { cardStyle } = useTheme();
   void currentTheme;
-  void vibrateStyle;
 
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -415,18 +401,12 @@ export const Header: React.FC<HeaderProps> = ({
       ? 96
       : 104;
 
-  const activePageDeckIndex =
-    currentPage === 12
-      ? headerPages.length
-      : headerPages.findIndex((p: any) => p.id === currentPage);
   const revealedNavIndex =
     hoveredNavIndex !== null
       ? hoveredNavIndex
       : focusedNavIndex !== null
         ? focusedNavIndex
-        : activePageDeckIndex >= 0
-          ? activePageDeckIndex
-          : null;
+        : null;
 
   const getRevealOverlapPx = (prevIdx: number) => {
     const trailingGap = trailingGapByIdx[prevIdx];
@@ -479,12 +459,11 @@ export const Header: React.FC<HeaderProps> = ({
           // Đồng thời tính khoảng chồng sát phần cuối tiêu đề của nút nằm dưới để thấy trọn vẹn tiêu đề nút đang chọn
           const baseZIndex = index + 10;
           const isAfterRevealed = revealedNavIndex !== null && index === revealedNavIndex + 1;
-          const isAfterSelected = activePageDeckIndex >= 0 && index === activePageDeckIndex + 1;
           const itemMarginLeft = isCompactMobile
             ? '0px'
             : index === 0
               ? '0px'
-              : (isAfterRevealed || isAfterSelected)
+              : isAfterRevealed
                 ? `-${getRevealOverlapPx(index - 1)}px`
                 : `-${overlapPx}px`;
 
@@ -593,12 +572,11 @@ export const Header: React.FC<HeaderProps> = ({
             ? 99999
             : avatarNavIndex + 10;
           const isAfterRevealed = revealedNavIndex !== null && avatarNavIndex === revealedNavIndex + 1;
-          const isAfterSelected = activePageDeckIndex >= 0 && avatarNavIndex === activePageDeckIndex + 1;
           const itemMarginLeft = isCompactMobile
             ? '0px'
             : headerPages.length === 0
               ? '0px'
-              : (isAfterRevealed || isAfterSelected)
+              : isAfterRevealed
                 ? `-${getRevealOverlapPx(avatarNavIndex - 1)}px`
                 : `-${overlapPx}px`;
 

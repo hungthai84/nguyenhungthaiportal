@@ -77,7 +77,7 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
         role="dialog"
         aria-modal="true"
         aria-label={isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}
-        className="theme-modal-card rounded-[14px] max-w-3xl w-full max-h-[90vh] p-5 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.3)] relative text-left select-none overflow-y-auto no-scrollbar"
+        className="theme-modal-card rounded-[var(--radius-modal,24px)] max-w-3xl w-full max-h-[90vh] p-5 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.3)] relative text-left select-none overflow-y-auto no-scrollbar"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Decorative soft gradient blurs */}
@@ -85,7 +85,7 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
         <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-indigo-400/15 rounded-full blur-3xl pointer-events-none" />
 
         {/* Modal Header matching reference title */}
-        <div className="theme-modal-header relative z-10 flex flex-col items-center justify-center text-center -mx-5 -mt-5 sm:-mx-7 sm:-mt-7 px-5 sm:px-7 py-5 mb-5 rounded-t-[14px]">
+        <div className="theme-modal-header relative z-10 flex flex-col items-center justify-center text-center -mx-5 -mt-5 sm:-mx-7 sm:-mt-7 px-5 sm:px-7 py-5 mb-5 rounded-t-[var(--radius-modal,24px)]">
           <h2 className="typo-popup-title font-play tracking-wide" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
             {isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}
           </h2>
@@ -127,7 +127,7 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
                   onSelectWeather(item);
                   onClose();
                 }}
-                className={`relative overflow-hidden rounded-[14px] p-3.5 sm:p-4 border transition-all duration-300 cursor-pointer shadow-md hover:shadow-xl hover:scale-[1.02] flex items-center justify-between gap-3 bg-gradient-to-r ${item.bgGradient} ${item.accentBorder} ${
+                className={`relative overflow-hidden rounded-[var(--radius-subcard,16px)] p-3.5 sm:p-4 border transition-all duration-300 cursor-pointer shadow-md hover:shadow-xl hover:scale-[1.02] flex items-center justify-between gap-3 bg-gradient-to-r ${item.bgGradient} ${item.accentBorder} ${
                   isSelected ? 'ring-4 ring-white/90 shadow-[0_0_24px_rgba(255,255,255,0.7)]' : ''
                 }`}
               >
@@ -206,7 +206,7 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
         </div>
 
         {/* Footer Hint */}
-        <div className="theme-modal-footer relative z-10 -mx-5 -mb-5 sm:-mx-7 sm:-mb-7 px-5 sm:px-7 py-3.5 mt-5 rounded-b-[14px] flex flex-wrap items-center justify-between gap-2 typo-caption">
+        <div className="theme-modal-footer relative z-10 -mx-5 -mb-5 sm:-mx-7 sm:-mb-7 px-5 sm:px-7 py-3.5 mt-5 rounded-b-[var(--radius-modal,24px)] flex flex-wrap items-center justify-between gap-2 typo-caption">
           <span style={{ color: 'var(--text-secondary)' }}>
             {isEn
               ? 'Tap any card to update the weather widget in the Footer'

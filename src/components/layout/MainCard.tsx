@@ -41,7 +41,7 @@ export const MainCard = forwardRef<HTMLDivElement, MainCardProps>(
         data-element-page={pageId || 'global'}
         data-main-card="true"
         className={cn(
-          'main-card w-full min-w-0 h-full max-w-[1250px] mx-auto flex flex-col justify-start p-[15px] gap-[15px] font-play select-none text-left animate-fadeIn rounded-[var(--radius-main,14px)] box-border relative transition-all duration-300 ease-in-out',
+          'main-card w-full min-w-0 h-full max-w-[1250px] mx-auto flex flex-col justify-start p-[15px] gap-[15px] font-play select-none text-left animate-fadeIn rounded-[var(--radius-main,30px)] box-border relative transition-all duration-300 ease-in-out',
           !hasCustomScroll && 'overflow-y-auto no-scrollbar',
           className
         )}
@@ -51,7 +51,7 @@ export const MainCard = forwardRef<HTMLDivElement, MainCardProps>(
           maxWidth: '1250px',
           marginInline: 'auto',
           padding: 'var(--main-card-padding, 15px)',
-          borderRadius: 'var(--radius-main, 14px)',
+          borderRadius: 'var(--radius-main, 30px)',
           ...style,
         }}
         {...props}

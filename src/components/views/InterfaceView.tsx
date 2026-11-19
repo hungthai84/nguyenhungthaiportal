@@ -10,7 +10,7 @@ import {
   CARD_STYLE_GROUPS,
   ThemeMechanismMode,
 } from '@/hooks/useTheme';
-import { CardStyleMode, FontScaleMode, ThemeFamilyId } from '@/config/ui/theme.types';
+import { CardStyleMode, ColorSchemeMode, FontScaleMode, ThemeFamilyId } from '@/config/ui/theme.types';
 import { DEFAULT_CARD_STYLE, DEFAULT_FONT_SCALE, DEFAULT_LAYER_DEPTH } from '@/config/ui/themeDefaults';
 import { FONT_SCALE_OPTIONS, LAYER_DEPTH_PRESETS } from '@/config/ui/layerDepth';
 import { motion } from 'motion/react';
@@ -214,77 +214,77 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
   },
   'rainbow-glass': {
     radius: '24px',
-    activeRingColor: '#8b5cf6',
-    activeBorderClass: 'border-[#8b5cf6]',
-    idleBorderClass: 'border-white/80 hover:border-violet-300',
-    activeBadgeClass: 'bg-white/80 text-[#8b5cf6] border-[#8b5cf6]/40 shadow-xs backdrop-blur-md',
-    iconColor: '#8b5cf6',
-    titleTextClass: 'text-[#0f172a]',
-    bodyTextClass: 'text-[#334155]',
-    accentTextClass: 'text-[#8b5cf6]',
-    previewBorderClass: 'border-white/80',
-    dividerClass: 'border-white/60',
-    ctaIdleClass: 'bg-white/70 text-[#6366f1] hover:bg-white/90 border border-white/80 shadow-xs backdrop-blur-md',
-    ctaActiveClass: 'bg-gradient-to-r from-[#06b6d4] via-[#8b5cf6] to-[#ec4899] text-white shadow-xs border border-white/90',
-    toggleTrackDarkClass: 'bg-slate-900/80 border-violet-400/30',
-    toggleTrackLightClass: 'bg-white/80 border-violet-300/40',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#38bdf8] to-[#c084fc] text-white',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#8b5cf6] to-[#ec4899] text-white',
+    activeRingColor: '#7666D8',
+    activeBorderClass: 'border-[#7666D8]',
+    idleBorderClass: 'border-white/60 hover:border-[#A99AE8]',
+    activeBadgeClass: 'bg-[#FBFCFF]/90 text-[#7666D8] border-[#7666D8]/40 shadow-xs backdrop-blur-md',
+    iconColor: '#7666D8',
+    titleTextClass: 'text-[#2D3850]',
+    bodyTextClass: 'text-[#64718A]',
+    accentTextClass: 'text-[#7666D8]',
+    previewBorderClass: 'border-white/60',
+    dividerClass: 'border-white/50',
+    ctaIdleClass: 'bg-[#FBFCFF]/80 text-[#7666D8] hover:bg-[#FBFCFF] border border-white/65 shadow-xs backdrop-blur-md',
+    ctaActiveClass: 'bg-gradient-to-r from-[#7666D8] to-[#A99AE8] text-white shadow-xs border border-white/65',
+    toggleTrackDarkClass: 'bg-[#171F33] border-[#C2B7F3]/30',
+    toggleTrackLightClass: 'bg-[#F7F8FD] border-white/65',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#B5A7F4] to-[#8D83D8] text-[#101A2B]',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#7666D8] to-[#A99AE8] text-white',
     demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
     gradientBars: [
-      { label: 'Iris', width: '90%', gradient: 'linear-gradient(90deg, #6366f1, #8b5cf6)', glow: '0 0 12px rgba(139, 92, 246, 0.45)' },
-      { label: 'Peach', width: '76%', gradient: 'linear-gradient(90deg, #fb923c, #f43f5e)', glow: '0 0 12px rgba(244, 63, 94, 0.4)' },
-      { label: 'Mint', width: '65%', gradient: 'linear-gradient(90deg, #10b981, #06b6d4)', glow: '0 0 12px rgba(6, 182, 212, 0.4)' },
+      { label: 'Iris', width: '90%', gradient: 'linear-gradient(90deg, #7666D8, #A99AE8)', glow: '0 0 10px rgba(118, 102, 216, 0.28)' },
+      { label: 'Peach', width: '76%', gradient: 'linear-gradient(90deg, #F3B9A7, #E8BBD8)', glow: '0 0 10px rgba(243, 185, 167, 0.28)' },
+      { label: 'Teal', width: '65%', gradient: 'linear-gradient(90deg, #69C9C4, #A9DFDE)', glow: '0 0 10px rgba(105, 201, 196, 0.28)' },
     ],
   },
   'dark-rainbow-glass': {
     radius: '24px',
-    activeRingColor: '#a855f7',
-    activeBorderClass: 'border-[#a855f7]',
-    idleBorderClass: 'border-white/15 hover:border-violet-400/40',
-    activeBadgeClass: 'bg-[#18182b]/80 text-[#c084fc] border-[#a855f7]/40 shadow-xs backdrop-blur-md',
-    iconColor: '#c084fc',
-    titleTextClass: 'text-[#f8fafc]',
-    bodyTextClass: 'text-[#cbd5e1]',
-    accentTextClass: 'text-[#c084fc]',
+    activeRingColor: '#B5A7F4',
+    activeBorderClass: 'border-[#B5A7F4]',
+    idleBorderClass: 'border-white/15 hover:border-[#C2B7F3]/40',
+    activeBadgeClass: 'bg-[#202A40]/90 text-[#B5A7F4] border-[#B5A7F4]/40 shadow-xs backdrop-blur-md',
+    iconColor: '#B5A7F4',
+    titleTextClass: 'text-[#F2F4FC]',
+    bodyTextClass: 'text-[#C0C9DC]',
+    accentTextClass: 'text-[#B5A7F4]',
     previewBorderClass: 'border-white/15',
-    dividerClass: 'border-white/10',
-    ctaIdleClass: 'bg-[#1e1e36]/70 text-[#cbd5e1] hover:bg-[#252542] border border-white/20 backdrop-blur-md',
-    ctaActiveClass: 'bg-gradient-to-r from-[#00f2fe] via-[#a855f7] to-[#f43f5e] text-white shadow-xs border border-violet-400/40',
-    toggleTrackDarkClass: 'bg-[#0f0f1d] border-violet-500/30',
-    toggleTrackLightClass: 'bg-white/20 border-white/30',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#00f2fe] to-[#a855f7] text-white',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#a855f7] to-[#ec4899] text-white',
+    dividerClass: 'border-white/12',
+    ctaIdleClass: 'bg-[#202A40]/80 text-[#F2F4FC] hover:bg-[#26324C] border border-white/18 backdrop-blur-md',
+    ctaActiveClass: 'bg-gradient-to-r from-[#B5A7F4] to-[#8D83D8] text-[#101A2B] shadow-xs border border-[#C2B7F3]/45',
+    toggleTrackDarkClass: 'bg-[#101A2B] border-[#C2B7F3]/25',
+    toggleTrackLightClass: 'bg-[#F7F8FD] border-white/50',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#B5A7F4] to-[#4E9EAA] text-[#101A2B]',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#7666D8] to-[#A99AE8] text-white',
     demoVideoUrl: 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
     gradientBars: [
-      { label: 'Neon Iris', width: '92%', gradient: 'linear-gradient(90deg, #818cf8, #c084fc)', glow: '0 0 14px rgba(192, 132, 252, 0.55)' },
-      { label: 'Cyber Rose', width: '80%', gradient: 'linear-gradient(90deg, #f43f5e, #fb7185)', glow: '0 0 14px rgba(244, 63, 94, 0.5)' },
-      { label: 'Electric Mint', width: '68%', gradient: 'linear-gradient(90deg, #00f2fe, #34d399)', glow: '0 0 14px rgba(0, 242, 254, 0.5)' },
+      { label: 'Iris', width: '92%', gradient: 'linear-gradient(90deg, #B5A7F4, #8D83D8)', glow: '0 0 10px rgba(181, 167, 244, 0.28)' },
+      { label: 'Peach', width: '80%', gradient: 'linear-gradient(90deg, #B98283, #8E80BD)', glow: '0 0 10px rgba(185, 130, 131, 0.25)' },
+      { label: 'Cyan', width: '68%', gradient: 'linear-gradient(90deg, #4E9EAA, #789ACB)', glow: '0 0 10px rgba(78, 158, 170, 0.28)' },
     ],
   },
   'special-rainbow-glass': {
     radius: '24px',
-    activeRingColor: '#ec4899',
-    activeBorderClass: 'border-[#ec4899]',
-    idleBorderClass: 'border-pink-500/30 hover:border-pink-400/60',
-    activeBadgeClass: 'bg-[#2a133d]/85 text-[#f472b6] border-[#ec4899]/50 shadow-xs backdrop-blur-md',
-    iconColor: '#f472b6',
-    titleTextClass: 'text-[#fff1f2]',
-    bodyTextClass: 'text-[#fce7f3]',
-    accentTextClass: 'text-[#f472b6]',
-    previewBorderClass: 'border-pink-500/30',
-    dividerClass: 'border-pink-500/20',
-    ctaIdleClass: 'bg-[#2a133d]/70 text-[#fce7f3] hover:bg-[#3b1a54] border border-pink-400/30 backdrop-blur-md',
-    ctaActiveClass: 'bg-gradient-to-r from-[#ec4899] via-[#8b5cf6] to-[#06b6d4] text-white shadow-xs border border-pink-300/60',
-    toggleTrackDarkClass: 'bg-[#1b0c29] border-pink-500/40',
-    toggleTrackLightClass: 'bg-pink-100/50 border-pink-300/50',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#ec4899] to-[#8b5cf6] text-white',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#f472b6] to-[#ec4899] text-white',
+    activeRingColor: '#A99AE8',
+    activeBorderClass: 'border-[#A99AE8]',
+    idleBorderClass: 'border-[#C2B7F3]/30 hover:border-[#C2B7F3]/55',
+    activeBadgeClass: 'bg-[#202A40]/90 text-[#C2B7F3] border-[#C2B7F3]/45 shadow-xs backdrop-blur-md',
+    iconColor: '#C2B7F3',
+    titleTextClass: 'text-[#F2F4FC]',
+    bodyTextClass: 'text-[#C0C9DC]',
+    accentTextClass: 'text-[#C2B7F3]',
+    previewBorderClass: 'border-[#C2B7F3]/25',
+    dividerClass: 'border-[#C2B7F3]/18',
+    ctaIdleClass: 'bg-[#202A40]/75 text-[#F2F4FC] hover:bg-[#28334E] border border-[#C2B7F3]/25 backdrop-blur-md',
+    ctaActiveClass: 'bg-gradient-to-r from-[#B5A7F4] via-[#8E80BD] to-[#4E9EAA] text-[#101A2B] shadow-xs border border-[#C2B7F3]/50',
+    toggleTrackDarkClass: 'bg-[#171F33] border-[#C2B7F3]/35',
+    toggleTrackLightClass: 'bg-[#EEE9FA] border-[#BEB0EB]/50',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#B5A7F4] to-[#4E9EAA] text-[#101A2B]',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#7666D8] to-[#69C9C4] text-white',
     demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
     gradientBars: [
-      { label: 'Aurora Rose', width: '94%', gradient: 'linear-gradient(90deg, #ec4899, #f43f5e)', glow: '0 0 14px rgba(236, 72, 153, 0.6)' },
-      { label: 'Cosmic Violet', width: '82%', gradient: 'linear-gradient(90deg, #a855f7, #6366f1)', glow: '0 0 14px rgba(168, 85, 247, 0.55)' },
-      { label: 'Solar Amber', width: '70%', gradient: 'linear-gradient(90deg, #f59e0b, #fbbf24)', glow: '0 0 14px rgba(245, 158, 11, 0.5)' },
+      { label: 'Aurora', width: '94%', gradient: 'linear-gradient(90deg, #B5A7F4, #B98283)', glow: '0 0 10px rgba(181, 167, 244, 0.3)' },
+      { label: 'Violet', width: '82%', gradient: 'linear-gradient(90deg, #8E80BD, #789ACB)', glow: '0 0 10px rgba(142, 128, 189, 0.28)' },
+      { label: 'Teal', width: '70%', gradient: 'linear-gradient(90deg, #4E9EAA, #69C9C4)', glow: '0 0 10px rgba(78, 158, 170, 0.28)' },
     ],
   },
 };
@@ -293,6 +293,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const {
     cardStyle,
     setCardStyle,
+    colorSchemeMode,
+    setColorSchemeMode,
     isDark,
     surfaceDepth,
     setSurfaceDepth,
@@ -317,6 +319,26 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     if (mech === 'light') return isEn ? 'Light' : 'Sáng';
     if (mech === 'dark') return isEn ? 'Dark' : 'Tối';
     return isEn ? 'Color' : 'Màu';
+  };
+
+  const handleSelectColorScheme = (mode: ColorSchemeMode) => {
+    SoundEngine.playGlassChime();
+    setColorSchemeMode(mode);
+    if (onShowNotification) {
+      const label =
+        mode === 'system'
+          ? isEn
+            ? 'System (OS auto)'
+            : 'Hệ thống (Tự động theo OS)'
+          : mode === 'dark'
+            ? isEn
+              ? 'Dark'
+              : 'Tối'
+            : isEn
+              ? 'Light'
+              : 'Sáng';
+      onShowNotification(isEn ? `✓ Color scheme: ${label}` : `✓ Chế độ màu: ${label}`);
+    }
   };
 
   const handleSelectTheme = (mode: CardStyleMode, label: string) => {
@@ -563,6 +585,83 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 role="group"
                 aria-label={
                   isEn
+                    ? 'Color scheme mode: Light, Dark or System'
+                    : 'Chế độ màu Sáng, Tối hoặc Hệ thống'
+                }
+                className="relative inline-grid grid-cols-3 p-1 rounded-full border shrink-0 w-full sm:w-auto sm:min-w-[260px] max-w-full"
+                style={{
+                  background: 'var(--bg-subcard)',
+                  borderColor: 'var(--border-subcard)',
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute top-1 bottom-1 left-1 w-[calc((100%-8px)/3)] rounded-full transition-transform duration-300 ease-out shadow-sm ${
+                    colorSchemeMode === 'system'
+                      ? 'translate-x-[200%] border border-white/45'
+                      : colorSchemeMode === 'dark'
+                        ? 'translate-x-full border border-[#C2B7F3]/40'
+                        : 'translate-x-0 border border-white/60'
+                  }`}
+                  style={{ background: 'var(--bg-button-primary)' }}
+                />
+                <button
+                  id="btn-color-scheme-light"
+                  type="button"
+                  aria-pressed={colorSchemeMode === 'light'}
+                  onClick={() => handleSelectColorScheme('light')}
+                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                    colorSchemeMode === 'light' ? 'is-selected-pill' : 'hover:opacity-90'
+                  }`}
+                  style={
+                    colorSchemeMode === 'light'
+                      ? { color: 'var(--text-button-primary, #FFFFFF)' }
+                      : { color: 'var(--text-muted)' }
+                  }
+                >
+                  <WebIcon name="sun" className="w-4 h-4 shrink-0" />
+                  <span>{isEn ? 'Light' : 'Sáng'}</span>
+                </button>
+                <button
+                  id="btn-color-scheme-dark"
+                  type="button"
+                  aria-pressed={colorSchemeMode === 'dark'}
+                  onClick={() => handleSelectColorScheme('dark')}
+                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                    colorSchemeMode === 'dark' ? 'is-selected-pill' : 'hover:opacity-90'
+                  }`}
+                  style={
+                    colorSchemeMode === 'dark'
+                      ? { color: 'var(--text-button-primary, #FFFFFF)' }
+                      : { color: 'var(--text-muted)' }
+                  }
+                >
+                  <WebIcon name="moon" className="w-4 h-4 shrink-0" />
+                  <span>{isEn ? 'Dark' : 'Tối'}</span>
+                </button>
+                <button
+                  id="btn-color-scheme-system"
+                  type="button"
+                  aria-pressed={colorSchemeMode === 'system'}
+                  onClick={() => handleSelectColorScheme('system')}
+                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
+                    colorSchemeMode === 'system' ? 'is-selected-pill' : 'hover:opacity-90'
+                  }`}
+                  style={
+                    colorSchemeMode === 'system'
+                      ? { color: 'var(--text-button-primary, #FFFFFF)' }
+                      : { color: 'var(--text-muted)' }
+                  }
+                >
+                  <WebIcon name="monitor" className="w-4 h-4 shrink-0" />
+                  <span>{isEn ? 'System' : 'Hệ thống'}</span>
+                </button>
+              </div>
+
+              <div
+                role="group"
+                aria-label={
+                  isEn
                     ? 'Light, Dark and Color theme mode switch'
                     : 'Thanh chuyển đổi 3 cơ chế Sáng, Tối và Màu'
                 }
@@ -579,7 +678,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       ? 'translate-x-[200%] bg-gradient-to-r from-[#D97706] via-[#B45309] to-[#78350F] border border-amber-200/55'
                       : activeMechanism === 'dark'
                         ? 'translate-x-full bg-gradient-to-r from-[#182536] via-sky-700 to-indigo-700 border border-sky-300/40'
-                        : 'translate-x-0 bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 border border-white/70'
+                        : 'translate-x-0 bg-gradient-to-r from-[#7666D8] to-[#A99AE8] border border-white/70'
                   }`}
                 />
                 <button
@@ -1067,7 +1166,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           <div
                             style={{
                               ...preset.miniPreviewWrapStyle,
-                              borderRadius: preset.id.includes('ice-blue') ? '20px' : '14px',
+                              borderRadius: preset.id.includes('ice-blue') ? '20px' : 'var(--radius-subcard, 16px)',
                             }}
                             className={`my-3 p-3 flex flex-col gap-2.5 border ${meta.previewBorderClass}`}
                           >
@@ -1101,7 +1200,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                             </div>
 
                             {isVideoVisible ? (
-                              <div className="relative w-full h-[112px] rounded-[14px] overflow-hidden bg-slate-950/60 border border-white/20">
+                              <div className="relative w-full h-[112px] rounded-[var(--radius-subcard,16px)] overflow-hidden bg-slate-950/60 border border-white/20">
                                 <video
                                   src={meta.demoVideoUrl}
                                   autoPlay

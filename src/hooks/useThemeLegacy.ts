@@ -8,6 +8,8 @@ import {
 } from '../data/wallpapers';
 import {
   CARD_STYLE_STORAGE_KEY,
+  COLOR_SCHEME_MODE_STORAGE_KEY,
+  COLOR_SCHEME_MODE_SYNC_EVENT,
   DEFAULT_CARD_STYLE,
   DEFAULT_FONT_SCALE,
   DEFAULT_LAYER_DEPTH,
@@ -26,7 +28,7 @@ import {
   THEME_DEFAULT_WALLPAPER_ID,
   WALLPAPER_MANUAL_STORAGE_KEY,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode, FontScaleMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
+import { CardStyleMode, ColorSchemeMode, FontScaleMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
 import {
   applyFontScaleCssVariables,
   applyLayerDepthCssVariables,
@@ -61,11 +63,34 @@ function getDefaultWallpaperForTheme(mode: CardStyleMode): WallpaperPreset {
   return WALLPAPER_PRESETS_LIST.find((w) => w.id === targetId) || WALLPAPER_PRESETS_LIST[0];
 }
 
+function getLegacyPrefersDark(): boolean {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function readLegacyColorSchemeMode(): ColorSchemeMode {
+  try {
+    const savedMode = localStorage.getItem(COLOR_SCHEME_MODE_STORAGE_KEY);
+    if (savedMode === 'light' || savedMode === 'dark' || savedMode === 'system') return savedMode;
+    const savedStyle = localStorage.getItem(CARD_STYLE_STORAGE_KEY);
+    if (savedStyle) {
+      return CARD_STYLES_MAP[normalizeCardStyle(savedStyle)]?.isDark ? 'dark' : 'light';
+    }
+  } catch {
+    // ignore
+  }
+  return 'system';
+}
+
 export function useThemeLegacy() {
+  const [colorSchemeMode, setColorSchemeModeState] = useState<ColorSchemeMode>(() => readLegacyColorSchemeMode());
+
   const [cardStyle, setCardStyleState] = useState<CardStyleMode>(() => {
     try {
+      const mode = readLegacyColorSchemeMode();
       const saved = localStorage.getItem(CARD_STYLE_STORAGE_KEY);
-      return normalizeCardStyle(saved);
+      const base = saved ? normalizeCardStyle(saved) : DEFAULT_CARD_STYLE;
+      return mode === 'system' ? getLightDarkCounterpart(base, getLegacyPrefersDark()) : base;
     } catch (e) {
       // ignore
     }
@@ -374,15 +399,18 @@ export function useThemeLegacy() {
   const setCardStyle = useCallback((mode: CardStyleMode) => {
     const normalized = normalizeCardStyle(mode);
     const nextDark = Boolean(CARD_STYLES_MAP[normalized]?.isDark);
+    const nextScheme: ColorSchemeMode = nextDark ? 'dark' : 'light';
     const defaultWp = getDefaultWallpaperForTheme(normalized);
 
     cardStyleRef.current = normalized;
     setCardStyleState(normalized);
+    setColorSchemeModeState(nextScheme);
     activeWallpaperIdRef.current = defaultWp.id;
     setActiveWallpaper(defaultWp);
 
     try {
       localStorage.setItem(CARD_STYLE_STORAGE_KEY, normalized);
+      localStorage.setItem(COLOR_SCHEME_MODE_STORAGE_KEY, nextScheme);
       localStorage.setItem(
         nextDark ? 'hungthai_last_dark_style' : 'hungthai_last_light_style',
         normalized
@@ -419,17 +447,35 @@ export function useThemeLegacy() {
       document.body.setAttribute('data-theme-mechanism', mechanism);
     }
     window.dispatchEvent(new CustomEvent(CARD_STYLE_SYNC_EVENT, { detail: normalized }));
+    window.dispatchEvent(new CustomEvent(COLOR_SCHEME_MODE_SYNC_EVENT, { detail: nextScheme }));
     window.dispatchEvent(new CustomEvent(WALLPAPER_SYNC_EVENT, { detail: defaultWp }));
   }, []);
+
+  const setColorSchemeMode = useCallback(
+    (mode: ColorSchemeMode) => {
+      const nextScheme: ColorSchemeMode = mode === 'dark' || mode === 'light' || mode === 'system' ? mode : 'system';
+      const wantDark = nextScheme === 'system' ? getLegacyPrefersDark() : nextScheme === 'dark';
+      const targetMode = getLightDarkCounterpart(cardStyleRef.current, wantDark);
+      setCardStyle(targetMode);
+      setColorSchemeModeState(nextScheme);
+      try {
+        localStorage.setItem(COLOR_SCHEME_MODE_STORAGE_KEY, nextScheme);
+      } catch {
+        // ignore
+      }
+      window.dispatchEvent(new CustomEvent(COLOR_SCHEME_MODE_SYNC_EVENT, { detail: nextScheme }));
+    },
+    [setCardStyle]
+  );
 
   const toggleLightDark = useCallback(
     (targetDark?: boolean) => {
       const wantDark = typeof targetDark === 'boolean' ? targetDark : !isDark;
-      if (wantDark === isDark) return;
+      if (wantDark === isDark && colorSchemeMode !== 'system') return;
       const targetMode = getLightDarkCounterpart(cardStyle, wantDark);
       setCardStyle(targetMode);
     },
-    [cardStyle, isDark, setCardStyle]
+    [cardStyle, isDark, colorSchemeMode, setCardStyle]
   );
 
   useEffect(() => {
@@ -549,6 +595,8 @@ export function useThemeLegacy() {
 
   return {
     isDark,
+    colorSchemeMode,
+    setColorSchemeMode,
     currentWallpaper: activeWallpaper.value || activeWallpaper.bg || '',
     activeWallpaper,
     setWallpaper,

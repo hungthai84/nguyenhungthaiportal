@@ -421,7 +421,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         className="banner-card bento-card glass-card group w-full min-h-[170px] lg:min-h-0 lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xl transition-all duration-300"
         style={{
           padding: '15px',
-          borderRadius: '14px',
+          borderRadius: 'var(--radius-banner, 24px)',
           boxSizing: 'border-box',
           ...(syncedBannerHeight
             ? {
@@ -486,7 +486,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           alignSelf: 'stretch',
           padding: '15px',
           gap: '15px',
-          borderRadius: '14px',
+          borderRadius: 'var(--radius-card, 24px)',
           boxSizing: 'border-box',
         }}
       >

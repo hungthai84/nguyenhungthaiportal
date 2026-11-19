@@ -82,35 +82,35 @@ function getUniqueSelector(el: HTMLElement): string {
   return path.join(' > ');
 }
 
-function copyTextToClipboard(text: string) {
-  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
-    navigator.clipboard.writeText(text).catch(() => {
+function copyTextToClipboard(text: string): Promise<boolean> {
+  const fallbackCopy = (): boolean => {
+    try {
       const textarea = document.createElement('textarea');
       textarea.value = text;
+      textarea.setAttribute('readonly', '');
       textarea.style.position = 'fixed';
+      textarea.style.top = '-9999px';
+      textarea.style.left = '-9999px';
       textarea.style.opacity = '0';
       document.body.appendChild(textarea);
+      textarea.focus();
       textarea.select();
-      try {
-        document.execCommand('copy');
-      } finally {
-        document.body.removeChild(textarea);
-      }
-    });
-    return;
+      const ok = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      return ok;
+    } catch {
+      return false;
+    }
+  };
+
+  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+    return navigator.clipboard
+      .writeText(text)
+      .then(() => true)
+      .catch(() => fallbackCopy());
   }
 
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
-  document.body.appendChild(textarea);
-  textarea.select();
-  try {
-    document.execCommand('copy');
-  } finally {
-    document.body.removeChild(textarea);
-  }
+  return Promise.resolve(fallbackCopy());
 }
 
 export interface XRayInspectorProps {
@@ -178,7 +178,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
             onShowNotification?.('Đã tắt chế độ X-Ray');
           } else {
             onShowNotification?.(
-              'Đã bật chế độ X-Ray: Click để ghim đối tượng · Shift để chọn thêm · Double-click để sao chép tên'
+              'Đã bật chế độ X-Ray: Click để ghim đối tượng · Bấm Shift để chọn thêm · Double-click để sao chép tên'
             );
           }
           return next;
@@ -196,7 +196,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       } else if (e.key === 'Escape') {
         if (shiftAddModeRef.current) {
           setIsShiftAddMode(false);
-          onShowNotification?.('Đã khóa lại danh sách đối tượng đang ghim');
+          onShowNotification?.('Đã khóa lại đối tượng đang ghim (không chọn thêm đối tượng khác)');
         } else if (pinnedRef.current.length > 0) {
           setPinnedTargets([]);
           setIsShiftAddMode(false);
@@ -211,15 +211,15 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
     const handleKeyUp = (e: KeyboardEvent) => {
       if (e.key === 'Shift') {
         setIsShiftHeld(false);
-        // Nếu người dùng bấm phím tắt Shift mà không click trong lúc giữ Shift và đang có đối tượng ghim:
-        // bật/tắt chế độ chọn thêm đối tượng
+        // Nếu người dùng bấm phím tắt Shift (không click trong lúc đang giữ Shift) khi đã có đối tượng ghim:
+        // bật/tắt chế độ cho phép chọn thêm đối tượng
         if (activeRef.current && pinnedRef.current.length > 0 && !clickUsedDuringShiftRef.current) {
           setIsShiftAddMode((prev) => {
             const next = !prev;
             SoundEngine.playTap();
             onShowNotification?.(
               next
-                ? 'Đã bật chọn thêm đối tượng (Shift): Click để thêm đối tượng mới · Bấm Shift lại để khóa'
+                ? 'Đã mở khóa Shift: Click để chọn thêm đối tượng · Bấm Shift lần nữa để khóa ghim'
                 : 'Đã khóa đối tượng đang ghim (bấm Shift để chọn thêm)'
             );
             return next;
@@ -233,12 +233,12 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       setIsShiftHeld(false);
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('keydown', handleKeyDown, true);
+    window.addEventListener('keyup', handleKeyUp, true);
     window.addEventListener('blur', handleWindowBlur);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('keydown', handleKeyDown, true);
+      window.removeEventListener('keyup', handleKeyUp, true);
       window.removeEventListener('blur', handleWindowBlur);
     };
   }, [onShowNotification, closeXRay]);
@@ -324,6 +324,13 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
   useEffect(() => {
     if (!isActive) return;
 
+    const blockUnderlyingPointer = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      if (!target || target.closest('#xray-inspector-root')) return;
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       const target = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
       if (!target || target.closest('#xray-inspector-root')) {
@@ -353,33 +360,43 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       const currentPinned = pinnedRef.current;
       const allowAddMore = e.shiftKey || shiftAddModeRef.current;
 
-      // Chưa có đối tượng nào được ghim -> Click để ghim đối tượng đầu tiên
+      // Chưa có đối tượng nào được ghim -> Click để ghim chặt đối tượng đầu tiên
       if (currentPinned.length === 0) {
         const pinned = createPinnedTarget(target);
         setPinnedTargets([pinned]);
         setHoveredInfo(null);
         SoundEngine.playTap();
         onShowNotification?.(
-          `Đã ghim "${pinned.info.elementName || pinned.info.tag}" · Bấm Shift để chọn thêm · Double-click để chép tên`
+          `Đã ghim "${pinned.info.elementName || pinned.info.tag}" · Bấm phím Shift để chọn thêm · Double-click để sao chép tên`
         );
         return;
       }
 
-      // Đã có đối tượng ghim nhưng KHÔNG bấm/bật Shift -> khóa chặt, không chọn đối tượng khác
+      // Đã có đối tượng ghim nhưng KHÔNG giữ/bật Shift -> khóa chặt, không chọn được đối tượng khác
       if (!allowAddMore) {
-        const isAlreadyPinned = currentPinned.some((p) => p.target === target);
-        if (!isAlreadyPinned) {
-          onShowNotification?.(
-            'Đối tượng đang được ghim · Bấm phím Shift để chọn thêm đối tượng khác'
+        // Chỉ thông báo ở lần click đơn (không ghi đè toast khi vừa double-click)
+        if (e.detail === 1) {
+          const isPinnedOrChild = currentPinned.some(
+            (p) => p.target === target || p.target.contains(target)
           );
+          if (!isPinnedOrChild) {
+            onShowNotification?.(
+              'Đối tượng đang được ghim · Bấm phím tắt Shift để chọn thêm đối tượng khác'
+            );
+          }
         }
         return;
       }
 
-      // Đang giữ/bật Shift -> cho phép chọn thêm đối tượng (nếu đã ghim và có >1 thì bỏ chọn đối tượng đó)
+      // Tránh bỏ ghim nhầm khi người dùng đang double-click để copy tên
+      if (e.detail >= 2) {
+        return;
+      }
+
+      // Đang giữ/bật Shift -> cho phép chọn thêm đối tượng (nếu đã ghim chính đối tượng đó và có >1 khi giữ Shift thì bỏ chọn)
       const existingIdx = currentPinned.findIndex((p) => p.target === target);
       if (existingIdx >= 0) {
-        if (currentPinned.length > 1) {
+        if (e.shiftKey && currentPinned.length > 1) {
           setPinnedTargets((prev) => prev.filter((_, idx) => idx !== existingIdx));
           SoundEngine.playTap();
         }
@@ -404,16 +421,18 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       const currentPinned = pinnedRef.current;
       let copiedNames: string[] = [];
 
-      if (currentPinned.length > 0 && !e.shiftKey && !shiftAddModeRef.current) {
+      if (currentPinned.length > 0) {
         const exactPinned =
           currentPinned.find((p) => p.target === target) ||
           currentPinned.find((p) => p.target.contains(target));
         if (exactPinned) {
           copiedNames = [exactPinned.info.elementName || exactPinned.info.tag];
-        } else if (currentPinned.length === 1) {
-          copiedNames = [currentPinned[0].info.elementName || currentPinned[0].info.tag];
-        } else {
+        } else if (!e.shiftKey && !shiftAddModeRef.current) {
+          // Đang ghim & khóa chọn đối tượng khác: double-click sẽ sao chép tên đối tượng đang ghim
           copiedNames = currentPinned.map((p) => p.info.elementName || p.info.tag);
+        } else {
+          const info = extractInfo(target);
+          copiedNames = [info.elementName || info.tag];
         }
       } else {
         const info = extractInfo(target);
@@ -421,16 +440,22 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       }
 
       const textToCopy = copiedNames.join(', ');
-      copyTextToClipboard(textToCopy);
+      void copyTextToClipboard(textToCopy);
       SoundEngine.playTap();
       onShowNotification?.(`✓ Đã sao chép tên đối tượng "${textToCopy}" vào bộ nhớ tạm`);
     };
 
+    window.addEventListener('pointerdown', blockUnderlyingPointer, true);
+    window.addEventListener('mousedown', blockUnderlyingPointer, true);
+    window.addEventListener('mouseup', blockUnderlyingPointer, true);
     window.addEventListener('mousemove', handleMouseMove, true);
     window.addEventListener('click', selectDomElement, true);
     window.addEventListener('dblclick', handleDoubleClick, true);
 
     return () => {
+      window.removeEventListener('pointerdown', blockUnderlyingPointer, true);
+      window.removeEventListener('mousedown', blockUnderlyingPointer, true);
+      window.removeEventListener('mouseup', blockUnderlyingPointer, true);
       window.removeEventListener('mousemove', handleMouseMove, true);
       window.removeEventListener('click', selectDomElement, true);
       window.removeEventListener('dblclick', handleDoubleClick, true);

@@ -57,6 +57,17 @@ html.dark[data-card-style="cowhide-leather"] {
   --card-border-width: 2px;
   --banner-transparent-bg: rgba(101, 58, 23, 0.10);
 
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+
   --bg-main: #2B1709;
   --bg-header: linear-gradient(145deg, #7A4A20 0%, #522E10 55%, #653A17 100%);
   --bg-footer: linear-gradient(145deg, #7A4A20 0%, #522E10 55%, #653A17 100%);

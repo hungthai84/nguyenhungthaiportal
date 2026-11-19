@@ -1,10 +1,11 @@
 import { CardStyleMode, FontScaleMode, ThemeMechanismMode } from './theme.types';
 
-export const DEFAULT_CARD_STYLE: CardStyleMode = 'ice-blue-neu';
+export const DEFAULT_CARD_STYLE: CardStyleMode = 'soft-indigo-fintech';
 export const DEFAULT_LAYER_DEPTH = 100;
 export const DEFAULT_FONT_SCALE: FontScaleMode = 'normal';
 
-export const CARD_STYLE_STORAGE_KEY = 'hungthai_card_style';
+export const CARD_STYLE_STORAGE_KEY = 'hungthai_card_style_v2';
+export const COLOR_SCHEME_MODE_STORAGE_KEY = 'hungthai_color_scheme_mode_v1';
 export const WALLPAPER_MANUAL_STORAGE_KEY = 'hungthai_wallpaper_manual_v2';
 export const GLASS_CUSTOMIZATION_STORAGE_KEY = 'hungthai_glass_customization_v1';
 export const SURFACE_DEPTH_STORAGE_KEY = 'hungthai_surface_depth_v1';
@@ -12,6 +13,7 @@ export const LAYER_DEPTH_STORAGE_KEY = 'hungthai_layer_depth_v1';
 export const FONT_SCALE_STORAGE_KEY = 'hungthai_font_scale_v1';
 export const AUTO_TIME_THEME_STORAGE_KEY = 'hungthai_auto_time_theme_v1';
 export const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
+export const COLOR_SCHEME_MODE_SYNC_EVENT = 'hungthai:color-scheme-mode-changed';
 export const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
 export const GLASS_CUSTOMIZATION_SYNC_EVENT = 'hungthai:glass-customization-changed';
 export const SURFACE_DEPTH_SYNC_EVENT = 'hungthai:surface-depth-changed';
@@ -23,15 +25,17 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   CardStyleMode,
   { cardOpacity: number; blurIntensity: number }
 > = {
+  'soft-indigo-fintech': { cardOpacity: 98, blurIntensity: 18 },
+  'dark-soft-indigo-fintech': { cardOpacity: 96, blurIntensity: 18 },
   'light-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'black-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'ice-blue-neu': { cardOpacity: 96, blurIntensity: 18 },
   'dark-ice-blue-neu': { cardOpacity: 96, blurIntensity: 18 },
   'glass-flat': { cardOpacity: 94, blurIntensity: 12 },
-  'rainbow-glass': { cardOpacity: 92, blurIntensity: 16 },
-  'dark-rainbow-glass': { cardOpacity: 90, blurIntensity: 18 },
-  'special-rainbow-glass': { cardOpacity: 94, blurIntensity: 16 },
+  'rainbow-glass': { cardOpacity: 22, blurIntensity: 24 },
+  'dark-rainbow-glass': { cardOpacity: 56, blurIntensity: 24 },
+  'special-rainbow-glass': { cardOpacity: 56, blurIntensity: 24 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -45,6 +49,26 @@ export interface ThemeBackgroundSpec {
 }
 
 export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
+  'soft-indigo-fintech': {
+    id: 'soft-indigo-fintech',
+    presetId: 'theme-bg-soft-indigo-fintech',
+    label: 'Nền Soft Indigo FinTech (#EEF0FA)',
+    themeMode: 'light',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 14% 16%, rgba(108, 76, 230, 0.14) 0%, transparent 48%), radial-gradient(circle at 86% 18%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 76% 84%, rgba(163, 230, 53, 0.10) 0%, transparent 50%), linear-gradient(145deg, #EEF0FA 0%, #E5E9F8 52%, #DCE0F5 100%)',
+    overlayBg: 'rgba(238, 240, 250, 0.08)',
+  },
+  'dark-soft-indigo-fintech': {
+    id: 'dark-soft-indigo-fintech',
+    presetId: 'theme-bg-dark-soft-indigo-fintech',
+    label: 'Nền Soft Indigo FinTech (Tối #0E1225)',
+    themeMode: 'dark',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 14% 16%, rgba(108, 76, 230, 0.24) 0%, transparent 48%), radial-gradient(circle at 86% 18%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 76% 84%, rgba(163, 230, 53, 0.10) 0%, transparent 50%), linear-gradient(145deg, #0E1225 0%, #151A33 52%, #11162B 100%)',
+    overlayBg: 'rgba(14, 18, 37, 0.20)',
+  },
   'light-cowhide-leather': {
     id: 'light-cowhide-leather',
     presetId: 'theme-bg-light-cowhide-leather',
@@ -108,36 +132,38 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'rainbow-glass': {
     id: 'rainbow-glass',
     presetId: 'theme-bg-rainbow-glass',
-    label: 'Nền Rainbow Glassmorphism (Sáng)',
+    label: 'Nền Gương đa sắc (Sáng)',
     themeMode: 'light',
     imagePath: '',
     fallbackGradient:
-      'radial-gradient(circle at 10% 15%, rgba(244, 63, 94, 0.12) 0%, transparent 45%), radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.14) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.10) 0%, transparent 50%), radial-gradient(circle at 80% 85%, rgba(245, 158, 11, 0.12) 0%, transparent 45%), radial-gradient(circle at 15% 85%, rgba(16, 185, 129, 0.12) 0%, transparent 45%), linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
-    overlayBg: 'rgba(255, 255, 255, 0.12)',
+      'radial-gradient(circle at 12% 14%, rgba(243, 185, 167, 0.56) 0%, transparent 48%), radial-gradient(circle at 86% 16%, rgba(169, 223, 222, 0.52) 0%, transparent 48%), radial-gradient(circle at 48% 42%, rgba(190, 176, 235, 0.44) 0%, transparent 54%), radial-gradient(circle at 18% 84%, rgba(232, 187, 216, 0.48) 0%, transparent 50%), radial-gradient(circle at 84% 82%, rgba(184, 208, 242, 0.52) 0%, transparent 52%), linear-gradient(135deg, #FFF0E8 0%, #F7E8F2 26%, #EEE9FA 52%, #E6F0FC 76%, #E0F5F3 90%, #FDFDFF 100%)',
+    overlayBg: 'rgba(253, 253, 255, 0.14)',
   },
   'dark-rainbow-glass': {
     id: 'dark-rainbow-glass',
     presetId: 'theme-bg-dark-rainbow-glass',
-    label: 'Nền Rainbow Glassmorphism (Tối)',
+    label: 'Nền Gương đa sắc (Tối)',
     themeMode: 'dark',
     imagePath: '',
     fallbackGradient:
-      'radial-gradient(circle at 10% 15%, rgba(244, 63, 94, 0.18) 0%, transparent 45%), radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.18) 0%, transparent 45%), radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.16) 0%, transparent 50%), radial-gradient(circle at 80% 85%, rgba(245, 158, 11, 0.15) 0%, transparent 45%), radial-gradient(circle at 15% 85%, rgba(16, 185, 129, 0.15) 0%, transparent 45%), linear-gradient(135deg, #090d16 0%, #0f172a 100%)',
-    overlayBg: 'rgba(15, 23, 42, 0.20)',
+      'radial-gradient(circle at 14% 16%, rgba(185, 130, 131, 0.22) 0%, transparent 46%), radial-gradient(circle at 84% 18%, rgba(78, 158, 170, 0.24) 0%, transparent 48%), radial-gradient(circle at 50% 48%, rgba(142, 128, 189, 0.22) 0%, transparent 54%), radial-gradient(circle at 20% 84%, rgba(120, 154, 203, 0.18) 0%, transparent 48%), radial-gradient(circle at 82% 84%, rgba(194, 183, 243, 0.16) 0%, transparent 48%), linear-gradient(140deg, #101A2B 0%, #171F33 38%, #202238 70%, #153039 100%)',
+    overlayBg: 'rgba(16, 26, 43, 0.22)',
   },
   'special-rainbow-glass': {
     id: 'special-rainbow-glass',
     presetId: 'theme-bg-special-rainbow-glass',
-    label: 'Nền Rainbow Glass Special (Aurora)',
+    label: 'Nền Gương đa sắc (Đặc biệt Aurora)',
     themeMode: 'color',
     imagePath: '',
     fallbackGradient:
-      'radial-gradient(circle at 12% 18%, rgba(236, 72, 153, 0.25) 0%, transparent 50%), radial-gradient(circle at 88% 22%, rgba(59, 130, 246, 0.25) 0%, transparent 50%), radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.22) 0%, transparent 52%), radial-gradient(circle at 50% 15%, rgba(245, 158, 11, 0.20) 0%, transparent 48%), linear-gradient(135deg, #fdf4ff 0%, #eff6ff 50%, #ecfdf5 100%)',
-    overlayBg: 'rgba(255, 255, 255, 0.15)',
+      'radial-gradient(circle at 14% 18%, rgba(185, 130, 131, 0.28) 0%, transparent 48%), radial-gradient(circle at 86% 20%, rgba(78, 158, 170, 0.28) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(142, 128, 189, 0.26) 0%, transparent 54%), radial-gradient(circle at 50% 85%, rgba(194, 183, 243, 0.22) 0%, transparent 52%), linear-gradient(135deg, #171F33 0%, #202238 52%, #153039 100%)',
+    overlayBg: 'rgba(23, 31, 51, 0.24)',
   },
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
+  'soft-indigo-fintech': THEME_BACKGROUNDS['soft-indigo-fintech'].presetId,
+  'dark-soft-indigo-fintech': THEME_BACKGROUNDS['dark-soft-indigo-fintech'].presetId,
   'light-cowhide-leather': THEME_BACKGROUNDS['light-cowhide-leather'].presetId,
   'black-cowhide-leather': THEME_BACKGROUNDS['black-cowhide-leather'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,

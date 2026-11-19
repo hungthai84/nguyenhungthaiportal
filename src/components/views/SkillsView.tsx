@@ -431,20 +431,20 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+          className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
           style={{
             padding: "15px",
             width: "100%",
             maxWidth: "100%",
-            borderRadius: "14px",
+            borderRadius: "var(--radius-banner, 24px)",
           }}
         >
           {/* Lớp nền hình ảnh và gradient phủ */}
           <div
             id="skills-hero-banner-bg"
-            className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
+            className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
             style={{
-              borderRadius: "14px",
+              borderRadius: "var(--radius-banner, 24px)",
             }}
           >
             <img
@@ -742,10 +742,10 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                                 backgroundColor: 'transparent',
                                 backgroundImage: 'none',
                                 boxShadow: 'none',
-                                borderRadius: '14px',
+                                borderRadius: 'var(--radius-subcard, 16px)',
                               }}
                               className={cn(
-                                "skill-swot-subcard group/item flex flex-col gap-1.5 rounded-[14px] p-2.5 transition-all duration-200 cursor-pointer select-none bg-transparent",
+                                "skill-swot-subcard group/item flex flex-col gap-1.5 rounded-[var(--radius-subcard,16px)] p-2.5 transition-all duration-200 cursor-pointer select-none bg-transparent",
                                 !isExpanded && "active:scale-[0.995]",
                                 highlightedSkillId === item.id && "ring-2 ring-cyan-500 scale-[1.01]"
                               )}
@@ -880,8 +880,8 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="bento-card glass-card w-full p-[15px] rounded-[14px] text-[var(--text-primary)] flex flex-col gap-[15px] text-left min-w-0 box-border"
-            style={{ borderRadius: '14px', padding: '15px' }}
+            className="bento-card glass-card w-full p-[15px] rounded-[var(--radius-card,24px)] text-[var(--text-primary)] flex flex-col gap-[15px] text-left min-w-0 box-border"
+            style={{ borderRadius: 'var(--radius-card, 24px)', padding: '15px' }}
           >
             <div id="skills-languages-header" className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3">
               <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-400">
@@ -901,8 +901,8 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                     data-subcard="true"
                     data-element-name={`Thẻ ngôn ngữ: ${langItem.nameVi}`}
                     data-element-page="skills"
-                    style={{ borderRadius: '14px', padding: '15px' }}
-                    className="sub-card exp-detail-subcard w-full h-full min-w-0 flex items-center gap-[15px] p-[15px] rounded-[14px] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none box-border"
+                    style={{ borderRadius: 'var(--radius-subcard, 16px)', padding: '15px' }}
+                    className="sub-card exp-detail-subcard w-full h-full min-w-0 flex items-center gap-[15px] p-[15px] rounded-[var(--radius-subcard,16px)] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none box-border"
                   >
                     <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
                       <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">

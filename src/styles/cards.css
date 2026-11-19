@@ -698,17 +698,17 @@ button,
   background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-button-primary))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-interactive-border, var(--border-nav-arrow, var(--border-color))) !important;
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 8px 20px -4px rgba(15, 23, 42, 0.22))),
-    0 4px 12px -2px rgba(15, 23, 42, 0.16) !important;
-  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 16px))) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 16px))) saturate(160%) !important;
+    var(--liquid-rim-inset, inset 0 1px 0 rgba(255, 255, 255, 0.55)) !important;
+  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 18px))) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 18px))) saturate(160%) !important;
   outline: var(--outline-nav-pill, none);
   outline-offset: var(--outline-offset-nav-pill, 0px);
   border-radius: 999px !important;
   color: var(--text-primary) !important;
-  transition: transform var(--motion-fast, 0.2s) var(--motion-ease, ease),
-    box-shadow var(--motion-fast, 0.2s) var(--motion-ease, ease),
-    border-color var(--motion-fast, 0.2s) var(--motion-ease, ease),
-    background var(--motion-fast, 0.2s) var(--motion-ease, ease) !important;
+  transition: transform var(--liquid-pill-flex-ms, 230ms) var(--liquid-pill-flex-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease !important;
 }
 
 #el-p0-div-16 [role="tab"][aria-selected="true"] {
@@ -737,22 +737,22 @@ html[data-surface-depth="flat"] #el-p0-div-16 [role="tab"] {
 }
 
 .theme-capsule-btn:not(#footer-nav-capsule):not(.video-play-btn):hover {
-  transform: translateY(-1.5px);
+  transform: translate3d(0, -1.5px, 0) scale(1.02);
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 10px 26px -4px rgba(15, 23, 42, 0.28))),
-    0 12px 28px -6px rgba(15, 23, 42, 0.26) !important;
+    var(--liquid-rim-inset-hover, inset 0 1px 0 rgba(255, 255, 255, 0.75)) !important;
 }
 
 .theme-capsule-btn:not(#footer-nav-capsule):not(.video-play-btn):active {
-  transform: scale(0.98) translateY(0);
+  transform: scale(0.975) translate3d(0, 0, 0);
 }
 
 #app-footer #footer-nav-capsule #footer-prev-btn,
 #app-footer #footer-nav-capsule #footer-next-btn {
   min-width: 34px;
   min-height: 34px;
-  transition: transform var(--motion-fast, 150ms) var(--motion-ease, ease),
-    background-color var(--motion-fast, 150ms) var(--motion-ease, ease),
-    box-shadow var(--motion-fast, 150ms) var(--motion-ease, ease);
+  transition: transform 200ms var(--liquid-pill-flex-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    background-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 #app-footer #footer-nav-capsule #footer-prev-btn:hover,
@@ -1106,7 +1106,7 @@ h3.card-title,
 }
 
 .banner-dropdown-menu {
-  background: var(--surface-interactive-bg, var(--bg-popup, var(--bg-card))) !important;
+  background: var(--bg-popup, var(--bg-dropdown, var(--bg-card))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-interactive-border, var(--border-color)) !important;
   box-shadow: var(--shadow-popup) !important;
   backdrop-filter: blur(var(--surface-interactive-blur, var(--bg-blur, 18px))) saturate(165%) !important;
@@ -1141,7 +1141,7 @@ h3.card-title,
 #el-p0-button-1:hover,
 #el-p0-button-2:hover {
   background: var(--bg-button-primary) !important;
-  color: #FFFFFF !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
   border-color: transparent !important;
 }
 
@@ -1158,7 +1158,7 @@ h3.card-title,
 
 .theme-back-to-top-btn:hover {
   background: var(--bg-button-primary) !important;
-  color: #FFFFFF !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
 }
 
 .theme-back-to-top-icon {
@@ -1176,7 +1176,7 @@ h3.card-title,
   overflow: hidden !important;
   border: var(--card-border-width, 1px) solid var(--border-image-card, var(--border-color)) !important;
   box-shadow: var(--shadow-image-card, var(--shadow-card)) !important;
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 24px) !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
 }
@@ -1188,7 +1188,7 @@ h3.card-title,
   background-color: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 24px) !important;
 }
 
 #wallpaper-page-container [id^="wallpaper-card-content-"],
@@ -1501,9 +1501,9 @@ html[data-card-style="dark-ice-blue-neu"] .themed-image-card-badge {
 
 .project-detail-toc-btn[data-active="true"] {
   background: var(--bg-button-primary) !important;
-  color: #FFFFFF !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
   border: 1px solid var(--border-banner-cta, transparent) !important;
-  box-shadow: var(--shadow-subcard) !important;
+  box-shadow: var(--shadow-button-primary, var(--shadow-subcard)) !important;
 }
 
 .project-detail-section-card {
@@ -1512,7 +1512,7 @@ html[data-card-style="dark-ice-blue-neu"] .themed-image-card-badge {
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
   backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: var(--radius-card, 24px) !important;
 }
 
 .project-detail-subcard,
@@ -1522,7 +1522,7 @@ html[data-card-style="dark-ice-blue-neu"] .themed-image-card-badge {
 .letter-footer-subcard {
   background: var(--surface-tertiary-bg, var(--surface-subcard-glass, var(--bg-subcard))) !important;
   border: 1px solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard, var(--color-border-soft)))) !important;
-  border-radius: var(--radius-subcard, 14px) !important;
+  border-radius: var(--radius-subcard, 16px) !important;
   box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass, var(--shadow-subcard))) !important;
   backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
@@ -1546,14 +1546,15 @@ html[data-card-style="dark-ice-blue-neu"] .themed-image-card-badge {
 .project-card-btn-secondary {
   background: var(--bg-button-secondary, var(--bg-subcard)) !important;
   border: 1px solid var(--border-subcard, var(--color-border-soft)) !important;
-  color: var(--text-primary) !important;
+  color: var(--text-button-secondary, var(--text-primary)) !important;
+  box-shadow: var(--shadow-button-secondary, var(--shadow-subcard)) !important;
 }
 
 .project-card-btn-primary {
   background: var(--bg-button-primary) !important;
-  color: #FFFFFF !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
   border: 1px solid var(--border-banner-cta, transparent) !important;
-  box-shadow: var(--shadow-subcard) !important;
+  box-shadow: var(--shadow-button-primary, var(--shadow-subcard)) !important;
 }
 
 /* ========================================================================= */
@@ -1568,18 +1569,18 @@ article.project-card,
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
   backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: var(--radius-card, 24px) !important;
   padding: 10px !important;
   gap: 10px !important;
   overflow: hidden !important;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.24s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-card:hover,
 article.project-card:hover,
 #projects-grid article:hover,
 [id^="project-card-"]:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-card-hover) !important;
 }
 
@@ -1595,7 +1596,7 @@ article.project-card:hover,
   box-shadow: var(--shadow-image-card, var(--shadow-subcard)) !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
-  border-radius: 14px !important;
+  border-radius: var(--radius-subcard, 16px) !important;
   overflow: hidden !important;
 }
 
@@ -1652,7 +1653,7 @@ article.project-card:hover,
   box-shadow: var(--shadow-popup) !important;
   backdrop-filter: blur(var(--surface-interactive-blur, var(--bg-blur))) saturate(165%) !important;
   -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--bg-blur))) saturate(165%) !important;
-  border-radius: var(--radius-popup, 14px) !important;
+  border-radius: var(--radius-popup, 20px) !important;
   color: var(--text-primary) !important;
 }
 
@@ -1692,8 +1693,8 @@ article.project-card:hover,
 .radial-contact-pill {
   background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-nav-button-opaque, #FFFFFF))) !important;
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08))) !important;
-  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(160%) !important;
+  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 18px))) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 18px))) saturate(160%) !important;
   outline: var(--outline-nav-pill, none);
   outline-offset: var(--outline-offset-nav-pill, 0px);
   color: var(--text-primary) !important;
@@ -1717,7 +1718,7 @@ article.project-card:hover,
   box-shadow: var(--shadow-modal) !important;
   backdrop-filter: blur(var(--blur-modal, var(--surface-interactive-blur, var(--bg-blur)))) saturate(170%) !important;
   -webkit-backdrop-filter: blur(var(--blur-modal, var(--surface-interactive-blur, var(--bg-blur)))) saturate(170%) !important;
-  border-radius: var(--radius-modal, 14px) !important;
+  border-radius: var(--radius-modal, 24px) !important;
   color: var(--text-primary) !important;
   outline: var(--outline-subcard, none);
   outline-offset: -6px;
@@ -1738,7 +1739,7 @@ article.project-card:hover,
 .theme-modal-subcard {
   background: var(--bg-subcard) !important;
   border: 1px solid var(--border-subcard, var(--border-color)) !important;
-  border-radius: 14px !important;
+  border-radius: var(--radius-subcard, 16px) !important;
   box-shadow: var(--shadow-subcard) !important;
   backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
   -webkit-backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
@@ -1749,13 +1750,13 @@ article.project-card:hover,
 
 .theme-modal-close {
   background: var(--bg-button-secondary, var(--bg-subcard)) !important;
-  color: var(--text-primary) !important;
+  color: var(--text-button-secondary, var(--text-primary)) !important;
   border: 1px solid var(--border-subcard, var(--border-color)) !important;
 }
 
 .theme-modal-close:hover {
   background: var(--bg-button-primary) !important;
-  color: #FFFFFF !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
   border-color: transparent !important;
 }
 
@@ -1772,7 +1773,7 @@ article.project-card:hover,
   background: var(--bg-input) !important;
   border-color: var(--border-input, var(--border-color)) !important;
   color: var(--text-input, var(--text-primary)) !important;
-  border-radius: var(--radius-input, 14px);
+  border-radius: var(--radius-input, 16px);
 }
 
 .theme-input::placeholder,
@@ -1842,7 +1843,7 @@ article.project-card:hover,
 
 .theme-dropdown-option[data-selected="true"] {
   background: var(--bg-button-primary) !important;
-  color: #FFFFFF !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
   border-color: transparent !important;
 }
 
@@ -1868,7 +1869,7 @@ button:not(:disabled),
 button:active:not(:disabled),
 [data-element-type="button"]:active:not(:disabled),
 .btn-pill:active:not(:disabled) {
-  transform: scale(0.98);
+  transform: translateY(1px);
 }
 
 button:focus-visible,
@@ -2131,6 +2132,30 @@ button:focus-visible,
   line-height: 1.45 !important;
 }
 
+/* Exempt #interview-answers-card subcards from 1-line clamp & forced 100% height so full answers render cleanly */
+#interview-answers-card :is([data-subcard="true"], .exp-detail-subcard) {
+  height: auto !important;
+  flex: 0 0 auto !important;
+}
+
+#interview-answers-card #interview-progress-card {
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  padding: 10px 14px !important;
+}
+
+#interview-answers-card :is([data-subcard="true"], .exp-detail-subcard) :is(p, span.subcard-desc, .subcard-text, .text-muted) {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  line-height: 1.6 !important;
+}
+
 /* ========================================================================= */
 /* 5-LEVEL ELEVATION ANTI-STACKING & HOVER SHADOW CLIPPING PROTECTION        */
 /* ========================================================================= */
@@ -2143,7 +2168,7 @@ button:focus-visible,
 :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .theme-modal-subcard)
   :is([data-subcard="true"], .sub-card, .nested-card, .project-detail-chip, .education-skill-chip, .theme-muted-surface, [data-elevation="1"]) {
   box-shadow: var(--elevation-1, var(--shadow-nested-glass, var(--shadow-nested))) !important;
-  border-radius: 14px !important;
+  border-radius: var(--radius-subcard, 16px) !important;
 }
 
 /* Sub Card nested inside Sub Card stays grounded without floating bounce */
@@ -2176,11 +2201,11 @@ button:focus-visible,
 /* EXPERIENCE DETAIL BENTO GRID BUTTONS, SCROLLING & THEME CONTRAST SAFETY   */
 /* ========================================================================= */
 #experience-job-detail-card button.exp-bento-rect-btn {
-  border-radius: 14px !important;
+  border-radius: var(--radius-subcard, 16px) !important;
 }
 
 #experience-job-detail-card .exp-bento-hero-banner {
-  border-radius: 14px !important;
+  border-radius: var(--radius-banner, 22px) !important;
   overflow: hidden !important;
 }
 
@@ -2441,13 +2466,13 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 
 #ai-assistant-droptop-menu-btn.theme-ai-cat-btn[data-open="true"] {
   background: var(--bg-button-primary) !important;
-  color: #FFFFFF !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
   border-color: transparent !important;
 }
 
 #ai-assistant-submit-button {
   background: var(--bg-button-primary) !important;
-  color: #FFFFFF !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
   border-radius: 9999px !important;
 }
 
@@ -2732,7 +2757,7 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   min-height: 0 !important;
   min-width: 0 !important;
   padding: 15px !important;
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 24px) !important;
   overflow: visible !important;
   box-sizing: border-box !important;
 }
@@ -2871,16 +2896,16 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
   backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 24px) !important;
   padding: 10px !important;
   gap: 10px !important;
   overflow: visible !important;
   box-sizing: border-box !important;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 #education-courses-grid .education-course-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-card-hover) !important;
 }
 
@@ -2893,7 +2918,7 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   box-shadow: var(--shadow-image-card, var(--shadow-subcard)) !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
-  border-radius: 14px !important;
+  border-radius: var(--radius-subcard, 16px) !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
 }
@@ -2962,7 +2987,7 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 #about-intro-card-1,
 #about-intro-card-2 {
   animation: none !important;
-  box-shadow: 0 28px 65px -15px rgba(15, 23, 42, 0.32), 0 16px 36px -10px rgba(15, 23, 42, 0.2), 0 6px 16px -4px rgba(15, 23, 42, 0.12), 0 0 0 1px var(--surface-primary-border, rgba(255, 255, 255, 0.25)) !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow))) !important;
 }
 
 .dark #home-main-card,
@@ -2975,7 +3000,7 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 :root[data-theme-mode="dark"] .page-main-card,
 :root[data-theme-mode="dark"] #about-intro-card-1,
 :root[data-theme-mode="dark"] #about-intro-card-2 {
-  box-shadow: 0 32px 75px -15px rgba(0, 0, 0, 0.85), 0 20px 40px -10px rgba(0, 0, 0, 0.65), 0 8px 20px -4px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15) !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow-dark))) !important;
 }
 
 /* Main Card container stays stationary on hover so nested Card & Sub Card interactions remain stable */
@@ -3453,7 +3478,7 @@ html[data-card-style="dark-ice-blue-neu"] .video-play-btn--letter {
 /* ========================================================================= */
 .page-main-card,
 [data-main-card="true"]:not(#pdf-page-container) {
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: var(--radius-main, 30px) !important;
 }
 
 [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#app-header):not(#app-footer),
@@ -3463,7 +3488,7 @@ html[data-card-style="dark-ice-blue-neu"] .video-play-btn--letter {
 .exp-bento-surface-card,
 .themed-image-card,
 .themed-image-frame {
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: var(--radius-card, 24px) !important;
 }
 
 [data-subcard="true"],
@@ -3472,7 +3497,7 @@ html[data-card-style="dark-ice-blue-neu"] .video-play-btn--letter {
 .exp-bento-item-card,
 .exp-detail-subcard,
 .theme-modal-subcard {
-  border-radius: var(--radius-subcard, 14px) !important;
+  border-radius: var(--radius-subcard, 16px) !important;
 }
 
 .banner-card,
@@ -3481,12 +3506,12 @@ html[data-card-style="dark-ice-blue-neu"] .video-play-btn--letter {
 #project-detail-banner,
 #interview-questions-card,
 #pdf-hero-banner {
-  border-radius: var(--radius-banner, var(--radius-card, 14px)) !important;
+  border-radius: var(--radius-banner, var(--radius-card, 24px)) !important;
 }
 
 .theme-modal-card,
 .theme-pip-player {
-  border-radius: var(--radius-modal, 14px) !important;
+  border-radius: var(--radius-modal, 24px) !important;
 }
 
 #global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]),
@@ -3496,13 +3521,13 @@ html[data-card-style="dark-ice-blue-neu"] .video-play-btn--letter {
 #global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
 .theme-modal-card img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
 [data-section-card="true"] img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]) {
-  border-radius: var(--radius-subcard, 14px) !important;
+  border-radius: var(--radius-subcard, 16px) !important;
 }
 
 #app-header {
-  border-radius: var(--radius-header, 0 0 14px 14px) !important;
+  border-radius: var(--radius-header, 0 0 28px 28px) !important;
 }
 
 #app-footer {
-  border-radius: var(--radius-footer, 14px 14px 0 0) !important;
+  border-radius: var(--radius-footer, 28px 28px 0 0) !important;
 }

@@ -8,6 +8,8 @@ import { BentoFocusModal } from './components/common/BentoFocusModal';
 import { MilestoneModal } from './components/common/MilestoneModal';
 import { XRayInspector } from './components/common/XRayInspector';
 import { PullCord } from './components/ui/PullCord';
+import { PottedPlantWidget } from './components/ui/PottedPlantWidget';
+import { AiMascotWidget } from './components/ui/AiMascotWidget';
 
 import { HomeView } from './components/views/HomeView';
 import { LetterView } from './components/views/LetterView';
@@ -32,6 +34,7 @@ import { ExperienceMilestone } from './data/experience';
 import { TABS_DATA, PAGE_NEON_COLORS } from './data/tabs';
 import { useTheme } from './hooks/useTheme';
 import { useGlobalHorizontalScroll } from './hooks/useGlobalHorizontalScroll';
+import { usePeripheralClearance } from './hooks/usePeripheralClearance';
 import { parseCssStringToStyle, getCleanImageUrl } from './data/wallpapers';
 import { applyTypographyScaleToDocument } from './config/typographyScale';
 import { SoundEngine } from './components/ui/SoundEngine';
@@ -44,6 +47,7 @@ import { DotGridWavesCanvas } from './components/ui/DotGridWavesCanvas';
 export default function App() {
   const [currentTabIndex, setCurrentTabIndex] = useState<number>(0);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const peripheralClearance = usePeripheralClearance(currentTabIndex !== 16);
 
   const [mapLocation, setMapLocation] = useState<MapLocation | null>(null);
   const [bentoFocusKey, setBentoFocusKey] = useState<string | null>(null);
@@ -109,6 +113,86 @@ export default function App() {
     document.addEventListener('click', handleGlobalClick, true);
     return () => document.removeEventListener('click', handleGlobalClick, true);
   }, []);
+
+  // Thêm class 'vibrate' lên thẻ card trong cùng khi người dùng di chuột qua (tôn trọng prefers-reduced-motion)
+  useEffect(() => {
+    const viewport = mainViewportRef.current;
+    if (!viewport) return;
+
+    const CARD_SELECTOR =
+      '.bento-card, .glass-card, .sub-card, [data-section-card="true"], [data-subcard="true"], .project-card, .education-card, .education-course-card, .exp-bento-surface-card, .exp-bento-item-card, .exp-detail-subcard, .themed-image-card, .skill-swot-subcard';
+    const EXCLUDED_SELECTOR =
+      '#app-header, #app-footer, #footer-nav-capsule, .page-main-card, [data-main-card="true"], .main-card, [id$="-page-container"], [id$="-page-root"], #weather-widget-card, #el-p0-div-16';
+
+    let currentHoveredCard: HTMLElement | null = null;
+
+    const clearHoveredCard = () => {
+      if (currentHoveredCard) {
+        currentHoveredCard.classList.remove('vibrate');
+        currentHoveredCard = null;
+      }
+    };
+
+    const resolveInnermostCard = (target: EventTarget | null): HTMLElement | null => {
+      if (!(target instanceof HTMLElement)) return null;
+      if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return null;
+      }
+      if (target.closest('button, input, textarea, select')) {
+        const outerCard = target.closest(CARD_SELECTOR) as HTMLElement | null;
+        if (!outerCard || outerCard.matches(EXCLUDED_SELECTOR) || outerCard.closest('#app-header, #app-footer')) {
+          return null;
+        }
+        return outerCard;
+      }
+      let candidate = target.closest(CARD_SELECTOR) as HTMLElement | null;
+      while (candidate) {
+        if (!candidate.matches(EXCLUDED_SELECTOR) && !candidate.closest('#app-header, #app-footer')) {
+          return candidate;
+        }
+        candidate = candidate.parentElement?.closest(CARD_SELECTOR) as HTMLElement | null;
+      }
+      return null;
+    };
+
+    const handlePointerOver = (e: PointerEvent) => {
+      const nextCard = resolveInnermostCard(e.target);
+      if (nextCard === currentHoveredCard) return;
+      if (currentHoveredCard) {
+        currentHoveredCard.classList.remove('vibrate');
+      }
+      currentHoveredCard = nextCard;
+      if (currentHoveredCard) {
+        currentHoveredCard.classList.add('vibrate');
+      }
+    };
+
+    const handlePointerOut = (e: PointerEvent) => {
+      if (!currentHoveredCard) return;
+      const related = e.relatedTarget as Node | null;
+      if (related && viewport.contains(related)) {
+        const nextCard = resolveInnermostCard(related);
+        if (nextCard === currentHoveredCard) return;
+        currentHoveredCard.classList.remove('vibrate');
+        currentHoveredCard = nextCard;
+        if (currentHoveredCard) {
+          currentHoveredCard.classList.add('vibrate');
+        }
+        return;
+      }
+      clearHoveredCard();
+    };
+
+    viewport.addEventListener('pointerover', handlePointerOver, true);
+    viewport.addEventListener('pointerout', handlePointerOut, true);
+    viewport.addEventListener('pointerleave', clearHoveredCard);
+    return () => {
+      viewport.removeEventListener('pointerover', handlePointerOver, true);
+      viewport.removeEventListener('pointerout', handlePointerOut, true);
+      viewport.removeEventListener('pointerleave', clearHoveredCard);
+      clearHoveredCard();
+    };
+  }, [currentTabIndex]);
 
   const handleSelectTabWithSound = useCallback((nextIndex: number) => {
     setProjectNavigationRequest(null);
@@ -355,7 +439,7 @@ export default function App() {
     [currentTabIndex, pageSlides]
   );
 
-  const activeTheme = cardStyle || (isDark ? 'dark-ice-blue-neu' : 'ice-blue-neu');
+  const activeTheme = cardStyle || (isDark ? 'dark-rainbow-glass' : 'rainbow-glass');
 
   const renderActiveView = () => {
     switch (currentTabIndex) {
@@ -653,8 +737,13 @@ export default function App() {
         <div aria-hidden="true" className="ambient-layer-transition" />
       </div>
 
-      {/* ĐÈN KÉO DÂY (PULL CORD) Ở GÓC TRÊN BÊN TRÁI WEBSITE */}
-      {currentTabIndex !== 16 && <PullCord />}
+      {/* ĐÈN KÉO DÂY (PULL CORD) Ở GÓC TRÊN BÊN TRÁI HEADER — TỰ ẨN KHI KHÔNG ĐỦ CHỖ TRỐNG */}
+      {currentTabIndex !== 16 && (
+        <PullCord
+          visible={peripheralClearance.showLeftLamp}
+          leftOffsetPx={peripheralClearance.lampLeftOffsetPx}
+        />
+      )}
 
       {/* HEADER (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
@@ -690,7 +779,7 @@ export default function App() {
         }}
         className={`w-full ${
           currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-full'
-        } mx-auto flex-1 my-[2px] sm:my-[4px] lg:my-[4px] min-h-0 rounded-[14px] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
+        } mx-auto flex-1 my-[2px] sm:my-[4px] lg:my-[4px] min-h-0 rounded-[var(--radius-main,30px)] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
         <motion.div
           key={`page-view-${currentTabIndex}`}
@@ -713,7 +802,7 @@ export default function App() {
           data-element-name="Phần tử DIV (#el-p0-div-98)"
           data-element-type="container"
           data-element-page="p0"
-          className="w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-t-[14px] rounded-b-none translate-y-0 opacity-100 max-h-[80px]"
+          className="w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-t-[var(--radius-card,24px)] rounded-b-none translate-y-0 opacity-100 max-h-[80px]"
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}
@@ -727,6 +816,24 @@ export default function App() {
             }}
           />
         </div>
+      )}
+
+      {/* CHẬU CÂY BÊN TRÁI FOOTER & NHÂN VẬT AI BÊN PHẢI FOOTER — TỰ ẨN KHI KHÔNG ĐỦ CHỖ TRỐNG */}
+      {currentTabIndex !== 16 && (
+        <>
+          <PottedPlantWidget
+            visible={peripheralClearance.showLeftPlant}
+            widthPx={peripheralClearance.plantWidthPx}
+            isDark={isDark}
+            onShowNotification={showNotification}
+          />
+          <AiMascotWidget
+            visible={peripheralClearance.showRightMascot}
+            widthPx={peripheralClearance.mascotWidthPx}
+            isDark={isDark}
+            onOpenAiAssistant={() => handleSelectTabWithSound(13)}
+          />
+        </>
       )}
 
 

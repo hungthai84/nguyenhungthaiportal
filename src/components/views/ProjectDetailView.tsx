@@ -316,7 +316,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       const isDarkThemeAttr =
         effectiveStyle === 'cowhide-leather' ||
         effectiveStyle === 'black-cowhide-leather' ||
-        effectiveStyle === 'dark-ice-blue-neu';
+        effectiveStyle === 'dark-ice-blue-neu' ||
+        effectiveStyle === 'dark-rainbow-glass' ||
+        effectiveStyle === 'special-rainbow-glass';
       if (typeof isLight === 'boolean') {
         setIsLightMode(isLight && !isDarkClass && !isDarkThemeAttr);
       } else {
@@ -359,7 +361,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           minHeight: '0px',
         }),
     padding: '15px',
-    borderRadius: '14px',
+    borderRadius: 'var(--radius-card, 24px)',
   });
 
   const getSectionCards = (sc: HTMLDivElement) =>
@@ -547,7 +549,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
         }}
         style={{
           paddingRight: '0px',
-          borderRadius: '14px',
+          borderRadius: 'var(--radius-card, 24px)',
           ...(!isDesktopMd && bannerHeight
             ? { height: `${bannerHeight}px`, minHeight: `${bannerHeight}px`, maxHeight: `${bannerHeight}px` }
             : {}),

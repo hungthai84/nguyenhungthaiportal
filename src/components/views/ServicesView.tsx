@@ -24,14 +24,16 @@ const DOMAIN_DETAIL_ACCENTS: Record<string, { light: string; dark: string }> = {
   '06': { light: '#059669', dark: '#34d399' },
 };
 
-export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ice-blue-neu' }) => {
+export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rainbow-glass' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
   const isDark =
     themeIsDark ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu';
+    currentTheme === 'dark-ice-blue-neu' ||
+    currentTheme === 'dark-rainbow-glass' ||
+    currentTheme === 'special-rainbow-glass';
   const isLight = !isDark;
 
   const isEn = language === 'en';
@@ -252,7 +254,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ice-
           data-element-page="services"
           data-element-parent="services-cards-track"
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
-          style={{ padding: '15px', gap: '15px', borderRadius: '14px' }}
+          style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-main, 30px)' }}
         >
       <div
         id="services-main-content"
@@ -273,12 +275,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ice-
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
           className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-[15px] p-[15px] z-30 box-border transition-all duration-300"
-          style={{ padding: '15px', gap: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px', boxSizing: 'border-box' }}
+          style={{ padding: '15px', gap: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)', boxSizing: 'border-box' }}
         >
         <div
           className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
           style={{
-            borderRadius: '14px',
+            borderRadius: 'var(--radius-banner, 24px)',
           }}
         >
           <img
@@ -466,7 +468,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ice-
                     }
                   }}
                   style={{
-                    borderRadius: '14px',
+                    borderRadius: 'var(--radius-card, 24px)',
                     padding: '15px',
                     gap: '15px',
                     boxSizing: 'border-box',
@@ -622,7 +624,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ice-
                 }}
                 className="bento-card glass-card w-full flex-1 rounded-[14px] p-[15px] gap-[15px] box-border relative flex flex-col justify-start text-left font-play transition-all duration-300 text-[var(--text-primary)]"
                 style={{
-                  borderRadius: '14px',
+                  borderRadius: 'var(--radius-card, 24px)',
                   padding: '15px',
                   gap: '15px',
                   boxSizing: 'border-box',

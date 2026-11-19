@@ -932,20 +932,20 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+        className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
         style={{
           padding: '15px',
           width: '100%',
           maxWidth: '100%',
-          borderRadius: '14px',
+          borderRadius: 'var(--radius-banner, 24px)',
         }}
       >
         {/* Lớp nền hình ảnh và gradient phủ */}
         <div
           id="horoscope-hero-banner-bg"
-          className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
+          className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
           style={{
-            borderRadius: '14px',
+            borderRadius: 'var(--radius-banner, 24px)',
           }}
         >
           <img
@@ -1737,12 +1737,12 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                           setSearchYearInput(matchObj.yearDetail.split('•')[0].trim());
                         }}
                         style={{
-                          borderRadius: '14px',
+                          borderRadius: 'var(--radius-subcard, 16px)',
                           ...(isSel
                             ? { background: 'var(--bg-button-primary)', color: '#FFFFFF', borderColor: 'transparent' }
                             : { background: 'var(--bg-subcard)', color: 'var(--text-primary)', borderColor: 'var(--border-subcard)' }),
                         }}
-                        className={`p-2.5 !rounded-[14px] border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
+                        className={`p-2.5 !rounded-[var(--radius-subcard,16px)] border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
                           isSel ? 'shadow-md scale-105' : ''
                         }`}
                       >
@@ -1937,10 +1937,10 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   gap: '15px',
                   rowGap: '15px',
                   columnGap: '15px',
-                  borderRadius: '14px',
+                  borderRadius: 'var(--radius-main, 30px)',
                 }}
                 className={cn(
-                  'group/horoscope page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
+                  'group/horoscope page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
                   !isActiveCard ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
                 )}
               >

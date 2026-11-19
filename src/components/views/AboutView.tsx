@@ -529,7 +529,7 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
 };
 
 export function AboutView({ 
-  currentTheme = 'ice-blue-neu', 
+  currentTheme = 'rainbow-glass', 
   onNavigatePage,
   onShowNotification,
   onOpenMapModal,
@@ -1443,10 +1443,10 @@ export function AboutView({
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
-          borderRadius: '14px',
+          borderRadius: 'var(--radius-main, 30px)',
         }}
         className={cn(
-          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
           activeIntroCard !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
@@ -1464,10 +1464,10 @@ export function AboutView({
               data-element-page="about"
               data-element-parent="about-intro-card-1"
               style={{
-                borderRadius: '14px',
+                borderRadius: 'var(--radius-card, 24px)',
                 padding: '10px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[14px] overflow-hidden flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video p-[10px] text-left"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,24px)] overflow-hidden flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video p-[10px] text-left"
             >
                   <div className="relative w-full h-full flex-1 rounded-[14px] overflow-hidden min-h-0 flex flex-col justify-between">
                   {activeHeroMedia === 'video' ? (
@@ -1712,10 +1712,10 @@ export function AboutView({
               data-element-page="about"
               data-element-parent="about-intro-card-1"
               style={{
-                borderRadius: '14px',
+                borderRadius: 'var(--radius-card, 24px)',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-start gap-2 h-auto lg:h-full min-h-0 text-left rounded-[14px] p-[15px] overflow-hidden"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-start gap-2 h-auto lg:h-full min-h-0 text-left rounded-[var(--radius-card,24px)] p-[15px] overflow-hidden"
             >
                   {/* Header Bento Box Bar */}
                   <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 shrink-0">
@@ -1825,7 +1825,7 @@ export function AboutView({
                       {
                         id: 'email',
                         label: 'Hộp thư',
-                        value: 'Gửi email (hungthai84@gmail.com)',
+                        value: 'Gửi email',
                         icon: 'mail',
                         iconColorCls: 'text-pink-600 dark:text-pink-300',
                         bgCls: 'bg-pink-500/10 dark:bg-pink-500/15 border-pink-500/25 dark:border-pink-400/30',
@@ -1840,7 +1840,7 @@ export function AboutView({
                       {
                         id: 'website',
                         label: 'Website',
-                        value: 'nguyenhungthai.powerservice.one',
+                        value: 'Vào website',
                         icon: 'globe',
                         iconColorCls: 'text-blue-600 dark:text-sky-300',
                         bgCls: 'bg-blue-500/10 dark:bg-blue-500/15 border-blue-500/25 dark:border-blue-400/30',
@@ -1852,7 +1852,7 @@ export function AboutView({
                       {
                         id: 'linkedin',
                         label: 'LinkedIn',
-                        value: 'linkedin.com/in/hungthai84',
+                        value: 'Vào linkedin',
                         icon: 'user-check',
                         iconColorCls: 'text-indigo-600 dark:text-indigo-300',
                         bgCls: 'bg-indigo-500/10 dark:bg-indigo-500/15 border-indigo-500/25 dark:border-indigo-400/30',

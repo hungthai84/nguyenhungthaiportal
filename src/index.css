@@ -14,14 +14,136 @@
 }
 
 @keyframes vibrate {
-  0% { transform: translate(0); }
-  20% { transform: translate(-1px, 1px); }
-  40% { transform: translate(1px, -1px); }
-  60% { transform: translate(-1px, -1px); }
-  80% { transform: translate(1px, 1px); }
-  100% { transform: translate(0); }
+  0% { transform: translate3d(0, -2px, 0); }
+  20% { transform: translate3d(-0.8px, -1.2px, 0); }
+  40% { transform: translate3d(0.8px, -2.6px, 0); }
+  60% { transform: translate3d(-0.8px, -2.6px, 0); }
+  80% { transform: translate3d(0.8px, -1.2px, 0); }
+  100% { transform: translate3d(0, -2px, 0); }
 }
-.vibrate { animation: vibrate 0.3s linear infinite; }
+.vibrate {
+  animation: vibrate 0.28s linear infinite;
+}
+
+/* AiMascotWidget: 10s GPU-composited nhún nhảy bounce sequence (zero layout shifts / zero JS timers) */
+@keyframes aiMascotNhunNhayLoop {
+  0%, 82% {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+  20%, 60% {
+    transform: translate3d(0, -2.5px, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+  40% {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+  85% {
+    transform: translate3d(0, 2.5px, 0) scale3d(1.045, 0.94, 1) rotate(-1.5deg);
+  }
+  88.5% {
+    transform: translate3d(0, -11px, 0) scale3d(0.96, 1.05, 1) rotate(2.2deg);
+  }
+  92% {
+    transform: translate3d(0, 1px, 0) scale3d(1.03, 0.965, 1) rotate(-1.4deg);
+  }
+  95.5% {
+    transform: translate3d(0, -6.5px, 0) scale3d(0.98, 1.025, 1) rotate(1.1deg);
+  }
+  98.2% {
+    transform: translate3d(0, 0.5px, 0) scale3d(1.01, 0.99, 1) rotate(-0.4deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+}
+
+.ai-mascot-btn {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: 50% 92%;
+  will-change: transform;
+}
+.ai-mascot-btn:hover {
+  transform: translate3d(0, -5px, 0) scale(1.035);
+}
+.ai-mascot-btn:active {
+  transform: translate3d(0, 0, 0) scale(0.96);
+}
+.ai-mascot-motion-layer {
+  transform-origin: 50% 92%;
+  will-change: transform;
+  animation: aiMascotNhunNhayLoop 10s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+/* PottedPlantWidget: GPU-composited leaf-falling sequence & subtle breeze flex */
+@keyframes leafFallingDrift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(var(--leaf-rot-start, 0deg)) scale(calc(var(--leaf-scale, 1) * 0.65));
+  }
+  12% {
+    opacity: 1;
+    transform: translate3d(calc(var(--leaf-drift-x, 12px) * 0.25), calc(var(--leaf-drop-y, 90px) * 0.14), 0)
+      rotate(calc(var(--leaf-rot-start, 0deg) + 40deg)) scale(var(--leaf-scale, 1));
+  }
+  48% {
+    opacity: 0.94;
+    transform: translate3d(calc(var(--leaf-drift-x, 12px) * -0.22), calc(var(--leaf-drop-y, 90px) * 0.48), 0)
+      rotate(calc(var(--leaf-rot-end, 160deg) * 0.55)) scale(calc(var(--leaf-scale, 1) * 0.94));
+  }
+  82% {
+    opacity: 0.65;
+    transform: translate3d(calc(var(--leaf-drift-x, 12px) * 0.85), calc(var(--leaf-drop-y, 90px) * 0.85), 0)
+      rotate(calc(var(--leaf-rot-end, 160deg) * 0.92)) scale(calc(var(--leaf-scale, 1) * 0.82));
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--leaf-drift-x, 12px), var(--leaf-drop-y, 90px), 0)
+      rotate(var(--leaf-rot-end, 160deg)) scale(calc(var(--leaf-scale, 1) * 0.7));
+  }
+}
+
+@keyframes plantCanopyBreeze {
+  0% { transform: scale3d(1, 1, 1); }
+  25% { transform: scale3d(1.015, 0.985, 1) rotate(-0.8deg); }
+  58% { transform: scale3d(0.992, 1.012, 1) rotate(0.7deg); }
+  100% { transform: scale3d(1, 1, 1); }
+}
+
+.plant-widget-btn {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: 50% 92%;
+  will-change: transform;
+}
+.plant-widget-btn:hover {
+  transform: translate3d(0, -2px, 0) scale(1.02);
+}
+.plant-widget-btn:active {
+  transform: translate3d(0, 0, 0) scale(0.975);
+}
+.plant-canopy-breeze {
+  transform-origin: 50% 85%;
+  animation: plantCanopyBreeze 780ms cubic-bezier(0.22, 1, 0.36, 1) 1;
+}
+.plant-falling-leaf.leaf-falling {
+  will-change: transform, opacity;
+  animation-name: leafFallingDrift;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vibrate,
+  .ai-mascot-motion-layer,
+  .plant-canopy-breeze,
+  .plant-falling-leaf.leaf-falling {
+    animation: none !important;
+    transform: none !important;
+  }
+  .ai-mascot-btn,
+  .plant-widget-btn {
+    transition: none !important;
+    transform: none !important;
+  }
+}
 
 /* UI Architecture Modular CSS Imports */
 @import "./styles/tokens.css";
@@ -222,7 +344,7 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  box-shadow: 0 32px 72px -12px rgba(15, 23, 42, 0.36), 0 18px 40px -8px rgba(15, 23, 42, 0.24), 0 8px 18px -4px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow))) !important;
 }
 
 .dark div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p12-div-87:nth-of-type(1) > div#contact-page-container:nth-of-type(1) > div#contact-cards-track:nth-of-type(1) > div#contact-main-card:nth-of-type(1),
@@ -239,7 +361,7 @@ html[data-theme-mode="dark"] .page-main-card,
 html[data-theme-mode="dark"] [data-main-card="true"],
 html[data-theme-mode="dark"] #about-intro-card-1,
 html[data-theme-mode="dark"] #about-intro-card-2 {
-  box-shadow: 0 36px 84px -12px rgba(0, 0, 0, 0.88), 0 22px 48px -8px rgba(0, 0, 0, 0.72), 0 10px 24px -4px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow-dark))) !important;
 }
 
 /* Unified Full-Width Viewport, Outer Page Container (100% Transparent, 0px, 1px Border) & Centered Level-01 .page-main-card */
@@ -448,7 +570,7 @@ html.dark[data-card-style] #about-intro-card-2 {
   column-gap: 15px !important;
   border-width: 1px !important;
   border-style: solid !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: var(--radius-main, 30px) !important;
   box-sizing: border-box !important;
 }
 
@@ -485,8 +607,8 @@ html:not([data-surface-depth="flat"]) #contact-main-card,
 html:not([data-surface-depth="flat"]) #home-main-card,
 html:not([data-surface-depth="flat"]) #letter-card-1,
 html:not([data-surface-depth="flat"]) [id^="letter-card-"] {
-  box-shadow: var(--main-card-deep-shadow, 0 20px 48px -10px rgba(15, 23, 42, 0.22), 0 10px 24px -6px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85)) !important;
-  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1), border-color 260ms ease, outline-color 260ms ease, background 260ms ease, color 260ms ease !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow))) !important;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease, outline-color 220ms ease, background 240ms ease, color 220ms ease !important;
 }
 
 html.dark:not([data-surface-depth="flat"]) .page-main-card,
@@ -499,7 +621,7 @@ html.dark:not([data-surface-depth="flat"]) #contact-main-card,
 html.dark:not([data-surface-depth="flat"]) #home-main-card,
 html.dark:not([data-surface-depth="flat"]) #letter-card-1,
 html.dark:not([data-surface-depth="flat"]) [id^="letter-card-"] {
-  box-shadow: var(--main-card-deep-shadow-dark, 0 24px 60px -12px rgba(0, 0, 0, 0.85), 0 12px 28px -6px rgba(0, 0, 0, 0.60), inset 0 1px 0 rgba(255, 255, 255, 0.16)) !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow-dark))) !important;
 }
 
 /* Explicit Flat Mode: Only strip shadows when flat mode is actively selected */
@@ -573,7 +695,7 @@ html[data-surface-depth="flat"] [id^="letter-card-"] {
   html:not([data-surface-depth="flat"]) [id^="letter-card-"]:hover {
     border-color: var(--surface-primary-border-hover, var(--surface-primary-border)) !important;
     transform: translateY(-3px) !important;
-    box-shadow: var(--main-card-deep-shadow-hover, 0 28px 64px -12px rgba(15, 23, 42, 0.28), 0 14px 30px -4px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95)) !important;
+    box-shadow: var(--surface-primary-shadow-hover, var(--main-card-deep-shadow-hover)) !important;
   }
 
   html.dark:not([data-surface-depth="flat"]) .page-main-card:hover,
@@ -587,7 +709,7 @@ html[data-surface-depth="flat"] [id^="letter-card-"] {
   html.dark:not([data-surface-depth="flat"]) #letter-card-1:hover,
   html.dark:not([data-surface-depth="flat"]) [id^="letter-card-"]:hover {
     transform: translateY(-3px) !important;
-    box-shadow: var(--main-card-deep-shadow-dark-hover, 0 32px 76px -12px rgba(0, 0, 0, 0.92), 0 16px 36px -6px rgba(0, 0, 0, 0.70), inset 0 1px 0 rgba(255, 255, 255, 0.22)) !important;
+    box-shadow: var(--surface-primary-shadow-hover, var(--main-card-deep-shadow-dark-hover)) !important;
   }
 
   html[data-card-style*="leather"]:not([data-surface-depth="flat"]) .page-main-card:hover,
@@ -652,7 +774,7 @@ html.dark[data-card-style] #experience-job-detail-card {
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 24px) !important;
   box-sizing: border-box !important;
 }
 
@@ -681,7 +803,7 @@ html #about-intro-grid-2 {
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p7-div-81:nth-of-type(1) > div#projects-page-container:nth-of-type(1) > div#el-p7-div-83:nth-of-type(1) > div#el-p7-div-84:nth-of-type(1) > div#el-p7-div-85:nth-of-type(1) {
   padding-right: 0px;
-  border-radius: 14px;
+  border-radius: var(--radius-card, 24px);
   border-style: none;
 }
 
@@ -708,7 +830,7 @@ html :is(
 .card-light-cowhide-leather,
 .card-black-cowhide-leather,
 .card-cowhide-leather {
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: var(--radius-card, 24px) !important;
 }
 
 html :is(
@@ -723,7 +845,7 @@ html :is(
   .skill-swot-subcard,
   .theme-modal-subcard
 ) {
-  border-radius: var(--radius-subcard, 14px) !important;
+  border-radius: var(--radius-subcard, 16px) !important;
 }
 
 html :is(
@@ -733,7 +855,7 @@ html :is(
   .education-card-banner,
   .project-detail-banner-inner
 ) {
-  border-radius: var(--radius-banner, var(--radius-card, 14px)) !important;
+  border-radius: var(--radius-banner, var(--radius-card, 24px)) !important;
 }
 
 /* Enforce 0px border-radius, 100% transparent background & 0px padding on all outer page containers */
@@ -793,15 +915,15 @@ html[data-card-style="cowhide-leather"] {
   --text-nav-arrow: #FFFFFF !important;
 }
 
-/* Override low-contrast legacy slate/gray classes inside content cards for Light & Dark crispness */
+/* Override low-contrast legacy slate/gray classes inside content cards using active theme readability tokens */
 html:not(.dark) .main-card :is(p, li, td, th, dd, dt):not(.hero-banner *):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-white"]),
 html:not(.dark) [role="dialog"] :is(p, li, td, th, dd, dt):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-white"]) {
-  color: #000000;
+  color: var(--text-primary, #2D3850);
 }
 
 html.dark .main-card :is(p, li, td, th, dd, dt):not(.hero-banner *):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-black"]),
 html.dark [role="dialog"] :is(p, li, td, th, dd, dt):not([class*="text-blue-"]):not([class*="text-sky-"]):not([class*="text-cyan-"]):not([class*="text-emerald-"]):not([class*="text-green-"]):not([class*="text-amber-"]):not([class*="text-orange-"]):not([class*="text-rose-"]):not([class*="text-red-"]):not([class*="text-purple-"]):not([class*="text-violet-"]):not([class*="text-indigo-"]):not([class*="text-teal-"]):not([class*="text-pink-"]):not([class*="text-black"]) {
-  color: #FFFFFF;
+  color: var(--text-primary, #F2F4FC);
 }
 
 /* Hide horizontal and vertical scrollbars globally while keeping scroll functionality */
@@ -1717,14 +1839,14 @@ html[data-card-style] :is(
   #pdf-hero-banner,
   [id$="-hero-banner"]
 ) {
-  border-radius: var(--radius-banner, var(--radius-card, 14px)) !important;
+  border-radius: var(--radius-banner, var(--radius-card, 24px)) !important;
   background: var(--banner-transparent-bg, rgba(255, 255, 255, 0.10)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--banner-border, var(--border-color))) !important;
   outline: var(--outline-card, var(--banner-outline, none));
   outline-offset: var(--outline-offset-card, var(--banner-outline-offset, -6px));
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 250ms ease, outline-color 250ms ease, background 250ms ease !important;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease, outline-color 220ms ease, background 220ms ease !important;
 }
 
 html:not([data-surface-depth="flat"]) :is(
@@ -1787,7 +1909,7 @@ html :is(
 
 html #interview-questions-card,
 html[data-card-style] #interview-questions-card {
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: var(--radius-card, 24px) !important;
   transition:
     transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 260ms ease,
@@ -1839,12 +1961,12 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
   ):hover {
     transform: translateY(-2px) !important;
     border-color: var(--surface-primary-border-hover, var(--surface-secondary-border)) !important;
-    box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover, 0 22px 48px -12px rgba(15, 23, 42, 0.24))) !important;
+    box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover)) !important;
   }
 
   /* #interview-questions-card matches #interview-answers-card exact Level 2 Layer Card lift & shadow */
   html:not([data-surface-depth="flat"]) #interview-questions-card:not(:has(.banner-dropdown-menu)):hover {
-    transform: translateY(var(--layer-l2-lift, -4px)) !important;
+    transform: translateY(var(--layer-l2-lift, -3px)) !important;
     border-color: var(--surface-primary-border-hover, var(--surface-secondary-border)) !important;
     box-shadow: var(--layer-l2-shadow-hover, var(--surface-secondary-shadow-hover, var(--layer-l2-shadow, var(--shadow-card-hover)))) !important;
   }
@@ -1855,7 +1977,7 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
   ):hover {
     transform: translateY(-2px) !important;
     border-color: var(--surface-primary-border-hover, var(--surface-secondary-border)) !important;
-    box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover, 0 22px 48px -12px rgba(15, 23, 42, 0.24))) !important;
+    box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover)) !important;
   }
 
   html:not([data-surface-depth="flat"]) :is(
@@ -1864,9 +1986,9 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
     #memories-hero-banner,
     #wallpaper-hero-banner
   ):hover {
-    transform: translateY(-4px) !important;
+    transform: translateY(-3px) !important;
     border-color: var(--surface-primary-border-hover, var(--surface-secondary-border)) !important;
-    box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover, 0 26px 56px -12px rgba(15, 23, 42, 0.28))) !important;
+    box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover)) !important;
   }
 
   html:not([data-surface-depth="flat"]) :is(
@@ -1978,9 +2100,9 @@ html[data-card-style] .themed-image-card {
   background-color: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  border-radius: 14px !important;
-  -webkit-clip-path: inset(0 round 14px) !important;
-  clip-path: inset(0 round 14px) !important;
+  border-radius: var(--radius-card, 24px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-card, 24px)) !important;
+  clip-path: inset(0 round var(--radius-card, 24px)) !important;
   border: var(--card-border-width, 1px) solid var(--border-image-card, var(--border-color)) !important;
   outline: var(--outline-image-card, none) !important;
   outline-offset: var(--outline-offset-image-card, 0px) !important;
@@ -1993,9 +2115,9 @@ html #wallpaper-page-container [id^="wallpaper-card-media-"] > :is(img, video, d
 html #memories-page-container [id^="memory-card-"] > img.memory-crisp-img,
 html .themed-image-frame,
 html[data-card-style] .themed-image-frame {
-  border-radius: 14px !important;
-  -webkit-clip-path: inset(0 round 14px) !important;
-  clip-path: inset(0 round 14px) !important;
+  border-radius: var(--radius-subcard, 16px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-subcard, 16px)) !important;
+  clip-path: inset(0 round var(--radius-subcard, 16px)) !important;
 }
 
 html #wallpaper-page-container [id^="wallpaper-card-media-"],
@@ -2107,8 +2229,10 @@ button.nav-pill:not(#header-btn-hungthai-avatar) .nav-pill-icon-badge,
 #app-footer #footer-nav-capsule {
   min-height: 40px !important;
   height: 40px !important;
-  padding-top: 8px !important;
-  padding-bottom: 8px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
   border-width: 1px !important;
   box-sizing: border-box !important;
 }
@@ -2187,7 +2311,7 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-conta
 /* ========================================================================= */
 /* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL 5 ACTIVE THEMES)    */
 /* ========================================================================= */
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"], [data-card-style="rainbow-glass"], [data-card-style="dark-rainbow-glass"], [data-card-style="special-rainbow-glass"], [data-card-style="glass-flat"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
   #projects-grid .project-card .project-card-banner,
   .hero-banner .project-detail-banner-media,
@@ -2206,9 +2330,9 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   #project-detail-banner .project-detail-banner-media :is(img, video),
   #project-detail-banner .project-detail-banner-scrim
 ) {
-  border-radius: var(--radius-banner, 28px) !important;
-  -webkit-clip-path: inset(0 round var(--radius-banner, 28px)) !important;
-  clip-path: inset(0 round var(--radius-banner, 28px)) !important;
+  border-radius: var(--radius-banner, 24px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-banner, 24px)) !important;
+  clip-path: inset(0 round var(--radius-banner, 24px)) !important;
 }
 
 /* Header card-surface sync: ensure header has exact card background & border across all themes */

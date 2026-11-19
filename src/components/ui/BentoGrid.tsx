@@ -74,7 +74,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
       data-section-card="true"
       data-multicolor-bento={multicolor || tone !== 'default' ? 'true' : undefined}
       className={cn(
-        'bento-card glass-card rounded-[14px] min-w-0 max-w-full flex flex-col justify-between transition-all duration-300',
+        'bento-card glass-card rounded-[var(--radius-card,24px)] min-w-0 max-w-full flex flex-col justify-between transition-all duration-300',
         padClass,
         toneClass,
         className
@@ -133,7 +133,7 @@ export const BentoSubCard: React.FC<BentoSubCardProps> = ({
     <div
       data-subcard="true"
       className={cn(
-        'sub-card rounded-[14px] p-[15px] min-w-0 max-w-full transition-all duration-200',
+        'sub-card rounded-[var(--radius-subcard,16px)] p-[15px] min-w-0 max-w-full transition-all duration-200',
         interactive && 'cursor-pointer hover:-translate-y-0.5 hover:shadow-md',
         className
       )}

@@ -18,7 +18,7 @@ export interface MemoriesViewProps {
   currentTheme?: string;
 }
 
-export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ice-blue-neu' }) => {
+export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'rainbow-glass' }) => {
   const { showToast } = useToast();
   const { isDark: themeIsDark } = useTheme();
   const isDark = themeIsDark || currentTheme.includes('dark');
@@ -198,12 +198,12 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ice-
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
         className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
-        style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
+        style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
       >
         <div
           className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
           style={{
-            borderRadius: '14px',
+            borderRadius: 'var(--radius-banner, 24px)',
           }}
         >
           <img
@@ -426,7 +426,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ice-
                 }}
                 style={{
                   animationDelay: `${(idx % 16) * 35}ms`,
-                  borderRadius: '14px',
+                  borderRadius: 'var(--radius-card, 24px)',
                   minHeight: '250px',
                   padding: '0px',
                   backgroundColor: 'transparent',
@@ -454,13 +454,13 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'ice-
                         'linear-gradient(135deg, rgba(15,23,42,0.55) 0%, rgba(30,41,59,0.75) 100%)';
                     }
                   }}
-                  style={{ borderRadius: '14px' }}
+                  style={{ borderRadius: 'var(--radius-card, 24px)' }}
                   className="memory-crisp-img w-full h-auto min-h-[250px] max-h-[440px] object-cover block rounded-[14px] transition-transform duration-500 group-hover:scale-105"
                 />
 
                 {/* LỚP PHỦ THEO GIAO DIỆN ĐANG CHỌN — CHỈ HIỆN KHI RÊ CHUỘT */}
                 <div
-                  style={{ borderRadius: '14px' }}
+                  style={{ borderRadius: 'var(--radius-card, 24px)' }}
                   className="themed-image-card-scrim absolute inset-0 rounded-[14px] pointer-events-none z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
                 />
 

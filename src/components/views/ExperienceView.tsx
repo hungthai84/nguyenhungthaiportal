@@ -326,7 +326,7 @@ export interface ExperienceViewProps {
 }
 
 export const ExperienceView: React.FC<ExperienceViewProps> = ({ 
-  currentTheme = 'ice-blue-neu',
+  currentTheme = 'rainbow-glass',
   onShowNotification,
   onNavigateTab,
   activeKey: activeKeyProp,
@@ -341,7 +341,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     themeIsDark ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu';
+    currentTheme === 'dark-ice-blue-neu' ||
+    currentTheme === 'dark-rainbow-glass';
   const isLeather = cardStyle === 'cowhide-leather';
   const isBlackLeather = cardStyle === 'black-cowhide-leather';
   const isLightLeather = cardStyle === 'light-cowhide-leather';
@@ -857,8 +858,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           data-element-type="card"
           data-element-page="experience"
           data-element-parent="experience-cards-track"
-          className="page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border p-[15px] gap-[15px] rounded-[14px] w-full h-full overflow-hidden"
-          style={{ padding: '15px', borderRadius: '14px', gap: '15px' }}
+          className="page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] w-full h-full overflow-hidden"
+          style={{ padding: '15px', borderRadius: 'var(--radius-main, 30px)', gap: '15px' }}
         >
       {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH VỚI ĐỆM 15PX) */}
       {!showJobCard && (
@@ -885,31 +886,31 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   background: 'linear-gradient(145deg, #653A17 0%, #4A280E 100%)',
                   outline: '1.5px dashed rgba(245, 222, 179, 0.52)',
                   outlineOffset: '-7px',
-                  borderRadius: '14px',
+                  borderRadius: 'var(--radius-card, 24px)',
                 }
                 : isBlackLeather
                   ? {
                       background: 'linear-gradient(145deg, #1b1e25 0%, #0b0c10 100%)',
                       outline: '1.5px dashed rgba(226, 232, 240, 0.45)',
                       outlineOffset: '-7px',
-                      borderRadius: '14px',
+                      borderRadius: 'var(--radius-card, 24px)',
                     }
                 : isLightLeather
                   ? {
                       background: 'linear-gradient(145deg, #FFFFFF 0%, #F1F5F9 100%)',
                       outline: '1.5px dashed rgba(15, 23, 42, 0.78)',
                       outlineOffset: '-7px',
-                      borderRadius: '14px',
+                      borderRadius: 'var(--radius-card, 24px)',
                     }
                   : isDarkSurface
                     ? {
                         background: 'rgba(15, 23, 42, 0.86)',
-                        borderRadius: '14px',
+                        borderRadius: 'var(--radius-card, 24px)',
                       }
-                    : { borderRadius: '14px' }
+                    : { borderRadius: 'var(--radius-card, 24px)' }
           }
           className={cn(
-            'group/board relative w-full h-full min-h-0 flex-1 rounded-[14px] overflow-hidden select-none flex flex-col box-border z-[1]',
+            'group/board relative w-full h-full min-h-0 flex-1 rounded-[var(--radius-card,24px)] overflow-hidden select-none flex flex-col box-border z-[1]',
             !isLeather && !isBlackLeather && !isLightLeather && !isDarkSurface && 'bg-[#E2E8F0]',
             isDragging ? 'cursor-grabbing' : 'cursor-grab'
           )}
@@ -2002,7 +2003,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               data-element-page="experience"
               data-element-parent="experience-main-card"
               data-section-card="true"
-              className="bento-card glass-card flex-1 min-h-0 h-full overflow-y-auto overflow-x-hidden glass-scrollbar rounded-[14px] block w-full min-w-0 p-[15px] animate-fadeIn font-play box-border"
+              className="bento-card glass-card flex-1 min-h-0 h-full overflow-y-auto overflow-x-hidden glass-scrollbar rounded-[var(--radius-card,24px)] block w-full min-w-0 p-[15px] animate-fadeIn font-play box-border"
               style={{ padding: '15px' }}
             >
             <div
@@ -2013,17 +2014,17 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-info-card"
                 className={cn(
-                  'exp-bento-surface-card col-span-12 transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[15px] overflow-hidden shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border flex flex-col gap-[15px] relative group min-w-0 h-auto',
+                  'exp-bento-surface-card col-span-12 transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col gap-[15px] relative group min-w-0 h-auto',
                   activeKey === '2026' ? 'lg:col-span-7' : 'lg:col-span-12',
                   isDarkCardText
-                    ? 'bg-slate-900/75 border-white/15 text-white'
-                    : 'bg-white border-slate-100 text-slate-900'
+                    ? 'bg-slate-900/68 border-white/15 text-white'
+                    : 'bg-white/82 border-white/80 text-slate-900'
                 )}
               >
                 {/* Banner Image Header */}
                 <div
                   className={cn(
-                    'exp-bento-hero-banner relative h-44 sm:h-52 w-full rounded-[14px] overflow-hidden shrink-0',
+                    'exp-bento-hero-banner relative h-44 sm:h-52 w-full rounded-[var(--radius-banner,22px)] overflow-hidden shrink-0',
                     isDarkSurface || isLeather || isBlackLeather ? 'bg-slate-900' : 'bg-slate-200'
                   )}
                 >
@@ -2033,28 +2034,25 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       alt={`Banner ${activeMilestone.company}`}
                       referrerPolicy="no-referrer"
                       onError={() => setBannerImgError(true)}
-                      className="w-full h-full object-cover object-center rounded-[14px] group-hover:scale-105 transition-transform duration-700 opacity-100 brightness-105 contrast-105 saturate-105"
+                      className="w-full h-full object-cover object-center rounded-[var(--radius-banner,22px)] group-hover:scale-105 transition-transform duration-700 opacity-100 brightness-105 contrast-105 saturate-105"
                     />
                   ) : (
                     <div
                       className={cn(
-                        'w-full h-full bg-gradient-to-br opacity-95 rounded-[14px]',
+                        'w-full h-full bg-gradient-to-br opacity-95 rounded-[var(--radius-banner,22px)]',
                         customContent.gradient
                       )}
                     />
                   )}
                   <div
                     className={cn(
-                      'absolute inset-0 bg-gradient-to-t to-transparent pointer-events-none',
-                      isDarkSurface || isLeather || isBlackLeather
-                        ? 'from-slate-950/12 via-transparent'
-                        : 'from-slate-900/8 via-transparent'
+                      'absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/15 pointer-events-none'
                     )}
                   />
 
                   {/* Top Action Bar inside Banner: Quay lại Timeline + Chuyển mốc + Time Badge */}
-                  <div className="absolute top-0 inset-x-0 z-10 p-[15px] flex flex-wrap items-center justify-between gap-[15px] pr-12 sm:pr-14">
-                    <div className="flex items-center gap-1.5">
+                  <div className="absolute top-0 inset-x-0 z-10 p-[12px] sm:p-[15px] flex flex-wrap items-center justify-between gap-2.5 pr-14 sm:pr-16">
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       <button
                         type="button"
                         onClick={() => {
@@ -2062,7 +2060,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           setShowJobCard(false);
                         }}
                         className={cn(
-                          'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] text-xs font-bold border shadow-lg cursor-pointer transition-all active:scale-95',
+                          'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-subcard,16px)] text-xs font-bold border shadow-lg cursor-pointer transition-all active:scale-95',
                           isLightLeather
                             ? 'bg-[#fbfcfc]/95 border-[#cbd5e1] text-[#111827] hover:bg-white'
                             : isBlackLeather
@@ -2070,8 +2068,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               : isLeather
                                 ? 'bg-[#522E10]/95 border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
                                 : isDarkSurface
-                                  ? 'bg-slate-900/90 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
-                                  : 'bg-white/95 backdrop-blur-md border-white/85 text-slate-900 hover:bg-white'
+                                  ? 'bg-slate-900/85 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
+                                  : 'bg-white/90 backdrop-blur-md border-white/85 text-slate-900 hover:bg-white'
                         )}
                         title="Quay lại Bảng Timeline (hoặc nhấn phím Esc)"
                       >
@@ -2089,7 +2087,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           aria-label={`Mốc trước: ${prevMilestone.yearBadge}`}
                           title={`Mốc trước: ${prevMilestone.shortName}`}
                           className={cn(
-                            'exp-bento-rect-btn w-8 h-8 rounded-[14px] border shadow-lg flex items-center justify-center cursor-pointer transition-all active:scale-95',
+                            'exp-bento-rect-btn w-8 h-8 rounded-[var(--radius-subcard,16px)] border shadow-lg flex items-center justify-center cursor-pointer transition-all active:scale-95',
                             isLightLeather
                               ? 'bg-[#fbfcfc]/95 border-[#cbd5e1] text-[#111827] hover:bg-white'
                               : isBlackLeather
@@ -2097,12 +2095,31 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                 : isLeather
                                   ? 'bg-[#522E10]/95 border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
                                   : isDarkSurface
-                                    ? 'bg-slate-900/90 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
-                                    : 'bg-white/95 backdrop-blur-md border-white/85 text-slate-900 hover:bg-white'
+                                    ? 'bg-slate-900/85 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
+                                    : 'bg-white/90 backdrop-blur-md border-white/85 text-slate-900 hover:bg-white'
                           )}
                         >
                           <ChevronLeft className="w-4 h-4" />
                         </button>
+                      )}
+
+                      {currentMilestoneIdx >= 0 && (
+                        <span
+                          className={cn(
+                            'px-2.5 py-1 rounded-full text-xs font-bold tabular-nums border shadow-md',
+                            isLightLeather
+                              ? 'bg-[#fbfcfc]/95 border-[#cbd5e1] text-[#111827]'
+                              : isBlackLeather
+                                ? 'bg-[#15171c]/95 border-[#E2E8F0]/35 text-white'
+                                : isLeather
+                                  ? 'bg-[#522E10]/95 border-[#F5DEB3]/55 text-[#FFF8DC]'
+                                  : isDarkSurface
+                                    ? 'bg-slate-900/80 backdrop-blur-md border-white/25 text-slate-100'
+                                    : 'bg-white/90 backdrop-blur-md border-white/85 text-slate-800'
+                          )}
+                        >
+                          {currentMilestoneIdx + 1}/{roadmapCards.length}
+                        </span>
                       )}
 
                       {nextMilestone && (
@@ -2115,7 +2132,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           aria-label={`Mốc tiếp theo: ${nextMilestone.yearBadge}`}
                           title={`Mốc tiếp theo: ${nextMilestone.shortName}`}
                           className={cn(
-                            'exp-bento-rect-btn w-8 h-8 rounded-[14px] border shadow-lg flex items-center justify-center cursor-pointer transition-all active:scale-95',
+                            'exp-bento-rect-btn w-8 h-8 rounded-[var(--radius-subcard,16px)] border shadow-lg flex items-center justify-center cursor-pointer transition-all active:scale-95',
                             isLightLeather
                               ? 'bg-[#fbfcfc]/95 border-[#cbd5e1] text-[#111827] hover:bg-white'
                               : isBlackLeather
@@ -2123,8 +2140,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                 : isLeather
                                   ? 'bg-[#522E10]/95 border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
                                   : isDarkSurface
-                                    ? 'bg-slate-900/90 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
-                                    : 'bg-white/95 backdrop-blur-md border-white/85 text-slate-900 hover:bg-white'
+                                    ? 'bg-slate-900/85 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
+                                    : 'bg-white/90 backdrop-blur-md border-white/85 text-slate-900 hover:bg-white'
                           )}
                         >
                           <ChevronRight className="w-4 h-4" />
@@ -2160,12 +2177,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <div
                     id="experience-company-name-card"
                     className={cn(
-                      'exp-bento-item-card w-full p-[15px] rounded-[14px] border shadow-xs flex flex-col gap-[15px] min-w-0 relative z-10',
+                      'exp-bento-item-card w-full p-[15px] rounded-[var(--radius-subcard,16px)] border shadow-xs flex flex-col gap-3 min-w-0 relative z-10',
                       isDarkCardText
-                        ? 'bg-slate-800/80 border-white/15 text-white'
+                        ? 'bg-slate-800/72 border-white/15 text-white'
                         : isLightLeather
                           ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827]'
-                          : 'bg-white/90 border-slate-200/90 text-slate-900'
+                          : 'bg-white/85 border-slate-200/80 text-slate-900'
                     )}
                   >
                     <div className="min-w-0 w-full flex flex-col gap-[15px]">
@@ -2267,12 +2284,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     {/* Thẻ 1: Chức vụ đảm nhiệm */}
                     <div
                       className={cn(
-                        'exp-bento-item-card flex flex-col p-[15px] rounded-[14px] border min-w-0 h-full gap-[15px]',
+                        'exp-bento-item-card flex flex-col p-[15px] rounded-[var(--radius-subcard,16px)] border min-w-0 h-full gap-3',
                         isDarkCardText
                           ? 'bg-gradient-to-br from-orange-950/50 to-amber-950/35 border-orange-500/25'
                           : isLightLeather
                             ? 'bg-[#edf1f4] border-[#cbd5e1]'
-                            : 'bg-gradient-to-br from-orange-50 to-amber-50/70 border-orange-100'
+                            : 'bg-gradient-to-br from-orange-50/90 to-amber-50/75 border-orange-200/70'
                       )}
                     >
                       <div className="flex items-center gap-2">
@@ -2299,12 +2316,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     {/* Thẻ 2: Quy mô vận hành */}
                     <div
                       className={cn(
-                        'exp-bento-item-card flex flex-col p-[15px] rounded-[14px] border min-w-0 h-full gap-[15px]',
+                        'exp-bento-item-card flex flex-col p-[15px] rounded-[var(--radius-subcard,16px)] border min-w-0 h-full gap-3',
                         isDarkCardText
                           ? 'bg-gradient-to-br from-blue-950/50 to-indigo-950/35 border-blue-500/25'
                           : isLightLeather
                             ? 'bg-[#edf1f4] border-[#cbd5e1]'
-                            : 'bg-gradient-to-br from-blue-50 to-indigo-50/70 border-blue-100'
+                            : 'bg-gradient-to-br from-blue-50/90 to-indigo-50/75 border-blue-200/70'
                       )}
                     >
                       <div className="flex items-center gap-2">
@@ -2337,12 +2354,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <div
                       id="experience-company-services"
                       className={cn(
-                        'exp-bento-item-card sm:col-span-2 xl:col-span-1 rounded-[14px] p-[15px] border flex flex-col gap-[15px] min-w-0 h-full',
+                        'exp-bento-item-card sm:col-span-2 xl:col-span-1 rounded-[var(--radius-subcard,16px)] p-[15px] border flex flex-col gap-3 min-w-0 h-full',
                         isDarkCardText
                           ? 'bg-slate-900/55 border-white/10 text-white'
                           : isLightLeather
                             ? 'bg-[#edf1f4] border-[#cbd5e1] text-[#111827]'
-                            : 'bg-gradient-to-br from-amber-50/60 via-white/90 to-orange-50/60 border-orange-200/70 text-slate-900'
+                            : 'bg-gradient-to-br from-amber-50/75 via-white/90 to-orange-50/75 border-orange-200/75 text-slate-900'
                       )}
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -2407,13 +2424,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <section
                   id="experience-video-card-2026"
                   className={cn(
-                    'exp-bento-surface-card col-span-12 lg:col-span-5 transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[10px] overflow-hidden shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video text-left',
+                    'exp-bento-surface-card col-span-12 lg:col-span-5 transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[10px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video text-left',
                     isDarkCardText
-                      ? 'bg-slate-900/75 border-white/15 text-white'
-                      : 'bg-white border-slate-100 text-slate-900'
+                      ? 'bg-slate-900/68 border-white/15 text-white'
+                      : 'bg-white/82 border-white/80 text-slate-900'
                   )}
                 >
-                  <div className="relative w-full h-full flex-1 rounded-[14px] overflow-hidden min-h-0 flex flex-col justify-between">
+                  <div className="relative w-full h-full flex-1 rounded-[var(--radius-banner,20px)] overflow-hidden min-h-0 flex flex-col justify-between">
                     <video
                       ref={jobVideoRef}
                       id="experience-2026-video"
@@ -2432,7 +2449,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           }
                         }
                       }}
-                      className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] pointer-events-none z-0 opacity-100 transition-opacity duration-700 brightness-105 contrast-105 scale-[1.01]"
+                      className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[var(--radius-banner,20px)] pointer-events-none z-0 opacity-100 transition-opacity duration-700 brightness-105 contrast-105 scale-[1.01]"
                       src={isJobVideoPlaying ? "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841266/Th%E1%BA%BB_Job_2026.mp4" : "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841270/Man_h%C3%ACnh_ch%E1%BB%9D_Job_2026.mp4"}
                     />
 
@@ -2528,14 +2545,19 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </section>
               )}
 
+              {/* CỘT TRÁI (Desktop lg:col-span-7 | Tablet/Mobile: display contents theo order đọc tự nhiên) */}
+              <div
+                id="experience-bento-col-left"
+                className="contents lg:col-span-7 lg:flex lg:flex-col lg:gap-[15px] min-w-0"
+              >
               {/* HÀNG 2: Giới thiệu hành trình & Hình ảnh kỷ niệm */}
               <section
                 id="experience-banner-card"
                 className={cn(
-                  'exp-bento-surface-card col-span-12 lg:col-span-6 order-5 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[15px] shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border min-w-0 h-auto flex flex-col gap-[15px]',
+                  'exp-bento-surface-card order-5 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border min-w-0 h-auto flex flex-col gap-[15px]',
                   isDarkCardText
-                    ? 'bg-gradient-to-br from-rose-950/35 via-slate-900/80 to-orange-950/30 border-rose-500/25 text-white'
-                    : 'bg-gradient-to-br from-rose-50 via-white to-orange-50 border-rose-100 text-slate-900'
+                    ? 'bg-gradient-to-br from-rose-950/35 via-slate-900/75 to-orange-950/30 border-rose-500/25 text-white'
+                    : 'bg-gradient-to-br from-rose-50/90 via-white/85 to-orange-50/90 border-rose-200/70 text-slate-900'
                 )}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -2569,7 +2591,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 {(activeMilestone.highlightText || activeMilestone.cardDescription) && (
                   <p
                     className={cn(
-                      'exp-bento-item-card text-sm sm:text-base leading-relaxed p-[15px] rounded-[14px] border break-words',
+                      'exp-bento-item-card text-sm sm:text-base leading-relaxed p-[15px] rounded-[var(--radius-subcard,16px)] border break-words',
                       isDarkCardText
                         ? 'bg-slate-900/70 border-white/10 text-slate-200'
                         : 'bg-white/85 border-rose-100/90 text-slate-800'
@@ -2588,10 +2610,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         <div
                           key={idx}
                           className={cn(
-                            'exp-bento-item-card p-[15px] rounded-[14px] border shadow-sm min-w-0 h-full flex flex-col gap-[15px]',
+                            'exp-bento-item-card p-[15px] rounded-[var(--radius-subcard,16px)] border shadow-sm min-w-0 h-full flex flex-col gap-3',
                             isDarkCardText
-                              ? 'bg-slate-900/75 border-white/10'
-                              : 'bg-white border-slate-100'
+                              ? 'bg-slate-900/72 border-white/10'
+                              : 'bg-white/90 border-slate-200/75'
                           )}
                         >
                           <h3
@@ -2617,7 +2639,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </div>
                 )}
 
-                <div className="flex items-start sm:items-center gap-[15px] bg-rose-600 text-white p-[15px] rounded-[14px] shadow-sm">
+                <div className="flex items-start sm:items-center gap-[15px] bg-gradient-to-r from-rose-600 to-pink-600 text-white p-[15px] rounded-[var(--radius-subcard,16px)] shadow-sm">
                   <Gauge className="w-5 h-5 text-amber-300 shrink-0 mt-0.5 sm:mt-0" />
                   <p className="text-sm sm:text-base font-medium leading-snug text-white break-words exp-bento-preserve-color">
                     {philosophyText}
@@ -2629,10 +2651,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-responsibility-card"
                 className={cn(
-                  'exp-bento-surface-card order-6 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[15px] shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border min-w-0 h-auto flex flex-col gap-[15px]',
+                  'exp-bento-surface-card order-6 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border min-w-0 h-auto flex flex-col gap-[15px]',
                   isDarkCardText
-                    ? 'bg-gradient-to-b from-purple-950/35 to-slate-900/80 border-purple-500/25 text-white'
-                    : 'bg-gradient-to-b from-purple-50/85 to-white border-purple-100 text-slate-900'
+                    ? 'bg-gradient-to-b from-purple-950/35 to-slate-900/75 border-purple-500/25 text-white'
+                    : 'bg-gradient-to-b from-purple-50/88 to-white/85 border-purple-200/70 text-slate-900'
                 )}
               >
                 <div className="flex items-center justify-between gap-2">
@@ -2676,7 +2698,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       <li
                         key={idx}
                         className={cn(
-                          'exp-bento-item-card p-[15px] rounded-[14px] border shadow-sm hover:shadow-md transition-all flex items-start gap-[15px] min-w-0',
+                          'exp-bento-item-card p-[15px] rounded-[var(--radius-subcard,16px)] border shadow-sm hover:shadow-md transition-all flex items-start gap-[15px] min-w-0',
                           isDarkCardText ? taskPalette.dark : taskPalette.light
                         )}
                       >
@@ -2701,10 +2723,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-memories-card"
                 className={cn(
-                  'exp-bento-surface-card order-9 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[15px] shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border relative overflow-hidden flex flex-col gap-[15px] min-w-0 h-auto',
+                  'exp-bento-surface-card order-9 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border relative overflow-hidden flex flex-col gap-[15px] min-w-0 h-auto',
                   isDarkCardText
-                    ? 'bg-slate-900 border-slate-800 text-white'
-                    : 'bg-gradient-to-br from-white via-amber-50/45 to-orange-50/55 border-amber-200/75 text-slate-900'
+                    ? 'bg-slate-900/72 border-slate-700/70 text-white'
+                    : 'bg-gradient-to-br from-white/85 via-amber-50/60 to-orange-50/65 border-amber-200/75 text-slate-900'
                 )}
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -2784,7 +2806,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           }}
                           aria-label={`Phóng to hình kỷ niệm ${pIdx + 1}: ${photo.title || activeMilestone.company}`}
                           className={cn(
-                            'exp-bento-rect-btn group relative rounded-[14px] overflow-hidden border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer p-0 text-left',
+                            'exp-bento-rect-btn group relative rounded-[var(--radius-subcard,16px)] overflow-hidden border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer p-0 text-left',
                             isEightColHero ? 'aspect-[16/10] xl:aspect-auto xl:h-full' : 'aspect-[16/10]',
                             isDarkSurface
                               ? 'bg-slate-800 border-slate-700/70'
@@ -2811,7 +2833,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               onError={() =>
                                 setFailedPhotoSrcs((prev) => ({ ...prev, [photo.src]: true }))
                               }
-                              className="w-full h-full object-cover rounded-[14px] group-hover:scale-105 transition-transform duration-500"
+                              className="w-full h-full object-cover rounded-[var(--radius-subcard,16px)] group-hover:scale-105 transition-transform duration-500"
                             />
                           ) : (
                             <div
@@ -2852,7 +2874,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 ) : (
                   <div
                     className={cn(
-                      'rounded-[14px] border p-[15px] flex items-center justify-center',
+                      'rounded-[var(--radius-subcard,16px)] border p-[15px] flex items-center justify-center',
                       isDarkSurface
                         ? 'bg-slate-800/70 border-slate-700 text-slate-300'
                         : isBlackLeather
@@ -2885,10 +2907,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   data-element-name="Thẻ Kết quả đạt được"
                   data-element-type="card"
                   className={cn(
-                    'exp-bento-surface-card order-4 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[15px] shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border min-w-0 h-auto flex flex-col gap-[15px]',
+                    'exp-bento-surface-card order-4 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border min-w-0 h-auto flex flex-col gap-[15px]',
                     isDarkCardText
-                      ? 'bg-gradient-to-br from-emerald-950/35 via-slate-900/80 to-cyan-950/30 border-emerald-500/25 text-white'
-                      : 'bg-gradient-to-br from-emerald-50/70 via-white to-cyan-50/60 border-emerald-100 text-slate-900'
+                      ? 'bg-gradient-to-br from-emerald-950/35 via-slate-900/75 to-cyan-950/30 border-emerald-500/25 text-white'
+                      : 'bg-gradient-to-br from-emerald-50/85 via-white/85 to-cyan-50/80 border-emerald-200/70 text-slate-900'
                   )}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 relative z-10">
@@ -2952,7 +2974,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     >
                       <div
                         className={cn(
-                          'exp-bento-item-card p-3 rounded-[14px] border flex flex-col gap-1.5',
+                          'exp-bento-item-card p-3 rounded-[var(--radius-subcard,16px)] border flex flex-col gap-1.5',
                           isDarkCardText
                             ? 'bg-slate-900/75 border-white/15 text-slate-200'
                             : isLightLeather
@@ -2973,7 +2995,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       </div>
                       <div
                         className={cn(
-                          'exp-bento-item-card p-3 rounded-[14px] border flex flex-col gap-1.5',
+                          'exp-bento-item-card p-3 rounded-[var(--radius-subcard,16px)] border flex flex-col gap-1.5',
                           isDarkCardText
                             ? 'bg-emerald-950/45 border-emerald-400/25 text-slate-100'
                             : isLightLeather
@@ -3045,7 +3067,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         <div
                           key={`${kpi.label}-${kIdx}`}
                           className={cn(
-                            'exp-bento-item-card p-[15px] rounded-[14px] border bg-gradient-to-br flex flex-col justify-between gap-[15px] min-w-0 h-full shadow-xs transition-all hover:shadow-md',
+                            'exp-bento-item-card p-[15px] rounded-[var(--radius-subcard,16px)] border bg-gradient-to-br flex flex-col justify-between gap-3 min-w-0 h-full shadow-xs transition-all hover:shadow-md',
                             spanLastOdd && 'sm:col-span-2 lg:col-span-1 xl:col-span-2',
                             isDarkCardText ? pal.dark : isLightLeather ? 'bg-[#edf1f4] border-[#cbd5e1]' : pal.light
                           )}
@@ -3053,7 +3075,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           <div className="flex items-center justify-between gap-2 min-w-0">
                             <span
                               className={cn(
-                                'w-8 h-8 rounded-[14px] flex items-center justify-center shrink-0 border',
+                                'w-8 h-8 rounded-[12px] flex items-center justify-center shrink-0 border',
                                 isDarkCardText
                                   ? 'bg-white/10 border-white/15'
                                   : isLightLeather
@@ -3113,10 +3135,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-achievement-card"
                 className={cn(
-                  'exp-bento-surface-card order-7 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[15px] shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border flex flex-col gap-[15px] min-w-0 h-auto',
+                  'exp-bento-surface-card order-7 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border flex flex-col gap-[15px] min-w-0 h-auto',
                   isDarkCardText
-                    ? 'bg-slate-900/75 border-white/15 text-white'
-                    : 'bg-white border-slate-100 text-slate-900'
+                    ? 'bg-slate-900/68 border-white/15 text-white'
+                    : 'bg-white/82 border-white/80 text-slate-900'
                 )}
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -3152,7 +3174,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </button>
                 </div>
 
-                <div className="flex flex-col gap-[15px] content-start">
+                <div className="flex flex-col gap-[12px] content-start">
                   {projectsList.map((proj, pIdx) => {
                     const palette = projectRowPalettes[pIdx % projectRowPalettes.length];
                     return (
@@ -3162,7 +3184,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         onClick={() => navigateToProjects(proj.projectId)}
                         title={`${proj.rawTitle} — Click để xem chi tiết dự án`}
                         className={cn(
-                          'exp-bento-rect-btn exp-bento-item-card group p-[15px] rounded-[14px] bg-gradient-to-r border transition-all flex items-center gap-[15px] text-left cursor-pointer min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500',
+                          'exp-bento-rect-btn exp-bento-item-card group p-[15px] rounded-[var(--radius-subcard,16px)] bg-gradient-to-r border transition-all flex items-center gap-[15px] text-left cursor-pointer min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500',
                           isDarkCardText ? palette.rowDark : palette.rowLight
                         )}
                       >
@@ -3201,12 +3223,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <section
                 id="experience-commitments-card"
                 className={cn(
-                  'exp-bento-surface-card order-8 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[15px] shadow-[0_10px_30px_-5px_rgba(15,23,42,0.12),0_4px_10px_-2px_rgba(15,23,42,0.06)] relative overflow-hidden flex flex-col gap-[15px] min-w-0 h-auto border',
+                  'exp-bento-surface-card order-8 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md relative overflow-hidden flex flex-col gap-[15px] min-w-0 h-auto border',
                   isLightLeather
-                    ? 'text-[#111827]'
+                    ? 'text-[#111827] bg-[#fbfcfc] border-[#d1d5db]'
                     : isDarkSurface || isLeather || isBlackLeather
-                      ? 'text-white'
-                      : 'text-slate-900'
+                      ? 'text-white bg-slate-900/68 border-white/15'
+                      : 'text-slate-900 bg-white/82 border-white/80'
                 )}
               >
                 <div className="flex items-center gap-2.5 relative z-10">
@@ -3242,7 +3264,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </h2>
                 </div>
 
-                <div className="flex flex-col gap-[15px] relative z-10">
+                <div className="flex flex-col gap-[12px] relative z-10">
                   {commitmentsList.map((cmtText, cIdx) => {
                     const CmtIcon = cIdx % 2 === 0 ? Flame : Lock;
                     const cmtIconColor = isLightLeather
@@ -3267,7 +3289,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     return (
                       <div
                         key={cIdx}
-                        className="exp-bento-item-card rounded-[14px] p-[15px] flex items-start gap-[15px] min-w-0 border"
+                        className={cn(
+                          'exp-bento-item-card rounded-[var(--radius-subcard,16px)] p-[15px] flex items-start gap-[15px] min-w-0 border',
+                          isDarkCardText
+                            ? 'bg-slate-900/60 border-white/10'
+                            : isLightLeather
+                              ? 'bg-[#edf1f4] border-[#cbd5e1]'
+                              : 'bg-teal-50/55 border-teal-200/70'
+                        )}
                       >
                         <CmtIcon className={cn('w-5 h-5 shrink-0 mt-0.5', cmtIconColor)} />
                         <p
@@ -3287,6 +3316,85 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   })}
                 </div>
               </section>
+              </div>
+
+              {/* HÀNG CUỐI: Thanh điều hướng nhanh giữa các cột mốc ở cuối trang chi tiết */}
+              <div
+                id="experience-detail-footer-nav"
+                className={cn(
+                  'exp-bento-surface-card col-span-12 order-10 lg:order-none w-full rounded-[var(--radius-card,24px)] p-3 sm:p-3.5 border backdrop-blur-md flex flex-wrap items-center justify-between gap-2.5 min-w-0',
+                  isDarkCardText
+                    ? 'bg-slate-900/68 border-white/15 text-white'
+                    : 'bg-white/82 border-white/80 text-slate-900'
+                )}
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  {prevMilestone ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        setActiveKey(prevMilestone.key);
+                      }}
+                      className={cn(
+                        'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-subcard,16px)] text-xs sm:text-sm font-bold border cursor-pointer transition-all active:scale-95 max-w-[220px] sm:max-w-[260px]',
+                        isDarkCardText
+                          ? 'bg-slate-800/80 border-white/15 text-slate-100 hover:bg-slate-700/80'
+                          : 'bg-white/90 border-slate-200/85 text-slate-800 hover:bg-white'
+                      )}
+                      title={`Mốc trước: ${prevMilestone.shortName}`}
+                    >
+                      <ChevronLeft className="w-4 h-4 shrink-0" />
+                      <span className="truncate">{prevMilestone.yearBadge} · {prevMilestone.shortName}</span>
+                    </button>
+                  ) : (
+                    <span className="text-xs text-[var(--text-muted)] px-2">Cột mốc khởi đầu</span>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setShowJobCard(false);
+                    }}
+                    className={cn(
+                      'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-subcard,16px)] text-xs font-bold border cursor-pointer transition-all active:scale-95',
+                      isDarkCardText
+                        ? 'bg-slate-800/80 border-white/15 text-slate-100 hover:bg-slate-700/80'
+                        : 'bg-white/90 border-slate-200/85 text-slate-800 hover:bg-white'
+                    )}
+                  >
+                    <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
+                    <span>Quay lại Timeline</span>
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-2 min-w-0 justify-end">
+                  {nextMilestone ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        setActiveKey(nextMilestone.key);
+                      }}
+                      className={cn(
+                        'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-subcard,16px)] text-xs sm:text-sm font-bold border cursor-pointer transition-all active:scale-95 max-w-[220px] sm:max-w-[260px]',
+                        isDarkCardText
+                          ? 'bg-slate-800/80 border-white/15 text-slate-100 hover:bg-slate-700/80'
+                          : 'bg-white/90 border-slate-200/85 text-slate-800 hover:bg-white'
+                      )}
+                      title={`Mốc tiếp theo: ${nextMilestone.shortName}`}
+                    >
+                      <span className="truncate">{nextMilestone.yearBadge} · {nextMilestone.shortName}</span>
+                      <ChevronRight className="w-4 h-4 shrink-0" />
+                    </button>
+                  ) : (
+                    <span className="text-xs text-[var(--text-muted)] px-2">Cột mốc hiện tại</span>
+                  )}
+                </div>
+              </div>
             </div>
           </main>
         </>
@@ -3336,18 +3444,18 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               aria-modal="true"
               aria-label={`Thư viện ảnh ${activeMilestone.company}`}
               onClick={(e) => e.stopPropagation()}
-              className="theme-modal-card max-w-4xl w-full rounded-[14px] overflow-hidden shadow-2xl relative"
+              className="theme-modal-card max-w-4xl w-full rounded-[var(--radius-card,24px)] overflow-hidden shadow-2xl relative"
             >
               <div
                 className={cn(
-                  'relative aspect-[16/10] w-full flex items-center justify-center rounded-[14px] overflow-hidden',
+                  'relative aspect-[16/10] w-full flex items-center justify-center rounded-[var(--radius-subcard,16px)] overflow-hidden',
                   isDarkCardText ? 'bg-[#0B1220]' : 'bg-slate-100'
                 )}
               >
                 <img
                   src={curPhoto.src}
                   alt={curPhoto.title || activeMilestone.company}
-                  className="w-full h-full object-contain rounded-[14px]"
+                  className="w-full h-full object-contain rounded-[var(--radius-subcard,16px)]"
                 />
                 {lightboxPhotos.length > 1 && (
                   <>

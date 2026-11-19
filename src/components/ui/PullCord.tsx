@@ -193,9 +193,71 @@ const PULL_CORD_THEME_VISUALS: Record<string, PullCordThemeVisual> = {
     unlitBulbShadow: 'inset 0 1px 3px rgba(255, 248, 220, 0.4)',
     accentDotColor: '#f59e0b',
   },
+  'rainbow-glass': {
+    bracketBg: 'linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(238, 233, 250, 0.72) 100%)',
+    bracketBorder: '1px solid rgba(255, 255, 255, 0.72)',
+    wireStroke: '#7666D8',
+    capBg: 'linear-gradient(145deg, rgba(255, 255, 255, 0.84) 0%, rgba(230, 240, 252, 0.75) 100%)',
+    capBorder: '1px solid rgba(255, 255, 255, 0.78)',
+    shadeBg: 'linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(238, 233, 250, 0.68) 100%)',
+    shadeBorder: '1px solid rgba(255, 255, 255, 0.75)',
+    shadeShadow:
+      '0 10px 24px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.85)',
+    cordStroke: '#7666D8',
+    beadBg: 'linear-gradient(180deg, #7666D8 0%, #69C9C4 100%)',
+    beadBorder: '1px solid rgba(255, 255, 255, 0.82)',
+    beadShadow: '0 4px 12px rgba(118, 102, 216, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.65)',
+    unlitBulbBg: 'rgba(190, 176, 235, 0.68)',
+    unlitBulbShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.65)',
+    accentDotColor: '#7666D8',
+  },
+  'dark-rainbow-glass': {
+    bracketBg: 'linear-gradient(145deg, rgba(32, 42, 64, 0.86) 0%, rgba(23, 31, 51, 0.9) 100%)',
+    bracketBorder: '1px solid rgba(225, 235, 255, 0.18)',
+    wireStroke: '#B5A7F4',
+    capBg: 'linear-gradient(145deg, rgba(36, 48, 72, 0.88) 0%, rgba(23, 31, 51, 0.92) 100%)',
+    capBorder: '1px solid rgba(225, 235, 255, 0.2)',
+    shadeBg: 'linear-gradient(145deg, rgba(32, 42, 64, 0.84) 0%, rgba(21, 48, 57, 0.84) 100%)',
+    shadeBorder: '1px solid rgba(225, 235, 255, 0.18)',
+    shadeShadow:
+      '0 12px 28px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(225, 235, 255, 0.14)',
+    cordStroke: '#B5A7F4',
+    beadBg: 'linear-gradient(180deg, #B5A7F4 0%, #4E9EAA 100%)',
+    beadBorder: '1px solid rgba(225, 235, 255, 0.36)',
+    beadShadow: '0 4px 12px rgba(0, 0, 0, 0.34)',
+    unlitBulbBg: 'rgba(141, 131, 216, 0.42)',
+    unlitBulbShadow: '0 0 10px rgba(181, 167, 244, 0.2), inset 0 1px 2px rgba(225, 235, 255, 0.25)',
+    accentDotColor: '#B5A7F4',
+  },
+  'special-rainbow-glass': {
+    bracketBg: 'linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(238, 233, 250, 0.72) 100%)',
+    bracketBorder: '1px solid rgba(255, 255, 255, 0.72)',
+    wireStroke: '#7666D8',
+    capBg: 'linear-gradient(145deg, rgba(255, 255, 255, 0.84) 0%, rgba(230, 240, 252, 0.75) 100%)',
+    capBorder: '1px solid rgba(255, 255, 255, 0.78)',
+    shadeBg: 'linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(230, 245, 243, 0.68) 100%)',
+    shadeBorder: '1px solid rgba(255, 255, 255, 0.75)',
+    shadeShadow:
+      '0 10px 24px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.85)',
+    cordStroke: '#69C9C4',
+    beadBg: 'linear-gradient(180deg, #A99AE8 0%, #69C9C4 100%)',
+    beadBorder: '1px solid rgba(255, 255, 255, 0.82)',
+    beadShadow: '0 4px 12px rgba(105, 201, 196, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.65)',
+    unlitBulbBg: 'rgba(169, 223, 222, 0.7)',
+    unlitBulbShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.65)',
+    accentDotColor: '#69C9C4',
+  },
 };
 
-export const PullCord: React.FC = () => {
+export interface PullCordProps {
+  visible?: boolean;
+  leftOffsetPx?: number;
+}
+
+export const PullCord: React.FC<PullCordProps> = ({
+  visible = true,
+  leftOffsetPx,
+}) => {
   const { isDark, cardStyle, setCardStyle } = useTheme();
 
   const activeMechanism: ThemeMechanismMode =
@@ -363,6 +425,7 @@ export const PullCord: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    if (!visible) return;
     const s = stateRef.current;
     const sp = springsRef.current;
 
@@ -533,7 +596,7 @@ export const PullCord: React.FC = () => {
 
     animationFrameId = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [flip, getAnchor]);
+  }, [flip, getAnchor, visible]);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (!containerRef.current) return;
@@ -597,8 +660,8 @@ export const PullCord: React.FC = () => {
     }
   };
 
-  const themeVisual = PULL_CORD_THEME_VISUALS[cardStyle] || PULL_CORD_THEME_VISUALS['ice-blue-neu'];
-  const activeThemeLabel = CARD_STYLES_MAP[cardStyle]?.shortBadge || 'Ice-Blue Neu';
+  const themeVisual = PULL_CORD_THEME_VISUALS[cardStyle] || PULL_CORD_THEME_VISUALS['rainbow-glass'];
+  const activeThemeLabel = CARD_STYLES_MAP[cardStyle]?.shortBadge || 'Gương đa sắc';
 
   const activeBulbStop = isColorMode
     ? COLOR_MODE_BULB_PALETTE[colorIndex]
@@ -638,6 +701,10 @@ export const PullCord: React.FC = () => {
         ? `Tối · ${activeThemeLabel}`
         : `Màu (${activeBulbStop.name}) · ${activeThemeLabel}`;
 
+  if (!visible) {
+    return null;
+  }
+
   return (
     <div
       ref={containerRef}
@@ -646,9 +713,10 @@ export const PullCord: React.FC = () => {
       data-element-type="widget"
       data-pull-cord-mode={activeMechanism}
       data-pull-cord-theme={cardStyle}
-      className="fixed top-0 left-2 sm:left-4 lg:left-6 z-[60] pointer-events-none select-none"
+      className="fixed top-0 z-[60] pointer-events-none select-none"
       style={{
-        width: '140px',
+        left: leftOffsetPx !== undefined ? `${leftOffsetPx}px` : undefined,
+        width: '124px',
         height: '240px',
       }}
       aria-hidden="false"

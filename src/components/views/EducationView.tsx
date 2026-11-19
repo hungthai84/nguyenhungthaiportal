@@ -247,7 +247,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     themeIsDark ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu';
+    currentTheme === 'dark-ice-blue-neu' ||
+    currentTheme === 'dark-rainbow-glass';
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -461,7 +462,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         data-element-type="card"
         data-element-page="education"
         data-element-parent="education-cards-track"
-        className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
+        className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
       >
       {/* Banner trang Học Vấn (Format đồng bộ chuẩn banner Hình Nền h-200px desktop, responsive mobile) */}
       {!selectedCourse && (
@@ -471,13 +472,13 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           data-element-type="banner-card"
           data-element-page="education"
           data-section-card="true"
-          className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
-          style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
+          className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+          style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
         >
         <div
-          className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
+          className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
           style={{
-            borderRadius: '14px',
+            borderRadius: 'var(--radius-banner, 24px)',
           }}
         >
           <img
@@ -487,10 +488,10 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             onError={(e) => {
               e.currentTarget.style.display = 'none';
             }}
-            className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
+            className="w-full h-full object-cover object-center rounded-[var(--radius-banner,24px)] transition-all duration-700"
           />
         </div>
-        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[var(--radius-banner,24px)] z-0" />
 
         <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
           <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
@@ -801,9 +802,17 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 <div
                   id="el-p3-div-90"
                   data-subcard="true"
-                  className="exp-detail-subcard col-span-1 md:col-span-8 lg:col-span-12 p-[15px] rounded-[14px] shadow-sm flex flex-col gap-[15px] min-w-0"
-                  style={{ borderRadius: '14px', padding: '15px' }}
+                  className="exp-detail-subcard col-span-1 md:col-span-8 lg:col-span-12 p-[15px] rounded-[var(--radius-subcard,16px)] shadow-sm flex flex-col gap-[15px] min-w-0"
+                  style={{ borderRadius: 'var(--radius-subcard, 16px)', padding: '15px' }}
                 >
+                  <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] flex-wrap">
+                    <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-400 min-w-0" data-card-accent="blue">
+                      <WebIcon name="graduation" className="w-[18px] h-[18px] shrink-0 text-blue-600 dark:text-sky-400" />
+                      <h3 className="card-title card-title-synced typo-h3 font-play text-blue-600 dark:text-sky-400 m-0 p-0 whitespace-normal break-words" data-card-title="true">
+                        {course.title}
+                      </h3>
+                    </div>
+                  </div>
                   <div className="education-detail-meta-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch min-w-0">
                     {/* Mục 1: Năm học và mã */}
                     <div className="flex flex-col justify-between gap-2 min-w-0">
@@ -816,7 +825,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           Năm {course.year}
                         </span>
                         {course.code && (
-                          <span className="px-2 py-0.5 rounded-[14px] bg-sky-200/80 dark:bg-sky-900/70 text-sky-900 dark:text-sky-200 typo-badge font-mono">
+                          <span className="px-2 py-0.5 rounded-[var(--radius-subcard,16px)] bg-sky-200/80 dark:bg-sky-900/70 text-sky-900 dark:text-sky-200 typo-badge font-mono">
                             {course.code}
                           </span>
                         )}
@@ -852,7 +861,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   id="education-certificates-card"
                   data-element-type="card"
                   data-section-card="true"
-                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-[15px] transition-all duration-300 min-w-0"
+                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[var(--radius-card,24px)] border shadow-sm flex flex-col justify-start gap-[15px] transition-all duration-300 min-w-0"
                   style={{ padding: '15px' }}
                 >
                   <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] flex-wrap">

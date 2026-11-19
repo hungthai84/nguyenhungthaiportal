@@ -679,7 +679,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
     themeIsDark ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu';
+    currentTheme === 'dark-ice-blue-neu' ||
+    currentTheme === 'dark-rainbow-glass';
 
   useEffect(() => {
     return () => {
@@ -1221,7 +1222,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
           min-height: 110px;
           transition: transform 0.65s cubic-bezier(0.34, 1.35, 0.64, 1);
           transform-style: preserve-3d;
-          border-radius: 14px;
+          border-radius: var(--radius-card, 24px);
           box-shadow: none !important;
         }
 
@@ -1238,7 +1239,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
           min-height: 110px;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          border-radius: 14px;
+          border-radius: var(--radius-card, 24px);
           overflow: hidden;
           transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
         }
@@ -1254,7 +1255,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
         }
 
         .system-item {
-          border-radius: 14px;
+          border-radius: var(--radius-card, 24px);
           backdrop-filter: blur(14px);
           -webkit-backdrop-filter: blur(14px);
           transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
@@ -1339,13 +1340,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.35 }}
-            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
-            style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
+            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+            style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
           >
             <div
-              className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
+              className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
               style={{
-                borderRadius: '14px',
+                borderRadius: 'var(--radius-banner, 24px)',
               }}
             >
               <img
@@ -1582,16 +1583,16 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                 id="systems-intro-video-stage"
                 data-element-type="card"
                 data-section-card="true"
-                className="bento-card glass-card w-full flex flex-col rounded-[14px] overflow-hidden border border-slate-300/80 dark:border-white/20 shadow-2xl bg-black relative"
+                className="bento-card glass-card w-full flex flex-col rounded-[var(--radius-card,24px)] overflow-hidden border border-slate-300/80 dark:border-white/20 shadow-2xl bg-black relative"
                 style={
                   nineCardBoxSize
                     ? {
                         width: `${nineCardBoxSize.width}px`,
                         height: `${nineCardBoxSize.height}px`,
                         maxWidth: '100%',
-                        borderRadius: '14px',
+                        borderRadius: 'var(--radius-card, 24px)',
                       }
-                    : { borderRadius: '14px', minHeight: '420px' }
+                    : { borderRadius: 'var(--radius-card, 24px)', minHeight: '420px' }
                 }
               >
                 <div className="relative w-full h-full flex-1 bg-black rounded-[14px] overflow-hidden">
@@ -1864,9 +1865,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                         data-element-type="card"
                         data-section-card="true"
                         onClick={(e) => e.stopPropagation()}
-                        className="system-item bento-card glass-card layered-card relative w-full min-h-[360px] h-full rounded-[14px] overflow-hidden p-4 sm:p-5 flex flex-col justify-between gap-3 select-none border transition-all duration-500 backdrop-blur-xl"
+                        className="system-item bento-card glass-card layered-card relative w-full min-h-[360px] h-full rounded-[var(--radius-card,24px)] overflow-hidden p-4 sm:p-5 flex flex-col justify-between gap-3 select-none border transition-all duration-500 backdrop-blur-xl"
                         style={{
-                          borderRadius: '14px',
+                          borderRadius: 'var(--radius-card, 24px)',
                         }}
                       >
                         {/* Tiêu đề card chi tiết hệ thống & Nút X đóng */}
@@ -2135,9 +2136,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                             setHoveredImgId(null);
                           }}
                           title={`Nhấp để mở rộng chi tiết thẻ: ${item.nameVi} (${item.abbr})`}
-                           className="system-flip-front system-item bento-card glass-card layered-card cursor-pointer relative overflow-hidden p-3 sm:p-3.5 flex flex-row items-center justify-between gap-3 select-none rounded-[14px] group transition-all duration-300 border min-h-[110px] h-full hover:-translate-y-0.5 hover:shadow-md"
+                           className="system-flip-front system-item bento-card glass-card layered-card cursor-pointer relative overflow-hidden p-3 sm:p-3.5 flex flex-row items-center justify-between gap-3 select-none rounded-[var(--radius-card,24px)] group transition-all duration-300 border min-h-[110px] h-full hover:-translate-y-0.5 hover:shadow-md"
                           style={{
-                            borderRadius: '14px',
+                            borderRadius: 'var(--radius-card, 24px)',
                             '--system-theme-color': config.cardTheme,
                             '--system-theme-glow': `${config.cardTheme}35`,
                           } as any}
@@ -2238,9 +2239,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           data-element-type="card"
                           data-section-card="true"
                           onClick={(e) => handleFlipToggle(item.id, e)}
-                          className="system-flip-back system-item bento-card glass-card layered-card cursor-pointer relative overflow-hidden p-3 flex flex-col justify-between select-none border rounded-[14px] min-h-[110px] h-full"
+                          className="system-flip-back system-item bento-card glass-card layered-card cursor-pointer relative overflow-hidden p-3 flex flex-col justify-between select-none border rounded-[var(--radius-card,24px)] min-h-[110px] h-full"
                           style={{
-                            borderRadius: '14px',
+                            borderRadius: 'var(--radius-card, 24px)',
                           }}
                         >
 

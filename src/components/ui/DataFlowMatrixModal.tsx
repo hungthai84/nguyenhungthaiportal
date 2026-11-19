@@ -36,12 +36,12 @@ export const DataFlowMatrixModal: React.FC<DataFlowMatrixModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           onClick={(e) => e.stopPropagation()}
-          className="theme-modal-card w-full max-w-5xl max-h-[85vh] rounded-[14px] shadow-2xl flex flex-col overflow-hidden text-left font-play"
+          className="theme-modal-card w-full max-w-5xl max-h-[85vh] rounded-[var(--radius-modal,24px)] shadow-2xl flex flex-col overflow-hidden text-left font-play"
         >
           {/* Header */}
           <div className="theme-modal-header flex items-center justify-between p-4 sm:p-5">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-[14px] bg-sky-500/15 border border-sky-400/40 flex items-center justify-center text-sky-600 dark:text-[#67E8F9] shrink-0">
+              <div className="w-10 h-10 rounded-[var(--radius-subcard,16px)] bg-sky-500/15 border border-sky-400/40 flex items-center justify-center text-sky-600 dark:text-[#67E8F9] shrink-0">
                 <WebIcon name="activity" className="w-5 h-5 text-sky-600 dark:text-[#67E8F9]" />
               </div>
               <div className="min-w-0">
@@ -69,10 +69,10 @@ export const DataFlowMatrixModal: React.FC<DataFlowMatrixModalProps> = ({
               {SYSTEMS_DATA.map((sys: any) => (
                 <div
                   key={sys.id}
-                  className="theme-modal-subcard p-3.5 rounded-[14px] flex flex-col justify-between gap-2"
+                  className="theme-modal-subcard p-3.5 rounded-[var(--radius-subcard,16px)] flex flex-col justify-between gap-2"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="px-2 py-0.5 rounded-[14px] typo-badge font-mono font-bold bg-sky-500/15 border border-sky-400/35" style={{ color: 'var(--color-primary)' }}>
+                    <span className="px-2 py-0.5 rounded-[var(--radius-subcard,16px)] typo-badge font-mono font-bold bg-sky-500/15 border border-sky-400/35" style={{ color: 'var(--color-primary)' }}>
                       {sys.abbr}
                     </span>
                     <span className="typo-label font-mono text-emerald-600 dark:text-[#6EE7B7] font-bold flex items-center gap-1">

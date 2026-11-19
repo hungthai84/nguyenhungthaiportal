@@ -16,7 +16,7 @@ export const ParallaxTiltIcon: React.FC<ParallaxTiltIconProps> = ({
 
   return (
     <div
-      className={`${sizeClass} rounded-[14px] bg-[var(--bg-nested-card)] border border-[var(--border-subcard)] shadow-md flex items-center justify-center transition-transform duration-300 hover:scale-110`}
+      className={`${sizeClass} rounded-[var(--radius-subcard,16px)] bg-[var(--bg-nested-card)] border border-[var(--border-subcard)] shadow-md flex items-center justify-center transition-transform duration-300 hover:scale-110`}
     >
       <WebIcon name={iconName.toLowerCase()} className="w-5 h-5" style={{ color: 'var(--accent-cyan, var(--color-primary))' }} />
     </div>

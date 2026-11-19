@@ -36,10 +36,10 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
         role="dialog"
         aria-modal="true"
         aria-label={item.company}
-        className="theme-modal-card milestone-modal-card rounded-[14px] max-w-xl w-full max-h-[90vh] overflow-y-auto no-scrollbar p-4 sm:p-5 shadow-2xl relative text-left space-y-3"
+        className="theme-modal-card milestone-modal-card rounded-[var(--radius-modal,24px)] max-w-xl w-full max-h-[90vh] overflow-y-auto no-scrollbar p-4 sm:p-5 shadow-2xl relative text-left space-y-3"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="theme-modal-header flex flex-wrap items-center justify-between gap-2 -mx-4 -mt-4 sm:-mx-5 sm:-mt-5 px-4 sm:px-5 py-3 rounded-t-[14px]">
+        <div className="theme-modal-header flex flex-wrap items-center justify-between gap-2 -mx-4 -mt-4 sm:-mx-5 sm:-mt-5 px-4 sm:px-5 py-3 rounded-t-[var(--radius-modal,24px)]">
           <div className="flex items-center gap-3">
             <img
               src={item.logo}
@@ -67,17 +67,17 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
           </span>
         </div>
         <div className="space-y-2 typo-body-sm leading-relaxed" style={{ color: 'var(--text-primary)' }}>
-          <p className="theme-modal-subcard p-3 rounded-[14px] font-medium">
+          <p className="theme-modal-subcard p-3 rounded-[var(--radius-subcard,16px)] font-medium">
             {item.descVi}
           </p>
           {item.descViPart2 && (
-            <p className="theme-modal-subcard p-3 rounded-[14px] font-medium">
+            <p className="theme-modal-subcard p-3 rounded-[var(--radius-subcard,16px)] font-medium">
               {item.descViPart2}
             </p>
           )}
         </div>
         <div
-          className="p-3 rounded-[14px] border flex items-center gap-2"
+          className="p-3 rounded-[var(--radius-subcard,16px)] border flex items-center gap-2"
           style={{
             backgroundColor: `${item.color}15`,
             borderColor: `${item.color}40`,
@@ -91,7 +91,7 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
             {item.highlightVi}
           </span>
         </div>
-        <div className="theme-modal-footer flex justify-end -mx-4 -mb-4 sm:-mx-5 sm:-mb-5 px-4 sm:px-5 py-3 rounded-b-[14px]">
+        <div className="theme-modal-footer flex justify-end -mx-4 -mb-4 sm:-mx-5 sm:-mb-5 px-4 sm:px-5 py-3 rounded-b-[var(--radius-modal,24px)]">
           <button
             type="button"
             onClick={onClose}

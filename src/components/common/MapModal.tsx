@@ -32,13 +32,13 @@ export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
         role="dialog"
         aria-modal="true"
         aria-label={location.title}
-        className="theme-modal-card map-modal-card relative w-full max-w-2xl max-h-[90vh] overflow-y-auto no-scrollbar p-4 sm:p-6 rounded-[14px] shadow-2xl z-10 flex flex-col gap-3 font-play"
+        className="theme-modal-card map-modal-card relative w-full max-w-2xl max-h-[90vh] overflow-y-auto no-scrollbar p-4 sm:p-6 rounded-[var(--radius-modal,24px)] shadow-2xl z-10 flex flex-col gap-3 font-play"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="theme-modal-header flex items-center justify-between -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 px-4 sm:px-6 py-3.5 rounded-t-[14px]">
+        <div className="theme-modal-header flex items-center justify-between -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 px-4 sm:px-6 py-3.5 rounded-t-[var(--radius-modal,24px)]">
           <div className="flex items-center gap-3">
             <div
-              className={`w-9 h-9 rounded-[14px] flex items-center justify-center text-white font-bold shadow-md ${
+              className={`w-9 h-9 rounded-[var(--radius-subcard,16px)] flex items-center justify-center text-white font-bold shadow-md ${
                 location.type === 'cu_tru' ? 'bg-emerald-600' : 'bg-purple-600'
               }`}
             >
@@ -70,7 +70,7 @@ export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
           </button>
         </div>
         <div
-          className="relative w-full h-[280px] sm:h-[340px] rounded-[14px] overflow-hidden border shadow-inner"
+          className="relative w-full h-[280px] sm:h-[340px] rounded-[var(--radius-subcard,16px)] overflow-hidden border shadow-inner"
           style={{ borderColor: 'var(--border-modal, var(--border-color))', background: 'var(--bg-subcard)' }}
         >
           <iframe
@@ -83,7 +83,7 @@ export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
             allowFullScreen
           ></iframe>
         </div>
-        <div className="theme-modal-footer flex flex-wrap items-center justify-between gap-2.5 -mx-4 -mb-4 sm:-mx-6 sm:-mb-6 px-4 sm:px-6 py-3 rounded-b-[14px]">
+        <div className="theme-modal-footer flex flex-wrap items-center justify-between gap-2.5 -mx-4 -mb-4 sm:-mx-6 sm:-mb-6 px-4 sm:px-6 py-3 rounded-b-[var(--radius-modal,24px)]">
           <span className="typo-label font-semibold truncate max-w-full sm:max-w-[55%]" style={{ color: 'var(--text-secondary)' }}>
             {location.address}
           </span>

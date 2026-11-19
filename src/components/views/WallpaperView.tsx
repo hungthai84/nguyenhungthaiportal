@@ -436,13 +436,13 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         data-element-page="wallpaper"
         data-element-parent="wallpaper-main-card"
         data-section-card="true"
-        className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
-        style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: '14px' }}
+        className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+        style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
       >
         <div
-          className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
+          className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
           style={{
-            borderRadius: '14px',
+            borderRadius: 'var(--radius-banner, 24px)',
           }}
         >
           <img
@@ -867,7 +867,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 }
                 data-element-type="card"
                 style={{
-                  borderRadius: '14px',
+                  borderRadius: 'var(--radius-card, 24px)',
                   padding: '0px',
                   backgroundColor: 'transparent',
                   ...(wp.id !== 'none' &&
@@ -883,23 +883,23 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                       }
                     : {}),
                 }}
-                className={`themed-image-card group relative flex flex-col rounded-[14px] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto bg-transparent ${
+                className={`themed-image-card group relative flex flex-col rounded-[var(--radius-card,24px)] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto bg-transparent ${
                   isSelected
                     ? 'ring-2 ring-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]'
                     : ''
                 }`}
               >
-                {/* NỀN HÌNH THU NHỎ DẠNG NGANG (LẮP ĐẦY TOÀN BỘ CARD - NỀN TRONG SUỐT 100% - BO CONG 14PX) */}
+                {/* NỀN HÌNH THU NHỎ DẠNG NGANG */}
                 <div
                   id={`wallpaper-card-media-${wp.id}`}
-                  style={{ borderRadius: '14px', background: 'transparent' }}
-                  className="absolute inset-0 w-full h-full z-0 rounded-[14px] overflow-hidden bg-transparent"
+                  style={{ borderRadius: 'var(--radius-card, 24px)', background: 'transparent' }}
+                  className="absolute inset-0 w-full h-full z-0 rounded-[var(--radius-card,24px)] overflow-hidden bg-transparent"
                 >
                   {wp.id === 'none' ? (
                     <div
                       id="wallpaper-card-preview-none"
-                      style={{ ...activeCardStyleMeta.cardSampleStyle, borderRadius: '14px' }}
-                      className="w-full h-full rounded-[14px] flex items-center justify-center transition-all"
+                      style={{ ...activeCardStyleMeta.cardSampleStyle, borderRadius: 'var(--radius-card, 24px)' }}
+                      className="w-full h-full rounded-[var(--radius-card,24px)] flex items-center justify-center transition-all"
                     />
                   ) : wp.type === 'video' ? (
                     wp.value.includes('youtube.com') || wp.value.includes('youtu.be') ? (
@@ -1006,8 +1006,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
 
                 {/* LỚP PHỦ THEO GIAO DIỆN ĐANG CHỌN — CHỈ HIỆN KHI RÊ CHUỘT */}
                 <div
-                  style={{ borderRadius: '14px' }}
-                  className="themed-image-card-scrim absolute inset-0 rounded-[14px] pointer-events-none z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
+                  style={{ borderRadius: 'var(--radius-card, 24px)' }}
+                  className="themed-image-card-scrim absolute inset-0 rounded-[var(--radius-card,24px)] pointer-events-none z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
                 />
 
                 {/* NỘI DUNG VÀ CÁC ĐỐI TƯỢNG TRONG CARD (PADDING 15PX, CHỈ HIỆN KHI OVER MOUSE) */}

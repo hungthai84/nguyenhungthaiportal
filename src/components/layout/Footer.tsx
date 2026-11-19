@@ -102,28 +102,16 @@ export const Footer: React.FC<FooterProps> = ({
   const {
     cardStyle,
     setCardStyle,
+    colorSchemeMode,
+    setColorSchemeMode,
     isDark,
     layerDepth,
     setLayerDepth,
     fontScale,
     setFontScale,
-    cycleFontScale,
   } = useTheme();
   const fontScaleOption =
     FONT_SCALE_OPTIONS.find((opt) => opt.id === fontScale) || FONT_SCALE_OPTIONS[0];
-  const handleCycleFontScale = () => {
-    SoundEngine.playTap();
-    const currentIdx = FONT_SCALE_OPTIONS.findIndex((o) => o.id === fontScale);
-    const nextOption = FONT_SCALE_OPTIONS[(currentIdx + 1) % FONT_SCALE_OPTIONS.length];
-    cycleFontScale();
-    if (nextOption) {
-      onShowNotification(
-        isEn
-          ? `✓ Text size: ${nextOption.labelEn} (${nextOption.badge})`
-          : `✓ Cỡ chữ: ${nextOption.labelVi} (${nextOption.badge})`
-      );
-    }
-  };
   const footerCardStyle = getCardStyleProperties(cardStyle);
   const {
     border: _b,
@@ -266,12 +254,12 @@ export const Footer: React.FC<FooterProps> = ({
         borderTop: glassBorderVal,
         borderLeft: glassBorderVal,
         borderRight: glassBorderVal,
-        borderRadius: 'var(--radius-footer, 14px 14px 0 0)',
+        borderRadius: 'var(--radius-footer, 24px 24px 0 0)',
       }}
       className="mx-auto h-auto min-h-[64px] py-1.5 sm:min-h-[72px] sm:h-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
     >
 
-      {/* Area 1: Weather Widget + Nút chuyển đổi cỡ chữ hỗ trợ đọc */}
+      {/* Area 1: Weather Widget */}
       <div
         id="el-p0-div-109"
         className="w-auto max-w-[64%] sm:max-w-[44%] md:max-w-[calc(50%-92px)] h-auto sm:h-full flex items-center justify-start gap-1.5 min-w-0 relative z-10 shrink-0"
@@ -282,34 +270,6 @@ export const Footer: React.FC<FooterProps> = ({
         }}
       >
         <WeatherCard onShowNotification={onShowNotification} />
-        <button
-          id="footer-font-size-btn"
-          type="button"
-          onClick={handleCycleFontScale}
-          aria-label={
-            isEn
-              ? `Adjust reading text size (${fontScaleOption.labelEn} ${fontScaleOption.badge})`
-              : `Đổi cỡ chữ toàn trang (${fontScaleOption.labelVi} ${fontScaleOption.badge})`
-          }
-          title={
-            isEn
-              ? `Reading text size: ${fontScaleOption.labelEn} (${fontScaleOption.badge}) — Click to cycle`
-              : `Cỡ chữ đọc trang: ${fontScaleOption.labelVi} (${fontScaleOption.badge}) — Nhấn để đổi`
-          }
-          style={{
-            height: '36px',
-            borderRadius: '999px',
-            borderColor: 'var(--border-card)',
-            background: 'var(--bg-subcard)',
-            color: fontScale === 'normal' ? 'var(--text-primary)' : 'var(--text-link, var(--color-primary))',
-          }}
-          className="inline-flex items-center gap-1 px-2.5 rounded-full border shrink-0 cursor-pointer transition-all duration-200 hover:opacity-90 active:scale-95 shadow-2xs"
-        >
-          <WebIcon name="type" className="w-3.5 h-3.5 shrink-0" />
-          <span className="typo-badge font-bold leading-none tabular-nums">
-            {fontScaleOption.badge}
-          </span>
-        </button>
       </div>
 
       {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md (tạm ẩn trên desktop khi nút bên phải bung ra) */}
@@ -330,10 +290,10 @@ export const Footer: React.FC<FooterProps> = ({
             width: '150px',
             height: '40px',
             minHeight: '40px',
-            paddingTop: '8px',
-            paddingBottom: '8px',
-            paddingLeft: '10px',
-            paddingRight: '10px',
+            paddingTop: '5px',
+            paddingBottom: '5px',
+            paddingLeft: '5px',
+            paddingRight: '5px',
           }}
           className={`theme-capsule-btn nav-pill relative z-10 flex items-center justify-between text-[var(--text-primary)] border transition-all duration-200 group font-play font-bold ${
             hideCenterNavCapsule ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100'
@@ -485,7 +445,7 @@ export const Footer: React.FC<FooterProps> = ({
                   <div
                     id="footer-lang-popup"
                     style={{ background: 'var(--bg-popup)' }}
-                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(288px,calc(100vw-24px))] sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-72 rounded-[14px] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto"
+                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(288px,calc(100vw-24px))] sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-72 rounded-[var(--radius-popup,20px)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto"
                   >
                     <div
                       className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
@@ -502,7 +462,7 @@ export const Footer: React.FC<FooterProps> = ({
                       data-selected={language === 'vi' ? 'true' : undefined}
                       onClick={() => handleSelectLanguageMode('vi')}
                       data-no-translate="true"
-                      className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-body-sm font-bold transition cursor-pointer text-left ${
+                      className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-body-sm font-bold transition cursor-pointer text-left ${
                         language === 'vi' ? 'shadow-xs' : ''
                       }`}
                     >
@@ -520,7 +480,7 @@ export const Footer: React.FC<FooterProps> = ({
                       data-selected={language === 'en' ? 'true' : undefined}
                       onClick={() => handleSelectLanguageMode('en')}
                       data-no-translate="true"
-                      className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-body-sm font-bold transition cursor-pointer text-left ${
+                      className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-body-sm font-bold transition cursor-pointer text-left ${
                         language === 'en' ? 'shadow-xs' : ''
                       }`}
                     >
@@ -610,7 +570,7 @@ export const Footer: React.FC<FooterProps> = ({
                   <div
                     id="footer-theme-popup"
                     style={{ background: 'var(--bg-popup)' }}
-                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(320px,calc(100vw-24px))] max-w-[calc(100vw-24px)] h-auto sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-[336px] sm:max-w-[calc(100vw-32px)] rounded-[14px] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
+                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(372px,calc(100vw-24px))] max-w-[calc(100vw-24px)] h-auto sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-[408px] sm:max-w-[calc(100vw-32px)] rounded-[var(--radius-popup,20px)] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
                   >
                     <div
                       className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
@@ -622,8 +582,52 @@ export const Footer: React.FC<FooterProps> = ({
                           : `Danh sách Giao diện (${CARD_STYLE_GROUPS.length})`}
                       </span>
                       <span className="typo-badge font-normal" style={{ color: 'var(--text-muted)' }}>
-                        {isEn ? 'Light / Dark / Color' : 'Sáng / Tối / Màu'}
+                        {isEn ? 'Light / Dark / System' : 'Sáng / Tối / Hệ thống'}
                       </span>
+                    </div>
+
+                    {/* Chế độ màu Sáng / Tối / Hệ thống (Light / Dark / System) */}
+                    <div
+                      role="group"
+                      aria-label={isEn ? 'Color Scheme: Light, Dark or System' : 'Chế độ màu Sáng, Tối hoặc Hệ thống'}
+                      className="grid grid-cols-3 gap-1 p-1 rounded-full border"
+                      style={{
+                        background: 'var(--bg-subcard)',
+                        borderColor: 'var(--border-subcard)',
+                      }}
+                    >
+                      {(
+                        [
+                          { mode: 'light' as const, icon: 'sun', labelVi: 'Sáng', labelEn: 'Light' },
+                          { mode: 'dark' as const, icon: 'moon', labelVi: 'Tối', labelEn: 'Dark' },
+                          { mode: 'system' as const, icon: 'monitor', labelVi: 'Hệ thống', labelEn: 'System' },
+                        ]
+                      ).map((opt) => {
+                        const isSelected = colorSchemeMode === opt.mode;
+                        return (
+                          <button
+                            key={opt.mode}
+                            type="button"
+                            aria-pressed={isSelected}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              SoundEngine.playTap();
+                              setColorSchemeMode(opt.mode);
+                              onShowNotification(
+                                isEn
+                                  ? `✓ Color scheme: ${opt.labelEn}`
+                                  : `✓ Chế độ màu: ${opt.labelVi}`
+                              );
+                            }}
+                            className={`theme-switch-btn justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                              isSelected ? 'is-active' : ''
+                            }`}
+                          >
+                            <WebIcon name={opt.icon} className="w-3 h-3 shrink-0" />
+                            <span>{isEn ? opt.labelEn : opt.labelVi}</span>
+                          </button>
+                        );
+                      })}
                     </div>
 
                     <div className="max-h-[380px] overflow-y-auto no-scrollbar flex flex-col gap-2 pr-0.5">
@@ -712,7 +716,7 @@ export const Footer: React.FC<FooterProps> = ({
                         return (
                           <div
                             key={group.id}
-                            className={`w-full flex flex-col gap-2 px-2.5 py-2.5 rounded-[14px] border transition-all ${
+                            className={`w-full flex flex-col gap-2 px-2.5 py-2.5 rounded-[var(--radius-subcard,16px)] border transition-all ${
                               groupActive ? 'shadow-xs' : 'theme-dropdown-option'
                             }`}
                             style={{
@@ -720,12 +724,12 @@ export const Footer: React.FC<FooterProps> = ({
                               borderColor: groupActive ? 'var(--color-primary)' : 'var(--border-subcard)',
                             }}
                           >
-                            {/* Tên 1 giao diện theo nhóm: Icon & Tiêu đề cùng màu, font in đậm */}
+                            {/* Hàng chính: Tên giao diện bên trái + 3 nút Sáng / Tối / Màu kế bên phải */}
                             <div className="w-full flex items-center justify-between gap-2 min-w-0">
                               <button
                                 type="button"
                                 onClick={() => handleApplyPreset(fallbackPreset)}
-                                className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer bg-transparent border-0 px-1 py-0.5 rounded-[10px]"
+                                className="flex items-center gap-1.5 min-w-0 flex-1 text-left cursor-pointer bg-transparent border-0 px-1 py-0.5 rounded-[10px]"
                               >
                                 <div className="flex items-center justify-center shrink-0" style={{ color: groupTitleColor }}>
                                   <WebIcon
@@ -734,7 +738,7 @@ export const Footer: React.FC<FooterProps> = ({
                                     style={{ color: groupTitleColor, strokeWidth: 2.35 }}
                                   />
                                 </div>
-                                <div className="min-w-0 flex-1 flex items-center gap-1.5">
+                                <div className="min-w-0 flex-1 flex items-center gap-1">
                                   <span
                                     className="typo-body-sm font-bold truncate"
                                     style={{ color: groupTitleColor, fontWeight: 700 }}
@@ -751,6 +755,105 @@ export const Footer: React.FC<FooterProps> = ({
                                   )}
                                 </div>
                               </button>
+
+                              {/* 3 nút Sáng / Tối / Màu đặt kế bên tên giao diện */}
+                              <div
+                                role="group"
+                                aria-label={
+                                  isEn
+                                    ? `${groupTitle} appearance mode`
+                                    : `Chế độ giao diện cho ${groupTitle}`
+                                }
+                                className="inline-flex items-center gap-0.5 p-0.5 rounded-full border shrink-0"
+                                style={{
+                                  background: 'var(--bg-subcard)',
+                                  borderColor: 'var(--border-subcard)',
+                                }}
+                              >
+                                <button
+                                  type="button"
+                                  data-mode="light"
+                                  disabled={!hasLight}
+                                  aria-pressed={isLightSelected}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (lightPreset) handleApplyPreset(lightPreset);
+                                  }}
+                                  title={
+                                    hasLight
+                                      ? isEn
+                                        ? `${groupTitle} - Light`
+                                        : `${groupTitle} - Sáng`
+                                      : isEn
+                                        ? `${groupTitle} does not support Light mode`
+                                        : `${groupTitle} chưa hỗ trợ chế độ Sáng`
+                                  }
+                                  className={`theme-switch-btn justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap ${
+                                    hasLight
+                                      ? 'cursor-pointer'
+                                      : 'opacity-35 cursor-not-allowed'
+                                  } ${isLightSelected ? 'is-active' : ''}`}
+                                >
+                                  <WebIcon name="sun" className="w-3 h-3 shrink-0" />
+                                  <span>{isEn ? 'Light' : 'Sáng'}</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  data-mode="dark"
+                                  disabled={!hasDark}
+                                  aria-pressed={isDarkSelected}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (darkPreset) handleApplyPreset(darkPreset);
+                                  }}
+                                  title={
+                                    hasDark
+                                      ? isEn
+                                        ? `${groupTitle} - Dark`
+                                        : `${groupTitle} - Tối`
+                                      : isEn
+                                        ? `${groupTitle} does not support Dark mode`
+                                        : `${groupTitle} chưa hỗ trợ chế độ Tối`
+                                  }
+                                  className={`theme-switch-btn justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap ${
+                                    hasDark
+                                      ? 'cursor-pointer'
+                                      : 'opacity-35 cursor-not-allowed'
+                                  } ${isDarkSelected ? 'is-active' : ''}`}
+                                >
+                                  <WebIcon name="moon" className="w-3 h-3 shrink-0" />
+                                  <span>{isEn ? 'Dark' : 'Tối'}</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  data-mode="color"
+                                  disabled={!hasColor}
+                                  aria-pressed={isColorSelected}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (colorPreset) handleApplyPreset(colorPreset);
+                                  }}
+                                  title={
+                                    hasColor
+                                      ? isEn
+                                        ? `${groupTitle} - Color`
+                                        : `${groupTitle} - Màu`
+                                      : isEn
+                                        ? `${groupTitle} does not support Color mode`
+                                        : `${groupTitle} chưa hỗ trợ chế độ Màu`
+                                  }
+                                  className={`theme-switch-btn justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap ${
+                                    hasColor
+                                      ? 'cursor-pointer'
+                                      : 'opacity-35 cursor-not-allowed'
+                                  } ${isColorSelected ? 'is-active' : ''}`}
+                                >
+                                  <WebIcon name="palette" className="w-3 h-3 shrink-0" />
+                                  <span>{isEn ? 'Color' : 'Màu'}</span>
+                                </button>
+                              </div>
                             </div>
 
                             {/* Demo xem trước dạng giao diện */}
@@ -787,14 +890,14 @@ export const Footer: React.FC<FooterProps> = ({
                                       style={{
                                         ...(preset.cardSampleStyle || {}),
                                         borderRadius: isIceBlueNeu ? '14px' : '10px',
-                                        padding: '6px 7px',
+                                        padding: '5px 7px',
                                         outline: demoOutline,
                                         outlineOffset: demoOutline ? '-3px' : undefined,
                                         boxShadow: isSelected
                                           ? '0 0 0 2px var(--color-primary), 0 4px 10px rgba(0,0,0,0.12)'
                                           : '0 2px 6px rgba(0,0,0,0.08)',
                                       }}
-                                      className="flex flex-col justify-between gap-1.5 cursor-pointer transition-transform duration-200 hover:scale-[1.03] min-w-0 select-none text-left border-0"
+                                      className="flex flex-col justify-between gap-1 cursor-pointer transition-transform duration-200 hover:scale-[1.03] min-w-0 select-none text-left border-0"
                                     >
                                       <div className="flex items-center justify-between gap-1 min-w-0 w-full">
                                         <span
@@ -823,90 +926,16 @@ export const Footer: React.FC<FooterProps> = ({
                                       <div className="flex items-center gap-1 w-full">
                                         <span
                                           style={preset.miniTabStyle}
-                                          className="h-2.5 flex-1 rounded-[4px] border"
+                                          className="h-2 flex-1 rounded-[4px] border"
                                         />
                                         <span
                                           style={preset.miniBtnStyle}
-                                          className="h-2.5 w-6 rounded-[4px] shrink-0"
+                                          className="h-2 w-6 rounded-[4px] shrink-0"
                                         />
                                       </div>
                                     </button>
                                   );
                                 })}
-                              </div>
-                            )}
-
-                            {/* Nút Sáng / Tối / Màu kế bên dưới phần demo (chỉ hiển thị dạng có hỗ trợ) */}
-                            {(hasLight || hasDark || hasColor) && (
-                              <div
-                                role="group"
-                                aria-label={
-                                  isEn
-                                    ? `${groupTitle} appearance mode`
-                                    : `Chế độ giao diện cho ${groupTitle}`
-                                }
-                                className="inline-flex items-center justify-between gap-1 p-0.5 rounded-full border w-full"
-                                style={{
-                                  background: 'var(--bg-subcard)',
-                                  borderColor: 'var(--border-subcard)',
-                                }}
-                              >
-                                {hasLight && lightPreset && (
-                                  <button
-                                    type="button"
-                                    data-mode="light"
-                                    aria-pressed={isLightSelected}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleApplyPreset(lightPreset);
-                                    }}
-                                    title={isEn ? `${groupTitle} - Light` : `${groupTitle} - Sáng`}
-                                    className={`theme-switch-btn flex-1 justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
-                                      isLightSelected ? 'is-active' : ''
-                                    }`}
-                                  >
-                                    <WebIcon name="sun" className="w-3 h-3 shrink-0" />
-                                    <span>{isEn ? 'Light' : 'Sáng'}</span>
-                                  </button>
-                                )}
-
-                                {hasDark && darkPreset && (
-                                  <button
-                                    type="button"
-                                    data-mode="dark"
-                                    aria-pressed={isDarkSelected}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleApplyPreset(darkPreset);
-                                    }}
-                                    title={isEn ? `${groupTitle} - Dark` : `${groupTitle} - Tối`}
-                                    className={`theme-switch-btn flex-1 justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
-                                      isDarkSelected ? 'is-active' : ''
-                                    }`}
-                                  >
-                                    <WebIcon name="moon" className="w-3 h-3 shrink-0" />
-                                    <span>{isEn ? 'Dark' : 'Tối'}</span>
-                                  </button>
-                                )}
-
-                                {hasColor && colorPreset && (
-                                  <button
-                                    type="button"
-                                    data-mode="color"
-                                    aria-pressed={isColorSelected}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleApplyPreset(colorPreset);
-                                    }}
-                                    title={isEn ? `${groupTitle} - Color` : `${groupTitle} - Màu`}
-                                    className={`theme-switch-btn flex-1 justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
-                                      isColorSelected ? 'is-active' : ''
-                                    }`}
-                                  >
-                                    <WebIcon name="palette" className="w-3 h-3 shrink-0" />
-                                    <span>{isEn ? 'Color' : 'Màu'}</span>
-                                  </button>
-                                )}
                               </div>
                             )}
                           </div>
@@ -1011,7 +1040,7 @@ export const Footer: React.FC<FooterProps> = ({
                             isEn ? '✓ Switched to Theme Settings' : '✓ Chuyển đến trang Cấu hình Giao diện'
                           );
                         }}
-                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-button font-bold transition cursor-pointer text-left"
+                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-button font-bold transition cursor-pointer text-left"
                         style={{ color: 'var(--text-link, var(--color-primary))' }}
                       >
                         <div className="flex items-center gap-2">
@@ -1174,12 +1203,12 @@ export const Footer: React.FC<FooterProps> = ({
             role="dialog"
             aria-modal="true"
             aria-label={isEn ? 'Download CV Resume — Nguyễn Hùng Thái' : 'Tải Hồ Sơ CV — Nguyễn Hùng Thái'}
-            className="theme-modal-card rounded-[14px] w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden"
+            className="theme-modal-card rounded-[var(--radius-modal,24px)] w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden"
           >
             {/* Modal Header */}
             <div className="theme-modal-header px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-[14px] bg-blue-600 text-white flex items-center justify-center shadow-md">
+                <div className="w-10 h-10 rounded-[var(--radius-subcard,16px)] bg-blue-600 text-white flex items-center justify-center shadow-md">
                   <WebIcon name="file-text" className="w-5 h-5 text-white" />
                 </div>
                 <div>
@@ -1205,7 +1234,7 @@ export const Footer: React.FC<FooterProps> = ({
 
             {/* Modal Body */}
             <div className="p-6 overflow-y-auto space-y-5 flex-1 text-left">
-              <div className="theme-modal-subcard p-4 rounded-[14px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="theme-modal-subcard p-4 rounded-[var(--radius-subcard,16px)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="space-y-1">
                   <span className="inline-block px-2.5 py-0.5 rounded-full typo-badge font-bold bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">
                     {isEn ? 'Official 2026 Edition' : 'Bản chính thức 2026'}
@@ -1230,7 +1259,7 @@ export const Footer: React.FC<FooterProps> = ({
                     );
                   }}
                   style={{ background: 'var(--bg-button-primary)' }}
-                  className="px-5 py-2.5 rounded-[14px] hover:opacity-90 text-white font-bold typo-button shadow-md inline-flex items-center gap-2 transition cursor-pointer shrink-0"
+                  className="px-5 py-2.5 rounded-full hover:opacity-90 text-white font-bold typo-button shadow-md inline-flex items-center gap-2 transition cursor-pointer shrink-0"
                 >
                   <WebIcon name="file-text" className="w-4 h-4 text-white" />
                   <span>{isEn ? 'Download PDF' : 'Tải Xuống PDF'}</span>
@@ -1238,7 +1267,7 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
 
               {/* Overview content preview inside modal */}
-              <div className="theme-modal-subcard rounded-[14px] p-4 space-y-3">
+              <div className="theme-modal-subcard rounded-[var(--radius-subcard,16px)] p-4 space-y-3">
                 <div className="flex items-center justify-between border-b border-current/15 pb-2">
                   <span className="typo-label font-bold opacity-80">
                     {isEn ? 'Profile Summary' : 'Tóm tắt thông tin hồ sơ'}

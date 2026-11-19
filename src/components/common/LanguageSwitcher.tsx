@@ -75,7 +75,7 @@ export const LanguageSwitcher: React.FC = () => {
 
       {isOpen && (
         <div
-          className="theme-popup absolute right-0 mt-2 w-56 rounded-[14px] z-[99999] p-1.5 flex flex-col gap-1 animate-fadeIn font-play"
+          className="theme-popup absolute right-0 mt-2 w-56 rounded-[var(--radius-popup,20px)] z-[99999] p-1.5 flex flex-col gap-1 animate-fadeIn font-play"
           style={{ transformOrigin: 'top right' }}
         >
           <div
@@ -90,7 +90,7 @@ export const LanguageSwitcher: React.FC = () => {
             type="button"
             data-selected={languageMode === 'auto' ? 'true' : undefined}
             onClick={() => handleSelectMode('auto')}
-            className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[14px] text-left transition-all duration-200 cursor-pointer ${
+            className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] text-left transition-all duration-200 cursor-pointer ${
               languageMode === 'auto' ? 'font-bold shadow-sm' : 'font-medium'
             }`}
           >
@@ -115,7 +115,7 @@ export const LanguageSwitcher: React.FC = () => {
             type="button"
             data-selected={languageMode === 'vi' ? 'true' : undefined}
             onClick={() => handleSelectMode('vi')}
-            className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2.5 rounded-[14px] text-left transition-all duration-200 cursor-pointer ${
+            className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2.5 rounded-[var(--radius-subcard,16px)] text-left transition-all duration-200 cursor-pointer ${
               languageMode === 'vi' ? 'font-bold shadow-sm' : 'font-medium'
             }`}
           >
@@ -133,7 +133,7 @@ export const LanguageSwitcher: React.FC = () => {
             type="button"
             data-selected={languageMode === 'en' ? 'true' : undefined}
             onClick={() => handleSelectMode('en')}
-            className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2.5 rounded-[14px] text-left transition-all duration-200 cursor-pointer ${
+            className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2.5 rounded-[var(--radius-subcard,16px)] text-left transition-all duration-200 cursor-pointer ${
               languageMode === 'en' ? 'font-bold shadow-sm' : 'font-medium'
             }`}
           >

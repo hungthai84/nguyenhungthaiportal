@@ -1771,7 +1771,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
         aria-label={`${displayTitle} - ${item.roleVi}`}
         data-element-type="card"
         data-section-card="true"
-        style={{ gap: '15px', padding: '15px', borderRadius: '14px' }}
+        style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
         className={`bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-all duration-200 overflow-hidden group/mcard w-full mx-auto h-full min-h-0 min-w-0 cursor-default text-left rounded-[14px] ${bentoSpan} ${
           isSelected
             ? 'ring-2 ring-cyan-400 dark:ring-cyan-300 scale-[1.01] z-10'
@@ -1970,7 +1970,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
-          borderRadius: '14px',
+          borderRadius: 'var(--radius-main, 30px)',
         }}
         className={cn(
           'group/letter page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
@@ -2007,7 +2007,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-section-card="true"
                       data-element-page="letter"
                       data-element-parent="letter-card-1"
-                      style={{ padding: '15px', borderRadius: '14px' }}
+                      style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                       className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] min-h-[240px] sm:min-h-[280px] lg:min-h-[300px] w-full h-full min-w-0 relative overflow-hidden flex flex-col p-[15px] box-border transition-all duration-200 hover:-translate-y-0.5 group/vcard ${
                         activeTargetId === 'bento-experience-intro' || activeTargetId === 'callout-salutation'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.3)]'
@@ -2040,7 +2040,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-section-card="true"
                       data-element-page="letter"
-                      style={{ padding: '15px', gap: '15px', borderRadius: '14px' }}
+                      style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                       className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-5 p-[15px] rounded-[14px] flex flex-col justify-between relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5 w-full h-full min-w-0 ${
                         activeTargetId === 'callout-salutation' || activeTargetId === 'bento-experience-intro' || activeTargetId === 'bento-commitment'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.25)]'
@@ -2113,7 +2113,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="card-core-values-pursued"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '15px', padding: '15px', borderRadius: '14px' }}
+                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                       className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-12 w-full p-[15px] gap-[15px] transition-all duration-200 flex flex-col items-start group/values z-10 text-left rounded-[14px] shrink-0 min-w-0 ${getGlassCardClass()} ${
                         activeTargetId === 'card-core-values-pursued'
                           ? 'ring-2 ring-amber-400 dark:ring-cyan-400 shadow-[0_0_24px_rgba(251,191,36,0.35)]'
@@ -2146,7 +2146,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                               key={val.number}
                               id={`core-val-${val.number}`}
                               data-subcard="true"
-                              style={{ gap: '15px', padding: '15px', borderRadius: '14px' }}
+                              style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-subcard, 16px)' }}
                               className={`sub-card letter-subcard relative overflow-hidden flex flex-col justify-between h-full p-[15px] gap-[15px] transition-all duration-200 hover:-translate-y-0.5 text-left group rounded-[14px] min-w-0 ${
                                 isValBeingRead
                                   ? 'ring-2 ring-emerald-500 dark:ring-cyan-400 shadow-[0_0_24px_rgba(16,185,129,0.28)] -translate-y-1'
@@ -2207,7 +2207,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           data-element-type="card"
                           data-section-card="true"
                           data-element-page="letter"
-                          style={{ padding: '15px', borderRadius: '14px' }}
+                          style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                           className="partner-card bento-card glass-card p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] transition-all duration-200 hover:-translate-y-0.5 group/marquee min-w-0"
                         >
                           <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] shrink-0 min-w-0">
@@ -2272,7 +2272,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           data-element-type="card"
                           data-section-card="true"
                           data-element-page="letter"
-                          style={{ padding: '15px', borderRadius: '14px' }}
+                          style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                           className={`motto-card bento-card glass-card relative rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] transition-all duration-200 hover:-translate-y-0.5 group/quote min-w-0 ${
                             activeTargetId === 'quote-banner-slide-1'
                               ? 'ring-4 ring-sky-500/40 dark:ring-cyan-400/40 scale-[1.01]'
@@ -2346,7 +2346,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
-          borderRadius: '14px',
+          borderRadius: 'var(--radius-main, 30px)',
         }}
         className={cn(
           'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
@@ -2399,7 +2399,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
-          borderRadius: '14px',
+          borderRadius: 'var(--radius-main, 30px)',
         }}
         className={cn(
           'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
@@ -2452,7 +2452,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
-          borderRadius: '14px',
+          borderRadius: 'var(--radius-main, 30px)',
         }}
         className={cn(
           'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
@@ -2471,7 +2471,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="card-philosophy-gratitude"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '15px', padding: '15px', borderRadius: '14px' }}
+                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                       className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-6 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
                         activeTargetId === 'card-philosophy-gratitude'
                           ? 'ring-2 ring-purple-500/80 dark:ring-cyan-400/80 shadow-[0_0_25px_rgba(168,85,247,0.22)]'
@@ -2513,7 +2513,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                               <div
                                 key={principle.id}
                                 data-subcard="true"
-                                style={{ padding: '15px', borderRadius: '14px' }}
+                                style={{ padding: '15px', borderRadius: 'var(--radius-subcard, 16px)' }}
                                 className="sub-card letter-subcard h-full p-[15px] rounded-[14px] text-left flex flex-col justify-between gap-1.5 transition-all hover:-translate-y-0.5 duration-200 min-w-0"
                               >
                                 <div className="flex items-center justify-between gap-2 min-w-0">
@@ -2551,7 +2551,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="bento-companion-letter"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '15px', padding: '15px', borderRadius: '14px' }}
+                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                       className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-6 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
                         activeTargetId === 'card-philosophy-gratitude'
                           ? 'ring-2 ring-rose-500/70 dark:ring-cyan-400/70 shadow-[0_0_25px_rgba(244,63,94,0.18)]'
@@ -2593,8 +2593,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       {/* Quote box synthesis Bento Sub-card */}
                       <div
                         data-subcard="true"
-                        style={{ padding: '15px', borderRadius: '14px' }}
-                        className="sub-card letter-subcard w-full p-[15px] rounded-[14px] relative flex items-center gap-3 min-w-0"
+                        style={{ padding: '15px', borderRadius: 'var(--radius-subcard, 16px)' }}
+                        className="sub-card letter-subcard w-full p-[15px] rounded-[var(--radius-subcard,16px)] relative flex items-center gap-3 min-w-0"
                       >
                         <span className="text-amber-600 dark:text-amber-400 font-serif font-bold text-xl leading-none shrink-0">
                           “

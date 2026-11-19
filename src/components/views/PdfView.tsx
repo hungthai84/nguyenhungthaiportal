@@ -277,7 +277,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       >
         <div
           className="project-detail-banner-media no-print absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
-          style={{ borderRadius: '14px' }}
+          style={{ borderRadius: 'var(--radius-banner, 24px)' }}
         >
           <img
             src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"

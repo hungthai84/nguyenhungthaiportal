@@ -114,17 +114,17 @@
   --space-10: 40px;
 
   /* Border Radius Tokens – Chuẩn hóa toàn hệ thống theo giao diện Chất liệu da (14px) */
-  --radius-main: 14px;
-  --radius-card: 14px;
-  --radius-subcard: 14px;
+  --radius-main: 18px;
+  --radius-card: 18px;
+  --radius-subcard: 18px;
   --radius-button: 999px;
   --radius-input: 14px;
-  --radius-modal: 14px;
-  --radius-popup: 14px;
-  --radius-widget: 14px;
-  --radius-banner: 14px;
-  --radius-header: 0 0 14px 14px;
-  --radius-footer: 14px 14px 0 0;
+  --radius-modal: 18px;
+  --radius-popup: 18px;
+  --radius-widget: 18px;
+  --radius-banner: 18px;
+  --radius-header: 0 0 18px 18px;
+  --radius-footer: 18px 18px 0 0;
 
   /* Component Dimensions & Unified Layout Tokens */
   --main-card-padding: 15px;
@@ -317,12 +317,12 @@
   --bg-card: #FBFCFF;
   --bg-subcard: rgba(251, 252, 255, 0.76);
   --bg-nested-card: rgba(247, 248, 253, 0.72);
-  --bg-button-primary: linear-gradient(135deg, #7666D8 0%, #A99AE8 100%);
+  --bg-button-primary: linear-gradient(135deg, #7C5CFF 0%, #9F7AEA 100%);
   --text-button-primary: #FFFFFF;
-  --shadow-button-primary: 0 8px 20px -4px rgba(118, 102, 216, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.42);
-  --bg-button-secondary: linear-gradient(135deg, #56BDB6 0%, #8ADDD5 100%);
-  --text-button-secondary: #FFFFFF;
-  --shadow-button-secondary: 0 6px 16px -4px rgba(86, 189, 182, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  --shadow-button-primary: 0 10px 24px -4px rgba(124, 92, 255, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.50), inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+  --bg-button-secondary: linear-gradient(135deg, #67C7C7 0%, #A2E4E4 100%);
+  --text-button-secondary: #1E1E24;
+  --shadow-button-secondary: 0 8px 20px -4px rgba(103, 199, 199, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.55);
   --bg-button-ghost: rgba(255, 255, 255, 0.24);
   --bg-button-icon: rgba(255, 255, 255, 0.20);
   --bg-popup: rgba(251, 252, 255, 0.94);
@@ -447,19 +447,17 @@
   /* ========================================================================= */
   /* LỚP 3: GLOBAL 5-LAYER BACKGROUND (Soft Liquid Glass 3D Light Ambient)     */
   /* ========================================================================= */
-  --app-bg-base: #FDFDFF;
+  --app-bg-base: #EEF0FA;
   --app-bg-gradient:
-    radial-gradient(ellipse 80% 62% at 10% 10%, rgba(243, 185, 167, 0.58) 0%, transparent 56%),
-    radial-gradient(ellipse 76% 62% at 88% 14%, rgba(190, 176, 235, 0.55) 0%, transparent 56%),
-    radial-gradient(ellipse 72% 58% at 52% 48%, rgba(232, 187, 216, 0.45) 0%, transparent 60%),
-    radial-gradient(ellipse 76% 62% at 84% 88%, rgba(169, 223, 222, 0.52) 0%, transparent 58%),
-    radial-gradient(ellipse 74% 60% at 14% 86%, rgba(184, 208, 242, 0.50) 0%, transparent 58%),
-    linear-gradient(135deg, #FFF0E8 0%, #F7E8F2 26%, #EEE9FA 52%, #E6F0FC 76%, #E0F5F3 100%);
-  --app-bg-glow-primary: rgba(243, 185, 167, 0.42);
-  --app-bg-glow-secondary: rgba(190, 176, 235, 0.40);
-  --app-bg-glow-accent: rgba(232, 187, 216, 0.36);
-  --app-bg-glow-cyan: rgba(169, 223, 222, 0.38);
-  --app-bg-blur: 68px;
+    radial-gradient(ellipse 80% 62% at 10% 10%, rgba(108, 76, 230, 0.25) 0%, transparent 56%),
+    radial-gradient(ellipse 76% 62% at 88% 14%, rgba(56, 189, 248, 0.22) 0%, transparent 56%),
+    radial-gradient(ellipse 72% 58% at 52% 48%, rgba(165, 180, 252, 0.28) 0%, transparent 60%),
+    linear-gradient(135deg, #EEF0FA 0%, #E2E6F8 50%, #DCE0F5 100%);
+  --app-bg-glow-primary: rgba(108, 76, 230, 0.22);
+  --app-bg-glow-secondary: rgba(56, 189, 248, 0.20);
+  --app-bg-glow-accent: rgba(165, 180, 252, 0.20);
+  --app-bg-glow-cyan: rgba(56, 189, 248, 0.18);
+  --app-bg-blur: 22px;
   --app-bg-opacity: 0.72;
   --app-bg-shape-opacity: 0.54;
   --app-bg-depth-veil:

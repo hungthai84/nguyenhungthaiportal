@@ -1465,9 +1465,9 @@ export function AboutView({
               data-element-parent="about-intro-card-1"
               style={{
                 borderRadius: 'var(--radius-card, 24px)',
-                padding: '10px',
+                padding: '5px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,24px)] overflow-hidden flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video p-[10px] text-left"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,24px)] overflow-hidden flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video p-[5px] text-left"
             >
                   <div className="relative w-full h-full flex-1 rounded-[14px] overflow-hidden min-h-0 flex flex-col justify-between">
                   {activeHeroMedia === 'video' ? (

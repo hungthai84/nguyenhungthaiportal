@@ -12,6 +12,7 @@ import {
   User,
   onAuthStateChanged,
   signInWithPopup,
+  signInAnonymously,
   signOut,
 } from 'firebase/auth';
 import {
@@ -345,6 +346,15 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     } catch (error: any) {
       if (error?.code === 'auth/popup-closed-by-user' || error?.code === 'auth/cancelled-popup-request') {
         return null;
+      }
+      if (error?.code === 'auth/unauthorized-domain') {
+        console.warn('Firebase Auth: Unauthorized domain for Google sign-in. Falling back to anonymous auth.');
+        try {
+          const anonResult = await signInAnonymously(auth);
+          return anonResult.user;
+        } catch (anonErr) {
+          console.error('Anonymous auth fallback failed:', anonErr);
+        }
       }
       throw error;
     } finally {

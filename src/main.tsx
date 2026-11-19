@@ -3,11 +3,17 @@ import App from './App.tsx';
 import './index.css';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
+import { FirebaseProvider } from './context/FirebaseContext';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 
 createRoot(document.getElementById('root')!).render(
-  <ThemeProvider>
-    <LanguageProvider>
-      <App />
-    </LanguageProvider>
-  </ThemeProvider>
+  <ErrorBoundary>
+    <ThemeProvider>
+      <LanguageProvider>
+        <FirebaseProvider>
+          <App />
+        </FirebaseProvider>
+      </LanguageProvider>
+    </ThemeProvider>
+  </ErrorBoundary>
 );

@@ -269,34 +269,19 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
             const isItemActive = item.id === 'booking' && currentTab === 12;
             const content = (
               <div
-                className={`radial-contact-pill-wrapper nav-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] p-[1.5px] select-none group/item transition-all duration-200 w-full shadow-md ring-1.5 ${item.ringColor}`}
+                className="radial-contact-pill-wrapper nav-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] p-[1.5px] select-none group/item transition-colors duration-200 w-full"
                 style={{
                   minHeight: '40px',
                   height: coords?.height ? `${coords.height}px` : '40px',
                 }}
               >
-                {/* Rotating Laser Beam Border (Clipped independently of focus ring) */}
-                <div
-                  aria-hidden="true"
-                  className="radial-contact-laser-clip absolute inset-0 rounded-[999px] overflow-hidden pointer-events-none z-0"
-                >
-                  <div
-                    className={`radial-contact-laser absolute -inset-[220%] animate-[spin_4s_linear_infinite] pointer-events-none ${
-                      isItemActive ? 'opacity-100' : 'opacity-0 group-hover/item:opacity-100'
-                    }`}
-                    style={{
-                      background: `conic-gradient(from 0deg, transparent 0 200deg, ${item.laserColor} 260deg, #ffffff 320deg, ${item.laserColor} 360deg)`,
-                    }}
-                  />
-                </div>
-
                 {/* Inner Pill */}
                 <div
-                  className={`radial-contact-pill ${isItemActive ? 'active' : ''} relative z-10 inline-flex items-center w-full h-full rounded-[999px] gap-[6px] cursor-pointer border transition-all duration-200`}
+                  className={`radial-contact-pill ${isItemActive ? 'active' : ''} relative z-10 inline-flex items-center w-full h-full rounded-[999px] gap-[6px] cursor-pointer border transition-colors duration-200`}
                   style={{
-                    paddingTop: '10px',
+                    paddingTop: '8px',
                     paddingRight: '10px',
-                    paddingBottom: '10px',
+                    paddingBottom: '8px',
                     paddingLeft: '10px',
                     fontWeight: 'normal',
                     borderWidth: '1px',

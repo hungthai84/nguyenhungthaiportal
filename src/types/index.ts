@@ -1,4 +1,4 @@
-export type SiteTheme = 'light-multicolor-glass' | 'light-multicolor-glass-dark' | 'light-multicolor-glass-color' | 'cowhide-leather' | 'light-cowhide-leather' | 'black-cowhide-leather' | 'ice-blue-neu' | 'dark-ice-blue-neu' | string;
+export type SiteTheme = 'cowhide-leather' | 'light-cowhide-leather' | 'black-cowhide-leather' | 'ice-blue-neu' | 'dark-ice-blue-neu' | string;
 export type { MemoryPhoto } from '@/data/memories';
 
 export interface WeatherPreset {

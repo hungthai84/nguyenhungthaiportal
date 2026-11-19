@@ -14,8 +14,8 @@ export const DOMAINS_DATA: DomainData[] = [
     serviceCode: '6.1',
     title: 'Dịch vụ Viễn thông',
     titleEn: 'Telecommunications & Contact Center Operations',
-    subtitle: 'Năng lực quản trị, vận hành và chuẩn hóa hệ thống Contact Center viễn thông quy mô tập đoàn, đảm bảo tính liên tục 24/7/365 và tối ưu hóa trải nghiệm khách hàng đa kênh.',
-    subtitleEn: 'Large-scale, professional, continuous 24/7/365 Telecom Contact Center management & operations.',
+    subtitle: 'Quản trị Contact Center viễn thông 24/7/365, chuẩn hóa quy trình và trải nghiệm đa kênh.',
+    subtitleEn: '24/7/365 Telecom Contact Center governance, SOP standards, and omnichannel CX.',
     coreCompetency:
       'Năng lực quản trị, vận hành và chuẩn hóa hệ thống Contact Center viễn thông quy mô tập đoàn, đảm bảo tính liên tục 24/7/365 và tối ưu hóa trải nghiệm khách hàng đa kênh.',
     experienceAndScale:
@@ -121,8 +121,8 @@ export const DOMAINS_DATA: DomainData[] = [
     serviceCode: '6.2',
     title: 'Thương mại điện tử',
     titleEn: 'E-Commerce & Omnichannel Operations',
-    subtitle: 'Quản trị dịch vụ đa kênh, trải nghiệm mua sắm trực tuyến và kiểm soát rủi ro giao dịch.',
-    subtitleEn: 'Large-scale e-commerce operations, omnichannel CX optimization, and high-velocity service quality control.',
+    subtitle: 'Vận hành CSKH đa kênh thương mại điện tử, xử lý tranh chấp và kiểm soát rủi ro giao dịch.',
+    subtitleEn: 'Omnichannel e-commerce CS ops, dispute resolution, and transaction risk control.',
     coreCompetency:
       'Quản trị dịch vụ đa kênh, trải nghiệm mua sắm trực tuyến và kiểm soát rủi ro giao dịch.',
     experienceAndScale:
@@ -219,8 +219,8 @@ export const DOMAINS_DATA: DomainData[] = [
     serviceCode: '6.3',
     title: 'Tài chính bảo hiểm',
     titleEn: 'Insurance & Financial Quality Management',
-    subtitle: 'Quản trị chất lượng dịch vụ tài chính, tư vấn bảo hiểm và trải nghiệm khách hàng trong môi trường có yêu cầu tuân thủ cao.',
-    subtitleEn: 'Managing financial & insurance service quality, standardizing advisory processes, and sustaining long-term trust.',
+    subtitle: 'Quản trị chất lượng tư vấn bảo hiểm, bảo mật thông tin và tuân thủ chuẩn mực tài chính.',
+    subtitleEn: 'Insurance advisory quality, data security, and strict financial compliance ops.',
     coreCompetency:
       'Quản trị chất lượng dịch vụ tài chính, tư vấn bảo hiểm và trải nghiệm khách hàng trong môi trường có yêu cầu tuân thủ cao.',
     experienceAndScale:
@@ -311,8 +311,8 @@ export const DOMAINS_DATA: DomainData[] = [
     serviceCode: '6.4',
     title: 'Thể thao điện tử',
     titleEn: 'Gaming & eSports Customer Support Operations',
-    subtitle: 'Quản trị Game Support, cộng đồng người chơi, an toàn tài khoản và vận hành dịch vụ quy mô lớn.',
-    subtitleEn: 'Managing Gaming & eSports customer operations, supporting millions of gamers, and protecting player assets.',
+    subtitle: 'Điều hành Game Support quy mô lớn, bảo vệ tài khoản và gắn kết cộng đồng người chơi.',
+    subtitleEn: 'Large-scale Game Support operations, account protection, and player community CX.',
     coreCompetency:
       'Quản trị Game Support, cộng đồng người chơi, an toàn tài khoản và vận hành dịch vụ quy mô lớn.',
     experienceAndScale:
@@ -409,8 +409,8 @@ export const DOMAINS_DATA: DomainData[] = [
     serviceCode: '6.5',
     title: 'Thanh toán điện tử',
     titleEn: 'Fintech, E-Wallets & Digital Payment Operations',
-    subtitle: 'Quản trị dịch vụ tài chính số, tra soát giao dịch, kiểm soát rủi ro và tự động hóa vận hành.',
-    subtitleEn: 'Digital financial service operations, transaction risk control, RPA automation, and 24/7 payment continuity.',
+    subtitle: 'Vận hành CSKH ví điện tử, tra soát dòng tiền, kiểm soát gian lận và tự động hóa RPA.',
+    subtitleEn: 'Fintech wallet support, cashflow reconciliation, fraud control, and RPA workflow.',
     coreCompetency:
       'Quản trị dịch vụ tài chính số, tra soát giao dịch, kiểm soát rủi ro và tự động hóa vận hành.',
     experienceAndScale:
@@ -507,8 +507,8 @@ export const DOMAINS_DATA: DomainData[] = [
     serviceCode: '6.6',
     title: 'Xây dựng hệ thống',
     titleEn: 'Strategic CX Consulting & Contact Center System Architecture',
-    subtitle: 'Tư vấn chiến lược CX, thiết kế mô hình vận hành, xây dựng Contact Center và chuyển đổi số hoạt động CSKH.',
-    subtitleEn: 'End-to-end CX consulting, designing, standardizing, and transferring Contact Center systems from Cost Center to Value Center.',
+    subtitle: 'Tư vấn chiến lược CX, thiết lập Contact Center và chuyển đổi số từ Cost sang Value Center.',
+    subtitleEn: 'CX strategy consulting, Contact Center setup, and Cost-to-Value transformation.',
     coreCompetency:
       'Tư vấn chiến lược CX, thiết kế mô hình vận hành, xây dựng Contact Center và chuyển đổi số hoạt động CSKH.',
     experienceAndScale:

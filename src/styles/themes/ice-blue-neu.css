@@ -737,32 +737,54 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 
 html[data-card-style="ice-blue-neu"] :is(
   #app-header nav button.nav-pill.active,
+  #header-btn-hungthai-avatar.active,
+  #footer-lang-btn.active,
   #footer-appearance-btn.active,
+  #footer-theme-mode-btn.active,
   #footer-wallpaper-btn.active,
-  #footer-ai-btn.active
+  #footer-ai-btn.active,
+  .radial-contact-pill.active
 ) {
-  background: rgb(232, 241, 249) !important;
-  border: 1px solid rgba(99, 102, 241, 0.45) !important;
-  box-shadow:
-    inset 3px 3px 7px rgba(176, 198, 219, 0.72),
-    inset -3px -3px 7px rgba(255, 255, 255, 0.96),
-    0 0 14px rgba(99, 102, 241, 0.22) !important;
-  color: rgb(99, 102, 241) !important;
+  background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%) !important;
+  border: 1px solid #4338CA !important;
+  box-shadow: var(--neu-pill-shadow) !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="dark-ice-blue-neu"] :is(
   #app-header nav button.nav-pill.active,
+  #header-btn-hungthai-avatar.active,
+  #footer-lang-btn.active,
   #footer-appearance-btn.active,
+  #footer-theme-mode-btn.active,
   #footer-wallpaper-btn.active,
-  #footer-ai-btn.active
+  #footer-ai-btn.active,
+  .radial-contact-pill.active
 ) {
-  background: rgb(22, 34, 50) !important;
-  border: 1px solid rgba(56, 189, 248, 0.42) !important;
-  box-shadow:
-    inset 3px 3px 7px #0a1018,
-    inset -3px -3px 7px #203147,
-    0 0 16px rgba(56, 189, 248, 0.25) !important;
-  color: #ffffff !important;
+  background: linear-gradient(135deg, #0369A1 0%, #0284C7 100%) !important;
+  border: 1px solid #38BDF8 !important;
+  box-shadow: var(--neu-pill-shadow) !important;
+  color: #FFFFFF !important;
+}
+
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
+  #app-header nav button.nav-pill.active,
+  #header-btn-hungthai-avatar.active,
+  #footer-lang-btn.active,
+  #footer-appearance-btn.active,
+  #footer-theme-mode-btn.active,
+  #footer-wallpaper-btn.active,
+  #footer-ai-btn.active,
+  .radial-contact-pill.active
+) :is(.nav-pill-title, .nav-pill-sub, .radial-contact-title, .radial-contact-sub, svg) {
+  color: #FFFFFF !important;
+}
+
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
+  .nav-pill.active .nav-pill-divider,
+  .radial-contact-pill.active .radial-contact-divider
+) {
+  background-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 /* Typography Contrast Safeguards */

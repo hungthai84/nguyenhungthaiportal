@@ -43,6 +43,7 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
+import { saveMutedPref } from '@/utils/audioPreference';
 
 interface MilestoneLogoItem {
   src: string;
@@ -371,6 +372,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
   const [carouselSlideIdx, setCarouselSlideIdx] = useState<number>(0);
   const [isPhotoLightboxOpen, setIsPhotoLightboxOpen] = useState<boolean>(false);
+  const [isJobVideoPlaying, setIsJobVideoPlaying] = useState<boolean>(false);
+  const [isJobVideoMuted, setIsJobVideoMuted] = useState<boolean>(true);
+  const jobVideoRef = useRef<HTMLVideoElement>(null);
 
   // States cho Timeline bìa gấp 3D theo cấu trúc mẫu đính kèm
   const [startIndex, setStartIndex] = useState<number>(0);
@@ -409,6 +413,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   useEffect(() => {
     setFailedPhotoSrcs({});
     setBannerImgError(false);
+    setIsJobVideoPlaying(false);
+    setIsJobVideoMuted(true);
     if (showJobCard && detailCardRef.current) {
       detailCardRef.current.scrollTo({ top: 0, behavior: 'auto' });
     }
@@ -1837,16 +1843,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               id="experience-bento-grid"
               className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-start content-start w-full min-w-0"
             >
-              {/* CỘT TRÁI (Desktop lg:col-span-7 | Tablet/Mobile: display contents theo order đọc tự nhiên) */}
-              <div
-                id="experience-bento-col-left"
-                className="contents lg:col-span-7 lg:flex lg:flex-col lg:gap-[15px] min-w-0"
-              >
-              {/* 1. HERO CARD: Banner, Điều hướng mốc & Thông tin tổng quan */}
+              {/* HÀNG 1: Thẻ Tên công ty (+ Thẻ Video 2026 nếu activeKey === '2026') */}
               <section
                 id="experience-info-card"
                 className={cn(
-                  'exp-bento-surface-card order-1 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[15px] overflow-hidden shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border flex flex-col gap-[15px] relative group min-w-0 h-auto',
+                  'exp-bento-surface-card col-span-12 transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[15px] overflow-hidden shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border flex flex-col gap-[15px] relative group min-w-0 h-auto',
+                  activeKey === '2026' ? 'lg:col-span-7' : 'lg:col-span-12',
                   isDarkCardText
                     ? 'bg-slate-900/75 border-white/15 text-white'
                     : 'bg-white border-slate-100 text-slate-900'
@@ -2234,11 +2236,137 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </div>
               </section>
 
-              {/* 5. GIỚI THIỆU HÀNH TRÌNH */}
+              {/* THẺ VIDEO 2026 (CHỈ HIỂN THỊ KHI Ở CỘT MỐC 2026) */}
+              {activeKey === '2026' && (
+                <section
+                  id="experience-video-card-2026"
+                  className={cn(
+                    'exp-bento-surface-card col-span-12 lg:col-span-5 transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[10px] overflow-hidden shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08),0_4px_10px_-2px_rgba(15,23,42,0.04)] border flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video text-left',
+                    isDarkCardText
+                      ? 'bg-slate-900/75 border-white/15 text-white'
+                      : 'bg-white border-slate-100 text-slate-900'
+                  )}
+                >
+                  <div className="relative w-full h-full flex-1 rounded-[14px] overflow-hidden min-h-0 flex flex-col justify-between">
+                    <video
+                      ref={jobVideoRef}
+                      id="experience-2026-video"
+                      autoPlay
+                      loop={!isJobVideoPlaying}
+                      muted={isJobVideoPlaying ? isJobVideoMuted : true}
+                      playsInline
+                      onEnded={() => {
+                        if (isJobVideoPlaying) {
+                          setIsJobVideoPlaying(false);
+                          setIsJobVideoMuted(true);
+                          if (jobVideoRef.current) {
+                            jobVideoRef.current.src = "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841270/Man_h%C3%ACnh_ch%E1%BB%9D_Job_2026.mp4";
+                            jobVideoRef.current.muted = true;
+                            jobVideoRef.current.play().catch(() => {});
+                          }
+                        }
+                      }}
+                      className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] pointer-events-none z-0 opacity-100 transition-opacity duration-700 brightness-105 contrast-105 scale-[1.01]"
+                      src={isJobVideoPlaying ? "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841266/Th%E1%BA%BB_Job_2026.mp4" : "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841270/Man_h%C3%ACnh_ch%E1%BB%9D_Job_2026.mp4"}
+                    />
+
+                    <div 
+                      style={{ borderRadius: '999px' }}
+                      className={`theme-video-capsule video-play-btn video-play-btn--about ${isJobVideoPlaying ? 'is-playing' : ''} absolute bottom-3 right-3 sm:bottom-3.5 sm:right-3.5 z-30 inline-flex items-center gap-2.5 px-3 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none`}
+                    >
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const nextMuted = !isJobVideoMuted;
+                          setIsJobVideoMuted(nextMuted);
+                          saveMutedPref(nextMuted);
+                          if (jobVideoRef.current) {
+                            jobVideoRef.current.muted = nextMuted;
+                          }
+                        }}
+                        className={`video-play-btn__sound w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
+                          !isJobVideoMuted ? 'text-current shadow-xs' : 'is-muted text-white shadow-md'
+                        }`}
+                        title={!isJobVideoMuted ? 'Tắt tiếng video' : 'Bật âm thanh video'}
+                        aria-label={!isJobVideoMuted ? 'Tắt tiếng video' : 'Bật âm thanh video'}
+                      >
+                        <span className="flex items-center justify-center">
+                          {!isJobVideoMuted ? (
+                            <WebIcon name="volume-2" className="w-3.5 h-3.5 text-current" />
+                          ) : (
+                            <WebIcon name="volume-x" className="w-3.5 h-3.5 text-white" />
+                          )}
+                        </span>
+                      </button>
+
+                      <div className="w-[1px] h-4 bg-current opacity-25 shrink-0 mx-0.5" />
+
+                      {!isJobVideoPlaying ? (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsJobVideoPlaying(true);
+                            setIsJobVideoMuted(false);
+                            saveMutedPref(false);
+                            if (jobVideoRef.current) {
+                              jobVideoRef.current.src = "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841266/Th%E1%BA%BB_Job_2026.mp4";
+                              jobVideoRef.current.muted = false;
+                              jobVideoRef.current.currentTime = 0;
+                              jobVideoRef.current.play().catch(() => {});
+                            }
+                            showToast('Đang phát Video Thẻ Job 2026 🎬');
+                          }}
+                          style={{ paddingLeft: '8px', paddingRight: '10px', borderRadius: '999px' }}
+                          className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          title="Bấm để phát video chi tiết Job 2026"
+                        >
+                          <span className="flex items-center justify-center">
+                            <WebIcon name="play" className="w-4 h-4 fill-current text-current shrink-0" style={{ height: '16px', width: '16px' }} />
+                          </span>
+                          <span className="typo-button text-current truncate font-play text-left">
+                            Phát Video
+                          </span>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsJobVideoPlaying(false);
+                            setIsJobVideoMuted(true);
+                            saveMutedPref(true);
+                            if (jobVideoRef.current) {
+                              jobVideoRef.current.src = "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841270/Man_h%C3%ACnh_ch%E1%BB%9D_Job_2026.mp4";
+                              jobVideoRef.current.muted = true;
+                              jobVideoRef.current.currentTime = 0;
+                              jobVideoRef.current.play().catch(() => {});
+                            }
+                            showToast('Đã dừng phát — Quay về màn hình chờ 2026');
+                          }}
+                          style={{ paddingLeft: '8px', paddingRight: '10px', borderRadius: '999px' }}
+                          className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          title="Bấm để hủy phát video"
+                        >
+                          <span className="flex items-center justify-center">
+                            <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-current shrink-0" style={{ height: '16px', width: '16px' }} />
+                          </span>
+                          <span className="typo-button text-current truncate font-play text-left">
+                            Hủy Phát
+                          </span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </section>
+              )}
+
+              {/* HÀNG 2: Giới thiệu hành trình & Hình ảnh kỷ niệm */}
               <section
                 id="experience-banner-card"
                 className={cn(
-                  'exp-bento-surface-card order-5 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[15px] shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border min-w-0 h-auto flex flex-col gap-[15px]',
+                  'exp-bento-surface-card col-span-12 lg:col-span-6 order-5 lg:order-none transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[14px] p-[15px] shadow-[0_10px_30px_-5px_rgba(15,23,42,0.06),0_4px_10px_-2px_rgba(15,23,42,0.03)] border min-w-0 h-auto flex flex-col gap-[15px]',
                   isDarkCardText
                     ? 'bg-gradient-to-br from-rose-950/35 via-slate-900/80 to-orange-950/30 border-rose-500/25 text-white'
                     : 'bg-gradient-to-br from-rose-50 via-white to-orange-50 border-rose-100 text-slate-900'
@@ -2914,7 +3042,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   })}
                 </div>
               </section>
-              </div>
             </div>
           </main>
         </>

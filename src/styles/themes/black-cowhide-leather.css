@@ -412,18 +412,7 @@ html[data-card-style="black-cowhide-leather"] .glass-card:not(#app-header):not(#
 /* Header & Footer Nav Pills */
 html[data-card-style="black-cowhide-leather"] #app-header .nav-pill-wrapper,
 html[data-card-style="black-cowhide-leather"] #app-footer .nav-pill-wrapper {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55) !important;
-}
-
-html[data-card-style="black-cowhide-leather"] #app-header .nav-pill-laser,
-html[data-card-style="black-cowhide-leather"] #app-footer .nav-pill-laser {
-  background: conic-gradient(
-    from 0deg,
-    transparent 0 210deg,
-    #ffffff 270deg,
-    #94a3b8 305deg,
-    transparent 360deg
-  ) !important;
+  box-shadow: none !important;
 }
 
 html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:not(.active),
@@ -435,6 +424,9 @@ html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:not(.active)
 html[data-card-style="black-cowhide-leather"] #footer-ai-btn:not(.active) {
   background: linear-gradient(145deg, #252830 0%, #15171c 50%, #1d2027 100%) !important;
   border-color: #090a0d !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.10), inset 0 -2px 4px rgba(0, 0, 0, 0.55) !important;
+  outline: 1px dashed rgba(226, 232, 240, 0.45);
+  outline-offset: -4px;
   color: #ffffff !important;
 }
 
@@ -538,18 +530,7 @@ html[data-card-style="black-cowhide-leather"] .nav-pill.active .nav-pill-sub {
 
 /* Radial Contact Menu Pills */
 html[data-card-style="black-cowhide-leather"] .radial-contact-pill-wrapper {
-  --tw-ring-color: rgba(226, 232, 240, 0.36) !important;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65) !important;
-}
-
-html[data-card-style="black-cowhide-leather"] .radial-contact-laser {
-  background: conic-gradient(
-    from 0deg,
-    transparent 0 200deg,
-    #94a3b8 260deg,
-    #ffffff 320deg,
-    #94a3b8 360deg
-  ) !important;
+  box-shadow: none !important;
 }
 
 html[data-card-style="black-cowhide-leather"] .radial-contact-pill {

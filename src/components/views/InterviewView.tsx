@@ -175,9 +175,9 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
         <section
           id="interview-questions-card"
           data-element-name="Card Video Phỏng Vấn"
-          data-element-type="card"
+          data-element-type="banner-card"
           data-section-card="true"
-          className="lg:w-[62%] xl:w-[68%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden bento-card glass-card shadow-xl text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group"
+          className="banner-card lg:w-[62%] xl:w-[68%] w-full min-h-[240px] lg:min-h-0 lg:h-full rounded-[14px] relative overflow-hidden bento-card glass-card shadow-xl text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group"
           style={{
             paddingTop: '25px',
             paddingLeft: '25px',

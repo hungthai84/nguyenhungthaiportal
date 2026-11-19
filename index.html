@@ -22,16 +22,19 @@
     <script>
       (function() {
         try {
-          var DEFAULT_THEME = 'light-multicolor-glass-color';
-          var MIGRATION_KEY = 'hungthai_default_theme_v2';
+          var DEFAULT_THEME = 'ice-blue-neu';
+          var MIGRATION_KEY = 'hungthai_default_theme_v3';
           var rawStyle = localStorage.getItem('hungthai_card_style');
           var isManual = localStorage.getItem('hungthai_card_style_manual') === '1';
           var aliasMap = {
-            'light-glassmorphism': 'light-multicolor-glass-color',
-            'guong-da-sac': 'light-multicolor-glass-color',
-            'guong-da-sac-sang': 'light-multicolor-glass-color',
-            'guong-don-sac': 'light-multicolor-glass',
-            'guong-da-sac-toi': 'light-multicolor-glass-dark',
+            'light-glassmorphism': 'ice-blue-neu',
+            'guong-da-sac': 'ice-blue-neu',
+            'guong-da-sac-sang': 'ice-blue-neu',
+            'guong-don-sac': 'ice-blue-neu',
+            'guong-da-sac-toi': 'dark-ice-blue-neu',
+            'light-multicolor-glass': 'ice-blue-neu',
+            'light-multicolor-glass-dark': 'dark-ice-blue-neu',
+            'light-multicolor-glass-color': 'ice-blue-neu',
             'da-thuoc': 'light-cowhide-leather',
             'da-ca-sau-trang': 'light-cowhide-leather',
             'da-den': 'black-cowhide-leather',
@@ -40,9 +43,6 @@
             'darkiceblueneu': 'dark-ice-blue-neu'
           };
           var validStyles = [
-            'light-multicolor-glass',
-            'light-multicolor-glass-dark',
-            'light-multicolor-glass-color',
             'light-cowhide-leather',
             'black-cowhide-leather',
             'cowhide-leather',
@@ -60,9 +60,9 @@
             localStorage.setItem(MIGRATION_KEY, DEFAULT_THEME);
           }
           document.documentElement.setAttribute('data-card-style', cardStyle);
-          var mechanism = (cardStyle === 'light-multicolor-glass-color' || cardStyle === 'cowhide-leather')
+          var mechanism = (cardStyle === 'cowhide-leather')
             ? 'color'
-            : (cardStyle === 'light-multicolor-glass-dark' || cardStyle === 'black-cowhide-leather' || cardStyle === 'dark-ice-blue-neu')
+            : (cardStyle === 'black-cowhide-leather' || cardStyle === 'dark-ice-blue-neu')
               ? 'dark'
               : 'light';
           document.documentElement.setAttribute('data-theme-mechanism', mechanism);
@@ -70,7 +70,6 @@
             localStorage.setItem('hungthai_card_style', cardStyle);
           }
           var darkThemes = [
-            'light-multicolor-glass-dark',
             'black-cowhide-leather',
             'cowhide-leather',
             'dark-ice-blue-neu'

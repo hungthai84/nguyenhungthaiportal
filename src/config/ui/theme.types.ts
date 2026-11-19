@@ -5,9 +5,6 @@ export type ThemeMechanismMode = 'light' | 'dark' | 'color';
 export type SurfaceDepthMode = 'flat' | 'depth';
 
 export type CardStyleMode =
-  | 'light-multicolor-glass'
-  | 'light-multicolor-glass-dark'
-  | 'light-multicolor-glass-color'
   | 'light-cowhide-leather'
   | 'black-cowhide-leather'
   | 'cowhide-leather'
@@ -15,7 +12,6 @@ export type CardStyleMode =
   | 'dark-ice-blue-neu';
 
 export type ThemeFamilyId =
-  | 'light-multicolor-glass'
   | 'cowhide-leather'
   | 'ice-blue-neu';
 

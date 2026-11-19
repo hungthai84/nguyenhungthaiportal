@@ -684,10 +684,9 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     referrerPolicy="no-referrer"
                   />
                   <span
-                    className="absolute top-2.5 right-2.5 z-20 typo-badge font-mono px-2.5 py-1 rounded-full inline-flex items-center gap-1 shadow-md backdrop-blur-md"
-                    style={{ backgroundColor: 'rgba(15, 23, 42, 0.85)', color: '#ffffff', border: `1px solid ${cardColor}60` }}
+                    className="education-year-badge banner-control-pill absolute top-2.5 right-2.5 z-20 typo-badge font-mono px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold"
                   >
-                    <WebIcon name="calendar" className="w-3 h-3 shrink-0" style={{ color: cardColor }} />
+                    <WebIcon name="calendar" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
                     <span>Năm {course.year}</span>
                   </span>
                 </div>

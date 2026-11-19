@@ -1765,8 +1765,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           ref={bannerSidebarRef}
           id="project-detail-banner"
           data-banner-aspect="sidebar"
+          data-element-type="banner-card"
           data-section-card="true"
-          className="bento-card glass-card w-full md:w-[260px] lg:w-[285px] xl:w-[315px] shrink-0 h-auto max-h-[420px] sm:max-h-[460px] md:max-h-none md:h-full flex flex-col pointer-events-auto rounded-[14px] p-[15px] justify-between overflow-hidden relative group"
+          className="banner-card bento-card glass-card w-full md:w-[260px] lg:w-[285px] xl:w-[315px] shrink-0 h-auto max-h-[420px] sm:max-h-[460px] md:max-h-none md:h-full flex flex-col pointer-events-auto rounded-[14px] p-[15px] justify-between overflow-hidden relative group"
         >
             {/* HÌNH BANNER DỰ ÁN DẠNG NỀN MỜ TINH TẾ HÒA QUYỆN CÙNG CHẤT LIỆU GIAO DIỆN */}
             {selectedArticle.image && (

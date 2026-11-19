@@ -1097,17 +1097,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </div>
       </motion.section>
 
-      <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)] min-w-0 shrink-0">
-        <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
-          <Compass className="w-[18px] h-[18px] text-purple-600 dark:text-purple-400 animate-pulse shrink-0" />
-          <h3 className="card-title-synced typo-h3 tracking-wide font-play text-purple-600 dark:text-purple-400">
-            1. Hồ Sơ Tử Vi
-          </h3>
-        </div>
-        <span className="typo-badge px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20 shrink-0">
-          Giáp Tý 1984
-        </span>
-      </div>
 
       <div className="w-full min-w-0 flex-1 grid grid-cols-1 lg:grid-cols-12 items-stretch gap-[15px]">
       {/* Cột trái: Luận giải lá số tử vi */}
@@ -1214,11 +1203,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             <div className="w-full flex flex-col gap-2 pb-3 border-b border-[var(--border-subcard)] min-w-0">
               <div className="flex items-center justify-between flex-wrap gap-2 min-w-0">
                 <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-purple-600 dark:text-purple-400">
-                  <User className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
+                  <Compass className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
                   <h4 className="typo-h4 subcard-title-synced text-purple-600 dark:text-purple-400 tracking-wide font-play min-w-0 break-words" data-subcard-title="true">
-                    Nguyễn Hùng Thái
+                    Hồ sơ Nguyễn Hùng Thái
                   </h4>
                 </div>
+                <span className="typo-badge px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20 shrink-0">
+                  Giáp Tý 1984
+                </span>
               </div>
             </div>
 

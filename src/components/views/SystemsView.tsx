@@ -1882,8 +1882,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                           {/* BENTO CARD 1 (12/12): Thông tin hệ thống (gồm Tên hệ thống, Tên viết tắt, Tên viết tắt tiếng Anh, video & Mô tả hệ thống) */}
                           <div
                             id={`system-detail-overview-${item.id}`}
-                            data-subcard="true"
-                            className="exp-detail-subcard sm:col-span-2 md:col-span-12 p-4 rounded-[14px] flex flex-col gap-3 min-w-0"
+                            className="sm:col-span-2 md:col-span-12 flex flex-col gap-3 min-w-0"
                           >
                             <div
                               className="subcard-header-sync flex items-center gap-2 min-w-0"

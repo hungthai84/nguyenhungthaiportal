@@ -901,14 +901,53 @@ h3.card-title,
 #footer-appearance-btn:not(.active),
 #footer-theme-mode-btn:not(.active),
 #footer-wallpaper-btn:not(.active),
-#footer-ai-btn:not(.active) {
+#footer-ai-btn:not(.active),
+.radial-contact-pill:not(.active) {
   background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-nav-button-opaque, #FFFFFF))) !important;
+  border-color: var(--surface-interactive-border, var(--border-color)) !important;
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08))) !important;
-  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(160%) !important;
+  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(140%) !important;
   outline: var(--outline-nav-pill, none);
   outline-offset: var(--outline-offset-nav-pill, 0px);
+  color: var(--text-primary) !important;
   opacity: 1 !important;
+}
+
+#app-header nav button.nav-pill:not(.active) .nav-pill-sub,
+#header-btn-hungthai-avatar:not(.active) .nav-pill-sub,
+#footer-lang-btn:not(.active) .nav-pill-sub,
+#footer-appearance-btn:not(.active) .nav-pill-sub,
+#footer-theme-mode-btn:not(.active) .nav-pill-sub,
+#footer-wallpaper-btn:not(.active) .nav-pill-sub,
+#footer-ai-btn:not(.active) .nav-pill-sub,
+.radial-contact-pill:not(.active) .radial-contact-sub {
+  color: var(--text-secondary, var(--text-muted));
+}
+
+#app-header nav button.nav-pill.active,
+#header-btn-hungthai-avatar.active,
+#footer-lang-btn.active,
+#footer-appearance-btn.active,
+#footer-theme-mode-btn.active,
+#footer-wallpaper-btn.active,
+#footer-ai-btn.active,
+.radial-contact-pill.active {
+  background: var(--surface-interactive-active, var(--bg-button-primary, #1E293B)) !important;
+  border-color: var(--color-primary, rgba(255, 255, 255, 0.35)) !important;
+  box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.12))) !important;
+  color: #FFFFFF !important;
+}
+
+#app-header nav button.nav-pill.active :is(.nav-pill-title, .nav-pill-sub),
+#header-btn-hungthai-avatar.active :is(.nav-pill-title, .nav-pill-sub),
+#footer-lang-btn.active :is(.nav-pill-title, .nav-pill-sub),
+#footer-appearance-btn.active :is(.nav-pill-title, .nav-pill-sub),
+#footer-theme-mode-btn.active :is(.nav-pill-title, .nav-pill-sub),
+#footer-wallpaper-btn.active :is(.nav-pill-title, .nav-pill-sub),
+#footer-ai-btn.active :is(.nav-pill-title, .nav-pill-sub),
+.radial-contact-pill.active :is(.radial-contact-title, .radial-contact-sub) {
+  color: #FFFFFF !important;
 }
 
 #app-header nav button.nav-pill:not(.active) .nav-pill-divider,
@@ -917,8 +956,20 @@ h3.card-title,
 #footer-appearance-btn:not(.active) .nav-pill-divider,
 #footer-theme-mode-btn:not(.active) .nav-pill-divider,
 #footer-wallpaper-btn:not(.active) .nav-pill-divider,
-#footer-ai-btn:not(.active) .nav-pill-divider {
+#footer-ai-btn:not(.active) .nav-pill-divider,
+.radial-contact-pill:not(.active) .radial-contact-divider {
   background-color: var(--divider-nav-pill, rgba(148, 163, 184, 0.55)) !important;
+}
+
+#app-header nav button.nav-pill.active .nav-pill-divider,
+#header-btn-hungthai-avatar.active .nav-pill-divider,
+#footer-lang-btn.active .nav-pill-divider,
+#footer-appearance-btn.active .nav-pill-divider,
+#footer-theme-mode-btn.active .nav-pill-divider,
+#footer-wallpaper-btn.active .nav-pill-divider,
+#footer-ai-btn.active .nav-pill-divider,
+.radial-contact-pill.active .radial-contact-divider {
+  background-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 /* ========================================================================= */
@@ -1023,13 +1074,13 @@ h3.card-title,
 #project-detail-banner,
 #contact-hero-banner,
 #ai-assistant-hero-banner {
-  background: rgba(255, 255, 255, 0.10) !important;
+  background: var(--surface-secondary-bg, var(--bg-card)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--banner-border, var(--border-color))) !important;
-  box-shadow: var(--banner-shadow, var(--shadow-card)) !important;
-  outline: var(--banner-outline, none);
-  outline-offset: var(--banner-outline-offset, 0px);
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  box-shadow: var(--surface-secondary-shadow, var(--banner-shadow, var(--shadow-card))) !important;
+  outline: var(--outline-card, var(--banner-outline, none));
+  outline-offset: var(--outline-offset-card, var(--banner-outline-offset, -6px));
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 14px))) saturate(var(--surface-secondary-saturate, 140%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 14px))) saturate(var(--surface-secondary-saturate, 140%)) !important;
   padding: 15px !important;
 }
 

@@ -810,26 +810,6 @@ export function AboutView({
     setCurrentSlide((prev) => (prev < ABOUT_SLIDES.length - 1 ? prev + 1 : 0));
   }, []);
 
-  // Đồng bộ trạng thái Slide với nút Tới trang / Qua trang ở Footer
-  useEffect(() => {
-    window.dispatchEvent(
-      new CustomEvent('app:slide-changed', { detail: { tabIndex: 2, slide: currentSlide } })
-    );
-  }, [currentSlide]);
-
-  useEffect(() => {
-    const handleExternalSlide = (e: Event) => {
-      const detail = (e as CustomEvent).detail;
-      if (detail && (detail.tabIndex === undefined || detail.tabIndex === 2) && typeof detail.slide === 'number') {
-        const target = Math.max(0, Math.min(ABOUT_SLIDES.length - 1, detail.slide));
-        setSlideDirection(target >= currentSlide ? 'next' : 'prev');
-        setCurrentSlide(target);
-      }
-    };
-    window.addEventListener('app:set-slide', handleExternalSlide);
-    return () => window.removeEventListener('app:set-slide', handleExternalSlide);
-  }, [currentSlide]);
-
   const scrollToIntroCard = useCallback(
     (targetCard: 1 | 2, smooth = true) => {
       setActiveIntroCard(targetCard);
@@ -848,6 +828,26 @@ export function AboutView({
     },
     [aboutCardWidth]
   );
+
+  // Đồng bộ trạng thái Card 1 / Card 2 với nút Tới trang / Lùi trang ở Footer
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent('app:slide-changed', { detail: { tabIndex: 2, slide: activeIntroCard - 1 } })
+    );
+  }, [activeIntroCard]);
+
+  useEffect(() => {
+    const handleExternalSlide = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail && (detail.tabIndex === undefined || detail.tabIndex === 2) && typeof detail.slide === 'number') {
+        const clampedSlide = Math.max(0, Math.min(1, detail.slide));
+        const targetCard: 1 | 2 = clampedSlide === 0 ? 1 : 2;
+        scrollToIntroCard(targetCard, true);
+      }
+    };
+    window.addEventListener('app:set-slide', handleExternalSlide);
+    return () => window.removeEventListener('app:set-slide', handleExternalSlide);
+  }, [scrollToIntroCard]);
 
   // Keep active intro card centered when viewport resizes
   useEffect(() => {

@@ -349,8 +349,8 @@ export const Header: React.FC<HeaderProps> = ({
       setIsSmallScreen(small);
       setIsCompactMobile(compactMobile);
 
-      const wrappers = pillWrapperRefs.current.filter(Boolean) as HTMLDivElement[];
-      const btns = pillBtnRefs.current.filter(Boolean) as HTMLButtonElement[];
+      const wrappers = pillWrapperRefs.current.slice(0, headerPages.length + 1).filter(Boolean) as HTMLDivElement[];
+      const btns = pillBtnRefs.current.slice(0, headerPages.length + 1).filter(Boolean) as HTMLButtonElement[];
       if (wrappers.length === 0 || btns.length === 0) return;
 
       wrappers.forEach((w) => {
@@ -446,7 +446,7 @@ export const Header: React.FC<HeaderProps> = ({
       data-element-parent="website-root"
       onMouseLeave={handleHeaderMouseLeave}
       style={{
-        maxWidth: '1250px',
+        maxWidth: 'var(--container-max-w, 1250px)',
         width: 'var(--shared-frame-w, 100%)',
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -475,12 +475,15 @@ export const Header: React.FC<HeaderProps> = ({
           const styleCfg = PAGE_FOOTER_STYLE_MAP[page.id] || PAGE_FOOTER_STYLE_MAP[0];
           const isSelected = page.id === currentPage;
           const isRevealed = revealedNavIndex === index;
-          const baseZIndex = isRevealed ? 150 : isSelected ? 120 : index + 10;
+          // Hiệu ứng nút sau nằm trên nút trước: z-index tăng dần từ trái sang phải
+          const baseZIndex = index + 10;
+          const isAfterRevealed = revealedNavIndex !== null && index === revealedNavIndex + 1;
+          const isAfterSelected = activePageDeckIndex >= 0 && index === activePageDeckIndex + 1;
           const itemMarginLeft = isCompactMobile
             ? '0px'
             : index === 0
               ? '0px'
-              : revealedNavIndex !== null && index === revealedNavIndex + 1
+              : (isAfterRevealed || isAfterSelected)
                 ? '8px'
                 : `-${overlapPx}px`;
 
@@ -504,29 +507,11 @@ export const Header: React.FC<HeaderProps> = ({
                 ref={(el) => {
                   pillWrapperRefs.current[index] = el;
                 }}
-                className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px] ${
-                  isSelected ? '' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
-                }`}
+                className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
                 style={{
                   width: uniformPillWidth ? `${uniformPillWidth}px` : undefined,
-                  boxShadow: isSelected ? `0 4px 16px ${styleCfg.glowColor}` : 'none',
                 }}
               >
-                {/* HIỆU ỨNG LINE PHÁT SÁNG XOAY QUANH KHI ĐƯỢC CHỌN (Clip tách biệt để không cắt focus ring) */}
-                {isSelected && (
-                  <div
-                    aria-hidden="true"
-                    className="nav-pill-laser-clip absolute inset-0 rounded-[999px] overflow-hidden pointer-events-none z-0"
-                  >
-                    <div
-                      className="nav-pill-laser absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none"
-                      style={{
-                        background: `conic-gradient(from 0deg, transparent 0 210deg, #ffffff 270deg, ${styleCfg.laserColor || styleCfg.accentColor} 300deg, transparent 360deg)`,
-                      }}
-                    />
-                  </div>
-                )}
-
                 {/* Main Inner Button */}
                 <button
                   ref={(el) => {
@@ -541,33 +526,25 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectPage(page.id);
                   }}
                   title={`${pageTitle} · ${pageSub}`}
-                  className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-all duration-200 border ${
-                    isSelected
-                      ? `bg-gradient-to-r ${styleCfg.gradient} border-white/80 active shadow-[0_0_25px_${styleCfg.glowColor}]`
-                      : `${styleCfg.accentBorder}`
+                  className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border ${
+                    isSelected ? 'active' : ''
                   }`}
                   style={{
                     width: '150px',
                     height: '40px',
-                    paddingTop: '10px',
+                    paddingTop: '8px',
                     paddingRight: '10px',
-                    paddingBottom: '10px',
+                    paddingBottom: '8px',
                     paddingLeft: '10px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
-                    backgroundColor: isSelected ? undefined : (isDark ? 'rgba(15, 23, 42, 0.2)' : 'rgba(255, 255, 255, 0.2)'),
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
-                    boxShadow: isSelected
-                      ? `0 0 30px ${styleCfg.glowColor}, inset 0 0 12px rgba(255,255,255,0.4)`
-                      : '0 8px 24px -4px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.4)',
                   }}
                 >
                   {/* Round Circle Badge with Icon or Avatar */}
                   <div
-                    className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-200 shadow-xs"
+                    className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                     style={{
-                      backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.25)' : styleCfg.accentColor,
+                      backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.22)' : styleCfg.accentColor,
                     }}
                   >
                     {styleCfg.avatarGif ? (
@@ -575,7 +552,7 @@ export const Header: React.FC<HeaderProps> = ({
                         src={styleCfg.avatarGif}
                         alt={pageTitle}
                         className={`w-full h-full object-cover rounded-full ${
-                          styleCfg.avatarGif.includes('Avata_AI') ? 'scale-[1.5] transition-transform duration-300' : ''
+                          styleCfg.avatarGif.includes('Avata_AI') ? 'scale-[1.5]' : ''
                         }`}
                         onError={(e) => {
                           (e.target as HTMLElement).style.display = 'none';
@@ -593,29 +570,14 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
 
                   {/* Vertical Divider */}
-                  <div
-                    className={`nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200 ${
-                      isSelected
-                        ? 'bg-white/50'
-                        : 'bg-[var(--divider-nav-pill)]'
-                    }`}
-                  />
+                  <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
 
-                  <div className="flex flex-col text-left leading-none min-w-0 flex-1">
+                  <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
                       style={{ fontWeight: 'bold', fontSize: '15px' }}
-                      className={`nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200 ${
-                        isSelected ? 'text-white' : styleCfg.mainTextColor
-                      }`}
+                      className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                     >
                       {pageTitle}
-                    </span>
-                    <span
-                      className={`nav-pill-sub typo-label leading-none mt-0.5 truncate font-play transition-colors duration-200 ${
-                        isSelected ? 'text-white/90' : styleCfg.subTextColor
-                      }`}
-                    >
-                      {pageSub}
                     </span>
                   </div>
                 </button>
@@ -629,18 +591,17 @@ export const Header: React.FC<HeaderProps> = ({
           const avatarNavIndex = headerPages.length;
           const isAvatarSelected = currentPage === 12 || isRadialMenuOpen;
           const isRevealed = revealedNavIndex === avatarNavIndex;
+          // Hiệu ứng nút sau nằm trên nút trước (nút avatar nằm ở cuối, z-index cao nhất)
           const baseZIndex = isRadialMenuOpen
             ? 99999
-            : isRevealed
-              ? 150
-              : isAvatarSelected
-                ? 120
-                : avatarNavIndex + 10;
+            : avatarNavIndex + 10;
+          const isAfterRevealed = revealedNavIndex !== null && avatarNavIndex === revealedNavIndex + 1;
+          const isAfterSelected = activePageDeckIndex >= 0 && avatarNavIndex === activePageDeckIndex + 1;
           const itemMarginLeft = isCompactMobile
             ? '0px'
             : headerPages.length === 0
               ? '0px'
-              : revealedNavIndex !== null && avatarNavIndex === revealedNavIndex + 1
+              : (isAfterRevealed || isAfterSelected)
                 ? '8px'
                 : `-${overlapPx}px`;
 
@@ -662,15 +623,11 @@ export const Header: React.FC<HeaderProps> = ({
                 ref={(el) => {
                   pillWrapperRefs.current[avatarNavIndex] = el;
                 }}
-                className={`nav-pill-wrapper relative inline-flex items-center justify-between rounded-[999px] select-none group/hungthai transition-all duration-200 w-max h-auto p-[1.5px] ${
-                  isAvatarSelected ? '' : 'shadow-[0_4px_16px_rgba(79,70,229,0.22)]'
-                }`}
+                className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
                 style={{
                   width: uniformPillWidth ? `${uniformPillWidth}px` : undefined,
-                  boxShadow: isAvatarSelected ? '0 4px 16px rgba(79, 70, 229, 0.5)' : undefined,
                 }}
               >
-
                 <button
                   ref={(el) => {
                     pillBtnRefs.current[avatarNavIndex] = el;
@@ -686,33 +643,24 @@ export const Header: React.FC<HeaderProps> = ({
                       ? 'Expert Nguyen Hung Thai · Booking & CS'
                       : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch & CSKH'
                   }
-                  className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer border transition-all duration-200 ${
-                    isAvatarSelected
-                      ? 'bg-gradient-to-r from-[#312E81] via-[#4338CA] to-[#6366F1] border-white/80 active shadow-[0_0_25px_rgba(79,70,229,0.5)]'
-                      : 'border-indigo-400/80 dark:border-indigo-500/80 text-[var(--text-primary)]'
+                  className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer border transition-colors duration-200 ${
+                    isAvatarSelected ? 'active' : ''
                   }`}
                   style={{
                     width: '150px',
                     height: '40px',
-                    paddingTop: '10px',
+                    paddingTop: '8px',
                     paddingRight: '10px',
-                    paddingBottom: '10px',
+                    paddingBottom: '8px',
                     paddingLeft: '10px',
                     fontWeight: 'normal',
-                    backgroundColor: isAvatarSelected ? undefined : (isDark ? 'rgba(15, 23, 42, 0.2)' : 'rgba(255, 255, 255, 0.2)'),
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
-                    boxShadow: isAvatarSelected
-                      ? '0 0 30px rgba(79, 70, 229, 0.5), inset 0 0 12px rgba(255,255,255,0.4)'
-                      : '0 8px 24px -4px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.4)',
+                    borderWidth: '1px',
                   }}
                 >
                   <div
-                    className={`nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-xs text-white leading-none p-0 overflow-hidden ring-1 transition-all duration-200 ${
-                      isAvatarSelected ? 'ring-white/50' : 'ring-indigo-300'
-                    }`}
+                    className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                     style={{
-                      backgroundColor: isAvatarSelected ? 'rgba(255, 255, 255, 0.25)' : '#4F46E5',
+                      backgroundColor: isAvatarSelected ? 'rgba(255, 255, 255, 0.22)' : '#4F46E5',
                     }}
                   >
                     <img
@@ -724,32 +672,13 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                     />
                   </div>
-                  <div
-                    className={`nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200 ${
-                      isAvatarSelected ? 'bg-white/50' : 'bg-[var(--divider-nav-pill)]'
-                    }`}
-                  />
-                  <div className="flex flex-col text-left leading-none min-w-0 flex-1">
+                  <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
+                  <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
                       style={{ fontWeight: 'bold', fontSize: '15px' }}
-                      className={`nav-pill-title typo-nav leading-tight font-play truncate transition-colors duration-200 ${
-                        isAvatarSelected ? 'text-white' : 'text-indigo-950 dark:text-indigo-100'
-                      }`}
+                      className="nav-pill-title typo-nav leading-tight font-play truncate transition-colors duration-200"
                     >
                       {language === 'en' ? 'Hung Thai' : 'Hùng Thái'}
-                    </span>
-                    <span
-                      className={`nav-pill-sub typo-label leading-none mt-0.5 font-play truncate transition-colors duration-200 ${
-                        isAvatarSelected ? 'text-white/90' : 'text-indigo-700 dark:text-indigo-400'
-                      }`}
-                    >
-                      {currentPage === 12
-                        ? language === 'en'
-                          ? 'Booking'
-                          : 'Đặt lịch'
-                        : language === 'en'
-                        ? 'CS Ops'
-                        : 'CSKH'}
                     </span>
                   </div>
                 </button>

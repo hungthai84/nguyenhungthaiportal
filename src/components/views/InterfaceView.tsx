@@ -5,7 +5,6 @@ import {
   useTheme,
   getCardStyleProperties,
   getCardStyleConfig,
-  getLightDarkCounterpart,
   getThemeForMechanism,
   UNIFIED_INTERFACE_THEMES,
   CARD_STYLE_GROUPS,
@@ -15,6 +14,7 @@ import { CardStyleMode, ThemeFamilyId } from '@/config/ui/theme.types';
 import { DEFAULT_CARD_STYLE } from '@/config/ui/themeDefaults';
 import { motion } from 'motion/react';
 import { useLanguage } from '@/context/LanguageContext';
+import { useFirebase } from '@/context/FirebaseContext';
 
 export interface InterfaceViewProps {
   onShowNotification?: (msg: string) => void;
@@ -44,84 +44,6 @@ interface ThemeVisualMeta {
 }
 
 const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
-  'light-multicolor-glass': {
-    radius: '16px',
-    activeRingColor: '#0F172A',
-    activeBorderClass: 'border-slate-900',
-    idleBorderClass: 'border-white/95 hover:border-slate-400',
-    activeBadgeClass: 'bg-[#0F172A] text-white border-white/85',
-    iconColor: '#0F172A',
-    titleTextClass: 'text-[#000000]',
-    bodyTextClass: 'text-[#1E293B]',
-    accentTextClass: 'text-[#0F172A]',
-    previewBorderClass: 'border-white/95',
-    dividerClass: 'border-white/75',
-    ctaIdleClass: 'bg-white/90 text-[#0F172A] hover:bg-white border border-white',
-    ctaActiveClass: 'bg-[#0F172A] text-white shadow-xs border border-white/85',
-    toggleTrackDarkClass: 'bg-slate-900/95 border-slate-400/60',
-    toggleTrackLightClass: 'bg-slate-200/95 border-slate-400/75',
-    toggleThumbDarkClass: 'bg-slate-100 text-slate-900',
-    toggleThumbLightClass: 'bg-[#0F172A] text-white',
-    demoVideoUrl:
-      'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
-    gradientBars: [
-      { label: 'B1', width: '92%', gradient: 'linear-gradient(90deg, #94a3b8, #475569)' },
-      { label: 'B2', width: '76%', gradient: 'linear-gradient(90deg, #64748b, #1e293b)' },
-      { label: 'B3', width: '64%', gradient: 'linear-gradient(90deg, #334155, #0f172a)' },
-    ],
-  },
-  'light-multicolor-glass-dark': {
-    radius: '16px',
-    activeRingColor: '#A78BFA',
-    activeBorderClass: 'border-violet-400',
-    idleBorderClass: 'border-violet-400/30 hover:border-pink-400/60',
-    activeBadgeClass: 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white border-white/85',
-    iconColor: '#DD4E9E',
-    titleTextClass: 'text-[#FFFFFF]',
-    bodyTextClass: 'text-[#E2E8F0]',
-    accentTextClass: 'text-[#A78BFA]',
-    previewBorderClass: 'border-violet-400/28',
-    dividerClass: 'border-violet-400/25',
-    ctaIdleClass: 'bg-indigo-950/90 text-[#FFFFFF] hover:bg-indigo-900 border border-violet-400/30',
-    ctaActiveClass: 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white shadow-xs border border-white/85',
-    toggleTrackDarkClass: 'bg-slate-900/95 border-violet-400/55',
-    toggleTrackLightClass: 'bg-sky-100/90 border-sky-300/80',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-indigo-500 to-violet-600 text-white',
-    toggleThumbLightClass: 'bg-gradient-to-br from-amber-400 to-orange-500 text-white',
-    demoVideoUrl:
-      'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
-    gradientBars: [
-      { label: 'B1', width: '88%', gradient: 'linear-gradient(90deg, #00E5FF, #2979FF)' },
-      { label: 'B2', width: '74%', gradient: 'linear-gradient(90deg, #9D4EDD, #DD4E9E)' },
-      { label: 'B3', width: '62%', gradient: 'linear-gradient(90deg, #FF3CAC, #EC7D21)' },
-    ],
-  },
-  'light-multicolor-glass-color': {
-    radius: '14px',
-    activeRingColor: '#DD4E9E',
-    activeBorderClass: 'border-pink-500',
-    idleBorderClass: 'border-white/95 hover:border-pink-300',
-    activeBadgeClass: 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white border-white/85',
-    iconColor: '#DD4E9E',
-    titleTextClass: 'text-[#000000]',
-    bodyTextClass: 'text-[#1E293B]',
-    accentTextClass: 'text-[#db2777]',
-    previewBorderClass: 'border-white/95',
-    dividerClass: 'border-white/75',
-    ctaIdleClass: 'bg-white/90 text-[#000000] hover:bg-white border border-white',
-    ctaActiveClass: 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white shadow-xs border border-white/85',
-    toggleTrackDarkClass: 'bg-indigo-950/90 border-violet-300/60',
-    toggleTrackLightClass: 'bg-sky-100/95 border-pink-300/80',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-indigo-500 to-violet-600 text-white',
-    toggleThumbLightClass: 'bg-gradient-to-br from-amber-400 to-orange-500 text-white',
-    demoVideoUrl:
-      'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
-    gradientBars: [
-      { label: 'B1', width: '90%', gradient: 'linear-gradient(90deg, #00E5FF, #2979FF)' },
-      { label: 'B2', width: '78%', gradient: 'linear-gradient(90deg, #9D4EDD, #DD4E9E)' },
-      { label: 'B3', width: '66%', gradient: 'linear-gradient(90deg, #50B347, #3BB8E6)' },
-    ],
-  },
   'light-cowhide-leather': {
     radius: '14px',
     activeRingColor: '#111827',
@@ -278,6 +200,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     setAutoTimeTheme,
   } = useTheme();
   const { language, t } = useLanguage();
+  const { user, isSigningIn, signInWithGoogle, logout } = useFirebase();
   const isEn = language === 'en';
   const activePreset = getCardStyleConfig(cardStyle);
   const activeMechanism: ThemeMechanismMode = activePreset.mechanism || (isDark ? 'dark' : 'light');
@@ -437,7 +360,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               style={{ borderRadius: '14px' }}
             >
               <img
-                src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042016/H%E1%BB%8Dc_v%E1%BA%A5n.png"
+                src="/backgrounds/themes/dark-neon-multicolor-glass-light/dark-neon-multicolor-glass-light.jpg"
                 alt="Banner Giao diện"
                 className="w-full h-full object-cover object-center rounded-[14px]"
               />
@@ -479,24 +402,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             style={{ borderColor: 'var(--border-subcard)' }}
           >
             <div className="min-w-0 flex flex-col gap-1">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="typo-h3 font-bold tracking-tight">
-                  {isEn
-                    ? `Appearance Studio (${displayedThemesCount} Themes)`
-                    : `Kho ${displayedThemesCount} giao diện hệ thống`}
-                </h2>
-                <span
-                  className="typo-badge font-bold px-2.5 py-0.5 rounded-full border"
-                  style={{
-                    background: 'var(--bg-subcard)',
-                    borderColor: 'var(--border-subcard)',
-                    color: 'var(--color-primary)',
-                  }}
-                >
-                  {isEn ? activePreset.familyLabelEn : activePreset.familyLabel}
-                </span>
-              </div>
-              <p className="typo-body-sm" style={{ color: 'var(--text-muted)' }}>
+              <p className="typo-body-sm font-medium" style={{ color: 'var(--text-muted)' }}>
                 {isEn
                   ? `Active: ${t(activePreset.name)} · Mode: ${getMechanismLabel(activeMechanism)} · Header & surfaces synced`
                   : `Đang dùng: ${activePreset.name} · Cơ chế: ${getMechanismLabel(activeMechanism)} · Header đồng bộ màu nền card`}
@@ -504,6 +410,48 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             </div>
 
             <div className="flex flex-wrap items-center gap-2 shrink-0">
+              {user ? (
+                <button
+                  id="btn-firebase-signout"
+                  type="button"
+                  onClick={() => void logout()}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border typo-label font-bold cursor-pointer transition-all hover:opacity-90"
+                  style={{
+                    background: 'var(--bg-subcard)',
+                    borderColor: 'var(--border-subcard)',
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  {user.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      alt={user.displayName || 'User'}
+                      referrerPolicy="no-referrer"
+                      className="w-5 h-5 rounded-full object-cover shrink-0"
+                    />
+                  ) : (
+                    <WebIcon name="user" className="w-3.5 h-3.5 shrink-0" />
+                  )}
+                  <span className="max-w-[120px] truncate">{user.displayName || (isEn ? 'Account' : 'Tài khoản')}</span>
+                  <WebIcon name="log-out" className="w-3.5 h-3.5 shrink-0 opacity-75" />
+                </button>
+              ) : (
+                <button
+                  id="btn-firebase-signin"
+                  type="button"
+                  disabled={isSigningIn}
+                  onClick={() => void signInWithGoogle()}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full border typo-label font-bold cursor-pointer transition-all hover:opacity-90 disabled:opacity-60"
+                  style={{
+                    background: 'var(--bg-subcard)',
+                    borderColor: 'var(--border-subcard)',
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  <WebIcon name="log-in" className="w-3.5 h-3.5 shrink-0" />
+                  <span>{isSigningIn ? (isEn ? 'Signing in...' : 'Đang đăng nhập...') : isEn ? 'Google Sync' : 'Đồng bộ Google'}</span>
+                </button>
+              )}
               {!isDefaultConfig && (
                 <button
                   id="btn-interface-reset-default"
@@ -979,24 +927,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       const isVideoVisible =
                         activeVideoPreviewId === preset.id && !failedVideoIds[preset.id];
 
-                      const isFamilyActive = group.presets.some((p) => p.id === cardStyle);
-                      const isToggleDark = isFamilyActive ? activePreset.isDark : preset.isDark;
-                      const lightTargetId: CardStyleMode =
-                        group.lightMode || getLightDarkCounterpart(preset.id, false);
-                      const darkTargetId: CardStyleMode =
-                        group.darkMode || getLightDarkCounterpart(preset.id, true);
-                      const nextToggleTarget: CardStyleMode = isToggleDark
-                        ? lightTargetId
-                        : darkTargetId;
-                      const nextToggleConfig = getCardStyleConfig(nextToggleTarget);
-                      const toggleLabelText = isToggleDark
-                        ? isEn
-                          ? 'Dark'
-                          : 'Tối'
-                        : isEn
-                          ? 'Light'
-                          : 'Sáng';
-
                       return (
                         <motion.article
                           key={preset.id}
@@ -1025,7 +955,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                   isActive ? meta.activeBadgeClass : preset.badgeColorClass
                                 }`}
                               >
-                                {isActive ? t('Đang sử dụng ✓') : displayShortBadge}
+                                {displayShortBadge}
                               </span>
                               <WebIcon
                                 name={preset.icon}
@@ -1034,56 +964,14 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                               />
                             </div>
 
-                            {/* Title + Light/Dark Counterpart Switch */}
-                            <div className="flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
+                            {/* Title */}
+                            <div className="flex items-center justify-between gap-2">
                               <h3
                                 className={`typo-h4 font-bold leading-snug min-w-0 ${meta.titleTextClass}`}
                                 data-card-title="true"
                               >
                                 {displayPresetName}
                               </h3>
-
-                              <button
-                                type="button"
-                                role="switch"
-                                aria-checked={isToggleDark}
-                                aria-label={
-                                  isEn
-                                    ? `Toggle Light/Dark mode for ${displayPresetName}`
-                                    : `Chuyển chế độ Sáng/Tối cho ${displayPresetName}`
-                                }
-                                title={
-                                  isEn
-                                    ? `Switch to ${t(nextToggleConfig.name)}`
-                                    : `Chuyển nhanh sang ${nextToggleConfig.name}`
-                                }
-                                onClick={() =>
-                                  handleSelectTheme(nextToggleTarget, nextToggleConfig.name)
-                                }
-                                className="inline-flex items-center gap-1.5 shrink-0 cursor-pointer group/toggle focus-visible:outline-2 focus-visible:outline-offset-2 rounded-full"
-                              >
-                                <span className={`typo-badge font-bold select-none ${meta.titleTextClass}`}>
-                                  {toggleLabelText}
-                                </span>
-                                <span
-                                  className={`relative inline-flex items-center w-[44px] h-[22px] p-[2px] rounded-full border transition-all duration-300 shadow-inner ${
-                                    isToggleDark ? meta.toggleTrackDarkClass : meta.toggleTrackLightClass
-                                  }`}
-                                >
-                                  <span
-                                    className={`w-[16px] h-[16px] rounded-full flex items-center justify-center shadow-sm transition-transform duration-300 ease-out ${
-                                      isToggleDark
-                                        ? `translate-x-[22px] ${meta.toggleThumbDarkClass}`
-                                        : `translate-x-0 ${meta.toggleThumbLightClass}`
-                                    }`}
-                                  >
-                                    <WebIcon
-                                      name={isToggleDark ? 'moon' : 'sun'}
-                                      className="w-2.5 h-2.5 shrink-0"
-                                    />
-                                  </span>
-                                </span>
-                              </button>
                             </div>
 
                             <p className={`typo-body-sm leading-relaxed ${meta.bodyTextClass}`}>

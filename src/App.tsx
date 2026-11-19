@@ -55,11 +55,11 @@ export default function App() {
     nonce: number;
   } | null>(null);
 
-  // Thứ tự trang theo Menu Icon trên Header (0..16)
-  const MENU_ICON_ORDER = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+  // Thứ tự trang theo Menu Icon trên Header (0..11, PDF 16, Hùng Thái 12) rồi tới các trang tiện ích Footer (15, 14, 13)
+  const MENU_ICON_ORDER = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 12, 15, 14, 13];
   const PAGE_SLIDE_COUNTS: Record<number, number> = {
-    1: 1,
-    2: 1,
+    1: 4,
+    2: 2,
     5: 1,
     10: 6,
   };
@@ -429,7 +429,7 @@ export default function App() {
     [currentTabIndex, pageSlides]
   );
 
-  const activeTheme = cardStyle || (isDark ? 'light-multicolor-glass-dark' : 'light-multicolor-glass-color');
+  const activeTheme = cardStyle || (isDark ? 'dark-ice-blue-neu' : 'ice-blue-neu');
 
   const renderActiveView = () => {
     switch (currentTabIndex) {

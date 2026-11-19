@@ -24,6 +24,7 @@ import { Modal } from '@/components/ui/Modal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme, getCardStyleConfig } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
+import { useFirebase } from '@/context/FirebaseContext';
 
 export interface WallpaperViewProps {
   activeWallpaper: WallpaperPreset;
@@ -40,6 +41,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
 }) => {
   const { cardStyle } = useTheme();
   const { language, t } = useLanguage();
+  const { user, cloudWallpapers, saveCloudWallpaper, deleteCloudWallpaper } = useFirebase();
   const isEn = language === 'en';
 
   // Danh sách hình nền lưu trữ lâu dài trong localStorage kết hợp danh sách mặc định (loại bỏ các hình nền dạng CodePen)
@@ -130,15 +132,17 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     }
   }, [customWallpapers]);
 
-  // Gộp danh sách hình nền tùy chỉnh mới thêm lên đầu + danh sách preset gốc (không trùng ID và không chứa CodePen)
+  // Gộp danh sách hình nền cloud (nếu đã đăng nhập), tùy chỉnh local + preset gốc
   const allWallpapers = useMemo(() => {
     const map = new Map<string, WallpaperPreset>();
-    // Luôn đặt nút "Mặc định / Không dùng hình nền" đầu tiên
     if (WALLPAPER_PRESETS_LIST[0]) {
       map.set(WALLPAPER_PRESETS_LIST[0].id, WALLPAPER_PRESETS_LIST[0]);
     }
-    customWallpapers.forEach((wp) => {
+    cloudWallpapers.forEach((wp) => {
       if (wp && wp.id && !isCodePenWallpaper(wp)) map.set(wp.id, wp);
+    });
+    customWallpapers.forEach((wp) => {
+      if (wp && wp.id && !isCodePenWallpaper(wp) && !map.has(wp.id)) map.set(wp.id, wp);
     });
     WALLPAPER_PRESETS_LIST.forEach((wp) => {
       if (wp && wp.id && !isCodePenWallpaper(wp) && !map.has(wp.id)) {
@@ -146,7 +150,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
       }
     });
     return Array.from(map.values());
-  }, [customWallpapers]);
+  }, [cloudWallpapers, customWallpapers]);
 
   const filteredWallpapers = useMemo(() => {
     return allWallpapers.filter((wp) => {
@@ -237,6 +241,9 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     };
 
     setCustomWallpapers((prev) => [createdWp, ...prev]);
+    if (user) {
+      void saveCloudWallpaper(createdWp);
+    }
 
     if (setAsDefaultImmediately) {
       handleApplyWallpaper(createdWp);
@@ -321,6 +328,13 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         });
         return Array.from(merged.values());
       });
+      if (user) {
+        validItems.forEach((item) => {
+          if (item.isCustom) {
+            void saveCloudWallpaper(item);
+          }
+        });
+      }
 
       if (
         parsed?.defaultActiveWallpaper &&
@@ -361,6 +375,9 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
   const handleDeleteCustomWallpaper = (wp: WallpaperPreset, e: React.MouseEvent) => {
     e.stopPropagation();
     setCustomWallpapers((prev) => prev.filter((item) => item.id !== wp.id));
+    if (user) {
+      void deleteCloudWallpaper(wp.id);
+    }
     onShowNotification?.(
       isEn ? `Removed custom wallpaper: ${wp.name}` : `Đã xóa hình nền tùy chỉnh: ${wp.name}`
     );

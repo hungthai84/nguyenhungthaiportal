@@ -88,8 +88,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
     setSelectedDomain(domain);
   };
 
-  // Bộ cấu hình màu sắc & hình ảnh dịch vụ cho 6 thẻ với màu sắc Gương đa sắc và độ trong suốt
-  const isMonoGlass = cardStyle === 'light-multicolor-glass';
+  const isMonoGlass = false;
   const getCardVisualConfig = (id: string) => {
     switch (id) {
       case '01': // 6.1. Dịch vụ di động - #1F5EAC
@@ -501,25 +500,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'ligh
                     <div className="flex-1 min-w-0">
                       <p
                         id={`service-card-desc-${domain.id}`}
-                        className={cn(
-                          "card-body-text typo-body line-clamp-4 text-[var(--text-secondary)]",
-                          domain.id === '02' && "text-center"
-                        )}
+                        className="card-body-text typo-body line-clamp-3 text-[var(--text-secondary)] text-left"
                         style={{
                           display: '-webkit-box',
-                          WebkitLineClamp: 4,
+                          WebkitLineClamp: 3,
                           WebkitBoxOrient: 'vertical',
                           overflow: 'hidden',
-                          ...(domain.id === '02'
-                            ? {
-                                borderRadius: '0px',
-                                paddingTop: '2px',
-                                paddingLeft: '2px',
-                                paddingRight: '2px',
-                                paddingBottom: '2px',
-                                textAlign: 'center',
-                              }
-                            : {}),
                         }}
                         title={(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
                       >

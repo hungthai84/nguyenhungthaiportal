@@ -27,6 +27,7 @@ export interface ExperienceMilestone {
   products?: Array<{ src: string; alt: string }>;
   domains?: Array<{ tag: string; title: string }>;
   photos?: Array<{ src: string; title?: string; desc?: string; alt?: string; caption?: string }>;
+  videoCard?: { idleUrl: string; playUrl: string };
   intro?: any;
   philosophy?: any;
   scaleDesc?: string;
@@ -643,6 +644,10 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     logo: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842335/Kinh%20nghi%E1%BB%87m/Logo_PowerService.png",
     bannerUrl: "https://i.ibb.co/SDs4tGj7/1-1-X-y-d-ng-Ph-ng-CSKH.jpg",
     memoryImg: "https://i.ibb.co/fYVwSxRW/T-m-C-h-i.png",
+    videoCard: {
+      idleUrl: "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841270/Man_h%C3%ACnh_ch%E1%BB%9D_Job_2026.mp4",
+      playUrl: "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841266/Th%E1%BA%BB_Job_2026.mp4",
+    },
     headcount: 150,
     scaleDesc: "Lãnh đạo cấp phòng ban (> 100 – 150+ nhân sự điều hành đa ca, đa kênh)",
     tenure: "Hiện tại",

@@ -191,11 +191,9 @@ export function useThemeLegacy() {
           ? 'cowhide-leather'
           : cardStyle === 'black-cowhide-leather'
             ? 'black-cowhide-leather'
-            : cardStyle === 'light-multicolor-glass-dark'
-              ? 'light-multicolor-glass-dark'
-              : cardStyle === 'dark-ice-blue-neu'
-                ? 'dark-ice-blue-neu'
-                : 'dark'
+            : cardStyle === 'dark-ice-blue-neu'
+              ? 'dark-ice-blue-neu'
+              : 'dark'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -334,41 +332,21 @@ export function useThemeLegacy() {
     const normalized = normalizeCardStyle(mode);
     const nextDark = Boolean(CARD_STYLES_MAP[normalized]?.isDark);
     const defaultWp = getDefaultWallpaperForTheme(normalized);
-    let hasManualWallpaper = false;
-    let storedWpId = activeWallpaperIdRef.current;
-    try {
-      hasManualWallpaper = localStorage.getItem(WALLPAPER_MANUAL_STORAGE_KEY) === '1';
-      if (!storedWpId) {
-        const storedRaw = localStorage.getItem(ACTIVE_WALLPAPER_STORAGE_KEY);
-        if (storedRaw) {
-          storedWpId = (JSON.parse(storedRaw) as WallpaperPreset)?.id || '';
-        }
-      }
-    } catch {
-      hasManualWallpaper = false;
-    }
-
-    const isThemeOwnedOrEmptyWp =
-      !storedWpId || storedWpId === 'none' || storedWpId.startsWith('theme-bg-');
-    const shouldApplyThemeDefaultWp = !hasManualWallpaper || isThemeOwnedOrEmptyWp;
 
     cardStyleRef.current = normalized;
     setCardStyleState(normalized);
-    if (shouldApplyThemeDefaultWp) {
-      activeWallpaperIdRef.current = defaultWp.id;
-      setActiveWallpaper(defaultWp);
-    }
+    activeWallpaperIdRef.current = defaultWp.id;
+    setActiveWallpaper(defaultWp);
+
     try {
       localStorage.setItem(CARD_STYLE_STORAGE_KEY, normalized);
       localStorage.setItem(
         nextDark ? 'hungthai_last_dark_style' : 'hungthai_last_light_style',
         normalized
       );
-      if (shouldApplyThemeDefaultWp) {
-        localStorage.removeItem(WALLPAPER_MANUAL_STORAGE_KEY);
-        localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(defaultWp));
-        localStorage.setItem('theme_wallpaper', defaultWp.value || defaultWp.bg || '');
-      }
+      localStorage.removeItem(WALLPAPER_MANUAL_STORAGE_KEY);
+      localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(defaultWp));
+      localStorage.setItem('theme_wallpaper', defaultWp.value || defaultWp.bg || '');
     } catch (e) {
       // ignore
     }
@@ -381,11 +359,9 @@ export function useThemeLegacy() {
           ? 'cowhide-leather'
           : normalized === 'black-cowhide-leather'
             ? 'black-cowhide-leather'
-            : normalized === 'light-multicolor-glass-dark'
-              ? 'light-multicolor-glass-dark'
-              : normalized === 'dark-ice-blue-neu'
-                ? 'dark-ice-blue-neu'
-                : 'dark'
+            : normalized === 'dark-ice-blue-neu'
+              ? 'dark-ice-blue-neu'
+              : 'dark'
       );
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
@@ -400,9 +376,7 @@ export function useThemeLegacy() {
       document.body.setAttribute('data-theme-mechanism', mechanism);
     }
     window.dispatchEvent(new CustomEvent(CARD_STYLE_SYNC_EVENT, { detail: normalized }));
-    if (shouldApplyThemeDefaultWp) {
-      window.dispatchEvent(new CustomEvent(WALLPAPER_SYNC_EVENT, { detail: defaultWp }));
-    }
+    window.dispatchEvent(new CustomEvent(WALLPAPER_SYNC_EVENT, { detail: defaultWp }));
   }, []);
 
   const toggleLightDark = useCallback(

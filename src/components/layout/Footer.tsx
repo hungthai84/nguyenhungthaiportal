@@ -236,7 +236,7 @@ export const Footer: React.FC<FooterProps> = ({
       data-element-parent="website-root"
       style={{
         ...cleanFooterStyle,
-        maxWidth: '1250px',
+        maxWidth: 'var(--container-max-w, 1250px)',
         width: 'var(--shared-frame-w, 100%)',
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -283,8 +283,8 @@ export const Footer: React.FC<FooterProps> = ({
             width: '150px',
             height: '40px',
             minHeight: '40px',
-            paddingTop: '10px',
-            paddingBottom: '10px',
+            paddingTop: '8px',
+            paddingBottom: '8px',
             paddingLeft: '10px',
             paddingRight: '10px',
           }}
@@ -380,15 +380,11 @@ export const Footer: React.FC<FooterProps> = ({
                   ref={(el) => {
                     rightPillWrapperRefs.current[0] = el;
                   }}
-                  className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px] ${
-                    isSelected ? '' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
-                  }`}
+                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
                   style={{
                     width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
-                    boxShadow: isSelected ? '0 4px 16px rgba(16, 185, 129, 0.45)' : 'none',
                   }}
                 >
-
                   <button
                     ref={(el) => {
                       rightPillBtnRefs.current[0] = el;
@@ -407,57 +403,36 @@ export const Footer: React.FC<FooterProps> = ({
                         : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
                     }
                     aria-expanded={isLangMenuOpen}
-                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-all duration-200 border ${
-                      isSelected
-                        ? 'bg-gradient-to-r from-[#047857] via-[#059669] to-[#10B981] border-white/80 active shadow-[0_0_25px_rgba(16,185,129,0.45)]'
-                        : 'border-emerald-400/80 dark:border-emerald-400/70'
+                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border ${
+                      isSelected ? 'active' : ''
                     }`}
                     style={{
                       width: '150px',
                       height: '40px',
-                      paddingTop: '10px',
-                      paddingBottom: '10px',
+                      paddingTop: '8px',
+                      paddingBottom: '8px',
                       paddingLeft: '10px',
                       paddingRight: '10px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
-                      backgroundColor: isSelected ? undefined : (isDark ? 'rgba(15, 23, 42, 0.2)' : 'rgba(255, 255, 255, 0.2)'),
-                      backdropFilter: 'blur(12px)',
-                      WebkitBackdropFilter: 'blur(12px)',
-                      boxShadow: isSelected
-                        ? '0 0 30px rgba(16, 185, 129, 0.45), inset 0 0 12px rgba(255,255,255,0.4)'
-                        : '0 8px 24px -4px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.4)',
                     }}
                   >
                     <div
-                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-200 shadow-xs"
+                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                       style={{
-                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.25)' : '#10B981',
+                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.22)' : '#10B981',
                       }}
                     >
                       <WebIcon name="languages" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
                     </div>
-                    <div
-                      className={`nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200 ${
-                        isSelected ? 'bg-white/50' : 'bg-[var(--divider-nav-pill)]'
-                      }`}
-                    />
-                    <div className="flex flex-col text-left leading-none min-w-0 flex-1">
+                    <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
+                    <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         data-no-translate="true"
                         style={{ fontWeight: 'bold', fontSize: '15px' }}
-                        className={`nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200 ${
-                          isSelected ? 'text-white' : 'text-emerald-950 dark:text-emerald-100'
-                        }`}
+                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                       >
                         {activeLangTitle}
-                      </span>
-                      <span
-                        className={`nav-pill-sub typo-label leading-none mt-0.5 truncate font-play transition-colors duration-200 ${
-                          isSelected ? 'text-white/90' : 'text-emerald-700 dark:text-emerald-300'
-                        }`}
-                      >
-                        {activeLangSub}
                       </span>
                     </div>
                   </button>
@@ -535,28 +510,11 @@ export const Footer: React.FC<FooterProps> = ({
                   ref={(el) => {
                     rightPillWrapperRefs.current[1] = el;
                   }}
-                  className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px] ${
-                    isSelected ? '' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
-                  }`}
+                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
                   style={{
                     width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
-                    boxShadow: isSelected ? '0 4px 16px rgba(99, 102, 241, 0.45)' : 'none',
                   }}
                 >
-                  {isSelected && (
-                    <div
-                      aria-hidden="true"
-                      className="nav-pill-laser-clip absolute inset-0 rounded-[999px] overflow-hidden pointer-events-none z-0"
-                    >
-                      <div
-                        className="nav-pill-laser absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none"
-                        style={{
-                          background:
-                            'conic-gradient(from 0deg, transparent 0 210deg, #ffffff 270deg, #6366F1 300deg, transparent 360deg)',
-                        }}
-                      />
-                    </div>
-                  )}
                   <button
                     ref={(el) => {
                       rightPillBtnRefs.current[1] = el;
@@ -576,56 +534,35 @@ export const Footer: React.FC<FooterProps> = ({
                         : `Giao diện (${activeThemeConfig.shortBadge})`
                     }
                     aria-expanded={isThemeMenuOpen}
-                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-all duration-200 border ${
-                      isSelected
-                        ? 'bg-gradient-to-r from-[#4338CA] via-[#6366F1] to-[#818CF8] border-white/80 active shadow-[0_0_25px_rgba(99,102,241,0.45)]'
-                        : 'border-indigo-400/80 dark:border-indigo-500/80'
+                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border ${
+                      isSelected ? 'active' : ''
                     }`}
                     style={{
                       width: '150px',
                       height: '40px',
-                      paddingTop: '10px',
-                      paddingBottom: '10px',
+                      paddingTop: '8px',
+                      paddingBottom: '8px',
                       paddingLeft: '10px',
                       paddingRight: '10px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
-                      backgroundColor: isSelected ? undefined : (isDark ? 'rgba(15, 23, 42, 0.2)' : 'rgba(255, 255, 255, 0.2)'),
-                      backdropFilter: 'blur(12px)',
-                      WebkitBackdropFilter: 'blur(12px)',
-                      boxShadow: isSelected
-                        ? '0 0 30px rgba(99, 102, 241, 0.45), inset 0 0 12px rgba(255,255,255,0.4)'
-                        : '0 8px 24px -4px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.4)',
                     }}
                   >
                     <div
-                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-200 shadow-xs"
+                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                       style={{
-                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.25)' : '#6366F1',
+                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.22)' : '#6366F1',
                       }}
                     >
                       <WebIcon name="layers" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
                     </div>
-                    <div
-                      className={`nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200 ${
-                        isSelected ? 'bg-white/50' : 'bg-[var(--divider-nav-pill)]'
-                      }`}
-                    />
-                    <div className="flex flex-col text-left leading-none min-w-0 flex-1">
+                    <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
+                    <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         style={{ fontWeight: 'bold', fontSize: '15px' }}
-                        className={`nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200 ${
-                          isSelected ? 'text-white' : 'text-indigo-950 dark:text-indigo-100'
-                        }`}
+                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                       >
                         {isEn ? 'Theme' : 'Giao diện'}
-                      </span>
-                      <span
-                        className={`nav-pill-sub typo-label leading-none mt-0.5 truncate font-play transition-colors duration-200 ${
-                          isSelected ? 'text-white/90' : 'text-indigo-700 dark:text-cyan-300'
-                        }`}
-                      >
-                        {t(activeThemeConfig.shortBadge)}
                       </span>
                     </div>
                   </button>
@@ -786,8 +723,6 @@ export const Footer: React.FC<FooterProps> = ({
                                   const isBrownLeather = preset.id === 'cowhide-leather';
                                   const isBlackLeather = preset.id === 'black-cowhide-leather';
                                   const isWhiteLeather = preset.id === 'light-cowhide-leather';
-                                  const isColorGlass = preset.id === 'light-multicolor-glass-color';
-                                  const isDarkGlass = preset.id === 'light-multicolor-glass-dark';
                                   const isIceBlueNeu = preset.id === 'ice-blue-neu' || preset.id === 'dark-ice-blue-neu';
                                   const demoTextColor = isBrownLeather
                                     ? '#FFF8DC'
@@ -832,13 +767,7 @@ export const Footer: React.FC<FooterProps> = ({
                                           {label}
                                         </span>
                                         <span className="flex items-center gap-0.5 shrink-0">
-                                          {(isColorGlass || isDarkGlass) ? (
-                                            <>
-                                              <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
-                                              <span className="w-1.5 h-1.5 rounded-full bg-[#A855F7]" />
-                                              <span className="w-1.5 h-1.5 rounded-full bg-[#EC4899]" />
-                                            </>
-                                          ) : isIceBlueNeu ? (
+                                          {isIceBlueNeu ? (
                                             <>
                                               <span className="w-1.5 h-1.5 rounded-full bg-[#06b6d4]" />
                                               <span className="w-1.5 h-1.5 rounded-full bg-[#6366f1]" />
@@ -987,15 +916,11 @@ export const Footer: React.FC<FooterProps> = ({
                   ref={(el) => {
                     rightPillWrapperRefs.current[2] = el;
                   }}
-                  className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px] ${
-                    isSelected ? '' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
-                  }`}
+                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
                   style={{
                     width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
-                    boxShadow: isSelected ? '0 4px 16px rgba(244, 63, 94, 0.45)' : 'none',
                   }}
                 >
-
                   <button
                     ref={(el) => {
                       rightPillBtnRefs.current[2] = el;
@@ -1010,56 +935,35 @@ export const Footer: React.FC<FooterProps> = ({
                       handleWallpaperClick();
                     }}
                     title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
-                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-all duration-200 border ${
-                      isSelected
-                        ? 'bg-gradient-to-r from-[#BE123C] via-[#E11D48] to-[#FB7185] border-white/80 active shadow-[0_0_25px_rgba(244,63,94,0.45)]'
-                        : 'border-rose-400/80 dark:border-rose-500/80'
+                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border ${
+                      isSelected ? 'active' : ''
                     }`}
                     style={{
                       width: '150px',
                       height: '40px',
-                      paddingTop: '10px',
-                      paddingBottom: '10px',
+                      paddingTop: '8px',
+                      paddingBottom: '8px',
                       paddingLeft: '10px',
                       paddingRight: '10px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
-                      backgroundColor: isSelected ? undefined : (isDark ? 'rgba(15, 23, 42, 0.2)' : 'rgba(255, 255, 255, 0.2)'),
-                      backdropFilter: 'blur(12px)',
-                      WebkitBackdropFilter: 'blur(12px)',
-                      boxShadow: isSelected
-                        ? '0 0 30px rgba(244, 63, 94, 0.45), inset 0 0 12px rgba(255,255,255,0.4)'
-                        : '0 8px 24px -4px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.4)',
                     }}
                   >
                     <div
-                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/40 transition-all duration-200 shadow-xs"
+                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                       style={{
-                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.25)' : '#F43F5E',
+                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.22)' : '#F43F5E',
                       }}
                     >
                       <WebIcon name="image" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
                     </div>
-                    <div
-                      className={`nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200 ${
-                        isSelected ? 'bg-white/50' : 'bg-[var(--divider-nav-pill)]'
-                      }`}
-                    />
-                    <div className="flex flex-col text-left leading-none min-w-0 flex-1">
+                    <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
+                    <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         style={{ fontWeight: 'bold', fontSize: '15px' }}
-                        className={`nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200 ${
-                          isSelected ? 'text-white' : 'text-rose-950 dark:text-rose-100'
-                        }`}
+                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                       >
                         {isEn ? 'Wallpaper' : 'Hình Nền'}
-                      </span>
-                      <span
-                        className={`nav-pill-sub typo-label leading-none mt-0.5 truncate font-play transition-colors duration-200 ${
-                          isSelected ? 'text-white/90' : 'text-rose-700 dark:text-rose-400'
-                        }`}
-                      >
-                        {isEn ? 'Customize' : 'Tùy chỉnh'}
                       </span>
                     </div>
                   </button>
@@ -1081,28 +985,11 @@ export const Footer: React.FC<FooterProps> = ({
                   ref={(el) => {
                     rightPillWrapperRefs.current[3] = el;
                   }}
-                  className={`nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px] ${
-                    isSelected ? '' : 'shadow-[0_4px_14px_rgba(0,0,0,0.1)]'
-                  }`}
+                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
                   style={{
                     width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
-                    boxShadow: isSelected ? '0 4px 16px rgba(168, 85, 247, 0.5)' : 'none',
                   }}
                 >
-                  {isSelected && (
-                    <div
-                      aria-hidden="true"
-                      className="nav-pill-laser-clip absolute inset-0 rounded-[999px] overflow-hidden pointer-events-none z-0"
-                    >
-                      <div
-                        className="nav-pill-laser absolute -inset-[250%] animate-[spin_4s_linear_infinite] opacity-100 pointer-events-none"
-                        style={{
-                          background:
-                            'conic-gradient(from 0deg, transparent 0 210deg, #ffffff 270deg, #A855F7 300deg, transparent 360deg)',
-                        }}
-                      />
-                    </div>
-                  )}
                   <button
                     ref={(el) => {
                       rightPillBtnRefs.current[3] = el;
@@ -1119,32 +1006,24 @@ export const Footer: React.FC<FooterProps> = ({
                       onOpenAiAssistant();
                     }}
                     title={isEn ? 'AI Assistant (24/7 Support)' : 'AI hỗ trợ (Trợ lý 24/7)'}
-                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-all duration-200 border active:scale-[0.98] motion-reduce:active:scale-100 ${
-                      isSelected
-                        ? 'bg-gradient-to-r from-[#6B21A8] via-[#7E22CE] to-[#A855F7] border-white/85 active shadow-[0_0_25px_rgba(168,85,247,0.5)]'
-                        : 'border-purple-400/80 dark:border-purple-500/80 hover:border-purple-500 dark:hover:border-purple-400'
+                    className={`nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border ${
+                      isSelected ? 'active' : ''
                     }`}
                     style={{
                       width: '150px',
                       height: '40px',
-                      paddingTop: '10px',
-                      paddingBottom: '10px',
+                      paddingTop: '8px',
+                      paddingBottom: '8px',
                       paddingLeft: '10px',
                       paddingRight: '10px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
-                      backgroundColor: isSelected ? undefined : (isDark ? 'rgba(15, 23, 42, 0.2)' : 'rgba(255, 255, 255, 0.2)'),
-                      backdropFilter: 'blur(12px)',
-                      WebkitBackdropFilter: 'blur(12px)',
-                      boxShadow: isSelected
-                        ? '0 0 30px rgba(168, 85, 247, 0.5), inset 0 0 12px rgba(255,255,255,0.4)'
-                        : '0 8px 24px -4px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.4)',
                     }}
                   >
                     <div
-                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/45 transition-all duration-200 shadow-xs"
+                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                       style={{
-                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.25)' : '#A855F7',
+                        backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.22)' : '#A855F7',
                       }}
                     >
                       {aiAvatarError ? (
@@ -1155,31 +1034,18 @@ export const Footer: React.FC<FooterProps> = ({
                           alt={isEn ? 'AI Assistant' : 'AI hỗ trợ'}
                           loading="eager"
                           decoding="async"
-                          className="w-full h-full object-cover rounded-full scale-[1.28] group-hover/menu-btn:scale-[1.36] motion-reduce:transform-none transition-transform duration-200"
+                          className="w-full h-full object-cover rounded-full scale-[1.28]"
                           onError={() => setAiAvatarError(true)}
                         />
                       )}
                     </div>
-                    <div
-                      className={`nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200 ${
-                        isSelected ? 'bg-white/50' : 'bg-[var(--divider-nav-pill)]'
-                      }`}
-                    />
-                    <div className="flex flex-col text-left leading-none min-w-0 flex-1">
+                    <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
+                    <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         style={{ fontWeight: 'bold', fontSize: '15px' }}
-                        className={`nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200 ${
-                          isSelected ? 'text-white' : 'text-purple-950 dark:text-purple-100'
-                        }`}
+                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                       >
                         {isEn ? 'AI Assistant' : 'AI hỗ trợ'}
-                      </span>
-                      <span
-                        className={`nav-pill-sub typo-label leading-none mt-0.5 truncate font-play tabular-nums transition-colors duration-200 ${
-                          isSelected ? 'text-white/90' : 'text-purple-700 dark:text-purple-300'
-                        }`}
-                      >
-                        {isEn ? '24/7 Support' : 'Trợ lý 24/7'}
                       </span>
                     </div>
                   </button>

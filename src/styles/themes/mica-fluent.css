@@ -1,0 +1,69 @@
+/* ========================================================================= */
+/* MICA FLUENT THEME — WINDOWS 11 MICA & ACRYLIC DESIGN SYSTEM             */
+/* ========================================================================= */
+
+[data-theme="mica-fluent"],
+html[data-card-style="mica-fluent"] {
+  --color-bg: #F3F3F3;
+  --color-bg-soft: #EBEBEB;
+  --color-bg-blue: #E8F2FC;
+  --color-surface: rgba(255, 255, 255, 0.85);
+  --color-surface-elevated: rgba(255, 255, 255, 0.92);
+  --color-surface-indigo: #EDE9FE;
+  --color-surface-cyan: #E0F2FE;
+  --color-surface-green: #DCFCE7;
+  --color-surface-orange: #FFEDD5;
+  --color-surface-pink: #FCE7F3;
+  --color-surface-purple: #F3E8FF;
+
+  --color-heading: #1F1F1F;
+  --color-text: #2D2D2D;
+  --color-text-secondary: #5F5F5F;
+  --color-text-muted: #767676;
+  --color-text-inverse: #FFFFFF;
+
+  --color-primary: #0067C0;
+  --color-secondary: #2B88D8;
+  --color-tertiary: #00A4EF;
+  --color-indigo: #6B21A8;
+  --color-blue: #0067C0;
+  --color-cyan: #0284C7;
+  --color-green: #107C41;
+  --color-amber: #B45309;
+  --color-pink: #BE185D;
+  --color-purple: #7C3AED;
+
+  --color-border: rgba(0, 0, 0, 0.12);
+  --color-border-soft: rgba(0, 0, 0, 0.08);
+  --color-focus-ring: #0067C0;
+
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.65);
+  --glass-blur: 30px;
+
+  --radius-main: 16px;
+  --radius-card: 16px;
+  --radius-subcard: 12px;
+  --radius-banner: 16px;
+
+  --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.08), inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+  --shadow-card-hover: 0 12px 40px 0 rgba(0, 0, 0, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 1);
+  --shadow-subcard: 0 4px 16px 0 rgba(0, 0, 0, 0.05);
+
+  --surface-primary-bg: rgba(243, 243, 243, 0.82);
+  --surface-primary-border: rgba(255, 255, 255, 0.6);
+  --surface-primary-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 0.85);
+
+  --surface-secondary-bg: rgba(255, 255, 255, 0.85);
+  --surface-secondary-border: rgba(0, 0, 0, 0.08);
+  --surface-secondary-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+
+  --surface-tertiary-bg: rgba(240, 240, 240, 0.75);
+  --surface-tertiary-border: rgba(0, 0, 0, 0.06);
+
+  --app-bg-base: #EAEAEA;
+  --app-bg-gradient: 
+    radial-gradient(circle at 15% 15%, rgba(0, 103, 192, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 85% 85%, rgba(16, 124, 65, 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, #F3F3F3 0%, #E6E6E6 100%);
+}

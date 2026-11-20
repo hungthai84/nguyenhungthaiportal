@@ -1,6 +1,6 @@
 import {
   ALL_SAMPLE_QUESTIONS,
-  SampleQuestionItem,
+  type SampleQuestionItem,
   TRINHAN_SAMPLE_QUESTION_CATEGORIES,
 } from './aiSampleQuestions.ts';
 

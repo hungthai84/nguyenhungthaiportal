@@ -797,13 +797,12 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </div>
 
             {/* Inner Content Grid grouping the detail cards */}
-            <div className="w-full grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-[15px] items-stretch content-start min-w-0">
-                {/* 1. THÔNG TIN KHÓA HỌC: NHÓM LẠI THÀNH 1 CARD CHUNG (#el-p3-div-90) */}
+            <div className="w-full grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-[15px] items-start content-start min-w-0">
+                {/* 1. THÔNG TIN KHÓA HỌC (#el-p3-div-90) */}
                 <div
                   id="el-p3-div-90"
-                  data-subcard="true"
-                  className="exp-detail-subcard col-span-1 md:col-span-8 lg:col-span-12 p-[15px] rounded-[var(--radius-subcard,16px)] shadow-sm flex flex-col gap-[15px] min-w-0"
-                  style={{ borderRadius: 'var(--radius-subcard, 16px)', padding: '15px' }}
+                  className="col-span-1 md:col-span-8 lg:col-span-12 p-[15px] rounded-[var(--radius-card,24px)] border shadow-sm flex flex-col gap-[15px] min-w-0 bg-[var(--surface-primary-bg,var(--bg-card))] h-auto"
+                  style={{ borderRadius: 'var(--radius-card, 24px)', padding: '15px' }}
                 >
                   <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] flex-wrap">
                     <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-400 min-w-0" data-card-accent="blue">
@@ -856,12 +855,12 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   </div>
                 </div>
 
-                {/* 2. THẺ DANH MỤC KHÓA HỌC (Sửa từ Danh sách chuyên đề, chuyển Hình ảnh khóa học vào thẻ này) */}
+                {/* 2. THẺ DANH MỤC KHÓA HỌC */}
                 <div
                   id="education-certificates-card"
                   data-element-type="card"
                   data-section-card="true"
-                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[var(--radius-card,24px)] border shadow-sm flex flex-col justify-start gap-[15px] transition-all duration-300 min-w-0"
+                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-auto p-[15px] rounded-[var(--radius-card,24px)] border shadow-sm flex flex-col justify-start gap-[12px] transition-all duration-300 min-w-0"
                   style={{ padding: '15px' }}
                 >
                   <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] flex-wrap">
@@ -873,14 +872,13 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-[15px] mt-0 w-full justify-start">
+                  <div className="flex flex-col gap-[12px] mt-0 w-full justify-start">
                     {/* Danh sách các chuyên đề */}
-                    <ul id="el-p3-ul-1" className="flex flex-col gap-[15px] list-none p-0 m-0 w-full">
+                    <ul id="el-p3-ul-1" className="flex flex-col gap-[10px] list-none p-0 m-0 w-full">
                       {course.modules.map((mod, idx) => (
                         <li
                           key={idx}
-                          data-subcard="true"
-                          className="exp-detail-subcard w-full flex items-center gap-[15px] p-[15px] rounded-[14px] shadow-2xs transition-all hover:shadow-xs group/mod min-w-0"
+                          className="w-full flex items-center gap-3 px-3 py-2 rounded-[12px] transition-all group/mod min-w-0 bg-[var(--surface-secondary-bg,rgba(255,255,255,0.04))] border border-[var(--border-subcard)]"
                         >
                           <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center typo-badge font-mono shrink-0 group-hover/mod:bg-amber-500 group-hover/mod:text-white transition-colors">
                             {idx + 1}
@@ -898,11 +896,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       ))}
                     </ul>
 
-                    {/* Sub-card: Từ khóa kỷ năng (Chuyển vào Danh mục khóa học) */}
-                    <div
-                      data-subcard="true"
-                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] flex flex-col gap-[15px] min-w-0"
-                    >
+                    {/* Từ khóa kỹ năng */}
+                    <div className="h-fit py-1 flex flex-col gap-2 min-w-0">
                       <div className="subcard-header-sync flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400" data-subcard-accent="emerald">
                         <WebIcon name="sparkles" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
                         <span className="subcard-title-synced typo-h4 tracking-normal text-emerald-700 dark:text-emerald-400" data-subcard-title="true">Từ khóa kỷ năng</span>
@@ -930,9 +925,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       )}
                     </div>
 
-                    {/* Sub-card: Hình ảnh khóa học (Chuyển vào thẻ Danh mục khóa học) */}
+                    {/* Hình ảnh khóa học */}
                     <div
-                      data-subcard="true"
                       role="button"
                       tabIndex={0}
                       onClick={() => handleOpenLightbox(course.courseImg || course.image, `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${t(course.title)}`)}
@@ -942,7 +936,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           handleOpenLightbox(course.courseImg || course.image, `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${t(course.title)}`);
                         }
                       }}
-                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs transition-all cursor-pointer group/photo flex flex-col gap-[15px] hover:shadow-xs"
+                      className="h-fit py-1 transition-all cursor-pointer group/photo flex flex-col gap-2"
                     >
                       <div className="flex items-center justify-between text-purple-600 dark:text-purple-400">
                         <div className="subcard-header-sync flex items-center gap-1.5 text-purple-600 dark:text-purple-400" data-subcard-accent="purple">
@@ -955,19 +949,19 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           <span>Phóng to</span>
                         </span>
                       </div>
-                      <div className="education-card-banner themed-image-frame relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
+                      <div className="education-card-banner themed-image-frame relative aspect-[16/9] w-full rounded-[12px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
                         <img
                           src={course.courseImg || course.image}
                           alt={course.title}
-                          className="w-full h-full object-cover object-top rounded-[14px] transition-transform duration-500 group-hover/photo:scale-105"
+                          className="w-full h-full object-cover object-top rounded-[12px] transition-transform duration-500 group-hover/photo:scale-105"
                           loading="lazy"
                         />
                       </div>
                     </div>
 
-                    {/* Sub-card: Trọng tâm (Chuyển xuống dưới cùng của Danh mục khóa học) */}
+                    {/* Trọng tâm */}
                     {(course.focus || course.orientation) && (
-                      <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] typo-body-sm" style={{ color: 'var(--text-secondary)' }}>
+                      <div className="h-fit py-1 typo-body-sm" style={{ color: 'var(--text-secondary)' }}>
                         <span className="font-semibold text-amber-700 dark:text-amber-300 mr-1.5">Trọng tâm:</span>
                         {course.focus || course.orientation}
                       </div>
@@ -975,12 +969,12 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   </div>
                 </div>
 
-                {/* 3. THẺ KẾT QUẢ ĐẠT ĐƯỢC (Chuyển hình bằng cấp / Văn bằng chứng nhận vào thẻ này) */}
+                {/* 3. THẺ KẾT QUẢ ĐẠT ĐƯỢC */}
                 <div
                   id="education-major-card"
                   data-element-type="card"
                   data-section-card="true"
-                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-full p-[15px] rounded-[14px] border shadow-sm flex flex-col justify-start gap-[15px] transition-all duration-300 min-w-0"
+                  className="bento-card glass-card bento-view-card exp-detail-card col-span-1 md:col-span-8 lg:col-span-6 h-auto p-[15px] rounded-[var(--radius-card,24px)] border shadow-sm flex flex-col justify-start gap-[12px] transition-all duration-300 min-w-0"
                   style={{ padding: '15px' }}
                 >
                   <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
@@ -992,10 +986,9 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     </div>
                   </div>
 
-                  {/* Sub-cards: Căn chỉnh top */}
-                  <div className="flex flex-col gap-[15px] mt-0 w-full justify-start">
-                    {/* Sub-card: Chứng nhận đánh giá */}
-                    <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs flex flex-col gap-[15px]">
+                  <div className="flex flex-col gap-[12px] mt-0 w-full justify-start">
+                    {/* Chứng nhận đánh giá */}
+                    <div className="h-fit py-1 flex flex-col gap-2">
                       <div className="subcard-header-sync flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400" data-subcard-accent="emerald">
                         <WebIcon name="check-circle-02" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
                         <span className="subcard-title-synced typo-h4 tracking-normal text-emerald-700 dark:text-emerald-400" data-subcard-title="true">Chứng nhận đánh giá</span>
@@ -1005,9 +998,9 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       </p>
                     </div>
 
-                    {/* Sub-card: Ứng dụng thực tiễn */}
+                    {/* Ứng dụng thực tiễn */}
                     {course.application && (
-                      <div data-subcard="true" className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs flex flex-col gap-[15px]">
+                      <div className="h-fit py-1 flex flex-col gap-2">
                         <div className="subcard-header-sync flex items-center gap-1.5 text-teal-700 dark:text-teal-400" data-subcard-accent="teal">
                           <WebIcon name="target" className="w-4 h-4 shrink-0 text-teal-700 dark:text-teal-400" />
                           <span className="subcard-title-synced typo-h4 tracking-normal text-teal-700 dark:text-teal-400" data-subcard-title="true">Ứng dụng thực tiễn</span>
@@ -1018,9 +1011,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       </div>
                     )}
 
-                    {/* Sub-card: Hình ảnh Văn bằng chứng nhận (Chuyển vào thẻ Kết quả đạt được) */}
+                    {/* Văn bằng chứng nhận */}
                     <div
-                      data-subcard="true"
                       role="button"
                       tabIndex={0}
                       onClick={() => handleOpenLightbox(course.certImg || course.image, `${isEn ? 'Credential' : 'Bằng cấp'}: ${t(course.title)}`)}
@@ -1030,7 +1022,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           handleOpenLightbox(course.certImg || course.image, `${isEn ? 'Credential' : 'Bằng cấp'}: ${t(course.title)}`);
                         }
                       }}
-                      className="exp-detail-subcard h-fit p-[15px] rounded-[14px] shadow-2xs transition-all cursor-pointer group/cert flex flex-col gap-[15px] hover:shadow-xs mt-1"
+                      className="h-fit py-1 transition-all cursor-pointer group/cert flex flex-col gap-2"
                     >
                       <div className="flex items-center justify-between text-rose-600 dark:text-rose-400">
                         <div className="subcard-header-sync flex items-center gap-1.5 text-rose-600 dark:text-rose-400" data-subcard-accent="rose">
@@ -1043,11 +1035,11 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           <span>Xem bằng</span>
                         </span>
                       </div>
-                      <div className="relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
+                      <div className="relative aspect-[16/9] w-full rounded-[12px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
                         <img
                           src={course.certImg || course.image}
                           alt="Chứng nhận bằng cấp"
-                          className="w-full h-full object-cover object-top rounded-[14px] transition-transform duration-500 group-hover/cert:scale-105"
+                          className="w-full h-full object-cover object-top rounded-[12px] transition-transform duration-500 group-hover/cert:scale-105"
                           loading="lazy"
                         />
                       </div>

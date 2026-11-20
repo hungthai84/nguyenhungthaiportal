@@ -34,6 +34,8 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'rainbow-glass': { cardOpacity: 22, blurIntensity: 24 },
   'dark-rainbow-glass': { cardOpacity: 56, blurIntensity: 24 },
   'special-rainbow-glass': { cardOpacity: 56, blurIntensity: 24 },
+  'deep-ocean': { cardOpacity: 92, blurIntensity: 20 },
+  'mica-fluent': { cardOpacity: 88, blurIntensity: 30 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -137,6 +139,26 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(circle at 14% 18%, rgba(185, 130, 131, 0.28) 0%, transparent 48%), radial-gradient(circle at 86% 20%, rgba(78, 158, 170, 0.28) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(142, 128, 189, 0.26) 0%, transparent 54%), radial-gradient(circle at 50% 85%, rgba(194, 183, 243, 0.22) 0%, transparent 52%), linear-gradient(135deg, #171F33 0%, #202238 52%, #153039 100%)',
     overlayBg: 'rgba(23, 31, 51, 0.24)',
   },
+  'deep-ocean': {
+    id: 'deep-ocean',
+    presetId: 'theme-bg-deep-ocean',
+    label: 'Nền Đại Dương Sâu (#050B14)',
+    themeMode: 'dark',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.18) 0%, transparent 55%), radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.14) 0%, transparent 60%), linear-gradient(145deg, #0A1128 0%, #050B14 50%, #030712 100%)',
+    overlayBg: 'rgba(5, 11, 20, 0.45)',
+  },
+  'mica-fluent': {
+    id: 'mica-fluent',
+    presetId: 'theme-bg-mica-fluent',
+    label: 'Nền Mica Fluent (Windows 11 Acrylic)',
+    themeMode: 'light',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 15% 15%, rgba(200, 215, 235, 0.45) 0%, transparent 50%), radial-gradient(circle at 85% 25%, rgba(220, 230, 245, 0.4) 0%, transparent 52%), radial-gradient(circle at 50% 85%, rgba(210, 220, 240, 0.35) 0%, transparent 54%), linear-gradient(135deg, #f3f6fa 0%, #e8edf5 52%, #dfe6f0 100%)',
+    overlayBg: 'rgba(255, 255, 255, 0.25)',
+  },
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
@@ -149,4 +171,6 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'rainbow-glass': THEME_BACKGROUNDS['rainbow-glass'].presetId,
   'dark-rainbow-glass': THEME_BACKGROUNDS['dark-rainbow-glass'].presetId,
   'special-rainbow-glass': THEME_BACKGROUNDS['special-rainbow-glass'].presetId,
+  'deep-ocean': THEME_BACKGROUNDS['deep-ocean'].presetId,
+  'mica-fluent': THEME_BACKGROUNDS['mica-fluent'].presetId,
 };

@@ -156,6 +156,8 @@
 @import "./styles/themes/ice-blue-neu.css";
 @import "./styles/themes/glass-flat.css";
 @import "./styles/themes/rainbow-glass.css";
+@import "./styles/themes/deep-ocean.css";
+@import "./styles/themes/mica-fluent.css";
 @import "./styles/layers.css";
 
 /* ========================================================================= */
@@ -269,6 +271,13 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden !important;
+}
+
+/* Universal Anti-Overflow & Word Wrapping Protection */
+*, *::before, *::after {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 @media (max-width: 768px) {
@@ -276,6 +285,16 @@ html, body {
   textarea,
   select {
     font-size: 16px !important;
+  }
+  
+  /* Ensure mobile cards and grids never overflow */
+  .grid, .flex {
+    min-width: 0;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 }
 
@@ -695,15 +714,18 @@ html[data-surface-depth="flat"] [id^="letter-card-"] {
   animation: none !important;
 }
 
-/* Optimal Responsive Child Gap inside Main Content Cards */
+/* Optimal Responsive Child Gap & Dynamic 15px Gap/Padding Rule for Grid & Card Containers */
 .page-main-card,
 [data-main-card="true"] {
   display: flex !important;
   flex-direction: column !important;
-  gap: clamp(12px, 1.4vw, 16px) !important;
-  row-gap: clamp(12px, 1.4vw, 16px) !important;
-  column-gap: clamp(12px, 1.4vw, 16px) !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  padding: 15px !important;
   box-sizing: border-box !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
 }
 
 .page-main-card > *,
@@ -711,13 +733,46 @@ html[data-surface-depth="flat"] [id^="letter-card-"] {
   margin-top: 0;
   margin-bottom: 0;
   box-sizing: border-box;
+  min-width: 0 !important;
 }
 
+.page-cards-grid,
+.responsive-card-grid,
+.bento-grid,
+[data-section-grid="true"],
 .page-main-card .bento-grid,
 .page-main-card .page-cards-grid,
 .page-main-card [data-section-grid="true"],
 .page-main-card .grid {
-  gap: clamp(12px, 1.4vw, 16px) !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 640px) {
+  .page-main-card,
+  [data-main-card="true"] {
+    padding: 12px !important;
+    gap: 12px !important;
+    row-gap: 12px !important;
+    column-gap: 12px !important;
+  }
+
+  .page-cards-grid,
+  .responsive-card-grid,
+  .bento-grid,
+  [data-section-grid="true"],
+  .page-main-card .bento-grid,
+  .page-main-card .page-cards-grid,
+  .page-main-card [data-section-grid="true"],
+  .page-main-card .grid {
+    gap: 12px !important;
+    row-gap: 12px !important;
+    column-gap: 12px !important;
+  }
 }
 
 @media (max-width: 640px) {

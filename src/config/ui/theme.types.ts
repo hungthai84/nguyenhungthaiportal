@@ -17,13 +17,17 @@ export type CardStyleMode =
   | 'glass-flat'
   | 'rainbow-glass'
   | 'dark-rainbow-glass'
-  | 'special-rainbow-glass';
+  | 'special-rainbow-glass'
+  | 'deep-ocean'
+  | 'mica-fluent';
 
 export type ThemeFamilyId =
   | 'cowhide-leather'
   | 'ice-blue-neu'
   | 'glass-flat'
-  | 'rainbow-glass';
+  | 'rainbow-glass'
+  | 'deep-ocean'
+  | 'mica-fluent';
 
 export interface CardStyleConfig {
   id: CardStyleMode;

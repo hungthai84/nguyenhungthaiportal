@@ -497,34 +497,24 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
                   </div>
 
                   {/* 2. CENTER: Chứa mô tả và hình dịch vụ */}
-                  <div className="relative z-20 flex flex-col sm:flex-row items-center gap-[15px] py-0 flex-1 min-h-0">
-                    <div className="flex-1 min-w-0">
-                      <p
-                        id={`service-card-desc-${domain.id}`}
-                        className="card-body-text typo-body line-clamp-3 text-[var(--text-secondary)] text-left"
-                        style={{
-                          display: '-webkit-box',
-                          WebkitLineClamp: 3,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}
-                        title={(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
-                      >
-                        {(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
-                      </p>
-                    </div>
-                    <div className="w-24 h-20 sm:w-28 sm:h-24 shrink-0 flex items-center justify-center relative bg-transparent">
-                      <motion.img
-                        src={serviceImage}
-                        alt={domain.title}
-                        onError={(e) => {
-                          if (e.currentTarget.src !== cfg.fallbackIllustration) {
-                            e.currentTarget.src = cfg.fallbackIllustration;
-                          }
-                        }}
-                        className="w-full h-full object-contain rounded-[14px] bg-transparent drop-shadow-[0_8px_14px_rgba(0,0,0,0.12)] transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
+                  <p
+                    id={`service-card-desc-${domain.id}`}
+                    className="card-body-text typo-body text-[var(--text-secondary)] text-left relative z-20 flex-1 min-w-0"
+                    title={(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
+                  >
+                    {(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
+                  </p>
+                  <div className="w-24 h-20 sm:w-28 sm:h-24 shrink-0 flex items-center justify-center relative bg-transparent z-20">
+                    <motion.img
+                      src={serviceImage}
+                      alt={domain.title}
+                      onError={(e) => {
+                        if (e.currentTarget.src !== cfg.fallbackIllustration) {
+                          e.currentTarget.src = cfg.fallbackIllustration;
+                        }
+                      }}
+                      className="w-full h-full object-contain rounded-[14px] bg-transparent drop-shadow-[0_8px_14px_rgba(0,0,0,0.12)] transition-transform duration-500 group-hover:scale-105"
+                    />
                   </div>
 
                   {/* 3. BOTTOM: Logo công ty nền trong suốt, căn giữa gọn gàng */}

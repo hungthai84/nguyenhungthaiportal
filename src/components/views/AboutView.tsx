@@ -1467,9 +1467,9 @@ export function AboutView({
                 borderRadius: 'var(--radius-card, 24px)',
                 padding: '5px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,24px)] overflow-hidden flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video p-[5px] text-left"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,24px)] overflow-hidden flex flex-col justify-center items-center min-h-[300px] sm:min-h-[380px] lg:min-h-0 h-full group/video p-[5px] text-left"
             >
-                  <div className="relative w-full h-full flex-1 rounded-[14px] overflow-hidden min-h-0 flex flex-col justify-between">
+                  <div className="relative w-full h-full flex-1 rounded-[14px] overflow-hidden min-h-0 flex items-center justify-center">
                   {activeHeroMedia === 'video' ? (
                     <video
                       ref={videoRef}
@@ -1871,7 +1871,7 @@ export function AboutView({
                         }}
                         title={`${item.label}: ${item.value}`}
                         className={cn(
-                          'about-info-subcard h-[68px] sm:h-[72px] w-full flex flex-col justify-between p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
+                          'about-info-subcard h-full min-h-[64px] sm:min-h-[68px] w-full flex flex-col justify-between p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
                           item.colSpan,
                           item.bgCls
                         )}

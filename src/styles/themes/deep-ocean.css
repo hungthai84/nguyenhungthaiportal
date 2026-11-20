@@ -1,0 +1,76 @@
+/* ==========================================================================
+   DEEP OCEAN THEME (Dark Mode Only)
+   Deep navy background, multi-layered ocean blue surfaces, bright blue-white text,
+   silvery blue secondary text, turquoise/aqua accents.
+   ========================================================================== */
+
+html[data-card-style="deep-ocean"] {
+  --bg-primary: #050B14;
+  --bg-secondary: #0A1128;
+  --bg-card: rgba(16, 28, 56, 0.78);
+  --bg-subcard: rgba(22, 40, 80, 0.65);
+  --surface-primary-bg: rgba(16, 28, 56, 0.85);
+  --surface-secondary-bg: rgba(22, 40, 80, 0.75);
+  --surface-tertiary-bg: rgba(30, 58, 110, 0.55);
+  --text-primary: #E2E8F0;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --color-primary: #38BDF8;
+  --color-secondary: #06B6D4;
+  --color-accent: #38BDF8;
+  --border-card: rgba(56, 189, 248, 0.28);
+  --border-subcard: rgba(56, 189, 248, 0.16);
+  --shadow-card: 0 18px 40px rgba(5, 11, 20, 0.8), inset 0 1px 2px rgba(56, 189, 248, 0.2);
+  --shadow-subcard: 0 8px 20px rgba(5, 11, 20, 0.5);
+  --bg-button-primary: linear-gradient(135deg, #06B6D4 0%, #0284C7 100%);
+  --bg-button-secondary: rgba(22, 40, 80, 0.85);
+  --text-button-primary: #FFFFFF;
+  --text-button-secondary: #E2E8F0;
+  --border-button-primary: rgba(6, 182, 212, 0.6);
+  --border-button-secondary: rgba(56, 189, 248, 0.3);
+  color-scheme: dark;
+}
+
+html[data-card-style="deep-ocean"] body {
+  background-color: #050B14;
+  color: #E2E8F0;
+}
+
+html[data-card-style="deep-ocean"] .main-card,
+html[data-card-style="deep-ocean"] .page-main-card,
+html[data-card-style="deep-ocean"] .bento-card,
+html[data-card-style="deep-ocean"] .glass-card {
+  background: rgba(16, 28, 56, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  box-shadow: 0 18px 40px rgba(5, 11, 20, 0.8), inset 0 1px 2px rgba(56, 189, 248, 0.2);
+}
+
+/* Aqua light traversing animation and subtle water current effect */
+@keyframes deepOceanGlow {
+  0% {
+    border-color: rgba(56, 189, 248, 0.28);
+    box-shadow: 0 18px 40px rgba(5, 11, 20, 0.8), inset 0 1px 2px rgba(56, 189, 248, 0.2);
+  }
+  50% {
+    border-color: rgba(6, 182, 212, 0.55);
+    box-shadow: 0 20px 45px rgba(6, 182, 212, 0.25), inset 0 1px 3px rgba(6, 182, 212, 0.35);
+  }
+  100% {
+    border-color: rgba(56, 189, 248, 0.28);
+    box-shadow: 0 18px 40px rgba(5, 11, 20, 0.8), inset 0 1px 2px rgba(56, 189, 248, 0.2);
+  }
+}
+
+html[data-card-style="deep-ocean"] .banner-card,
+html[data-card-style="deep-ocean"] .hero-banner {
+  animation: deepOceanGlow 8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-card-style="deep-ocean"] .banner-card,
+  html[data-card-style="deep-ocean"] .hero-banner {
+    animation: none;
+  }
+}

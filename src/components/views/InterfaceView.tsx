@@ -287,6 +287,62 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Teal', width: '70%', gradient: 'linear-gradient(90deg, #4E9EAA, #69C9C4)', glow: '0 0 10px rgba(78, 158, 170, 0.28)' },
     ],
   },
+  'deep-ocean': {
+    radius: '14px',
+    activeRingColor: '#38BDF8',
+    activeBorderClass: 'border-[#38BDF8]',
+    idleBorderClass: 'border-sky-500/30 hover:border-sky-400',
+    activeBadgeClass: 'bg-[#06B6D4] text-white border-sky-400',
+    iconColor: '#38BDF8',
+    titleTextClass: 'text-sky-200',
+    bodyTextClass: 'text-slate-300',
+    accentTextClass: 'text-sky-300',
+    previewBorderClass: 'border-sky-400/40 border-solid',
+    dividerClass: 'border-sky-400/30 border-solid',
+    ctaIdleClass: 'bg-[#101C38] text-sky-200 hover:bg-[#162850] border border-sky-400/30',
+    ctaActiveClass: 'bg-gradient-to-r from-[#06B6D4] to-[#0284C7] text-white shadow-xs border border-sky-400',
+    toggleTrackDarkClass: 'bg-[#0A1128] border-sky-500/40',
+    toggleTrackLightClass: 'bg-slate-800 border-slate-700',
+    toggleThumbDarkClass: 'bg-sky-400 text-slate-950',
+    toggleThumbLightClass: 'bg-sky-400 text-slate-950',
+    outlineStyle: (isActive) => ({
+      outline: isActive ? '2px solid #38BDF8' : '1.5px solid rgba(56, 189, 248, 0.35)',
+      outlineOffset: '-6px',
+    }),
+    demoVideoUrl: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
+    gradientBars: [
+      { label: 'O1', width: '92%', gradient: 'linear-gradient(90deg, #06B6D4, #38BDF8)', glow: '0 0 10px rgba(6, 182, 212, 0.4)' },
+      { label: 'O2', width: '78%', gradient: 'linear-gradient(90deg, #0284C7, #06B6D4)', glow: '0 0 10px rgba(2, 132, 199, 0.4)' },
+    ],
+  },
+  'mica-fluent': {
+    radius: '16px',
+    activeRingColor: '#0067C0',
+    activeBorderClass: 'border-[#0067C0]',
+    idleBorderClass: 'border-black/12 hover:border-[#0067C0]/50',
+    activeBadgeClass: 'bg-[#0067C0] text-white border-[#0067C0]',
+    iconColor: '#0067C0',
+    titleTextClass: 'text-[#1F1F1F]',
+    bodyTextClass: 'text-[#5F5F5F]',
+    accentTextClass: 'text-[#0067C0]',
+    previewBorderClass: 'border-black/12 border-solid',
+    dividerClass: 'border-black/10 border-solid',
+    ctaIdleClass: 'bg-white text-[#1F1F1F] hover:bg-slate-50 border border-black/12',
+    ctaActiveClass: 'bg-gradient-to-r from-[#0067C0] to-[#2B88D8] text-white shadow-xs border border-[#0067C0]',
+    toggleTrackDarkClass: 'bg-slate-800 border-slate-700',
+    toggleTrackLightClass: 'bg-slate-200 border-slate-300',
+    toggleThumbDarkClass: 'bg-white text-slate-900',
+    toggleThumbLightClass: 'bg-[#0067C0] text-white',
+    outlineStyle: (isActive) => ({
+      outline: isActive ? '2px solid #0067C0' : '1.5px solid rgba(0, 0, 0, 0.15)',
+      outlineOffset: '-6px',
+    }),
+    demoVideoUrl: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
+    gradientBars: [
+      { label: 'M1', width: '88%', gradient: 'linear-gradient(90deg, #0067C0, #2B88D8)', glow: '0 0 10px rgba(0, 103, 192, 0.3)' },
+      { label: 'M2', width: '72%', gradient: 'linear-gradient(90deg, #107C41, #00A4EF)', glow: '0 0 10px rgba(16, 124, 65, 0.3)' },
+    ],
+  },
 };
 
 export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification }) => {
@@ -314,6 +370,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const [activeVideoPreviewId, setActiveVideoPreviewId] = useState<CardStyleMode | null>(null);
   const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
   const [heroVideoFailed, setHeroVideoFailed] = useState(false);
+  const [neuSliders, setNeuSliders] = useState<number[]>([68, 38, 92, 54, 82, 70]);
 
   const getMechanismLabel = (mech: ThemeMechanismMode) => {
     if (mech === 'light') return isEn ? 'Light' : 'Sáng';
@@ -721,269 +778,239 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             </div>
           </div>
 
-          {/* 2. Tùy chỉnh trực tiếp: Độ sâu Layer Card (3 cấp) & Kích cỡ chữ hỗ trợ đọc */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px]">
-            {/* Thẻ điều chỉnh độ sâu Layer trực tiếp */}
+          {/* ICE-BLUE SOFT UI INTERACTIVE REFERENCE WIDGET (Matching reference image) */}
             <div
-              id="interface-surface-depth-card"
+              id="interface-soft-ui-reference-widget"
               data-subcard="true"
-              className="sub-card lg:col-span-7 flex flex-col justify-between gap-3 p-[15px] border"
+              className="sub-card flex flex-col gap-4 p-5 border"
               style={{
                 background: 'var(--bg-subcard)',
                 borderColor: 'var(--border-subcard)',
               }}
             >
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
-                <div className="min-w-0 flex items-start gap-2.5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="flex items-center gap-3">
                   <div
-                    className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
+                    className="w-9 h-9 rounded-[12px] flex items-center justify-center shrink-0 border"
                     style={{
                       background: 'var(--bg-card)',
                       borderColor: 'var(--border-subcard)',
                       color: 'var(--color-primary)',
                     }}
                   >
-                    <WebIcon name="layers" className="w-4 h-4 shrink-0" />
+                    <WebIcon name="sparkles" className="w-5 h-5 shrink-0" />
                   </div>
-                  <div className="min-w-0">
-                    <h4 className="typo-body font-bold tracking-tight flex items-center gap-2 flex-wrap">
-                      <span>{isEn ? 'Direct Layer Card Depth' : 'Điều chỉnh độ sâu Layer trực tiếp'}</span>
-                      <span
-                        className="typo-badge font-mono px-2 py-0.5 rounded-full border tabular-nums"
-                        style={{
-                          background: 'var(--bg-card)',
-                          borderColor: 'var(--border-subcard)',
-                          color: 'var(--text-link, var(--color-primary))',
-                        }}
-                      >
-                        {layerDepth}%
-                      </span>
+                  <div>
+                    <h4 className="typo-h5 font-bold tracking-tight">
+                      {isEn ? 'Ice-Blue Soft UI Component Suite (Reference Match)' : 'Bộ thành phần Ice-Blue Soft UI (Khớp mẫu tham khảo)'}
                     </h4>
                     <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
-                      {surfaceDepth === 'flat' || layerDepth === 0
-                        ? isEn
-                          ? 'Minimalist flat surfaces without drop shadows (0%)'
-                          : 'Đang bật: Giao diện phẳng tối giản không đổ bóng (0%)'
-                        : isEn
-                          ? 'Level 1 Header/Main/Footer · Level 2 Card/Banner · Level 3 Sub Card'
-                          : 'Phân cấp 3 tầng bóng đổ riêng: Level 1 (Đầu/Chính/Chân) · Level 2 (Card/Banner) · Level 3 (Sub Card)'}
+                      {isEn
+                        ? 'Interactive replica of search bar, pill buttons, soft icon cards, and glowing vertical slider tracks.'
+                        : 'Mô phỏng tương tác thanh tìm kiếm, nút bấm, thẻ icon và các thanh trượt dọc phát sáng từ mẫu thiết kế.'}
                     </p>
                   </div>
                 </div>
+              </div>
 
-                <div
-                  role="group"
-                  aria-label={
-                    isEn
-                      ? 'Switch between Flat Minimalist and Layered Depth'
-                      : 'Chuyển đổi giữa Giao diện phẳng tối giản và Giao diện có chiều sâu'
-                  }
-                  className="inline-grid grid-cols-2 p-1 rounded-full border shrink-0 w-full sm:w-auto"
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center pt-2">
+                {/* Left Column: Search bar, Buttons, Icon squares */}
+                <div className="lg:col-span-5 flex flex-col gap-4">
+                  {/* Inset Search Bar */}
+                  <div
+                    className="flex items-center gap-3 px-4 py-3 rounded-[999px] border transition-all"
+                    style={{
+                      background: 'var(--bg-card)',
+                      borderColor: 'var(--border-subcard)',
+                      boxShadow: 'var(--neu-inset-shadow)',
+                    }}
+                  >
+                    <WebIcon name="search" className="w-4 h-4 shrink-0 opacity-70" />
+                    <input
+                      type="text"
+                      placeholder="Search for ..."
+                      className="w-full bg-transparent border-none outline-none typo-body text-[var(--text-input)] placeholder-[var(--text-placeholder)]"
+                      readOnly
+                    />
+                  </div>
+
+                  {/* Pill Button */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playGlassChime();
+                      if (onShowNotification) onShowNotification(isEn ? '✓ Soft button clicked!' : '✓ Đã bấm nút Soft UI!');
+                    }}
+                    className="w-full py-3 px-6 rounded-[999px] border typo-button font-bold text-center cursor-pointer transition-all hover:scale-[1.01] active:scale-[0.99]"
+                    style={{
+                      background: 'var(--bg-card)',
+                      borderColor: 'var(--border-subcard)',
+                      boxShadow: 'var(--neu-raised-shadow)',
+                      color: 'var(--text-primary)',
+                    }}
+                  >
+                    Button
+                  </button>
+
+                  {/* Icon Cards Row (Heart, Chat, Bookmark) */}
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        if (onShowNotification) onShowNotification('♥ Liked');
+                      }}
+                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all hover:scale-105 cursor-pointer"
+                      style={{
+                        background: 'var(--bg-card)',
+                        borderColor: 'var(--border-subcard)',
+                        boxShadow: 'var(--neu-raised-shadow)',
+                      }}
+                    >
+                      <WebIcon name="heart" className="w-5 h-5 text-pink-500 fill-pink-500/20" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        if (onShowNotification) onShowNotification('💬 Chat opened');
+                      }}
+                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all hover:scale-105 cursor-pointer"
+                      style={{
+                        background: 'var(--bg-card)',
+                        borderColor: 'var(--border-subcard)',
+                        boxShadow: 'var(--neu-raised-shadow)',
+                      }}
+                    >
+                      <WebIcon name="message-square" className="w-5 h-5 text-sky-500" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        if (onShowNotification) onShowNotification('📌 Saved');
+                      }}
+                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all hover:scale-105 cursor-pointer"
+                      style={{
+                        background: 'var(--bg-card)',
+                        borderColor: 'var(--border-subcard)',
+                        boxShadow: 'var(--neu-raised-shadow)',
+                      }}
+                    >
+                      <WebIcon name="bookmark" className="w-5 h-5 text-indigo-500 fill-indigo-500/20" />
+                    </button>
+                  </div>
+
+                  {/* Share pill & Plus button */}
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        if (onShowNotification) onShowNotification('🔗 Shared');
+                      }}
+                      className="flex-1 py-2.5 px-5 rounded-[999px] border flex items-center justify-center gap-2 typo-label font-bold cursor-pointer transition-all hover:scale-[1.01]"
+                      style={{
+                        background: 'var(--bg-card)',
+                        borderColor: 'var(--border-subcard)',
+                        boxShadow: 'var(--neu-raised-shadow)',
+                        color: 'var(--text-primary)',
+                      }}
+                    >
+                      <WebIcon name="share-2" className="w-4 h-4" />
+                      <span>Share</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        if (onShowNotification) onShowNotification('➕ Action added');
+                      }}
+                      className="w-11 h-11 rounded-full flex items-center justify-center border transition-all hover:scale-105 cursor-pointer shrink-0"
+                      style={{
+                        background: 'var(--bg-card)',
+                        borderColor: 'var(--border-subcard)',
+                        boxShadow: 'var(--neu-raised-shadow)',
+                        color: 'var(--text-primary)',
+                      }}
+                    >
+                      <WebIcon name="plus" className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Right Column: Vertical glowing slider tracks & circular knobs */}
+                <div className="lg:col-span-7 flex items-end justify-around gap-3 p-4 rounded-[20px] border"
                   style={{
                     background: 'var(--bg-card)',
                     borderColor: 'var(--border-subcard)',
+                    boxShadow: 'var(--neu-inset-shadow)',
                   }}
                 >
-                  <button
-                    id="btn-surface-depth-flat"
-                    type="button"
-                    aria-pressed={surfaceDepth === 'flat'}
-                    onClick={() => handleSelectSurfaceDepth('flat')}
-                    className={`flex items-center justify-center gap-1.5 px-3 py-1 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                      surfaceDepth === 'flat' ? 'text-white shadow-xs' : 'hover:opacity-90'
-                    }`}
-                    style={
-                      surfaceDepth === 'flat'
-                        ? { background: 'var(--bg-button-primary)' }
-                        : { color: 'var(--text-muted)' }
-                    }
-                  >
-                    <WebIcon name="square" className="w-3.5 h-3.5 shrink-0" />
-                    <span>{isEn ? 'Flat' : 'Phẳng'}</span>
-                  </button>
-                  <button
-                    id="btn-surface-depth-layered"
-                    type="button"
-                    aria-pressed={surfaceDepth === 'depth'}
-                    onClick={() => handleSelectSurfaceDepth('depth')}
-                    className={`flex items-center justify-center gap-1.5 px-3 py-1 rounded-full typo-label font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                      surfaceDepth === 'depth' ? 'text-white shadow-xs' : 'hover:opacity-90'
-                    }`}
-                    style={
-                      surfaceDepth === 'depth'
-                        ? { background: 'var(--bg-button-primary)' }
-                        : { color: 'var(--text-muted)' }
-                    }
-                  >
-                    <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
-                    <span>{isEn ? 'Layered' : 'Nổi lớp'}</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Thanh trượt độ sâu Layer trực tiếp 0% - 200% */}
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-3">
-                  <span className="typo-badge font-mono shrink-0" style={{ color: 'var(--text-muted)' }}>0%</span>
-                  <input
-                    id="interface-layer-depth-slider"
-                    type="range"
-                    min={0}
-                    max={200}
-                    step={5}
-                    value={layerDepth}
-                    aria-label={isEn ? 'Direct Layer Card depth slider' : 'Thanh trượt điều chỉnh độ sâu Layer trực tiếp'}
-                    onChange={(e) => setLayerDepth(Number(e.target.value))}
-                    className="w-full accent-[var(--color-primary)] cursor-pointer h-2"
-                  />
-                  <span className="typo-badge font-mono shrink-0" style={{ color: 'var(--text-muted)' }}>200%</span>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {LAYER_DEPTH_PRESETS.map((preset) => {
-                    const isPresetActive = layerDepth === preset.value;
+                  {[
+                    { label: 'Sky', color: 'linear-gradient(180deg, #38bdf8 0%, #0284c7 100%)', glow: 'rgba(56, 189, 248, 0.45)' },
+                    { label: 'Blue', color: 'linear-gradient(180deg, #6366f1 0%, #4f46e5 100%)', glow: 'rgba(99, 102, 241, 0.45)' },
+                    { label: 'Deep', color: 'linear-gradient(180deg, #818cf8 0%, #7c3aed 100%)', glow: 'rgba(129, 140, 248, 0.45)' },
+                    { label: 'Pink', color: 'linear-gradient(180deg, #ec4899 0%, #f43f5e 100%)', glow: 'rgba(236, 72, 153, 0.45)' },
+                    { label: 'Teal', color: 'linear-gradient(180deg, #06b6d4 0%, #0891b2 100%)', glow: 'rgba(6, 182, 212, 0.45)' },
+                    { label: 'Mint', color: 'linear-gradient(180deg, #10b981 0%, #059669 100%)', glow: 'rgba(16, 185, 129, 0.45)' },
+                  ].map((bar, idx) => {
+                    const val = neuSliders[idx] || 60;
                     return (
-                      <button
-                        key={preset.value}
-                        id={`btn-layer-depth-${preset.value}`}
-                        type="button"
-                        aria-pressed={isPresetActive}
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setLayerDepth(preset.value);
-                        }}
-                        className={`px-2.5 py-1 rounded-full typo-badge font-bold border transition-all cursor-pointer tabular-nums ${
-                          isPresetActive
-                            ? 'text-white border-transparent shadow-xs'
-                            : 'hover:opacity-90'
-                        }`}
-                        style={
-                          isPresetActive
-                            ? { background: 'var(--bg-button-primary)' }
-                            : {
-                                background: 'var(--bg-card)',
-                                borderColor: 'var(--border-subcard)',
-                                color: 'var(--text-secondary)',
-                              }
-                        }
-                      >
-                        {preset.value}% · {isEn ? preset.labelEn : preset.labelVi}
-                      </button>
+                      <div key={bar.label} className="flex flex-col items-center gap-3">
+                        {/* Vertical Inset Track */}
+                        <div
+                          className="relative w-3.5 h-[160px] rounded-[999px] cursor-pointer overflow-hidden"
+                          style={{
+                            background: 'var(--bg-subcard)',
+                            boxShadow: 'inset 3px 3px 6px rgba(176, 198, 219, 0.7), inset -3px -3px 6px rgba(255, 255, 255, 0.95)',
+                          }}
+                          onClick={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            const clickY = e.clientY - rect.top;
+                            const newPct = Math.round(Math.max(10, Math.min(95, 100 - (clickY / rect.height) * 100)));
+                            const updated = [...neuSliders];
+                            updated[idx] = newPct;
+                            setNeuSliders(updated);
+                            SoundEngine.playTap();
+                          }}
+                        >
+                          <div
+                            className="absolute bottom-0 left-0 right-0 rounded-[999px] transition-all duration-200"
+                            style={{
+                              height: `${val}%`,
+                              background: bar.color,
+                              boxShadow: `0 0 14px ${bar.glow}`,
+                            }}
+                          />
+                        </div>
+
+                        {/* Circular Knob / Indicator */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            const updated = [...neuSliders];
+                            updated[idx] = val >= 90 ? 30 : val + 15;
+                            setNeuSliders(updated);
+                          }}
+                          className="w-9 h-9 rounded-full border flex items-center justify-center transition-all hover:scale-110 cursor-pointer shadow-sm"
+                          style={{
+                            background: 'var(--bg-card)',
+                            borderColor: 'var(--border-subcard)',
+                            boxShadow: 'var(--neu-raised-shadow)',
+                            color: 'var(--text-primary)',
+                          }}
+                          title={`${bar.label}: ${val}%`}
+                        >
+                          <span className="w-3.5 h-3.5 rounded-full" style={{ background: bar.color }} />
+                        </button>
+                      </div>
                     );
                   })}
                 </div>
               </div>
             </div>
-
-            {/* Thẻ Chuyển đổi kích cỡ chữ hỗ trợ đọc dễ dàng */}
-            <div
-              id="interface-font-scale-card"
-              data-subcard="true"
-              className="sub-card lg:col-span-5 flex flex-col justify-between gap-3 p-[15px] border"
-              style={{
-                background: 'var(--bg-subcard)',
-                borderColor: 'var(--border-subcard)',
-              }}
-            >
-              <div className="min-w-0 flex items-start gap-2.5">
-                <div
-                  className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 border"
-                  style={{
-                    background: 'var(--bg-card)',
-                    borderColor: 'var(--border-subcard)',
-                    color: 'var(--color-primary)',
-                  }}
-                >
-                  <WebIcon name="type" className="w-4 h-4 shrink-0" />
-                </div>
-                <div className="min-w-0">
-                  <h4 className="typo-body font-bold tracking-tight">
-                    {isEn ? 'Reading Text Size' : 'Kích cỡ chữ hỗ trợ đọc'}
-                  </h4>
-                  <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
-                    {isEn
-                      ? 'Scale page text cleanly for large monitors or mobile reading.'
-                      : 'Phóng to nhẹ cỡ chữ nội dung toàn trang trên màn hình lớn hoặc di động.'}
-                  </p>
-                </div>
-              </div>
-
-              <div
-                role="group"
-                aria-label={isEn ? 'Page text size options' : 'Tùy chọn kích cỡ chữ toàn trang'}
-                className="grid grid-cols-3 gap-1.5 p-1 rounded-full border"
-                style={{
-                  background: 'var(--bg-card)',
-                  borderColor: 'var(--border-subcard)',
-                }}
-              >
-                {FONT_SCALE_OPTIONS.map((opt) => {
-                  const isActiveScale = fontScale === opt.id;
-                  return (
-                    <button
-                      key={opt.id}
-                      id={`btn-font-scale-${opt.id}`}
-                      type="button"
-                      aria-pressed={isActiveScale}
-                      onClick={() => handleSelectFontScale(opt.id, isEn ? opt.labelEn : opt.labelVi)}
-                      className={`flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-full typo-label font-bold transition-all cursor-pointer whitespace-nowrap ${
-                        isActiveScale ? 'text-white shadow-xs' : 'hover:opacity-90'
-                      }`}
-                      style={
-                        isActiveScale
-                          ? { background: 'var(--bg-button-primary)' }
-                          : { color: 'var(--text-muted)' }
-                      }
-                    >
-                      <span>{isEn ? opt.labelEn : opt.labelVi}</span>
-                      <span className="opacity-85 tabular-nums">({opt.badge})</span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Mô phỏng nhỏ phân cấp 3 Level Layer đang hoạt động */}
-              <div
-                id="interface-layer-hierarchy-preview"
-                className="layer-preview-l1 rounded-[12px] p-2.5 border flex flex-col gap-2"
-                style={{
-                  background: 'var(--bg-card)',
-                  borderColor: 'var(--border-card)',
-                }}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span id="layer-preview-l1" className="typo-badge font-bold" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-                    Level 1 · Header / Main Card / Footer
-                  </span>
-                  <span className="typo-badge tabular-nums" style={{ color: 'var(--text-muted)' }}>
-                    {layerDepth}%
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div
-                    id="layer-preview-l2"
-                    className="layer-preview-l2 p-2 rounded-[10px] border transition-all"
-                    style={{
-                      background: 'var(--bg-card)',
-                      borderColor: 'var(--border-card)',
-                    }}
-                  >
-                    <div className="typo-badge font-bold">Level 2 · Card &amp; Banner</div>
-                  </div>
-                  <div
-                    id="layer-preview-l3"
-                    className="layer-preview-l3 p-2 rounded-[10px] border transition-all"
-                    style={{
-                      background: 'var(--bg-subcard)',
-                      borderColor: 'var(--border-subcard)',
-                    }}
-                  >
-                    <div className="typo-badge font-bold">Level 3 · Sub Card</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* 3. Bộ lọc nhanh theo nhóm phong cách */}
           <div className="flex items-center justify-between gap-2 flex-wrap">

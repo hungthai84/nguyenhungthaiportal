@@ -736,7 +736,7 @@ export const Footer: React.FC<FooterProps> = ({
                         style={{ fontWeight: 'bold' }}
                         className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                       >
-                        {isEn ? 'Theme' : 'Giao diện'}
+                        {isEn ? 'Theme' : 'Giao Diện'}
                       </span>
                     </div>
                   </button>
@@ -910,7 +910,7 @@ export const Footer: React.FC<FooterProps> = ({
                     style={{ fontWeight: 'bold' }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                   >
-                    {isEn ? 'AI Assistant' : 'AI hỗ trợ'}
+                    {isEn ? 'AI Bot' : 'Trợ Lý'}
                   </span>
                 </div>
               </button>

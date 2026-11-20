@@ -228,18 +228,15 @@ export interface ProjectsViewProps {
 }
 
 export const ProjectsView: React.FC<ProjectsViewProps> = ({
-  currentTheme = 'rainbow-glass',
+  currentTheme = 'liquid-glass',
   requestedProject,
   onReturnToOrigin,
 }) => {
   const { isDark: themeIsDark } = useTheme();
   const isDark =
     themeIsDark ||
+    currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu' ||
-    currentTheme === 'dark-rainbow-glass' ||
-    currentTheme === 'special-rainbow-glass' ||
     currentTheme === 'deep-ocean';
   const isLight = !isDark;
 
@@ -508,13 +505,14 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
         <div
           id="projects-main-card"
           data-main-card="true"
+          data-detail-open={selectedArticle ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Dự Án"
           data-element-type="card"
           data-element-page="projects"
           data-element-parent="projects-cards-track"
           className={cn(
-            'page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-x-hidden glass-scrollbar font-play select-none text-left text-[var(--text-primary)] box-border',
-            selectedArticle ? 'overflow-hidden' : 'overflow-y-auto'
+            'page-main-card flex flex-col justify-start rounded-[var(--radius-main,30px)] overflow-x-hidden glass-scrollbar font-play select-none text-left text-[var(--text-primary)] box-border',
+            selectedArticle ? 'p-0 gap-0 overflow-hidden' : 'p-[15px] gap-[15px] overflow-y-auto'
           )}
         >
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
@@ -774,7 +772,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     padding: '10px',
                   }}
                 >
-                  {/* 1. Ảnh bìa dự án 16:10 + phân hệ & mã dự án */}
+                  {/* 1. Ảnh bìa thẻ Dự án 16:10: phân hệ nhóm + mã dự án + thanh thông tin vai trò & giai đoạn */}
                   <div
                     data-media-card="image"
                     className="project-card-banner education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img rounded-[14px] m-0 p-[1px]"
@@ -797,14 +795,18 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       className="w-full h-full object-cover object-center block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                     <div
-                      className="absolute inset-x-0 bottom-0 h-14 pointer-events-none"
+                      className="absolute inset-0 pointer-events-none"
                       style={{
-                        background: 'linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.72) 100%)',
-                        borderRadius: '0 0 calc(var(--radius-card, 14px) - 1px) calc(var(--radius-card, 14px) - 1px)',
+                        background:
+                          'linear-gradient(180deg, rgba(15, 23, 42, 0.34) 0%, rgba(15, 23, 42, 0.04) 42%, rgba(15, 23, 42, 0.82) 100%)',
+                        borderRadius: 'calc(var(--radius-card, 14px) - 1px)',
                       }}
                     />
-                    <span className="absolute bottom-2 left-2.5 right-2.5 z-10 typo-caption font-semibold text-white/95 truncate drop-shadow-xs pointer-events-none">
-                      {parentGroup.fourWordTitle}
+                    <span
+                      className="absolute top-2.5 left-2.5 z-20 inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold text-white bg-slate-950/60 border border-white/25 backdrop-blur-md max-w-[58%] truncate pointer-events-none"
+                    >
+                      <WebIcon name="layers" className="w-3 h-3 shrink-0" style={{ color: '#38BDF8' }} />
+                      <span className="truncate">{parentGroup.fourWordTitle}</span>
                     </span>
                     {orderNumber && (
                       <span
@@ -814,6 +816,15 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                         <span>Dự án {orderNumber}</span>
                       </span>
                     )}
+                    <div className="absolute bottom-2 left-2.5 right-2.5 z-10 flex items-center justify-between gap-2 pointer-events-none">
+                      <span className="inline-flex items-center gap-1 typo-caption font-semibold text-white/95 truncate drop-shadow-xs">
+                        <WebIcon name="briefcase" className="w-3 h-3 shrink-0 text-sky-300" />
+                        <span className="truncate">{proj.role}</span>
+                      </span>
+                      <span className="shrink-0 typo-badge font-mono font-semibold px-2 py-0.5 rounded-full bg-white/15 border border-white/20 text-white backdrop-blur-sm">
+                        {proj.phase}
+                      </span>
+                    </div>
                   </div>
 
                   {/* 2. Thân thẻ Dự án: Tiêu đề đồng đều 2 dòng · Vai trò/Giai đoạn · Phạm vi & Kết quả STAR */}
@@ -897,14 +908,14 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
       ) : (
         /* 3. CHI TIẾT DỰ ÁN & HỒ SƠ STAR TOÀN DIỆN */
         selectedArticle && (
-          <div className="w-full h-full min-h-full max-h-full flex-1 min-h-0 relative flex flex-col overflow-hidden rounded-[14px]">
+          <div className="w-full h-full min-h-full max-h-full flex-1 min-h-0 relative flex flex-col overflow-hidden rounded-[inherit]">
             <button
               id="project-detail-close-btn"
               type="button"
               onClick={handleCloseDetail}
               title="Đóng bài viết"
               aria-label="Đóng bài viết chi tiết dự án"
-              className="theme-modal-close absolute top-3 right-3 z-50 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 shrink-0"
+              className="theme-modal-close absolute top-6 right-6 z-50 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 shrink-0"
             >
               <WebIcon name="x" className="w-4 h-4" />
             </button>

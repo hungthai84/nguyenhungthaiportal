@@ -356,7 +356,7 @@ export interface LetterViewProps {
 }
 
 export const LetterView: React.FC<LetterViewProps> = ({
-  currentTheme = 'ice-blue-neu',
+  currentTheme = 'liquid-glass',
   onOpenBannerStudio,
   onShowNotification,
 }) => {
@@ -377,11 +377,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
   // Current Theme detection
   const isDark =
     themeIsDark ||
+    currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu' ||
-    currentTheme === 'dark-rainbow-glass' ||
-    currentTheme === 'special-rainbow-glass' ||
     currentTheme === 'deep-ocean';
 
   // Chế độ thu gọn / mở rộng thanh tiện ích bên phải (Mặc định luôn hiển thị đầy đủ ở trang Thư Ngỏ)
@@ -1987,6 +1984,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
         data-element-name="Thư ngỏ main card 1"
         data-element-type="card"
         data-main-card="true"
+        data-layer-level="1"
         data-element-page="letter"
         data-element-parent="letter-cards-track"
         onClickCapture={(e) => {
@@ -2048,6 +2046,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-media-card="video"
                       data-section-card="true"
+                      data-layer-level="2"
                       data-element-page="letter"
                       data-element-parent="letter-card-1"
                       style={{ padding: '5px', borderRadius: 'var(--radius-card, 14px)' }}
@@ -2192,6 +2191,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         data-element-name="Thẻ Bento Thông Điệp Hợp Tác"
                         data-element-type="card"
                         data-section-card="true"
+                        data-layer-level="2"
                         data-element-page="letter"
                         style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                         className={`bento-card glass-card flex-1 p-[15px] rounded-[14px] flex flex-col justify-between relative overflow-hidden transition-colors duration-200 w-full min-w-0 ${
@@ -2267,6 +2267,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         data-element-name="Thẻ Bento Danh Ngôn Phụng Sự"
                         data-element-type="card"
                         data-section-card="true"
+                        data-layer-level="2"
                         data-element-page="letter"
                         style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                         className={`motto-card bento-card glass-card shrink-0 relative rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] transition-colors duration-200 group/quote w-full min-w-0 ${
@@ -2311,6 +2312,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="card-core-values-pursued"
                       data-element-type="card"
                       data-section-card="true"
+                      data-layer-level="2"
                       style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                       className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-12 w-full h-auto p-[15px] gap-[15px] transition-all duration-200 flex flex-col items-start group/values z-10 text-left rounded-[14px] shrink-0 min-w-0 ${getGlassCardClass()} ${
                         activeTargetId === 'card-core-values-pursued'
@@ -2396,6 +2398,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-name="Thẻ Bento Thương Hiệu Đồng Hành"
                       data-element-type="card"
                       data-section-card="true"
+                      data-layer-level="2"
                       data-element-page="letter"
                       style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                       className="partner-card bento-card glass-card col-span-1 md:col-span-6 lg:col-span-12 w-full h-auto p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] transition-colors duration-200 group/marquee min-w-0"

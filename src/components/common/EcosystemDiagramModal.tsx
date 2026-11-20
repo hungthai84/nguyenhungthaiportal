@@ -1247,20 +1247,6 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
 
 
 
-            /* Light Cowhide Leather inside Ecosystem Diagram Modal */
-            html[data-card-style="light-cowhide-leather"] #ecosystem-diagram-modal .glass-flat,
-            html[data-card-style="light-cowhide-leather"] #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
-              background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
-              border: 2px solid #d1d5db !important;
-              outline: 1.5px dashed rgba(17, 24, 39, 0.65);
-              outline-offset: -4px;
-              box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08), inset 0 1px 2px #ffffff !important;
-              color: #111827 !important;
-            }
-            html[data-card-style="light-cowhide-leather"] #ecosystem-diagram-modal :is(.glass-flat, .theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) :is(h3, h4, p, span) {
-              color: #111827;
-            }
-
             /* Dark Cowhide Leather inside Ecosystem Diagram Modal */
             html[data-card-style="cowhide-leather"] #ecosystem-diagram-modal .glass-flat,
             html[data-card-style="cowhide-leather"] #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
@@ -1280,24 +1266,6 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               color: #FDE68A !important;
             }
 
-            /* Black Cowhide Leather inside Ecosystem Diagram Modal */
-            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal .glass-flat,
-            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
-              background: linear-gradient(145deg, #252830 0%, #15171c 100%) !important;
-              border: 1.5px solid #090a0d !important;
-              outline: 1px dashed rgba(226, 232, 240, 0.45);
-              outline-offset: -4px;
-              box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.08) !important;
-              color: #FFFFFF !important;
-            }
-            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal :is(.glass-flat, .theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) :is(.text-slate-950, .text-slate-900, .text-slate-800, .text-slate-700, .text-slate-600) {
-              color: #FFFFFF !important;
-            }
-            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal :is(.bg-white, .bg-white\\/90, .bg-white\\/85, .bg-white\\/80, .bg-slate-50, .bg-slate-100) {
-              background-color: rgba(17, 19, 24, 0.9) !important;
-              border-color: rgba(226, 232, 240, 0.28) !important;
-              color: #E2E8F0 !important;
-            }
           `}</style>
 
           {/* TOP HEADER */}

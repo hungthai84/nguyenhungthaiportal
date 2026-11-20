@@ -40,7 +40,7 @@ export interface VideoScreenItem {
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
-  currentTheme = 'rainbow-glass',
+  currentTheme = 'liquid-glass',
   onNavigateContact,
   onNavigatePage,
   onOpenPagesCarousel,
@@ -54,11 +54,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
   const isDark =
     themeIsDark ||
+    currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu' ||
-    currentTheme === 'dark-rainbow-glass' ||
-    currentTheme === 'special-rainbow-glass' ||
     currentTheme === 'deep-ocean';
 
   // Danh sách video cho 3 màn hình: Màn hình chờ (idle), Chuyển cảnh (transition), Video phát (presentation)
@@ -668,16 +665,16 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
       )}
 
-      {/* 5. Bottom Center Bar: Dock chuyển đổi 3 màn hình đồng bộ theo giao diện website - Ẩn khi đang phát video */}
+      {/* 5. Bottom Center Bar: Dock chuyển đổi 3 màn hình đồng bộ theo giao diện website (thu gọn 1/2 kích thước) - Ẩn khi đang phát video */}
       {!isIntroMode && (
-        <div className="relative z-30 w-full flex items-center justify-center pointer-events-auto shrink-0 pt-1">
+        <div className="relative z-30 w-full flex items-center justify-center pointer-events-auto shrink-0 pt-0.5">
           <div
             id="el-p0-div-16"
             data-element-id="el-p0-div-16"
             data-element-name="Thanh chuyển đổi màn hình trang chủ"
             data-element-type="card"
             data-element-page="home"
-            className="theme-screen-switcher-dock inline-flex items-center gap-2 !rounded-[999px] border select-none transition-all duration-300 px-4 py-2 m-0"
+            className="theme-screen-switcher-dock inline-flex items-center gap-1 !rounded-[999px] border select-none transition-all duration-300 px-2 py-1 m-0"
             role="tablist"
             aria-label="Chuyển đổi màn hình trang chủ"
           >
@@ -693,10 +690,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   aria-label={`${screen.label}: ${screen.title}`}
                   title={`${screen.label} · ${screen.title}`}
                   onClick={() => handleSelectScreen(screen.id)}
-                  className={`group relative h-2 sm:h-2.5 rounded-full transition-all duration-300 cursor-pointer focus:outline-none select-none ${
+                  className={`group relative h-1 sm:h-[5px] rounded-full transition-all duration-300 cursor-pointer focus:outline-none select-none ${
                     isActive
-                      ? 'w-7 sm:w-9 scale-105'
-                      : 'w-5 sm:w-6 hover:w-6 sm:hover:w-7 active:scale-95'
+                      ? 'w-3.5 sm:w-[18px] scale-105'
+                      : 'w-2.5 sm:w-3 hover:w-3 sm:hover:w-3.5 active:scale-95'
                   }`}
                 />
               );

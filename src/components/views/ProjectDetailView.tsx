@@ -59,16 +59,16 @@ const SECTION_COLORS: Record<string, { light: string; dark: string }> = {
 };
 
 const TOC_ITEMS = [
-  { id: 'sec-mindmap', num: '1.', title: 'Sơ đồ tư duy', icon: 'brain', color: 'fuchsia' },
-  { id: 'sec-overview', num: '2.', title: 'Tổng quan dự án', icon: 'layers', color: 'blue' },
-  { id: 'sec-context', num: '3.', title: 'Bối cảnh thách thức', icon: 'alert', color: 'amber' },
-  { id: 'sec-objectives', num: '4.', title: 'Mục tiêu chiến lược', icon: 'target', color: 'teal' },
-  { id: 'sec-scope', num: '5.', title: 'Hạng mục triển khai', icon: 'clipboard', color: 'purple' },
-  { id: 'sec-methodology', num: '6.', title: 'Lộ trình vận hành', icon: 'workflow', color: 'cyan' },
-  { id: 'sec-metrics', num: '7.', title: 'Chỉ số hiệu quả', icon: 'chart', color: 'emerald' },
-  { id: 'sec-roles', num: '8.', title: 'Vai trò trách nhiệm', icon: 'users', color: 'rose' },
-  { id: 'sec-outcomes', num: '9.', title: 'Kết quả đạt được', icon: 'award', color: 'teal' },
-  { id: 'sec-philosophy', num: '10.', title: 'Triết lý quản trị', icon: 'sparkles', color: 'violet' },
+  { id: 'sec-mindmap', num: '1.', title: 'Tư Duy', icon: 'brain', color: 'fuchsia' },
+  { id: 'sec-overview', num: '2.', title: 'Tổng Quan', icon: 'layers', color: 'blue' },
+  { id: 'sec-context', num: '3.', title: 'Bối Cảnh', icon: 'alert', color: 'amber' },
+  { id: 'sec-objectives', num: '4.', title: 'Mục Tiêu', icon: 'target', color: 'teal' },
+  { id: 'sec-scope', num: '5.', title: 'Hạng Mục', icon: 'clipboard', color: 'purple' },
+  { id: 'sec-methodology', num: '6.', title: 'Lộ Trình', icon: 'workflow', color: 'cyan' },
+  { id: 'sec-metrics', num: '7.', title: 'Chỉ Số', icon: 'chart', color: 'emerald' },
+  { id: 'sec-roles', num: '8.', title: 'Vai Trò', icon: 'users', color: 'rose' },
+  { id: 'sec-outcomes', num: '9.', title: 'Kết Quả', icon: 'award', color: 'teal' },
+  { id: 'sec-philosophy', num: '10.', title: 'Triết Lý', icon: 'sparkles', color: 'violet' },
 ] as const;
 
 export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
@@ -102,11 +102,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           : null;
       const effectiveStyle = cardStyleAttr || themeAttr;
       const isDarkThemeAttr =
+        effectiveStyle === 'dark-liquid-glass' ||
         effectiveStyle === 'cowhide-leather' ||
-        effectiveStyle === 'black-cowhide-leather' ||
-        effectiveStyle === 'dark-ice-blue-neu' ||
-        effectiveStyle === 'dark-rainbow-glass' ||
-        effectiveStyle === 'special-rainbow-glass' ||
         effectiveStyle === 'deep-ocean';
       if (typeof isLight === 'boolean') {
         setIsLightMode(isLight && !isDarkClass && !isDarkThemeAttr);
@@ -248,7 +245,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     <div
       id="project-detail-layout"
       ref={outerScrollRef}
-      className="w-full h-full flex-1 min-h-0 flex flex-row gap-[15px] items-stretch relative overflow-hidden glass-scrollbar rounded-[14px] text-left font-play"
+      className="w-full h-full flex-1 min-h-0 flex flex-row gap-[15px] p-[15px] box-border items-stretch relative overflow-hidden glass-scrollbar rounded-[inherit] text-left font-play"
     >
       {/* 1. KHỐI NỘI DUNG CHI TIẾT BÀI VIẾT DỰ ÁN BÊN TRÁI (Luôn cao bằng banner chi tiết dự án ở mọi kích thước) */}
       <div
@@ -2052,7 +2049,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 className="project-detail-chip flex-1 min-w-0 px-2.5 py-1.5 rounded-[10px] border border-[var(--border-subcard)] typo-label font-bold text-[var(--text-primary)] flex items-center justify-center gap-1 transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:opacity-90 whitespace-nowrap"
               >
                 <WebIcon name="arrow-left" className="w-3.5 h-3.5 shrink-0" />
-                <span className="truncate">Dự án trước</span>
+                <span className="truncate">Bài Trước</span>
               </button>
               <button
                 type="button"
@@ -2061,7 +2058,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 title={nextProject ? `Dự án tiếp: ${nextProject.title}` : 'Đây là dự án cuối cùng'}
                 className="project-detail-chip flex-1 min-w-0 px-2.5 py-1.5 rounded-[10px] border border-[var(--border-subcard)] typo-label font-bold text-[var(--text-primary)] flex items-center justify-center gap-1 transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:opacity-90 whitespace-nowrap"
               >
-                <span className="truncate">Dự án tiếp</span>
+                <span className="truncate">Bài Tiếp</span>
                 <WebIcon name="arrow-right" className="w-3.5 h-3.5 shrink-0" />
               </button>
             </div>

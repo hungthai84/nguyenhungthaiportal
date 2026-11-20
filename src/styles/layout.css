@@ -3,11 +3,11 @@
 /* ========================================================================= */
 
 #website-root {
-  --shell-section-gap: 15px;
+  --shell-section-gap: 10px;
   height: 100vh;
   height: 100dvh;
   padding: 0 !important;
-  gap: var(--shell-section-gap, 15px);
+  gap: var(--shell-section-gap, 10px);
 }
 
 #website-root:has(#pdf-page-container) {

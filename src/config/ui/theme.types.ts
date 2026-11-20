@@ -7,23 +7,15 @@ export type ColorSchemeMode = 'light' | 'dark' | 'system';
 export type SurfaceDepthMode = 'flat' | 'depth';
 
 export type CardStyleMode =
-  | 'light-cowhide-leather'
-  | 'black-cowhide-leather'
+  | 'liquid-glass'
+  | 'dark-liquid-glass'
   | 'cowhide-leather'
-  | 'ice-blue-neu'
-  | 'dark-ice-blue-neu'
-  | 'glass-flat'
-  | 'rainbow-glass'
-  | 'dark-rainbow-glass'
-  | 'special-rainbow-glass'
   | 'deep-ocean'
   | 'mica-fluent';
 
 export type ThemeFamilyId =
+  | 'liquid-glass'
   | 'cowhide-leather'
-  | 'ice-blue-neu'
-  | 'glass-flat'
-  | 'rainbow-glass'
   | 'deep-ocean'
   | 'mica-fluent';
 

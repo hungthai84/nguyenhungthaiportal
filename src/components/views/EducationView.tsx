@@ -245,11 +245,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const isEn = language === 'en';
   const isDark =
     themeIsDark ||
+    currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu' ||
-    currentTheme === 'dark-rainbow-glass' ||
-    currentTheme === 'special-rainbow-glass' ||
     currentTheme === 'deep-ocean';
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
@@ -460,11 +457,15 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       <div
         id="education-main-card"
         data-main-card="true"
+        data-detail-open={selectedCourse ? 'true' : 'false'}
         data-element-name="Card học vấn"
         data-element-type="card"
         data-element-page="education"
         data-element-parent="education-cards-track"
-        className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
+        className={cn(
+          'page-main-card flex flex-col justify-start rounded-[var(--radius-main,30px)] overflow-x-hidden glass-scrollbar box-border',
+          selectedCourse ? 'p-0 gap-0 overflow-hidden' : 'p-[15px] gap-[15px] overflow-y-auto'
+        )}
       >
       {/* Banner trang Học Vấn (Format đồng bộ chuẩn banner Hình Nền h-200px desktop, responsive mobile) */}
       {!selectedCourse && (
@@ -764,7 +765,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             }}
             data-element-type="card"
             data-section-card="true"
-            className="w-full flex flex-col gap-[15px] text-left font-play bg-transparent border-0 shadow-none p-0"
+            className="w-full h-full flex-1 min-h-0 overflow-y-auto overflow-x-hidden glass-scrollbar flex flex-col gap-[15px] text-left font-play bg-transparent border-0 shadow-none p-[15px] rounded-[inherit] box-border"
             style={{
               background: 'transparent',
               backgroundColor: 'transparent',
@@ -772,7 +773,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               boxShadow: 'none',
               backdropFilter: 'none',
               WebkitBackdropFilter: 'none',
-              padding: 0,
+              padding: '15px',
             }}
           >
             {/* Master Header */}

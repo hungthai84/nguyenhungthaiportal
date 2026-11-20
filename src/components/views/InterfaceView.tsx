@@ -89,62 +89,54 @@ interface ThemeVisualMeta {
 }
 
 const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
-  'light-cowhide-leather': {
-    radius: '14px',
-    activeRingColor: '#111827',
-    activeBorderClass: 'border-[#111827]',
-    idleBorderClass: 'border-[#d1d5db] hover:border-[#9ca3af]',
-    activeBadgeClass: 'bg-[#0F172A] text-white border-slate-900',
-    iconColor: '#111827',
-    titleTextClass: 'text-[#111827]',
-    bodyTextClass: 'text-[#334155]',
-    accentTextClass: 'text-[#0F172A]',
-    previewBorderClass: 'white-leather-stitch',
-    dividerClass: 'border-[#0F172A]/45 border-dashed',
-    ctaIdleClass: 'bg-slate-100 text-[#000000] hover:bg-white border border-slate-900/35',
-    ctaActiveClass: 'bg-[#0F172A] text-white shadow-xs border border-slate-900',
-    toggleTrackDarkClass: 'bg-[#111827] border-[#334155]',
-    toggleTrackLightClass: 'bg-slate-200/95 border-slate-400/70',
-    toggleThumbDarkClass: 'bg-slate-100 text-slate-900',
-    toggleThumbLightClass: 'bg-[#0F172A] text-white',
-    outlineStyle: (isActive) => ({
-      outline: isActive ? '2px dashed #111827' : '1.5px dashed rgba(17, 24, 39, 0.65)',
-      outlineOffset: '-6px',
-    }),
-    demoVideoUrl:
-      'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
+  'liquid-glass': {
+    radius: '24px',
+    activeRingColor: '#0284C7',
+    activeBorderClass: 'border-[#0284C7]',
+    idleBorderClass: 'border-white/80 hover:border-sky-400/60',
+    activeBadgeClass: 'bg-sky-50/90 text-[#0284C7] border-sky-400/45 shadow-xs backdrop-blur-md',
+    iconColor: '#0284C7',
+    titleTextClass: 'text-[#0F172A]',
+    bodyTextClass: 'text-[#475569]',
+    accentTextClass: 'text-[#0284C7]',
+    previewBorderClass: 'border-white/75',
+    dividerClass: 'border-slate-300/60',
+    ctaIdleClass: 'bg-white/75 text-[#0284C7] hover:bg-white border border-white/85 shadow-xs backdrop-blur-md',
+    ctaActiveClass: 'bg-gradient-to-r from-[#0284C7] via-[#0EA5E9] to-[#4F46E5] text-white shadow-xs border border-white/80',
+    toggleTrackDarkClass: 'bg-[#0F172A] border-sky-400/45',
+    toggleTrackLightClass: 'bg-sky-50/95 border-white/90',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#38BDF8] to-[#818CF8] text-slate-950',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#0284C7] to-[#4F46E5] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
     gradientBars: [
-      { label: 'B1', width: '84%', gradient: 'linear-gradient(90deg, #334155, #0f172a)' },
-      { label: 'B2', width: '68%', gradient: 'linear-gradient(90deg, #64748b, #334155)' },
+      { label: 'Cyan', width: '92%', gradient: 'linear-gradient(90deg, #0284C7, #38BDF8)', glow: '0 0 10px rgba(14, 165, 233, 0.35)' },
+      { label: 'Indigo', width: '78%', gradient: 'linear-gradient(90deg, #4F46E5, #818CF8)', glow: '0 0 10px rgba(79, 70, 229, 0.3)' },
+      { label: 'Teal', width: '66%', gradient: 'linear-gradient(90deg, #0D9488, #2DD4BF)', glow: '0 0 10px rgba(20, 184, 166, 0.3)' },
     ],
   },
-  'black-cowhide-leather': {
-    radius: '14px',
-    activeRingColor: '#E2E8F0',
-    activeBorderClass: 'border-[#E2E8F0]',
-    idleBorderClass: 'border-[#090a0d] hover:border-[#94A3B8]',
-    activeBadgeClass: 'bg-gradient-to-r from-[#334155] to-[#0f172a] text-white border-[#E2E8F0]/60',
-    iconColor: '#E2E8F0',
-    titleTextClass: 'text-[#FFFFFF]',
+  'dark-liquid-glass': {
+    radius: '24px',
+    activeRingColor: '#38BDF8',
+    activeBorderClass: 'border-[#38BDF8]',
+    idleBorderClass: 'border-white/15 hover:border-sky-400/50',
+    activeBadgeClass: 'bg-slate-900/90 text-[#38BDF8] border-sky-400/45 shadow-xs backdrop-blur-md',
+    iconColor: '#38BDF8',
+    titleTextClass: 'text-[#F8FAFC]',
     bodyTextClass: 'text-[#CBD5E1]',
-    accentTextClass: 'text-[#E2E8F0]',
-    previewBorderClass: 'border-[#E2E8F0]/35 border-dashed',
-    dividerClass: 'border-[#E2E8F0]/25 border-dashed',
-    ctaIdleClass: 'bg-[#1b1e25] text-[#FFFFFF] hover:bg-[#252830] border border-[#E2E8F0]/30',
-    ctaActiveClass: 'bg-gradient-to-r from-[#334155] to-[#0f172a] text-white shadow-xs border border-[#E2E8F0]/55',
-    toggleTrackDarkClass: 'bg-[#090a0d] border-[#E2E8F0]/45',
-    toggleTrackLightClass: 'bg-slate-200 border-slate-400',
-    toggleThumbDarkClass: 'bg-slate-100 text-slate-900',
-    toggleThumbLightClass: 'bg-[#0F172A] text-white',
-    outlineStyle: (isActive) => ({
-      outline: isActive ? '2px dashed #E2E8F0' : '1.5px dashed rgba(226, 232, 240, 0.48)',
-      outlineOffset: '-6px',
-    }),
-    demoVideoUrl:
-      'https://cdn.scena.ai/project/10223/50b7b30031d4b9124af4948a069cdf530ca8f0942767f6e6b713c350cb8bd6b2.mp4',
+    accentTextClass: 'text-[#38BDF8]',
+    previewBorderClass: 'border-white/20',
+    dividerClass: 'border-white/15',
+    ctaIdleClass: 'bg-slate-900/75 text-[#F8FAFC] hover:bg-slate-800 border border-white/20 backdrop-blur-md',
+    ctaActiveClass: 'bg-gradient-to-r from-[#38BDF8] via-[#0EA5E9] to-[#818CF8] text-[#082F49] shadow-xs border border-sky-200/50',
+    toggleTrackDarkClass: 'bg-[#091224] border-sky-400/35',
+    toggleTrackLightClass: 'bg-sky-50 border-white/70',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#38BDF8] to-[#818CF8] text-slate-950',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#0284C7] to-[#4F46E5] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
     gradientBars: [
-      { label: 'B1', width: '86%', gradient: 'linear-gradient(90deg, #94a3b8, #e2e8f0)' },
-      { label: 'B2', width: '70%', gradient: 'linear-gradient(90deg, #475569, #94a3b8)' },
+      { label: 'Cyan', width: '94%', gradient: 'linear-gradient(90deg, #38BDF8, #0EA5E9)', glow: '0 0 12px rgba(56, 189, 248, 0.45)' },
+      { label: 'Indigo', width: '82%', gradient: 'linear-gradient(90deg, #818CF8, #6366F1)', glow: '0 0 12px rgba(129, 140, 248, 0.4)' },
+      { label: 'Mint', width: '70%', gradient: 'linear-gradient(90deg, #2DD4BF, #14B8A6)', glow: '0 0 12px rgba(45, 212, 191, 0.4)' },
     ],
   },
   'cowhide-leather': {
@@ -174,161 +166,6 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     gradientBars: [
       { label: 'B1', width: '88%', gradient: 'linear-gradient(90deg, #f59e0b, #fde68a)' },
       { label: 'B2', width: '72%', gradient: 'linear-gradient(90deg, #d97706, #fbbf24)' },
-    ],
-  },
-  'ice-blue-neu': {
-    radius: '28px',
-    activeRingColor: '#6366F1',
-    activeBorderClass: 'border-[#6366F1]',
-    idleBorderClass: 'border-white/90 hover:border-indigo-300',
-    activeBadgeClass: 'bg-[#e8f1f9] text-[#6366f1] border-[#6366f1]/45 shadow-xs',
-    iconColor: '#6366F1',
-    titleTextClass: 'text-[#0f172a]',
-    bodyTextClass: 'text-[#334155]',
-    accentTextClass: 'text-[#6366F1]',
-    previewBorderClass: 'border-white/85',
-    dividerClass: 'border-slate-300/60',
-    ctaIdleClass: 'bg-[#e8f1f9] text-[#6366f1] hover:bg-white border border-white/90 shadow-xs',
-    ctaActiveClass: 'bg-gradient-to-r from-[#06b6d4] via-[#6366f1] to-[#ec4899] text-white shadow-xs border border-white/85',
-    toggleTrackDarkClass: 'bg-[#162232] border-sky-400/45',
-    toggleTrackLightClass: 'bg-[#e5eff8] border-white/90',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#38bdf8] to-[#818cf8] text-white',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#06b6d4] to-[#6366f1] text-white',
-    demoVideoUrl:
-      'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
-    gradientBars: [
-      { label: 'Cyan', width: '88%', gradient: 'linear-gradient(90deg, #06b6d4, #38bdf8)', glow: '0 0 10px rgba(6, 182, 212, 0.5)' },
-      { label: 'Purple', width: '74%', gradient: 'linear-gradient(90deg, #6366f1, #a855f7)', glow: '0 0 10px rgba(139, 92, 246, 0.45)' },
-      { label: 'Peach', width: '62%', gradient: 'linear-gradient(90deg, #fb923c, #fdba74)', glow: '0 0 10px rgba(251, 146, 60, 0.45)' },
-      { label: 'Pink', width: '52%', gradient: 'linear-gradient(90deg, #ec4899, #f472b6)', glow: '0 0 10px rgba(236, 72, 153, 0.45)' },
-    ],
-  },
-  'dark-ice-blue-neu': {
-    radius: '28px',
-    activeRingColor: '#38BDF8',
-    activeBorderClass: 'border-[#38BDF8]',
-    idleBorderClass: 'border-[#94c5f8]/15 hover:border-sky-400/45',
-    activeBadgeClass: 'bg-[#162232] text-[#ffffff] border-[#38bdf8]/45 shadow-xs',
-    iconColor: '#38BDF8',
-    titleTextClass: 'text-[#f8fafc]',
-    bodyTextClass: 'text-[#94a3b8]',
-    accentTextClass: 'text-[#38BDF8]',
-    previewBorderClass: 'border-[#94c5f8]/15',
-    dividerClass: 'border-[#94c5f8]/15',
-    ctaIdleClass: 'bg-[#162232] text-[#f8fafc] hover:bg-[#1e2f44] border border-[#94c5f8]/20',
-    ctaActiveClass: 'bg-gradient-to-r from-[#00f2fe] via-[#6366f1] to-[#ec4899] text-white shadow-xs border border-sky-300/35',
-    toggleTrackDarkClass: 'bg-[#131d2b] border-[#94c5f8]/25',
-    toggleTrackLightClass: 'bg-[#e5eff8] border-white/85',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#00f2fe] to-[#6366f1] text-white',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#06b6d4] to-[#6366f1] text-white',
-    demoVideoUrl:
-      'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
-    gradientBars: [
-      { label: 'Cyan', width: '90%', gradient: 'linear-gradient(90deg, #00f2fe, #38bdf8)', glow: '0 0 12px rgba(56, 189, 248, 0.55)' },
-      { label: 'Purple', width: '78%', gradient: 'linear-gradient(90deg, #8b5cf6, #c084fc)', glow: '0 0 12px rgba(168, 85, 247, 0.55)' },
-      { label: 'Peach', width: '64%', gradient: 'linear-gradient(90deg, #fb923c, #f97316)', glow: '0 0 12px rgba(251, 146, 60, 0.5)' },
-      { label: 'Pink', width: '54%', gradient: 'linear-gradient(90deg, #f43f5e, #ec4899)', glow: '0 0 12px rgba(236, 72, 153, 0.55)' },
-    ],
-  },
-  'glass-flat': {
-    radius: '20px',
-    activeRingColor: '#0284C7',
-    activeBorderClass: 'border-[#0284C7]',
-    idleBorderClass: 'border-sky-500/25 hover:border-sky-500/50',
-    activeBadgeClass: 'bg-[#e0f2fe] text-[#0284c7] border-[#7dd3fc]/60 shadow-xs',
-    iconColor: '#0284C7',
-    titleTextClass: 'text-[#0f172a]',
-    bodyTextClass: 'text-[#334155]',
-    accentTextClass: 'text-[#0284C7]',
-    previewBorderClass: 'border-sky-500/25',
-    dividerClass: 'border-sky-500/20',
-    ctaIdleClass: 'bg-[#e0f2fe] text-[#0284c7] hover:bg-sky-100 border border-sky-500/30 shadow-xs',
-    ctaActiveClass: 'bg-gradient-to-r from-[#0284c7] to-[#0369a1] text-white shadow-xs border border-sky-300/50',
-    toggleTrackDarkClass: 'bg-slate-900 border-sky-500/40',
-    toggleTrackLightClass: 'bg-sky-50 border-sky-500/30',
-    toggleThumbDarkClass: 'bg-sky-400 text-slate-950',
-    toggleThumbLightClass: 'bg-sky-600 text-white',
-    demoVideoUrl:
-      'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
-    gradientBars: [
-      { label: 'Cyan', width: '88%', gradient: 'linear-gradient(90deg, #06b6d4, #38bdf8)', glow: '0 0 10px rgba(6, 182, 212, 0.4)' },
-      { label: 'Blue', width: '76%', gradient: 'linear-gradient(90deg, #0284c7, #0ea5e9)', glow: '0 0 10px rgba(14, 165, 233, 0.4)' },
-      { label: 'Indigo', width: '64%', gradient: 'linear-gradient(90deg, #6366f1, #818cf8)', glow: '0 0 10px rgba(99, 102, 241, 0.4)' },
-    ],
-  },
-  'rainbow-glass': {
-    radius: '24px',
-    activeRingColor: '#7666D8',
-    activeBorderClass: 'border-[#7666D8]',
-    idleBorderClass: 'border-white/60 hover:border-[#A99AE8]',
-    activeBadgeClass: 'bg-[#FBFCFF]/90 text-[#7666D8] border-[#7666D8]/40 shadow-xs backdrop-blur-md',
-    iconColor: '#7666D8',
-    titleTextClass: 'text-[#2D3850]',
-    bodyTextClass: 'text-[#64718A]',
-    accentTextClass: 'text-[#7666D8]',
-    previewBorderClass: 'border-white/60',
-    dividerClass: 'border-white/50',
-    ctaIdleClass: 'bg-[#FBFCFF]/80 text-[#7666D8] hover:bg-[#FBFCFF] border border-white/65 shadow-xs backdrop-blur-md',
-    ctaActiveClass: 'bg-gradient-to-r from-[#7666D8] to-[#A99AE8] text-white shadow-xs border border-white/65',
-    toggleTrackDarkClass: 'bg-[#171F33] border-[#C2B7F3]/30',
-    toggleTrackLightClass: 'bg-[#F7F8FD] border-white/65',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#B5A7F4] to-[#8D83D8] text-[#101A2B]',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#7666D8] to-[#A99AE8] text-white',
-    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
-    gradientBars: [
-      { label: 'Iris', width: '90%', gradient: 'linear-gradient(90deg, #7666D8, #A99AE8)', glow: '0 0 10px rgba(118, 102, 216, 0.28)' },
-      { label: 'Peach', width: '76%', gradient: 'linear-gradient(90deg, #F3B9A7, #E8BBD8)', glow: '0 0 10px rgba(243, 185, 167, 0.28)' },
-      { label: 'Teal', width: '65%', gradient: 'linear-gradient(90deg, #69C9C4, #A9DFDE)', glow: '0 0 10px rgba(105, 201, 196, 0.28)' },
-    ],
-  },
-  'dark-rainbow-glass': {
-    radius: '24px',
-    activeRingColor: '#B5A7F4',
-    activeBorderClass: 'border-[#B5A7F4]',
-    idleBorderClass: 'border-white/15 hover:border-[#C2B7F3]/40',
-    activeBadgeClass: 'bg-[#202A40]/90 text-[#B5A7F4] border-[#B5A7F4]/40 shadow-xs backdrop-blur-md',
-    iconColor: '#B5A7F4',
-    titleTextClass: 'text-[#F2F4FC]',
-    bodyTextClass: 'text-[#C0C9DC]',
-    accentTextClass: 'text-[#B5A7F4]',
-    previewBorderClass: 'border-white/15',
-    dividerClass: 'border-white/12',
-    ctaIdleClass: 'bg-[#202A40]/80 text-[#F2F4FC] hover:bg-[#26324C] border border-white/18 backdrop-blur-md',
-    ctaActiveClass: 'bg-gradient-to-r from-[#B5A7F4] to-[#8D83D8] text-[#101A2B] shadow-xs border border-[#C2B7F3]/45',
-    toggleTrackDarkClass: 'bg-[#101A2B] border-[#C2B7F3]/25',
-    toggleTrackLightClass: 'bg-[#F7F8FD] border-white/50',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#B5A7F4] to-[#4E9EAA] text-[#101A2B]',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#7666D8] to-[#A99AE8] text-white',
-    demoVideoUrl: 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
-    gradientBars: [
-      { label: 'Iris', width: '92%', gradient: 'linear-gradient(90deg, #B5A7F4, #8D83D8)', glow: '0 0 10px rgba(181, 167, 244, 0.28)' },
-      { label: 'Peach', width: '80%', gradient: 'linear-gradient(90deg, #B98283, #8E80BD)', glow: '0 0 10px rgba(185, 130, 131, 0.25)' },
-      { label: 'Cyan', width: '68%', gradient: 'linear-gradient(90deg, #4E9EAA, #789ACB)', glow: '0 0 10px rgba(78, 158, 170, 0.28)' },
-    ],
-  },
-  'special-rainbow-glass': {
-    radius: '24px',
-    activeRingColor: '#A99AE8',
-    activeBorderClass: 'border-[#A99AE8]',
-    idleBorderClass: 'border-[#C2B7F3]/30 hover:border-[#C2B7F3]/55',
-    activeBadgeClass: 'bg-[#202A40]/90 text-[#C2B7F3] border-[#C2B7F3]/45 shadow-xs backdrop-blur-md',
-    iconColor: '#C2B7F3',
-    titleTextClass: 'text-[#F2F4FC]',
-    bodyTextClass: 'text-[#C0C9DC]',
-    accentTextClass: 'text-[#C2B7F3]',
-    previewBorderClass: 'border-[#C2B7F3]/25',
-    dividerClass: 'border-[#C2B7F3]/18',
-    ctaIdleClass: 'bg-[#202A40]/75 text-[#F2F4FC] hover:bg-[#28334E] border border-[#C2B7F3]/25 backdrop-blur-md',
-    ctaActiveClass: 'bg-gradient-to-r from-[#B5A7F4] via-[#8E80BD] to-[#4E9EAA] text-[#101A2B] shadow-xs border border-[#C2B7F3]/50',
-    toggleTrackDarkClass: 'bg-[#171F33] border-[#C2B7F3]/35',
-    toggleTrackLightClass: 'bg-[#EEE9FA] border-[#BEB0EB]/50',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#B5A7F4] to-[#4E9EAA] text-[#101A2B]',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#7666D8] to-[#69C9C4] text-white',
-    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
-    gradientBars: [
-      { label: 'Aurora', width: '94%', gradient: 'linear-gradient(90deg, #B5A7F4, #B98283)', glow: '0 0 10px rgba(181, 167, 244, 0.3)' },
-      { label: 'Violet', width: '82%', gradient: 'linear-gradient(90deg, #8E80BD, #789ACB)', glow: '0 0 10px rgba(142, 128, 189, 0.28)' },
-      { label: 'Teal', width: '70%', gradient: 'linear-gradient(90deg, #4E9EAA, #69C9C4)', glow: '0 0 10px rgba(78, 158, 170, 0.28)' },
     ],
   },
   'deep-ocean': {
@@ -1467,7 +1304,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                             {/* Dedicated Theme Wallpaper + Live Material Specimen */}
                             <div
                               style={{
-                                borderRadius: preset.id.includes('ice-blue') ? '20px' : 'var(--radius-subcard, 14px)',
+                                borderRadius: preset.id.includes('liquid-glass') ? '20px' : 'var(--radius-subcard, 14px)',
                                 backgroundImage: bgSpec?.imagePath
                                   ? `url('${bgSpec.imagePath}'), ${bgSpec.fallbackGradient}`
                                   : bgSpec?.fallbackGradient,
@@ -1480,7 +1317,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                 className="relative z-10 p-2.5 flex flex-col gap-2 border"
                                 style={{
                                   ...preset.miniPreviewWrapStyle,
-                                  borderRadius: preset.id.includes('ice-blue') ? '16px' : '12px',
+                                  borderRadius: preset.id.includes('liquid-glass') ? '16px' : '12px',
                                 }}
                               >
                                 <div className="flex items-center justify-between gap-2">
@@ -1583,7 +1420,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                             {/* Single Clear Card Footer Action */}
                             <div className={`mt-auto pt-2.5 flex items-center justify-between gap-2 border-t ${meta.dividerClass}`}>
                               <span className={`typo-caption font-mono truncate ${meta.accentTextClass}`}>
-                                {preset.id.includes('ice-blue') ? '28px · blur(18px)' : meta.radius}
+                                {preset.id.includes('liquid-glass') ? '24px · blur(24px)' : meta.radius}
                               </span>
 
                               <button
@@ -1641,7 +1478,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     data-card-title="true"
                     style={{ color: 'var(--color-primary)' }}
                   >
-                    {isEn ? 'Ice-Blue Soft UI Component Suite (Reference Match)' : 'Bộ thành phần Ice-Blue Soft UI (Khớp mẫu tham khảo)'}
+                    {isEn ? 'Liquid Glass Soft UI Component Suite (Reference Match)' : 'Bộ thành phần Liquid Glass Soft UI (Khớp mẫu tham khảo)'}
                   </h4>
                 </div>
               </div>

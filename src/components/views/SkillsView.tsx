@@ -420,7 +420,13 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
   ];
 
   const skillsMainBody = (
-    <div id="skills-main-wrapper" className="w-full flex-grow flex flex-col gap-[15px] justify-start">
+    <div
+      id="skills-main-wrapper"
+      className={cn(
+        "w-full flex-grow flex flex-col gap-[15px] justify-start",
+        selectedSwot && "h-full flex-1 min-h-0 gap-0"
+      )}
+    >
         {/* Banner trang kỹ năng - Ẩn khi hiển thị chi tiết kỹ năng */}
         {!selectedSwot && (
           <motion.div
@@ -592,11 +598,20 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
         {/* LƯỚI 4 THẺ KỸ NĂNG SWOT                                                    */}
         {/* 2 CỘT x 2 HÀNG, CÁCH NHAU 15PX, 4 GÓC TẠO THÀNH ĐỒ THỊ TRÒN ĐỒNG TÂM       */}
         {/* ========================================================================= */}
-        <div id="skills-swot-grid-wrapper" className="w-full relative">
+        <div
+          id="skills-swot-grid-wrapper"
+          className={cn(
+            "w-full relative",
+            selectedSwot && "flex-1 min-h-0 h-full flex flex-col"
+          )}
+        >
           <div
             id="skills-swot-grid"
-            className="grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch w-full"
-            style={{ gap: "15px" }}
+            className={cn(
+              "grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch w-full",
+              selectedSwot && "flex-1 min-h-0 h-full grid-rows-[minmax(0,1fr)]"
+            )}
+            style={{ gap: selectedSwot ? "0px" : "15px" }}
           >
             {QUADRANTS
               .filter((quad) => !selectedSwot || selectedSwot === quad.key)
@@ -616,8 +631,10 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.35, delay: qIdx * 0.05 }}
                     className={cn(
-                      "swot-quadrant-card bento-card glass-card w-full rounded-[14px] relative text-[var(--text-primary)] transition-all duration-300 flex flex-col justify-between overflow-hidden p-[15px] gap-[15px] min-h-[300px]",
-                      isSelected && "md:col-span-2 ring-2 ring-cyan-500"
+                      "swot-quadrant-card bento-card glass-card w-full relative text-[var(--text-primary)] transition-all duration-300 flex flex-col justify-between p-[15px] gap-[15px] min-h-[300px]",
+                      isSelected
+                        ? "md:col-span-2 h-full min-h-full flex-1 overflow-y-auto glass-scrollbar rounded-[var(--radius-main,30px)] border-0"
+                        : "rounded-[14px] overflow-hidden"
                     )}
                   >
                     {/* Corner Quadrant Arc matching the exact model vector */}
@@ -987,11 +1004,15 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
         <div
           id="skills-main-card"
           data-main-card="true"
+          data-detail-open={selectedSwot ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Kỹ Năng"
           data-element-type="card"
           data-element-page="skills"
           data-element-parent="skills-cards-track"
-          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
+          className={cn(
+            "page-main-card flex flex-col justify-start rounded-[14px] overflow-x-hidden glass-scrollbar font-play text-left box-border",
+            selectedSwot ? "p-0 gap-0 overflow-hidden" : "p-[15px] gap-[15px] overflow-y-auto"
+          )}
         >
           {skillsMainBody}
         </div>

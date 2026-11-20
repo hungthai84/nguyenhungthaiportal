@@ -18,7 +18,7 @@ const TOPIC_OPTIONS: Array<{ id: InquiryTopic; labelVi: string; labelEn: string 
   { id: 'other', labelVi: 'Trao đổi khác', labelEn: 'General Inquiry' },
 ];
 
-export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'rainbow-glass' }) => {
+export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid-glass' }) => {
   void currentTheme;
   const { language } = useLanguage();
   const isEn = language === 'en';

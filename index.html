@@ -22,36 +22,38 @@
     <script>
       (function() {
         try {
-          var DEFAULT_THEME = 'ice-blue-neu';
-          var MIGRATION_KEY = 'hungthai_default_theme_v3';
+          var DEFAULT_THEME = 'liquid-glass';
+          var MIGRATION_KEY = 'hungthai_default_theme_v4';
           var rawStyle = localStorage.getItem('hungthai_card_style');
           var isManual = localStorage.getItem('hungthai_card_style_manual') === '1';
           var aliasMap = {
-            'light-glassmorphism': 'ice-blue-neu',
-            'guong-da-sac': 'rainbow-glass',
-            'guong-da-sac-sang': 'rainbow-glass',
-            'guong-don-sac': 'rainbow-glass',
-            'guong-da-sac-toi': 'dark-rainbow-glass',
-            'light-multicolor-glass': 'rainbow-glass',
-            'light-multicolor-glass-dark': 'dark-rainbow-glass',
-            'light-multicolor-glass-color': 'special-rainbow-glass',
-            'da-thuoc': 'light-cowhide-leather',
-            'da-ca-sau-trang': 'light-cowhide-leather',
-            'da-den': 'black-cowhide-leather',
-            'da-bo': 'cowhide-leather',
-            'iceblueneu': 'ice-blue-neu',
-            'darkiceblueneu': 'dark-ice-blue-neu'
+            'light-glassmorphism': 'liquid-glass',
+            'guong-da-sac': 'liquid-glass',
+            'guong-da-sac-sang': 'liquid-glass',
+            'guong-don-sac': 'liquid-glass',
+            'guong-da-sac-toi': 'dark-liquid-glass',
+            'light-multicolor-glass': 'liquid-glass',
+            'light-multicolor-glass-dark': 'dark-liquid-glass',
+            'light-multicolor-glass-color': 'dark-liquid-glass',
+            'rainbow-glass': 'liquid-glass',
+            'dark-rainbow-glass': 'dark-liquid-glass',
+            'special-rainbow-glass': 'dark-liquid-glass',
+            'glass-flat': 'liquid-glass',
+            'ice-blue-neu': 'liquid-glass',
+            'dark-ice-blue-neu': 'dark-liquid-glass',
+            'iceblueneu': 'liquid-glass',
+            'darkiceblueneu': 'dark-liquid-glass',
+            'light-cowhide-leather': 'liquid-glass',
+            'black-cowhide-leather': 'dark-liquid-glass',
+            'da-thuoc': 'liquid-glass',
+            'da-ca-sau-trang': 'liquid-glass',
+            'da-den': 'dark-liquid-glass',
+            'da-bo': 'cowhide-leather'
           };
           var validStyles = [
-            'light-cowhide-leather',
-            'black-cowhide-leather',
+            'liquid-glass',
+            'dark-liquid-glass',
             'cowhide-leather',
-            'ice-blue-neu',
-            'dark-ice-blue-neu',
-            'glass-flat',
-            'rainbow-glass',
-            'dark-rainbow-glass',
-            'special-rainbow-glass',
             'deep-ocean',
             'mica-fluent'
           ];
@@ -66,9 +68,9 @@
             localStorage.setItem(MIGRATION_KEY, DEFAULT_THEME);
           }
           document.documentElement.setAttribute('data-card-style', cardStyle);
-          var mechanism = (cardStyle === 'cowhide-leather' || cardStyle === 'special-rainbow-glass')
+          var mechanism = cardStyle === 'cowhide-leather'
             ? 'color'
-            : (cardStyle === 'black-cowhide-leather' || cardStyle === 'dark-ice-blue-neu' || cardStyle === 'dark-rainbow-glass' || cardStyle === 'deep-ocean')
+            : (cardStyle === 'dark-liquid-glass' || cardStyle === 'deep-ocean')
               ? 'dark'
               : 'light';
           document.documentElement.setAttribute('data-theme-mechanism', mechanism);
@@ -76,11 +78,8 @@
             localStorage.setItem('hungthai_card_style', cardStyle);
           }
           var darkThemes = [
-            'black-cowhide-leather',
+            'dark-liquid-glass',
             'cowhide-leather',
-            'dark-ice-blue-neu',
-            'dark-rainbow-glass',
-            'special-rainbow-glass',
             'deep-ocean'
           ];
           var isDarkInit = darkThemes.indexOf(cardStyle) !== -1;

@@ -419,7 +419,7 @@ export default function App() {
     [currentTabIndex, pageSlides]
   );
 
-  const activeTheme = cardStyle || (isDark ? 'dark-rainbow-glass' : 'rainbow-glass');
+  const activeTheme = cardStyle || (isDark ? 'dark-liquid-glass' : 'liquid-glass');
 
   const renderActiveView = () => {
     switch (currentTabIndex) {
@@ -534,7 +534,7 @@ export default function App() {
       data-element-page="global"
       style={{
         padding: '0px',
-        gap: currentTabIndex === 16 ? '0px' : 'var(--shell-section-gap, 15px)',
+        gap: currentTabIndex === 16 ? '0px' : 'var(--shell-section-gap, 10px)',
       }}
       className="h-screen w-screen overflow-hidden flex flex-col items-center m-0 p-0 select-text relative transition-colors duration-300 ease-in-out"
     >
@@ -765,7 +765,7 @@ export default function App() {
           height:
             currentTabIndex === 16
               ? '100%'
-              : 'calc(80% - (var(--shell-section-gap, 15px) * 2))',
+              : 'calc(80% - (var(--shell-section-gap, 10px) * 2))',
           minHeight: 0,
           marginLeft: 'auto',
           marginRight: 'auto',

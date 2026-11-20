@@ -440,11 +440,11 @@ export function useThemeLegacy() {
     const checkTimeTheme = () => {
       const hour = new Date().getHours();
       const isNight = hour >= 18 || hour < 6;
-      if (cardStyle === 'ice-blue-neu' || cardStyle === 'dark-ice-blue-neu') {
-        if (isNight && cardStyle !== 'dark-ice-blue-neu') {
-          setCardStyle('dark-ice-blue-neu');
-        } else if (!isNight && cardStyle !== 'ice-blue-neu') {
-          setCardStyle('ice-blue-neu');
+      if (cardStyle === 'liquid-glass' || cardStyle === 'dark-liquid-glass') {
+        if (isNight && cardStyle !== 'dark-liquid-glass') {
+          setCardStyle('dark-liquid-glass');
+        } else if (!isNight && cardStyle !== 'liquid-glass') {
+          setCardStyle('liquid-glass');
         }
       }
     };

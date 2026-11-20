@@ -568,17 +568,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
   const isDark =
     themeIsDark ||
+    currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu' ||
-    currentTheme === 'dark-rainbow-glass' ||
-    currentTheme === 'special-rainbow-glass' ||
     currentTheme === 'deep-ocean';
   const isLight = !isDark;
-  const isLeatherTheme =
-    cardStyle === 'cowhide-leather' ||
-    cardStyle === 'light-cowhide-leather' ||
-    cardStyle === 'black-cowhide-leather';
+  const isLeatherTheme = cardStyle === 'cowhide-leather';
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -600,8 +594,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   } | null>(null);
   const [wrapperMinHeight, setWrapperMinHeight] = useState<number | undefined>(undefined);
 
-  // Level 1 Controlled Card Demo Video (only runs on explicit Demo click)
+  // Level 1 Controlled Card Demo Video (only runs on explicit Demo click) & Hover-Image Clean Video
   const [activeCardDemoId, setActiveCardDemoId] = useState<string | null>(null);
+  const [hoveredImageSystemId, setHoveredImageSystemId] = useState<string | null>(null);
 
   // Level 2 Expanded Card Interactive Tools: Video Sound, Comparison Mode, QR Quick Access
   const [isExpandedVideoMuted, setIsExpandedVideoMuted] = useState<boolean>(true);
@@ -738,9 +733,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   const getAccentColor = useCallback(
     (id: string) => {
       if (isLeatherTheme) {
-        if (cardStyle === 'cowhide-leather') return '#FDE68A';
-        if (cardStyle === 'black-cowhide-leather') return '#E2E8F0';
-        return '#0F172A';
+        return '#FDE68A';
       }
       const meta = SYSTEM_DESIGN_MAP[id] || SYSTEM_DESIGN_MAP.sdp;
       return isLight ? meta.lightAccent : meta.darkAccent;
@@ -749,23 +742,15 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   );
 
   const computeTargetBounds = useCallback(() => {
-    const wrapperEl = cardsWrapperRef.current;
-    const gridEl = cardsGridRef.current;
-    if (!wrapperEl) return null;
-
-    const wrapperRect = wrapperEl.getBoundingClientRect();
-    const gridRect = gridEl ? gridEl.getBoundingClientRect() : wrapperRect;
-    const isStackedLayout = wrapperRect.width < 600;
-    const targetHeight = isStackedLayout
-      ? Math.min(Math.max(wrapperRect.height, 560), 680)
-      : Math.max(gridRect.height, wrapperRect.height, 490);
+    const hostEl = systemsMainRef.current || cardsWrapperRef.current;
+    if (!hostEl) return null;
 
     return {
       top: 0,
       left: 0,
-      width: wrapperRect.width,
-      height: targetHeight,
-      needsWrapperMinHeight: isStackedLayout || gridRect.height < 490 ? targetHeight : undefined,
+      width: hostEl.clientWidth,
+      height: hostEl.clientHeight,
+      needsWrapperMinHeight: undefined,
     };
   }, []);
 
@@ -775,6 +760,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       SoundEngine.playTechChimeExpand();
       setIsCircleVideoPlaying(false);
       setActiveCardDemoId(null);
+      setHoveredImageSystemId(null);
       setViewMode('grid');
 
       const defaultConnections = SYSTEM_CONNECTIONS_MAP[sys.id] || ['sdp', 'crm'];
@@ -784,7 +770,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       setIsCompareOpen(false);
       setIsQrOpen(false);
 
-      const wrapperEl = cardsWrapperRef.current;
+      const hostEl = systemsMainRef.current || cardsWrapperRef.current;
       const originEl = explicitEl || cardRefs.current[sys.id];
       const targetBounds = computeTargetBounds();
 
@@ -795,7 +781,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       setOriginSystemId(sys.id);
       setExpandedSystem(sys);
 
-      if (prefersReducedMotion || !wrapperEl || !originEl || !targetBounds) {
+      if (prefersReducedMotion || !hostEl || !originEl || !targetBounds) {
         if (targetBounds) {
           setMorphRect({
             top: targetBounds.top,
@@ -803,21 +789,21 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             width: targetBounds.width,
             height: targetBounds.height,
           });
-          setWrapperMinHeight(targetBounds.needsWrapperMinHeight);
+          setWrapperMinHeight(undefined);
         }
         setAnimPhase('open');
         setIsGridDimmed(true);
         return;
       }
 
-      const wrapperRect = wrapperEl.getBoundingClientRect();
+      const hostRect = hostEl.getBoundingClientRect();
       const cardRect = originEl.getBoundingClientRect();
 
-      setWrapperMinHeight(targetBounds.needsWrapperMinHeight);
+      setWrapperMinHeight(undefined);
       setAnimPhase('entering');
       setMorphRect({
-        top: cardRect.top - wrapperRect.top,
-        left: cardRect.left - wrapperRect.left,
+        top: cardRect.top - hostRect.top,
+        left: cardRect.left - hostRect.left,
         width: cardRect.width,
         height: cardRect.height,
       });
@@ -850,7 +836,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const wrapperEl = cardsWrapperRef.current;
+    const hostEl = systemsMainRef.current || cardsWrapperRef.current;
     const targetId = originSystemId || expandedSystem.id;
     const originEl = cardRefs.current[targetId];
 
@@ -858,7 +844,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     setIsCompareOpen(false);
     setIsQrOpen(false);
 
-    if (prefersReducedMotion || !wrapperEl || !originEl) {
+    if (prefersReducedMotion || !hostEl || !originEl) {
       setExpandedSystem(null);
       setOriginSystemId(null);
       setAnimPhase('idle');
@@ -867,13 +853,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       return;
     }
 
-    const wrapperRect = wrapperEl.getBoundingClientRect();
+    const hostRect = hostEl.getBoundingClientRect();
     const cardRect = originEl.getBoundingClientRect();
 
     setAnimPhase('closing');
     setMorphRect({
-      top: cardRect.top - wrapperRect.top,
-      left: cardRect.left - wrapperRect.left,
+      top: cardRect.top - hostRect.top,
+      left: cardRect.left - hostRect.left,
       width: cardRect.width,
       height: cardRect.height,
     });
@@ -901,8 +887,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
   // Live resize observer sync while expanded card is open
   useEffect(() => {
-    const wrapperEl = cardsWrapperRef.current;
-    if (!wrapperEl || typeof ResizeObserver === 'undefined') return;
+    const hostEl = systemsMainRef.current || cardsWrapperRef.current;
+    if (!hostEl || typeof ResizeObserver === 'undefined') return;
 
     const observer = new ResizeObserver(() => {
       if (animPhase !== 'open') return;
@@ -914,13 +900,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
         width: bounds.width,
         height: bounds.height,
       });
-      setWrapperMinHeight(bounds.needsWrapperMinHeight);
+      setWrapperMinHeight(undefined);
     });
 
-    observer.observe(wrapperEl);
-    if (cardsGridRef.current) {
-      observer.observe(cardsGridRef.current);
-    }
+    observer.observe(hostEl);
     return () => observer.disconnect();
   }, [animPhase, computeTargetBounds]);
 
@@ -972,7 +955,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     const cardRect = firstCardEl?.getBoundingClientRect();
 
     const cols =
-      gridRect.width >= 1050 ? 4 : gridRect.width >= 960 ? 3 : gridRect.width >= 600 ? 2 : 1;
+      gridRect.width >= 960 ? 3 : gridRect.width >= 600 ? 2 : 1;
     const targetCols = Math.min(3, cols);
     const targetRows = Math.ceil(9 / targetCols);
 
@@ -1152,14 +1135,24 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
           id="systems-main-card"
           ref={systemsMainRef}
           data-main-card="true"
+          data-detail-open={expandedSystem || isCircleVideoPlaying ? 'true' : 'false'}
+          data-detail-overlay={expandedSystem ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Hệ Thống Vận Hành"
           data-element-type="card"
           data-element-page="systems"
           data-element-parent="systems-cards-track"
-          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
-          style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-main, 30px)' }}
+          className={cn(
+            'page-main-card relative flex flex-col justify-start rounded-[14px] overflow-x-hidden glass-scrollbar font-play select-none text-left box-border',
+            isCircleVideoPlaying ? 'p-0 gap-0 overflow-hidden' : expandedSystem ? 'p-[15px] gap-[15px] overflow-hidden' : 'p-[15px] gap-[15px] overflow-y-auto'
+          )}
+          style={{
+            padding: isCircleVideoPlaying ? '0px' : '15px',
+            gap: isCircleVideoPlaying ? '0px' : '15px',
+            borderRadius: 'var(--radius-main, 30px)',
+          }}
         >
           {/* 1. HERO BANNER ĐẦU TRANG HỆ THỐNG */}
+          {!isCircleVideoPlaying && (
           <motion.section
             id="systems-hero-banner"
             data-element-name="Banner card"
@@ -1472,6 +1465,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               </div>
             </div>
           </motion.section>
+          )}
 
           {/* 2. VÙNG HIỂN THỊ CHÍNH (VIDEO GIỚI THIỆU / BẢNG MA TRẬN / 12 THẺ + FLIP MORPH EXPANSION) */}
           {isCircleVideoPlaying ? (
@@ -1481,23 +1475,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.25 }}
-              className="flex-1 w-full min-h-[280px] flex items-center justify-center py-1"
+              className="flex-1 w-full h-full min-h-0 flex items-stretch justify-center p-0"
             >
               <div
                 id="systems-intro-video-stage"
                 data-element-type="card"
                 data-section-card="true"
-                className="bento-card glass-card w-full flex flex-col rounded-[var(--radius-card,24px)] overflow-hidden border border-slate-300/80 dark:border-white/20 shadow-2xl bg-black relative"
-                style={
-                  nineCardBoxSize
-                    ? {
-                        width: `${nineCardBoxSize.width}px`,
-                        height: `${nineCardBoxSize.height}px`,
-                        maxWidth: '100%',
-                        borderRadius: 'var(--radius-card, 24px)',
-                      }
-                    : { borderRadius: 'var(--radius-card, 24px)', minHeight: '420px' }
-                }
+                className="bento-card glass-card w-full h-full flex flex-col rounded-[var(--radius-main,30px)] overflow-hidden border-0 shadow-2xl bg-black relative"
+                style={{ borderRadius: 'var(--radius-main, 30px)' }}
               >
                 <div className="relative w-full h-full flex-1 bg-black rounded-[14px] overflow-hidden">
                   <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 shrink-0">
@@ -1702,7 +1687,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                 id="systems-cards-grid"
                 ref={cardsGridRef}
                 className={cn(
-                  'systems-cards-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[15px] items-stretch w-full lg:flex-1 min-w-0',
+                  'systems-cards-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full lg:flex-1 min-w-0',
                   isGridDimmed && 'grid-dimmed'
                 )}
               >
@@ -1879,21 +1864,45 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           </p>
                         </div>
 
-                        <div className="relative w-[70px] h-[70px] sm:w-[76px] sm:h-[76px] shrink-0 flex items-center justify-center">
-                          <div
-                            className="absolute inset-1 rounded-full blur-lg opacity-40 group-hover:opacity-70 transition-opacity duration-300 pointer-events-none"
-                            style={{ background: meta.gradient }}
-                          />
-                          <img
-                            src={meta.illustrationSrc || item.imageUrl}
-                            alt={localizedTitle}
-                            referrerPolicy="no-referrer"
-                            loading="lazy"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                            }}
-                            className="system-img-pop relative z-10 w-full h-full object-contain drop-shadow-[0_8px_14px_rgba(15,23,42,0.2)] select-none pointer-events-none"
-                          />
+                        <div
+                          onMouseEnter={() => {
+                            if (item.videoUrl) setHoveredImageSystemId(item.id);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredImageSystemId((prev) => (prev === item.id ? null : prev));
+                          }}
+                          className="relative w-[140px] h-[140px] sm:w-[152px] sm:h-[152px] shrink-0 flex items-center justify-center rounded-2xl overflow-hidden"
+                        >
+                          {hoveredImageSystemId === item.id && item.videoUrl ? (
+                            <video
+                              src={item.videoUrl}
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              preload="auto"
+                              controls={false}
+                              disablePictureInPicture
+                              className="relative z-20 w-full h-full object-cover rounded-2xl pointer-events-none select-none"
+                            />
+                          ) : (
+                            <>
+                              <div
+                                className="absolute inset-2 rounded-full blur-lg opacity-40 group-hover:opacity-70 transition-opacity duration-300 pointer-events-none"
+                                style={{ background: meta.gradient }}
+                              />
+                              <img
+                                src={meta.illustrationSrc || item.imageUrl}
+                                alt={localizedTitle}
+                                referrerPolicy="no-referrer"
+                                loading="lazy"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                                className="system-img-pop relative z-10 w-full h-full object-contain drop-shadow-[0_8px_14px_rgba(15,23,42,0.2)] select-none pointer-events-none"
+                              />
+                            </>
+                          )}
                         </div>
                       </div>
 
@@ -1930,36 +1939,43 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   );
                 })}
               </div>
+            </div>
+          )}
 
-              {/* CẤP 2: THẺ MỞ RỘNG FLIP MORPH CHI TIẾT HỆ THỐNG */}
-              {expandedSystem && expandedMeta && expandedTech && morphRect && (
-                <div
-                  id="systems-expanded-card"
-                  ref={expandedCardRef}
-                  data-element-type="card"
-                  role="region"
-                  aria-label={
-                    isEn
-                      ? expandedSystem.nameEn || expandedSystem.name
-                      : expandedSystem.nameVi || expandedSystem.name
-                  }
-                  onClick={(e) => e.stopPropagation()}
-                  className={cn(
-                    animPhase === 'entering'
-                      ? ''
-                      : animPhase === 'open'
-                        ? 'is-animating is-open'
-                        : animPhase === 'closing'
-                          ? 'is-animating is-closing'
-                          : ''
-                  )}
-                  style={{
-                    top: `${morphRect.top}px`,
-                    left: `${morphRect.left}px`,
-                    width: `${morphRect.width}px`,
-                    height: `${morphRect.height}px`,
-                  }}
-                >
+          {/* CẤP 2: THẺ MỞ RỘNG FLIP MORPH CHI TIẾT HỆ THỐNG (PHỦ TOÀN BỘ THẺ CHÍNH) */}
+          {expandedSystem && expandedMeta && expandedTech && morphRect && (
+            <div
+              id="systems-expanded-card"
+              ref={expandedCardRef}
+              data-element-type="card"
+              role="region"
+              aria-label={
+                isEn
+                  ? expandedSystem.nameEn || expandedSystem.name
+                  : expandedSystem.nameVi || expandedSystem.name
+              }
+              onClick={(e) => e.stopPropagation()}
+              className={cn(
+                animPhase === 'entering'
+                  ? ''
+                  : animPhase === 'open'
+                    ? 'is-animating is-open'
+                    : animPhase === 'closing'
+                      ? 'is-animating is-closing'
+                      : ''
+              )}
+              style={{
+                top: `${morphRect.top}px`,
+                left: `${morphRect.left}px`,
+                width: `${morphRect.width}px`,
+                height: `${morphRect.height}px`,
+                borderRadius:
+                  animPhase === 'open'
+                    ? 'var(--radius-main, 30px)'
+                    : 'var(--radius-card, 20px)',
+                zIndex: 50,
+              }}
+            >
                   {/* Header Expanded Card */}
                   <div
                     className="expanded-detail-content shrink-0 px-4 sm:px-5 py-3 border-b border-[var(--border-subcard)] flex flex-wrap items-center justify-between gap-3"
@@ -2110,69 +2126,63 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     ref={expandedBodyRef}
                     className="expanded-detail-content flex-1 min-h-0 overflow-y-auto glass-scrollbar p-[15px] flex flex-col gap-[15px]"
                   >
-                    {/* Hàng 1: 4 Thẻ KPI Trọng Tâm */}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-[15px] shrink-0">
+                    {/* Hàng 1: 4 Thẻ KPI Trọng Tâm (Icon bỏ đóng khung & đặt cùng hàng với chỉ số) */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-[15px] items-start shrink-0">
                       <div
                         data-subcard="true"
-                        className="system-card-sub rounded-2xl p-3 flex items-start gap-2.5 min-w-0"
+                        className="system-card-sub rounded-2xl p-3 flex flex-col gap-1 h-fit min-w-0"
                       >
-                        <div
-                          className="w-9 h-9 rounded-xl shrink-0 flex items-center justify-center text-white shadow-xs"
-                          style={{ background: expandedMeta.gradient }}
-                        >
-                          <Activity className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <Activity
+                            className="w-4 h-4 shrink-0"
+                            style={{ color: expandedAccent }}
+                          />
                           <div
-                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate"
+                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
                             style={{ color: expandedAccent }}
                             title={expandedSystem.metrics}
                           >
                             {expandedSystem.metrics}
                           </div>
-                          <div className="typo-caption text-[var(--text-secondary)] mt-0.5 truncate">
-                            {isEn ? 'Core Performance' : 'Hiệu năng cốt lõi'}
-                          </div>
+                        </div>
+                        <div className="typo-caption text-[var(--text-secondary)] truncate">
+                          {isEn ? 'Core Performance' : 'Hiệu năng cốt lõi'}
                         </div>
                       </div>
 
                       <div
                         data-subcard="true"
-                        className="system-card-sub rounded-2xl p-3 flex items-start gap-2.5 min-w-0"
+                        className="system-card-sub rounded-2xl p-3 flex flex-col gap-1 h-fit min-w-0"
                       >
-                        <div
-                          className="w-9 h-9 rounded-xl shrink-0 flex items-center justify-center text-white shadow-xs"
-                          style={{ background: expandedMeta.gradient }}
-                        >
-                          <Server className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <Server
+                            className="w-4 h-4 shrink-0"
+                            style={{ color: expandedAccent }}
+                          />
                           <div
-                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate"
+                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
                             style={{ color: expandedAccent }}
                             title={expandedTech.slaCommitment}
                           >
                             {expandedTech.slaCommitment}
                           </div>
-                          <div className="typo-caption text-[var(--text-secondary)] mt-0.5 truncate">
-                            {isEn ? 'SLA Commitment' : 'Cam kết SLA'}
-                          </div>
+                        </div>
+                        <div className="typo-caption text-[var(--text-secondary)] truncate">
+                          {isEn ? 'SLA Commitment' : 'Cam kết SLA'}
                         </div>
                       </div>
 
                       <div
                         data-subcard="true"
-                        className="system-card-sub rounded-2xl p-3 flex items-start gap-2.5 min-w-0"
+                        className="system-card-sub rounded-2xl p-3 flex flex-col gap-1 h-fit min-w-0"
                       >
-                        <div
-                          className="w-9 h-9 rounded-xl shrink-0 flex items-center justify-center text-white shadow-xs"
-                          style={{ background: expandedMeta.gradient }}
-                        >
-                          <Users className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <Users
+                            className="w-4 h-4 shrink-0"
+                            style={{ color: expandedAccent }}
+                          />
                           <div
-                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate"
+                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
                             style={{ color: expandedAccent }}
                           >
                             ~{expandedTech.baseOnlineUsers}+{' '}
@@ -2180,33 +2190,31 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               ? expandedTech.onlineRoleLabelEn
                               : expandedTech.onlineRoleLabel}
                           </div>
-                          <div className="typo-caption text-[var(--text-secondary)] mt-0.5 truncate">
-                            {isEn ? 'Active Concurrency' : 'Quy mô trực tuyến'}
-                          </div>
+                        </div>
+                        <div className="typo-caption text-[var(--text-secondary)] truncate">
+                          {isEn ? 'Active Concurrency' : 'Quy mô trực tuyến'}
                         </div>
                       </div>
 
                       <div
                         data-subcard="true"
-                        className="system-card-sub rounded-2xl p-3 flex items-start gap-2.5 min-w-0"
+                        className="system-card-sub rounded-2xl p-3 flex flex-col gap-1 h-fit min-w-0"
                       >
-                        <div
-                          className="w-9 h-9 rounded-xl shrink-0 flex items-center justify-center text-white shadow-xs"
-                          style={{ background: expandedMeta.gradient }}
-                        >
-                          <ShieldCheck className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <ShieldCheck
+                            className="w-4 h-4 shrink-0"
+                            style={{ color: expandedAccent }}
+                          />
                           <div
-                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate"
+                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
                             style={{ color: expandedAccent }}
                             title={expandedTech.isoSecurity}
                           >
                             {expandedTech.isoSecurity}
                           </div>
-                          <div className="typo-caption text-[var(--text-secondary)] mt-0.5 truncate">
-                            {isEn ? 'Security Compliance' : 'Chuẩn bảo mật'}
-                          </div>
+                        </div>
+                        <div className="typo-caption text-[var(--text-secondary)] truncate">
+                          {isEn ? 'Security Compliance' : 'Chuẩn bảo mật'}
                         </div>
                       </div>
                     </div>
@@ -2435,14 +2443,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     })()}
 
                     {/* Hàng 2: Lưới chi tiết 12 cột (Trái 7 cột: Video + Mô tả + Tính năng + Hệ thống liên thông | Phải 5 cột: Hạ tầng kỹ thuật & Luồng đồng bộ) */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch flex-1 min-h-0">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-start">
                       {/* CỘT TRÁI (7/12) */}
                       <div
                         data-subcard="true"
-                        className="system-card-sub lg:col-span-7 rounded-2xl p-[15px] flex flex-col gap-3.5 min-w-0"
+                        className="system-card-sub lg:col-span-7 rounded-2xl p-[15px] flex flex-col gap-3.5 h-fit min-w-0"
                       >
                         {/* Media Video / Illustration + Mô tả */}
-                        <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] items-stretch min-w-0">
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] items-start min-w-0">
                           {(expandedSystem.videoUrl ||
                             expandedMeta.illustrationSrc ||
                             expandedSystem.imageUrl) && (
@@ -2669,10 +2677,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       </div>
 
                       {/* CỘT PHẢI (5/12): Hạ tầng kỹ thuật & Tích hợp Hệ sinh thái */}
-                      <div className="lg:col-span-5 flex flex-col gap-[15px] min-w-0">
+                      <div className="lg:col-span-5 flex flex-col gap-[15px] h-fit min-w-0">
                         <div
                           data-subcard="true"
-                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 min-w-0"
+                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 h-fit min-w-0"
                         >
                           <div className="flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]">
                             <Cpu
@@ -2729,7 +2737,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         {/* Tinted Ecosystem Hub Summary Card */}
                         <div
                           data-subcard="true"
-                          className="rounded-2xl p-[15px] border flex flex-col justify-between gap-3 flex-1 min-w-0"
+                          className="rounded-2xl p-[15px] border flex flex-col gap-3 h-fit min-w-0"
                           style={{
                             backgroundColor: isLeatherTheme
                               ? undefined
@@ -2831,8 +2839,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   </div>
                 </div>
               )}
-            </div>
-          )}
         </div>
       </div>
 

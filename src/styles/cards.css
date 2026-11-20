@@ -1451,67 +1451,76 @@ html.dark .themed-image-card-badge {
   color: #F8FAFC;
 }
 
-/* Theme 02A: Chất liệu da (màu trắng) */
-html[data-card-style="light-cowhide-leather"] .themed-image-card-scrim {
+/* Theme 01A & 01B: Liquid Glass UI (Light & Dark Optical Glass) */
+html[data-card-style="liquid-glass"] .themed-image-card-scrim {
   background: linear-gradient(
     to top,
-    rgba(251, 252, 252, 0.92) 0%,
-    rgba(237, 241, 244, 0.58) 54%,
-    rgba(251, 252, 252, 0.18) 100%
+    rgba(248, 250, 255, 0.94) 0%,
+    rgba(238, 244, 255, 0.60) 52%,
+    rgba(255, 255, 255, 0.14) 100%
   );
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
 }
 
-html[data-card-style="light-cowhide-leather"] .themed-image-card-title {
-  color: #111827;
+html[data-card-style="liquid-glass"] .themed-image-card-title {
+  color: #162036;
 }
 
-html[data-card-style="light-cowhide-leather"] .themed-image-card-subtext {
-  color: #374151;
+html[data-card-style="liquid-glass"] .themed-image-card-subtext {
+  color: #42506d;
 }
 
-html[data-card-style="light-cowhide-leather"] .themed-image-card-kicker {
-  color: #1D4ED8;
+html[data-card-style="liquid-glass"] .themed-image-card-kicker {
+  color: #4f46e5;
 }
 
-html[data-card-style="light-cowhide-leather"] .themed-image-card-badge {
-  background: #fbfcfc;
-  border: 1.5px solid #d1d5db;
-  color: #111827;
+html[data-card-style="liquid-glass"] .themed-image-card-divider {
+  border-color: rgba(99, 102, 241, 0.20);
 }
 
-/* Theme 02B: Chất liệu da (màu đen) */
-html[data-card-style="black-cowhide-leather"] .themed-image-card-scrim {
+html[data-card-style="liquid-glass"] .themed-image-card-badge {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow-nav-pill);
+  color: #162036;
+}
+
+html[data-card-style="dark-liquid-glass"] .themed-image-card-scrim {
   background: linear-gradient(
     to top,
-    rgba(13, 15, 20, 0.92) 0%,
-    rgba(21, 23, 28, 0.58) 54%,
-    rgba(9, 10, 13, 0.20) 100%
+    rgba(11, 18, 33, 0.94) 0%,
+    rgba(18, 29, 52, 0.62) 52%,
+    rgba(11, 18, 33, 0.18) 100%
   );
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
 }
 
-html[data-card-style="black-cowhide-leather"] .themed-image-card-title {
-  color: #FFFFFF;
+html[data-card-style="dark-liquid-glass"] .themed-image-card-title {
+  color: #f1f5f9;
 }
 
-html[data-card-style="black-cowhide-leather"] .themed-image-card-subtext {
-  color: #CBD5E1;
+html[data-card-style="dark-liquid-glass"] .themed-image-card-subtext {
+  color: #cbd5e1;
 }
 
-html[data-card-style="black-cowhide-leather"] .themed-image-card-kicker {
-  color: #E2E8F0;
+html[data-card-style="dark-liquid-glass"] .themed-image-card-kicker {
+  color: #818cf8;
 }
 
-html[data-card-style="black-cowhide-leather"] .themed-image-card-badge {
-  background: linear-gradient(145deg, #252830 0%, #15171c 100%);
-  border: 1px solid rgba(226, 232, 240, 0.35);
-  color: #FFFFFF;
+html[data-card-style="dark-liquid-glass"] .themed-image-card-divider {
+  border-color: rgba(255, 255, 255, 0.16);
 }
 
-/* Theme 02C: Chất liệu da (màu nâu) */
+html[data-card-style="dark-liquid-glass"] .themed-image-card-badge {
+  background: rgba(22, 34, 62, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: var(--shadow-nav-pill);
+  color: #f1f5f9;
+}
+
+/* Theme 02: Chất liệu da (màu nâu) */
 html[data-card-style="cowhide-leather"] .themed-image-card-scrim {
   background: linear-gradient(
     to top,
@@ -1543,76 +1552,6 @@ html[data-card-style="cowhide-leather"] .themed-image-card-badge {
   background: linear-gradient(145deg, #7A4A20 0%, #522E10 100%);
   border: 1px solid rgba(245, 222, 179, 0.48);
   color: #FFFBEB;
-}
-
-/* Theme 03A: Ice-Blue Soft UI (Light Neumorphism) */
-html[data-card-style="ice-blue-neu"] .themed-image-card-scrim {
-  background: linear-gradient(
-    to top,
-    rgba(237, 244, 250, 0.94) 0%,
-    rgba(228, 238, 247, 0.62) 52%,
-    rgba(230, 240, 248, 0.18) 100%
-  );
-  backdrop-filter: blur(8px) saturate(125%);
-  -webkit-backdrop-filter: blur(8px) saturate(125%);
-}
-
-html[data-card-style="ice-blue-neu"] .themed-image-card-title {
-  color: #0f172a;
-}
-
-html[data-card-style="ice-blue-neu"] .themed-image-card-subtext {
-  color: #334155;
-}
-
-html[data-card-style="ice-blue-neu"] .themed-image-card-kicker {
-  color: #4f46e5;
-}
-
-html[data-card-style="ice-blue-neu"] .themed-image-card-divider {
-  border-color: rgba(99, 102, 241, 0.22);
-}
-
-html[data-card-style="ice-blue-neu"] .themed-image-card-badge {
-  background: rgb(232, 241, 249);
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: var(--neu-pill-shadow);
-  color: #0f172a;
-}
-
-/* Theme 03B: Dark Ice-Blue Neu (Dark Neumorphism) */
-html[data-card-style="dark-ice-blue-neu"] .themed-image-card-scrim {
-  background: linear-gradient(
-    to top,
-    rgba(18, 28, 41, 0.94) 0%,
-    rgba(24, 37, 54, 0.62) 52%,
-    rgba(18, 28, 41, 0.20) 100%
-  );
-  backdrop-filter: blur(8px) saturate(130%);
-  -webkit-backdrop-filter: blur(8px) saturate(130%);
-}
-
-html[data-card-style="dark-ice-blue-neu"] .themed-image-card-title {
-  color: #f8fafc;
-}
-
-html[data-card-style="dark-ice-blue-neu"] .themed-image-card-subtext {
-  color: #cbd5e1;
-}
-
-html[data-card-style="dark-ice-blue-neu"] .themed-image-card-kicker {
-  color: #38bdf8;
-}
-
-html[data-card-style="dark-ice-blue-neu"] .themed-image-card-divider {
-  border-color: rgba(148, 197, 248, 0.24);
-}
-
-html[data-card-style="dark-ice-blue-neu"] .themed-image-card-badge {
-  background: rgb(22, 34, 50);
-  border: 1px solid rgba(148, 197, 248, 0.24);
-  box-shadow: var(--neu-pill-shadow);
-  color: #f8fafc;
 }
 
 /* ========================================================================= */
@@ -2415,21 +2354,6 @@ html.dark #experience-dedicated-company-card .exp-company-banner-scrim {
   background: rgba(15, 23, 42, 0.10) !important;
 }
 
-html[data-card-style="light-cowhide-leather"] #experience-dedicated-company-card .exp-company-banner-media img {
-  opacity: 1 !important;
-}
-
-html[data-card-style="light-cowhide-leather"] #experience-dedicated-company-card .exp-company-banner-scrim {
-  background: rgba(251, 252, 253, 0.10) !important;
-}
-
-html[data-card-style="black-cowhide-leather"] #experience-dedicated-company-card .exp-company-banner-media img {
-  opacity: 1 !important;
-}
-
-html[data-card-style="black-cowhide-leather"] #experience-dedicated-company-card .exp-company-banner-scrim {
-  background: rgba(21, 23, 28, 0.10) !important;
-}
 
 html[data-card-style="cowhide-leather"] #experience-dedicated-company-card .exp-company-banner-media img {
   opacity: 1 !important;
@@ -2464,58 +2388,7 @@ html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-s
   color: #FFFFFF;
 }
 
-html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card {
-  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
-  border: 2px solid #d1d5db !important;
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10), inset 0 2px 4px #ffffff, inset 0 -3px 6px rgba(0, 0, 0, 0.06) !important;
-  outline: 1.5px dashed rgba(17, 24, 39, 0.68);
-  outline-offset: -5px;
-  color: #111827 !important;
-}
 
-html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-item-card {
-  background: linear-gradient(145deg, #f4f7fa 0%, #e9eef3 100%) !important;
-  border: 1.5px solid #cbd5e1 !important;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), inset 0 1px 2px rgba(255, 255, 255, 0.92) !important;
-  outline: 1px dashed rgba(17, 24, 39, 0.42);
-  outline-offset: -4px;
-  color: #111827 !important;
-}
-
-html[data-card-style="light-cowhide-leather"] #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
-  background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%) !important;
-  border-color: #94a3b8 !important;
-  outline-color: rgba(17, 24, 39, 0.72);
-}
-
-html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :where(h1, h2, h3, p, span, li):not(.exp-bento-preserve-color):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]) {
-  color: #111827;
-}
-
-html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card,
-html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-bento-item-card {
-  background: linear-gradient(145deg, #252830 0%, #15171c 100%) !important;
-  border: 2px solid #090a0d !important;
-  outline: 1.5px dashed rgba(226, 232, 240, 0.45);
-  outline-offset: -5px;
-  color: #ffffff !important;
-}
-
-html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-bento-item-card {
-  background: linear-gradient(145deg, #1b1e25 0%, #111318 100%) !important;
-  border-color: rgba(226, 232, 240, 0.24) !important;
-  outline-offset: -4px;
-}
-
-html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-bento-light-chip {
-  background: rgba(17, 19, 24, 0.92) !important;
-  border-color: rgba(226, 232, 240, 0.36) !important;
-  color: #e2e8f0 !important;
-}
-
-html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :where(h1, h2, h3, p, span, li):not(.exp-bento-preserve-color):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]) {
-  color: #ffffff;
-}
 
 /* Chi tiết thẻ công việc (#experience-job-detail-card) — Bento Grid cuộn dọc mượt mà trên toàn bộ 5 theme */
 #experience-job-detail-card,
@@ -2544,34 +2417,14 @@ html[data-card-style] #experience-job-detail-card:hover {
   transform: none !important;
 }
 
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #experience-job-detail-card,
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #experience-job-detail-card:hover {
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-job-detail-card,
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-job-detail-card:hover {
   background: var(--surface-secondary-bg, var(--bg-card)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-color)) !important;
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
-  backdrop-filter: blur(var(--surface-secondary-blur, 18px)) saturate(var(--surface-secondary-saturate, 118%)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 18px)) saturate(var(--surface-secondary-saturate, 118%)) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, 14px)) saturate(var(--surface-secondary-saturate, 145%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 14px)) saturate(var(--surface-secondary-saturate, 145%)) !important;
   color: var(--text-primary) !important;
-}
-
-html[data-card-style="light-cowhide-leather"] #experience-job-detail-card,
-html[data-card-style="light-cowhide-leather"] #experience-job-detail-card:hover {
-  background: linear-gradient(145deg, #fbfcfc 0%, #eef2f6 100%) !important;
-  border: 2px solid #cbd5e1 !important;
-  outline: 1.5px dashed rgba(17, 24, 39, 0.55) !important;
-  outline-offset: -5px !important;
-  box-shadow: var(--shadow-card) !important;
-  color: #111827 !important;
-}
-
-html[data-card-style="black-cowhide-leather"] #experience-job-detail-card,
-html[data-card-style="black-cowhide-leather"] #experience-job-detail-card:hover {
-  background: linear-gradient(145deg, #1d2027 0%, #111318 100%) !important;
-  border: 2px solid #090a0d !important;
-  outline: 1.5px dashed rgba(226, 232, 240, 0.42) !important;
-  outline-offset: -5px !important;
-  box-shadow: var(--shadow-card) !important;
-  color: #ffffff !important;
 }
 
 html[data-card-style="cowhide-leather"] #experience-job-detail-card,
@@ -2584,14 +2437,14 @@ html[data-card-style="cowhide-leather"] #experience-job-detail-card:hover {
   color: #ffffff !important;
 }
 
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #experience-job-detail-card .exp-bento-surface-card {
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-job-detail-card .exp-bento-surface-card {
   background: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--border-subcard)) !important;
   box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;
   color: var(--text-primary) !important;
 }
 
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #experience-job-detail-card .exp-bento-item-card {
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-job-detail-card .exp-bento-item-card {
   background: var(--surface-nested-bg, var(--bg-nested-card)) !important;
   border: 1px solid var(--surface-nested-border, var(--border-subcard)) !important;
   box-shadow: var(--surface-nested-shadow, var(--shadow-subcard)) !important;
@@ -2622,7 +2475,7 @@ html[data-card-style] .service-card .service-card-title-header .card-header-sync
   }
 }
 
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
   background: var(--bg-subcard-hover, var(--surface-interactive-hover)) !important;
   box-shadow: var(--shadow-subcard-hover, var(--shadow-subcard)) !important;
 }
@@ -2718,38 +2571,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   border-radius: 9999px !important;
 }
 
-/* Cowhide Leather Light & Dark styling for AI Assistant */
-html[data-card-style="light-cowhide-leather"] #ai-assistant-chat-container {
-  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
-  border: 2px solid #d1d5db !important;
-  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
-  outline-offset: -6px;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-html[data-card-style="light-cowhide-leather"] #ai-assistant-chat-container .ai-assistant-bubble {
-  background: linear-gradient(145deg, #f4f7fa 0%, #e9eef3 100%) !important;
-  border: 1.5px solid #cbd5e1 !important;
-  outline: 1px dashed rgba(17, 24, 39, 0.45);
-  outline-offset: -4px;
-  color: #111827 !important;
-}
-html[data-card-style="light-cowhide-leather"] #ai-assistant-droptop-menu-btn.theme-ai-cat-btn,
-html[data-card-style="light-cowhide-leather"] #ai-assistant-input-text {
-  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
-  border: 2px solid #d1d5db !important;
-  color: #111827 !important;
-  outline: 1.5px dashed rgba(17, 24, 39, 0.55);
-  outline-offset: -4px;
-}
-html[data-card-style="light-cowhide-leather"] #ai-assistant-submit-button,
-html[data-card-style="light-cowhide-leather"] #ai-assistant-droptop-menu-btn.theme-ai-cat-btn[data-open="true"] {
-  background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
-  border: 1.5px solid #374151 !important;
-  color: #FFFFFF !important;
-  outline: 1.5px dashed rgba(255, 255, 255, 0.65);
-  outline-offset: -4px;
-}
+/* Cowhide Leather styling for AI Assistant */
 
 html[data-card-style="cowhide-leather"] #ai-assistant-chat-container {
   background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%) !important;
@@ -2790,45 +2612,6 @@ html[data-card-style="cowhide-leather"] #ai-assistant-droptop-menu-btn.theme-ai-
   outline-offset: -4px;
 }
 
-html[data-card-style="black-cowhide-leather"] #ai-assistant-chat-container {
-  background: linear-gradient(145deg, #252830 0%, #15171c 52%, #1d2027 100%) !important;
-  border: 2px solid #090a0d !important;
-  outline: 1.5px dashed rgba(226, 232, 240, 0.45);
-  outline-offset: -6px;
-  color: #FFFFFF !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-html[data-card-style="black-cowhide-leather"] #ai-assistant-chat-container .ai-assistant-bubble {
-  background: linear-gradient(145deg, #1b1e25 0%, #111318 100%) !important;
-  border: 1.5px solid rgba(226, 232, 240, 0.24) !important;
-  outline: 1px dashed rgba(226, 232, 240, 0.36);
-  outline-offset: -4px;
-  color: #FFFFFF !important;
-}
-html[data-card-style="black-cowhide-leather"] #ai-assistant-droptop-menu-btn.theme-ai-cat-btn {
-  background: linear-gradient(145deg, #252830 0%, #15171c 100%) !important;
-  border: 1.5px solid #090a0d !important;
-  color: #FFFFFF !important;
-  outline: 1px dashed rgba(226, 232, 240, 0.42);
-  outline-offset: -4px;
-}
-html[data-card-style="black-cowhide-leather"] #ai-assistant-input-text {
-  background: rgba(11, 12, 16, 0.94) !important;
-  border: 1.5px solid rgba(226, 232, 240, 0.26) !important;
-  color: #FFFFFF !important;
-  outline: 1px dashed rgba(226, 232, 240, 0.30);
-  outline-offset: -4px;
-}
-html[data-card-style="black-cowhide-leather"] #ai-assistant-submit-button,
-html[data-card-style="black-cowhide-leather"] #ai-assistant-droptop-menu-btn.theme-ai-cat-btn[data-open="true"] {
-  background: linear-gradient(135deg, #334155 0%, #0f172a 100%) !important;
-  border: 1.5px solid rgba(226, 232, 240, 0.55) !important;
-  color: #FFFFFF !important;
-  outline: 1px dashed rgba(226, 232, 240, 0.55);
-  outline-offset: -4px;
-}
-
 /* ========================================================================= */
 /* DETAIL PANELS & SKILLS LANGUAGES THEME CONSISTENCY (ALL 6 PRESETS)       */
 /* ========================================================================= */
@@ -2855,27 +2638,6 @@ html.dark [id^="education-detail-panel-"] {
 }
 
 /* Cowhide leather surface & subcard styling for Systems modal/expanded, Detail panels & Languages */
-html[data-card-style="light-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"], #skills-languages-section) {
-  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
-  border: 2px solid #d1d5db !important;
-  outline: 1.5px dashed rgba(17, 24, 39, 0.65);
-  outline-offset: -6px;
-  color: #111827 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-html[data-card-style="light-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
-html[data-card-style="light-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"],
-html[data-card-style="light-cowhide-leather"] #el-p3-div-90 {
-  background: linear-gradient(145deg, #f4f7fa 0%, #e9eef3 100%) !important;
-  border: 1.5px solid #cbd5e1 !important;
-  outline: 1px dashed rgba(17, 24, 39, 0.50);
-  outline-offset: -4px;
-  color: #111827 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
 
 html[data-card-style="cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"], #skills-languages-section) {
   background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%) !important;
@@ -2899,41 +2661,11 @@ html[data-card-style="cowhide-leather"] #el-p3-div-90 {
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="black-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"], #skills-languages-section) {
-  background: linear-gradient(145deg, #252830 0%, #15171c 52%, #1d2027 100%) !important;
-  border: 2px solid #090a0d !important;
-  outline: 1.5px dashed rgba(226, 232, 240, 0.45);
-  outline-offset: -6px;
-  color: #FFFFFF !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-html[data-card-style="black-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
-html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"],
-html[data-card-style="black-cowhide-leather"] #el-p3-div-90 {
-  background: linear-gradient(145deg, #1b1e25 0%, #111318 100%) !important;
-  border: 1.5px solid rgba(226, 232, 240, 0.24) !important;
-  outline: 1px dashed rgba(226, 232, 240, 0.36);
-  outline-offset: -4px;
-  color: #FFFFFF !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
 /* High contrast on Communication Languages card across dark & leather themes */
 html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title,
 html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-ring-arc,
 html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-level {
   color: #FDE68A !important;
-}
-html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title,
-html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-ring-arc,
-html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-level {
-  color: #E2E8F0 !important;
-}
-html[data-card-style="light-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title {
-  color: #111827 !important;
 }
 html.dark #skills-languages-section #skills-language-card-vi :is(.skills-lang-title, .skills-lang-ring-arc) {
   color: #FB7185 !important;
@@ -3353,6 +3085,12 @@ html.dark #services-page-container .domain-card-sub {
   will-change: top, left, width, height, border-radius;
 }
 
+#services-page-container #services-expanded-card.is-open {
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: var(--radius-main, 30px) !important;
+}
+
 #services-page-container #services-expanded-card.is-animating {
   transition:
     top 0.58s cubic-bezier(0.22, 1, 0.36, 1),
@@ -3465,6 +3203,12 @@ html.dark #systems-page-container .system-card-sub {
   display: flex;
   flex-direction: column;
   will-change: top, left, width, height, border-radius;
+}
+
+#systems-page-container #systems-expanded-card.is-open {
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: var(--radius-main, 30px) !important;
 }
 
 #systems-page-container #systems-expanded-card.is-animating {
@@ -3732,97 +3476,12 @@ html.dark .video-play-btn {
   --vp-sound-hover: rgba(255, 255, 255, 0.30);
 }
 
-/* --- Theme 3: Da bò trắng (Light Stitched Dyed Leather) --- */
-html[data-card-style="light-cowhide-leather"] .video-play-btn {
-  --vp-backdrop: none;
-  --vp-outline: 1.5px dashed rgba(17, 24, 39, 0.58);
-  --vp-outline-offset: -4px;
-  --vp-border: #d1d5db;
-  --vp-text: #111827;
-  --vp-shadow-ambient: 0 8px 18px -4px rgba(15, 23, 42, 0.16);
-  --vp-shadow-hover: 0 12px 24px -4px rgba(15, 23, 42, 0.24);
-  --vp-sound-bg: rgba(17, 24, 39, 0.08);
-  --vp-sound-border: rgba(17, 24, 39, 0.25);
-  --vp-sound-hover: rgba(17, 24, 39, 0.16);
-}
-html[data-card-style="light-cowhide-leather"] .video-play-btn::before,
-html[data-card-style="black-cowhide-leather"] .video-play-btn::before,
 html[data-card-style="cowhide-leather"] .video-play-btn::before {
   display: none !important;
   content: none !important;
 }
-html[data-card-style="light-cowhide-leather"] .video-play-btn:hover,
-html[data-card-style="light-cowhide-leather"] .video-play-btn:focus-visible {
-  --vp-outline: 1.5px dashed rgba(17, 24, 39, 0.88);
-  border-color: #9ca3af !important;
-}
-html[data-card-style="light-cowhide-leather"] .video-play-btn--home {
-  --vp-bg: linear-gradient(145deg, #fbfcfc 0%, #e5ebf1 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #dce5ee 100%);
-}
-html[data-card-style="light-cowhide-leather"] .video-play-btn--about {
-  --vp-bg: linear-gradient(145deg, #fbfcfc 0%, #eceef5 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #e1e5ef 100%);
-}
-html[data-card-style="light-cowhide-leather"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(145deg, #1f2937 0%, #0f172a 100%);
-  --vp-bg-hover: linear-gradient(145deg, #334155 0%, #111827 100%);
-  --vp-border: #d1d5db;
-  --vp-outline: 1.5px dashed rgba(255, 255, 255, 0.72);
-  --vp-text: #FFFFFF;
-}
-html[data-card-style="light-cowhide-leather"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, #fbfcfc 0%, #e8eef3 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #dbe5ed 100%);
-  --vp-border: #cbd5e1;
-  --vp-text: #111827;
-}
-html[data-card-style="light-cowhide-leather"] .video-play-btn--interview {
-  --vp-bg: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #e2e8f0 100%);
-}
 
-/* --- Theme 4: Da bò đen (Black Stitched Dyed Leather) --- */
-html[data-card-style="black-cowhide-leather"] .video-play-btn {
-  --vp-backdrop: none;
-  --vp-outline: 1.5px dashed rgba(226, 232, 240, 0.50);
-  --vp-outline-offset: -4px;
-  --vp-border: #090a0d;
-  --vp-text: #FFFFFF;
-  --vp-specular: rgba(255, 255, 255, 0.14);
-  --vp-shadow-ambient: 0 10px 22px rgba(0, 0, 0, 0.58);
-  --vp-shadow-hover: 0 14px 30px rgba(0, 0, 0, 0.76);
-  --vp-sound-bg: rgba(255, 255, 255, 0.14);
-  --vp-sound-border: rgba(226, 232, 240, 0.34);
-  --vp-sound-hover: rgba(255, 255, 255, 0.26);
-}
-html[data-card-style="black-cowhide-leather"] .video-play-btn:hover,
-html[data-card-style="black-cowhide-leather"] .video-play-btn:focus-visible {
-  --vp-outline: 1.5px dashed rgba(248, 250, 252, 0.85);
-  border-color: rgba(226, 232, 240, 0.45) !important;
-}
-html[data-card-style="black-cowhide-leather"] .video-play-btn--home {
-  --vp-bg: linear-gradient(145deg, #252830 0%, #14161b 100%);
-  --vp-bg-hover: linear-gradient(145deg, #2f333e 0%, #1c1f26 100%);
-}
-html[data-card-style="black-cowhide-leather"] .video-play-btn--about {
-  --vp-bg: linear-gradient(145deg, #262932 0%, #15171d 100%);
-  --vp-bg-hover: linear-gradient(145deg, #323642 0%, #1d2028 100%);
-}
-html[data-card-style="black-cowhide-leather"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(145deg, #2d313b 0%, #16181f 100%);
-  --vp-bg-hover: linear-gradient(145deg, #3b404d 0%, #20232c 100%);
-}
-html[data-card-style="black-cowhide-leather"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, #252830 0%, #14161b 100%);
-  --vp-bg-hover: linear-gradient(145deg, #313540 0%, #1c1f26 100%);
-}
-html[data-card-style="black-cowhide-leather"] .video-play-btn--interview {
-  --vp-bg: linear-gradient(145deg, #262932 0%, #15171d 100%);
-  --vp-bg-hover: linear-gradient(145deg, #323642 0%, #1d2028 100%);
-}
-
-/* --- Theme 5: Da bò nâu (Brown Stitched Saddle Leather) --- */
+/* --- Da bò nâu (Brown Stitched Saddle Leather) --- */
 html[data-card-style="cowhide-leather"] .video-play-btn {
   --vp-backdrop: none;
   --vp-outline: 1.5px dashed rgba(245, 222, 179, 0.58);
@@ -3862,90 +3521,6 @@ html[data-card-style="cowhide-leather"] .video-play-btn--interview {
   --vp-bg-hover: linear-gradient(145deg, #a6692f 0%, #713e15 100%);
 }
 
-/* --- Theme 6: Ice-Blue Soft UI (Light Neumorphism) --- */
-html[data-card-style="ice-blue-neu"] .video-play-btn {
-  --vp-backdrop: blur(14px) saturate(120%);
-  --vp-border: rgba(255, 255, 255, 0.92);
-  --vp-text: #0f172a;
-  --vp-specular: rgba(255, 255, 255, 0.95);
-  --vp-chase-a: #06b6d4;
-  --vp-chase-b: #6366f1;
-  --vp-shadow-ambient: 6px 6px 14px rgba(176, 198, 219, 0.68), -4px -4px 10px rgba(255, 255, 255, 0.95);
-  --vp-shadow-hover: 8px 10px 22px rgba(148, 174, 202, 0.78), -6px -6px 14px rgba(255, 255, 255, 1);
-  --vp-sound-bg: rgba(99, 102, 241, 0.12);
-  --vp-sound-border: rgba(99, 102, 241, 0.28);
-  --vp-sound-hover: rgba(99, 102, 241, 0.22);
-}
-html[data-card-style="ice-blue-neu"] .video-play-btn--home,
-html[data-card-style="ice-blue-neu"] .video-play-btn--about,
-html[data-card-style="ice-blue-neu"] .video-play-btn--interview {
-  --vp-bg: linear-gradient(145deg, #edf4fa 0%, #e4eef7 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #dce9f5 100%);
-}
-html[data-card-style="ice-blue-neu"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, #06b6d4 0%, #6366f1 55%, #ec4899 100%);
-  --vp-bg-hover: linear-gradient(135deg, #22d3ee 0%, #818cf8 55%, #f472b6 100%);
-  --vp-text: #FFFFFF;
-}
-html[data-card-style="ice-blue-neu"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, #edf4fa 0%, #e2edf7 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #d9e8f6 100%);
-  --vp-text: #0f172a;
-}
-
-/* --- Theme 7: Dark Ice-Blue Neu (Dark Neumorphism) --- */
-html[data-card-style="dark-ice-blue-neu"] .video-play-btn {
-  --vp-backdrop: blur(14px) saturate(120%);
-  --vp-border: rgba(148, 197, 248, 0.24);
-  --vp-text: #f8fafc;
-  --vp-specular: rgba(186, 230, 253, 0.16);
-  --vp-chase-a: #38bdf8;
-  --vp-chase-b: #a855f7;
-  --vp-shadow-ambient: 6px 8px 18px #080d14, -4px -4px 12px #203147;
-  --vp-shadow-hover: 10px 12px 26px #060a10, -5px -5px 14px #253952, 0 0 18px rgba(56, 189, 248, 0.28);
-  --vp-sound-bg: rgba(56, 189, 248, 0.16);
-  --vp-sound-border: rgba(56, 189, 248, 0.34);
-  --vp-sound-hover: rgba(56, 189, 248, 0.28);
-}
-html[data-card-style="dark-ice-blue-neu"] .video-play-btn--home,
-html[data-card-style="dark-ice-blue-neu"] .video-play-btn--about,
-html[data-card-style="dark-ice-blue-neu"] .video-play-btn--interview,
-html[data-card-style="dark-ice-blue-neu"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, #1b2a3e 0%, #131d2b 100%);
-  --vp-bg-hover: linear-gradient(145deg, #243750 0%, #182536 100%);
-}
-html[data-card-style="dark-ice-blue-neu"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, #0ea5e9 0%, #6366f1 55%, #ec4899 100%);
-  --vp-bg-hover: linear-gradient(135deg, #38bdf8 0%, #818cf8 55%, #f472b6 100%);
-  --vp-text: #FFFFFF;
-}
-
-/* --- Theme 8: Glass Flat (Crisp Sky Glass) --- */
-html[data-card-style="glass-flat"] .video-play-btn {
-  --vp-backdrop: blur(14px) saturate(150%);
-  --vp-border: rgba(14, 165, 233, 0.34);
-  --vp-text: #0f172a;
-  --vp-specular: rgba(255, 255, 255, 0.85);
-  --vp-chase-a: #0284c7;
-  --vp-chase-b: #38bdf8;
-  --vp-shadow-ambient: 0 8px 20px rgba(14, 165, 233, 0.14);
-  --vp-shadow-hover: 0 12px 26px rgba(14, 165, 233, 0.24);
-  --vp-sound-bg: rgba(14, 165, 233, 0.12);
-  --vp-sound-border: rgba(14, 165, 233, 0.28);
-  --vp-sound-hover: rgba(14, 165, 233, 0.22);
-}
-html[data-card-style="glass-flat"] .video-play-btn--home,
-html[data-card-style="glass-flat"] .video-play-btn--about,
-html[data-card-style="glass-flat"] .video-play-btn--interview,
-html[data-card-style="glass-flat"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(224, 242, 254, 0.88) 100%);
-  --vp-bg-hover: linear-gradient(135deg, #ffffff 0%, #bae6fd 100%);
-}
-html[data-card-style="glass-flat"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, #0284c7 0%, #0ea5e9 55%, #38bdf8 100%);
-  --vp-bg-hover: linear-gradient(135deg, #0369a1 0%, #0284c7 55%, #0ea5e9 100%);
-  --vp-text: #FFFFFF;
-}
 
 /* --- Theme 9: Deep Ocean (Abyssal Aqua Glass) --- */
 html[data-card-style="deep-ocean"] .video-play-btn {

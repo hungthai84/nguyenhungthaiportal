@@ -541,7 +541,7 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
 };
 
 export function AboutView({ 
-  currentTheme = 'rainbow-glass', 
+  currentTheme = 'liquid-glass', 
   onNavigatePage,
   onShowNotification,
   onOpenMapModal,
@@ -1654,8 +1654,8 @@ export function AboutView({
       >
         <div
           id="about-intro-grid-1"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px' }}
-          className="w-full flex-1 min-h-0 my-auto grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)] gap-[15px] p-0 overflow-visible items-stretch box-border"
+          style={{ padding: '0px' }}
+          className="w-full flex-1 min-h-0 my-auto grid grid-cols-2 lg:grid-cols-12 grid-rows-[minmax(0,1fr)] gap-[10px] sm:gap-[15px] p-0 overflow-hidden items-stretch box-border"
         >
             
             {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA */}
@@ -1670,7 +1670,7 @@ export function AboutView({
                 borderRadius: 'var(--radius-card, 14px)',
                 padding: '5px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-0 group/video p-[5px] text-left"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-0 min-w-0 group/video p-[5px] text-left"
             >
                   <div
                     style={{ borderRadius: 'calc(var(--radius-card, 14px) - 5px)' }}
@@ -1837,7 +1837,7 @@ export function AboutView({
                     <div 
                       id="el-p2-div-103"
                       style={{ borderRadius: '999px' }}
-                      className={`theme-video-capsule video-play-btn video-play-btn--about ${isPlayingIntro ? 'is-playing' : ''} absolute bottom-3 right-3 sm:bottom-3.5 sm:right-3.5 z-30 inline-flex items-center gap-2.5 px-3 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none`}
+                      className={`theme-video-capsule video-play-btn video-play-btn--about ${isPlayingIntro ? 'is-playing' : ''} absolute bottom-2 right-2 sm:bottom-3.5 sm:right-3.5 z-30 max-w-[calc(100%-16px)] inline-flex items-center gap-1.5 sm:gap-2.5 px-2 sm:px-3 py-1 sm:py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none`}
                     >
                       {/* Speaker / Sound Toggle Button */}
                       <button
@@ -1936,20 +1936,19 @@ export function AboutView({
               data-element-parent="about-intro-card-1"
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
-                padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-2.5 self-stretch h-full min-h-0 text-left rounded-[var(--radius-card,14px)] p-[15px] overflow-hidden"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-2 sm:gap-2.5 self-stretch h-full min-h-0 min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[15px] overflow-hidden"
             >
                   {/* Header Bento Box Bar + Thanh thao tác nhanh (Lật Bản đồ M, Sao chép 1 chạm, Mã QR vCard) */}
-                  <div className="flex items-center justify-between gap-2 border-b border-[var(--border-subcard)] pb-2 shrink-0 min-w-0">
-                    <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400 min-w-0">
-                      <WebIcon name="user" className="w-[18px] h-[18px] text-blue-600 dark:text-cyan-400 shrink-0" style={{ width: '18px', height: '18px' }} />
+                  <div className="flex flex-wrap items-center justify-between gap-1 sm:gap-2 border-b border-[var(--border-subcard)] pb-1.5 sm:pb-2 shrink-0 min-w-0">
+                    <div className="card-header-sync flex items-center gap-1.5 sm:gap-2 text-blue-600 dark:text-cyan-400 min-w-0 flex-1">
+                      <WebIcon name="user" className="w-[15px] h-[15px] sm:w-[18px] sm:h-[18px] text-blue-600 dark:text-cyan-400 shrink-0" />
                       <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight truncate" data-card-title="true">
                         Thông tin chi tiết
                       </h3>
                     </div>
 
-                    <div className="flex items-center gap-1.5 shrink-0">
+                    <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
                       <button
                         type="button"
                         id="about-toggle-media-btn"
@@ -1964,7 +1963,7 @@ export function AboutView({
                         }
                         aria-label="Chuyển đổi giữa Video và Bản đồ"
                         className={cn(
-                          'banner-control-pill inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold font-play cursor-pointer transition-all active:scale-95 whitespace-nowrap shrink-0',
+                          'banner-control-pill inline-flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-full typo-badge font-semibold font-play cursor-pointer transition-all active:scale-95 whitespace-nowrap shrink-0',
                           activeHeroMedia === 'map' && 'ring-1 ring-cyan-500/60 text-cyan-700 dark:text-cyan-300'
                         )}
                       >
@@ -2017,7 +2016,10 @@ export function AboutView({
                   </div>
 
                   {/* Sub-Card Bento Grid (Sắp xếp 3 tầng ưu tiên: Liên hệ trực tiếp -> Bản đồ vị trí -> Nhân khẩu học, 6 hàng cân đối không ô trống) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-6 lg:auto-rows-fr gap-2.5 py-0.5 flex-1 min-h-0 overflow-y-auto glass-scrollbar items-stretch w-full min-w-0">
+                  <div
+                    id="about-personal-info-grid"
+                    className="grid grid-cols-1 sm:grid-cols-6 lg:auto-rows-fr gap-2 sm:gap-2.5 py-0.5 flex-1 min-h-0 overflow-y-auto glass-scrollbar items-stretch w-full min-w-0"
+                  >
                     {[
                       // TẦNG 1: LIÊN HỆ & KẾT NỐI TRỰC TIẾP
                       {

@@ -252,7 +252,7 @@ const HEADER_ORDER_IDS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 export const Header: React.FC<HeaderProps> = ({
   pages,
   currentPage,
-  currentTheme = 'rainbow-glass',
+  currentTheme = 'liquid-glass',
   onSelectPage,
   onShowNotification,
 }) => {
@@ -294,7 +294,6 @@ export const Header: React.FC<HeaderProps> = ({
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== 'undefined' ? window.innerWidth : 1280
   );
-  const [readProgress, setReadProgress] = useState<number>(0);
   const [pillRipples, setPillRipples] = useState<Record<string, { id: number; x: number; y: number }>>({});
   const rippleTimersRef = useRef<Record<string, number>>({});
 
@@ -420,7 +419,6 @@ export const Header: React.FC<HeaderProps> = ({
     setIsRadialMenuOpen(false);
     setHoveredNavIndex(null);
     setFocusedNavIndex(null);
-    setReadProgress(0);
   }, [currentPage]);
 
   useEffect(() => {
@@ -446,46 +444,6 @@ export const Header: React.FC<HeaderProps> = ({
     return () => window.cancelAnimationFrame(rafId);
   }, [currentPage, viewportWidth, uniformPillWidth, isCompactMobile]);
 
-  // Thanh chỉ báo tiến độ đọc trang theo vị trí cuộn thực tế trong Main Card
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-    let rafId: number | null = null;
-
-    const updateProgressFromEl = (el: HTMLElement | null) => {
-      if (!el) return;
-      const scrollable = el.scrollHeight - el.clientHeight;
-      if (scrollable <= 12) {
-        setReadProgress(0);
-        return;
-      }
-      const ratio = Math.max(0, Math.min(1, el.scrollTop / scrollable));
-      setReadProgress(ratio);
-    };
-
-    const handleCaptureScroll = (event: Event) => {
-      const target = event.target as HTMLElement | null;
-      if (!target || target === document.documentElement || target === document.body) return;
-      const viewport = document.getElementById('global-content-viewport');
-      if (!viewport || !viewport.contains(target)) return;
-      // Bỏ qua các danh sách/popup/dropdown nhỏ không phải vùng đọc chính
-      if (target.clientHeight < 180 || target.scrollHeight <= target.clientHeight + 16) return;
-      if (target.closest('[role="listbox"], [role="dialog"], .theme-popup, .banner-dropdown-menu')) return;
-
-      if (rafId !== null) window.cancelAnimationFrame(rafId);
-      rafId = window.requestAnimationFrame(() => {
-        updateProgressFromEl(target);
-        rafId = null;
-      });
-    };
-
-    document.addEventListener('scroll', handleCaptureScroll, true);
-    return () => {
-      document.removeEventListener('scroll', handleCaptureScroll, true);
-      if (rafId !== null) window.cancelAnimationFrame(rafId);
-    };
-  }, [currentPage]);
-
-  const activePageAccentColor = PAGE_FOOTER_STYLE_MAP[currentPage]?.accentColor || '#6366F1';
 
   const exposedWidth = isSmallScreen ? 50 : 52;
   const overlapPx = uniformPillWidth
@@ -819,19 +777,6 @@ export const Header: React.FC<HeaderProps> = ({
           );
         })()}
       </nav>
-
-      {/* Thanh chỉ báo tiến độ đọc trang ngay trên viền dưới Header đồng bộ màu icon trang hiện tại */}
-      <div id="header-reading-progress-track" aria-hidden="true">
-        <div
-          id="header-reading-progress-bar"
-          style={{
-            transform: `scaleX(${readProgress})`,
-            opacity: readProgress > 0.005 ? 1 : 0,
-            backgroundColor: activePageAccentColor,
-            boxShadow: `0 0 8px ${activePageAccentColor}`,
-          }}
-        />
-      </div>
     </header>
   );
 

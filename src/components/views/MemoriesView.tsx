@@ -18,7 +18,7 @@ export interface MemoriesViewProps {
   currentTheme?: string;
 }
 
-export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'rainbow-glass' }) => {
+export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liquid-glass' }) => {
   const { showToast } = useToast();
   const { isDark: themeIsDark } = useTheme();
   const isDark = themeIsDark || currentTheme.includes('dark');

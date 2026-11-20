@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="dark-ice-blue-neu"], [data-theme="dark-ice-blue-neu"] *, [data-theme="dark-rainbow-glass"], [data-theme="dark-rainbow-glass"] *, [data-theme="special-rainbow-glass"], [data-theme="special-rainbow-glass"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -139,12 +139,8 @@
 @import "./styles/base.css";
 @import "./styles/layout.css";
 @import "./styles/cards.css";
-@import "./styles/themes/light-cowhide-leather.css";
-@import "./styles/themes/black-cowhide-leather.css";
+@import "./styles/themes/liquid-glass.css";
 @import "./styles/themes/cowhide-leather.css";
-@import "./styles/themes/ice-blue-neu.css";
-@import "./styles/themes/glass-flat.css";
-@import "./styles/themes/rainbow-glass.css";
 @import "./styles/themes/deep-ocean.css";
 @import "./styles/themes/mica-fluent.css";
 @import "./styles/layers.css";
@@ -931,9 +927,6 @@ html :is(
   .theme-modal-card,
   .theme-popup
 ),
-.card-white-pebbled-leather,
-.card-light-cowhide-leather,
-.card-black-cowhide-leather,
 .card-cowhide-leather {
   border-radius: var(--radius-card, 24px) !important;
 }
@@ -985,24 +978,6 @@ html :is(
 /* ========================================================================= */
 /* ULTRA-CRISP PURE BLACK (#000000) / PURE WHITE (#FFFFFF) FONT SHARPNESS    */
 /* ========================================================================= */
-html[data-card-style="light-cowhide-leather"] {
-  --color-heading: #111827 !important;
-  --color-text: #111827 !important;
-  --color-text-secondary: #1f2937 !important;
-  --color-text-muted: #374151 !important;
-  --text-primary: #111827 !important;
-  --text-secondary: #1f2937 !important;
-  --text-muted: #374151 !important;
-  --text-heading: #111827 !important;
-  --text-input: #111827 !important;
-  --pillar-heading: #111827 !important;
-  --pillar-body: #111827 !important;
-  --text-banner-pill: #111827 !important;
-  --text-banner-input: #111827 !important;
-  --text-nav-arrow: #111827 !important;
-}
-
-html[data-card-style="black-cowhide-leather"],
 html[data-card-style="cowhide-leather"] {
   --color-heading: #FFFFFF !important;
   --color-text: #FFFFFF !important;
@@ -1076,8 +1051,8 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-102:nt
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-81:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1) {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 /* ========================================================================= */
@@ -1234,29 +1209,6 @@ html #contact-main-card > div:first-child {
 }
 
 /* Sync leather stitched header surface onto all Main Cards (including screen #pdf-page-container) */
-html[data-card-style="light-cowhide-leather"] .page-main-card,
-html[data-card-style="light-cowhide-leather"] [data-main-card="true"],
-html[data-card-style="light-cowhide-leather"] #about-intro-card-1,
-html[data-card-style="light-cowhide-leather"] #about-intro-card-2,
-html[data-card-style="light-cowhide-leather"] #pdf-page-container {
-  background: linear-gradient(145deg, #fbfcfc 0%, #edf1f4 100%) !important;
-  border-color: #d1d5db !important;
-  color: #111827 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  outline: 1.5px dashed rgba(17, 24, 39, 0.65) !important;
-  outline-offset: -6px !important;
-}
-
-html[data-card-style="black-cowhide-leather"] .page-main-card,
-html[data-card-style="black-cowhide-leather"] [data-main-card="true"],
-html[data-card-style="black-cowhide-leather"] #about-intro-card-1,
-html[data-card-style="black-cowhide-leather"] #about-intro-card-2,
-html[data-card-style="black-cowhide-leather"] #pdf-page-container {
-  outline: 1.5px dashed rgba(226, 232, 240, 0.42) !important;
-  outline-offset: -6px !important;
-  color: #ffffff !important;
-}
 
 html[data-card-style="cowhide-leather"] .page-main-card,
 html[data-card-style="cowhide-leather"] [data-main-card="true"],
@@ -2033,16 +1985,6 @@ html[data-card-style] .project-detail-banner-media :is(img, video) {
 }
 
 /* Leather stitched frames match their sibling cards */
-html[data-card-style="light-cowhide-leather"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], [id$="-hero-banner"], #interview-questions-card, #project-detail-banner) {
-  border: 2px solid #d1d5db !important;
-  outline: 1.5px dashed rgba(17, 24, 39, 0.65) !important;
-  outline-offset: -7px !important;
-}
-html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], [id$="-hero-banner"], #interview-questions-card, #project-detail-banner) {
-  border: 2px solid #090a0d !important;
-  outline: 1.5px dashed rgba(226, 232, 240, 0.45) !important;
-  outline-offset: -7px !important;
-}
 html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], [id$="-hero-banner"], #interview-questions-card, #project-detail-banner) {
   border: 2px solid #522E10 !important;
   outline: 1.5px dashed rgba(245, 222, 179, 0.55) !important;
@@ -2174,8 +2116,6 @@ html :is(
 html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
 html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
 html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="special-rainbow-glass"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
 html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
   background: linear-gradient(180deg, rgba(8, 13, 28, 0.24) 0%, rgba(8, 13, 28, 0.06) 48%, rgba(8, 13, 28, 0.22) 100%) !important;
   opacity: 1 !important;
@@ -2203,8 +2143,6 @@ html[data-card-style] #project-detail-banner[data-banner-aspect="sidebar"] .proj
 html.dark #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
 html[data-card-style*="dark"] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
 html[data-card-style="cowhide-leather"] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
-html[data-card-style="black-cowhide-leather"] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
-html[data-card-style="special-rainbow-glass"] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
 html[data-card-style="deep-ocean"] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim {
   background: linear-gradient(180deg, rgba(10, 16, 30, 0.48) 0%, rgba(10, 16, 30, 0.36) 48%, rgba(8, 13, 26, 0.54) 100%) !important;
   opacity: 1 !important;
@@ -2275,8 +2213,6 @@ html :is(
 html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
 html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
 html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
-html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
-html[data-card-style="special-rainbow-glass"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
 html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
   background: linear-gradient(135deg, rgba(10, 16, 30, 0.72) 0%, rgba(15, 23, 42, 0.58) 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.22) !important;
@@ -2286,8 +2222,6 @@ html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-deta
 html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync,
 html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync,
 html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync,
-html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync,
-html[data-card-style="special-rainbow-glass"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync,
 html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync {
   color: color-mix(in srgb, var(--text-link, #38bdf8) 55%, #ffffff) !important;
 }
@@ -2295,8 +2229,6 @@ html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-deta
 html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg),
 html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg),
 html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg),
-html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg),
-html[data-card-style="special-rainbow-glass"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg),
 html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg) {
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.72) !important;
 }
@@ -2304,17 +2236,13 @@ html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-deta
 html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
 html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
 html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
-html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
-html[data-card-style="special-rainbow-glass"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
 html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
   color: #f8fafc !important;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.78) !important;
 }
 
 /* 100% Transparent background for Weather Card across all active themes */
-html :is(#weather-card, #weather-widget-card, .weather-card),
-html[data-card-style="ice-blue-neu"] :is(#weather-card, #weather-widget-card, .weather-card),
-html[data-card-style="dark-ice-blue-neu"] :is(#weather-card, #weather-widget-card, .weather-card) {
+html :is(#weather-card, #weather-widget-card, .weather-card) {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
@@ -2514,7 +2442,7 @@ button.nav-pill:active {
 /* MENU ICON DEFAULT TITLE COLOR = ICON COLOR                                */
 /* & SELECTED PAGE = HOVER EFFECT + CHANGED ACCENT BACKGROUND COLOR          */
 /* ========================================================================= */
-html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+html:not([data-card-style="cowhide-leather"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -2527,7 +2455,7 @@ html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhid
   color: var(--nav-pill-accent, var(--text-primary)) !important;
 }
 
-html.dark:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+html.dark:not([data-card-style="cowhide-leather"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -2537,7 +2465,7 @@ html.dark:not([data-card-style="light-cowhide-leather"]):not([data-card-style="c
   #footer-wallpaper-btn,
   #footer-ai-btn
 ) .nav-pill-title,
-html:is([data-card-style="dark-rainbow-glass"], [data-card-style="special-rainbow-glass"], [data-card-style="dark-ice-blue-neu"], [data-card-style="deep-ocean"]) :is(
+html:is([data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -2551,7 +2479,7 @@ html:is([data-card-style="dark-rainbow-glass"], [data-card-style="special-rainbo
 }
 
 /* Active / Selected Page Pill: Hover lift + glow + changed button background color */
-html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+html:not([data-card-style="cowhide-leather"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -2576,7 +2504,7 @@ html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhid
   color: #ffffff !important;
 }
 
-html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+html:not([data-card-style="cowhide-leather"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -2590,7 +2518,7 @@ html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhid
   transform: none !important;
 }
 
-html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+html:not([data-card-style="cowhide-leather"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -2603,7 +2531,7 @@ html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhid
   color: #ffffff !important;
 }
 
-html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+html:not([data-card-style="cowhide-leather"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -2616,7 +2544,7 @@ html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhid
   background-color: rgba(255, 255, 255, 0.52) !important;
 }
 
-html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+html:not([data-card-style="cowhide-leather"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -2734,8 +2662,8 @@ button#header-btn-hungthai-avatar:focus-visible,
 /* ========================================================================= */
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-80:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
 html #home-page-container > #home-cards-track {
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   border-style: none !important;
 }
 
@@ -2808,7 +2736,7 @@ html #el-p0-div-98::after {
 /* ========================================================================= */
 /* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL ACTIVE THEMES)      */
 /* ========================================================================= */
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"], [data-card-style="rainbow-glass"], [data-card-style="dark-rainbow-glass"], [data-card-style="special-rainbow-glass"], [data-card-style="glass-flat"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"]) :is(
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
   #projects-grid .project-card .project-card-banner,
   .hero-banner .project-detail-banner-media,
@@ -2890,13 +2818,8 @@ html[data-surface-depth="flat"] :is(
 
 
 #systems-cards-track {
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-}
-
-#about-personal-info-card-right .about-info-subcard {
-  height: 100% !important;
-  min-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 /* ========================================================================= */
@@ -2950,37 +2873,9 @@ button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-ripple
   );
 }
 
-/* ========================================================================= */
-/* HEADER BOTTOM READING PROGRESS INDICATOR BAR                              */
-/* ========================================================================= */
-#header-reading-progress-track {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 0;
-  height: 2.5px;
-  border-radius: 999px;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 60;
-  background: transparent;
-}
-
-#header-reading-progress-bar {
-  width: 100%;
-  height: 100%;
-  border-radius: 999px;
-  transform-origin: 0% 50%;
-  transition: transform 90ms linear, opacity 220ms ease, background-color 240ms ease;
-  will-change: transform, opacity;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .nav-pill-ripple-wave {
     animation: none !important;
     opacity: 0 !important;
-  }
-  #header-reading-progress-bar {
-    transition: none !important;
   }
 }

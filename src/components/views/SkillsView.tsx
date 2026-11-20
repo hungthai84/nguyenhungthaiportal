@@ -324,11 +324,11 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
 
   // Bộ lọc 14 màu chuẩn
   const swotFilterOptions = [
-    { id: null, label: isVi ? "Tất cả (#SWOT)" : "All (#SWOT)", badge: "#ALL", color: "text-[#1480C0]" },
-    { id: "S", label: isVi ? "#S · Thế Mạnh Cốt Lõi" : "#S · Core Strengths", badge: "#S", color: "text-[#1480C0]" },
-    { id: "W", label: isVi ? "#W · Khía Cạnh Hoàn Thiện" : "#W · Growth Areas", badge: "#W", color: "text-[#50B347]" },
-    { id: "O", label: isVi ? "#O · Cơ Hội Phát Triển" : "#O · Opportunities", badge: "#O", color: "text-[#EC7D21]" },
-    { id: "T", label: isVi ? "#T · Thách Thức Thích Ứng" : "#T · Threats & Risks", badge: "#T", color: "text-[#E64C72]" },
+    { id: null, label: isVi ? "Tất cả kỹ năng" : "All Skills", badge: "#ALL", color: "text-[#1480C0]" },
+    { id: "S", label: isVi ? "Thế mạnh cốt lõi" : "Core Strengths", badge: "#S", color: "text-[#1480C0]" },
+    { id: "W", label: isVi ? "Khía cạnh hoàn thiện" : "Growth Areas", badge: "#W", color: "text-[#50B347]" },
+    { id: "O", label: isVi ? "Cơ hội phát triển" : "Opportunities", badge: "#O", color: "text-[#EC7D21]" },
+    { id: "T", label: isVi ? "Thách thức thích ứng" : "Threats & Risks", badge: "#T", color: "text-[#E64C72]" },
   ];
 
   // Cấu hình 4 thẻ SWOT
@@ -494,14 +494,14 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                   id="skills-filter-toggle-btn"
                   type="button"
                   onClick={() => setIsFilterOpen((prev) => !prev)}
-                  className="banner-control-pill swot-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
-                  title={isVi ? "Bộ lọc" : "Filter"}
+                  className="banner-control-pill swot-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+                  title={isVi ? "Bộ lọc kỹ năng" : "Skill Filter"}
                   aria-label="Bộ lọc kỹ năng"
                   aria-expanded={isFilterOpen}
                   aria-haspopup="listbox"
                 >
-                  <WebIcon name="sliders" className="w-4 h-4 text-[var(--color-primary)] transition-transform group-hover:rotate-45 shrink-0" />
-                  <span>{isVi ? "Bộ lọc" : "Filter"}</span>
+                  <WebIcon name="sliders" className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
+                  <span>{isVi ? "Bộ lọc kỹ năng" : "Skill Filter"}</span>
                 {selectedSwot && (
                   <span className="banner-count-pill px-2 py-0.5 rounded-full border typo-badge font-mono">
                     #{selectedSwot}

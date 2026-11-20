@@ -1689,7 +1689,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                         draggingId === 'SDP' ? 'dragging' : ''
                       }`}
                     >
-                      <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 rounded-[14px] blur-md opacity-45 group-hover:opacity-75 transition duration-300 pointer-events-none" />
+                      {/* Hover glow halo removed per user request */}
 
                       <div className="relative flex flex-col items-center text-center">
                         <div className="flex items-center justify-between w-full mb-1 gap-1.5 sm:gap-2">

@@ -173,7 +173,7 @@ export interface EducationViewProps {
 
 // Phân loại hình thức đào tạo chuẩn: Đào tạo nội bộ / Đào tạo bên ngoài / Đào tạo chính quy / Đào tạo học nghề / Tự học phát triển
 const TRAINING_TYPE_CATEGORIES = [
-  { id: 'all', label: 'Tất cả' },
+  { id: 'all', label: 'Tất cả khóa học' },
   { id: 'Đào tạo nội bộ', label: 'Đào tạo nội bộ' },
   { id: 'Đào tạo bên ngoài', label: 'Đào tạo bên ngoài' },
   { id: 'Đào tạo chính quy', label: 'Đào tạo chính quy' },
@@ -248,7 +248,9 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu' ||
-    currentTheme === 'dark-rainbow-glass';
+    currentTheme === 'dark-rainbow-glass' ||
+    currentTheme === 'special-rainbow-glass' ||
+    currentTheme === 'deep-ocean';
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -524,14 +526,14 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 SoundEngine.playTap();
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
-              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
-              title={isEn ? 'Filter' : 'Bộ lọc'}
-              aria-label="Bộ lọc hình thức"
+              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+              title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
+              aria-label="Bộ lọc khóa học"
               aria-expanded={isFilterDropdownOpen}
               aria-haspopup="listbox"
             >
-              <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] transition-transform group-hover:rotate-45 shrink-0" />
-              <span>{isEn ? 'Filter' : 'Bộ lọc'}</span>
+              <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
+              <span>{isEn ? 'Course Filter' : 'Bộ lọc khóa học'}</span>
               {activeCategory !== 'all' && (
                 <span className="banner-count-pill px-1.5 py-0.5 rounded-full typo-badge font-mono">
                   {TRAINING_TYPE_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory}
@@ -674,12 +676,16 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   padding: '10px',
                 }}
               >
-                {/* 1. Ảnh bìa banner tỷ lệ 16:10 bo cong 4 góc */}
-                <div className="education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img rounded-[14px] m-0 p-0">
+                {/* 1. Ảnh bìa banner tỷ lệ 16:10 nằm gọn trong card padding 1px */}
+                <div
+                  data-media-card="image"
+                  className="education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img rounded-[14px] m-0 p-[1px]"
+                >
                   <img
                     src={course.image}
                     alt={localizedCourseTitle}
-                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 block m-0 p-0 rounded-[14px]"
+                    style={{ borderRadius: 'calc(var(--radius-card, 14px) - 1px)' }}
+                    className="w-full h-full object-cover object-center block m-0 p-0"
                     loading="lazy"
                     referrerPolicy="no-referrer"
                   />
@@ -910,7 +916,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                               type="button"
                               onClick={() => handleNavigateSkillToSwot(skill)}
                               title={isEn ? `View ${skill} in Core Skills SWOT` : `Xem kỹ năng "${skill}" trong Ma trận Kỹ năng SWOT`}
-                              className="education-skill-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge cursor-pointer transition-all hover:scale-[1.03] hover:shadow-xs active:scale-95"
+                              className="education-skill-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge cursor-pointer transition-all hover:shadow-xs active:scale-95"
                             >
                               <WebIcon name={getSkillTagIcon(skill)} className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
                               <span>{skill}</span>
@@ -949,11 +955,15 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           <span>Phóng to</span>
                         </span>
                       </div>
-                      <div className="education-card-banner themed-image-frame relative aspect-[16/9] w-full rounded-[12px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
+                      <div
+                        data-media-card="image"
+                        className="education-card-banner themed-image-frame relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)] p-[1px]"
+                      >
                         <img
                           src={course.courseImg || course.image}
                           alt={course.title}
-                          className="w-full h-full object-cover object-top rounded-[12px] transition-transform duration-500 group-hover/photo:scale-105"
+                          style={{ borderRadius: 'calc(var(--radius-card, 14px) - 1px)' }}
+                          className="w-full h-full object-cover object-top block"
                           loading="lazy"
                         />
                       </div>
@@ -1035,11 +1045,15 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           <span>Xem bằng</span>
                         </span>
                       </div>
-                      <div className="relative aspect-[16/9] w-full rounded-[12px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)]">
+                      <div
+                        data-media-card="image"
+                        className="relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950 border border-[var(--border-subcard)] p-[1px]"
+                      >
                         <img
                           src={course.certImg || course.image}
                           alt="Chứng nhận bằng cấp"
-                          className="w-full h-full object-cover object-top rounded-[12px] transition-transform duration-500 group-hover/cert:scale-105"
+                          style={{ borderRadius: 'calc(var(--radius-card, 14px) - 1px)' }}
+                          className="w-full h-full object-cover object-top block"
                           loading="lazy"
                         />
                       </div>

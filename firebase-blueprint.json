@@ -35,7 +35,13 @@
             "black-cowhide-leather",
             "cowhide-leather",
             "ice-blue-neu",
-            "dark-ice-blue-neu"
+            "dark-ice-blue-neu",
+            "glass-flat",
+            "rainbow-glass",
+            "dark-rainbow-glass",
+            "special-rainbow-glass",
+            "deep-ocean",
+            "mica-fluent"
           ],
           "minLength": 1,
           "maxLength": 64
@@ -46,6 +52,12 @@
           "enum": ["flat", "depth"],
           "minLength": 4,
           "maxLength": 5
+        },
+        "layerDepth": {
+          "type": "integer",
+          "description": "Layer card shadow depth intensity percentage (0 to 200).",
+          "minimum": 0,
+          "maximum": 200
         },
         "autoTimeTheme": {
           "type": "boolean",

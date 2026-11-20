@@ -172,7 +172,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
       {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
       <div
         id="interview-main-content"
-        className="w-full flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[minmax(0,1fr)] items-stretch gap-[15px] min-h-0 overflow-y-auto lg:overflow-visible no-scrollbar rounded-[var(--radius-card,24px)]"
+        className="w-full max-w-full min-w-0 flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[minmax(0,1fr)] items-stretch gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar rounded-[var(--radius-card,24px)]"
       >
         
         {/* 1. VIDEO BANNER SECTION (70% width on LG, equal height & Level 2 Layer Card parity with Chi tiết trả lời) */}
@@ -202,17 +202,17 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
 
           {/* Hàng trên: Icon + Tiêu đề bên trái, Câu nói chữ ký bên phải */}
           <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
-            <div className="flex items-center gap-2 min-w-0">
+            <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
               <WebIcon
                 name="mic"
-                className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] text-[#38bdf8]"
-                style={{ color: '#38bdf8', width: '22px', height: '22px', fontWeight: 'bold' }}
+                className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                style={{ width: '22px', height: '22px', fontWeight: 'bold' }}
               />
               <h1
                 id="interview-hero-banner-title"
-                className="typo-h3 font-play not-italic tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] text-[#38bdf8] truncate"
+                className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
+                data-card-title="true"
                 style={{
-                  color: '#38bdf8',
                   textTransform: 'none',
                   fontStyle: 'normal',
                   transform: 'none',
@@ -222,14 +222,13 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
               </h1>
             </div>
             <p
-              className="typo-h2 font-moon-dance not-italic font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
-              style={{ color: '#ffff18', fontFamily: "'Moon Dance', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+              className="banner-quote typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+              style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
             >
               &quot;Giao lưu cởi mở để thấu hiểu và sẻ chia ♡&quot;
             </p>
           </div>
 
-          {/* Hàng dưới: 1 Nút Filter duy nhất bên trái + Cụm nút Laser Beam Phát Video bên phải */}
           {/* Hàng dưới: Bộ lọc câu hỏi bên trái & Nút Phát Video bên dưới bên phải banner */}
           <div id="interview-video-banner-controls" className="relative z-30 flex items-center justify-between gap-2 mt-auto w-full">
             {/* Nhóm các câu hỏi ở banner vào 1 nút filter với menu xổ xuống */}
@@ -241,16 +240,16 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
                 className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group shrink-0"
-                title="Bộ lọc"
+                title="Bộ lọc câu hỏi"
                 aria-label="Bộ lọc câu hỏi phỏng vấn"
                 aria-expanded={isFilterDropdownOpen}
                 aria-haspopup="listbox"
               >
                 <WebIcon
                   name="sliders"
-                  className="w-4 h-4 text-[var(--color-primary)] transition-transform group-hover:rotate-45 shrink-0"
+                  className="w-4 h-4 text-[var(--color-primary)] shrink-0"
                 />
-                <span className="shrink-0">Bộ lọc</span>
+                <span className="shrink-0">Bộ lọc câu hỏi</span>
                 {activeFilter !== 'all' ? (
                   <span className="banner-count-pill px-2 py-0.2 rounded-full border typo-badge font-mono font-bold shrink-0">
                     {INTERVIEW_TABS.find((t) => t.key === activeFilter)?.labelVi}

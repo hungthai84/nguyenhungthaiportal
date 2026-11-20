@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useMemo } from 'react';
 import { PageMeta, SiteTheme } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useLanguage } from '@/context/LanguageContext';
@@ -291,14 +291,49 @@ export const Header: React.FC<HeaderProps> = ({
   const [isCompactMobile, setIsCompactMobile] = useState<boolean>(
     typeof window !== 'undefined' ? window.innerWidth < 768 : false
   );
+  const [viewportWidth, setViewportWidth] = useState<number>(
+    typeof window !== 'undefined' ? window.innerWidth : 1280
+  );
+  const [readProgress, setReadProgress] = useState<number>(0);
+  const [pillRipples, setPillRipples] = useState<Record<string, { id: number; x: number; y: number }>>({});
+  const rippleTimersRef = useRef<Record<string, number>>({});
 
   const avatarPillRef = useRef<HTMLDivElement>(null);
+
+  const triggerPillRipple = (pillKey: string, e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const hasCoords = e.clientX !== 0 || e.clientY !== 0;
+    const x = hasCoords ? e.clientX - rect.left : rect.width / 2;
+    const y = hasCoords ? e.clientY - rect.top : rect.height / 2;
+    const rippleId = Date.now() + Math.random();
+    setPillRipples((prev) => ({ ...prev, [pillKey]: { id: rippleId, x, y } }));
+    if (rippleTimersRef.current[pillKey]) {
+      window.clearTimeout(rippleTimersRef.current[pillKey]);
+    }
+    rippleTimersRef.current[pillKey] = window.setTimeout(() => {
+      setPillRipples((prev) => {
+        if (!prev[pillKey] || prev[pillKey].id !== rippleId) return prev;
+        const next = { ...prev };
+        delete next[pillKey];
+        return next;
+      });
+    }, 600);
+  };
+
+  useEffect(() => {
+    const timers = rippleTimersRef.current;
+    return () => {
+      Object.values(timers).forEach((t) => window.clearTimeout(t));
+    };
+  }, []);
 
   // Đo kích thước tự nhiên và vị trí kết thúc chữ tiêu đề của từng nút ở Header
   useLayoutEffect(() => {
     const measureUniformWidth = () => {
-      const small = typeof window !== 'undefined' ? window.innerWidth < 640 : false;
-      const compactMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+      const width = typeof window !== 'undefined' ? window.innerWidth : 1280;
+      const small = width < 640;
+      const compactMobile = width < 768;
+      setViewportWidth(width);
       setIsSmallScreen(small);
       setIsCompactMobile(compactMobile);
 
@@ -380,33 +415,99 @@ export const Header: React.FC<HeaderProps> = ({
     setIsRadialMenuOpen((prev) => !prev);
   };
 
-  // Tự động đóng menu phụ & cuộn tới nút trang đang được chọn nếu bị khuất
+  // Tự động đóng menu phụ & cuộn mượt nút đang chọn vào chính giữa thanh Header trên máy tính bảng / điện thoại
   useEffect(() => {
     setIsRadialMenuOpen(false);
     setHoveredNavIndex(null);
     setFocusedNavIndex(null);
-    if (navRef.current) {
-      const targetId = currentPage === 12 ? '#header-btn-hungthai-avatar' : `#nav-item-${currentPage}`;
-      const activeEl = navRef.current.querySelector(targetId);
-      if (activeEl) {
-        activeEl.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
-      }
-    }
+    setReadProgress(0);
   }, [currentPage]);
 
-  const exposedWidth = isSmallScreen ? 44 : 46;
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const rafId = window.requestAnimationFrame(() => {
+      const targetId = currentPage === 12 ? '#header-btn-hungthai-avatar' : `#nav-item-${currentPage}`;
+      const activeEl = nav.querySelector(targetId) as HTMLElement | null;
+      if (!activeEl) return;
+
+      const isScrollable = nav.scrollWidth > nav.clientWidth + 4;
+      if (isScrollable || viewportWidth < 1024) {
+        const navRect = nav.getBoundingClientRect();
+        const btnRect = activeEl.getBoundingClientRect();
+        const btnCenter = btnRect.left - navRect.left + nav.scrollLeft + btnRect.width / 2;
+        const maxScroll = Math.max(0, nav.scrollWidth - nav.clientWidth);
+        const targetScrollLeft = Math.max(0, Math.min(maxScroll, btnCenter - nav.clientWidth / 2));
+        nav.scrollTo({ left: targetScrollLeft, behavior: 'smooth' });
+      }
+    });
+
+    return () => window.cancelAnimationFrame(rafId);
+  }, [currentPage, viewportWidth, uniformPillWidth, isCompactMobile]);
+
+  // Thanh chỉ báo tiến độ đọc trang theo vị trí cuộn thực tế trong Main Card
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    let rafId: number | null = null;
+
+    const updateProgressFromEl = (el: HTMLElement | null) => {
+      if (!el) return;
+      const scrollable = el.scrollHeight - el.clientHeight;
+      if (scrollable <= 12) {
+        setReadProgress(0);
+        return;
+      }
+      const ratio = Math.max(0, Math.min(1, el.scrollTop / scrollable));
+      setReadProgress(ratio);
+    };
+
+    const handleCaptureScroll = (event: Event) => {
+      const target = event.target as HTMLElement | null;
+      if (!target || target === document.documentElement || target === document.body) return;
+      const viewport = document.getElementById('global-content-viewport');
+      if (!viewport || !viewport.contains(target)) return;
+      // Bỏ qua các danh sách/popup/dropdown nhỏ không phải vùng đọc chính
+      if (target.clientHeight < 180 || target.scrollHeight <= target.clientHeight + 16) return;
+      if (target.closest('[role="listbox"], [role="dialog"], .theme-popup, .banner-dropdown-menu')) return;
+
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+      rafId = window.requestAnimationFrame(() => {
+        updateProgressFromEl(target);
+        rafId = null;
+      });
+    };
+
+    document.addEventListener('scroll', handleCaptureScroll, true);
+    return () => {
+      document.removeEventListener('scroll', handleCaptureScroll, true);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
+  }, [currentPage]);
+
+  const activePageAccentColor = PAGE_FOOTER_STYLE_MAP[currentPage]?.accentColor || '#6366F1';
+
+  const exposedWidth = isSmallScreen ? 50 : 52;
   const overlapPx = uniformPillWidth
     ? Math.max(0, uniformPillWidth - exposedWidth)
     : isSmallScreen
-      ? 96
-      : 104;
+      ? 106
+      : 110;
+
+  const selectedNavIndex = useMemo(() => {
+    if (isRadialMenuOpen || currentPage === 12) {
+      return headerPages.length;
+    }
+    const idx = headerPages.findIndex((p) => p.id === currentPage);
+    return idx >= 0 ? idx : null;
+  }, [headerPages, currentPage, isRadialMenuOpen]);
 
   const revealedNavIndex =
     hoveredNavIndex !== null
       ? hoveredNavIndex
       : focusedNavIndex !== null
         ? focusedNavIndex
-        : null;
+        : selectedNavIndex;
 
   const getRevealOverlapPx = (prevIdx: number) => {
     const trailingGap = trailingGapByIdx[prevIdx];
@@ -421,6 +522,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header
       ref={headerRef}
       id="app-header"
+      data-layer-level="1"
       data-element-name="Thanh điều hướng Header chính"
       data-element-type="container"
       data-element-page="global"
@@ -433,7 +535,7 @@ export const Header: React.FC<HeaderProps> = ({
         marginRight: 'auto',
         zIndex: isRadialMenuOpen ? 99999 : 40,
       }}
-      className={`neonav-bar mx-auto min-h-[72px] h-auto py-1.5 flex items-center justify-between px-2 sm:px-3 ${
+      className={`neonav-bar mx-auto h-full min-h-0 py-1.5 flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 overflow-visible pointer-events-auto`}
     >
@@ -501,27 +603,44 @@ export const Header: React.FC<HeaderProps> = ({
                   type="button"
                   role="button"
                   aria-current={isSelected ? 'page' : undefined}
+                  data-active={isSelected ? 'true' : 'false'}
                   onFocus={() => setFocusedNavIndex(index)}
-                  onClick={() => {
+                  onClick={(e) => {
+                    triggerPillRipple(`page-${page.id}`, e);
                     SoundEngine.playPageSpecificSound(page.id);
                     onSelectPage(page.id);
                   }}
                   title={`${pageTitle} · ${pageSub}`}
-                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border"
-                  style={{
-                    width: '150px',
-                    height: '40px',
-                    paddingTop: '8px',
-                    paddingRight: '10px',
-                    paddingBottom: '8px',
-                    paddingLeft: '10px',
-                    fontWeight: 'normal',
-                    borderWidth: '1px',
-                  }}
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
+                  style={
+                    {
+                      '--nav-pill-accent': styleCfg.accentColor,
+                      width: '162px',
+                      height: '46px',
+                      paddingTop: '9px',
+                      paddingRight: '12px',
+                      paddingBottom: '9px',
+                      paddingLeft: '12px',
+                      fontWeight: 'normal',
+                      borderWidth: '1px',
+                    } as React.CSSProperties
+                  }
                 >
+                  {pillRipples[`page-${page.id}`] && (
+                    <span className="nav-pill-ripple-layer" aria-hidden="true">
+                      <span
+                        key={pillRipples[`page-${page.id}`].id}
+                        className="nav-pill-ripple-wave"
+                        style={{
+                          left: `${pillRipples[`page-${page.id}`].x}px`,
+                          top: `${pillRipples[`page-${page.id}`].y}px`,
+                        }}
+                      />
+                    </span>
+                  )}
                   {/* Round Circle Badge with Icon or Avatar */}
                   <div
-                    className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                    className="nav-pill-icon-badge relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                     style={{
                       backgroundColor: styleCfg.accentColor,
                     }}
@@ -530,9 +649,7 @@ export const Header: React.FC<HeaderProps> = ({
                       <img
                         src={styleCfg.avatarGif}
                         alt={pageTitle}
-                        className={`w-full h-full object-cover rounded-full ${
-                          styleCfg.avatarGif.includes('Avata_AI') ? 'scale-[1.5]' : ''
-                        }`}
+                        className="w-full h-full object-cover rounded-full"
                         onError={(e) => {
                           (e.target as HTMLElement).style.display = 'none';
                         }}
@@ -540,7 +657,7 @@ export const Header: React.FC<HeaderProps> = ({
                     ) : (
                       <WebIcon
                         name={page.icon || 'home'}
-                        className="nav-pill-icon-svg w-3.5 h-3.5 text-center block stroke-[2] shrink-0"
+                        className="nav-pill-icon-svg w-4 h-4 text-center block stroke-[2] shrink-0"
                         style={{
                           color: '#ffffff',
                         }}
@@ -549,7 +666,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
 
                   {/* Vertical Divider */}
-                  <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
+                  <div className="nav-pill-divider w-[1.5px] h-5 shrink-0 rounded-[999px] transition-colors duration-200" />
 
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
@@ -618,28 +735,47 @@ export const Header: React.FC<HeaderProps> = ({
                       : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch và Chăm sóc khách hàng'
                   }
                   aria-current={currentPage === 12 ? 'page' : undefined}
+                  data-active={currentPage === 12 || isRadialMenuOpen ? 'true' : 'false'}
                   aria-expanded={isRadialMenuOpen}
                   onFocus={() => setFocusedNavIndex(avatarNavIndex)}
-                  onClick={toggleRadialMenu}
+                  onClick={(e) => {
+                    triggerPillRipple('avatar-hungthai', e);
+                    toggleRadialMenu(e);
+                  }}
                   title={
                     language === 'en'
                       ? 'Expert Nguyen Hung Thai · Booking & CS'
                       : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch & CSKH'
                   }
-                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer border transition-all duration-200"
-                  style={{
-                    width: '150px',
-                    height: '40px',
-                    paddingTop: '8px',
-                    paddingRight: '10px',
-                    paddingBottom: '8px',
-                    paddingLeft: '10px',
-                    fontWeight: 'normal',
-                    borderWidth: '1px',
-                  }}
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border transition-all duration-200"
+                  style={
+                    {
+                      '--nav-pill-accent': '#4F46E5',
+                      width: '162px',
+                      height: '46px',
+                      paddingTop: '9px',
+                      paddingRight: '12px',
+                      paddingBottom: '9px',
+                      paddingLeft: '12px',
+                      fontWeight: 'normal',
+                      borderWidth: '1px',
+                    } as React.CSSProperties
+                  }
                 >
+                  {pillRipples['avatar-hungthai'] && (
+                    <span className="nav-pill-ripple-layer" aria-hidden="true">
+                      <span
+                        key={pillRipples['avatar-hungthai'].id}
+                        className="nav-pill-ripple-wave"
+                        style={{
+                          left: `${pillRipples['avatar-hungthai'].x}px`,
+                          top: `${pillRipples['avatar-hungthai'].y}px`,
+                        }}
+                      />
+                    </span>
+                  )}
                   <div
-                    className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                    className="nav-pill-icon-badge relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                     style={{
                       backgroundColor: '#4F46E5',
                     }}
@@ -653,7 +789,7 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                     />
                   </div>
-                  <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
+                  <div className="nav-pill-divider w-[1.5px] h-5 shrink-0 rounded-[999px] transition-colors duration-200" />
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
                       style={{ fontWeight: 'bold' }}
@@ -683,6 +819,19 @@ export const Header: React.FC<HeaderProps> = ({
           );
         })()}
       </nav>
+
+      {/* Thanh chỉ báo tiến độ đọc trang ngay trên viền dưới Header đồng bộ màu icon trang hiện tại */}
+      <div id="header-reading-progress-track" aria-hidden="true">
+        <div
+          id="header-reading-progress-bar"
+          style={{
+            transform: `scaleX(${readProgress})`,
+            opacity: readProgress > 0.005 ? 1 : 0,
+            backgroundColor: activePageAccentColor,
+            boxShadow: `0 0 8px ${activePageAccentColor}`,
+          }}
+        />
+      </div>
     </header>
   );
 

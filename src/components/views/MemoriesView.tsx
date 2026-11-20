@@ -251,14 +251,14 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'rain
                 SoundEngine.playTap();
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
-              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
-              title="Bộ lọc"
+              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+              title="Bộ lọc kỷ niệm"
               aria-label="Bộ lọc kỷ niệm"
               aria-expanded={isFilterDropdownOpen}
               aria-haspopup="listbox"
             >
-              <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] transition-transform group-hover:rotate-45 shrink-0" />
-              <span>Bộ lọc</span>
+              <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
+              <span>Bộ lọc kỷ niệm</span>
               {(categoryFilter !== 'all' || companyFilter !== 'all') && (
                 <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
                   {categoryFilter !== 'all'
@@ -424,23 +424,19 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'rain
                     setActiveLightboxIdx(idx);
                   }
                 }}
+                data-media-card="image"
                 style={{
                   animationDelay: `${(idx % 16) * 35}ms`,
-                  borderRadius: 'var(--radius-card, 24px)',
+                  borderRadius: 'var(--radius-card, 14px)',
                   minHeight: '250px',
-                  padding: '0px',
-                  backgroundColor: 'transparent',
-                  backgroundImage: `url("${item.imageUrl}")`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
+                  padding: '1px',
                   cursor: 'pointer',
                 }}
                 className={cn(
-                  'themed-image-card memory-photo-item break-inside-avoid mb-[15px] relative rounded-[14px] overflow-hidden block group bg-transparent transition-all duration-300 hover:-translate-y-1'
+                  'themed-image-card memory-photo-item break-inside-avoid mb-[15px] relative rounded-[14px] overflow-hidden block group transition-all duration-300 hover:-translate-y-1'
                 )}
               >
-                {/* HÌNH ẢNH LẮP ĐẦY 100% CARD - BO CONG 14PX */}
+                {/* HÌNH ẢNH NẰM GỌN TRONG CARD VỚI PADDING 1PX */}
                 <img
                   src={item.imageUrl}
                   alt={item.titleVi}
@@ -454,14 +450,14 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'rain
                         'linear-gradient(135deg, rgba(15,23,42,0.55) 0%, rgba(30,41,59,0.75) 100%)';
                     }
                   }}
-                  style={{ borderRadius: 'var(--radius-card, 24px)' }}
-                  className="memory-crisp-img w-full h-auto min-h-[250px] max-h-[440px] object-cover block rounded-[14px] transition-transform duration-500 group-hover:scale-105"
+                  style={{ borderRadius: 'calc(var(--radius-card, 14px) - 1px)' }}
+                  className="memory-crisp-img w-full h-auto min-h-[250px] max-h-[440px] object-cover block transition-opacity duration-300"
                 />
 
                 {/* LỚP PHỦ THEO GIAO DIỆN ĐANG CHỌN — CHỈ HIỆN KHI RÊ CHUỘT */}
                 <div
-                  style={{ borderRadius: 'var(--radius-card, 24px)' }}
-                  className="themed-image-card-scrim absolute inset-0 rounded-[14px] pointer-events-none z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
+                  style={{ inset: '1px', borderRadius: 'calc(var(--radius-card, 14px) - 1px)' }}
+                  className="themed-image-card-scrim absolute pointer-events-none z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
                 />
 
                 {/* TIÊU ĐỀ & CÁC ĐỐI TƯỢNG TRONG CARD (PADDING 15PX, CHỈ HIỆN KHI OVER MOUSE) */}

@@ -2,14 +2,18 @@
 /* LAYOUT & RESPONSIVE RULES (WEBSITE ROOT, HEADER, FOOTER, VIEWPORT, GRID) */
 /* ========================================================================= */
 
+#website-root {
+  --shell-section-gap: 15px;
+}
+
 #global-content-viewport {
   width: 100%;
   max-width: var(--container-max-w, 1250px);
   margin-left: auto;
   margin-right: auto;
-  height: 100%;
-  max-height: 100%;
-  flex: 1 1 0%;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  min-height: 0;
   scroll-behavior: smooth;
   transition: none !important;
 }
@@ -84,8 +88,8 @@
   height: 100%;
   min-height: 100%;
   width: max-content;
-  padding-top: 12px;
-  padding-bottom: 18px;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
   box-sizing: border-box;
   background: transparent !important;
   background-color: transparent !important;
@@ -109,11 +113,45 @@
   padding-right: max(0px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2));
 }
 
-/* Anti-overflow & Responsive Content Auto-scaling & Internal Scroll for All Pages (User Options 1 & 3) */
+/* Anti-overflow & Strict Main-Card Containment at Every Viewport Size */
+.page-main-card,
+[data-main-card="true"],
+#pdf-page-container {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
 .page-main-card > *,
 [data-main-card="true"] > *,
+#pdf-page-container > *,
 .main-card > * {
   max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.page-main-card :is(.grid, .flex),
+[data-main-card="true"] :is(.grid, .flex),
+#pdf-page-container :is(.grid, .flex) {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.page-main-card :is(section, article, header, main, aside),
+[data-main-card="true"] :is(section, article, header, main, aside),
+#pdf-page-container :is(section, article, header, main, aside) {
+  max-width: 100% !important;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.page-main-card .banner-dropdown-menu,
+[data-main-card="true"] .banner-dropdown-menu,
+.page-main-card [role="listbox"],
+[data-main-card="true"] [role="listbox"] {
+  max-width: min(320px, calc(100vw - 48px)) !important;
   box-sizing: border-box !important;
 }
 
@@ -167,6 +205,9 @@
 #app-header {
   width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
   max-width: var(--container-max-w, 1250px) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
   border-radius: var(--radius-header, 0 0 14px 14px) !important;
@@ -175,6 +216,9 @@
 #app-footer {
   width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
   max-width: var(--container-max-w, 1250px) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
   border-radius: var(--radius-footer, 14px 14px 0 0) !important;
@@ -396,7 +440,7 @@
 }
 
 @media (max-width: 430px) {
-  .hero-banner:not(#ai-assistant-vertical-banner):not(#experience-hero-banner):not(#contact-hero-banner):not(#interview-questions-card) {
+  .hero-banner:not(#ai-assistant-vertical-banner):not(#experience-hero-banner):not(#contact-hero-banner):not(#interview-questions-card):not(#project-detail-banner) {
     max-width: 100% !important;
     height: auto !important;
     min-height: 148px !important;
@@ -404,15 +448,90 @@
   }
 }
 
+/* Project Detail Vertical TOC Banner (Right Sidebar on Tablet/Desktop, Collapsible Top Card on Mobile) */
+@media (min-width: 768px) {
+  #project-detail-layout {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  #project-detail-content {
+    order: 1 !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+  }
+
+  #project-detail-banner {
+    order: 2 !important;
+    width: 275px !important;
+    min-width: 275px !important;
+    max-width: 275px !important;
+    flex: 0 0 275px !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+    align-self: stretch !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    border-radius: var(--radius-banner, 14px) !important;
+    padding: 15px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  #project-detail-banner {
+    width: 295px !important;
+    min-width: 295px !important;
+    max-width: 295px !important;
+    flex: 0 0 295px !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  #project-detail-banner {
+    width: 315px !important;
+    min-width: 315px !important;
+    max-width: 315px !important;
+    flex: 0 0 315px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  #project-detail-banner {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    border-radius: var(--radius-banner, 14px) !important;
+    padding: 15px !important;
+  }
+}
+
 /* Desktop & Laptop (≥1024px) Hero Banner Rules */
 @media (min-width: 1024px) {
-  .hero-banner:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner):not(#interview-questions-card),
-  .banner-card:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner):not(#interview-questions-card) {
+  .hero-banner:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner):not(#interview-questions-card):not(#project-detail-banner),
+  .banner-card:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner):not(#interview-questions-card):not(#project-detail-banner) {
     width: 100% !important;
     max-width: 100% !important;
-    height: 200px !important;
+    height: auto !important;
     min-height: 200px !important;
-    max-height: 200px !important;
+    max-height: none !important;
     margin-left: auto !important;
     margin-right: auto !important;
     border-radius: var(--radius-banner, 14px) !important;
@@ -421,7 +540,9 @@
 
   #interview-main-content {
     align-items: stretch !important;
-    overflow: visible !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
   }
 
   #interview-questions-card,
@@ -451,8 +572,8 @@
 
 /* Tablet & Mobile (<1024px) Hero Banner Rules */
 @media (max-width: 1023px) {
-  .hero-banner:not(#interview-questions-card),
-  .banner-card:not(#interview-questions-card) {
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner),
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) {
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;

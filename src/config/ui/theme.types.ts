@@ -6,8 +6,6 @@ export type ColorSchemeMode = 'light' | 'dark' | 'system';
 
 export type SurfaceDepthMode = 'flat' | 'depth';
 
-export type FontScaleMode = 'normal' | 'large' | 'xlarge';
-
 export type CardStyleMode =
   | 'light-cowhide-leather'
   | 'black-cowhide-leather'

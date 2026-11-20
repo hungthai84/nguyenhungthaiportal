@@ -28,13 +28,13 @@
   --fs-body-sm: clamp(13px, 0.2vw + 12.5px, 14px);
 
   --fs-caption: clamp(11.5px, 0.15vw + 11px, 12px);
-  --fs-label: 12px;
-  --fs-badge: 12px;
-  --fs-overline: 10px;
-  --fs-button: 14px;
-  --fs-nav: 14px;
-  --fs-tab: 14px;
-  --fs-input: clamp(15px, 16px - 0.1vw, 16px);
+  --fs-label: clamp(11.5px, 0.15vw + 11px, 12px);
+  --fs-badge: clamp(11.5px, 0.15vw + 11px, 12px);
+  --fs-overline: clamp(10px, 0.1vw + 9.5px, 10px);
+  --fs-button: clamp(13px, 0.2vw + 12.5px, 14px);
+  --fs-nav: clamp(13.5px, 0.15vw + 13px, 14px);
+  --fs-tab: clamp(13.5px, 0.15vw + 13px, 14px);
+  --fs-input: 16px;
   --fs-kpi: clamp(24px, 1.5vw + 18px, 36px);
   --fs-quote: var(--fs-h3);
   --fs-popup-title: clamp(17px, 0.7vw + 15px, 20px);
@@ -536,21 +536,21 @@
   /* Level 01 – Main Card: Soft Liquid Glass 3D (Header, Main Container, Footer) */
   --surface-primary-bg: var(--surface-main-glass);
   --surface-primary-border: var(--glass-main-border);
-  --surface-primary-border-hover: rgba(255, 255, 255, 0.76);
+  --surface-primary-border-hover: var(--glass-main-border);
   --surface-primary-outline-hover: transparent;
   --surface-primary-shadow:
     0 18px 40px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.65);
   --surface-primary-shadow-hover:
-    0 22px 48px rgba(50, 40, 80, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.80);
+    0 18px 40px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.65);
   --surface-header-shadow:
     0 12px 32px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
   --surface-header-shadow-hover:
-    0 16px 38px rgba(50, 40, 80, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    0 12px 32px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
   --surface-footer-shadow:
     0 -12px 32px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
   --surface-footer-shadow-hover:
-    0 -16px 38px rgba(50, 40, 80, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.78);
-  --surface-primary-hover-lift: -3px;
+    0 -12px 32px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --surface-primary-hover-lift: 0px;
   --surface-primary-transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease, outline-color 220ms ease, background 240ms ease, background-color 240ms ease, color 220ms ease, backdrop-filter 240ms ease;
   --surface-primary-blur: var(--glass-main-blur);
   --surface-primary-saturate: var(--glass-main-saturate);
@@ -559,16 +559,16 @@
   --surface-secondary-bg: var(--surface-card-glass);
   --surface-secondary-border: var(--glass-card-border);
   --surface-secondary-shadow: var(--shadow-card-glass);
-  --surface-secondary-shadow-hover: 0 16px 36px -6px rgba(50, 40, 80, 0.16), 0 6px 16px -2px rgba(118, 102, 216, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --surface-secondary-shadow-hover: var(--shadow-card-glass);
   --surface-secondary-blur: var(--glass-card-blur);
   --surface-secondary-saturate: var(--glass-card-saturate);
 
   /* Level 03 – Sub Card: Lighter Frosted Glass */
   --surface-tertiary-bg: var(--surface-subcard-glass);
-  --surface-tertiary-hover: rgba(255, 255, 255, 0.82);
+  --surface-tertiary-hover: var(--surface-subcard-glass);
   --surface-tertiary-border: var(--glass-subcard-border);
   --surface-tertiary-shadow: var(--shadow-subcard-glass);
-  --surface-tertiary-shadow-hover: 0 10px 22px -4px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.76);
+  --surface-tertiary-shadow-hover: var(--shadow-subcard-glass);
   --surface-tertiary-blur: var(--glass-subcard-blur);
   --surface-tertiary-saturate: var(--glass-subcard-saturate);
 
@@ -589,7 +589,7 @@
 }
 
 /* Dark Mode Overrides (Soft Liquid Glass 3D Custom Dark Palette) */
-html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-ice-blue-neu"], [data-theme="dark-rainbow-glass"], [data-theme="special-rainbow-glass"], [data-theme="vivid-glass"], [data-theme="black-cowhide-leather"], [data-theme="cowhide-leather"] {
+html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-ice-blue-neu"], [data-theme="dark-rainbow-glass"], [data-theme="special-rainbow-glass"], [data-theme="vivid-glass"], [data-theme="black-cowhide-leather"], [data-theme="cowhide-leather"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"] {
   --color-bg: #101A2B;
   --color-bg-soft: #171F33;
   --color-bg-blue: #202A40;
@@ -877,35 +877,35 @@ html.dark, [data-theme="dark"], [data-theme="midnight-dark"], [data-theme="dark-
 
   --surface-primary-bg: var(--surface-main-glass);
   --surface-primary-border: var(--glass-main-border);
-  --surface-primary-border-hover: rgba(225, 235, 255, 0.28);
+  --surface-primary-border-hover: var(--glass-main-border);
   --surface-primary-outline-hover: transparent;
   --surface-primary-shadow:
     0 18px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
   --surface-primary-shadow-hover:
-    0 24px 50px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(225, 235, 255, 0.22);
+    0 18px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
   --surface-header-shadow:
     0 14px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
   --surface-header-shadow-hover:
-    0 18px 42px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(225, 235, 255, 0.20);
+    0 14px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
   --surface-footer-shadow:
     0 -14px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
   --surface-footer-shadow-hover:
-    0 -18px 42px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(225, 235, 255, 0.20);
+    0 -14px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
   --surface-primary-blur: var(--glass-main-blur);
   --surface-primary-saturate: var(--glass-main-saturate);
 
   --surface-secondary-bg: var(--surface-card-glass);
   --surface-secondary-border: var(--glass-card-border);
   --surface-secondary-shadow: var(--shadow-card-glass);
-  --surface-secondary-shadow-hover: 0 18px 40px -6px rgba(0, 0, 0, 0.40), 0 6px 16px -2px rgba(181, 167, 244, 0.12), inset 0 1px 0 rgba(225, 235, 255, 0.22);
+  --surface-secondary-shadow-hover: var(--shadow-card-glass);
   --surface-secondary-blur: var(--glass-card-blur);
   --surface-secondary-saturate: var(--glass-card-saturate);
 
   --surface-tertiary-bg: var(--surface-subcard-glass);
-  --surface-tertiary-hover: rgba(42, 54, 82, 0.80);
+  --surface-tertiary-hover: var(--surface-subcard-glass);
   --surface-tertiary-border: var(--glass-subcard-border);
   --surface-tertiary-shadow: var(--shadow-subcard-glass);
-  --surface-tertiary-shadow-hover: 0 10px 24px -4px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.16);
+  --surface-tertiary-shadow-hover: var(--shadow-subcard-glass);
   --surface-tertiary-blur: var(--glass-subcard-blur);
   --surface-tertiary-saturate: var(--glass-subcard-saturate);
 

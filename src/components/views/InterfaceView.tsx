@@ -1,21 +1,65 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import {
   useTheme,
   getCardStyleProperties,
   getCardStyleConfig,
-  getThemeForMechanism,
   UNIFIED_INTERFACE_THEMES,
   CARD_STYLE_GROUPS,
   ThemeMechanismMode,
 } from '@/hooks/useTheme';
-import { CardStyleMode, ColorSchemeMode, FontScaleMode, ThemeFamilyId } from '@/config/ui/theme.types';
-import { DEFAULT_CARD_STYLE, DEFAULT_FONT_SCALE, DEFAULT_LAYER_DEPTH } from '@/config/ui/themeDefaults';
-import { FONT_SCALE_OPTIONS, LAYER_DEPTH_PRESETS } from '@/config/ui/layerDepth';
+import { THEME_FOUR_WORD_NAMES } from '@/config/ui/cardStyles';
+import { CardStyleMode, ThemeFamilyId } from '@/config/ui/theme.types';
+import { DEFAULT_CARD_STYLE, DEFAULT_LAYER_DEPTH, THEME_BACKGROUNDS } from '@/config/ui/themeDefaults';
+import { LAYER_DEPTH_PRESETS } from '@/config/ui/layerDepth';
 import { motion } from 'motion/react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useFirebase } from '@/context/FirebaseContext';
+
+const INTERFACE_UI_PREFS_KEY = 'hungthai_interface_ui_prefs_v1';
+
+interface InterfaceUiPrefs {
+  selectedFamilyFilter: 'all' | ThemeFamilyId;
+  selectedMechanismFilter: 'all' | ThemeMechanismMode;
+  focusedLayerLevel: 'all' | 'l1' | 'l2' | 'l3';
+  isSandboxOpen: boolean;
+  neuSliders: number[];
+}
+
+function readInterfaceUiPrefs(): InterfaceUiPrefs {
+  const fallback: InterfaceUiPrefs = {
+    selectedFamilyFilter: 'all',
+    selectedMechanismFilter: 'all',
+    focusedLayerLevel: 'all',
+    isSandboxOpen: false,
+    neuSliders: [68, 38, 92, 54, 82, 70],
+  };
+  if (typeof window === 'undefined') return fallback;
+  try {
+    const raw = localStorage.getItem(INTERFACE_UI_PREFS_KEY);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw) as Partial<InterfaceUiPrefs>;
+    return {
+      selectedFamilyFilter: parsed.selectedFamilyFilter ?? fallback.selectedFamilyFilter,
+      selectedMechanismFilter: parsed.selectedMechanismFilter ?? fallback.selectedMechanismFilter,
+      focusedLayerLevel:
+        parsed.focusedLayerLevel === 'all' ||
+        parsed.focusedLayerLevel === 'l1' ||
+        parsed.focusedLayerLevel === 'l2' ||
+        parsed.focusedLayerLevel === 'l3'
+          ? parsed.focusedLayerLevel
+          : fallback.focusedLayerLevel,
+      isSandboxOpen: typeof parsed.isSandboxOpen === 'boolean' ? parsed.isSandboxOpen : fallback.isSandboxOpen,
+      neuSliders:
+        Array.isArray(parsed.neuSliders) && parsed.neuSliders.length === 6
+          ? parsed.neuSliders.map((n) => (typeof n === 'number' && Number.isFinite(n) ? n : 50))
+          : fallback.neuSliders,
+    };
+  } catch {
+    return fallback;
+  }
+}
 
 export interface InterfaceViewProps {
   onShowNotification?: (msg: string) => void;
@@ -349,28 +393,49 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const {
     cardStyle,
     setCardStyle,
-    colorSchemeMode,
-    setColorSchemeMode,
     isDark,
     surfaceDepth,
     setSurfaceDepth,
     layerDepth,
     setLayerDepth,
     resetLayerDepth,
-    fontScale,
-    setFontScale,
   } = useTheme();
   const { language, t } = useLanguage();
   const { user, isSigningIn, signInWithGoogle, logout } = useFirebase();
   const isEn = language === 'en';
   const activePreset = getCardStyleConfig(cardStyle);
-  const activeMechanism: ThemeMechanismMode = activePreset.mechanism || (isDark ? 'dark' : 'light');
 
-  const [selectedFamilyFilter, setSelectedFamilyFilter] = useState<'all' | ThemeFamilyId>('all');
+  const initialPrefs = useMemo(() => readInterfaceUiPrefs(), []);
+  const [selectedFamilyFilter, setSelectedFamilyFilter] = useState<'all' | ThemeFamilyId>(
+    initialPrefs.selectedFamilyFilter
+  );
+  const [selectedMechanismFilter, setSelectedMechanismFilter] = useState<'all' | ThemeMechanismMode>(
+    initialPrefs.selectedMechanismFilter
+  );
+  const [isSandboxOpen, setIsSandboxOpen] = useState<boolean>(initialPrefs.isSandboxOpen);
   const [activeVideoPreviewId, setActiveVideoPreviewId] = useState<CardStyleMode | null>(null);
   const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
   const [heroVideoFailed, setHeroVideoFailed] = useState(false);
-  const [neuSliders, setNeuSliders] = useState<number[]>([68, 38, 92, 54, 82, 70]);
+  const [neuSliders, setNeuSliders] = useState<number[]>(initialPrefs.neuSliders);
+  const [focusedLayerLevel, setFocusedLayerLevel] = useState<'all' | 'l1' | 'l2' | 'l3'>(
+    initialPrefs.focusedLayerLevel
+  );
+
+  // Tự động lưu toàn bộ các lựa chọn trong trang Giao diện để áp dụng mặc định cho sau này
+  useEffect(() => {
+    try {
+      const payload: InterfaceUiPrefs = {
+        selectedFamilyFilter,
+        selectedMechanismFilter,
+        focusedLayerLevel,
+        isSandboxOpen,
+        neuSliders,
+      };
+      localStorage.setItem(INTERFACE_UI_PREFS_KEY, JSON.stringify(payload));
+    } catch {
+      // ignore storage quota errors
+    }
+  }, [selectedFamilyFilter, selectedMechanismFilter, focusedLayerLevel, isSandboxOpen, neuSliders]);
 
   const getMechanismLabel = (mech: ThemeMechanismMode) => {
     if (mech === 'light') return isEn ? 'Light' : 'Sáng';
@@ -378,47 +443,14 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     return isEn ? 'Color' : 'Màu';
   };
 
-  const handleSelectColorScheme = (mode: ColorSchemeMode) => {
-    SoundEngine.playGlassChime();
-    setColorSchemeMode(mode);
-    if (onShowNotification) {
-      const label =
-        mode === 'system'
-          ? isEn
-            ? 'System (OS auto)'
-            : 'Hệ thống (Tự động theo OS)'
-          : mode === 'dark'
-            ? isEn
-              ? 'Dark'
-              : 'Tối'
-            : isEn
-              ? 'Light'
-              : 'Sáng';
-      onShowNotification(isEn ? `✓ Color scheme: ${label}` : `✓ Chế độ màu: ${label}`);
-    }
-  };
-
   const handleSelectTheme = (mode: CardStyleMode, label: string) => {
     SoundEngine.playGlassChime();
     setCardStyle(mode);
     if (onShowNotification) {
       onShowNotification(
-        isEn ? `✓ Applied style: ${t(label)}` : `✓ Đã áp dụng phong cách: ${label}`
-      );
-    }
-  };
-
-  const handleSwitchMechanism = (mechanism: ThemeMechanismMode) => {
-    const nextMode = getThemeForMechanism(cardStyle, mechanism);
-    if (nextMode === cardStyle) return;
-    const nextPreset = getCardStyleConfig(nextMode);
-    SoundEngine.playGlassChime();
-    setCardStyle(nextMode);
-    if (onShowNotification) {
-      onShowNotification(
         isEn
-          ? `✓ Switched to ${t(nextPreset.name)} (${getMechanismLabel(mechanism)})`
-          : `✓ Đã chuyển sang ${nextPreset.name} (Cơ chế ${getMechanismLabel(mechanism)})`
+          ? `✓ Saved & applied theme: ${t(label)}`
+          : `✓ Đã lưu & áp dụng giao diện: ${label}`
       );
     }
   };
@@ -431,22 +463,11 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       onShowNotification(
         mode === 'flat'
           ? isEn
-            ? '✓ Switched to Minimalist Flat (No Shadow)'
-            : '✓ Đã bật Giao diện phẳng tối giản (không bóng)'
+            ? '✓ Saved: Minimalist Flat (No Shadow)'
+            : '✓ Đã lưu: Giao diện phẳng tối giản'
           : isEn
-            ? '✓ Switched to Layered Depth (Elevated Shadows)'
-            : '✓ Đã bật Giao diện có chiều sâu'
-      );
-    }
-  };
-
-  const handleSelectFontScale = (scale: FontScaleMode, label: string) => {
-    if (scale === fontScale) return;
-    SoundEngine.playGlassChime();
-    setFontScale(scale);
-    if (onShowNotification) {
-      onShowNotification(
-        isEn ? `✓ Text size updated: ${label}` : `✓ Đã chuyển cỡ chữ: ${label}`
+            ? '✓ Saved: Layered Depth (Elevated Shadows)'
+            : '✓ Đã lưu: Giao diện có chiều sâu'
       );
     }
   };
@@ -461,29 +482,45 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     if (layerDepth !== DEFAULT_LAYER_DEPTH) {
       resetLayerDepth();
     }
-    if (fontScale !== DEFAULT_FONT_SCALE) {
-      setFontScale(DEFAULT_FONT_SCALE);
-    }
+    setSelectedFamilyFilter('all');
+    setSelectedMechanismFilter('all');
+    setFocusedLayerLevel('all');
     if (onShowNotification) {
       onShowNotification(
         isEn
-          ? `✓ Restored default interface: ${t(defaultCfg.name)}`
-          : `✓ Đã khôi phục giao diện mặc định: ${defaultCfg.name}`
+          ? `✓ Restored & saved default interface: ${t(defaultCfg.name)}`
+          : `✓ Đã khôi phục & lưu mặc định: ${defaultCfg.name}`
       );
     }
   };
 
   const visibleGroups = useMemo(() => {
-    if (selectedFamilyFilter === 'all') return CARD_STYLE_GROUPS;
-    return CARD_STYLE_GROUPS.filter((g) => g.id === selectedFamilyFilter);
-  }, [selectedFamilyFilter]);
+    const familyScoped =
+      selectedFamilyFilter === 'all'
+        ? CARD_STYLE_GROUPS
+        : CARD_STYLE_GROUPS.filter((g) => g.id === selectedFamilyFilter);
+
+    if (selectedMechanismFilter === 'all') return familyScoped;
+
+    return familyScoped
+      .map((g) => ({
+        ...g,
+        presets: g.presets.filter(
+          (p) => (p.mechanism || (p.isDark ? 'dark' : 'light')) === selectedMechanismFilter
+        ),
+      }))
+      .filter((g) => g.presets.length > 0);
+  }, [selectedFamilyFilter, selectedMechanismFilter]);
 
   const displayedThemesCount = UNIFIED_INTERFACE_THEMES.length;
+  const visibleThemesCount = useMemo(
+    () => visibleGroups.reduce((acc, g) => acc + g.presets.length, 0),
+    [visibleGroups]
+  );
   const isDefaultConfig =
     cardStyle === DEFAULT_CARD_STYLE &&
     surfaceDepth === 'depth' &&
-    layerDepth === DEFAULT_LAYER_DEPTH &&
-    fontScale === DEFAULT_FONT_SCALE;
+    layerDepth === DEFAULT_LAYER_DEPTH;
 
   return (
     <div
@@ -559,461 +596,599 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             </div>
 
             <div className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto">
-              <span className="banner-control-pill typo-badge font-semibold px-3 py-1 rounded-full border">
-                {isEn ? activePreset.familyLabelEn : activePreset.familyLabel}
-              </span>
+              <div className="flex flex-wrap items-center gap-2 min-w-0">
+                <span className="banner-control-pill typo-badge font-semibold px-3 py-1 rounded-full border truncate max-w-full">
+                  {isEn
+                    ? THEME_FOUR_WORD_NAMES[activePreset.id]?.en || t(activePreset.name)
+                    : THEME_FOUR_WORD_NAMES[activePreset.id]?.vi || activePreset.name}
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                {user ? (
+                  <button
+                    id="btn-firebase-signout"
+                    type="button"
+                    onClick={() => void logout()}
+                    className="banner-control-pill inline-flex items-center gap-2 px-3 py-1 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
+                  >
+                    {user.photoURL ? (
+                      <img
+                        src={user.photoURL}
+                        alt={user.displayName || 'User'}
+                        referrerPolicy="no-referrer"
+                        className="w-4 h-4 rounded-full object-cover shrink-0"
+                      />
+                    ) : (
+                      <WebIcon name="user" className="w-3.5 h-3.5 shrink-0" />
+                    )}
+                    <span className="max-w-[120px] truncate">{user.displayName || (isEn ? 'Account' : 'Tài khoản')}</span>
+                    <WebIcon name="log-out" className="w-3.5 h-3.5 shrink-0 opacity-75" />
+                  </button>
+                ) : (
+                  <button
+                    id="btn-firebase-signin"
+                    type="button"
+                    disabled={isSigningIn}
+                    onClick={() => void signInWithGoogle()}
+                    className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90 disabled:opacity-60"
+                  >
+                    <WebIcon name="log-in" className="w-3.5 h-3.5 shrink-0" />
+                    <span>{isSigningIn ? (isEn ? 'Signing in...' : 'Đang đăng nhập...') : isEn ? 'Google Sync' : 'Đồng bộ Google'}</span>
+                  </button>
+                )}
+                {!isDefaultConfig && (
+                  <button
+                    id="btn-interface-reset-default"
+                    type="button"
+                    onClick={handleResetDefault}
+                    className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
+                  >
+                    <WebIcon name="rotate-ccw" className="w-3.5 h-3.5 shrink-0" />
+                    <span>{isEn ? 'Reset Default' : 'Khôi phục mặc định'}</span>
+                  </button>
+                )}
+              </div>
             </div>
           </section>
 
-          {/* 1. Header tổng quan + Nút Khôi phục + Thanh chuyển 3 cơ chế Sáng / Tối / Màu */}
-          <div
-            className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 pb-3 border-b"
-            style={{ borderColor: 'var(--border-subcard)' }}
-          >
-            <div className="min-w-0 flex flex-col gap-1">
-              <p className="typo-body-sm font-medium" style={{ color: 'var(--text-muted)' }}>
-                {isEn
-                  ? `Active: ${t(activePreset.name)} · Mode: ${getMechanismLabel(activeMechanism)} · Header & surfaces synced`
-                  : `Đang dùng: ${activePreset.name} · Cơ chế: ${getMechanismLabel(activeMechanism)} · Header đồng bộ màu nền card`}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2 shrink-0">
-              {user ? (
-                <button
-                  id="btn-firebase-signout"
-                  type="button"
-                  onClick={() => void logout()}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border typo-label font-bold cursor-pointer transition-all hover:opacity-90"
-                  style={{
-                    background: 'var(--bg-subcard)',
-                    borderColor: 'var(--border-subcard)',
-                    color: 'var(--text-primary)',
-                  }}
-                >
-                  {user.photoURL ? (
-                    <img
-                      src={user.photoURL}
-                      alt={user.displayName || 'User'}
-                      referrerPolicy="no-referrer"
-                      className="w-5 h-5 rounded-full object-cover shrink-0"
-                    />
-                  ) : (
-                    <WebIcon name="user" className="w-3.5 h-3.5 shrink-0" />
-                  )}
-                  <span className="max-w-[120px] truncate">{user.displayName || (isEn ? 'Account' : 'Tài khoản')}</span>
-                  <WebIcon name="log-out" className="w-3.5 h-3.5 shrink-0 opacity-75" />
-                </button>
-              ) : (
-                <button
-                  id="btn-firebase-signin"
-                  type="button"
-                  disabled={isSigningIn}
-                  onClick={() => void signInWithGoogle()}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full border typo-label font-bold cursor-pointer transition-all hover:opacity-90 disabled:opacity-60"
-                  style={{
-                    background: 'var(--bg-subcard)',
-                    borderColor: 'var(--border-subcard)',
-                    color: 'var(--text-primary)',
-                  }}
-                >
-                  <WebIcon name="log-in" className="w-3.5 h-3.5 shrink-0" />
-                  <span>{isSigningIn ? (isEn ? 'Signing in...' : 'Đang đăng nhập...') : isEn ? 'Google Sync' : 'Đồng bộ Google'}</span>
-                </button>
-              )}
-              {!isDefaultConfig && (
-                <button
-                  id="btn-interface-reset-default"
-                  type="button"
-                  onClick={handleResetDefault}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full border typo-label font-bold cursor-pointer transition-all hover:opacity-90"
-                  style={{
-                    background: 'var(--bg-subcard)',
-                    borderColor: 'var(--border-subcard)',
-                    color: 'var(--text-primary)',
-                  }}
-                >
-                  <WebIcon name="rotate-ccw" className="w-3.5 h-3.5 shrink-0" />
-                  <span>{isEn ? 'Reset Default' : 'Khôi phục mặc định'}</span>
-                </button>
-              )}
-
-              <div
-                role="group"
-                aria-label={
-                  isEn
-                    ? 'Color scheme mode: Light, Dark or System'
-                    : 'Chế độ màu Sáng, Tối hoặc Hệ thống'
-                }
-                className="relative inline-grid grid-cols-3 p-1 rounded-full border shrink-0 w-full sm:w-auto sm:min-w-[260px] max-w-full"
-                style={{
-                  background: 'var(--bg-subcard)',
-                  borderColor: 'var(--border-subcard)',
-                }}
-              >
-                <span
-                  aria-hidden="true"
-                  className={`pointer-events-none absolute top-1 bottom-1 left-1 w-[calc((100%-8px)/3)] rounded-full transition-transform duration-300 ease-out shadow-sm ${
-                    colorSchemeMode === 'system'
-                      ? 'translate-x-[200%] border border-white/45'
-                      : colorSchemeMode === 'dark'
-                        ? 'translate-x-full border border-[#C2B7F3]/40'
-                        : 'translate-x-0 border border-white/60'
-                  }`}
-                  style={{ background: 'var(--bg-button-primary)' }}
-                />
-                <button
-                  id="btn-color-scheme-light"
-                  type="button"
-                  aria-pressed={colorSchemeMode === 'light'}
-                  onClick={() => handleSelectColorScheme('light')}
-                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                    colorSchemeMode === 'light' ? 'is-selected-pill' : 'hover:opacity-90'
-                  }`}
-                  style={
-                    colorSchemeMode === 'light'
-                      ? { color: 'var(--text-button-primary, #FFFFFF)' }
-                      : { color: 'var(--text-muted)' }
-                  }
-                >
-                  <WebIcon name="sun" className="w-4 h-4 shrink-0" />
-                  <span>{isEn ? 'Light' : 'Sáng'}</span>
-                </button>
-                <button
-                  id="btn-color-scheme-dark"
-                  type="button"
-                  aria-pressed={colorSchemeMode === 'dark'}
-                  onClick={() => handleSelectColorScheme('dark')}
-                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                    colorSchemeMode === 'dark' ? 'is-selected-pill' : 'hover:opacity-90'
-                  }`}
-                  style={
-                    colorSchemeMode === 'dark'
-                      ? { color: 'var(--text-button-primary, #FFFFFF)' }
-                      : { color: 'var(--text-muted)' }
-                  }
-                >
-                  <WebIcon name="moon" className="w-4 h-4 shrink-0" />
-                  <span>{isEn ? 'Dark' : 'Tối'}</span>
-                </button>
-                <button
-                  id="btn-color-scheme-system"
-                  type="button"
-                  aria-pressed={colorSchemeMode === 'system'}
-                  onClick={() => handleSelectColorScheme('system')}
-                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                    colorSchemeMode === 'system' ? 'is-selected-pill' : 'hover:opacity-90'
-                  }`}
-                  style={
-                    colorSchemeMode === 'system'
-                      ? { color: 'var(--text-button-primary, #FFFFFF)' }
-                      : { color: 'var(--text-muted)' }
-                  }
-                >
-                  <WebIcon name="monitor" className="w-4 h-4 shrink-0" />
-                  <span>{isEn ? 'System' : 'Hệ thống'}</span>
-                </button>
-              </div>
-
-              <div
-                role="group"
-                aria-label={
-                  isEn
-                    ? 'Light, Dark and Color theme mode switch'
-                    : 'Thanh chuyển đổi 3 cơ chế Sáng, Tối và Màu'
-                }
-                className="relative inline-grid grid-cols-3 p-1 rounded-full border shrink-0 w-full sm:w-auto sm:min-w-[260px] max-w-full"
-                style={{
-                  background: 'var(--bg-subcard)',
-                  borderColor: 'var(--border-subcard)',
-                }}
-              >
-                <span
-                  aria-hidden="true"
-                  className={`pointer-events-none absolute top-1 bottom-1 left-1 w-[calc((100%-8px)/3)] rounded-full transition-transform duration-300 ease-out shadow-sm ${
-                    activeMechanism === 'color'
-                      ? 'translate-x-[200%] bg-gradient-to-r from-[#D97706] via-[#B45309] to-[#78350F] border border-amber-200/55'
-                      : activeMechanism === 'dark'
-                        ? 'translate-x-full bg-gradient-to-r from-[#182536] via-sky-700 to-indigo-700 border border-sky-300/40'
-                        : 'translate-x-0 bg-gradient-to-r from-[#7666D8] to-[#A99AE8] border border-white/70'
-                  }`}
-                />
-                <button
-                  type="button"
-                  aria-pressed={activeMechanism === 'light'}
-                  onClick={() => handleSwitchMechanism('light')}
-                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                    activeMechanism === 'light' ? 'text-white' : 'hover:opacity-90'
-                  }`}
-                  style={activeMechanism !== 'light' ? { color: 'var(--text-muted)' } : undefined}
-                >
-                  <WebIcon name="sun" className="w-4 h-4 shrink-0" />
-                  <span>{isEn ? 'Light' : 'Sáng'}</span>
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={activeMechanism === 'dark'}
-                  onClick={() => handleSwitchMechanism('dark')}
-                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                    activeMechanism === 'dark' ? 'text-white' : 'hover:opacity-90'
-                  }`}
-                  style={activeMechanism !== 'dark' ? { color: 'var(--text-muted)' } : undefined}
-                >
-                  <WebIcon name="moon" className="w-4 h-4 shrink-0" />
-                  <span>{isEn ? 'Dark' : 'Tối'}</span>
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={activeMechanism === 'color'}
-                  onClick={() => handleSwitchMechanism('color')}
-                  className={`relative z-10 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                    activeMechanism === 'color' ? 'text-white' : 'hover:opacity-90'
-                  }`}
-                  style={activeMechanism !== 'color' ? { color: 'var(--text-muted)' } : undefined}
-                >
-                  <WebIcon name="palette" className="w-4 h-4 shrink-0" />
-                  <span>{isEn ? 'Color' : 'Màu'}</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* ICE-BLUE SOFT UI INTERACTIVE REFERENCE WIDGET (Matching reference image) */}
-            <div
-              id="interface-soft-ui-reference-widget"
+          {/* 1. Bảng điều khiển nhanh: Chọn tên giao diện & Chiều sâu Layer (tự động lưu mặc định) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch w-full">
+            {/* Thẻ trái: Chọn nhanh chỉ theo Tên giao diện */}
+            <section
               data-subcard="true"
-              className="sub-card flex flex-col gap-4 p-5 border"
+              className="sub-card lg:col-span-6 flex flex-col justify-between gap-[12px] p-[15px] border min-w-0"
               style={{
                 background: 'var(--bg-subcard)',
                 borderColor: 'var(--border-subcard)',
               }}
             >
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-9 h-9 rounded-[12px] flex items-center justify-center shrink-0 border"
-                    style={{
-                      background: 'var(--bg-card)',
-                      borderColor: 'var(--border-subcard)',
-                      color: 'var(--color-primary)',
-                    }}
+              <div className="flex items-center justify-between gap-2 pb-2 border-b min-w-0" style={{ borderColor: 'var(--border-subcard)' }}>
+                <div className="card-header-sync flex items-center gap-2 min-w-0">
+                  <WebIcon name="palette" className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary)' }} />
+                  <h2
+                    className="typo-h5 font-bold tracking-tight truncate card-title-synced"
+                    data-card-title="true"
+                    style={{ color: 'var(--color-primary)' }}
                   >
-                    <WebIcon name="sparkles" className="w-5 h-5 shrink-0" />
-                  </div>
-                  <div>
-                    <h4 className="typo-h5 font-bold tracking-tight">
-                      {isEn ? 'Ice-Blue Soft UI Component Suite (Reference Match)' : 'Bộ thành phần Ice-Blue Soft UI (Khớp mẫu tham khảo)'}
-                    </h4>
-                    <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
-                      {isEn
-                        ? 'Interactive replica of search bar, pill buttons, soft icon cards, and glowing vertical slider tracks.'
-                        : 'Mô phỏng tương tác thanh tìm kiếm, nút bấm, thẻ icon và các thanh trượt dọc phát sáng từ mẫu thiết kế.'}
-                    </p>
-                  </div>
+                    {isEn ? 'Theme Name' : 'Tên giao diện'}
+                  </h2>
+                </div>
+                <span className="typo-badge font-semibold truncate max-w-[50%]" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+                  {isEn
+                    ? THEME_FOUR_WORD_NAMES[activePreset.id]?.en || t(activePreset.name)
+                    : THEME_FOUR_WORD_NAMES[activePreset.id]?.vi || activePreset.name}
+                </span>
+              </div>
+
+              <div
+                role="group"
+                aria-label={isEn ? 'Select interface theme by name' : 'Chọn giao diện theo tên'}
+                className="flex flex-wrap gap-1.5 w-full min-w-0"
+              >
+                {UNIFIED_INTERFACE_THEMES.map((preset) => {
+                  const isSelected = cardStyle === preset.id;
+                  const shortName = isEn
+                    ? THEME_FOUR_WORD_NAMES[preset.id]?.en || t(preset.name)
+                    : THEME_FOUR_WORD_NAMES[preset.id]?.vi || preset.name;
+                  return (
+                    <button
+                      key={preset.id}
+                      id={`btn-quick-theme-${preset.id}`}
+                      type="button"
+                      aria-pressed={isSelected}
+                      onClick={() => handleSelectTheme(preset.id, shortName)}
+                      className={`px-3 py-1.5 rounded-full typo-badge font-bold border transition-colors cursor-pointer max-w-full truncate ${
+                        isSelected ? 'shadow-xs border-transparent' : 'hover:opacity-90'
+                      }`}
+                      style={
+                        isSelected
+                          ? {
+                              background: 'var(--bg-button-primary)',
+                              color: 'var(--text-button-primary, #FFFFFF)',
+                            }
+                          : {
+                              background: 'var(--bg-card)',
+                              borderColor: 'var(--border-subcard)',
+                              color: 'var(--text-primary)',
+                            }
+                      }
+                    >
+                      {shortName}
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* Thẻ phải: Tinh chỉnh Chiều sâu & Độ nổi Layer */}
+            <section
+              data-subcard="true"
+              className="sub-card lg:col-span-6 flex flex-col justify-between gap-[15px] p-[15px] border min-w-0"
+              style={{
+                background: 'var(--bg-subcard)',
+                borderColor: 'var(--border-subcard)',
+              }}
+            >
+              <div className="flex items-center justify-between gap-2 pb-2 border-b" style={{ borderColor: 'var(--border-subcard)' }}>
+                <div className="card-header-sync flex items-center gap-2 min-w-0">
+                  <WebIcon name="layers" className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary)' }} />
+                  <h2
+                    className="typo-h5 font-bold tracking-tight truncate card-title-synced"
+                    data-card-title="true"
+                    style={{ color: 'var(--color-primary)' }}
+                  >
+                    {isEn ? 'Layer Depth & Elevation' : 'Chiều sâu & Độ nổi Layer'}
+                  </h2>
+                </div>
+                <div className="inline-flex items-center gap-1 p-0.5 rounded-full border shrink-0" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-subcard)' }}>
+                  <button
+                    type="button"
+                    aria-pressed={surfaceDepth === 'flat'}
+                    onClick={() => handleSelectSurfaceDepth('flat')}
+                    className={`px-2.5 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
+                      surfaceDepth === 'flat' ? 'text-white shadow-xs' : 'opacity-75 hover:opacity-100'
+                    }`}
+                    style={surfaceDepth === 'flat' ? { background: 'var(--bg-button-primary)' } : { color: 'var(--text-secondary)' }}
+                  >
+                    {isEn ? 'Flat' : 'Phẳng'}
+                  </button>
+                  <button
+                    type="button"
+                    aria-pressed={surfaceDepth === 'depth'}
+                    onClick={() => handleSelectSurfaceDepth('depth')}
+                    className={`px-2.5 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
+                      surfaceDepth === 'depth' ? 'text-white shadow-xs' : 'opacity-75 hover:opacity-100'
+                    }`}
+                    style={surfaceDepth === 'depth' ? { background: 'var(--bg-button-primary)' } : { color: 'var(--text-secondary)' }}
+                  >
+                    {isEn ? '3D Layer' : 'Chiều sâu'}
+                  </button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center pt-2">
-                {/* Left Column: Search bar, Buttons, Icon squares */}
-                <div className="lg:col-span-5 flex flex-col gap-4">
-                  {/* Inset Search Bar */}
-                  <div
-                    className="flex items-center gap-3 px-4 py-3 rounded-[999px] border transition-all"
-                    style={{
-                      background: 'var(--bg-card)',
-                      borderColor: 'var(--border-subcard)',
-                      boxShadow: 'var(--neu-inset-shadow)',
-                    }}
-                  >
-                    <WebIcon name="search" className="w-4 h-4 shrink-0 opacity-70" />
-                    <input
-                      type="text"
-                      placeholder="Search for ..."
-                      className="w-full bg-transparent border-none outline-none typo-body text-[var(--text-input)] placeholder-[var(--text-placeholder)]"
-                      readOnly
-                    />
+              <div className="flex flex-col sm:flex-row sm:items-center gap-[15px] w-full">
+                {/* Thanh kéo Độ sâu Layer */}
+                <div className="flex-1 flex flex-col gap-2 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="typo-label font-bold" style={{ color: 'var(--text-secondary)' }}>
+                      {isEn ? 'Layer Elevation' : 'Độ nổi Layer'}
+                    </span>
+                    <span className="typo-badge font-mono font-bold tabular-nums" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+                      {layerDepth}%
+                    </span>
                   </div>
-
-                  {/* Pill Button */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      SoundEngine.playGlassChime();
-                      if (onShowNotification) onShowNotification(isEn ? '✓ Soft button clicked!' : '✓ Đã bấm nút Soft UI!');
-                    }}
-                    className="w-full py-3 px-6 rounded-[999px] border typo-button font-bold text-center cursor-pointer transition-all hover:scale-[1.01] active:scale-[0.99]"
-                    style={{
-                      background: 'var(--bg-card)',
-                      borderColor: 'var(--border-subcard)',
-                      boxShadow: 'var(--neu-raised-shadow)',
-                      color: 'var(--text-primary)',
-                    }}
-                  >
-                    Button
-                  </button>
-
-                  {/* Icon Cards Row (Heart, Chat, Bookmark) */}
-                  <div className="flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        if (onShowNotification) onShowNotification('♥ Liked');
-                      }}
-                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all hover:scale-105 cursor-pointer"
-                      style={{
-                        background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        boxShadow: 'var(--neu-raised-shadow)',
-                      }}
-                    >
-                      <WebIcon name="heart" className="w-5 h-5 text-pink-500 fill-pink-500/20" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        if (onShowNotification) onShowNotification('💬 Chat opened');
-                      }}
-                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all hover:scale-105 cursor-pointer"
-                      style={{
-                        background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        boxShadow: 'var(--neu-raised-shadow)',
-                      }}
-                    >
-                      <WebIcon name="message-square" className="w-5 h-5 text-sky-500" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        if (onShowNotification) onShowNotification('📌 Saved');
-                      }}
-                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all hover:scale-105 cursor-pointer"
-                      style={{
-                        background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        boxShadow: 'var(--neu-raised-shadow)',
-                      }}
-                    >
-                      <WebIcon name="bookmark" className="w-5 h-5 text-indigo-500 fill-indigo-500/20" />
-                    </button>
-                  </div>
-
-                  {/* Share pill & Plus button */}
-                  <div className="flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        if (onShowNotification) onShowNotification('🔗 Shared');
-                      }}
-                      className="flex-1 py-2.5 px-5 rounded-[999px] border flex items-center justify-center gap-2 typo-label font-bold cursor-pointer transition-all hover:scale-[1.01]"
-                      style={{
-                        background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        boxShadow: 'var(--neu-raised-shadow)',
-                        color: 'var(--text-primary)',
-                      }}
-                    >
-                      <WebIcon name="share-2" className="w-4 h-4" />
-                      <span>Share</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        if (onShowNotification) onShowNotification('➕ Action added');
-                      }}
-                      className="w-11 h-11 rounded-full flex items-center justify-center border transition-all hover:scale-105 cursor-pointer shrink-0"
-                      style={{
-                        background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        boxShadow: 'var(--neu-raised-shadow)',
-                        color: 'var(--text-primary)',
-                      }}
-                    >
-                      <WebIcon name="plus" className="w-5 h-5" />
-                    </button>
-                  </div>
+                  <input
+                    id="interface-layer-depth-slider"
+                    type="range"
+                    min={0}
+                    max={200}
+                    step={10}
+                    value={layerDepth}
+                    aria-label={isEn ? 'Adjust Layer Card elevation' : 'Điều chỉnh độ nổi Layer Card'}
+                    onChange={(e) => setLayerDepth(Number(e.target.value))}
+                    className="w-full accent-[var(--color-primary)] cursor-pointer h-1.5"
+                  />
                 </div>
 
-                {/* Right Column: Vertical glowing slider tracks & circular knobs */}
-                <div className="lg:col-span-7 flex items-end justify-around gap-3 p-4 rounded-[20px] border"
+                {/* Các mốc nhanh Độ sâu Layer */}
+                <div className="flex items-center gap-1.5 flex-wrap shrink-0">
+                  {LAYER_DEPTH_PRESETS.map((preset) => (
+                    <button
+                      key={preset.value}
+                      type="button"
+                      aria-pressed={layerDepth === preset.value}
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        setLayerDepth(preset.value);
+                      }}
+                      className={`px-2.5 py-1 rounded-full typo-badge font-bold tabular-nums border cursor-pointer transition-all ${
+                        layerDepth === preset.value ? 'text-white border-transparent shadow-xs' : 'hover:opacity-90'
+                      }`}
+                      style={
+                        layerDepth === preset.value
+                          ? { background: 'var(--bg-button-primary)' }
+                          : { background: 'var(--bg-card)', borderColor: 'var(--border-subcard)', color: 'var(--text-secondary)' }
+                      }
+                    >
+                      {preset.value}%
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </div>
+
+          {/* 1B. Sơ đồ xem trước trực tiếp phân tầng Layer Card Level 1 – 2 – 3 */}
+          <section
+            id="interface-layer-preview-card"
+            data-section-card="true"
+            className="flex flex-col gap-[15px] p-[15px] border min-w-0"
+            style={{
+              background: 'var(--bg-card)',
+              borderColor: 'var(--border-color)',
+              borderRadius: 'var(--radius-card, 14px)',
+            }}
+          >
+            {/* Header chuẩn quy tắc: Trái chỉ có Icon không khung + Tiêu đề cùng màu; Phải là bộ lọc xem tập trung */}
+            <div
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-2.5 border-b"
+              style={{ borderColor: 'var(--border-subcard)' }}
+            >
+              <div className="card-header-sync flex items-center gap-2 min-w-0">
+                <WebIcon name="layers" className="w-4.5 h-4.5 shrink-0" style={{ color: 'var(--color-primary)' }} />
+                <h2
+                  className="typo-h5 font-bold tracking-tight truncate card-title-synced"
+                  data-card-title="true"
+                  style={{ color: 'var(--color-primary)' }}
+                >
+                  {isEn
+                    ? 'Live Layer Card Hierarchy Preview (Level 1 – 2 – 3)'
+                    : 'Xem trước phân tầng Layer Card trực tiếp (Level 1 – 2 – 3)'}
+                </h2>
+              </div>
+
+              <div className="flex items-center gap-1.5 flex-wrap shrink-0">
+                {(
+                  [
+                    { id: 'all' as const, vi: 'Tất cả', en: 'All' },
+                    { id: 'l1' as const, vi: 'Level 1', en: 'Level 1' },
+                    { id: 'l2' as const, vi: 'Level 2', en: 'Level 2' },
+                    { id: 'l3' as const, vi: 'Level 3', en: 'Level 3' },
+                  ]
+                ).map((tab) => {
+                  const isSelected = focusedLayerLevel === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      aria-pressed={isSelected}
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        setFocusedLayerLevel(tab.id);
+                      }}
+                      className={`px-2.5 py-1 rounded-full typo-badge font-bold border cursor-pointer transition-all ${
+                        isSelected ? 'text-white border-transparent shadow-xs' : 'hover:opacity-90'
+                      }`}
+                      style={
+                        isSelected
+                          ? { background: 'var(--bg-button-primary)' }
+                          : {
+                              background: 'var(--bg-subcard)',
+                              borderColor: 'var(--border-subcard)',
+                              color: 'var(--text-secondary)',
+                            }
+                      }
+                    >
+                      {isEn ? tab.en : tab.vi}
+                    </button>
+                  );
+                })}
+                <span
+                  className="px-2.5 py-1 rounded-full typo-badge font-mono font-bold tabular-nums border"
                   style={{
-                    background: 'var(--bg-card)',
+                    background: 'var(--bg-subcard)',
                     borderColor: 'var(--border-subcard)',
-                    boxShadow: 'var(--neu-inset-shadow)',
+                    color: 'var(--text-link, var(--color-primary))',
                   }}
                 >
-                  {[
-                    { label: 'Sky', color: 'linear-gradient(180deg, #38bdf8 0%, #0284c7 100%)', glow: 'rgba(56, 189, 248, 0.45)' },
-                    { label: 'Blue', color: 'linear-gradient(180deg, #6366f1 0%, #4f46e5 100%)', glow: 'rgba(99, 102, 241, 0.45)' },
-                    { label: 'Deep', color: 'linear-gradient(180deg, #818cf8 0%, #7c3aed 100%)', glow: 'rgba(129, 140, 248, 0.45)' },
-                    { label: 'Pink', color: 'linear-gradient(180deg, #ec4899 0%, #f43f5e 100%)', glow: 'rgba(236, 72, 153, 0.45)' },
-                    { label: 'Teal', color: 'linear-gradient(180deg, #06b6d4 0%, #0891b2 100%)', glow: 'rgba(6, 182, 212, 0.45)' },
-                    { label: 'Mint', color: 'linear-gradient(180deg, #10b981 0%, #059669 100%)', glow: 'rgba(16, 185, 129, 0.45)' },
-                  ].map((bar, idx) => {
-                    const val = neuSliders[idx] || 60;
-                    return (
-                      <div key={bar.label} className="flex flex-col items-center gap-3">
-                        {/* Vertical Inset Track */}
-                        <div
-                          className="relative w-3.5 h-[160px] rounded-[999px] cursor-pointer overflow-hidden"
-                          style={{
-                            background: 'var(--bg-subcard)',
-                            boxShadow: 'inset 3px 3px 6px rgba(176, 198, 219, 0.7), inset -3px -3px 6px rgba(255, 255, 255, 0.95)',
-                          }}
-                          onClick={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            const clickY = e.clientY - rect.top;
-                            const newPct = Math.round(Math.max(10, Math.min(95, 100 - (clickY / rect.height) * 100)));
-                            const updated = [...neuSliders];
-                            updated[idx] = newPct;
-                            setNeuSliders(updated);
-                            SoundEngine.playTap();
-                          }}
-                        >
-                          <div
-                            className="absolute bottom-0 left-0 right-0 rounded-[999px] transition-all duration-200"
-                            style={{
-                              height: `${val}%`,
-                              background: bar.color,
-                              boxShadow: `0 0 14px ${bar.glow}`,
-                            }}
-                          />
-                        </div>
-
-                        {/* Circular Knob / Indicator */}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            const updated = [...neuSliders];
-                            updated[idx] = val >= 90 ? 30 : val + 15;
-                            setNeuSliders(updated);
-                          }}
-                          className="w-9 h-9 rounded-full border flex items-center justify-center transition-all hover:scale-110 cursor-pointer shadow-sm"
-                          style={{
-                            background: 'var(--bg-card)',
-                            borderColor: 'var(--border-subcard)',
-                            boxShadow: 'var(--neu-raised-shadow)',
-                            color: 'var(--text-primary)',
-                          }}
-                          title={`${bar.label}: ${val}%`}
-                        >
-                          <span className="w-3.5 h-3.5 rounded-full" style={{ background: bar.color }} />
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
+                  {surfaceDepth === 'flat' ? '0% · Flat' : `${layerDepth}%`}
+                </span>
               </div>
             </div>
 
-          {/* 3. Bộ lọc nhanh theo nhóm phong cách */}
-          <div className="flex items-center justify-between gap-2 flex-wrap">
+            {/* Sơ đồ trực quan Header · Main Card · Footer (Level 1) chứa các Card bên trong (Level 2) + Khe dự phòng Level 3 */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch">
+              {/* Cột trái (8/12): Mô phỏng trực tiếp cấu trúc trang thực tế */}
+              <div
+                className="lg:col-span-8 flex flex-col gap-3 p-3.5 border rounded-[var(--radius-card,14px)] min-w-0"
+                style={{
+                  background: 'var(--bg-subcard)',
+                  borderColor: 'var(--border-subcard)',
+                }}
+              >
+                {/* Mini Header — Level 1 */}
+                <div
+                  className={`layer-preview-l1 flex flex-wrap items-center justify-between gap-2 px-3 py-2 border transition-opacity duration-200 ${
+                    focusedLayerLevel !== 'all' && focusedLayerLevel !== 'l1' && focusedLayerLevel !== 'l2'
+                      ? 'opacity-45'
+                      : 'opacity-100'
+                  }`}
+                  style={{
+                    background: 'var(--surface-header-bg, var(--bg-card))',
+                    borderColor:
+                      focusedLayerLevel === 'l1'
+                        ? 'var(--color-primary)'
+                        : 'var(--surface-primary-border, var(--border-color))',
+                    borderRadius: '0 0 12px 12px',
+                    boxShadow:
+                      surfaceDepth === 'flat'
+                        ? 'none'
+                        : 'var(--layer-l1-header-shadow, var(--surface-header-shadow))',
+                  }}
+                >
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span
+                      className="px-2 py-0.5 rounded-full typo-badge font-bold shrink-0"
+                      style={{
+                        background: 'var(--color-primary)',
+                        color: '#FFFFFF',
+                      }}
+                    >
+                      L1
+                    </span>
+                    <span className="typo-label font-bold truncate" style={{ color: 'var(--text-primary)' }}>
+                      Header
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <div
+                      className={`layer-preview-l2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-all ${
+                        focusedLayerLevel === 'l2' ? 'ring-2 ring-[var(--color-primary)]' : ''
+                      }`}
+                      style={{
+                        background: 'var(--surface-secondary-bg, var(--bg-card))',
+                        borderColor: 'var(--surface-secondary-border, var(--border-subcard))',
+                      }}
+                    >
+                      <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
+                      <span className="typo-badge font-semibold" style={{ color: 'var(--text-primary)' }}>
+                        {isEn ? 'L2 · Header Pill Card' : 'L2 · Card trong Header'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Mini Main Card — Level 1 */}
+                <div
+                  className={`layer-preview-l1 flex flex-col gap-2.5 p-3 border rounded-[var(--radius-card,14px)] transition-opacity duration-200 ${
+                    focusedLayerLevel !== 'all' && focusedLayerLevel !== 'l1' && focusedLayerLevel !== 'l2'
+                      ? 'opacity-45'
+                      : 'opacity-100'
+                  }`}
+                  style={{
+                    background: 'var(--surface-primary-bg, var(--bg-card))',
+                    borderColor:
+                      focusedLayerLevel === 'l1'
+                        ? 'var(--color-primary)'
+                        : 'var(--surface-primary-border, var(--border-color))',
+                  }}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span
+                        className="px-2 py-0.5 rounded-full typo-badge font-bold shrink-0"
+                        style={{
+                          background: 'var(--color-primary)',
+                          color: '#FFFFFF',
+                        }}
+                      >
+                        L1
+                      </span>
+                      <span className="typo-label font-bold truncate" style={{ color: 'var(--text-primary)' }}>
+                        Main Card
+                      </span>
+                    </div>
+                    <span className="typo-badge font-mono" style={{ color: 'var(--text-muted)' }}>
+                      --layer-l1-shadow
+                    </span>
+                  </div>
+
+                  {/* Cards bên trong Main Card — Level 2 */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div
+                      className={`layer-preview-l2 flex flex-col gap-1.5 p-2.5 border rounded-[var(--radius-subcard,12px)] transition-all ${
+                        focusedLayerLevel === 'l2' ? 'ring-2 ring-[var(--color-primary)]' : ''
+                      } ${
+                        focusedLayerLevel !== 'all' && focusedLayerLevel !== 'l2'
+                          ? 'opacity-55'
+                          : 'opacity-100'
+                      }`}
+                      style={{
+                        background: 'var(--surface-secondary-bg, var(--bg-card))',
+                        borderColor: 'var(--surface-secondary-border, var(--border-subcard))',
+                      }}
+                    >
+                      <div className="flex items-center justify-between gap-1.5">
+                        <span className="typo-badge font-bold" style={{ color: 'var(--accent-blue, #2563EB)' }}>
+                          {isEn ? 'L2 · Content Card A' : 'L2 · Card nội dung A'}
+                        </span>
+                        <span className="typo-badge font-mono" style={{ color: 'var(--text-muted)' }}>
+                          Hover ↑
+                        </span>
+                      </div>
+                      <span className="typo-caption" style={{ color: 'var(--text-secondary)' }}>
+                        {isEn
+                          ? 'Cards nested inside Main Card share Level 2 elevation.'
+                          : 'Các thẻ nội dung nằm trong Main Card dùng chung tầng Level 2.'}
+                      </span>
+                    </div>
+
+                    <div
+                      className={`layer-preview-l2 flex flex-col gap-1.5 p-2.5 border rounded-[var(--radius-subcard,12px)] transition-all ${
+                        focusedLayerLevel === 'l2' ? 'ring-2 ring-[var(--color-primary)]' : ''
+                      } ${
+                        focusedLayerLevel !== 'all' && focusedLayerLevel !== 'l2'
+                          ? 'opacity-55'
+                          : 'opacity-100'
+                      }`}
+                      style={{
+                        background: 'var(--surface-secondary-bg, var(--bg-card))',
+                        borderColor: 'var(--surface-secondary-border, var(--border-subcard))',
+                      }}
+                    >
+                      <div className="flex items-center justify-between gap-1.5">
+                        <span className="typo-badge font-bold" style={{ color: 'var(--accent-emerald, #059669)' }}>
+                          {isEn ? 'L2 · Content Card B' : 'L2 · Card nội dung B'}
+                        </span>
+                        <span className="typo-badge font-mono" style={{ color: 'var(--text-muted)' }}>
+                          --layer-l2
+                        </span>
+                      </div>
+                      <span className="typo-caption" style={{ color: 'var(--text-secondary)' }}>
+                        {isEn
+                          ? 'Synchronizes blur, border, and shadow depth live with slider.'
+                          : 'Đồng bộ bóng đổ, viền và hiệu ứng nổi theo thanh Độ sâu Layer.'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Mini Footer — Level 1 */}
+                <div
+                  className={`layer-preview-l1 flex flex-wrap items-center justify-between gap-2 px-3 py-2 border transition-opacity duration-200 ${
+                    focusedLayerLevel !== 'all' && focusedLayerLevel !== 'l1' && focusedLayerLevel !== 'l2'
+                      ? 'opacity-45'
+                      : 'opacity-100'
+                  }`}
+                  style={{
+                    background: 'var(--surface-footer-bg, var(--bg-card))',
+                    borderColor:
+                      focusedLayerLevel === 'l1'
+                        ? 'var(--color-primary)'
+                        : 'var(--surface-primary-border, var(--border-color))',
+                    borderRadius: '12px 12px 0 0',
+                    boxShadow:
+                      surfaceDepth === 'flat'
+                        ? 'none'
+                        : 'var(--layer-l1-footer-shadow, var(--surface-footer-shadow))',
+                  }}
+                >
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span
+                      className="px-2 py-0.5 rounded-full typo-badge font-bold shrink-0"
+                      style={{
+                        background: 'var(--color-primary)',
+                        color: '#FFFFFF',
+                      }}
+                    >
+                      L1
+                    </span>
+                    <span className="typo-label font-bold truncate" style={{ color: 'var(--text-primary)' }}>
+                      Footer
+                    </span>
+                  </div>
+                  <div
+                    className={`layer-preview-l2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-all ${
+                      focusedLayerLevel === 'l2' ? 'ring-2 ring-[var(--color-primary)]' : ''
+                    }`}
+                    style={{
+                      background: 'var(--surface-secondary-bg, var(--bg-card))',
+                      borderColor: 'var(--surface-secondary-border, var(--border-subcard))',
+                    }}
+                  >
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                    <span className="typo-badge font-semibold" style={{ color: 'var(--text-primary)' }}>
+                      {isEn ? 'L2 · Footer Control Card' : 'L2 · Card trong Footer'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Cột phải (4/12): Bảng phân bổ 3 tầng Level 1 – 2 – 3 & Mẫu dự phòng Level 3 */}
+              <div className="lg:col-span-4 flex flex-col justify-between gap-2.5 min-w-0">
+                <div
+                  className={`flex flex-col gap-1 p-3 border rounded-[var(--radius-subcard,12px)] transition-all ${
+                    focusedLayerLevel === 'l1' ? 'ring-2 ring-[var(--color-primary)]' : ''
+                  }`}
+                  style={{
+                    background: 'var(--bg-subcard)',
+                    borderColor: 'var(--border-subcard)',
+                  }}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="typo-label font-bold" style={{ color: 'var(--color-primary)' }}>
+                      Level Layer 1
+                    </span>
+                    <span className="typo-badge font-mono" style={{ color: 'var(--text-muted)' }}>
+                      Khung chính
+                    </span>
+                  </div>
+                  <span className="typo-body-sm" style={{ color: 'var(--text-secondary)' }}>
+                    {isEn ? 'Header, Main Card, Footer' : 'Header, Main Card, Footer'}
+                  </span>
+                </div>
+
+                <div
+                  className={`flex flex-col gap-1 p-3 border rounded-[var(--radius-subcard,12px)] transition-all ${
+                    focusedLayerLevel === 'l2' ? 'ring-2 ring-[var(--color-primary)]' : ''
+                  }`}
+                  style={{
+                    background: 'var(--bg-subcard)',
+                    borderColor: 'var(--border-subcard)',
+                  }}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="typo-label font-bold" style={{ color: 'var(--accent-blue, #2563EB)' }}>
+                      Level Layer 2
+                    </span>
+                    <span className="typo-badge font-mono" style={{ color: 'var(--text-muted)' }}>
+                      Card nội dung
+                    </span>
+                  </div>
+                  <span className="typo-body-sm" style={{ color: 'var(--text-secondary)' }}>
+                    {isEn
+                      ? 'All cards inside Header, Main Card, and Footer'
+                      : 'Các card nằm trong Header, Main Card, Footer'}
+                  </span>
+                </div>
+
+                <div
+                  className={`layer-preview-l3 flex flex-col gap-1 p-3 border border-dashed rounded-[var(--radius-subcard,12px)] transition-all ${
+                    focusedLayerLevel === 'l3' ? 'ring-2 ring-[var(--color-primary)]' : ''
+                  }`}
+                  style={{
+                    background: 'var(--surface-tertiary-bg, var(--bg-subcard))',
+                    borderColor:
+                      focusedLayerLevel === 'l3'
+                        ? 'var(--color-primary)'
+                        : 'var(--border-subcard)',
+                  }}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="typo-label font-bold" style={{ color: 'var(--text-muted)' }}>
+                      Level Layer 3
+                    </span>
+                    <span
+                      className="px-2 py-0.5 rounded-full typo-badge font-semibold border"
+                      style={{
+                        background: 'var(--bg-card)',
+                        borderColor: 'var(--border-subcard)',
+                        color: 'var(--text-muted)',
+                      }}
+                    >
+                      {isEn ? 'Reserved' : 'Dự phòng'}
+                    </span>
+                  </div>
+                  <span className="typo-body-sm" style={{ color: 'var(--text-muted)' }}>
+                    {isEn ? 'Currently unassigned' : 'Tạm chưa phân bổ'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 2. Bộ lọc nhanh theo nhóm phong cách & tông Sáng/Tối/Màu + Nút mở phòng thử vật liệu */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-[15px] flex-wrap">
             <div
               role="tablist"
               aria-label={isEn ? 'Filter themes by family' : 'Lọc giao diện theo nhóm chất liệu'}
@@ -1077,257 +1252,597 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 );
               })}
             </div>
+
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* Lọc nhanh theo cơ chế Sáng / Tối / Màu */}
+              <div
+                className="inline-flex items-center gap-1 p-1 rounded-full border"
+                style={{ background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }}
+              >
+                {(
+                  [
+                    { id: 'all' as const, labelVi: 'Tất cả', labelEn: 'All' },
+                    { id: 'light' as const, labelVi: 'Sáng', labelEn: 'Light' },
+                    { id: 'dark' as const, labelVi: 'Tối', labelEn: 'Dark' },
+                    { id: 'color' as const, labelVi: 'Màu', labelEn: 'Color' },
+                  ]
+                ).map((item) => {
+                  const active = selectedMechanismFilter === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => setSelectedMechanismFilter(item.id)}
+                      className={`px-2.5 py-1 rounded-full typo-badge font-bold cursor-pointer transition-all ${
+                        active ? 'text-white shadow-xs' : 'hover:opacity-90'
+                      }`}
+                      style={active ? { background: 'var(--bg-button-primary)' } : { color: 'var(--text-secondary)' }}
+                    >
+                      {isEn ? item.labelEn : item.labelVi}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Nút mở / thu gọn phòng thử vật liệu Soft UI */}
+              <button
+                type="button"
+                aria-expanded={isSandboxOpen}
+                onClick={() => {
+                  SoundEngine.playTap();
+                  setIsSandboxOpen((prev) => !prev);
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
+                style={{
+                  background: isSandboxOpen ? 'var(--bg-button-primary)' : 'var(--bg-subcard)',
+                  borderColor: isSandboxOpen ? 'transparent' : 'var(--border-subcard)',
+                  color: isSandboxOpen ? '#FFFFFF' : 'var(--text-primary)',
+                }}
+              >
+                <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
+                <span>
+                  {isSandboxOpen
+                    ? isEn
+                      ? 'Hide Material Lab'
+                      : 'Ẩn phòng thử vật liệu'
+                    : isEn
+                      ? 'Material Lab'
+                      : 'Phòng thử vật liệu'}
+                </span>
+              </button>
+            </div>
           </div>
 
-          {/* 4. Danh sách nhóm giao diện & thẻ xem trước tương tác */}
+          {/* 3. Danh sách nhóm giao diện & thẻ xem trước tương tác kèm hình nền riêng từng giao diện */}
           <div className="flex flex-col gap-[15px]">
-            {visibleGroups.map((group) => {
-              const hasColorMode = Boolean(group.colorMode);
-              const groupActive = group.presets.some((p) => p.id === cardStyle);
-              const gridColsClass =
-                group.presets.length <= 2
-                  ? 'grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch'
-                  : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch';
-
-              return (
-                <section
-                  key={group.id}
-                  data-subcard="true"
-                  className="sub-card flex flex-col gap-[15px] p-[15px] border transition-all duration-300"
-                  style={{
-                    background: 'var(--bg-subcard)',
-                    borderColor: groupActive ? 'var(--color-primary)' : 'var(--border-subcard)',
+            {visibleThemesCount === 0 ? (
+              <div
+                data-subcard="true"
+                className="sub-card p-[15px] border flex flex-col sm:flex-row items-center justify-between gap-[15px]"
+                style={{ background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }}
+              >
+                <p className="typo-body-sm" style={{ color: 'var(--text-secondary)' }}>
+                  {isEn
+                    ? 'No themes match the current filter combination.'
+                    : 'Không có giao diện nào khớp với bộ lọc hiện tại.'}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedFamilyFilter('all');
+                    setSelectedMechanismFilter('all');
                   }}
+                  className="px-3.5 py-1.5 rounded-full typo-badge font-bold text-white cursor-pointer"
+                  style={{ background: 'var(--bg-button-primary)' }}
                 >
-                  <div
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b"
-                    style={{ borderColor: 'var(--border-subcard)' }}
+                  {isEn ? 'Show all themes' : 'Hiện tất cả giao diện'}
+                </button>
+              </div>
+            ) : (
+              visibleGroups.map((group) => {
+                const groupActive = group.presets.some((p) => p.id === cardStyle);
+                const gridColsClass =
+                  group.presets.length === 1
+                    ? 'grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch'
+                    : group.presets.length === 2
+                      ? 'grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch'
+                      : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch';
+
+                return (
+                  <section
+                    key={group.id}
+                    data-subcard="true"
+                    className="sub-card flex flex-col gap-[15px] p-[15px] border transition-all duration-300"
+                    style={{
+                      background: 'var(--bg-subcard)',
+                      borderColor: groupActive ? 'var(--color-primary)' : 'var(--border-subcard)',
+                    }}
                   >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div
-                        className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 border"
+                    <div
+                      className="flex items-center justify-between gap-2 pb-2.5 border-b"
+                      style={{ borderColor: 'var(--border-subcard)' }}
+                    >
+                      <div className="card-header-sync flex items-center gap-2 min-w-0">
+                        <WebIcon
+                          name={group.icon}
+                          className="w-4.5 h-4.5 shrink-0"
+                          style={{ color: 'var(--color-primary)' }}
+                        />
+                        <h3
+                          className="typo-h5 font-bold tracking-tight truncate card-title-synced"
+                          data-card-title="true"
+                          style={{ color: 'var(--color-primary)' }}
+                        >
+                          {isEn ? group.labelEn : group.label}
+                        </h3>
+                      </div>
+                      <span
+                        className="typo-badge px-2 py-0.5 rounded-full border font-semibold shrink-0"
                         style={{
                           background: 'var(--bg-card)',
                           borderColor: 'var(--border-subcard)',
-                          color: 'var(--color-primary)',
+                          color: 'var(--text-muted)',
                         }}
                       >
-                        <WebIcon name={group.icon} className="w-5 h-5 shrink-0" />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <h4 className="typo-h5 font-bold tracking-tight">
-                            {isEn ? group.labelEn : group.label}
-                          </h4>
-                        </div>
-                        <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
-                          {isEn ? group.descriptionEn : group.description}
-                        </p>
-                      </div>
+                        {group.presets.length} {isEn ? 'styles' : 'biến thể'}
+                      </span>
                     </div>
-                  </div>
+                    <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
+                      {isEn ? group.descriptionEn : group.description}
+                    </p>
 
-                  <div className={gridColsClass}>
-                    {group.presets.map((preset) => {
-                      const isActive = cardStyle === preset.id;
-                      const meta = THEME_VISUAL_META[preset.id];
-                      const displayPresetName = t(preset.name);
-                      const displayShortBadge = t(preset.shortBadge);
-                      const sampleProps = getCardStyleProperties(preset.id).cardSampleStyle;
-                      const isVideoVisible =
-                        activeVideoPreviewId === preset.id && !failedVideoIds[preset.id];
+                    <div className={gridColsClass}>
+                      {group.presets.map((preset) => {
+                        const isActive = cardStyle === preset.id;
+                        const meta = THEME_VISUAL_META[preset.id];
+                        const bgSpec = THEME_BACKGROUNDS[preset.id];
+                        const displayPresetName = t(preset.name);
+                        const displayShortBadge = t(preset.shortBadge);
+                        const sampleProps = getCardStyleProperties(preset.id).cardSampleStyle;
+                        const isVideoVisible =
+                          activeVideoPreviewId === preset.id && !failedVideoIds[preset.id];
 
-                      return (
-                        <motion.article
-                          key={preset.id}
-                          whileHover={{ y: -2 }}
-                          whileTap={{ scale: 0.99 }}
-                          style={{
-                            ...sampleProps,
-                            borderRadius: meta.radius,
-                            padding: '16px',
-                            ...(meta.outlineStyle ? meta.outlineStyle(isActive) : {}),
-                            ...(isActive
-                              ? {
-                                  boxShadow: `${(sampleProps as any).boxShadow || ''}, 0 0 0 2.5px ${meta.activeRingColor}`,
-                                }
-                              : {}),
-                          }}
-                          className={`relative flex flex-col justify-between transition-all duration-300 border ${preset.cardClassName} ${
-                            isActive ? meta.activeBorderClass : meta.idleBorderClass
-                          }`}
-                        >
-                          {/* Top Row: Badge + Family Icon */}
-                          <div className="flex flex-col gap-2.5">
-                            <div className="flex items-center justify-between gap-2">
-                              <span
-                                className={`typo-badge font-bold px-2.5 py-0.5 rounded-full border ${
-                                  isActive ? meta.activeBadgeClass : preset.badgeColorClass
-                                }`}
-                              >
-                                {displayShortBadge}
-                              </span>
-                              <WebIcon
-                                name={preset.icon}
-                                className="w-5 h-5 shrink-0"
-                                style={{ color: meta.iconColor }}
-                              />
-                            </div>
-
-                            {/* Title */}
-                            <div className="flex items-center justify-between gap-2">
-                              <h3
-                                className={`typo-h4 font-bold leading-snug min-w-0 ${meta.titleTextClass}`}
-                                data-card-title="true"
-                              >
-                                {displayPresetName}
-                              </h3>
-                            </div>
-
-                            <p className={`typo-body-sm leading-relaxed ${meta.bodyTextClass}`}>
-                              {t(preset.desc)}
-                            </p>
-                          </div>
-
-                          {/* Interactive Live Mini-UI Specimen + On-Demand Video Demo */}
-                          <div
+                        return (
+                          <motion.article
+                            key={preset.id}
+                            whileTap={{ scale: 0.99 }}
                             style={{
-                              ...preset.miniPreviewWrapStyle,
-                              borderRadius: preset.id.includes('ice-blue') ? '20px' : 'var(--radius-subcard, 16px)',
+                              ...sampleProps,
+                              borderRadius: meta.radius,
+                              padding: '15px',
+                              ...(meta.outlineStyle ? meta.outlineStyle(isActive) : {}),
+                              ...(isActive
+                                ? {
+                                    boxShadow: `${(sampleProps as any).boxShadow || ''}, 0 0 0 2.5px ${meta.activeRingColor}`,
+                                  }
+                                : {}),
                             }}
-                            className={`my-3 p-3 flex flex-col gap-2.5 border ${meta.previewBorderClass}`}
+                            className={`relative flex flex-col justify-between gap-[15px] transition-all duration-300 border min-w-0 ${preset.cardClassName} ${
+                              isActive ? meta.activeBorderClass : meta.idleBorderClass
+                            }`}
                           >
-                            <div className="flex items-center justify-between gap-2">
-                              <span className={`typo-label font-bold ${meta.titleTextClass}`}>
-                                {isEn ? 'Live UI Specimen' : 'Mẫu vật liệu trực quan'}
+                            {/* Top Row: Badge + Dedicated Wallpaper Thumbnail Preview */}
+                            <div className="flex flex-col gap-2.5 min-w-0">
+                              <div className="flex items-center justify-between gap-2">
+                                <span
+                                  className={`typo-badge font-bold px-2.5 py-0.5 rounded-full border ${
+                                    isActive ? meta.activeBadgeClass : preset.badgeColorClass
+                                  }`}
+                                >
+                                  {displayShortBadge}
+                                </span>
+                                <div className="flex items-center gap-1.5 shrink-0">
+                                  {isActive && (
+                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-500/35">
+                                      <WebIcon name="check" className="w-3 h-3 shrink-0" />
+                                      <span>{isEn ? 'Active' : 'Đang bật'}</span>
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Title & Description */}
+                              <div className="min-w-0 flex flex-col gap-1.5">
+                                <div className="card-header-sync flex items-center gap-2 min-w-0">
+                                  <WebIcon
+                                    name={preset.icon}
+                                    className="w-4.5 h-4.5 shrink-0"
+                                    style={{ color: meta.iconColor }}
+                                  />
+                                  <h4
+                                    className="typo-h4 font-bold leading-snug min-w-0 truncate card-title-synced"
+                                    data-card-title="true"
+                                    style={{ color: meta.iconColor }}
+                                  >
+                                    {displayPresetName}
+                                  </h4>
+                                </div>
+                                <p className={`typo-body-sm leading-relaxed ${meta.bodyTextClass}`}>
+                                  {t(preset.desc)}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Dedicated Theme Wallpaper + Live Material Specimen */}
+                            <div
+                              style={{
+                                borderRadius: preset.id.includes('ice-blue') ? '20px' : 'var(--radius-subcard, 14px)',
+                                backgroundImage: bgSpec?.imagePath
+                                  ? `url('${bgSpec.imagePath}'), ${bgSpec.fallbackGradient}`
+                                  : bgSpec?.fallbackGradient,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                              }}
+                              className={`relative overflow-hidden p-3 flex flex-col gap-2.5 border ${meta.previewBorderClass}`}
+                            >
+                              <div
+                                className="relative z-10 p-2.5 flex flex-col gap-2 border"
+                                style={{
+                                  ...preset.miniPreviewWrapStyle,
+                                  borderRadius: preset.id.includes('ice-blue') ? '16px' : '12px',
+                                }}
+                              >
+                                <div className="flex items-center justify-between gap-2">
+                                  <span className={`typo-badge font-bold truncate ${meta.titleTextClass}`}>
+                                    {isEn ? 'Wallpaper & Surface' : 'Hình nền & Vật liệu'}
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setActiveVideoPreviewId((prev) =>
+                                        prev === preset.id ? null : preset.id
+                                      )
+                                    }
+                                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-semibold border cursor-pointer transition-opacity hover:opacity-90 shrink-0 ${meta.ctaIdleClass}`}
+                                  >
+                                    <WebIcon
+                                      name={isVideoVisible ? 'x' : 'play'}
+                                      className="w-3 h-3 shrink-0"
+                                    />
+                                    <span>
+                                      {isVideoVisible
+                                        ? isEn
+                                          ? 'Close'
+                                          : 'Đóng'
+                                        : isEn
+                                          ? 'Demo'
+                                          : 'Video'}
+                                    </span>
+                                  </button>
+                                </div>
+
+                                {isVideoVisible ? (
+                                  <div
+                                    data-media-card="video"
+                                    style={{ padding: '5px' }}
+                                    className="relative w-full h-[112px] p-[5px] rounded-[12px] overflow-hidden bg-slate-950/60 border border-white/20 box-border"
+                                  >
+                                    <video
+                                      src={meta.demoVideoUrl}
+                                      autoPlay
+                                      loop
+                                      muted
+                                      playsInline
+                                      onError={() =>
+                                        setFailedVideoIds((prev) => ({ ...prev, [preset.id]: true }))
+                                      }
+                                      className="w-full h-full object-cover rounded-[7px]"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="flex flex-col gap-2">
+                                    <div className="flex items-center justify-between gap-1.5">
+                                      <span
+                                        style={preset.miniTabStyle}
+                                        className="px-2.5 py-1 typo-badge font-bold flex-1 truncate rounded-full border text-center"
+                                      >
+                                        {isEn ? 'Header · Tab' : 'Header · Tab Mẫu'}
+                                      </span>
+                                      <span
+                                        style={preset.miniBtnStyle}
+                                        className="px-2.5 py-1 typo-badge font-bold rounded-full shadow-2xs shrink-0"
+                                      >
+                                        {isEn ? 'Accent' : 'Nút Nhấn'}
+                                      </span>
+                                    </div>
+
+                                    <div className="flex flex-col gap-1.5 pt-0.5">
+                                      {meta.gradientBars.slice(0, 3).map((bar) => (
+                                        <div key={bar.label} className="flex items-center gap-2">
+                                          <span
+                                            className={`w-9 shrink-0 typo-badge font-mono ${meta.accentTextClass}`}
+                                          >
+                                            {bar.label}
+                                          </span>
+                                          <div
+                                            className="flex-1 h-2 rounded-full overflow-hidden"
+                                            style={{
+                                              background: preset.isDark
+                                                ? 'rgba(15, 23, 42, 0.55)'
+                                                : 'rgba(148, 163, 184, 0.22)',
+                                            }}
+                                          >
+                                            <div
+                                              className="h-full rounded-full"
+                                              style={{
+                                                width: bar.width,
+                                                background: bar.gradient,
+                                                boxShadow: bar.glow,
+                                              }}
+                                            />
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Single Clear Card Footer Action */}
+                            <div className={`mt-auto pt-2.5 flex items-center justify-between gap-2 border-t ${meta.dividerClass}`}>
+                              <span className={`typo-caption font-mono truncate ${meta.accentTextClass}`}>
+                                {preset.id.includes('ice-blue') ? '28px · blur(18px)' : meta.radius}
                               </span>
+
                               <button
                                 type="button"
-                                onClick={() =>
-                                  setActiveVideoPreviewId((prev) =>
-                                    prev === preset.id ? null : preset.id
-                                  )
-                                }
-                                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-semibold border cursor-pointer transition-opacity hover:opacity-90 ${meta.ctaIdleClass}`}
+                                aria-pressed={isActive}
+                                onClick={() => handleSelectTheme(preset.id, displayPresetName)}
+                                className={`typo-button font-bold px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 cursor-pointer shrink-0 ${
+                                  isActive ? meta.ctaActiveClass : meta.ctaIdleClass
+                                }`}
                               >
                                 <WebIcon
-                                  name={isVideoVisible ? 'x' : 'play'}
-                                  className="w-3 h-3 shrink-0"
+                                  name={isActive ? 'check' : 'sparkles'}
+                                  className="w-3.5 h-3.5 shrink-0"
                                 />
                                 <span>
-                                  {isVideoVisible
+                                  {isActive
                                     ? isEn
-                                      ? 'Close Video'
-                                      : 'Đóng Video'
+                                      ? 'Active Theme'
+                                      : 'Đang áp dụng'
                                     : isEn
-                                      ? 'Video'
-                                      : 'Video Demo'}
+                                      ? 'Apply Theme'
+                                      : 'Áp dụng giao diện'}
                                 </span>
                               </button>
                             </div>
-
-                            {isVideoVisible ? (
-                              <div className="relative w-full h-[112px] rounded-[var(--radius-subcard,16px)] overflow-hidden bg-slate-950/60 border border-white/20">
-                                <video
-                                  src={meta.demoVideoUrl}
-                                  autoPlay
-                                  loop
-                                  muted
-                                  playsInline
-                                  onError={() =>
-                                    setFailedVideoIds((prev) => ({ ...prev, [preset.id]: true }))
-                                  }
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                            ) : (
-                              <div className="flex flex-col gap-2">
-                                {/* Mini Header + Card Bar Specimen */}
-                                <div className="flex items-center justify-between gap-1.5">
-                                  <span
-                                    style={preset.miniTabStyle}
-                                    className="px-2.5 py-1 typo-badge font-bold flex-1 truncate rounded-full border text-center"
-                                  >
-                                    {isEn ? 'Header · Tab' : 'Header · Tab Mẫu'}
-                                  </span>
-                                  <span
-                                    style={preset.miniBtnStyle}
-                                    className="px-2.5 py-1 typo-badge font-bold rounded-full shadow-2xs shrink-0"
-                                  >
-                                    {isEn ? 'Accent' : 'Nút Nhấn'}
-                                  </span>
-                                </div>
-
-                                {/* Signature Material Gradient / Stitch Bars */}
-                                <div className="flex flex-col gap-1.5 pt-0.5">
-                                  {meta.gradientBars.map((bar) => (
-                                    <div key={bar.label} className="flex items-center gap-2">
-                                      <span
-                                        className={`w-9 shrink-0 typo-badge font-mono ${meta.accentTextClass}`}
-                                      >
-                                        {bar.label}
-                                      </span>
-                                      <div
-                                        className="flex-1 h-2 rounded-full overflow-hidden"
-                                        style={{
-                                          background: preset.isDark
-                                            ? 'rgba(15, 23, 42, 0.55)'
-                                            : 'rgba(148, 163, 184, 0.22)',
-                                        }}
-                                      >
-                                        <div
-                                          className="h-full rounded-full"
-                                          style={{
-                                            width: bar.width,
-                                            background: bar.gradient,
-                                            boxShadow: bar.glow,
-                                          }}
-                                        />
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Single Clear Card Footer Action */}
-                          <div className={`mt-auto pt-2.5 flex items-center justify-between gap-2 border-t ${meta.dividerClass}`}>
-                            <span className={`typo-caption font-mono ${meta.accentTextClass}`}>
-                              {preset.id.includes('ice-blue') ? '28px · blur(18px)' : meta.radius}
-                            </span>
-
-                            <button
-                              type="button"
-                              aria-pressed={isActive}
-                              onClick={() => handleSelectTheme(preset.id, displayPresetName)}
-                              className={`typo-button font-bold px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 cursor-pointer ${
-                                isActive ? meta.ctaActiveClass : meta.ctaIdleClass
-                              }`}
-                            >
-                              <WebIcon
-                                name={isActive ? 'check' : 'sparkles'}
-                                className="w-3.5 h-3.5 shrink-0"
-                              />
-                              <span>
-                                {isActive
-                                  ? isEn
-                                    ? 'Active Theme'
-                                    : 'Đang áp dụng'
-                                  : isEn
-                                    ? 'Apply Theme'
-                                    : 'Áp dụng giao diện'}
-                              </span>
-                            </button>
-                          </div>
-                        </motion.article>
-                      );
-                    })}
-                  </div>
-                </section>
-              );
-            })}
+                          </motion.article>
+                        );
+                      })}
+                    </div>
+                  </section>
+                );
+              })
+            )}
           </div>
+
+          {/* 4. Phòng thử nghiệm thành phần Soft UI (Thu gọn mặc định để ưu tiên kho giao diện) */}
+          {isSandboxOpen && (
+            <div
+              id="interface-soft-ui-reference-widget"
+              data-subcard="true"
+              className="sub-card flex flex-col gap-[15px] p-[15px] border"
+              style={{
+                background: 'var(--bg-subcard)',
+                borderColor: 'var(--border-subcard)',
+              }}
+            >
+              <div
+                className="flex items-center justify-between gap-3 pb-2.5 border-b"
+                style={{ borderColor: 'var(--border-subcard)' }}
+              >
+                <div className="card-header-sync flex items-center gap-2 min-w-0">
+                  <WebIcon name="sparkles" className="w-4.5 h-4.5 shrink-0" style={{ color: 'var(--color-primary)' }} />
+                  <h4
+                    className="typo-h5 font-bold tracking-tight truncate card-title-synced"
+                    data-card-title="true"
+                    style={{ color: 'var(--color-primary)' }}
+                  >
+                    {isEn ? 'Ice-Blue Soft UI Component Suite (Reference Match)' : 'Bộ thành phần Ice-Blue Soft UI (Khớp mẫu tham khảo)'}
+                  </h4>
+                </div>
+              </div>
+              <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
+                {isEn
+                  ? 'Interactive replica of search bar, pill buttons, soft icon cards, and glowing vertical slider tracks.'
+                  : 'Mô phỏng tương tác thanh tìm kiếm, nút bấm, thẻ icon và các thanh trượt dọc phát sáng từ mẫu thiết kế.'}
+              </p>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-center pt-1">
+                <div className="lg:col-span-5 flex flex-col gap-[15px]">
+                  <div
+                    className="flex items-center gap-3 px-4 py-3 rounded-[999px] border transition-all"
+                    style={{
+                      background: 'var(--bg-card)',
+                      borderColor: 'var(--border-subcard)',
+                      boxShadow: 'var(--neu-inset-shadow)',
+                    }}
+                  >
+                    <WebIcon name="search" className="w-4 h-4 shrink-0 opacity-70" />
+                    <input
+                      type="text"
+                      placeholder="Search for ..."
+                      className="w-full bg-transparent border-none outline-none typo-body text-[var(--text-input)] placeholder-[var(--text-placeholder)]"
+                      readOnly
+                    />
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playGlassChime();
+                      if (onShowNotification) onShowNotification(isEn ? '✓ Soft button clicked!' : '✓ Đã bấm nút Soft UI!');
+                    }}
+                    className="w-full py-3 px-6 rounded-[999px] border typo-button font-bold text-center cursor-pointer transition-all active:scale-[0.99]"
+                    style={{
+                      background: 'var(--bg-card)',
+                      borderColor: 'var(--border-subcard)',
+                      boxShadow: 'var(--neu-raised-shadow)',
+                      color: 'var(--text-primary)',
+                    }}
+                  >
+                    Button
+                  </button>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        if (onShowNotification) onShowNotification('♥ Liked');
+                      }}
+                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all cursor-pointer"
+                      style={{
+                        background: 'var(--bg-card)',
+                        borderColor: 'var(--border-subcard)',
+                        boxShadow: 'var(--neu-raised-shadow)',
+                      }}
+                    >
+                      <WebIcon name="heart" className="w-5 h-5 text-pink-500 fill-pink-500/20" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        if (onShowNotification) onShowNotification('💬 Chat opened');
+                      }}
+                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all cursor-pointer"
+                      style={{
+                        background: 'var(--bg-card)',
+                        borderColor: 'var(--border-subcard)',
+                        boxShadow: 'var(--neu-raised-shadow)',
+                      }}
+                    >
+                      <WebIcon name="message-square" className="w-5 h-5 text-sky-500" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        if (onShowNotification) onShowNotification('📌 Saved');
+                      }}
+                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all cursor-pointer"
+                      style={{
+                        background: 'var(--bg-card)',
+                        borderColor: 'var(--border-subcard)',
+                        boxShadow: 'var(--neu-raised-shadow)',
+                      }}
+                    >
+                      <WebIcon name="bookmark" className="w-5 h-5 text-indigo-500 fill-indigo-500/20" />
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        if (onShowNotification) onShowNotification('🔗 Shared');
+                      }}
+                      className="flex-1 py-2.5 px-5 rounded-[999px] border flex items-center justify-center gap-2 typo-label font-bold cursor-pointer transition-all"
+                      style={{
+                        background: 'var(--bg-card)',
+                        borderColor: 'var(--border-subcard)',
+                        boxShadow: 'var(--neu-raised-shadow)',
+                        color: 'var(--text-primary)',
+                      }}
+                    >
+                      <WebIcon name="share-2" className="w-4 h-4" />
+                      <span>Share</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        if (onShowNotification) onShowNotification('➕ Action added');
+                      }}
+                      className="w-11 h-11 rounded-full flex items-center justify-center border transition-all cursor-pointer shrink-0"
+                      style={{
+                        background: 'var(--bg-card)',
+                        borderColor: 'var(--border-subcard)',
+                        boxShadow: 'var(--neu-raised-shadow)',
+                        color: 'var(--text-primary)',
+                      }}
+                    >
+                      <WebIcon name="plus" className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  className="lg:col-span-7 flex items-end justify-around gap-3 p-[15px] rounded-[20px] border"
+                  style={{
+                    background: 'var(--bg-card)',
+                    borderColor: 'var(--border-subcard)',
+                    boxShadow: 'var(--neu-inset-shadow)',
+                  }}
+                >
+                  {[
+                    { label: 'Sky', color: 'linear-gradient(180deg, #38bdf8 0%, #0284c7 100%)', glow: 'rgba(56, 189, 248, 0.45)' },
+                    { label: 'Blue', color: 'linear-gradient(180deg, #6366f1 0%, #4f46e5 100%)', glow: 'rgba(99, 102, 241, 0.45)' },
+                    { label: 'Deep', color: 'linear-gradient(180deg, #818cf8 0%, #7c3aed 100%)', glow: 'rgba(129, 140, 248, 0.45)' },
+                    { label: 'Pink', color: 'linear-gradient(180deg, #ec4899 0%, #f43f5e 100%)', glow: 'rgba(236, 72, 153, 0.45)' },
+                    { label: 'Teal', color: 'linear-gradient(180deg, #06b6d4 0%, #0891b2 100%)', glow: 'rgba(6, 182, 212, 0.45)' },
+                    { label: 'Mint', color: 'linear-gradient(180deg, #10b981 0%, #059669 100%)', glow: 'rgba(16, 185, 129, 0.45)' },
+                  ].map((bar, idx) => {
+                    const val = neuSliders[idx] || 60;
+                    return (
+                      <div key={bar.label} className="flex flex-col items-center gap-3">
+                        <div
+                          className="relative w-3.5 h-[140px] rounded-[999px] cursor-pointer overflow-hidden"
+                          style={{
+                            background: 'var(--bg-subcard)',
+                            boxShadow: 'inset 3px 3px 6px rgba(176, 198, 219, 0.7), inset -3px -3px 6px rgba(255, 255, 255, 0.95)',
+                          }}
+                          onClick={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            const clickY = e.clientY - rect.top;
+                            const newPct = Math.round(Math.max(10, Math.min(95, 100 - (clickY / rect.height) * 100)));
+                            const updated = [...neuSliders];
+                            updated[idx] = newPct;
+                            setNeuSliders(updated);
+                            SoundEngine.playTap();
+                          }}
+                        >
+                          <div
+                            className="absolute bottom-0 left-0 right-0 rounded-[999px] transition-all duration-200"
+                            style={{
+                              height: `${val}%`,
+                              background: bar.color,
+                              boxShadow: `0 0 14px ${bar.glow}`,
+                            }}
+                          />
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            const updated = [...neuSliders];
+                            updated[idx] = val >= 90 ? 30 : val + 15;
+                            setNeuSliders(updated);
+                          }}
+                          className="w-9 h-9 rounded-full border flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                          style={{
+                            background: 'var(--bg-card)',
+                            borderColor: 'var(--border-subcard)',
+                            boxShadow: 'var(--neu-raised-shadow)',
+                            color: 'var(--text-primary)',
+                          }}
+                          title={`${bar.label}: ${val}%`}
+                        >
+                          <span className="w-3.5 h-3.5 rounded-full" style={{ background: bar.color }} />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

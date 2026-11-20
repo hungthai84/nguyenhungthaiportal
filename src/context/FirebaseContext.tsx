@@ -106,6 +106,8 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     setCardStyle,
     surfaceDepth,
     setSurfaceDepth,
+    layerDepth,
+    setLayerDepth,
     autoTimeTheme,
     setAutoTimeTheme,
     activeWallpaper,
@@ -118,6 +120,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   const latestUiRef = useRef({
     cardStyle,
     surfaceDepth,
+    layerDepth,
     autoTimeTheme,
     language,
     activeWallpaperId: activeWallpaper?.id || 'theme-bg-prism',
@@ -125,6 +128,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   latestUiRef.current = {
     cardStyle,
     surfaceDepth,
+    layerDepth,
     autoTimeTheme,
     language,
     activeWallpaperId: activeWallpaper?.id || 'theme-bg-prism',
@@ -158,6 +162,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
         const safeName = clampString(user.displayName || user.email || 'Member', BLUEPRINT_LIMITS.DISPLAY_NAME_MAX, 'Member');
         const safePhoto = clampString(user.photoURL, BLUEPRINT_LIMITS.PHOTO_URL_MAX, '');
         const safeWpId = sanitizeFirestoreId(latestUiRef.current.activeWallpaperId, 'theme-bg');
+        const safeLayerDepth = Math.max(0, Math.min(200, Math.round(latestUiRef.current.layerDepth)));
 
         if (!snap.exists()) {
           await setDoc(userRef, {
@@ -166,6 +171,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
             photoUrl: safePhoto,
             cardStyle: latestUiRef.current.cardStyle,
             surfaceDepth: latestUiRef.current.surfaceDepth,
+            layerDepth: safeLayerDepth,
             autoTimeTheme: Boolean(latestUiRef.current.autoTimeTheme),
             language: latestUiRef.current.language === 'en' ? 'en' : 'vi',
             activeWallpaperId: safeWpId,
@@ -182,7 +188,12 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
                 setCardStyle(normalized);
               }
             }
-            if (data.surfaceDepth === 'flat' || data.surfaceDepth === 'depth') {
+            if (typeof data.layerDepth === 'number' && Number.isFinite(data.layerDepth)) {
+              const clampedCloudDepth = Math.max(0, Math.min(200, Math.round(data.layerDepth)));
+              if (clampedCloudDepth !== latestUiRef.current.layerDepth) {
+                setLayerDepth(clampedCloudDepth);
+              }
+            } else if (data.surfaceDepth === 'flat' || data.surfaceDepth === 'depth') {
               if (data.surfaceDepth !== latestUiRef.current.surfaceDepth) {
                 setSurfaceDepth(data.surfaceDepth);
               }
@@ -223,7 +234,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     return () => {
       cancelled = true;
     };
-  }, [authReady, user, setCardStyle, setSurfaceDepth, setAutoTimeTheme, setLanguageMode, setWallpaper]);
+  }, [authReady, user, setCardStyle, setSurfaceDepth, setLayerDepth, setAutoTimeTheme, setLanguageMode, setWallpaper]);
 
   // Persist UI preference updates to /users/{uid} (Action 2 affectedKeys) when signed in
   useEffect(() => {
@@ -234,9 +245,11 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     const userPath = `users/${user.uid}`;
     const timer = setTimeout(() => {
       const safeWpId = sanitizeFirestoreId(activeWallpaper?.id || 'theme-bg-prism', 'theme-bg');
+      const safeLayerDepth = Math.max(0, Math.min(200, Math.round(layerDepth)));
       const prefPayload = {
         cardStyle,
         surfaceDepth,
+        layerDepth: safeLayerDepth,
         autoTimeTheme: Boolean(autoTimeTheme),
         language: language === 'en' ? 'en' : 'vi',
         activeWallpaperId: safeWpId,
@@ -248,7 +261,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     }, 350);
 
     return () => clearTimeout(timer);
-  }, [authReady, user, cardStyle, surfaceDepth, autoTimeTheme, language, activeWallpaper?.id]);
+  }, [authReady, user, cardStyle, surfaceDepth, layerDepth, autoTimeTheme, language, activeWallpaper?.id]);
 
   // Live listener for user's custom wallpapers (/users/{uid}/wallpapers)
   useEffect(() => {

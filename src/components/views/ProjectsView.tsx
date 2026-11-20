@@ -178,12 +178,12 @@ export const PROJECT_CARD_GROUPS: ProjectCardGroup[] = [
 ];
 
 export const PROJECT_CATEGORIES = [
-  { id: 'all', label: 'Tất cả (21)' },
-  { id: 'strategy', label: 'Chiến Lược (3)' },
-  { id: 'sop', label: 'Chuẩn Hóa SOP (5)' },
-  { id: 'cx', label: 'Trải Nghiệm CX (5)' },
-  { id: 'tech', label: 'Công Nghệ AI (5)' },
-  { id: 'learning', label: 'Đào Tạo (3)' },
+  { id: 'all', label: 'Tất cả dự án' },
+  { id: 'strategy', label: 'Chiến lược vận hành' },
+  { id: 'sop', label: 'Chuẩn hóa quy trình' },
+  { id: 'cx', label: 'Trải nghiệm khách hàng' },
+  { id: 'tech', label: 'Công nghệ trí tuệ' },
+  { id: 'learning', label: 'Đào tạo phát triển' },
 ];
 
 export interface ProjectsViewProps {
@@ -208,7 +208,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu' ||
     currentTheme === 'dark-rainbow-glass' ||
-    currentTheme === 'special-rainbow-glass';
+    currentTheme === 'special-rainbow-glass' ||
+    currentTheme === 'deep-ocean';
   const isLight = !isDark;
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -464,7 +465,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           data-element-type="card"
           data-element-page="projects"
           data-element-parent="projects-cards-track"
-          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-text text-left text-[var(--text-primary)] box-border"
+          className={cn(
+            'page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-x-hidden glass-scrollbar font-play select-text text-left text-[var(--text-primary)] box-border',
+            selectedArticle ? 'overflow-y-auto md:overflow-hidden' : 'overflow-y-auto'
+          )}
         >
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
       {!selectedGroup && !selectedArticle ? (
@@ -478,7 +482,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   SoundEngine.playTap();
                   onReturnToOrigin();
                 }}
-                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-bold font-play transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
+                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-bold font-play transition-colors duration-200 active:scale-95 cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
                 title="Quay lại trang đang xem"
               >
                 <WebIcon name="arrow-left" className="w-4 h-4 shrink-0" />
@@ -553,14 +557,14 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     SoundEngine.playTap();
                     setIsFilterDropdownOpen((prev) => !prev);
                   }}
-                  className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group"
-                  title="Bộ lọc"
+                  className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
+                  title="Bộ lọc dự án"
                   aria-label="Bộ lọc dự án"
                   aria-expanded={isFilterDropdownOpen}
                   aria-haspopup="listbox"
                 >
-                  <WebIcon name="sliders" className="w-4 h-4 transition-transform group-hover:rotate-45 shrink-0" />
-                  <span>Bộ lọc</span>
+                  <WebIcon name="sliders" className="w-4 h-4 shrink-0" />
+                  <span>Bộ lọc dự án</span>
                   {activeCategory !== 'all' && (
                     <span className="banner-count-pill px-1.5 py-0.2 rounded-full border typo-badge font-mono font-bold">
                       {PROJECT_CATEGORIES.find((c) => c.id === activeCategory)?.label}
@@ -740,7 +744,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                           style={{ color: cfg.accentColor }}
                         />
                         <h3
-                          className="typo-h4 font-play font-bold line-clamp-2 leading-[1.35] min-h-[2.7em] break-words m-0 p-0 flex-1 min-w-0"
+                          className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-[1.35] min-h-[2.7em] break-words m-0 p-0 flex-1 min-w-0"
+                          data-card-title="true"
                           style={{ color: cfg.accentColor }}
                           title={formattedCardTitle}
                         >
@@ -779,45 +784,50 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
       ) : (
         /* 3. CHI TIẾT DỰ ÁN & HỒ SƠ STAR TOÀN DIỆN */
         selectedArticle && (
-          <>
-            {onReturnToOrigin ? (
-              <div className="flex items-center justify-between gap-2 pb-1 shrink-0">
-                <button
-                  id="project-detail-return-btn"
-                  type="button"
-                  onClick={() => {
+          <div className="w-full h-full flex-1 min-h-0 flex flex-col gap-[15px]">
+            <div className="flex items-center justify-between gap-2.5 shrink-0 min-w-0">
+              <button
+                id={onReturnToOrigin ? 'project-detail-return-btn' : 'project-detail-back-list-btn'}
+                type="button"
+                onClick={() => {
+                  if (onReturnToOrigin) {
                     SoundEngine.playTap();
                     onReturnToOrigin();
-                  }}
-                  className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-bold font-play transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
-                  title="Quay lại trang đang xem"
+                  } else {
+                    handleCloseDetail();
+                  }
+                }}
+                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-bold font-play transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
+                title={onReturnToOrigin ? 'Quay lại trang đang xem' : 'Quay lại danh sách dự án'}
+              >
+                <WebIcon name="arrow-left" className="w-4 h-4 shrink-0" />
+                <span>{onReturnToOrigin ? 'Quay lại trang đang xem' : 'Danh sách dự án'}</span>
+              </button>
+
+              <div className="hidden sm:flex items-center gap-2 min-w-0 flex-1 justify-center px-2">
+                <span
+                  className="project-detail-chip px-2.5 py-0.5 rounded-full font-mono typo-badge font-bold border shrink-0"
+                  style={{ color: 'var(--text-link, var(--color-primary))' }}
                 >
-                  <WebIcon name="arrow-left" className="w-4 h-4 shrink-0" />
-                  <span>Quay lại trang đang xem</span>
-                </button>
-                <button
-                  id="project-detail-close-btn"
-                  type="button"
-                  onClick={handleCloseDetail}
-                  title="Đóng bài viết"
-                  aria-label="Đóng bài viết chi tiết dự án"
-                  className="theme-modal-close w-8 h-8 rounded-full flex items-center justify-center cursor-pointer shadow-md transition-all duration-200 hover:scale-105 active:scale-95 shrink-0"
-                >
-                  <WebIcon name="x" className="w-4 h-4" />
-                </button>
+                  {selectedArticle.code}
+                </span>
+                <span className="typo-caption font-bold text-[var(--text-secondary)] truncate">
+                  {selectedArticle.title}
+                </span>
               </div>
-            ) : (
+
               <button
                 id="project-detail-close-btn"
                 type="button"
                 onClick={handleCloseDetail}
                 title="Đóng bài viết"
                 aria-label="Đóng bài viết chi tiết dự án"
-                className="theme-modal-close absolute top-2.5 right-2.5 z-[120] w-8 h-8 rounded-full flex items-center justify-center cursor-pointer shadow-md transition-all duration-200 hover:scale-105 active:scale-95"
+                className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shadow-md transition-all duration-200 hover:scale-105 active:scale-95 shrink-0"
               >
                 <WebIcon name="x" className="w-4 h-4" />
               </button>
-            )}
+            </div>
+
             <div className="w-full flex-1 min-h-0 relative flex flex-col overflow-hidden rounded-[14px]">
               <ProjectDetailView
                 selectedArticle={selectedArticle}
@@ -831,7 +841,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                 onSectionChange={setActiveSection}
               />
             </div>
-          </>
+          </div>
         )
       )}
         </div>

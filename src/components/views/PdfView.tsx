@@ -292,18 +292,11 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         <div className="project-detail-banner-scrim no-print absolute inset-0 pointer-events-none rounded-[14px] z-0" />
 
         <div className="relative z-10 flex items-center justify-between gap-3 flex-wrap w-full">
-          <div className="card-header-sync flex items-center gap-2.5 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-            <span className="w-9 h-9 rounded-[10px] bg-blue-500/15 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
-              <WebIcon name="file-text" size={18} className="text-blue-600 dark:text-sky-400 shrink-0" />
-            </span>
-            <div className="min-w-0">
-              <h1 className="typo-h3 card-title-synced font-bold font-play leading-tight truncate" data-card-title="true">
-                Hồ sơ năng lực &amp; CV Portfolio
-              </h1>
-              <p className="typo-caption font-medium leading-snug truncate" style={{ color: 'var(--text-secondary)' }}>
-                Nguyễn Hùng Thái · Bản in PDF chuẩn A4
-              </p>
-            </div>
+          <div className="card-header-sync flex items-center gap-2 min-w-0 text-blue-600 dark:text-sky-400">
+            <WebIcon name="file-text" size={20} className="text-blue-600 dark:text-sky-400 shrink-0" />
+            <h1 className="typo-h3 card-title-synced font-bold font-play leading-tight text-blue-600 dark:text-sky-400 truncate" data-card-title="true">
+              Hồ sơ năng lực &amp; CV Portfolio
+            </h1>
           </div>
 
           <div className="flex items-center justify-end gap-2 shrink-0 flex-wrap">

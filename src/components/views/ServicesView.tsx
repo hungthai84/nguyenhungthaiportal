@@ -33,7 +33,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu' ||
     currentTheme === 'dark-rainbow-glass' ||
-    currentTheme === 'special-rainbow-glass';
+    currentTheme === 'special-rainbow-glass' ||
+    currentTheme === 'deep-ocean';
   const isLight = !isDark;
 
   const isEn = language === 'en';
@@ -70,13 +71,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
 
   // Danh sách bộ lọc phân hệ dịch vụ (6.1 - 6.6)
   const filterCategories = [
-    { id: 'ALL', label: isEn ? 'All (6)' : 'Tất cả (6)', icon: 'grid' },
-    { id: '01', label: isEn ? '6.1 · Telecom Services' : '6.1 · Dịch vụ viễn thông', icon: 'phone' },
-    { id: '02', label: isEn ? '6.2 · E-Commerce' : '6.2 · Thương mại điện tử', icon: 'shopping-cart' },
-    { id: '03', label: isEn ? '6.3 · Finance & Insurance' : '6.3 · Tài chính bảo hiểm', icon: 'shield-check' },
-    { id: '04', label: isEn ? '6.4 · Esports & Gaming' : '6.4 · Thể thao điện tử', icon: 'gamepad-2' },
-    { id: '05', label: isEn ? '6.5 · Digital Payments' : '6.5 · Thanh toán điện tử', icon: 'credit-card' },
-    { id: '06', label: isEn ? '6.6 · System Architecture' : '6.6 · Xây dựng hệ thống', icon: 'layers' },
+    { id: 'ALL', label: isEn ? 'All Services' : 'Tất cả dịch vụ', icon: 'grid' },
+    { id: '01', label: isEn ? 'Telecom Services' : 'Dịch vụ viễn thông', icon: 'phone' },
+    { id: '02', label: isEn ? 'E-Commerce Ops' : 'Thương mại điện tử', icon: 'shopping-cart' },
+    { id: '03', label: isEn ? 'Finance & Insurance' : 'Tài chính bảo hiểm', icon: 'shield-check' },
+    { id: '04', label: isEn ? 'Esports & Gaming' : 'Thể thao điện tử', icon: 'gamepad-2' },
+    { id: '05', label: isEn ? 'Digital Payments' : 'Thanh toán điện tử', icon: 'credit-card' },
+    { id: '06', label: isEn ? 'System Architecture' : 'Xây dựng hệ thống', icon: 'layers' },
   ];
 
   const filteredDomains =
@@ -332,17 +333,17 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
                 SoundEngine.playTap();
                 setIsFilterOpen((prev) => !prev);
               }}
-              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
-              title={isEn ? 'Filter' : 'Bộ lọc'}
+              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+              title={isEn ? 'Service Filter' : 'Bộ lọc dịch vụ'}
               aria-label="Bộ lọc dịch vụ"
               aria-expanded={isFilterOpen}
               aria-haspopup="listbox"
             >
               <WebIcon
                 name="sliders"
-                className="w-4 h-4 text-[var(--color-primary)] transition-transform group-hover:rotate-45 shrink-0"
+                className="w-4 h-4 text-[var(--color-primary)] shrink-0"
               />
-              <span>{isEn ? 'Filter' : 'Bộ lọc'}</span>
+              <span>{isEn ? 'Service Filter' : 'Bộ lọc dịch vụ'}</span>
               {activeCategory !== 'ALL' && (
                 <span className="banner-count-pill px-2 py-0.5 rounded-full border typo-badge font-mono">
                   {DOMAINS_DATA.find((d) => d.id === activeCategory)?.serviceCode || activeCategory}
@@ -468,25 +469,39 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
                     }
                   }}
                   style={{
-                    borderRadius: 'var(--radius-card, 24px)',
+                    borderRadius: 'var(--radius-card, 14px)',
                     padding: '15px',
-                    gap: '15px',
                     boxSizing: 'border-box',
                     background: cfg.cardBg,
                   }}
-                  className="service-card bento-card glass-card layered-card group relative rounded-[14px] p-[15px] gap-[15px] box-border transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[230px] shadow-sm hover:shadow-xl hover:-translate-y-0.5"
+                  className="glassBox service-card bento-card glass-card layered-card group relative rounded-[14px] p-[15px] box-border cursor-pointer overflow-hidden flex flex-col items-center justify-center min-h-[290px] sm:min-h-[320px] w-full shadow-sm"
                 >
-                  {/* 1. TOP: Tiêu đề tên dịch vụ và icon dịch vụ (nền trong suốt 100%, không viền) */}
-                  <div className="service-card-title-header relative z-20 flex items-center justify-between pb-0 bg-transparent border-0 shadow-none shrink-0">
-                    <div className="card-header-sync flex items-center gap-[15px] min-w-0 flex-1 bg-transparent border-0 shadow-none" style={{ color: cfg.accentColor }}>
-                      <span
-                        className="shrink-0 flex items-center justify-center bg-transparent border-0 p-0 shadow-none"
-                        style={{ color: cfg.accentColor }}
-                      >
-                        <WebIcon name={domain.icon?.toLowerCase() || 'briefcase'} className="w-[18px] h-[18px] stroke-[2.2]" style={{ width: '18px', height: '18px', color: cfg.accentColor }} />
-                      </span>
+                  {/* glassBox__imgBox: Hình minh họa dịch vụ + Icon & Tiêu đề ở giữa thẻ */}
+                  <div className="glassBox__imgBox relative z-20 w-full flex flex-col items-center justify-center text-center">
+                    <div className="glassBox__media w-full flex items-center justify-center">
+                      <img
+                        src={serviceImage}
+                        alt={domain.title}
+                        onError={(e) => {
+                          if (e.currentTarget.src !== cfg.fallbackIllustration) {
+                            e.currentTarget.src = cfg.fallbackIllustration;
+                          }
+                        }}
+                        className="glassBox__img block w-auto max-w-[78%] h-[130px] sm:h-[145px] object-contain mx-auto bg-transparent drop-shadow-[0_12px_18px_rgba(15,23,42,0.18)] select-none"
+                      />
+                    </div>
+
+                    <div
+                      className="glassBox__title card-header-sync inline-flex items-center justify-center gap-2 mt-[15px] max-w-full min-w-0 bg-transparent border-0 shadow-none"
+                      style={{ color: cfg.accentColor }}
+                    >
+                      <WebIcon
+                        name={domain.icon?.toLowerCase() || 'briefcase'}
+                        className="w-[18px] h-[18px] stroke-[2.2] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                        style={{ width: '18px', height: '18px', color: cfg.accentColor }}
+                      />
                       <h3
-                        className="service-title-text card-title-synced typo-h3 font-play tracking-tight transition-colors truncate"
+                        className="service-title-text card-title-synced typo-h4 font-play tracking-tight leading-snug text-center line-clamp-2 min-w-0 break-words m-0"
                         data-card-title="true"
                         style={{ color: cfg.accentColor }}
                         title={domain.titleEn && language === 'en' ? domain.titleEn : domain.title}
@@ -496,60 +511,49 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
                     </div>
                   </div>
 
-                  {/* 2. CENTER: Chứa mô tả và hình dịch vụ */}
-                  <p
-                    id={`service-card-desc-${domain.id}`}
-                    className="card-body-text typo-body text-[var(--text-secondary)] text-left relative z-20 flex-1 min-w-0"
-                    title={(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
-                  >
-                    {(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
-                  </p>
-                  <div className="w-24 h-20 sm:w-28 sm:h-24 shrink-0 flex items-center justify-center relative bg-transparent z-20">
-                    <motion.img
-                      src={serviceImage}
-                      alt={domain.title}
-                      onError={(e) => {
-                        if (e.currentTarget.src !== cfg.fallbackIllustration) {
-                          e.currentTarget.src = cfg.fallbackIllustration;
-                        }
-                      }}
-                      className="w-full h-full object-contain rounded-[14px] bg-transparent drop-shadow-[0_8px_14px_rgba(0,0,0,0.12)] transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
+                  {/* glassBox__content: Mô tả & Logo thương hiệu đồng hành hiện mượt ở đáy thẻ khi di chuột */}
+                  <div className="glassBox__content z-20 flex flex-col items-center justify-end gap-2.5 text-center">
+                    <p
+                      id={`service-card-desc-${domain.id}`}
+                      className="card-body-text typo-body-sm text-[var(--text-secondary)] text-center line-clamp-3 min-w-0 m-0 leading-relaxed"
+                      title={(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
+                    >
+                      {(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
+                    </p>
 
-                  {/* 3. BOTTOM: Logo công ty nền trong suốt, căn giữa gọn gàng */}
-                  <div className="service-divider relative z-20 pt-[15px] pb-0 border-t border-[var(--border-subcard)] flex items-center justify-center shrink-0">
-                    {domain.companyLogos && domain.companyLogos.length > 0 ? (
-                      <div className="flex items-center justify-center gap-2.5 flex-wrap">
-                        {domain.companyLogos
-                          .slice(0, 5)
-                          .map((partner, pIdx) => (
-                          <div
-                            key={pIdx}
-                            style={{ background: 'var(--bg-card)' }}
-                            className="w-8 h-8 sm:w-9 sm:h-9 aspect-square rounded-full overflow-hidden border-0 ring-0 p-0 shadow-none outline-none flex items-center justify-center shrink-0 transition-transform duration-200 hover:scale-110"
-                            title={partner.name}
-                          >
-                            <img
-                              src={partner.logo}
-                              alt={partner.name}
-                              className="w-full h-full object-cover rounded-full"
-                              onError={(e) => {
-                                if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
-                                  e.currentTarget.src = partner.fallbackLogo;
-                                } else {
-                                  e.currentTarget.style.display = 'none';
-                                }
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <span className="typo-badge font-mono opacity-80">
-                        {cfg.pillText}
-                      </span>
-                    )}
+                    <div className="service-divider w-full pt-2 border-t border-[var(--border-subcard)] flex items-center justify-center shrink-0">
+                      {domain.companyLogos && domain.companyLogos.length > 0 ? (
+                        <div className="flex items-center justify-center gap-2 flex-wrap">
+                          {domain.companyLogos
+                            .slice(0, 5)
+                            .map((partner, pIdx) => (
+                              <div
+                                key={pIdx}
+                                style={{ background: 'var(--bg-card)' }}
+                                className="w-7 h-7 sm:w-8 sm:h-8 aspect-square rounded-full overflow-hidden border-0 ring-0 p-0 shadow-none outline-none flex items-center justify-center shrink-0"
+                                title={partner.name}
+                              >
+                                <img
+                                  src={partner.logo}
+                                  alt={partner.name}
+                                  className="w-full h-full object-cover rounded-full"
+                                  onError={(e) => {
+                                    if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
+                                      e.currentTarget.src = partner.fallbackLogo;
+                                    } else {
+                                      e.currentTarget.style.display = 'none';
+                                    }
+                                  }}
+                                />
+                              </div>
+                            ))}
+                        </div>
+                      ) : (
+                        <span className="typo-badge font-mono opacity-80">
+                          {cfg.pillText}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               );
@@ -700,17 +704,19 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
                       )}
                     </div>
 
-                    <div className="relative z-10 w-full lg:w-[190px] xl:w-[220px] shrink-0 flex items-center justify-center">
-                      <img
-                        src={detailImageSrc}
-                        alt={serviceTitle}
-                        onError={(e) => {
-                          if (e.currentTarget.src !== cfg.fallbackIllustration) {
-                            e.currentTarget.src = cfg.fallbackIllustration;
-                          }
-                        }}
-                        className="w-full max-w-[170px] sm:max-w-[200px] h-28 sm:h-32 object-contain rounded-[14px] bg-transparent drop-shadow-[0_10px_18px_rgba(0,0,0,0.16)]"
-                      />
+                    <div className="service-card-media-box relative z-10 w-full lg:w-[210px] xl:w-[240px] shrink-0 flex items-center justify-center p-1 overflow-visible">
+                      <div className="service-card-img-float w-full flex items-center justify-center">
+                        <img
+                          src={detailImageSrc}
+                          alt={serviceTitle}
+                          onError={(e) => {
+                            if (e.currentTarget.src !== cfg.fallbackIllustration) {
+                              e.currentTarget.src = cfg.fallbackIllustration;
+                            }
+                          }}
+                          className="service-card-img w-full max-w-[190px] sm:max-w-[220px] h-32 sm:h-36 object-contain rounded-[14px] bg-transparent drop-shadow-[0_10px_18px_rgba(0,0,0,0.16)] select-none"
+                        />
+                      </div>
                     </div>
                   </div>
 

@@ -39,19 +39,12 @@ export const DataFlowMatrixModal: React.FC<DataFlowMatrixModalProps> = ({
           className="theme-modal-card w-full max-w-5xl max-h-[85vh] rounded-[var(--radius-modal,24px)] shadow-2xl flex flex-col overflow-hidden text-left font-play"
         >
           {/* Header */}
-          <div className="theme-modal-header flex items-center justify-between p-4 sm:p-5">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-[var(--radius-subcard,16px)] bg-sky-500/15 border border-sky-400/40 flex items-center justify-center text-sky-600 dark:text-[#67E8F9] shrink-0">
-                <WebIcon name="activity" className="w-5 h-5 text-sky-600 dark:text-[#67E8F9]" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="typo-popup-title card-title-synced font-play tracking-wide" style={{ color: 'var(--accent-sky, #0284c7)' }}>
-                  Ma Trận Dòng Chảy Dữ Liệu Tương Tác Hệ Thống
-                </h3>
-                <p className="typo-caption" style={{ color: 'var(--color-primary)' }}>
-                  12 Phân hệ kết nối thời gian thực qua Kafka Event Stream &amp; API Gateway
-                </p>
-              </div>
+          <div className="theme-modal-header flex items-center justify-between p-4 sm:p-5 gap-3">
+            <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--accent-sky, #0284c7)' }}>
+              <WebIcon name="activity" className="w-5 h-5 shrink-0" style={{ color: 'var(--accent-sky, #0284c7)' }} />
+              <h3 className="typo-popup-title card-title-synced font-play tracking-wide truncate" data-card-title="true" style={{ color: 'var(--accent-sky, #0284c7)' }}>
+                Ma Trận Dòng Chảy Dữ Liệu Tương Tác Hệ Thống
+              </h3>
             </div>
             <button
               type="button"

@@ -855,6 +855,37 @@ export function AboutView({
     return () => window.removeEventListener('app:set-slide', handleExternalSlide);
   }, [scrollToIntroCard]);
 
+  // Đồng bộ chiều cao Card Video = Card Thông tin chi tiết ở mọi kích thước (Mobile/Tablet stacked + Desktop side-by-side)
+  const infoCardRef = useRef<HTMLDivElement>(null);
+  const [syncedStackedHeight, setSyncedStackedHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    const updateHeightParity = () => {
+      if (typeof window === 'undefined') return;
+      if (window.innerWidth >= 1024) {
+        setSyncedStackedHeight(null);
+        return;
+      }
+      const el = infoCardRef.current;
+      if (!el) return;
+      const measured = Math.round(el.getBoundingClientRect().height);
+      if (measured > 120) {
+        setSyncedStackedHeight((prev) => (prev !== measured ? measured : prev));
+      }
+    };
+
+    updateHeightParity();
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(updateHeightParity) : null;
+    if (ro && infoCardRef.current) {
+      ro.observe(infoCardRef.current);
+    }
+    window.addEventListener('resize', updateHeightParity);
+    return () => {
+      ro?.disconnect();
+      window.removeEventListener('resize', updateHeightParity);
+    };
+  }, []);
+
   // Keep active intro card centered when viewport resizes
   useEffect(() => {
     const container = aboutContainerRef.current;
@@ -1230,11 +1261,9 @@ export function AboutView({
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className="exp-icon-badge w-7 h-7 rounded-full border flex items-center justify-center shrink-0 text-blue-600 dark:text-sky-300">
-                        <WebIcon name="chart" className="w-4 h-4 shrink-0" />
-                      </div>
-                      <h4 className="pillar-heading typo-h4 font-play">01. Hiệu quả</h4>
+                    <div className="subcard-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-300">
+                      <WebIcon name="chart" className="w-4 h-4 shrink-0" />
+                      <h4 className="pillar-heading subcard-title-synced typo-h4 font-play text-blue-600 dark:text-sky-300" data-subcard-title="true">01. Hiệu quả</h4>
                     </div>
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-[14px]">Trụ cột 01</span>
                   </div>
@@ -1256,11 +1285,9 @@ export function AboutView({
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className="exp-icon-badge w-7 h-7 rounded-full border flex items-center justify-center shrink-0 text-rose-600 dark:text-rose-300">
-                        <WebIcon name="heart" className="w-4 h-4 shrink-0" />
-                      </div>
-                      <h4 className="pillar-heading typo-h4 font-play">02. Nhân văn</h4>
+                    <div className="subcard-header-sync flex items-center gap-2 text-rose-600 dark:text-rose-300">
+                      <WebIcon name="heart" className="w-4 h-4 shrink-0" />
+                      <h4 className="pillar-heading subcard-title-synced typo-h4 font-play text-rose-600 dark:text-rose-300" data-subcard-title="true">02. Nhân văn</h4>
                     </div>
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-[14px]">Trụ cột 02</span>
                   </div>
@@ -1282,11 +1309,9 @@ export function AboutView({
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className="exp-icon-badge w-7 h-7 rounded-full border flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-300">
-                        <WebIcon name="leaf" className="w-4 h-4 shrink-0" />
-                      </div>
-                      <h4 className="pillar-heading typo-h4 font-play">03. Bền vững</h4>
+                    <div className="subcard-header-sync flex items-center gap-2 text-emerald-600 dark:text-emerald-300">
+                      <WebIcon name="leaf" className="w-4 h-4 shrink-0" />
+                      <h4 className="pillar-heading subcard-title-synced typo-h4 font-play text-emerald-600 dark:text-emerald-300" data-subcard-title="true">03. Bền vững</h4>
                     </div>
                     <span className="pillar-badge typo-badge font-mono px-2 py-0.5 rounded-[14px]">Trụ cột 03</span>
                   </div>
@@ -1446,14 +1471,14 @@ export function AboutView({
           borderRadius: 'var(--radius-main, 30px)',
         }}
         className={cn(
-          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-center p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
           activeIntroCard !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
         <div
           id="about-intro-grid-1"
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px' }}
-          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] p-0 overflow-visible items-stretch box-border"
+          className="w-full flex-1 min-h-0 my-auto grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)] gap-[15px] p-0 overflow-visible items-stretch box-border"
         >
             
             {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA */}
@@ -1461,15 +1486,22 @@ export function AboutView({
               id="about-hero-video-container"
               data-element-name="Card video chân dung chuyên gia"
               data-element-type="card"
+              data-media-card="video"
               data-element-page="about"
               data-element-parent="about-intro-card-1"
               style={{
-                borderRadius: 'var(--radius-card, 24px)',
+                borderRadius: 'var(--radius-card, 14px)',
                 padding: '5px',
+                ...(syncedStackedHeight
+                  ? { height: `${syncedStackedHeight}px`, minHeight: `${syncedStackedHeight}px` }
+                  : {}),
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,24px)] overflow-hidden flex flex-col justify-center items-center min-h-[300px] sm:min-h-[380px] lg:min-h-0 h-full group/video p-[5px] text-left"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-[300px] lg:min-h-0 group/video p-[5px] text-left"
             >
-                  <div className="relative w-full h-full flex-1 rounded-[14px] overflow-hidden min-h-0 flex items-center justify-center">
+                  <div
+                    style={{ borderRadius: 'calc(var(--radius-card, 14px) - 5px)' }}
+                    className="relative w-full h-full flex-1 overflow-hidden min-h-0 flex items-center justify-center"
+                  >
                   {activeHeroMedia === 'video' ? (
                     <video
                       ref={videoRef}
@@ -1485,7 +1517,7 @@ export function AboutView({
                       playsInline
                       onTimeUpdate={handleTimeUpdate}
                       onEnded={handleVideoEnded}
-                      className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] pointer-events-none z-0 opacity-100 transition-opacity duration-700 brightness-105 contrast-105 scale-[1.01]"
+                      className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] pointer-events-none z-0 opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
                       src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
                     />
                   ) : (
@@ -1544,7 +1576,7 @@ export function AboutView({
                         <button
                           type="button"
                           onClick={() => setActiveHeroMedia('video')}
-                          className="theme-modal-close p-2 rounded-full shadow-lg bg-slate-950/80 backdrop-blur-md border border-white/20 text-white hover:scale-110 active:scale-95 transition-all cursor-pointer flex items-center gap-1 text-xs"
+                          className="theme-modal-close p-2 rounded-full shadow-lg bg-slate-950/80 backdrop-blur-md border border-white/20 text-white active:scale-95 transition-all cursor-pointer flex items-center gap-1 text-xs"
                           title="Quay lại xem Video chân dung"
                         >
                           <WebIcon name="cancel" className="w-3.5 h-3.5" />
@@ -1704,18 +1736,19 @@ export function AboutView({
                   </div>
                   </div>
 
-            {/* CARD 2: CARD THÔNG TIN CHI TIẾT */}
+            {/* CARD 2: CARD THÔNG TIN CHI TIẾT (Chiều cao luôn bằng Card Video) */}
             <div
+              ref={infoCardRef}
               id="about-personal-info-card-right"
               data-element-name="Card thông tin chi tiết"
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-1"
               style={{
-                borderRadius: 'var(--radius-card, 24px)',
+                borderRadius: 'var(--radius-card, 14px)',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-start gap-2 h-auto lg:h-full min-h-0 text-left rounded-[var(--radius-card,24px)] p-[15px] overflow-hidden"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-2.5 self-stretch h-auto lg:h-full min-h-0 text-left rounded-[var(--radius-card,14px)] p-[15px] overflow-hidden"
             >
                   {/* Header Bento Box Bar */}
                   <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 shrink-0">
@@ -1727,8 +1760,8 @@ export function AboutView({
                     </div>
                   </div>
 
-                  {/* Sub-Card Bento Grid (Row 1: Icon & Title, Row 2: Single-line Value, Equal Height, Multicolor) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 py-1 content-start items-stretch w-full min-w-0">
+                  {/* Sub-Card Bento Grid (Stretch evenly inside equal-height info card) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:auto-rows-fr gap-2.5 py-0.5 flex-1 min-h-0 overflow-y-auto glass-scrollbar items-stretch w-full min-w-0">
                     {[
                       {
                         id: 'gender',
@@ -1880,7 +1913,7 @@ export function AboutView({
                         <div className="flex items-center gap-1.5 min-w-0 w-full">
                           <WebIcon
                             name={item.icon}
-                            className={cn('w-3.5 h-3.5 shrink-0 transition-transform group-hover/subcard:scale-110', item.iconColorCls)}
+                            className={cn('w-3.5 h-3.5 shrink-0', item.iconColorCls)}
                             style={{ width: '14px', height: '14px' }}
                           />
                           <span className={cn('about-info-label typo-label font-bold leading-tight whitespace-nowrap truncate min-w-0', item.iconColorCls)}>

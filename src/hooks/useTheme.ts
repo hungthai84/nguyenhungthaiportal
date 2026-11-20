@@ -17,10 +17,8 @@ import {
   COLOR_SCHEME_MODE_SYNC_EVENT,
   LAYER_DEPTH_STORAGE_KEY,
   LAYER_DEPTH_SYNC_EVENT,
-  FONT_SCALE_STORAGE_KEY,
-  FONT_SCALE_SYNC_EVENT,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode, ColorSchemeMode, FontScaleMode, SurfaceDepthMode, ThemeMechanismMode } from '../config/ui/theme.types';
+import { CardStyleMode, ColorSchemeMode, SurfaceDepthMode, ThemeMechanismMode } from '../config/ui/theme.types';
 import { useThemeContext } from '../context/ThemeContext';
 import { useThemeLegacy } from './useThemeLegacy';
 
@@ -39,10 +37,8 @@ export {
   COLOR_SCHEME_MODE_SYNC_EVENT,
   LAYER_DEPTH_STORAGE_KEY,
   LAYER_DEPTH_SYNC_EVENT,
-  FONT_SCALE_STORAGE_KEY,
-  FONT_SCALE_SYNC_EVENT,
 };
-export type { CardStyleMode, ColorSchemeMode, FontScaleMode, SurfaceDepthMode, ThemeFamilyGroupMeta, ThemeMechanismMode };
+export type { CardStyleMode, ColorSchemeMode, SurfaceDepthMode, ThemeFamilyGroupMeta, ThemeMechanismMode };
 
 export function useTheme() {
   try {

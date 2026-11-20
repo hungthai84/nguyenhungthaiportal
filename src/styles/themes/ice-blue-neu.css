@@ -83,10 +83,7 @@ html[data-card-style="ice-blue-neu"] {
     12px 12px 26px rgba(176, 198, 219, 0.7),
     -10px -10px 22px rgba(255, 255, 255, 0.95),
     inset 1px 1px 2px rgba(255, 255, 255, 0.9);
-  --neu-raised-shadow-hover:
-    14px 14px 30px rgba(176, 198, 219, 0.82),
-    -12px -12px 26px rgba(255, 255, 255, 1),
-    inset 1px 1px 2px rgba(255, 255, 255, 0.96);
+  --neu-raised-shadow-hover: var(--neu-raised-shadow);
   --neu-inset-shadow:
     inset 4px 4px 8px rgba(176, 198, 219, 0.65),
     inset -4px -4px 8px rgba(255, 255, 255, 0.95);
@@ -323,10 +320,7 @@ html[data-card-style="dark-ice-blue-neu"] {
     12px 12px 26px #0a1018,
     -10px -10px 22px #203147,
     inset 1px 1px 2px rgba(186, 230, 253, 0.14);
-  --neu-raised-shadow-hover:
-    14px 14px 30px #070c12,
-    -12px -12px 26px #253952,
-    inset 1px 1px 2px rgba(186, 230, 253, 0.22);
+  --neu-raised-shadow-hover: var(--neu-raised-shadow);
   --neu-inset-shadow:
     inset 4px 4px 8px #0a1018,
     inset -4px -4px 8px #1e2e43;
@@ -550,7 +544,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   border: 1px solid var(--surface-primary-border) !important;
   border-top: none !important;
   border-radius: 0 0 14px 14px !important;
-  box-shadow: var(--surface-header-shadow) !important;
+  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow)) !important;
   backdrop-filter: blur(18px) !important;
   -webkit-backdrop-filter: blur(18px) !important;
   color: var(--text-primary) !important;
@@ -561,7 +555,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   border: 1px solid var(--surface-primary-border) !important;
   border-bottom: none !important;
   border-radius: 14px 14px 0 0 !important;
-  box-shadow: var(--surface-footer-shadow) !important;
+  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow)) !important;
   backdrop-filter: blur(18px) !important;
   -webkit-backdrop-filter: blur(18px) !important;
   color: var(--text-primary) !important;
@@ -570,6 +564,8 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
 html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"]) :is(
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"],
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
@@ -579,7 +575,7 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   background: var(--surface-primary-bg) !important;
   border: 1px solid var(--surface-primary-border) !important;
   border-radius: 14px !important;
-  box-shadow: var(--neu-raised-shadow) !important;
+  box-shadow: var(--layer-l1-shadow, var(--neu-raised-shadow)) !important;
   backdrop-filter: blur(18px) !important;
   -webkit-backdrop-filter: blur(18px) !important;
   color: var(--text-secondary) !important;
@@ -789,12 +785,12 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"])
   color: var(--text-accent) !important;
 }
 
-/* Typography Contrast Safeguards */
-html[data-card-style="ice-blue-neu"] :is(h1, h2, h3, h4, h5, .card-title, .card-title-synced, [data-card-title="true"]) {
+/* Typography Contrast Safeguards — preserve synced icon-matching card/subcard titles */
+html[data-card-style="ice-blue-neu"] :is(h1, h2, h3, h4, h5):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title="true"]):not([data-subcard-title="true"]):not(.card-header-sync *):not(.subcard-header-sync *) {
   color: #0f172a !important;
 }
 
-html[data-card-style="dark-ice-blue-neu"] :is(h1, h2, h3, h4, h5, .card-title, .card-title-synced, [data-card-title="true"]) {
+html[data-card-style="dark-ice-blue-neu"] :is(h1, h2, h3, h4, h5):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title="true"]):not([data-subcard-title="true"]):not(.card-header-sync *):not(.subcard-header-sync *) {
   color: #f8fafc !important;
 }
 

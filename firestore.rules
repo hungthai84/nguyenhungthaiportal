@@ -52,7 +52,13 @@ service cloud.firestore {
           'black-cowhide-leather',
           'cowhide-leather',
           'ice-blue-neu',
-          'dark-ice-blue-neu'
+          'dark-ice-blue-neu',
+          'glass-flat',
+          'rainbow-glass',
+          'dark-rainbow-glass',
+          'special-rainbow-glass',
+          'deep-ocean',
+          'mica-fluent'
         ];
     }
 
@@ -75,6 +81,7 @@ service cloud.firestore {
           'photoUrl',
           'cardStyle',
           'surfaceDepth',
+          'layerDepth',
           'autoTimeTheme',
           'language',
           'activeWallpaperId',
@@ -91,6 +98,7 @@ service cloud.firestore {
         && isValidCardStyle(data.cardStyle)
         && data.surfaceDepth is string
         && data.surfaceDepth in ['flat', 'depth']
+        && (!('layerDepth' in data) || (data.layerDepth is int && data.layerDepth >= 0 && data.layerDepth <= 200))
         && data.autoTimeTheme is bool
         && data.language is string
         && data.language in ['auto', 'vi', 'en']
@@ -211,6 +219,7 @@ service cloud.firestore {
           incoming().diff(existing()).affectedKeys().hasOnly([
             'cardStyle',
             'surfaceDepth',
+            'layerDepth',
             'autoTimeTheme',
             'language',
             'activeWallpaperId',

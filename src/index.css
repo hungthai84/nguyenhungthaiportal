@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="dark-ice-blue-neu"], [data-theme="dark-ice-blue-neu"] *, [data-theme="dark-rainbow-glass"], [data-theme="dark-rainbow-glass"] *, [data-theme="special-rainbow-glass"], [data-theme="special-rainbow-glass"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="dark-ice-blue-neu"], [data-theme="dark-ice-blue-neu"] *, [data-theme="dark-rainbow-glass"], [data-theme="dark-rainbow-glass"] *, [data-theme="special-rainbow-glass"], [data-theme="special-rainbow-glass"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -13,17 +13,6 @@
   font-family: "Moon Dance", cursive !important;
 }
 
-@keyframes vibrate {
-  0% { transform: translate3d(0, -2px, 0); }
-  20% { transform: translate3d(-0.8px, -1.2px, 0); }
-  40% { transform: translate3d(0.8px, -2.6px, 0); }
-  60% { transform: translate3d(-0.8px, -2.6px, 0); }
-  80% { transform: translate3d(0.8px, -1.2px, 0); }
-  100% { transform: translate3d(0, -2px, 0); }
-}
-.vibrate {
-  animation: vibrate 0.28s linear infinite;
-}
 
 /* AiMascotWidget: 10s GPU-composited nhún nhảy bounce sequence (zero layout shifts / zero JS timers) */
 @keyframes aiMascotNhunNhayLoop {
@@ -62,7 +51,7 @@
   will-change: transform;
 }
 .ai-mascot-btn:hover {
-  transform: translate3d(0, -5px, 0) scale(1.035);
+  transform: none;
 }
 .ai-mascot-btn:active {
   transform: translate3d(0, 0, 0) scale(0.96);
@@ -114,7 +103,7 @@
   will-change: transform;
 }
 .plant-widget-btn:hover {
-  transform: translate3d(0, -2px, 0) scale(1.02);
+  transform: none;
 }
 .plant-widget-btn:active {
   transform: translate3d(0, 0, 0) scale(0.975);
@@ -131,7 +120,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vibrate,
   .ai-mascot-motion-layer,
   .plant-canopy-breeze,
   .plant-falling-leaf.leaf-falling {
@@ -186,8 +174,17 @@
 .motion-card:hover,
 .bento-card:hover,
 .glass-card:hover,
-[data-section-card="true"]:hover {
-  transform: translateY(var(--main-card-hover-lift, -2.5px));
+[data-section-card="true"]:hover,
+[data-subcard="true"]:hover,
+.sub-card:hover,
+.exp-bento-surface-card:hover,
+.exp-detail-subcard:hover,
+.project-card:hover,
+.education-course-card:hover,
+.service-card:hover,
+.themed-image-card:hover,
+.memory-photo-item:hover {
+  transform: none !important;
   animation-play-state: paused;
 }
 
@@ -543,7 +540,8 @@ html #letter-slide-4-card {
   box-sizing: border-box !important;
 }
 
-html #el-p1-div-85 > :is(article, div):not(.partner-motto-container):not(.partner-motto-grid),
+html #el-p1-div-85 > :is(article, div):not(.partner-motto-container):not(.partner-motto-grid):not(.letter-right-stack),
+html #el-p1-div-85 .letter-right-stack > :is(article, div),
 html #el-p1-div-85 #card-core-values-pursued [data-subcard="true"],
 html #letter-slide-2-grid > :is(article, div),
 html #letter-slide-3-grid > :is(article, div),
@@ -805,9 +803,9 @@ html[data-surface-depth="flat"] [id^="letter-card-"] {
   html:not([data-surface-depth="flat"]) #home-main-card:hover,
   html:not([data-surface-depth="flat"]) #letter-card-1:hover,
   html:not([data-surface-depth="flat"]) [id^="letter-card-"]:hover {
-    border-color: var(--surface-primary-border-hover, var(--surface-primary-border)) !important;
-    transform: translateY(-3px) !important;
-    box-shadow: var(--surface-primary-shadow-hover, var(--main-card-deep-shadow-hover)) !important;
+    border-color: var(--surface-primary-border) !important;
+    transform: none !important;
+    box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
   }
 
   html.dark:not([data-surface-depth="flat"]) .page-main-card:hover,
@@ -820,15 +818,8 @@ html[data-surface-depth="flat"] [id^="letter-card-"] {
   html.dark:not([data-surface-depth="flat"]) #home-main-card:hover,
   html.dark:not([data-surface-depth="flat"]) #letter-card-1:hover,
   html.dark:not([data-surface-depth="flat"]) [id^="letter-card-"]:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: var(--surface-primary-shadow-hover, var(--main-card-deep-shadow-dark-hover)) !important;
-  }
-
-  html[data-card-style*="leather"]:not([data-surface-depth="flat"]) .page-main-card:hover,
-  html[data-card-style*="leather"]:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container):hover,
-  html[data-card-style*="leather"]:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
-  html[data-card-style*="leather"]:not([data-surface-depth="flat"]) #about-intro-card-2:hover {
-    outline-color: var(--surface-primary-outline-hover, currentColor) !important;
+    transform: none !important;
+    box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
   }
 
   html[data-surface-depth="flat"] .page-main-card:hover,
@@ -1314,8 +1305,8 @@ html[data-card-style="cowhide-leather"] #pdf-page-container {
     .hero-banner:hover,
     .banner-card:hover
   )) {
-    box-shadow: var(--main-card-deep-shadow-hover, 0 28px 64px -12px rgba(15, 23, 42, 0.28), 0 14px 30px -4px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95)) !important;
-    border-color: var(--surface-primary-border-hover, var(--surface-primary-border)) !important;
+    box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+    border-color: var(--surface-primary-border) !important;
   }
 
   html.dark:not([data-surface-depth="flat"]) :is(
@@ -1360,7 +1351,7 @@ html[data-card-style="cowhide-leather"] #pdf-page-container {
     .hero-banner:hover,
     .banner-card:hover
   )) {
-    box-shadow: var(--main-card-deep-shadow-dark-hover, 0 32px 76px -12px rgba(0, 0, 0, 0.92), 0 16px 36px -6px rgba(0, 0, 0, 0.70), inset 0 1px 0 rgba(255, 255, 255, 0.22)) !important;
+    box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
   }
 
   html[data-surface-depth="flat"] .page-main-card:hover,
@@ -1511,8 +1502,7 @@ html #pdf-hero-banner .project-detail-banner-media :is(img, video) {
   html[data-card-style] #interview-questions-card:hover,
   html #contact-main-card #contact-hero-banner:hover,
   html[data-card-style] #contact-main-card #contact-hero-banner:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: var(--shadow-card-hover) !important;
+    box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow, var(--shadow-card))) !important;
   }
 }
 
@@ -1665,9 +1655,7 @@ html [id$="-cards-track"]::after {
     column-gap: 15px !important;
   }
 
-  /* Preserve explicit 10px card rules */
-  html #about-hero-video-container,
-  html #bento-letter-video,
+  /* Preserve explicit 10px card rules (video cards enforce 5px padding globally) */
   html #interview-questions-card,
   html #projects-grid .project-card,
   html .project-card {
@@ -1870,14 +1858,14 @@ html[data-card-style]:not([data-surface-depth="depth"]) :is(
   transition: opacity 260ms ease, border-color 260ms ease, outline-color 260ms ease, background 260ms ease, color 260ms ease !important;
 }
 
-/* Layered Depth Mode ('depth'): Restore elevated shadows & gentle hover lift */
+/* Layered Depth Mode ('depth'): Restore Layer Card Level 1 shadows for Header, Footer & Main Cards */
 html[data-surface-depth="depth"] #app-header {
-  box-shadow: var(--surface-header-shadow, 0 18px 40px -12px rgba(15, 23, 42, 0.22), 0 6px 16px -4px rgba(15, 23, 42, 0.12)) !important;
+  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, 0 18px 40px -12px rgba(15, 23, 42, 0.22), 0 6px 16px -4px rgba(15, 23, 42, 0.12))) !important;
   transition: min-height 240ms ease, padding 240ms ease, box-shadow 260ms ease !important;
 }
 
 html[data-surface-depth="depth"] #app-footer {
-  box-shadow: var(--surface-footer-shadow, 0 -14px 36px -12px rgba(15, 23, 42, 0.20), 0 -4px 14px -4px rgba(15, 23, 42, 0.10)) !important;
+  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, 0 -14px 36px -12px rgba(15, 23, 42, 0.20), 0 -4px 14px -4px rgba(15, 23, 42, 0.10))) !important;
   transition: min-height 240ms ease, padding 240ms ease, box-shadow 260ms ease !important;
 }
 
@@ -1885,13 +1873,14 @@ html[data-surface-depth="depth"] :is(
   #letter-card-1,
   [id^="letter-card-"],
   .page-main-card,
-  [data-main-card="true"],
+  [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"],
   #about-intro-card-1,
   #about-intro-card-2,
-  #contact-main-card,
-  #pdf-page-container
+  #contact-main-card
 ) {
-  box-shadow: var(--surface-primary-shadow, 0 26px 60px -12px rgba(15, 23, 42, 0.26), 0 12px 26px -6px rgba(15, 23, 42, 0.15)) !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, 0 26px 60px -12px rgba(15, 23, 42, 0.26), 0 12px 26px -6px rgba(15, 23, 42, 0.15))) !important;
   transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1), opacity 260ms ease, border-color 260ms ease, background 260ms ease, color 260ms ease !important;
 }
 
@@ -1899,16 +1888,17 @@ html.dark[data-surface-depth="depth"] :is(
   #letter-card-1,
   [id^="letter-card-"],
   .page-main-card,
-  [data-main-card="true"],
+  [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"],
   #about-intro-card-1,
   #about-intro-card-2,
-  #contact-main-card,
-  #pdf-page-container
+  #contact-main-card
 ) {
-  box-shadow: var(--surface-primary-shadow, 0 28px 68px -12px rgba(0, 0, 0, 0.72), 0 12px 28px -6px rgba(0, 0, 0, 0.50)) !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, 0 28px 68px -12px rgba(0, 0, 0, 0.72), 0 12px 28px -6px rgba(0, 0, 0, 0.50))) !important;
 }
 
-/* Hover elevation for Depth Mode (Level 2 Cards & Banners only, avoiding parent lift when hovering nested Sub Cards) */
+/* Hover on Depth Mode Level 2 Cards & Banners: keep calm resting shadow without hover glow */
 @media (hover: hover) and (pointer: fine) {
   html[data-surface-depth="depth"] :is(
     .project-card,
@@ -1916,9 +1906,8 @@ html.dark[data-surface-depth="depth"] :is(
     .exp-bento-surface-card,
     .hero-banner,
     .banner-card
-  ):hover:not(:has([data-subcard="true"]:hover, .sub-card:hover, .nested-card:hover, .exp-bento-item-card:hover)) {
-    transform: translateY(-2px) !important;
-    box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover, 0 24px 54px -12px rgba(15, 23, 42, 0.28))) !important;
+  ):hover {
+    box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow)) !important;
   }
 }
 
@@ -2058,7 +2047,7 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
   outline-offset: -7px !important;
 }
 
-/* Per-page banner card hover & media zoom parity with sibling Level 2 cards */
+/* Per-page banner card hover media zoom (without hover border/outline glow) */
 @media (hover: hover) and (pointer: fine) {
   html:not([data-surface-depth="flat"]) :is(
     #skills-hero-banner,
@@ -2069,38 +2058,16 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
     #ai-assistant-hero-banner,
     #pdf-hero-banner,
     #letter-hero-banner,
-    #experience-hero-banner
-  ):hover {
-    transform: translateY(-2px) !important;
-    border-color: var(--surface-primary-border-hover, var(--surface-secondary-border)) !important;
-    box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover)) !important;
-  }
-
-  /* #interview-questions-card matches #interview-answers-card exact Level 2 Layer Card lift & shadow */
-  html:not([data-surface-depth="flat"]) #interview-questions-card:not(:has(.banner-dropdown-menu)):hover {
-    transform: translateY(var(--layer-l2-lift, -3px)) !important;
-    border-color: var(--surface-primary-border-hover, var(--surface-secondary-border)) !important;
-    box-shadow: var(--layer-l2-shadow-hover, var(--surface-secondary-shadow-hover, var(--layer-l2-shadow, var(--shadow-card-hover)))) !important;
-  }
-
-  html:not([data-surface-depth="flat"]) :is(
+    #experience-hero-banner,
+    #interview-questions-card,
     #services-hero-banner,
-    #systems-hero-banner
-  ):hover {
-    transform: translateY(-2px) !important;
-    border-color: var(--surface-primary-border-hover, var(--surface-secondary-border)) !important;
-    box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover)) !important;
-  }
-
-  html:not([data-surface-depth="flat"]) :is(
+    #systems-hero-banner,
     #education-hero-banner,
     #projects-hero-banner,
     #memories-hero-banner,
     #wallpaper-hero-banner
   ):hover {
-    transform: translateY(-3px) !important;
-    border-color: var(--surface-primary-border-hover, var(--surface-secondary-border)) !important;
-    box-shadow: var(--surface-secondary-shadow-hover, var(--shadow-card-hover)) !important;
+    box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow)) !important;
   }
 
   html:not([data-surface-depth="flat"]) :is(
@@ -2108,16 +2075,8 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
     #projects-hero-banner,
     #memories-hero-banner,
     #services-hero-banner,
-    #systems-hero-banner
-  ):hover .project-detail-banner-media :is(img, video) {
-    transform: scale(1.05) !important;
-  }
-
-  html:not([data-surface-depth="flat"]) #wallpaper-hero-banner:hover .project-detail-banner-media :is(img, video) {
-    transform: scale(1.10) !important;
-  }
-
-  html:not([data-surface-depth="flat"]) :is(
+    #systems-hero-banner,
+    #wallpaper-hero-banner,
     #skills-hero-banner,
     #horoscope-hero-banner,
     #interface-hero-banner,
@@ -2129,44 +2088,82 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
     #letter-hero-banner,
     #experience-hero-banner
   ):hover .project-detail-banner-media :is(img, video) {
-    transform: scale(1.02) !important;
-  }
-
-  html[data-card-style*="leather"]:not([data-surface-depth="flat"]) :is(.hero-banner, .banner-card, [data-element-type="banner-card"], [id$="-hero-banner"], #interview-questions-card, #project-detail-banner):hover {
-    outline-color: var(--surface-primary-outline-hover, rgba(253, 230, 138, 0.85)) !important;
-  }
-
-  html[data-card-style="light-cowhide-leather"]:not([data-surface-depth="flat"]) :is(.hero-banner, .banner-card, [data-element-type="banner-card"], [id$="-hero-banner"], #interview-questions-card, #project-detail-banner):hover {
-    outline-color: rgba(17, 24, 39, 0.92) !important;
+    transform: none !important;
   }
 }
 
-html :is(.hero-banner, .banner-card, [id$="-hero-banner"]) :is(h1, p.font-italianno, p.font-handwriting, .banner-quote) {
-  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.85), 0 1px 2px rgba(255, 255, 255, 0.9);
-}
-
-html.dark :is(.hero-banner, .banner-card, [id$="-hero-banner"]) :is(h1, p.font-italianno, p.font-handwriting, .banner-quote),
-html[data-card-style*="dark"] :is(.hero-banner, .banner-card, [id$="-hero-banner"]) :is(h1, p.font-italianno, p.font-handwriting, .banner-quote),
-html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [id$="-hero-banner"]) :is(h1, p.font-italianno, p.font-handwriting, .banner-quote),
-html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, [id$="-hero-banner"]) :is(h1, p.font-italianno, p.font-handwriting, .banner-quote) {
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.82);
-}
-
-/* Sharp, clearly visible banner background media & contrast-balanced scrim (no blur) */
-html .project-detail-banner-media,
-html[data-card-style] .project-detail-banner-media,
-html :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, [id$="-hero-banner"]) .project-detail-banner-media {
+/* ========================================================================= */
+/* HORIZONTAL & VERTICAL HERO BANNERS:                                       */
+/*   1) Strict 5px padding around background image/video media               */
+/*   2) Crystal-clear sharp background media (no full-bleed muddying blur)   */
+/*   3) Adaptive localized frosted contrast plates on Icon+Title & Quote     */
+/*      so both typography/icons AND background artwork stay vividly clear   */
+/* ========================================================================= */
+html :is(
+  .hero-banner,
+  .banner-card,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #pdf-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"]
+) .project-detail-banner-media,
+html[data-card-style] :is(
+  .hero-banner,
+  .banner-card,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #pdf-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"]
+) .project-detail-banner-media {
+  position: absolute !important;
+  inset: 5px !important;
+  top: 5px !important;
+  right: 5px !important;
+  bottom: 5px !important;
+  left: 5px !important;
+  width: auto !important;
+  height: auto !important;
+  border-radius: calc(var(--radius-banner, 14px) - 5px) !important;
+  overflow: hidden !important;
   opacity: 1 !important;
 }
 
 html .project-detail-banner-media :is(img, video),
 html[data-card-style] .project-detail-banner-media :is(img, video) {
   opacity: 1 !important;
-  filter: brightness(1.03) contrast(1.06) saturate(1.08) !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: inherit !important;
+  filter: brightness(1.02) contrast(1.04) saturate(1.06) !important;
 }
 
-html :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 45%, rgba(255, 255, 255, 0.08) 100%) !important;
+html :is(
+  .hero-banner,
+  .banner-card,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #pdf-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"]
+) .project-detail-banner-scrim {
+  position: absolute !important;
+  inset: 5px !important;
+  top: 5px !important;
+  right: 5px !important;
+  bottom: 5px !important;
+  left: 5px !important;
+  width: auto !important;
+  height: auto !important;
+  border-radius: calc(var(--radius-banner, 14px) - 5px) !important;
+  overflow: hidden !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 48%, rgba(255, 255, 255, 0.14) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -2175,11 +2172,141 @@ html :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banne
 html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
 html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
 html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
-  background: linear-gradient(180deg, rgba(8, 13, 28, 0.10) 0%, rgba(8, 13, 28, 0.02) 45%, rgba(8, 13, 28, 0.08) 100%) !important;
+html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style="special-rainbow-glass"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
+  background: linear-gradient(180deg, rgba(8, 13, 28, 0.24) 0%, rgba(8, 13, 28, 0.06) 48%, rgba(8, 13, 28, 0.22) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+}
+
+/* Vertical TOC Sidebar Banner: keep background artwork vivid & crisp with subtle translucent veil */
+html #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-media :is(img, video),
+html[data-card-style] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-media :is(img, video) {
+  opacity: 0.92 !important;
+  filter: brightness(1.02) contrast(1.04) saturate(1.06) !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+html #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
+html[data-card-style] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(248, 250, 255, 0.34) 48%, rgba(244, 248, 255, 0.48) 100%) !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.dark #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
+html[data-card-style*="dark"] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
+html[data-card-style="black-cowhide-leather"] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
+html[data-card-style="special-rainbow-glass"] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
+html[data-card-style="deep-ocean"] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim {
+  background: linear-gradient(180deg, rgba(10, 16, 30, 0.48) 0%, rgba(10, 16, 30, 0.36) 48%, rgba(8, 13, 26, 0.54) 100%) !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Adaptive Optical Contrast Plates for Banner Icon + Title & Banner Quote (Light Themes) */
+html :is(
+  .hero-banner,
+  .banner-card,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"]
+) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(248, 250, 252, 0.66) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 4px 14px -2px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(10px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+  border-radius: 12px !important;
+  padding: 5px 12px !important;
+  width: fit-content;
+  max-width: 100%;
+}
+
+html :is(
+  .hero-banner,
+  .banner-card,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"]
+) .card-header-sync {
+  color: color-mix(in srgb, var(--text-link, var(--color-primary, #1d4ed8)) 78%, #0f172a) !important;
+}
+
+html :is(
+  .hero-banner,
+  .banner-card,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"]
+) .card-header-sync :is(h1, h2, h3, svg) {
+  color: inherit !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.65) !important;
+}
+
+html :is(
+  .hero-banner,
+  .banner-card,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"]
+) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
+  color: #0f172a !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.72) !important;
+}
+
+/* Adaptive Optical Contrast Plates for Banner Icon + Title & Banner Quote (Dark Themes) */
+html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+html[data-card-style="special-rainbow-glass"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
+  background: linear-gradient(135deg, rgba(10, 16, 30, 0.72) 0%, rgba(15, 23, 42, 0.58) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+}
+
+html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync,
+html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync,
+html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync,
+html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync,
+html[data-card-style="special-rainbow-glass"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync,
+html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync {
+  color: color-mix(in srgb, var(--text-link, #38bdf8) 55%, #ffffff) !important;
+}
+
+html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg),
+html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg),
+html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg),
+html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg),
+html[data-card-style="special-rainbow-glass"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg),
+html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync :is(h1, h2, h3, svg) {
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.72) !important;
+}
+
+html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+html[data-card-style="special-rainbow-glass"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
+  color: #f8fafc !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.78) !important;
 }
 
 /* 100% Transparent background for Weather Card across all active themes */
@@ -2202,34 +2329,62 @@ html[data-card-style="dark-ice-blue-neu"] :is(#weather-card, #weather-widget-car
 /*   - Strict 14px rounded corners across ALL themes                         */
 /*   - Strict 15px padding for inner hover overlay elements                  */
 /* ========================================================================= */
-html #wallpaper-page-container [id^="wallpaper-card-"],
-html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-"],
+html #wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]),
+html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]),
 html #memories-page-container [id^="memory-card-"],
 html[data-card-style] #memories-page-container [id^="memory-card-"],
-html .themed-image-card,
-html[data-card-style] .themed-image-card {
-  padding: 0 !important;
-  background-color: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border-radius: var(--radius-card, 24px) !important;
-  -webkit-clip-path: inset(0 round var(--radius-card, 24px)) !important;
-  clip-path: inset(0 round var(--radius-card, 24px)) !important;
+html .themed-image-card:not([data-media-card="video"]),
+html[data-card-style] .themed-image-card:not([data-media-card="video"]),
+html [data-media-card="image"],
+html[data-card-style] [data-media-card="image"] {
+  padding: 1px !important;
+  border-radius: var(--radius-card, 14px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-card, 14px)) !important;
+  clip-path: inset(0 round var(--radius-card, 14px)) !important;
   border: var(--card-border-width, 1px) solid var(--border-image-card, var(--border-color)) !important;
   outline: var(--outline-image-card, none) !important;
   outline-offset: var(--outline-offset-image-card, 0px) !important;
   box-shadow: var(--shadow-image-card, var(--shadow-card)) !important;
+  overflow: hidden !important;
 }
 
-html #wallpaper-page-container [id^="wallpaper-card-media-"],
-html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-media-"],
-html #wallpaper-page-container [id^="wallpaper-card-media-"] > :is(img, video, div),
+html #wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"],
+html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"],
+html .themed-image-card[data-media-card="video"],
+html[data-card-style] .themed-image-card[data-media-card="video"],
+html [data-media-card="video"],
+html[data-card-style] [data-media-card="video"],
+html #about-hero-video-container,
+html[data-card-style] #about-hero-video-container,
+html #bento-letter-video,
+html[data-card-style] #bento-letter-video,
+html #experience-video-card-2026,
+html[data-card-style] #experience-video-card-2026 {
+  padding: 5px !important;
+  border-radius: var(--radius-card, 14px) !important;
+  overflow: hidden !important;
+}
+
+html #wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]) [id^="wallpaper-card-media-"],
+html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]) [id^="wallpaper-card-media-"],
+html #wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]) [id^="wallpaper-card-media-"] > :is(img, video, div),
 html #memories-page-container [id^="memory-card-"] > img.memory-crisp-img,
+html [data-media-card="image"] > img,
 html .themed-image-frame,
 html[data-card-style] .themed-image-frame {
-  border-radius: var(--radius-subcard, 16px) !important;
-  -webkit-clip-path: inset(0 round var(--radius-subcard, 16px)) !important;
-  clip-path: inset(0 round var(--radius-subcard, 16px)) !important;
+  border-radius: calc(var(--radius-card, 14px) - 1px) !important;
+  -webkit-clip-path: inset(0 round calc(var(--radius-card, 14px) - 1px)) !important;
+  clip-path: inset(0 round calc(var(--radius-card, 14px) - 1px)) !important;
+}
+
+html #wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"] [id^="wallpaper-card-media-"],
+html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"] [id^="wallpaper-card-media-"],
+html #wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"] [id^="wallpaper-card-media-"] > :is(img, video, div),
+html [data-media-card="video"] > div,
+html [data-media-card="video"] > video {
+  border-radius: calc(var(--radius-card, 14px) - 5px) !important;
+  -webkit-clip-path: inset(0 round calc(var(--radius-card, 14px) - 5px)) !important;
+  clip-path: inset(0 round calc(var(--radius-card, 14px) - 5px)) !important;
 }
 
 html #wallpaper-page-container [id^="wallpaper-card-media-"],
@@ -2281,20 +2436,20 @@ button#footer-ai-btn,
 #app-footer button.nav-pill,
 button.nav-pill,
 button#header-btn-hungthai-avatar {
-  height: 40px !important;
-  min-height: 40px !important;
-  width: 150px !important;
-  padding-top: 8px !important;
-  padding-bottom: 8px !important;
-  padding-left: 10px !important;
-  padding-right: 10px !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  width: 162px !important;
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
   margin: 0 !important;
   font-weight: normal !important;
   border-width: 1px !important;
   border-style: solid !important;
   border-radius: var(--radius-button, 999px) !important;
   align-items: center !important;
-  gap: 6px !important;
+  gap: 8px !important;
   box-sizing: border-box !important;
   background-color: var(--bg-nav-pill, rgba(255, 255, 255, 0.20)) !important;
   border-color: var(--surface-interactive-border, rgba(255, 255, 255, 0.52)) !important;
@@ -2329,7 +2484,7 @@ button#footer-ai-btn:hover,
 button.nav-pill:hover,
 button#header-btn-hungthai-avatar:hover {
   background-color: var(--bg-nav-pill-hover, rgba(255, 255, 255, 0.34)) !important;
-  transform: translate3d(0, -1.5px, 0) scale(1.022) !important;
+  transform: none !important;
   border-color: rgba(255, 255, 255, 0.85) !important;
   box-shadow: 0 10px 24px -4px rgba(50, 40, 80, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.90) !important;
 }
@@ -2353,20 +2508,139 @@ button.nav-pill:active {
   transform: scale(0.98) !important;
 }
 
+/* ========================================================================= */
+/* MENU ICON DEFAULT TITLE COLOR = ICON COLOR                                */
+/* & SELECTED PAGE = HOVER EFFECT + CHANGED ACCENT BACKGROUND COLOR          */
+/* ========================================================================= */
+html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+) .nav-pill-title {
+  color: var(--nav-pill-accent, var(--text-primary)) !important;
+}
+
+html.dark:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+) .nav-pill-title,
+html:is([data-card-style="dark-rainbow-glass"], [data-card-style="special-rainbow-glass"], [data-card-style="dark-ice-blue-neu"], [data-card-style="deep-ocean"]) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+) .nav-pill-title {
+  color: color-mix(in srgb, var(--nav-pill-accent, #ffffff) 82%, #ffffff) !important;
+}
+
+/* Active / Selected Page Pill: Hover lift + glow + changed button background color */
+html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--nav-pill-accent, #6366F1) 88%, #ffffff) 0%,
+    var(--nav-pill-accent, #6366F1) 56%,
+    color-mix(in srgb, var(--nav-pill-accent, #6366F1) 82%, #0f172a) 100%
+  ) !important;
+  background-color: var(--nav-pill-accent, #6366F1) !important;
+  border-color: color-mix(in srgb, var(--nav-pill-accent, #6366F1) 68%, #ffffff) !important;
+  transform: none !important;
+  box-shadow:
+    0 10px 24px -4px color-mix(in srgb, var(--nav-pill-accent, #6366F1) 46%, rgba(15, 23, 42, 0.24)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48) !important;
+  color: #ffffff !important;
+}
+
+html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]):hover {
+  filter: brightness(1.06);
+  transform: none !important;
+}
+
+html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-title {
+  color: #ffffff !important;
+}
+
+html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-divider {
+  background-color: rgba(255, 255, 255, 0.52) !important;
+}
+
+html:not([data-card-style="light-cowhide-leather"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.78), 0 2px 8px rgba(15, 23, 42, 0.22) !important;
+}
+
 .radial-contact-pill {
-  height: 40px !important;
-  min-height: 40px !important;
+  height: 44px !important;
+  min-height: 44px !important;
   width: 100% !important;
   padding-top: 8px !important;
   padding-bottom: 8px !important;
-  padding-left: 10px !important;
-  padding-right: 10px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
   font-weight: normal !important;
   border-width: 1px !important;
   border-style: solid !important;
   border-radius: var(--radius-button, 999px) !important;
   align-items: center !important;
-  gap: 6px !important;
+  gap: 8px !important;
   box-sizing: border-box !important;
   background-color: var(--bg-nav-pill, rgba(255, 255, 255, 0.20)) !important;
   border-color: var(--surface-interactive-border, rgba(255, 255, 255, 0.52)) !important;
@@ -2376,15 +2650,15 @@ button.nav-pill:active {
 
 /* SYNC #header-btn-hungthai-avatar SIZE & BADGE WITH HOME PILL (KEEP AVATAR GIF) */
 .nav-pill-wrapper:has(> #header-btn-hungthai-avatar) {
-  width: 150px !important;
+  width: 162px !important;
   height: auto !important;
   padding: 0 !important;
   box-sizing: border-box !important;
 }
 
 button#header-btn-hungthai-avatar .nav-pill-icon-badge {
-  height: 24px !important;
-  width: 24px !important;
+  height: 28px !important;
+  width: 28px !important;
 }
 
 button#header-btn-hungthai-avatar .nav-pill-icon-badge > img {
@@ -2408,13 +2682,14 @@ button.nav-pill .nav-pill-title,
 
 button.nav-pill:not(#header-btn-hungthai-avatar) .nav-pill-icon-badge,
 .radial-contact-pill .radial-contact-icon-badge {
-  width: 24px !important;
-  height: 24px !important;
+  width: 28px !important;
+  height: 28px !important;
 }
 
 #app-footer #footer-nav-capsule {
-  min-height: 40px !important;
-  height: 40px !important;
+  min-height: 46px !important;
+  height: 46px !important;
+  width: 168px !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
   padding-left: 5px !important;
@@ -2450,27 +2725,36 @@ button#header-btn-hungthai-avatar:focus-visible,
 }
 
 /* ========================================================================= */
-/* FOCUS-MODE: KEEP TRACKS & OUTER HEADER CONTAINER TRANSPARENT              */
-/*   - header#app-header matches the active theme's card background          */
-/*   - #home-cards-track keeps 10px top/bottom padding & no border           */
+/* FOCUS-MODE: REMOVE ALL VISUAL & MOTION EFFECTS ON SELECTED CONTAINERS     */
+/*   1. #app-header-container                                                */
+/*   2. #home-cards-track                                                    */
+/*   3. #el-p0-div-98                                                        */
 /* ========================================================================= */
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-80:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
 html #home-page-container > #home-cards-track {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
   border-style: none !important;
 }
 
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
-html #home-page-container > #home-cards-track,
-html[data-card-style] div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1):is(:hover, :focus, :focus-within, :active),
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3),
-html[data-card-style] div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3),
-html[data-surface-depth] div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(2),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(2):is(:hover, :focus, :focus-within, :active),
+html #app-header-container,
 html[data-card-style] #app-header-container,
 html[data-surface-depth] #app-header-container,
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3):is(:hover, :focus, :focus-within, :active) {
+html #app-header-container:is(:hover, :focus, :focus-within, :active),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-80:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-80:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1):is(:hover, :focus, :focus-within, :active),
+html #home-page-container > #home-cards-track,
+html[data-card-style] #home-page-container > #home-cards-track,
+html[data-surface-depth] #home-page-container > #home-cards-track,
+html #home-page-container > #home-cards-track:is(:hover, :focus, :focus-within, :active),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-98:nth-of-type(3),
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-98:nth-of-type(3):is(:hover, :focus, :focus-within, :active),
+html #el-p0-div-98,
+html[data-card-style] #el-p0-div-98,
+html[data-surface-depth] #el-p0-div-98,
+html #el-p0-div-98:is(:hover, :focus, :focus-within, :active) {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
@@ -2480,24 +2764,49 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-conta
   border-radius: 0 !important;
   outline: none !important;
   box-shadow: none !important;
+  text-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   filter: none !important;
   -webkit-filter: none !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  mix-blend-mode: normal !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  mask: none !important;
+  -webkit-mask: none !important;
 }
 
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1)::before,
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-89:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1)::after,
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3)::before,
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(3)::after {
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(2)::before,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(2)::after,
+html #app-header-container::before,
+html #app-header-container::after,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-80:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1)::before,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-80:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1)::after,
+html #home-page-container > #home-cards-track::before,
+html #home-page-container > #home-cards-track::after,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-98:nth-of-type(3)::before,
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-98:nth-of-type(3)::after,
+html #el-p0-div-98::before,
+html #el-p0-div-98::after {
   content: none !important;
   display: none !important;
+  animation: none !important;
+  transition: none !important;
+  box-shadow: none !important;
+  background: none !important;
+  border: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
 }
 
 /* ========================================================================= */
-/* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL 5 ACTIVE THEMES)    */
+/* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL ACTIVE THEMES)      */
 /* ========================================================================= */
-html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"], [data-card-style="rainbow-glass"], [data-card-style="dark-rainbow-glass"], [data-card-style="special-rainbow-glass"], [data-card-style="glass-flat"]) :is(
+html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"], [data-card-style="rainbow-glass"], [data-card-style="dark-rainbow-glass"], [data-card-style="special-rainbow-glass"], [data-card-style="glass-flat"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
   #projects-grid .project-card .project-card-banner,
   .hero-banner .project-detail-banner-media,
@@ -2521,16 +2830,58 @@ html:is([data-card-style="ice-blue-neu"], [data-card-style="dark-ice-blue-neu"],
   clip-path: inset(0 round var(--radius-banner, 24px)) !important;
 }
 
-/* Header card-surface sync: ensure header has exact card background & border across all themes */
+/* ========================================================================= */
+/* LAYER CARD LEVEL 1 UNIFICATION: HEADER · MAIN CARD · FOOTER               */
+/* Đồng bộ tuyệt đối bề mặt, viền, blur và độ sâu Level 1 cho cả 3 khối      */
+/* ========================================================================= */
 html #app-header {
-  background: var(--surface-primary-bg, var(--bg-card)) !important;
-  border-color: var(--surface-primary-border, var(--border-color)) !important;
   border-width: var(--card-border-width, 1px) !important;
   border-style: solid !important;
   border-top: none !important;
-  backdrop-filter: blur(var(--surface-primary-blur, 16px)) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 16px)) saturate(160%) !important;
-  box-shadow: var(--surface-header-shadow, var(--shadow-card)) !important;
+}
+
+html #app-footer {
+  border-width: var(--card-border-width, 1px) !important;
+  border-style: solid !important;
+  border-bottom: none !important;
+}
+
+html:not([data-surface-depth="flat"]) #app-header {
+  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, var(--surface-primary-shadow))) !important;
+}
+
+html:not([data-surface-depth="flat"]) #app-footer {
+  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, var(--surface-primary-shadow))) !important;
+}
+
+html:not([data-surface-depth="flat"]) :is(
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #letter-card-1,
+  [id^="letter-card-"]
+) {
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+}
+
+html[data-surface-depth="flat"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #letter-card-1,
+  [id^="letter-card-"]
+) {
+  box-shadow: none !important;
 }
 
 /* Ensure banner background media remains 100% crisp and clearly visible across all pages */
@@ -2542,8 +2893,98 @@ html #app-header {
 }
 
 #about-personal-info-card-right .about-info-subcard {
-  height: auto !important;
+  height: 100% !important;
   min-height: 0 !important;
 }
 
+@media (max-width: 1023px) {
+  #about-personal-info-card-right .about-info-subcard {
+    height: auto !important;
+  }
+}
 
+/* ========================================================================= */
+/* MENU BUTTON CLICK RIPPLE GLOW (HEADER & FOOTER NAV PILLS)                 */
+/* ========================================================================= */
+@keyframes navPillRippleWave {
+  0% {
+    transform: translate3d(-50%, -50%, 0) scale(0.15);
+    opacity: 0.62;
+  }
+  70% {
+    opacity: 0.24;
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) scale(2.85);
+    opacity: 0;
+  }
+}
+
+.nav-pill-ripple-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.nav-pill-ripple-wave {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--nav-pill-accent, #6366F1) 62%, #ffffff) 0%,
+    color-mix(in srgb, var(--nav-pill-accent, #6366F1) 34%, transparent) 55%,
+    transparent 75%
+  );
+  will-change: transform, opacity;
+  animation: navPillRippleWave 560ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(255, 255, 255, 0.28) 55%,
+    transparent 75%
+  );
+}
+
+/* ========================================================================= */
+/* HEADER BOTTOM READING PROGRESS INDICATOR BAR                              */
+/* ========================================================================= */
+#header-reading-progress-track {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 0;
+  height: 2.5px;
+  border-radius: 999px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 60;
+  background: transparent;
+}
+
+#header-reading-progress-bar {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  transform-origin: 0% 50%;
+  transition: transform 90ms linear, opacity 220ms ease, background-color 240ms ease;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-pill-ripple-wave {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+  #header-reading-progress-bar {
+    transition: none !important;
+  }
+}

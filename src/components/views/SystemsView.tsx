@@ -680,7 +680,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu' ||
-    currentTheme === 'dark-rainbow-glass';
+    currentTheme === 'dark-rainbow-glass' ||
+    currentTheme === 'special-rainbow-glass' ||
+    currentTheme === 'deep-ocean';
 
   useEffect(() => {
     return () => {
@@ -849,7 +851,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
   const ecosystemSegments = [
     {
       id: 'all',
-      label: 'Tất cả',
+      label: 'Tất cả phân hệ',
       codesLabel: '12 Phân hệ',
       count: 12,
       icon: 'layers',
@@ -859,7 +861,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
     },
     {
       id: 'cskh',
-      label: 'Vận hành CSKH',
+      label: 'Vận hành khách hàng',
       codesLabel: 'SDP, CSC, CRM, CLP, POS',
       count: 5,
       icon: 'headphones',
@@ -879,7 +881,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
     },
     {
       id: 'ai_analytics',
-      label: 'Phân tích & AI',
+      label: 'Phân tích dữ liệu',
       codesLabel: 'BI, AI Assistant',
       count: 2,
       icon: 'robot',
@@ -1398,14 +1400,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
                       SoundEngine.playTap();
                       setIsFilterDropdownOpen((prev) => !prev);
                     }}
-                    className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
-                    title={isEn ? 'Filter' : 'Bộ lọc'}
+                    className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+                    title={isEn ? 'System Filter' : 'Bộ lọc hệ thống'}
                     aria-label="Bộ lọc hệ thống"
                     aria-expanded={isFilterDropdownOpen}
                     aria-haspopup="listbox"
                   >
-                    <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] transition-transform group-hover:rotate-45 shrink-0" />
-                    <span>{isEn ? 'Filter' : 'Bộ lọc'}</span>
+                    <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
+                    <span>{isEn ? 'System Filter' : 'Bộ lọc hệ thống'}</span>
                     {activeCategory !== 'all' && (
                       <span className="banner-count-pill px-1.5 py-0.5 rounded-full typo-badge font-mono">
                         {ecosystemSegments.find((s) => s.id === activeCategory)?.label}
@@ -2302,17 +2304,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme, onShowNo
             className="theme-modal-card rounded-[14px] max-w-3xl w-full overflow-hidden shadow-2xl flex flex-col text-left"
           >
             {/* Video Header */}
-            <div className="theme-modal-header p-3.5 sm:p-4 flex items-center justify-between">
-              <div className="subcard-header-sync flex items-center gap-2.5" style={{ color: 'var(--color-primary)' }}>
-                <div className="w-8 h-8 rounded-full bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center" style={{ color: 'var(--color-primary)' }}>
-                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3" /></svg>
-                </div>
-                <div>
-                  <h4 className="typo-popup-title subcard-title-synced tracking-wide font-play" data-subcard-title="true" style={{ color: 'var(--color-primary)' }}>
-                    Video Giới Thiệu Hệ Thống Vận Hành
-                  </h4>
-                  <p className="typo-caption" style={{ color: 'var(--text-secondary)' }}>PowerService Enterprise Digital Architecture</p>
-                </div>
+            <div className="theme-modal-header p-3.5 sm:p-4 flex items-center justify-between gap-3">
+              <div className="subcard-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
+                <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3" /></svg>
+                <h4 className="typo-popup-title subcard-title-synced tracking-wide font-play truncate" data-subcard-title="true" style={{ color: 'var(--color-primary)' }}>
+                  Video Giới Thiệu Hệ Thống Vận Hành
+                </h4>
               </div>
 
               <button

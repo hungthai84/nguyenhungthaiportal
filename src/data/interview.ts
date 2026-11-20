@@ -6,13 +6,13 @@ export const INTERVIEW_VIDEO_2_URL =
   'https://cdn.scena.ai/project/9741/021c21b2f677c4341e06c62c9432d06d251e22c83716e55b927633e254a67730.mp4';
 
 export const INTERVIEW_TABS = [
-  { key: 'all', labelVi: 'Tất cả (14)' },
-  { key: 'intro', labelVi: 'Định vị' },
-  { key: 'management', labelVi: 'Vận hành' },
-  { key: 'tech', labelVi: 'Công nghệ' },
-  { key: 'strategy', labelVi: 'Chiến lược' },
-  { key: 'inquiry', labelVi: 'Chất vấn' },
-  { key: 'closing', labelVi: 'Lời kết' },
+  { key: 'all', labelVi: 'Tất cả câu hỏi' },
+  { key: 'intro', labelVi: 'Định vị bản thân' },
+  { key: 'management', labelVi: 'Quản trị vận hành' },
+  { key: 'tech', labelVi: 'Công nghệ chuyển đổi' },
+  { key: 'strategy', labelVi: 'Chiến lược phát triển' },
+  { key: 'inquiry', labelVi: 'Chất vấn chuyên sâu' },
+  { key: 'closing', labelVi: 'Thông điệp lời kết' },
 ];
 
 export const INTERVIEW_QUESTIONS: InterviewQuestion[] = [

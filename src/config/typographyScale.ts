@@ -1,6 +1,3 @@
-import { FontScaleMode } from './ui/theme.types';
-import { getFontScaleMultiplier, normalizeFontScale } from './ui/layerDepth';
-
 export interface TypographyTokenSpec {
   token: string;
   cssVar: string;
@@ -262,45 +259,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
   },
 };
 
-// Breakpoints dùng cho nội suy kích thước phông chữ mượt mà theo viewport
-const VIEWPORT_MOBILE_MIN = 375;
-const VIEWPORT_TABLET_REF = 768;
+// Breakpoint tham chiếu mặc định khi không có window
 const VIEWPORT_DESKTOP_REF = 1280;
-
-function parsePxValue(val: string): number {
-  const num = parseFloat(val);
-  return Number.isFinite(num) ? num : 14;
-}
-
-/**
- * Nội suy tuyến tính kích thước phông chữ theo chiều rộng viewport thực tế
- * giữa các mốc Mobile (375px) -> Tablet (768px) -> Desktop (1280px).
- * Làm tròn đến bước 0.25px để vừa mượt vừa tránh nhòe subpixel.
- */
-function interpolateViewportFontSize(
-  width: number,
-  mobilePx: number,
-  tabletPx: number,
-  desktopPx: number
-): string {
-  const clampedW = Math.max(320, Math.min(1920, width));
-  let result: number;
-
-  if (clampedW <= VIEWPORT_MOBILE_MIN) {
-    result = mobilePx;
-  } else if (clampedW < VIEWPORT_TABLET_REF) {
-    const progress = (clampedW - VIEWPORT_MOBILE_MIN) / (VIEWPORT_TABLET_REF - VIEWPORT_MOBILE_MIN);
-    result = mobilePx + (tabletPx - mobilePx) * progress;
-  } else if (clampedW < VIEWPORT_DESKTOP_REF) {
-    const progress = (clampedW - VIEWPORT_TABLET_REF) / (VIEWPORT_DESKTOP_REF - VIEWPORT_TABLET_REF);
-    result = tabletPx + (desktopPx - tabletPx) * progress;
-  } else {
-    result = desktopPx;
-  }
-
-  const roundedQuarter = Math.round(result * 4) / 4;
-  return `${roundedQuarter}px`;
-}
 
 // Map tên key trong TYPOGRAPHY_SCALE sang biến CSS line-height & letter-spacing tương ứng
 const SCALE_LINE_HEIGHT_VAR_MAP: Record<string, string> = {
@@ -345,12 +305,6 @@ const SCALE_LETTER_SPACING_VAR_MAP: Record<string, string> = {
 
 // Global singleton flag to prevent duplicate event listeners
 let isResizeListenerBound = false;
-let activeFontScaleMode: FontScaleMode = 'normal';
-
-export function setTypographyFontScaleMultiplier(scale: FontScaleMode): void {
-  activeFontScaleMode = normalizeFontScale(scale);
-  applyTypographyScaleToDocument();
-}
 
 /**
  * Cập nhật động kích thước phông chữ (Fluid Typography) theo chiều rộng màn hình thực tế,
@@ -416,25 +370,24 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   rootStyle.setProperty('--ls-caption', '0.01em');
   rootStyle.setProperty('--ls-label', '0.025em');
 
-  // 6. Tính toán động kích thước phông chữ theo chiều rộng viewport thực tế cho toàn bộ token
-  // Đảm bảo typo-h1 -> typo-caption luôn co giãn mượt mà và rõ nét trên mọi màn hình
-  const fontScaleMult = getFontScaleMultiplier(activeFontScaleMode);
-  rootEl.setAttribute('data-font-scale', activeFontScaleMode);
-  rootStyle.setProperty('--font-scale', String(fontScaleMult));
+  // 6. Đưa toàn bộ kích thước font chữ về mặc định chuẩn ban đầu (100% fluid clamp, xóa sạch trạng thái phóng to chữ)
+  try {
+    localStorage.removeItem('hungthai_font_scale_v1');
+  } catch {
+    // ignore storage access issues
+  }
+  rootEl.removeAttribute('data-font-scale');
+  if (document.body) {
+    document.body.removeAttribute('data-font-scale');
+  }
+  rootStyle.setProperty('--font-scale', '1');
 
   Object.entries(TYPOGRAPHY_SCALE).forEach(([key, spec]) => {
-    const tokenMult = key === 'nav' ? 1 : fontScaleMult;
-    const mobilePx = parsePxValue(spec.mobile) * tokenMult;
-    const tabletPx = parsePxValue(spec.tablet) * tokenMult;
-    const desktopPx = parsePxValue(spec.desktop) * tokenMult;
+    // Áp dụng trực tiếp giá trị fluid clamp() mặc định gốc (không nhân hệ số phóng to)
+    const defaultFluidSize =
+      key === 'input' && isMobile ? '16px' : spec.fluidClamp;
 
-    // Đảm bảo input trên thiết bị cảm ứng/mobile tối thiểu 16px tránh auto-zoom iOS Safari
-    const dynamicSize =
-      key === 'input' && isMobile
-        ? `${Math.max(16, Math.round(mobilePx * 4) / 4)}px`
-        : interpolateViewportFontSize(width, mobilePx, tabletPx, desktopPx);
-
-    rootStyle.setProperty(spec.cssVar, dynamicSize);
+    rootStyle.setProperty(spec.cssVar, defaultFluidSize);
     rootStyle.setProperty(`${spec.cssVar}-fluid`, spec.fluidClamp);
 
     const lhVar = SCALE_LINE_HEIGHT_VAR_MAP[key];

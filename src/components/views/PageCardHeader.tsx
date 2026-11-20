@@ -89,56 +89,39 @@ export const PageCardHeader: React.FC<PageCardHeaderProps> = ({
         className
       )}
     >
-      <div className="flex items-center gap-3 min-w-0 flex-1">
-        <div
-          className="page-card-header-icon w-9 h-9 sm:w-10 sm:h-10 rounded-[var(--radius-subcard,10px)] flex items-center justify-center shrink-0 border transition-colors duration-200"
-          style={{ color: accentColor }}
-        >
-          <WebIcon name={resolvedIcon} className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0" style={{ color: accentColor }} />
-        </div>
-
-        <div className="min-w-0 flex-1 flex flex-col justify-center gap-0.5">
-          <div className="flex items-baseline gap-2 min-w-0">
-            {pageNumber && (
-              <>
-                <span
-                  className="font-mono tabular-nums font-bold text-xs sm:text-sm shrink-0 select-none"
-                  style={{ color: accentColor }}
-                >
-                  {pageNumber}
-                </span>
-                <span aria-hidden="true" className="text-[var(--text-muted)] text-xs shrink-0 select-none">
-                  ·
-                </span>
-              </>
-            )}
-            <h1
-              className="card-title card-title-synced typo-h3 font-play font-bold tracking-tight truncate m-0 leading-tight"
-              data-card-title="true"
-              style={{ color: accentColor }}
-              title={resolvedTitle}
-            >
-              {resolvedTitle}
-            </h1>
-            {resolvedPartLabel && (
-              <>
-                <span aria-hidden="true" className="text-[var(--text-muted)] text-xs shrink-0 hidden sm:inline select-none">
-                  ·
-                </span>
-                <span className="typo-caption font-medium text-[var(--text-muted)] shrink-0 hidden sm:inline truncate">
-                  {resolvedPartLabel}
-                </span>
-              </>
-            )}
-          </div>
-
-          {resolvedSubtitle && (
-            <p
-              className="typo-caption sm:typo-body-sm text-[var(--text-secondary)] truncate m-0 leading-snug"
-              title={resolvedSubtitle}
-            >
-              {resolvedSubtitle}
-            </p>
+      <div className="card-header-sync flex items-center gap-2 min-w-0 flex-1" style={{ color: accentColor }}>
+        <WebIcon name={resolvedIcon} className="w-5 h-5 shrink-0" style={{ color: accentColor }} />
+        <div className="flex items-baseline gap-2 min-w-0">
+          {pageNumber && (
+            <>
+              <span
+                className="font-mono tabular-nums font-bold text-xs sm:text-sm shrink-0 select-none"
+                style={{ color: accentColor }}
+              >
+                {pageNumber}
+              </span>
+              <span aria-hidden="true" className="text-[var(--text-muted)] text-xs shrink-0 select-none">
+                ·
+              </span>
+            </>
+          )}
+          <h1
+            className="card-title card-title-synced typo-h3 font-play font-bold tracking-tight truncate m-0 leading-tight"
+            data-card-title="true"
+            style={{ color: accentColor }}
+            title={resolvedTitle}
+          >
+            {resolvedTitle}
+          </h1>
+          {resolvedPartLabel && (
+            <>
+              <span aria-hidden="true" className="text-[var(--text-muted)] text-xs shrink-0 hidden sm:inline select-none">
+                ·
+              </span>
+              <span className="typo-caption font-medium text-[var(--text-muted)] shrink-0 hidden sm:inline truncate">
+                {resolvedPartLabel}
+              </span>
+            </>
           )}
         </div>
       </div>

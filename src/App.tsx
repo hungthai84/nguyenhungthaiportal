@@ -114,86 +114,6 @@ export default function App() {
     return () => document.removeEventListener('click', handleGlobalClick, true);
   }, []);
 
-  // Thêm class 'vibrate' lên thẻ card trong cùng khi người dùng di chuột qua (tôn trọng prefers-reduced-motion)
-  useEffect(() => {
-    const viewport = mainViewportRef.current;
-    if (!viewport) return;
-
-    const CARD_SELECTOR =
-      '.bento-card, .glass-card, .sub-card, [data-section-card="true"], [data-subcard="true"], .project-card, .education-card, .education-course-card, .exp-bento-surface-card, .exp-bento-item-card, .exp-detail-subcard, .themed-image-card, .skill-swot-subcard';
-    const EXCLUDED_SELECTOR =
-      '#app-header, #app-footer, #footer-nav-capsule, .page-main-card, [data-main-card="true"], .main-card, [id$="-page-container"], [id$="-page-root"], #weather-widget-card, #el-p0-div-16';
-
-    let currentHoveredCard: HTMLElement | null = null;
-
-    const clearHoveredCard = () => {
-      if (currentHoveredCard) {
-        currentHoveredCard.classList.remove('vibrate');
-        currentHoveredCard = null;
-      }
-    };
-
-    const resolveInnermostCard = (target: EventTarget | null): HTMLElement | null => {
-      if (!(target instanceof HTMLElement)) return null;
-      if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        return null;
-      }
-      if (target.closest('button, input, textarea, select')) {
-        const outerCard = target.closest(CARD_SELECTOR) as HTMLElement | null;
-        if (!outerCard || outerCard.matches(EXCLUDED_SELECTOR) || outerCard.closest('#app-header, #app-footer')) {
-          return null;
-        }
-        return outerCard;
-      }
-      let candidate = target.closest(CARD_SELECTOR) as HTMLElement | null;
-      while (candidate) {
-        if (!candidate.matches(EXCLUDED_SELECTOR) && !candidate.closest('#app-header, #app-footer')) {
-          return candidate;
-        }
-        candidate = candidate.parentElement?.closest(CARD_SELECTOR) as HTMLElement | null;
-      }
-      return null;
-    };
-
-    const handlePointerOver = (e: PointerEvent) => {
-      const nextCard = resolveInnermostCard(e.target);
-      if (nextCard === currentHoveredCard) return;
-      if (currentHoveredCard) {
-        currentHoveredCard.classList.remove('vibrate');
-      }
-      currentHoveredCard = nextCard;
-      if (currentHoveredCard) {
-        currentHoveredCard.classList.add('vibrate');
-      }
-    };
-
-    const handlePointerOut = (e: PointerEvent) => {
-      if (!currentHoveredCard) return;
-      const related = e.relatedTarget as Node | null;
-      if (related && viewport.contains(related)) {
-        const nextCard = resolveInnermostCard(related);
-        if (nextCard === currentHoveredCard) return;
-        currentHoveredCard.classList.remove('vibrate');
-        currentHoveredCard = nextCard;
-        if (currentHoveredCard) {
-          currentHoveredCard.classList.add('vibrate');
-        }
-        return;
-      }
-      clearHoveredCard();
-    };
-
-    viewport.addEventListener('pointerover', handlePointerOver, true);
-    viewport.addEventListener('pointerout', handlePointerOut, true);
-    viewport.addEventListener('pointerleave', clearHoveredCard);
-    return () => {
-      viewport.removeEventListener('pointerover', handlePointerOver, true);
-      viewport.removeEventListener('pointerout', handlePointerOut, true);
-      viewport.removeEventListener('pointerleave', clearHoveredCard);
-      clearHoveredCard();
-    };
-  }, [currentTabIndex]);
-
   const handleSelectTabWithSound = useCallback((nextIndex: number) => {
     setProjectNavigationRequest(null);
     setCurrentTabIndex((prev) => {
@@ -552,8 +472,11 @@ export default function App() {
       data-element-name="Khung chứa toàn bộ trang web"
       data-element-type="container"
       data-element-page="global"
-      style={{ padding: '0px' }}
-      className="h-screen w-screen overflow-hidden flex flex-col justify-between items-center m-0 p-0 select-text relative transition-colors duration-300 ease-in-out"
+      style={{
+        padding: '0px',
+        gap: currentTabIndex === 16 ? '0px' : 'var(--shell-section-gap, 15px)',
+      }}
+      className="h-screen w-screen overflow-hidden flex flex-col items-center m-0 p-0 select-text relative transition-colors duration-300 ease-in-out"
     >
       {/* GLOBAL UNIFIED AMBIENT GLASS BACKGROUND & WALLPAPER SYSTEM */}
       <div
@@ -584,7 +507,7 @@ export default function App() {
             className="absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-500"
             style={
               activeWallpaper.id?.startsWith('theme-bg-')
-                ? { opacity: 'var(--ambient-wallpaper-opacity, 0.56)' }
+                ? { opacity: 'var(--ambient-wallpaper-opacity, 0.86)' }
                 : undefined
             }
           >
@@ -745,11 +668,16 @@ export default function App() {
         />
       )}
 
-      {/* HEADER (Ẩn khi xem Trang Tải PDF) */}
+      {/* HEADER: 20% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="app-header-container"
-          className="w-full shrink-0 relative z-40 flex justify-center bg-transparent border-0 shadow-none rounded-none translate-y-0 opacity-100 max-h-[80px]"
+          style={{
+            flex: '20 1 0%',
+            height: '20%',
+            minHeight: 0,
+          }}
+          className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none rounded-none"
         >
           <Header
             pages={TABS_DATA}
@@ -761,7 +689,7 @@ export default function App() {
         </div>
       )}
 
-      {/* MAIN CENTER CARD */}
+      {/* MAIN CENTER CARD: 60% chiều cao khung hình (100% khi xem Trang Tải PDF) */}
       <main
         ref={mainViewportRef}
         id="global-content-viewport"
@@ -772,14 +700,17 @@ export default function App() {
         style={{
           width: '100%',
           maxWidth: currentTabIndex === 16 ? '1250px' : '100%',
-          height: '100%',
-          maxHeight: '100%',
+          flex: currentTabIndex === 16 ? '1 1 0%' : '60 1 0%',
+          height: currentTabIndex === 16 ? '100%' : '60%',
+          minHeight: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
+          marginTop: '0px',
+          marginBottom: '0px',
         }}
         className={`w-full ${
           currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-full'
-        } mx-auto flex-1 my-[2px] sm:my-[4px] lg:my-[4px] min-h-0 rounded-[var(--radius-main,14px)] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left h-full bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
+        } mx-auto my-0 min-h-0 rounded-[var(--radius-main,14px)] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
         <motion.div
           key={`page-view-${currentTabIndex}`}
@@ -795,14 +726,19 @@ export default function App() {
         <Toast message={toastMessage} />
       </main>
 
-      {/* FOOTER (Ẩn khi xem Trang Tải PDF) */}
+      {/* FOOTER: 20% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="el-p0-div-98"
           data-element-name="Phần tử DIV (#el-p0-div-98)"
           data-element-type="container"
           data-element-page="p0"
-          className="w-full shrink-0 relative z-50 flex justify-center shadow-none rounded-t-[var(--radius-footer,14px)] rounded-b-none translate-y-0 opacity-100 max-h-[80px]"
+          style={{
+            flex: '20 1 0%',
+            height: '20%',
+            minHeight: 0,
+          }}
+          className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none rounded-none"
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}

@@ -1,4 +1,4 @@
-import { CardStyleMode, FontScaleMode } from './theme.types';
+import { CardStyleMode } from './theme.types';
 
 export interface LayerDepthPresetItem {
   value: number;
@@ -14,35 +14,10 @@ export const LAYER_DEPTH_PRESETS: LayerDepthPresetItem[] = [
   { value: 200, labelVi: '200% · Nổi bật', labelEn: '200% · Elevated' },
 ];
 
-export interface FontScaleOptionItem {
-  id: FontScaleMode;
-  multiplier: number;
-  badge: string;
-  labelVi: string;
-  labelEn: string;
-}
-
-export const FONT_SCALE_OPTIONS: FontScaleOptionItem[] = [
-  { id: 'normal', multiplier: 1, badge: '100%', labelVi: 'Chuẩn (100%)', labelEn: 'Normal (100%)' },
-  { id: 'large', multiplier: 1.08, badge: '+8%', labelVi: 'Lớn (+8%)', labelEn: 'Large (+8%)' },
-  { id: 'xlarge', multiplier: 1.16, badge: '+16%', labelVi: 'Rất lớn (+16%)', labelEn: 'Extra Large (+16%)' },
-];
-
 export function clampLayerDepth(value: unknown): number {
   const num = typeof value === 'number' ? value : Number(value);
   if (!Number.isFinite(num)) return 100;
   return Math.max(0, Math.min(200, Math.round(num)));
-}
-
-export function normalizeFontScale(value: unknown): FontScaleMode {
-  if (value === 'large' || value === 'xlarge') return value;
-  return 'normal';
-}
-
-export function getFontScaleMultiplier(scale: FontScaleMode): number {
-  if (scale === 'large') return 1.08;
-  if (scale === 'xlarge') return 1.16;
-  return 1;
 }
 
 function px(val: number): string {
@@ -83,7 +58,8 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     cardStyle === 'black-cowhide-leather' ||
     cardStyle === 'cowhide-leather' ||
     cardStyle === 'dark-rainbow-glass' ||
-    cardStyle === 'special-rainbow-glass';
+    cardStyle === 'special-rainbow-glass' ||
+    cardStyle === 'deep-ocean';
   const isIceNeu = cardStyle === 'ice-blue-neu' || cardStyle === 'dark-ice-blue-neu';
 
   // Hover lift per level: restrained max 3px lift
@@ -115,7 +91,7 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     );
     root.style.setProperty(
       '--layer-l2-shadow-hover',
-      `${px(11 * scale)} ${px(12 * scale)} ${px(26 * scale)} rgba(124, 152, 184, ${(0.30 * scale + 0.05).toFixed(2)}), -${px(8 * scale)} -${px(8 * scale)} ${px(18 * scale)} rgba(255, 255, 255, 0.96)`
+      `${px(7 * scale)} ${px(7 * scale)} ${px(16 * scale)} rgba(163, 184, 209, ${(0.24 * scale + 0.04).toFixed(2)}), -${px(6 * scale)} -${px(6 * scale)} ${px(14 * scale)} rgba(255, 255, 255, ${a2})`
     );
     root.style.setProperty(
       '--layer-l3-shadow',
@@ -123,7 +99,7 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     );
     root.style.setProperty(
       '--layer-l3-shadow-hover',
-      `${px(6 * scale)} ${px(8 * scale)} ${px(18 * scale)} rgba(124, 152, 184, ${(0.24 * scale + 0.04).toFixed(2)}), -${px(4 * scale)} -${px(4 * scale)} ${px(10 * scale)} rgba(255, 255, 255, 0.92)`
+      `${px(3 * scale)} ${px(4 * scale)} ${px(10 * scale)} rgba(163, 184, 209, ${aSub}), inset ${px(2 * scale)} ${px(2 * scale)} ${px(6 * scale)} rgba(182, 198, 214, ${(0.26 * scale).toFixed(2)}), inset -${px(2 * scale)} -${px(2 * scale)} ${px(5 * scale)} rgba(255, 255, 255, 0.85)`
     );
     return;
   }
@@ -149,7 +125,7 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     );
     root.style.setProperty(
       '--layer-l2-shadow-hover',
-      `${px(12 * scale)} ${px(14 * scale)} ${px(30 * scale)} rgba(3, 7, 15, 0.82), 0 0 ${px(22 * scale)} rgba(56, 189, 248, ${(0.20 * scale).toFixed(2)})`
+      `${px(8 * scale)} ${px(8 * scale)} ${px(20 * scale)} rgba(6, 11, 20, ${darkA}), -${px(4 * scale)} -${px(4 * scale)} ${px(12 * scale)} rgba(41, 61, 88, ${(0.30 * scale).toFixed(2)})`
     );
     root.style.setProperty(
       '--layer-l3-shadow',
@@ -157,7 +133,110 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     );
     root.style.setProperty(
       '--layer-l3-shadow-hover',
-      `${px(7 * scale)} ${px(9 * scale)} ${px(20 * scale)} rgba(4, 8, 16, 0.72), 0 0 ${px(14 * scale)} rgba(56, 189, 248, ${(0.18 * scale).toFixed(2)})`
+      `${px(4 * scale)} ${px(5 * scale)} ${px(12 * scale)} rgba(5, 9, 17, ${(0.42 * scale).toFixed(2)}), inset ${px(2 * scale)} ${px(2 * scale)} ${px(6 * scale)} rgba(6, 11, 20, ${(0.55 * scale).toFixed(2)}), inset -1px -1px 4px rgba(51, 75, 108, 0.24)`
+    );
+    return;
+  }
+
+  if (cardStyle === 'deep-ocean') {
+    const a1 = Math.min(0.84, 0.56 * scale + 0.14).toFixed(2);
+    const a2 = Math.min(0.68, 0.42 * scale + 0.10).toFixed(2);
+    const glow = Math.min(0.32, 0.16 * scale).toFixed(2);
+    root.style.setProperty(
+      '--layer-l1-shadow',
+      `0 ${px(20 * scale)} ${px(44 * scale)} rgba(2, 6, 16, ${a1}), 0 0 ${px(26 * scale)} rgba(6, 182, 212, ${glow}), inset 0 1px 0 rgba(56, 189, 248, 0.22)`
+    );
+    root.style.setProperty(
+      '--layer-l1-header-shadow',
+      `0 ${px(12 * scale)} ${px(32 * scale)} rgba(2, 6, 16, ${a2}), inset 0 -1px 0 rgba(56, 189, 248, 0.24)`
+    );
+    root.style.setProperty(
+      '--layer-l1-footer-shadow',
+      `0 -${px(12 * scale)} ${px(32 * scale)} rgba(2, 6, 16, ${a2}), inset 0 1px 0 rgba(56, 189, 248, 0.24)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow',
+      `0 ${px(14 * scale)} ${px(32 * scale)} rgba(2, 6, 16, ${a2}), inset 0 1px 0 rgba(56, 189, 248, 0.20)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow-hover',
+      `0 ${px(14 * scale)} ${px(32 * scale)} rgba(2, 6, 16, ${a2}), inset 0 1px 0 rgba(56, 189, 248, 0.20)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow',
+      `0 ${px(8 * scale)} ${px(18 * scale)} rgba(2, 6, 16, ${(0.42 * scale).toFixed(2)}), inset 0 1px 0 rgba(56, 189, 248, 0.14)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow-hover',
+      `0 ${px(8 * scale)} ${px(18 * scale)} rgba(2, 6, 16, ${(0.42 * scale).toFixed(2)}), inset 0 1px 0 rgba(56, 189, 248, 0.14)`
+    );
+    return;
+  }
+
+  if (cardStyle === 'mica-fluent') {
+    const a1 = Math.min(0.18, 0.10 * scale + 0.02).toFixed(2);
+    const a2 = Math.min(0.14, 0.07 * scale + 0.02).toFixed(2);
+    root.style.setProperty(
+      '--layer-l1-shadow',
+      `0 ${px(16 * scale)} ${px(40 * scale)} rgba(15, 23, 42, ${a1}), inset 0 1px 0 rgba(255, 255, 255, 0.90)`
+    );
+    root.style.setProperty(
+      '--layer-l1-header-shadow',
+      `0 ${px(8 * scale)} ${px(24 * scale)} rgba(15, 23, 42, ${a2}), inset 0 -1px 0 rgba(0, 0, 0, 0.06)`
+    );
+    root.style.setProperty(
+      '--layer-l1-footer-shadow',
+      `0 -${px(8 * scale)} ${px(24 * scale)} rgba(15, 23, 42, ${a2}), inset 0 1px 0 rgba(255, 255, 255, 0.85)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow',
+      `0 ${px(8 * scale)} ${px(24 * scale)} rgba(15, 23, 42, ${a2}), inset 0 1px 0 rgba(255, 255, 255, 0.92)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow-hover',
+      `0 ${px(8 * scale)} ${px(24 * scale)} rgba(15, 23, 42, ${a2}), inset 0 1px 0 rgba(255, 255, 255, 0.92)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow',
+      `0 ${px(4 * scale)} ${px(14 * scale)} rgba(15, 23, 42, ${(0.05 * scale + 0.01).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.82)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow-hover',
+      `0 ${px(4 * scale)} ${px(14 * scale)} rgba(15, 23, 42, ${(0.05 * scale + 0.01).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.82)`
+    );
+    return;
+  }
+
+  if (cardStyle === 'glass-flat') {
+    const a1 = Math.min(0.16, 0.09 * scale + 0.02).toFixed(2);
+    const a2 = Math.min(0.18, 0.11 * scale + 0.02).toFixed(2);
+    root.style.setProperty(
+      '--layer-l1-shadow',
+      `0 ${px(14 * scale)} ${px(34 * scale)} -${px(6 * scale)} rgba(15, 23, 42, ${a1}), inset 0 1px 0 rgba(255, 255, 255, 0.92)`
+    );
+    root.style.setProperty(
+      '--layer-l1-header-shadow',
+      `0 ${px(8 * scale)} ${px(22 * scale)} rgba(14, 165, 233, ${a1})`
+    );
+    root.style.setProperty(
+      '--layer-l1-footer-shadow',
+      `0 -${px(8 * scale)} ${px(22 * scale)} rgba(14, 165, 233, ${a1})`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow',
+      `0 ${px(8 * scale)} ${px(24 * scale)} -${px(4 * scale)} rgba(15, 23, 42, ${a1})`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow-hover',
+      `0 ${px(8 * scale)} ${px(24 * scale)} -${px(4 * scale)} rgba(15, 23, 42, ${a1})`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow',
+      `0 ${px(4 * scale)} ${px(12 * scale)} rgba(15, 23, 42, ${(0.05 * scale + 0.01).toFixed(2)})`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow-hover',
+      `0 ${px(4 * scale)} ${px(12 * scale)} rgba(15, 23, 42, ${(0.05 * scale + 0.01).toFixed(2)})`
     );
     return;
   }
@@ -183,7 +262,7 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     );
     root.style.setProperty(
       '--layer-l2-shadow-hover',
-      `0 ${px(18 * scale)} ${px(38 * scale)} rgba(50, 40, 80, ${(0.15 * scale + 0.02).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.85)`
+      `0 ${px(12 * scale)} ${px(28 * scale)} rgba(50, 40, 80, ${(0.09 * scale + 0.02).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.72)`
     );
     root.style.setProperty(
       '--layer-l3-shadow',
@@ -191,7 +270,7 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     );
     root.style.setProperty(
       '--layer-l3-shadow-hover',
-      `0 ${px(10 * scale)} ${px(22 * scale)} rgba(50, 40, 80, ${(0.11 * scale + 0.01).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.80)`
+      `0 ${px(6 * scale)} ${px(16 * scale)} rgba(50, 40, 80, ${(0.06 * scale + 0.01).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.68)`
     );
     return;
   }
@@ -217,7 +296,7 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     );
     root.style.setProperty(
       '--layer-l2-shadow-hover',
-      `0 ${px(16 * scale)} ${px(36 * scale)} rgba(0, 0, 0, ${a1}), inset 0 1px 0 rgba(194, 183, 243, 0.26)`
+      `0 ${px(10 * scale)} ${px(26 * scale)} rgba(0, 0, 0, ${a2}), inset 0 1px 0 rgba(225, 235, 255, 0.14)`
     );
     root.style.setProperty(
       '--layer-l3-shadow',
@@ -225,7 +304,7 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     );
     root.style.setProperty(
       '--layer-l3-shadow-hover',
-      `0 ${px(10 * scale)} ${px(22 * scale)} rgba(0, 0, 0, ${a2}), inset 0 1px 0 rgba(194, 183, 243, 0.20)`
+      `0 ${px(6 * scale)} ${px(16 * scale)} rgba(0, 0, 0, ${(0.20 * scale).toFixed(2)}), inset 0 1px 0 rgba(225, 235, 255, 0.10)`
     );
     return;
   }
@@ -253,7 +332,7 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     );
     root.style.setProperty(
       '--layer-l2-shadow-hover',
-      `0 ${px(22 * scale)} ${px(42 * scale)} rgba(0, 0, 0, ${a1}), inset 0 2px 4px ${warmRim}, inset 0 -2px 5px rgba(0, 0, 0, 0.65)`
+      `0 ${px(14 * scale)} ${px(28 * scale)} rgba(0, 0, 0, ${a2}), inset 0 1.5px 3px ${warmRim}, inset 0 -2px 4px rgba(0, 0, 0, 0.55)`
     );
     root.style.setProperty(
       '--layer-l3-shadow',
@@ -261,7 +340,7 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     );
     root.style.setProperty(
       '--layer-l3-shadow-hover',
-      `0 ${px(13 * scale)} ${px(26 * scale)} rgba(0, 0, 0, ${a2}), inset 0 1.5px 3px ${warmRim}`
+      `0 ${px(8 * scale)} ${px(18 * scale)} rgba(0, 0, 0, ${(0.38 * scale).toFixed(2)}), inset 0 1px 2px ${warmRim}`
     );
     return;
   }
@@ -287,7 +366,7 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
   );
   root.style.setProperty(
     '--layer-l2-shadow-hover',
-    `0 ${px(18 * scale)} ${px(38 * scale)} -${px(4 * scale)} rgba(15, 23, 42, ${Math.min(0.34, 0.20 * scale + 0.03).toFixed(2)}), inset 0 1.5px 3px #ffffff`
+    `0 ${px(12 * scale)} ${px(26 * scale)} -${px(4 * scale)} rgba(15, 23, 42, ${la1}), inset 0 1px 2px rgba(255, 255, 255, 0.92)`
   );
   root.style.setProperty(
     '--layer-l3-shadow',
@@ -295,18 +374,6 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
   );
   root.style.setProperty(
     '--layer-l3-shadow-hover',
-    `0 ${px(11 * scale)} ${px(22 * scale)} -${px(3 * scale)} rgba(15, 23, 42, ${la1}), inset 0 1.5px 2px #ffffff`
+    `0 ${px(6 * scale)} ${px(14 * scale)} -${px(2 * scale)} rgba(15, 23, 42, ${la2}), inset 0 1px 1px rgba(255, 255, 255, 0.90)`
   );
-}
-
-export function applyFontScaleCssVariables(scale: FontScaleMode): void {
-  if (typeof document === 'undefined') return;
-  const normalized = normalizeFontScale(scale);
-  const mult = getFontScaleMultiplier(normalized);
-  const root = document.documentElement;
-  root.setAttribute('data-font-scale', normalized);
-  root.style.setProperty('--font-scale', String(mult));
-  if (document.body) {
-    document.body.setAttribute('data-font-scale', normalized);
-  }
 }

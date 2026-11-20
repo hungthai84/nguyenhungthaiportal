@@ -383,14 +383,11 @@ html[data-card-style="cowhide-leather"] #horoscope-card-work-synergy-check:hover
   padding: 0 !important;
 }
 
-/* Hover States with Hand-Stitched Warm Amber Seam */
+/* Card hover without seam/rim glow */
 html[data-card-style="cowhide-leather"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):hover,
 html[data-card-style="cowhide-leather"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):hover,
 html[data-card-style="cowhide-leather"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):hover {
-  outline-color: rgba(253, 230, 138, 0.85);
-  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.58),
-    inset 0 2px 5px rgba(255, 220, 180, 0.32),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.65) !important;
+  box-shadow: var(--layer-l2-shadow, var(--shadow-card)) !important;
 }
 
 /* Header & Footer Nav Pills in Cowhide Leather */
@@ -425,6 +422,23 @@ html[data-card-style="cowhide-leather"] #footer-ai-btn:hover {
   outline-color: rgba(253, 230, 138, 0.85) !important;
 }
 
+html[data-card-style="cowhide-leather"] :is(
+  #app-header nav button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) {
+  background: linear-gradient(145deg, #BD7B3A 0%, #8C511B 52%, #A66528 100%) !important;
+  border-color: rgba(253, 230, 138, 0.85) !important;
+  outline-color: rgba(254, 243, 199, 0.92) !important;
+  transform: translate3d(0, -1.5px, 0) scale(1) !important;
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.52), 0 0 16px rgba(253, 230, 138, 0.18), inset 0 1px 2px rgba(255, 240, 200, 0.38) !important;
+  color: #FFFFFF !important;
+}
+
 /* Circular Menu Icon Medallion Inside Header & Footer Nav Pills */
 html[data-card-style="cowhide-leather"] #app-header nav button.nav-pill .nav-pill-icon-badge,
 html[data-card-style="cowhide-leather"] #header-btn-hungthai-avatar .nav-pill-icon-badge,
@@ -442,13 +456,13 @@ html[data-card-style="cowhide-leather"] #footer-ai-btn .nav-pill-icon-badge {
     0 2px 5px rgba(0, 0, 0, 0.4) !important;
 }
 
-html[data-card-style="cowhide-leather"] #app-header nav button.nav-pill:hover .nav-pill-icon-badge,
-html[data-card-style="cowhide-leather"] #header-btn-hungthai-avatar:hover .nav-pill-icon-badge,
-html[data-card-style="cowhide-leather"] #footer-lang-btn:hover .nav-pill-icon-badge,
-html[data-card-style="cowhide-leather"] #footer-appearance-btn:hover .nav-pill-icon-badge,
-html[data-card-style="cowhide-leather"] #footer-theme-mode-btn:hover .nav-pill-icon-badge,
-html[data-card-style="cowhide-leather"] #footer-wallpaper-btn:hover .nav-pill-icon-badge,
-html[data-card-style="cowhide-leather"] #footer-ai-btn:hover .nav-pill-icon-badge {
+html[data-card-style="cowhide-leather"] #app-header nav button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html[data-card-style="cowhide-leather"] #header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html[data-card-style="cowhide-leather"] #footer-lang-btn:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html[data-card-style="cowhide-leather"] #footer-appearance-btn:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html[data-card-style="cowhide-leather"] #footer-theme-mode-btn:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html[data-card-style="cowhide-leather"] #footer-wallpaper-btn:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html[data-card-style="cowhide-leather"] #footer-ai-btn:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
   background: linear-gradient(145deg, #7A4A20 0%, #4E2B10 100%) !important;
   border-color: rgba(253, 230, 138, 0.85) !important;
 }
@@ -458,12 +472,16 @@ html[data-card-style="cowhide-leather"] .nav-pill .nav-pill-icon-svg {
   color: #FDE68A !important;
 }
 
-html[data-card-style="cowhide-leather"] .nav-pill:hover .nav-pill-icon-badge svg,
-html[data-card-style="cowhide-leather"] .nav-pill:hover .nav-pill-icon-svg {
+html[data-card-style="cowhide-leather"] .nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge svg,
+html[data-card-style="cowhide-leather"] .nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-svg {
   color: #FFFFFF !important;
 }
 
 html[data-card-style="cowhide-leather"] .nav-pill .nav-pill-title {
+  color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-title {
   color: #FFFFFF !important;
 }
 
@@ -958,7 +976,7 @@ html[data-card-style="cowhide-leather"] .banner-card button:not(.banner-primary-
   stroke: #FDE68A !important;
 }
 
-html[data-card-style="cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) :is(.card-title, .card-title-synced, h3) {
+html[data-card-style="cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) :is(.card-title, h3):not(.card-title-synced):not([data-card-title="true"]) {
   color: #FFFFFF !important;
 }
 html[data-card-style="cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) p {

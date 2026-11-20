@@ -28,13 +28,13 @@
           var isManual = localStorage.getItem('hungthai_card_style_manual') === '1';
           var aliasMap = {
             'light-glassmorphism': 'ice-blue-neu',
-            'guong-da-sac': 'ice-blue-neu',
-            'guong-da-sac-sang': 'ice-blue-neu',
-            'guong-don-sac': 'ice-blue-neu',
-            'guong-da-sac-toi': 'dark-ice-blue-neu',
-            'light-multicolor-glass': 'ice-blue-neu',
-            'light-multicolor-glass-dark': 'dark-ice-blue-neu',
-            'light-multicolor-glass-color': 'ice-blue-neu',
+            'guong-da-sac': 'rainbow-glass',
+            'guong-da-sac-sang': 'rainbow-glass',
+            'guong-don-sac': 'rainbow-glass',
+            'guong-da-sac-toi': 'dark-rainbow-glass',
+            'light-multicolor-glass': 'rainbow-glass',
+            'light-multicolor-glass-dark': 'dark-rainbow-glass',
+            'light-multicolor-glass-color': 'special-rainbow-glass',
             'da-thuoc': 'light-cowhide-leather',
             'da-ca-sau-trang': 'light-cowhide-leather',
             'da-den': 'black-cowhide-leather',
@@ -47,22 +47,28 @@
             'black-cowhide-leather',
             'cowhide-leather',
             'ice-blue-neu',
-            'dark-ice-blue-neu'
+            'dark-ice-blue-neu',
+            'glass-flat',
+            'rainbow-glass',
+            'dark-rainbow-glass',
+            'special-rainbow-glass',
+            'deep-ocean',
+            'mica-fluent'
           ];
           var cardStyle = rawStyle && aliasMap[rawStyle] ? aliasMap[rawStyle] : rawStyle;
           if (!cardStyle || validStyles.indexOf(cardStyle) === -1) {
             cardStyle = DEFAULT_THEME;
           }
           if (localStorage.getItem(MIGRATION_KEY) !== DEFAULT_THEME) {
-            if (!isManual) {
+            if (!isManual && !rawStyle) {
               cardStyle = DEFAULT_THEME;
             }
             localStorage.setItem(MIGRATION_KEY, DEFAULT_THEME);
           }
           document.documentElement.setAttribute('data-card-style', cardStyle);
-          var mechanism = (cardStyle === 'cowhide-leather')
+          var mechanism = (cardStyle === 'cowhide-leather' || cardStyle === 'special-rainbow-glass')
             ? 'color'
-            : (cardStyle === 'black-cowhide-leather' || cardStyle === 'dark-ice-blue-neu')
+            : (cardStyle === 'black-cowhide-leather' || cardStyle === 'dark-ice-blue-neu' || cardStyle === 'dark-rainbow-glass' || cardStyle === 'deep-ocean')
               ? 'dark'
               : 'light';
           document.documentElement.setAttribute('data-theme-mechanism', mechanism);
@@ -72,7 +78,10 @@
           var darkThemes = [
             'black-cowhide-leather',
             'cowhide-leather',
-            'dark-ice-blue-neu'
+            'dark-ice-blue-neu',
+            'dark-rainbow-glass',
+            'special-rainbow-glass',
+            'deep-ocean'
           ];
           var isDarkInit = darkThemes.indexOf(cardStyle) !== -1;
           if (isDarkInit) {
@@ -81,9 +90,21 @@
             document.documentElement.setAttribute('data-theme-mode', 'dark');
           } else {
             document.documentElement.classList.remove('dark');
-            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.setAttribute('data-theme', cardStyle);
             document.documentElement.setAttribute('data-theme-mode', 'light');
           }
+          var savedDepth = localStorage.getItem('hungthai_surface_depth_v1');
+          var savedLayerRaw = localStorage.getItem('hungthai_layer_depth_v1');
+          var savedLayer = savedLayerRaw !== null ? Number(savedLayerRaw) : NaN;
+          var resolvedSurface = (savedDepth === 'flat' || savedLayer === 0) ? 'flat' : 'depth';
+          document.documentElement.setAttribute('data-surface-depth', resolvedSurface);
+          if (!isNaN(savedLayer) && isFinite(savedLayer)) {
+            document.documentElement.setAttribute('data-layer-depth', String(Math.max(0, Math.min(200, Math.round(savedLayer)))));
+          }
+          localStorage.removeItem('hungthai_font_scale_v1');
+          document.documentElement.removeAttribute('data-font-scale');
+          document.documentElement.style.setProperty('--font-scale', '1');
+          document.documentElement.style.zoom = '';
         } catch (e) {}
       })();
     </script>

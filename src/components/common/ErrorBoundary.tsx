@@ -54,16 +54,14 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               borderColor: 'var(--border-color, rgba(148,163,184,0.3))',
             }}
           >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-[12px] flex items-center justify-center bg-rose-500/15 text-rose-500 shrink-0">
-                <WebIcon name="alert-circle" className="w-5 h-5" />
+            <div className="flex flex-col gap-1.5">
+              <div className="card-header-sync flex items-center gap-2 text-rose-500">
+                <WebIcon name="alert-circle" className="w-5 h-5 shrink-0" />
+                <h2 className="typo-h4 card-title-synced font-bold text-rose-500" data-card-title="true">Đã xảy ra sự cố</h2>
               </div>
-              <div className="min-w-0">
-                <h2 className="typo-h4 font-bold">Đã xảy ra sự cố</h2>
-                <p className="typo-caption" style={{ color: 'var(--text-muted, #64748b)' }}>
-                  Something went wrong while processing this request.
-                </p>
-              </div>
+              <p className="typo-caption" style={{ color: 'var(--text-muted, #64748b)' }}>
+                Something went wrong while processing this request.
+              </p>
             </div>
             {this.state.message && (
               <p

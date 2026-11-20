@@ -1,4 +1,12 @@
 import React from 'react';
+import iceBlueNeuWallpaper from '@/assets/images/wallpaper_ice_blue_neu_1795175772109.jpg';
+import darkIceBlueNeuWallpaper from '@/assets/images/wallpaper_dark_ice_blue_neu_1795175772360.jpg';
+import glassFlatWallpaper from '@/assets/images/wallpaper_glass_flat_1795175772146.jpg';
+import rainbowGlassWallpaper from '@/assets/images/wallpaper_rainbow_glass_1795175771284.jpg';
+import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
+import specialRainbowGlassWallpaper from '@/assets/images/wallpaper_special_rainbow_glass_1795175772539.jpg';
+import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
+import micaFluentWallpaper from '@/assets/images/wallpaper_mica_fluent_1795175772748.jpg';
 
 export type WallpaperType = 'image' | 'video' | 'css' | 'gradient' | 'webgl';
 
@@ -29,36 +37,56 @@ export interface ThemeBackground {
 
 export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
   'light-multicolor-glass-color': {
-    light: '/backgrounds/themes/dark-neon-multicolor-glass-light/dark-neon-multicolor-glass-light.jpg',
-    dark: '/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg',
+    light: rainbowGlassWallpaper,
+    dark: darkRainbowGlassWallpaper,
   },
   'light-multicolor-glass': {
-    light: '/backgrounds/themes/light-multicolor-glass/light-multicolor-glass-light.jpg',
-    dark: '/backgrounds/themes/light-multicolor-glass-dark/light-multicolor-glass-dark.jpg',
+    light: rainbowGlassWallpaper,
+    dark: darkRainbowGlassWallpaper,
   },
   'light-cowhide-leather': {
     light: '/backgrounds/themes/light-cowhide-leather/light-cowhide-leather-light.jpg',
-    dark: '/backgrounds/themes/light-cowhide-leather/light-cowhide-leather-dark.jpg',
+    dark: '/backgrounds/themes/light-cowhide-leather/light-cowhide-leather-light.jpg',
   },
   'black-cowhide-leather': {
-    light: '/backgrounds/themes/black-cowhide-leather/black-cowhide-leather-light.jpg',
+    light: '/backgrounds/themes/black-cowhide-leather/black-cowhide-leather-dark.jpg',
     dark: '/backgrounds/themes/black-cowhide-leather/black-cowhide-leather-dark.jpg',
   },
   'cowhide-leather': {
-    light: '/backgrounds/themes/cowhide-leather/cowhide-leather-light.jpg',
+    light: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
     dark: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
   },
   'ice-blue-neu': {
-    light:
-      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
-    dark:
-      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
+    light: iceBlueNeuWallpaper,
+    dark: iceBlueNeuWallpaper,
   },
   'dark-ice-blue-neu': {
-    light:
-      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
-    dark:
-      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
+    light: darkIceBlueNeuWallpaper,
+    dark: darkIceBlueNeuWallpaper,
+  },
+  'glass-flat': {
+    light: glassFlatWallpaper,
+    dark: glassFlatWallpaper,
+  },
+  'rainbow-glass': {
+    light: rainbowGlassWallpaper,
+    dark: rainbowGlassWallpaper,
+  },
+  'dark-rainbow-glass': {
+    light: darkRainbowGlassWallpaper,
+    dark: darkRainbowGlassWallpaper,
+  },
+  'special-rainbow-glass': {
+    light: specialRainbowGlassWallpaper,
+    dark: specialRainbowGlassWallpaper,
+  },
+  'deep-ocean': {
+    light: deepOceanWallpaper,
+    dark: deepOceanWallpaper,
+  },
+  'mica-fluent': {
+    light: micaFluentWallpaper,
+    dark: micaFluentWallpaper,
   },
 };
 
@@ -66,7 +94,7 @@ export function getThemeBackgroundForMode(themeId: string, isDark: boolean): str
   const direct = THEME_BACKGROUND_CONFIGS[themeId];
   if (direct) return isDark ? direct.dark : direct.light;
   const cleanId = themeId.replace('-dark', '');
-  const config = THEME_BACKGROUND_CONFIGS[cleanId] || THEME_BACKGROUND_CONFIGS['light-multicolor-glass-color'];
+  const config = THEME_BACKGROUND_CONFIGS[cleanId] || THEME_BACKGROUND_CONFIGS['rainbow-glass'];
   return isDark ? config.dark : config.light;
 }
 
@@ -393,31 +421,131 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-ice-blue-neu',
-    name: '❄️ Nền Ice-Blue Soft UI (#e6f0f8) (Theme Background)',
-    type: 'gradient',
-    value:
-      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
-    bg: 'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
+    name: '❄️ Nền Ice-Blue Soft UI (Giao diện riêng)',
+    type: 'image',
+    value: iceBlueNeuWallpaper,
+    bg: `url('${iceBlueNeuWallpaper}') center/cover no-repeat`,
     previewStyle: {
       background:
-        'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
+        'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
+      backgroundImage: `url('${iceBlueNeuWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     isCustom: false,
     createdAt: 1794300000014,
   },
   {
     id: 'theme-bg-dark-ice-blue-neu',
-    name: '🌌 Nền Dark Ice-Blue Neu (#152030) (Theme Background)',
-    type: 'gradient',
-    value:
-      'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
-    bg: 'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
+    name: '🌌 Nền Dark Ice-Blue Neu (Giao diện riêng)',
+    type: 'image',
+    value: darkIceBlueNeuWallpaper,
+    bg: `url('${darkIceBlueNeuWallpaper}') center/cover no-repeat`,
     previewStyle: {
       background:
-        'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
+        'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
+      backgroundImage: `url('${darkIceBlueNeuWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     isCustom: false,
     createdAt: 1794300000015,
+  },
+  {
+    id: 'theme-bg-glass-flat',
+    name: '💎 Nền Kính phẳng trong suốt (Giao diện riêng)',
+    type: 'image',
+    value: glassFlatWallpaper,
+    bg: `url('${glassFlatWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 15% 15%, rgba(14, 165, 233, 0.18) 0%, transparent 52%), linear-gradient(145deg, #f4f7fb 0%, #eef3fb 52%, #e2ecfb 100%)',
+      backgroundImage: `url('${glassFlatWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000016,
+  },
+  {
+    id: 'theme-bg-rainbow-glass',
+    name: '🌈 Nền Đa sắc kính sáng (Giao diện riêng)',
+    type: 'image',
+    value: rainbowGlassWallpaper,
+    bg: `url('${rainbowGlassWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 12% 14%, rgba(243, 185, 167, 0.56) 0%, transparent 48%), linear-gradient(135deg, #FFF0E8 0%, #EEE9FA 52%, #E0F5F3 100%)',
+      backgroundImage: `url('${rainbowGlassWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000017,
+  },
+  {
+    id: 'theme-bg-dark-rainbow-glass',
+    name: '🌙 Nền Đa sắc kính tối (Giao diện riêng)',
+    type: 'image',
+    value: darkRainbowGlassWallpaper,
+    bg: `url('${darkRainbowGlassWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 14% 16%, rgba(185, 130, 131, 0.22) 0%, transparent 46%), linear-gradient(140deg, #101A2B 0%, #171F33 50%, #153039 100%)',
+      backgroundImage: `url('${darkRainbowGlassWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000018,
+  },
+  {
+    id: 'theme-bg-special-rainbow-glass',
+    name: '✨ Nền Đa sắc kính đặc biệt Aurora (Giao diện riêng)',
+    type: 'image',
+    value: specialRainbowGlassWallpaper,
+    bg: `url('${specialRainbowGlassWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 14% 18%, rgba(185, 130, 131, 0.28) 0%, transparent 48%), linear-gradient(135deg, #171F33 0%, #202238 52%, #153039 100%)',
+      backgroundImage: `url('${specialRainbowGlassWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000019,
+  },
+  {
+    id: 'theme-bg-deep-ocean',
+    name: '🌊 Nền Đại Dương Sâu Thẳm (Giao diện riêng)',
+    type: 'image',
+    value: deepOceanWallpaper,
+    bg: `url('${deepOceanWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.18) 0%, transparent 55%), linear-gradient(145deg, #0A1128 0%, #050B14 50%, #030712 100%)',
+      backgroundImage: `url('${deepOceanWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000020,
+  },
+  {
+    id: 'theme-bg-mica-fluent',
+    name: '🪟 Nền Mica Fluent Windows 11 (Giao diện riêng)',
+    type: 'image',
+    value: micaFluentWallpaper,
+    bg: `url('${micaFluentWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 15% 15%, rgba(0, 103, 192, 0.14) 0%, transparent 50%), linear-gradient(135deg, #F3F6FA 0%, #E8EDF5 52%, #DFE6F0 100%)',
+      backgroundImage: `url('${micaFluentWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000021,
   },
 
   {

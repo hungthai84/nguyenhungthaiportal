@@ -327,8 +327,12 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'rainbo
                     className="sub-card p-[15px] rounded-[14px] border flex flex-col gap-3"
                     style={{ background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }}
                   >
-                    <h3 className="typo-h5 font-bold flex items-center gap-2">
-                      <WebIcon name="send" className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary)' }} />
+                    <h3
+                      className="subcard-header-sync subcard-title-synced typo-h5 font-bold flex items-center gap-2"
+                      data-subcard-title="true"
+                      style={{ color: 'var(--color-primary)' }}
+                    >
+                      <WebIcon name="send" className="w-4 h-4 shrink-0" style={{ color: 'currentColor' }} />
                       <span>
                         {editingInquiryId
                           ? isEn
@@ -490,17 +494,21 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'rainbo
                     className="sub-card p-[15px] rounded-[14px] border flex flex-col gap-3 min-h-[260px]"
                     style={{ background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }}
                   >
-                    <h3 className="typo-h5 font-bold flex items-center justify-between gap-2">
-                      <span className="flex items-center gap-2">
-                        <WebIcon name="file-text" className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary)' }} />
-                        <span>{isEn ? 'Your Sent Inquiries' : 'Lời nhắn đã gửi của bạn'}</span>
-                      </span>
+                    <div className="flex items-center justify-between gap-2">
+                      <h3
+                        className="subcard-header-sync subcard-title-synced typo-h5 font-bold flex items-center gap-2 min-w-0"
+                        data-subcard-title="true"
+                        style={{ color: 'var(--color-primary)' }}
+                      >
+                        <WebIcon name="file-text" className="w-4 h-4 shrink-0" style={{ color: 'currentColor' }} />
+                        <span className="truncate">{isEn ? 'Your Sent Inquiries' : 'Lời nhắn đã gửi của bạn'}</span>
+                      </h3>
                       {user && (
-                        <span className="typo-badge px-2.5 py-0.5 rounded-full border" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-subcard)' }}>
+                        <span className="typo-badge px-2.5 py-0.5 rounded-full border shrink-0" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-subcard)' }}>
                           {inquiries.length}
                         </span>
                       )}
-                    </h3>
+                    </div>
 
                     {!user ? (
                       <p className="typo-body-sm" style={{ color: 'var(--text-muted)' }}>

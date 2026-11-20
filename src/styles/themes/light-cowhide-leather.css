@@ -454,9 +454,7 @@ html[data-card-style="light-cowhide-leather"] #horoscope-card-work-synergy-check
 html[data-card-style="light-cowhide-leather"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):hover,
 html[data-card-style="light-cowhide-leather"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):hover,
 html[data-card-style="light-cowhide-leather"] .project-card:hover {
-  outline-color: rgba(17, 24, 39, 0.85);
-  border-color: #9ca3af !important;
-  box-shadow: var(--shadow-card-hover) !important;
+  box-shadow: var(--layer-l2-shadow, var(--shadow-card)) !important;
 }
 
 /* ========================================================================= */
@@ -631,13 +629,79 @@ html[data-card-style="light-cowhide-leather"] #el-p0-button-2:hover {
   color: #111827 !important;
 }
 
+html[data-card-style="light-cowhide-leather"] :is(
+  #app-header nav button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) {
+  background: linear-gradient(145deg, #273244 0%, #111827 100%) !important;
+  border-color: #111827 !important;
+  outline-color: rgba(255, 255, 255, 0.72) !important;
+  color: #ffffff !important;
+  transform: translate3d(0, -1.5px, 0) scale(1) !important;
+  box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.36), inset 0 1px 2px rgba(255, 255, 255, 0.22) !important;
+}
+
+html[data-card-style="light-cowhide-leather"] :is(
+  #app-header nav button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-title {
+  color: #ffffff !important;
+}
+
+html[data-card-style="light-cowhide-leather"] :is(
+  #app-header nav button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-divider {
+  background-color: rgba(255, 255, 255, 0.45) !important;
+}
+
+html[data-card-style="light-cowhide-leather"] :is(
+  #app-header nav button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: linear-gradient(145deg, #374151 0%, #1f2937 100%) !important;
+  border-color: rgba(255, 255, 255, 0.72) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="light-cowhide-leather"] :is(
+  #app-header nav button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
 html[data-card-style="light-cowhide-leather"] #el-p0-button-1 svg,
 html[data-card-style="light-cowhide-leather"] #el-p0-button-2 svg {
   color: #111827 !important;
   stroke: #111827 !important;
 }
 
-html[data-card-style="light-cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) :is(.card-title, .card-title-synced, h3) {
+html[data-card-style="light-cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) :is(.card-title, h3):not(.card-title-synced):not([data-card-title="true"]) {
   color: #111827 !important;
 }
 html[data-card-style="light-cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) p {
@@ -677,7 +741,7 @@ html[data-card-style="light-cowhide-leather"] .radial-contact-sub {
   color: #374151 !important;
 }
 
-/* Sửa màu icon hiển thị rõ ràng trên giao diện sáng Da cá sấu trắng */
+/* Sửa màu icon hiển thị rõ ràng trên giao diện sáng Da cá sấu trắng (giữ nguyên màu đồng bộ icon-tiêu đề card) */
 html[data-card-style="light-cowhide-leather"] .nav-pill .nav-pill-icon-badge svg,
 html[data-card-style="light-cowhide-leather"] .nav-pill .nav-pill-icon-svg,
 html[data-card-style="light-cowhide-leather"] #app-header nav button.nav-pill svg,
@@ -687,10 +751,7 @@ html[data-card-style="light-cowhide-leather"] #footer-appearance-btn svg,
 html[data-card-style="light-cowhide-leather"] #footer-theme-mode-btn svg,
 html[data-card-style="light-cowhide-leather"] #footer-wallpaper-btn svg,
 html[data-card-style="light-cowhide-leather"] #footer-ai-btn svg,
-html[data-card-style="light-cowhide-leather"] .radial-contact-icon-badge svg,
-html[data-card-style="light-cowhide-leather"] .card-header-sync svg,
-html[data-card-style="light-cowhide-leather"] .subcard-header-sync svg,
-html[data-card-style="light-cowhide-leather"] .card-title-icon {
+html[data-card-style="light-cowhide-leather"] .radial-contact-icon-badge svg {
   color: #111827 !important;
   stroke: #111827 !important;
 }

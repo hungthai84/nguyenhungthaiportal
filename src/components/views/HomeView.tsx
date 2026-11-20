@@ -58,7 +58,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'dark-ice-blue-neu' ||
     currentTheme === 'dark-rainbow-glass' ||
-    currentTheme === 'special-rainbow-glass';
+    currentTheme === 'special-rainbow-glass' ||
+    currentTheme === 'deep-ocean';
 
   // Danh sách video cho 3 màn hình: Màn hình chờ (idle), Chuyển cảnh (transition), Video phát (presentation)
   const VIDEO_SCREENS: VideoScreenItem[] = [
@@ -409,7 +410,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 src={activeVideoUrl}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleEnded}
-                className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[var(--radius-card,24px)] transition-all duration-700 brightness-110 contrast-105 scale-[1.01]"
+                className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[var(--radius-card,24px)] transition-all duration-700 brightness-110 contrast-105"
               />
               {/* Lớp phủ nhẹ nhàng đồng bộ Sáng / Tối, giữ video rõ nét tươi sáng */}
               <div

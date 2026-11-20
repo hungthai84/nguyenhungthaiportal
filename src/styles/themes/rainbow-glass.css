@@ -19,9 +19,8 @@
 }
 
 .card-rainbow-glass:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, 0.86) !important;
-  box-shadow: 0 16px 36px -6px rgba(50, 40, 80, 0.16), 0 6px 16px -2px rgba(118, 102, 216, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.65) !important;
+  box-shadow: 0 12px 28px -6px rgba(50, 40, 80, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
 }
 
 .card-dark-rainbow-glass {
@@ -38,9 +37,8 @@
 }
 
 .card-dark-rainbow-glass:hover {
-  transform: translateY(-3px);
-  border-color: rgba(181, 167, 244, 0.38) !important;
-  box-shadow: 0 18px 40px -6px rgba(0, 0, 0, 0.40), 0 6px 16px -2px rgba(181, 167, 244, 0.12), inset 0 1px 0 rgba(225, 235, 255, 0.22) !important;
+  border-color: rgba(225, 235, 255, 0.16) !important;
+  box-shadow: 0 14px 32px -6px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14) !important;
 }
 
 .card-special-rainbow-glass {
@@ -57,9 +55,8 @@
 }
 
 .card-special-rainbow-glass:hover {
-  transform: translateY(-3px);
-  border-color: rgba(194, 183, 243, 0.46) !important;
-  box-shadow: 0 20px 44px -6px rgba(0, 0, 0, 0.44), 0 8px 20px -2px rgba(194, 183, 243, 0.16), inset 0 1px 0 rgba(225, 235, 255, 0.26) !important;
+  border-color: rgba(194, 183, 243, 0.24) !important;
+  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(225, 235, 255, 0.18) !important;
 }
 
 /* --- 2. MODE 1: SOFT LIQUID GLASS 3D (LIGHT) --- */
@@ -96,10 +93,10 @@ html[data-card-style="rainbow-glass"] {
   --border-modal: rgba(255, 255, 255, 0.68);
 
   --shadow-card: 0 12px 28px -6px rgba(50, 40, 80, 0.11), 0 4px 12px -2px rgba(50, 40, 80, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  --shadow-card-hover: 0 16px 36px -6px rgba(50, 40, 80, 0.16), 0 6px 16px -2px rgba(118, 102, 216, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --shadow-card-hover: 0 12px 28px -6px rgba(50, 40, 80, 0.11), 0 4px 12px -2px rgba(50, 40, 80, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.72);
   --shadow-subcard: 0 6px 16px -4px rgba(50, 40, 80, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.62);
   --main-card-deep-shadow: 0 18px 40px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  --main-card-deep-shadow-hover: 0 22px 48px rgba(50, 40, 80, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.80);
+  --main-card-deep-shadow-hover: 0 18px 40px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.65);
 
   --text-primary: #2D3850;
   --text-secondary: #64718A;
@@ -148,31 +145,34 @@ html[data-card-style="rainbow-glass"] {
   --text-banner-cta: #FFFFFF;
 }
 
-/* Main Panel / Container */
+/* Layer Card Level 1: Header · Main Card · Footer */
 html[data-card-style="rainbow-glass"] :is(
+  #app-header,
+  #app-footer,
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
-  #about-intro-card-2
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
 ) {
-  background: rgba(255, 255, 255, 0.22) !important;
-  border: 1px solid rgba(255, 255, 255, 0.56) !important;
-  box-shadow: 0 18px 42px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.82), inset 1px 0 0 rgba(255, 255, 255, 0.42), inset 0 -1px 0 rgba(255, 255, 255, 0.24) !important;
+  background: rgba(255, 255, 255, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.58) !important;
+  box-shadow: var(--layer-l1-shadow, 0 18px 42px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.82)) !important;
   backdrop-filter: blur(24px) saturate(152%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(152%) !important;
-  border-radius: var(--radius-main, 14px) !important;
 }
 
-/* Header & Footer Optical Liquid Glass Floating Bars */
-html[data-card-style="rainbow-glass"] #app-header,
+html[data-card-style="rainbow-glass"] #app-header {
+  border-top: none !important;
+  box-shadow: var(--layer-l1-header-shadow, 0 12px 34px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85)) !important;
+}
+
 html[data-card-style="rainbow-glass"] #app-footer {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.18) 100%) !important;
-  backdrop-filter: blur(26px) saturate(158%) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(158%) !important;
-  border-color: rgba(255, 255, 255, 0.62) !important;
-  box-shadow: 0 12px 34px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.88), inset 1px 0 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(255, 255, 255, 0.30) !important;
+  border-bottom: none !important;
+  box-shadow: var(--layer-l1-footer-shadow, 0 -12px 34px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85)) !important;
 }
 
 /* Hero & Banner Cards */
@@ -293,10 +293,10 @@ html[data-card-style="dark-rainbow-glass"] {
   --border-modal: rgba(225, 235, 255, 0.18);
 
   --shadow-card: 0 14px 32px -6px rgba(0, 0, 0, 0.30), 0 4px 12px -2px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(225, 235, 255, 0.14);
-  --shadow-card-hover: 0 18px 40px -6px rgba(0, 0, 0, 0.40), 0 6px 16px -2px rgba(181, 167, 244, 0.12), inset 0 1px 0 rgba(225, 235, 255, 0.22);
+  --shadow-card-hover: 0 14px 32px -6px rgba(0, 0, 0, 0.30), 0 4px 12px -2px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(225, 235, 255, 0.14);
   --shadow-subcard: 0 6px 18px -4px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(225, 235, 255, 0.10);
   --main-card-deep-shadow: 0 18px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
-  --main-card-deep-shadow-hover: 0 24px 50px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(225, 235, 255, 0.22);
+  --main-card-deep-shadow-hover: 0 18px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
 
   --text-primary: #F2F4FC;
   --text-secondary: #C0C9DC;
@@ -345,29 +345,34 @@ html[data-card-style="dark-rainbow-glass"] {
   --text-banner-cta: #101A2B;
 }
 
+/* Layer Card Level 1: Header · Main Card · Footer */
 html[data-card-style="dark-rainbow-glass"] :is(
+  #app-header,
+  #app-footer,
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
-  #about-intro-card-2
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
 ) {
-  background: rgba(28, 37, 58, 0.52) !important;
-  border: 1px solid rgba(225, 235, 255, 0.19) !important;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(235, 244, 255, 0.26), inset 1px 0 0 rgba(225, 235, 255, 0.12), inset 0 -1px 0 rgba(225, 235, 255, 0.06) !important;
-  backdrop-filter: blur(24px) saturate(148%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(148%) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  background: rgba(28, 37, 58, 0.54) !important;
+  border: 1px solid rgba(225, 235, 255, 0.20) !important;
+  box-shadow: var(--layer-l1-shadow, 0 18px 42px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(235, 244, 255, 0.26)) !important;
+  backdrop-filter: blur(24px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
 }
 
-html[data-card-style="dark-rainbow-glass"] #app-header,
+html[data-card-style="dark-rainbow-glass"] #app-header {
+  border-top: none !important;
+  box-shadow: var(--layer-l1-header-shadow, 0 14px 36px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(235, 244, 255, 0.26)) !important;
+}
+
 html[data-card-style="dark-rainbow-glass"] #app-footer {
-  background: linear-gradient(180deg, rgba(32, 42, 66, 0.58) 0%, rgba(24, 32, 52, 0.48) 100%) !important;
-  backdrop-filter: blur(26px) saturate(152%) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(152%) !important;
-  border-color: rgba(225, 235, 255, 0.20) !important;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(235, 244, 255, 0.28), inset 1px 0 0 rgba(225, 235, 255, 0.14), inset 0 -1px 0 rgba(225, 235, 255, 0.08) !important;
+  border-bottom: none !important;
+  box-shadow: var(--layer-l1-footer-shadow, 0 -14px 36px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(235, 244, 255, 0.26)) !important;
 }
 
 html[data-card-style="dark-rainbow-glass"] :is(
@@ -492,29 +497,34 @@ html[data-card-style="special-rainbow-glass"] {
   --outline-nav-pill: none;
 }
 
+/* Layer Card Level 1: Header · Main Card · Footer */
 html[data-card-style="special-rainbow-glass"] :is(
+  #app-header,
+  #app-footer,
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
-  #about-intro-card-2
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
 ) {
-  background: rgba(28, 37, 58, 0.52) !important;
+  background: rgba(28, 37, 58, 0.54) !important;
   border: 1px solid rgba(194, 183, 243, 0.26) !important;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(235, 244, 255, 0.28), inset 1px 0 0 rgba(194, 183, 243, 0.16), inset 0 -1px 0 rgba(78, 158, 170, 0.10) !important;
-  backdrop-filter: blur(24px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  box-shadow: var(--layer-l1-shadow, 0 18px 42px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(235, 244, 255, 0.28)) !important;
+  backdrop-filter: blur(24px) saturate(152%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(152%) !important;
 }
 
-html[data-card-style="special-rainbow-glass"] #app-header,
+html[data-card-style="special-rainbow-glass"] #app-header {
+  border-top: none !important;
+  box-shadow: var(--layer-l1-header-shadow, 0 14px 36px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(235, 244, 255, 0.28)) !important;
+}
+
 html[data-card-style="special-rainbow-glass"] #app-footer {
-  background: linear-gradient(180deg, rgba(32, 42, 68, 0.58) 0%, rgba(22, 30, 52, 0.48) 100%) !important;
-  backdrop-filter: blur(26px) saturate(156%) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(156%) !important;
-  border-color: rgba(194, 183, 243, 0.24) !important;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(235, 244, 255, 0.28), inset 1px 0 0 rgba(194, 183, 243, 0.16), inset 0 -1px 0 rgba(78, 158, 170, 0.10) !important;
+  border-bottom: none !important;
+  box-shadow: var(--layer-l1-footer-shadow, 0 -14px 36px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(235, 244, 255, 0.28)) !important;
 }
 
 html[data-card-style="special-rainbow-glass"] :is(
@@ -643,7 +653,7 @@ html:is([data-card-style="rainbow-glass"], [data-card-style="dark-rainbow-glass"
   background-image: var(--liquid-specular-sheen-hover, none) !important;
   border-color: var(--liquid-specular-rim, rgba(255, 255, 255, 0.88)) !important;
   box-shadow: 0 10px 26px -4px rgba(50, 40, 80, 0.16), var(--liquid-rim-inset-hover) !important;
-  transform: translate3d(0, -1.5px, 0) scale(1.022) !important;
+  transform: translate3d(0, -1.5px, 0) scale(1) !important;
 }
 
 html:is([data-card-style="rainbow-glass"], [data-card-style="dark-rainbow-glass"], [data-card-style="special-rainbow-glass"]) #footer-nav-capsule:hover,

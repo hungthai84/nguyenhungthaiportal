@@ -11,10 +11,7 @@ import {
   COLOR_SCHEME_MODE_STORAGE_KEY,
   COLOR_SCHEME_MODE_SYNC_EVENT,
   DEFAULT_CARD_STYLE,
-  DEFAULT_FONT_SCALE,
   DEFAULT_LAYER_DEPTH,
-  FONT_SCALE_STORAGE_KEY,
-  FONT_SCALE_SYNC_EVENT,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
   LAYER_DEPTH_STORAGE_KEY,
@@ -28,14 +25,11 @@ import {
   THEME_DEFAULT_WALLPAPER_ID,
   WALLPAPER_MANUAL_STORAGE_KEY,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode, ColorSchemeMode, FontScaleMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
+import { CardStyleMode, ColorSchemeMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
 import {
-  applyFontScaleCssVariables,
   applyLayerDepthCssVariables,
   clampLayerDepth,
-  normalizeFontScale,
 } from '../config/ui/layerDepth';
-import { setTypographyFontScaleMultiplier } from '../config/typographyScale';
 import {
   CARD_STYLES_MAP,
   getCardStyleProperties,
@@ -158,14 +152,6 @@ export function useThemeLegacy() {
     }
   });
 
-  const [fontScale, setFontScaleState] = useState<FontScaleMode>(() => {
-    try {
-      return normalizeFontScale(localStorage.getItem(FONT_SCALE_STORAGE_KEY));
-    } catch {
-      return DEFAULT_FONT_SCALE;
-    }
-  });
-
   const [autoTimeTheme, setAutoTimeThemeState] = useState<boolean>(() => {
     try {
       return localStorage.getItem(AUTO_TIME_THEME_STORAGE_KEY) === 'true';
@@ -231,20 +217,11 @@ export function useThemeLegacy() {
     const mechanism = CARD_STYLES_MAP[cardStyle]?.mechanism || (isDark ? 'dark' : 'light');
     if (isDark) {
       document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute(
-        'data-theme',
-        cardStyle === 'cowhide-leather'
-          ? 'cowhide-leather'
-          : cardStyle === 'black-cowhide-leather'
-            ? 'black-cowhide-leather'
-            : cardStyle === 'dark-ice-blue-neu'
-              ? 'dark-ice-blue-neu'
-              : 'dark'
-      );
+      document.documentElement.setAttribute('data-theme', cardStyle);
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
-      document.documentElement.setAttribute('data-theme', 'light');
+      document.documentElement.setAttribute('data-theme', cardStyle);
       document.documentElement.setAttribute('data-theme-mode', 'light');
     }
     document.documentElement.setAttribute('data-theme-mechanism', mechanism);
@@ -258,11 +235,6 @@ export function useThemeLegacy() {
   useEffect(() => {
     applyLayerDepthCssVariables(layerDepth, cardStyle);
   }, [layerDepth, cardStyle]);
-
-  useEffect(() => {
-    applyFontScaleCssVariables(fontScale);
-    setTypographyFontScaleMultiplier(fontScale);
-  }, [fontScale]);
 
   useEffect(() => {
     const handleSync = (e: Event) => {
@@ -280,19 +252,13 @@ export function useThemeLegacy() {
       setLayerDepthState(nextDepth);
       setSurfaceDepthState(nextDepth === 0 ? 'flat' : 'depth');
     };
-    const handleFontScaleSync = (e: Event) => {
-      const nextScale = normalizeFontScale((e as CustomEvent<FontScaleMode>).detail);
-      setFontScaleState(nextScale);
-    };
     window.addEventListener(WALLPAPER_SYNC_EVENT, handleSync);
     window.addEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
     window.addEventListener(LAYER_DEPTH_SYNC_EVENT, handleLayerDepthSync);
-    window.addEventListener(FONT_SCALE_SYNC_EVENT, handleFontScaleSync);
     return () => {
       window.removeEventListener(WALLPAPER_SYNC_EVENT, handleSync);
       window.removeEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
       window.removeEventListener(LAYER_DEPTH_SYNC_EVENT, handleLayerDepthSync);
-      window.removeEventListener(FONT_SCALE_SYNC_EVENT, handleFontScaleSync);
     };
   }, []);
 
@@ -424,20 +390,11 @@ export function useThemeLegacy() {
     const mechanism = CARD_STYLES_MAP[normalized]?.mechanism || (nextDark ? 'dark' : 'light');
     if (nextDark) {
       document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute(
-        'data-theme',
-        normalized === 'cowhide-leather'
-          ? 'cowhide-leather'
-          : normalized === 'black-cowhide-leather'
-            ? 'black-cowhide-leather'
-            : normalized === 'dark-ice-blue-neu'
-              ? 'dark-ice-blue-neu'
-              : 'dark'
-      );
+      document.documentElement.setAttribute('data-theme', normalized);
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
-      document.documentElement.setAttribute('data-theme', 'light');
+      document.documentElement.setAttribute('data-theme', normalized);
       document.documentElement.setAttribute('data-theme-mode', 'light');
     }
     document.documentElement.setAttribute('data-theme-mechanism', mechanism);
@@ -576,23 +533,6 @@ export function useThemeLegacy() {
     setSurfaceDepth(surfaceDepth === 'flat' ? 'depth' : 'flat');
   }, [surfaceDepth, setSurfaceDepth]);
 
-  const setFontScale = useCallback((scale: FontScaleMode) => {
-    const next = normalizeFontScale(scale);
-    setFontScaleState(next);
-    try {
-      localStorage.setItem(FONT_SCALE_STORAGE_KEY, next);
-    } catch {
-      // ignore
-    }
-    window.dispatchEvent(new CustomEvent(FONT_SCALE_SYNC_EVENT, { detail: next }));
-  }, []);
-
-  const cycleFontScale = useCallback(() => {
-    const next: FontScaleMode =
-      fontScale === 'normal' ? 'large' : fontScale === 'large' ? 'xlarge' : 'normal';
-    setFontScale(next);
-  }, [fontScale, setFontScale]);
-
   return {
     isDark,
     colorSchemeMode,
@@ -615,9 +555,6 @@ export function useThemeLegacy() {
     layerDepth,
     setLayerDepth,
     resetLayerDepth,
-    fontScale,
-    setFontScale,
-    cycleFontScale,
     autoTimeTheme,
     setAutoTimeTheme,
     toggleAutoTimeTheme,

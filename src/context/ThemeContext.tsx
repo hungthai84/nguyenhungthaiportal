@@ -13,10 +13,7 @@ import {
   COLOR_SCHEME_MODE_STORAGE_KEY,
   COLOR_SCHEME_MODE_SYNC_EVENT,
   DEFAULT_CARD_STYLE,
-  DEFAULT_FONT_SCALE,
   DEFAULT_LAYER_DEPTH,
-  FONT_SCALE_STORAGE_KEY,
-  FONT_SCALE_SYNC_EVENT,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
   LAYER_DEPTH_STORAGE_KEY,
@@ -30,14 +27,11 @@ import {
   THEME_DEFAULT_WALLPAPER_ID,
   WALLPAPER_MANUAL_STORAGE_KEY,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode, ColorSchemeMode, FontScaleMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
+import { CardStyleMode, ColorSchemeMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
 import {
-  applyFontScaleCssVariables,
   applyLayerDepthCssVariables,
   clampLayerDepth,
-  normalizeFontScale,
 } from '../config/ui/layerDepth';
-import { setTypographyFontScaleMultiplier } from '../config/typographyScale';
 import {
   CARD_STYLES_MAP,
   VALID_CARD_STYLES,
@@ -156,9 +150,6 @@ export interface ThemeContextType {
   layerDepth: number;
   setLayerDepth: (depth: number) => void;
   resetLayerDepth: () => void;
-  fontScale: FontScaleMode;
-  setFontScale: (scale: FontScaleMode) => void;
-  cycleFontScale: () => void;
   autoTimeTheme: boolean;
   setAutoTimeTheme: (enabled: boolean) => void;
   toggleAutoTimeTheme: () => void;
@@ -269,14 +260,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   });
 
-  const [fontScale, setFontScaleState] = useState<FontScaleMode>(() => {
-    try {
-      return normalizeFontScale(localStorage.getItem(FONT_SCALE_STORAGE_KEY));
-    } catch {
-      return DEFAULT_FONT_SCALE;
-    }
-  });
-
   const [autoTimeTheme, setAutoTimeThemeState] = useState<boolean>(() => {
     try {
       const saved = localStorage.getItem(AUTO_TIME_THEME_STORAGE_KEY);
@@ -369,20 +352,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
     if (nextDark) {
       document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute(
-        'data-theme',
-        cardStyle === 'cowhide-leather'
-          ? 'cowhide-leather'
-          : cardStyle === 'black-cowhide-leather'
-            ? 'black-cowhide-leather'
-            : cardStyle === 'dark-ice-blue-neu'
-              ? 'dark-ice-blue-neu'
-              : 'dark'
-      );
+      document.documentElement.setAttribute('data-theme', cardStyle);
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
-      document.documentElement.setAttribute('data-theme', 'light');
+      document.documentElement.setAttribute('data-theme', cardStyle);
       document.documentElement.setAttribute('data-theme-mode', 'light');
     }
 
@@ -397,6 +371,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   useEffect(() => {
     try {
       localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, surfaceDepth);
+      localStorage.setItem(LAYER_DEPTH_STORAGE_KEY, String(layerDepth));
     } catch {
       // ignore
     }
@@ -404,9 +379,21 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }, [surfaceDepth, layerDepth, cardStyle]);
 
   useEffect(() => {
-    applyFontScaleCssVariables(fontScale);
-    setTypographyFontScaleMultiplier(fontScale);
-  }, [fontScale]);
+    try {
+      localStorage.removeItem('hungthai_font_scale_v1');
+    } catch {
+      // ignore
+    }
+    if (typeof document !== 'undefined') {
+      document.documentElement.removeAttribute('data-font-scale');
+      document.documentElement.style.setProperty('--font-scale', '1');
+      document.documentElement.style.zoom = '';
+      if (document.body) {
+        document.body.removeAttribute('data-font-scale');
+        document.body.style.zoom = '';
+      }
+    }
+  }, []);
 
   // Sync state between components
   useEffect(() => {
@@ -437,10 +424,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       setLayerDepthState((prev) => (prev === nextDepth ? prev : nextDepth));
       setSurfaceDepthState(nextDepth === 0 ? 'flat' : 'depth');
     };
-    const handleFontScaleSync = (e: Event) => {
-      const nextScale = normalizeFontScale((e as CustomEvent<FontScaleMode>).detail);
-      setFontScaleState((prev) => (prev === nextScale ? prev : nextScale));
-    };
     const handleAutoTimeThemeSync = (e: Event) => {
       const detail = (e as CustomEvent<boolean>).detail;
       if (typeof detail === 'boolean') {
@@ -458,7 +441,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     window.addEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
     window.addEventListener(SURFACE_DEPTH_SYNC_EVENT, handleSurfaceDepthSync);
     window.addEventListener(LAYER_DEPTH_SYNC_EVENT, handleLayerDepthSync);
-    window.addEventListener(FONT_SCALE_SYNC_EVENT, handleFontScaleSync);
     window.addEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
     window.addEventListener(COLOR_SCHEME_MODE_SYNC_EVENT, handleColorSchemeModeSync);
     return () => {
@@ -467,7 +449,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       window.removeEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
       window.removeEventListener(SURFACE_DEPTH_SYNC_EVENT, handleSurfaceDepthSync);
       window.removeEventListener(LAYER_DEPTH_SYNC_EVENT, handleLayerDepthSync);
-      window.removeEventListener(FONT_SCALE_SYNC_EVENT, handleFontScaleSync);
       window.removeEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
       window.removeEventListener(COLOR_SCHEME_MODE_SYNC_EVENT, handleColorSchemeModeSync);
     };
@@ -497,7 +478,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     let activeWpToRender = activeWallpaper;
     if (
       activeWallpaper.type === 'image' &&
-      (activeWallpaper.id.startsWith('theme-bg-') || activeWallpaper.id === THEME_DEFAULT_WALLPAPER_ID[cardStyle])
+      activeWallpaper.id === THEME_DEFAULT_WALLPAPER_ID[cardStyle]
     ) {
       const autoBgUrl = getThemeBackgroundForMode(cardStyle, isDark);
       activeWpToRender = {
@@ -625,20 +606,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const mechanism = CARD_STYLES_MAP[normalized]?.mechanism || (nextDark ? 'dark' : 'light');
     if (nextDark) {
       document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute(
-        'data-theme',
-        normalized === 'cowhide-leather'
-          ? 'cowhide-leather'
-          : normalized === 'black-cowhide-leather'
-            ? 'black-cowhide-leather'
-            : normalized === 'dark-ice-blue-neu'
-              ? 'dark-ice-blue-neu'
-              : 'dark'
-      );
+      document.documentElement.setAttribute('data-theme', normalized);
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
-      document.documentElement.setAttribute('data-theme', 'light');
+      document.documentElement.setAttribute('data-theme', normalized);
       document.documentElement.setAttribute('data-theme-mode', 'light');
     }
     document.documentElement.setAttribute('data-theme-mechanism', mechanism);
@@ -798,23 +770,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setSurfaceDepth(surfaceDepth === 'flat' ? 'depth' : 'flat');
   }, [surfaceDepth, setSurfaceDepth]);
 
-  const setFontScale = useCallback((scale: FontScaleMode) => {
-    const next = normalizeFontScale(scale);
-    setFontScaleState(next);
-    try {
-      localStorage.setItem(FONT_SCALE_STORAGE_KEY, next);
-    } catch {
-      // ignore
-    }
-    window.dispatchEvent(new CustomEvent(FONT_SCALE_SYNC_EVENT, { detail: next }));
-  }, []);
-
-  const cycleFontScale = useCallback(() => {
-    const next: FontScaleMode =
-      fontScale === 'normal' ? 'large' : fontScale === 'large' ? 'xlarge' : 'normal';
-    setFontScale(next);
-  }, [fontScale, setFontScale]);
-
   return (
     <ThemeContext.Provider
       value={{
@@ -839,9 +794,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         layerDepth,
         setLayerDepth,
         resetLayerDepth,
-        fontScale,
-        setFontScale,
-        cycleFontScale,
         autoTimeTheme,
         setAutoTimeTheme,
         toggleAutoTimeTheme,

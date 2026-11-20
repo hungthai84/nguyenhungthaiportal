@@ -384,17 +384,17 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
   };
 
   const filterCategories = [
-    { id: 'all', label: isEn ? 'All' : 'Tất cả', count: allWallpapers.length },
+    { id: 'all', label: isEn ? 'All Wallpapers' : 'Tất cả hình nền', count: allWallpapers.length },
     {
       id: 'webgl',
-      label: isEn ? '3D Dynamic (Page Morph)' : 'Nền Động 3D (Qua trang)',
+      label: isEn ? '3D Dynamic Scenes' : 'Nền động không gian',
       count: allWallpapers.filter((w) => w.type === 'webgl').length,
     },
-    { id: 'image', label: isEn ? 'Image URLs' : 'Link Hình Ảnh', count: allWallpapers.filter((w) => w.type === 'image').length },
-    { id: 'video', label: isEn ? '4K Video URLs' : 'Link Video 4K', count: allWallpapers.filter((w) => w.type === 'video').length },
+    { id: 'image', label: isEn ? 'Static Image Walls' : 'Hình nền ảnh tĩnh', count: allWallpapers.filter((w) => w.type === 'image').length },
+    { id: 'video', label: isEn ? '4K Motion Videos' : 'Hình nền video động', count: allWallpapers.filter((w) => w.type === 'video').length },
     {
       id: 'css',
-      label: 'CSS & Glass Flat',
+      label: isEn ? 'Glass Color Effects' : 'Hiệu ứng màu kính',
       count: allWallpapers.filter((w) => w.type === 'css' || w.type === 'gradient').length,
     },
   ];
@@ -497,14 +497,14 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   SoundEngine.playTap();
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
-                className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95 group"
-                title={isEn ? 'Filter' : 'Bộ lọc'}
+                className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+                title={isEn ? 'Wallpaper Filter' : 'Bộ lọc hình nền'}
                 aria-label="Bộ lọc hình nền"
                 aria-expanded={isFilterDropdownOpen}
                 aria-haspopup="listbox"
               >
-                <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] transition-transform group-hover:rotate-45 shrink-0" />
-                <span>{isEn ? 'Filter' : 'Bộ lọc'}</span>
+                <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
+                <span>{isEn ? 'Wallpaper Filter' : 'Bộ lọc hình nền'}</span>
                 <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
                   {filteredWallpapers.length}
                 </span>
@@ -866,45 +866,42 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     : `${wp.name} (Nhấp chuột để áp dụng làm hình nền mặc định)`
                 }
                 data-element-type="card"
+                data-media-card={wp.type === 'video' ? 'video' : 'image'}
                 style={{
-                  borderRadius: 'var(--radius-card, 24px)',
-                  padding: '0px',
-                  backgroundColor: 'transparent',
-                  ...(wp.id !== 'none' &&
-                  wp.type !== 'video' &&
-                  wp.type !== 'webgl' &&
-                  wp.type !== 'css' &&
-                  wp.type !== 'gradient'
-                    ? {
-                        backgroundImage: `url("${getWallpaperThumbnailUrl(wp.value || wp.bg || '')}")`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
-                      }
-                    : {}),
+                  borderRadius: 'var(--radius-card, 14px)',
+                  padding: wp.type === 'video' ? '5px' : '1px',
                 }}
-                className={`themed-image-card group relative flex flex-col rounded-[var(--radius-card,24px)] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto bg-transparent ${
+                className={`themed-image-card group relative flex flex-col rounded-[var(--radius-card,14px)] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto ${
                   isSelected
                     ? 'ring-2 ring-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]'
                     : ''
                 }`}
               >
-                {/* NỀN HÌNH THU NHỎ DẠNG NGANG */}
+                {/* NỀN HÌNH THU NHỎ DẠNG NGANG NẰM GỌN TRONG PADDING (5PX VIDEO / 1PX HÌNH) */}
                 <div
                   id={`wallpaper-card-media-${wp.id}`}
-                  style={{ borderRadius: 'var(--radius-card, 24px)', background: 'transparent' }}
-                  className="absolute inset-0 w-full h-full z-0 rounded-[var(--radius-card,24px)] overflow-hidden bg-transparent"
+                  style={{
+                    borderRadius:
+                      wp.type === 'video'
+                        ? 'calc(var(--radius-card, 14px) - 5px)'
+                        : 'calc(var(--radius-card, 14px) - 1px)',
+                    background: 'transparent',
+                  }}
+                  className="relative flex-1 w-full h-full z-0 overflow-hidden bg-transparent"
                 >
                   {wp.id === 'none' ? (
                     <div
                       id="wallpaper-card-preview-none"
-                      style={{ ...activeCardStyleMeta.cardSampleStyle, borderRadius: 'var(--radius-card, 24px)' }}
-                      className="w-full h-full rounded-[var(--radius-card,24px)] flex items-center justify-center transition-all"
+                      style={{
+                        ...activeCardStyleMeta.cardSampleStyle,
+                        borderRadius: 'calc(var(--radius-card, 14px) - 1px)',
+                      }}
+                      className="w-full h-full flex items-center justify-center transition-all"
                     />
                   ) : wp.type === 'video' ? (
                     wp.value.includes('youtube.com') || wp.value.includes('youtu.be') ? (
                       <div
-                        className="w-full h-full rounded-[14px] bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full bg-cover bg-center"
                         style={
                           wp.previewStyle || {
                             backgroundImage:
@@ -924,12 +921,12 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                           e.currentTarget.pause();
                           e.currentTarget.currentTime = 0;
                         }}
-                        className="w-full h-full rounded-[14px] object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full object-cover block"
                       />
                     )
                   ) : wp.type === 'webgl' ? (
                     <div
-                      className="relative w-full h-full rounded-[14px] overflow-hidden transition-transform duration-500 group-hover:scale-105"
+                      className="relative w-full h-full overflow-hidden"
                       style={
                         wp.previewStyle && Object.keys(wp.previewStyle).length > 0
                           ? wp.previewStyle
@@ -950,7 +947,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                             return (
                               <span
                                 key={`${wp.id}-orb-${sIdx}`}
-                                className={`absolute rounded-full transition-transform duration-500 group-hover:scale-110 ${
+                                className={`absolute rounded-full ${
                                   positions[sIdx % positions.length]
                                 }`}
                                 style={
@@ -974,7 +971,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     </div>
                   ) : wp.type === 'css' || wp.type === 'gradient' ? (
                     <div
-                      className="w-full h-full rounded-[14px] transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full"
                       style={
                         wp.previewStyle && Object.keys(wp.previewStyle).length > 0
                           ? wp.previewStyle
@@ -999,15 +996,21 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                           parent.style.background = 'linear-gradient(135deg, #0284c7 0%, #4f46e5 50%, #e11d48 100%)';
                         }
                       }}
-                      className="w-full h-full rounded-[14px] object-cover transition-transform duration-500 group-hover:scale-110 brightness-110 contrast-110 saturate-110"
+                      className="w-full h-full object-cover block brightness-110 contrast-110 saturate-110"
                     />
                   )}
                 </div>
 
                 {/* LỚP PHỦ THEO GIAO DIỆN ĐANG CHỌN — CHỈ HIỆN KHI RÊ CHUỘT */}
                 <div
-                  style={{ borderRadius: 'var(--radius-card, 24px)' }}
-                  className="themed-image-card-scrim absolute inset-0 rounded-[var(--radius-card,24px)] pointer-events-none z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
+                  style={{
+                    inset: wp.type === 'video' ? '5px' : '1px',
+                    borderRadius:
+                      wp.type === 'video'
+                        ? 'calc(var(--radius-card, 14px) - 5px)'
+                        : 'calc(var(--radius-card, 14px) - 1px)',
+                  }}
+                  className="themed-image-card-scrim absolute pointer-events-none z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
                 />
 
                 {/* NỘI DUNG VÀ CÁC ĐỐI TƯỢNG TRONG CARD (PADDING 15PX, CHỈ HIỆN KHI OVER MOUSE) */}

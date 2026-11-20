@@ -85,8 +85,21 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
   transition: transform var(--motion-normal) var(--motion-ease), box-shadow 300ms ease-in-out, border-color 300ms ease-in-out, background 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out !important;
 }
 
-#about-hero-video-container {
-  padding: 10px !important;
+#about-hero-video-container,
+#bento-letter-video,
+#experience-video-card-2026,
+[data-media-card="video"] {
+  padding: 5px !important;
+  overflow: hidden !important;
+}
+
+#about-hero-video-container > div,
+#bento-letter-video > div,
+#experience-video-card-2026 > div,
+[data-media-card="video"] > div,
+[data-media-card="video"] > video {
+  border-radius: calc(var(--radius-card, 14px) - 5px) !important;
+  overflow: hidden !important;
 }
 
 #contact-info-container {
@@ -149,27 +162,25 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 #contact-calendar-card:hover,
 #contact-info-card:hover,
 #contact-form-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card-hover) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
-/* MEMORIES PAGE: FULL-BLEED PHOTO CARDS (HÌNH LẮP ĐẦY 100% CARD, NỀN TRONG SUỐT 100%, BO CONG 14PX) */
+/* MEMORIES & IMAGE CARDS: 1PX PADDING FRAME, MEDIA FITS CLEANLY INSIDE CARD */
 #memories-page-container [id^="memory-card-"],
-.memory-photo-item {
-  padding: 0 !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border-radius: 14px !important;
+.memory-photo-item,
+[data-media-card="image"] {
+  padding: 1px !important;
+  border-radius: var(--radius-card, 14px) !important;
   overflow: hidden !important;
 }
 
-.memory-photo-item > img.memory-crisp-img {
+.memory-photo-item > img.memory-crisp-img,
+[data-media-card="image"] > img {
   display: block !important;
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  border-radius: 14px !important;
+  border-radius: calc(var(--radius-card, 14px) - 1px) !important;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -180,12 +191,87 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 [data-section-card="true"],
 [data-subcard="true"],
 [data-multicolor-bento="true"],
+[data-element-type="card"],
+[data-ui="card"],
+.project-card,
+[id^="project-card-"],
 .sub-card {
   box-sizing: border-box;
   min-width: 0;
   max-width: 100%;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+:is(
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"],
+  [data-subcard="true"],
+  [data-multicolor-bento="true"],
+  [data-element-type="card"],
+  [data-ui="card"],
+  .project-card,
+  [id^="project-card-"],
+  .sub-card
+):not(#app-header):not(#app-footer):not(.nav-pill-wrapper):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]) {
+  overflow-x: clip;
+}
+
+:is(
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"],
+  [data-subcard="true"],
+  [data-multicolor-bento="true"],
+  .project-card,
+  [id^="project-card-"],
+  .sub-card
+):not(#app-header):not(#app-footer) :is(.flex, .grid) > :not(svg):not(img):not(video):not(canvas) {
+  min-width: 0;
+  max-width: 100%;
+}
+
+:is(
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"],
+  [data-subcard="true"],
+  [data-multicolor-bento="true"],
+  .project-card,
+  [id^="project-card-"],
+  .sub-card
+):not(#app-header):not(#app-footer) :is(p, li, a, h1, h2, h3, h4, h5, h6, td, th, label, blockquote, figcaption) {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+:is(
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"],
+  [data-subcard="true"],
+  [data-multicolor-bento="true"],
+  .project-card,
+  [id^="project-card-"],
+  .sub-card
+):not(#app-header):not(#app-footer) .whitespace-nowrap {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:is(
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"],
+  [data-subcard="true"],
+  [data-multicolor-bento="true"],
+  .sub-card
+) :is(pre, code, table) {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .bento-card img,
@@ -208,8 +294,7 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 }
 
 [data-multicolor-bento="true"]:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-popup);
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card)));
 }
 
 .bento-tone-indigo {
@@ -321,8 +406,8 @@ html.dark .bento-tone-sky {
 
 [data-subcard="true"]:hover,
 .sub-card:hover {
-  transform: translateY(-1.5px);
-  box-shadow: var(--surface-tertiary-shadow-hover, var(--shadow-subcard-hover));
+  transform: none;
+  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass, var(--shadow-subcard)));
 }
 
 .exp-icon-badge {
@@ -345,8 +430,8 @@ html.dark .bento-tone-sky {
 }
 
 .pillar-gradient-card:hover {
-  transform: translateY(-1.5px);
-  box-shadow: var(--shadow-subcard-hover);
+  transform: none;
+  box-shadow: var(--shadow-subcard);
 }
 
 .pillar-gradient-card[data-accent="blue"] .pillar-heading,
@@ -745,7 +830,7 @@ html[data-surface-depth="flat"] #el-p0-div-16 [role="tab"] {
 }
 
 .theme-capsule-btn:not(#footer-nav-capsule):not(.video-play-btn):hover {
-  transform: translate3d(0, -1.5px, 0) scale(1.02);
+  transform: none;
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 10px 26px -4px rgba(15, 23, 42, 0.28))),
     var(--liquid-rim-inset-hover, inset 0 1px 0 rgba(255, 255, 255, 0.75)) !important;
 }
@@ -758,14 +843,12 @@ html[data-surface-depth="flat"] #el-p0-div-16 [role="tab"] {
 #app-footer #footer-nav-capsule #footer-next-btn {
   min-width: 34px;
   min-height: 34px;
-  transition: transform 200ms var(--liquid-pill-flex-ease, cubic-bezier(0.22, 1, 0.36, 1)),
-    background-color 180ms ease,
-    box-shadow 180ms ease;
+  transition: background-color 180ms ease, box-shadow 180ms ease;
 }
 
 #app-footer #footer-nav-capsule #footer-prev-btn:hover,
 #app-footer #footer-nav-capsule #footer-next-btn:hover {
-  transform: scale(1.06);
+  transform: none;
 }
 
 #app-footer #footer-nav-capsule #footer-prev-btn:active,
@@ -1177,26 +1260,40 @@ h3.card-title,
 /* IMAGE CARDS THEME SYNC (MEMORIES & WALLPAPERS)                            */
 /* ========================================================================= */
 .themed-image-card {
-  padding: 0 !important;
-  background-color: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  padding: 1px !important;
   overflow: hidden !important;
   border: var(--card-border-width, 1px) solid var(--border-image-card, var(--border-color)) !important;
   box-shadow: var(--shadow-image-card, var(--shadow-card)) !important;
-  border-radius: var(--radius-card, 24px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
 }
 
-#wallpaper-page-container [id^="wallpaper-card-"],
-#wallpaper-page-container [id^="wallpaper-card-media-"],
+.themed-image-card[data-media-card="video"] {
+  padding: 5px !important;
+}
+
+#wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]),
 #memories-page-container [id^="memory-card-"] {
+  padding: 1px !important;
+  border-radius: var(--radius-card, 14px) !important;
+}
+
+#wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"] {
+  padding: 5px !important;
+  border-radius: var(--radius-card, 14px) !important;
+}
+
+#wallpaper-page-container [id^="wallpaper-card-media-"] {
   padding: 0 !important;
   background-color: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  border-radius: var(--radius-card, 24px) !important;
+  border-radius: calc(var(--radius-card, 14px) - 1px) !important;
+}
+
+#wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"] [id^="wallpaper-card-media-"] {
+  border-radius: calc(var(--radius-card, 14px) - 5px) !important;
 }
 
 #wallpaper-page-container [id^="wallpaper-card-content-"],
@@ -1484,7 +1581,7 @@ html[data-card-style="dark-ice-blue-neu"] .themed-image-card-badge {
 #contact-hero-banner:hover .project-detail-banner-media img,
 #ai-assistant-hero-banner:hover .project-detail-banner-media video {
   opacity: 1 !important;
-  transform: scale(1.03);
+  transform: none;
 }
 
 .project-detail-banner-scrim {
@@ -1504,7 +1601,7 @@ html[data-card-style="dark-ice-blue-neu"] .themed-image-card-badge {
 
 .project-detail-toc-btn[data-active="false"]:hover {
   background: var(--bg-subcard-hover, var(--surface-tertiary-bg, var(--bg-subcard))) !important;
-  transform: translateX(2px);
+  transform: none;
 }
 
 .project-detail-toc-btn[data-active="true"] {
@@ -1588,8 +1685,8 @@ article.project-card,
 article.project-card:hover,
 #projects-grid article:hover,
 [id^="project-card-"]:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card-hover) !important;
+  transform: none;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
 }
 
 .project-card .project-card-banner,
@@ -1900,8 +1997,7 @@ button:focus-visible,
 
 .theme-prev-next-btn:hover svg,
 .nav-arrow-btn:hover svg {
-  transform: scale(1.08);
-  transition: transform var(--motion-fast) var(--motion-ease);
+  transform: none;
 }
 
 /* ========================================================================= */
@@ -2046,6 +2142,27 @@ button:focus-visible,
 :is(.card-header-sync, .subcard-header-sync, .card-heading, .card-header-bar, .card-title-wrap, .card-header)
   :is(svg, .web-icon, i, [data-icon], .card-heading__icon, .card-header-icon, .subcard-header-icon):not([class*="text-"]):not([style*="color"]) {
   color: currentColor;
+}
+
+/* Global Rule: Icon before card/sub-card title must NEVER be framed/boxed, and title text strictly matches icon color */
+:is(.card-header-sync, .subcard-header-sync, .card-heading, .card-title-wrap)
+  > :is(.card-header-icon, .subcard-header-icon, .page-card-header-icon, .exp-icon-badge, [data-header-icon]),
+.page-card-header-icon {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Never render card title bars as sub-cards */
+:is(.card-header-sync, .subcard-header-sync) {
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 
@@ -2200,8 +2317,8 @@ button:focus-visible,
 
 .themed-image-card:hover,
 .memory-photo-item:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card-hover) !important;
+  transform: none;
+  box-shadow: var(--shadow-image-card, var(--shadow-card)) !important;
   z-index: 2;
 }
 
@@ -2279,7 +2396,7 @@ html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-l
   color: #FDE68A !important;
 }
 
-html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :where(h1, h2, h3, p, span, li):not(.exp-bento-preserve-color) {
+html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :where(h1, h2, h3, p, span, li):not(.exp-bento-preserve-color):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]) {
   color: #FFFFFF;
 }
 
@@ -2307,7 +2424,7 @@ html[data-card-style="light-cowhide-leather"] #experience-job-detail-card button
   outline-color: rgba(17, 24, 39, 0.72);
 }
 
-html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :where(h1, h2, h3, p, span, li):not(.exp-bento-preserve-color) {
+html[data-card-style="light-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :where(h1, h2, h3, p, span, li):not(.exp-bento-preserve-color):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]) {
   color: #111827;
 }
 
@@ -2332,7 +2449,7 @@ html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-b
   color: #e2e8f0 !important;
 }
 
-html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :where(h1, h2, h3, p, span, li):not(.exp-bento-preserve-color) {
+html[data-card-style="black-cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :where(h1, h2, h3, p, span, li):not(.exp-bento-preserve-color):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]) {
   color: #ffffff;
 }
 
@@ -2770,6 +2887,10 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   box-sizing: border-box !important;
 }
 
+.letter-right-stack .motto-card {
+  height: auto !important;
+}
+
 .partner-marquee-viewport {
   position: relative !important;
   width: 100% !important;
@@ -2913,8 +3034,8 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 }
 
 #education-courses-grid .education-course-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card-hover) !important;
+  transform: none;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
 }
 
 #education-courses-grid .education-course-card .education-card-banner {
@@ -3051,9 +3172,96 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   column-gap: 15px !important;
 }
 
-#services-page-container .service-card > *,
-#services-page-container [id^="services-detail-panel-"] > * {
-  margin: 0 !important;
+/* CodePen .glassBox format for ServicesView cards (preserves theme styling & zero card jitter) */
+#services-page-container .service-card.glassBox {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 15px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+#services-page-container .service-card.glassBox,
+#services-page-container .service-card.glassBox * {
+  box-sizing: border-box;
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1), opacity 400ms ease, color 250ms ease, background-color 250ms ease, border-color 250ms ease;
+}
+
+#services-page-container .service-card.glassBox .glassBox__imgBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  transform: translateY(0);
+}
+
+#services-page-container .service-card.glassBox .glassBox__imgBox img {
+  display: block;
+  transform: translate(0, 0) rotate(0deg) scale(1);
+}
+
+#services-page-container .service-card.glassBox .glassBox__title {
+  text-align: center;
+  margin-top: 15px !important;
+}
+
+#services-page-container .service-card.glassBox .glassBox__content {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  left: 15px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+#services-page-container .service-card.glassBox:hover .glassBox__imgBox,
+#services-page-container .service-card.glassBox:focus-within .glassBox__imgBox {
+  transform: translateY(-50px);
+}
+
+#services-page-container .service-card.glassBox:hover .glassBox__imgBox img,
+#services-page-container .service-card.glassBox:focus-within .glassBox__imgBox img {
+  transform: translate(-16px, -28px) rotate(-14deg) scale(1.28);
+}
+
+#services-page-container .service-card.glassBox:hover .glassBox__content,
+#services-page-container .service-card.glassBox:focus-within .glassBox__content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+@media (hover: none) {
+  #services-page-container .service-card.glassBox {
+    justify-content: space-between !important;
+  }
+  #services-page-container .service-card.glassBox .glassBox__content {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    margin-top: 12px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #services-page-container .service-card.glassBox,
+  #services-page-container .service-card.glassBox * {
+    transition: none !important;
+  }
+  #services-page-container .service-card.glassBox:hover .glassBox__imgBox,
+  #services-page-container .service-card.glassBox:hover .glassBox__imgBox img {
+    transform: none !important;
+  }
 }
 
 /* ========================================================================= */
@@ -3463,6 +3671,87 @@ html[data-card-style="dark-ice-blue-neu"] .video-play-btn--systems {
 html[data-card-style="dark-ice-blue-neu"] .video-play-btn--letter {
   --vp-bg: linear-gradient(135deg, #0ea5e9 0%, #6366f1 55%, #ec4899 100%);
   --vp-bg-hover: linear-gradient(135deg, #38bdf8 0%, #818cf8 55%, #f472b6 100%);
+  --vp-text: #FFFFFF;
+}
+
+/* --- Theme 8: Glass Flat (Crisp Sky Glass) --- */
+html[data-card-style="glass-flat"] .video-play-btn {
+  --vp-backdrop: blur(14px) saturate(150%);
+  --vp-border: rgba(14, 165, 233, 0.34);
+  --vp-text: #0f172a;
+  --vp-specular: rgba(255, 255, 255, 0.85);
+  --vp-chase-a: #0284c7;
+  --vp-chase-b: #38bdf8;
+  --vp-shadow-ambient: 0 8px 20px rgba(14, 165, 233, 0.14);
+  --vp-shadow-hover: 0 12px 26px rgba(14, 165, 233, 0.24);
+  --vp-sound-bg: rgba(14, 165, 233, 0.12);
+  --vp-sound-border: rgba(14, 165, 233, 0.28);
+  --vp-sound-hover: rgba(14, 165, 233, 0.22);
+}
+html[data-card-style="glass-flat"] .video-play-btn--home,
+html[data-card-style="glass-flat"] .video-play-btn--about,
+html[data-card-style="glass-flat"] .video-play-btn--interview,
+html[data-card-style="glass-flat"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(224, 242, 254, 0.88) 100%);
+  --vp-bg-hover: linear-gradient(135deg, #ffffff 0%, #bae6fd 100%);
+}
+html[data-card-style="glass-flat"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #0284c7 0%, #0ea5e9 55%, #38bdf8 100%);
+  --vp-bg-hover: linear-gradient(135deg, #0369a1 0%, #0284c7 55%, #0ea5e9 100%);
+  --vp-text: #FFFFFF;
+}
+
+/* --- Theme 9: Deep Ocean (Abyssal Aqua Glass) --- */
+html[data-card-style="deep-ocean"] .video-play-btn {
+  --vp-backdrop: blur(18px) saturate(150%);
+  --vp-border: rgba(56, 189, 248, 0.36);
+  --vp-text: #E6F1FF;
+  --vp-specular: rgba(125, 211, 252, 0.22);
+  --vp-chase-a: #22d3ee;
+  --vp-chase-b: #0284c7;
+  --vp-shadow-ambient: 0 10px 24px rgba(3, 9, 20, 0.58);
+  --vp-shadow-hover: 0 14px 30px rgba(3, 9, 20, 0.72), 0 0 20px rgba(6, 182, 212, 0.30);
+  --vp-sound-bg: rgba(56, 189, 248, 0.18);
+  --vp-sound-border: rgba(56, 189, 248, 0.38);
+  --vp-sound-hover: rgba(56, 189, 248, 0.30);
+}
+html[data-card-style="deep-ocean"] .video-play-btn--home,
+html[data-card-style="deep-ocean"] .video-play-btn--about,
+html[data-card-style="deep-ocean"] .video-play-btn--interview,
+html[data-card-style="deep-ocean"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, rgba(16, 36, 72, 0.90) 0%, rgba(10, 24, 52, 0.88) 100%);
+  --vp-bg-hover: linear-gradient(145deg, rgba(22, 52, 98, 0.95) 0%, rgba(12, 34, 70, 0.92) 100%);
+}
+html[data-card-style="deep-ocean"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #06b6d4 0%, #0284c7 60%, #1d4ed8 100%);
+  --vp-bg-hover: linear-gradient(135deg, #22d3ee 0%, #0ea5e9 60%, #2563eb 100%);
+  --vp-text: #FFFFFF;
+}
+
+/* --- Theme 10: Mica Fluent (Windows 11 Acrylic) --- */
+html[data-card-style="mica-fluent"] .video-play-btn {
+  --vp-backdrop: blur(24px) saturate(165%);
+  --vp-border: rgba(0, 103, 192, 0.24);
+  --vp-text: #1F1F1F;
+  --vp-specular: rgba(255, 255, 255, 0.92);
+  --vp-chase-a: #0067C0;
+  --vp-chase-b: #00A4EF;
+  --vp-shadow-ambient: 0 8px 22px rgba(15, 23, 42, 0.10);
+  --vp-shadow-hover: 0 12px 28px rgba(0, 103, 192, 0.18);
+  --vp-sound-bg: rgba(0, 103, 192, 0.10);
+  --vp-sound-border: rgba(0, 103, 192, 0.24);
+  --vp-sound-hover: rgba(0, 103, 192, 0.18);
+}
+html[data-card-style="mica-fluent"] .video-play-btn--home,
+html[data-card-style="mica-fluent"] .video-play-btn--about,
+html[data-card-style="mica-fluent"] .video-play-btn--interview,
+html[data-card-style="mica-fluent"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(240, 245, 252, 0.86) 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #e4effb 100%);
+}
+html[data-card-style="mica-fluent"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #0067C0 0%, #0078D4 55%, #00A4EF 100%);
+  --vp-bg-hover: linear-gradient(135deg, #005A9E 0%, #0067C0 55%, #2B88D8 100%);
   --vp-text: #FFFFFF;
 }
 

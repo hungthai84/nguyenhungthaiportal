@@ -416,22 +416,22 @@ export const MEMORIES_DATA: MemoryPhoto[] = [
 ];
 
 export const MEMORIES_COMPANIES = [
-  { id: "all", labelVi: "Tất cả" },
-  { id: "finviet", labelVi: "Finviet (2023-2024)" },
-  { id: "momo", labelVi: "MoMo Wallet (2020-2023)" },
-  { id: "prudential", labelVi: "Prudential (2014-2020)" },
-  { id: "ved", labelVi: "VED / Garena (2012-2014)" },
-  { id: "htvc", labelVi: "HTVC (2009-2012)" },
-  { id: "v247", labelVi: "V247 Telecom (2007-2009)" },
-  { id: "mobifone", labelVi: "MobiFone (2003-2007)" },
+  { id: "all", labelVi: "Tất cả đơn vị" },
+  { id: "finviet", labelVi: "Hệ sinh thái Finviet" },
+  { id: "momo", labelVi: "Siêu ứng dụng MoMo" },
+  { id: "prudential", labelVi: "Khối dịch vụ Prudential" },
+  { id: "ved", labelVi: "Dịch vụ game Garena" },
+  { id: "htvc", labelVi: "Truyền hình cáp HTVC" },
+  { id: "v247", labelVi: "Tổng đài V247 Telecom" },
+  { id: "mobifone", labelVi: "Mạng viễn thông MobiFone" },
 ];
 
 export const MEMORIES_CATEGORIES = [
-  { id: "all", labelVi: "Tất cả", icon: "sparkles" },
-  { id: "awards", labelVi: "Giải thưởng & Vinh danh", icon: "trophy" },
-  { id: "team", labelVi: "Văn hóa & Đội ngũ", icon: "users" },
-  { id: "projects", labelVi: "Dự án Trọng điểm", icon: "folder" },
-  { id: "milestones", labelVi: "Cột mốc & Sự kiện", icon: "calendar" },
+  { id: "all", labelVi: "Tất cả kỷ niệm", icon: "sparkles" },
+  { id: "awards", labelVi: "Giải thưởng vinh danh", icon: "trophy" },
+  { id: "team", labelVi: "Văn hóa đội ngũ", icon: "users" },
+  { id: "projects", labelVi: "Dự án trọng điểm", icon: "folder" },
+  { id: "milestones", labelVi: "Cột mốc sự kiện", icon: "calendar" },
 ];
 
 // Compatibility export

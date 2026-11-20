@@ -507,21 +507,16 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
         data-section-card="true"
         className="bento-card glass-card no-print p-[15px] rounded-[14px] flex flex-wrap items-center justify-between gap-3"
       >
-        <div className="flex items-center gap-2.5 min-w-0">
-          <span className="w-9 h-9 rounded-[14px] bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
-            <WebIcon name="sparkles" size={18} />
-          </span>
-          <div className="min-w-0">
-            <h2 className="typo-h4 font-bold text-[var(--text-primary)] truncate">
-              One-Page Executive Summary Sheet
-            </h2>
-            <p className="typo-caption text-[var(--text-secondary)] truncate">
-              Xuất ảnh Infographic 1 trang (1600×2260px) chia sẻ nhanh qua Zalo hoặc LinkedIn
-            </p>
-          </div>
-        </div>
+        <div className="w-full flex flex-col gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="card-header-sync flex items-center gap-2 min-w-0 text-indigo-600 dark:text-indigo-400">
+              <WebIcon name="sparkles" size={18} className="shrink-0" />
+              <h2 className="typo-h4 card-title-synced font-bold text-indigo-600 dark:text-indigo-400 truncate" data-card-title="true">
+                One-Page Executive Summary Sheet
+              </h2>
+            </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
           <div
             className="inline-flex items-center p-1 rounded-full border gap-1"
             style={{ background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }}
@@ -575,6 +570,11 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             <WebIcon name="download" size={16} className="text-white" />
             <span>{isGeneratingPng ? 'Đang xuất ảnh PNG...' : 'Tải ảnh Infographic PNG'}</span>
           </button>
+            </div>
+          </div>
+          <p className="typo-caption text-[var(--text-secondary)]">
+            Xuất ảnh Infographic 1 trang (1600×2260px) chia sẻ nhanh qua Zalo hoặc LinkedIn
+          </p>
         </div>
       </div>
 
@@ -644,7 +644,7 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             data-subcard="true"
             className="sub-card lg:col-span-7 p-[15px] rounded-[14px] flex flex-col gap-2.5 print-card-bg min-w-0"
           >
-            <h3 className="typo-h4 font-bold text-blue-600 dark:text-sky-400 border-b border-[var(--border-subcard)] pb-2">
+            <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-blue-600 dark:text-sky-400 border-b border-[var(--border-subcard)] pb-2" data-subcard-title="true">
               Hành trình Quản trị &amp; Điều hành (2002 – 2026+)
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -673,7 +673,7 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             data-subcard="true"
             className="sub-card lg:col-span-5 p-[15px] rounded-[14px] flex flex-col gap-2.5 print-card-bg min-w-0"
           >
-            <h3 className="typo-h4 font-bold text-emerald-600 dark:text-emerald-400 border-b border-[var(--border-subcard)] pb-2">
+            <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-emerald-600 dark:text-emerald-400 border-b border-[var(--border-subcard)] pb-2" data-subcard-title="true">
               6 Lĩnh vực Chuyên môn
             </h3>
             <div className="flex flex-col gap-2">
@@ -700,7 +700,7 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             data-subcard="true"
             className="sub-card lg:col-span-6 p-[15px] rounded-[14px] flex flex-col gap-2.5 print-card-bg min-w-0"
           >
-            <h3 className="typo-h4 font-bold text-rose-600 dark:text-rose-400 border-b border-[var(--border-subcard)] pb-2">
+            <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-rose-600 dark:text-rose-400 border-b border-[var(--border-subcard)] pb-2" data-subcard-title="true">
               Năng lực Cốt lõi &amp; Thích ứng (SWOT)
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -729,7 +729,7 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             data-subcard="true"
             className="sub-card lg:col-span-6 p-[15px] rounded-[14px] flex flex-col gap-2.5 print-card-bg min-w-0"
           >
-            <h3 className="typo-h4 font-bold text-indigo-600 dark:text-indigo-400 border-b border-[var(--border-subcard)] pb-2">
+            <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-indigo-600 dark:text-indigo-400 border-b border-[var(--border-subcard)] pb-2" data-subcard-title="true">
               12 Hệ sinh thái Số (powerservice.one)
             </h3>
             <div className="flex flex-wrap gap-1.5">

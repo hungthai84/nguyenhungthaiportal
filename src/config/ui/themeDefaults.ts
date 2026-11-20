@@ -1,8 +1,15 @@
-import { CardStyleMode, FontScaleMode, ThemeMechanismMode } from './theme.types';
+import { CardStyleMode, ThemeMechanismMode } from './theme.types';
+import iceBlueNeuWallpaper from '@/assets/images/wallpaper_ice_blue_neu_1795175772109.jpg';
+import darkIceBlueNeuWallpaper from '@/assets/images/wallpaper_dark_ice_blue_neu_1795175772360.jpg';
+import glassFlatWallpaper from '@/assets/images/wallpaper_glass_flat_1795175772146.jpg';
+import rainbowGlassWallpaper from '@/assets/images/wallpaper_rainbow_glass_1795175771284.jpg';
+import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
+import specialRainbowGlassWallpaper from '@/assets/images/wallpaper_special_rainbow_glass_1795175772539.jpg';
+import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
+import micaFluentWallpaper from '@/assets/images/wallpaper_mica_fluent_1795175772748.jpg';
 
 export const DEFAULT_CARD_STYLE: CardStyleMode = 'rainbow-glass';
 export const DEFAULT_LAYER_DEPTH = 100;
-export const DEFAULT_FONT_SCALE: FontScaleMode = 'normal';
 
 export const CARD_STYLE_STORAGE_KEY = 'hungthai_card_style_v2';
 export const COLOR_SCHEME_MODE_STORAGE_KEY = 'hungthai_color_scheme_mode_v1';
@@ -10,7 +17,6 @@ export const WALLPAPER_MANUAL_STORAGE_KEY = 'hungthai_wallpaper_manual_v2';
 export const GLASS_CUSTOMIZATION_STORAGE_KEY = 'hungthai_glass_customization_v1';
 export const SURFACE_DEPTH_STORAGE_KEY = 'hungthai_surface_depth_v1';
 export const LAYER_DEPTH_STORAGE_KEY = 'hungthai_layer_depth_v1';
-export const FONT_SCALE_STORAGE_KEY = 'hungthai_font_scale_v1';
 export const AUTO_TIME_THEME_STORAGE_KEY = 'hungthai_auto_time_theme_v1';
 export const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
 export const COLOR_SCHEME_MODE_SYNC_EVENT = 'hungthai:color-scheme-mode-changed';
@@ -18,7 +24,6 @@ export const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
 export const GLASS_CUSTOMIZATION_SYNC_EVENT = 'hungthai:glass-customization-changed';
 export const SURFACE_DEPTH_SYNC_EVENT = 'hungthai:surface-depth-changed';
 export const LAYER_DEPTH_SYNC_EVENT = 'hungthai:layer-depth-changed';
-export const FONT_SCALE_SYNC_EVENT = 'hungthai:font-scale-changed';
 export const AUTO_TIME_THEME_SYNC_EVENT = 'hungthai:auto-time-theme-changed';
 
 export const THEME_DEFAULT_GLASS_SETTINGS: Record<
@@ -34,8 +39,8 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'rainbow-glass': { cardOpacity: 22, blurIntensity: 24 },
   'dark-rainbow-glass': { cardOpacity: 56, blurIntensity: 24 },
   'special-rainbow-glass': { cardOpacity: 56, blurIntensity: 24 },
-  'deep-ocean': { cardOpacity: 92, blurIntensity: 20 },
-  'mica-fluent': { cardOpacity: 88, blurIntensity: 30 },
+  'deep-ocean': { cardOpacity: 84, blurIntensity: 20 },
+  'mica-fluent': { cardOpacity: 82, blurIntensity: 30 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -84,7 +89,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-ice-blue-neu',
     label: 'Nền Xanh băng nhạt (#e6f0f8)',
     themeMode: 'light',
-    imagePath: '',
+    imagePath: iceBlueNeuWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.16) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(129, 140, 248, 0.14) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(244, 114, 182, 0.12) 0%, transparent 52%), linear-gradient(145deg, #edf4fa 0%, #e6f0f8 52%, #dfeaf5 100%)',
     overlayBg: 'rgba(230, 240, 248, 0.08)',
@@ -94,7 +99,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-dark-ice-blue-neu',
     label: 'Nền Xanh băng thẫm (#152030)',
     themeMode: 'dark',
-    imagePath: '',
+    imagePath: darkIceBlueNeuWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 14% 16%, rgba(56, 189, 248, 0.14) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.12) 0%, transparent 52%), radial-gradient(circle at 78% 84%, rgba(236, 72, 153, 0.10) 0%, transparent 52%), linear-gradient(145deg, #182536 0%, #152030 52%, #0f1723 100%)',
     overlayBg: 'rgba(15, 23, 35, 0.14)',
@@ -104,60 +109,60 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-glass-flat',
     label: 'Nền Glass Flat UI đa màu sắc',
     themeMode: 'light',
-    imagePath: '',
+    imagePath: glassFlatWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 15% 15%, rgba(14, 165, 233, 0.18) 0%, transparent 52%), radial-gradient(circle at 85% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 54%), radial-gradient(circle at 70% 85%, rgba(99, 102, 241, 0.12) 0%, transparent 56%), linear-gradient(145deg, #f4f7fb 0%, #eef3fb 52%, #e2ecfb 100%)',
-    overlayBg: 'rgba(240, 246, 255, 0.10)',
+    overlayBg: 'rgba(240, 246, 255, 0.08)',
   },
   'rainbow-glass': {
     id: 'rainbow-glass',
     presetId: 'theme-bg-rainbow-glass',
     label: 'Nền Gương đa sắc (Sáng)',
     themeMode: 'light',
-    imagePath: '',
+    imagePath: rainbowGlassWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 12% 14%, rgba(243, 185, 167, 0.56) 0%, transparent 48%), radial-gradient(circle at 86% 16%, rgba(169, 223, 222, 0.52) 0%, transparent 48%), radial-gradient(circle at 48% 42%, rgba(190, 176, 235, 0.44) 0%, transparent 54%), radial-gradient(circle at 18% 84%, rgba(232, 187, 216, 0.48) 0%, transparent 50%), radial-gradient(circle at 84% 82%, rgba(184, 208, 242, 0.52) 0%, transparent 52%), linear-gradient(135deg, #FFF0E8 0%, #F7E8F2 26%, #EEE9FA 52%, #E6F0FC 76%, #E0F5F3 90%, #FDFDFF 100%)',
-    overlayBg: 'rgba(253, 253, 255, 0.14)',
+    overlayBg: 'rgba(253, 253, 255, 0.10)',
   },
   'dark-rainbow-glass': {
     id: 'dark-rainbow-glass',
     presetId: 'theme-bg-dark-rainbow-glass',
     label: 'Nền Gương đa sắc (Tối)',
     themeMode: 'dark',
-    imagePath: '',
+    imagePath: darkRainbowGlassWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 14% 16%, rgba(185, 130, 131, 0.22) 0%, transparent 46%), radial-gradient(circle at 84% 18%, rgba(78, 158, 170, 0.24) 0%, transparent 48%), radial-gradient(circle at 50% 48%, rgba(142, 128, 189, 0.22) 0%, transparent 54%), radial-gradient(circle at 20% 84%, rgba(120, 154, 203, 0.18) 0%, transparent 48%), radial-gradient(circle at 82% 84%, rgba(194, 183, 243, 0.16) 0%, transparent 48%), linear-gradient(140deg, #101A2B 0%, #171F33 38%, #202238 70%, #153039 100%)',
-    overlayBg: 'rgba(16, 26, 43, 0.22)',
+    overlayBg: 'rgba(16, 26, 43, 0.16)',
   },
   'special-rainbow-glass': {
     id: 'special-rainbow-glass',
     presetId: 'theme-bg-special-rainbow-glass',
     label: 'Nền Gương đa sắc (Đặc biệt Aurora)',
     themeMode: 'color',
-    imagePath: '',
+    imagePath: specialRainbowGlassWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 14% 18%, rgba(185, 130, 131, 0.28) 0%, transparent 48%), radial-gradient(circle at 86% 20%, rgba(78, 158, 170, 0.28) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(142, 128, 189, 0.26) 0%, transparent 54%), radial-gradient(circle at 50% 85%, rgba(194, 183, 243, 0.22) 0%, transparent 52%), linear-gradient(135deg, #171F33 0%, #202238 52%, #153039 100%)',
-    overlayBg: 'rgba(23, 31, 51, 0.24)',
+    overlayBg: 'rgba(23, 31, 51, 0.18)',
   },
   'deep-ocean': {
     id: 'deep-ocean',
     presetId: 'theme-bg-deep-ocean',
     label: 'Nền Đại Dương Sâu (#050B14)',
     themeMode: 'dark',
-    imagePath: '',
+    imagePath: deepOceanWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.18) 0%, transparent 55%), radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.14) 0%, transparent 60%), linear-gradient(145deg, #0A1128 0%, #050B14 50%, #030712 100%)',
-    overlayBg: 'rgba(5, 11, 20, 0.45)',
+    overlayBg: 'rgba(5, 11, 20, 0.22)',
   },
   'mica-fluent': {
     id: 'mica-fluent',
     presetId: 'theme-bg-mica-fluent',
     label: 'Nền Mica Fluent (Windows 11 Acrylic)',
     themeMode: 'light',
-    imagePath: '',
+    imagePath: micaFluentWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 15% 15%, rgba(200, 215, 235, 0.45) 0%, transparent 50%), radial-gradient(circle at 85% 25%, rgba(220, 230, 245, 0.4) 0%, transparent 52%), radial-gradient(circle at 50% 85%, rgba(210, 220, 240, 0.35) 0%, transparent 54%), linear-gradient(135deg, #f3f6fa 0%, #e8edf5 52%, #dfe6f0 100%)',
-    overlayBg: 'rgba(255, 255, 255, 0.25)',
+    overlayBg: 'rgba(243, 246, 250, 0.12)',
   },
 };
 

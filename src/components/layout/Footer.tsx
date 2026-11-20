@@ -3,8 +3,7 @@ import { TABS_DATA } from '../../data/tabs';
 import { WeatherCard } from '../common/WeatherCard';
 import { WebIcon } from '../ui/WebIcon';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
-import { CARD_STYLE_GROUPS, getCardStyleConfig } from '@/config/ui/cardStyles';
-import { FONT_SCALE_OPTIONS, LAYER_DEPTH_PRESETS } from '@/config/ui/layerDepth';
+import { UNIFIED_INTERFACE_THEMES, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/config/ui/cardStyles';
 import { useLanguage, LanguagePreference } from '@/context/LanguageContext';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { TtsVoiceSelector } from '@/components/ui/TtsVoiceSelector';
@@ -21,7 +20,7 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({
   currentTabIndex,
   onNavigate,
-  onSelectTab,
+  onSelectTab: _onSelectTab,
   onShowNotification,
   onOpenAiAssistant,
   onOpenWallpaper,
@@ -37,10 +36,27 @@ export const Footer: React.FC<FooterProps> = ({
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== 'undefined' ? window.innerWidth : 1280
   );
+  const [pillRipples, setPillRipples] = useState<Record<string, { id: number; x: number; y: number }>>({});
   const themeMenuRef = useRef<HTMLDivElement>(null);
   const langMenuRef = useRef<HTMLDivElement>(null);
   const rightPillWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
   const rightPillBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const triggerPillRipple = (key: string, e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX > 0 ? e.clientX - rect.left : rect.width / 2;
+    const y = e.clientY > 0 ? e.clientY - rect.top : rect.height / 2;
+    const rippleId = Date.now() + Math.random();
+    setPillRipples((prev) => ({ ...prev, [key]: { id: rippleId, x, y } }));
+    window.setTimeout(() => {
+      setPillRipples((prev) => {
+        if (prev[key]?.id !== rippleId) return prev;
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    }, 620);
+  };
 
   useEffect(() => {
     setIsThemeMenuOpen(false);
@@ -102,16 +118,8 @@ export const Footer: React.FC<FooterProps> = ({
   const {
     cardStyle,
     setCardStyle,
-    colorSchemeMode,
-    setColorSchemeMode,
     isDark,
-    layerDepth,
-    setLayerDepth,
-    fontScale,
-    setFontScale,
   } = useTheme();
-  const fontScaleOption =
-    FONT_SCALE_OPTIONS.find((opt) => opt.id === fontScale) || FONT_SCALE_OPTIONS[0];
   const footerCardStyle = getCardStyleProperties(cardStyle);
   const {
     border: _b,
@@ -197,20 +205,35 @@ export const Footer: React.FC<FooterProps> = ({
     : isThemeMenuOpen
       ? 1
       : null;
+  const selectedUtilityPageIndex =
+    currentTabIndex === 15
+      ? 1
+      : currentTabIndex === 14
+        ? 2
+        : currentTabIndex === 13
+          ? 3
+          : null;
   const activeRightIndex =
     hoveredRightBtn !== null
       ? hoveredRightBtn
       : focusedRightBtn !== null
         ? focusedRightBtn
-        : openUtilityIndex;
-  const hideCenterNavCapsule = !isCompactMobile && activeRightIndex !== null;
+        : openUtilityIndex !== null
+          ? openUtilityIndex
+          : selectedUtilityPageIndex;
+  const hideCenterNavCapsule =
+    !isCompactMobile &&
+    (hoveredRightBtn !== null ||
+      focusedRightBtn !== null ||
+      openUtilityIndex !== null ||
+      (selectedUtilityPageIndex !== null && viewportWidth < 1100));
 
-  const exposedRightWidth = viewportWidth < 768 ? 40 : viewportWidth < 1024 ? 42 : 46;
+  const exposedRightWidth = viewportWidth < 768 ? 46 : viewportWidth < 1024 ? 48 : 52;
   const overlapRightPx = uniformRightWidth
     ? Math.max(0, uniformRightWidth - exposedRightWidth)
     : viewportWidth >= 1280
-      ? 104
-      : 94;
+      ? 110
+      : 102;
   const handleRightBtnMouseEnter = (index: number) => {
     setHoveredRightBtn(index);
     if (index === 0) SoundEngine.playPageSpecificSound(12);
@@ -240,6 +263,7 @@ export const Footer: React.FC<FooterProps> = ({
   const footerElement = (
     <footer
       id="app-footer"
+      data-layer-level="1"
       data-element-name="Thanh điều hướng Footer chính"
       data-element-type="card"
       data-element-page="global"
@@ -256,7 +280,7 @@ export const Footer: React.FC<FooterProps> = ({
         borderRight: glassBorderVal,
         borderRadius: 'var(--radius-footer, 24px 24px 0 0)',
       }}
-      className="mx-auto h-auto min-h-[64px] py-1.5 sm:min-h-[72px] sm:h-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto h-full min-h-0 py-1.5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
     >
 
       {/* Area 1: Weather Widget */}
@@ -287,9 +311,9 @@ export const Footer: React.FC<FooterProps> = ({
           data-element-type="button"
           style={{
             borderRadius: '999px',
-            width: '150px',
-            height: '40px',
-            minHeight: '40px',
+            width: '168px',
+            height: '46px',
+            minHeight: '46px',
             paddingTop: '5px',
             paddingBottom: '5px',
             paddingLeft: '5px',
@@ -311,23 +335,23 @@ export const Footer: React.FC<FooterProps> = ({
               onNavigate(-1);
             }}
             title={isEn ? 'Previous Page' : 'Trang trước'}
-            className={`theme-prev-next-btn min-w-[34px] min-h-[34px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-200 border-0 ${
+            className={`theme-prev-next-btn min-w-[36px] min-h-[36px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-200 border-0 ${
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
-            <WebIcon name="chevron-left" className="w-3.5 h-3.5 stroke-[2.5]" />
+            <WebIcon name="chevron-left" className="w-4 h-4 stroke-[2.5]" />
           </button>
 
           {/* Page Number with Active Page Icon */}
           <span className="flex-1 h-full mx-1 flex items-center justify-center gap-1.5 select-none pointer-events-none">
             <WebIcon
               name={TABS_DATA[currentTabIndex]?.icon || 'grid'}
-              className="w-3.5 h-3.5 shrink-0 stroke-[2.5]"
+              className="w-4 h-4 shrink-0 stroke-[2.5]"
               style={{ color: 'var(--text-link, var(--color-primary))' }}
             />
             <span
               id="footer-page-counter"
-              className="typo-caption font-mono font-bold tracking-wider leading-none"
+              className="typo-body-sm font-mono font-bold tracking-wider leading-none"
               style={{ color: 'var(--text-link, var(--color-primary))' }}
             >
               {String(currentTabIndex + 1).padStart(2, '0')}/{String(TABS_DATA.length).padStart(2, '0')}
@@ -346,11 +370,11 @@ export const Footer: React.FC<FooterProps> = ({
               onNavigate(1);
             }}
             title={isEn ? 'Next Page' : 'Trang sau'}
-            className={`theme-prev-next-btn min-w-[34px] min-h-[34px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-200 border-0 ${
+            className={`theme-prev-next-btn min-w-[36px] min-h-[36px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-200 border-0 ${
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
-            <WebIcon name="chevron-right" className="w-3.5 h-3.5 stroke-[2.5]" />
+            <WebIcon name="chevron-right" className="w-4 h-4 stroke-[2.5]" />
           </button>
         </div>
       </div>
@@ -395,8 +419,10 @@ export const Footer: React.FC<FooterProps> = ({
                     }}
                     id="footer-lang-btn"
                     type="button"
+                    data-active={isLangMenuOpen ? 'true' : 'false'}
                     onFocus={() => setFocusedRightBtn(0)}
-                    onClick={() => {
+                    onClick={(e) => {
+                      triggerPillRipple('lang', e);
                       SoundEngine.playTap();
                       setIsThemeMenuOpen(false);
                       setIsLangMenuOpen((prev) => !prev);
@@ -407,28 +433,43 @@ export const Footer: React.FC<FooterProps> = ({
                         : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
                     }
                     aria-expanded={isLangMenuOpen}
-                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border"
-                    style={{
-                      width: '150px',
-                      height: '40px',
-                      paddingTop: '8px',
-                      paddingBottom: '8px',
-                      paddingLeft: '10px',
-                      paddingRight: '10px',
-                      fontWeight: 'normal',
-                      borderWidth: '1px',
-                    }}
+                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
+                    style={
+                      {
+                        '--nav-pill-accent': '#10B981',
+                        width: '162px',
+                        height: '46px',
+                        paddingTop: '9px',
+                        paddingBottom: '9px',
+                        paddingLeft: '12px',
+                        paddingRight: '12px',
+                        fontWeight: 'normal',
+                        borderWidth: '1px',
+                      } as React.CSSProperties
+                    }
                   >
+                    <span className="nav-pill-ripple-layer" aria-hidden="true">
+                      {pillRipples['lang'] && (
+                        <span
+                          key={pillRipples['lang'].id}
+                          className="nav-pill-ripple-wave"
+                          style={{
+                            left: `${pillRipples['lang'].x}px`,
+                            top: `${pillRipples['lang'].y}px`,
+                          }}
+                        />
+                      )}
+                    </span>
                     <div
-                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                      className="nav-pill-icon-badge relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                       style={{
                         backgroundColor: '#10B981',
                       }}
                     >
-                      <WebIcon name="languages" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
+                      <WebIcon name="languages" className="nav-pill-icon-svg w-4 h-4 text-white shrink-0" />
                     </div>
-                    <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
-                    <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-5 shrink-0 rounded-[999px] transition-colors duration-200" />
+                    <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         data-no-translate="true"
                         style={{ fontWeight: 'bold' }}
@@ -521,8 +562,10 @@ export const Footer: React.FC<FooterProps> = ({
                     id="footer-appearance-btn"
                     type="button"
                     aria-current={currentTabIndex === 15 ? 'page' : undefined}
+                    data-active={currentTabIndex === 15 || isThemeMenuOpen ? 'true' : 'false'}
                     onFocus={() => setFocusedRightBtn(1)}
-                    onClick={() => {
+                    onClick={(e) => {
+                      triggerPillRipple('theme', e);
                       SoundEngine.playTap();
                       setIsLangMenuOpen(false);
                       setIsThemeMenuOpen((prev) => !prev);
@@ -533,28 +576,43 @@ export const Footer: React.FC<FooterProps> = ({
                         : `Giao diện (${activeThemeConfig.shortBadge})`
                     }
                     aria-expanded={isThemeMenuOpen}
-                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border"
-                    style={{
-                      width: '150px',
-                      height: '40px',
-                      paddingTop: '8px',
-                      paddingBottom: '8px',
-                      paddingLeft: '10px',
-                      paddingRight: '10px',
-                      fontWeight: 'normal',
-                      borderWidth: '1px',
-                    }}
+                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
+                    style={
+                      {
+                        '--nav-pill-accent': '#6366F1',
+                        width: '162px',
+                        height: '46px',
+                        paddingTop: '9px',
+                        paddingBottom: '9px',
+                        paddingLeft: '12px',
+                        paddingRight: '12px',
+                        fontWeight: 'normal',
+                        borderWidth: '1px',
+                      } as React.CSSProperties
+                    }
                   >
+                    <span className="nav-pill-ripple-layer" aria-hidden="true">
+                      {pillRipples['theme'] && (
+                        <span
+                          key={pillRipples['theme'].id}
+                          className="nav-pill-ripple-wave"
+                          style={{
+                            left: `${pillRipples['theme'].x}px`,
+                            top: `${pillRipples['theme'].y}px`,
+                          }}
+                        />
+                      )}
+                    </span>
                     <div
-                      className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                      className="nav-pill-icon-badge relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                       style={{
                         backgroundColor: '#6366F1',
                       }}
                     >
-                      <WebIcon name="layers" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
+                      <WebIcon name="layers" className="nav-pill-icon-svg w-4 h-4 text-white shrink-0" />
                     </div>
-                    <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
-                    <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-5 shrink-0 rounded-[999px] transition-colors duration-200" />
+                    <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         style={{ fontWeight: 'bold' }}
                         className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
@@ -565,490 +623,61 @@ export const Footer: React.FC<FooterProps> = ({
                   </button>
                 </div>
 
-                {/* Popup Menu Danh Sách Giao Diện Nhóm Theo 1 Tên + Nút Trượt Sáng / Tối Bên Cạnh */}
+                {/* Popup Menu Giao Diện: Chỉ hiển thị Icon & Tên giao diện 4 từ */}
                 {isThemeMenuOpen && (
                   <div
                     id="footer-theme-popup"
                     style={{ background: 'var(--bg-popup)' }}
-                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(372px,calc(100vw-24px))] max-w-[calc(100vw-24px)] h-auto sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-[408px] sm:max-w-[calc(100vw-32px)] rounded-[var(--radius-popup,20px)] p-2.5 z-[9999] flex flex-col gap-2 font-play text-left animate-slide-up pointer-events-auto"
+                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(264px,calc(100vw-24px))] max-w-[calc(100vw-24px)] h-auto sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-[264px] sm:max-w-[calc(100vw-32px)] rounded-[var(--radius-popup,16px)] p-2 z-[9999] flex flex-col gap-1 font-play text-left animate-slide-up pointer-events-auto"
                   >
-                    <div
-                      className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
-                      style={{ color: 'var(--text-link, var(--color-primary))', borderColor: 'var(--border-subcard)' }}
-                    >
-                      <span>
-                        {isEn
-                          ? `Themes (${CARD_STYLE_GROUPS.length})`
-                          : `Danh sách Giao diện (${CARD_STYLE_GROUPS.length})`}
-                      </span>
-                      <span className="typo-badge font-normal" style={{ color: 'var(--text-muted)' }}>
-                        {isEn ? 'Light / Dark / System' : 'Sáng / Tối / Hệ thống'}
-                      </span>
-                    </div>
+                    <div className="max-h-[380px] overflow-y-auto no-scrollbar flex flex-col gap-1">
+                      {UNIFIED_INTERFACE_THEMES.map((preset) => {
+                        const isSelected = cardStyle === preset.id;
+                        const shortName = isEn
+                          ? THEME_FOUR_WORD_NAMES[preset.id]?.en || t(preset.name)
+                          : THEME_FOUR_WORD_NAMES[preset.id]?.vi || preset.name;
+                        const itemColor = isSelected
+                          ? 'var(--text-link, var(--color-primary))'
+                          : 'var(--text-primary)';
 
-                    {/* Chế độ màu Sáng / Tối / Hệ thống (Light / Dark / System) */}
-                    <div
-                      role="group"
-                      aria-label={isEn ? 'Color Scheme: Light, Dark or System' : 'Chế độ màu Sáng, Tối hoặc Hệ thống'}
-                      className="grid grid-cols-3 gap-1 p-1 rounded-full border"
-                      style={{
-                        background: 'var(--bg-subcard)',
-                        borderColor: 'var(--border-subcard)',
-                      }}
-                    >
-                      {(
-                        [
-                          { mode: 'light' as const, icon: 'sun', labelVi: 'Sáng', labelEn: 'Light' },
-                          { mode: 'dark' as const, icon: 'moon', labelVi: 'Tối', labelEn: 'Dark' },
-                          { mode: 'system' as const, icon: 'monitor', labelVi: 'Hệ thống', labelEn: 'System' },
-                        ]
-                      ).map((opt) => {
-                        const isSelected = colorSchemeMode === opt.mode;
                         return (
                           <button
-                            key={opt.mode}
+                            key={preset.id}
                             type="button"
                             aria-pressed={isSelected}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              SoundEngine.playTap();
-                              setColorSchemeMode(opt.mode);
+                            onClick={() => {
+                              SoundEngine.playGlassChime();
+                              setCardStyle(preset.id);
+                              setIsThemeMenuOpen(false);
                               onShowNotification(
                                 isEn
-                                  ? `✓ Color scheme: ${opt.labelEn}`
-                                  : `✓ Chế độ màu: ${opt.labelVi}`
+                                  ? `✓ Saved & applied: ${shortName}`
+                                  : `✓ Đã lưu & áp dụng: ${shortName}`
                               );
                             }}
-                            className={`theme-switch-btn justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
-                              isSelected ? 'is-active' : ''
+                            className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[12px] border transition-colors cursor-pointer text-left min-w-0 ${
+                              isSelected ? 'shadow-xs' : 'theme-dropdown-option border-transparent'
                             }`}
+                            style={{
+                              background: isSelected ? 'var(--bg-subcard)' : undefined,
+                              borderColor: isSelected ? 'var(--color-primary)' : 'transparent',
+                              color: itemColor,
+                            }}
                           >
-                            <WebIcon name={opt.icon} className="w-3 h-3 shrink-0" />
-                            <span>{isEn ? opt.labelEn : opt.labelVi}</span>
+                            <WebIcon
+                              name={preset.icon || 'layers'}
+                              className="w-4 h-4 shrink-0"
+                              style={{ color: itemColor, strokeWidth: 2.25 }}
+                            />
+                            <span
+                              className="typo-body-sm font-bold truncate min-w-0 flex-1"
+                              style={{ color: itemColor, fontWeight: 700 }}
+                            >
+                              {shortName}
+                            </span>
                           </button>
                         );
                       })}
-                    </div>
-
-                    <div className="max-h-[380px] overflow-y-auto no-scrollbar flex flex-col gap-2 pr-0.5">
-                      {CARD_STYLE_GROUPS.map((group) => {
-                        const lightPreset =
-                          (group.lightMode && group.presets.find((p) => p.id === group.lightMode)) ||
-                          undefined;
-                        const darkPreset =
-                          (group.darkMode && group.presets.find((p) => p.id === group.darkMode)) ||
-                          undefined;
-                        const colorPreset =
-                          (group.colorMode && group.presets.find((p) => p.id === group.colorMode)) ||
-                          undefined;
-                        const hasLight = Boolean(lightPreset);
-                        const hasDark = Boolean(darkPreset);
-                        const hasColor = Boolean(colorPreset);
-                        const groupActive = group.presets.some((p) => p.id === cardStyle);
-                        const fallbackPreset =
-                          (activeThemeConfig.mechanism === 'color'
-                            ? colorPreset
-                            : activeThemeConfig.isDark
-                              ? darkPreset
-                              : lightPreset) ||
-                          lightPreset ||
-                          darkPreset ||
-                          colorPreset ||
-                          group.presets[0];
-                        const activeGroupPreset = groupActive
-                          ? activeThemeConfig
-                          : fallbackPreset;
-                        const groupTitle = isEn ? group.labelEn : group.label;
-                        const isLightSelected = Boolean(lightPreset && cardStyle === lightPreset.id);
-                        const isDarkSelected = Boolean(darkPreset && cardStyle === darkPreset.id);
-                        const isColorSelected = Boolean(colorPreset && cardStyle === colorPreset.id);
-
-                        const getModeLabel = (mech: 'light' | 'dark' | 'color') => {
-                          if (mech === 'light') return isEn ? 'Light' : 'Sáng';
-                          if (mech === 'dark') return isEn ? 'Dark' : 'Tối';
-                          return isEn ? 'Color' : 'Màu';
-                        };
-
-                        const handleApplyPreset = (preset: NonNullable<typeof fallbackPreset>) => {
-                          SoundEngine.playGlassChime();
-                          setCardStyle(preset.id);
-                          const modeText = getModeLabel(preset.mechanism || (preset.isDark ? 'dark' : 'light'));
-                          onShowNotification(
-                            isEn
-                              ? `✓ Applied theme: ${groupTitle} (${modeText})`
-                              : `✓ Đã áp dụng giao diện: ${groupTitle} (${modeText})`
-                          );
-                        };
-
-                        const groupTitleColor = groupActive
-                          ? 'var(--text-link, var(--color-primary))'
-                          : 'var(--text-primary)';
-                        const previewVariants = [
-                          lightPreset && {
-                            key: 'light' as const,
-                            label: isEn ? 'Light' : 'Sáng',
-                            preset: lightPreset,
-                            isSelected: isLightSelected,
-                          },
-                          darkPreset && {
-                            key: 'dark' as const,
-                            label: isEn ? 'Dark' : 'Tối',
-                            preset: darkPreset,
-                            isSelected: isDarkSelected,
-                          },
-                          colorPreset && {
-                            key: 'color' as const,
-                            label: isEn ? 'Color' : 'Màu',
-                            preset: colorPreset,
-                            isSelected: isColorSelected,
-                          },
-                        ].filter(
-                          (
-                            item
-                          ): item is {
-                            key: 'light' | 'dark' | 'color';
-                            label: string;
-                            preset: NonNullable<typeof fallbackPreset>;
-                            isSelected: boolean;
-                          } => Boolean(item)
-                        );
-
-                        return (
-                          <div
-                            key={group.id}
-                            className={`w-full flex flex-col gap-2 px-2.5 py-2.5 rounded-[var(--radius-subcard,16px)] border transition-all ${
-                              groupActive ? 'shadow-xs' : 'theme-dropdown-option'
-                            }`}
-                            style={{
-                              background: groupActive ? 'var(--bg-subcard)' : undefined,
-                              borderColor: groupActive ? 'var(--color-primary)' : 'var(--border-subcard)',
-                            }}
-                          >
-                            {/* Hàng chính: Tên giao diện bên trái + 3 nút Sáng / Tối / Màu kế bên phải */}
-                            <div className="w-full flex items-center justify-between gap-2 min-w-0">
-                              <button
-                                type="button"
-                                onClick={() => handleApplyPreset(fallbackPreset)}
-                                className="flex items-center gap-1.5 min-w-0 flex-1 text-left cursor-pointer bg-transparent border-0 px-1 py-0.5 rounded-[10px]"
-                              >
-                                <div className="flex items-center justify-center shrink-0" style={{ color: groupTitleColor }}>
-                                  <WebIcon
-                                    name={group.icon}
-                                    className="w-4 h-4 shrink-0"
-                                    style={{ color: groupTitleColor, strokeWidth: 2.35 }}
-                                  />
-                                </div>
-                                <div className="min-w-0 flex-1 flex items-center gap-1">
-                                  <span
-                                    className="typo-body-sm font-bold truncate"
-                                    style={{ color: groupTitleColor, fontWeight: 700 }}
-                                  >
-                                    {groupTitle}
-                                  </span>
-                                  {groupActive && (
-                                    <span
-                                      className="shrink-0 typo-badge font-bold"
-                                      style={{ color: groupTitleColor, fontWeight: 700 }}
-                                    >
-                                      ✓
-                                    </span>
-                                  )}
-                                </div>
-                              </button>
-
-                              {/* 3 nút Sáng / Tối / Màu đặt kế bên tên giao diện */}
-                              <div
-                                role="group"
-                                aria-label={
-                                  isEn
-                                    ? `${groupTitle} appearance mode`
-                                    : `Chế độ giao diện cho ${groupTitle}`
-                                }
-                                className="inline-flex items-center gap-0.5 p-0.5 rounded-full border shrink-0"
-                                style={{
-                                  background: 'var(--bg-subcard)',
-                                  borderColor: 'var(--border-subcard)',
-                                }}
-                              >
-                                <button
-                                  type="button"
-                                  data-mode="light"
-                                  disabled={!hasLight}
-                                  aria-pressed={isLightSelected}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (lightPreset) handleApplyPreset(lightPreset);
-                                  }}
-                                  title={
-                                    hasLight
-                                      ? isEn
-                                        ? `${groupTitle} - Light`
-                                        : `${groupTitle} - Sáng`
-                                      : isEn
-                                        ? `${groupTitle} does not support Light mode`
-                                        : `${groupTitle} chưa hỗ trợ chế độ Sáng`
-                                  }
-                                  className={`theme-switch-btn justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap ${
-                                    hasLight
-                                      ? 'cursor-pointer'
-                                      : 'opacity-35 cursor-not-allowed'
-                                  } ${isLightSelected ? 'is-active' : ''}`}
-                                >
-                                  <WebIcon name="sun" className="w-3 h-3 shrink-0" />
-                                  <span>{isEn ? 'Light' : 'Sáng'}</span>
-                                </button>
-
-                                <button
-                                  type="button"
-                                  data-mode="dark"
-                                  disabled={!hasDark}
-                                  aria-pressed={isDarkSelected}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (darkPreset) handleApplyPreset(darkPreset);
-                                  }}
-                                  title={
-                                    hasDark
-                                      ? isEn
-                                        ? `${groupTitle} - Dark`
-                                        : `${groupTitle} - Tối`
-                                      : isEn
-                                        ? `${groupTitle} does not support Dark mode`
-                                        : `${groupTitle} chưa hỗ trợ chế độ Tối`
-                                  }
-                                  className={`theme-switch-btn justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap ${
-                                    hasDark
-                                      ? 'cursor-pointer'
-                                      : 'opacity-35 cursor-not-allowed'
-                                  } ${isDarkSelected ? 'is-active' : ''}`}
-                                >
-                                  <WebIcon name="moon" className="w-3 h-3 shrink-0" />
-                                  <span>{isEn ? 'Dark' : 'Tối'}</span>
-                                </button>
-
-                                <button
-                                  type="button"
-                                  data-mode="color"
-                                  disabled={!hasColor}
-                                  aria-pressed={isColorSelected}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (colorPreset) handleApplyPreset(colorPreset);
-                                  }}
-                                  title={
-                                    hasColor
-                                      ? isEn
-                                        ? `${groupTitle} - Color`
-                                        : `${groupTitle} - Màu`
-                                      : isEn
-                                        ? `${groupTitle} does not support Color mode`
-                                        : `${groupTitle} chưa hỗ trợ chế độ Màu`
-                                  }
-                                  className={`theme-switch-btn justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap ${
-                                    hasColor
-                                      ? 'cursor-pointer'
-                                      : 'opacity-35 cursor-not-allowed'
-                                  } ${isColorSelected ? 'is-active' : ''}`}
-                                >
-                                  <WebIcon name="palette" className="w-3 h-3 shrink-0" />
-                                  <span>{isEn ? 'Color' : 'Màu'}</span>
-                                </button>
-                              </div>
-                            </div>
-
-                            {/* Demo xem trước dạng giao diện */}
-                            {previewVariants.length > 0 && (
-                              <div className="grid grid-cols-3 gap-1.5 w-full">
-                                {previewVariants.map(({ label, preset, isSelected }) => {
-                                  const isBrownLeather = preset.id === 'cowhide-leather';
-                                  const isBlackLeather = preset.id === 'black-cowhide-leather';
-                                  const isWhiteLeather = preset.id === 'light-cowhide-leather';
-                                  const isIceBlueNeu = preset.id === 'ice-blue-neu' || preset.id === 'dark-ice-blue-neu';
-                                  const demoTextColor = isBrownLeather
-                                    ? '#FFF8DC'
-                                    : preset.isDark
-                                      ? '#F8FAFC'
-                                      : '#0F172A';
-                                  const demoOutline = isBrownLeather
-                                    ? '1px dashed rgba(245, 222, 179, 0.58)'
-                                    : isBlackLeather
-                                      ? '1px dashed rgba(226, 232, 240, 0.48)'
-                                      : isWhiteLeather
-                                        ? '1px dashed rgba(17, 24, 39, 0.58)'
-                                        : undefined;
-
-                                  return (
-                                    <button
-                                      key={preset.id}
-                                      type="button"
-                                      aria-pressed={isSelected}
-                                      title={isEn ? `Preview & apply ${t(preset.name)}` : `Xem demo & chọn ${preset.name}`}
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleApplyPreset(preset);
-                                      }}
-                                      style={{
-                                        ...(preset.cardSampleStyle || {}),
-                                        borderRadius: isIceBlueNeu ? '14px' : '10px',
-                                        padding: '5px 7px',
-                                        outline: demoOutline,
-                                        outlineOffset: demoOutline ? '-3px' : undefined,
-                                        boxShadow: isSelected
-                                          ? '0 0 0 2px var(--color-primary), 0 4px 10px rgba(0,0,0,0.12)'
-                                          : '0 2px 6px rgba(0,0,0,0.08)',
-                                      }}
-                                      className="flex flex-col justify-between gap-1 cursor-pointer transition-transform duration-200 hover:scale-[1.03] min-w-0 select-none text-left border-0"
-                                    >
-                                      <div className="flex items-center justify-between gap-1 min-w-0 w-full">
-                                        <span
-                                          className="typo-badge font-bold leading-none truncate"
-                                          style={{ color: demoTextColor, fontWeight: 700 }}
-                                        >
-                                          {label}
-                                        </span>
-                                        <span className="flex items-center gap-0.5 shrink-0">
-                                          {isIceBlueNeu ? (
-                                            <>
-                                              <span className="w-1.5 h-1.5 rounded-full bg-[#06b6d4]" />
-                                              <span className="w-1.5 h-1.5 rounded-full bg-[#6366f1]" />
-                                              <span className="w-1.5 h-1.5 rounded-full bg-[#fb923c]" />
-                                              <span className="w-1.5 h-1.5 rounded-full bg-[#ec4899]" />
-                                            </>
-                                          ) : (
-                                            <span
-                                              className="w-2 h-2 rounded-full"
-                                              style={{ background: preset.miniBtnStyle?.background || preset.color }}
-                                            />
-                                          )}
-                                        </span>
-                                      </div>
-
-                                      <div className="flex items-center gap-1 w-full">
-                                        <span
-                                          style={preset.miniTabStyle}
-                                          className="h-2 flex-1 rounded-[4px] border"
-                                        />
-                                        <span
-                                          style={preset.miniBtnStyle}
-                                          className="h-2 w-6 rounded-[4px] shrink-0"
-                                        />
-                                      </div>
-                                    </button>
-                                  );
-                                })}
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* Điều chỉnh nhanh Cỡ chữ & Độ sâu Layer */}
-                    <div
-                      className="border-t pt-2 mt-1 flex flex-col gap-2 px-1"
-                      style={{ borderColor: 'var(--border-subcard)' }}
-                    >
-                      {/* Cỡ chữ đọc trang */}
-                      <div className="flex flex-col gap-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="typo-label font-bold flex items-center gap-1.5">
-                            <WebIcon name="type" className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
-                            <span>{isEn ? 'Reading Text Size' : 'Cỡ chữ hỗ trợ đọc'}</span>
-                          </span>
-                          <span className="typo-badge font-mono" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-                            {fontScaleOption.badge}
-                          </span>
-                        </div>
-                        <div className="grid grid-cols-3 gap-1">
-                          {FONT_SCALE_OPTIONS.map((opt) => {
-                            const isSelected = fontScale === opt.id;
-                            return (
-                              <button
-                                key={opt.id}
-                                type="button"
-                                aria-pressed={isSelected}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  SoundEngine.playTap();
-                                  setFontScale(opt.id);
-                                }}
-                                className={`theme-switch-btn justify-center inline-flex items-center gap-1 px-2 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
-                                  isSelected ? 'is-active' : ''
-                                }`}
-                              >
-                                <span>{isEn ? opt.labelEn : opt.labelVi}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      {/* Độ sâu Layer trực tiếp */}
-                      <div className="flex flex-col gap-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="typo-label font-bold flex items-center gap-1.5">
-                            <WebIcon name="layers" className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
-                            <span>{isEn ? 'Layer Depth' : 'Độ sâu Layer'}</span>
-                          </span>
-                          <span className="typo-badge font-mono tabular-nums" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-                            {layerDepth}%
-                          </span>
-                        </div>
-                        <input
-                          id="footer-layer-depth-slider"
-                          type="range"
-                          min={0}
-                          max={200}
-                          step={10}
-                          value={layerDepth}
-                          aria-label={isEn ? 'Adjust Layer Card depth percentage' : 'Điều chỉnh độ sâu Layer Card trực tiếp'}
-                          onChange={(e) => setLayerDepth(Number(e.target.value))}
-                          className="w-full accent-[var(--color-primary)] cursor-pointer h-1.5"
-                        />
-                        <div className="grid grid-cols-4 gap-1">
-                          {LAYER_DEPTH_PRESETS.filter((p) => p.value !== 60).map((preset) => {
-                            const isSelected = layerDepth === preset.value;
-                            return (
-                              <button
-                                key={preset.value}
-                                type="button"
-                                aria-pressed={isSelected}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  SoundEngine.playTap();
-                                  setLayerDepth(preset.value);
-                                }}
-                                className={`theme-switch-btn justify-center inline-flex items-center px-1.5 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer tabular-nums ${
-                                  isSelected ? 'is-active' : ''
-                                }`}
-                              >
-                                {preset.value}%
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="border-t pt-1.5 mt-1" style={{ borderColor: 'var(--border-subcard)' }}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsThemeMenuOpen(false);
-                          onSelectTab(15);
-                          onShowNotification(
-                            isEn ? '✓ Switched to Theme Settings' : '✓ Chuyển đến trang Cấu hình Giao diện'
-                          );
-                        }}
-                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-button font-bold transition cursor-pointer text-left"
-                        style={{ color: 'var(--text-link, var(--color-primary))' }}
-                      >
-                        <div className="flex items-center gap-2">
-                          <WebIcon name="settings" className="w-3.5 h-3.5" />
-                          <span>{isEn ? 'Theme Settings ⚙' : 'Cấu hình giao diện ⚙'}</span>
-                        </div>
-                        <WebIcon name="arrow-right" className="w-3.5 h-3.5" />
-                      </button>
                     </div>
                   </div>
                 )}
@@ -1076,35 +705,52 @@ export const Footer: React.FC<FooterProps> = ({
                 id="footer-wallpaper-btn"
                 type="button"
                 aria-current={currentTabIndex === 14 ? 'page' : undefined}
+                data-active={currentTabIndex === 14 ? 'true' : 'false'}
                 onFocus={() => setFocusedRightBtn(2)}
-                onClick={() => {
+                onClick={(e) => {
+                  triggerPillRipple('wallpaper', e);
                   setIsLangMenuOpen(false);
                   setIsThemeMenuOpen(false);
                   handleWallpaperClick();
                 }}
                 title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border"
-                style={{
-                  width: '150px',
-                  height: '40px',
-                  paddingTop: '8px',
-                  paddingBottom: '8px',
-                  paddingLeft: '10px',
-                  paddingRight: '10px',
-                  fontWeight: 'normal',
-                  borderWidth: '1px',
-                }}
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
+                style={
+                  {
+                    '--nav-pill-accent': '#F43F5E',
+                    width: '162px',
+                    height: '46px',
+                    paddingTop: '9px',
+                    paddingBottom: '9px',
+                    paddingLeft: '12px',
+                    paddingRight: '12px',
+                    fontWeight: 'normal',
+                    borderWidth: '1px',
+                  } as React.CSSProperties
+                }
               >
+                <span className="nav-pill-ripple-layer" aria-hidden="true">
+                  {pillRipples['wallpaper'] && (
+                    <span
+                      key={pillRipples['wallpaper'].id}
+                      className="nav-pill-ripple-wave"
+                      style={{
+                        left: `${pillRipples['wallpaper'].x}px`,
+                        top: `${pillRipples['wallpaper'].y}px`,
+                      }}
+                    />
+                  )}
+                </span>
                 <div
-                  className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                  className="nav-pill-icon-badge relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                   style={{
                     backgroundColor: '#F43F5E',
                   }}
                 >
-                  <WebIcon name="image" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
+                  <WebIcon name="image" className="nav-pill-icon-svg w-4 h-4 text-white shrink-0" />
                 </div>
-                <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
-                <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                <div className="nav-pill-divider relative z-10 w-[1.5px] h-5 shrink-0 rounded-[999px] transition-colors duration-200" />
+                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
                     style={{ fontWeight: 'bold' }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
@@ -1138,48 +784,65 @@ export const Footer: React.FC<FooterProps> = ({
                 id="footer-ai-btn"
                 type="button"
                 aria-current={currentTabIndex === 13 ? 'page' : undefined}
+                data-active={currentTabIndex === 13 ? 'true' : 'false'}
                 aria-label={isEn ? 'Open AI Assistant (24/7 Support)' : 'Mở AI hỗ trợ (Trợ lý 24/7)'}
                 onFocus={() => setFocusedRightBtn(3)}
-                onClick={() => {
+                onClick={(e) => {
+                  triggerPillRipple('ai', e);
                   SoundEngine.playTap();
                   setIsLangMenuOpen(false);
                   setIsThemeMenuOpen(false);
                   onOpenAiAssistant();
                 }}
                 title={isEn ? 'AI Assistant (24/7 Support)' : 'AI hỗ trợ (Trợ lý 24/7)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[6px] cursor-pointer transition-colors duration-200 border"
-                style={{
-                  width: '150px',
-                  height: '40px',
-                  paddingTop: '8px',
-                  paddingBottom: '8px',
-                  paddingLeft: '10px',
-                  paddingRight: '10px',
-                  fontWeight: 'normal',
-                  borderWidth: '1px',
-                }}
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
+                style={
+                  {
+                    '--nav-pill-accent': '#A855F7',
+                    width: '162px',
+                    height: '46px',
+                    paddingTop: '9px',
+                    paddingBottom: '9px',
+                    paddingLeft: '12px',
+                    paddingRight: '12px',
+                    fontWeight: 'normal',
+                    borderWidth: '1px',
+                  } as React.CSSProperties
+                }
               >
+                <span className="nav-pill-ripple-layer" aria-hidden="true">
+                  {pillRipples['ai'] && (
+                    <span
+                      key={pillRipples['ai'].id}
+                      className="nav-pill-ripple-wave"
+                      style={{
+                        left: `${pillRipples['ai'].x}px`,
+                        top: `${pillRipples['ai'].y}px`,
+                      }}
+                    />
+                  )}
+                </span>
                 <div
-                  className="nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                  className="nav-pill-icon-badge relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                   style={{
                     backgroundColor: '#A855F7',
                   }}
                 >
                   {aiAvatarError ? (
-                    <WebIcon name="bot" className="nav-pill-icon-svg w-3.5 h-3.5 text-white shrink-0" />
+                    <WebIcon name="bot" className="nav-pill-icon-svg w-4 h-4 text-white shrink-0" />
                   ) : (
                     <img
                       src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550149/Avata_AI_h%E1%BB%97_tr%E1%BB%A3.gif"
                       alt={isEn ? 'AI Assistant' : 'AI hỗ trợ'}
                       loading="eager"
                       decoding="async"
-                      className="w-full h-full object-cover rounded-full scale-[1.28]"
+                      className="w-full h-full object-cover rounded-full"
                       onError={() => setAiAvatarError(true)}
                     />
                   )}
                 </div>
-                <div className="nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
-                <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                <div className="nav-pill-divider relative z-10 w-[1.5px] h-5 shrink-0 rounded-[999px] transition-colors duration-200" />
+                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
                     style={{ fontWeight: 'bold' }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
@@ -1206,27 +869,26 @@ export const Footer: React.FC<FooterProps> = ({
             className="theme-modal-card rounded-[var(--radius-modal,24px)] w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden"
           >
             {/* Modal Header */}
-            <div className="theme-modal-header px-6 py-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-[var(--radius-subcard,16px)] bg-blue-600 text-white flex items-center justify-center shadow-md">
-                  <WebIcon name="file-text" className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="typo-popup-title card-title-synced" style={{ color: 'var(--accent-blue, #2563EB)' }}>
-                    {isEn ? 'Download CV Resume — Nguyễn Hùng Thái' : 'Tải Hồ Sơ CV — Nguyễn Hùng Thái'}
-                  </h3>
-                  <p className="typo-caption opacity-80">
-                    {isEn
-                      ? 'PDF Format / Customer Service Operations & Digital Transformation Expert'
-                      : 'Định dạng PDF / Chuyên gia Vận hành CSKH & Chuyển đổi số'}
-                  </p>
-                </div>
+            <div className="theme-modal-header px-6 py-4 flex items-center justify-between gap-3">
+              <div className="card-header-sync flex items-center gap-2.5 min-w-0">
+                <WebIcon
+                  name="file-text"
+                  className="w-5 h-5 shrink-0"
+                  style={{ color: 'var(--accent-blue, #2563EB)' }}
+                />
+                <h3
+                  className="typo-popup-title card-title-synced truncate"
+                  data-card-title="true"
+                  style={{ color: 'var(--accent-blue, #2563EB)' }}
+                >
+                  {isEn ? 'Download CV Resume — Nguyễn Hùng Thái' : 'Tải Hồ Sơ CV — Nguyễn Hùng Thái'}
+                </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setIsPdfModalOpen(false)}
                 aria-label={isEn ? 'Close' : 'Đóng'}
-                className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center transition cursor-pointer"
+                className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center transition cursor-pointer shrink-0"
               >
                 <WebIcon name="x" className="w-5 h-5" />
               </button>
@@ -1234,6 +896,11 @@ export const Footer: React.FC<FooterProps> = ({
 
             {/* Modal Body */}
             <div className="p-6 overflow-y-auto space-y-5 flex-1 text-left">
+              <p className="typo-caption opacity-85" style={{ color: 'var(--text-secondary)' }}>
+                {isEn
+                  ? 'PDF Format / Customer Service Operations & Digital Transformation Expert'
+                  : 'Định dạng PDF / Chuyên gia Vận hành CSKH & Chuyển đổi số'}
+              </p>
               <div className="theme-modal-subcard p-4 rounded-[var(--radius-subcard,16px)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="space-y-1">
                   <span className="inline-block px-2.5 py-0.5 rounded-full typo-badge font-bold bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">

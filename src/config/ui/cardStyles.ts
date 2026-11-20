@@ -2,6 +2,20 @@ import React from 'react';
 import { CardStyleMode, CardStyleConfig, ThemeFamilyId, ThemeMechanismMode } from './theme.types';
 import { DEFAULT_CARD_STYLE } from './themeDefaults';
 
+export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: string }> = {
+  'light-cowhide-leather': { vi: 'Da Trắng Tinh Tế', en: 'White Leather Fine Craft' },
+  'black-cowhide-leather': { vi: 'Da Đen Huyền Bí', en: 'Black Leather Midnight Edition' },
+  'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Brown Leather Classic Edition' },
+  'ice-blue-neu': { vi: 'Băng Xanh Nổi Sáng', en: 'Ice Blue Soft Light' },
+  'dark-ice-blue-neu': { vi: 'Băng Xanh Nổi Tối', en: 'Ice Blue Soft Dark' },
+  'glass-flat': { vi: 'Kính Phẳng Đa Sắc', en: 'Glass Flat Color Style' },
+  'rainbow-glass': { vi: 'Gương Đa Sắc Sáng', en: 'Rainbow Glass Light Mode' },
+  'dark-rainbow-glass': { vi: 'Gương Đa Sắc Tối', en: 'Rainbow Glass Dark Mode' },
+  'special-rainbow-glass': { vi: 'Gương Đa Sắc Màu', en: 'Rainbow Glass Aurora Color' },
+  'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Deep Ocean Dark Blue' },
+  'mica-fluent': { vi: 'Kính Mờ Hiện Đại', en: 'Mica Fluent Modern Light' },
+};
+
 export interface ThemeFamilyGroupMeta {
   id: ThemeFamilyId;
   label: string;

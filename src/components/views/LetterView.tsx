@@ -311,14 +311,13 @@ const AnimatedCardTitle: React.FC<{
   const scheme = colorMap[colorPreset] || colorMap.blue;
 
   return (
-    <div className="w-full flex flex-wrap items-start justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
-      <div className="flex flex-col gap-0.5 text-left min-w-0 flex-1">
-        {/* Tiêu đề 16px in đậm, icon kích thước bằng tiêu đề (16px x 16px) */}
+    <div className="w-full flex flex-col gap-2">
+      <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
         <div
-          className={`card-header-sync inline-flex items-center gap-2 ${scheme.text} max-w-full leading-tight`}
+          className={`card-header-sync inline-flex items-center gap-2 ${scheme.text} max-w-full leading-tight min-w-0 flex-1`}
         >
           <span
-            className={`inline-flex items-center justify-center w-[16px] h-[16px] shrink-0 ${
+            className={`inline-flex items-center justify-center w-[16px] h-[16px] shrink-0 bg-transparent border-0 p-0 shadow-none ${
               animateIcon ? 'animate-[icon-floating_3s_ease-in-out_infinite]' : ''
             }`}
             style={{ width: '16px', height: '16px' }}
@@ -337,13 +336,13 @@ const AnimatedCardTitle: React.FC<{
             {formatCardTitle(title)}
           </h3>
         </div>
-        {subtitle && (
-          <p className="typo-caption text-[var(--text-secondary)] leading-snug break-words">
-            {subtitle}
-          </p>
-        )}
+        {actionRight && <div className="shrink-0">{actionRight}</div>}
       </div>
-      {actionRight && <div className="shrink-0">{actionRight}</div>}
+      {subtitle && (
+        <p className="typo-caption text-[var(--text-secondary)] leading-snug break-words">
+          {subtitle}
+        </p>
+      )}
     </div>
   );
 };
@@ -379,7 +378,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
     themeIsDark ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'dark-ice-blue-neu';
+    currentTheme === 'dark-ice-blue-neu' ||
+    currentTheme === 'dark-rainbow-glass' ||
+    currentTheme === 'special-rainbow-glass' ||
+    currentTheme === 'deep-ocean';
 
   // Chế độ thu gọn / mở rộng thanh tiện ích bên phải (Mặc định luôn hiển thị đầy đủ ở trang Thư Ngỏ)
   const [isRightDockCollapsed, setIsRightDockCollapsed] = useState<boolean>(false);
@@ -2004,18 +2006,22 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="bento-letter-video"
                       data-element-name="Video card Thư ngỏ"
                       data-element-type="card"
+                      data-media-card="video"
                       data-section-card="true"
                       data-element-page="letter"
                       data-element-parent="letter-card-1"
-                      style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] min-h-[240px] sm:min-h-[280px] lg:min-h-[300px] w-full h-full min-w-0 relative overflow-hidden flex flex-col p-[15px] box-border transition-all duration-200 hover:-translate-y-0.5 group/vcard ${
+                      style={{ padding: '5px', borderRadius: 'var(--radius-card, 14px)' }}
+                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] min-h-[240px] sm:min-h-[280px] lg:min-h-[300px] w-full h-full min-w-0 relative overflow-hidden flex flex-col p-[5px] box-border transition-colors duration-200 group/vcard ${
                         activeTargetId === 'bento-experience-intro' || activeTargetId === 'callout-salutation'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.3)]'
                           : ''
                       }`}
                     >
-                      {/* Video Container cách viền card 15px ở mọi chiều */}
-                      <div className="relative w-full h-full flex-1 rounded-[14px] overflow-hidden min-h-0">
+                      {/* Video Container nằm gọn trong card cách viền 5px */}
+                      <div
+                        style={{ borderRadius: 'calc(var(--radius-card, 14px) - 5px)' }}
+                        className="relative w-full h-full flex-1 overflow-hidden min-h-0"
+                      >
                         <video
                           ref={floatingVideoRef}
                           src={LETTER_SLIDE_1_VIDEO_URL}
@@ -2028,93 +2034,243 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           onLoadedMetadata={handleFloatingVideoLoadedMetadata}
                           onPlay={() => setIsVideoPlaying(true)}
                           onPause={() => setIsVideoPlaying(false)}
-                          className="absolute inset-0 w-full h-full object-cover object-center z-0 cursor-pointer transition-transform duration-500 group-hover/vcard:scale-[1.02] rounded-[14px]"
+                          className="absolute inset-0 w-full h-full object-cover object-center z-0 cursor-pointer rounded-[inherit]"
                         />
-                      </div>
-                    </article>
 
-                    {/* THẺ BENTO 2: Thông Điệp Hợp Tác (5/12 cột trên Desktop, 6/6 trên Tablet, 1/1 trên Mobile) */}
-                    <article
-                      id="bento-commitment"
-                      data-element-name="Thẻ Bento Thông Điệp Hợp Tác"
-                      data-element-type="card"
-                      data-section-card="true"
-                      data-element-page="letter"
-                      style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-5 p-[15px] rounded-[14px] flex flex-col justify-between relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5 w-full h-full min-w-0 ${
-                        activeTargetId === 'callout-salutation' || activeTargetId === 'bento-experience-intro' || activeTargetId === 'bento-commitment'
-                          ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.25)]'
-                          : ''
-                      }`}
-                    >
-                      <div className="flex items-center justify-between pb-2.5 border-b border-[var(--border-subcard)] shrink-0 gap-2 min-w-0">
-                        <div className="card-header-sync inline-flex items-center gap-2 text-cyan-600 dark:text-cyan-300 leading-tight min-w-0">
-                          <WebIcon
-                            name="book"
-                            size={16}
-                            className="w-[16px] h-[16px] shrink-0 card-title-icon text-cyan-600 dark:text-cyan-300"
-                            style={{ width: '16px', height: '16px' }}
-                          />
-                          <h2
-                            className="card-title card-title-synced typo-h3 font-play tracking-tight text-cyan-600 dark:text-cyan-300 truncate"
-                            data-card-title="true"
+                        {/* Avatar Video Giới Thiệu nằm gọn bên trong thẻ Video (không tràn ra ngoài main card hoặc đè tiêu đề ở mọi kích thước) */}
+                        {isClientMounted && (
+                          <div
+                            className="absolute bottom-3 right-3 z-20 flex items-center gap-2 sm:gap-2.5 select-none pointer-events-auto max-w-[calc(100%-24px)]"
+                            role="region"
+                            aria-label="Video Giới Thiệu Chân Dung"
                           >
-                            Thông điệp hợp tác
-                          </h2>
-                        </div>
-                        <span className="typo-badge font-bold font-play tabular-nums text-cyan-700 dark:text-cyan-300 whitespace-nowrap shrink-0">
-                          22+ Năm CX
-                        </span>
-                      </div>
+                            <div
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleToggleCircleVideo();
+                              }}
+                              className="hidden sm:flex cursor-pointer relative items-center bg-[#2563eb]/95 hover:bg-[#1d4ed8] text-white px-3 py-1.5 rounded-[12px] shadow-md transition-colors duration-200 border border-blue-300/40 backdrop-blur-sm"
+                              title="Bấm vào để xem video giới thiệu của anh!"
+                            >
+                              <p className="typo-caption font-bold font-play text-white m-0 text-left leading-snug">
+                                Bấm vào để xem video giới thiệu của anh!
+                              </p>
+                              <div className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[6px] border-y-transparent border-l-[7px] border-l-[#2563eb]/95 pointer-events-none" />
+                            </div>
 
-                      <div className="my-auto py-1 space-y-2.5 flex-1 flex flex-col justify-center text-left min-w-0">
-                        <h3
-                          id="callout-salutation"
-                          className={cn(
-                            "card-title typo-h4 font-play tracking-tight transition-all duration-300 break-words",
-                            isCircleVideoPlaying && circleVideoProgress < 0.12
-                              ? "text-slate-950 dark:text-amber-100 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 px-2.5 py-0.5 rounded-[14px] ring-2 ring-amber-400 shadow-[0_0_16px_rgba(251,191,36,0.85)] inline-block w-fit"
-                              : isCircleVideoPlaying && circleVideoProgress >= 0.12
-                              ? "text-cyan-700 dark:text-cyan-300 font-semibold"
-                              : "text-[var(--text-primary)]"
-                          )}
-                        >
-                          Kính chào {companyDisplay}!
-                        </h3>
+                            <div
+                              className="relative cursor-pointer flex flex-col items-center shrink-0"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleToggleCircleVideo();
+                              }}
+                            >
+                              <div className="relative">
+                                <div
+                                  className={cn(
+                                    'relative w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden border-[2.5px]',
+                                    isCircleVideoPlaying ? 'ring-3 ring-[var(--color-primary)]/45' : ''
+                                  )}
+                                  style={{
+                                    backgroundColor: 'var(--bg-card)',
+                                    borderColor: 'var(--color-primary)',
+                                    boxShadow: 'var(--shadow-layer-2, 0 8px 18px rgba(15, 23, 42, 0.28))',
+                                  }}
+                                >
+                                  <video
+                                    ref={circleVideoRef}
+                                    src={isCircleVideoPlaying ? HOME_SCREEN_2_INTRO_URL : HOME_SCREEN_2_IDLE_URL}
+                                    autoPlay
+                                    loop={!isCircleVideoPlaying}
+                                    playsInline
+                                    muted={!isCircleVideoPlaying}
+                                    onTimeUpdate={handleCircleVideoTimeUpdate}
+                                    onEnded={handleCircleVideoEnded}
+                                    className="w-full h-full min-w-full min-h-full object-cover object-center pointer-events-none rounded-full"
+                                  />
+                                </div>
+                              </div>
 
-                        <p className="card-body typo-body leading-relaxed text-[var(--text-secondary)] break-words [overflow-wrap:anywhere]">
-                          {isCircleVideoPlaying ? (
-                            renderKaraokeWords(
-                              `Tôi là Nguyễn Hùng Thái , Trưởng phòng Chăm sóc Khách hàng với hơn 22 năm kinh nghiệm trong lĩnh vực xây dựng , vận hành và phát triển hệ thống dịch vụ khách hàng .`,
-                              0.12,
-                              0.45,
-                              circleVideoProgress,
-                              isCircleVideoPlaying
-                            )
-                          ) : (
-                            <>
-                              Tôi là{' '}
-                              <strong className="font-bold text-[var(--text-primary)]">
-                                Nguyễn Hùng Thái
-                              </strong>
-                              , Trưởng phòng Chăm sóc Khách hàng với hơn{' '}
-                              <span className="font-bold text-cyan-700 dark:text-cyan-400 tabular-nums">
-                                22 năm kinh nghiệm
-                              </span>{' '}
-                              trong lĩnh vực xây dựng, vận hành và phát triển hệ thống dịch vụ khách hàng.
-                            </>
-                          )}
-                        </p>
+                              <button
+                                id="letter-circle-video-play-btn"
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleToggleCircleVideo();
+                                }}
+                                className={`video-play-btn video-play-btn--letter ${
+                                  isCircleVideoPlaying ? 'is-playing' : ''
+                                } relative -mt-2.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full active:scale-95 flex items-center justify-center transition-colors duration-200 z-20 cursor-pointer shadow-md`}
+                                title={isCircleVideoPlaying ? 'Tạm dừng video' : 'Xem video giới thiệu'}
+                                aria-label={isCircleVideoPlaying ? 'Tạm dừng video' : 'Xem video giới thiệu'}
+                              >
+                                {isCircleVideoPlaying ? (
+                                  <WebIcon name="pause" className="w-3.5 h-3.5 fill-current text-current" />
+                                ) : (
+                                  <WebIcon name="play" className="w-3.5 h-3.5 fill-current text-current ml-0.5" />
+                                )}
+                              </button>
+
+                              {isCircleVideoPlaying && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (circleVideoRef.current) {
+                                      circleVideoRef.current.muted = !circleVideoRef.current.muted;
+                                      showToast(circleVideoRef.current.muted ? 'Đã tắt tiếng video' : 'Đã bật âm thanh video');
+                                    }
+                                  }}
+                                  style={{
+                                    background: 'var(--bg-popup)',
+                                    borderColor: 'var(--border-card)',
+                                    color: 'var(--text-link, var(--color-primary))',
+                                  }}
+                                  className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center border typo-badge shadow-md z-20 cursor-pointer hover:opacity-90"
+                                  title="Bật/Tắt âm thanh"
+                                >
+                                  <WebIcon name="volume-2" className="w-2.5 h-2.5 text-current" />
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </article>
 
-                    {/* THẺ BENTO 3 (12/12 cols): GIÁ TRỊ CỐT LÕI PHÁT TRIỂN */}
+                    {/* CỘT PHẢI HÀNG 1 (5/12 cột trên Desktop): Thông Điệp Hợp Tác + Châm Ngôn Phụng Sự */}
+                    <div
+                      id="letter-intro-right-stack"
+                      className="letter-right-stack col-span-1 md:col-span-6 lg:col-span-5 flex flex-col gap-[15px] w-full h-full min-w-0"
+                      style={{ gap: '15px', padding: '0px', background: 'transparent', border: 'none', boxShadow: 'none' }}
+                    >
+                      {/* THẺ BENTO 2: Thông Điệp Hợp Tác */}
+                      <article
+                        id="bento-commitment"
+                        data-element-name="Thẻ Bento Thông Điệp Hợp Tác"
+                        data-element-type="card"
+                        data-section-card="true"
+                        data-element-page="letter"
+                        style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-card, 24px)' }}
+                        className={`bento-card glass-card flex-1 p-[15px] rounded-[14px] flex flex-col justify-between relative overflow-hidden transition-colors duration-200 w-full min-w-0 ${
+                          activeTargetId === 'callout-salutation' || activeTargetId === 'bento-experience-intro' || activeTargetId === 'bento-commitment'
+                            ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.25)]'
+                            : ''
+                        }`}
+                      >
+                        <div className="flex items-center justify-between pb-2.5 border-b border-[var(--border-subcard)] shrink-0 gap-2 min-w-0">
+                          <div className="card-header-sync inline-flex items-center gap-2 text-cyan-600 dark:text-cyan-300 leading-tight min-w-0">
+                            <WebIcon
+                              name="book"
+                              size={16}
+                              className="w-[16px] h-[16px] shrink-0 card-title-icon text-cyan-600 dark:text-cyan-300"
+                              style={{ width: '16px', height: '16px' }}
+                            />
+                            <h2
+                              className="card-title card-title-synced typo-h3 font-play tracking-tight text-cyan-600 dark:text-cyan-300 truncate"
+                              data-card-title="true"
+                            >
+                              Thông điệp hợp tác
+                            </h2>
+                          </div>
+                          <span className="typo-badge font-bold font-play tabular-nums text-cyan-700 dark:text-cyan-300 whitespace-nowrap shrink-0">
+                            22+ Năm CX
+                          </span>
+                        </div>
+
+                        <div className="my-auto py-1 space-y-2.5 flex-1 flex flex-col justify-center text-left min-w-0">
+                          <h3
+                            id="callout-salutation"
+                            className={cn(
+                              "card-title typo-h4 font-play tracking-tight transition-all duration-300 break-words",
+                              isCircleVideoPlaying && circleVideoProgress < 0.12
+                                ? "text-slate-950 dark:text-amber-100 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 px-2.5 py-0.5 rounded-[14px] ring-2 ring-amber-400 shadow-[0_0_16px_rgba(251,191,36,0.85)] inline-block w-fit"
+                                : isCircleVideoPlaying && circleVideoProgress >= 0.12
+                                ? "text-cyan-700 dark:text-cyan-300 font-semibold"
+                                : "text-[var(--text-primary)]"
+                            )}
+                          >
+                            Kính chào {companyDisplay}!
+                          </h3>
+
+                          <p className="card-body typo-body leading-relaxed text-[var(--text-secondary)] break-words [overflow-wrap:anywhere]">
+                            {isCircleVideoPlaying ? (
+                              renderKaraokeWords(
+                                `Tôi là Nguyễn Hùng Thái , Trưởng phòng Chăm sóc Khách hàng với hơn 22 năm kinh nghiệm trong lĩnh vực xây dựng , vận hành và phát triển hệ thống dịch vụ khách hàng .`,
+                                0.12,
+                                0.45,
+                                circleVideoProgress,
+                                isCircleVideoPlaying
+                              )
+                            ) : (
+                              <>
+                                Tôi là{' '}
+                                <strong className="font-bold text-[var(--text-primary)]">
+                                  Nguyễn Hùng Thái
+                                </strong>
+                                , Trưởng phòng Chăm sóc Khách hàng với hơn{' '}
+                                <span className="font-bold text-cyan-700 dark:text-cyan-400 tabular-nums">
+                                  22 năm kinh nghiệm
+                                </span>{' '}
+                                trong lĩnh vực xây dựng, vận hành và phát triển hệ thống dịch vụ khách hàng.
+                              </>
+                            )}
+                          </p>
+                        </div>
+                      </article>
+
+                      {/* THẺ BENTO 7: Tuyên ngôn & Danh ngôn Phụng sự (chuyển lên cùng cột với Thông điệp hợp tác) */}
+                      <article
+                        id="quote-banner-slide-1"
+                        data-element-name="Thẻ Bento Danh Ngôn Phụng Sự"
+                        data-element-type="card"
+                        data-section-card="true"
+                        data-element-page="letter"
+                        style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
+                        className={`motto-card bento-card glass-card shrink-0 relative rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] transition-colors duration-200 group/quote w-full min-w-0 ${
+                          activeTargetId === 'quote-banner-slide-1'
+                            ? 'ring-4 ring-sky-500/40 dark:ring-cyan-400/40 scale-[1.01]'
+                            : ''
+                        }`}
+                      >
+                        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[14px]">
+                          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-sky-400/40 to-transparent" />
+                          <div className="absolute -top-10 -left-10 w-28 h-28 bg-sky-400/15 blur-3xl rounded-full" />
+                        </div>
+
+                        <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] relative z-10 min-w-0 shrink-0">
+                          <div className="card-header-sync inline-flex items-center gap-2 text-amber-600 dark:text-amber-300 leading-tight min-w-0">
+                            <WebIcon
+                              name="sparkles"
+                              size={16}
+                              className="w-[16px] h-[16px] shrink-0 card-title-icon text-amber-600 dark:text-amber-300"
+                              style={{ width: '16px', height: '16px' }}
+                            />
+                            <h3
+                              className="card-title card-title-synced typo-h3 font-play text-amber-600 dark:text-amber-300 whitespace-normal break-words"
+                              data-card-title="true"
+                            >
+                              Châm ngôn phụng sự
+                            </h3>
+                          </div>
+                        </div>
+
+                        <p
+                          className="motto-quote-text typo-h3 font-handwriting font-italianno font-bold tracking-wide text-amber-700 dark:text-amber-200 text-left drop-shadow-xs select-none relative z-10 my-auto"
+                          style={{ fontFamily: "'Italianno', cursive, sans-serif" }}
+                        >
+                          &ldquo;Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự.&rdquo;
+                        </p>
+                      </article>
+                    </div>
+
+                    {/* THẺ BENTO 3 (8/12 cols trên Desktop): GIÁ TRỊ CỐT LỖI — cùng hàng với Thương hiệu đồng hành */}
                     <div
                       id="card-core-values-pursued"
                       data-element-type="card"
                       data-section-card="true"
                       style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-12 w-full p-[15px] gap-[15px] transition-all duration-200 flex flex-col items-start group/values z-10 text-left rounded-[14px] shrink-0 min-w-0 ${getGlassCardClass()} ${
+                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-8 w-full h-full p-[15px] gap-[15px] transition-all duration-200 flex flex-col items-start group/values z-10 text-left rounded-[14px] shrink-0 min-w-0 ${getGlassCardClass()} ${
                         activeTargetId === 'card-core-values-pursued'
                           ? 'ring-2 ring-amber-400 dark:ring-cyan-400 shadow-[0_0_24px_rgba(251,191,36,0.35)]'
                           : ''
@@ -2127,7 +2283,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       />
 
                       <div
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-[15px] items-stretch w-full"
+                        className="grid grid-cols-1 sm:grid-cols-2 auto-rows-fr gap-[15px] items-stretch w-full flex-1"
                         style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
                       >
                         {CORE_VALUES_DATA.map((val) => {
@@ -2147,9 +2303,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
                               id={`core-val-${val.number}`}
                               data-subcard="true"
                               style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-subcard, 16px)' }}
-                              className={`sub-card letter-subcard relative overflow-hidden flex flex-col justify-between h-full p-[15px] gap-[15px] transition-all duration-200 hover:-translate-y-0.5 text-left group rounded-[14px] min-w-0 ${
+                              className={`sub-card letter-subcard relative overflow-hidden flex flex-col justify-between h-full p-[15px] gap-[15px] transition-colors duration-200 text-left group rounded-[14px] min-w-0 ${
                                 isValBeingRead
-                                  ? 'ring-2 ring-emerald-500 dark:ring-cyan-400 shadow-[0_0_24px_rgba(16,185,129,0.28)] -translate-y-1'
+                                  ? 'ring-2 ring-emerald-500 dark:ring-cyan-400 shadow-[0_0_24px_rgba(16,185,129,0.28)]'
                                   : ''
                               }`}
                             >
@@ -2191,125 +2347,70 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       </div>
                     </div>
 
-                    {/* NHÓM RESPONSIVE: Thương hiệu đồng hành & Châm ngôn phụng sự */}
-                    <div
-                      id="letter-partner-motto-container"
-                      className="partner-motto-container col-span-1 md:col-span-6 lg:col-span-12 w-full min-w-0"
+                    {/* THẺ BENTO 6 (4/12 cols trên Desktop): Thương hiệu đồng hành — cùng hàng với Giá trị cốt lỗi */}
+                    <article
+                      id="bento-brands-marquee"
+                      data-element-name="Thẻ Bento Thương Hiệu Đồng Hành"
+                      data-element-type="card"
+                      data-section-card="true"
+                      data-element-page="letter"
+                      style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
+                      className="partner-card bento-card glass-card col-span-1 md:col-span-6 lg:col-span-4 w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] transition-colors duration-200 group/marquee min-w-0"
                     >
-                      <div
-                        id="letter-partner-motto-grid"
-                        className="partner-motto-grid"
-                      >
-                        {/* THẺ BENTO 6: Thương hiệu đồng hành */}
-                        <article
-                          id="bento-brands-marquee"
-                          data-element-name="Thẻ Bento Thương Hiệu Đồng Hành"
-                          data-element-type="card"
-                          data-section-card="true"
-                          data-element-page="letter"
-                          style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                          className="partner-card bento-card glass-card p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] transition-all duration-200 hover:-translate-y-0.5 group/marquee min-w-0"
-                        >
-                          <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] shrink-0 min-w-0">
-                            <div className="card-header-sync inline-flex items-center gap-2 text-blue-600 dark:text-cyan-400 leading-tight min-w-0">
-                              <WebIcon
-                                name="briefcase"
-                                size={16}
-                                className="w-[16px] h-[16px] shrink-0 card-title-icon text-blue-600 dark:text-cyan-400"
-                                style={{ width: '16px', height: '16px' }}
-                              />
-                              <h3
-                                className="card-title card-title-synced typo-h3 font-play text-blue-600 dark:text-cyan-400 whitespace-normal break-words"
-                                data-card-title="true"
-                              >
-                                Thương hiệu đồng hành
-                              </h3>
-                            </div>
-                            <span className="typo-badge font-bold font-play tabular-nums text-blue-700 dark:text-blue-200 whitespace-nowrap shrink-0">
-                              8 Tập đoàn
-                            </span>
-                          </div>
+                      <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] shrink-0 min-w-0">
+                        <div className="card-header-sync inline-flex items-center gap-2 text-blue-600 dark:text-cyan-400 leading-tight min-w-0">
+                          <WebIcon
+                            name="briefcase"
+                            size={16}
+                            className="w-[16px] h-[16px] shrink-0 card-title-icon text-blue-600 dark:text-cyan-400"
+                            style={{ width: '16px', height: '16px' }}
+                          />
+                          <h3
+                            className="card-title card-title-synced typo-h3 font-play text-blue-600 dark:text-cyan-400 whitespace-normal break-words"
+                            data-card-title="true"
+                          >
+                            Thương hiệu đồng hành
+                          </h3>
+                        </div>
+                        <span className="typo-badge font-bold font-play tabular-nums text-blue-700 dark:text-blue-200 whitespace-nowrap shrink-0">
+                          8 Tập đoàn
+                        </span>
+                      </div>
 
-                          <div className="partner-marquee-viewport my-auto [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-                            <div className="animate-marquee flex items-center group-hover/marquee:[animation-play-state:paused]">
-                              {[0, 1].map((trackIdx) => (
+                      <div className="partner-marquee-viewport my-auto [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+                        <div className="animate-marquee flex items-center group-hover/marquee:[animation-play-state:paused]">
+                          {[0, 1].map((trackIdx) => (
+                            <div
+                              key={trackIdx}
+                              aria-hidden={trackIdx === 1}
+                              className="flex items-center gap-6 sm:gap-10 whitespace-nowrap pr-6 sm:pr-10 shrink-0"
+                            >
+                              {EXPERIENCE_BRANDS_MARQUEE.map((item, idx) => (
                                 <div
-                                  key={trackIdx}
-                                  aria-hidden={trackIdx === 1}
-                                  className="flex items-center gap-6 sm:gap-10 whitespace-nowrap pr-6 sm:pr-10 shrink-0"
+                                  key={`${trackIdx}-${item.id}-${idx}`}
+                                  className="partner-logo-item group/logo transition-all duration-300"
                                 >
-                                  {EXPERIENCE_BRANDS_MARQUEE.map((item, idx) => (
-                                    <div
-                                      key={`${trackIdx}-${item.id}-${idx}`}
-                                      className="partner-logo-item group/logo transition-all duration-300"
-                                    >
-                                      <div
-                                        className="partner-logo-badge w-10 h-10 sm:w-11 sm:h-11 aspect-square rounded-[99999px] bg-white dark:bg-slate-800 border-2 border-[var(--border-subcard)] shadow-sm group-hover/logo:scale-110 group-hover/logo:border-blue-500/50 transition-all duration-500 relative shrink-0"
-                                        style={{ borderRadius: '99999px' }}
-                                      >
-                                        <img
-                                          src={item.logo}
-                                          alt={item.company}
-                                          className="partner-logo-img group-hover/logo:scale-105 transition-transform duration-500"
-                                          referrerPolicy="no-referrer"
-                                        />
-                                      </div>
-                                      <span className="card-tag typo-body-sm font-semibold font-play text-[var(--text-primary)] group-hover/logo:text-blue-700 dark:group-hover/logo:text-cyan-300 transition-colors whitespace-nowrap">
-                                        {item.company}
-                                      </span>
-                                    </div>
-                                  ))}
+                                  <div
+                                    className="partner-logo-badge w-10 h-10 sm:w-11 sm:h-11 aspect-square rounded-[99999px] bg-white dark:bg-slate-800 border-2 border-[var(--border-subcard)] shadow-sm group-hover/logo:scale-110 group-hover/logo:border-blue-500/50 transition-all duration-500 relative shrink-0"
+                                    style={{ borderRadius: '99999px' }}
+                                  >
+                                    <img
+                                      src={item.logo}
+                                      alt={item.company}
+                                      className="partner-logo-img group-hover/logo:scale-105 transition-transform duration-500"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                  </div>
+                                  <span className="card-tag typo-body-sm font-semibold font-play text-[var(--text-primary)] group-hover/logo:text-blue-700 dark:group-hover/logo:text-cyan-300 transition-colors whitespace-nowrap">
+                                    {item.company}
+                                  </span>
                                 </div>
                               ))}
                             </div>
-                          </div>
-                        </article>
-
-                        {/* THẺ BENTO 7: Tuyên ngôn & Danh ngôn Phụng sự */}
-                        <article
-                          id="quote-banner-slide-1"
-                          data-element-name="Thẻ Bento Danh Ngôn Phụng Sự"
-                          data-element-type="card"
-                          data-section-card="true"
-                          data-element-page="letter"
-                          style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                          className={`motto-card bento-card glass-card relative rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] transition-all duration-200 hover:-translate-y-0.5 group/quote min-w-0 ${
-                            activeTargetId === 'quote-banner-slide-1'
-                              ? 'ring-4 ring-sky-500/40 dark:ring-cyan-400/40 scale-[1.01]'
-                              : ''
-                          }`}
-                        >
-                          <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[14px]">
-                            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-sky-400/40 to-transparent" />
-                            <div className="absolute -top-10 -left-10 w-28 h-28 bg-sky-400/15 blur-3xl rounded-full" />
-                          </div>
-
-                          <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] relative z-10 min-w-0 shrink-0">
-                            <div className="card-header-sync inline-flex items-center gap-2 text-amber-600 dark:text-amber-300 leading-tight min-w-0">
-                              <WebIcon
-                                name="sparkles"
-                                size={16}
-                                className="w-[16px] h-[16px] shrink-0 card-title-icon text-amber-600 dark:text-amber-300"
-                                style={{ width: '16px', height: '16px' }}
-                              />
-                              <h3
-                                className="card-title card-title-synced typo-h3 font-play text-amber-600 dark:text-amber-300 whitespace-normal break-words"
-                                data-card-title="true"
-                              >
-                                Châm ngôn phụng sự
-                              </h3>
-                            </div>
-                          </div>
-
-                          <p
-                            className="motto-quote-text typo-h3 font-handwriting font-italianno font-bold tracking-wide text-amber-700 dark:text-amber-200 text-left drop-shadow-xs select-none relative z-10 my-auto"
-                            style={{ fontFamily: "'Italianno', cursive, sans-serif" }}
-                          >
-                            &ldquo;Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự.&rdquo;
-                          </p>
-                        </article>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    </article>
                 </div>
       </div>
 
@@ -2726,124 +2827,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
         </div>
       )}
 
-      {/* ========================================================================= */}
-      {/* VÒNG TRÒN NỔI AVATAR VIDEO VÀ BONG BÓNG LỜI NHẮC Ở GÓC TRÊN BÊN PHẢI      */}
-      {/* ========================================================================= */}
-      {isClientMounted && (
-        <div
-          className="fixed top-[68px] sm:top-[88px] right-2 sm:right-6 md:right-8 z-50 flex items-center gap-2 sm:gap-3 select-none pointer-events-auto max-w-[calc(100vw-24px)]"
-          role="region"
-          aria-label="Video Giới Thiệu Chân Dung Nổi"
-        >
-          {/* Bong bóng tin nhắn xanh dương bên trái với đuôi nhọn hướng sang vòng tròn avatar */}
-          <div
-            onClick={handleToggleCircleVideo}
-            className="hidden sm:flex cursor-pointer group/bubble relative items-center bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-3.5 sm:px-5 py-2 sm:py-3 rounded-[14px] shadow-[0_8px_24px_rgba(37,99,235,0.4)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] border border-blue-300/40"
-            title="Bấm vào để xem video giới thiệu của anh!"
-          >
-            <p className="typo-button font-play text-white m-0 text-left">
-              Bấm vào để xem video giới thiệu<br /> của anh!
-            </p>
-
-            {/* Đuôi nhọn của bubble hướng về avatar (bên phải) */}
-            <div
-              className="absolute -right-2 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[7px] sm:border-y-[8px] border-y-transparent border-l-[9px] sm:border-l-[10px] border-l-[#2563eb] pointer-events-none drop-shadow-xs"
-            />
-          </div>
-
-          {/* Vòng tròn Avatar chân dung phát sáng rực rỡ, chuyển động nhịp nhàng & nút Play nằm ở dưới hình tròn */}
-          <div className="relative group/circle cursor-pointer flex flex-col items-center" onClick={handleToggleCircleVideo}>
-            <div className="relative">
-              {/* Vòng sáng Laser Glow Aura bao quanh phát sáng & chuyển động */}
-              <div className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-80 blur-md animate-pulse pointer-events-none" />
-
-              {/* Vòng tròn avatar chân dung video lấp đầy 100% */}
-              <div
-                className={cn(
-                  "relative w-14 h-14 sm:w-24 sm:h-24 rounded-full overflow-hidden transition-all duration-300 group-hover/circle:scale-105 border-[3px]",
-                  isCircleVideoPlaying ? "ring-4 ring-[var(--color-primary)]/45" : ""
-                )}
-                style={{
-                  backgroundColor: 'var(--bg-card)',
-                  borderColor: 'var(--color-primary)',
-                  boxShadow: 'var(--shadow-layer-2, 0 10px 24px rgba(15, 23, 42, 0.22))',
-                }}
-              >
-                {/* Video nền hoặc video đang phát chân dung chuyên gia: LẮP ĐẦY HÌNH TRÒN 100% */}
-                <video
-                  ref={circleVideoRef}
-                  src={isCircleVideoPlaying ? HOME_SCREEN_2_INTRO_URL : HOME_SCREEN_2_IDLE_URL}
-                  autoPlay
-                  loop={!isCircleVideoPlaying}
-                  playsInline
-                  muted={!isCircleVideoPlaying}
-                  onTimeUpdate={handleCircleVideoTimeUpdate}
-                  onEnded={handleCircleVideoEnded}
-                  className="w-full h-full min-w-full min-h-full object-cover object-center pointer-events-none scale-[1.08] rounded-full"
-                />
-
-                {/* Tag trạng thái nhỏ khi video đang phát */}
-                {isCircleVideoPlaying && (
-                  <div
-                    className="absolute top-1 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full backdrop-blur-xs typo-badge font-mono font-bold border pointer-events-none shadow-xs whitespace-nowrap z-10"
-                    style={{
-                      background: 'var(--bg-popup)',
-                      borderColor: 'var(--border-card)',
-                      color: 'var(--text-link, var(--color-primary))',
-                    }}
-                  >
-                    Đang phát 🔊
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Nút Play hình tròn đồng bộ giao diện nằm dưới hình tròn */}
-            <button
-              id="letter-circle-video-play-btn"
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleToggleCircleVideo();
-              }}
-              className={`video-play-btn video-play-btn--letter ${
-                isCircleVideoPlaying ? 'is-playing' : ''
-              } relative mt-2 w-8 h-8 sm:w-9 sm:h-9 rounded-full active:scale-95 flex items-center justify-center transition-all duration-300 z-20 cursor-pointer shadow-md`}
-              title={isCircleVideoPlaying ? "Tạm dừng video" : "Xem video giới thiệu"}
-              aria-label={isCircleVideoPlaying ? "Tạm dừng video" : "Xem video giới thiệu"}
-            >
-              {isCircleVideoPlaying ? (
-                <WebIcon name="pause" className="w-4 h-4 fill-current text-current" />
-              ) : (
-                <WebIcon name="play" className="w-4 h-4 fill-current text-current ml-0.5" />
-              )}
-            </button>
-
-            {/* Nút bật/tắt tiếng mini bên cạnh khi video đang phát */}
-            {isCircleVideoPlaying && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (circleVideoRef.current) {
-                    circleVideoRef.current.muted = !circleVideoRef.current.muted;
-                    showToast(circleVideoRef.current.muted ? 'Đã tắt tiếng video' : 'Đã bật âm thanh video');
-                  }
-                }}
-                style={{
-                  background: 'var(--bg-popup)',
-                  borderColor: 'var(--border-card)',
-                  color: 'var(--text-link, var(--color-primary))',
-                }}
-                className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border typo-badge shadow-md z-20 cursor-pointer hover:opacity-90"
-                title="Bật/Tắt âm thanh"
-              >
-                <WebIcon name="volume-2" className="w-3 h-3 text-current" />
-              </button>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

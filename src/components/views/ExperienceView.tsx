@@ -127,59 +127,59 @@ const STORY_NARRATIONS: Record<
 > = {
   '2003': {
     title: 'MobiFone',
-    stage: 'Nền Tảng Đầu Tiên: Chăm Sóc Khách Hàng Viễn Thông Di Động',
-    summary: 'Khởi đầu sự nghiệp tại MobiFone, rèn luyện sự thấu hiểu tâm lý khách hàng, giao tiếp chuẩn mực và kỷ luật nghiệp vụ viễn thông.',
-    voiceScript: 'Năm 2003, khởi đầu sự nghiệp tại MobiFone, phục vụ khách hàng mạng di động với chuẩn mực tận tâm.',
-    highlightKpis: ['CSAT 98.2%', '12 Nhân sự', 'Xử lý đa nghiệp vụ'],
+    stage: 'Cấp bậc 1 · Nhân viên CSKH (Viễn thông di động)',
+    summary: 'Khởi đầu nhân viên tổng đài, rèn chuẩn quy trình viễn thông, xử lý sự cố và tư duy lấy khách hàng làm trung tâm.',
+    voiceScript: 'Năm 2003, khởi đầu Nhân viên CSKH tại MobiFone, rèn chuẩn quy trình phục vụ ngành viễn thông.',
+    highlightKpis: ['Nhân viên CSKH', 'Quy trình chuẩn', '12 Nhân sự'],
   },
   '2007': {
     title: 'Viễn Liên V247',
-    stage: 'Bước Đệm Giám Sát: Lãnh Đạo Đội Ngũ Dịch Vụ Quốc Tế',
-    summary: 'Thăng tiến lên Trưởng nhóm CSKH / Supervisor, phụ trách phân luồng cuộc gọi viễn thông quốc tế và đào tạo nhân viên mới.',
-    voiceScript: 'Năm 2007, thăng tiến lên Trưởng nhóm CSKH tại Viễn Liên V247, tối ưu chất lượng phục vụ cước viễn thông quốc tế.',
-    highlightKpis: ['SLA 98.6%', '12 Nhân sự', 'Giám sát vận hành'],
+    stage: 'Cấp bậc 2 · Giám sát CSKH (Viễn thông quốc tế)',
+    summary: 'Phát triển từ Nhân viên lên Giám sát ca 24/7: quản lý đội ngũ, đào tạo nghiệp vụ và xây dựng chỉ số QA/SLA >98%.',
+    voiceScript: 'Năm 2007, thăng tiến Giám sát CSKH tại Viễn Liên V247, quản lý ca trực quốc tế 24/7 và đào tạo QA.',
+    highlightKpis: ['Giám sát CSKH', 'SLA 98.6%', 'Đào tạo & QA'],
   },
   '2011': {
     title: 'LBC - HTVC',
-    stage: 'Mở Rộng Quy Mô Đa Kênh: Truyền Hình & Internet Băng Thông Rộng',
-    summary: 'Trưởng Phòng CSKH điều hành dịch vụ truyền hình cáp HTVC và viễn thông LBC, nâng cao tỷ lệ giải quyết khiếu nại tại chỗ.',
-    voiceScript: 'Năm 2011, đảm nhiệm Trưởng Phòng CSKH tại LBC - HTVC, quản trị dịch vụ truyền hình và internet đa kênh.',
-    highlightKpis: ['Giải quyết 95% khiếu nại', '12 Nhân sự', 'Hạ tầng đa dịch vụ'],
+    stage: 'Cấp bậc 3 · Trưởng phòng quy mô nhỏ (Truyền hình Cáp & ISP)',
+    summary: 'Lần đầu làm Trưởng phòng CSKH quy mô nhỏ: chuẩn hóa quy trình SOP, lập KPI, đào tạo đội ngũ và điều hành đa đơn vị.',
+    voiceScript: 'Năm 2011, đảm nhiệm Trưởng phòng CSKH quy mô nhỏ tại LBC HTVC, chuẩn hóa quy trình và hệ thống KPI.',
+    highlightKpis: ['Trưởng phòng (Nhỏ)', 'Chuẩn hóa SOP', '12 Nhân sự'],
   },
   '2013': {
-    title: 'VED (Garena / Shopee / AirPay)',
-    stage: 'Bứt Phá Đỉnh Cao: Xây Dựng & Vận Hành Khối CSKH 130 Nhân Sự',
-    summary: 'Kiến tạo và chỉ huy toàn diện trung tâm Contact Center quy mô 130 nhân sự, phục vụ triệu game thủ và người dùng TMĐT/Ví điện tử, xác lập kỷ lục CSAT 98.2%.',
-    voiceScript: 'Năm 2013, bứt phá tại VED và Garena, lãnh đạo trung tâm CSKH 130 nhân sự, đạt CSAT 98.2%.',
-    highlightKpis: ['CSAT 98.2%', 'SLA 98.6%', '130 Nhân sự VED'],
+    title: 'VED (Garena / Shopee / AirPay / Gcafe)',
+    stage: 'Cấp bậc 4 · Trưởng phòng quản lý cấp cao (129–130 NS · Đa lĩnh vực)',
+    summary: 'Quản lý cấp cao 129 NS đa ngành Game (LMHT, Liên Quân), TMĐT Shopee, Ví AirPay & Gcafe: xây dựng hệ thống CRM, quy trình & đào tạo.',
+    voiceScript: 'Năm 2013, Trưởng phòng quản lý cấp cao 129 nhân sự tại Garena, đồng hành Shopee, AirPay, Gcafe.',
+    highlightKpis: ['Quản lý cấp cao', '129 Nhân sự', 'Đa lĩnh vực số'],
   },
   '2016': {
     title: 'Prudential Việt Nam',
-    stage: 'Chuẩn Hóa Tài Chính - Bảo Hiểm: Kỷ Luật Tuân Thủ & Vận Hành Call Center',
-    summary: 'Trưởng Phòng CallCenter Prudential, thiết lập quy trình kiểm soát chất lượng QA/QC nghiêm ngặt theo tiêu chuẩn tập đoàn tài chính đa quốc gia.',
-    voiceScript: 'Năm 2016, Trưởng Phòng CallCenter Prudential, thiết lập quy chuẩn vận hành tài chính và bảo hiểm nghiêm ngặt.',
-    highlightKpis: ['SLA 98.6%', 'QA/QC 96%', '12 Nhân sự'],
+    stage: 'Đa lĩnh vực · Trưởng phòng Call Center (Bảo hiểm nhân thọ)',
+    summary: 'Quản trị trải nghiệm & chất lượng ngành Bảo hiểm: chuẩn hóa quy trình thẩm định/BCP, đào tạo đồng cảm và giữ vững niềm tin.',
+    voiceScript: 'Năm 2016, Trưởng phòng Call Center Prudential, chuẩn hóa quy trình tin cậy và trải nghiệm bảo hiểm.',
+    highlightKpis: ['Ngành Bảo hiểm', 'QA/QC 96%', 'Quy trình BCP'],
   },
   '2018': {
     title: 'Ví MoMo',
-    stage: 'Kỷ Nguyên FinTech: Đồng Hành Cùng Siêu Ứng Dụng Hàng Chục Triệu Khách Hàng',
-    summary: 'Trưởng Phòng CSKH MoMo, dẫn dắt đội ngũ hỗ trợ giao dịch số thời kỳ tăng trưởng nóng, ứng dụng tự động hóa giảm thời gian chờ.',
-    voiceScript: 'Năm 2018, Trưởng Phòng CSKH Ví MoMo, đồng hành cùng sự tăng trưởng thần tốc của siêu ứng dụng thanh toán.',
-    highlightKpis: ['FCR 91%', 'Triệu GD/ngày', 'FinTech SuperApp'],
+    stage: 'Quản lý cấp cao · Trưởng phòng CSKH FinTech (60+ NS & BPO)',
+    summary: 'Dẫn dắt khối CSKH Tài chính số quy mô lớn: quản lý nội bộ + BPO, xây dựng hệ thống CRM thời gian thực và tối ưu quy trình số.',
+    voiceScript: 'Năm 2018, Trưởng phòng CSKH cấp cao Ví MoMo, xây dựng CRM thời gian thực phục vụ chục triệu ví.',
+    highlightKpis: ['Quản lý cấp cao', '60+ NS & BPO', 'CRM Realtime'],
   },
   '2023': {
-    title: 'Finviet (ECO SCC)',
-    stage: 'Số Hóa B2B: Vận Hành Hệ Sinh Thái Chợ Số & Chuỗi Bán Lẻ Toàn Quốc',
-    summary: 'Trưởng Phòng Vận hành CSKH Finviet, số hóa hỗ trợ hơn 100.000 điểm tạp hóa và đại lý bán lẻ trên nền tảng chuỗi cung ứng ECO.',
-    voiceScript: 'Năm 2023, Trưởng Phòng Vận hành CSKH Finviet, số hóa hệ thống chăm sóc mạng lưới đối tác tạp hóa và điểm bán lẻ.',
-    highlightKpis: ['100.000+ Điểm bán', 'CSAT 95%', 'Hệ sinh thái B2B'],
+    title: 'Finviet (Ví ECO)',
+    stage: 'Hoàn thiện Hệ thống · Trưởng phòng CSKH (Ví điện tử & Bán lẻ B2B)',
+    summary: 'Hoàn thiện mô hình CSKH hiện đại ngành Tài chính – B2B: kết hợp Quản lý, Quy trình, Đào tạo và Hệ thống (Omnichannel, BI, AI Bot).',
+    voiceScript: 'Năm 2023, Trưởng phòng CSKH Finviet Ví ECO, hoàn thiện hệ thống dịch vụ kết hợp quy trình và AI Bot.',
+    highlightKpis: ['Ví ECO · B2B', 'AI Bot 24/7', '4 Trụ cột kỹ năng'],
   },
   '2026': {
     title: 'Chiến Lược CX 2026+',
-    stage: 'Tầm Nhìn Giám Đốc Trải Nghiệm Khách Hàng (CX Director)',
-    summary: 'Định hình chiến lược CX toàn diện: Lấy khách hàng làm trọng tâm, tích hợp AI Agents, CRM chuyên sâu và phát triển văn hóa dịch vụ phụng sự xuất sắc.',
-    voiceScript: 'Năm 2026 trở đi, sẵn sàng cho cương vị Giám đốc Trải nghiệm Khách hàng, kiến tạo hệ thống dịch vụ lấy khách hàng làm trọng tâm.',
-    highlightKpis: ['CX Director Vision', 'AI & CRM tích hợp', '100+ Nhân sự'],
+    stage: 'Tầm nhìn · Trưởng phòng / Giám đốc Trải nghiệm Khách hàng',
+    summary: 'Hội tụ >22 năm đa ngành: Quản lý cấp cao (100–150+ NS), Xây dựng hệ thống AI CRM, Chuẩn hóa quy trình COPC & Đào tạo kế thừa.',
+    voiceScript: 'Năm 2026 trở đi, định hướng Giám đốc Trải nghiệm Khách hàng với hệ thống AI CRM và văn hóa phụng sự.',
+    highlightKpis: ['CX Director', 'AI & CRM Hệ thống', '100–150+ NS'],
   },
 };
 
@@ -468,7 +468,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       companyLine1: 'Công ty',
       companyLine2: 'Viễn liên V247',
       shortName: 'Công ty Viễn liên V247',
-      roleSummary: 'Trưởng nhóm CSKH',
+      roleSummary: 'Giám sát CSKH',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2007']?.cardDescription || '',
       logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070949/V247.png',
@@ -496,7 +496,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       companyLine1: 'Công ty CP',
       companyLine2: 'Băng thông Rộng LBC',
       shortName: 'Công ty CP Băng thông Rộng LBC',
-      roleSummary: 'Trưởng Phòng CSKH',
+      roleSummary: 'Trưởng phòng (Quy mô nhỏ)',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2011']?.cardDescription || '',
       logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070947/LBC.png',
@@ -529,8 +529,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       companyLine1: 'Công ty cổ phần',
       companyLine2: 'Vietnam eSport',
       shortName: 'Công ty cổ phần Vietnam eSport',
-      roleSummary: 'Trưởng phòng CSKH',
-      headcountLabel: '130 Nhân sự',
+      roleSummary: 'Trưởng phòng cấp cao',
+      headcountLabel: '129–130 Nhân sự',
       description: EXPERIENCE_MILESTONES['2013']?.cardDescription || '',
       logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070950/VED.png',
       productSummary: 'Shopee · Garena · AirPay · GCafe',
@@ -582,7 +582,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       companyLine2: 'Prudentinal VN',
       shortName: 'Công ty BNNT Prudentinal VN',
       roleSummary: 'Trưởng Phòng CallCenter',
-      headcountLabel: '12 Nhân sự',
+      headcountLabel: '12 NS + 40 Tư vấn',
       description: EXPERIENCE_MILESTONES['2016']?.cardDescription || '',
       logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Prudential.png',
       productSummary: 'Bảo hiểm PruLife',
@@ -609,8 +609,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       companyLine1: 'Công ty cổ phần',
       companyLine2: 'Dịch vụ Mservice',
       shortName: 'Công ty cổ phần Dịch vụ Mservice',
-      roleSummary: 'Trưởng Phòng CSKH',
-      headcountLabel: '60 Nhân sự',
+      roleSummary: 'Trưởng phòng cấp cao',
+      headcountLabel: '60+ NS & BPO',
       description: EXPERIENCE_MILESTONES['2018']?.cardDescription || '',
       logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Momo.png',
       productSummary: 'Siêu ứng dụng Ví MoMo',
@@ -665,8 +665,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       companyLine1: 'Sẵn sàng',
       companyLine2: 'Cho thử thách mới',
       shortName: 'Sẵn sàng cho thử thách mới',
-      roleSummary: 'Trưởng phòng CSKH',
-      headcountLabel: '100 Nhân sự',
+      roleSummary: 'Trưởng phòng / GĐ CX',
+      headcountLabel: '100–150+ Nhân sự',
       description: EXPERIENCE_MILESTONES['2026']?.cardDescription || '',
       logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Power_Service.png',
       productSummary: 'Power Service • CS Strategy',
@@ -977,36 +977,50 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             id="experience-board-header"
             className="relative z-[30] shrink-0 flex flex-wrap items-center justify-between gap-3 px-[20px] sm:px-[25px] lg:px-[2.8%] pt-[14px] sm:pt-[18px] pb-2.5"
           >
-            {/* Tiêu đề "Thời Gian / Công Tác" + 5 chấm màu + gạch chân hồng */}
-            <header>
-              <div
-                style={{
-                  color: isLeather
-                    ? '#FDE68A'
-                    : isBlackLeather
-                      ? '#E2E8F0'
-                      : isLightLeather
-                        ? '#0F172A'
-                        : 'var(--color-primary, #0284C7)',
-                }}
-                className="typo-h2 font-normal tracking-[0.06em] leading-[1.1]"
-              >
-                Thời Gian
+            {/* Tiêu đề Icon + 4 chữ "Thời Gian Công Tác" cùng 1 hàng + 5 chấm màu + gạch chân hồng */}
+            <header className="min-w-0">
+              <div className="flex items-center gap-2.5 sm:gap-3 whitespace-nowrap min-w-0">
+                <span
+                  style={{
+                    color: isLeather
+                      ? '#FDE68A'
+                      : isBlackLeather
+                        ? '#93C5FD'
+                        : isLightLeather
+                          ? '#0F172A'
+                          : 'var(--color-primary, #0284C7)',
+                    backgroundColor: isLeather
+                      ? 'rgba(253, 230, 138, 0.14)'
+                      : isBlackLeather
+                        ? 'rgba(147, 197, 253, 0.14)'
+                        : 'var(--bg-subcard, rgba(2, 132, 199, 0.10))',
+                    borderColor: isLeather
+                      ? 'rgba(253, 230, 138, 0.35)'
+                      : isBlackLeather
+                        ? 'rgba(147, 197, 253, 0.35)'
+                        : 'var(--border-subcard, rgba(2, 132, 199, 0.28))',
+                  }}
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-[12px] border flex items-center justify-center shrink-0 shadow-2xs"
+                >
+                  <Briefcase className="w-4 h-4 sm:w-[18px] sm:h-[18px]" strokeWidth={2.3} />
+                </span>
+                <h1
+                  id="experience-board-title"
+                  data-card-title="true"
+                  style={{
+                    color: isLeather
+                      ? '#FFF8DC'
+                      : isBlackLeather
+                        ? '#FFFFFF'
+                        : isLightLeather
+                          ? '#000000'
+                          : 'var(--text-heading, var(--text-primary))',
+                  }}
+                  className="typo-h3 sm:typo-h2 md:typo-h1 card-title-synced font-bold tracking-[0.04em] leading-none m-0 whitespace-nowrap"
+                >
+                  Thời Gian Công Tác
+                </h1>
               </div>
-              <h1
-                style={{
-                  color: isLeather
-                    ? '#FFF8DC'
-                    : isBlackLeather
-                      ? '#FFFFFF'
-                      : isLightLeather
-                        ? '#000000'
-                        : 'var(--text-heading, var(--text-primary))',
-                }}
-                className="typo-h1 font-bold tracking-[0.06em] leading-[1.08] mt-1 m-0"
-              >
-                Công Tác
-              </h1>
               {/* Hàng 5 chấm tròn màu + gạch chân hồng */}
               <div className="flex items-center gap-[6px] mt-2">
                 <span className="w-[8px] h-[8px] rounded-full bg-[#F8C605]" />

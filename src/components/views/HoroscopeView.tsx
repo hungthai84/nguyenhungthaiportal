@@ -37,6 +37,7 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useLanguage } from '@/context/LanguageContext';
 import { stopActiveSpeech } from '@/utils/speechVoice';
 import { ZODIAC_SIGNS, ZODIAC_ORDER, getCanChiInfo } from '@/data/horoscope';
+import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
 
 const HOROSCOPE_AVATAR_IMAGE_URL =
   'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794233300/T%E1%BB%AD_vi_avata.png';
@@ -301,7 +302,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const isProgrammaticScrollRef = useRef(false);
   const scrollTimeoutRef = useRef<number | null>(null);
 
-  const peekReserve = viewportWidth < 640 ? 72 : 112;
+  const peekReserve = viewportWidth <= 767 ? 16 : viewportWidth <= 1023 ? 32 : 112;
   const horoscopeCardWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
   const horoscopeSideInset = Math.max(0, (horoscopeContainerWidth - horoscopeCardWidth) / 2);
 
@@ -376,8 +377,13 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         container.scrollLeft = targetLeft;
       }
       scrollTimeoutRef.current = window.setTimeout(() => {
+        const settledLeft = getCenteredScrollLeftForCard(clamped);
+        if (Math.abs(container.scrollLeft - settledLeft) > 1) {
+          container.scrollLeft = settledLeft;
+        }
         isProgrammaticScrollRef.current = false;
-      }, 550);
+        evaluateOverallLayoutTypography(document.getElementById('global-content-viewport'));
+      }, smooth ? 560 : 60);
     },
     [getCenteredScrollLeftForCard]
   );
@@ -545,7 +551,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   useEffect(() => {
     const handleExternalSlide = (e: Event) => {
       const detail = (e as CustomEvent).detail;
-      if (detail && detail.tabIndex === 10 && typeof detail.slide === 'number') {
+      if (detail && (detail.tabIndex === undefined || detail.tabIndex === 10) && typeof detail.slide === 'number') {
         const target = Math.max(0, Math.min(5, detail.slide));
         scrollToHoroscopeCard(target, true);
       }
@@ -1019,7 +1025,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   SoundEngine.playTap();
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
-                className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group max-w-full min-w-0"
+                className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group max-w-full min-w-0"
                 title="Bộ lọc tử vi"
                 aria-label="Bộ lọc tử vi"
                 aria-expanded={isFilterDropdownOpen}
@@ -1095,19 +1101,16 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 onClick={handlePrevHoroscopeCard}
                 aria-label={language === 'en' ? 'Previous card' : 'Lùi thẻ'}
                 title={language === 'en' ? 'Previous card' : 'Lùi thẻ'}
-                className="banner-control-pill w-8 h-8 rounded-full flex items-center justify-center cursor-pointer active:scale-95 transition"
+                className="banner-control-pill h-9 w-9 rounded-full flex items-center justify-center cursor-pointer active:scale-95 transition"
               >
                 <WebIcon name="chevron-left" className="w-4 h-4" />
               </button>
-              <span className="banner-count-pill px-2.5 py-1 rounded-full border typo-badge font-mono tabular-nums">
-                {activeCardIndex + 1}/{HOROSCOPE_CARDS.length}
-              </span>
               <button
                 type="button"
                 onClick={handleNextHoroscopeCard}
                 aria-label={language === 'en' ? 'Next card' : 'Tới thẻ'}
                 title={language === 'en' ? 'Next card' : 'Tới thẻ'}
-                className="banner-control-pill w-8 h-8 rounded-full flex items-center justify-center cursor-pointer active:scale-95 transition"
+                className="banner-control-pill h-9 w-9 rounded-full flex items-center justify-center cursor-pointer active:scale-95 transition"
               >
                 <WebIcon name="chevron-right" className="w-4 h-4" />
               </button>

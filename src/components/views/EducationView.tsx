@@ -511,8 +511,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </h1>
           </div>
           <p
-            className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
-            style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+            className="banner-quote typo-h3 font-handwriting font-quote not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
+            style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 700, fontStyle: 'normal' }}
           >
             &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
           </p>
@@ -526,7 +526,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 SoundEngine.playTap();
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
-              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+              className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
               title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
               aria-label="Bộ lọc khóa học"
               aria-expanded={isFilterDropdownOpen}
@@ -598,9 +598,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                           <span className="truncate">{cat.label}</span>
                         </span>
                         <span className="flex items-center gap-1.5 shrink-0">
-                          <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
-                            {count}
-                          </span>
                           {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
                         </span>
                       </button>

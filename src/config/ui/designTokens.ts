@@ -2,7 +2,7 @@ import { DesignTokens } from './theme.types';
 
 export const DESIGN_TOKENS: DesignTokens = {
   fontMain: "'Play', sans-serif",
-  fontQuote: "'Italianno', cursive",
+  fontQuote: "'Dancing Script', cursive",
   containerMaxW: '1250px',
   radiusDefault: '14px',
   colors: {

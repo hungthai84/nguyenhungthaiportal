@@ -89,28 +89,40 @@ const PDF_OPEN_LETTER_MILESTONES = [
   {
     id: '2002',
     title: 'Năm 2002 – Khởi đầu tại MobiFone',
-    body: 'Tôi bắt đầu sự nghiệp tại MobiFone, nơi tôi được đào tạo bài bản về dịch vụ khách hàng, quản lý tổng đài, xử lý sự cố và xây dựng quy trình phục vụ theo tiêu chuẩn ngành viễn thông. Đây là nền tảng giúp tôi hình thành tư duy lấy khách hàng làm trung tâm và hiểu rõ tầm quan trọng của quy trình trong vận hành dịch vụ.',
+    roleTier: 'Nhân viên CSKH',
+    sector: 'Viễn thông di động',
+    skillsFocus: 'Quy trình chuẩn · Xử lý sự cố · Tổng đài',
+    body: 'Khởi nghiệp ở vị trí nhân viên tổng đài, được đào tạo bài bản về nghiệp vụ CSKH, xử lý sự cố và tuân thủ quy trình dịch vụ chuẩn viễn thông, đặt nền móng cho tư duy lấy khách hàng làm trung tâm.',
     icon: 'signal',
     accent: '#0284c7',
   },
   {
     id: '2007',
-    title: 'Năm 2007 – Phát triển năng lực quản lý tại Viễn Liên V247',
-    body: 'Gia nhập Viễn Liên V247, tôi tiếp tục phát triển năng lực quản lý đội ngũ, giám sát chất lượng dịch vụ và tối ưu hiệu quả vận hành của trung tâm chăm sóc khách hàng. Giai đoạn này giúp tôi tích lũy kinh nghiệm quản lý hoạt động với quy mô lớn và xây dựng các chỉ số đánh giá chất lượng dịch vụ.',
+    title: 'Năm 2007 – Giám sát tại Viễn Liên V247',
+    roleTier: 'Giám sát CSKH',
+    sector: 'Viễn thông quốc tế',
+    skillsFocus: 'Quản lý ca · Đào tạo · Giám sát chất lượng',
+    body: 'Thăng tiến lên vai trò giám sát đội ngũ, trực tiếp điều phối ca trực, đào tạo nhân sự mới và xây dựng bộ chỉ số đánh giá chất lượng dịch vụ quy mô trung tâm.',
     icon: 'headset',
     accent: '#0d9488',
   },
   {
     id: '2011',
-    title: 'Năm 2011 – Bước ngoặt tại LBC – Truyền hình Cáp HTV',
-    body: 'Đây là dấu mốc quan trọng khi tôi lần đầu đảm nhiệm vị trí Trưởng phòng Chăm sóc Khách hàng. Từ một nhà quản lý vận hành, tôi chuyển mình trở thành một nhà quản trị toàn diện. Tôi trực tiếp điều hành hoạt động của phòng ban, xây dựng và chuẩn hóa quy trình, phát triển đội ngũ, thiết lập hệ thống KPI, đồng thời phối hợp với nhiều đơn vị nhằm nâng cao chất lượng dịch vụ và hiệu quả vận hành. Chính giai đoạn này đã giúp tôi hình thành tư duy quản trị hệ thống và phát triển con người song song với mục tiêu kinh doanh.',
+    title: 'Năm 2011 – Trưởng phòng tại LBC – HTVC',
+    roleTier: 'Trưởng phòng CSKH (Quy mô nhỏ)',
+    sector: 'Truyền hình Cáp & Internet',
+    skillsFocus: 'Quản trị phòng ban · Chuẩn hóa SOP · KPI',
+    body: 'Lần đầu đảm nhiệm vai trò Trưởng phòng CSKH quy mô nhỏ, trực tiếp xây dựng cơ cấu vận hành, chuẩn hóa quy trình SOP, thiết lập KPI và phối hợp liên phòng ban.',
     icon: 'tv',
     accent: '#7c3aed',
   },
   {
     id: '2013',
-    title: 'Năm 2013 – Garena và hành trình chuyển đổi số',
-    body: 'Gia nhập Garena, tôi quản lý hoạt động chăm sóc khách hàng trong lĩnh vực game trực tuyến, nơi yêu cầu tốc độ xử lý nhanh, độ chính xác cao và khả năng đáp ứng lượng khách hàng rất lớn. Trong thời gian này, Garena phát triển mạnh với Liên Minh Huyền Thoại, đồng thời mở rộng thành Vietnam eSport và đầu tư vào nhiều lĩnh vực mới như Shopee, AirPay, Gcafe và Liên Quân Mobile. Tôi có cơ hội đồng hành cùng các dự án ngay từ giai đoạn đầu. Mỗi sản phẩm đều có mô hình vận hành, hành vi người dùng và kỳ vọng khách hàng khác nhau, buộc tôi phải liên tục học hỏi, thích nghi và cập nhật kiến thức để xây dựng các quy trình chăm sóc khách hàng phù hợp với từng lĩnh vực. Đặc biệt, việc tham gia vào giai đoạn phát triển ban đầu của Shopee giúp tôi tiếp cận tư duy quản trị thương mại điện tử hiện đại, từ hành trình khách hàng, trải nghiệm đa kênh, vận hành dịch vụ quy mô lớn đến ứng dụng dữ liệu trong quản trị chất lượng và tối ưu hiệu quả hoạt động. Tại Garena, tôi trực tiếp quản lý 129 nhân sự, xây dựng cơ cấu tổ chức, phát triển đội ngũ quản lý cấp trung, chuẩn hóa quy trình vận hành, thiết lập hệ thống đánh giá hiệu quả công việc và đào tạo nguồn nhân lực kế thừa. Làm việc trong môi trường tăng trưởng với tốc độ rất cao giúp tôi rèn luyện khả năng ra quyết định dưới áp lực, xử lý nhanh các tình huống phát sinh, điều phối nguồn lực hiệu quả và liên tục cải tiến quy trình để đáp ứng sự thay đổi của thị trường. Đây cũng là giai đoạn đặt nền móng cho triết lý quản trị của tôi: xây dựng hệ thống trước khi mở rộng quy mô, phát triển con người song hành cùng công nghệ và luôn lấy khách hàng làm trung tâm trong mọi quyết định.',
+    title: 'Năm 2013 – Trưởng phòng cấp cao tại Garena (VED)',
+    roleTier: 'Trưởng phòng cấp cao (129 nhân sự)',
+    sector: 'Game / eSports · TMĐT (Shopee) · Ví AirPay · Gcafe',
+    skillsFocus: 'Quản lý cấp trung · Quy trình đa ngành · Đào tạo kế thừa · Xây dựng hệ thống',
+    body: 'Điều hành trực tiếp 129 nhân sự với tốc độ tăng trưởng cao cùng LMHT, Liên Quân Mobile, Shopee, AirPay và Gcafe. Xây dựng đội ngũ quản lý cấp trung, đào tạo nhân lực kế thừa và chuẩn hóa hệ thống CSKH đa lĩnh vực từ giai đoạn khởi đầu.',
     icon: 'rocket',
     accent: '#ea580c',
     fullWidth: true,
@@ -118,21 +130,30 @@ const PDF_OPEN_LETTER_MILESTONES = [
   {
     id: '2016',
     title: 'Năm 2016 – Prudential Việt Nam',
-    body: 'Tại Prudential, tôi có cơ hội làm việc trong lĩnh vực bảo hiểm – một ngành dịch vụ đòi hỏi tính chính xác, minh bạch và mức độ tin cậy rất cao. Thời gian này giúp tôi hiểu sâu hơn về quản trị trải nghiệm khách hàng, quản lý chất lượng dịch vụ và xây dựng niềm tin bền vững thông qua quy trình chuyên nghiệp và sự đồng cảm trong từng điểm chạm với khách hàng.',
+    roleTier: 'Quản lý cấp cao Trải nghiệm Khách hàng',
+    sector: 'Bảo hiểm Nhân thọ & Tài chính',
+    skillsFocus: 'Quản trị trải nghiệm · Kiểm soát chất lượng · Đào tạo đồng cảm',
+    body: 'Phát triển hệ thống CSKH trong ngành bảo hiểm đòi hỏi độ chính xác, minh bạch và tin cậy cao; hoàn thiện quy trình chăm sóc đa điểm chạm và nâng chuẩn chất lượng dịch vụ.',
     icon: 'shield-check',
     accent: '#e11d48',
   },
   {
     id: '2018',
-    title: 'Năm 2018 – MoMo',
-    body: 'Gia nhập MoMo, tôi tiếp tục mở rộng kinh nghiệm trong lĩnh vực tài chính số. Tôi tập trung tối ưu quy trình hỗ trợ khách hàng, nâng cao hiệu quả vận hành, ứng dụng công nghệ vào quản trị dịch vụ và cải thiện trải nghiệm khách hàng trên nền tảng số.',
+    title: 'Năm 2018 – Trưởng phòng cấp cao tại Ví MoMo',
+    roleTier: 'Trưởng phòng cấp cao (60+ NS nội bộ & BPO)',
+    sector: 'Ví điện tử & Fintech (30M+ người dùng)',
+    skillsFocus: 'Xây dựng hệ thống số · Quản trị BPO · Tự động hóa AI/CRM',
+    body: 'Mở rộng điều hành CSKH tài chính số quy mô lớn, tích hợp CRM/Chatbot AI và chuẩn hóa quy trình phối hợp BPO nhằm tăng tốc xử lý và tối ưu trải nghiệm người dùng.',
     icon: 'credit-card',
     accent: '#db2777',
   },
   {
     id: '2023',
-    title: 'Năm 2023 – Ví ECO',
-    body: 'Tại Ví ECO, tôi tiếp tục phát triển chuyên môn trong lĩnh vực tài chính, nơi mọi hoạt động đều đặt yêu cầu cao về tính chính xác, minh bạch và sự tin cậy. Giai đoạn này giúp tôi hoàn thiện hơn tư duy xây dựng hệ thống dịch vụ khách hàng hiện đại, kết hợp giữa quy trình, công nghệ và trải nghiệm người dùng.',
+    title: 'Năm 2023 – Ví ECO (Finviet) & Tư vấn Hệ thống CX',
+    roleTier: 'Trưởng phòng CSKH Cấp cao (100–150+ NS)',
+    sector: 'Tài chính số · Thanh toán · Công nghệ AI & CX',
+    skillsFocus: 'Quản trị toàn diện · Hệ sinh thái 12 phân hệ · Đào tạo & Quy trình',
+    body: 'Hoàn thiện mô hình hệ thống CSKH hiện đại kết hợp quy trình chuẩn, đào tạo đội ngũ và công nghệ AI/BI, sẵn sàng dẫn dắt khối dịch vụ khách hàng đa lĩnh vực quy mô lớn.',
     icon: 'wallet',
     accent: '#059669',
     fullWidth: true,
@@ -547,6 +568,37 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             </p>
           </div>
 
+          {/* Tóm tắt 3 trụ cột phát triển năng lực trong Hồ sơ năng lực */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 break-inside-avoid">
+            <div data-subcard="true" className="sub-card p-3.5 rounded-[14px] print-card-bg flex flex-col gap-1 min-w-0">
+              <span className="typo-label font-bold text-blue-600 dark:text-sky-400 flex items-center gap-1.5">
+                <WebIcon name="trending-up" size={14} className="shrink-0" />
+                <span>Thăng tiến cấp bậc</span>
+              </span>
+              <p className="typo-caption text-[var(--text-secondary)] leading-relaxed">
+                Nhân viên CSKH (2002) → Giám sát (2007) → Trưởng phòng quy mô nhỏ (2011) → Trưởng phòng quản lý cấp cao 129–150+ nhân sự (2013–2026+).
+              </p>
+            </div>
+            <div data-subcard="true" className="sub-card p-3.5 rounded-[14px] print-card-bg flex flex-col gap-1 min-w-0">
+              <span className="typo-label font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                <WebIcon name="layers" size={14} className="shrink-0" />
+                <span>Kinh nghiệm đa lĩnh vực</span>
+              </span>
+              <p className="typo-caption text-[var(--text-secondary)] leading-relaxed">
+                Viễn thông di động &amp; quốc tế · Truyền hình Cáp · Game/eSports · TMĐT (Shopee) · Ví điện tử (AirPay, MoMo, Ví ECO) · Bảo hiểm · AI &amp; CX.
+              </p>
+            </div>
+            <div data-subcard="true" className="sub-card p-3.5 rounded-[14px] print-card-bg flex flex-col gap-1 min-w-0">
+              <span className="typo-label font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
+                <WebIcon name="award" size={14} className="shrink-0" />
+                <span>4 Kỹ năng trọng tâm</span>
+              </span>
+              <p className="typo-caption text-[var(--text-secondary)] leading-relaxed">
+                Quản lý đội ngũ đa cấp · Chuẩn hóa quy trình SOP/SLA · Đào tạo &amp; phát triển nhân sự kế thừa · Xây dựng hệ thống công nghệ CX/CRM.
+              </p>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {PDF_OPEN_LETTER_MILESTONES.map((item) => (
               <article
@@ -557,14 +609,21 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                   item.fullWidth && 'md:col-span-2'
                 )}
               >
-                <h4
-                  className="typo-h5 subcard-header-sync subcard-title-synced font-bold flex items-center gap-2 min-w-0 break-words"
-                  style={{ color: item.accent }}
-                  data-subcard-title="true"
-                >
-                  <WebIcon name={item.icon} size={16} className="shrink-0" style={{ color: item.accent }} />
-                  <span className="break-words">{item.title}</span>
-                </h4>
+                <div className="flex flex-col gap-1 min-w-0">
+                  <h4
+                    className="typo-h5 subcard-header-sync subcard-title-synced font-bold flex items-center gap-2 min-w-0 break-words"
+                    style={{ color: item.accent }}
+                    data-subcard-title="true"
+                  >
+                    <WebIcon name={item.icon} size={16} className="shrink-0" style={{ color: item.accent }} />
+                    <span className="break-words">{item.title}</span>
+                  </h4>
+                  <p className="typo-label text-[var(--text-muted)] font-semibold break-words">
+                    <span className="text-[var(--text-primary)]">{item.roleTier}</span>
+                    <span> · {item.sector}</span>
+                    <span> · {item.skillsFocus}</span>
+                  </p>
+                </div>
                 <p className="typo-body-sm text-[var(--text-secondary)] leading-relaxed break-words">
                   {item.body}
                 </p>

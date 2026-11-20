@@ -1919,37 +1919,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           {/* Lớp phủ tương phản cao đồng bộ 11 Theme */}
           <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
 
-          {/* Header Banner dọc Mục lục (chừa khoảng bên phải pr-10 cho nút nổi X) */}
-          <div className="relative z-10 flex items-center justify-between gap-2 pb-2 pr-10 border-b border-[var(--border-subcard)] shrink-0">
-            <div
-              className="card-header-sync flex items-center gap-2 min-w-0"
-              style={{ color: 'var(--text-link, var(--color-primary))' }}
-            >
-              <WebIcon
-                name="layers"
-                className="w-4 h-4 shrink-0 bg-transparent border-0 p-0 shadow-none"
-                style={{ color: 'var(--text-link, var(--color-primary))' }}
-              />
-              <h3
-                className="typo-h4 card-title-synced font-play tracking-wide truncate m-0"
-                data-card-title="true"
-                style={{ color: 'var(--text-link, var(--color-primary))' }}
-              >
-                Mục lục dự án
-              </h3>
-            </div>
-            <div className="flex items-center gap-1 typo-label font-mono font-bold tabular-nums text-[var(--text-secondary)] shrink-0">
-              <span>{selectedArticle.code}</span>
-              <span aria-hidden="true">·</span>
-              <span>
-                {activeTocIndex + 1}/{TOC_ITEMS.length}
-              </span>
-            </div>
-          </div>
-
-          {/* Nội dung phân tách trực tiếp trên Banner (không đóng khung thẻ lồng nhau) */}
+          {/* Nội dung phân tách trực tiếp trên Banner (chỉ giữ nút nổi X ở góc trên phải, chừa pr-10 cho dòng đầu tiên) */}
           <div
-            className="relative z-10 typo-label font-bold leading-snug break-words shrink-0"
+            className="relative z-10 pr-10 typo-label font-bold leading-snug break-words shrink-0"
             style={{
               color: isStrategy
                 ? 'var(--accent-blue, #1480C0)'

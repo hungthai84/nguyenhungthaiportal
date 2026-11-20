@@ -542,9 +542,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                           className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
                         >
                           <span className="truncate">{cat.label}</span>
-                          <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
-                            {cat.count}
-                          </span>
+                          {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
                         </button>
                       );
                     })}

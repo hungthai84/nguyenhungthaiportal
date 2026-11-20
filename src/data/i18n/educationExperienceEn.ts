@@ -746,63 +746,63 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
   // =========================================================================
   // 5. PROJECTS_DATA (21 PROJECTS IN PDFVIEW & PROJECTSVIEW)
   // =========================================================================
-  '1.1 · Xây dựng & vận hành Phòng CSKH chuyên nghiệp':
+  '1.1 · Xây dựng & vận hành P.CSKH chuyên nghiệp':
     '1.1 · Building & Operating a Professional Customer Service Department',
   'Dự án quản trị tổng thể nhằm hình thành một bộ phận CSKH có cơ cấu tổ chức rõ ràng, chức năng nhiệm vụ đầy đủ, quy trình vận hành thống nhất và hệ thống đo lường hiệu quả minh bạch; kết nối con người, quy trình, công nghệ và dữ liệu thành một mô hình vận hành thống nhất.':
     'Comprehensive management initiative establishing a structured CS department with clear org design, unified workflows, and transparent KPI governance connecting people, process, tech, and data.',
-  '1.2 · Thiết lập mục tiêu và hệ thống KPI/OKR CSKH':
+  '1.2 · Thiết lập mục tiêu & hệ thống KPI P.CSKH':
     '1.2 · Departmental Goal Setting & KPI/OKR Framework',
   'Chuẩn hóa bộ chỉ số đo lường hiệu suất cho toàn bộ đội ngũ >100 nhân sự trực tiếp và các đối tác BPO liên quan, kết nối mục tiêu CSKH với mục tiêu kinh doanh chung.':
     'Standardized performance scorecards for 100+ in-house staff and BPO partners, aligning CS metrics directly with enterprise business goals.',
-  '3.1 · Thiết kế hành trình & trải nghiệm khách hàng':
+  '3.1 · Thiết kế hành trình trải nghiệm khách hàng':
     '3.1 · Customer Journey Mapping & Experience Elevation',
   'Thiết kế và đồng bộ bản đồ hành trình khách hàng (CJM) trên toàn bộ hệ thống phục vụ hàng triệu người dùng, liên kết các điểm chạm đứt gãy.':
     'Designed and harmonized end-to-end Customer Journey Maps serving millions of users by eliminating fragmented touchpoints.',
-  '1.3 · Quản trị dự án và cải tiến vận hành CSKH':
+  '1.3 · Quản trị dự án & cải tiến vận hành P.CSKH':
     '1.3 · CS Project Management & Continuous Improvement',
   'Điều hành trực tiếp các chuỗi dự án cải tiến hạ tầng và quy trình CSKH liên phòng ban theo phương pháp luận Agile/Kanban, kiểm soát tiến độ và khối lượng công việc WIP.':
     'Directed cross-functional CS infrastructure and process improvement projects using Agile/Kanban methodologies and WIP governance.',
-  '3.2 · Phân tích phản hồi và cải tiến sản phẩm':
+  '3.2 · Phân tích phản hồi & cải tiến sản phẩm':
     '3.2 · Voice of Customer (VoC) Analytics & Product Enhancement',
   'Xây dựng cầu nối tương tác dữ liệu giữa phòng CSKH, Product và IT Team nhằm định lượng các pain-point người dùng và thúc đẩy cải tiến sản phẩm.':
     'Established structured data loops between CS, Product, and Engineering teams to quantify user pain points and drive product fixes.',
-  '3.3 · Ứng phó khủng hoảng & giảm khách hàng rời bỏ':
+  '3.3 · Ứng phó khủng hoảng & giảm rời bỏ dịch vụ':
     '3.3 · Crisis Response & Churn Prevention Framework',
   'Xây dựng cơ chế phản ứng khẩn cấp cho Contact Center và phối hợp cùng PR/Pháp lý để xử lý gián đoạn hệ thống lớn, giảm tỷ lệ rời bỏ dịch vụ.':
     'Built emergency Contact Center response protocols with PR and Legal to manage major outages and minimize customer churn.',
-  '2.1 · Chuẩn hóa quy trình và tiêu chuẩn CSKH':
+  '2.1 · Chuẩn hóa quy trình & tiêu chuẩn P.CSKH':
     '2.1 · Operational Standardization & Visual SOP Architecture',
   'Xây dựng và hệ thống hóa 100% quy trình vận hành tiêu chuẩn (Visual SOP) trực quan cho toàn bộ các dịch vụ, rút ngắn thời gian Onboarding nhân sự.':
     'Systematized 100% of service workflows into Visual SOP playbooks across product lines, accelerating agent onboarding speed.',
-  '2.2 · Tích hợp và tối ưu hệ thống hỗ trợ đa kênh':
+  '2.2 · Tích hợp & tối ưu hỗ trợ đa kênh P.CSKH':
     '2.2 · Omnichannel Support Integration & Optimization',
   'Hợp nhất các kênh tương tác (Hotline, Chat, Email, Social) về một không gian làm việc duy nhất (Single Agent Workspace), loại bỏ ma sát chuyển kênh.':
     'Unified Hotline, Chat, Email, and Social channels into a Single Agent Workspace to eliminate channel-switching friction.',
-  '4.3 · Tự động hóa quy trình CSKH bằng robot RPA':
+  '4.3 · Tự động hóa quy trình P.CSKH bằng robot':
     '4.3 · CS Process Automation with Robotic Process Automation (RPA)',
   'Tự động hóa các tác vụ thủ công lặp đi lặp lại như nhập liệu, đối soát giao dịch và hoàn tiền bằng RPA, giải phóng sức lao động cho Agent.':
     'Automated repetitive data entry, reconciliation, and refund tasks with RPA bots, freeing agents for high-empathy cases.',
-  '2.3 · Điều hành chiến dịch Outbound CSKH chủ động':
+  '2.3 · Điều hành chiến dịch Outbound của P.CSKH':
     '2.3 · Proactive Outbound Customer Care Campaigns',
   'Thiết kế kịch bản, quản trị dữ liệu cuộc gọi và điều hành các chiến dịch tiếp cận chủ động (Welcome Call, NPS, Win-back) nhằm giữ chân người dùng.':
     'Architected call scripts, campaign data pipelines, and proactive Welcome Call, NPS, and Win-back retention initiatives.',
-  '2.4 · Quản trị chất lượng và hiệu quả đối tác BPO':
+  '2.4 · Quản trị chất lượng & đối tác BPO P.CSKH':
     '2.4 · BPO Partner Quality & SLA Governance',
   'Thiết lập khung quản trị chất lượng, KPIs và quy trình phối hợp cho các đối tác thuê ngoài (BPO), đảm bảo chất lượng dịch vụ đồng nhất.':
     'Implemented QA governance, KPI benchmarks, and coordination frameworks for external BPO partners to ensure uniform quality.',
-  '4.1 · Xây dựng hệ thống CRM & hồ sơ khách hàng 360':
+  '4.1 · Xây dựng hệ thống CRM 360 độ tại P.CSKH':
     '4.1 · Enterprise CRM Platform & Customer 360 Profile',
   'Kiến trúc và thiết kế luồng dữ liệu CRM tập trung (MoMo Admin/Finviet CRM) phục vụ >5 triệu tài khoản, xây dựng hồ sơ khách hàng 360 độ.':
     'Architected centralized CRM data pipelines (MoMo Admin / Finviet CRM) serving 5M+ accounts with unified Customer 360 views.',
-  '4.2 · Phân tích dữ liệu và xây dựng báo cáo BI':
+  '4.2 · Phân tích dữ liệu & báo cáo BI tự động':
     '4.2 · Operational Data Analytics & BI Reporting Suite',
   'Xây dựng hệ thống báo cáo phân tích dữ liệu vận hành tự động (Power BI/Tableau) và Realtime Command Center Wallboard cho C-Level và Quản lý ca.':
     'Developed automated Power BI/Tableau operational reporting and real-time Command Center wallboards for C-Level and shift leads.',
-  '3.4 · Đo lường trải nghiệm qua CSAT, NPS và CES':
+  '3.4 · Đo lường trải nghiệm qua CSAT, NPS & CES':
     '3.4 · Experience Measurement via CSAT, NPS & CES',
   'Xây dựng hệ thống đo lường trải nghiệm CSAT/NPS/CES tự động 1-click đa kênh và luồng xử lý Closed-Loop cho Detractor trong 60 phút.':
     'Deployed automated 1-click omnichannel CSAT/NPS/CES surveys with a 60-minute Closed-Loop Detractor recovery workflow.',
-  '4.4 · Phát triển Chatbot và Voicebot AI đa kênh':
+  '4.4 · Phát triển Chatbot & Voicebot AI đa kênh':
     '4.4 · Omnichannel AI Chatbot & Voicebot Development',
   'Triển khai giải pháp Trợ lý ảo AI Bot (Generative AI & RAG) hỗ trợ tự động trả lời 24/7/365, giảm tải cho nhân viên tổng đài.':
     'Deployed Generative AI & RAG virtual assistants providing 24/7/365 automated customer support and reducing hotline load.',
@@ -810,15 +810,15 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
     '5.1 · CS Academy & Online Learning Management System',
   'Xây dựng Học viện Đào tạo trực tuyến CS Academy LMS với >85 module Micro-learning, mô phỏng cuộc gọi và sát hạch tự động.':
     'Launched CS Academy LMS featuring 85+ micro-learning modules, call simulations, and automated competency testing.',
-  '5.2 · Xây dựng khung ASK và lộ trình thăng tiến':
+  '5.2 · Xây dựng khung ASK & lộ trình thăng tiến':
     '5.2 · ASK Competency Matrix & Dual Career Path',
   'Thiết lập Khung năng lực ASK và Lộ trình thăng tiến kép (Dual Career Path), nâng cao sự gắn kết nhân sự và đào tạo lãnh đạo kế thừa.':
     'Established the ASK competency framework and Dual Career Path to drive retention and cultivate succession leaders.',
-  '5.3 · Xây dựng trung tâm hỗ trợ tự phục vụ 24/7':
+  '5.3 · Xây dựng trung tâm tự phục vụ 24/7 P.CSKH':
     '5.3 · Self-Service Help Center Architecture',
   'Xây dựng Trung tâm Hỗ trợ Tự phục vụ (Self-Service Help Center) tập trung, biên soạn >650 bài viết FAQ chuẩn SEO giúp người dùng tự tra cứu.':
     'Built a centralized Self-Service Help Center with 650+ SEO-optimized FAQ articles empowering instant user resolution.',
-  '3.5 · Xây dựng văn hóa khách hàng & chuẩn COPC':
+  '3.5 · Xây dựng văn hóa dịch vụ & chuẩn TQA COPC':
     '3.5 · Customer-Centric Culture & COPC Quality Standards',
   'Triển khai khung quản trị chất lượng TQA chuẩn COPC quốc tế cho đội ngũ >300 nhân sự, thẩm thấu văn hóa Customer-Centric vào vận hành.':
     'Rolled out COPC-aligned TQA governance across 300+ staff, embedding customer-centric culture into daily operations.',
@@ -826,7 +826,7 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
     '2.5 · Change Management & Service Crisis Response',
   'Quản trị sự thay đổi và ứng phó biến động cho toàn bộ khối dịch vụ khách hàng, thiết lập Ma trận cảnh báo sớm 4 cấp độ.':
     'Led organizational change management across the CS division and instituted a 4-tier early-warning escalation matrix.',
-  '4.5 · Ứng dụng AI Copilot & Auto-QA hỗ trợ CSKH':
+  '4.5 · Ứng dụng AI Copilot & Auto-QA tại P.CSKH':
     '4.5 · AI Agent Copilot & Auto-QA Efficiency Suite',
   'Tiên phong ứng dụng AI Agent Copilot gợi ý câu trả lời và Speech-to-Text Auto-QA tự động chấm điểm 100% cuộc gọi toàn Contact Center.':
     'Pioneered AI Agent Copilot reply suggestions and Speech-to-Text Auto-QA scoring 100% of Contact Center calls automatically.',
@@ -852,26 +852,32 @@ export const EDUCATION_EXPERIENCE_EN: Record<string, string> = {
   'Quy trình tạo nền tảng.': 'Process builds the foundation.',
   'Con người tạo giá trị.': 'People create the value.',
   'Công nghệ tạo đòn bẩy.': 'Technology creates the leverage.',
+  'Chi tiết Case Study': 'Case Study Details',
+  'Thăng tiến cấp bậc': 'Career Progression',
+  'Kinh nghiệm đa lĩnh vực': 'Multi-Industry Experience',
+  '4 Kỹ năng trọng tâm': '4 Core Management Pillars',
   'Năm 2002 – Khởi đầu tại MobiFone': '2002 – Foundations at MobiFone',
-  'Tôi bắt đầu sự nghiệp tại MobiFone, nơi tôi được đào tạo bài bản về dịch vụ khách hàng, quản lý tổng đài, xử lý sự cố và xây dựng quy trình phục vụ theo tiêu chuẩn ngành viễn thông. Đây là nền tảng giúp tôi hình thành tư duy lấy khách hàng làm trung tâm và hiểu rõ tầm quan trọng của quy trình trong vận hành dịch vụ.':
-    'I began my career at MobiFone, receiving rigorous training in customer care, call center operations, incident resolution, and telecom-grade SOP design. That experience shaped my customer-centric mindset and deep respect for structured operational processes.',
-  'Năm 2007 – Phát triển năng lực quản lý tại Viễn Liên V247':
-    '2007 – Growing Leadership at V247 Telecom',
-  'Gia nhập Viễn Liên V247, tôi tiếp tục phát triển năng lực quản lý đội ngũ, giám sát chất lượng dịch vụ và tối ưu hiệu quả vận hành của trung tâm chăm sóc khách hàng. Giai đoạn này giúp tôi tích lũy kinh nghiệm quản lý hoạt động với quy mô lớn và xây dựng các chỉ số đánh giá chất lượng dịch vụ.':
-    'At V247 Telecom, I advanced into team management, QA monitoring, and 24/7 contact center optimization—developing hands-on capability in large-scale operations and quantitative service quality benchmarks.',
-  'Năm 2011 – Bước ngoặt tại LBC – Truyền hình Cáp HTV':
-    '2011 – Turning Point at LBC – HTVC Cable TV',
-  'Đây là dấu mốc quan trọng khi tôi lần đầu đảm nhiệm vị trí Trưởng phòng Chăm sóc Khách hàng. Từ một nhà quản lý vận hành, tôi chuyển mình trở thành một nhà quản trị toàn diện. Tôi trực tiếp điều hành hoạt động của phòng ban, xây dựng và chuẩn hóa quy trình, phát triển đội ngũ, thiết lập hệ thống KPI, đồng thời phối hợp với nhiều đơn vị nhằm nâng cao chất lượng dịch vụ và hiệu quả vận hành. Chính giai đoạn này đã giúp tôi hình thành tư duy quản trị hệ thống và phát triển con người song song với mục tiêu kinh doanh.':
-    'This pivotal milestone marked my first appointment as Head of Customer Service—transitioning from operational supervision to end-to-end departmental leadership. I directed operations, standardized SOPs, developed teams, built KPI frameworks, and collaborated across divisions to elevate service quality alongside business objectives.',
-  'Năm 2013 – Garena và hành trình chuyển đổi số':
-    '2013 – Garena & The Digital Transformation Journey',
-  'Gia nhập Garena, tôi quản lý hoạt động chăm sóc khách hàng trong lĩnh vực game trực tuyến, nơi yêu cầu tốc độ xử lý nhanh, độ chính xác cao và khả năng đáp ứng lượng khách hàng rất lớn. Trong thời gian này, Garena phát triển mạnh với Liên Minh Huyền Thoại, đồng thời mở rộng thành Vietnam eSport và đầu tư vào nhiều lĩnh vực mới như Shopee, AirPay, Gcafe và Liên Quân Mobile. Tôi có cơ hội đồng hành cùng các dự án ngay từ giai đoạn đầu. Mỗi sản phẩm đều có mô hình vận hành, hành vi người dùng và kỳ vọng khách hàng khác nhau, buộc tôi phải liên tục học hỏi, thích nghi và cập nhật kiến thức để xây dựng các quy trình chăm sóc khách hàng phù hợp với từng lĩnh vực. Đặc biệt, việc tham gia vào giai đoạn phát triển ban đầu của Shopee giúp tôi tiếp cận tư duy quản trị thương mại điện tử hiện đại, từ hành trình khách hàng, trải nghiệm đa kênh, vận hành dịch vụ quy mô lớn đến ứng dụng dữ liệu trong quản trị chất lượng và tối ưu hiệu quả hoạt động. Tại Garena, tôi trực tiếp quản lý 129 nhân sự, xây dựng cơ cấu tổ chức, phát triển đội ngũ quản lý cấp trung, chuẩn hóa quy trình vận hành, thiết lập hệ thống đánh giá hiệu quả công việc và đào tạo nguồn nhân lực kế thừa. Làm việc trong môi trường tăng trưởng với tốc độ rất cao giúp tôi rèn luyện khả năng ra quyết định dưới áp lực, xử lý nhanh các tình huống phát sinh, điều phối nguồn lực hiệu quả và liên tục cải tiến quy trình để đáp ứng sự thay đổi của thị trường. Đây cũng là giai đoạn đặt nền móng cho triết lý quản trị của tôi: xây dựng hệ thống trước khi mở rộng quy mô, phát triển con người song hành cùng công nghệ và luôn lấy khách hàng làm trung tâm trong mọi quyết định.':
-    'At Garena, I led hyper-scale Customer Service operations across online gaming and Vietnam Esports’ expanding ecosystem—including League of Legends, Shopee, AirPay, Gcafe, and Arena of Valor. Supporting early-stage Shopee taught me modern e-commerce CX: omnichannel journey design, massive traffic resilience, and data-driven quality governance. Leading 129 staff directly, I built middle management, standardized Visual SOPs, launched performance scorecards, and nurtured succession talent—forging my core leadership philosophy: build robust systems before scaling, grow people alongside technology, and keep the customer at the center of every decision.',
+  'Khởi nghiệp ở vị trí nhân viên tổng đài, được đào tạo bài bản về nghiệp vụ CSKH, xử lý sự cố và tuân thủ quy trình dịch vụ chuẩn viễn thông, đặt nền móng cho tư duy lấy khách hàng làm trung tâm.':
+    'Began as a call center representative, mastering telecom-grade customer care, incident resolution, and SOP adherence—forming my customer-centric foundation.',
+  'Năm 2007 – Giám sát tại Viễn Liên V247':
+    '2007 – Supervisor at V247 Telecom',
+  'Thăng tiến lên vai trò giám sát đội ngũ, trực tiếp điều phối ca trực, đào tạo nhân sự mới và xây dựng bộ chỉ số đánh giá chất lượng dịch vụ quy mô trung tâm.':
+    'Promoted to Customer Service Supervisor, directing shift operations, onboarding new agents, and establishing center-wide QA metrics.',
+  'Năm 2011 – Trưởng phòng tại LBC – HTVC':
+    '2011 – CS Manager at LBC – HTVC',
+  'Lần đầu đảm nhiệm vai trò Trưởng phòng CSKH quy mô nhỏ, trực tiếp xây dựng cơ cấu vận hành, chuẩn hóa quy trình SOP, thiết lập KPI và phối hợp liên phòng ban.':
+    'First appointed Head of a small-scale CS department—designing org structure, standardizing Visual SOPs, setting KPIs, and aligning cross-functional workflows.',
+  'Năm 2013 – Trưởng phòng cấp cao tại Garena (VED)':
+    '2013 – Senior CS Head at Garena (VED)',
+  'Điều hành trực tiếp 129 nhân sự với tốc độ tăng trưởng cao cùng LMHT, Liên Quân Mobile, Shopee, AirPay và Gcafe. Xây dựng đội ngũ quản lý cấp trung, đào tạo nhân lực kế thừa và chuẩn hóa hệ thống CSKH đa lĩnh vực từ giai đoạn khởi đầu.':
+    'Led 129 in-house staff across rapid scaling for LoL, Arena of Valor, Shopee, AirPay, and Gcafe—building middle management, succession training, and multi-sector CS systems.',
   'Năm 2016 – Prudential Việt Nam': '2016 – Prudential Vietnam',
-  'Tại Prudential, tôi có cơ hội làm việc trong lĩnh vực bảo hiểm – một ngành dịch vụ đòi hỏi tính chính xác, minh bạch và mức độ tin cậy rất cao. Thời gian này giúp tôi hiểu sâu hơn về quản trị trải nghiệm khách hàng, quản lý chất lượng dịch vụ và xây dựng niềm tin bền vững thông qua quy trình chuyên nghiệp và sự đồng cảm trong từng điểm chạm với khách hàng.':
-    'At Prudential Vietnam, operating in life insurance deepened my mastery of regulatory accuracy, service quality governance, and earning long-term customer trust through disciplined workflows and empathy at every touchpoint.',
-  'Năm 2018 – MoMo': '2018 – MoMo E-Wallet',
-  'Năm 2023 – Ví ECO': '2023 – ECO Wallet (Finviet)',
-  'Tại Ví ECO, tôi tiếp tục phát triển chuyên môn trong lĩnh vực tài chính, nơi mọi hoạt động đều đặt yêu cầu cao về tính chính xác, minh bạch và sự tin cậy. Giai đoạn này giúp tôi hoàn thiện hơn tư duy xây dựng hệ thống dịch vụ khách hàng hiện đại, kết hợp giữa quy trình, công nghệ và trải nghiệm người dùng.':
-    'At ECO Wallet, I refined modern FinTech customer service architecture where precision, transparency, and user trust unite—blending SOP rigor, AI automation, and elevated user experience.',
+  'Phát triển hệ thống CSKH trong ngành bảo hiểm đòi hỏi độ chính xác, minh bạch và tin cậy cao; hoàn thiện quy trình chăm sóc đa điểm chạm và nâng chuẩn chất lượng dịch vụ.':
+    'Elevated customer experience systems in life insurance where accuracy, transparency, and trust are paramount across every touchpoint.',
+  'Năm 2018 – Trưởng phòng cấp cao tại Ví MoMo': '2018 – Senior CS Head at MoMo',
+  'Mở rộng điều hành CSKH tài chính số quy mô lớn, tích hợp CRM/Chatbot AI và chuẩn hóa quy trình phối hợp BPO nhằm tăng tốc xử lý và tối ưu trải nghiệm người dùng.':
+    'Scaled digital finance CX across 30M+ users, integrating CRM/AI Chatbots and BPO quality governance to speed resolution.',
+  'Năm 2023 – Ví ECO (Finviet) & Tư vấn Hệ thống CX': '2023 – ECO Wallet & CX Systems Advisory',
+  'Hoàn thiện mô hình hệ thống CSKH hiện đại kết hợp quy trình chuẩn, đào tạo đội ngũ và công nghệ AI/BI, sẵn sàng dẫn dắt khối dịch vụ khách hàng đa lĩnh vực quy mô lớn.':
+    'Perfected modern omnichannel CS architecture uniting SOP rigor, team enablement, and AI/BI automation for large-scale multi-sector leadership.',
 };

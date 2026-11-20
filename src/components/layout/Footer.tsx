@@ -43,6 +43,8 @@ export const Footer: React.FC<FooterProps> = ({
   const langPopupRef = useRef<HTMLDivElement>(null);
   const rightPillWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
   const rightPillBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const themeLastClickTimeRef = useRef<number>(0);
+  const themeDblHandledRef = useRef<boolean>(false);
 
   const triggerPillRipple = (key: string, e: React.MouseEvent<HTMLButtonElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -124,6 +126,16 @@ export const Footer: React.FC<FooterProps> = ({
         isEn ? 'Opening Wallpaper & Theme Settings!' : 'Mở trang Quản lý Hình Nền & Giao diện!'
       );
     }
+  };
+
+  const handleOpenAppearancePage = () => {
+    SoundEngine.playGlassChime();
+    setIsLangMenuOpen(false);
+    setIsThemeMenuOpen(false);
+    _onSelectTab(15);
+    onShowNotification(
+      isEn ? '✓ Navigated to Interface Configuration' : '✓ Chuyển đến trang Cấu hình Giao diện'
+    );
   };
 
   const {
@@ -653,14 +665,34 @@ export const Footer: React.FC<FooterProps> = ({
                     onFocus={() => setFocusedRightBtn(1)}
                     onClick={(e) => {
                       triggerPillRipple('theme', e);
-                      SoundEngine.playTap();
                       setIsLangMenuOpen(false);
+                      const now = Date.now();
+                      const isRapidSecondClick =
+                        e.detail >= 2 || now - themeLastClickTimeRef.current <= 320;
+                      if (isRapidSecondClick) {
+                        themeDblHandledRef.current = true;
+                        themeLastClickTimeRef.current = 0;
+                        handleOpenAppearancePage();
+                        return;
+                      }
+                      themeDblHandledRef.current = false;
+                      themeLastClickTimeRef.current = now;
+                      SoundEngine.playTap();
                       setIsThemeMenuOpen((prev) => !prev);
+                    }}
+                    onDoubleClick={(e) => {
+                      e.stopPropagation();
+                      if (themeDblHandledRef.current) {
+                        themeDblHandledRef.current = false;
+                        return;
+                      }
+                      themeLastClickTimeRef.current = 0;
+                      handleOpenAppearancePage();
                     }}
                     title={
                       isEn
-                        ? `Theme (${t(activeThemeConfig.shortBadge)})`
-                        : `Giao diện (${activeThemeConfig.shortBadge})`
+                        ? `Theme (${t(activeThemeConfig.shortBadge)}) · Click: List · Double-click: Theme page`
+                        : `Giao diện (${activeThemeConfig.shortBadge}) · Click 1 lần: Danh sách · Double-click: Mở trang Giao diện`
                     }
                     aria-expanded={isThemeMenuOpen}
                     className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"

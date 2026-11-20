@@ -103,8 +103,22 @@ html #about-personal-info-card-right {
   --fs-caption: clamp(11.5px, calc((0.32cqi + 8px) * var(--layout-typo-factor, 1)), 12.5px);
   --fs-label: clamp(11.5px, calc((0.32cqi + 8px) * var(--layout-typo-factor, 1)), 12.5px);
   --fs-badge: clamp(11px, calc((0.28cqi + 8px) * var(--layout-typo-factor, 1)), 12px);
+  --fs-overline: clamp(9.5px, calc((0.2cqi + 7.5px) * var(--layout-typo-factor, 1)), 10.5px);
+  --fs-button: clamp(12.5px, calc((0.36cqi + 9px) * var(--layout-typo-factor, 1)), 14px);
+  --fs-nav: clamp(12.5px, calc((0.36cqi + 9px) * var(--layout-typo-factor, 1)), 14px);
+  --fs-tab: clamp(12.5px, calc((0.36cqi + 9px) * var(--layout-typo-factor, 1)), 14px);
   --fs-kpi: clamp(20px, calc((1.7cqi + 10px) * var(--layout-typo-factor, 1)), 32px);
   --fs-quote: clamp(17px, calc((1.25cqi + 7px) * var(--layout-typo-factor, 1)), 23px);
+  --fs-popup-title: clamp(16px, calc((0.7cqi + 11px) * var(--layout-typo-factor, 1)), 20px);
+}
+
+/* Mật độ cột/subcard cao sẽ tinh chỉnh nhẹ chữ trong subcard để giữ bố cục thoáng, không vỡ dòng */
+.page-main-card [data-subcard="true"],
+.page-main-card .sub-card,
+.page-main-card .exp-detail-subcard,
+.page-main-card .skill-swot-subcard {
+  --fs-body: clamp(13px, calc((0.48cqi + 8.5px) * var(--layout-typo-factor, 1) * var(--layout-col-factor, 1)), 15.5px);
+  --fs-body-sm: clamp(12px, calc((0.4cqi + 8px) * var(--layout-typo-factor, 1) * var(--layout-col-factor, 1)), 14px);
 }
 
 /* Fluid gaps across top-level Bento & View Grids inside Main Cards */
@@ -153,11 +167,11 @@ html #about-personal-info-card-right {
   gap: clamp(8px, 1cqi, 14px) !important;
 }
 
-.page-main-card .hero-banner :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
-.page-main-card .banner-card :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
-.page-main-card [id$="-hero-banner"] :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
+.page-main-card .hero-banner :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote),
+.page-main-card .banner-card :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote),
+.page-main-card [id$="-hero-banner"] :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote) {
   font-family: var(--font-quote, 'Dancing Script', cursive) !important;
-  font-size: clamp(1.1rem, 1.35cqi + 0.58rem, 1.55rem) !important;
+  font-size: var(--fs-quote, clamp(1.08rem, calc((1.35cqi + 0.56rem) * var(--layout-typo-factor, 1)), 1.55rem)) !important;
   line-height: 1.38 !important;
 }
 
@@ -166,9 +180,32 @@ html #about-personal-info-card-right {
   container-name: swot-card;
 }
 
+.skill-swot-subcard .swot-skill-name,
+.skill-swot-subcard .swot-skill-percent {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.skill-swot-subcard .swot-skill-name {
+  min-width: min(110px, 100%);
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
 @container swot-card (max-width: 440px) {
   .swot-quadrant-card .swot-skill-track {
     display: none !important;
+  }
+}
+
+@container swot-card (max-width: 340px) {
+  .skill-swot-subcard > div:first-child {
+    flex-wrap: wrap !important;
+    row-gap: 4px !important;
+  }
+  .skill-swot-subcard .swot-skill-name {
+    font-size: var(--fs-body-sm, 13px) !important;
   }
 }
 

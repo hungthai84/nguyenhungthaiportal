@@ -1296,9 +1296,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 isActive ? 'shadow-xs font-bold' : ''
                               )}
                             >
-                              <span>
-                                {seg.label} ({seg.count})
-                              </span>
+                              <span>{seg.label}</span>
                               {isActive && <span className="w-2 h-2 rounded-full bg-current" />}
                             </button>
                           );

@@ -17,6 +17,7 @@ import {
 } from '@/data/letterData';
 import { SiteTheme } from '@/types';
 import { useTheme } from '@/hooks/useTheme';
+import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
 
 // Video thuyết minh Thư Ngỏ (Cloudinary Transition Studio)
 export const LETTER_SLIDE_1_VIDEO_URL =
@@ -427,7 +428,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
   const isProgrammaticScrollRef = useRef(false);
   const scrollTimeoutRef = useRef<number | null>(null);
 
-  const peekReserve = viewportWidth < 640 ? 72 : 112;
+  const peekReserve = viewportWidth <= 767 ? 16 : viewportWidth <= 1023 ? 32 : 112;
   const letterCardWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
   const letterSideInset = Math.max(0, (letterContainerWidth - letterCardWidth) / 2);
 
@@ -510,8 +511,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
         container.scrollLeft = targetLeft;
       }
       scrollTimeoutRef.current = window.setTimeout(() => {
+        const settledLeft = getCenteredScrollLeftForSlide(clamped);
+        if (Math.abs(container.scrollLeft - settledLeft) > 1) {
+          container.scrollLeft = settledLeft;
+        }
         isProgrammaticScrollRef.current = false;
-      }, 550);
+        evaluateOverallLayoutTypography(document.getElementById('global-content-viewport'));
+      }, smooth ? 560 : 60);
     },
     [getCenteredScrollLeftForSlide]
   );

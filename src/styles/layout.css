@@ -26,7 +26,7 @@
 
 #global-content-viewport {
   width: 100%;
-  max-width: var(--container-max-w, 1250px);
+  max-width: 100%;
   flex: 1 1 0% !important;
   margin-left: auto;
   margin-right: auto;
@@ -35,6 +35,10 @@
   min-height: 0 !important;
   scroll-behavior: smooth;
   transition: none !important;
+}
+
+#global-content-viewport:has(#pdf-page-container) {
+  max-width: var(--container-max-w, 1250px);
 }
 
 @media (max-height: 580px) {
@@ -105,6 +109,7 @@
 #horoscope-page-container,
 [data-no-wheel-horizontal="true"] {
   overflow-x: hidden !important;
+  scroll-behavior: auto !important;
 }
 
 #about-cards-track,

@@ -70,7 +70,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     highlightText:
       "Tôi bắt đầu sự nghiệp tại MobiFone, nơi tôi được đào tạo bài bản về dịch vụ khách hàng, quản lý tổng đài, xử lý sự cố và xây dựng quy trình phục vụ theo tiêu chuẩn ngành viễn thông.",
     cardDescription:
-      "Tôi bắt đầu sự nghiệp tại MobiFone, nơi tôi được đào tạo bài bản về dịch vụ khách hàng, quản lý tổng đài, xử lý sự cố và xây dựng quy trình phục vụ theo tiêu chuẩn ngành viễn thông.",
+      "Khởi đầu Nhân viên CSKH ngành viễn thông di động: tổng đài 24/7, xử lý sự cố và rèn chuẩn quy trình phục vụ khách hàng.",
     paragraphs: [
       "Tư Vấn Nghiệp Vụ: Tiếp nhận và giải quyết các yêu cầu tư vấn dịch vụ, cước phí và khiếu nại viễn thông di động của khách hàng MobiFone.",
       "Khảo Sát & Hướng Dẫn: Thực hiện các cuộc gọi Outbound khảo sát chất lượng mạng và hỗ trợ đào tạo, hướng dẫn nghiệp vụ cho nhân viên mới.",
@@ -146,7 +146,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     highlightText:
       "Gia nhập Viễn Liên V247, tôi tiếp tục phát triển năng lực quản lý đội ngũ, giám sát chất lượng dịch vụ và tối ưu hiệu quả vận hành của trung tâm chăm sóc khách hàng.",
     cardDescription:
-      "Quản lý đội ngũ điện thoại viên phục vụ dịch vụ viễn thông quốc tế Hoa Kỳ - Việt Nam 24/7 với cam kết SLA đạt chuẩn trên 98%.",
+      "Thăng tiến Giám sát CSKH viễn thông quốc tế Hoa Kỳ – Việt Nam: điều phối ca 24/7, chấm điểm QA và đào tạo chuẩn SLA >98%.",
     paragraphs: [
       "Giám Sát Đa Kênh: Quản lý và giám sát hoạt động CSKH trên các kênh Email, Fax, Điện thoại và Live Chat, điều phối cuộc gọi theo lưu lượng thực tế.",
       "Đánh Giá Chất Lượng: Thực hiện chấm điểm chất lượng cuộc gọi (QA Call Scoring), huấn luyện kỹ năng nghiệp vụ và lập lịch trực ca vận hành 24/7.",
@@ -229,7 +229,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     highlightText:
       "Đây là dấu mốc quan trọng khi tôi lần đầu đảm nhiệm vị trí Trưởng phòng CSKH. Từ một nhà quản lý vận hành, tôi chuyển mình trở thành một nhà quản trị toàn diện.",
     cardDescription:
-      "Bước ngoặt lớn chuyển đổi sang vai trò Trưởng phòng CSKH toàn diện, kiến thiết quy trình CRM và điều hành mạng lưới truyền hình cáp.",
+      "Trưởng phòng CSKH quy mô nhỏ ngành truyền hình cáp & internet: chuẩn hóa quy trình SOP, KPI và hệ thống phối hợp đa đơn vị.",
     paragraphs: [
       "Điều Hành Toàn Diện: Trực tiếp quản lý hoạt động phòng CSKH, chuẩn hóa quy trình xử lý sự cố truyền hình cáp và dịch vụ internet băng rộng.",
       "Phối Hợp MKT: Triển khai khảo sát mức độ hài lòng, phân tích thị trường, chăm sóc khách hàng VIP và phối hợp các chương trình khuyến mãi.",
@@ -315,7 +315,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     highlightText:
       "Gia nhập Garena, tôi quản lý hoạt động chăm sóc khách hàng trong lĩnh vực game trực tuyến, nơi yêu cầu tốc độ xử lý nhanh, độ chính xác cao và khả năng đáp ứng lượng khách hàng rất lớn.",
     cardDescription:
-      "Điều hành trung tâm hỗ trợ CSKH 130 nhân sự phục vụ hàng triệu game thủ eSports, mạng lưới phòng máy Gcafe và đặt nền móng CSKH cho sàn Shopee.",
+      "Trưởng phòng CSKH quản lý cấp cao (129–130 NS) đa lĩnh vực Game, eSports, TMĐT Shopee, AirPay & Gcafe: xây dựng hệ thống CRM, quy trình & đào tạo kế thừa.",
     paragraphs: [
       "Khởi Tạo Sản Phẩm: Tham gia xây dựng hệ thống CSKH cho các sản phẩm mới gồm Shopee, AirPay, Liên Quân Mobile và Liên Minh Huyền Thoại.",
       "Tổ Chức & Chuẩn Hóa: Quản lý bộ máy 130 nhân sự, chuẩn hóa Visual SOP, phát triển hệ thống CRM nội bộ Garena Customer Desk và đào tạo đội ngũ quản lý cấp trung.",
@@ -394,7 +394,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     highlightText:
       "Tại Prudential, tôi có cơ hội làm việc trong lĩnh vực bảo hiểm – một ngành dịch vụ đòi hỏi tính chính xác, minh bạch và mức độ tin cậy rất cao.",
     cardDescription:
-      "Quản lý chất lượng giải quyết quyền lợi bảo hiểm, thẩm định hồ sơ chi trả và tiên phong quy trình tư vấn khách hàng qua Videocall.",
+      "Trưởng phòng Call Center ngành bảo hiểm nhân thọ: chuẩn hóa QA/QC, quy trình BCP, tư vấn Video Call và trải nghiệm chuẩn tin cậy.",
     paragraphs: [
       "Vận Hành Hệ Thống: Quản lý hoạt động Call Center bảo hiểm, tổ chức và sắp xếp nhân sự phù hợp cho giai đoạn chuyển đổi hệ thống mới.",
       "Đổi Mới Kênh Hỗ Trợ: Xây dựng quy trình tư vấn qua Video Call và phối hợp kết nối mảng thương mại điện tử (E-commerce) với hệ thống tổng đài.",
@@ -482,7 +482,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     highlightText:
       "Gia nhập MoMo, tôi tiếp tục mở rộng kinh nghiệm trong lĩnh vực tài chính số. Tôi tập trung tối ưu quy trình hỗ trợ khách hàng, nâng cao hiệu quả vận hành, ứng dụng công nghệ vào quản trị dịch vụ và cải thiện trải nghiệm khách hàng trên nền tảng số.",
     cardDescription:
-      "Điều hành trung tâm chăm sóc khách hàng ví điện tử phục vụ hơn 30 triệu người dùng, tích hợp chatbot và tối ưu hóa thời gian xử lý tra soát.",
+      "Trưởng phòng CSKH cấp cao ngành FinTech (>30M user): quản trị 60 NS + BPO, xây dựng CRM thời gian thực, quy trình & đào tạo vận hành số.",
     paragraphs: [
       "Vận Hành Tối Ưu: Xây dựng và tinh gọn quy trình CSKH đa kênh, tự động hóa luồng xử lý yêu cầu và kiểm soát chặt chẽ chỉ số SLA/KPI cho cả đội ngũ nội bộ lẫn đối tác BPO.",
       "Xử Lý Sự Cố: Phối hợp trực tiếp cùng các bộ phận Công nghệ, Sản phẩm, Pháp chế và Ngân hàng để giải quyết nhanh các vấn đề giao dịch, khiếu nại và rủi ro phát sinh.",
@@ -567,7 +567,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     highlightText:
       "Tại Ví ECO, tôi tiếp tục phát triển chuyên môn trong lĩnh vực tài chính, nơi mọi hoạt động đều đặt yêu cầu cao về tính chính xác, minh bạch và sự tin cậy.",
     cardDescription:
-      "Trực tiếp thiết lập và tối ưu hóa hệ thống CSKH cho dịch vụ FinTech và Ví điện tử ECO, triển khai hỗ trợ đa kênh Omnichannel và AI Bot tự động 24/7.",
+      "Trưởng phòng CSKH ngành tài chính số & bán lẻ B2B: xây dựng hệ thống CSKH hiện đại kết hợp quy trình SOP, Omnichannel & AI Bot 24/7.",
     paragraphs: [
       "Mở Rộng Hệ Sinh Thái & Dịch Vụ: Trực tiếp tham gia thiết lập và tối ưu hóa hệ thống CSKH từ giai đoạn đầu cho nhiều dịch vụ FinTech và Ví điện tử ECO. Xây dựng mô hình hỗ trợ linh hoạt, phù hợp với hành vi tiêu dùng và đặc thù giao dịch tài chính số của từng nhóm khách hàng.",
       "Chuyển Đổi Số TMĐT & FinTech: Ứng dụng tư duy quản trị tài chính số hiện đại; số hóa hành trình trải nghiệm người dùng, triển khai hỗ trợ đa kênh (Omnichannel) và khai thác dữ liệu giao dịch để kiểm soát rủi ro, phòng chống gian lận và tối ưu hiệu quả vận hành.",
@@ -656,7 +656,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     highlightText:
       "Sẵn sàng đảm nhận vị trí Trưởng phòng Dịch vụ Khách hàng (Head of CS) hoặc Giám đốc Trải nghiệm Khách hàng (CS Director) tại các doanh nghiệp Công nghệ, FinTech, Bảo hiểm.",
     cardDescription:
-      "Hoạch định & thực thi CX Strategy 2026+, tích hợp Generative AI, RAG & Automation CRM thế hệ mới và chuẩn hóa vận hành Contact Center đa kênh chuẩn COPC.",
+      "Trưởng phòng / Giám đốc CX cấp cao (100–150+ NS): xây dựng hệ thống AI CRM, tự động hóa quy trình COPC và đào tạo lãnh đạo kế thừa.",
     paragraphs: [
       "Hoạch Định & Thực Thi Strategy: Hoạch định & thực thi CX Strategy 2026+; tích hợp Generative AI, RAG & Automation CRM thế hệ mới.",
       "Chuẩn Hóa Contact Center: Chuẩn hóa và tối ưu hóa vận hành Contact Center đa kênh; kiến tạo bộ chỉ số KPI, CSAT, NPS, FCR, SLA chuẩn quốc tế COPC.",

@@ -222,8 +222,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
               </h1>
             </div>
             <p
-              className="banner-quote typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
-              style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+              className="banner-quote typo-h3 font-handwriting font-quote not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+              style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 700, fontStyle: 'normal' }}
             >
               &quot;Giao lưu cởi mở để thấu hiểu và sẻ chia ♡&quot;
             </p>
@@ -239,7 +239,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
                 onClick={() => {
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
-                className="banner-control-pill inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group max-w-full shrink-0"
+                className="banner-control-pill h-9 inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group max-w-full shrink-0"
                 title="Bộ lọc câu hỏi"
                 aria-label="Bộ lọc câu hỏi phỏng vấn"
                 aria-expanded={isFilterDropdownOpen}
@@ -250,13 +250,9 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
                   className="w-4 h-4 text-[var(--color-primary)] shrink-0"
                 />
                 <span className="truncate">Bộ lọc câu hỏi</span>
-                {activeFilter !== 'all' ? (
+                {activeFilter !== 'all' && (
                   <span className="banner-count-pill hidden sm:inline-flex px-2 py-0.2 rounded-full border typo-badge font-mono font-bold shrink-0">
                     {INTERVIEW_TABS.find((t) => t.key === activeFilter)?.labelVi}
-                  </span>
-                ) : (
-                  <span className="banner-count-pill hidden sm:inline-flex px-2 py-0.2 rounded-full border typo-badge font-mono font-bold shrink-0">
-                    {INTERVIEW_QUESTIONS.length} câu
                   </span>
                 )}
                 <WebIcon
@@ -285,10 +281,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
                         <span className="font-bold text-[var(--text-heading,var(--color-primary))] font-play typo-body-sm">
                           Bộ lọc
                         </span>
-                      <span>
-                        Hiển thị {filteredQuestions.length}/{INTERVIEW_QUESTIONS.length} câu hỏi
-                      </span>
-                    </div>
+                      </div>
                     <div className="flex flex-wrap gap-1">
                       {INTERVIEW_TABS.map((tab) => {
                         const isTabActive = activeFilter === tab.key;

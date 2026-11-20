@@ -728,10 +728,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
                   </h1>
                 </div>
                 <p
-                  className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[56%]"
+                  className="banner-quote typo-h3 font-handwriting font-quote not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[56%]"
                   style={{
                     color: 'var(--text-secondary)',
-                    fontFamily: "'Italianno', cursive, sans-serif",
+                    fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
                     fontWeight: 700,
                     fontStyle: 'normal',
                   }}
@@ -752,7 +752,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
                       SoundEngine.playTap();
                       setIsFilterOpen((prev) => !prev);
                     }}
-                    className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
                     title={isEn ? 'Domain Filter' : 'Bộ lọc lĩnh vực'}
                     aria-label={isEn ? 'Domain Filter' : 'Bộ lọc lĩnh vực'}
                     aria-expanded={isFilterOpen}
@@ -782,7 +782,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
                       SoundEngine.playTap();
                       setIsTechModalOpen(true);
                     }}
-                    className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95"
+                    className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95"
                   >
                     <Cpu className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
                     <span>{isEn ? 'Tech Ecosystem' : 'Hệ sinh thái công nghệ'}</span>

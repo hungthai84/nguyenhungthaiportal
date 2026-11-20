@@ -311,6 +311,7 @@ html, body {
 .font-handwriting,
 .font-quote,
 .motto-quote-text {
+  font-family: var(--font-quote, 'Dancing Script', cursive) !important;
   font-size: var(--fs-quote, var(--fs-h3)) !important;
   line-height: 1.35 !important;
 }
@@ -322,7 +323,7 @@ html, body {
 [id$="-banner-quote"],
 [id$="-hero-banner-quote"] {
   font-family: var(--font-quote, 'Dancing Script', cursive) !important;
-  font-size: clamp(1.15rem, 1.45vw + 0.58rem, 1.6rem) !important;
+  font-size: var(--fs-quote, clamp(1.1rem, 1.45vw + 0.58rem, 1.55rem)) !important;
   font-weight: 600 !important;
   font-style: normal !important;
   line-height: 1.35 !important;

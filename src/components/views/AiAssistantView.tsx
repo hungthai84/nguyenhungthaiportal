@@ -102,6 +102,10 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [syncedBannerHeight, setSyncedBannerHeight] = useState<number | null>(null);
   const [chatControlHeight, setChatControlHeight] = useState<number>(44);
+  const [chatExpandPx, setChatExpandPx] = useState<number>(0);
+  const [isDraggingExpand, setIsDraggingExpand] = useState<boolean>(false);
+  const dragMovedRef = useRef<boolean>(false);
+  const isChatExpanded = chatExpandPx > 0;
 
   const showToast = (msg: string) => {
     if (onShowNotification) onShowNotification(msg);
@@ -128,19 +132,62 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
     };
   }, [language, isSampleDropdownOpen]);
 
-  // Auto-resize textarea cleanly (base height dynamically matches Danh mục button height)
+  // Lock chat input height strictly to Danh mục button height at all times
   useEffect(() => {
     const el = textareaRef.current;
     if (!el) return;
     const baseHeight = chatControlHeight || 44;
-    if (!inputValue) {
-      el.style.height = `${baseHeight}px`;
+    el.style.height = `${baseHeight}px`;
+    el.style.minHeight = `${baseHeight}px`;
+    el.style.maxHeight = `${baseHeight}px`;
+  }, [inputValue, chatControlHeight]);
+
+  // Drag / click handler on expand icon to widen chat container smoothly
+  const handleExpandPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
+    e.preventDefault();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startExpand = chatExpandPx;
+    dragMovedRef.current = false;
+    setIsDraggingExpand(true);
+
+    const handleMove = (ev: PointerEvent) => {
+      const dx = ev.clientX - startX;
+      const dy = ev.clientY - startY;
+      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+        dragMovedRef.current = true;
+      }
+      if (!dragMovedRef.current) return;
+
+      const delta =
+        startExpand === 0
+          ? Math.max(Math.abs(dx), -dy, 0) * 2.1
+          : dx * 2.1;
+      const next = Math.max(0, Math.min(540, Math.round(startExpand + delta)));
+      setChatExpandPx(next);
+    };
+
+    const handleUp = () => {
+      setIsDraggingExpand(false);
+      window.removeEventListener('pointermove', handleMove);
+      window.removeEventListener('pointerup', handleUp);
+      window.removeEventListener('pointercancel', handleUp);
+    };
+
+    window.addEventListener('pointermove', handleMove);
+    window.addEventListener('pointerup', handleUp);
+    window.addEventListener('pointercancel', handleUp);
+  };
+
+  const handleExpandClick = () => {
+    if (dragMovedRef.current) {
+      dragMovedRef.current = false;
       return;
     }
-    el.style.height = `${baseHeight}px`;
-    const nextHeight = Math.min(Math.max(el.scrollHeight, baseHeight), 112);
-    el.style.height = `${nextHeight}px`;
-  }, [inputValue, chatControlHeight]);
+    SoundEngine.playTap();
+    setChatExpandPx((prev) => (prev > 0 ? 0 : 420));
+  };
 
   useEffect(() => {
     const syncHeight = () => {
@@ -403,13 +450,26 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         <div
           id="ai-assistant-main-card"
           data-main-card="true"
+          data-chat-expanded={isChatExpanded ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Trợ lý AI"
           data-element-type="card"
           data-element-page="ai-assistant"
           data-element-parent="ai-assistant-cards-track"
+          style={
+            isChatExpanded
+              ? ({
+                  '--ai-chat-extra-w': `${chatExpandPx}px`,
+                  '--ai-banner-collapsed-w': `${Math.max(0, 235 - Math.round(chatExpandPx * 1.15))}px`,
+                } as React.CSSProperties)
+              : undefined
+          }
           className="page-main-card flex flex-col items-stretch p-[15px] gap-[15px] rounded-[14px] overflow-y-auto lg:overflow-hidden font-play text-left justify-start box-border"
         >
-      <div className="flex-1 min-h-0 w-full flex flex-col lg:flex-row items-stretch gap-[15px]">
+      <div
+        className={`flex-1 min-h-0 w-full flex flex-col lg:flex-row items-stretch ${
+          chatExpandPx >= 200 ? 'gap-0 lg:gap-0' : 'gap-[15px]'
+        }`}
+      >
       {/* 1. HERO BANNER TRỢ LÝ AI TRÍ NHÂN */}
       <section
         id="ai-assistant-hero-banner"
@@ -632,7 +692,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           </div>
         </div>
 
-        {/* FORM NHẬP TIN NHẮN: [Nút Danh mục] [Textarea nhập nội dung] [Nút Gửi] — chiều cao bằng nhau 44px */}
+        {/* FORM NHẬP TIN NHẮN: [Nút Danh mục] [Khung nhập chat = chiều cao nút Danh mục + icon kéo giãn rộng] [Nút Gửi] */}
         <form
           id="ai-assistant-input-form"
           data-element-name="Biểu mẫu nhập câu hỏi Trợ lý AI Trí Nhân"
@@ -643,7 +703,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             e.preventDefault();
             handleSend();
           }}
-          className="flex items-end gap-1.5 sm:gap-2.5 pt-1 relative shrink-0"
+          className="flex items-center gap-1.5 sm:gap-2.5 pt-1 relative shrink-0"
         >
           <div ref={dropTopMenuRef} id="ai-assistant-droptop-wrapper" className="shrink-0 flex items-center">
             <SampleQuestionButton
@@ -665,28 +725,78 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             />
           </div>
 
-          <textarea
-            ref={textareaRef}
-            id="ai-assistant-input-text"
-            data-element-name="Ô nhập nội dung câu hỏi AI Trí Nhân"
-            data-element-type="control"
-            data-element-page="ai-assistant"
-            data-element-parent="ai-assistant-input-form"
-            rows={1}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleTextareaKeyDown}
-            placeholder={
-              isEn
-                ? 'Enter question with Tri Nhan...'
-                : 'Nhập câu hỏi với Trí Nhân...'
-            }
+          <div
+            id="ai-assistant-input-wrapper"
             style={{
+              height: `${chatControlHeight}px`,
               minHeight: `${chatControlHeight}px`,
-              borderRadius: `${Math.round(chatControlHeight / 2)}px`,
+              maxHeight: `${chatControlHeight}px`,
             }}
-            className="theme-input box-border flex-1 min-w-0 max-h-[112px] py-2 px-3 sm:px-4 border typo-input leading-[22px] resize-none focus:outline-none shadow-inner overflow-y-auto"
-          />
+            className="relative flex-1 min-w-0 flex items-center box-border"
+          >
+            <textarea
+              ref={textareaRef}
+              id="ai-assistant-input-text"
+              data-element-name="Ô nhập nội dung câu hỏi AI Trí Nhân"
+              data-element-type="control"
+              data-element-page="ai-assistant"
+              data-element-parent="ai-assistant-input-form"
+              rows={1}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleTextareaKeyDown}
+              placeholder={
+                isEn
+                  ? 'Enter question with Tri Nhan...'
+                  : 'Nhập câu hỏi với Trí Nhân...'
+              }
+              style={{
+                height: `${chatControlHeight}px`,
+                minHeight: `${chatControlHeight}px`,
+                maxHeight: `${chatControlHeight}px`,
+                lineHeight: '22px',
+                paddingTop: `${Math.max(4, Math.floor((chatControlHeight - 24) / 2))}px`,
+                paddingBottom: `${Math.max(4, Math.floor((chatControlHeight - 24) / 2))}px`,
+                borderRadius: `${Math.round(chatControlHeight / 2)}px`,
+              }}
+              className="theme-input box-border w-full h-full pl-3.5 sm:pl-4 pr-10 border typo-input resize-none focus:outline-none shadow-inner overflow-y-auto no-scrollbar"
+            />
+            <button
+              id="ai-assistant-chat-expand-btn"
+              type="button"
+              onPointerDown={handleExpandPointerDown}
+              onClick={handleExpandClick}
+              aria-expanded={isChatExpanded}
+              aria-label={
+                isEn
+                  ? isChatExpanded
+                    ? 'Restore standard chat width (or drag to resize)'
+                    : 'Drag or click to widen chat frame'
+                  : isChatExpanded
+                  ? 'Thu gọn khung chat về mặc định (hoặc kéo để chỉnh)'
+                  : 'Kéo hoặc nhấn để mở rộng khung chat rộng hơn'
+              }
+              title={
+                isEn
+                  ? isChatExpanded
+                    ? 'Drag or click to resize chat width'
+                    : 'Drag or click to widen chat frame'
+                  : isChatExpanded
+                  ? 'Kéo hoặc nhấn để chỉnh độ rộng khung chat'
+                  : 'Kéo hoặc nhấn để kéo giãn khung chat rộng hơn'
+              }
+              className={`absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-ew-resize touch-none select-none z-10 ${
+                isChatExpanded || isDraggingExpand
+                  ? 'bg-blue-600 text-white shadow-xs'
+                  : 'text-[var(--text-muted)] hover:text-[var(--color-primary)] hover:bg-black/5 dark:hover:bg-white/10'
+              }`}
+            >
+              <WebIcon
+                name={isChatExpanded ? 'minimize-2' : 'move-horizontal'}
+                className="w-4 h-4 shrink-0 pointer-events-none"
+              />
+            </button>
+          </div>
 
           <button
             id="ai-assistant-submit-button"
@@ -699,6 +809,8 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             style={{
               background: 'var(--bg-button-primary)',
               height: `${chatControlHeight}px`,
+              minHeight: `${chatControlHeight}px`,
+              maxHeight: `${chatControlHeight}px`,
             }}
             className="box-border px-3 sm:px-5 rounded-full text-white typo-button shadow-md cursor-pointer transition hover:opacity-90 active:scale-95 disabled:opacity-55 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2 shrink-0 border border-white/20"
           >

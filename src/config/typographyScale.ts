@@ -267,14 +267,27 @@ export interface LayoutTypographyEvaluation {
   containerHeight: number;
   viewportWidth: number;
   viewportHeight: number;
+  maxGridCols: number;
+  minColWidth: number;
+  subcardCount: number;
+  isSplitLayout: boolean;
   densityTier: 'compact' | 'balanced' | 'spacious';
   layoutFactor: number;
+  colFactor: number;
   optimalChMeasure: string;
 }
 
+const clampNum = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+
+const lerpFactor = (val: number, inMin: number, inMax: number, outMin: number, outMax: number) => {
+  if (inMax <= inMin) return outMin;
+  const t = clampNum((val - inMin) / (inMax - inMin), 0, 1);
+  return outMin + t * (outMax - outMin);
+};
+
 /**
- * Đánh giá bố cục tổng thể (bề rộng & chiều cao Main Card thực tế, mật độ lưới cột/sub-card)
- * để suy ra hệ số cỡ chữ tương ứng, giúp văn bản vừa vặn theo tỷ lệ khung hình ở mọi kích thước.
+ * Đánh giá bố cục tổng thể (kích thước Main Card đang hiển thị, chiều rộng từng cột lưới,
+ * bố cục chia đôi/sidebar, và mật độ sub-card) để tự động suy ra hệ số kích thước chữ tương ứng.
  */
 export function evaluateOverallLayoutTypography(
   targetEl?: HTMLElement | null
@@ -284,52 +297,164 @@ export function evaluateOverallLayoutTypography(
 
   let containerWidth = Math.min(1250, vw);
   let containerHeight = Math.max(360, vh * 0.76);
-  let multiColCount = 1;
+  let maxGridCols = 1;
+  let minColWidth = containerWidth;
+  let subcardCount = 0;
+  let isSplitLayout = false;
+
+  let activeMainCard: HTMLElement | null = null;
 
   if (typeof document !== 'undefined') {
-    const activeMainCard =
-      targetEl?.querySelector<HTMLElement>('.page-main-card[data-main-card="true"], [data-main-card="true"]') ||
-      document.querySelector<HTMLElement>('#global-content-viewport .page-main-card') ||
-      targetEl ||
-      document.getElementById('global-content-viewport');
+    const searchRoot = targetEl || document.getElementById('global-content-viewport') || document.body;
+    const allMainCards = Array.from(
+      searchRoot.querySelectorAll<HTMLElement>('.page-main-card, [data-main-card="true"]')
+    );
+
+    if (allMainCards.length === 1) {
+      activeMainCard = allMainCards[0];
+    } else if (allMainCards.length > 1) {
+      // Với các trang có nhiều Main Card nằm ngang (Thư ngỏ, Giới thiệu, Tử vi),
+      // chọn Main Card đang nằm gần tâm ngang màn hình nhất để đánh giá chính xác.
+      const viewportCenterX = vw / 2;
+      let bestDist = Infinity;
+      for (const card of allMainCards) {
+        const r = card.getBoundingClientRect();
+        if (r.width <= 0 || r.height <= 0) continue;
+        const cardCenterX = r.left + r.width / 2;
+        const dist = Math.abs(cardCenterX - viewportCenterX);
+        if (dist < bestDist) {
+          bestDist = dist;
+          activeMainCard = card;
+        }
+      }
+    }
+
+    if (!activeMainCard) {
+      activeMainCard = targetEl || document.getElementById('global-content-viewport');
+    }
 
     if (activeMainCard) {
       const rect = activeMainCard.getBoundingClientRect();
       if (rect.width > 0) containerWidth = rect.width;
       if (rect.height > 0) containerHeight = rect.height;
+      minColWidth = containerWidth;
+
+      // Kiểm tra các bố cục chia đôi (Project Detail + Sidebar Banner, Interview Video 70% + Detail 30%, Contact/AI Sidebar)
+      const splitContainer = activeMainCard.querySelector<HTMLElement>(
+        '#project-detail-layout, #interview-main-content, #about-intro-grid-1'
+      );
+      if (splitContainer) {
+        isSplitLayout = true;
+      }
 
       const grids = activeMainCard.querySelectorAll<HTMLElement>('.grid');
       grids.forEach((g) => {
-        const cols = window.getComputedStyle(g).gridTemplateColumns;
+        const style = window.getComputedStyle(g);
+        const cols = style.gridTemplateColumns;
         if (cols && cols !== 'none') {
-          const trackCount = cols.trim().split(/\s+/).length;
-          if (trackCount > multiColCount) multiColCount = trackCount;
+          const tracks = cols
+            .trim()
+            .split(/\s+/)
+            .filter((t) => t && t !== '0px');
+          const trackCount = tracks.length;
+          if (trackCount > 1) {
+            const gRect = g.getBoundingClientRect();
+            const gWidth = gRect.width > 0 ? gRect.width : containerWidth;
+            const colGap = parseFloat(style.columnGap || '15') || 15;
+            const effectiveColW = (gWidth - colGap * (trackCount - 1)) / trackCount;
+            if (trackCount > maxGridCols) maxGridCols = trackCount;
+            if (effectiveColW > 80 && effectiveColW < minColWidth) {
+              minColWidth = effectiveColW;
+            }
+          }
         }
       });
+
+      const subcards = activeMainCard.querySelectorAll<HTMLElement>(
+        '[data-subcard="true"], .sub-card, .exp-detail-subcard, .skill-swot-subcard, .project-card, .service-card'
+      );
+      subcardCount = subcards.length;
     }
   }
 
-  // Hệ số theo chiều rộng thực tế Main Card & chiều cao khả dụng (đặc biệt màn laptop thấp <= 720px)
-  const widthFactor = containerWidth < 480 ? 0.94 : containerWidth < 768 ? 0.97 : containerWidth >= 1180 ? 1.02 : 1;
-  const heightFactor = containerHeight < 480 ? 0.91 : containerHeight < 580 ? 0.95 : containerHeight >= 760 ? 1.02 : 1;
-  const densityPenalty = multiColCount >= 4 ? 0.96 : multiColCount === 3 ? 0.98 : 1;
+  // 1. Đánh giá liên tục theo bề rộng thực tế của Main Card (320px -> 1250px)
+  let widthFactor = 1;
+  if (containerWidth < 420) {
+    widthFactor = lerpFactor(containerWidth, 300, 420, 0.89, 0.94);
+  } else if (containerWidth < 768) {
+    widthFactor = lerpFactor(containerWidth, 420, 768, 0.94, 0.985);
+  } else if (containerWidth < 1120) {
+    widthFactor = lerpFactor(containerWidth, 768, 1120, 0.985, 1.015);
+  } else {
+    widthFactor = lerpFactor(containerWidth, 1120, 1250, 1.015, 1.035);
+  }
 
-  const rawFactor = Math.min(widthFactor, heightFactor) * densityPenalty;
-  const layoutFactor = Math.round(Math.max(0.88, Math.min(1.04, rawFactor)) * 1000) / 1000;
+  // 2. Đánh giá theo chiều cao khả dụng (đặc biệt màn laptop thấp <= 720px hoặc mobile landscape)
+  let heightFactor = 1;
+  if (containerHeight < 460) {
+    heightFactor = lerpFactor(containerHeight, 320, 460, 0.88, 0.93);
+  } else if (containerHeight < 640) {
+    heightFactor = lerpFactor(containerHeight, 460, 640, 0.93, 0.985);
+  } else if (containerHeight < 780) {
+    heightFactor = lerpFactor(containerHeight, 640, 780, 0.985, 1.01);
+  } else {
+    heightFactor = 1.025;
+  }
+
+  // 3. Hệ số mật độ theo bề rộng thực tế mỗi cột & số lượng subcard trong trang
+  let colDensityFactor = 1;
+  if (minColWidth < 210) {
+    colDensityFactor = 0.93;
+  } else if (minColWidth < 260) {
+    colDensityFactor = 0.96;
+  } else if (minColWidth < 320 && maxGridCols >= 3) {
+    colDensityFactor = 0.98;
+  }
+  if (subcardCount >= 18) {
+    colDensityFactor *= 0.97;
+  } else if (subcardCount >= 12) {
+    colDensityFactor *= 0.985;
+  }
+  if (isSplitLayout && containerWidth < 680) {
+    colDensityFactor *= 0.97;
+  }
+
+  // Kết hợp trọng số chiều rộng + chiều cao + mật độ cột/subcard
+  const combinedBase = widthFactor * 0.58 + heightFactor * 0.42;
+  const rawLayoutFactor = Math.min(combinedBase, heightFactor + 0.03) * (0.94 + colDensityFactor * 0.06);
+  const layoutFactor = Math.round(clampNum(rawLayoutFactor, 0.87, 1.04) * 1000) / 1000;
+  const colFactor = Math.round(clampNum(colDensityFactor, 0.9, 1.02) * 1000) / 1000;
 
   const densityTier: LayoutTypographyEvaluation['densityTier'] =
-    layoutFactor <= 0.94 ? 'compact' : layoutFactor >= 1.01 ? 'spacious' : 'balanced';
+    layoutFactor <= 0.945 || colFactor <= 0.95
+      ? 'compact'
+      : layoutFactor >= 1.005 && colFactor >= 0.985
+        ? 'spacious'
+        : 'balanced';
 
   const optimalChMeasure =
-    containerWidth < 480 ? '50ch' : containerWidth < 768 ? '58ch' : multiColCount >= 3 ? '62ch' : '68ch';
+    containerWidth < 460
+      ? '48ch'
+      : containerWidth < 720
+        ? '56ch'
+        : maxGridCols >= 3 || minColWidth < 360
+          ? '60ch'
+          : '68ch';
 
   if (typeof document !== 'undefined') {
     const rootEl = document.documentElement;
     rootEl.setAttribute('data-layout-density', densityTier);
+    rootEl.setAttribute('data-layout-cols', maxGridCols >= 4 ? '4+' : String(maxGridCols));
     rootEl.style.setProperty('--layout-typo-factor', String(layoutFactor));
+    rootEl.style.setProperty('--layout-col-factor', String(colFactor));
     rootEl.style.setProperty('--layout-active-w', `${Math.round(containerWidth)}px`);
     rootEl.style.setProperty('--layout-active-h', `${Math.round(containerHeight)}px`);
     rootEl.style.setProperty('--ch-measure', optimalChMeasure);
+
+    if (activeMainCard) {
+      activeMainCard.setAttribute('data-layout-density', densityTier);
+      activeMainCard.setAttribute('data-layout-cols', maxGridCols >= 4 ? '4+' : String(maxGridCols));
+    }
   }
 
   return {
@@ -337,8 +462,13 @@ export function evaluateOverallLayoutTypography(
     containerHeight,
     viewportWidth: vw,
     viewportHeight: vh,
+    maxGridCols,
+    minColWidth: Math.round(minColWidth),
+    subcardCount,
+    isSplitLayout,
     densityTier,
     layoutFactor,
+    colFactor,
     optimalChMeasure,
   };
 }
@@ -388,11 +518,12 @@ const SCALE_LETTER_SPACING_VAR_MAP: Record<string, string> = {
 let isResizeListenerBound = false;
 
 /**
- * Cập nhật động kích thước phông chữ (Fluid Typography) theo chiều rộng màn hình thực tế,
- * đồng thời áp dụng cấu hình Better-Typography toàn cục:
+ * Cập nhật động kích thước phông chữ (Fluid Typography + Layout Evaluation) theo chiều rộng màn hình
+ * và cấu trúc bố cục tổng thể thực tế:
  * - Thuộc tính gốc (font-optical-sizing, font-kerning, text-rendering, font-variant-ligatures)
- * - Tỷ lệ ký tự trên dòng tối ưu (45–75ch) thích ứng theo viewport
- * - Chiều cao dòng không đơn vị (unitless line-height) đồng bộ cho từng cấp độ typo-h1 -> typo-caption
+ * - Tỷ lệ ký tự trên dòng tối ưu (45–75ch) thích ứng theo bố cục
+ * - Chiều cao dòng không đơn vị đồng bộ cho từng cấp độ typo-h1 -> typo-caption
+ * - Nhân đồng bộ mọi token với --layout-typo-factor từ hàm đánh giá bố cục
  */
 export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   if (typeof document === 'undefined') return;
@@ -415,7 +546,7 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   rootStyle.setProperty('--font-family-numeric', "'Play', sans-serif");
   rootStyle.setProperty('--font-quote', "'Dancing Script', cursive");
 
-  // 2. Better-Typography Native Properties (ưu tiên thuộc tính CSS gốc thay cho feature-settings thô)
+  // 2. Better-Typography Native Properties
   rootStyle.setProperty('font-optical-sizing', 'auto');
   rootStyle.setProperty('font-kerning', 'normal');
   rootStyle.setProperty('font-variant-ligatures', 'common-ligatures contextual');
@@ -452,7 +583,7 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   rootStyle.setProperty('--ls-caption', '0.01em');
   rootStyle.setProperty('--ls-label', '0.025em');
 
-  // 6. Đưa toàn bộ kích thước font chữ về mặc định chuẩn ban đầu (100% fluid clamp, xóa sạch trạng thái phóng to chữ)
+  // 6. Đặt hệ số mặc định và liên kết toàn bộ token cỡ chữ với --layout-typo-factor
   try {
     localStorage.removeItem('hungthai_font_scale_v1');
   } catch {
@@ -465,11 +596,12 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   rootStyle.setProperty('--font-scale', '1');
 
   Object.entries(TYPOGRAPHY_SCALE).forEach(([key, spec]) => {
-    // Áp dụng trực tiếp giá trị fluid clamp() mặc định gốc (không nhân hệ số phóng to)
-    const defaultFluidSize =
-      key === 'input' && isMobile ? '16px' : spec.fluidClamp;
+    const isLockedMobileInput = key === 'input' && isMobile;
+    const derivedFluidSize = isLockedMobileInput
+      ? '16px'
+      : `calc(${spec.fluidClamp} * var(--layout-typo-factor, 1))`;
 
-    rootStyle.setProperty(spec.cssVar, defaultFluidSize);
+    rootStyle.setProperty(spec.cssVar, derivedFluidSize);
     rootStyle.setProperty(`${spec.cssVar}-fluid`, spec.fluidClamp);
 
     const lhVar = SCALE_LINE_HEIGHT_VAR_MAP[key];
@@ -483,7 +615,7 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
     }
   });
 
-  // Đánh giá bố cục tổng thể hiện tại để đồng bộ --layout-typo-factor
+  // Đánh giá bố cục tổng thể hiện tại để suy ra --layout-typo-factor & --layout-col-factor thực tế
   evaluateOverallLayoutTypography();
 
   // 7. Gắn listener lắng nghe thay đổi kích thước màn hình (chỉ gắn 1 lần duy nhất)

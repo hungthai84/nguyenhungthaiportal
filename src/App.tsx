@@ -218,21 +218,60 @@ export default function App() {
 
   useEffect(() => {
     const viewportEl = mainViewportRef.current;
-    const raf = requestAnimationFrame(() => {
-      evaluateOverallLayoutTypography(viewportEl);
-    });
-    if (!viewportEl || typeof ResizeObserver === 'undefined') {
-      return () => cancelAnimationFrame(raf);
-    }
-    const ro = new ResizeObserver(() => {
-      evaluateOverallLayoutTypography(viewportEl);
-    });
-    ro.observe(viewportEl);
-    return () => {
-      cancelAnimationFrame(raf);
-      ro.disconnect();
+    let rafId: number | null = null;
+    const scheduleEvaluate = () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        evaluateOverallLayoutTypography(viewportEl);
+      });
     };
-  }, [currentTabIndex, pageSlides]);
+
+    scheduleEvaluate();
+    // Re-evaluate after route transition settles so final unscaled bounds are captured
+    const settleTimer = window.setTimeout(scheduleEvaluate, 320);
+
+    if (!viewportEl) {
+      return () => {
+        if (rafId !== null) cancelAnimationFrame(rafId);
+        window.clearTimeout(settleTimer);
+      };
+    }
+
+    const ro =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(() => {
+            scheduleEvaluate();
+          })
+        : null;
+    if (ro) {
+      ro.observe(viewportEl);
+      viewportEl.querySelectorAll('.page-main-card, [data-main-card="true"]').forEach((el) => {
+        ro.observe(el);
+      });
+    }
+
+    const mo =
+      typeof MutationObserver !== 'undefined'
+        ? new MutationObserver(() => {
+            scheduleEvaluate();
+          })
+        : null;
+    if (mo) {
+      mo.observe(viewportEl, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['data-selected', 'aria-expanded', 'data-swot'],
+      });
+    }
+
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      window.clearTimeout(settleTimer);
+      ro?.disconnect();
+      mo?.disconnect();
+    };
+  }, [currentTabIndex, pageSlides, experienceShowJobCard, experienceActiveKey]);
 
   // Tự động rà soát và gắn ID định danh cho toàn bộ các đối tượng DOM hiển thị chưa có ID
   useEffect(() => {

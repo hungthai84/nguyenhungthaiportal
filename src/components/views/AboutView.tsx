@@ -37,6 +37,7 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { Modal } from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
 
 const Sparkles = ({ className, style }: { className?: string; style?: React.CSSProperties }) => <WebIcon name="sparkles" className={className} style={style} />;
 const ChevronLeft = ({ className }: { className?: string }) => <WebIcon name="chevron-left" className={className} />;
@@ -566,6 +567,10 @@ export function AboutView({
   // Horizontal peek-carousel centering state for Card 1 & Card 2
   const aboutContainerRef = useRef<HTMLDivElement>(null);
   const [activeIntroCard, setActiveIntroCard] = useState<1 | 2>(1);
+  const activeIntroCardRef = useRef<1 | 2>(1);
+  useEffect(() => {
+    activeIntroCardRef.current = activeIntroCard;
+  }, [activeIntroCard]);
   const [viewportWidth, setViewportWidth] = useState<number>(() =>
     typeof window !== 'undefined' ? window.innerWidth : 1440
   );
@@ -575,7 +580,7 @@ export function AboutView({
   const isProgrammaticScrollRef = useRef(false);
   const scrollTimeoutRef = useRef<number | null>(null);
 
-  const peekReserve = viewportWidth < 640 ? 72 : 112;
+  const peekReserve = viewportWidth <= 767 ? 16 : viewportWidth <= 1023 ? 32 : 112;
   const aboutCardWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
   const aboutSideInset = Math.max(0, (aboutContainerWidth - aboutCardWidth) / 2);
 
@@ -968,6 +973,7 @@ export function AboutView({
 
   const scrollToIntroCard = useCallback(
     (targetCard: 1 | 2, smooth = true) => {
+      activeIntroCardRef.current = targetCard;
       setActiveIntroCard(targetCard);
       const container = aboutContainerRef.current;
       if (!container) return;
@@ -983,8 +989,13 @@ export function AboutView({
         container.scrollLeft = targetLeft;
       }
       scrollTimeoutRef.current = window.setTimeout(() => {
+        const settledLeft = getCenteredScrollLeftForCard(targetCard);
+        if (Math.abs(container.scrollLeft - settledLeft) > 1) {
+          container.scrollLeft = settledLeft;
+        }
         isProgrammaticScrollRef.current = false;
-      }, 550);
+        evaluateOverallLayoutTypography(document.getElementById('global-content-viewport'));
+      }, smooth ? 560 : 60);
     },
     [getCenteredScrollLeftForCard]
   );
@@ -1016,13 +1027,13 @@ export function AboutView({
     const container = aboutContainerRef.current;
     if (!container || isProgrammaticScrollRef.current) return;
     const raf = requestAnimationFrame(() => {
-      const expectedLeft = getCenteredScrollLeftForCard(activeIntroCard);
+      const expectedLeft = getCenteredScrollLeftForCard(activeIntroCardRef.current);
       if (Math.abs(container.scrollLeft - expectedLeft) > 1) {
         container.scrollLeft = expectedLeft;
       }
     });
     return () => cancelAnimationFrame(raf);
-  }, [aboutCardWidth, aboutContainerWidth, activeIntroCard, getCenteredScrollLeftForCard]);
+  }, [aboutCardWidth, aboutContainerWidth, getCenteredScrollLeftForCard]);
 
   const handleAboutContainerScroll = useCallback(() => {
     if (isProgrammaticScrollRef.current) return;
@@ -1032,10 +1043,11 @@ export function AboutView({
     const c2 = getCenteredScrollLeftForCard(2);
     const nextCard: 1 | 2 =
       Math.abs(container.scrollLeft - c2) <= Math.abs(container.scrollLeft - c1) ? 2 : 1;
-    if (nextCard !== activeIntroCard) {
+    if (nextCard !== activeIntroCardRef.current) {
+      activeIntroCardRef.current = nextCard;
       setActiveIntroCard(nextCard);
     }
-  }, [activeIntroCard, getCenteredScrollLeftForCard]);
+  }, [getCenteredScrollLeftForCard]);
 
   // Keyboard accessibility: ESC đóng modal/video, M chuyển Video/Bản đồ, F thu phóng Video, ArrowLeft/ArrowRight chuyển Card 1/2
   useEffect(() => {

@@ -494,7 +494,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                   id="skills-filter-toggle-btn"
                   type="button"
                   onClick={() => setIsFilterOpen((prev) => !prev)}
-                  className="banner-control-pill swot-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+                  className="banner-control-pill swot-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
                   title={isVi ? "Bộ lọc kỹ năng" : "Skill Filter"}
                   aria-label="Bộ lọc kỹ năng"
                   aria-expanded={isFilterOpen}
@@ -789,10 +789,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                                 <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 pt-0.5 sm:pt-0">
                                   {/* Thanh màu % tự động ẩn/hiện theo độ rộng thật của thẻ qua @container swot-card */}
                                   <div
-                                    className={cn(
-                                      "swot-skill-track h-2 rounded-full overflow-hidden shrink-0 shadow-inner",
-                                      isSelected && "w-20 sm:w-28"
-                                    )}
+                                    className="swot-skill-track h-2 rounded-full overflow-hidden shrink-0 shadow-inner"
                                     title={percentLabel}
                                   >
                                     <div

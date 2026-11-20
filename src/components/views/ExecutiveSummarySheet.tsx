@@ -102,10 +102,10 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
     SoundEngine.playTap();
     const textSummary = [
       'Nguyễn Hùng Thái — Chuyên Gia Vận Hành CSKH & Chuyển Đổi Số (CX & Operations Director)',
-      '• 22+ năm kinh nghiệm thực chiến tại 8+ tập đoàn (MobiFone, V247, HTVC, VED/Garena/Shopee, Prudential, MoMo, Finviet, Power Service)',
-      '• Tỷ lệ hài lòng CSAT: 98.2% - 99% | Quy mô dẫn dắt: 130 - 150+ nhân sự | Vận hành AI CRM 24/7',
-      '• 6 Lĩnh vực trọng tâm: Viễn thông & Truyền hình Cáp, Game Online, TMĐT & Logistics, Bảo hiểm Tài chính, Ví điện tử, Công nghệ AI/Automation',
-      '• 12 Hệ sinh thái: SDP, ERP, CRM, HRM, OKR, BPM, CMS, VOC, LMS, BI, RPA, KMS',
+      '• Thăng tiến cấp bậc: Nhân viên CSKH (2002) → Giám sát (2007) → Trưởng phòng quy mô nhỏ (2011) → Trưởng phòng quản lý cấp cao 129–150+ nhân sự (2013–2026+)',
+      '• Đa lĩnh vực (8+ tập đoàn): Viễn thông & HTVC, Game/eSports (Garena), TMĐT (Shopee), Ví điện tử (AirPay, MoMo, Ví ECO), Bảo hiểm (Prudential), Công nghệ AI/CX',
+      '• 4 Kỹ năng trọng tâm: Quản lý đội ngũ · Chuẩn hóa quy trình · Đào tạo kế thừa · Xây dựng hệ thống (12 phân hệ: SDP, ERP, CRM, HRM, OKR, BPM, CMS, VOC, LMS, BI, RPA, KMS)',
+      '• Chỉ số nổi bật: 22+ năm kinh nghiệm | CSAT 98.2% - 99% | Vận hành AI CRM & BPO đa kênh 24/7',
       '• Liên hệ: hungthai84@gmail.com | Hotline/Zalo: +84 0909097882 | Web: https://nguyenhungthai.powerservice.one',
     ].join('\n');
 
@@ -644,9 +644,14 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             data-subcard="true"
             className="sub-card lg:col-span-7 p-[15px] rounded-[14px] flex flex-col gap-2.5 print-card-bg min-w-0"
           >
-            <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-blue-600 dark:text-sky-400 border-b border-[var(--border-subcard)] pb-2" data-subcard-title="true">
-              Hành trình Quản trị &amp; Điều hành (2002 – 2026+)
-            </h3>
+            <div className="border-b border-[var(--border-subcard)] pb-2 flex flex-col gap-0.5">
+              <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-blue-600 dark:text-sky-400" data-subcard-title="true">
+                Lộ trình Thăng tiến &amp; Đa lĩnh vực (2002 – 2026+)
+              </h3>
+              <p className="typo-caption text-[var(--text-muted)] font-medium">
+                Nhân viên → Giám sát → Trưởng phòng quy mô nhỏ → Trưởng phòng cấp cao · Kỹ năng: Quản lý · Quy trình · Đào tạo · Xây dựng hệ thống
+              </p>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {milestones.map((m) => (
                 <div

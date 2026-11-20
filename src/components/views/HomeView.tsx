@@ -423,7 +423,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               />
             </div>
 
-      {/* 2 Nút Center Trái và Center Phải qua lại giữa các màn hình trên Trang Chủ (Giao diện Sáng) - Ẩn khi đang phát video */}
+      {/* 2 Nút Trái và Phải qua lại giữa các màn hình trên Trang Chủ (không đè lên thẻ thông tin) - Ẩn khi đang phát video */}
       {!isIntroMode && (
         <>
           <button
@@ -433,7 +433,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             onClick={handlePrevVideoScreen}
             title="Màn hình trước (Chuyển màn hình video)"
             aria-label="Màn hình trước"
-            className="nav-arrow-btn theme-prev-next-btn absolute left-[15px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center hover:scale-110 hover:-translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto shadow-md"
+            className="nav-arrow-btn theme-prev-next-btn absolute left-3 sm:left-[15px] top-3 sm:top-1/2 sm:-translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center hover:scale-110 hover:-translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto shadow-md"
           >
             <WebIcon name="chevron-left" className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
           </button>
@@ -445,7 +445,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             onClick={handleNextVideoScreen}
             title="Màn hình kế tiếp (Chuyển màn hình video)"
             aria-label="Màn hình kế tiếp"
-            className="nav-arrow-btn theme-prev-next-btn absolute right-[15px] top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center hover:scale-110 hover:translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto shadow-md"
+            className="nav-arrow-btn theme-prev-next-btn absolute right-3 sm:right-[15px] top-3 sm:top-1/2 sm:-translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center hover:scale-110 hover:translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto shadow-md"
           >
             <WebIcon name="chevron-right" className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
           </button>
@@ -525,9 +525,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
       )}
 
-      {/* 4. Main Body: Hero Card Bottom Right (Giao diện Sáng) - Ẩn khi đang phát video */}
+      {/* 4. Main Body: Hero Card Bottom Right (chừa hành lang an toàn tránh đè nút chuyển màn hình) - Ẩn khi đang phát video */}
       {!isIntroMode && (
-        <div className="relative z-20 w-full flex-1 min-h-0 flex items-end justify-end pointer-events-none p-0">
+        <div className="relative z-20 w-full flex-1 min-h-0 flex items-end justify-end pointer-events-none pt-14 sm:pt-0 sm:px-14">
           <div className="pointer-events-none flex items-end justify-end w-fit max-w-full ml-auto">
             <AnimatePresence mode="wait">
               <motion.div

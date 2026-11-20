@@ -36,7 +36,10 @@ import { useTheme } from './hooks/useTheme';
 import { useGlobalHorizontalScroll } from './hooks/useGlobalHorizontalScroll';
 import { usePeripheralClearance } from './hooks/usePeripheralClearance';
 import { parseCssStringToStyle, getCleanImageUrl } from './data/wallpapers';
-import { applyTypographyScaleToDocument } from './config/typographyScale';
+import {
+  applyTypographyScaleToDocument,
+  evaluateOverallLayoutTypography,
+} from './config/typographyScale';
 import { SoundEngine } from './components/ui/SoundEngine';
 import {
   GravityBackgroundCanvas,
@@ -208,10 +211,28 @@ export default function App() {
 
   }, []);
 
-  // Kết nối hệ thống Typography tập trung (src/config/typographyScale.ts) với CSS Custom Properties
+  // Kết nối hệ thống Typography tập trung & đánh giá bố cục tổng thể (src/config/typographyScale.ts)
   useEffect(() => {
     applyTypographyScaleToDocument();
   }, []);
+
+  useEffect(() => {
+    const viewportEl = mainViewportRef.current;
+    const raf = requestAnimationFrame(() => {
+      evaluateOverallLayoutTypography(viewportEl);
+    });
+    if (!viewportEl || typeof ResizeObserver === 'undefined') {
+      return () => cancelAnimationFrame(raf);
+    }
+    const ro = new ResizeObserver(() => {
+      evaluateOverallLayoutTypography(viewportEl);
+    });
+    ro.observe(viewportEl);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, [currentTabIndex, pageSlides]);
 
   // Tự động rà soát và gắn ID định danh cho toàn bộ các đối tượng DOM hiển thị chưa có ID
   useEffect(() => {
@@ -668,13 +689,14 @@ export default function App() {
         />
       )}
 
-      {/* HEADER: 20% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
+      {/* HEADER: 10% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="app-header-container"
           style={{
-            flex: '20 1 0%',
-            height: '20%',
+            flex: '0 0 10%',
+            height: '10%',
+            maxHeight: '10%',
             minHeight: 0,
           }}
           className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none rounded-none"
@@ -689,7 +711,7 @@ export default function App() {
         </div>
       )}
 
-      {/* MAIN CENTER CARD: 60% chiều cao khung hình (100% khi xem Trang Tải PDF) */}
+      {/* MAIN CENTER CARD: Chiếm % chiều cao còn lại (100% khi xem Trang Tải PDF) */}
       <main
         ref={mainViewportRef}
         id="global-content-viewport"
@@ -700,8 +722,11 @@ export default function App() {
         style={{
           width: '100%',
           maxWidth: currentTabIndex === 16 ? '1250px' : '100%',
-          flex: currentTabIndex === 16 ? '1 1 0%' : '60 1 0%',
-          height: currentTabIndex === 16 ? '100%' : '60%',
+          flex: '1 1 0%',
+          height:
+            currentTabIndex === 16
+              ? '100%'
+              : 'calc(80% - (var(--shell-section-gap, 15px) * 2))',
           minHeight: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -726,7 +751,7 @@ export default function App() {
         <Toast message={toastMessage} />
       </main>
 
-      {/* FOOTER: 20% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
+      {/* FOOTER: 10% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="el-p0-div-98"
@@ -734,8 +759,9 @@ export default function App() {
           data-element-type="container"
           data-element-page="p0"
           style={{
-            flex: '20 1 0%',
-            height: '20%',
+            flex: '0 0 10%',
+            height: '10%',
+            maxHeight: '10%',
             minHeight: 0,
           }}
           className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none rounded-none"

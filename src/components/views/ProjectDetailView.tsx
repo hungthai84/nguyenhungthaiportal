@@ -83,7 +83,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 }) => {
   const [isLightMode, setIsLightMode] = useState<boolean>(true);
   const [mindmapMode, setMindmapMode] = useState<'interactive' | 'image'>('interactive');
-  const [isMobileTocOpen, setIsMobileTocOpen] = useState<boolean>(false);
   const spec = useMemo(() => getProjectDetailedSpec(selectedArticle), [selectedArticle]);
   const outerScrollRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -128,10 +127,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     }
   }, [isLight]);
 
-  // Reset vị trí cuộn & trạng thái mục lục khi chuyển sang bài viết dự án khác
+  // Reset vị trí cuộn & mục lục khi chuyển sang bài viết dự án khác
   useEffect(() => {
     setMindmapMode('interactive');
-    setIsMobileTocOpen(false);
     onSectionChange?.('sec-mindmap');
     scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'auto' });
     outerScrollRef.current?.scrollTo({ top: 0, behavior: 'auto' });
@@ -205,7 +203,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
   const scrollToSection = (id: string) => {
     onSectionChange?.(id);
-    setIsMobileTocOpen(false);
     const el = document.getElementById(id);
     if (!el) return;
 
@@ -241,7 +238,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     0,
     TOC_ITEMS.findIndex((item) => item.id === activeSection)
   );
-  const activeTocItem = TOC_ITEMS[activeTocIndex] || TOC_ITEMS[0];
   const tocProgressPercent = Math.round(((activeTocIndex + 1) / TOC_ITEMS.length) * 100);
   const bannerMediaInfo = useMemo(
     () => getProjectCloudinaryBanner(selectedArticle),
@@ -252,13 +248,13 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     <div
       id="project-detail-layout"
       ref={outerScrollRef}
-      className="w-full h-full flex-1 min-h-0 flex flex-col md:flex-row gap-[15px] items-stretch relative overflow-y-auto md:overflow-hidden glass-scrollbar rounded-[14px] text-left font-play"
+      className="w-full h-full flex-1 min-h-0 flex flex-row gap-[15px] items-stretch relative overflow-hidden glass-scrollbar rounded-[14px] text-left font-play"
     >
-      {/* 1. KHỐI NỘI DUNG CHI TIẾT BÀI VIẾT DỰ ÁN BÊN TRÁI */}
+      {/* 1. KHỐI NỘI DUNG CHI TIẾT BÀI VIẾT DỰ ÁN BÊN TRÁI (Luôn cao bằng banner chi tiết dự án ở mọi kích thước) */}
       <div
         id="project-detail-content"
         ref={scrollContainerRef}
-        className="order-2 md:order-1 flex-1 min-w-0 h-auto md:h-full md:overflow-y-auto scroll-smooth glass-scrollbar flex flex-col gap-[15px] text-left pb-1"
+        className="order-1 flex-1 min-w-0 h-full min-h-full max-h-full overflow-y-auto scroll-smooth glass-scrollbar flex flex-col gap-[15px] text-left pb-1"
       >
         {spec && (
           <>
@@ -1887,7 +1883,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
         )}
       </div>
 
-      {/* 2. KHỐI BANNER DỌC MỤC LỤC BÊN PHẢI (TABLET/DESKTOP) / ĐẦU TRANG THU GỌN (MOBILE) */}
+      {/* 2. KHỐI BANNER DỌC MỤC LỤC BÊN PHẢI (Chiều cao 100% khớp thẻ bài viết ở mọi kích thước) */}
       {spec && (
         <aside
           id="project-detail-banner"
@@ -1896,7 +1892,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           data-element-name="Banner dọc Mục lục dự án"
           data-element-type="banner-card"
           data-section-card="true"
-          className="order-1 md:order-2 banner-card bento-card glass-card w-full md:w-[275px] lg:w-[295px] xl:w-[315px] shrink-0 h-auto md:h-full md:self-stretch flex flex-col pointer-events-auto rounded-[14px] p-[15px] gap-3 overflow-hidden relative group"
+          className="order-2 banner-card bento-card glass-card shrink-0 h-full min-h-full max-h-full self-stretch flex flex-col pointer-events-auto rounded-[14px] p-[15px] gap-2.5 overflow-hidden relative group"
         >
           {/* Hình nền banner dọc full chiều cao phía sau lớp phủ tương phản */}
           {(bannerMediaInfo.primaryUrl || selectedArticle.image) && (
@@ -1923,8 +1919,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           {/* Lớp phủ tương phản cao đồng bộ 11 Theme */}
           <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
 
-          {/* Header Banner dọc Mục lục */}
-          <div className="relative z-10 flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] shrink-0">
+          {/* Header Banner dọc Mục lục (chừa khoảng bên phải pr-10 cho nút nổi X) */}
+          <div className="relative z-10 flex items-center justify-between gap-2 pb-2 pr-10 border-b border-[var(--border-subcard)] shrink-0">
             <div
               className="card-header-sync flex items-center gap-2 min-w-0"
               style={{ color: 'var(--text-link, var(--color-primary))' }}
@@ -1942,7 +1938,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 Mục lục dự án
               </h3>
             </div>
-            <div className="flex items-center gap-1.5 typo-label font-mono font-bold tabular-nums text-[var(--text-secondary)] shrink-0">
+            <div className="flex items-center gap-1 typo-label font-mono font-bold tabular-nums text-[var(--text-secondary)] shrink-0">
               <span>{selectedArticle.code}</span>
               <span aria-hidden="true">·</span>
               <span>
@@ -1951,92 +1947,80 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </div>
           </div>
 
-          {/* Thông tin tóm lược dự án & thanh tiến độ dọc theo mục đang đọc */}
-          <div className="relative z-10 p-2.5 rounded-[12px] bg-white/70 dark:bg-slate-950/65 backdrop-blur-md border border-white/50 dark:border-white/15 flex flex-col gap-2 shrink-0">
-            <div className="flex items-center gap-1.5 typo-label font-semibold text-[var(--text-secondary)] min-w-0">
-              <span
-                className="truncate font-bold"
-                style={{
-                  color: isStrategy
-                    ? 'var(--accent-blue, #1480C0)'
-                    : 'var(--accent-purple, #7c3aed)',
-                }}
-              >
-                {selectedArticle.groupTitle}
-              </span>
-            </div>
+          {/* Nội dung phân tách trực tiếp trên Banner (không đóng khung thẻ lồng nhau) */}
+          <div
+            className="relative z-10 typo-label font-bold leading-snug break-words shrink-0"
+            style={{
+              color: isStrategy
+                ? 'var(--accent-blue, #1480C0)'
+                : 'var(--accent-purple, #7c3aed)',
+              textShadow: isLightMode
+                ? '0 1px 2px rgba(255, 255, 255, 0.85)'
+                : '0 1px 4px rgba(0, 0, 0, 0.75)',
+            }}
+          >
+            {selectedArticle.groupTitle}
+          </div>
 
-            <h4
-              className="card-header-sync card-title-synced typo-h4 font-play font-bold flex items-start gap-1.5 leading-snug break-words m-0"
-              data-card-title="true"
+          <h4
+            className="relative z-10 typo-h4 font-play font-bold flex items-start gap-1.5 leading-snug break-words m-0 shrink-0"
+            data-card-title="true"
+            style={{
+              color: isStrategy
+                ? 'var(--accent-sky, #0284c7)'
+                : 'var(--accent-fuchsia, #c026d3)',
+              textShadow: isLightMode
+                ? '0 1px 2px rgba(255, 255, 255, 0.85)'
+                : '0 1px 4px rgba(0, 0, 0, 0.75)',
+            }}
+          >
+            <WebIcon
+              name="brain"
+              className="w-4 h-4 shrink-0 mt-0.5 bg-transparent border-0 p-0 shadow-none"
               style={{
                 color: isStrategy
                   ? 'var(--accent-sky, #0284c7)'
                   : 'var(--accent-fuchsia, #c026d3)',
               }}
+            />
+            <span className="min-w-0">{selectedArticle.title}</span>
+          </h4>
+
+          <div
+            className="relative z-10 typo-caption font-semibold text-[var(--text-primary)] leading-snug break-words shrink-0"
+            style={{
+              textShadow: isLightMode
+                ? '0 1px 2px rgba(255, 255, 255, 0.85)'
+                : '0 1px 4px rgba(0, 0, 0, 0.75)',
+            }}
+          >
+            Vai trò:{' '}
+            <strong
+              style={{
+                color: isStrategy
+                  ? 'var(--accent-sky, #0284c7)'
+                  : 'var(--accent-purple, #7c3aed)',
+              }}
             >
-              <WebIcon
-                name="brain"
-                className="w-4 h-4 shrink-0 mt-0.5 bg-transparent border-0 p-0 shadow-none"
-                style={{
-                  color: isStrategy
-                    ? 'var(--accent-sky, #0284c7)'
-                    : 'var(--accent-fuchsia, #c026d3)',
-                }}
-              />
-              <span className="min-w-0">{selectedArticle.title}</span>
-            </h4>
+              {selectedArticle.role}
+            </strong>
+          </div>
 
-            <div className="typo-caption font-semibold text-[var(--text-secondary)]">
-              Vai trò:{' '}
-              <strong
-                style={{
-                  color: isStrategy
-                    ? 'var(--accent-sky, #0284c7)'
-                    : 'var(--accent-purple, #7c3aed)',
-                }}
-              >
-                {selectedArticle.role}
-              </strong>
-            </div>
-
-            {/* Thanh tiến độ đọc 10 phần */}
-            <div className="w-full h-1.5 rounded-full bg-[var(--border-subcard)] overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all duration-300"
-                style={{
-                  width: `${tocProgressPercent}%`,
-                  background: 'var(--bg-button-primary)',
-                }}
-              />
-            </div>
-
-            {/* Nút mở/đóng nhanh danh sách mục lục trên Mobile */}
-            <button
-              type="button"
-              onClick={() => setIsMobileTocOpen((prev) => !prev)}
-              className="md:hidden mt-0.5 w-full px-3 py-2 rounded-[12px] project-detail-chip border border-[var(--border-subcard)] flex items-center justify-between gap-2 typo-caption font-bold text-[var(--text-primary)] cursor-pointer"
-              aria-expanded={isMobileTocOpen}
-            >
-              <span className="flex items-center gap-1.5 truncate">
-                <WebIcon name={activeTocItem.icon} className="w-3.5 h-3.5 shrink-0" />
-                <span className="truncate">
-                  Đang xem: {activeTocItem.num} {activeTocItem.title}
-                </span>
-              </span>
-              <WebIcon
-                name={isMobileTocOpen ? 'chevron-up' : 'chevron-down'}
-                className="w-4 h-4 shrink-0"
-              />
-            </button>
+          {/* Thanh tiến độ đọc 10 phần */}
+          <div className="relative z-10 w-full h-1.5 rounded-full bg-[var(--border-subcard)] overflow-hidden shrink-0">
+            <div
+              className="h-full rounded-full transition-all duration-300"
+              style={{
+                width: `${tocProgressPercent}%`,
+                background: 'var(--bg-button-primary)',
+              }}
+            />
           </div>
 
           {/* Danh sách 10 mục lục điều hướng xếp dọc */}
           <nav
             aria-label="Mục lục chi tiết dự án"
-            className={`relative z-10 flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[12px] flex-col gap-1.5 pr-0.5 ${
-              isMobileTocOpen ? 'flex max-h-[260px] md:max-h-none' : 'hidden md:flex'
-            }`}
+            className="relative z-10 flex flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[12px] flex-col gap-1.5 pr-0.5"
           >
             {TOC_ITEMS.map((item) => {
               const isActive = activeSection === item.id;

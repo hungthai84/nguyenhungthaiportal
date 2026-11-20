@@ -480,8 +480,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             </h1>
           </div>
           <p
-            className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
-            style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+            className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+            style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 600, fontStyle: 'normal' }}
           >
             &quot;Không gian trực quan khơi nguồn cảm hứng sáng tạo ♡&quot;
           </p>
@@ -497,7 +497,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   SoundEngine.playTap();
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
-                className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+                className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
                 title={isEn ? 'Wallpaper Filter' : 'Bộ lọc hình nền'}
                 aria-label="Bộ lọc hình nền"
                 aria-expanded={isFilterDropdownOpen}
@@ -505,9 +505,6 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
               >
                 <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
                 <span>{isEn ? 'Wallpaper Filter' : 'Bộ lọc hình nền'}</span>
-                <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
-                  {filteredWallpapers.length}
-                </span>
                 <WebIcon
                   name="chevron-down"
                   className={`w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0 ${
@@ -572,7 +569,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   setSearchQuery(e.target.value);
                 }}
                 placeholder="Tìm hình nền, video, css..."
-                className="banner-search-input w-full pl-8 pr-3 py-1.5 rounded-full typo-input font-play focus:outline-none"
+                className="banner-search-input h-9 w-full pl-8 pr-3 py-0 rounded-full typo-input font-play focus:outline-none"
               />
             </div>
 
@@ -583,7 +580,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 SoundEngine.playPop();
                 setIsAddModalOpen((prev) => !prev);
               }}
-              className="banner-primary-cta px-3.5 py-1.5 rounded-full typo-button font-play bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-600 text-white shadow-md hover:brightness-110 transition cursor-pointer flex items-center gap-1.5"
+              className="banner-primary-cta h-9 px-3.5 py-0 rounded-full typo-button font-play bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-600 text-white shadow-md hover:brightness-110 transition cursor-pointer flex items-center gap-1.5"
             >
               <WebIcon name="plus" className="w-3.5 h-3.5" />
               <span>Thêm hình</span>

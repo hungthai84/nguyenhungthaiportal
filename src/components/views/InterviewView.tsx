@@ -167,22 +167,22 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
           data-element-type="card"
           data-element-page="interview"
           data-element-parent="interview-cards-track"
-          className="page-main-card flex flex-col p-[15px] rounded-[var(--radius-main,28px)] gap-[15px] justify-start select-none text-[var(--text-primary)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left box-border"
+          className="page-main-card flex flex-col p-[15px] rounded-[var(--radius-main,28px)] gap-[15px] justify-start select-none text-[var(--text-primary)] overflow-hidden glass-scrollbar font-play text-left box-border"
         >
-      {/* Main Content Row: Video (70%) + Answer Detail (30%) */}
+      {/* Main Content Row: Video + Answer Detail always on 1 row & equal height at all sizes */}
       <div
         id="interview-main-content"
-        className="w-full max-w-full min-w-0 flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[minmax(0,1fr)] items-stretch gap-[15px] min-h-0 overflow-y-auto lg:overflow-hidden no-scrollbar rounded-[var(--radius-card,24px)]"
+        className="w-full max-w-full min-w-0 flex-1 h-full grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[minmax(0,1fr)] items-stretch gap-[15px] min-h-0 overflow-hidden rounded-[var(--radius-card,24px)]"
       >
         
-        {/* 1. VIDEO BANNER SECTION (70% width on LG, equal height & Level 2 Layer Card parity with Chi tiết trả lời) */}
+        {/* 1. VIDEO BANNER SECTION (Equal height & same single row with Chi tiết trả lời at all sizes) */}
         <section
           id="interview-questions-card"
           data-element-name="Card Video Phỏng Vấn"
           data-element-type="banner-card"
           data-section-card="true"
           data-layer-level="2"
-          className="banner-card hero-banner w-full min-h-[360px] lg:min-h-0 lg:h-full self-stretch rounded-[var(--radius-card,24px)] relative overflow-visible bento-card glass-card text-[var(--text-primary)] shrink-0 z-30 flex flex-col justify-between border group p-[15px]"
+          className="banner-card hero-banner w-full h-full min-h-0 max-h-full self-stretch rounded-[var(--radius-card,24px)] relative overflow-visible bento-card glass-card text-[var(--text-primary)] min-w-0 z-30 flex flex-col justify-between border group p-[15px]"
         >
           {/* Nền Video phỏng vấn trực tiếp lấp đầy banner-card & đồng bộ bo cong theo giao diện */}
           <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0">
@@ -230,16 +230,16 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
           </div>
 
           {/* Hàng dưới: Bộ lọc câu hỏi bên trái & Nút Phát Video bên dưới bên phải banner */}
-          <div id="interview-video-banner-controls" className="relative z-30 flex items-center justify-between gap-2 mt-auto w-full">
+          <div id="interview-video-banner-controls" className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto w-full min-w-0">
             {/* Nhóm các câu hỏi ở banner vào 1 nút filter với menu xổ xuống */}
-            <div className="relative inline-block text-left" ref={filterDropdownRef}>
+            <div className="relative inline-block text-left max-w-full" ref={filterDropdownRef}>
               <button
                 id="interview-question-filter-btn"
                 type="button"
                 onClick={() => {
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
-                className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group shrink-0"
+                className="banner-control-pill inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group max-w-full shrink-0"
                 title="Bộ lọc câu hỏi"
                 aria-label="Bộ lọc câu hỏi phỏng vấn"
                 aria-expanded={isFilterDropdownOpen}
@@ -249,13 +249,13 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
                   name="sliders"
                   className="w-4 h-4 text-[var(--color-primary)] shrink-0"
                 />
-                <span className="shrink-0">Bộ lọc câu hỏi</span>
+                <span className="truncate">Bộ lọc câu hỏi</span>
                 {activeFilter !== 'all' ? (
-                  <span className="banner-count-pill px-2 py-0.2 rounded-full border typo-badge font-mono font-bold shrink-0">
+                  <span className="banner-count-pill hidden sm:inline-flex px-2 py-0.2 rounded-full border typo-badge font-mono font-bold shrink-0">
                     {INTERVIEW_TABS.find((t) => t.key === activeFilter)?.labelVi}
                   </span>
                 ) : (
-                  <span className="banner-count-pill px-2 py-0.2 rounded-full border typo-badge font-mono font-bold shrink-0">
+                  <span className="banner-count-pill hidden sm:inline-flex px-2 py-0.2 rounded-full border typo-badge font-mono font-bold shrink-0">
                     {INTERVIEW_QUESTIONS.length} câu
                   </span>
                 )}
@@ -278,7 +278,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    className="banner-dropdown-menu bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-max min-w-[14rem] max-w-full max-h-72 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-[min(22rem,calc(100cqi-30px))] max-w-[calc(100vw-48px)] max-h-72 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                   >
                     <div className="px-2 py-1.5 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 sticky top-0 bg-[var(--bg-popup)] z-10 rounded-t-[10px]">
                       <div className="flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">
@@ -452,25 +452,25 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
           </div>
         </section>
 
-        {/* 2. THẺ CHI TIẾT CÂU TRẢ LỜI (30% width on LG) */}
+        {/* 2. THẺ CHI TIẾT CÂU TRẢ LỜI (Always same 1 row & equal height with Video card) */}
         <div
           id="interview-answers-card"
           data-element-name="Thẻ Chi Tiết Trả Lời Phỏng Vấn"
           data-element-type="card"
           data-section-card="true"
           data-layer-level="2"
-          className="w-full min-h-[380px] lg:min-h-0 lg:h-full self-stretch flex flex-col rounded-[var(--radius-card,24px)] bento-card glass-card border p-[15px] transition-all duration-300 text-left justify-start gap-3 relative overflow-hidden"
+          className="w-full h-full min-h-0 max-h-full min-w-0 self-stretch flex flex-col rounded-[var(--radius-card,24px)] bento-card glass-card border p-[15px] transition-all duration-300 text-left justify-start gap-3 relative overflow-hidden"
         >
           {/* Header Tiêu đề thẻ (Pinned) */}
-          <div className="space-y-2 shrink-0">
-            <div className="flex items-center justify-between gap-2 min-w-0">
+          <div className="space-y-2 shrink-0 min-w-0">
+            <div className="flex flex-wrap items-center justify-between gap-1.5 min-w-0">
               <h3 className="card-title card-title-synced typo-h3 flex items-center gap-2 text-pink-600 dark:text-pink-400 min-w-0">
                 <WebIcon name="message-circle" className="w-[18px] h-[18px] shrink-0" />
                 <span className="truncate">Chi tiết trả lời</span>
               </h3>
               <span className="typo-caption font-semibold text-[var(--text-secondary)] shrink-0 tabular-nums whitespace-nowrap">
                 {String(currentQ.stt).padStart(2, '0')}/{String(INTERVIEW_QUESTIONS.length).padStart(2, '0')}
-                <span aria-hidden="true" className="mx-1.5 opacity-60">·</span>
+                <span aria-hidden="true" className="mx-1 opacity-60">·</span>
                 <span className="text-[var(--text-link,var(--color-primary))]">{currentQ.categoryVi}</span>
               </span>
             </div>
@@ -567,12 +567,12 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
           </div>
 
           {/* Navigation Footer (Pinned) */}
-          <div className="pt-2.5 border-t border-[var(--pillar-divider)] flex items-center justify-between gap-2 shrink-0 relative z-10">
+          <div className="pt-2.5 border-t border-[var(--pillar-divider)] flex items-center justify-between gap-1.5 sm:gap-2 shrink-0 relative z-10 min-w-0">
             <button
               type="button"
               disabled={currentQIdx === 0}
               onClick={() => selectQuestion(currentQIdx - 1)}
-              className="theme-prev-next-btn typo-button disabled:opacity-35 disabled:pointer-events-none cursor-pointer inline-flex items-center justify-center gap-1.5 transition-all min-h-[36px] py-1.5 px-3.5 rounded-full border active:scale-95"
+              className="theme-prev-next-btn typo-button disabled:opacity-35 disabled:pointer-events-none cursor-pointer inline-flex items-center justify-center gap-1 transition-all min-h-[34px] sm:min-h-[36px] py-1 sm:py-1.5 px-2 sm:px-3.5 rounded-full border active:scale-95 whitespace-nowrap shrink-0"
             >
               <span>‹ Trước</span>
             </button>
@@ -581,7 +581,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
               type="button"
               onClick={() => selectQuestion(currentQIdx)}
               title="Phát lại câu hỏi hiện tại"
-              className="typo-button text-[var(--text-link,var(--color-primary))] hover:bg-[var(--bg-subcard)] inline-flex items-center justify-center gap-1.5 cursor-pointer min-h-[36px] py-1.5 px-3 rounded-full transition-all active:scale-95"
+              className="typo-button text-[var(--text-link,var(--color-primary))] hover:bg-[var(--bg-subcard)] inline-flex items-center justify-center gap-1 cursor-pointer min-h-[34px] sm:min-h-[36px] py-1 sm:py-1.5 px-2 sm:px-3 rounded-full transition-all active:scale-95 whitespace-nowrap shrink-0"
             >
               <WebIcon name="refresh" className="w-3.5 h-3.5 shrink-0" />
               <span>Lại</span>
@@ -591,7 +591,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'ra
               type="button"
               disabled={currentQIdx === INTERVIEW_QUESTIONS.length - 1}
               onClick={() => selectQuestion(currentQIdx + 1)}
-              className="theme-prev-next-btn typo-button disabled:opacity-35 disabled:pointer-events-none cursor-pointer inline-flex items-center justify-center gap-1.5 transition-all min-h-[36px] py-1.5 px-3.5 rounded-full border active:scale-95"
+              className="theme-prev-next-btn typo-button disabled:opacity-35 disabled:pointer-events-none cursor-pointer inline-flex items-center justify-center gap-1 transition-all min-h-[34px] sm:min-h-[36px] py-1 sm:py-1.5 px-2 sm:px-3.5 rounded-full border active:scale-95 whitespace-nowrap shrink-0"
             >
               <span>Tiếp ›</span>
             </button>

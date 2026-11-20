@@ -335,6 +335,27 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     };
   }, []);
 
+  const getCenteredScrollLeftForCard = useCallback(
+    (cardIdx: number) => {
+      const clamped = Math.max(0, Math.min(5, cardIdx));
+      const container = horoscopeContainerRef.current;
+      if (!container) return clamped * (horoscopeCardWidth + 15);
+      const cardEl = document.getElementById(`horoscope-card-${clamped + 1}`);
+      if (!cardEl) return clamped * (horoscopeCardWidth + 15);
+      const headerEl = document.getElementById('app-header');
+      const containerRect = container.getBoundingClientRect();
+      const headerRect = headerEl?.getBoundingClientRect();
+      const desiredCenterX =
+        headerRect && headerRect.width > 0
+          ? headerRect.left + headerRect.width / 2
+          : containerRect.left + container.clientLeft + container.clientWidth / 2;
+      const desiredLeftInContainer =
+        desiredCenterX - (containerRect.left + container.clientLeft) - cardEl.offsetWidth / 2;
+      return Math.max(0, Math.round(cardEl.offsetLeft - desiredLeftInContainer));
+    },
+    [horoscopeCardWidth]
+  );
+
   const scrollToHoroscopeCard = useCallback(
     (targetIdx: number, smooth = true) => {
       const clamped = Math.max(0, Math.min(5, targetIdx));
@@ -343,42 +364,55 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
       const container = horoscopeContainerRef.current;
       if (!container) return;
-      const targetLeft = clamped * (horoscopeCardWidth + 15);
+      const targetLeft = getCenteredScrollLeftForCard(clamped);
       if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
       isProgrammaticScrollRef.current = true;
-      container.scrollTo({
-        left: targetLeft,
-        behavior: smooth ? 'smooth' : 'auto',
-      });
+      if (smooth) {
+        container.scrollTo({
+          left: targetLeft,
+          behavior: 'smooth',
+        });
+      } else {
+        container.scrollLeft = targetLeft;
+      }
       scrollTimeoutRef.current = window.setTimeout(() => {
         isProgrammaticScrollRef.current = false;
       }, 550);
     },
-    [horoscopeCardWidth]
+    [getCenteredScrollLeftForCard]
   );
 
-  // Keep active card centered when viewport resizes
+  // Keep active card centered with #app-header when viewport resizes
   useEffect(() => {
     const container = horoscopeContainerRef.current;
     if (!container || isProgrammaticScrollRef.current) return;
-    const expectedLeft = activeCardIndexRef.current * (horoscopeCardWidth + 15);
-    if (Math.abs(container.scrollLeft - expectedLeft) > 2) {
-      container.scrollTo({ left: expectedLeft, behavior: 'auto' });
-    }
-  }, [horoscopeCardWidth]);
+    const raf = requestAnimationFrame(() => {
+      const expectedLeft = getCenteredScrollLeftForCard(activeCardIndexRef.current);
+      if (Math.abs(container.scrollLeft - expectedLeft) > 1) {
+        container.scrollLeft = expectedLeft;
+      }
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [horoscopeCardWidth, horoscopeContainerWidth, getCenteredScrollLeftForCard]);
 
   const handleHoroscopeContainerScroll = useCallback(() => {
     if (isProgrammaticScrollRef.current) return;
     const container = horoscopeContainerRef.current;
     if (!container) return;
-    const step = horoscopeCardWidth + 15;
-    if (step <= 0) return;
-    const nextIdx = Math.max(0, Math.min(5, Math.round(container.scrollLeft / step)));
+    let nextIdx = activeCardIndexRef.current;
+    let minDiff = Infinity;
+    for (let i = 0; i < 6; i++) {
+      const diff = Math.abs(container.scrollLeft - getCenteredScrollLeftForCard(i));
+      if (diff < minDiff) {
+        minDiff = diff;
+        nextIdx = i;
+      }
+    }
     if (nextIdx !== activeCardIndexRef.current) {
       activeCardIndexRef.current = nextIdx;
       setActiveCardIndex(nextIdx);
     }
-  }, [horoscopeCardWidth]);
+  }, [getCenteredScrollLeftForCard]);
 
   // Horoscope Commentary MP3 Audio State
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
@@ -957,10 +991,10 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
           <p
             id="horoscope-hero-banner-quote"
-            className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+            className="typo-h3 font-handwriting font-quote not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
             style={{
               color: 'var(--text-secondary)',
-              fontFamily: "'Italianno', cursive, sans-serif",
+              fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
               fontWeight: 700,
               fontStyle: 'normal',
             }}
@@ -1053,21 +1087,47 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             </div>
           </div>
 
-          {/* Badges thông tin bản mệnh nhanh */}
-          <div className="hidden sm:flex items-center gap-2 shrink-0">
-            <span className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-play">
-              <span className="w-2 h-2 rounded-full bg-amber-400" />
-              Giáp Tý 1984 · Hải Trung Kim
-            </span>
-            <span className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-play">
-              Đoài (Kim) · Kim Tứ Cục
-            </span>
+          {/* Điều hướng chuyển thẻ inline (hiển thị trên < 1024px để không đè lên lưới thẻ) + Badges thông tin bản mệnh */}
+          <div className="flex items-center gap-2 shrink-0 flex-wrap">
+            <div className="flex lg:hidden items-center gap-1.5">
+              <button
+                type="button"
+                onClick={handlePrevHoroscopeCard}
+                aria-label={language === 'en' ? 'Previous card' : 'Lùi thẻ'}
+                title={language === 'en' ? 'Previous card' : 'Lùi thẻ'}
+                className="banner-control-pill w-8 h-8 rounded-full flex items-center justify-center cursor-pointer active:scale-95 transition"
+              >
+                <WebIcon name="chevron-left" className="w-4 h-4" />
+              </button>
+              <span className="banner-count-pill px-2.5 py-1 rounded-full border typo-badge font-mono tabular-nums">
+                {activeCardIndex + 1}/{HOROSCOPE_CARDS.length}
+              </span>
+              <button
+                type="button"
+                onClick={handleNextHoroscopeCard}
+                aria-label={language === 'en' ? 'Next card' : 'Tới thẻ'}
+                title={language === 'en' ? 'Next card' : 'Tới thẻ'}
+                className="banner-control-pill w-8 h-8 rounded-full flex items-center justify-center cursor-pointer active:scale-95 transition"
+              >
+                <WebIcon name="chevron-right" className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="hidden sm:flex items-center gap-2 shrink-0">
+              <span className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-play">
+                <span className="w-2 h-2 rounded-full bg-amber-400" />
+                Giáp Tý 1984 · Hải Trung Kim
+              </span>
+              <span className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-play">
+                Đoài (Kim) · Kim Tứ Cục
+              </span>
+            </div>
           </div>
         </div>
       </motion.section>
 
 
-      <div className="w-full min-w-0 flex-1 grid grid-cols-1 lg:grid-cols-12 items-stretch gap-[15px]">
+      <div id="horoscope-card-1-grid" className="w-full min-w-0 flex-1 grid grid-cols-1 lg:grid-cols-12 items-stretch gap-[15px]">
         {/* Cột trái: Luận giải lá số tử vi */}
         <div
           data-layer-level="2"
@@ -2336,7 +2396,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </div>
       </div>
 
-      {/* Nút LÙI THẺ (Chevron Left) hình tròn nổi cố định ở cạnh trái viewport */}
+      {/* Nút LÙI THẺ (Chevron Left) hình tròn nổi ở vùng rìa ngoài trên màn hình lớn */}
       <button
         id="el-horoscope-button-prev"
         data-element-id="el-horoscope-button-prev"
@@ -2344,15 +2404,15 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         onClick={handlePrevHoroscopeCard}
         title={`${language === 'en' ? 'Previous card' : 'Lùi thẻ'} (${((activeCardIndex - 1 + HOROSCOPE_CARDS.length) % HOROSCOPE_CARDS.length) + 1}/${HOROSCOPE_CARDS.length}: ${t(HOROSCOPE_SLIDES[(activeCardIndex - 1 + HOROSCOPE_CARDS.length) % HOROSCOPE_CARDS.length].label)})`}
         aria-label={language === 'en' ? 'Previous card' : 'Lùi thẻ'}
-        className="nav-arrow-btn theme-prev-next-btn fixed left-2 sm:left-3.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-65 hover:!opacity-100 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
+        className="nav-arrow-btn theme-prev-next-btn hidden lg:flex fixed left-3.5 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full aspect-square items-center justify-center opacity-70 hover:!opacity-100 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
       >
         <WebIcon
           name="chevron-left"
-          className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
+          className="w-6 h-6 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:scale-110"
         />
       </button>
 
-      {/* Nút TỚI THẺ (Chevron Right) hình tròn nổi cố định ở cạnh phải viewport */}
+      {/* Nút TỚI THẺ (Chevron Right) hình tròn nổi ở vùng rìa ngoài trên màn hình lớn */}
       <button
         id="el-horoscope-button-next"
         data-element-id="el-horoscope-button-next"
@@ -2360,11 +2420,11 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         onClick={handleNextHoroscopeCard}
         title={`${language === 'en' ? 'Next card' : 'Tới thẻ'} (${((activeCardIndex + 1) % HOROSCOPE_CARDS.length) + 1}/${HOROSCOPE_CARDS.length}: ${t(HOROSCOPE_SLIDES[(activeCardIndex + 1) % HOROSCOPE_CARDS.length].label)})`}
         aria-label={language === 'en' ? 'Next card' : 'Tới thẻ'}
-        className="nav-arrow-btn theme-prev-next-btn fixed right-2 sm:right-3.5 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center opacity-90 sm:opacity-65 hover:!opacity-100 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
+        className="nav-arrow-btn theme-prev-next-btn hidden lg:flex fixed right-3.5 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full aspect-square items-center justify-center opacity-70 hover:!opacity-100 hover:scale-110 active:scale-90 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
       >
         <WebIcon
           name="chevron-right"
-          className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110"
+          className="w-6 h-6 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110"
         />
       </button>
     </>

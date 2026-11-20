@@ -234,8 +234,8 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'rain
             </h1>
           </div>
           <p
-            className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
-            style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+            className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+            style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 600, fontStyle: 'normal' }}
           >
             &quot;Mỗi khoảnh khắc là một mảnh ghép tự hào của hành trình ♡&quot;
           </p>
@@ -251,7 +251,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'rain
                 SoundEngine.playTap();
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
-              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+              className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
               title="Bộ lọc kỷ niệm"
               aria-label="Bộ lọc kỷ niệm"
               aria-expanded={isFilterDropdownOpen}
@@ -362,7 +362,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'rain
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Tìm kỷ niệm, địa điểm, năm..."
                 aria-label="Tìm kiếm ảnh kỷ niệm"
-                className="banner-search-input w-full pl-8 pr-7 py-1.5 rounded-full typo-input font-play focus:outline-none"
+                className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-input font-play focus:outline-none"
               />
               {searchQuery && (
                 <button
@@ -375,9 +375,6 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'rain
                 </button>
               )}
             </div>
-            <span className="banner-count-pill px-2.5 py-1.5 rounded-full typo-badge font-mono shrink-0">
-              {filteredMemories.length} ảnh
-            </span>
           </div>
         </div>
       </motion.div>

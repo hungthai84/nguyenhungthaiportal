@@ -24,6 +24,7 @@
     padding: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     scroll-behavior: smooth;
     transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
@@ -49,13 +50,14 @@
     padding: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     user-select: text !important;
     -webkit-user-select: text !important;
   }
 
   /* Kế thừa font Play đồng bộ cho toàn bộ trang, Portal, Modal, Popup, Form */
-  body *:not(.fa):not(.fas):not(.far):not(.fab):not(.fa-solid):not(.fa-regular):not(.fa-brands):not([class*="fa-"]):not(.font-italianno):not(.font-handwriting):not(.font-quote) {
+  body *:not(.fa):not(.fas):not(.far):not(.fab):not(.fa-solid):not(.fa-regular):not(.fa-brands):not([class*="fa-"]):not(.font-italianno):not(.font-handwriting):not(.font-moon-dance):not(.font-quote):not(.banner-quote) {
     font-family: var(--font-family-primary);
   }
 
@@ -101,10 +103,14 @@
 
   .font-italianno,
   .font-handwriting,
-  .font-quote {
-    font-family: var(--font-quote);
+  .font-moon-dance,
+  .font-quote,
+  .banner-quote {
+    font-family: var(--font-quote, 'Dancing Script', cursive);
     font-size: var(--fs-quote, var(--fs-h3));
-    line-height: 1.35;
+    line-height: 1.38;
+    font-weight: 700;
+    font-style: normal;
   }
 
   button:focus-visible,

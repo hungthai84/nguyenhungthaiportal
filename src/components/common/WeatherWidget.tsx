@@ -549,9 +549,9 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
               ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.shortDate}`
               : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.shortDate}`
           }
-          className="relative h-[64px] px-2 py-1 rounded-[var(--radius-subcard,16px)] border-0 bg-transparent flex items-center justify-between gap-2 md:gap-2.5 lg:gap-3.5 cursor-pointer transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none group overflow-hidden"
+          className="relative h-full max-h-[56px] px-2 py-0.5 rounded-[var(--radius-subcard,16px)] border-0 bg-transparent flex items-center justify-between gap-2 md:gap-2.5 lg:gap-3.5 cursor-pointer transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none group overflow-hidden"
           style={{
-            height: '64px',
+            height: 'min(56px, 100%)',
             paddingLeft: '8px',
             paddingRight: '8px',
             borderRadius: 'var(--radius-subcard, 16px)',

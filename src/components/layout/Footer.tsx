@@ -39,6 +39,8 @@ export const Footer: React.FC<FooterProps> = ({
   const [pillRipples, setPillRipples] = useState<Record<string, { id: number; x: number; y: number }>>({});
   const themeMenuRef = useRef<HTMLDivElement>(null);
   const langMenuRef = useRef<HTMLDivElement>(null);
+  const themePopupRef = useRef<HTMLDivElement>(null);
+  const langPopupRef = useRef<HTMLDivElement>(null);
   const rightPillWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
   const rightPillBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -69,10 +71,19 @@ export const Footer: React.FC<FooterProps> = ({
   useEffect(() => {
     if (!isThemeMenuOpen && !isLangMenuOpen && !isPdfModalOpen) return;
     const handleOutsideClick = (e: MouseEvent) => {
-      if (isThemeMenuOpen && themeMenuRef.current && !themeMenuRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (
+        isThemeMenuOpen &&
+        !themeMenuRef.current?.contains(target) &&
+        !themePopupRef.current?.contains(target)
+      ) {
         setIsThemeMenuOpen(false);
       }
-      if (isLangMenuOpen && langMenuRef.current && !langMenuRef.current.contains(e.target as Node)) {
+      if (
+        isLangMenuOpen &&
+        !langMenuRef.current?.contains(target) &&
+        !langPopupRef.current?.contains(target)
+      ) {
         setIsLangMenuOpen(false);
       }
     };
@@ -228,7 +239,7 @@ export const Footer: React.FC<FooterProps> = ({
       openUtilityIndex !== null ||
       (selectedUtilityPageIndex !== null && viewportWidth < 1100));
 
-  const exposedRightWidth = viewportWidth < 768 ? 46 : viewportWidth < 1024 ? 48 : 52;
+  const exposedRightWidth = viewportWidth < 768 ? 46 : viewportWidth < 1024 ? 38 : 52;
   const overlapRightPx = uniformRightWidth
     ? Math.max(0, uniformRightWidth - exposedRightWidth)
     : viewportWidth >= 1280
@@ -260,6 +271,130 @@ export const Footer: React.FC<FooterProps> = ({
   const activeLangTitle = language === 'en' ? 'English' : 'Tiếng Việt';
   const activeLangSub = `${language === 'en' ? 'En' : 'Vi'} · ${isEn ? 'Active' : 'Đang dùng'}`;
 
+  const renderLangPopup = (mobilePlacement: boolean) => (
+    <div
+      id="footer-lang-popup"
+      ref={langPopupRef}
+      style={{ background: 'var(--bg-popup)' }}
+      className={`theme-popup absolute bottom-[calc(100%+12px)] ${
+        mobilePlacement
+          ? 'inset-x-3 mx-auto w-[min(288px,calc(100vw-24px))] sm:inset-x-auto sm:right-3'
+          : 'left-auto right-0 w-72'
+      } rounded-[var(--radius-popup,20px)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto`}
+    >
+      <div
+        className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
+        style={{ color: 'var(--text-link, var(--color-primary))', borderColor: 'var(--border-subcard)' }}
+      >
+        <span>{isEn ? 'Select Language' : 'Chọn ngôn ngữ'}</span>
+        <span className="typo-badge font-normal" style={{ color: 'var(--text-muted)' }}>
+          {browserLocale}
+        </span>
+      </div>
+
+      <button
+        type="button"
+        data-selected={language === 'vi' ? 'true' : undefined}
+        onClick={() => handleSelectLanguageMode('vi')}
+        data-no-translate="true"
+        className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-body-sm font-bold transition cursor-pointer text-left ${
+          language === 'vi' ? 'shadow-xs' : ''
+        }`}
+      >
+        <div className="flex items-center gap-2.5 min-w-0">
+          <span className="typo-body-lg leading-none shrink-0">🇻🇳</span>
+          <div className="flex items-center min-w-0">
+            <span className="truncate whitespace-nowrap">Tiếng Việt</span>
+          </div>
+        </div>
+        {language === 'vi' && <span className="shrink-0 font-bold ml-2">✓</span>}
+      </button>
+
+      <button
+        type="button"
+        data-selected={language === 'en' ? 'true' : undefined}
+        onClick={() => handleSelectLanguageMode('en')}
+        data-no-translate="true"
+        className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-body-sm font-bold transition cursor-pointer text-left ${
+          language === 'en' ? 'shadow-xs' : ''
+        }`}
+      >
+        <div className="flex items-center gap-2.5 min-w-0">
+          <span className="typo-body-lg leading-none shrink-0">🇬🇧</span>
+          <div className="flex items-center min-w-0">
+            <span className="truncate whitespace-nowrap">English</span>
+          </div>
+        </div>
+        {language === 'en' && <span className="shrink-0 font-bold ml-2">✓</span>}
+      </button>
+
+      <TtsVoiceSelector isEn={isEn} variant="popup-list" />
+    </div>
+  );
+
+  const renderThemePopup = (mobilePlacement: boolean) => (
+    <div
+      id="footer-theme-popup"
+      ref={themePopupRef}
+      style={{ background: 'var(--bg-popup)' }}
+      className={`theme-popup absolute bottom-[calc(100%+12px)] ${
+        mobilePlacement
+          ? 'inset-x-3 mx-auto w-[min(264px,calc(100vw-24px))] max-w-[calc(100vw-24px)] sm:inset-x-auto sm:right-3'
+          : 'left-auto right-0 w-[264px] max-w-[calc(100vw-32px)]'
+      } rounded-[var(--radius-popup,16px)] p-2 z-[9999] flex flex-col gap-1 font-play text-left animate-slide-up pointer-events-auto`}
+    >
+      <div className="max-h-[380px] overflow-y-auto no-scrollbar flex flex-col gap-1">
+        {UNIFIED_INTERFACE_THEMES.map((preset) => {
+          const isSelected = cardStyle === preset.id;
+          const shortName = isEn
+            ? THEME_FOUR_WORD_NAMES[preset.id]?.en || t(preset.name)
+            : THEME_FOUR_WORD_NAMES[preset.id]?.vi || preset.name;
+          const itemColor = isSelected
+            ? 'var(--text-link, var(--color-primary))'
+            : 'var(--text-primary)';
+
+          return (
+            <button
+              key={preset.id}
+              type="button"
+              aria-pressed={isSelected}
+              onClick={() => {
+                SoundEngine.playGlassChime();
+                setCardStyle(preset.id);
+                setIsThemeMenuOpen(false);
+                onShowNotification(
+                  isEn
+                    ? `✓ Saved & applied: ${shortName}`
+                    : `✓ Đã lưu & áp dụng: ${shortName}`
+                );
+              }}
+              className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[12px] border transition-colors cursor-pointer text-left min-w-0 ${
+                isSelected ? 'shadow-xs' : 'theme-dropdown-option border-transparent'
+              }`}
+              style={{
+                background: isSelected ? 'var(--bg-subcard)' : undefined,
+                borderColor: isSelected ? 'var(--color-primary)' : 'transparent',
+                color: itemColor,
+              }}
+            >
+              <WebIcon
+                name={preset.icon || 'layers'}
+                className="w-4 h-4 shrink-0"
+                style={{ color: itemColor, strokeWidth: 2.25 }}
+              />
+              <span
+                className="typo-body-sm font-bold truncate min-w-0 flex-1"
+                style={{ color: itemColor, fontWeight: 700 }}
+              >
+                {shortName}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+
   const footerElement = (
     <footer
       id="app-footer"
@@ -280,13 +415,19 @@ export const Footer: React.FC<FooterProps> = ({
         borderRight: glassBorderVal,
         borderRadius: 'var(--radius-footer, 24px 24px 0 0)',
       }}
-      className="mx-auto h-full min-h-0 py-1.5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-1.5 px-2.5 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
     >
-
+      <div
+        className={`w-full h-full flex flex-nowrap items-center justify-between gap-2 md:gap-0 ${
+          isCompactMobile
+            ? 'overflow-x-auto overflow-y-hidden horizontal-scroll-smooth'
+            : 'overflow-visible'
+        }`}
+      >
       {/* Area 1: Weather Widget */}
       <div
         id="el-p0-div-109"
-        className="w-auto max-w-[64%] sm:max-w-[44%] md:max-w-[calc(50%-92px)] h-auto sm:h-full flex items-center justify-start gap-1.5 min-w-0 relative z-10 shrink-0"
+        className="w-auto md:max-w-[calc(50%-92px)] h-full flex items-center justify-start gap-1.5 min-w-0 relative z-10 shrink-0"
         style={{
           paddingRight: '0px',
           paddingBottom: '0px',
@@ -298,7 +439,7 @@ export const Footer: React.FC<FooterProps> = ({
 
       {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md (tạm ẩn trên desktop khi nút bên phải bung ra) */}
       <div
-        className={`w-auto relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 pointer-events-auto flex items-center justify-center shrink-0 transition-all duration-300 ease-out ${
+        className={`w-auto h-full relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 pointer-events-auto flex items-center justify-center shrink-0 transition-all duration-300 ease-out ${
           hideCenterNavCapsule
             ? 'opacity-0 pointer-events-none scale-90 -translate-y-1'
             : 'opacity-100 pointer-events-auto scale-100 translate-y-0'
@@ -388,13 +529,13 @@ export const Footer: React.FC<FooterProps> = ({
             setFocusedRightBtn(null);
           }
         }}
-        className="w-full sm:w-auto md:max-w-[calc(50%-88px)] h-auto sm:h-full flex items-center justify-center sm:justify-end overflow-visible sm:pl-2 min-w-0 relative z-20 shrink-0"
+        className="w-auto md:max-w-[calc(50%-88px)] h-full flex items-center justify-end overflow-visible md:pl-2 min-w-0 relative z-20 shrink-0"
       >
         <div
           id="el-p0-div-113"
           onMouseLeave={() => setHoveredRightBtn(null)}
-          className={`relative flex items-center justify-center sm:justify-end py-0.5 overflow-visible ${
-            isCompactMobile ? 'flex-wrap gap-2' : 'flex-nowrap'
+          className={`relative flex flex-nowrap items-center justify-end py-0.5 overflow-visible ${
+            isCompactMobile ? 'gap-1.5' : ''
           }`}
         >
           {/* Button 0: Ngôn Ngữ */}
@@ -481,62 +622,8 @@ export const Footer: React.FC<FooterProps> = ({
                   </button>
                 </div>
 
-                {/* Popup Danh sách Ngôn Ngữ (Ẩn mặc định trình duyệt — chỉ hiển thị Tiếng Việt & English) */}
-                {isLangMenuOpen && (
-                  <div
-                    id="footer-lang-popup"
-                    style={{ background: 'var(--bg-popup)' }}
-                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(288px,calc(100vw-24px))] sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-72 rounded-[var(--radius-popup,20px)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto"
-                  >
-                    <div
-                      className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
-                      style={{ color: 'var(--text-link, var(--color-primary))', borderColor: 'var(--border-subcard)' }}
-                    >
-                      <span>{isEn ? 'Select Language' : 'Chọn ngôn ngữ'}</span>
-                      <span className="typo-badge font-normal" style={{ color: 'var(--text-muted)' }}>
-                        {browserLocale}
-                      </span>
-                    </div>
-
-                    <button
-                      type="button"
-                      data-selected={language === 'vi' ? 'true' : undefined}
-                      onClick={() => handleSelectLanguageMode('vi')}
-                      data-no-translate="true"
-                      className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-body-sm font-bold transition cursor-pointer text-left ${
-                        language === 'vi' ? 'shadow-xs' : ''
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <span className="typo-body-lg leading-none shrink-0">🇻🇳</span>
-                        <div className="flex items-center min-w-0">
-                          <span className="truncate whitespace-nowrap">Tiếng Việt</span>
-                        </div>
-                      </div>
-                      {language === 'vi' && <span className="shrink-0 font-bold ml-2">✓</span>}
-                    </button>
-
-                    <button
-                      type="button"
-                      data-selected={language === 'en' ? 'true' : undefined}
-                      onClick={() => handleSelectLanguageMode('en')}
-                      data-no-translate="true"
-                      className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-body-sm font-bold transition cursor-pointer text-left ${
-                        language === 'en' ? 'shadow-xs' : ''
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <span className="typo-body-lg leading-none shrink-0">🇬🇧</span>
-                        <div className="flex items-center min-w-0">
-                          <span className="truncate whitespace-nowrap">English</span>
-                        </div>
-                      </div>
-                      {language === 'en' && <span className="shrink-0 font-bold ml-2">✓</span>}
-                    </button>
-
-                    <TtsVoiceSelector isEn={isEn} variant="popup-list" />
-                  </div>
-                )}
+                {/* Popup Danh sách Ngôn Ngữ (Desktop/Tablet >= 768px gắn trực tiếp vào nút) */}
+                {!isCompactMobile && isLangMenuOpen && renderLangPopup(false)}
               </div>
 
           {/* Button 1: Giao diện */}
@@ -623,64 +710,8 @@ export const Footer: React.FC<FooterProps> = ({
                   </button>
                 </div>
 
-                {/* Popup Menu Giao Diện: Chỉ hiển thị Icon & Tên giao diện 4 từ */}
-                {isThemeMenuOpen && (
-                  <div
-                    id="footer-theme-popup"
-                    style={{ background: 'var(--bg-popup)' }}
-                    className="theme-popup fixed inset-x-3 bottom-[84px] mx-auto w-[min(264px,calc(100vw-24px))] max-w-[calc(100vw-24px)] h-auto sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+12px)] sm:left-auto sm:right-0 sm:w-[264px] sm:max-w-[calc(100vw-32px)] rounded-[var(--radius-popup,16px)] p-2 z-[9999] flex flex-col gap-1 font-play text-left animate-slide-up pointer-events-auto"
-                  >
-                    <div className="max-h-[380px] overflow-y-auto no-scrollbar flex flex-col gap-1">
-                      {UNIFIED_INTERFACE_THEMES.map((preset) => {
-                        const isSelected = cardStyle === preset.id;
-                        const shortName = isEn
-                          ? THEME_FOUR_WORD_NAMES[preset.id]?.en || t(preset.name)
-                          : THEME_FOUR_WORD_NAMES[preset.id]?.vi || preset.name;
-                        const itemColor = isSelected
-                          ? 'var(--text-link, var(--color-primary))'
-                          : 'var(--text-primary)';
-
-                        return (
-                          <button
-                            key={preset.id}
-                            type="button"
-                            aria-pressed={isSelected}
-                            onClick={() => {
-                              SoundEngine.playGlassChime();
-                              setCardStyle(preset.id);
-                              setIsThemeMenuOpen(false);
-                              onShowNotification(
-                                isEn
-                                  ? `✓ Saved & applied: ${shortName}`
-                                  : `✓ Đã lưu & áp dụng: ${shortName}`
-                              );
-                            }}
-                            className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[12px] border transition-colors cursor-pointer text-left min-w-0 ${
-                              isSelected ? 'shadow-xs' : 'theme-dropdown-option border-transparent'
-                            }`}
-                            style={{
-                              background: isSelected ? 'var(--bg-subcard)' : undefined,
-                              borderColor: isSelected ? 'var(--color-primary)' : 'transparent',
-                              color: itemColor,
-                            }}
-                          >
-                            <WebIcon
-                              name={preset.icon || 'layers'}
-                              className="w-4 h-4 shrink-0"
-                              style={{ color: itemColor, strokeWidth: 2.25 }}
-                            />
-                            <span
-                              className="typo-body-sm font-bold truncate min-w-0 flex-1"
-                              style={{ color: itemColor, fontWeight: 700 }}
-                            >
-                              {shortName}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
+                {/* Popup Menu Giao Diện (Desktop/Tablet >= 768px gắn trực tiếp vào nút) */}
+                {!isCompactMobile && isThemeMenuOpen && renderThemePopup(false)}
               </div>
 
           {/* Button 2: Hình Nền */}
@@ -855,6 +886,11 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
       </div>
+      </div>
+
+      {/* Mobile/Compact Popups (< 768px): gắn trực tiếp vào #app-footer để không bị cắt bởi thanh cuộn ngang */}
+      {isCompactMobile && isLangMenuOpen && renderLangPopup(true)}
+      {isCompactMobile && isThemeMenuOpen && renderThemePopup(true)}
 
       {/* PDF Download Modal */}
       {isPdfModalOpen && (

@@ -12,8 +12,9 @@
   --font-family-body: var(--font-primary);
   --font-family-numeric: var(--font-primary);
   --font-main: var(--font-primary);
-  --font-quote: 'Italianno', cursive;
+  --font-quote: 'Dancing Script', cursive;
   --font-scale: 1;
+  --layout-typo-factor: 1;
 
   /* Unified Fluid Typography Target Matrix (Consistent across Desktop, Tablet, Mobile) */
   --fs-display: clamp(32px, 3vw + 20px, 56px);
@@ -36,7 +37,7 @@
   --fs-tab: clamp(13.5px, 0.15vw + 13px, 14px);
   --fs-input: 16px;
   --fs-kpi: clamp(24px, 1.5vw + 18px, 36px);
-  --fs-quote: var(--fs-h3);
+  --fs-quote: clamp(18px, 0.9vw + 13px, 24px);
   --fs-popup-title: clamp(17px, 0.7vw + 15px, 20px);
 
   /* Better-Typography: Unitless Line Heights, Letter Spacing & Reading Measures */

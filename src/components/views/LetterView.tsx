@@ -465,6 +465,27 @@ export const LetterView: React.FC<LetterViewProps> = ({
   const [speechRate, setSpeechRate] = useState<number>(1.0);
   const [slideDirection, setSlideDirection] = useState<'next' | 'prev'>('next');
 
+  const getCenteredScrollLeftForSlide = useCallback(
+    (slideIdx: number) => {
+      const clamped = Math.max(0, Math.min(3, slideIdx));
+      const container = letterContainerRef.current;
+      if (!container) return clamped * (letterCardWidth + 15);
+      const cardEl = document.getElementById(`letter-card-${clamped + 1}`);
+      if (!cardEl) return clamped * (letterCardWidth + 15);
+      const headerEl = document.getElementById('app-header');
+      const containerRect = container.getBoundingClientRect();
+      const headerRect = headerEl?.getBoundingClientRect();
+      const desiredCenterX =
+        headerRect && headerRect.width > 0
+          ? headerRect.left + headerRect.width / 2
+          : containerRect.left + container.clientLeft + container.clientWidth / 2;
+      const desiredLeftInContainer =
+        desiredCenterX - (containerRect.left + container.clientLeft) - cardEl.offsetWidth / 2;
+      return Math.max(0, Math.round(cardEl.offsetLeft - desiredLeftInContainer));
+    },
+    [letterCardWidth]
+  );
+
   const scrollToLetterCard = useCallback(
     (targetSlide: number, smooth = true) => {
       const clamped = Math.max(0, Math.min(3, targetSlide));
@@ -477,43 +498,56 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
       const container = letterContainerRef.current;
       if (!container) return;
-      const targetLeft = clamped * (letterCardWidth + 15);
+      const targetLeft = getCenteredScrollLeftForSlide(clamped);
       if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
       isProgrammaticScrollRef.current = true;
-      container.scrollTo({
-        left: targetLeft,
-        behavior: smooth ? 'smooth' : 'auto',
-      });
+      if (smooth) {
+        container.scrollTo({
+          left: targetLeft,
+          behavior: 'smooth',
+        });
+      } else {
+        container.scrollLeft = targetLeft;
+      }
       scrollTimeoutRef.current = window.setTimeout(() => {
         isProgrammaticScrollRef.current = false;
       }, 550);
     },
-    [letterCardWidth]
+    [getCenteredScrollLeftForSlide]
   );
 
-  // Keep active card centered when viewport resizes
+  // Keep active card centered with #app-header when viewport resizes
   useEffect(() => {
     const container = letterContainerRef.current;
     if (!container || isProgrammaticScrollRef.current) return;
-    const expectedLeft = currentSlideRef.current * (letterCardWidth + 15);
-    if (Math.abs(container.scrollLeft - expectedLeft) > 2) {
-      container.scrollTo({ left: expectedLeft, behavior: 'auto' });
-    }
-  }, [letterCardWidth]);
+    const raf = requestAnimationFrame(() => {
+      const expectedLeft = getCenteredScrollLeftForSlide(currentSlideRef.current);
+      if (Math.abs(container.scrollLeft - expectedLeft) > 1) {
+        container.scrollLeft = expectedLeft;
+      }
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [letterCardWidth, letterContainerWidth, getCenteredScrollLeftForSlide]);
 
   const handleLetterContainerScroll = useCallback(() => {
     if (isProgrammaticScrollRef.current) return;
     const container = letterContainerRef.current;
     if (!container) return;
-    const step = letterCardWidth + 15;
-    if (step <= 0) return;
-    const nextSlide = Math.max(0, Math.min(3, Math.round(container.scrollLeft / step)));
+    let nextSlide = currentSlideRef.current;
+    let minDiff = Infinity;
+    for (let i = 0; i < 4; i++) {
+      const diff = Math.abs(container.scrollLeft - getCenteredScrollLeftForSlide(i));
+      if (diff < minDiff) {
+        minDiff = diff;
+        nextSlide = i;
+      }
+    }
     if (nextSlide !== currentSlideRef.current) {
       setSlideDirection(nextSlide > currentSlideRef.current ? 'next' : 'prev');
       currentSlideRef.current = nextSlide;
       setCurrentSlide(nextSlide);
     }
-  }, [letterCardWidth]);
+  }, [getCenteredScrollLeftForSlide]);
 
   // Đồng bộ trạng thái Slide (0..3) với nút Tới trang / Qua trang ở Footer
   useEffect(() => {
@@ -2040,16 +2074,18 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         {/* Avatar Video Giới Thiệu nằm gọn bên trong thẻ Video (không tràn ra ngoài main card hoặc đè tiêu đề ở mọi kích thước) */}
                         {isClientMounted && (
                           <div
+                            id="letter-video-avatar-overlay"
                             className="absolute bottom-3 right-3 z-20 flex items-center gap-2 sm:gap-2.5 select-none pointer-events-auto max-w-[calc(100%-24px)]"
                             role="region"
                             aria-label="Video Giới Thiệu Chân Dung"
                           >
                             <div
+                              id="letter-video-speech-bubble"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleToggleCircleVideo();
                               }}
-                              className="hidden sm:flex cursor-pointer relative items-center bg-[#2563eb]/95 hover:bg-[#1d4ed8] text-white px-3 py-1.5 rounded-[12px] shadow-md transition-colors duration-200 border border-blue-300/40 backdrop-blur-sm"
+                              className="flex cursor-pointer relative items-center bg-[#2563eb]/95 hover:bg-[#1d4ed8] text-white px-3 py-1.5 rounded-[12px] shadow-md transition-colors duration-200 border border-blue-300/40 backdrop-blur-sm"
                               title="Bấm vào để xem video giới thiệu của anh!"
                             >
                               <p className="typo-caption font-bold font-play text-white m-0 text-left leading-snug">
@@ -2256,21 +2292,21 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         </div>
 
                         <p
-                          className="motto-quote-text typo-h3 font-handwriting font-italianno font-bold tracking-wide text-amber-700 dark:text-amber-200 text-left drop-shadow-xs select-none relative z-10 my-auto"
-                          style={{ fontFamily: "'Italianno', cursive, sans-serif" }}
+                          className="motto-quote-text typo-h3 font-handwriting font-quote font-bold tracking-wide text-amber-700 dark:text-amber-200 text-left drop-shadow-xs select-none relative z-10 my-auto"
+                          style={{ fontFamily: "var(--font-quote, 'Dancing Script', cursive)" }}
                         >
                           &ldquo;Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự.&rdquo;
                         </p>
                       </article>
                     </div>
 
-                    {/* THẺ BENTO 3 (8/12 cols trên Desktop): GIÁ TRỊ CỐT LỖI — cùng hàng với Thương hiệu đồng hành */}
+                    {/* THẺ BENTO 3 (12/12 cols trên Desktop với 4 cột ngang): GIÁ TRỊ CỐT LỖI */}
                     <div
                       id="card-core-values-pursued"
                       data-element-type="card"
                       data-section-card="true"
                       style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-8 w-full h-full p-[15px] gap-[15px] transition-all duration-200 flex flex-col items-start group/values z-10 text-left rounded-[14px] shrink-0 min-w-0 ${getGlassCardClass()} ${
+                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-12 w-full h-auto p-[15px] gap-[15px] transition-all duration-200 flex flex-col items-start group/values z-10 text-left rounded-[14px] shrink-0 min-w-0 ${getGlassCardClass()} ${
                         activeTargetId === 'card-core-values-pursued'
                           ? 'ring-2 ring-amber-400 dark:ring-cyan-400 shadow-[0_0_24px_rgba(251,191,36,0.35)]'
                           : ''
@@ -2283,7 +2319,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       />
 
                       <div
-                        className="grid grid-cols-1 sm:grid-cols-2 auto-rows-fr gap-[15px] items-stretch w-full flex-1"
+                        id="core-values-grid"
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-[15px] items-stretch w-full flex-1"
                         style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
                       >
                         {CORE_VALUES_DATA.map((val) => {
@@ -2347,7 +2384,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       </div>
                     </div>
 
-                    {/* THẺ BENTO 6 (4/12 cols trên Desktop): Thương hiệu đồng hành — cùng hàng với Giá trị cốt lỗi */}
+                    {/* THẺ BENTO 6 (12/12 cols dạng lưới 2 hàng x 4 cột cân đối): Thương hiệu đồng hành */}
                     <article
                       id="bento-brands-marquee"
                       data-element-name="Thẻ Bento Thương Hiệu Đồng Hành"
@@ -2355,7 +2392,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-section-card="true"
                       data-element-page="letter"
                       style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                      className="partner-card bento-card glass-card col-span-1 md:col-span-6 lg:col-span-4 w-full h-full p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] transition-colors duration-200 group/marquee min-w-0"
+                      className="partner-card bento-card glass-card col-span-1 md:col-span-6 lg:col-span-12 w-full h-auto p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] transition-colors duration-200 group/marquee min-w-0"
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] shrink-0 min-w-0">
                         <div className="card-header-sync inline-flex items-center gap-2 text-blue-600 dark:text-cyan-400 leading-tight min-w-0">
@@ -2377,38 +2414,33 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         </span>
                       </div>
 
-                      <div className="partner-marquee-viewport my-auto [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-                        <div className="animate-marquee flex items-center group-hover/marquee:[animation-play-state:paused]">
-                          {[0, 1].map((trackIdx) => (
+                      <div
+                        id="brands-bento-grid"
+                        className="grid grid-cols-2 sm:grid-cols-4 gap-[12px] w-full items-stretch min-w-0"
+                      >
+                        {EXPERIENCE_BRANDS_MARQUEE.map((item, idx) => (
+                          <div
+                            key={`${item.id}-${idx}`}
+                            data-subcard="true"
+                            className="sub-card letter-subcard partner-brand-tile group/logo flex items-center gap-2.5 p-2.5 rounded-[var(--radius-subcard,16px)] min-w-0 transition-colors duration-200"
+                            title={item.company}
+                          >
                             <div
-                              key={trackIdx}
-                              aria-hidden={trackIdx === 1}
-                              className="flex items-center gap-6 sm:gap-10 whitespace-nowrap pr-6 sm:pr-10 shrink-0"
+                              className="partner-logo-badge w-9 h-9 sm:w-10 sm:h-10 aspect-square rounded-[99999px] bg-white dark:bg-slate-800 border border-[var(--border-subcard)] shadow-2xs group-hover/logo:scale-105 group-hover/logo:border-blue-500/50 transition-all duration-300 relative shrink-0"
+                              style={{ borderRadius: '99999px' }}
                             >
-                              {EXPERIENCE_BRANDS_MARQUEE.map((item, idx) => (
-                                <div
-                                  key={`${trackIdx}-${item.id}-${idx}`}
-                                  className="partner-logo-item group/logo transition-all duration-300"
-                                >
-                                  <div
-                                    className="partner-logo-badge w-10 h-10 sm:w-11 sm:h-11 aspect-square rounded-[99999px] bg-white dark:bg-slate-800 border-2 border-[var(--border-subcard)] shadow-sm group-hover/logo:scale-110 group-hover/logo:border-blue-500/50 transition-all duration-500 relative shrink-0"
-                                    style={{ borderRadius: '99999px' }}
-                                  >
-                                    <img
-                                      src={item.logo}
-                                      alt={item.company}
-                                      className="partner-logo-img group-hover/logo:scale-105 transition-transform duration-500"
-                                      referrerPolicy="no-referrer"
-                                    />
-                                  </div>
-                                  <span className="card-tag typo-body-sm font-semibold font-play text-[var(--text-primary)] group-hover/logo:text-blue-700 dark:group-hover/logo:text-cyan-300 transition-colors whitespace-nowrap">
-                                    {item.company}
-                                  </span>
-                                </div>
-                              ))}
+                              <img
+                                src={item.logo}
+                                alt={item.company}
+                                className="partner-logo-img transition-transform duration-300"
+                                referrerPolicy="no-referrer"
+                              />
                             </div>
-                          ))}
-                        </div>
+                            <span className="card-tag typo-body-sm font-semibold font-play text-[var(--text-primary)] group-hover/logo:text-blue-700 dark:group-hover/logo:text-cyan-300 transition-colors leading-tight truncate min-w-0">
+                              {item.company}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </article>
                 </div>
@@ -2736,7 +2768,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
         <div
           role="region"
           aria-label="Điều khiển thuyết trình tự động"
-          className="theme-popup fixed bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 z-50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-[14px] sm:rounded-full flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-center gap-2 sm:gap-3 max-w-[95vw] animate-slide-up select-none font-play"
+          className="theme-popup fixed bottom-[calc(10%+14px)] left-1/2 -translate-x-1/2 z-50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-[14px] sm:rounded-full flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-center gap-2 sm:gap-3 max-w-[95vw] animate-slide-up select-none font-play"
         >
           {/* Nhãn trạng thái Slide & Cue */}
           <div className="flex items-center gap-2 shrink-0">

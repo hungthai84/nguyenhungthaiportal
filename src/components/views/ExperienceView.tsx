@@ -972,10 +972,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             </svg>
           </div>
 
-          {/* HEADER TRÊN CÙNG: TIÊU ĐỀ NỔI PHÍA TRÊN GIÚP CÁC CỘT LẤP ĐẦY 100% CHIỀU CAO Ở MỌI KÍCH THƯỚC */}
-          <div className="absolute top-0 inset-x-0 z-[30] shrink-0 flex flex-wrap items-start justify-between gap-3 px-[25px] pt-[22px] sm:pt-[25px] lg:px-[2.8%] lg:pt-[2.8%] pointer-events-none">
+          {/* HEADER TRÊN CÙNG (Static Flow): KHÔNG BAO GIỜ ĐÈ LÊN NỘI DUNG CỘT Ở MỌI KÍCH THƯỚC */}
+          <div
+            id="experience-board-header"
+            className="relative z-[30] shrink-0 flex flex-wrap items-center justify-between gap-3 px-[20px] sm:px-[25px] lg:px-[2.8%] pt-[14px] sm:pt-[18px] pb-2.5"
+          >
             {/* Tiêu đề "Thời Gian / Công Tác" + 5 chấm màu + gạch chân hồng */}
-            <header className="pointer-events-auto">
+            <header>
               <div
                 style={{
                   color: isLeather
@@ -1005,7 +1008,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 Công Tác
               </h1>
               {/* Hàng 5 chấm tròn màu + gạch chân hồng */}
-              <div className="flex items-center gap-[6px] mt-2.5 sm:mt-3">
+              <div className="flex items-center gap-[6px] mt-2">
                 <span className="w-[8px] h-[8px] rounded-full bg-[#F8C605]" />
                 <span className="w-[8px] h-[8px] rounded-full bg-[#EE2A7B]" />
                 <span className="w-[8px] h-[8px] rounded-full bg-[#00AEEF]" />
@@ -1024,67 +1027,64 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </div>
             </header>
 
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={handlePrev}
+                disabled={startIndex <= 0}
+                aria-label="Cuộn lùi sang trái"
+                style={
+                  !isLeather && !isBlackLeather && !isLightLeather
+                    ? {
+                        background: 'var(--bg-nav-pill, var(--bg-card))',
+                        color: 'var(--text-primary)',
+                        borderColor: 'var(--border-color)',
+                      }
+                    : undefined
+                }
+                className={cn(
+                  'w-9 h-9 rounded-full backdrop-blur-md border shadow-sm flex items-center justify-center transition-all duration-200 cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed active:scale-95',
+                  isLeather
+                    ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
+                    : isBlackLeather
+                      ? 'bg-[#1b1e25]/95 text-[#FFFFFF] border-[#E2E8F0]/40 hover:bg-[#334155]'
+                      : isLightLeather
+                        ? 'bg-white/95 text-[#000000] border-[#0F172A]/70 hover:bg-[#0F172A] hover:text-white'
+                        : ''
+                )}
+              >
+                <ChevronLeft className="w-4.5 h-4.5" />
+              </button>
 
+              <button
+                type="button"
+                onClick={handleNext}
+                disabled={startIndex >= maxStartIndex}
+                aria-label="Cuộn tới sang phải"
+                style={
+                  !isLeather && !isBlackLeather && !isLightLeather
+                    ? {
+                        background: 'var(--bg-nav-pill, var(--bg-card))',
+                        color: 'var(--text-primary)',
+                        borderColor: 'var(--border-color)',
+                      }
+                    : undefined
+                }
+                className={cn(
+                  'w-9 h-9 rounded-full backdrop-blur-md border shadow-sm flex items-center justify-center transition-all duration-200 cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed active:scale-95',
+                  isLeather
+                    ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
+                    : isBlackLeather
+                      ? 'bg-[#1b1e25]/95 text-[#FFFFFF] border-[#E2E8F0]/40 hover:bg-[#334155]'
+                      : isLightLeather
+                        ? 'bg-white/95 text-[#000000] border-[#0F172A]/70 hover:bg-[#0F172A] hover:text-white'
+                        : ''
+                )}
+              >
+                <ChevronRight className="w-4.5 h-4.5" />
+              </button>
+            </div>
           </div>
-
-          {/* NÚT CUỘN NỔI HAI BÊN MÉP TRÁI / PHẢI KHI RÊ CHUỘT VÀO THẺ */}
-          {startIndex > 0 && (
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label="Cuộn lùi sang trái"
-              style={
-                !isLeather && !isBlackLeather && !isLightLeather
-                  ? {
-                      background: 'var(--bg-nav-pill, var(--bg-card))',
-                      color: 'var(--text-primary)',
-                      borderColor: 'var(--border-color)',
-                    }
-                  : undefined
-              }
-              className={cn(
-                'absolute left-3 sm:left-3.5 top-1/2 -translate-y-1/2 z-[40] w-10 h-10 sm:w-11 sm:h-11 rounded-full backdrop-blur-md border shadow-[0_10px_25px_rgba(15,23,42,0.18)] flex items-center justify-center opacity-85 sm:opacity-0 sm:group-hover/board:opacity-100 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer',
-                isLeather
-                  ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
-                  : isBlackLeather
-                    ? 'bg-[#1b1e25]/95 text-[#FFFFFF] border-[#E2E8F0]/40 hover:bg-[#334155]'
-                    : isLightLeather
-                      ? 'bg-white/95 text-[#000000] border-[#0F172A]/70 hover:bg-[#0F172A] hover:text-white'
-                      : ''
-              )}
-            >
-              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-            </button>
-          )}
-
-          {startIndex < maxStartIndex && (
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label="Cuộn tới sang phải"
-              style={
-                !isLeather && !isBlackLeather && !isLightLeather
-                  ? {
-                      background: 'var(--bg-nav-pill, var(--bg-card))',
-                      color: 'var(--text-primary)',
-                      borderColor: 'var(--border-color)',
-                    }
-                  : undefined
-              }
-              className={cn(
-                'absolute right-3 sm:right-3.5 top-1/2 -translate-y-1/2 z-[40] w-10 h-10 sm:w-11 sm:h-11 rounded-full backdrop-blur-md border shadow-[0_10px_25px_rgba(15,23,42,0.18)] flex items-center justify-center opacity-85 sm:opacity-0 sm:group-hover/board:opacity-100 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer',
-                isLeather
-                  ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
-                  : isBlackLeather
-                    ? 'bg-[#1b1e25]/95 text-[#FFFFFF] border-[#E2E8F0]/40 hover:bg-[#334155]'
-                    : isLightLeather
-                      ? 'bg-white/95 text-[#000000] border-[#0F172A]/70 hover:bg-[#0F172A] hover:text-white'
-                      : ''
-              )}
-            >
-              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
-            </button>
-          )}
 
           {/* KHUNG SLIDER HIỂN THỊ CÁC CỘT MỐC CÙNG LÚC */}
           <div
@@ -1191,8 +1191,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       />
                     )}
 
-                    {/* NỘI DUNG TỪNG CỘT MỐC (CĂN ĐỒNG ĐỀU THEO TRỤC DỌC, LẤP ĐẦY MỌI KÍCH THƯỚC) */}
-                    <div className="relative z-[20] w-full h-full flex-1 min-h-0 flex flex-col pt-[112px] sm:pt-[128px] lg:pt-[142px] xl:pt-[152px]">
+                    {/* NỘI DUNG TỪNG CỘT MỐC (CĂN ĐỒNG ĐỀU THEO TRỤC DỌC, KHÔNG BỊ ĐÈ BỞI HEADER/FOOTER) */}
+                    <div className="relative z-[20] w-full h-full flex-1 min-h-0 flex flex-col pt-2 sm:pt-3">
                       {/* 1. ICON LỊCH + NĂM */}
                       <div
                         style={{ color: primaryTextColor }}
@@ -1205,7 +1205,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       {/* 2. KHỐI MÀU NGANG CHỨA LOGO TRÒN Ở GIỮA — CLICK LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC */}
                       <div
                         style={{ background: item.blockGradient }}
-                        className="w-full h-[92px] sm:h-[108px] lg:h-[120px] shrink-0 flex items-center justify-center px-3 shadow-[0_12px_22px_-2px_rgba(15,23,42,0.22)] transition-all duration-300"
+                        className="w-full h-[88px] sm:h-[104px] lg:h-[114px] shrink-0 flex items-center justify-center px-3 shadow-[0_12px_22px_-2px_rgba(15,23,42,0.22)] transition-all duration-300"
                       >
                         <div className="flex items-center justify-center">
                           {item.logos.map((logo, logoIdx) => (
@@ -1225,7 +1225,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       {/* 3. THÔNG TIN CÔNG TY, VỊ TRÍ, QUẢN LÝ & MÔ TẢ PHÍA DƯỚI */}
                       <div
                         data-no-wheel-horizontal="true"
-                        className="exp-milestone-scroll flex-1 min-h-0 px-[8%] sm:px-[10%] pt-3 sm:pt-4 pb-12 sm:pb-14 flex flex-col overflow-y-auto overscroll-y-contain touch-pan-y no-scrollbar"
+                        className="exp-milestone-scroll flex-1 min-h-0 px-[8%] sm:px-[10%] pt-3 sm:pt-4 pb-3 sm:pb-4 flex flex-col overflow-y-auto overscroll-y-contain touch-pan-y no-scrollbar"
                       >
                         <h3
                           style={{ color: primaryTextColor }}
@@ -1329,66 +1329,71 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             </div>
           </div>
 
-          {/* CHẤM PHÂN TRANG DƯỚI ĐÁY THẺ ĐỂ CHUYỂN NHANH */}
+          {/* CHẤM PHÂN TRANG DẠNG FLOW FOOTER NẰM DƯỚI SLIDER (KHÔNG ĐÈ LÊN NỘI DUNG CỘT MỐC) */}
           <div
-            style={
-              !isLeather && !isBlackLeather && !isLightLeather
-                ? {
-                    background: 'var(--bg-nav-pill, var(--bg-card))',
-                    borderColor: 'var(--border-color)',
-                  }
-                : undefined
-            }
-            className={cn(
-              'absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-[35] flex items-center gap-2 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border',
-              isLeather
-                ? 'bg-[#522E10]/90 border-[#F5DEB3]/45'
-                : isBlackLeather
-                  ? 'bg-[#15171c]/95 border-[#E2E8F0]/35'
-                  : isLightLeather
-                    ? 'bg-white/95 border-[#0F172A]/60'
-                    : ''
-            )}
+            id="experience-board-pagination"
+            className="relative z-[30] shrink-0 flex items-center justify-center py-2 sm:py-2.5"
           >
-            {Array.from({ length: maxStartIndex + 1 }).map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setStartIndex(idx);
-                }}
-                aria-label={`Chuyển tới trang ${idx + 1}`}
-                style={
-                  !isLeather && !isBlackLeather && !isLightLeather
-                    ? {
-                        background:
-                          startIndex === idx
-                            ? 'var(--color-primary, #0284C7)'
-                            : 'var(--divider-nav-pill, rgba(148, 163, 184, 0.45))',
-                      }
-                    : undefined
-                }
-                className={cn(
-                  'h-2 rounded-full transition-all duration-300 cursor-pointer',
-                  startIndex === idx
-                    ? isLeather
-                      ? 'w-7 bg-[#FDE68A]'
-                      : isBlackLeather
-                        ? 'w-7 bg-[#E2E8F0]'
-                        : isLightLeather
-                          ? 'w-7 bg-[#0F172A]'
-                          : 'w-7'
-                    : isLeather
-                      ? 'w-2 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
-                      : isBlackLeather
-                        ? 'w-2 bg-[#E2E8F0]/30 hover:bg-[#E2E8F0]/65'
-                        : isLightLeather
-                          ? 'w-2 bg-[#0F172A]/35 hover:bg-[#0F172A]/75'
-                          : 'w-2 hover:opacity-80'
-                )}
-              />
-            ))}
+            <div
+              style={
+                !isLeather && !isBlackLeather && !isLightLeather
+                  ? {
+                      background: 'var(--bg-nav-pill, var(--bg-card))',
+                      borderColor: 'var(--border-color)',
+                    }
+                  : undefined
+              }
+              className={cn(
+                'flex items-center gap-2 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border',
+                isLeather
+                  ? 'bg-[#522E10]/90 border-[#F5DEB3]/45'
+                  : isBlackLeather
+                    ? 'bg-[#15171c]/95 border-[#E2E8F0]/35'
+                    : isLightLeather
+                      ? 'bg-white/95 border-[#0F172A]/60'
+                      : ''
+              )}
+            >
+              {Array.from({ length: maxStartIndex + 1 }).map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    SoundEngine.playTap();
+                    setStartIndex(idx);
+                  }}
+                  aria-label={`Chuyển tới trang ${idx + 1}`}
+                  style={
+                    !isLeather && !isBlackLeather && !isLightLeather
+                      ? {
+                          background:
+                            startIndex === idx
+                              ? 'var(--color-primary, #0284C7)'
+                              : 'var(--divider-nav-pill, rgba(148, 163, 184, 0.45))',
+                        }
+                      : undefined
+                  }
+                  className={cn(
+                    'h-2 rounded-full transition-all duration-300 cursor-pointer',
+                    startIndex === idx
+                      ? isLeather
+                        ? 'w-7 bg-[#FDE68A]'
+                        : isBlackLeather
+                          ? 'w-7 bg-[#E2E8F0]'
+                          : isLightLeather
+                            ? 'w-7 bg-[#0F172A]'
+                            : 'w-7'
+                      : isLeather
+                        ? 'w-2 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
+                        : isBlackLeather
+                          ? 'w-2 bg-[#E2E8F0]/30 hover:bg-[#E2E8F0]/65'
+                          : isLightLeather
+                            ? 'w-2 bg-[#0F172A]/35 hover:bg-[#0F172A]/75'
+                            : 'w-2 hover:opacity-80'
+                  )}
+                />
+              ))}
+            </div>
           </div>
         </section>
       )}
@@ -1839,32 +1844,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
         return (
           <>
-            {/* Nút X Close thẻ chi tiết công việc nằm bên trên góc phải */}
-            <button
-              id="experience-job-detail-close-btn"
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                setShowJobCard(false);
-              }}
-              title="Đóng chi tiết công việc (hoặc nhấn phím Esc)"
-              aria-label="Đóng chi tiết công việc"
-              className={cn(
-                'theme-modal-close absolute top-5 right-5 sm:top-6 sm:right-6 z-[60] w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer shadow-lg transition-all duration-200 hover:scale-110 active:scale-95 border backdrop-blur-md',
-                isLightLeather
-                  ? 'bg-[#fbfcfc]/95 border-[#cbd5e1] text-[#111827] hover:bg-[#111827] hover:text-white'
-                  : isBlackLeather
-                    ? 'bg-[#15171c]/95 border-[#E2E8F0]/40 text-white hover:bg-[#1b1e25]'
-                    : isLeather
-                      ? 'bg-[#522E10]/95 border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
-                      : isDarkSurface
-                        ? 'bg-slate-900/90 border-white/25 text-white hover:bg-slate-800'
-                        : 'bg-white/95 border-slate-200/90 text-slate-900 hover:bg-slate-100'
-              )}
-            >
-              <X className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-            </button>
-
             <main
               ref={detailCardRef}
               id="experience-job-detail-card"
@@ -1878,16 +1857,167 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               className="bento-card glass-card flex-1 min-h-0 h-full overflow-y-auto overflow-x-hidden glass-scrollbar rounded-[var(--radius-card,24px)] block w-full min-w-0 p-[15px] animate-fadeIn font-play box-border"
               style={{ padding: '15px' }}
             >
+            {/* THANH ĐIỀU HƯỚNG CHI TIẾT TĨNH (Flow Toolbar): Không đè lên ảnh Banner ở mọi kích thước */}
+            <div
+              id="experience-job-detail-toolbar"
+              className="w-full flex flex-wrap items-center justify-between gap-2.5 mb-[15px]"
+            >
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => {
+                    SoundEngine.playTap();
+                    setShowJobCard(false);
+                  }}
+                  className={cn(
+                    'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-subcard,16px)] text-xs font-bold border shadow-sm cursor-pointer transition-all active:scale-95',
+                    isLightLeather
+                      ? 'bg-[#fbfcfc] border-[#cbd5e1] text-[#111827] hover:bg-white'
+                      : isBlackLeather
+                        ? 'bg-[#15171c] border-[#E2E8F0]/40 text-white hover:bg-[#1b1e25]'
+                        : isLeather
+                          ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
+                          : isDarkSurface
+                            ? 'bg-slate-900/85 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
+                            : 'bg-white/90 backdrop-blur-md border-slate-200/90 text-slate-900 hover:bg-white'
+                  )}
+                  title="Quay lại Bảng Timeline (hoặc nhấn phím Esc)"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
+                  <span className="exp-bento-preserve-color">Timeline</span>
+                </button>
+
+                {prevMilestone && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setActiveKey(prevMilestone.key);
+                    }}
+                    aria-label={`Mốc trước: ${prevMilestone.yearBadge}`}
+                    title={`Mốc trước: ${prevMilestone.shortName}`}
+                    className={cn(
+                      'exp-bento-rect-btn w-8 h-8 rounded-[var(--radius-subcard,16px)] border shadow-sm flex items-center justify-center cursor-pointer transition-all active:scale-95',
+                      isLightLeather
+                        ? 'bg-[#fbfcfc] border-[#cbd5e1] text-[#111827] hover:bg-white'
+                        : isBlackLeather
+                          ? 'bg-[#15171c] border-[#E2E8F0]/40 text-white hover:bg-[#1b1e25]'
+                          : isLeather
+                            ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
+                            : isDarkSurface
+                              ? 'bg-slate-900/85 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
+                              : 'bg-white/90 backdrop-blur-md border-slate-200/90 text-slate-900 hover:bg-white'
+                    )}
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                )}
+
+                {currentMilestoneIdx >= 0 && (
+                  <span
+                    className={cn(
+                      'px-2.5 py-1 rounded-full text-xs font-bold tabular-nums border shadow-2xs',
+                      isLightLeather
+                        ? 'bg-[#fbfcfc] border-[#cbd5e1] text-[#111827]'
+                        : isBlackLeather
+                          ? 'bg-[#15171c] border-[#E2E8F0]/35 text-white'
+                          : isLeather
+                            ? 'bg-[#522E10] border-[#F5DEB3]/55 text-[#FFF8DC]'
+                            : isDarkSurface
+                              ? 'bg-slate-900/80 backdrop-blur-md border-white/25 text-slate-100'
+                              : 'bg-white/90 backdrop-blur-md border-slate-200/90 text-slate-800'
+                    )}
+                  >
+                    {currentMilestoneIdx + 1}/{roadmapCards.length}
+                  </span>
+                )}
+
+                {nextMilestone && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setActiveKey(nextMilestone.key);
+                    }}
+                    aria-label={`Mốc tiếp theo: ${nextMilestone.yearBadge}`}
+                    title={`Mốc tiếp theo: ${nextMilestone.shortName}`}
+                    className={cn(
+                      'exp-bento-rect-btn w-8 h-8 rounded-[var(--radius-subcard,16px)] border shadow-sm flex items-center justify-center cursor-pointer transition-all active:scale-95',
+                      isLightLeather
+                        ? 'bg-[#fbfcfc] border-[#cbd5e1] text-[#111827] hover:bg-white'
+                        : isBlackLeather
+                          ? 'bg-[#15171c] border-[#E2E8F0]/40 text-white hover:bg-[#1b1e25]'
+                          : isLeather
+                            ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
+                            : isDarkSurface
+                              ? 'bg-slate-900/85 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
+                              : 'bg-white/90 backdrop-blur-md border-slate-200/90 text-slate-900 hover:bg-white'
+                    )}
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2 flex-wrap">
+                {/* Time Badge */}
+                <div
+                  className={cn(
+                    'px-3 py-1.5 rounded-full typo-caption sm:typo-body-sm font-bold shadow-2xs flex items-center gap-1.5 max-w-full border',
+                    isLightLeather
+                      ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827]'
+                      : isBlackLeather
+                        ? 'bg-[#15171c] border-[#E2E8F0]/40 text-white'
+                        : isLeather
+                          ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC]'
+                          : isDarkSurface
+                            ? 'bg-slate-900/90 backdrop-blur-md border-white/25 text-white'
+                            : 'bg-white/95 backdrop-blur-md border-slate-200/90 text-slate-900'
+                  )}
+                >
+                  <Calendar className={cn('w-3.5 h-3.5 shrink-0', isDarkCardText ? 'text-rose-400' : 'text-red-600')} />
+                  <span className="truncate exp-bento-preserve-color">
+                    {activeMilestone.period} ({activeMilestone.tenure})
+                  </span>
+                </div>
+
+                {/* Nút X Close nằm gọn cùng hàng điều khiển */}
+                <button
+                  id="experience-job-detail-close-btn"
+                  type="button"
+                  onClick={() => {
+                    SoundEngine.playTap();
+                    setShowJobCard(false);
+                  }}
+                  title="Đóng chi tiết công việc (hoặc nhấn phím Esc)"
+                  aria-label="Đóng chi tiết công việc"
+                  className={cn(
+                    'theme-modal-close w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 border backdrop-blur-md shrink-0',
+                    isLightLeather
+                      ? 'bg-[#fbfcfc] border-[#cbd5e1] text-[#111827] hover:bg-[#111827] hover:text-white'
+                      : isBlackLeather
+                        ? 'bg-[#15171c] border-[#E2E8F0]/40 text-white hover:bg-[#1b1e25]'
+                        : isLeather
+                          ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
+                          : isDarkSurface
+                            ? 'bg-slate-900/90 border-white/25 text-white hover:bg-slate-800'
+                            : 'bg-white/95 border-slate-200/90 text-slate-900 hover:bg-slate-100'
+                  )}
+                >
+                  <X className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                </button>
+              </div>
+            </div>
+
             <div
               id="experience-bento-grid"
-              className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-start content-start w-full min-w-0"
+              className="grid grid-cols-1 gap-[15px] items-stretch content-start w-full min-w-0"
             >
               {/* HÀNG 1: Thẻ Tên công ty (+ Thẻ Video 2026 nếu activeKey === '2026') */}
               <section
                 id="experience-info-card"
                 className={cn(
-                  'exp-bento-surface-card col-span-12 transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col gap-[15px] relative group min-w-0 h-auto',
-                  activeKey === '2026' ? 'lg:col-span-7' : 'lg:col-span-12',
+                  'exp-bento-surface-card col-span-full transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col gap-[15px] relative group min-w-0 h-auto',
                   isDarkCardText
                     ? 'bg-slate-900/68 border-white/15 text-white'
                     : 'bg-white/82 border-white/80 text-slate-900'
@@ -1924,127 +2054,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       'absolute bg-gradient-to-b from-slate-950/24 via-transparent to-slate-950/12 pointer-events-none'
                     )}
                   />
-
-                  {/* Top Action Bar inside Banner: Quay lại Timeline + Chuyển mốc + Time Badge */}
-                  <div className="absolute top-0 inset-x-0 z-10 p-[12px] sm:p-[15px] flex flex-wrap items-center justify-between gap-2.5 pr-14 sm:pr-16">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setShowJobCard(false);
-                        }}
-                        className={cn(
-                          'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-subcard,16px)] text-xs font-bold border shadow-lg cursor-pointer transition-all active:scale-95',
-                          isLightLeather
-                            ? 'bg-[#fbfcfc]/95 border-[#cbd5e1] text-[#111827] hover:bg-white'
-                            : isBlackLeather
-                              ? 'bg-[#15171c]/95 border-[#E2E8F0]/40 text-white hover:bg-[#1b1e25]'
-                              : isLeather
-                                ? 'bg-[#522E10]/95 border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
-                                : isDarkSurface
-                                  ? 'bg-slate-900/85 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
-                                  : 'bg-white/90 backdrop-blur-md border-white/85 text-slate-900 hover:bg-white'
-                        )}
-                        title="Quay lại Bảng Timeline (hoặc nhấn phím Esc)"
-                      >
-                        <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
-                        <span className="exp-bento-preserve-color">Timeline</span>
-                      </button>
-
-                      {prevMilestone && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            setActiveKey(prevMilestone.key);
-                          }}
-                          aria-label={`Mốc trước: ${prevMilestone.yearBadge}`}
-                          title={`Mốc trước: ${prevMilestone.shortName}`}
-                          className={cn(
-                            'exp-bento-rect-btn w-8 h-8 rounded-[var(--radius-subcard,16px)] border shadow-lg flex items-center justify-center cursor-pointer transition-all active:scale-95',
-                            isLightLeather
-                              ? 'bg-[#fbfcfc]/95 border-[#cbd5e1] text-[#111827] hover:bg-white'
-                              : isBlackLeather
-                                ? 'bg-[#15171c]/95 border-[#E2E8F0]/40 text-white hover:bg-[#1b1e25]'
-                                : isLeather
-                                  ? 'bg-[#522E10]/95 border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
-                                  : isDarkSurface
-                                    ? 'bg-slate-900/85 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
-                                    : 'bg-white/90 backdrop-blur-md border-white/85 text-slate-900 hover:bg-white'
-                          )}
-                        >
-                          <ChevronLeft className="w-4 h-4" />
-                        </button>
-                      )}
-
-                      {currentMilestoneIdx >= 0 && (
-                        <span
-                          className={cn(
-                            'px-2.5 py-1 rounded-full text-xs font-bold tabular-nums border shadow-md',
-                            isLightLeather
-                              ? 'bg-[#fbfcfc]/95 border-[#cbd5e1] text-[#111827]'
-                              : isBlackLeather
-                                ? 'bg-[#15171c]/95 border-[#E2E8F0]/35 text-white'
-                                : isLeather
-                                  ? 'bg-[#522E10]/95 border-[#F5DEB3]/55 text-[#FFF8DC]'
-                                  : isDarkSurface
-                                    ? 'bg-slate-900/80 backdrop-blur-md border-white/25 text-slate-100'
-                                    : 'bg-white/90 backdrop-blur-md border-white/85 text-slate-800'
-                          )}
-                        >
-                          {currentMilestoneIdx + 1}/{roadmapCards.length}
-                        </span>
-                      )}
-
-                      {nextMilestone && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            setActiveKey(nextMilestone.key);
-                          }}
-                          aria-label={`Mốc tiếp theo: ${nextMilestone.yearBadge}`}
-                          title={`Mốc tiếp theo: ${nextMilestone.shortName}`}
-                          className={cn(
-                            'exp-bento-rect-btn w-8 h-8 rounded-[var(--radius-subcard,16px)] border shadow-lg flex items-center justify-center cursor-pointer transition-all active:scale-95',
-                            isLightLeather
-                              ? 'bg-[#fbfcfc]/95 border-[#cbd5e1] text-[#111827] hover:bg-white'
-                              : isBlackLeather
-                                ? 'bg-[#15171c]/95 border-[#E2E8F0]/40 text-white hover:bg-[#1b1e25]'
-                                : isLeather
-                                  ? 'bg-[#522E10]/95 border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
-                                  : isDarkSurface
-                                    ? 'bg-slate-900/85 backdrop-blur-md border-white/25 text-white hover:bg-slate-800'
-                                    : 'bg-white/90 backdrop-blur-md border-white/85 text-slate-900 hover:bg-white'
-                          )}
-                        >
-                          <ChevronRight className="w-4 h-4" />
-                        </button>
-                      )}
-                    </div>
-
-                    {/* Time Badge */}
-                    <div
-                      className={cn(
-                        'px-3 py-1.5 rounded-full typo-caption sm:typo-body-sm font-bold shadow-lg flex items-center gap-1.5 max-w-full border',
-                        isLightLeather
-                          ? 'bg-[#fbfcfc] border-[#d1d5db] text-[#111827]'
-                          : isBlackLeather
-                            ? 'bg-[#15171c] border-[#E2E8F0]/40 text-white'
-                            : isLeather
-                              ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC]'
-                              : isDarkSurface
-                                ? 'bg-slate-900/90 backdrop-blur-md border-white/25 text-white'
-                                : 'bg-white/95 backdrop-blur-md border-white/85 text-slate-900'
-                      )}
-                    >
-                      <Calendar className={cn('w-3.5 h-3.5 shrink-0', isDarkCardText ? 'text-rose-400' : 'text-red-600')} />
-                      <span className="truncate exp-bento-preserve-color">
-                        {activeMilestone.period} ({activeMilestone.tenure})
-                      </span>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Company Content Body */}
@@ -2283,7 +2292,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   data-media-card="video"
                   style={{ padding: '5px', borderRadius: 'var(--radius-card, 14px)' }}
                   className={cn(
-                    'exp-bento-surface-card col-span-12 lg:col-span-5 transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,14px)] p-[5px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col justify-between min-h-[340px] sm:min-h-[420px] lg:min-h-0 h-full group/video text-left',
+                    'exp-bento-surface-card col-span-full transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,14px)] p-[5px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col justify-between min-h-[340px] sm:min-h-[400px] h-full self-stretch group/video text-left',
                     isDarkCardText
                       ? 'bg-slate-900/68 border-white/15 text-white'
                       : 'bg-white/82 border-white/80 text-slate-900'
@@ -2407,10 +2416,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </section>
               )}
 
-              {/* CỘT TRÁI (Desktop lg:col-span-7 | Tablet/Mobile: display contents theo order đọc tự nhiên) */}
+              {/* CỘT TRÁI (Desktop >=960px MainCard: 7 cols | Tablet/Mobile: display contents theo order đọc tự nhiên) */}
               <div
                 id="experience-bento-col-left"
-                className="contents lg:col-span-7 lg:flex lg:flex-col lg:gap-[15px] min-w-0"
+                className="contents gap-[15px] min-w-0"
               >
               {/* HÀNG 2: Giới thiệu hành trình & Hình ảnh kỷ niệm */}
               <section
@@ -2745,10 +2754,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </section>
               </div>
 
-              {/* CỘT PHẢI (Desktop lg:col-span-5 | Tablet/Mobile: display contents theo order đọc tự nhiên) */}
+              {/* CỘT PHẢI (Desktop >=960px MainCard: 5 cols | Tablet/Mobile: display contents theo order đọc tự nhiên) */}
               <div
                 id="experience-bento-col-right"
-                className="contents lg:col-span-5 lg:flex lg:flex-col lg:gap-[15px] min-w-0"
+                className="contents gap-[15px] min-w-0"
               >
 
               {/* 4. KẾT QUẢ ĐẠT ĐƯỢC (KPIs & THÀNH TỰU ĐO LƯỜNG) */}
@@ -3071,7 +3080,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <div
                 id="experience-detail-footer-nav"
                 className={cn(
-                  'exp-bento-surface-card col-span-12 order-10 lg:order-none w-full rounded-[var(--radius-card,14px)] p-3 sm:p-3.5 border backdrop-blur-md flex flex-wrap items-center justify-between gap-2.5 min-w-0',
+                  'exp-bento-surface-card col-span-full order-10 lg:order-none w-full rounded-[var(--radius-card,14px)] p-3 sm:p-3.5 border backdrop-blur-md flex flex-wrap items-center justify-between gap-2.5 min-w-0',
                   isDarkCardText
                     ? 'bg-[var(--surface-secondary-bg,rgba(15,23,42,0.68))] border-[var(--border-color,rgba(255,255,255,0.15))] text-[var(--text-primary)]'
                     : 'bg-[var(--surface-secondary-bg,rgba(255,255,255,0.82))] border-[var(--border-color,rgba(255,255,255,0.80))] text-[var(--text-primary)]'

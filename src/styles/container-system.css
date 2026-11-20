@@ -1,0 +1,721 @@
+/* ========================================================================= */
+/* CONTAINER-DRIVEN BENTO LAYOUT, FLUID SCALE & OVERLAP-FREE CONTAINMENT     */
+/* Implements Proposals 1, 2, 3 & 4 across all Main Cards & Views            */
+/* ========================================================================= */
+
+/* ------------------------------------------------------------------------- */
+/* 1. CONTAINER DEFINITIONS (@container main-card)                           */
+/* Explicit inline-size comes from --about-card-w / --shared-frame-w         */
+/* ------------------------------------------------------------------------- */
+.page-main-card,
+[data-main-card="true"]:not(#pdf-page-container),
+#about-intro-card-2 {
+  container-type: inline-size;
+  container-name: main-card;
+  padding: clamp(10px, calc(1.15vw + 4px), 16px) !important;
+  gap: clamp(10px, calc(1.05vw + 4px), 15px) !important;
+  row-gap: clamp(10px, calc(1.05vw + 4px), 15px) !important;
+  column-gap: clamp(10px, calc(1.05vw + 4px), 15px) !important;
+}
+
+/* Card giới thiệu 1 luôn giữ đúng khoảng cách 15px xung quanh và căn giữa nội dung ở mọi kích thước */
+html #about-intro-card-1 {
+  container-type: inline-size;
+  container-name: main-card;
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+}
+
+html #about-intro-grid-1 {
+  width: 100% !important;
+  flex: 1 1 0% !important;
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+  padding: 0 !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  align-items: stretch !important;
+  box-sizing: border-box !important;
+}
+
+html #about-hero-video-container,
+html #about-personal-info-card-right {
+  height: 100% !important;
+  min-height: 0 !important;
+  align-self: stretch !important;
+  box-sizing: border-box !important;
+}
+
+html #about-personal-info-card-right {
+  overflow: hidden !important;
+}
+
+/* Preserve #education-main-card existing container name alongside main-card */
+#education-main-card {
+  container-type: inline-size;
+  container-name: main-card education-main;
+}
+
+#bento-letter-video {
+  container-type: inline-size;
+  container-name: letter-video-card;
+}
+
+#bento-brands-marquee {
+  container-type: inline-size;
+  container-name: brands-card;
+}
+
+#experience-timeline-board {
+  container-type: inline-size;
+  container-name: exp-board;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 2. FLUID CONTAINER-BASED TYPOGRAPHY & SPACING TOKENS (cqi)                */
+/* Applied on descendants of .page-main-card so cqi resolves against the     */
+/* actual Main Card inline width rather than the outer browser viewport.     */
+/* ------------------------------------------------------------------------- */
+.page-main-card > *,
+[data-main-card="true"]:not(#pdf-page-container) > *,
+#about-intro-card-1 > *,
+#about-intro-card-2 > * {
+  --mc-gap: clamp(10px, 1.28cqi, 16px);
+  --mc-card-pad: clamp(12px, 1.45cqi, 17px);
+  --mc-subcard-pad: clamp(10px, 1.2cqi, 15px);
+
+  --fs-display: clamp(26px, calc((3.2cqi + 12px) * var(--layout-typo-factor, 1)), 50px);
+  --fs-h1: clamp(21px, calc((2.4cqi + 8px) * var(--layout-typo-factor, 1)), 38px);
+  --fs-h2: clamp(17.5px, calc((1.75cqi + 6px) * var(--layout-typo-factor, 1)), 28px);
+  --fs-h3: clamp(15.5px, calc((1.05cqi + 7px) * var(--layout-typo-factor, 1)), 21px);
+  --fs-h4: clamp(14px, calc((0.78cqi + 7px) * var(--layout-typo-factor, 1)), 18px);
+  --fs-h5: clamp(13.5px, calc((0.7cqi + 6.5px) * var(--layout-typo-factor, 1)), 17px);
+  --fs-body-lg: clamp(14px, calc((0.65cqi + 9px) * var(--layout-typo-factor, 1)), 17px);
+  --fs-body: clamp(13.5px, calc((0.52cqi + 8.5px) * var(--layout-typo-factor, 1)), 15.5px);
+  --fs-body-sm: clamp(12.5px, calc((0.42cqi + 8px) * var(--layout-typo-factor, 1)), 14px);
+  --fs-caption: clamp(11.5px, calc((0.32cqi + 8px) * var(--layout-typo-factor, 1)), 12.5px);
+  --fs-label: clamp(11.5px, calc((0.32cqi + 8px) * var(--layout-typo-factor, 1)), 12.5px);
+  --fs-badge: clamp(11px, calc((0.28cqi + 8px) * var(--layout-typo-factor, 1)), 12px);
+  --fs-kpi: clamp(20px, calc((1.7cqi + 10px) * var(--layout-typo-factor, 1)), 32px);
+  --fs-quote: clamp(17px, calc((1.25cqi + 7px) * var(--layout-typo-factor, 1)), 23px);
+}
+
+/* Fluid gaps across top-level Bento & View Grids inside Main Cards */
+#el-p1-div-85,
+#letter-slide-2-grid,
+#letter-slide-3-grid,
+#letter-slide-4-bento-grid,
+#letter-intro-right-stack,
+#core-values-grid,
+#brands-bento-grid,
+#about-intro-grid-2,
+#services-main-content,
+#services-main-content .services-cards-grid,
+#interview-main-content,
+#experience-bento-grid,
+#experience-bento-col-left,
+#experience-bento-col-right,
+#systems-page-container .systems-cards-grid,
+#projects-page-container .grid,
+#skills-page-container .grid,
+#horoscope-page-container .grid {
+  gap: var(--mc-gap, 15px) !important;
+  row-gap: var(--mc-gap, 15px) !important;
+  column-gap: var(--mc-gap, 15px) !important;
+}
+
+/* Fluid inner card & subcard padding */
+.page-main-card [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#bento-letter-video):not(#experience-hero-video-card):not(#experience-timeline-board):not(#experience-job-detail-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card),
+.page-main-card .bento-view-card,
+.page-main-card .exp-bento-surface-card,
+.page-main-card .partner-card,
+.page-main-card .motto-card,
+.page-main-card #interview-questions-card,
+.page-main-card #interview-answers-card,
+.page-main-card #services-hero-banner {
+  padding: var(--mc-card-pad, 15px) !important;
+  gap: var(--mc-gap, 15px) !important;
+}
+
+.page-main-card [data-subcard="true"],
+.page-main-card .sub-card,
+.page-main-card .exp-detail-subcard,
+#horoscope-page-container [data-subcard="true"],
+#horoscope-page-container .sub-card {
+  padding: var(--mc-subcard-pad, 15px) !important;
+  gap: clamp(8px, 1cqi, 14px) !important;
+}
+
+.page-main-card .hero-banner :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+.page-main-card .banner-card :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote),
+.page-main-card [id$="-hero-banner"] :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
+  font-family: var(--font-quote, 'Dancing Script', cursive) !important;
+  font-size: clamp(1.1rem, 1.35cqi + 0.58rem, 1.55rem) !important;
+  line-height: 1.38 !important;
+}
+
+.swot-quadrant-card {
+  container-type: inline-size;
+  container-name: swot-card;
+}
+
+@container swot-card (max-width: 440px) {
+  .swot-quadrant-card .swot-skill-track {
+    display: none !important;
+  }
+}
+
+@container swot-card (min-width: 441px) {
+  .swot-quadrant-card .swot-skill-track {
+    display: block !important;
+    width: clamp(56px, 13cqi, 96px) !important;
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+/* 3. PROPOSAL 4: FLOATING ELEMENT CONTAINMENT INSIDE OWNING CARDS           */
+/* ------------------------------------------------------------------------- */
+@container letter-video-card (max-width: 440px) {
+  #letter-video-speech-bubble {
+    display: none !important;
+  }
+}
+
+@container letter-video-card (min-width: 441px) {
+  #letter-video-speech-bubble {
+    display: flex !important;
+    max-width: min(230px, 52cqi) !important;
+  }
+}
+
+/* Brands 2-row bento grid spacing & alignment */
+#bento-brands-marquee {
+  height: auto !important;
+}
+
+#brands-bento-grid {
+  display: grid !important;
+  width: 100% !important;
+  align-items: stretch !important;
+}
+
+#brands-bento-grid .partner-brand-tile {
+  padding: clamp(8px, 1.05cqi, 12px) clamp(10px, 1.25cqi, 14px) !important;
+  gap: clamp(8px, 1cqi, 12px) !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 4. PROPOSAL 1 & 3: @container main-card BREAKPOINTS                       */
+/* Ensures layout responds to the REAL inline width of Main Card:            */
+/*   - < 600px       : Compact 1-column stack (2-col for small brand tiles)  */
+/*   - 600px–959px   : Airy 1–2 column Bento layout                          */
+/*   - 960px–1049px  : Transition Bento (avoids squeezed right columns!)     */
+/*   - >= 1050px     : Full 12-column Desktop Bento                          */
+/* ------------------------------------------------------------------------- */
+
+/* === A. COMPACT (< 600px inside Main Card) === */
+@container main-card (max-width: 599px) {
+  #el-p1-div-85,
+  #letter-slide-2-grid,
+  #letter-slide-3-grid,
+  #letter-slide-4-bento-grid,
+  #about-intro-grid-1,
+  #about-intro-grid-2,
+  #experience-bento-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #interview-main-content {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+  }
+
+  #el-p1-div-85 > *,
+  #letter-slide-2-grid > *,
+  #letter-slide-3-grid > *,
+  #letter-slide-4-bento-grid > *,
+  #about-intro-grid-1 > *,
+  #about-intro-grid-2 > *,
+  #experience-bento-grid > * {
+    grid-column: 1 / -1 !important;
+  }
+
+  html #about-intro-grid-1 {
+    grid-template-rows: repeat(2, minmax(220px, 1fr)) !important;
+    min-height: 455px !important;
+  }
+
+  #bento-letter-video {
+    min-height: 220px !important;
+  }
+
+  #letter-intro-right-stack {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #core-values-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #brands-bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #about-operating-pillars-card .grid,
+  #about-core-values-card .grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #services-main-content .services-cards-grid,
+  #systems-page-container .systems-cards-grid,
+  #skills-languages-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #experience-bento-col-left,
+  #experience-bento-col-right {
+    display: contents !important;
+  }
+
+  #horoscope-card-1-grid,
+  #horoscope-card-profile,
+  #horoscope-card-management-style,
+  #horoscope-card-career-portrait,
+  #horoscope-card-five-elements,
+  #horoscope-card-leadership-philosophy,
+  #horoscope-card-work-synergy-check,
+  #horoscope-pillars-container,
+  #horoscope-slide-3,
+  #horoscope-lookup-card {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #horoscope-card-1-grid > * {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+/* === B. MEDIUM / AIRY 1–2 COLUMNS (600px to 959px inside Main Card) === */
+@container main-card (min-width: 600px) and (max-width: 959px) {
+  #el-p1-div-85 {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  #bento-letter-video {
+    grid-column: 1 / -1 !important;
+    min-height: 260px !important;
+  }
+
+  /* Side-by-side Thông điệp hợp tác & Châm ngôn phụng sự */
+  #letter-intro-right-stack {
+    grid-column: 1 / -1 !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+  }
+
+  #letter-intro-right-stack > article {
+    height: 100% !important;
+  }
+
+  #card-core-values-pursued {
+    grid-column: 1 / -1 !important;
+  }
+
+  #core-values-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #bento-brands-marquee {
+    grid-column: 1 / -1 !important;
+  }
+
+  #brands-bento-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  #letter-slide-2-grid,
+  #letter-slide-3-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* Slide 4 stacks cleanly below 960px so long text isn't compressed */
+  #letter-slide-4-bento-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #letter-slide-4-bento-grid > * {
+    grid-column: 1 / -1 !important;
+  }
+
+  /* About Cards 1 & 2 spacious single-column bento stack below 960px */
+  #about-intro-grid-1,
+  #about-intro-grid-2 {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #about-intro-grid-1 > *,
+  #about-intro-grid-2 > * {
+    grid-column: 1 / -1 !important;
+  }
+
+  html #about-intro-grid-1 {
+    grid-template-rows: repeat(2, minmax(230px, 1fr)) !important;
+    min-height: 475px !important;
+  }
+
+  #about-operating-pillars-card .grid,
+  #about-core-values-card .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  /* Interview stays 1 single row with equal card height across 600px-959px */
+  #interview-main-content {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+    overflow: hidden !important;
+  }
+
+  /* Services 2 columns */
+  #services-main-content .services-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* Experience Detail stacks into spacious single flow below 960px */
+  #experience-bento-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #experience-bento-grid > * {
+    grid-column: 1 / -1 !important;
+  }
+
+  #experience-bento-col-left,
+  #experience-bento-col-right {
+    display: contents !important;
+  }
+
+  /* Systems 2 columns (Projects uses .education-responsive-grid auto-fill) */
+  #systems-page-container .systems-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #skills-languages-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  /* Horoscope multi-col cards drop smoothly to 1-2 cols below 960px */
+  #horoscope-card-1-grid,
+  #horoscope-card-profile,
+  #horoscope-card-management-style,
+  #horoscope-card-career-portrait,
+  #horoscope-card-five-elements,
+  #horoscope-card-leadership-philosophy,
+  #horoscope-card-work-synergy-check,
+  #horoscope-pillars-container,
+  #horoscope-slide-3 {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #horoscope-card-1-grid > *,
+  #horoscope-card-profile > *,
+  #horoscope-card-management-style > *,
+  #horoscope-pillars-container > *,
+  #horoscope-slide-3 > * {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+/* === C. TRANSITION ZONE (960px to 1049px inside Main Card) === */
+/* Fixes the exact 1050px–1180px browser squeeze zone seen in Figure 2 */
+@container main-card (min-width: 960px) and (max-width: 1049px) {
+  #el-p1-div-85 {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  #bento-letter-video {
+    grid-column: 1 / -1 !important;
+    min-height: 290px !important;
+  }
+
+  #letter-intro-right-stack {
+    grid-column: 1 / -1 !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+  }
+
+  #letter-intro-right-stack > article {
+    height: 100% !important;
+  }
+
+  #card-core-values-pursued {
+    grid-column: 1 / -1 !important;
+  }
+
+  #core-values-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #bento-brands-marquee {
+    grid-column: 1 / -1 !important;
+  }
+
+  #brands-bento-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  #letter-slide-2-grid,
+  #letter-slide-3-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #letter-slide-4-bento-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  #card-philosophy-gratitude {
+    grid-column: span 6 / span 6 !important;
+  }
+
+  #bento-companion-letter {
+    grid-column: span 6 / span 6 !important;
+  }
+
+  #about-intro-grid-1,
+  #about-intro-grid-2 {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  html #about-intro-grid-1 {
+    grid-template-rows: minmax(260px, 1fr) !important;
+    min-height: 260px !important;
+  }
+
+  #about-hero-video-container {
+    grid-column: span 7 / span 7 !important;
+  }
+
+  #about-personal-info-card-right {
+    grid-column: span 5 / span 5 !important;
+  }
+
+  #about-career-goal-card,
+  #about-philosophy-card {
+    grid-column: span 5 / span 5 !important;
+  }
+
+  #about-operating-pillars-card,
+  #about-core-values-card {
+    grid-column: span 7 / span 7 !important;
+  }
+
+  #services-main-content .services-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(0, 1fr) !important;
+  }
+
+  #systems-page-container .systems-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(0, 1fr) !important;
+  }
+
+  #interview-main-content {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+  }
+
+  #experience-bento-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  #experience-bento-grid > #experience-info-card {
+    grid-column: 1 / -1 !important;
+  }
+
+  #experience-bento-grid:has(#experience-video-card-2026) > #experience-info-card {
+    grid-column: span 7 / span 7 !important;
+  }
+
+  #experience-bento-grid > #experience-video-card-2026 {
+    grid-column: span 5 / span 5 !important;
+    min-height: 360px !important;
+  }
+
+  #experience-bento-grid > #experience-detail-footer-nav {
+    grid-column: 1 / -1 !important;
+  }
+
+  #experience-bento-col-left {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-column: span 7 / span 7 !important;
+  }
+
+  #experience-bento-col-right {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-column: span 5 / span 5 !important;
+  }
+
+  #horoscope-card-1-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  #horoscope-card-1-grid > :first-child {
+    grid-column: span 5 / span 5 !important;
+  }
+
+  #horoscope-card-1-grid > :last-child {
+    grid-column: span 7 / span 7 !important;
+  }
+}
+
+/* === D. FULL DESKTOP BENTO (>= 1050px inside Main Card) === */
+@container main-card (min-width: 1050px) {
+  /* Letter Slide 1: 7/5 Video + Intro Stack on Row 1; Full-width 4-col Core Values on Row 2; 2x4 Brands Grid on Row 3 */
+  #el-p1-div-85 {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  #bento-letter-video {
+    grid-column: span 7 / span 7 !important;
+    min-height: 270px !important;
+  }
+
+  #letter-intro-right-stack {
+    grid-column: span 5 / span 5 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #card-core-values-pursued {
+    grid-column: 1 / -1 !important;
+  }
+
+  #core-values-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  #bento-brands-marquee {
+    grid-column: 1 / -1 !important;
+  }
+
+  #brands-bento-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  #letter-slide-2-grid,
+  #letter-slide-3-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #letter-slide-4-bento-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  #card-philosophy-gratitude {
+    grid-column: span 6 / span 6 !important;
+  }
+
+  #bento-companion-letter {
+    grid-column: span 6 / span 6 !important;
+  }
+
+  #about-intro-grid-1,
+  #about-intro-grid-2 {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  html #about-intro-grid-1 {
+    grid-template-rows: minmax(280px, 1fr) !important;
+    min-height: 280px !important;
+  }
+
+  #about-hero-video-container {
+    grid-column: span 7 / span 7 !important;
+  }
+
+  #about-personal-info-card-right {
+    grid-column: span 5 / span 5 !important;
+  }
+
+  #about-career-goal-card,
+  #about-philosophy-card {
+    grid-column: span 5 / span 5 !important;
+  }
+
+  #about-operating-pillars-card,
+  #about-core-values-card {
+    grid-column: span 7 / span 7 !important;
+  }
+
+  #services-main-content .services-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(0, 1fr) !important;
+  }
+
+  #systems-page-container .systems-cards-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(0, 1fr) !important;
+  }
+
+  #interview-main-content {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+  }
+
+  #experience-bento-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  #experience-bento-grid > #experience-info-card {
+    grid-column: 1 / -1 !important;
+  }
+
+  #experience-bento-grid:has(#experience-video-card-2026) > #experience-info-card {
+    grid-column: span 7 / span 7 !important;
+  }
+
+  #experience-bento-grid > #experience-video-card-2026 {
+    grid-column: span 5 / span 5 !important;
+    min-height: 360px !important;
+  }
+
+  #experience-bento-grid > #experience-detail-footer-nav {
+    grid-column: 1 / -1 !important;
+  }
+
+  #experience-bento-col-left {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-column: span 7 / span 7 !important;
+  }
+
+  #experience-bento-col-right {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-column: span 5 / span 5 !important;
+  }
+
+  #horoscope-card-1-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  #horoscope-card-1-grid > :first-child {
+    grid-column: span 4 / span 4 !important;
+  }
+
+  #horoscope-card-1-grid > :last-child {
+    grid-column: span 8 / span 8 !important;
+  }
+}

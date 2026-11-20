@@ -535,7 +535,7 @@ export const Header: React.FC<HeaderProps> = ({
         marginRight: 'auto',
         zIndex: isRadialMenuOpen ? 99999 : 40,
       }}
-      className={`neonav-bar mx-auto h-full min-h-0 py-1.5 flex items-center justify-between px-2 sm:px-3 ${
+      className={`neonav-bar mx-auto h-full min-h-0 py-0.5 flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 overflow-visible pointer-events-auto`}
     >
@@ -549,7 +549,7 @@ export const Header: React.FC<HeaderProps> = ({
             setFocusedNavIndex(null);
           }
         }}
-        className={`flex-1 min-w-0 h-full flex items-center justify-start lg:justify-center overflow-x-auto overflow-y-visible horizontal-scroll-smooth z-10 px-1.5 py-1.5 mx-auto bg-transparent relative flex-nowrap ${
+        className={`flex-1 min-w-0 h-full flex items-center justify-start lg:justify-center overflow-x-auto overflow-y-visible horizontal-scroll-smooth z-10 px-1.5 py-0.5 mx-auto bg-transparent relative flex-nowrap ${
           isCompactMobile ? 'gap-2' : ''
         }`}
         style={{ background: 'transparent' }}

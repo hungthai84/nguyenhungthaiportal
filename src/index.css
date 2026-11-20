@@ -5,12 +5,13 @@
   --font-play: "Play", sans-serif;
   --font-sans: "Play", sans-serif;
   --font-mono: "Play", sans-serif;
-  --font-italianno: "Italianno", cursive;
-  --font-moon-dance: "Moon Dance", cursive;
+  --font-italianno: var(--font-quote, "Dancing Script", cursive);
+  --font-moon-dance: var(--font-quote, "Dancing Script", cursive);
 }
 
 .font-moon-dance {
-  font-family: "Moon Dance", cursive !important;
+  font-family: var(--font-quote, "Dancing Script", cursive) !important;
+  font-weight: 600 !important;
 }
 
 
@@ -147,6 +148,7 @@
 @import "./styles/themes/deep-ocean.css";
 @import "./styles/themes/mica-fluent.css";
 @import "./styles/layers.css";
+@import "./styles/container-system.css";
 
 /* ========================================================================= */
 /* UNIFIED MOTION UTILITY SYSTEM — STANDARDIZED TRANSITIONS & CURVES         */
@@ -313,23 +315,23 @@ html, body {
   line-height: 1.35 !important;
 }
 
-.hero-banner :is(p.font-italianno, p.font-handwriting, .banner-quote),
-.banner-card :is(p.font-italianno, p.font-handwriting, .banner-quote),
-[id$="-hero-banner"] :is(p.font-italianno, p.font-handwriting, .banner-quote),
+.hero-banner :is(p.font-italianno, p.font-handwriting, p.font-quote, .banner-quote),
+.banner-card :is(p.font-italianno, p.font-handwriting, p.font-quote, .banner-quote),
+[id$="-hero-banner"] :is(p.font-italianno, p.font-handwriting, p.font-quote, .banner-quote),
 #project-detail-banner .banner-quote,
 [id$="-banner-quote"],
 [id$="-hero-banner-quote"] {
-  font-family: 'Moon Dance', cursive, sans-serif !important;
-  font-size: clamp(1.35rem, 2.1vw + 0.7rem, 1.85rem) !important;
-  font-weight: 400 !important;
+  font-family: var(--font-quote, 'Dancing Script', cursive) !important;
+  font-size: clamp(1.15rem, 1.45vw + 0.58rem, 1.6rem) !important;
+  font-weight: 600 !important;
   font-style: normal !important;
-  line-height: 1.25 !important;
+  line-height: 1.35 !important;
 }
 
 .typo-h3.font-italianno,
 .typo-h3.font-handwriting,
 .typo-h3.font-quote {
-  font-family: var(--font-quote) !important;
+  font-family: var(--font-quote, 'Dancing Script', cursive) !important;
 }
 
 
@@ -448,7 +450,6 @@ html #el-p1-div-85,
 html #letter-cards-track #letter-slide-2-grid,
 html #letter-cards-track #letter-slide-3-grid,
 html #letter-cards-track #letter-slide-4-bento-grid,
-html #about-intro-grid-1,
 html #about-intro-grid-2,
 html #services-main-content {
   width: 100% !important;
@@ -2895,12 +2896,6 @@ html[data-surface-depth="flat"] :is(
 #about-personal-info-card-right .about-info-subcard {
   height: 100% !important;
   min-height: 0 !important;
-}
-
-@media (max-width: 1023px) {
-  #about-personal-info-card-right .about-info-subcard {
-    height: auto !important;
-  }
 }
 
 /* ========================================================================= */

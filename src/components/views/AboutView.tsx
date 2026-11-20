@@ -20,6 +20,17 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 import { motion, AnimatePresence } from 'motion/react';
+import QRCode from 'qrcode';
+import {
+  Maximize2,
+  Minimize2,
+  Copy,
+  Check,
+  QrCode,
+  Download,
+  Map as MapIcon,
+  Video as VideoIcon,
+} from 'lucide-react';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SiteTheme } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
@@ -648,6 +659,125 @@ export function AboutView({
   const [activeHeroMedia, setActiveHeroMedia] = useState<'video' | 'map'>('video');
   const [activeHeroMapType, setActiveHeroMapType] = useState<'tam_tru' | 'cu_tru'>('tam_tru');
 
+  // Chế độ thu phóng toàn cảnh Card Video, sao chép danh thiếp 1 chạm & mã QR vCard động
+  const [isVideoFullscreenOpen, setIsVideoFullscreenOpen] = useState(false);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  const [qrMode, setQrMode] = useState<'vcard' | 'url'>('vcard');
+  const [qrDataUrl, setQrDataUrl] = useState<string>('');
+  const [isVCardCopied, setIsVCardCopied] = useState(false);
+  const fullscreenVideoRef = useRef<HTMLVideoElement>(null);
+
+  const ABOUT_VCARD_PAYLOAD = useMemo(
+    () =>
+      [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'N:Nguyễn;Hùng Thái;;;',
+        'FN:Nguyễn Hùng Thái',
+        'TITLE:Head of CX & CS Operations (22+ Năm)',
+        'TEL;TYPE=CELL,VOICE:+84909097882',
+        'EMAIL;TYPE=INTERNET:hungthai84@gmail.com',
+        'URL:https://nguyenhungthai.powerservice.one/',
+        'ADR;TYPE=HOME:;;Chung Cư Tân Mỹ, Phường Tân Phú (Q7);TP. Hồ Chí Minh;;VN',
+        'ADR;TYPE=WORK:;;7D7 Hoàng Hoa Tám, Phường Mỹ Tho;Tỉnh Đồng Tháp;;VN',
+        'NOTE:LinkedIn: https://www.linkedin.com/in/hungthai84/ | Tu vi: Giap Ty 1984 (Hai Trung Kim)',
+        'END:VCARD',
+      ].join('\n'),
+    []
+  );
+
+  const ABOUT_CONTACT_SHARE_TEXT = useMemo(
+    () =>
+      [
+        'Nguyễn Hùng Thái — Head of CX & CS Operations (22+ Năm)',
+        '• Điện thoại / Zalo: +84 0909097882',
+        '• Hộp thư: hungthai84@gmail.com',
+        '• Website: https://nguyenhungthai.powerservice.one/',
+        '• LinkedIn: https://www.linkedin.com/in/hungthai84/',
+        '• Tạm trú: Chung Cư Tân Mỹ, P. Tân Phú (Q7), TP. Hồ Chí Minh',
+        '• Cư trú: 7D7 Hoàng Hoa Tám, P. Mỹ Tho, Tỉnh Đồng Tháp',
+      ].join('\n'),
+    []
+  );
+
+  useEffect(() => {
+    if (!isQrModalOpen) return;
+    let active = true;
+    const payload = qrMode === 'vcard' ? ABOUT_VCARD_PAYLOAD : 'https://nguyenhungthai.powerservice.one/';
+    QRCode.toDataURL(payload, {
+      width: 280,
+      margin: 2,
+      errorCorrectionLevel: 'M',
+      color: {
+        dark: '#0f172a',
+        light: '#ffffff',
+      },
+    })
+      .then((url) => {
+        if (active) setQrDataUrl(url);
+      })
+      .catch(() => {
+        if (active) setQrDataUrl('');
+      });
+    return () => {
+      active = false;
+    };
+  }, [isQrModalOpen, qrMode, ABOUT_VCARD_PAYLOAD]);
+
+  const handleCopyFullVCard = useCallback(
+    async (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
+      SoundEngine.playPop();
+      try {
+        if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(ABOUT_CONTACT_SHARE_TEXT);
+        } else {
+          const textarea = document.createElement('textarea');
+          textarea.value = ABOUT_CONTACT_SHARE_TEXT;
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = '0';
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+        }
+        setIsVCardCopied(true);
+        showToast('✓ Đã sao chép toàn bộ danh thiếp liên hệ!');
+        window.setTimeout(() => setIsVCardCopied(false), 2200);
+      } catch {
+        showToast('Không thể truy cập khay nhớ tạm, vui lòng thử lại.');
+      }
+    },
+    [ABOUT_CONTACT_SHARE_TEXT, showToast]
+  );
+
+  const handleDownloadVcf = useCallback(() => {
+    SoundEngine.playPop();
+    const blob = new Blob([ABOUT_VCARD_PAYLOAD], { type: 'text/vcard;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'Nguyen_Hung_Thai_CX.vcf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast('✓ Đã tải danh thiếp điện tử (.vcf)');
+  }, [ABOUT_VCARD_PAYLOAD, showToast]);
+
+  const toggleHeroMediaMode = useCallback(() => {
+    SoundEngine.playPop();
+    setActiveHeroMedia((prev) => {
+      const next = prev === 'video' ? 'map' : 'video';
+      showToast(
+        next === 'map'
+          ? `Đã chuyển sang Bản đồ (${activeHeroMapType === 'tam_tru' ? 'Tạm trú TP.HCM' : 'Cư trú Đồng Tháp'})`
+          : 'Đã quay lại chế độ Video chân dung'
+      );
+      return next;
+    });
+  }, [activeHeroMapType, showToast]);
+
   // Video State & Controls
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlayingIntro, setIsPlayingIntro] = useState(false);
@@ -816,23 +946,47 @@ export function AboutView({
     setCurrentSlide((prev) => (prev < ABOUT_SLIDES.length - 1 ? prev + 1 : 0));
   }, []);
 
+  const getCenteredScrollLeftForCard = useCallback(
+    (cardNumber: 1 | 2) => {
+      const container = aboutContainerRef.current;
+      if (!container) return cardNumber === 1 ? 0 : aboutCardWidth + 15;
+      const cardEl = document.getElementById(`about-intro-card-${cardNumber}`);
+      if (!cardEl) return cardNumber === 1 ? 0 : aboutCardWidth + 15;
+      const headerEl = document.getElementById('app-header');
+      const containerRect = container.getBoundingClientRect();
+      const headerRect = headerEl?.getBoundingClientRect();
+      const desiredCenterX =
+        headerRect && headerRect.width > 0
+          ? headerRect.left + headerRect.width / 2
+          : containerRect.left + container.clientLeft + container.clientWidth / 2;
+      const desiredLeftInContainer =
+        desiredCenterX - (containerRect.left + container.clientLeft) - cardEl.offsetWidth / 2;
+      return Math.max(0, Math.round(cardEl.offsetLeft - desiredLeftInContainer));
+    },
+    [aboutCardWidth]
+  );
+
   const scrollToIntroCard = useCallback(
     (targetCard: 1 | 2, smooth = true) => {
       setActiveIntroCard(targetCard);
       const container = aboutContainerRef.current;
       if (!container) return;
-      const targetLeft = targetCard === 1 ? 0 : aboutCardWidth + 15;
+      const targetLeft = getCenteredScrollLeftForCard(targetCard);
       if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
       isProgrammaticScrollRef.current = true;
-      container.scrollTo({
-        left: targetLeft,
-        behavior: smooth ? 'smooth' : 'auto',
-      });
+      if (smooth) {
+        container.scrollTo({
+          left: targetLeft,
+          behavior: 'smooth',
+        });
+      } else {
+        container.scrollLeft = targetLeft;
+      }
       scrollTimeoutRef.current = window.setTimeout(() => {
         isProgrammaticScrollRef.current = false;
       }, 550);
     },
-    [aboutCardWidth]
+    [getCenteredScrollLeftForCard]
   );
 
   // Đồng bộ trạng thái Card 1 / Card 2 với nút Tới trang / Lùi trang ở Footer
@@ -855,59 +1009,35 @@ export function AboutView({
     return () => window.removeEventListener('app:set-slide', handleExternalSlide);
   }, [scrollToIntroCard]);
 
-  // Đồng bộ chiều cao Card Video = Card Thông tin chi tiết ở mọi kích thước (Mobile/Tablet stacked + Desktop side-by-side)
-  const infoCardRef = useRef<HTMLDivElement>(null);
-  const [syncedStackedHeight, setSyncedStackedHeight] = useState<number | null>(null);
+  // Chiều cao Card Video & Card Thông tin chi tiết được đồng bộ trực tiếp bằng CSS Grid (equal 1fr tracks) ở mọi kích thước
 
-  useEffect(() => {
-    const updateHeightParity = () => {
-      if (typeof window === 'undefined') return;
-      if (window.innerWidth >= 1024) {
-        setSyncedStackedHeight(null);
-        return;
-      }
-      const el = infoCardRef.current;
-      if (!el) return;
-      const measured = Math.round(el.getBoundingClientRect().height);
-      if (measured > 120) {
-        setSyncedStackedHeight((prev) => (prev !== measured ? measured : prev));
-      }
-    };
-
-    updateHeightParity();
-    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(updateHeightParity) : null;
-    if (ro && infoCardRef.current) {
-      ro.observe(infoCardRef.current);
-    }
-    window.addEventListener('resize', updateHeightParity);
-    return () => {
-      ro?.disconnect();
-      window.removeEventListener('resize', updateHeightParity);
-    };
-  }, []);
-
-  // Keep active intro card centered when viewport resizes
+  // Keep active intro card centered with #app-header when viewport resizes
   useEffect(() => {
     const container = aboutContainerRef.current;
     if (!container || isProgrammaticScrollRef.current) return;
-    const expectedLeft = activeIntroCard === 1 ? 0 : aboutCardWidth + 15;
-    if (Math.abs(container.scrollLeft - expectedLeft) > 2) {
-      container.scrollTo({ left: expectedLeft, behavior: 'auto' });
-    }
-  }, [aboutCardWidth, activeIntroCard]);
+    const raf = requestAnimationFrame(() => {
+      const expectedLeft = getCenteredScrollLeftForCard(activeIntroCard);
+      if (Math.abs(container.scrollLeft - expectedLeft) > 1) {
+        container.scrollLeft = expectedLeft;
+      }
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [aboutCardWidth, aboutContainerWidth, activeIntroCard, getCenteredScrollLeftForCard]);
 
   const handleAboutContainerScroll = useCallback(() => {
     if (isProgrammaticScrollRef.current) return;
     const container = aboutContainerRef.current;
     if (!container) return;
-    const threshold = (aboutCardWidth + 15) / 2;
-    const nextCard: 1 | 2 = container.scrollLeft >= threshold ? 2 : 1;
+    const c1 = getCenteredScrollLeftForCard(1);
+    const c2 = getCenteredScrollLeftForCard(2);
+    const nextCard: 1 | 2 =
+      Math.abs(container.scrollLeft - c2) <= Math.abs(container.scrollLeft - c1) ? 2 : 1;
     if (nextCard !== activeIntroCard) {
       setActiveIntroCard(nextCard);
     }
-  }, [aboutCardWidth, activeIntroCard]);
+  }, [activeIntroCard, getCenteredScrollLeftForCard]);
 
-  // Keyboard accessibility: ESC đóng modal/video, ArrowLeft/ArrowRight chuyển Card giới thiệu 1/2
+  // Keyboard accessibility: ESC đóng modal/video, M chuyển Video/Bản đồ, F thu phóng Video, ArrowLeft/ArrowRight chuyển Card 1/2
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
@@ -922,12 +1052,37 @@ export function AboutView({
       }
 
       if (e.key === 'Escape') {
-        if (focusedBentoCard) {
+        if (isVideoFullscreenOpen) {
+          setIsVideoFullscreenOpen(false);
+        } else if (isQrModalOpen) {
+          setIsQrModalOpen(false);
+        } else if (focusedBentoCard) {
           handleCloseBentoFocus();
         } else if (isPlayingIntro) {
           handleCancelIntro();
         }
-      } else if (viewMode === 'slides' && !isPlayingIntro && !focusedBentoCard) {
+        return;
+      }
+
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+      const lowerKey = e.key.toLowerCase();
+      if (!isQrModalOpen && !focusedBentoCard) {
+        if (lowerKey === 'm') {
+          e.preventDefault();
+          if (isVideoFullscreenOpen) setIsVideoFullscreenOpen(false);
+          toggleHeroMediaMode();
+          return;
+        }
+        if (lowerKey === 'f' && activeHeroMedia === 'video') {
+          e.preventDefault();
+          SoundEngine.playPop();
+          setIsVideoFullscreenOpen((prev) => !prev);
+          return;
+        }
+      }
+
+      if (viewMode === 'slides' && !isPlayingIntro && !focusedBentoCard && !isVideoFullscreenOpen && !isQrModalOpen) {
         if (e.key === 'ArrowLeft') {
           e.preventDefault();
           scrollToIntroCard(1, true);
@@ -939,7 +1094,17 @@ export function AboutView({
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isPlayingIntro, viewMode, focusedBentoCard, handleCloseBentoFocus, scrollToIntroCard]);
+  }, [
+    isPlayingIntro,
+    viewMode,
+    focusedBentoCard,
+    isVideoFullscreenOpen,
+    isQrModalOpen,
+    activeHeroMedia,
+    handleCloseBentoFocus,
+    scrollToIntroCard,
+    toggleHeroMediaMode,
+  ]);
 
   // Video time tracking
   const handleTimeUpdate = () => {
@@ -1433,7 +1598,7 @@ export function AboutView({
           width: 'max-content',
           boxSizing: 'border-box',
         }}
-        className="flex flex-row items-stretch gap-[15px] h-full min-h-full box-border"
+        className="page-cards-track flex flex-row items-stretch gap-[15px] h-full min-h-full box-border"
       >
       {/* ========================================================================= */}
       {/* CARD GIỚI THIỆU 1: CHỨA CARD VIDEO VÀ CARD THÔNG TIN CHI TIẾT             */}
@@ -1492,34 +1657,48 @@ export function AboutView({
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
                 padding: '5px',
-                ...(syncedStackedHeight
-                  ? { height: `${syncedStackedHeight}px`, minHeight: `${syncedStackedHeight}px` }
-                  : {}),
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-[300px] lg:min-h-0 group/video p-[5px] text-left"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-0 group/video p-[5px] text-left"
             >
                   <div
                     style={{ borderRadius: 'calc(var(--radius-card, 14px) - 5px)' }}
                     className="relative w-full h-full flex-1 overflow-hidden min-h-0 flex items-center justify-center"
                   >
                   {activeHeroMedia === 'video' ? (
-                    <video
-                      ref={videoRef}
-                      id="about-hero-video"
-                      data-element-name="Video giới thiệu chân dung chuyên gia"
-                      data-element-type="media"
-                      data-element-page="about"
-                      data-element-parent="about-hero-video-container"
-                      key={isPlayingIntro ? 'video-intro-2' : 'video-idle-1'}
-                      autoPlay
-                      loop={!isPlayingIntro}
-                      muted={isPlayingIntro ? isVideoMuted : true}
-                      playsInline
-                      onTimeUpdate={handleTimeUpdate}
-                      onEnded={handleVideoEnded}
-                      className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] pointer-events-none z-0 opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
-                      src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
-                    />
+                    <>
+                      <video
+                        ref={videoRef}
+                        id="about-hero-video"
+                        data-element-name="Video giới thiệu chân dung chuyên gia"
+                        data-element-type="media"
+                        data-element-page="about"
+                        data-element-parent="about-hero-video-container"
+                        key={isPlayingIntro ? 'video-intro-2' : 'video-idle-1'}
+                        autoPlay
+                        loop={!isPlayingIntro}
+                        muted={isPlayingIntro ? isVideoMuted : true}
+                        playsInline
+                        onTimeUpdate={handleTimeUpdate}
+                        onEnded={handleVideoEnded}
+                        className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] pointer-events-none z-0 opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
+                        src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
+                      />
+                      <button
+                        type="button"
+                        id="about-video-expand-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          SoundEngine.playPop();
+                          setIsVideoFullscreenOpen(true);
+                        }}
+                        title="Mở rộng toàn cảnh Video giới thiệu (Phím F)"
+                        aria-label="Mở rộng toàn cảnh Video giới thiệu"
+                        className="theme-video-capsule absolute top-3 right-3 z-30 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-semibold font-play cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95 pointer-events-auto"
+                      >
+                        <Maximize2 className="w-3.5 h-3.5 shrink-0" />
+                        <span className="hidden sm:inline whitespace-nowrap">Toàn cảnh</span>
+                      </button>
+                    </>
                   ) : (
                     <div className="absolute inset-0 w-full h-full z-0 animate-fadeIn flex flex-col justify-between">
                       {/* Google Maps Iframe with Red Pin marker centered */}
@@ -1738,7 +1917,6 @@ export function AboutView({
 
             {/* CARD 2: CARD THÔNG TIN CHI TIẾT (Chiều cao luôn bằng Card Video) */}
             <div
-              ref={infoCardRef}
               id="about-personal-info-card-right"
               data-element-name="Card thông tin chi tiết"
               data-element-type="card"
@@ -1748,71 +1926,88 @@ export function AboutView({
                 borderRadius: 'var(--radius-card, 14px)',
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-2.5 self-stretch h-auto lg:h-full min-h-0 text-left rounded-[var(--radius-card,14px)] p-[15px] overflow-hidden"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-2.5 self-stretch h-full min-h-0 text-left rounded-[var(--radius-card,14px)] p-[15px] overflow-hidden"
             >
-                  {/* Header Bento Box Bar */}
-                  <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 shrink-0">
-                    <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
+                  {/* Header Bento Box Bar + Thanh thao tác nhanh (Lật Bản đồ M, Sao chép 1 chạm, Mã QR vCard) */}
+                  <div className="flex items-center justify-between gap-2 border-b border-[var(--border-subcard)] pb-2 shrink-0 min-w-0">
+                    <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400 min-w-0">
                       <WebIcon name="user" className="w-[18px] h-[18px] text-blue-600 dark:text-cyan-400 shrink-0" style={{ width: '18px', height: '18px' }} />
-                      <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight" data-card-title="true">
+                      <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight truncate" data-card-title="true">
                         Thông tin chi tiết
                       </h3>
                     </div>
+
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <button
+                        type="button"
+                        id="about-toggle-media-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleHeroMediaMode();
+                        }}
+                        title={
+                          activeHeroMedia === 'video'
+                            ? 'Chuyển khung trái sang Bản đồ (Phím M)'
+                            : 'Quay lại Video chân dung (Phím M)'
+                        }
+                        aria-label="Chuyển đổi giữa Video và Bản đồ"
+                        className={cn(
+                          'banner-control-pill inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold font-play cursor-pointer transition-all active:scale-95 whitespace-nowrap shrink-0',
+                          activeHeroMedia === 'map' && 'ring-1 ring-cyan-500/60 text-cyan-700 dark:text-cyan-300'
+                        )}
+                      >
+                        {activeHeroMedia === 'video' ? (
+                          <MapIcon className="w-3.5 h-3.5 shrink-0" />
+                        ) : (
+                          <VideoIcon className="w-3.5 h-3.5 shrink-0" />
+                        )}
+                        <span className="hidden sm:inline">{activeHeroMedia === 'video' ? 'Bản đồ' : 'Video'}</span>
+                        <kbd className="hidden md:inline-block px-1 py-0 text-[10px] rounded bg-black/10 dark:bg-white/10 font-mono">
+                          M
+                        </kbd>
+                      </button>
+
+                      <button
+                        type="button"
+                        id="about-copy-vcard-btn"
+                        onClick={handleCopyFullVCard}
+                        title="Sao chép toàn bộ thông tin danh thiếp chỉ với một chạm"
+                        aria-label="Sao chép toàn bộ thông tin liên hệ"
+                        className={cn(
+                          'banner-control-pill inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold font-play cursor-pointer transition-all active:scale-95 whitespace-nowrap shrink-0',
+                          isVCardCopied && 'text-emerald-600 dark:text-emerald-300 ring-1 ring-emerald-500/50'
+                        )}
+                      >
+                        {isVCardCopied ? (
+                          <Check className="w-3.5 h-3.5 shrink-0 text-emerald-500" />
+                        ) : (
+                          <Copy className="w-3.5 h-3.5 shrink-0" />
+                        )}
+                        <span className="hidden xl:inline">{isVCardCopied ? 'Đã chép' : 'Sao chép'}</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        id="about-qr-vcard-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          SoundEngine.playPop();
+                          setIsQrModalOpen(true);
+                        }}
+                        title="Tạo mã QR danh thiếp vCard động để lưu vào danh bạ"
+                        aria-label="Mở mã QR danh thiếp cá nhân"
+                        className="banner-control-pill inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold font-play cursor-pointer transition-all active:scale-95 whitespace-nowrap shrink-0"
+                      >
+                        <QrCode className="w-3.5 h-3.5 shrink-0" />
+                        <span className="hidden sm:inline">QR</span>
+                      </button>
+                    </div>
                   </div>
 
-                  {/* Sub-Card Bento Grid (Stretch evenly inside equal-height info card) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:auto-rows-fr gap-2.5 py-0.5 flex-1 min-h-0 overflow-y-auto glass-scrollbar items-stretch w-full min-w-0">
+                  {/* Sub-Card Bento Grid (Sắp xếp 3 tầng ưu tiên: Liên hệ trực tiếp -> Bản đồ vị trí -> Nhân khẩu học, 6 hàng cân đối không ô trống) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-6 lg:auto-rows-fr gap-2.5 py-0.5 flex-1 min-h-0 overflow-y-auto glass-scrollbar items-stretch w-full min-w-0">
                     {[
-                      {
-                        id: 'gender',
-                        label: 'Giới tính',
-                        value: 'Nam giới',
-                        icon: 'user',
-                        iconColorCls: 'text-sky-600 dark:text-sky-300',
-                        bgCls: 'bg-sky-500/10 dark:bg-sky-500/15 border-sky-500/25 dark:border-sky-400/30',
-                        action: () => showToast('Giới tính: Nam giới'),
-                        colSpan: 'col-span-1',
-                      },
-                      {
-                        id: 'ethnicity',
-                        label: 'Dân tộc',
-                        value: 'Kinh',
-                        icon: 'globe',
-                        iconColorCls: 'text-emerald-600 dark:text-emerald-300',
-                        bgCls: 'bg-emerald-500/10 dark:bg-emerald-500/15 border-emerald-500/25 dark:border-emerald-400/30',
-                        action: () => showToast('Dân tộc: Kinh'),
-                        colSpan: 'col-span-1',
-                      },
-                      {
-                        id: 'marital',
-                        label: 'Hôn nhân',
-                        value: 'Độc thân',
-                        icon: 'heart',
-                        iconColorCls: 'text-rose-600 dark:text-rose-300',
-                        bgCls: 'bg-rose-500/10 dark:bg-rose-500/15 border-rose-500/25 dark:border-rose-400/30',
-                        action: () => showToast('Hôn nhân: Độc thân'),
-                        colSpan: 'col-span-1',
-                      },
-                      {
-                        id: 'birthday',
-                        label: 'Sinh nhật',
-                        value: '22/06/1984',
-                        icon: 'calendar',
-                        iconColorCls: 'text-amber-600 dark:text-amber-300',
-                        bgCls: 'bg-amber-500/10 dark:bg-amber-500/15 border-amber-500/25 dark:border-amber-400/30',
-                        action: () => showToast('Sinh nhật: 22/06/1984'),
-                        colSpan: 'col-span-1',
-                      },
-                      {
-                        id: 'horoscope',
-                        label: 'Tử vi',
-                        value: 'Giáp Tý',
-                        icon: 'sparkles',
-                        iconColorCls: 'text-purple-600 dark:text-purple-300',
-                        bgCls: 'bg-purple-500/10 dark:bg-purple-500/15 border-purple-500/25 dark:border-purple-400/30',
-                        action: () => showToast('Tử vi: Giáp Tý - Mệnh Hải Trung Kim'),
-                        colSpan: 'col-span-1',
-                      },
+                      // TẦNG 1: LIÊN HỆ & KẾT NỐI TRỰC TIẾP
                       {
                         id: 'phone',
                         label: 'Điện thoại',
@@ -1823,42 +2018,12 @@ export function AboutView({
                         action: () => {
                           window.open('https://zalo.me/0909097882', '_blank', 'noopener,noreferrer');
                         },
-                        colSpan: 'col-span-1',
-                      },
-                      {
-                        id: 'tam_tru',
-                        label: 'Tạm trú',
-                        value: 'P.Tân Phú (Q7) , TP. Hồ Chí Minh',
-                        icon: 'map-pin',
-                        iconColorCls: 'text-cyan-600 dark:text-cyan-300',
-                        bgCls: 'bg-cyan-500/10 dark:bg-cyan-500/15 border-cyan-500/25 dark:border-cyan-400/30',
-                        action: () => {
-                          setActiveHeroMedia('map');
-                          setActiveHeroMapType('tam_tru');
-                          setActiveMapTab('tam_tru');
-                          showToast('📍 Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh');
-                        },
-                        colSpan: 'col-span-1 sm:col-span-2',
-                      },
-                      {
-                        id: 'cu_tru',
-                        label: 'Cư trú',
-                        value: 'Phường Mỹ Tho, Tỉnh Đồng Tháp',
-                        icon: 'home',
-                        iconColorCls: 'text-teal-600 dark:text-teal-300',
-                        bgCls: 'bg-teal-500/10 dark:bg-teal-500/15 border-teal-500/25 dark:border-teal-400/30',
-                        action: () => {
-                          setActiveHeroMedia('map');
-                          setActiveHeroMapType('cu_tru');
-                          setActiveMapTab('cu_tru');
-                          showToast('📍 Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp');
-                        },
-                        colSpan: 'col-span-1 sm:col-span-2',
+                        colSpan: 'col-span-1 sm:col-span-3',
                       },
                       {
                         id: 'email',
                         label: 'Hộp thư',
-                        value: 'Gửi email',
+                        value: 'hungthai84@gmail.com',
                         icon: 'mail',
                         iconColorCls: 'text-pink-600 dark:text-pink-300',
                         bgCls: 'bg-pink-500/10 dark:bg-pink-500/15 border-pink-500/25 dark:border-pink-400/30',
@@ -1868,7 +2033,7 @@ export function AboutView({
                             showToast('✓ Đã sao chép Email: hungthai84@gmail.com');
                           }
                         },
-                        colSpan: 'col-span-1',
+                        colSpan: 'col-span-1 sm:col-span-3',
                       },
                       {
                         id: 'website',
@@ -1880,7 +2045,7 @@ export function AboutView({
                         action: () => {
                           window.open('https://nguyenhungthai.powerservice.one/', '_blank', 'noopener,noreferrer');
                         },
-                        colSpan: 'col-span-1',
+                        colSpan: 'col-span-1 sm:col-span-3',
                       },
                       {
                         id: 'linkedin',
@@ -1892,6 +2057,94 @@ export function AboutView({
                         action: () => {
                           window.open('https://www.linkedin.com/in/hungthai84/', '_blank', 'noopener,noreferrer');
                         },
+                        colSpan: 'col-span-1 sm:col-span-3',
+                      },
+                      // TẦNG 2: ĐỊA ĐIỂM & BẢN ĐỒ TƯƠNG TÁC
+                      {
+                        id: 'tam_tru',
+                        label: 'Tạm trú',
+                        value: 'P.Tân Phú (Q7) , TP. Hồ Chí Minh',
+                        icon: 'map-pin',
+                        iconColorCls: 'text-cyan-600 dark:text-cyan-300',
+                        bgCls: cn(
+                          'bg-cyan-500/10 dark:bg-cyan-500/15 border-cyan-500/25 dark:border-cyan-400/30',
+                          activeHeroMedia === 'map' && activeHeroMapType === 'tam_tru' && 'ring-2 ring-cyan-500/70'
+                        ),
+                        action: () => {
+                          setActiveHeroMedia('map');
+                          setActiveHeroMapType('tam_tru');
+                          setActiveMapTab('tam_tru');
+                          showToast('📍 Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh');
+                        },
+                        colSpan: 'col-span-1 sm:col-span-6',
+                      },
+                      {
+                        id: 'cu_tru',
+                        label: 'Cư trú',
+                        value: 'Phường Mỹ Tho, Tỉnh Đồng Tháp',
+                        icon: 'home',
+                        iconColorCls: 'text-teal-600 dark:text-teal-300',
+                        bgCls: cn(
+                          'bg-teal-500/10 dark:bg-teal-500/15 border-teal-500/25 dark:border-teal-400/30',
+                          activeHeroMedia === 'map' && activeHeroMapType === 'cu_tru' && 'ring-2 ring-teal-500/70'
+                        ),
+                        action: () => {
+                          setActiveHeroMedia('map');
+                          setActiveHeroMapType('cu_tru');
+                          setActiveMapTab('cu_tru');
+                          showToast('📍 Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp');
+                        },
+                        colSpan: 'col-span-1 sm:col-span-6',
+                      },
+                      // TẦNG 3: THÔNG TIN CÁ NHÂN & NHÂN KHẨU HỌC
+                      {
+                        id: 'birthday',
+                        label: 'Sinh nhật',
+                        value: '22/06/1984',
+                        icon: 'calendar',
+                        iconColorCls: 'text-amber-600 dark:text-amber-300',
+                        bgCls: 'bg-amber-500/10 dark:bg-amber-500/15 border-amber-500/25 dark:border-amber-400/30',
+                        action: () => showToast('Sinh nhật: 22/06/1984'),
+                        colSpan: 'col-span-1 sm:col-span-3',
+                      },
+                      {
+                        id: 'horoscope',
+                        label: 'Tử vi',
+                        value: 'Giáp Tý',
+                        icon: 'sparkles',
+                        iconColorCls: 'text-purple-600 dark:text-purple-300',
+                        bgCls: 'bg-purple-500/10 dark:bg-purple-500/15 border-purple-500/25 dark:border-purple-400/30',
+                        action: () => showToast('Tử vi: Giáp Tý - Mệnh Hải Trung Kim'),
+                        colSpan: 'col-span-1 sm:col-span-3',
+                      },
+                      {
+                        id: 'gender',
+                        label: 'Giới tính',
+                        value: 'Nam giới',
+                        icon: 'user',
+                        iconColorCls: 'text-sky-600 dark:text-sky-300',
+                        bgCls: 'bg-sky-500/10 dark:bg-sky-500/15 border-sky-500/25 dark:border-sky-400/30',
+                        action: () => showToast('Giới tính: Nam giới'),
+                        colSpan: 'col-span-1 sm:col-span-2',
+                      },
+                      {
+                        id: 'ethnicity',
+                        label: 'Dân tộc',
+                        value: 'Kinh',
+                        icon: 'globe',
+                        iconColorCls: 'text-emerald-600 dark:text-emerald-300',
+                        bgCls: 'bg-emerald-500/10 dark:bg-emerald-500/15 border-emerald-500/25 dark:border-emerald-400/30',
+                        action: () => showToast('Dân tộc: Kinh'),
+                        colSpan: 'col-span-1 sm:col-span-2',
+                      },
+                      {
+                        id: 'marital',
+                        label: 'Hôn nhân',
+                        value: 'Độc thân',
+                        icon: 'heart',
+                        iconColorCls: 'text-rose-600 dark:text-rose-300',
+                        bgCls: 'bg-rose-500/10 dark:bg-rose-500/15 border-rose-500/25 dark:border-rose-400/30',
+                        action: () => showToast('Hôn nhân: Độc thân'),
                         colSpan: 'col-span-1 sm:col-span-2',
                       },
                     ].map((item) => (
@@ -1904,7 +2157,7 @@ export function AboutView({
                         }}
                         title={`${item.label}: ${item.value}`}
                         className={cn(
-                          'about-info-subcard h-full min-h-[64px] sm:min-h-[68px] w-full flex flex-col justify-between p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
+                          'about-info-subcard h-full min-h-[60px] sm:min-h-[64px] w-full flex flex-col justify-between p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
                           item.colSpan,
                           item.bgCls
                         )}
@@ -2309,6 +2562,279 @@ export function AboutView({
       >
         {renderFocusedCardContent()}
       </Modal>
+
+      {/* Modal Mã QR Danh Thiếp Cá Nhân Động (vCard 3.0 / URL) */}
+      <Modal
+        isOpen={isQrModalOpen}
+        onClose={() => setIsQrModalOpen(false)}
+        title="Mã QR Danh Thiếp Cá Nhân"
+        subtitle="Quét mã bằng camera điện thoại để lưu thẳng liên hệ (vCard) vào danh bạ"
+        icon={<QrCode className="w-5 h-5 text-blue-600 dark:text-cyan-400" />}
+        maxWidth="lg"
+      >
+        <div className="flex flex-col gap-4">
+          {/* Segmented switcher: vCard vs Website */}
+          <div className="flex items-center justify-center gap-1.5 p-1 rounded-full bg-[var(--bg-subcard)] border border-[var(--border-subcard)] self-center">
+            <button
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                setQrMode('vcard');
+              }}
+              className={cn(
+                'px-3.5 py-1.5 rounded-full text-xs font-semibold font-play transition-all cursor-pointer whitespace-nowrap',
+                qrMode === 'vcard'
+                  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-sm'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              )}
+            >
+              Lưu Danh Bạ (vCard)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                setQrMode('url');
+              }}
+              className={cn(
+                'px-3.5 py-1.5 rounded-full text-xs font-semibold font-play transition-all cursor-pointer whitespace-nowrap',
+                qrMode === 'url'
+                  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-sm'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              )}
+            >
+              Mở Hồ Sơ Online
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+            {/* Khung mã QR nền trắng độ tương phản chuẩn */}
+            <div className="sm:col-span-5 flex flex-col items-center justify-center p-4 rounded-[14px] bg-white border border-slate-200 shadow-sm">
+              {qrDataUrl ? (
+                <img
+                  src={qrDataUrl}
+                  alt="Mã QR Danh thiếp Nguyễn Hùng Thái"
+                  className="w-44 h-44 object-contain"
+                />
+              ) : (
+                <div className="w-44 h-44 flex items-center justify-center text-xs text-slate-500">
+                  Đang tạo mã QR...
+                </div>
+              )}
+              <span className="mt-2 text-[11px] font-mono text-slate-600">
+                {qrMode === 'vcard' ? 'vCard 3.0 · Quét để lưu' : 'URL Hồ sơ chuyên gia'}
+              </span>
+            </div>
+
+            {/* Tóm tắt thông tin danh thiếp */}
+            <div className="sm:col-span-7 flex flex-col justify-between gap-3">
+              <div className="space-y-1.5 text-sm">
+                <div className="font-bold text-base text-[var(--text-primary)]">Nguyễn Hùng Thái</div>
+                <div className="text-xs text-[var(--text-secondary)]">
+                  Head of CX &amp; CS Operations · 22+ Năm thực chiến
+                </div>
+                <div className="pt-2 border-t border-[var(--border-subcard)] space-y-1 text-xs text-[var(--text-secondary)]">
+                  <div>Điện thoại: <strong className="text-[var(--text-primary)] tabular-nums">+84 0909097882</strong></div>
+                  <div>Hộp thư: <strong className="text-[var(--text-primary)]">hungthai84@gmail.com</strong></div>
+                  <div>Tạm trú: <strong className="text-[var(--text-primary)]">P. Tân Phú (Q7), TP. Hồ Chí Minh</strong></div>
+                  <div>Cư trú: <strong className="text-[var(--text-primary)]">P. Mỹ Tho, Tỉnh Đồng Tháp</strong></div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={handleDownloadVcf}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-xs font-semibold cursor-pointer shadow-sm hover:opacity-95 active:scale-95 transition whitespace-nowrap"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Tải file .vcf</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCopyFullVCard}
+                  className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold cursor-pointer active:scale-95 transition whitespace-nowrap"
+                >
+                  {isVCardCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{isVCardCopied ? 'Đã sao chép' : 'Sao chép text'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Chế độ Thu Phóng Toàn Cảnh Card Video kèm Thanh Thông Số Tóm Tắt Trượt Nhẹ ở Cạnh Dưới */}
+      {isClientMounted &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <AnimatePresence>
+            {isVideoFullscreenOpen && (
+              <motion.div
+                id="about-video-panoramic-overlay"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Chế độ toàn cảnh Video giới thiệu"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 z-[1050] bg-slate-950/95 backdrop-blur-xl flex flex-col justify-between overflow-hidden select-none font-play"
+              >
+                {/* Video toàn khung */}
+                <video
+                  ref={fullscreenVideoRef}
+                  key={isPlayingIntro ? 'fs-intro' : 'fs-idle'}
+                  src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
+                  autoPlay
+                  loop={!isPlayingIntro}
+                  muted={isPlayingIntro ? isVideoMuted : true}
+                  playsInline
+                  onEnded={handleVideoEnded}
+                  className="absolute inset-0 w-full h-full object-contain sm:object-cover object-center z-0"
+                />
+
+                {/* Scrim trên & dưới đảm bảo độ tương phản WCAG AA (>= 4.5:1) */}
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/80 via-black/35 to-transparent z-10" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/90 via-black/55 to-transparent z-10" />
+
+                {/* Thanh tiêu đề trên cùng */}
+                <div className="relative z-20 flex flex-wrap items-center justify-between gap-2 p-4 sm:p-6">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <img
+                      src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.gif"
+                      alt="Nguyễn Hùng Thái"
+                      className="w-10 h-10 rounded-full object-cover border border-white/30 shrink-0"
+                    />
+                    <div className="min-w-0">
+                      <div className="text-sm sm:text-base font-bold text-white truncate">
+                        Nguyễn Hùng Thái · Video Giới Thiệu Chuyên Gia
+                      </div>
+                      <div className="text-xs text-slate-300 flex items-center gap-2 truncate">
+                        <span>{isPlayingIntro ? 'Đang phát Video Thuyết Minh' : 'Video Chân Dung Tĩnh'}</span>
+                        <span aria-hidden="true">·</span>
+                        <span>22+ Năm Kinh Nghiệm CX</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        if (isPlayingIntro) {
+                          handleCancelIntro();
+                        } else {
+                          handlePlayIntro();
+                        }
+                      }}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/15 hover:bg-white/25 text-white border border-white/25 text-xs font-semibold cursor-pointer transition whitespace-nowrap"
+                    >
+                      {isPlayingIntro ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                      <span>{isPlayingIntro ? 'Về video nền' : 'Phát thuyết minh'}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        const nextMuted = !isVideoMuted;
+                        setIsVideoMuted(nextMuted);
+                        saveMutedPref(nextMuted);
+                        if (fullscreenVideoRef.current) fullscreenVideoRef.current.muted = nextMuted;
+                        if (videoRef.current) videoRef.current.muted = nextMuted;
+                      }}
+                      title={isVideoMuted ? 'Bật âm thanh' : 'Tắt âm thanh'}
+                      aria-label={isVideoMuted ? 'Bật âm thanh' : 'Tắt âm thanh'}
+                      className="w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white border border-white/25 flex items-center justify-center cursor-pointer transition"
+                    >
+                      {isVideoMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        setIsVideoFullscreenOpen(false);
+                      }}
+                      title="Thu nhỏ lại Card Video (ESC)"
+                      aria-label="Đóng chế độ toàn cảnh"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white text-slate-900 hover:bg-slate-100 text-xs font-bold cursor-pointer transition whitespace-nowrap"
+                    >
+                      <Minimize2 className="w-3.5 h-3.5" />
+                      <span>Thu nhỏ</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Thanh thông số tóm tắt trượt nhẹ ở cạnh dưới */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 18 }}
+                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative z-20 mx-3 sm:mx-6 mb-4 sm:mb-6 p-3.5 sm:p-4 rounded-[18px] bg-slate-950/75 backdrop-blur-xl border border-white/20 shadow-2xl text-white flex flex-col lg:flex-row lg:items-center justify-between gap-3"
+                >
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 flex-1 min-w-0">
+                    <div className="min-w-0">
+                      <div className="text-[11px] text-slate-300">Kinh nghiệm</div>
+                      <div className="text-xs sm:text-sm font-bold text-cyan-300 truncate tabular-nums">22+ Năm CX Ops</div>
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-[11px] text-slate-300">Điện thoại / Zalo</div>
+                      <div className="text-xs sm:text-sm font-bold text-white truncate tabular-nums">+84 0909097882</div>
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-[11px] text-slate-300">Hộp thư</div>
+                      <div className="text-xs sm:text-sm font-bold text-white truncate">hungthai84@gmail.com</div>
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-[11px] text-slate-300">Nơi làm việc</div>
+                      <div className="text-xs sm:text-sm font-bold text-white truncate">P. Tân Phú (Q7), TP.HCM</div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 lg:border-l border-white/15 lg:pl-4">
+                    <button
+                      type="button"
+                      onClick={handleCopyFullVCard}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white border border-white/20 text-xs font-semibold cursor-pointer transition whitespace-nowrap"
+                    >
+                      {isVCardCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{isVCardCopied ? 'Đã sao chép' : 'Sao chép danh thiếp'}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playPop();
+                        setIsVideoFullscreenOpen(false);
+                        setIsQrModalOpen(true);
+                      }}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-xs font-semibold cursor-pointer hover:opacity-95 transition whitespace-nowrap"
+                    >
+                      <QrCode className="w-3.5 h-3.5" />
+                      <span>Mã QR vCard</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playPop();
+                        setIsVideoFullscreenOpen(false);
+                        setActiveHeroMedia('map');
+                      }}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white border border-white/20 text-xs font-semibold cursor-pointer transition whitespace-nowrap"
+                    >
+                      <MapIcon className="w-3.5 h-3.5" />
+                      <span>Xem Bản đồ</span>
+                    </button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
     </div>
   );
 }

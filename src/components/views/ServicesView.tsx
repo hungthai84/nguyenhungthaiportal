@@ -1,13 +1,37 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import { WebIcon } from '@/components/ui/WebIcon';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import {
+  Smartphone,
+  ShoppingBag,
+  ShieldCheck,
+  Gamepad2,
+  Wallet,
+  Cpu,
+  Maximize2,
+  Minimize2,
+  CheckCircle2,
+  Wrench,
+  Building2,
+  UserCheck,
+  Tag,
+  Users,
+  Zap,
+  Clock,
+  Smile,
+  TrendingUp,
+  Activity,
+  Layers,
+  Award,
+  HeartHandshake,
+  RotateCcw,
+} from 'lucide-react';
+import { WebIcon } from '@/components/ui/WebIcon';
 import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/domains';
 import { DomainData, SiteTheme } from '@/types';
 import { TechStackExplorerModal } from '@/components/domains/TechStackExplorerModal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { cn, formatCardTitle, formatSentenceFourWords } from '@/lib/utils';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -15,13 +39,319 @@ export interface ServicesViewProps {
   currentTheme?: SiteTheme;
 }
 
-const DOMAIN_DETAIL_ACCENTS: Record<string, { light: string; dark: string }> = {
-  '01': { light: '#0284c7', dark: '#38bdf8' },
-  '02': { light: '#ea580c', dark: '#fb923c' },
-  '03': { light: '#e11d48', dark: '#fb7185' },
-  '04': { light: '#7c3aed', dark: '#c084fc' },
-  '05': { light: '#4338ca', dark: '#818cf8' },
-  '06': { light: '#059669', dark: '#34d399' },
+type DomainIconKey =
+  | 'smartphone'
+  | 'shopping-bag'
+  | 'shield-check'
+  | 'gamepad-2'
+  | 'wallet'
+  | 'cpu';
+
+type KpiIconKey =
+  | 'users'
+  | 'zap'
+  | 'clock'
+  | 'smile'
+  | 'trending-up'
+  | 'activity'
+  | 'layers'
+  | 'award'
+  | 'heart-handshake'
+  | 'rotate-ccw'
+  | 'shield-check';
+
+interface DomainUiMeta {
+  shortTitle: string;
+  shortTitleEn: string;
+  iconKey: DomainIconKey;
+  accentLight: string;
+  accentDark: string;
+  gradient: string;
+  cardBgLight: string;
+  cardBgDark: string;
+  tintBgLight: string;
+  tintBgDark: string;
+  borderLight: string;
+  borderDark: string;
+  pillTextLight: string;
+  pillTextDark: string;
+  illustrationSrc: string;
+  fallbackIllustration: string;
+  frontMetrics: {
+    label: string;
+    labelEn: string;
+    value: string;
+    valueEn?: string;
+  }[];
+  detailKpis: {
+    icon: KpiIconKey;
+    value: string;
+    valueEn?: string;
+    label: string;
+    labelEn: string;
+  }[];
+  tags: string[];
+  tagsEn: string[];
+}
+
+const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
+  '01': {
+    shortTitle: 'Viễn thông',
+    shortTitleEn: 'Telecom',
+    iconKey: 'smartphone',
+    accentLight: '#0284c7',
+    accentDark: '#38bdf8',
+    gradient: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)',
+    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(224, 242, 254, 0.72) 100%)',
+    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(12, 74, 110, 0.56) 100%)',
+    tintBgLight: 'rgba(224, 242, 254, 0.58)',
+    tintBgDark: 'rgba(14, 116, 144, 0.22)',
+    borderLight: 'rgba(14, 165, 233, 0.34)',
+    borderDark: 'rgba(56, 189, 248, 0.38)',
+    pillTextLight: '#0369a1',
+    pillTextDark: '#7dd3fc',
+    illustrationSrc: 'https://i.ibb.co/4RYYfBvx/D-ch-v-vi-n-th-ng-removebg-preview.png',
+    fallbackIllustration:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069236/Gemini_Generated_Image_9y00s39y00s39y00.png',
+    frontMetrics: [
+      { label: 'SLA & CSAT', labelEn: 'SLA & CSAT', value: '>98% · 96,5%' },
+      { label: 'Quy mô ca kíp', labelEn: 'Operations Scale', value: '50–130+ · 24/7' },
+    ],
+    detailKpis: [
+      { icon: 'shield-check', value: '> 98%', label: 'SLA tiếp nhận cuộc gọi', labelEn: 'Call Answer SLA' },
+      { icon: 'smile', value: '96,5%', label: 'Chỉ số hài lòng (CSAT)', labelEn: 'Customer Satisfaction' },
+      { icon: 'trending-up', value: '-20%', valueEn: '-20%', label: 'Chi phí khiếu nại cước', labelEn: 'Dispute Handling Cost' },
+      { icon: 'users', value: '< 3%', label: 'Tỷ lệ nghỉ việc nhân sự', labelEn: 'Staff Attrition Rate' },
+    ],
+    tags: ['#ContactCenter', '#SLA98', '#24x7Ops', '#TelecomQA'],
+    tagsEn: ['#ContactCenter', '#SLA98', '#24x7Ops', '#TelecomQA'],
+  },
+  '02': {
+    shortTitle: 'TMĐT',
+    shortTitleEn: 'E-Commerce',
+    iconKey: 'shopping-bag',
+    accentLight: '#ea580c',
+    accentDark: '#fb923c',
+    gradient: 'linear-gradient(135deg, #f97316 0%, #f59e0b 100%)',
+    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 237, 213, 0.72) 100%)',
+    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(124, 45, 18, 0.56) 100%)',
+    tintBgLight: 'rgba(255, 237, 213, 0.58)',
+    tintBgDark: 'rgba(194, 65, 12, 0.22)',
+    borderLight: 'rgba(249, 115, 22, 0.34)',
+    borderDark: 'rgba(251, 146, 60, 0.38)',
+    pillTextLight: '#c2410c',
+    pillTextDark: '#fdba74',
+    illustrationSrc:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542367/Th%C6%B0%C6%A1ng_m%E1%BA%A1i_%C4%91i%E1%BB%87n_t%E1%BB%AD-removebg-preview.png',
+    fallbackIllustration:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069235/Gemini_Generated_Image_6g07kh6g07kh6g07.png',
+    frontMetrics: [
+      { label: 'CSKH & Fraud', labelEn: 'CS & Fraud Team', value: '>100 nhân sự', valueEn: '100+ Staff' },
+      { label: 'CSAT & Chat', labelEn: 'CSAT & Chat', value: '88% → 96,5%' },
+    ],
+    detailKpis: [
+      { icon: 'clock', value: '< 30 giây', valueEn: '< 30s', label: 'Thời gian chờ kênh Chat', labelEn: 'Chat Queue Wait Time' },
+      { icon: 'smile', value: '88% → 96,5%', label: 'Chỉ số hài lòng (CSAT)', labelEn: 'CSAT Improvement' },
+      { icon: 'rotate-ccw', value: '-30%', label: 'Tỷ lệ hủy đơn chậm hỗ trợ', labelEn: 'Support-Delay Cancellations' },
+      { icon: 'trending-up', value: '-25%', label: 'Chi phí Cost-to-Serve', labelEn: 'Cost-to-Serve Savings' },
+    ],
+    tags: ['#Omnichannel', '#MegaSale', '#FraudControl', '#DisputeOps'],
+    tagsEn: ['#Omnichannel', '#MegaSale', '#FraudControl', '#DisputeOps'],
+  },
+  '03': {
+    shortTitle: 'Bảo hiểm',
+    shortTitleEn: 'Insurance',
+    iconKey: 'shield-check',
+    accentLight: '#e11d48',
+    accentDark: '#fb7185',
+    gradient: 'linear-gradient(135deg, #f43f5e 0%, #db2777 100%)',
+    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 228, 230, 0.72) 100%)',
+    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(136, 19, 55, 0.56) 100%)',
+    tintBgLight: 'rgba(255, 228, 230, 0.58)',
+    tintBgDark: 'rgba(190, 18, 60, 0.22)',
+    borderLight: 'rgba(244, 63, 94, 0.34)',
+    borderDark: 'rgba(251, 113, 133, 0.38)',
+    pillTextLight: '#be123c',
+    pillTextDark: '#fda4af',
+    illustrationSrc:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542365/D%E1%BB%8Bch_v%E1%BB%A5_b%E1%BA%A3o_hi%E1%BB%83m-removebg-preview.png',
+    fallbackIllustration:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069237/Gemini_Generated_Image_r1a3t4r1a3t4r1a3.png',
+    frontMetrics: [
+      { label: 'Xử lý yêu cầu', labelEn: 'Cycle Reduction', value: 'Giảm 45%', valueEn: '-45% Time' },
+      { label: 'FCR & Retention', labelEn: 'FCR & Retention', value: '>92% · +15%' },
+    ],
+    detailKpis: [
+      { icon: 'zap', value: '-45%', label: 'Rút ngắn thời gian xử lý', labelEn: 'Contract Cycle Time' },
+      { icon: 'shield-check', value: '> 92%', label: 'Giải quyết lần đầu (FCR)', labelEn: 'First Contact Resolution' },
+      { icon: 'heart-handshake', value: '+15%', label: 'Cải thiện duy trì hợp đồng', labelEn: 'Policy Retention Gain' },
+      { icon: 'award', value: '95%', label: 'Cam kết chất lượng (SLA)', labelEn: 'Service Level Agreement' },
+    ],
+    tags: ['#FinanceQA', '#Compliance', '#FCR92', '#BCPContinuity'],
+    tagsEn: ['#FinanceQA', '#Compliance', '#FCR92', '#BCPContinuity'],
+  },
+  '04': {
+    shortTitle: 'eSports',
+    shortTitleEn: 'eSports',
+    iconKey: 'gamepad-2',
+    accentLight: '#7c3aed',
+    accentDark: '#c084fc',
+    gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
+    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(237, 233, 254, 0.74) 100%)',
+    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(76, 29, 149, 0.58) 100%)',
+    tintBgLight: 'rgba(237, 233, 254, 0.62)',
+    tintBgDark: 'rgba(109, 40, 217, 0.24)',
+    borderLight: 'rgba(139, 92, 246, 0.34)',
+    borderDark: 'rgba(192, 132, 252, 0.38)',
+    pillTextLight: '#6d28d9',
+    pillTextDark: '#d8b4fe',
+    illustrationSrc:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542366/Game_eSports-removebg-preview.png',
+    fallbackIllustration:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069238/Gemini_Generated_Image_s1e5xks1e5xks1e5.png',
+    frontMetrics: [
+      { label: 'Lưu lượng xử lý', labelEn: 'Ticket Volume', value: '>50.000/ngày', valueEn: '>50K / day' },
+      { label: 'Phản hồi & CSAT', labelEn: 'Response & CSAT', value: '<30s · 96%' },
+    ],
+    detailKpis: [
+      { icon: 'users', value: '~130', label: 'Nhân sự Game Support & Fraud', labelEn: 'Game Support & Fraud Team' },
+      { icon: 'activity', value: '> 50.000', label: 'Yêu cầu hỗ trợ mỗi ngày', labelEn: 'Daily Support Tickets' },
+      { icon: 'clock', value: '< 30 giây', valueEn: '< 30s', label: 'Phản hồi đầu Ticket/Chat', labelEn: 'First Response Time' },
+      { icon: 'smile', value: '96%', label: 'Chỉ số hài lòng người chơi', labelEn: 'Player CSAT Score' },
+    ],
+    tags: ['#GameSupport', '#AccountSecurity', '#50kTickets', '#LTVRetention'],
+    tagsEn: ['#GameSupport', '#AccountSecurity', '#50kTickets', '#LTVRetention'],
+  },
+  '05': {
+    shortTitle: 'Thanh toán',
+    shortTitleEn: 'Payments',
+    iconKey: 'wallet',
+    accentLight: '#4338ca',
+    accentDark: '#818cf8',
+    gradient: 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)',
+    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(224, 231, 255, 0.74) 100%)',
+    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(49, 46, 129, 0.58) 100%)',
+    tintBgLight: 'rgba(224, 231, 255, 0.62)',
+    tintBgDark: 'rgba(67, 56, 202, 0.24)',
+    borderLight: 'rgba(99, 102, 241, 0.34)',
+    borderDark: 'rgba(129, 140, 248, 0.38)',
+    pillTextLight: '#3730a3',
+    pillTextDark: '#a5b4fc',
+    illustrationSrc:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542372/Thanh_to%C3%A1n_%C4%91i%E1%BB%87n_t%E1%BB%AD-removebg-preview.png',
+    fallbackIllustration:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069234/Gemini_Generated_Image_3b9s6n3b9s6n3b9s.png',
+    frontMetrics: [
+      { label: 'Hoàn tiền RPA', labelEn: 'RPA Refund', value: '48h → 90 giây', valueEn: '48h → 90s' },
+      { label: 'CSAT & BPO SLA', labelEn: 'CSAT & BPO SLA', value: '98,2% · 98,6%' },
+    ],
+    detailKpis: [
+      { icon: 'zap', value: '48h → 90s', label: 'Tự động hoàn tiền bằng RPA', labelEn: 'Automated RPA Refund' },
+      { icon: 'smile', value: '98,2%', label: 'Chỉ số hài lòng (CSAT)', labelEn: 'Digital Finance CSAT' },
+      { icon: 'award', value: '98,6%', label: 'SLA BPO (>150 vị trí)', labelEn: 'BPO Operations SLA' },
+      { icon: 'shield-check', value: '-35%', label: 'Giảm tỷ lệ sự cố vận hành', labelEn: 'Incident Reduction' },
+    ],
+    tags: ['#FintechOps', '#RPAAutomation', '#CoreBanking', '#WarRoom'],
+    tagsEn: ['#FintechOps', '#RPAAutomation', '#CoreBanking', '#WarRoom'],
+  },
+  '06': {
+    shortTitle: 'Xây hệ thống',
+    shortTitleEn: 'Architecture',
+    iconKey: 'cpu',
+    accentLight: '#059669',
+    accentDark: '#34d399',
+    gradient: 'linear-gradient(135deg, #10b981 0%, #0d9488 100%)',
+    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(209, 250, 229, 0.72) 100%)',
+    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(6, 78, 59, 0.56) 100%)',
+    tintBgLight: 'rgba(209, 250, 229, 0.58)',
+    tintBgDark: 'rgba(4, 120, 87, 0.22)',
+    borderLight: 'rgba(16, 185, 129, 0.34)',
+    borderDark: 'rgba(52, 211, 153, 0.38)',
+    pillTextLight: '#047857',
+    pillTextDark: '#6ee7b7',
+    illustrationSrc:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542368/X%C3%A2y_d%E1%BB%B1ng_h%E1%BB%87_th%E1%BB%91ng-removebg-preview.png',
+    fallbackIllustration:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069236/Gemini_Generated_Image_i12r2fi12r2fi12r.png',
+    frontMetrics: [
+      { label: 'Chuẩn hóa', labelEn: 'Standardization', value: '100% SOP/KPI' },
+      { label: 'Onboarding & Perf', labelEn: 'Onboarding & Perf', value: '-65% · +40%' },
+    ],
+    detailKpis: [
+      { icon: 'layers', value: '10–150+', label: 'Quy mô Contact Center thiết lập', labelEn: 'Contact Center Seats Built' },
+      { icon: 'clock', value: '-65%', label: 'Rút ngắn thời gian Onboarding', labelEn: 'Onboarding Time Saved' },
+      { icon: 'trending-up', value: '+40%', label: 'Cải thiện hiệu suất vận hành', labelEn: 'Operational Efficiency' },
+      { icon: 'award', value: 'Value Center', label: 'Chuyển đổi Cost → Value', labelEn: 'Cost-to-Value Shift' },
+    ],
+    tags: ['#CXStrategy', '#SOPMatrix', '#AICopilot', '#ValueCenter'],
+    tagsEn: ['#CXStrategy', '#SOPMatrix', '#AICopilot', '#ValueCenter'],
+  },
+};
+
+const renderDomainIcon = (key: DomainIconKey, className?: string, color?: string) => {
+  const props = { className: className || 'w-4 h-4 shrink-0', style: color ? { color } : undefined };
+  switch (key) {
+    case 'smartphone':
+      return <Smartphone {...props} />;
+    case 'shopping-bag':
+      return <ShoppingBag {...props} />;
+    case 'shield-check':
+      return <ShieldCheck {...props} />;
+    case 'gamepad-2':
+      return <Gamepad2 {...props} />;
+    case 'wallet':
+      return <Wallet {...props} />;
+    case 'cpu':
+    default:
+      return <Cpu {...props} />;
+  }
+};
+
+const renderKpiIcon = (key: KpiIconKey, className?: string) => {
+  const props = { className: className || 'w-4 h-4' };
+  switch (key) {
+    case 'users':
+      return <Users {...props} />;
+    case 'zap':
+      return <Zap {...props} />;
+    case 'clock':
+      return <Clock {...props} />;
+    case 'smile':
+      return <Smile {...props} />;
+    case 'trending-up':
+      return <TrendingUp {...props} />;
+    case 'activity':
+      return <Activity {...props} />;
+    case 'layers':
+      return <Layers {...props} />;
+    case 'award':
+      return <Award {...props} />;
+    case 'heart-handshake':
+      return <HeartHandshake {...props} />;
+    case 'rotate-ccw':
+      return <RotateCcw {...props} />;
+    case 'shield-check':
+    default:
+      return <ShieldCheck {...props} />;
+  }
+};
+
+const getCardDomId = (id: string) => {
+  switch (id) {
+    case '01':
+      return 'service-card-telecom';
+    case '02':
+      return 'service-card-ecommerce';
+    case '03':
+      return 'service-card-insurance';
+    case '04':
+      return 'service-card-esports';
+    case '05':
+      return 'service-card-ewallet';
+    case '06':
+    default:
+      return 'service-card-cx-ops';
+  }
 };
 
 export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rainbow-glass' }) => {
@@ -36,13 +366,216 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
     currentTheme === 'special-rainbow-glass' ||
     currentTheme === 'deep-ocean';
   const isLight = !isDark;
-
   const isEn = language === 'en';
-  const [selectedDomain, setSelectedDomain] = useState<DomainData | null>(null);
+  const isLeatherTheme =
+    cardStyle === 'cowhide-leather' ||
+    cardStyle === 'light-cowhide-leather' ||
+    cardStyle === 'black-cowhide-leather';
+
+  const [expandedDomain, setExpandedDomain] = useState<DomainData | null>(null);
+  const [originDomainId, setOriginDomainId] = useState<string | null>(null);
+  const [animPhase, setAnimPhase] = useState<'idle' | 'entering' | 'open' | 'closing'>('idle');
+  const [isGridDimmed, setIsGridDimmed] = useState(false);
+  const [morphRect, setMorphRect] = useState<{
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  } | null>(null);
+  const [wrapperMinHeight, setWrapperMinHeight] = useState<number | undefined>(undefined);
+
   const [isTechModalOpen, setIsTechModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
+  const cardsWrapperRef = useRef<HTMLDivElement | null>(null);
+  const cardsGridRef = useRef<HTMLDivElement | null>(null);
+  const expandedCardRef = useRef<HTMLDivElement | null>(null);
+  const expandedBodyRef = useRef<HTMLDivElement | null>(null);
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const animTimerRef = useRef<number | null>(null);
+  const rafRef = useRef<number | null>(null);
+
+  const clearTimers = useCallback(() => {
+    if (animTimerRef.current !== null) {
+      window.clearTimeout(animTimerRef.current);
+      animTimerRef.current = null;
+    }
+    if (rafRef.current !== null) {
+      window.cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => clearTimers, [clearTimers]);
+
+  const computeTargetBounds = useCallback(() => {
+    const wrapperEl = cardsWrapperRef.current;
+    const gridEl = cardsGridRef.current;
+    if (!wrapperEl) return null;
+
+    const wrapperRect = wrapperEl.getBoundingClientRect();
+    const gridRect = gridEl ? gridEl.getBoundingClientRect() : wrapperRect;
+    const isStackedLayout = wrapperRect.width < 600;
+    const targetHeight = isStackedLayout
+      ? Math.min(Math.max(wrapperRect.height, 560), 680)
+      : Math.max(gridRect.height, wrapperRect.height, 440);
+
+    return {
+      top: 0,
+      left: 0,
+      width: wrapperRect.width,
+      height: targetHeight,
+      needsWrapperMinHeight: isStackedLayout ? targetHeight : undefined,
+    };
+  }, []);
+
+  const openExpandedCard = useCallback(
+    (domain: DomainData, explicitCardEl?: HTMLDivElement | null) => {
+      clearTimers();
+      SoundEngine.playTap();
+
+      const wrapperEl = cardsWrapperRef.current;
+      const originEl = explicitCardEl || cardRefs.current[domain.id];
+      const targetBounds = computeTargetBounds();
+
+      const prefersReducedMotion =
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      setActiveCategory(domain.id);
+      setOriginDomainId(domain.id);
+      setExpandedDomain(domain);
+
+      if (prefersReducedMotion || !wrapperEl || !originEl || !targetBounds) {
+        if (targetBounds) {
+          setMorphRect({
+            top: targetBounds.top,
+            left: targetBounds.left,
+            width: targetBounds.width,
+            height: targetBounds.height,
+          });
+          setWrapperMinHeight(targetBounds.needsWrapperMinHeight);
+        }
+        setAnimPhase('open');
+        setIsGridDimmed(true);
+        return;
+      }
+
+      const wrapperRect = wrapperEl.getBoundingClientRect();
+      const cardRect = originEl.getBoundingClientRect();
+
+      setWrapperMinHeight(targetBounds.needsWrapperMinHeight);
+      setAnimPhase('entering');
+      setMorphRect({
+        top: cardRect.top - wrapperRect.top,
+        left: cardRect.left - wrapperRect.left,
+        width: cardRect.width,
+        height: cardRect.height,
+      });
+
+      rafRef.current = window.requestAnimationFrame(() => {
+        if (expandedCardRef.current) {
+          void expandedCardRef.current.offsetHeight;
+        }
+        rafRef.current = window.requestAnimationFrame(() => {
+          setIsGridDimmed(true);
+          setAnimPhase('open');
+          setMorphRect({
+            top: targetBounds.top,
+            left: targetBounds.left,
+            width: targetBounds.width,
+            height: targetBounds.height,
+          });
+        });
+      });
+    },
+    [clearTimers, computeTargetBounds]
+  );
+
+  const closeExpandedCard = useCallback(() => {
+    if (!expandedDomain || animPhase === 'idle' || animPhase === 'closing') return;
+    clearTimers();
+    SoundEngine.playTap();
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const wrapperEl = cardsWrapperRef.current;
+    const targetId = originDomainId || expandedDomain.id;
+    const originEl = cardRefs.current[targetId];
+
+    setIsGridDimmed(false);
+    setActiveCategory('ALL');
+
+    if (prefersReducedMotion || !wrapperEl || !originEl) {
+      setExpandedDomain(null);
+      setOriginDomainId(null);
+      setAnimPhase('idle');
+      setMorphRect(null);
+      setWrapperMinHeight(undefined);
+      return;
+    }
+
+    const wrapperRect = wrapperEl.getBoundingClientRect();
+    const cardRect = originEl.getBoundingClientRect();
+
+    setAnimPhase('closing');
+    setMorphRect({
+      top: cardRect.top - wrapperRect.top,
+      left: cardRect.left - wrapperRect.left,
+      width: cardRect.width,
+      height: cardRect.height,
+    });
+
+    animTimerRef.current = window.setTimeout(() => {
+      setExpandedDomain(null);
+      setOriginDomainId(null);
+      setAnimPhase('idle');
+      setMorphRect(null);
+      setWrapperMinHeight(undefined);
+    }, 580);
+  }, [expandedDomain, animPhase, clearTimers, originDomainId]);
+
+  const switchExpandedDomain = useCallback(
+    (domain: DomainData) => {
+      SoundEngine.playTap();
+      setExpandedDomain(domain);
+      setOriginDomainId(domain.id);
+      setActiveCategory(domain.id);
+      if (expandedBodyRef.current) {
+        expandedBodyRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    []
+  );
+
+  // Sync expanded bounds dynamically on container resize
+  useEffect(() => {
+    const wrapperEl = cardsWrapperRef.current;
+    if (!wrapperEl || typeof ResizeObserver === 'undefined') return;
+
+    const observer = new ResizeObserver(() => {
+      if (animPhase !== 'open') return;
+      const bounds = computeTargetBounds();
+      if (!bounds) return;
+      setMorphRect({
+        top: bounds.top,
+        left: bounds.left,
+        width: bounds.width,
+        height: bounds.height,
+      });
+      setWrapperMinHeight(bounds.needsWrapperMinHeight);
+    });
+
+    observer.observe(wrapperEl);
+    if (cardsGridRef.current) {
+      observer.observe(cardsGridRef.current);
+    }
+    return () => observer.disconnect();
+  }, [animPhase, computeTargetBounds]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -61,18 +594,19 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
       if (e.key !== 'Escape') return;
       if (isFilterOpen) {
         setIsFilterOpen(false);
-      } else if (selectedDomain && !isTechModalOpen) {
-        setSelectedDomain(null);
+      } else if (isTechModalOpen) {
+        setIsTechModalOpen(false);
+      } else if (expandedDomain) {
+        closeExpandedCard();
       }
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isFilterOpen, selectedDomain, isTechModalOpen]);
+  }, [isFilterOpen, isTechModalOpen, expandedDomain, closeExpandedCard]);
 
-  // Danh sách bộ lọc phân hệ dịch vụ (6.1 - 6.6)
   const filterCategories = [
-    { id: 'ALL', label: isEn ? 'All Services' : 'Tất cả dịch vụ', icon: 'grid' },
-    { id: '01', label: isEn ? 'Telecom Services' : 'Dịch vụ viễn thông', icon: 'phone' },
+    { id: 'ALL', label: isEn ? 'All 6 Domains' : 'Tất cả 6 lĩnh vực', icon: 'grid' },
+    { id: '01', label: isEn ? 'Telecom Services' : 'Dịch vụ Viễn thông', icon: 'phone' },
     { id: '02', label: isEn ? 'E-Commerce Ops' : 'Thương mại điện tử', icon: 'shopping-cart' },
     { id: '03', label: isEn ? 'Finance & Insurance' : 'Tài chính bảo hiểm', icon: 'shield-check' },
     { id: '04', label: isEn ? 'Esports & Gaming' : 'Thể thao điện tử', icon: 'gamepad-2' },
@@ -80,155 +614,33 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
     { id: '06', label: isEn ? 'System Architecture' : 'Xây dựng hệ thống', icon: 'layers' },
   ];
 
-  const filteredDomains =
-    activeCategory === 'ALL'
-      ? DOMAINS_DATA
-      : DOMAINS_DATA.filter((d) => d.id === activeCategory);
-
-  const handleOpenDetail = (domain: DomainData) => {
-    SoundEngine.playTap();
-    setSelectedDomain(domain);
-  };
-
-  const isMonoGlass = false;
-  const getCardVisualConfig = (id: string) => {
-    switch (id) {
-      case '01': // 6.1. Dịch vụ di động - #1F5EAC
-        return {
-          accentColor: isMonoGlass ? '#0F172A' : '#1F5EAC',
-          cardBg: isMonoGlass
-            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
-            : isLight
-              ? 'linear-gradient(135deg, rgba(31, 94, 172, 0.12) 0%, rgba(31, 94, 172, 0.22) 100%)'
-              : 'linear-gradient(135deg, rgba(31, 94, 172, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
-          cardBorder: isLight
-            ? 'border-[#1F5EAC]/35 hover:border-[#1F5EAC]'
-            : 'border-[#1F5EAC]/55 hover:border-[#1F5EAC]',
-          titleColor: isLight ? 'text-[#1F5EAC]' : 'text-sky-300',
-          pillBg: isLight
-            ? 'bg-[#1F5EAC]/10 border-[#1F5EAC]/25 text-[#1F5EAC]'
-            : 'bg-sky-950/80 border-[#1F5EAC]/40 text-sky-200',
-          arrowBg: 'linear-gradient(135deg, #38bdf8 0%, #1F5EAC 100%)',
-          arrowShadow: '0 4px 12px rgba(31, 94, 172, 0.4)',
-          illustrationSrc: 'https://i.ibb.co/4RYYfBvx/D-ch-v-vi-n-th-ng-removebg-preview.png',
-          fallbackIllustration:
-            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069236/Gemini_Generated_Image_9y00s39y00s39y00.png',
-          pillText: 'SLA > 98% · CSAT 96,5% · 24/7/365',
-        };
-      case '02': // 6.2. Thương mại điện tử - #D97637
-        return {
-          accentColor: isMonoGlass ? '#0F172A' : '#D97637',
-          cardBg: isMonoGlass
-            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
-            : isLight
-              ? 'linear-gradient(135deg, rgba(217, 118, 55, 0.12) 0%, rgba(217, 118, 55, 0.22) 100%)'
-              : 'linear-gradient(135deg, rgba(217, 118, 55, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
-          cardBorder: isLight
-            ? 'border-[#D97637]/35 hover:border-[#D97637]'
-            : 'border-[#D97637]/55 hover:border-[#D97637]',
-          titleColor: isLight ? 'text-[#D97637]' : 'text-orange-300',
-          pillBg: isLight
-            ? 'bg-[#D97637]/10 border-[#D97637]/25 text-[#D97637]'
-            : 'bg-orange-950/80 border-[#D97637]/40 text-orange-200',
-          arrowBg: 'linear-gradient(135deg, #fbbf24 0%, #D97637 100%)',
-          arrowShadow: '0 4px 12px rgba(217, 118, 55, 0.4)',
-          illustrationSrc:
-            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542367/Th%C6%B0%C6%A1ng_m%E1%BA%A1i_%C4%91i%E1%BB%87n_t%E1%BB%AD-removebg-preview.png',
-          fallbackIllustration:
-            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069235/Gemini_Generated_Image_6g07kh6g07kh6g07.png',
-          pillText: 'Chat < 30s · CSAT 96,5% · Mega-Sale',
-        };
-      case '03': // 6.3. Tài chính bảo hiểm - #F54459
-        return {
-          accentColor: isMonoGlass ? '#0F172A' : '#F54459',
-          cardBg: isMonoGlass
-            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
-            : isLight
-              ? 'linear-gradient(135deg, rgba(245, 68, 89, 0.12) 0%, rgba(245, 68, 89, 0.22) 100%)'
-              : 'linear-gradient(135deg, rgba(245, 68, 89, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
-          cardBorder: isLight
-            ? 'border-[#F54459]/35 hover:border-[#F54459]'
-            : 'border-[#F54459]/55 hover:border-[#F54459]',
-          titleColor: isLight ? 'text-[#F54459]' : 'text-rose-300',
-          pillBg: isLight
-            ? 'bg-[#F54459]/10 border-[#F54459]/25 text-[#F54459]'
-            : 'bg-rose-950/80 border-[#F54459]/40 text-rose-200',
-          arrowBg: 'linear-gradient(135deg, #fb7185 0%, #F54459 100%)',
-          arrowShadow: '0 4px 12px rgba(245, 68, 89, 0.4)',
-          illustrationSrc:
-            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542365/D%E1%BB%8Bch_v%E1%BB%A5_b%E1%BA%A3o_hi%E1%BB%83m-removebg-preview.png',
-          fallbackIllustration:
-            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069237/Gemini_Generated_Image_r1a3t4r1a3t4r1a3.png',
-          pillText: 'FCR > 92% · SLA 95% · Retention +15%',
-        };
-      case '04': // 6.4. Thể thao điện tử - #8946EB
-        return {
-          accentColor: isMonoGlass ? '#0F172A' : '#8946EB',
-          cardBg: isMonoGlass
-            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
-            : isLight
-              ? 'linear-gradient(135deg, rgba(137, 70, 235, 0.86) 0%, rgba(137, 70, 235, 0.76) 100%)'
-              : 'linear-gradient(135deg, rgba(137, 70, 235, 0.82) 0%, rgba(48, 16, 96, 0.88) 100%)',
-          cardBorder: 'border-[#8946EB]/80 hover:border-[#8946EB]',
-          titleColor: 'text-white',
-          pillBg: 'bg-white/20 border-white/40 text-white',
-          arrowBg: 'linear-gradient(135deg, #c084fc 0%, #8946EB 100%)',
-          arrowShadow: '0 4px 12px rgba(137, 70, 235, 0.5)',
-          illustrationSrc:
-            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542366/Game_eSports-removebg-preview.png',
-          fallbackIllustration:
-            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069238/Gemini_Generated_Image_s1e5xks1e5xks1e5.png',
-          pillText: '> 50.000 Ticket/ngày · CSAT 96%',
-        };
-      case '05': // 6.5. Thanh toán điện tử - #A669F3
-        return {
-          accentColor: isMonoGlass ? '#0F172A' : '#A669F3',
-          cardBg: isMonoGlass
-            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
-            : isLight
-              ? 'linear-gradient(135deg, rgba(166, 105, 243, 0.12) 0%, rgba(166, 105, 243, 0.22) 100%)'
-              : 'linear-gradient(135deg, rgba(166, 105, 243, 0.52) 0%, rgba(15, 23, 42, 0.85) 100%)',
-          cardBorder: isLight
-            ? 'border-[#A669F3]/35 hover:border-[#A669F3]'
-            : 'border-[#A669F3]/55 hover:border-[#A669F3]',
-          titleColor: isLight ? 'text-[#A669F3]' : 'text-indigo-300',
-          pillBg: isLight
-            ? 'bg-[#A669F3]/10 border-[#A669F3]/25 text-[#A669F3]'
-            : 'bg-indigo-950/80 border-[#A669F3]/40 text-indigo-200',
-          arrowBg: 'linear-gradient(135deg, #c084fc 0%, #A669F3 100%)',
-          arrowShadow: '0 4px 12px rgba(166, 105, 243, 0.4)',
-          illustrationSrc:
-            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542372/Thanh_to%C3%A1n_%C4%91i%E1%BB%87n_t%E1%BB%AD-removebg-preview.png',
-          fallbackIllustration:
-            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069234/Gemini_Generated_Image_3b9s6n3b9s6n3b9s.png',
-          pillText: 'RPA 90 giây · CSAT 98,2% · SLA 98,6%',
-        };
-      case '06': // 6.6. Xây dựng hệ thống - #88D2BB
-      default:
-        return {
-          accentColor: isMonoGlass ? '#0F172A' : '#88D2BB',
-          cardBg: isMonoGlass
-            ? 'linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.74) 100%)'
-            : isLight
-              ? 'linear-gradient(135deg, rgba(136, 210, 187, 0.14) 0%, rgba(136, 210, 187, 0.26) 100%)'
-              : 'linear-gradient(135deg, rgba(136, 210, 187, 0.48) 0%, rgba(15, 23, 42, 0.85) 100%)',
-          cardBorder: isLight
-            ? 'border-[#88D2BB]/45 hover:border-[#88D2BB]'
-            : 'border-[#88D2BB]/60 hover:border-[#88D2BB]',
-          titleColor: isLight ? 'text-[#065f46]' : 'text-emerald-300',
-          pillBg: isLight
-            ? 'bg-[#88D2BB]/20 border-[#88D2BB]/35 text-[#065f46]'
-            : 'bg-emerald-950/80 border-[#88D2BB]/40 text-emerald-200',
-          arrowBg: 'linear-gradient(135deg, #88D2BB 0%, #059669 100%)',
-          arrowShadow: '0 4px 12px rgba(136, 210, 187, 0.4)',
-          illustrationSrc:
-            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542368/X%C3%A2y_d%E1%BB%B1ng_h%E1%BB%87_th%E1%BB%91ng-removebg-preview.png',
-          fallbackIllustration:
-            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069236/Gemini_Generated_Image_i12r2fi12r2fi12r.png',
-          pillText: '100% SOP/KPI · Onboarding -65% · Hiệu suất +40%',
-        };
+  const getAccentColor = (id: string) => {
+    if (isLeatherTheme) {
+      if (cardStyle === 'cowhide-leather') return '#FDE68A';
+      if (cardStyle === 'black-cowhide-leather') return '#E2E8F0';
+      return '#0F172A';
     }
+    const meta = DOMAIN_UI_META[id] || DOMAIN_UI_META['01'];
+    return isLight ? meta.accentLight : meta.accentDark;
   };
+
+  const renderTwoLineTitle = (title: string, iconKey: DomainIconKey, accentColor: string) => {
+    const words = title.trim().split(/\s+/);
+    const line1 = words.slice(0, 2).join(' ');
+    const line2 = words.slice(2).join(' ');
+    return (
+      <>
+        <span className="inline-flex items-center gap-1.5 flex-nowrap">
+          <span>{line1}</span>
+          {renderDomainIcon(iconKey, 'w-[17px] h-[17px] shrink-0 stroke-[2.2]', accentColor)}
+        </span>
+        {line2 ? <span className="block">{line2}</span> : null}
+      </>
+    );
+  };
+
+  const expandedMeta = expandedDomain ? DOMAIN_UI_META[expandedDomain.id] || DOMAIN_UI_META['01'] : null;
+  const expandedAccent = expandedDomain ? getAccentColor(expandedDomain.id) : '#0284c7';
 
   return (
     <div
@@ -257,783 +669,810 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'rain
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
           style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-main, 30px)' }}
         >
-      <div
-        id="services-main-content"
-        data-element-parent="service-main-card"
-        className={
-          selectedDomain
-            ? 'w-full flex-1 flex flex-col justify-start gap-[15px] min-w-0'
-            : 'w-full flex-1 flex flex-col justify-between gap-[15px] min-w-0'
-        }
-      >
-      {/* 1. HERO BANNER ĐẦU TRANG DỊCH VỤ */}
-      {!selectedDomain && (
-        <motion.div
-          id="services-hero-banner"
-          data-element-type="section"
-          data-section-card="true"
-          initial={{ opacity: 0, y: -15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
-          className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-[15px] p-[15px] z-30 box-border transition-all duration-300"
-          style={{ padding: '15px', gap: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)', boxSizing: 'border-box' }}
-        >
-        <div
-          className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
-          style={{
-            borderRadius: 'var(--radius-banner, 24px)',
-          }}
-        >
-          <img
-            src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
-            alt="Banner Dịch vụ trọng tâm"
-            referrerPolicy="no-referrer"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
-            className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
-          />
-        </div>
-        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
-
-        {/* Vùng Tiêu Đề */}
-        <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
-          <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-            <WebIcon
-              name="layers"
-              className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-              style={{ width: '22px', height: '22px' }}
-            />
-            <h1
-              className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
-              data-card-title="true"
-              style={{
-                textTransform: 'none',
-                fontStyle: 'normal',
-                transform: 'none',
-              }}
-            >
-              Dịch vụ trọng tâm
-            </h1>
-          </div>
-          <p
-            className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
-            style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+          <div
+            id="services-main-content"
+            data-element-parent="service-main-card"
+            className="w-full flex-1 flex flex-col justify-start gap-[15px] min-w-0"
           >
-            &quot;{t(DOMAINS_INTRO.quote)} ♡&quot;
-          </p>
-        </div>
-
-        {/* Nhóm các nút lại thành 1 filter icon ở bên dưới banner bên trái */}
-        <div className="relative z-30 flex items-center justify-between mt-auto pt-0 gap-[15px]" ref={filterMenuRef}>
-          <div className="relative inline-block text-left">
-            <button
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                setIsFilterOpen((prev) => !prev);
+            {/* 1. HERO BANNER ĐẦU TRANG LĨNH VỰC */}
+            <motion.div
+              id="services-hero-banner"
+              data-element-type="section"
+              data-section-card="true"
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="banner-card hero-banner group w-full max-w-full min-h-[140px] h-auto lg:h-[164px] lg:min-h-[164px] lg:max-h-[164px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-[15px] p-[15px] z-30 box-border transition-all duration-300"
+              style={{
+                padding: '15px',
+                gap: '15px',
+                width: '100%',
+                maxWidth: '100%',
+                borderRadius: 'var(--radius-banner, 24px)',
+                boxSizing: 'border-box',
               }}
-              className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
-              title={isEn ? 'Service Filter' : 'Bộ lọc dịch vụ'}
-              aria-label="Bộ lọc dịch vụ"
-              aria-expanded={isFilterOpen}
-              aria-haspopup="listbox"
             >
-              <WebIcon
-                name="sliders"
-                className="w-4 h-4 text-[var(--color-primary)] shrink-0"
-              />
-              <span>{isEn ? 'Service Filter' : 'Bộ lọc dịch vụ'}</span>
-              {activeCategory !== 'ALL' && (
-                <span className="banner-count-pill px-2 py-0.5 rounded-full border typo-badge font-mono">
-                  {DOMAINS_DATA.find((d) => d.id === activeCategory)?.serviceCode || activeCategory}
-                </span>
-              )}
-              <WebIcon
-                name="chevron-down"
-                className={`w-3.5 h-3.5 transition-transform duration-200 shrink-0 ${
-                  isFilterOpen ? 'rotate-180' : ''
-                }`}
-              />
-            </button>
+              <div
+                className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
+                style={{ borderRadius: 'var(--radius-banner, 24px)' }}
+              >
+                <img
+                  src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
+                  alt="Banner Dịch vụ trọng tâm"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                  className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
+                />
+              </div>
+              <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
 
-            <AnimatePresence>
-              {isFilterOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                  transition={{ duration: 0.16 }}
-                  id="services-filter-dropdown"
-                  role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+              {/* Vùng Tiêu Đề */}
+              <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+                <div
+                  className="card-header-sync flex items-center gap-2 min-w-0"
+                  style={{ color: 'var(--text-link, var(--color-primary))' }}
                 >
-                  {filterCategories.map((cat) => {
-                    const isActive = activeCategory === cat.id;
-                    return (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        role="option"
-                        aria-selected={isActive}
-                        data-selected={isActive ? 'true' : 'false'}
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          if (cat.id === 'ALL') {
-                            setActiveCategory('ALL');
-                            setSelectedDomain(null);
-                          } else {
-                            setActiveCategory(cat.id);
-                            const found = DOMAINS_DATA.find((d) => d.id === cat.id);
-                            if (found) setSelectedDomain(found);
-                          }
-                          setIsFilterOpen(false);
-                        }}
-                        className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left ${
-                          isActive ? 'font-bold shadow-xs' : ''
-                        }`}
-                      >
-                        <span className="flex items-center gap-2 truncate">
-                          <WebIcon name={cat.icon} className="w-3.5 h-3.5 shrink-0" />
-                          <span className="truncate">{cat.label}</span>
-                        </span>
-                        {isActive && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />}
-                      </button>
-                    );
-                  })}
+                  <WebIcon
+                    name="layers"
+                    className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                    style={{ width: '22px', height: '22px' }}
+                  />
+                  <h1
+                    className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
+                    data-card-title="true"
+                    style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+                  >
+                    {isEn ? '6 Core Expertise Domains' : '6 Lĩnh Vực Chuyên Môn & Quản Trị'}
+                  </h1>
+                </div>
+                <p
+                  className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[56%]"
+                  style={{
+                    color: 'var(--text-secondary)',
+                    fontFamily: "'Italianno', cursive, sans-serif",
+                    fontWeight: 700,
+                    fontStyle: 'normal',
+                  }}
+                >
+                  &quot;{t(DOMAINS_INTRO.quote)} ♡&quot;
+                </p>
+              </div>
 
-                  <div className="h-[1px] bg-[var(--border-subcard)] my-1" />
+              {/* Bộ lọc & nút thao tác nhanh */}
+              <div
+                className="relative z-30 flex flex-wrap items-center justify-between mt-auto pt-0 gap-2.5"
+                ref={filterMenuRef}
+              >
+                <div className="relative inline-flex items-center gap-2 flex-wrap text-left">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setIsFilterOpen((prev) => !prev);
+                    }}
+                    className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+                    title={isEn ? 'Domain Filter' : 'Bộ lọc lĩnh vực'}
+                    aria-label={isEn ? 'Domain Filter' : 'Bộ lọc lĩnh vực'}
+                    aria-expanded={isFilterOpen}
+                    aria-haspopup="listbox"
+                  >
+                    <WebIcon
+                      name="sliders"
+                      className="w-4 h-4 text-[var(--color-primary)] shrink-0"
+                    />
+                    <span>{isEn ? 'Domain Filter' : 'Bộ lọc lĩnh vực'}</span>
+                    {expandedDomain && (
+                      <span className="banner-count-pill px-2 py-0.5 rounded-full border typo-badge font-mono">
+                        {expandedDomain.serviceCode || expandedDomain.id}
+                      </span>
+                    )}
+                    <WebIcon
+                      name="chevron-down"
+                      className={`w-3.5 h-3.5 transition-transform duration-200 shrink-0 ${
+                        isFilterOpen ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
 
                   <button
                     type="button"
                     onClick={() => {
                       SoundEngine.playTap();
-                      setIsFilterOpen(false);
                       setIsTechModalOpen(true);
                     }}
-                    className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play text-[var(--text-link,var(--color-primary))] transition-all cursor-pointer text-left"
+                    className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95"
                   >
-                    <span className="flex items-center gap-2 truncate">
-                      <WebIcon name="cpu" className="w-3.5 h-3.5 shrink-0" />
-                      <span className="truncate">Hệ Sinh Thái Công Nghệ</span>
-                    </span>
-                    <WebIcon name="chevron-right" className="w-3.5 h-3.5 shrink-0" />
+                    <Cpu className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
+                    <span>{isEn ? 'Tech Ecosystem' : 'Hệ sinh thái công nghệ'}</span>
                   </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
 
-          {selectedDomain && (
-            <button
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                setSelectedDomain(null);
-              }}
-              className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play cursor-pointer transition active:scale-95"
-            >
-              <WebIcon name="chevron-left" className="w-3.5 h-3.5" />
-              <span>Quay lại 6 thẻ dịch vụ</span>
-            </button>
-          )}
-        </div>
-      </motion.div>
-      )}
-
-      {/* 2. VÙNG NỘI DUNG: KHI CHƯA CHỌN -> 6 THẺ DẠNG 3 CỘT 2 HÀNG; KHI CLICK XEM CHI TIẾT -> THẺ CHI TIẾT BẰNG KÍCH THƯỚC 6 THẺ CỘNG & VIEW 3 CỘT 2 HÀNG */}
-        {!selectedDomain ? (
-          <div className="services-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full lg:flex-1 min-w-0" style={{ gap: '15px' }}>
-            {filteredDomains.map((domain, idx) => {
-              const cfg = getCardVisualConfig(domain.id);
-              const bullets = (domain.details || domain.experienceItems || []).slice(0, 3);
-              const rawServiceImg = domain.customIllustrationUrl || cfg.illustrationSrc;
-              const serviceImage = rawServiceImg;
-
-              return (
-                <motion.div
-                  key={domain.id}
-                  id={domain.id === '01' ? 'service-card-telecom' : domain.id === '02' ? 'service-card-ecommerce' : domain.id === '03' ? 'service-card-insurance' : domain.id === '05' ? 'service-card-ewallet' : domain.id === '04' ? 'service-card-esports' : 'service-card-cx-ops'}
-                  data-element-type="card"
-                  data-section-card="true"
-                  role="button"
-                  tabIndex={0}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.28, delay: idx * 0.04 }}
-                  onClick={() => handleOpenDetail(domain)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleOpenDetail(domain);
-                    }
-                  }}
-                  style={{
-                    borderRadius: 'var(--radius-card, 14px)',
-                    padding: '15px',
-                    boxSizing: 'border-box',
-                    background: cfg.cardBg,
-                  }}
-                  className="glassBox service-card bento-card glass-card layered-card group relative rounded-[14px] p-[15px] box-border cursor-pointer overflow-hidden flex flex-col items-center justify-center min-h-[290px] sm:min-h-[320px] w-full shadow-sm"
-                >
-                  {/* glassBox__imgBox: Hình minh họa dịch vụ + Icon & Tiêu đề ở giữa thẻ */}
-                  <div className="glassBox__imgBox relative z-20 w-full flex flex-col items-center justify-center text-center">
-                    <div className="glassBox__media w-full flex items-center justify-center">
-                      <img
-                        src={serviceImage}
-                        alt={domain.title}
-                        onError={(e) => {
-                          if (e.currentTarget.src !== cfg.fallbackIllustration) {
-                            e.currentTarget.src = cfg.fallbackIllustration;
-                          }
-                        }}
-                        className="glassBox__img block w-auto max-w-[78%] h-[130px] sm:h-[145px] object-contain mx-auto bg-transparent drop-shadow-[0_12px_18px_rgba(15,23,42,0.18)] select-none"
-                      />
-                    </div>
-
-                    <div
-                      className="glassBox__title card-header-sync inline-flex items-center justify-center gap-2 mt-[15px] max-w-full min-w-0 bg-transparent border-0 shadow-none"
-                      style={{ color: cfg.accentColor }}
-                    >
-                      <WebIcon
-                        name={domain.icon?.toLowerCase() || 'briefcase'}
-                        className="w-[18px] h-[18px] stroke-[2.2] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                        style={{ width: '18px', height: '18px', color: cfg.accentColor }}
-                      />
-                      <h3
-                        className="service-title-text card-title-synced typo-h4 font-play tracking-tight leading-snug text-center line-clamp-2 min-w-0 break-words m-0"
-                        data-card-title="true"
-                        style={{ color: cfg.accentColor }}
-                        title={domain.titleEn && language === 'en' ? domain.titleEn : domain.title}
+                  <AnimatePresence>
+                    {isFilterOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                        transition={{ duration: 0.16 }}
+                        id="services-filter-dropdown"
+                        role="listbox"
+                        className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14.5rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                       >
-                        {language === 'en' && domain.titleEn ? domain.titleEn : domain.title}
-                      </h3>
-                    </div>
-                  </div>
+                        {filterCategories.map((cat) => {
+                          const isActive = activeCategory === cat.id;
+                          return (
+                            <button
+                              key={cat.id}
+                              type="button"
+                              role="option"
+                              aria-selected={isActive}
+                              data-selected={isActive ? 'true' : 'false'}
+                              onClick={() => {
+                                setIsFilterOpen(false);
+                                if (cat.id === 'ALL') {
+                                  if (expandedDomain) {
+                                    closeExpandedCard();
+                                  } else {
+                                    SoundEngine.playTap();
+                                    setActiveCategory('ALL');
+                                  }
+                                } else {
+                                  const found = DOMAINS_DATA.find((d) => d.id === cat.id);
+                                  if (!found) return;
+                                  if (expandedDomain && animPhase === 'open') {
+                                    switchExpandedDomain(found);
+                                  } else {
+                                    openExpandedCard(found);
+                                  }
+                                }
+                              }}
+                              className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left ${
+                                isActive ? 'font-bold shadow-xs' : ''
+                              }`}
+                            >
+                              <span className="flex items-center gap-2 truncate">
+                                <WebIcon name={cat.icon} className="w-3.5 h-3.5 shrink-0" />
+                                <span className="truncate">{cat.label}</span>
+                              </span>
+                              {isActive && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />}
+                            </button>
+                          );
+                        })}
 
-                  {/* glassBox__content: Mô tả & Logo thương hiệu đồng hành hiện mượt ở đáy thẻ khi di chuột */}
-                  <div className="glassBox__content z-20 flex flex-col items-center justify-end gap-2.5 text-center">
-                    <p
-                      id={`service-card-desc-${domain.id}`}
-                      className="card-body-text typo-body-sm text-[var(--text-secondary)] text-center line-clamp-3 min-w-0 m-0 leading-relaxed"
-                      title={(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
-                    >
-                      {(language === 'en' && domain.subtitleEn ? domain.subtitleEn : domain.subtitle) || domain.desc || domain.professionalMessage}
-                    </p>
+                        <div className="h-[1px] bg-[var(--border-subcard)] my-1" />
 
-                    <div className="service-divider w-full pt-2 border-t border-[var(--border-subcard)] flex items-center justify-center shrink-0">
-                      {domain.companyLogos && domain.companyLogos.length > 0 ? (
-                        <div className="flex items-center justify-center gap-2 flex-wrap">
-                          {domain.companyLogos
-                            .slice(0, 5)
-                            .map((partner, pIdx) => (
-                              <div
-                                key={pIdx}
-                                style={{ background: 'var(--bg-card)' }}
-                                className="w-7 h-7 sm:w-8 sm:h-8 aspect-square rounded-full overflow-hidden border-0 ring-0 p-0 shadow-none outline-none flex items-center justify-center shrink-0"
-                                title={partner.name}
-                              >
-                                <img
-                                  src={partner.logo}
-                                  alt={partner.name}
-                                  className="w-full h-full object-cover rounded-full"
-                                  onError={(e) => {
-                                    if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
-                                      e.currentTarget.src = partner.fallbackLogo;
-                                    } else {
-                                      e.currentTarget.style.display = 'none';
-                                    }
-                                  }}
-                                />
-                              </div>
-                            ))}
-                        </div>
-                      ) : (
-                        <span className="typo-badge font-mono opacity-80">
-                          {cfg.pillText}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        ) : (
-          /* 3. KHUNG XEM CHI TIẾT DỊCH VỤ: BENTO RESPONSIVE GRID CARD, ĐỌC TRỰC TIẾP TỪ DOMAINS_DATA (6.1 - 6.6) */
-          (() => {
-            const cfg = getCardVisualConfig(selectedDomain.id);
-            const accentPair = DOMAIN_DETAIL_ACCENTS[selectedDomain.id] || DOMAIN_DETAIL_ACCENTS['01'];
-            const accentColor =
-              isMonoGlass
-                ? '#0F172A'
-                : cardStyle === 'cowhide-leather'
-                  ? '#FDE68A'
-                  : cardStyle === 'black-cowhide-leather'
-                    ? '#E2E8F0'
-                    : cardStyle === 'light-cowhide-leather'
-                      ? '#0F172A'
-                      : isLight
-                        ? accentPair.light
-                        : accentPair.dark;
-            const domainAccentKeyMap: Record<string, string> = {
-              '01': 'sky',
-              '02': 'orange',
-              '03': 'rose',
-              '04': 'purple',
-              '05': 'indigo',
-              '06': 'emerald',
-            };
-            const domainAccentKey = domainAccentKeyMap[selectedDomain.id] || 'sky';
-            const serviceTitle = isEn && selectedDomain.titleEn ? selectedDomain.titleEn : selectedDomain.title;
-            const detailImageSrc = selectedDomain.customIllustrationUrl || cfg.illustrationSrc;
-            const professionalMsg =
-              (isEn && selectedDomain.subtitleEn ? selectedDomain.subtitleEn : selectedDomain.professionalMessage) ||
-              selectedDomain.subtitle ||
-              selectedDomain.desc;
-            const challengeHeading =
-              selectedDomain.id === '06'
-                ? isEn
-                  ? 'Core Strategic Transformation Challenges'
-                  : 'Bài toán chiến lược'
-                : isEn
-                  ? 'Key Operational Challenges Faced'
-                  : 'Thách thức vận hành';
-            const toolIcons = ['cpu', 'layers', 'database', 'sparkles', 'shield-check', 'settings'];
-            const toolAccents = ['sky', 'indigo', 'emerald', 'purple', 'orange', 'teal'];
-
-            return (
-              <motion.div
-                id={`services-detail-panel-${selectedDomain.id}`}
-                key={`services-detail-${selectedDomain.id}`}
-                layoutId={`services-card-${selectedDomain.id}`}
-                data-element-type="card"
-                data-section-card="true"
-                initial={{ opacity: 0.95, scale: 0.99 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, transition: { duration: 0.25 } }}
-                transition={{
-                  duration: 0.4,
-                  ease: [0.25, 1, 0.5, 1],
-                }}
-                className="bento-card glass-card w-full flex-1 rounded-[14px] p-[15px] gap-[15px] box-border relative flex flex-col justify-start text-left font-play transition-all duration-300 text-[var(--text-primary)]"
-                style={{
-                  borderRadius: 'var(--radius-card, 24px)',
-                  padding: '15px',
-                  gap: '15px',
-                  boxSizing: 'border-box',
-                  background: 'var(--surface-secondary-bg, var(--bg-card))',
-                  border: '1px solid var(--surface-secondary-border, var(--border-color))',
-                  boxShadow: 'var(--surface-secondary-shadow, var(--shadow-card))',
-                  backdropFilter: 'blur(var(--surface-secondary-blur, 19px))',
-                  WebkitBackdropFilter: 'blur(var(--surface-secondary-blur, 19px))',
-                }}
-              >
-                {/* 1. TOP HEADER BAR: Icon + Tiêu đề 4 từ đồng màu icon + Nút tròn đóng (X) */}
-                <div className="flex items-center justify-between gap-[15px] pb-[15px] border-b border-[var(--border-subcard)] shrink-0">
-                  <div
-                    className="card-header-sync flex items-center gap-[15px] min-w-0 flex-1"
-                    data-card-accent={domainAccentKey}
-                    style={{ color: accentColor }}
-                  >
-                    <div
-                      className="shrink-0 flex items-center justify-center bg-transparent border-0 p-0 shadow-none"
-                      style={{ color: accentColor }}
-                    >
-                      <WebIcon
-                        name={selectedDomain.icon?.toLowerCase() || 'shield-check'}
-                        className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2]"
-                        style={{ width: '1.5em', height: '1.5em', color: accentColor }}
-                      />
-                    </div>
-                    <h2
-                      className="typo-h2 card-title-synced font-play tracking-tight min-w-0 break-words"
-                      data-card-title="true"
-                      style={{ color: accentColor }}
-                      title={serviceTitle}
-                    >
-                      {serviceTitle}
-                    </h2>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      setSelectedDomain(null);
-                    }}
-                    className="w-8 h-8 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] hover:bg-[var(--bg-button-primary)] hover:text-white text-[var(--text-secondary)] flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-xs active:scale-95"
-                    title={isEn ? "Close details" : "Đóng chi tiết"}
-                    aria-label={isEn ? "Close details" : "Đóng chi tiết dịch vụ"}
-                  >
-                    <WebIcon name="x" className="w-4 h-4" />
-                  </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            setIsFilterOpen(false);
+                            setIsTechModalOpen(true);
+                          }}
+                          className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play text-[var(--text-link,var(--color-primary))] transition-all cursor-pointer text-left"
+                        >
+                          <span className="flex items-center gap-2 truncate">
+                            <WebIcon name="cpu" className="w-3.5 h-3.5 shrink-0" />
+                            <span className="truncate">
+                              {isEn ? 'Tech Stack Ecosystem' : 'Hệ Sinh Thái Công Nghệ'}
+                            </span>
+                          </span>
+                          <WebIcon name="chevron-right" className="w-3.5 h-3.5 shrink-0" />
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                {/* 2. BENTO RESPONSIVE GRID VIEW (12 CỘT DESKTOP / 2 CỘT TABLET / 1 CỘT MOBILE) */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] items-stretch shrink-0 pb-0">
-                  {/* BENTO CARD 1: Thông điệp chuyên môn & Hình ảnh dịch vụ (Cùng hàng với Đối tác tiêu biểu) */}
-                  <div
-                    data-subcard="true"
-                    className="exp-detail-subcard md:col-span-7 p-[15px] rounded-[14px] border border-[var(--border-subcard)] relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-[15px] min-w-0 box-border"
-                    style={{ padding: '15px', gap: '15px' }}
+                {expandedDomain && (
+                  <button
+                    type="button"
+                    onClick={closeExpandedCard}
+                    className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play cursor-pointer transition active:scale-95"
                   >
-                    <div className="relative z-10 flex-1 min-w-0 flex flex-col justify-between gap-[15px] w-full">
-                      <div
-                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
-                        data-subcard-accent={domainAccentKey}
-                      >
-                        <WebIcon name={selectedDomain.icon?.toLowerCase() || 'sparkles'} className="w-4.5 h-4.5 shrink-0" />
-                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                          {selectedDomain.id === '01'
-                            ? isEn
-                              ? 'Telecom Services'
-                              : 'Dịch vụ viễn thông'
-                            : serviceTitle}
-                        </h3>
-                      </div>
-                      {professionalMsg && (
-                        <p className="typo-body-sm sm:typo-body text-[var(--text-primary)] leading-relaxed break-words">
-                          {professionalMsg}
-                        </p>
-                      )}
-                      {selectedDomain.valueDelivered && (
-                        <p className="typo-caption text-[var(--text-secondary)] pt-2 border-t border-[var(--border-subcard)]/60 break-words">
-                          {selectedDomain.valueDelivered}
-                        </p>
-                      )}
-                    </div>
+                    <Minimize2 className="w-3.5 h-3.5" />
+                    <span>{isEn ? 'Back to 6 Domains' : 'Quay lại 6 thẻ lĩnh vực'}</span>
+                  </button>
+                )}
+              </div>
+            </motion.div>
 
-                    <div className="service-card-media-box relative z-10 w-full lg:w-[210px] xl:w-[240px] shrink-0 flex items-center justify-center p-1 overflow-visible">
-                      <div className="service-card-img-float w-full flex items-center justify-center">
+            {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC + THẺ MỞ RỘNG MORPH FLIP TỪ VỊ TRÍ GỐC */}
+            <div
+              id="services-cards-wrapper"
+              ref={cardsWrapperRef}
+              className="relative w-full lg:flex-1 lg:min-h-0 flex flex-col"
+              style={wrapperMinHeight ? { minHeight: `${wrapperMinHeight}px` } : undefined}
+            >
+              {/* Lưới 6 Thẻ Lĩnh Vực (3 cột x 2 hàng Desktop / 2 cột Tablet / 1 cột Mobile) */}
+              <div
+                id="services-cards-grid"
+                ref={cardsGridRef}
+                className={`services-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full lg:flex-1 min-w-0 ${
+                  isGridDimmed ? 'grid-dimmed' : ''
+                }`}
+              >
+                {DOMAINS_DATA.map((domain) => {
+                  const meta = DOMAIN_UI_META[domain.id] || DOMAIN_UI_META['01'];
+                  const accentColor = getAccentColor(domain.id);
+                  const cardTitle = isEn && domain.titleEn ? domain.titleEn : domain.title;
+                  const shortCardTitle = isEn
+                    ? meta.shortTitleEn
+                    : domain.title;
+                  const summaryText = isEn
+                    ? domain.subtitleEn || domain.descEn
+                    : domain.coreCompetency || domain.subtitle;
+                  const serviceImage = domain.customIllustrationUrl || meta.illustrationSrc;
+                  const tagsList = (isEn ? meta.tagsEn : meta.tags).slice(0, 2);
+
+                  return (
+                    <div
+                      key={domain.id}
+                      ref={(el) => {
+                        cardRefs.current[domain.id] = el;
+                      }}
+                      id={getCardDomId(domain.id)}
+                      data-element-type="card"
+                      data-section-card="true"
+                      role="button"
+                      tabIndex={0}
+                      onClick={(e) => openExpandedCard(domain, e.currentTarget)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          openExpandedCard(domain, e.currentTarget);
+                        }
+                      }}
+                      style={{
+                        background: isLeatherTheme
+                          ? undefined
+                          : isLight
+                            ? meta.cardBgLight
+                            : meta.cardBgDark,
+                        borderColor: isLeatherTheme
+                          ? undefined
+                          : isLight
+                            ? meta.borderLight
+                            : meta.borderDark,
+                      }}
+                      className="service-card domain-card bento-card glass-card group relative rounded-[20px] p-[15px] box-border min-h-[250px] sm:min-h-[268px] lg:min-h-0 h-full w-full flex flex-col justify-between gap-2.5 text-left"
+                    >
+                      {/* Góc trên phải: Nút chỉ dấu mở rộng toàn khung */}
+                      <span
+                        aria-hidden="true"
+                        className="absolute top-3 right-3 z-20 w-7 h-7 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/80 text-[var(--text-muted)] group-hover:text-[var(--text-primary)] group-hover:scale-105 flex items-center justify-center transition-all duration-200"
+                      >
+                        <Maximize2 className="w-3.5 h-3.5" />
+                      </span>
+
+                      {/* Tầng 1: Trái (Mã + Tiêu đề 2 dòng & Icon) | Phải (Hình minh họa nổi bật + Halo) */}
+                      <div className="relative z-10 flex items-center justify-between gap-3 pt-0.5 pr-7 min-w-0">
+                        <div className="flex-1 min-w-0 flex flex-col gap-1">
+                          <span
+                            className="inline-flex items-center self-start px-2 py-0.5 rounded-full text-[11px] font-bold tracking-tight border"
+                            style={{
+                              backgroundColor: isLight ? meta.tintBgLight : meta.tintBgDark,
+                              borderColor: isLight ? meta.borderLight : meta.borderDark,
+                              color: accentColor,
+                            }}
+                          >
+                            {domain.serviceCode || domain.id}
+                          </span>
+
+                          <h3
+                            className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 break-words"
+                            data-card-title="true"
+                            style={{ color: accentColor }}
+                            title={cardTitle}
+                          >
+                            {renderTwoLineTitle(
+                              isEn ? shortCardTitle : domain.title,
+                              meta.iconKey,
+                              accentColor
+                            )}
+                          </h3>
+                        </div>
+
+                        {/* Ảnh minh họa tách nền trên quầng sáng domain */}
+                        <div className="relative w-[84px] h-[84px] sm:w-[94px] sm:h-[94px] shrink-0 flex items-center justify-center">
+                          <div
+                            className="service-ambient-glow absolute inset-1 rounded-full blur-xl opacity-45 group-hover:opacity-75 transition-opacity duration-300 pointer-events-none"
+                            style={{ background: meta.gradient }}
+                          />
+                          <img
+                            src={serviceImage}
+                            alt={cardTitle}
+                            referrerPolicy="no-referrer"
+                            onError={(e) => {
+                              if (e.currentTarget.src !== meta.fallbackIllustration) {
+                                e.currentTarget.src = meta.fallbackIllustration;
+                              }
+                            }}
+                            className="service-img-pop relative z-10 w-full h-full object-contain drop-shadow-[0_10px_16px_rgba(15,23,42,0.22)] select-none pointer-events-none"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Tầng 2: 2 Ô KPI Nổi Bật Song Song (.domain-card-sub) */}
+                      <div className="relative z-10 grid grid-cols-2 gap-2.5 w-full">
+                        {meta.frontMetrics.map((m, mIdx) => (
+                          <div
+                            key={mIdx}
+                            className="domain-card-sub rounded-xl px-2.5 py-2 flex flex-col justify-center min-w-0"
+                          >
+                            <span
+                              className="typo-body-sm sm:typo-body font-bold leading-tight truncate"
+                              style={{ color: accentColor }}
+                            >
+                              {isEn && m.valueEn ? m.valueEn : m.value}
+                            </span>
+                            <span className="text-[11px] text-[var(--text-secondary)] truncate mt-0.5">
+                              {isEn ? m.labelEn : m.label}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Tầng 3: Tóm tắt giá trị cốt lõi (2 dòng gọn gàng) */}
+                      <p
+                        id={`service-card-desc-${domain.id}`}
+                        className="relative z-10 typo-caption sm:typo-body-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2 m-0"
+                        title={summaryText}
+                      >
+                        {summaryText}
+                      </p>
+
+                      {/* Tầng 4: Footer Hashtags + Logo Doanh Nghiệp Tiêu Biểu */}
+                      <div className="service-divider relative z-10 pt-2 border-t border-[var(--border-subcard)] flex items-center justify-between gap-2 shrink-0 min-w-0">
+                        <div className="flex items-center gap-1.5 flex-wrap min-w-0 overflow-hidden">
+                          {tagsList.map((tag) => (
+                            <span
+                              key={tag}
+                              className="text-[11px] font-semibold px-2 py-0.5 rounded-full border truncate max-w-[110px]"
+                              style={{
+                                backgroundColor: isLight ? meta.tintBgLight : meta.tintBgDark,
+                                borderColor: isLight ? meta.borderLight : meta.borderDark,
+                                color: isLight ? meta.pillTextLight : meta.pillTextDark,
+                              }}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
+                            <div
+                              key={partner.name || pIdx}
+                              title={partner.name}
+                              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full overflow-hidden bg-white dark:bg-slate-800 border border-[var(--border-subcard)] flex items-center justify-center shrink-0 shadow-xs"
+                            >
+                              <img
+                                src={partner.logo}
+                                alt={partner.name}
+                                referrerPolicy="no-referrer"
+                                className="w-full h-full object-cover rounded-full"
+                                onError={(e) => {
+                                  if (
+                                    partner.fallbackLogo &&
+                                    e.currentTarget.src !== partner.fallbackLogo
+                                  ) {
+                                    e.currentTarget.src = partner.fallbackLogo;
+                                  } else {
+                                    e.currentTarget.style.display = 'none';
+                                  }
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 3. THẺ CHI TIẾT MỞ RỘNG FLIP MORPH (PHÓNG TO TỪ ĐÚNG THẺ GỐC PHỦ TOÀN LƯỚI 6 THẺ) */}
+              {expandedDomain && expandedMeta && morphRect && (
+                <div
+                  id="services-expanded-card"
+                  ref={expandedCardRef}
+                  data-element-type="card"
+                  role="region"
+                  aria-label={
+                    isEn && expandedDomain.titleEn ? expandedDomain.titleEn : expandedDomain.title
+                  }
+                  className={`domain-card-expanded ${
+                    animPhase === 'entering'
+                      ? ''
+                      : animPhase === 'open'
+                        ? 'is-animating is-open'
+                        : animPhase === 'closing'
+                          ? 'is-animating is-closing'
+                          : ''
+                  }`}
+                  style={{
+                    top: `${morphRect.top}px`,
+                    left: `${morphRect.left}px`,
+                    width: `${morphRect.width}px`,
+                    height: `${morphRect.height}px`,
+                  }}
+                >
+                  {/* Header của thẻ chi tiết */}
+                  <div
+                    className="expanded-detail-content shrink-0 px-4 sm:px-5 py-3.5 border-b border-[var(--border-subcard)] flex flex-wrap items-center justify-between gap-3"
+                    style={{
+                      background: isLeatherTheme
+                        ? undefined
+                        : isLight
+                          ? expandedMeta.tintBgLight
+                          : expandedMeta.tintBgDark,
+                    }}
+                  >
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <div className="relative w-12 h-12 sm:w-14 sm:h-14 shrink-0 flex items-center justify-center">
+                        <div
+                          className="absolute inset-0 rounded-full blur-md opacity-50 pointer-events-none"
+                          style={{ background: expandedMeta.gradient }}
+                        />
                         <img
-                          src={detailImageSrc}
-                          alt={serviceTitle}
+                          src={expandedDomain.customIllustrationUrl || expandedMeta.illustrationSrc}
+                          alt={expandedDomain.title}
+                          referrerPolicy="no-referrer"
                           onError={(e) => {
-                            if (e.currentTarget.src !== cfg.fallbackIllustration) {
-                              e.currentTarget.src = cfg.fallbackIllustration;
+                            if (e.currentTarget.src !== expandedMeta.fallbackIllustration) {
+                              e.currentTarget.src = expandedMeta.fallbackIllustration;
                             }
                           }}
-                          className="service-card-img w-full max-w-[190px] sm:max-w-[220px] h-32 sm:h-36 object-contain rounded-[14px] bg-transparent drop-shadow-[0_10px_18px_rgba(0,0,0,0.16)] select-none"
+                          className="relative z-10 w-full h-full object-contain drop-shadow-md select-none"
                         />
                       </div>
+
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                          <span
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold text-white shadow-xs"
+                            style={{ background: expandedMeta.gradient }}
+                          >
+                            {renderDomainIcon(expandedMeta.iconKey, 'w-3 h-3 text-white')}
+                            <span>{expandedDomain.serviceCode || expandedDomain.id}</span>
+                          </span>
+                          <span className="typo-badge font-semibold px-2 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-secondary)]">
+                            {isEn ? 'In-Depth Profile' : 'Hồ sơ chuyên sâu'}
+                          </span>
+                        </div>
+                        <h2
+                          className="typo-h3 sm:typo-h2 font-play font-bold tracking-tight truncate m-0"
+                          style={{ color: expandedAccent }}
+                        >
+                          {isEn && expandedDomain.titleEn
+                            ? expandedDomain.titleEn
+                            : expandedDomain.title}
+                        </h2>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          setIsTechModalOpen(true);
+                        }}
+                        className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition active:scale-95"
+                      >
+                        <Cpu className="w-3.5 h-3.5" />
+                        <span className="hidden sm:inline">
+                          {isEn ? 'Tech Stack' : 'Công nghệ'}
+                        </span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={closeExpandedCard}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play font-semibold text-white cursor-pointer transition hover:opacity-95 active:scale-95 shadow-sm"
+                        style={{ background: expandedMeta.gradient }}
+                        aria-label={isEn ? 'Minimize domain details' : 'Thu nhỏ chi tiết lĩnh vực'}
+                      >
+                        <Minimize2 className="w-3.5 h-3.5" />
+                        <span>{isEn ? 'Minimize' : 'Thu nhỏ'}</span>
+                      </button>
                     </div>
                   </div>
 
-                  {/* BENTO CARD 3: Đối tác tiêu biểu (Cùng hàng với Thông điệp chuyên môn) */}
-                  <div data-subcard="true" className="exp-detail-subcard md:col-span-5 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0 box-border" style={{ padding: '15px', gap: '15px' }}>
-                    <div
-                      className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
-                      data-subcard-accent="teal"
-                    >
-                      <WebIcon name="users" className="w-4.5 h-4.5 shrink-0" />
-                      <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                        {isEn ? 'Key Ecosystem Strategic Partners' : 'Đối tác tiêu biểu'}
-                      </h3>
-                    </div>
-                    {(() => {
-                      const logoList = selectedDomain.companyLogos || [];
-                      const companyList = selectedDomain.companies || [];
-
-                      return (
-                        <div className="flex-1 w-full flex items-center justify-start min-w-0 py-0">
+                  {/* Thân nội dung chi tiết (Cuộn nội bộ mượt mà) */}
+                  <div
+                    ref={expandedBodyRef}
+                    className="expanded-detail-content flex-1 min-h-0 overflow-y-auto glass-scrollbar p-[15px] flex flex-col gap-[15px]"
+                  >
+                    {/* Hàng 1: 4 Thẻ KPI Trọng Tâm */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-[15px] shrink-0">
+                      {expandedMeta.detailKpis.map((kpi, kIdx) => (
+                        <div
+                          key={kIdx}
+                          data-subcard="true"
+                          className="domain-card-sub rounded-2xl p-3 flex items-start gap-2.5 min-w-0"
+                        >
                           <div
-                            className="flex flex-row flex-wrap items-center justify-start gap-[15px] min-w-0"
-                            role="group"
-                            aria-label={isEn ? 'Partner logos' : 'Nhóm logo đối tác tiêu biểu'}
+                            className="w-9 h-9 rounded-xl shrink-0 flex items-center justify-center text-white shadow-xs"
+                            style={{ background: expandedMeta.gradient }}
                           >
-                            {logoList.length > 0
-                              ? logoList.map((partner, i) => (
-                                  <div
-                                    key={partner.name || i}
-                                    title={partner.name}
-                                    style={{ background: 'var(--bg-card)' }}
-                                    className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full border-0 ring-0 p-0 shadow-none outline-none flex items-center justify-center overflow-hidden shrink-0 select-none transition-transform duration-200 hover:-translate-y-0.5"
-                                  >
+                            {renderKpiIcon(kpi.icon, 'w-4 h-4')}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div
+                              className="typo-h4 font-bold leading-tight truncate"
+                              style={{ color: expandedAccent }}
+                            >
+                              {isEn && kpi.valueEn ? kpi.valueEn : kpi.value}
+                            </div>
+                            <div className="typo-caption text-[var(--text-secondary)] leading-snug mt-0.5 line-clamp-2">
+                              {isEn ? kpi.labelEn : kpi.label}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Hàng 2: Bố cục 12 cột (Trái 7 cột: Quy mô & Thách thức | Phải 5 cột: Công nghệ, Đối tác, Vai trò & Từ khóa) */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch flex-1 min-h-0">
+                      {/* Cột trái (7/12): Quy mô vận hành + Thách thức đặc thù */}
+                      <div
+                        data-subcard="true"
+                        className="domain-card-sub lg:col-span-7 rounded-2xl p-[15px] flex flex-col justify-between gap-4 min-w-0"
+                      >
+                        <div>
+                          <div className="flex items-center gap-2 mb-2.5">
+                            <CheckCircle2
+                              className="w-4.5 h-4.5 shrink-0"
+                              style={{ color: expandedAccent }}
+                            />
+                            <h3
+                              className="typo-h4 font-play font-bold m-0"
+                              style={{ color: expandedAccent }}
+                            >
+                              {isEn ? 'Operational Scale & Scope' : 'Quy mô vận hành'}
+                            </h3>
+                          </div>
+                          <ul className="space-y-2 m-0 p-0 list-none">
+                            {(expandedDomain.scaleAndScope || []).map((item, sIdx) => (
+                              <li
+                                key={sIdx}
+                                className="flex items-start gap-2 typo-body-sm text-[var(--text-primary)] leading-relaxed"
+                              >
+                                <CheckCircle2
+                                  className="w-4 h-4 mt-0.5 shrink-0 opacity-85"
+                                  style={{ color: expandedAccent }}
+                                />
+                                <span className="min-w-0">
+                                  <strong className="font-semibold text-[var(--text-primary)]">
+                                    {item.label}:{' '}
+                                  </strong>
+                                  <span className="text-[var(--text-secondary)]">
+                                    {item.content}
+                                  </span>
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div className="pt-3 border-t border-[var(--border-subcard)]">
+                          <div className="flex items-center gap-2 mb-2.5">
+                            <span
+                              className="w-2.5 h-2.5 rounded-full shrink-0"
+                              style={{ background: expandedMeta.gradient }}
+                            />
+                            <h3 className="typo-h4 font-play font-bold m-0 text-[var(--text-primary)]">
+                              {expandedDomain.id === '06'
+                                ? isEn
+                                  ? 'Strategic Transformation Scope'
+                                  : 'Bài toán chuyển đổi đặc thù'
+                                : isEn
+                                  ? 'Specific Operational Challenges'
+                                  : 'Thách thức đặc thù'}
+                            </h3>
+                          </div>
+                          <ul className="space-y-2 m-0 p-0 list-none">
+                            {(expandedDomain.operationalChallenges || []).map((ch, cIdx) => (
+                              <li
+                                key={cIdx}
+                                className="flex items-start gap-2.5 typo-body-sm text-[var(--text-secondary)] leading-relaxed"
+                              >
+                                <span
+                                  className="w-2 h-2 rounded-full mt-2 shrink-0"
+                                  style={{ background: expandedMeta.gradient }}
+                                />
+                                <span>{ch}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      {/* Cột phải (5/12): Công nghệ quản trị, Doanh nghiệp tiêu biểu, Vai trò + Từ khóa năng lực */}
+                      <div className="lg:col-span-5 flex flex-col gap-[15px] min-w-0">
+                        <div
+                          data-subcard="true"
+                          className="domain-card-sub rounded-2xl p-[15px] flex flex-col gap-3.5 min-w-0"
+                        >
+                          {/* Công nghệ quản trị */}
+                          <div>
+                            <div className="flex items-center gap-2 mb-2">
+                              <Wrench
+                                className="w-4 h-4 shrink-0"
+                                style={{ color: expandedAccent }}
+                              />
+                              <h3 className="typo-h4 font-play font-bold m-0 text-[var(--text-primary)]">
+                                {isEn ? 'Management Platforms' : 'Công nghệ quản trị'}
+                              </h3>
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {(expandedDomain.tools || []).map((tool, tIdx) => (
+                                <span
+                                  key={tIdx}
+                                  className="typo-caption font-semibold px-2.5 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-primary)]"
+                                >
+                                  {tool}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Doanh nghiệp tiêu biểu */}
+                          <div className="pt-2.5 border-t border-[var(--border-subcard)]">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Building2
+                                className="w-4 h-4 shrink-0"
+                                style={{ color: expandedAccent }}
+                              />
+                              <h3 className="typo-h4 font-play font-bold m-0 text-[var(--text-primary)]">
+                                {isEn ? 'Representative Enterprises' : 'Doanh nghiệp tiêu biểu'}
+                              </h3>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-2">
+                              {(expandedDomain.companyLogos || []).map((partner, pIdx) => (
+                                <div
+                                  key={partner.name || pIdx}
+                                  className="inline-flex items-center gap-2 pr-3 pl-1 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]"
+                                >
+                                  <div className="w-6 h-6 rounded-full overflow-hidden bg-white dark:bg-slate-800 shrink-0 flex items-center justify-center">
                                     <img
                                       src={partner.logo}
                                       alt={partner.name}
                                       referrerPolicy="no-referrer"
                                       className="w-full h-full object-cover rounded-full"
                                       onError={(e) => {
-                                        if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
+                                        if (
+                                          partner.fallbackLogo &&
+                                          e.currentTarget.src !== partner.fallbackLogo
+                                        ) {
                                           e.currentTarget.src = partner.fallbackLogo;
                                         } else {
                                           e.currentTarget.style.display = 'none';
-                                          const fallbackSpan = e.currentTarget.nextElementSibling as HTMLElement | null;
-                                          if (fallbackSpan) fallbackSpan.style.display = 'inline';
                                         }
                                       }}
                                     />
-                                    <span style={{ display: 'none' }} className="typo-badge font-bold text-[var(--text-primary)] text-center px-1 break-words leading-tight">
-                                      {partner.name}
-                                    </span>
                                   </div>
-                                ))
-                              : companyList.map((companyName, i) => (
-                                  <div
-                                    key={companyName || i}
-                                    title={companyName}
-                                    style={{ background: 'var(--bg-card)' }}
-                                    className="relative w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-full border-0 ring-0 p-0 shadow-none outline-none flex items-center justify-center overflow-hidden shrink-0 select-none"
-                                  >
-                                    <span className="typo-badge font-bold text-[var(--text-primary)] text-center leading-tight break-words px-1">
-                                      {companyName}
-                                    </span>
-                                  </div>
-                                ))}
+                                  <span className="typo-caption font-semibold text-[var(--text-primary)]">
+                                    {partner.name}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
 
-                  {/* BENTO CARD 2: Kết quả vận hành (Subcard Grid) */}
-                  {selectedDomain.operationalResults && selectedDomain.operationalResults.length > 0 && (
-                    <div
-                      data-subcard="true"
-                      style={{ padding: '15px', gap: '15px' }}
-                      className="exp-detail-subcard md:col-span-12 lg:col-span-7 p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0 box-border"
-                    >
-                      <div
-                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
-                        data-subcard-accent={domainAccentKey}
-                      >
-                        <WebIcon name="chart" className="w-4.5 h-4.5 shrink-0" />
-                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                          {isEn ? 'Key Operational Performance Results' : 'Kết quả vận hành'}
-                        </h3>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px]">
-                        {selectedDomain.operationalResults.map((row, rIdx) => {
-                          const topColors = ['#FFDF25', '#E64C72', '#3BB8E6', '#A78BFA'];
-                          return (
-                            <div
-                              key={rIdx}
-                              data-subcard="true"
-                              style={{ padding: '15px', gap: '15px' }}
-                              className="exp-detail-subcard relative overflow-hidden p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0 box-border transition-transform duration-200 hover:-translate-y-0.5"
-                            >
-                              <div
-                                className="absolute top-0 left-0 right-0 h-1"
-                                style={{ backgroundColor: topColors[rIdx % 4] }}
+                          {/* Vai trò đảm nhiệm */}
+                          <div className="pt-2.5 border-t border-[var(--border-subcard)]">
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <UserCheck
+                                className="w-4 h-4 shrink-0"
+                                style={{ color: expandedAccent }}
                               />
-                              <span
-                                className="typo-h3 font-bold break-words mt-0.5"
-                                style={{ color: accentColor }}
-                              >
-                                {row.outcome}
-                              </span>
-                              <span className="typo-body-sm text-[var(--text-secondary)] break-words">
-                                {row.indicator}
-                              </span>
+                              <h3 className="typo-h4 font-play font-bold m-0 text-[var(--text-primary)]">
+                                {isEn ? 'Leadership Roles Held' : 'Vai trò đảm nhiệm'}
+                              </h3>
                             </div>
-                          );
-                        })}
-                      </div>
-
-                      {selectedDomain.summaryNote && (
-                        <p className="typo-body-sm text-[var(--text-secondary)] pt-[15px] border-t border-[var(--border-subcard)]/70 break-words">
-                          {selectedDomain.summaryNote}
-                        </p>
-                      )}
-                    </div>
-                  )}
-
-                  {/* BENTO CARD 4: Vai trò đảm nhiệm */}
-                  <div
-                    data-subcard="true"
-                    style={{ padding: '15px', gap: '15px' }}
-                    className={`exp-detail-subcard ${
-                      selectedDomain.operationalResults && selectedDomain.operationalResults.length > 0
-                        ? 'md:col-span-12 lg:col-span-5'
-                        : 'md:col-span-12'
-                    } p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0 box-border`}
-                  >
-                    <div
-                      className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
-                      data-subcard-accent="purple"
-                    >
-                      <WebIcon name="award" className="w-4.5 h-4.5 shrink-0" />
-                      <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                        {isEn ? 'Key Leadership Roles Held' : 'Vai trò đảm nhiệm'}
-                      </h3>
-                    </div>
-                    {selectedDomain.rolesHeld && selectedDomain.rolesHeld.length > 0 ? (
-                      <ul className="space-y-1.5 my-auto">
-                        {selectedDomain.rolesHeld.map((roleName, rIdx) => (
-                          <li key={rIdx} className="flex items-start gap-2 typo-body-sm font-semibold text-[var(--text-primary)] break-words">
-                            <span className="w-2 h-2 rounded-full mt-2 shrink-0" style={{ backgroundColor: accentColor }} />
-                            <span>{roleName}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="typo-body-sm text-[var(--text-secondary)] break-words">
-                        {selectedDomain.typicalRolesLine}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* BENTO CARD 5: Kinh nghiệm chuyên môn */}
-                  {selectedDomain.experienceItems && selectedDomain.experienceItems.length > 0 && (
-                    <div data-subcard="true" style={{ padding: '15px', gap: '15px' }} className="exp-detail-subcard md:col-span-6 p-[15px] rounded-[14px] flex flex-col gap-[15px] min-w-0 box-border">
-                      <div
-                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
-                        data-subcard-accent="sky"
-                      >
-                        <WebIcon name="briefcase" className="w-4.5 h-4.5 shrink-0" />
-                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                          {isEn ? 'Domain Experience And Expertise' : 'Kinh nghiệm chuyên môn'}
-                        </h3>
-                      </div>
-                      <ul className="space-y-2">
-                        {selectedDomain.experienceItems.map((exp, eIdx) => (
-                          <li key={eIdx} className="flex items-start gap-2 typo-body-sm text-[var(--text-primary)] break-words">
-                            <span className="w-2 h-2 rounded-full mt-2 shrink-0" style={{ backgroundColor: accentColor }} />
-                            <span>{exp}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* BENTO CARD 6: Quy mô vận hành */}
-                  {selectedDomain.scaleAndScope && selectedDomain.scaleAndScope.length > 0 && (
-                    <div data-subcard="true" style={{ padding: '15px', gap: '15px' }} className="exp-detail-subcard md:col-span-6 p-[15px] rounded-[14px] flex flex-col gap-[15px] min-w-0 box-border">
-                      <div
-                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
-                        data-subcard-accent="indigo"
-                      >
-                        <WebIcon name="layers" className="w-4.5 h-4.5 shrink-0" />
-                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                          {isEn ? 'Operational Scale And Scope' : 'Quy mô vận hành'}
-                        </h3>
-                      </div>
-                      <div className="space-y-2">
-                        {selectedDomain.scaleAndScope.map((item, sIdx) => (
-                          <div key={sIdx} className="typo-body-sm text-[var(--text-primary)] break-words">
-                            <span className="font-semibold" style={{ color: accentColor }}>
-                              {item.label}:{' '}
-                            </span>
-                            <span className="text-[var(--text-secondary)]">{item.content}</span>
+                            <p className="typo-body-sm font-medium text-[var(--text-secondary)] leading-relaxed m-0">
+                              {expandedDomain.typicalRolesLine ||
+                                (expandedDomain.rolesHeld || []).join(' · ')}
+                            </p>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* BENTO CARD 7: Thách thức vận hành / Bài toán chiến lược */}
-                  {selectedDomain.operationalChallenges && selectedDomain.operationalChallenges.length > 0 && (
-                    <div
-                      data-subcard="true"
-                      style={{ padding: '15px', gap: '15px' }}
-                      className={`exp-detail-subcard ${
-                        (selectedDomain.tools || []).length > 0
-                          ? 'md:col-span-12 lg:col-span-5'
-                          : 'md:col-span-12'
-                      } p-[15px] rounded-[14px] flex flex-col gap-[15px] min-w-0 box-border`}
-                    >
-                      <div
-                        className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
-                        data-subcard-accent="orange"
-                      >
-                        <WebIcon name="target" className="w-4.5 h-4.5 shrink-0" />
-                        <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                          {challengeHeading}
-                        </h3>
-                      </div>
-                      <ul className="space-y-2">
-                        {selectedDomain.operationalChallenges.map((ch, cIdx) => (
-                          <li key={cIdx} className="flex items-start gap-2 typo-body-sm text-[var(--text-primary)] break-words">
-                            <span className="w-2 h-2 rounded-full mt-2 shrink-0" style={{ backgroundColor: accentColor }} />
-                            <span>{ch}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* BENTO CARD 8: Nền tảng công cụ (Cùng hàng cân đối với Thách thức vận hành) */}
-                  {(selectedDomain.tools || []).length > 0 && (
-                    <div
-                      data-subcard="true"
-                      style={{ padding: '15px', gap: '15px' }}
-                      className={`exp-detail-subcard ${
-                        selectedDomain.operationalChallenges && selectedDomain.operationalChallenges.length > 0
-                          ? 'md:col-span-12 lg:col-span-7'
-                          : 'md:col-span-12'
-                      } p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] min-w-0 box-border`}
-                    >
-                      <div className="flex flex-wrap items-center justify-between gap-[15px] min-w-0">
-                        <div
-                          className="subcard-header-sync flex items-center gap-2 typo-h4 min-w-0"
-                          data-subcard-accent="cyan"
-                        >
-                          <WebIcon name="settings" className="w-4.5 h-4.5 shrink-0" />
-                          <h3 className="subcard-title-synced typo-h4 break-words" data-subcard-title="true">
-                            {isEn ? 'Core Platforms And Tools' : 'Nền tảng công cụ'}
-                          </h3>
                         </div>
 
-                        <button
-                          type="button"
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            setIsTechModalOpen(true);
+                        {/* Panel Tinted: Từ khóa năng lực & Giá trị cốt lõi */}
+                        <div
+                          data-subcard="true"
+                          className="rounded-2xl p-[15px] border flex flex-col gap-2.5 min-w-0 flex-1 justify-between"
+                          style={{
+                            backgroundColor: isLeatherTheme
+                              ? undefined
+                              : isLight
+                                ? expandedMeta.tintBgLight
+                                : expandedMeta.tintBgDark,
+                            borderColor: isLeatherTheme
+                              ? 'var(--border-subcard)'
+                              : isLight
+                                ? expandedMeta.borderLight
+                                : expandedMeta.borderDark,
                           }}
-                          className="banner-control-pill py-1.5 px-3.5 rounded-full typo-button inline-flex items-center justify-center gap-1.5 cursor-pointer transition hover:opacity-90 shrink-0"
                         >
-                          <WebIcon name="cpu" className="w-3.5 h-3.5 shrink-0" />
-                          <span>{isEn ? 'Open Tech Ecosystem' : 'Xem hệ sinh thái công nghệ'}</span>
-                        </button>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px] my-auto">
-                        {(selectedDomain.tools || []).map((tech, i) => {
-                          const toolIcon = toolIcons[i % toolIcons.length];
-                          const toolAccent = toolAccents[i % toolAccents.length];
-                          return (
-                            <div
-                              key={i}
-                              data-subcard="true"
-                              data-subcard-accent={toolAccent}
-                              style={{ padding: '15px', gap: '15px' }}
-                              className="exp-detail-subcard p-[15px] rounded-[14px] flex items-center gap-[15px] min-w-0 box-border transition-transform duration-200 hover:-translate-y-0.5"
-                            >
-                              <span
-                                className="w-7 h-7 rounded-[14px] shrink-0 flex items-center justify-center border border-[var(--border-subcard)]/70"
-                                style={{
-                                  backgroundColor:
-                                    cardStyle === 'cowhide-leather'
-                                      ? 'rgba(61, 33, 11, 0.72)'
-                                      : cardStyle === 'black-cowhide-leather'
-                                        ? 'rgba(17, 19, 24, 0.88)'
-                                        : cardStyle === 'light-cowhide-leather'
-                                          ? 'rgba(15, 23, 42, 0.08)'
-                                          : 'rgba(255, 255, 255, 0.14)',
-                                  color: `var(--accent-${toolAccent})`,
-                                }}
+                          <div>
+                            <div className="flex items-center gap-2 mb-2">
+                              <Tag
+                                className="w-4 h-4 shrink-0"
+                                style={{ color: expandedAccent }}
+                              />
+                              <h3
+                                className="typo-h4 font-play font-bold m-0"
+                                style={{ color: expandedAccent }}
                               >
-                                <WebIcon name={toolIcon} className="w-3.5 h-3.5 shrink-0" />
-                              </span>
-                              <span className="typo-body-sm font-semibold text-[var(--text-primary)] break-words min-w-0 flex-1 leading-snug">
-                                {tech}
-                              </span>
+                                {isEn ? 'Capability Keywords' : 'Từ khóa năng lực'}
+                              </h3>
                             </div>
-                          );
-                        })}
+                            <div className="flex flex-wrap gap-1.5">
+                              {(isEn ? expandedMeta.tagsEn : expandedMeta.tags).map((tag) => (
+                                <span
+                                  key={tag}
+                                  className="typo-badge font-bold px-2.5 py-1 rounded-full border bg-[var(--bg-card)]/75"
+                                  style={{
+                                    borderColor: isLight
+                                      ? expandedMeta.borderLight
+                                      : expandedMeta.borderDark,
+                                    color: expandedAccent,
+                                  }}
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+
+                          {(expandedDomain.summaryNote || expandedDomain.valueDelivered) && (
+                            <p className="typo-caption text-[var(--text-secondary)] leading-relaxed m-0 pt-2 border-t border-[var(--border-subcard)]/70">
+                              {expandedDomain.valueDelivered || expandedDomain.summaryNote}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })()
-        )}
+                  </div>
 
-      </div>
+                  {/* Footer bar: Chuyển nhanh lĩnh vực 01 - 06 */}
+                  <div className="expanded-detail-content shrink-0 px-4 sm:px-5 py-2.5 border-t border-[var(--border-subcard)] bg-[var(--bg-subcard)]/65 flex items-center justify-between gap-2 flex-wrap">
+                    <span className="typo-caption font-semibold text-[var(--text-secondary)]">
+                      {isEn ? 'Quick domain switch:' : 'Chuyển nhanh lĩnh vực:'}
+                    </span>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {DOMAINS_DATA.map((item) => {
+                        const itemMeta = DOMAIN_UI_META[item.id] || DOMAIN_UI_META['01'];
+                        const isActiveItem = item.id === expandedDomain.id;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => switchExpandedDomain(item)}
+                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-caption font-semibold transition-all cursor-pointer active:scale-95 ${
+                              isActiveItem
+                                ? 'text-white shadow-sm'
+                                : 'bg-[var(--bg-card)]/80 hover:bg-[var(--bg-subcard)] text-[var(--text-secondary)] border border-[var(--border-subcard)]'
+                            }`}
+                            style={isActiveItem ? { background: itemMeta.gradient } : undefined}
+                          >
+                            {renderDomainIcon(
+                              itemMeta.iconKey,
+                              `w-3 h-3 ${isActiveItem ? 'text-white' : ''}`
+                            )}
+                            <span>{isEn ? itemMeta.shortTitleEn : itemMeta.shortTitle}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 

@@ -480,8 +480,8 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
 
               <p
                 id="skills-hero-banner-quote"
-                className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
-                style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+                className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+                style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 600, fontStyle: 'normal' }}
               >
                 {isVi ? '"Kỹ năng là nền tảng nâng tầm dịch vụ ♡"' : '"Skills are the foundation that elevates service ♡"'}
               </p>
@@ -632,11 +632,11 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                     <div
                       id={`${quad.id}-content`}
                       className={cn(
-                        "relative z-10 flex flex-col justify-between w-full h-full",
-                        quad.key === "S" && (isSelected ? "pr-12 sm:pr-20" : "pr-8 sm:pr-14 md:pr-18"),
-                        quad.key === "W" && (isSelected ? "pl-12 sm:pl-20" : "pl-8 sm:pl-14 md:pl-18"),
-                        quad.key === "O" && (isSelected ? "pr-12 sm:pr-20" : "pr-8 sm:pr-14 md:pr-18"),
-                        quad.key === "T" && (isSelected ? "pl-12 sm:pl-20" : "pl-8 sm:pl-14 md:pl-18")
+                        "relative z-10 flex flex-col justify-between w-full h-full min-w-0",
+                        quad.key === "S" && (isSelected ? "pr-8 sm:pr-12" : "pr-4 sm:pr-7"),
+                        quad.key === "W" && (isSelected ? "pl-8 sm:pl-12" : "pl-4 sm:pl-7"),
+                        quad.key === "O" && (isSelected ? "pr-8 sm:pr-12" : "pr-4 sm:pr-7"),
+                        quad.key === "T" && (isSelected ? "pl-8 sm:pl-12" : "pl-4 sm:pl-7")
                       )}
                     >
                       {/* Tiêu đề & phụ đề: Thêm icon trước tiêu đề, tiêu đề 4 chữ tiếng Việt (viết Hoa chữ đầu còn lại viết thường) */}
@@ -759,26 +759,26 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                                   : "Click to expand skill description"
                               }
                             >
-                              <div className="flex flex-nowrap items-center justify-between gap-1.5 sm:gap-2 w-full min-w-0 bg-transparent">
-                                <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1 bg-transparent">
+                              <div className="flex flex-nowrap items-start sm:items-center justify-between gap-2 w-full min-w-0 bg-transparent">
+                                <div className="flex items-start sm:items-center gap-1.5 sm:gap-2 min-w-0 flex-1 bg-transparent">
                                   {/* 1. Icon kỹ năng */}
                                   <WebIcon
                                     name={skillIcon}
-                                    className="swot-skill-icon w-4 h-4 shrink-0 bg-transparent border-0 p-0 shadow-none"
+                                    className="swot-skill-icon w-4 h-4 shrink-0 mt-0.5 sm:mt-0 bg-transparent border-0 p-0 shadow-none"
                                     style={{ color: 'var(--swot-accent)' }}
                                   />
 
                                   {/* 2. Số thứ tự & "." */}
                                   <span
-                                    className="swot-skill-index typo-caption font-mono font-bold shrink-0 text-left bg-transparent"
+                                    className="swot-skill-index typo-caption font-mono font-bold shrink-0 text-left mt-0.5 sm:mt-0 bg-transparent"
                                     style={{ color: 'var(--swot-accent)' }}
                                   >
                                     {idx + 1}.
                                   </span>
 
-                                  {/* 3. Tên kỹ năng: 1 dòng, truncate khi quá dài */}
+                                  {/* 3. Tên kỹ năng: Luôn hiển thị đầy đủ, tự xuống dòng khi hẹp */}
                                   <span
-                                    className="swot-skill-name typo-body font-semibold font-play flex-1 min-w-0 truncate bg-transparent"
+                                    className="swot-skill-name typo-body font-semibold font-play flex-1 min-w-0 whitespace-normal break-words leading-snug text-left bg-transparent"
                                     style={{ color: 'var(--swot-accent)' }}
                                     title={formattedName}
                                   >
@@ -786,12 +786,12 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                                   </span>
                                 </div>
 
-                                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                                  {/* Thanh màu % hiển thị khi kích thước đảm bảo hiển thị được */}
+                                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 pt-0.5 sm:pt-0">
+                                  {/* Thanh màu % tự động ẩn/hiện theo độ rộng thật của thẻ qua @container swot-card */}
                                   <div
                                     className={cn(
                                       "swot-skill-track h-2 rounded-full overflow-hidden shrink-0 shadow-inner",
-                                      isSelected ? "block w-20 sm:w-28" : "hidden sm:block w-16 lg:w-20"
+                                      isSelected && "w-20 sm:w-28"
                                     )}
                                     title={percentLabel}
                                   >
@@ -803,7 +803,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
 
                                   {/* Số % đảm bảo luôn hiển thị */}
                                   <span
-                                    className="swot-skill-percent typo-label font-mono font-bold shrink-0 w-9 text-right"
+                                    className="swot-skill-percent typo-label font-mono font-bold shrink-0 whitespace-nowrap min-w-[3ch] text-right tabular-nums"
                                     title={percentLabel}
                                   >
                                     {item.percent}%
@@ -892,7 +892,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
               </div>
             </div>
 
-            <div id="skills-languages-grid" className="grid grid-cols-1 md:grid-cols-3 gap-[15px] items-stretch w-full min-w-0" style={{ gap: "15px" }}>
+            <div id="skills-languages-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full min-w-0" style={{ gap: "15px" }}>
               {LANGUAGES_DATA.map((langItem) => {
                 return (
                   <div 
@@ -922,14 +922,14 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" 
                         />
                       </svg>
-                      <span className="about-info-value absolute typo-label font-mono font-bold text-[var(--text-heading,var(--text-primary))]">
+                      <span className="about-info-value absolute typo-label font-mono font-bold whitespace-nowrap text-[var(--text-heading,var(--text-primary))]">
                         {langItem.percent}%
                       </span>
                     </div>
 
                     <div className="flex flex-col min-w-0 text-left flex-1">
                       <div className="flex items-center justify-between gap-1.5 flex-wrap">
-                        <h3 className={cn("skills-lang-title typo-h4 subcard-title-synced font-play font-bold", langItem.color)} data-subcard-title="true">
+                        <h3 className={cn("skills-lang-title typo-h4 subcard-title-synced font-play font-bold whitespace-normal break-words", langItem.color)} data-subcard-title="true">
                           {isVi ? langItem.nameVi : langItem.nameEn}
                         </h3>
                         {(isVi ? langItem.levelVi : langItem.levelEn) ? (

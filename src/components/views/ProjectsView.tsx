@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PROJECTS_DATA, getProjectCloudinaryBanner } from '@/data/projects';
 import { ProjectData, SiteTheme } from '@/types';
 import { Modal } from '@/components/ui/Modal';
-import { cn, formatCardTitle } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { ProjectDetailView } from './ProjectDetailView';
 import { useTheme } from '@/hooks/useTheme';
@@ -30,12 +30,43 @@ const getByIds = (ids: string[]): ProjectData[] =>
     .map((id) => PROJECTS_DATA.find((p) => p.id === id))
     .filter((p): p is ProjectData => Boolean(p));
 
-const formatEightWordTitle = (title: string): string => {
-  const clean = title.replace(/^[\d.]+\s*·\s*/, '').trim();
-  const words = clean.split(/\s+/);
-  if (words.length <= 9) return clean;
-  return words.slice(0, 8).join(' ');
-};
+// Bảng màu sắc đa dạng độc bản cho từng thẻ dự án (đồng bộ với EducationView)
+const DISTINCT_PROJECT_PALETTE = [
+  '#10B981', // Emerald
+  '#0EA5E9', // Sky Blue
+  '#8B5CF6', // Violet
+  '#F59E0B', // Amber
+  '#EC4899', // Pink / Rose
+  '#06B6D4', // Cyan
+  '#3B82F6', // Blue
+  '#14B8A6', // Teal
+  '#F97316', // Orange
+  '#A855F7', // Purple
+  '#6366F1', // Indigo
+  '#E11D48', // Crimson
+];
+
+function getProjectCardColor(idx: number): string {
+  return DISTINCT_PROJECT_PALETTE[idx % DISTINCT_PROJECT_PALETTE.length];
+}
+
+function renderProjectCategoryIcon(categoryId: string, className = 'w-3.5 h-3.5 shrink-0') {
+  switch (categoryId) {
+    case 'strategy':
+      return <WebIcon name="compass" className={className} />;
+    case 'sop':
+      return <WebIcon name="shield" className={className} />;
+    case 'cx':
+      return <WebIcon name="sparkles" className={className} />;
+    case 'tech':
+      return <WebIcon name="database" className={className} />;
+    case 'learning':
+      return <WebIcon name="graduation" className={className} />;
+    case 'all':
+    default:
+      return <WebIcon name="grid" className={className} />;
+  }
+}
 
 /**
  * Ánh xạ icon mô tả tương ứng dựa vào ID hoặc tên tiêu đề thẻ dự án
@@ -235,6 +266,22 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isFilterDropdownOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      if (mindmapProject) {
+        setMindmapProject(null);
+      } else if (isFilterDropdownOpen) {
+        setIsFilterDropdownOpen(false);
+      } else if (selectedArticle || selectedGroup) {
+        setSelectedArticle(null);
+        setSelectedGroup(null);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [mindmapProject, isFilterDropdownOpen, selectedArticle, selectedGroup]);
 
   // Tự động kiểm tra URL / Hash để mở trang chi tiết dự án tương ứng
   useEffect(() => {
@@ -466,8 +513,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           data-element-page="projects"
           data-element-parent="projects-cards-track"
           className={cn(
-            'page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-x-hidden glass-scrollbar font-play select-text text-left text-[var(--text-primary)] box-border',
-            selectedArticle ? 'overflow-y-auto md:overflow-hidden' : 'overflow-y-auto'
+            'page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-x-hidden glass-scrollbar font-play select-none text-left text-[var(--text-primary)] box-border',
+            selectedArticle ? 'overflow-hidden' : 'overflow-y-auto'
           )}
         >
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
@@ -490,17 +537,14 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               </button>
             </div>
           )}
-          {/* BANNER DỰ ÁN: Format chuẩn đồng bộ banner Hình Nền (h-200px, p-[15px], bo cong 14px) */}
-          <motion.section
+          {/* BANNER DỰ ÁN: Đồng bộ chuẩn banner Học vấn (h-200px desktop, p-[15px], rounded-banner) */}
+          <section
             id="projects-hero-banner"
             data-element-name="Banner card"
             data-element-type="banner-card"
             data-element-page="projects"
             data-section-card="true"
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
-            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:min-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
             style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
           >
             <div
@@ -537,8 +581,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                 </h1>
               </div>
               <p
-                className="typo-h3 font-handwriting font-italianno not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
-                style={{ color: 'var(--text-secondary)', fontFamily: "'Italianno', cursive, sans-serif", fontWeight: 700, fontStyle: 'normal' }}
+                className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+                style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 600, fontStyle: 'normal' }}
               >
                 &quot;Khát vọng đổi mới, ghi dấu giá trị thực tiễn ♡&quot;
               </p>
@@ -557,7 +601,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     SoundEngine.playTap();
                     setIsFilterDropdownOpen((prev) => !prev);
                   }}
-                  className="banner-control-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
+                  className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
                   title="Bộ lọc dự án"
                   aria-label="Bộ lọc dự án"
                   aria-expanded={isFilterDropdownOpen}
@@ -593,25 +637,46 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     >
                       {PROJECT_CATEGORIES.map((cat) => {
                         const isSelected = activeCategory === cat.id;
+                        const count =
+                          cat.id === 'all'
+                            ? PROJECTS_DATA.length
+                            : PROJECTS_DATA.filter((p) => p.groupKey === cat.id).length;
+
                         return (
                           <button
                             key={cat.id}
                             type="button"
                             role="option"
                             aria-selected={isSelected}
-                            data-selected={isSelected ? 'true' : 'false'}
+                            data-selected={isSelected ? 'true' : undefined}
                             onClick={() => {
                               SoundEngine.playTap();
                               setActiveCategory(cat.id);
                               setIsFilterDropdownOpen(false);
                             }}
                             className={cn(
-                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[14px] typo-button font-play transition-all cursor-pointer text-left',
-                              isSelected ? 'font-bold shadow-xs' : 'font-medium'
+                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left',
+                              isSelected ? 'shadow-xs font-bold' : ''
                             )}
                           >
-                            <span>{cat.label}</span>
-                            {isSelected && <span className="w-2 h-2 rounded-full bg-white" />}
+                            <span className="flex items-center gap-2 truncate">
+                              <span
+                                className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-colors"
+                                style={{
+                                  background: isSelected ? 'var(--color-primary)' : 'var(--bg-button-secondary)',
+                                  color: isSelected ? '#ffffff' : 'var(--text-secondary)',
+                                }}
+                              >
+                                {renderProjectCategoryIcon(cat.id, 'w-3 h-3')}
+                              </span>
+                              <span className="truncate">{cat.label}</span>
+                            </span>
+                            <span className="flex items-center gap-1.5 shrink-0">
+                              <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
+                                {count}
+                              </span>
+                              {isSelected && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
+                            </span>
                           </button>
                         );
                       })}
@@ -632,7 +697,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Tìm tên, mã dự án..."
                     aria-label="Tìm kiếm dự án"
-                    className="banner-search-input w-full pl-8 pr-7 py-1.5 rounded-full typo-input font-play focus:outline-none"
+                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-input font-play focus:outline-none"
                   />
                   {searchQuery && (
                     <button
@@ -645,24 +710,17 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     </button>
                   )}
                 </div>
-                <span className="banner-count-pill px-2.5 py-1.5 rounded-full typo-badge font-mono font-bold shrink-0">
-                  {filteredProjects.length}/{PROJECTS_DATA.length}
-                </span>
               </div>
             </div>
-          </motion.section>
+          </section>
 
-          {/* NỘI DUNG CHÍNH: RESPONSIVE CARD GRID VIEW HOẶC EMPTY STATE */}
+          {/* NỘI DUNG CHÍNH: RESPONSIVE CARD GRID ĐỒNG BỘ HOÀN TOÀN VỚI VIEW THẺ HỌC VẤN */}
           {filteredProjects.length === 0 ? (
-            <div data-subcard="true" className="sub-card flex-1 flex flex-col items-center justify-center text-center py-12 px-4 rounded-[14px]">
-              <div className="w-12 h-12 rounded-full bg-sky-500/15 flex items-center justify-center mb-3" style={{ color: 'var(--color-primary)' }}>
-                <WebIcon name="search" className="w-6 h-6" />
-              </div>
-              <p className="typo-h4 font-play" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
-                Không tìm thấy dự án phù hợp
-              </p>
-              <p className="typo-caption mt-1 max-w-md" style={{ color: 'var(--text-secondary)' }}>
-                Hãy thử đổi bộ lọc danh mục hoặc nhập từ khóa khác như KPI, CRM, AI, SOP...
+            <div
+              className="theme-muted-surface w-full p-8 rounded-[14px] text-center space-y-2 backdrop-blur-md"
+            >
+              <p className="typo-body font-semibold font-play" style={{ color: 'var(--text-primary)' }}>
+                Không tìm thấy dự án nào khớp với bộ lọc hiện tại.
               </p>
               <button
                 type="button"
@@ -672,7 +730,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   setSearchQuery('');
                 }}
                 style={{ background: 'var(--bg-button-primary)' }}
-                className="mt-4 px-5 py-2 rounded-full typo-button text-white transition cursor-pointer shadow-sm hover:opacity-90"
+                className="px-4 py-1.5 rounded-full typo-button text-white hover:opacity-90 transition cursor-pointer"
               >
                 Hiển thị tất cả {PROJECTS_DATA.length} dự án
               </button>
@@ -680,47 +738,56 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           ) : (
           <div
             id="projects-grid"
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-[15px] items-stretch p-0"
+            className="projects-responsive-grid education-responsive-grid w-full min-w-0 items-stretch"
+            style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
           >
-            {filteredProjects.map((proj) => {
+            {filteredProjects.map((proj, idx) => {
               const parentGroup = getParentGroupForProject(proj);
-              const cfg = getVisualConfigForProject(proj);
-              const orderNumber = proj.code || proj.number || (proj.title.match(/^[\d.]+/)?.[0]) || '';
               const bannerInfo = getProjectCloudinaryBanner(proj);
               const cleanedTitle = proj.title.replace(/^[\d.]+\s*·\s*/, '').trim();
-              const formattedCardTitle = `${proj.code || orderNumber ? `${proj.code || orderNumber} · ` : ''}${cleanedTitle}`;
+              const orderNumber = proj.code || proj.number || (proj.title.match(/^[\d.]+/)?.[0]) || '';
+              const cardColor = getProjectCardColor(idx);
+              const titleIcon = getProjectIconByTitle(proj);
+              const highlightText = proj.star?.results?.[0] || proj.description;
 
               return (
-                <article
+                <motion.article
                   id={`project-card-${proj.id}`}
                   key={proj.id}
                   data-element-type="card"
                   data-section-card="true"
                   role="button"
                   tabIndex={0}
-                  onClick={() => handleOpenGroup(parentGroup, proj)}
+                  onClick={() => {
+                    handleOpenGroup(parentGroup, proj);
+                    document.getElementById('projects-main-card')?.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                   onKeyDown={(e) => {
                     if (e.target !== e.currentTarget) return;
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
                       handleOpenGroup(parentGroup, proj);
+                      document.getElementById('projects-main-card')?.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                   }}
-                  className="project-card bento-card glass-card layered-card group relative rounded-[14px] overflow-hidden p-[10px] flex flex-col justify-between gap-[10px] border select-text transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play"
+                  className="project-card education-course-card bento-card glass-card layered-card group relative rounded-[14px] p-[10px] flex flex-col justify-between gap-[10px] border select-none transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play min-w-0"
                   style={{
-                    borderColor: `${cfg.accentColor}45`,
+                    borderColor: `${cardColor}45`,
                     padding: '10px',
-                    gap: '10px',
                   }}
                 >
-                  {/* Khối Hình Ảnh Banner Card Dự Án (Đồng bộ theo giao diện đang chọn) */}
-                  <div className="project-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img rounded-[14px] m-0 p-0">
+                  {/* 1. Ảnh bìa banner tỷ lệ 16:10 nằm gọn trong card padding 1px (giống view Học vấn) */}
+                  <div
+                    data-media-card="image"
+                    className="project-card-banner education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img rounded-[14px] m-0 p-[1px]"
+                  >
                     <img
                       src={bannerInfo.primaryUrl}
-                      alt={proj.title}
+                      alt={cleanedTitle}
                       title={bannerInfo.imageName}
                       loading="lazy"
                       referrerPolicy="no-referrer"
+                      style={{ borderRadius: 'calc(var(--radius-card, 14px) - 1px)' }}
                       onError={(e) => {
                         if (bannerInfo.fallbackUrl && e.currentTarget.src !== bannerInfo.fallbackUrl) {
                           e.currentTarget.src = bannerInfo.fallbackUrl;
@@ -729,53 +796,69 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png';
                         }
                       }}
-                      className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 block m-0 p-0 rounded-[14px]"
+                      className="w-full h-full object-cover object-center block m-0 p-0"
                     />
+                    {orderNumber && (
+                      <span
+                        className="project-card-code-badge education-year-badge banner-control-pill absolute top-2.5 right-2.5 z-20 typo-badge font-mono px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold"
+                      >
+                        <WebIcon name="folder" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
+                        <span>Dự án {orderNumber}</span>
+                      </span>
+                    )}
                   </div>
 
-                  {/* Phần Thân Card: Nội dung cách thẻ dự án gọn gàng đồng bộ */}
-                  <div style={{ padding: '5px' }} className="project-card-body p-[5px] flex-1 flex flex-col justify-between space-y-2">
-                    <div>
-                      {/* Tiêu đề thẻ dự án: Hợp nhất Số thứ tự & Tên dự án đúng 2 dòng, kích thước chữ đồng đều */}
-                      <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: cfg.accentColor }}>
+                  {/* 2. Thân Card: bố cục đồng bộ view thẻ Học vấn (Tiêu đề + 2 dòng thuộc tính + Kết quả nổi bật) */}
+                  <div className="project-card-body education-card-body flex-1 flex flex-col justify-between gap-2 min-w-0">
+                    <div className="min-w-0">
+                      <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: cardColor }}>
                         <WebIcon
-                          name={getProjectIconByTitle(proj)}
+                          name={titleIcon}
                           className="w-[18px] h-[18px] shrink-0 mt-0.5"
-                          style={{ color: cfg.accentColor }}
+                          style={{ color: cardColor }}
                         />
                         <h3
-                          className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-[1.35] min-h-[2.7em] break-words m-0 p-0 flex-1 min-w-0"
+                          className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex-1 min-w-0"
                           data-card-title="true"
-                          style={{ color: cfg.accentColor }}
-                          title={formattedCardTitle}
+                          style={{ color: cardColor }}
+                          title={cleanedTitle}
                         >
-                          {formattedCardTitle}
+                          {cleanedTitle}
                         </h3>
                       </div>
 
-                      <p
-                        className="typo-body-sm leading-snug line-clamp-2 min-h-[2.4rem] mt-2 font-medium"
-                        style={{ color: 'var(--text-secondary)' }}
-                      >
-                        {proj.description}
-                      </p>
-                    </div>
-
-                    {/* Tags hashtag kỹ năng */}
-                    <div className="pt-2 border-t" style={{ borderColor: 'var(--border-subcard)' }}>
-                      <div className="flex flex-nowrap items-center gap-1.5 overflow-x-auto horizontal-scroll-smooth whitespace-nowrap">
-                        {proj.hashtags.slice(0, 3).map((tag, tIdx) => (
-                          <span
-                            key={tIdx}
-                            className="project-card-tag card-tag px-2 py-0.5 rounded-[999px] typo-badge font-semibold border shrink-0"
-                          >
-                            #{tag.replace(/^#/, '')}
+                      <div className="space-y-1.5 mt-2 min-w-0">
+                        <div className="flex items-start gap-1.5 font-play min-w-0">
+                          <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Nhóm:</span>
+                          <span className="typo-body-sm font-semibold whitespace-normal break-words line-clamp-2" style={{ color: 'var(--text-primary)' }}>
+                            {proj.groupTitle}
                           </span>
-                        ))}
+                        </div>
+                        <div className="flex items-start gap-1.5 font-play min-w-0">
+                          <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Vai trò:</span>
+                          <span className="typo-body-sm font-semibold whitespace-normal break-words line-clamp-2" style={{ color: 'var(--text-primary)' }}>
+                            {proj.role}
+                          </span>
+                        </div>
                       </div>
                     </div>
+
+                    {highlightText && (
+                      <div
+                        className="mt-1 p-2.5 rounded-[14px] border flex items-start gap-2 transition-colors shadow-xs min-w-0"
+                        style={{
+                          backgroundColor: `${cardColor}10`,
+                          borderColor: `${cardColor}30`,
+                        }}
+                      >
+                        <WebIcon name="award" className="w-4 h-4 shrink-0 mt-0.5" style={{ color: cardColor }} />
+                        <p className="typo-caption font-semibold font-play whitespace-normal break-words min-w-0 line-clamp-2" style={{ color: cardColor }}>
+                          {highlightText}
+                        </p>
+                      </div>
+                    )}
                   </div>
-                </article>
+                </motion.article>
               );
             })}
           </div>
@@ -784,63 +867,29 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
       ) : (
         /* 3. CHI TIẾT DỰ ÁN & HỒ SƠ STAR TOÀN DIỆN */
         selectedArticle && (
-          <div className="w-full h-full flex-1 min-h-0 flex flex-col gap-[15px]">
-            <div className="flex items-center justify-between gap-2.5 shrink-0 min-w-0">
-              <button
-                id={onReturnToOrigin ? 'project-detail-return-btn' : 'project-detail-back-list-btn'}
-                type="button"
-                onClick={() => {
-                  if (onReturnToOrigin) {
-                    SoundEngine.playTap();
-                    onReturnToOrigin();
-                  } else {
-                    handleCloseDetail();
-                  }
-                }}
-                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-bold font-play transition-all duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
-                title={onReturnToOrigin ? 'Quay lại trang đang xem' : 'Quay lại danh sách dự án'}
-              >
-                <WebIcon name="arrow-left" className="w-4 h-4 shrink-0" />
-                <span>{onReturnToOrigin ? 'Quay lại trang đang xem' : 'Danh sách dự án'}</span>
-              </button>
+          <div className="w-full h-full flex-1 min-h-0 relative flex flex-col overflow-hidden rounded-[14px]">
+            <button
+              id="project-detail-close-btn"
+              type="button"
+              onClick={handleCloseDetail}
+              title="Đóng bài viết"
+              aria-label="Đóng bài viết chi tiết dự án"
+              className="theme-modal-close absolute top-3 right-3 z-50 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 shrink-0"
+            >
+              <WebIcon name="x" className="w-4 h-4" />
+            </button>
 
-              <div className="hidden sm:flex items-center gap-2 min-w-0 flex-1 justify-center px-2">
-                <span
-                  className="project-detail-chip px-2.5 py-0.5 rounded-full font-mono typo-badge font-bold border shrink-0"
-                  style={{ color: 'var(--text-link, var(--color-primary))' }}
-                >
-                  {selectedArticle.code}
-                </span>
-                <span className="typo-caption font-bold text-[var(--text-secondary)] truncate">
-                  {selectedArticle.title}
-                </span>
-              </div>
-
-              <button
-                id="project-detail-close-btn"
-                type="button"
-                onClick={handleCloseDetail}
-                title="Đóng bài viết"
-                aria-label="Đóng bài viết chi tiết dự án"
-                className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shadow-md transition-all duration-200 hover:scale-105 active:scale-95 shrink-0"
-              >
-                <WebIcon name="x" className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="w-full flex-1 min-h-0 relative flex flex-col overflow-hidden rounded-[14px]">
-              <ProjectDetailView
-                selectedArticle={selectedArticle}
-                selectedGroup={selectedGroup}
-                onSelectProject={(proj) => setSelectedArticle(proj)}
-                onClose={handleCloseDetail}
-                onOpenMindmap={(proj) => setMindmapProject(proj)}
-                getCardVisualConfig={getCardVisualConfig}
-                isLight={isLight}
-                activeSection={activeSection}
-                onSectionChange={setActiveSection}
-              />
-            </div>
+            <ProjectDetailView
+              selectedArticle={selectedArticle}
+              selectedGroup={selectedGroup}
+              onSelectProject={(proj) => setSelectedArticle(proj)}
+              onClose={handleCloseDetail}
+              onOpenMindmap={(proj) => setMindmapProject(proj)}
+              getCardVisualConfig={getCardVisualConfig}
+              isLight={isLight}
+              activeSection={activeSection}
+              onSectionChange={setActiveSection}
+            />
           </div>
         )
       )}

@@ -21,11 +21,8 @@ import {
   stopActiveSpeech,
   DEFAULT_PUCK_VOICE_PERSONA,
   ENGLISH_PUCK_VOICE_PERSONA,
-  VOICE_CHANGE_EVENT,
-  getVoicePersonaConfig,
-  getSavedVoicePersonaId,
 } from '@/utils/speechVoice';
-import { TtsVoiceSelector } from '@/components/ui/TtsVoiceSelector';
+import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 
 export { TRI_NHAN_CATEGORIES } from '@/data/aiSampleQuestions';
 
@@ -78,22 +75,14 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const [openToCategoriesToken, setOpenToCategoriesToken] = useState<number>(0);
   const [pendingDraftQuestion, setPendingDraftQuestion] = useState<SampleQuestionItem | null>(null);
 
-  // Trạng thái giọng đọc AI Puck Nam giới (Tiếng Việt Miền Nam & Tiếng Anh)
+  // Trạng thái giọng đọc AI Puck Nam giới (Trẻ em 10 tuổi · Miền Nam Việt Nam & Tiếng Anh)
   const [voiceLanguage, setVoiceLanguage] = useState<AssistantVoiceLanguage>(language);
   const [isAutoVoiceEnabled] = useState<boolean>(true);
   const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
-  const [activeVoicePersonaId, setActiveVoicePersonaId] = useState<string>('gemini-puck');
 
   useEffect(() => {
     setVoiceLanguage(language);
   }, [language]);
-
-  useEffect(() => {
-    setActiveVoicePersonaId(getSavedVoicePersonaId());
-    const syncVoice = () => setActiveVoicePersonaId(getSavedVoicePersonaId());
-    window.addEventListener(VOICE_CHANGE_EVENT, syncVoice);
-    return () => window.removeEventListener(VOICE_CHANGE_EVENT, syncVoice);
-  }, []);
 
   const chatMessagesEndRef = useRef<HTMLDivElement>(null);
   const dropTopMenuRef = useRef<HTMLDivElement>(null);
@@ -492,25 +481,24 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             : {}),
         }}
       >
-        <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[14px] z-0">
-          <video
+        <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0">
+          <SmartFaceVideo
             id="ai-assistant-banner-video"
             src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
             autoPlay
             loop
             muted
             playsInline
-            className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
+            faceAnchor={{ x: 50, y: 18 }}
+            maxCropDistortion={1.55}
+            wrapperClassName="w-full h-full rounded-[inherit]"
+            className="transition-all duration-700"
           />
         </div>
-        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
         <div className="relative z-10 flex flex-col items-start gap-1.5 w-full">
           <div className="card-header-sync flex items-start gap-2 w-full min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-            <WebIcon
-              name="bot"
-              className="w-[18px] h-[18px] shrink-0 mt-1"
-            />
             <h1
               id="ai-assistant-banner-h1"
               className="typo-h3 card-title-synced font-play not-italic tracking-tight leading-tight whitespace-normal min-w-0"
@@ -550,8 +538,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           boxSizing: 'border-box',
         }}
       >
-        <TtsVoiceSelector isEn={isEn} variant="inline-select" />
-
         {/* Vùng hiển thị tin nhắn + Drop-up Câu hỏi mẫu neo ngay trên khung nhập */}
         <div className="relative flex-1 min-h-0 flex flex-col">
           <div
@@ -595,29 +581,25 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                         }
                       >
                         <span>{displayTitle}</span>
-                        {m.sender === 'ai' && (() => {
-                          const activePersona = getVoicePersonaConfig(activeVoicePersonaId);
-                          const shortVoice = isEn ? activePersona.shortLabelEn : activePersona.shortLabelVi;
-                          return (
-                            <button
-                              type="button"
-                              onClick={() => speakWithPuckVoice(m.id, displayText)}
-                              className="project-detail-chip inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge cursor-pointer transition shrink-0 hover:opacity-85"
-                              title={shortVoice}
-                            >
-                              <WebIcon name={speakingMessageId === m.id ? 'pause' : 'volume'} className="w-3.5 h-3.5" />
-                              <span>
-                                {speakingMessageId === m.id
-                                  ? isEn
-                                    ? 'Stop'
-                                    : 'Dừng đọc'
-                                  : isEn
-                                  ? `Read (${shortVoice})`
-                                  : `Đọc (${shortVoice})`}
-                              </span>
-                            </button>
-                          );
-                        })()}
+                        {m.sender === 'ai' && (
+                          <button
+                            type="button"
+                            onClick={() => speakWithPuckVoice(m.id, displayText)}
+                            className="project-detail-chip inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge cursor-pointer transition shrink-0 hover:opacity-85"
+                            title={isEn ? 'AI Tri Nhan (Puck)' : 'AI Trí Nhân (Puck • Miền Nam)'}
+                          >
+                            <WebIcon name={speakingMessageId === m.id ? 'pause' : 'volume'} className="w-3.5 h-3.5" />
+                            <span>
+                              {speakingMessageId === m.id
+                                ? isEn
+                                  ? 'Stop'
+                                  : 'Dừng đọc'
+                                : isEn
+                                ? 'Read'
+                                : 'Đọc'}
+                            </span>
+                          </button>
+                        )}
                       </div>
                     )}
 

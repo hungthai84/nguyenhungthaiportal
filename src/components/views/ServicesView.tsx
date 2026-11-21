@@ -381,6 +381,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
   const [isTechModalOpen, setIsTechModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
 
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const mainCardRef = useRef<HTMLDivElement | null>(null);
@@ -683,15 +684,29 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                 className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
                 style={{ borderRadius: 'var(--radius-banner, 24px)' }}
               >
-                <img
-                  src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
-                  alt="Banner Dịch vụ trọng tâm"
-                  referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
-                  className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
-                />
+                {!heroVideoFailed ? (
+                  <video
+                    src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204134/D%E1%BB%8Bch_V%E1%BB%A5.mp4"
+                    poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    onError={() => setHeroVideoFailed(true)}
+                    className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
+                  />
+                ) : (
+                  <img
+                    src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
+                    alt="Banner Dịch vụ trọng tâm"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                    className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
+                  />
+                )}
               </div>
               <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
 

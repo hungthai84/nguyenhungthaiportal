@@ -23,8 +23,15 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { Modal } from '@/components/ui/Modal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme, getCardStyleConfig } from '@/hooks/useTheme';
+import { getLightDarkCounterpart } from '@/config/ui/cardStyles';
+import { THEME_WALLPAPER_PRESETS_STORAGE_KEY } from '@/config/ui/themeDefaults';
+import { ThemeWallpaperPreset } from '@/config/ui/theme.types';
 import { useLanguage } from '@/context/LanguageContext';
 import { useFirebase } from '@/context/FirebaseContext';
+import {
+  WallpaperStudioControls,
+  SmartFilterCategory,
+} from './wallpaper/WallpaperStudioControls';
 
 export interface WallpaperViewProps {
   activeWallpaper: WallpaperPreset;
@@ -33,13 +40,82 @@ export interface WallpaperViewProps {
   onClose?: () => void;
 }
 
+const DEFAULT_BUILT_IN_PRESETS: ThemeWallpaperPreset[] = (() => {
+  const findWp = (id: string, fallbackIdx = 0) =>
+    WALLPAPER_PRESETS_LIST.find((w) => w.id === id) || WALLPAPER_PRESETS_LIST[fallbackIdx];
+
+  const wpArctic = findWp('gravity-arctic-blue', 1);
+  const wpWarm = findWp('css-sunset-mesh', 0);
+  const wpSpace = findWp('css-deep-space', 0);
+  const wpFluid = findWp('vid-dribbble-18230475', 0);
+
+  return [
+    {
+      id: 'preset-builtin-neu-arctic',
+      name: 'Nổi khối kính mờ · Băng tuyết',
+      cardStyle: 'neumorphism-beyond',
+      wallpaper: { ...wpArctic },
+      blur: 2,
+      dim: 4,
+      adaptiveAccentEnabled: false,
+      isBuiltIn: true,
+      createdAt: 1,
+    },
+    {
+      id: 'preset-builtin-leather-warm',
+      name: 'Da bò cổ điển · Hoàng hôn ấm',
+      cardStyle: 'cowhide-leather',
+      wallpaper: { ...wpWarm },
+      blur: 6,
+      dim: 16,
+      adaptiveAccentEnabled: false,
+      isBuiltIn: true,
+      createdAt: 2,
+    },
+    {
+      id: 'preset-builtin-ocean-space',
+      name: 'Đại dương sâu · Vũ trụ sao',
+      cardStyle: 'deep-ocean',
+      wallpaper: { ...wpSpace },
+      blur: 0,
+      dim: 10,
+      adaptiveAccentEnabled: true,
+      isBuiltIn: true,
+      createdAt: 3,
+    },
+    {
+      id: 'preset-builtin-dark-fluid',
+      name: 'Liquid tối · Sóng lưu chất',
+      cardStyle: 'dark-liquid-glass',
+      wallpaper: { ...wpFluid },
+      blur: 4,
+      dim: 20,
+      adaptiveAccentEnabled: true,
+      isBuiltIn: true,
+      createdAt: 4,
+    },
+  ];
+})();
+
 export const WallpaperView: React.FC<WallpaperViewProps> = ({
   activeWallpaper,
   onSelectWallpaper,
   onShowNotification,
   onClose,
 }) => {
-  const { cardStyle } = useTheme();
+  const {
+    cardStyle,
+    isDark,
+    previewWallpaper,
+    setPreviewWallpaper,
+    wallpaperOverlay,
+    updateWallpaperOverlay,
+    resetWallpaperOverlay,
+    adaptiveAccentEnabled,
+    setAdaptiveAccentEnabled,
+    suggestedAccent,
+    applyThemeWallpaperPreset,
+  } = useTheme();
   const { language, t } = useLanguage();
   const { user, cloudWallpapers, saveCloudWallpaper, deleteCloudWallpaper } = useFirebase();
   const isEn = language === 'en';
@@ -58,12 +134,32 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     return [];
   });
 
-  const [filterType, setFilterType] = useState<'all' | 'image' | 'video' | 'css' | 'webgl'>('all');
+  const [savedUserPresets, setSavedUserPresets] = useState<ThemeWallpaperPreset[]>(() => {
+    try {
+      const raw = localStorage.getItem(THEME_WALLPAPER_PRESETS_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return parsed.filter((p) => p && !p.isBuiltIn);
+      }
+    } catch {
+      // ignore
+    }
+    return [];
+  });
+
+  const [filterType, setFilterType] = useState<SmartFilterCategory>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
+  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
+  const [liveHoverPreview, setLiveHoverPreview] = useState<boolean>(true);
+  const [peekWallpaper, setPeekWallpaper] = useState<WallpaperPreset | null>(null);
 
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
+  const hoverTimerRef = useRef<number | null>(null);
+  const holdTimerRef = useRef<number | null>(null);
+  const wasHoldPeekRef = useRef<boolean>(false);
+  const localMediaInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -132,6 +228,40 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     }
   }, [customWallpapers]);
 
+  // Lưu trữ danh sách Preset cá nhân
+  useEffect(() => {
+    try {
+      localStorage.setItem(THEME_WALLPAPER_PRESETS_STORAGE_KEY, JSON.stringify(savedUserPresets));
+    } catch {
+      // ignore
+    }
+  }, [savedUserPresets]);
+
+  // Dọn dẹp timers xem trước & lắng nghe thả chuột toàn cục để thoát Full-Screen Peek
+  useEffect(() => {
+    const endPeek = () => {
+      if (holdTimerRef.current !== null) {
+        window.clearTimeout(holdTimerRef.current);
+        holdTimerRef.current = null;
+      }
+      setPeekWallpaper((curr) => {
+        if (curr) {
+          setPreviewWallpaper(null);
+        }
+        return null;
+      });
+    };
+    window.addEventListener('pointerup', endPeek);
+    window.addEventListener('pointercancel', endPeek);
+    return () => {
+      window.removeEventListener('pointerup', endPeek);
+      window.removeEventListener('pointercancel', endPeek);
+      if (hoverTimerRef.current !== null) window.clearTimeout(hoverTimerRef.current);
+      if (holdTimerRef.current !== null) window.clearTimeout(holdTimerRef.current);
+      setPreviewWallpaper(null);
+    };
+  }, [setPreviewWallpaper]);
+
   // Gộp danh sách hình nền cloud (nếu đã đăng nhập), tùy chỉnh local + preset gốc
   const allWallpapers = useMemo(() => {
     const map = new Map<string, WallpaperPreset>();
@@ -152,13 +282,37 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     return Array.from(map.values());
   }, [cloudWallpapers, customWallpapers]);
 
+  const userUploadedIds = useMemo(() => {
+    const ids = new Set<string>();
+    cloudWallpapers.forEach((w) => w?.id && ids.add(w.id));
+    customWallpapers.forEach((w) => w?.id && ids.add(w.id));
+    return ids;
+  }, [cloudWallpapers, customWallpapers]);
+
+  const matchesCategory = (wp: WallpaperPreset, cat: SmartFilterCategory): boolean => {
+    if (cat === 'all') return true;
+    if (cat === 'video') return wp.type === 'video';
+    if (cat === 'webgl') return wp.type === 'webgl';
+    if (cat === 'minimal') return wp.type === 'image' || wp.type === 'css' || wp.type === 'gradient' || wp.id === 'none';
+    if (cat === 'custom') return userUploadedIds.has(wp.id);
+    return true;
+  };
+
+  const filterCounts = useMemo<Record<SmartFilterCategory, number>>(
+    () => ({
+      all: allWallpapers.length,
+      video: allWallpapers.filter((w) => matchesCategory(w, 'video')).length,
+      webgl: allWallpapers.filter((w) => matchesCategory(w, 'webgl')).length,
+      minimal: allWallpapers.filter((w) => matchesCategory(w, 'minimal')).length,
+      custom: allWallpapers.filter((w) => matchesCategory(w, 'custom')).length,
+    }),
+    [allWallpapers, userUploadedIds]
+  );
+
   const filteredWallpapers = useMemo(() => {
     return allWallpapers.filter((wp) => {
       if (wp.id === 'none' && filterType === 'all' && !searchQuery.trim()) return true;
-      const matchType =
-        filterType === 'all' ||
-        wp.type === filterType ||
-        (filterType === 'css' && wp.type === 'gradient');
+      const matchType = matchesCategory(wp, filterType);
       const q = searchQuery.trim().toLowerCase();
       const matchQuery =
         !q ||
@@ -167,7 +321,12 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         wp.value.toLowerCase().includes(q);
       return matchType && matchQuery;
     });
-  }, [allWallpapers, filterType, searchQuery]);
+  }, [allWallpapers, filterType, searchQuery, userUploadedIds]);
+
+  const allPresets = useMemo(
+    () => [...savedUserPresets, ...DEFAULT_BUILT_IN_PRESETS],
+    [savedUserPresets]
+  );
 
   // Chọn hình nền và lưu trữ lâu dài làm mặc định
   const handleApplyWallpaper = (wp: WallpaperPreset) => {
@@ -383,24 +542,112 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     );
   };
 
-  const filterCategories = [
-    { id: 'all', label: isEn ? 'All Wallpapers' : 'Tất cả hình nền', count: allWallpapers.length },
-    {
-      id: 'webgl',
-      label: isEn ? '3D Dynamic Scenes' : 'Nền động không gian',
-      count: allWallpapers.filter((w) => w.type === 'webgl').length,
-    },
-    { id: 'image', label: isEn ? 'Static Image Walls' : 'Hình nền ảnh tĩnh', count: allWallpapers.filter((w) => w.type === 'image').length },
-    { id: 'video', label: isEn ? '4K Motion Videos' : 'Hình nền video động', count: allWallpapers.filter((w) => w.type === 'video').length },
-    {
-      id: 'css',
-      label: isEn ? 'Glass Color Effects' : 'Hiệu ứng màu kính',
-      count: allWallpapers.filter((w) => w.type === 'css' || w.type === 'gradient').length,
-    },
+  const handleLocalMediaUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const isVideo = file.type.startsWith('video/');
+    const isImage = file.type.startsWith('image/');
+    if (!isVideo && !isImage) {
+      onShowNotification?.(
+        isEn ? '⚠️ Please select an image or video file!' : '⚠️ Vui lòng chọn tệp hình ảnh hoặc video hợp lệ!'
+      );
+      e.target.value = '';
+      return;
+    }
+
+    const baseName = file.name.replace(/\.[^/.]+$/, '') || (isVideo ? 'Video cá nhân' : 'Hình ảnh cá nhân');
+    if (isVideo) {
+      const objectUrl = URL.createObjectURL(file);
+      const createdWp: WallpaperPreset = {
+        id: `custom-wp-upload-${Date.now()}`,
+        name: baseName,
+        type: 'video',
+        value: objectUrl,
+        bg: objectUrl,
+        isCustom: true,
+        createdAt: Date.now(),
+      };
+      setCustomWallpapers((prev) => [createdWp, ...prev]);
+      handleApplyWallpaper(createdWp);
+      setIsAddModalOpen(false);
+      e.target.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const dataUrl = String(evt.target?.result || '');
+      if (!dataUrl) return;
+      const createdWp: WallpaperPreset = {
+        id: `custom-wp-upload-${Date.now()}`,
+        name: baseName,
+        type: 'image',
+        value: dataUrl,
+        bg: `url('${dataUrl}') center/cover no-repeat`,
+        previewStyle: {
+          backgroundImage: `url('${dataUrl}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        },
+        isCustom: true,
+        createdAt: Date.now(),
+      };
+      setCustomWallpapers((prev) => [createdWp, ...prev]);
+      if (user) {
+        void saveCloudWallpaper(createdWp);
+      }
+      handleApplyWallpaper(createdWp);
+      setIsAddModalOpen(false);
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  };
+
+  const handleSaveCurrentPreset = (customName: string) => {
+    const nextPreset: ThemeWallpaperPreset = {
+      id: `preset-user-${Date.now()}`,
+      name: customName,
+      cardStyle,
+      wallpaper: { ...activeWallpaper },
+      blur: wallpaperOverlay.blur,
+      dim: wallpaperOverlay.dim,
+      adaptiveAccentEnabled,
+      isBuiltIn: false,
+      createdAt: Date.now(),
+    };
+    setSavedUserPresets((prev) => [nextPreset, ...prev]);
+    onShowNotification?.(
+      isEn ? `✓ Saved preset: ${customName}` : `✓ Đã lưu bộ cấu hình: ${customName}`
+    );
+  };
+
+  const handleDeleteUserPreset = (presetId: string) => {
+    setSavedUserPresets((prev) => prev.filter((p) => p.id !== presetId));
+  };
+
+  const handleSyncContrastMode = (targetDark: boolean) => {
+    const targetCardStyle = getLightDarkCounterpart(cardStyle, targetDark);
+    applyThemeWallpaperPreset({
+      id: `sync-contrast-${Date.now()}`,
+      name: 'Contrast Sync',
+      cardStyle: targetCardStyle,
+      wallpaper: { ...activeWallpaper },
+      blur: wallpaperOverlay.blur,
+      dim: wallpaperOverlay.dim,
+      adaptiveAccentEnabled,
+      createdAt: Date.now(),
+    });
+  };
+
+  const filterCategories: Array<{ id: SmartFilterCategory; label: string; count: number }> = [
+    { id: 'all', label: isEn ? 'All Wallpapers' : 'Tất cả hình nền', count: filterCounts.all },
+    { id: 'video', label: isEn ? 'Motion Videos' : 'Video động', count: filterCounts.video },
+    { id: 'webgl', label: isEn ? 'WebGL 3D Effects' : 'Hiệu ứng WebGL', count: filterCounts.webgl },
+    { id: 'minimal', label: isEn ? 'Minimal Static' : 'Tĩnh tối giản', count: filterCounts.minimal },
+    { id: 'custom', label: isEn ? 'Personal Uploads' : 'Cá nhân tải lên', count: filterCounts.custom },
   ];
 
-  const glassFlatPreset =
-    allWallpapers.find((w) => w.id === 'wallpaper-official-gemini') || WALLPAPER_PRESETS_LIST[0];
+  const isPeekActive = Boolean(peekWallpaper);
 
   return (
     <div
@@ -411,6 +658,25 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
       data-element-parent="global-content-viewport"
       className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
     >
+      {/* THANH BÁO HIỆU XEM TRƯỚC TOÀN MÀN HÌNH KHI NHẤN GIỮ (PEEK MODE) */}
+      {peekWallpaper && (
+        <div
+          id="wallpaper-fullscreen-peek-indicator"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-[120] pointer-events-none px-4 py-2 rounded-full bg-slate-950/80 text-white backdrop-blur-md border border-white/25 shadow-lg flex items-center gap-2 typo-caption font-play"
+        >
+          <WebIcon name="eye" className="w-4 h-4 text-sky-400 shrink-0" />
+          <span className="truncate max-w-[60vw]">
+            {isEn ? 'Full-screen preview:' : 'Đang xem trước toàn màn hình:'}{' '}
+            <strong className="font-semibold">
+              {peekWallpaper.name.replace(/^[^\p{L}\p{N}]+/u, '').trim()}
+            </strong>
+          </span>
+          <span className="opacity-75 hidden sm:inline">
+            · {isEn ? 'Release to return' : 'Thả tay để quay lại'}
+          </span>
+        </div>
+      )}
+
       <div
         id="wallpaper-cards-track"
         data-element-name="Track căn giữa Hình Nền"
@@ -426,6 +692,10 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
           data-element-type="card"
           data-element-page="wallpaper"
           data-element-parent="wallpaper-cards-track"
+          style={{
+            opacity: isPeekActive ? 0.06 : 1,
+            transition: 'opacity 180ms ease',
+          }}
           className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
       {/* 1. BANNER HÌNH NỀN: FORMAT GIỐNG BANNER HỌC VẤN, XÓA NÚT GIAO DIỆN TỐI, CARD SECTION CÁCH 15PX */}
@@ -440,31 +710,37 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
       >
         <div
-          className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
-          style={{
-            borderRadius: 'var(--radius-banner, 24px)',
-          }}
+          className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
-          <img
-            src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
-            alt="Banner Hình nền & Giao diện"
-            referrerPolicy="no-referrer"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
-            className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
-          />
+          {!heroVideoFailed ? (
+            <video
+              src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204136/H%C3%ACnh_n%E1%BB%81n.mp4"
+              poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              onError={() => setHeroVideoFailed(true)}
+              className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+            />
+          ) : (
+            <img
+              src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
+              alt="Banner Hình nền & Giao diện"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+              className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+            />
+          )}
         </div>
-        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
-        {/* Hàng trên: Icon + Tiêu đề bên trái, Câu nói chữ ký bên phải */}
+        {/* Hàng trên: Tiêu đề bên trái, Câu nói chữ ký bên phải */}
         <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
           <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-            <WebIcon
-              name="image"
-              className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-              style={{ width: '22px', height: '22px' }}
-            />
             <h1
               id="el-p14-div-4"
               data-element-id="el-p14-div-4"
@@ -497,7 +773,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   SoundEngine.playTap();
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
-                className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+                className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
                 title={isEn ? 'Wallpaper Filter' : 'Bộ lọc hình nền'}
                 aria-label="Bộ lọc hình nền"
                 aria-expanded={isFilterDropdownOpen}
@@ -567,7 +843,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   setSearchQuery(e.target.value);
                 }}
                 placeholder="Tìm hình nền, video, css..."
-                className="banner-search-input h-9 w-full pl-8 pr-3 py-0 rounded-full typo-input font-play focus:outline-none"
+                className="banner-search-input h-9 w-full pl-8 pr-3 py-0 rounded-full typo-button font-bold font-play focus:outline-none"
               />
             </div>
 
@@ -578,7 +854,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 SoundEngine.playPop();
                 setIsAddModalOpen((prev) => !prev);
               }}
-              className="banner-primary-cta h-9 px-3.5 py-0 rounded-full typo-button font-play bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-600 text-white shadow-md hover:brightness-110 transition cursor-pointer flex items-center gap-1.5"
+              className="banner-primary-cta h-9 px-3.5 py-0 rounded-full typo-button font-bold font-play bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-600 text-white shadow-md hover:brightness-110 transition cursor-pointer flex items-center gap-1.5"
             >
               <WebIcon name="plus" className="w-3.5 h-3.5" />
               <span>Thêm hình</span>
@@ -599,7 +875,6 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         >
           <div id="wallpaper-add-panel-header" className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2.5">
             <div className="card-header-sync flex items-center gap-2 text-[var(--color-primary)]">
-              <WebIcon name="plus" className="w-4.5 h-4.5 text-[var(--color-primary)]" />
               <h3 id="wallpaper-add-panel-title" className="typo-h3 card-title-synced text-[var(--color-primary)]" data-card-title="true">
                 Thêm Hình Nền Mới & Nhập / Xuất Dữ Liệu JSON
               </h3>
@@ -694,8 +969,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             >
               <div className="space-y-3">
                 <h4 className="subcard-header-sync subcard-title-synced typo-h4 text-[var(--color-primary)] flex items-center gap-2" data-subcard-title="true">
-                  <WebIcon name="plus" className="w-4 h-4 text-[var(--color-primary)]" />
-                  <span>1. Thêm Hình Nền Mới (Tự Động Nhận Diện Link & Tên Hình)</span>
+                  <span>Thêm Hình Nền Mới (Tự Động Nhận Diện Link & Tên Hình)</span>
                 </h4>
 
                 <div>
@@ -727,7 +1001,26 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-center justify-end pt-1">
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+                <div>
+                  <input
+                    ref={localMediaInputRef}
+                    type="file"
+                    accept="image/*,video/*"
+                    onChange={handleLocalMediaUpload}
+                    className="hidden"
+                  />
+                  <button
+                    id="wallpaper-upload-local-media-btn"
+                    type="button"
+                    onClick={() => localMediaInputRef.current?.click()}
+                    className="px-4 py-2 rounded-full typo-button border border-[var(--border-subcard)] text-[var(--text-primary)] hover:border-[var(--color-primary)] transition cursor-pointer inline-flex items-center gap-1.5"
+                  >
+                    <WebIcon name="upload" className="w-3.5 h-3.5 text-[var(--color-primary)]" />
+                    <span>{isEn ? 'Upload from Device' : 'Tải ảnh/video từ máy'}</span>
+                  </button>
+                </div>
+
                 <button
                   id="wallpaper-add-submit-btn"
                   type="submit"
@@ -744,8 +1037,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
               <div className="space-y-2.5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h4 className="subcard-header-sync subcard-title-synced typo-h4 text-[var(--color-primary)] flex items-center gap-2" data-subcard-title="true">
-                    <WebIcon name="database" className="w-4 h-4 text-[var(--color-primary)]" />
-                    <span>2. Nhập / Xuất Dữ Liệu Hình Nền Bằng JSON</span>
+                    <span>Nhập / Xuất Dữ Liệu Hình Nền Bằng JSON</span>
                   </h4>
 
                   <div className="flex items-center gap-2 shrink-0">
@@ -806,30 +1098,111 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         </section>
       )}
 
+      {/* THANH LỌC THÔNG MINH + STUDIO CẤU HÌNH NỀN, MÀU NHẤN & PRESET 1 CHẠM */}
+      <WallpaperStudioControls
+        isEn={isEn}
+        isDark={isDark}
+        cardStyle={cardStyle}
+        activeWallpaper={activeWallpaper}
+        previewWallpaper={previewWallpaper}
+        filterType={filterType}
+        onChangeFilter={setFilterType}
+        filterCounts={filterCounts}
+        liveHoverPreview={liveHoverPreview}
+        onToggleLiveHoverPreview={() => {
+          setLiveHoverPreview((prev) => {
+            if (prev) setPreviewWallpaper(null);
+            return !prev;
+          });
+        }}
+        wallpaperOverlay={wallpaperOverlay}
+        onUpdateOverlay={updateWallpaperOverlay}
+        onResetOverlay={resetWallpaperOverlay}
+        adaptiveAccentEnabled={adaptiveAccentEnabled}
+        onToggleAdaptiveAccent={setAdaptiveAccentEnabled}
+        suggestedAccent={suggestedAccent}
+        onSyncContrastMode={handleSyncContrastMode}
+        presets={allPresets}
+        onApplyPreset={(preset) => {
+          applyThemeWallpaperPreset(preset);
+          onShowNotification?.(
+            isEn ? `✓ Applied preset: ${preset.name}` : `✓ Đã áp dụng bộ cấu hình: ${preset.name}`
+          );
+        }}
+        onSaveCurrentPreset={handleSaveCurrentPreset}
+        onDeletePreset={handleDeleteUserPreset}
+      />
+
+      {/* CHỈ BÁO XEM TRƯỚC KHI DI CHUỘT */}
+      {previewWallpaper && !peekWallpaper && (
+        <div
+          id="wallpaper-hover-preview-banner"
+          className="sub-card rounded-[12px] px-[15px] py-2 flex items-center justify-between gap-2 text-[12px] border border-[var(--color-primary)]/40 shrink-0"
+        >
+          <div className="flex items-center gap-2 min-w-0 text-[var(--text-primary)]">
+            <WebIcon name="eye" className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
+            <span className="truncate">
+              {isEn ? 'Live previewing:' : 'Đang xem trước toàn nền:'}{' '}
+              <strong>{previewWallpaper.name.replace(/^[^\p{L}\p{N}]+/u, '').trim()}</strong>
+            </span>
+          </div>
+          <span className="text-[11px] text-[var(--text-secondary)] whitespace-nowrap hidden sm:inline">
+            {isEn ? 'Hold card for full-screen · Click to apply' : 'Nhấn giữ để xem thoáng · Nhấp để áp dụng'}
+          </span>
+        </div>
+      )}
+
       {/* LƯỚI HÌNH NỀN THU NHỎ HOẶC EMPTY STATE */}
       {filteredWallpapers.length === 0 ? (
         <div className="bento-card glass-card flex-1 flex flex-col items-center justify-center text-center py-12 px-4 rounded-[14px]">
           <div className="w-12 h-12 rounded-full bg-rose-500/15 text-rose-500 flex items-center justify-center mb-3">
-            <WebIcon name="image" className="w-6 h-6" />
+            <WebIcon name={filterType === 'custom' ? 'upload' : 'image'} className="w-6 h-6" />
           </div>
           <p className="typo-h4 text-[var(--text-heading,var(--text-primary))] font-play">
-            Không tìm thấy hình nền phù hợp
+            {filterType === 'custom'
+              ? isEn
+                ? 'No personal wallpapers uploaded yet'
+                : 'Chưa có hình nền cá nhân nào được tải lên'
+              : 'Không tìm thấy hình nền phù hợp'}
           </p>
           <p className="typo-caption text-[var(--text-secondary)] mt-1 max-w-md">
-            Hãy thử thay đổi bộ lọc loại media hoặc xóa từ khóa tìm kiếm hiện tại.
+            {filterType === 'custom'
+              ? isEn
+                ? 'Upload an image/video from your device or paste a link to add to your personal library.'
+                : 'Tải lên hình ảnh, video từ thiết bị hoặc dán đường dẫn để thêm vào kho cá nhân.'
+              : 'Hãy thử thay đổi bộ lọc loại media hoặc xóa từ khóa tìm kiếm hiện tại.'}
           </p>
-          <button
-            type="button"
-            onClick={() => {
-              SoundEngine.playTap();
-              setFilterType('all');
-              setSearchQuery('');
-            }}
-            style={{ background: 'var(--bg-button-primary)' }}
-            className="mt-4 px-5 py-2 rounded-full typo-button hover:brightness-110 text-white transition cursor-pointer shadow-sm"
-          >
-            Xem lại tất cả hình nền
-          </button>
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
+            {filterType === 'custom' && (
+              <button
+                type="button"
+                onClick={() => {
+                  SoundEngine.playPop();
+                  setIsAddModalOpen(true);
+                }}
+                style={{ background: 'var(--bg-button-primary)' }}
+                className="px-5 py-2 rounded-full typo-button hover:brightness-110 text-white transition cursor-pointer shadow-sm"
+              >
+                {isEn ? 'Add Personal Wallpaper' : 'Thêm hình nền cá nhân'}
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                setFilterType('all');
+                setSearchQuery('');
+              }}
+              style={filterType === 'custom' ? undefined : { background: 'var(--bg-button-primary)' }}
+              className={`px-5 py-2 rounded-full typo-button transition cursor-pointer shadow-sm ${
+                filterType === 'custom'
+                  ? 'border border-[var(--border-subcard)] text-[var(--text-primary)]'
+                  : 'hover:brightness-110 text-white'
+              }`}
+            >
+              Xem lại tất cả hình nền
+            </button>
+          </div>
         </div>
       ) : (
       <div id="wallpaper-cards-grid" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[15px] items-stretch flex-1">
@@ -847,24 +1220,65 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 role="button"
                 tabIndex={0}
                 aria-pressed={isSelected}
-                onClick={() => handleApplyWallpaper(wp)}
+                onMouseEnter={() => {
+                  if (!liveHoverPreview) return;
+                  if (hoverTimerRef.current !== null) window.clearTimeout(hoverTimerRef.current);
+                  hoverTimerRef.current = window.setTimeout(() => {
+                    setPreviewWallpaper(wp);
+                  }, 110);
+                }}
+                onMouseLeave={() => {
+                  if (hoverTimerRef.current !== null) {
+                    window.clearTimeout(hoverTimerRef.current);
+                    hoverTimerRef.current = null;
+                  }
+                  if (!peekWallpaper) {
+                    setPreviewWallpaper(null);
+                  }
+                }}
+                onPointerDown={(e) => {
+                  if (e.button !== 0 && e.pointerType === 'mouse') return;
+                  if ((e.target as HTMLElement)?.closest('button')) return;
+                  wasHoldPeekRef.current = false;
+                  if (holdTimerRef.current !== null) window.clearTimeout(holdTimerRef.current);
+                  holdTimerRef.current = window.setTimeout(() => {
+                    wasHoldPeekRef.current = true;
+                    setPeekWallpaper(wp);
+                    setPreviewWallpaper(wp);
+                  }, 280);
+                }}
+                onPointerUp={() => {
+                  if (holdTimerRef.current !== null) {
+                    window.clearTimeout(holdTimerRef.current);
+                    holdTimerRef.current = null;
+                  }
+                }}
+                onClick={() => {
+                  if (wasHoldPeekRef.current) {
+                    wasHoldPeekRef.current = false;
+                    return;
+                  }
+                  setPreviewWallpaper(null);
+                  handleApplyWallpaper(wp);
+                }}
                 onKeyDown={(e) => {
                   if (e.target !== e.currentTarget) return;
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
+                    setPreviewWallpaper(null);
                     handleApplyWallpaper(wp);
                   }
                 }}
                 title={
                   isEn
-                    ? `${localizedName} (Click to apply as default wallpaper)`
-                    : `${wp.name} (Nhấp chuột để áp dụng làm hình nền mặc định)`
+                    ? `${localizedName} (Hover or hold to preview · Click to apply)`
+                    : `${wp.name} (Di chuột hoặc nhấn giữ để xem thử · Nhấp để áp dụng)`
                 }
                 data-element-type="card"
                 data-media-card={wp.type === 'video' ? 'video' : 'image'}
                 style={{
                   borderRadius: 'var(--radius-card, 14px)',
-                  padding: wp.type === 'video' ? '5px' : '1px',
+                  padding: '2px',
                 }}
                 className={`themed-image-card group relative flex flex-col rounded-[var(--radius-card,14px)] overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto ${
                   isSelected
@@ -872,31 +1286,28 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     : ''
                 }`}
               >
-                {/* NỀN HÌNH THU NHỎ DẠNG NGANG NẰM GỌN TRONG PADDING (5PX VIDEO / 1PX HÌNH) */}
+                {/* NỀN HÌNH THU NHỎ DẠNG NGANG NẰM GỌN TRONG PADDING 2PX, BO CONG KHỚP CARD */}
                 <div
                   id={`wallpaper-card-media-${wp.id}`}
                   style={{
-                    borderRadius:
-                      wp.type === 'video'
-                        ? 'calc(var(--radius-card, 14px) - 5px)'
-                        : 'calc(var(--radius-card, 14px) - 1px)',
+                    borderRadius: 'var(--radius-card, 14px)',
                     background: 'transparent',
                   }}
-                  className="relative flex-1 w-full h-full z-0 overflow-hidden bg-transparent"
+                  className="relative flex-1 w-full h-full z-0 rounded-[inherit] overflow-hidden bg-transparent"
                 >
                   {wp.id === 'none' ? (
                     <div
                       id="wallpaper-card-preview-none"
                       style={{
                         ...activeCardStyleMeta.cardSampleStyle,
-                        borderRadius: 'calc(var(--radius-card, 14px) - 1px)',
+                        borderRadius: 'var(--radius-card, 14px)',
                       }}
-                      className="w-full h-full flex items-center justify-center transition-all"
+                      className="w-full h-full rounded-[inherit] flex items-center justify-center transition-all"
                     />
                   ) : wp.type === 'video' ? (
                     wp.value.includes('youtube.com') || wp.value.includes('youtu.be') ? (
                       <div
-                        className="w-full h-full bg-cover bg-center"
+                        className="w-full h-full rounded-[inherit] bg-cover bg-center"
                         style={
                           wp.previewStyle || {
                             backgroundImage:
@@ -916,12 +1327,12 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                           e.currentTarget.pause();
                           e.currentTarget.currentTime = 0;
                         }}
-                        className="w-full h-full object-cover block"
+                        className="w-full h-full object-cover rounded-[inherit] block"
                       />
                     )
                   ) : wp.type === 'webgl' ? (
                     <div
-                      className="relative w-full h-full overflow-hidden"
+                      className="relative w-full h-full rounded-[inherit] overflow-hidden"
                       style={
                         wp.previewStyle && Object.keys(wp.previewStyle).length > 0
                           ? wp.previewStyle
@@ -991,7 +1402,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                           parent.style.background = 'linear-gradient(135deg, #0284c7 0%, #4f46e5 50%, #e11d48 100%)';
                         }
                       }}
-                      className="w-full h-full object-cover block brightness-110 contrast-110 saturate-110"
+                      className="w-full h-full object-cover rounded-[inherit] block brightness-110 contrast-110 saturate-110"
                     />
                   )}
                 </div>
@@ -999,11 +1410,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 {/* LỚP PHỦ THEO GIAO DIỆN ĐANG CHỌN — CHỈ HIỆN KHI RÊ CHUỘT */}
                 <div
                   style={{
-                    inset: wp.type === 'video' ? '5px' : '1px',
-                    borderRadius:
-                      wp.type === 'video'
-                        ? 'calc(var(--radius-card, 14px) - 5px)'
-                        : 'calc(var(--radius-card, 14px) - 1px)',
+                    inset: '2px',
+                    borderRadius: 'var(--radius-card, 14px)',
                   }}
                   className="themed-image-card-scrim absolute pointer-events-none z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
                 />

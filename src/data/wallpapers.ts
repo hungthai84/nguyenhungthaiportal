@@ -3,6 +3,8 @@ import rainbowGlassWallpaper from '@/assets/images/wallpaper_rainbow_glass_17951
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
 import micaFluentWallpaper from '@/assets/images/wallpaper_mica_fluent_1795175772748.jpg';
+import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
+import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 
 export type WallpaperType = 'image' | 'video' | 'css' | 'gradient' | 'webgl';
 
@@ -51,6 +53,14 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
   'mica-fluent': {
     light: micaFluentWallpaper,
     dark: micaFluentWallpaper,
+  },
+  'neumorphism-beyond': {
+    light: neumorphismBeyondWallpaper,
+    dark: neumorphismBeyondWallpaper,
+  },
+  'multicolor-glass': {
+    light: multicolorGlassWallpaper,
+    dark: multicolorGlassWallpaper,
   },
 };
 
@@ -366,6 +376,21 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000021,
+  },
+  {
+    id: 'theme-bg-neumorphism-beyond',
+    name: '🧊 Nền Nổi Khối Kính Mờ (Giao diện riêng)',
+    type: 'image',
+    value: neumorphismBeyondWallpaper,
+    bg: `url('${neumorphismBeyondWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background: 'linear-gradient(145deg, #EEF2F8 0%, #EBF0F6 55%, #E5EBF3 100%)',
+      backgroundImage: `url('${neumorphismBeyondWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000022,
   },
 
   {

@@ -510,7 +510,6 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
         <div className="w-full flex flex-col gap-2">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="card-header-sync flex items-center gap-2 min-w-0 text-indigo-600 dark:text-indigo-400">
-              <WebIcon name="sparkles" size={18} className="shrink-0" />
               <h2 className="typo-h4 card-title-synced font-bold text-indigo-600 dark:text-indigo-400 truncate" data-card-title="true">
                 One-Page Executive Summary Sheet
               </h2>
@@ -588,11 +587,14 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
           data-subcard="true"
           className="sub-card p-[15px] rounded-[14px] flex flex-col md:flex-row items-center md:items-start gap-[15px] print-card-bg"
         >
-          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-[14px] overflow-hidden ring-2 ring-[var(--border-subcard)] shrink-0">
+          <div
+            style={{ borderRadius: 'var(--radius-subcard, 14px)' }}
+            className="w-24 h-24 sm:w-28 sm:h-28 overflow-hidden ring-2 ring-[var(--border-subcard)] shrink-0"
+          >
             <img
               src={AVATAR_URL}
               alt="Nguyễn Hùng Thái"
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-cover object-top rounded-[inherit]"
             />
           </div>
           <div className="flex-1 min-w-0 text-center md:text-left">

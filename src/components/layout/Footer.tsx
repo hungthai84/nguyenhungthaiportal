@@ -6,7 +6,6 @@ import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { UNIFIED_INTERFACE_THEMES, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/config/ui/cardStyles';
 import { useLanguage, LanguagePreference } from '@/context/LanguageContext';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { TtsVoiceSelector } from '@/components/ui/TtsVoiceSelector';
 
 interface FooterProps {
   currentTabIndex: number;
@@ -339,8 +338,6 @@ export const Footer: React.FC<FooterProps> = ({
         </div>
         {language === 'en' && <span className="shrink-0 font-bold ml-2">✓</span>}
       </button>
-
-      <TtsVoiceSelector isEn={isEn} variant="popup-list" />
     </div>
   );
 
@@ -492,20 +489,27 @@ export const Footer: React.FC<FooterProps> = ({
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
-            <WebIcon name="chevron-left" className="w-4 h-4 stroke-[2.5]" />
+            <WebIcon name="chevron-left" strokeWidth={2.8} className="w-[17px] h-[17px]" />
           </button>
 
           {/* Page Number with Active Page Icon */}
           <span className="flex-1 h-full mx-1 flex items-center justify-center gap-1.5 select-none pointer-events-none">
             <WebIcon
+              id="footer-page-icon"
               name={TABS_DATA[currentTabIndex]?.icon || 'grid'}
-              className="w-4 h-4 shrink-0 stroke-[2.5]"
+              strokeWidth={2.75}
+              className="w-[17px] h-[17px] shrink-0"
               style={{ color: 'var(--text-link, var(--color-primary))' }}
             />
             <span
               id="footer-page-counter"
-              className="typo-body-sm font-mono font-bold tracking-wider leading-none"
-              style={{ color: 'var(--text-link, var(--color-primary))' }}
+              className="typo-body-sm font-play font-extrabold tracking-wide leading-none tabular-nums whitespace-nowrap"
+              style={{
+                color: 'var(--text-link, var(--color-primary))',
+                fontWeight: 800,
+                letterSpacing: '0.03em',
+                WebkitTextStroke: '0.28px currentColor',
+              }}
             >
               {String(currentTabIndex + 1).padStart(2, '0')}/{String(TABS_DATA.length).padStart(2, '0')}
             </span>
@@ -527,7 +531,7 @@ export const Footer: React.FC<FooterProps> = ({
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
-            <WebIcon name="chevron-right" className="w-4 h-4 stroke-[2.5]" />
+            <WebIcon name="chevron-right" strokeWidth={2.8} className="w-[17px] h-[17px]" />
           </button>
         </div>
       </div>
@@ -848,7 +852,7 @@ export const Footer: React.FC<FooterProps> = ({
                 type="button"
                 aria-current={currentTabIndex === 13 ? 'page' : undefined}
                 data-active={currentTabIndex === 13 ? 'true' : 'false'}
-                aria-label={isEn ? 'Open AI Assistant (24/7 Support)' : 'Mở AI hỗ trợ (Trợ lý 24/7)'}
+                aria-label={isEn ? 'Open AI Tri Nhan (24/7 Support)' : 'Mở AI Trí Nhân (Hỗ trợ 24/7)'}
                 onFocus={() => setFocusedRightBtn(3)}
                 onClick={(e) => {
                   triggerPillRipple('ai', e);
@@ -857,7 +861,7 @@ export const Footer: React.FC<FooterProps> = ({
                   setIsThemeMenuOpen(false);
                   onOpenAiAssistant();
                 }}
-                title={isEn ? 'AI Assistant (24/7 Support)' : 'AI hỗ trợ (Trợ lý 24/7)'}
+                title={isEn ? 'AI Tri Nhan (24/7 Support)' : 'AI Trí Nhân (Hỗ trợ 24/7)'}
                 className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
                 style={
                   {
@@ -896,7 +900,7 @@ export const Footer: React.FC<FooterProps> = ({
                   ) : (
                     <img
                       src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550149/Avata_AI_h%E1%BB%97_tr%E1%BB%A3.gif"
-                      alt={isEn ? 'AI Assistant' : 'AI hỗ trợ'}
+                      alt={isEn ? 'AI Tri Nhan' : 'AI Trí Nhân'}
                       loading="eager"
                       decoding="async"
                       className="w-full h-full object-cover rounded-full"
@@ -910,7 +914,7 @@ export const Footer: React.FC<FooterProps> = ({
                     style={{ fontWeight: 'bold' }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
                   >
-                    {isEn ? 'AI Bot' : 'Trợ Lý'}
+                    {isEn ? 'AI Tri Nhan' : 'AI Trí Nhân'}
                   </span>
                 </div>
               </button>

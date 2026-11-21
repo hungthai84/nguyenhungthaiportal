@@ -95,12 +95,13 @@ export interface BentoCardHeaderProps {
 }
 
 export const BentoCardHeader: React.FC<BentoCardHeaderProps> = ({
-  icon,
+  icon: _icon,
   title,
   badge,
   accentClassName = 'text-indigo-600 dark:text-cyan-400',
   className,
 }) => {
+  void _icon;
   return (
     <div
       className={cn(
@@ -109,7 +110,6 @@ export const BentoCardHeader: React.FC<BentoCardHeaderProps> = ({
       )}
     >
       <div className={cn('card-heading card-header-sync min-w-0', accentClassName)}>
-        {icon && <span className="card-heading__icon shrink-0">{icon}</span>}
         <h3 className="card-heading__title card-title card-title-synced typo-h3 font-play truncate" data-card-title="true">
           {title}
         </h3>

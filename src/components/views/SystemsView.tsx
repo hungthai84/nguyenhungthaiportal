@@ -23,7 +23,6 @@ import {
   VolumeX,
   Table,
   LayoutGrid,
-  Sparkles,
   ArrowRight,
   Server,
 } from 'lucide-react';
@@ -33,6 +32,7 @@ import { SystemData, SiteTheme } from '@/types';
 import { useToast } from '@/components/ui/Toast';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { cn } from '@/lib/utils';
+import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 import { getSavedMutedPref, saveMutedPref, AUDIO_PREF_EVENT } from '@/utils/audioPreference';
 import { EcosystemDiagramModal } from '@/components/common/EcosystemDiagramModal';
 import { useTheme } from '@/hooks/useTheme';
@@ -579,6 +579,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   const [viewMode, setViewMode] = useState<'grid' | 'matrix'>('grid');
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [isEcosystemDiagramOpen, setIsEcosystemDiagramOpen] = useState<boolean>(false);
+  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const filterDropdownRef = useRef<HTMLDivElement>(null);
 
   // FLIP Morph Expansion State (giống ServicesView)
@@ -1174,17 +1175,31 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
               style={{ borderRadius: 'var(--radius-banner, 24px)' }}
             >
-              <img
-                src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591946/H%E1%BB%87_th%E1%BB%91ng.png"
-                alt="Banner Hệ thống"
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-                className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
-              />
+              {!heroVideoFailed ? (
+                <video
+                  src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/H%E1%BB%87_th%E1%BB%91ng.mp4"
+                  poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591946/H%E1%BB%87_th%E1%BB%91ng.png"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  onError={() => setHeroVideoFailed(true)}
+                  className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+                />
+              ) : (
+                <img
+                  src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591946/H%E1%BB%87_th%E1%BB%91ng.png"
+                  alt="Banner Hệ thống"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                  className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+                />
+              )}
             </div>
-            <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+            <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
             {/* Vùng Tiêu Đề Banner */}
             <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
@@ -1192,11 +1207,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                 className="card-header-sync flex items-center gap-2 min-w-0"
                 style={{ color: 'var(--text-link, var(--color-primary))' }}
               >
-                <WebIcon
-                  name="network"
-                  className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                  style={{ width: '22px', height: '22px' }}
-                />
                 <h1
                   className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
                   data-card-title="true"
@@ -1234,7 +1244,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       SoundEngine.playTap();
                       setIsFilterDropdownOpen((prev) => !prev);
                     }}
-                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
                     title={isEn ? 'System Filter' : 'Bộ lọc phân hệ'}
                     aria-label={isEn ? 'System Filter' : 'Bộ lọc phân hệ'}
                     aria-expanded={isFilterDropdownOpen}
@@ -1375,7 +1385,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     }}
                     placeholder={isEn ? 'Search systems...' : 'Tìm hệ thống...'}
                     aria-label={isEn ? 'Search systems' : 'Tìm kiếm hệ thống'}
-                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-input font-play focus:outline-none"
+                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-button font-bold font-play focus:outline-none"
                   />
                   {searchQuery && (
                     <button
@@ -1430,7 +1440,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       loop
                       muted
                       playsInline
-                      className="w-full h-full object-cover object-center rounded-full pointer-events-none scale-[1.06]"
+                      className="w-full h-full object-cover object-[50%_18%] rounded-full pointer-events-none scale-[1.06]"
                     />
                     <div
                       className={cn(
@@ -1484,7 +1494,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                 className="bento-card glass-card w-full h-full flex flex-col rounded-[var(--radius-main,30px)] overflow-hidden border-0 shadow-2xl bg-black relative"
                 style={{ borderRadius: 'var(--radius-main, 30px)' }}
               >
-                <div className="relative w-full h-full flex-1 bg-black rounded-[14px] overflow-hidden">
+                <div className="relative w-full h-full flex-1 bg-black rounded-[inherit] overflow-hidden">
                   <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 shrink-0">
                     <button
                       type="button"
@@ -1517,15 +1527,18 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     </button>
                   </div>
 
-                  <video
-                    ref={introStageVideoRef}
+                  <SmartFaceVideo
+                    videoRef={introStageVideoRef}
                     src={SYSTEM_FLOATING_INTRO_VIDEO_URL}
                     controls
                     autoPlay
                     playsInline
                     muted={isIntroStageMuted}
                     onEnded={() => setIsCircleVideoPlaying(false)}
-                    className="w-full h-full object-cover bg-black rounded-[14px]"
+                    faceAnchor={{ x: 50, y: 18 }}
+                    maxCropDistortion={1.6}
+                    wrapperClassName="w-full h-full bg-black rounded-[inherit]"
+                    className="bg-black rounded-[inherit]"
                   />
                 </div>
               </div>
@@ -1838,15 +1851,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         </div>
                       </div>
 
-                      {/* Middle Row: Tên viết tắt + Tên đầy đủ | Illustration + Halo */}
+                      {/* Middle Row: Tên viết tắt + Tên hệ thống + Mô tả nằm dưới tên hệ thống | Ảnh sạch không hiệu ứng/viền */}
                       <div className="relative z-10 flex items-center justify-between gap-2.5 min-w-0">
                         <div className="flex-1 min-w-0 flex flex-col gap-1">
-                          <div className="flex items-center gap-1.5 min-w-0" style={{ color: accentColor }}>
-                            <WebIcon
-                              name={meta.iconName}
-                              className="w-[18px] h-[18px] shrink-0 stroke-[2.3]"
-                              style={{ color: accentColor }}
-                            />
+                          <div className="card-header-sync flex items-center gap-1.5 min-w-0" style={{ color: accentColor }}>
                             <h3
                               className="typo-h4 card-title-synced font-play font-bold truncate m-0"
                               data-card-title="true"
@@ -1862,6 +1870,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           >
                             {localizedTitle}
                           </p>
+
+                          <p
+                            className="typo-caption text-[var(--text-secondary)] leading-relaxed line-clamp-2 m-0 break-words"
+                            title={localizedDesc}
+                          >
+                            {localizedDesc}
+                          </p>
                         </div>
 
                         <div
@@ -1871,7 +1886,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           onMouseLeave={() => {
                             setHoveredImageSystemId((prev) => (prev === item.id ? null : prev));
                           }}
-                          className="relative w-[140px] h-[140px] sm:w-[152px] sm:h-[152px] shrink-0 flex items-center justify-center rounded-2xl overflow-hidden"
+                          style={{ borderRadius: 'var(--radius-card, 20px)' }}
+                          className="relative w-[132px] h-[132px] sm:w-[144px] sm:h-[144px] shrink-0 flex items-center justify-center overflow-hidden border-0 ring-0 shadow-none"
                         >
                           {hoveredImageSystemId === item.id && item.videoUrl ? (
                             <video
@@ -1883,36 +1899,22 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               preload="auto"
                               controls={false}
                               disablePictureInPicture
-                              className="relative z-20 w-full h-full object-cover rounded-2xl pointer-events-none select-none"
+                              className="relative z-20 w-full h-full object-cover rounded-[inherit] pointer-events-none select-none border-0 shadow-none"
                             />
                           ) : (
-                            <>
-                              <div
-                                className="absolute inset-2 rounded-full blur-lg opacity-40 group-hover:opacity-70 transition-opacity duration-300 pointer-events-none"
-                                style={{ background: meta.gradient }}
-                              />
-                              <img
-                                src={meta.illustrationSrc || item.imageUrl}
-                                alt={localizedTitle}
-                                referrerPolicy="no-referrer"
-                                loading="lazy"
-                                onError={(e) => {
-                                  e.currentTarget.style.display = 'none';
-                                }}
-                                className="system-img-pop relative z-10 w-full h-full object-contain drop-shadow-[0_8px_14px_rgba(15,23,42,0.2)] select-none pointer-events-none"
-                              />
-                            </>
+                            <img
+                              src={meta.illustrationSrc || item.imageUrl}
+                              alt={localizedTitle}
+                              referrerPolicy="no-referrer"
+                              loading="lazy"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                              }}
+                              className="relative z-10 w-full h-full object-contain rounded-[inherit] select-none pointer-events-none border-0 ring-0 shadow-none"
+                            />
                           )}
                         </div>
                       </div>
-
-                      {/* Description 2 lines */}
-                      <p
-                        className="relative z-10 typo-caption text-[var(--text-secondary)] leading-relaxed line-clamp-2 m-0"
-                        title={localizedDesc}
-                      >
-                        {localizedDesc}
-                      </p>
 
                       {/* Footer Subcard: Highlighted Metric + Live Link Status */}
                       <div className="system-card-sub relative z-10 rounded-xl px-2.5 py-2 flex items-center justify-between gap-2 min-w-0">
@@ -1988,16 +1990,15 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     }}
                   >
                     <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <div className="relative w-11 h-11 sm:w-13 sm:h-13 shrink-0 flex items-center justify-center">
-                        <div
-                          className="absolute inset-0 rounded-full blur-md opacity-50 pointer-events-none"
-                          style={{ background: expandedMeta.gradient }}
-                        />
+                      <div
+                        style={{ borderRadius: 'var(--radius-card, 20px)' }}
+                        className="relative w-11 h-11 sm:w-13 sm:h-13 shrink-0 flex items-center justify-center overflow-hidden border-0 shadow-none"
+                      >
                         <img
                           src={expandedMeta.illustrationSrc || expandedSystem.imageUrl}
                           alt={expandedSystem.nameVi}
                           referrerPolicy="no-referrer"
-                          className="relative z-10 w-full h-full object-contain drop-shadow-md select-none"
+                          className="relative z-10 w-full h-full object-contain rounded-[inherit] select-none border-0 shadow-none"
                         />
                       </div>
 
@@ -2307,12 +2308,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 border"
                         >
                           <div className="flex flex-wrap items-center justify-between gap-2">
-                            <div className="flex items-center gap-2">
-                              <ArrowLeftRight
-                                className="w-4 h-4 shrink-0"
-                                style={{ color: expandedAccent }}
-                              />
-                              <h3 className="typo-h4 font-bold m-0 text-[var(--text-primary)]">
+                            <div className="subcard-header-sync flex items-center gap-2">
+                              <h3 className="typo-h4 subcard-title-synced font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
                                 {isEn
                                   ? `Side-by-Side Comparison: ${expandedSystem.abbr} vs ${compareTargetSystem.abbr}`
                                   : `So sánh trực tiếp: ${expandedSystem.abbr} ⇄ ${compareTargetSystem.abbr}`}
@@ -2455,8 +2452,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             expandedMeta.illustrationSrc ||
                             expandedSystem.imageUrl) && (
                             <div
+                              style={{ borderRadius: 'var(--radius-subcard, 16px)' }}
                               className={cn(
-                                'md:col-span-5 relative w-full aspect-video rounded-[14px] overflow-hidden min-w-0 border border-[var(--border-subcard)]',
+                                'md:col-span-5 relative w-full aspect-video overflow-hidden min-w-0',
                                 expandedSystem.videoUrl ? 'bg-black' : 'bg-[var(--bg-card)]'
                               )}
                             >
@@ -2475,7 +2473,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                     muted={isExpandedVideoMuted}
                                     playsInline
                                     preload="auto"
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover rounded-[inherit]"
                                   />
                                   <button
                                     type="button"
@@ -2509,7 +2507,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 <img
                                   src={expandedMeta.illustrationSrc || expandedSystem.imageUrl}
                                   alt={expandedSystem.nameVi}
-                                  className="w-full h-full object-contain p-2"
+                                  className="w-full h-full object-contain rounded-[inherit] p-0 border-0 shadow-none"
                                 />
                               )}
                             </div>
@@ -2547,12 +2545,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
                         {/* Tính năng nổi bật */}
                         <div className="pt-3 border-t border-[var(--border-subcard)]">
-                          <div className="flex items-center gap-2 mb-2.5">
-                            <Sparkles
-                              className="w-4 h-4 shrink-0"
-                              style={{ color: expandedAccent }}
-                            />
-                            <h3 className="typo-h4 font-play font-bold m-0 text-[var(--text-primary)]">
+                          <div className="subcard-header-sync flex items-center gap-2 mb-2.5">
+                            <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
                               {isEn ? 'Core Capabilities & Features' : 'Tính năng trọng tâm'}
                             </h3>
                           </div>
@@ -2579,12 +2573,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         {/* Hệ thống liên thông (Proposal 4: Direct Inter-system Navigation) */}
                         <div className="pt-3 border-t border-[var(--border-subcard)]">
                           <div className="flex items-center justify-between gap-2 flex-wrap mb-2.5">
-                            <div className="flex items-center gap-2">
-                              <Network
-                                className="w-4 h-4 shrink-0"
-                                style={{ color: expandedAccent }}
-                              />
-                              <h3 className="typo-h4 font-play font-bold m-0 text-[var(--text-primary)]">
+                            <div className="subcard-header-sync flex items-center gap-2">
+                              <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
                                 {isEn ? 'Connected Systems' : 'Hệ thống liên thông trực tiếp'}
                               </h3>
                             </div>
@@ -2682,13 +2672,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           data-subcard="true"
                           className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 h-fit min-w-0"
                         >
-                          <div className="flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]">
-                            <Cpu
-                              className="w-4 h-4 shrink-0"
-                              style={{ color: expandedAccent }}
-                            />
+                          <div className="subcard-header-sync flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]">
                             <h3
-                              className="typo-h4 font-play font-bold m-0"
+                              className="typo-h4 subcard-title-synced font-play font-bold m-0"
+                              data-subcard-title="true"
                               style={{ color: expandedAccent }}
                             >
                               {isEn ? 'Technical Architecture' : 'Hạ tầng kỹ thuật'}
@@ -2752,14 +2739,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           }}
                         >
                           <div>
-                            <div className="flex items-center gap-2 mb-1.5">
-                              <WebIcon
-                                name="git-merge"
-                                className="w-4 h-4 shrink-0"
-                                style={{ color: expandedAccent }}
-                              />
+                            <div className="subcard-header-sync flex items-center gap-2 mb-1.5">
                               <h3
-                                className="typo-h4 font-play font-bold m-0"
+                                className="typo-h4 subcard-title-synced font-play font-bold m-0"
+                                data-subcard-title="true"
                                 style={{ color: expandedAccent }}
                               >
                                 {isEn ? 'Omnichannel Architecture' : 'Kiến trúc kết nối toàn hệ sinh thái'}

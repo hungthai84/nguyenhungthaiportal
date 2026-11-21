@@ -191,6 +191,24 @@ const PULL_CORD_THEME_VISUALS: Record<string, PullCordThemeVisual> = {
     unlitBulbShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.7)',
     accentDotColor: '#0067C0',
   },
+  'neumorphism-beyond': {
+    bracketBg: 'linear-gradient(145deg, #EAEFF6 0%, #E0E7F1 100%)',
+    bracketBorder: '1px solid rgba(196, 209, 226, 0.74)',
+    wireStroke: '#4973FF',
+    capBg: 'linear-gradient(145deg, #EAEFF6 0%, #DFE6F0 100%)',
+    capBorder: '1px solid rgba(196, 209, 226, 0.74)',
+    shadeBg: 'linear-gradient(145deg, rgba(235, 240, 247, 0.94) 0%, rgba(226, 232, 241, 0.90) 100%)',
+    shadeBorder: '1px solid rgba(196, 209, 226, 0.74)',
+    shadeShadow:
+      '0 4px 10px rgba(148, 163, 184, 0.18), 2px 3px 8px rgba(163, 177, 198, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.34)',
+    cordStroke: '#4973FF',
+    beadBg: 'linear-gradient(180deg, #EE6AD2 0%, #4973FF 55%, #2AD8E6 100%)',
+    beadBorder: '1px solid rgba(196, 209, 226, 0.78)',
+    beadShadow: '0 3px 8px rgba(148, 163, 184, 0.22), 2px 3px 6px rgba(163, 177, 198, 0.28)',
+    unlitBulbBg: 'rgba(148, 163, 184, 0.65)',
+    unlitBulbShadow: 'inset 1px 1px 2px rgba(163, 177, 198, 0.45), inset -1px -1px 2px rgba(255, 255, 255, 0.38)',
+    accentDotColor: '#EE6AD2',
+  },
 };
 
 export interface PullCordProps {
@@ -607,20 +625,26 @@ export const PullCord: React.FC<PullCordProps> = ({
   const themeVisual = PULL_CORD_THEME_VISUALS[cardStyle] || PULL_CORD_THEME_VISUALS['liquid-glass'];
   const activeThemeLabel = CARD_STYLES_MAP[cardStyle]?.shortBadge || 'Kính lỏng';
 
+  const isGlowDisabledTheme = cardStyle === 'neumorphism-beyond';
+
   const activeBulbStop = isColorMode
     ? COLOR_MODE_BULB_PALETTE[colorIndex]
     : COLOR_MODE_BULB_PALETTE[0];
 
-  const glowBackground = isLit
-    ? `radial-gradient(circle, ${activeBulbStop.haloInner} 0%, ${activeBulbStop.haloMid} 50%, transparent 80%)`
-    : 'radial-gradient(circle, rgba(148, 197, 248, 0.14) 0%, transparent 70%)';
+  const glowBackground = isGlowDisabledTheme
+    ? 'none'
+    : isLit
+      ? `radial-gradient(circle, ${activeBulbStop.haloInner} 0%, ${activeBulbStop.haloMid} 50%, transparent 80%)`
+      : 'radial-gradient(circle, rgba(148, 197, 248, 0.14) 0%, transparent 70%)';
 
   const bulbInlineStyle: React.CSSProperties = isLit
     ? {
         display: 'block',
         transformOrigin: '50% 50%',
-        backgroundColor: activeBulbStop.core,
-        boxShadow: `${activeBulbStop.shadow}, 0 0 0 2px ${activeBulbStop.ring}`,
+        backgroundColor: isGlowDisabledTheme ? '#4973FF' : activeBulbStop.core,
+        boxShadow: isGlowDisabledTheme
+          ? '2px 2px 5px rgba(148, 163, 184, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.34)'
+          : `${activeBulbStop.shadow}, 0 0 0 2px ${activeBulbStop.ring}`,
         transition: 'background-color 900ms ease, box-shadow 900ms ease, opacity 300ms ease',
       }
     : {
@@ -697,16 +721,18 @@ export const PullCord: React.FC<PullCordProps> = ({
         style={{ transformOrigin: '0 0' }}
       >
         <div ref={headRef} className="absolute left-0 top-0 will-change-transform">
-          {/* Bulb Radiant Glow Halo */}
-          <div
-            ref={glowCircleRef}
-            className="absolute left-[-42px] top-[14px] w-[84px] h-[84px] rounded-full pointer-events-none blur-md"
-            style={{
-              background: glowBackground,
-              opacity: isLit ? 1 : 0,
-              transition: 'background 900ms ease, opacity 300ms ease',
-            }}
-          />
+          {/* Bulb Radiant Glow Halo (Disabled on zero-glow themes) */}
+          {!isGlowDisabledTheme && (
+            <div
+              ref={glowCircleRef}
+              className="absolute left-[-42px] top-[14px] w-[84px] h-[84px] rounded-full pointer-events-none blur-md"
+              style={{
+                background: glowBackground,
+                opacity: isLit ? 1 : 0,
+                transition: 'background 900ms ease, opacity 300ms ease',
+              }}
+            />
+          )}
 
           {/* Glowing Light Bulb */}
           <i

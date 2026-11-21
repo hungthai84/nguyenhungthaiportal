@@ -32,7 +32,7 @@ function getGeminiClient(): GoogleGenAI | null {
 
 const TEXT_TRANSLATION_MODELS = ['gemini-3.8-flash', 'gemini-1.5-flash'] as const;
 const ASSISTANT_CHAT_MODELS = ['gemini-3.8-flash', 'gemini-1.5-flash'] as const;
-const TTS_MODEL = 'gemini-3.8-flash';
+const TTS_MODEL = 'gemini-3.8-flash-tts';
 const DEFAULT_QUOTA_COOLDOWN_MS = 15 * 60 * 1000;
 const MAX_QUOTA_COOLDOWN_MS = 60 * 60 * 1000;
 const MAX_SERVER_TRANSLATION_CACHE = 4000;
@@ -162,8 +162,8 @@ async function startServer() {
 
       const speechStyle =
         lang === 'en'
-          ? 'Warm, confident, clear adult male voice speaking natural international English.'
-          : 'Warm, friendly, clear adult male voice speaking Vietnamese with a natural Southern Vietnamese (Miền Nam Việt Nam, Sài Gòn) accent.';
+          ? 'Bright, cheerful, natural 10-year-old boy voice with clear, friendly youthful articulation.'
+          : 'Bright, cheerful, natural 10-year-old Vietnamese boy voice (trẻ em nam 10 tuổi), authentic Southern Vietnamese (Miền Nam Việt Nam, Sài Gòn) accent, clear articulation, warm and lively youthful tone.';
 
       const response = await ai.models.generateContent({
         model: TTS_MODEL,

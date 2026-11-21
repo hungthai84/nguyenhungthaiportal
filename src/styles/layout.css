@@ -3,11 +3,11 @@
 /* ========================================================================= */
 
 #website-root {
-  --shell-section-gap: 10px;
+  --shell-section-gap: 15px;
   height: 100vh;
   height: 100dvh;
   padding: 0 !important;
-  gap: var(--shell-section-gap, 10px);
+  gap: var(--shell-section-gap, 15px);
 }
 
 #website-root:has(#pdf-page-container) {
@@ -37,8 +37,12 @@
   transition: none !important;
 }
 
-#global-content-viewport:has(#pdf-page-container) {
-  max-width: var(--container-max-w, 1250px);
+@media screen {
+  #global-content-viewport:has(#pdf-page-container) {
+    max-width: calc(var(--container-max-w, 1250px) + 30px) !important;
+    padding: 15px !important;
+    box-sizing: border-box !important;
+  }
 }
 
 @media (max-height: 580px) {
@@ -74,11 +78,10 @@
   max-width: var(--container-max-w, 1250px);
   min-width: 0;
   height: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding: var(--main-card-padding, 15px);
-  gap: var(--space-card-gap, 15px);
-  box-sizing: border-box;
+  margin: 0 auto !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  box-sizing: border-box !important;
   scroll-behavior: smooth;
 }
 
@@ -145,8 +148,8 @@
 }
 
 .page-cards-track {
-  padding-left: max(0px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2));
-  padding-right: max(0px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2));
+  padding-left: max(15px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2));
+  padding-right: max(15px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2));
 }
 
 /* Anti-overflow & Strict Main-Card Containment at Every Viewport Size */
@@ -463,9 +466,9 @@
 }
 
 /* Ultra-wide (≥1920px & ≥2560px): giữ viewport full-width cho tất cả trang có track căn giữa, chỉ giữ 1250px cho PdfView */
-@media (min-width: 1920px) {
+@media screen and (min-width: 1920px) {
   #global-content-viewport:has(#pdf-page-container) {
-    max-width: var(--container-max-w, 1250px);
+    max-width: calc(var(--container-max-w, 1250px) + 30px);
     width: 100%;
     margin-left: auto;
     margin-right: auto;

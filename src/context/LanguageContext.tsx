@@ -333,15 +333,15 @@ export function translateDynamicPattern(core: string, dictionary: Map<string, st
     const subj = dictionary.get(stopNarMatch[1]) || stopNarMatch[1];
     return `Stopped narration: ${subj}.`;
   }
-  const connNarMatch = c.match(/^Đang kết nối giọng PUCK MC Nam Sài Gòn:\s*(.+?)\.\.\.$/i);
+  const connNarMatch = c.match(/^Đang kết nối giọng (?:PUCK MC Nam Sài Gòn|AI Trí Nhân \(Puck\)):\s*(.+?)\.\.\.$/i);
   if (connNarMatch) {
     const subj = dictionary.get(connNarMatch[1]) || connNarMatch[1];
-    return `Connecting Puck AI Voice: ${subj}...`;
+    return `Connecting AI Tri Nhan (Puck) Voice: ${subj}...`;
   }
-  const playNarMatch = c.match(/^AI PUCK MC Sài Gòn đang thuyết trình:\s*(.+?)\.\.\.(\s*🎙️)?$/i);
+  const playNarMatch = c.match(/^(?:AI PUCK MC Sài Gòn|AI Trí Nhân \(Puck\)) đang thuyết trình:\s*(.+?)\.\.\.(\s*🎙️)?$/i);
   if (playNarMatch) {
     const subj = dictionary.get(playNarMatch[1]) || playNarMatch[1];
-    return `Puck AI Voice is presenting: ${subj}...${playNarMatch[2] || ''}`;
+    return `AI Tri Nhan (Puck) is presenting: ${subj}...${playNarMatch[2] || ''}`;
   }
 
   // Split "Label: Value" if Label exists in dictionary

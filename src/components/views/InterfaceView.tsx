@@ -224,6 +224,59 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'M2', width: '72%', gradient: 'linear-gradient(90deg, #107C41, #00A4EF)', glow: '0 0 10px rgba(16, 124, 65, 0.3)' },
     ],
   },
+  'multicolor-glass': {
+    radius: '24px',
+    activeRingColor: '#4F46E5',
+    activeBorderClass: 'border-[#4F46E5]',
+    idleBorderClass: 'border-white/80 hover:border-indigo-400/70',
+    activeBadgeClass: 'bg-indigo-50/90 text-[#4F46E5] border-indigo-400/45 shadow-xs backdrop-blur-md',
+    iconColor: '#4F46E5',
+    titleTextClass: 'text-[#0F172A]',
+    bodyTextClass: 'text-[#334155]',
+    accentTextClass: 'text-[#4F46E5]',
+    previewBorderClass: 'border-white/80',
+    dividerClass: 'border-indigo-200/60',
+    ctaIdleClass: 'bg-white/75 text-[#4F46E5] hover:bg-white border border-white/85 shadow-xs backdrop-blur-md',
+    ctaActiveClass: 'bg-gradient-to-r from-[#4F46E5] via-[#0EA5E9] to-[#EC4899] text-white shadow-xs border border-white/80',
+    toggleTrackDarkClass: 'bg-[#0F172A] border-indigo-400/45',
+    toggleTrackLightClass: 'bg-indigo-50/95 border-white/90',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#818CF8] to-[#F472B6] text-slate-950',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#4F46E5] via-[#0EA5E9] to-[#EC4899] text-white',
+    demoVideoUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4',
+    gradientBars: [
+      { label: 'Indigo', width: '94%', gradient: 'linear-gradient(90deg, #4F46E5, #818CF8)', glow: '0 0 10px rgba(79, 70, 229, 0.35)' },
+      { label: 'Cyan', width: '82%', gradient: 'linear-gradient(90deg, #0284C7, #38BDF8)', glow: '0 0 10px rgba(14, 165, 233, 0.35)' },
+      { label: 'Rose', width: '74%', gradient: 'linear-gradient(90deg, #DB2777, #F472B6)', glow: '0 0 10px rgba(236, 72, 153, 0.3)' },
+    ],
+  },
+  'neumorphism-beyond': {
+    radius: '14px',
+    activeRingColor: '#4973FF',
+    activeBorderClass: 'border-[#4973FF]',
+    idleBorderClass: 'border-[#C4D1E2] hover:border-[#64B6FF]',
+    activeBadgeClass: 'bg-[#E5EBF3] text-[#4973FF] border-[#C4D1E2] shadow-xs',
+    iconColor: '#EE6AD2',
+    titleTextClass: 'text-[#1E293B]',
+    bodyTextClass: 'text-[#475569]',
+    accentTextClass: 'text-[#4973FF]',
+    previewBorderClass: 'border-[#C4D1E2] border-solid',
+    dividerClass: 'border-slate-300/60 border-solid',
+    ctaIdleClass: 'bg-[#E8EEF6] text-[#475569] hover:text-[#1E293B] border border-[#C4D1E2] shadow-xs',
+    ctaActiveClass: 'bg-gradient-to-r from-[#4973FF] via-[#64B6FF] to-[#2AD8E6] text-white shadow-xs border border-[#4973FF]/40',
+    toggleTrackDarkClass: 'bg-[#DFE6F0] border-[#C4D1E2]',
+    toggleTrackLightClass: 'bg-[#4973FF] border-[#4973FF]',
+    toggleThumbDarkClass: 'bg-[#EAEFF6] text-[#475569]',
+    toggleThumbLightClass: 'bg-[#EAEFF6] text-[#4973FF]',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Sky', width: '68%', gradient: 'linear-gradient(90deg, #64B6FF, #4FA4FA)' },
+      { label: 'Blue', width: '42%', gradient: 'linear-gradient(90deg, #4973FF, #3760EE)' },
+      { label: 'Indigo', width: '92%', gradient: 'linear-gradient(90deg, #445CE6, #344AD4)' },
+      { label: 'Pink', width: '56%', gradient: 'linear-gradient(90deg, #EE6AD2, #DE54C2)' },
+      { label: 'Cyan', width: '80%', gradient: 'linear-gradient(90deg, #2AD8E6, #18C2D2)' },
+      { label: 'Mint', width: '70%', gradient: 'linear-gradient(90deg, #52E0A8, #3ACF94)' },
+    ],
+  },
 };
 
 export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification }) => {
@@ -397,7 +450,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             <div className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none">
               {!heroVideoFailed && (
                 <video
-                  src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795095533/Digen_Video_1795095282666.mp4"
+                  src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/Giao_di%E1%BB%87n.mp4"
                   autoPlay
                   loop
                   muted
@@ -412,11 +465,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
 
             <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
               <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-                <WebIcon
-                  name="palette"
-                  className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                  style={{ width: '22px', height: '22px' }}
-                />
                 <h1
                   className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
                   data-card-title="true"
@@ -501,7 +549,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             >
               <div className="flex items-center justify-between gap-2 pb-2 border-b min-w-0" style={{ borderColor: 'var(--border-subcard)' }}>
                 <div className="card-header-sync flex items-center gap-2 min-w-0">
-                  <WebIcon name="palette" className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary)' }} />
                   <h2
                     className="typo-h5 font-bold tracking-tight truncate card-title-synced"
                     data-card-title="true"
@@ -568,7 +615,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             >
               <div className="flex items-center justify-between gap-2 pb-2 border-b" style={{ borderColor: 'var(--border-subcard)' }}>
                 <div className="card-header-sync flex items-center gap-2 min-w-0">
-                  <WebIcon name="layers" className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary)' }} />
                   <h2
                     className="typo-h5 font-bold tracking-tight truncate card-title-synced"
                     data-card-title="true"
@@ -672,7 +718,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               style={{ borderColor: 'var(--border-subcard)' }}
             >
               <div className="card-header-sync flex items-center gap-2 min-w-0">
-                <WebIcon name="layers" className="w-4.5 h-4.5 shrink-0" style={{ color: 'var(--color-primary)' }} />
                 <h2
                   className="typo-h5 font-bold tracking-tight truncate card-title-synced"
                   data-card-title="true"
@@ -787,7 +832,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         borderColor: 'var(--surface-secondary-border, var(--border-subcard))',
                       }}
                     >
-                      <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
                       <span className="typo-badge font-semibold" style={{ color: 'var(--text-primary)' }}>
                         {isEn ? 'L2 · Header Pill Card' : 'L2 · Card trong Header'}
                       </span>
@@ -933,7 +977,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       borderColor: 'var(--surface-secondary-border, var(--border-subcard))',
                     }}
                   >
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
                     <span className="typo-badge font-semibold" style={{ color: 'var(--text-primary)' }}>
                       {isEn ? 'L2 · Footer Control Card' : 'L2 · Card trong Footer'}
                     </span>
@@ -1201,11 +1244,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       style={{ borderColor: 'var(--border-subcard)' }}
                     >
                       <div className="card-header-sync flex items-center gap-2 min-w-0">
-                        <WebIcon
-                          name={group.icon}
-                          className="w-4.5 h-4.5 shrink-0"
-                          style={{ color: 'var(--color-primary)' }}
-                        />
                         <h3
                           className="typo-h5 font-bold tracking-tight truncate card-title-synced"
                           data-card-title="true"
@@ -1282,11 +1320,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                               {/* Title & Description */}
                               <div className="min-w-0 flex flex-col gap-1.5">
                                 <div className="card-header-sync flex items-center gap-2 min-w-0">
-                                  <WebIcon
-                                    name={preset.icon}
-                                    className="w-4.5 h-4.5 shrink-0"
-                                    style={{ color: meta.iconColor }}
-                                  />
                                   <h4
                                     className="typo-h4 font-bold leading-snug min-w-0 truncate card-title-synced"
                                     data-card-title="true"
@@ -1304,7 +1337,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                             {/* Dedicated Theme Wallpaper + Live Material Specimen */}
                             <div
                               style={{
-                                borderRadius: preset.id.includes('liquid-glass') ? '20px' : 'var(--radius-subcard, 14px)',
+                                borderRadius: preset.id.includes('glass') ? '20px' : 'var(--radius-subcard, 14px)',
                                 backgroundImage: bgSpec?.imagePath
                                   ? `url('${bgSpec.imagePath}'), ${bgSpec.fallbackGradient}`
                                   : bgSpec?.fallbackGradient,
@@ -1317,7 +1350,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                 className="relative z-10 p-2.5 flex flex-col gap-2 border"
                                 style={{
                                   ...preset.miniPreviewWrapStyle,
-                                  borderRadius: preset.id.includes('liquid-glass') ? '16px' : '12px',
+                                  borderRadius: preset.id.includes('glass') ? '16px' : '12px',
                                 }}
                               >
                                 <div className="flex items-center justify-between gap-2">
@@ -1352,8 +1385,11 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                 {isVideoVisible ? (
                                   <div
                                     data-media-card="video"
-                                    style={{ padding: '5px' }}
-                                    className="relative w-full h-[112px] p-[5px] rounded-[12px] overflow-hidden bg-slate-950/60 border border-white/20 box-border"
+                                    style={{
+                                      padding: '2px',
+                                      borderRadius: preset.id.includes('glass') ? '16px' : '12px',
+                                    }}
+                                    className="relative w-full h-[112px] overflow-hidden bg-slate-950/60 border border-white/20 box-border"
                                   >
                                     <video
                                       src={meta.demoVideoUrl}
@@ -1364,7 +1400,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                       onError={() =>
                                         setFailedVideoIds((prev) => ({ ...prev, [preset.id]: true }))
                                       }
-                                      className="w-full h-full object-cover rounded-[7px]"
+                                      className="w-full h-full object-cover rounded-[inherit]"
                                     />
                                   </div>
                                 ) : (
@@ -1420,7 +1456,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                             {/* Single Clear Card Footer Action */}
                             <div className={`mt-auto pt-2.5 flex items-center justify-between gap-2 border-t ${meta.dividerClass}`}>
                               <span className={`typo-caption font-mono truncate ${meta.accentTextClass}`}>
-                                {preset.id.includes('liquid-glass') ? '24px · blur(24px)' : meta.radius}
+                                {preset.id.includes('glass') ? '24px · blur(24px)' : meta.radius}
                               </span>
 
                               <button
@@ -1472,7 +1508,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 style={{ borderColor: 'var(--border-subcard)' }}
               >
                 <div className="card-header-sync flex items-center gap-2 min-w-0">
-                  <WebIcon name="sparkles" className="w-4.5 h-4.5 shrink-0" style={{ color: 'var(--color-primary)' }} />
                   <h4
                     className="typo-h5 font-bold tracking-tight truncate card-title-synced"
                     data-card-title="true"
@@ -1484,8 +1519,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               </div>
               <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
                 {isEn
-                  ? 'Interactive replica of search bar, pill buttons, soft icon cards, and glowing vertical slider tracks.'
-                  : 'Mô phỏng tương tác thanh tìm kiếm, nút bấm, thẻ icon và các thanh trượt dọc phát sáng từ mẫu thiết kế.'}
+                  ? 'Interactive replica of search bar, pill buttons, soft icon cards, and crisp multi-color vertical slider tracks.'
+                  : 'Mô phỏng tương tác thanh tìm kiếm, nút bấm, thẻ icon và các thanh trượt dọc đa sắc từ mẫu thiết kế.'}
               </p>
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-center pt-1">
@@ -1538,7 +1573,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         boxShadow: 'var(--neu-raised-shadow)',
                       }}
                     >
-                      <WebIcon name="heart" className="w-5 h-5 text-pink-500 fill-pink-500/20" />
+                      <WebIcon name="heart" className="w-5 h-5" style={{ color: '#EE6AD2', fill: '#EE6AD2' }} />
                     </button>
                     <button
                       type="button"
@@ -1553,7 +1588,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         boxShadow: 'var(--neu-raised-shadow)',
                       }}
                     >
-                      <WebIcon name="message-square" className="w-5 h-5 text-sky-500" />
+                      <WebIcon name="message-square" className="w-5 h-5" style={{ color: '#64B6FF', fill: '#64B6FF' }} />
                     </button>
                     <button
                       type="button"
@@ -1568,7 +1603,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         boxShadow: 'var(--neu-raised-shadow)',
                       }}
                     >
-                      <WebIcon name="bookmark" className="w-5 h-5 text-indigo-500 fill-indigo-500/20" />
+                      <WebIcon name="bookmark" className="w-5 h-5" style={{ color: '#4973FF', fill: '#4973FF' }} />
                     </button>
                   </div>
 
@@ -1610,7 +1645,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 </div>
 
                 <div
-                  className="lg:col-span-7 flex items-end justify-around gap-3 p-[15px] rounded-[20px] border"
+                  className="lg:col-span-7 flex items-end justify-around gap-3 p-[15px] rounded-[var(--radius-subcard,14px)] border"
                   style={{
                     background: 'var(--bg-card)',
                     borderColor: 'var(--border-subcard)',
@@ -1618,12 +1653,12 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   }}
                 >
                   {[
-                    { label: 'Sky', color: 'linear-gradient(180deg, #38bdf8 0%, #0284c7 100%)', glow: 'rgba(56, 189, 248, 0.45)' },
-                    { label: 'Blue', color: 'linear-gradient(180deg, #6366f1 0%, #4f46e5 100%)', glow: 'rgba(99, 102, 241, 0.45)' },
-                    { label: 'Deep', color: 'linear-gradient(180deg, #818cf8 0%, #7c3aed 100%)', glow: 'rgba(129, 140, 248, 0.45)' },
-                    { label: 'Pink', color: 'linear-gradient(180deg, #ec4899 0%, #f43f5e 100%)', glow: 'rgba(236, 72, 153, 0.45)' },
-                    { label: 'Teal', color: 'linear-gradient(180deg, #06b6d4 0%, #0891b2 100%)', glow: 'rgba(6, 182, 212, 0.45)' },
-                    { label: 'Mint', color: 'linear-gradient(180deg, #10b981 0%, #059669 100%)', glow: 'rgba(16, 185, 129, 0.45)' },
+                    { label: 'Sky', color: 'linear-gradient(180deg, #64B6FF 0%, #4FA4FA 100%)' },
+                    { label: 'Blue', color: 'linear-gradient(180deg, #4973FF 0%, #3760EE 100%)' },
+                    { label: 'Indigo', color: 'linear-gradient(180deg, #445CE6 0%, #344AD4 100%)' },
+                    { label: 'Pink', color: 'linear-gradient(180deg, #EE6AD2 0%, #DE54C2 100%)' },
+                    { label: 'Cyan', color: 'linear-gradient(180deg, #2AD8E6 0%, #18C2D2 100%)' },
+                    { label: 'Mint', color: 'linear-gradient(180deg, #52E0A8 0%, #3ACF94 100%)' },
                   ].map((bar, idx) => {
                     const val = neuSliders[idx] || 60;
                     return (
@@ -1632,7 +1667,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           className="relative w-3.5 h-[140px] rounded-[999px] cursor-pointer overflow-hidden"
                           style={{
                             background: 'var(--bg-subcard)',
-                            boxShadow: 'inset 3px 3px 6px rgba(176, 198, 219, 0.7), inset -3px -3px 6px rgba(255, 255, 255, 0.95)',
+                            boxShadow: 'inset 2px 2px 5px rgba(163, 177, 198, 0.48), inset -2px -2px 4px rgba(255, 255, 255, 0.42)',
                           }}
                           onClick={(e) => {
                             const rect = e.currentTarget.getBoundingClientRect();
@@ -1649,7 +1684,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                             style={{
                               height: `${val}%`,
                               background: bar.color,
-                              boxShadow: `0 0 14px ${bar.glow}`,
+                              boxShadow: 'none',
                             }}
                           />
                         </div>

@@ -285,6 +285,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const [activeCardIndex, setActiveCardIndex] = useState<number>(0);
   const activeCardIndexRef = useRef<number>(0);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
+  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -302,9 +303,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const isProgrammaticScrollRef = useRef(false);
   const scrollTimeoutRef = useRef<number | null>(null);
 
-  const peekReserve = viewportWidth <= 767 ? 16 : viewportWidth <= 1023 ? 32 : 112;
+  const peekReserve = viewportWidth <= 1023 ? 32 : 112;
   const horoscopeCardWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
-  const horoscopeSideInset = Math.max(0, (horoscopeContainerWidth - horoscopeCardWidth) / 2);
+  const horoscopeSideInset = Math.max(15, (horoscopeContainerWidth - horoscopeCardWidth) / 2);
 
   useEffect(() => {
     const el = horoscopeContainerRef.current;
@@ -957,16 +958,31 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             borderRadius: 'var(--radius-banner, 24px)',
           }}
         >
-          <img
-            id="horoscope-hero-banner-img"
-            src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
-            alt="Banner Bản đồ tử vi & Phong thủy"
-            referrerPolicy="no-referrer"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
-            className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
-          />
+          {!heroVideoFailed ? (
+            <video
+              id="horoscope-hero-banner-img"
+              src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204136/T%E1%BB%AD_vi.mp4"
+              poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              onError={() => setHeroVideoFailed(true)}
+              className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
+            />
+          ) : (
+            <img
+              id="horoscope-hero-banner-img"
+              src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
+              alt="Banner Bản đồ tử vi & Phong thủy"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+              className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
+            />
+          )}
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
 

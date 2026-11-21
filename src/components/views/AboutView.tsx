@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 // Icons migrated to WebIcon (Hugeicons)
 
 const LinkedinIcon = ({ className }: { className?: string }) => (
@@ -580,9 +581,9 @@ export function AboutView({
   const isProgrammaticScrollRef = useRef(false);
   const scrollTimeoutRef = useRef<number | null>(null);
 
-  const peekReserve = viewportWidth <= 767 ? 16 : viewportWidth <= 1023 ? 32 : 112;
+  const peekReserve = viewportWidth <= 1023 ? 32 : 112;
   const aboutCardWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
-  const aboutSideInset = Math.max(0, (aboutContainerWidth - aboutCardWidth) / 2);
+  const aboutSideInset = Math.max(15, (aboutContainerWidth - aboutCardWidth) / 2);
 
   useEffect(() => {
     const el = aboutContainerRef.current;
@@ -868,7 +869,7 @@ export function AboutView({
 
 
 
-  // Handler nghe thuyết trình AI ngắn gọn cho từng Trụ Cột / Giá Trị bằng giọng PUCK MC Nam Sài Gòn
+  // Handler nghe thuyết trình AI ngắn gọn cho từng Trụ Cột / Giá Trị bằng giọng AI Trí Nhân (Puck 10 tuổi Miền Nam)
   const handleSpeakItem = useCallback((id: string, text: string, title: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     SoundEngine.playTap();
@@ -881,15 +882,16 @@ export function AboutView({
     }
 
     setActiveSpeechId(id);
-    showToast(`Đang kết nối giọng PUCK MC Nam Sài Gòn: ${title}...`);
+    showToast(`Đang kết nối giọng AI Trí Nhân (Puck): ${title}...`);
 
     speakSiteText(text, {
-      speakingStyle: 'professional',
-      rate: 1.02,
-      pitch: 1.0,
+      useGeminiTts: true,
+      speakingStyle: 'puck',
+      rate: 1.03,
+      pitch: 1.32,
       onStart: () => {
         setActiveSpeechId(id);
-        showToast(`AI PUCK MC Sài Gòn đang thuyết trình: ${title}... 🎙️`);
+        showToast(`AI Trí Nhân (Puck) đang thuyết trình: ${title}... 🎙️`);
       },
       onEnd: () => {
         setActiveSpeechId(null);
@@ -1192,7 +1194,7 @@ export function AboutView({
                   src={ABOUT_INTRO_VIDEO_URL}
                   controls
                   playsInline
-                  className="w-full h-full object-cover rounded-[14px]"
+                  className="w-full h-full object-cover object-[50%_18%] rounded-[14px]"
                 />
               </div>
               <div className="flex flex-col justify-between gap-3 text-left">
@@ -1655,10 +1657,10 @@ export function AboutView({
         <div
           id="about-intro-grid-1"
           style={{ padding: '0px' }}
-          className="w-full flex-1 min-h-0 my-auto grid grid-cols-2 lg:grid-cols-12 grid-rows-[minmax(0,1fr)] gap-[10px] sm:gap-[15px] p-0 overflow-hidden items-stretch box-border"
+          className="w-full flex-1 min-h-0 my-auto grid grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] sm:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[minmax(0,1fr)] gap-[10px] sm:gap-[15px] p-0 overflow-hidden items-stretch box-border"
         >
             
-            {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA */}
+            {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA (70%) */}
             <div
               id="about-hero-video-container"
               data-element-name="Card video chân dung chuyên gia"
@@ -1670,7 +1672,7 @@ export function AboutView({
                 borderRadius: 'var(--radius-card, 14px)',
                 padding: '5px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-0 min-w-0 group/video p-[5px] text-left"
+              className="bento-card glass-card col-span-1 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-0 min-w-0 group/video p-[5px] text-left"
             >
                   <div
                     style={{ borderRadius: 'calc(var(--radius-card, 14px) - 5px)' }}
@@ -1678,8 +1680,8 @@ export function AboutView({
                   >
                   {activeHeroMedia === 'video' ? (
                     <>
-                      <video
-                        ref={videoRef}
+                      <SmartFaceVideo
+                        videoRef={videoRef}
                         id="about-hero-video"
                         data-element-name="Video giới thiệu chân dung chuyên gia"
                         data-element-type="media"
@@ -1692,7 +1694,10 @@ export function AboutView({
                         playsInline
                         onTimeUpdate={handleTimeUpdate}
                         onEnded={handleVideoEnded}
-                        className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] pointer-events-none z-0 opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
+                        faceAnchor={{ x: 50, y: 18 }}
+                        maxCropDistortion={1.6}
+                        wrapperClassName="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0"
+                        className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
                         src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
                       />
                       <button
@@ -1927,7 +1932,7 @@ export function AboutView({
                   </div>
                   </div>
 
-            {/* CARD 2: CARD THÔNG TIN CHI TIẾT (Chiều cao luôn bằng Card Video) */}
+            {/* CARD 2: CARD THÔNG TIN CHI TIẾT (30% - Chiều cao luôn bằng Card Video) */}
             <div
               id="about-personal-info-card-right"
               data-element-name="Card thông tin chi tiết"
@@ -1937,7 +1942,7 @@ export function AboutView({
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 flex flex-col justify-between gap-2 sm:gap-2.5 self-stretch h-full min-h-0 min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[15px] overflow-hidden"
+              className="bento-card glass-card col-span-1 flex flex-col justify-between gap-2 sm:gap-2.5 self-stretch h-full min-h-0 min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[15px] overflow-hidden"
             >
                   {/* Header Bento Box Bar + Thanh thao tác nhanh (Lật Bản đồ M, Sao chép 1 chạm, Mã QR vCard) */}
                   <div className="flex flex-wrap items-center justify-between gap-1 sm:gap-2 border-b border-[var(--border-subcard)] pb-1.5 sm:pb-2 shrink-0 min-w-0">
@@ -2705,7 +2710,7 @@ export function AboutView({
                   muted={isPlayingIntro ? isVideoMuted : true}
                   playsInline
                   onEnded={handleVideoEnded}
-                  className="absolute inset-0 w-full h-full object-contain sm:object-cover object-center z-0"
+                  className="absolute inset-0 w-full h-full object-contain sm:object-cover object-[50%_18%] z-0"
                 />
 
                 {/* Scrim trên & dưới đảm bảo độ tương phản WCAG AA (>= 4.5:1) */}

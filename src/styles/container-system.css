@@ -12,20 +12,28 @@
 #about-intro-card-2 {
   container-type: inline-size;
   container-name: main-card;
-  padding: clamp(10px, calc(1.15vw + 4px), 16px) !important;
-  gap: clamp(10px, calc(1.05vw + 4px), 15px) !important;
-  row-gap: clamp(10px, calc(1.05vw + 4px), 15px) !important;
-  column-gap: clamp(10px, calc(1.05vw + 4px), 15px) !important;
+  padding: 15px !important;
+  padding-top: 15px !important;
+  padding-right: 15px !important;
+  padding-bottom: 15px !important;
+  padding-left: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
 }
 
 /* Card giới thiệu 1 luôn giữ đúng khoảng cách xung quanh và duy trì bố cục 2 cột responsive ở mọi kích thước */
 html #about-intro-card-1 {
   container-type: inline-size;
   container-name: main-card;
-  padding: clamp(10px, calc(1.15vw + 4px), 15px) !important;
-  gap: clamp(10px, calc(1.05vw + 4px), 15px) !important;
-  row-gap: clamp(10px, calc(1.05vw + 4px), 15px) !important;
-  column-gap: clamp(10px, calc(1.05vw + 4px), 15px) !important;
+  padding: 15px !important;
+  padding-top: 15px !important;
+  padding-right: 15px !important;
+  padding-bottom: 15px !important;
+  padding-left: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
@@ -34,7 +42,7 @@ html #about-intro-card-1 {
 
 html #about-intro-grid-1 {
   display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
   width: 100% !important;
   flex: 1 1 0% !important;
   height: 100% !important;
@@ -119,6 +127,36 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 }
 
+@container about-info-panel (min-width: 320px) and (max-width: 429px) {
+  #about-personal-info-card-right {
+    padding: 12px !important;
+    gap: 10px !important;
+  }
+
+  #about-personal-info-card-right #about-copy-vcard-btn span {
+    display: none !important;
+  }
+
+  #about-personal-info-grid {
+    gap: 8px !important;
+    row-gap: 8px !important;
+    column-gap: 8px !important;
+  }
+
+  #about-personal-info-grid > .about-info-subcard {
+    padding: 7px 9px !important;
+    gap: 4px !important;
+  }
+
+  #about-personal-info-grid > .about-info-subcard .about-info-label {
+    font-size: 11px !important;
+  }
+
+  #about-personal-info-grid > .about-info-subcard .about-info-value {
+    font-size: 12px !important;
+  }
+}
+
 /* Preserve #education-main-card existing container name alongside main-card */
 #education-main-card {
   container-type: inline-size;
@@ -133,6 +171,11 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #bento-brands-marquee {
   container-type: inline-size;
   container-name: brands-card;
+}
+
+#card-core-values-pursued {
+  container-type: inline-size;
+  container-name: core-values-card;
 }
 
 #experience-timeline-board {
@@ -294,7 +337,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 }
 
-/* Brands 2-row bento grid spacing & alignment */
+/* Brands bento grid spacing & container-responsive columns */
 #bento-brands-marquee {
   height: auto !important;
 }
@@ -308,6 +351,36 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #brands-bento-grid .partner-brand-tile {
   padding: clamp(8px, 1.05cqi, 12px) clamp(10px, 1.25cqi, 14px) !important;
   gap: clamp(8px, 1cqi, 12px) !important;
+}
+
+@container brands-card (max-width: 579px) {
+  #brands-bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@container brands-card (min-width: 580px) {
+  #brands-bento-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@container core-values-card (max-width: 359px) {
+  #core-values-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+@container core-values-card (min-width: 360px) and (max-width: 819px) {
+  #core-values-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@container core-values-card (min-width: 820px) {
+  #core-values-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -346,7 +419,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   /* About Card 1 luôn duy trì bố cục 2 cột song song trên mọi kích thước */
   html #about-intro-grid-1 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) !important;
     grid-template-rows: minmax(0, 1fr) !important;
     gap: 10px !important;
     row-gap: 10px !important;
@@ -418,36 +491,35 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #bento-letter-video {
-    grid-column: 1 / -1 !important;
+    grid-column: span 6 / span 6 !important;
     min-height: 260px !important;
   }
 
-  /* Side-by-side Thông điệp hợp tác & Châm ngôn phụng sự */
+  /* Cột phải cùng hàng với Video: Thông điệp hợp tác trên, Thương hiệu đồng hành ngay bên dưới */
   #letter-intro-right-stack {
-    grid-column: 1 / -1 !important;
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-column: span 6 / span 6 !important;
+    display: flex !important;
+    flex-direction: column !important;
     align-items: stretch !important;
   }
 
-  #letter-intro-right-stack > article {
+  /* Giá trị cốt lỗi & Châm ngôn phụng sự cùng hàng */
+  #card-core-values-pursued {
+    grid-column: span 7 / span 7 !important;
     height: 100% !important;
   }
 
-  #card-core-values-pursued {
-    grid-column: 1 / -1 !important;
+  #quote-banner-slide-1 {
+    grid-column: span 5 / span 5 !important;
+    height: 100% !important;
   }
 
   #core-values-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  #bento-brands-marquee {
-    grid-column: 1 / -1 !important;
-  }
-
   #brands-bento-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
   #letter-slide-2-grid,
@@ -464,20 +536,17 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: 1 / -1 !important;
   }
 
-  /* About Card 1 duy trì 2 cột 50/50 ở mức Tablet; About Card 2 xếp 1 cột thoáng */
+  /* About Card 1 duy trì tỷ lệ 70% Video / 30% Thông tin chi tiết cùng 1 hàng */
   html #about-intro-grid-1 {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
     grid-template-rows: minmax(0, 1fr) !important;
     min-height: 0 !important;
     height: 100% !important;
   }
 
-  html #about-intro-grid-1 > #about-hero-video-container {
-    grid-column: span 6 / span 6 !important;
-  }
-
+  html #about-intro-grid-1 > #about-hero-video-container,
   html #about-intro-grid-1 > #about-personal-info-card-right {
-    grid-column: span 6 / span 6 !important;
+    grid-column: span 1 / span 1 !important;
   }
 
   #about-intro-grid-2 {
@@ -558,35 +627,32 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #bento-letter-video {
-    grid-column: 1 / -1 !important;
-    min-height: 290px !important;
+    grid-column: span 7 / span 7 !important;
+    min-height: 270px !important;
   }
 
   #letter-intro-right-stack {
-    grid-column: 1 / -1 !important;
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    align-items: stretch !important;
-  }
-
-  #letter-intro-right-stack > article {
-    height: 100% !important;
+    grid-column: span 5 / span 5 !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
   #card-core-values-pursued {
-    grid-column: 1 / -1 !important;
+    grid-column: span 8 / span 8 !important;
+    height: 100% !important;
+  }
+
+  #quote-banner-slide-1 {
+    grid-column: span 4 / span 4 !important;
+    height: 100% !important;
   }
 
   #core-values-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  #bento-brands-marquee {
-    grid-column: 1 / -1 !important;
-  }
-
   #brands-bento-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
   #letter-slide-2-grid,
@@ -606,23 +672,20 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 6 / span 6 !important;
   }
 
-  #about-intro-grid-1,
   #about-intro-grid-2 {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
 
   html #about-intro-grid-1 {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
     grid-template-rows: minmax(0, 1fr) !important;
     min-height: 0 !important;
     height: 100% !important;
   }
 
-  #about-hero-video-container {
-    grid-column: span 7 / span 7 !important;
-  }
-
+  #about-hero-video-container,
   #about-personal-info-card-right {
-    grid-column: span 5 / span 5 !important;
+    grid-column: span 1 / span 1 !important;
   }
 
   #about-career-goal-card,
@@ -698,7 +761,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
 /* === D. FULL DESKTOP BENTO (>= 1050px inside Main Card) === */
 @container main-card (min-width: 1050px) {
-  /* Letter Slide 1: 7/5 Video + Intro Stack on Row 1; Full-width 4-col Core Values on Row 2; 2x4 Brands Grid on Row 3 */
+  /* Letter Slide 1: 7/5 Video + Intro/Brands Stack on Row 1; 8/4 Core Values + Motto on Row 2 */
   #el-p1-div-85 {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
@@ -715,19 +778,21 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #card-core-values-pursued {
-    grid-column: 1 / -1 !important;
+    grid-column: span 8 / span 8 !important;
+    height: 100% !important;
+  }
+
+  #quote-banner-slide-1 {
+    grid-column: span 4 / span 4 !important;
+    height: 100% !important;
   }
 
   #core-values-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  }
-
-  #bento-brands-marquee {
-    grid-column: 1 / -1 !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
   #brands-bento-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
   #letter-slide-2-grid,
@@ -748,23 +813,20 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 6 / span 6 !important;
   }
 
-  #about-intro-grid-1,
   #about-intro-grid-2 {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
 
   html #about-intro-grid-1 {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
     grid-template-rows: minmax(0, 1fr) !important;
     min-height: 0 !important;
     height: 100% !important;
   }
 
-  #about-hero-video-container {
-    grid-column: span 7 / span 7 !important;
-  }
-
+  #about-hero-video-container,
   #about-personal-info-card-right {
-    grid-column: span 5 / span 5 !important;
+    grid-column: span 1 / span 1 !important;
   }
 
   #about-career-goal-card,

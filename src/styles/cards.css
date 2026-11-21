@@ -98,7 +98,7 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
 #experience-video-card-2026 > div,
 [data-media-card="video"] > div,
 [data-media-card="video"] > video {
-  border-radius: calc(var(--radius-card, 14px) - 5px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   overflow: hidden !important;
 }
 
@@ -180,7 +180,7 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  border-radius: calc(var(--radius-card, 14px) - 1px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -1241,13 +1241,25 @@ h3.card-title,
   border-color: var(--border-banner-input, var(--border-color)) !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
+  font-family: var(--font-family-body, 'Play', sans-serif) !important;
   font-size: var(--fs-button, 14px) !important;
-  line-height: normal !important;
+  font-weight: var(--fw-bold, 700) !important;
+  line-height: var(--lh-button, 1.35) !important;
+  letter-spacing: 0.01em !important;
+}
+
+.banner-search-input::placeholder {
+  font-family: var(--font-family-body, 'Play', sans-serif) !important;
+  font-size: var(--fs-button, 14px) !important;
+  font-weight: var(--fw-bold, 700) !important;
+  line-height: var(--lh-button, 1.35) !important;
+  opacity: 0.78;
 }
 
 @media (max-width: 767px) {
-  .banner-search-input {
-    font-size: 16px !important;
+  .banner-search-input,
+  .banner-search-input::placeholder {
+    font-size: var(--fs-button, 14px) !important;
   }
 }
 
@@ -1334,32 +1346,31 @@ h3.card-title,
   padding: 5px !important;
 }
 
-#wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]),
 #memories-page-container [id^="memory-card-"] {
   padding: 1px !important;
   border-radius: var(--radius-card, 14px) !important;
 }
 
-#wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"] {
-  padding: 5px !important;
+#wallpaper-page-container .themed-image-card[id^="wallpaper-card-"],
+#wallpaper-page-container .themed-image-card[id^="wallpaper-card-"][data-media-card="video"] {
+  padding: 2px !important;
   border-radius: var(--radius-card, 14px) !important;
 }
 
-#wallpaper-page-container [id^="wallpaper-card-media-"] {
+#wallpaper-page-container [id^="wallpaper-card-media-"],
+#wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"] [id^="wallpaper-card-media-"],
+#wallpaper-page-container #wallpaper-card-preview-none {
   padding: 0 !important;
   background-color: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  border-radius: calc(var(--radius-card, 14px) - 1px) !important;
-}
-
-#wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"] [id^="wallpaper-card-media-"] {
-  border-radius: calc(var(--radius-card, 14px) - 5px) !important;
+  border-radius: var(--radius-card, 14px) !important;
 }
 
 #wallpaper-page-container [id^="wallpaper-card-content-"],
 #memories-page-container [id^="memory-card-content-"] {
   padding: 15px !important;
+  border-radius: var(--radius-card, 14px) !important;
 }
 
 /* Hover-only reveal for titles & objects inside Wallpaper & Memories cards */
@@ -2512,14 +2523,14 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"])
 }
 
 #ai-assistant-cards-track:has(#ai-assistant-main-card[data-chat-expanded="true"]) {
-  padding-left: max(12px, calc((100vw - 2px - min(calc(100vw - 24px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px)))) / 2)) !important;
-  padding-right: max(12px, calc((100vw - 2px - min(calc(100vw - 24px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px)))) / 2)) !important;
+  padding-left: max(15px, calc((100vw - 2px - min(calc(100vw - 32px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px)))) / 2)) !important;
+  padding-right: max(15px, calc((100vw - 2px - min(calc(100vw - 32px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px)))) / 2)) !important;
 }
 
 #ai-assistant-main-card[data-chat-expanded="true"] {
-  width: min(calc(100vw - 24px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px))) !important;
-  max-width: calc(100vw - 24px) !important;
-  flex: 0 0 min(calc(100vw - 24px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px))) !important;
+  width: min(calc(100vw - 32px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px))) !important;
+  max-width: calc(100vw - 32px) !important;
+  flex: 0 0 min(calc(100vw - 32px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px))) !important;
   transition: width 180ms ease-out, flex-basis 180ms ease-out !important;
 }
 
@@ -3172,12 +3183,12 @@ html.dark #services-page-container .domain-card-sub {
 }
 
 #systems-page-container .system-card-tile .system-img-pop {
-  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
+  transition: none !important;
+  transform: none !important;
 }
 
 #systems-page-container .system-card-tile:hover .system-img-pop {
-  transform: scale(1.1) translateY(-4px) rotate(-2deg);
+  transform: none !important;
 }
 
 #systems-page-container .system-card-sub {
@@ -3576,6 +3587,45 @@ html[data-card-style="mica-fluent"] .video-play-btn--letter {
   --vp-text: #FFFFFF;
 }
 
+/* --- Theme 11: Nổi Khối Kính Mờ (Neumorphism, Glassmorphism & Beyond — Matte Anti-Glare) --- */
+html[data-card-style="neumorphism-beyond"] .video-play-btn {
+  --vp-backdrop: blur(12px) saturate(105%);
+  --vp-border: rgba(196, 209, 226, 0.78);
+  --vp-text: #1E293B;
+  --vp-specular: rgba(255, 255, 255, 0.34);
+  --vp-chase-a: transparent;
+  --vp-chase-b: transparent;
+  --vp-shadow-ambient: 0 4px 12px rgba(148, 163, 184, 0.20), 2px 3px 8px rgba(163, 177, 198, 0.26);
+  --vp-shadow-hover: 0 6px 14px rgba(148, 163, 184, 0.24), 3px 4px 10px rgba(163, 177, 198, 0.30);
+  --vp-sound-bg: rgba(73, 115, 255, 0.12);
+  --vp-sound-border: rgba(73, 115, 255, 0.28);
+  --vp-sound-hover: rgba(238, 106, 210, 0.20);
+  animation: none !important;
+}
+html[data-card-style="neumorphism-beyond"] .video-play-btn:hover,
+html[data-card-style="neumorphism-beyond"] .video-play-btn:focus-visible {
+  box-shadow:
+    var(--vp-shadow-hover),
+    inset 0 1px 0 rgba(255, 255, 255, 0.36) !important;
+}
+html[data-card-style="neumorphism-beyond"] .video-play-btn::before {
+  display: none !important;
+  content: none !important;
+}
+html[data-card-style="neumorphism-beyond"] .video-play-btn--home,
+html[data-card-style="neumorphism-beyond"] .video-play-btn--about,
+html[data-card-style="neumorphism-beyond"] .video-play-btn--interview,
+html[data-card-style="neumorphism-beyond"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, rgba(236, 241, 247, 0.94) 0%, rgba(226, 233, 242, 0.90) 100%);
+  --vp-bg-hover: linear-gradient(145deg, #EEF2F8 0%, #E1E8F2 100%);
+}
+html[data-card-style="neumorphism-beyond"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #EE6AD2 0%, #4973FF 55%, #2AD8E6 100%);
+  --vp-bg-hover: linear-gradient(135deg, #E55EC9 0%, #3E68F5 55%, #20CDDB 100%);
+  --vp-text: #FFFFFF;
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .video-play-btn,
   html[data-card-style] .video-play-btn,
@@ -3639,7 +3689,7 @@ html[data-card-style="mica-fluent"] .video-play-btn--letter {
 #global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
 .theme-modal-card img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
 [data-section-card="true"] img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]) {
-  border-radius: var(--radius-subcard, 16px) !important;
+  border-radius: var(--radius-card, 14px) !important;
 }
 
 #app-header {

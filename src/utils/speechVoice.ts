@@ -33,23 +33,23 @@ export interface VoicePersonaConfig {
 export const TTS_VOICE_PERSONAS: VoicePersonaConfig[] = [
   {
     id: 'gemini-puck',
-    name: 'Trí Nhân (Gemini AI • Puck)',
-    shortLabelVi: 'AI Puck (Chuẩn Neural)',
-    shortLabelEn: 'AI Puck (Cloud Neural)',
+    name: 'AI Trí Nhân (Puck • Bé trai 10 tuổi Miền Nam)',
+    shortLabelVi: 'AI Trí Nhân (Puck)',
+    shortLabelEn: 'AI Tri Nhan (Puck)',
     voiceName: 'Puck',
     gender: 'male',
     lang: 'vi-VN',
     langGroup: 'vi',
-    region: 'Giọng AI Tổng Hợp',
-    regionEn: 'Cloud AI Neural',
-    style: 'Nam giới, Tiếng Việt / English tự nhiên',
-    pitch: 0.96,
-    rate: 1.02,
+    region: 'Miền Nam Việt Nam',
+    regionEn: 'Southern Vietnam',
+    style: 'Nam giới trẻ em 10 tuổi, giọng Miền Nam Việt Nam',
+    pitch: 1.32,
+    rate: 1.03,
     useGeminiCloud: true,
     sampleTextVi:
-      'Xin chào, tôi là Trí Nhân. Đang sử dụng giọng đọc trí tuệ nhân tạo Gemini Puck phục vụ phần thuyết minh hồ sơ Nguyễn Hùng Thái.',
+      'Xin chào Anh Chị! Em là AI Trí Nhân, đang sử dụng giọng đọc Puck trẻ em 10 tuổi Miền Nam Việt Nam để hỗ trợ thuyết minh hồ sơ anh Nguyễn Hùng Thái.',
     sampleTextEn:
-      'Hello, I am Tri Nhan speaking with the Gemini Puck neural voice for Nguyen Hung Thai portfolio narration.',
+      'Hello! I am AI Tri Nhan speaking with the Puck 10-year-old boy voice for Nguyen Hung Thai portfolio narration.',
   },
   {
     id: 'vi-south-male',
@@ -172,14 +172,14 @@ export const DEFAULT_PUCK_VOICE_PERSONA: VoicePersonaConfig = TTS_VOICE_PERSONAS
 export const ENGLISH_PUCK_VOICE_PERSONA: VoicePersonaConfig = {
   ...TTS_VOICE_PERSONAS[0],
   id: 'puck-male-english',
-  name: 'Tri Nhan (Puck Male Voice • English)',
+  name: 'AI Tri Nhan (Puck • 10yo Boy)',
   lang: 'en-US',
   langGroup: 'en',
   region: 'International English',
   regionEn: 'International English',
-  style: 'Male, Clear Natural English',
-  pitch: 0.96,
-  rate: 1.0,
+  style: '10-year-old boy, clear youthful natural English',
+  pitch: 1.32,
+  rate: 1.03,
 };
 
 const TTS_PERSONA_STORAGE_KEY = 'hungthai_tts_persona_id';
@@ -201,15 +201,11 @@ export function saveDefaultVoiceURI(uri: string) {
 }
 
 export function getSavedVoicePersonaId(): TtsVoicePersonaId {
-  if (typeof window === 'undefined') return 'gemini-puck';
-  const raw = localStorage.getItem(TTS_PERSONA_STORAGE_KEY);
-  const found = TTS_VOICE_PERSONAS.find((p) => p.id === raw);
-  return (found?.id as TtsVoicePersonaId) || 'gemini-puck';
+  return 'gemini-puck';
 }
 
-export function getVoicePersonaConfig(personaId?: string): VoicePersonaConfig {
-  const id = personaId || getSavedVoicePersonaId();
-  return TTS_VOICE_PERSONAS.find((p) => p.id === id) || TTS_VOICE_PERSONAS[0];
+export function getVoicePersonaConfig(_personaId?: string): VoicePersonaConfig {
+  return TTS_VOICE_PERSONAS[0];
 }
 
 export function saveVoicePersonaId(personaId: TtsVoicePersonaId) {
@@ -439,7 +435,8 @@ function speakWithBrowserSynthesis(
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = effectivePersona.lang;
   utterance.rate = options?.rate ?? effectivePersona.rate;
-  utterance.pitch = options?.pitch ?? effectivePersona.pitch;
+  utterance.pitch =
+    options?.pitch && options.pitch !== 1.0 ? options.pitch : effectivePersona.pitch;
 
   const bestVoice = pickVoiceForPersona(undefined, effectivePersona, langMode);
   if (bestVoice) {
@@ -534,7 +531,7 @@ export function speakSiteText(
   const requestId = activeTtsRequestId;
   const activePersona = options?.personaOverride || getVoicePersonaConfig();
   const shouldUseGemini =
-    Boolean(options?.useGeminiTts) && activePersona.id === 'gemini-puck';
+    (options?.useGeminiTts ?? true) && activePersona.id === 'gemini-puck';
 
   const langMode: AssistantVoiceLanguage =
     activePersona.id !== 'gemini-puck'

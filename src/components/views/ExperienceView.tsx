@@ -47,6 +47,7 @@ import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
 import { saveMutedPref } from '@/utils/audioPreference';
+import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 
 interface MilestoneLogoItem {
   src: string;
@@ -374,6 +375,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const [isPhotoLightboxOpen, setIsPhotoLightboxOpen] = useState<boolean>(false);
   const [isJobVideoPlaying, setIsJobVideoPlaying] = useState<boolean>(false);
   const [isJobVideoMuted, setIsJobVideoMuted] = useState<boolean>(true);
+  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const jobVideoRef = useRef<HTMLVideoElement>(null);
 
   // States cho Timeline bìa gấp 3D theo cấu trúc mẫu đính kèm
@@ -822,8 +824,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           data-element-page="experience"
           data-element-parent="experience-cards-track"
           className={cn(
-            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,30px)] w-full h-full overflow-hidden',
-            showJobCard ? 'p-0 gap-0' : 'p-[15px] gap-[15px]'
+            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,30px)] w-full h-full',
+            showJobCard ? 'p-0 gap-0 overflow-hidden' : 'p-[15px] gap-[15px] overflow-y-auto overflow-x-hidden'
           )}
           style={{
             padding: showJobCard ? '0px' : '15px',
@@ -831,6 +833,61 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             gap: showJobCard ? '0px' : '15px',
           }}
         >
+      {/* BANNER VIDEO TRANG KINH NGHIỆM */}
+      {!showJobCard && (
+        <section
+          id="experience-hero-banner"
+          data-element-name="Banner Hành trình sự nghiệp"
+          data-element-type="banner-card"
+          data-element-page="experience"
+          data-section-card="true"
+          className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+          style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
+        >
+          <div
+            className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
+            style={{ borderRadius: 'var(--radius-banner, 24px)' }}
+          >
+            {!heroVideoFailed && (
+              <video
+                src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/Kinh_nghi%E1%BB%87m.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                onError={() => setHeroVideoFailed(true)}
+                className="w-full h-full object-cover object-center rounded-[var(--radius-banner,24px)] transition-all duration-700"
+              />
+            )}
+          </div>
+          <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[var(--radius-banner,24px)] z-0" />
+
+          <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+            <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+              <WebIcon
+                name="briefcase"
+                className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                style={{ width: '22px', height: '22px' }}
+              />
+              <h1
+                className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
+                data-card-title="true"
+                style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+              >
+                Kinh nghiệm
+              </h1>
+            </div>
+            <p
+              className="banner-quote typo-h3 font-handwriting font-quote not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
+              style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 700, fontStyle: 'normal' }}
+            >
+              &quot;Tận tâm phụng sự, dẫn dắt bằng kết quả ♡&quot;
+            </p>
+          </div>
+        </section>
+      )}
+
       {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH VỚI ĐỆM 15PX) */}
       {!showJobCard && (
         <section
@@ -868,7 +925,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 }
           }
           className={cn(
-            'group/board relative w-full h-full min-h-0 flex-1 rounded-[var(--radius-card,14px)] overflow-hidden select-none flex flex-col box-border z-[1]',
+            'group/board relative w-full min-h-[420px] lg:min-h-[430px] flex-1 rounded-[var(--radius-card,14px)] overflow-hidden select-none flex flex-col box-border z-[1]',
             isDragging ? 'cursor-grabbing' : 'cursor-grab'
           )}
         >
@@ -2192,8 +2249,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     style={{ borderRadius: 'calc(var(--radius-card, 14px) - 5px)' }}
                     className="relative w-full h-full flex-1 overflow-hidden min-h-0 flex flex-col justify-between"
                   >
-                    <video
-                      ref={jobVideoRef}
+                    <SmartFaceVideo
+                      videoRef={jobVideoRef}
                       id="experience-2026-video"
                       autoPlay
                       loop={!isJobVideoPlaying}
@@ -2210,7 +2267,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           }
                         }
                       }}
-                      className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] pointer-events-none z-0 opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
+                      faceAnchor={{ x: 50, y: 18 }}
+                      maxCropDistortion={1.6}
+                      wrapperClassName="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0"
+                      className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
                       src={isJobVideoPlaying ? "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841266/Th%E1%BA%BB_Job_2026.mp4" : "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841270/Man_h%C3%ACnh_ch%E1%BB%9D_Job_2026.mp4"}
                     />
 

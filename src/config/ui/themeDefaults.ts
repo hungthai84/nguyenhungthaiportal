@@ -3,6 +3,8 @@ import rainbowGlassWallpaper from '@/assets/images/wallpaper_rainbow_glass_17951
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
 import micaFluentWallpaper from '@/assets/images/wallpaper_mica_fluent_1795175772748.jpg';
+import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
+import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 
 export const DEFAULT_CARD_STYLE: CardStyleMode = 'liquid-glass';
 export const DEFAULT_LAYER_DEPTH = 100;
@@ -11,6 +13,9 @@ export const CARD_STYLE_STORAGE_KEY = 'hungthai_card_style_v2';
 export const COLOR_SCHEME_MODE_STORAGE_KEY = 'hungthai_color_scheme_mode_v1';
 export const WALLPAPER_MANUAL_STORAGE_KEY = 'hungthai_wallpaper_manual_v2';
 export const GLASS_CUSTOMIZATION_STORAGE_KEY = 'hungthai_glass_customization_v1';
+export const WALLPAPER_OVERLAY_STORAGE_KEY = 'hungthai_wallpaper_overlay_v1';
+export const ADAPTIVE_ACCENT_STORAGE_KEY = 'hungthai_adaptive_accent_v1';
+export const THEME_WALLPAPER_PRESETS_STORAGE_KEY = 'hungthai_theme_wallpaper_presets_v1';
 export const SURFACE_DEPTH_STORAGE_KEY = 'hungthai_surface_depth_v1';
 export const LAYER_DEPTH_STORAGE_KEY = 'hungthai_layer_depth_v1';
 export const AUTO_TIME_THEME_STORAGE_KEY = 'hungthai_auto_time_theme_v1';
@@ -18,6 +23,8 @@ export const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
 export const COLOR_SCHEME_MODE_SYNC_EVENT = 'hungthai:color-scheme-mode-changed';
 export const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
 export const GLASS_CUSTOMIZATION_SYNC_EVENT = 'hungthai:glass-customization-changed';
+export const WALLPAPER_OVERLAY_SYNC_EVENT = 'hungthai:wallpaper-overlay-changed';
+export const ADAPTIVE_ACCENT_SYNC_EVENT = 'hungthai:adaptive-accent-changed';
 export const SURFACE_DEPTH_SYNC_EVENT = 'hungthai:surface-depth-changed';
 export const LAYER_DEPTH_SYNC_EVENT = 'hungthai:layer-depth-changed';
 export const AUTO_TIME_THEME_SYNC_EVENT = 'hungthai:auto-time-theme-changed';
@@ -28,9 +35,11 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
 > = {
   'liquid-glass': { cardOpacity: 64, blurIntensity: 24 },
   'dark-liquid-glass': { cardOpacity: 64, blurIntensity: 24 },
+  'multicolor-glass': { cardOpacity: 44, blurIntensity: 22 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'deep-ocean': { cardOpacity: 84, blurIntensity: 20 },
   'mica-fluent': { cardOpacity: 82, blurIntensity: 30 },
+  'neumorphism-beyond': { cardOpacity: 91, blurIntensity: 14 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -94,12 +103,33 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(circle at 15% 15%, rgba(200, 215, 235, 0.45) 0%, transparent 50%), radial-gradient(circle at 85% 25%, rgba(220, 230, 245, 0.4) 0%, transparent 52%), radial-gradient(circle at 50% 85%, rgba(210, 220, 240, 0.35) 0%, transparent 54%), linear-gradient(135deg, #f3f6fa 0%, #e8edf5 52%, #dfe6f0 100%)',
     overlayBg: 'rgba(243, 246, 250, 0.12)',
   },
+  'neumorphism-beyond': {
+    id: 'neumorphism-beyond',
+    presetId: 'theme-bg-neumorphism-beyond',
+    label: 'Nền Nổi Khối Kính Mờ',
+    themeMode: 'light',
+    imagePath: neumorphismBeyondWallpaper,
+    fallbackGradient: 'linear-gradient(145deg, #EAEFF6 0%, #E6ECF4 55%, #DFE6F0 100%)',
+    overlayBg: 'rgba(226, 234, 244, 0.14)',
+  },
+  'multicolor-glass': {
+    id: 'multicolor-glass',
+    presetId: 'theme-bg-multicolor-glass',
+    label: 'Nền Glass UI Đa Sắc Hiện Đại',
+    themeMode: 'color',
+    imagePath: multicolorGlassWallpaper,
+    fallbackGradient:
+      'radial-gradient(at 14% 16%, rgba(56, 189, 248, 0.34) 0px, transparent 50%), radial-gradient(at 86% 16%, rgba(192, 132, 252, 0.32) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(251, 146, 60, 0.24) 0px, transparent 52%), radial-gradient(at 20% 82%, rgba(52, 211, 153, 0.28) 0px, transparent 50%), linear-gradient(135deg, #edf6ff 0%, #f4eeff 50%, #fff0f7 100%)',
+    overlayBg: 'rgba(244, 247, 255, 0.08)',
+  },
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'liquid-glass': THEME_BACKGROUNDS['liquid-glass'].presetId,
   'dark-liquid-glass': THEME_BACKGROUNDS['dark-liquid-glass'].presetId,
+  'multicolor-glass': THEME_BACKGROUNDS['multicolor-glass'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
   'deep-ocean': THEME_BACKGROUNDS['deep-ocean'].presetId,
   'mica-fluent': THEME_BACKGROUNDS['mica-fluent'].presetId,
+  'neumorphism-beyond': THEME_BACKGROUNDS['neumorphism-beyond'].presetId,
 };

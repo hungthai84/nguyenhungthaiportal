@@ -43,6 +43,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
   const [editingInquiryId, setEditingInquiryId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [feedbackMsg, setFeedbackMsg] = useState<string | null>(null);
+  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
 
   useEffect(() => {
     if (user?.displayName && !senderName) {
@@ -170,22 +171,35 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                 boxSizing: 'border-box',
               }}
             >
-              <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[14px] z-0">
-                <img
-                  src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
-                  alt="Banner Liên hệ & Kết nối"
-                  referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
-                  className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
-                />
+              <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0">
+                {!heroVideoFailed ? (
+                  <video
+                    src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/%C4%90%E1%BA%B7t_l%E1%BB%8Bch.mp4"
+                    poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    onError={() => setHeroVideoFailed(true)}
+                    className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+                  />
+                ) : (
+                  <img
+                    src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
+                    alt="Banner Liên hệ & Kết nối"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                    className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+                  />
+                )}
               </div>
-              <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+              <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
               <div className="relative z-10 flex flex-col items-start gap-1.5 w-full">
                 <div className="card-header-sync flex items-start gap-2 w-full min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-                  <WebIcon name="mail" className="w-[18px] h-[18px] shrink-0 mt-1" />
                   <h1
                     id="contact-banner-h1"
                     className="typo-h3 card-title-synced font-play not-italic tracking-tight leading-tight whitespace-normal min-w-0"
@@ -295,7 +309,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
               {activeMode === 'calendar' ? (
                 <div
                   id="contact-calendar-viewport"
-                  className="flex-1 w-full h-full min-h-[460px] lg:min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar rounded-[14px] border-0 bg-transparent shadow-none flex flex-col p-0 m-0"
+                  className="flex-1 w-full h-full min-h-[460px] lg:min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar rounded-[var(--radius-subcard,16px)] border-0 bg-transparent shadow-none flex flex-col p-0 m-0"
                   style={{ padding: '0px', margin: '0px', scrollbarWidth: 'none' }}
                 >
                   <iframe
@@ -316,7 +330,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     scrolling="no"
                     frameBorder="0"
                     title="Đặt lịch hẹn Google Calendar"
-                    className="w-full h-full flex-1 min-h-[700px] rounded-[14px] p-0 m-0 block"
+                    className="w-full h-full flex-1 min-h-[700px] rounded-[var(--radius-subcard,16px)] p-0 m-0 block"
                   />
                 </div>
               ) : (
@@ -332,7 +346,6 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                       data-subcard-title="true"
                       style={{ color: 'var(--color-primary)' }}
                     >
-                      <WebIcon name="send" className="w-4 h-4 shrink-0" style={{ color: 'currentColor' }} />
                       <span>
                         {editingInquiryId
                           ? isEn
@@ -500,7 +513,6 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                         data-subcard-title="true"
                         style={{ color: 'var(--color-primary)' }}
                       >
-                        <WebIcon name="file-text" className="w-4 h-4 shrink-0" style={{ color: 'currentColor' }} />
                         <span className="truncate">{isEn ? 'Your Sent Inquiries' : 'Lời nhắn đã gửi của bạn'}</span>
                       </h3>
                       {user && (

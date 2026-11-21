@@ -10,6 +10,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
 import { speakSiteText, stopActiveSpeech } from '@/utils/speechVoice';
 import { useLanguage } from '@/context/LanguageContext';
+import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 
 export interface HomeViewProps {
   slideIndex?: number;
@@ -397,8 +398,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
           >
             {/* 1. Main Background Video - Hiển thị gọn trong vùng nội dung, cách viền #home-main-card đúng padding chuẩn ở mọi kích thước */}
             <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none rounded-[var(--radius-card,24px)]">
-              <video
-                ref={videoRef}
+              <SmartFaceVideo
+                videoRef={videoRef}
                 key={activeVideoUrl}
                 autoPlay
                 muted={isMuted}
@@ -407,7 +408,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 src={activeVideoUrl}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleEnded}
-                className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[var(--radius-card,24px)] transition-all duration-700 brightness-110 contrast-105"
+                faceAnchor={{ x: 50, y: 18 }}
+                maxCropDistortion={1.6}
+                wrapperClassName="absolute inset-0 w-full h-full rounded-[var(--radius-card,24px)]"
+                className="transition-all duration-700 brightness-110 contrast-105"
               />
               {/* Lớp phủ nhẹ nhàng đồng bộ Sáng / Tối, giữ video rõ nét tươi sáng */}
               <div
@@ -548,11 +552,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       className="home-hero-badge inline-flex items-center gap-2 typo-h4 font-bold tracking-tight px-0 py-0 border-0 bg-transparent shadow-none"
                       style={{ color: 'var(--card-synced-accent, var(--color-primary, ' + currentScreen.accentColor + '))' }}
                     >
-                      <WebIcon
-                        name={currentScreen.heroIcon}
-                        className="home-hero-badge-icon w-[18px] h-[18px] shrink-0"
-                        style={{ color: 'inherit', width: '18px', height: '18px' }}
-                      />
                       <span>{currentScreen.heroBadge}</span>
                     </div>
                   </div>

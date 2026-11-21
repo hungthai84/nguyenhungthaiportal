@@ -80,14 +80,21 @@ export default function App() {
     slide: number;
   } | null>(null);
 
-  const { isDark, cardStyle, activeWallpaper, setWallpaper } = useTheme();
+  const { isDark, cardStyle, activeWallpaper, previewWallpaper, setPreviewWallpaper, setWallpaper } = useTheme();
+  const displayWallpaper = previewWallpaper || activeWallpaper;
   const mainViewportRef = useRef<HTMLElement | null>(null);
   const [loadedWallpaperUrl, setLoadedWallpaperUrl] = useState<string>('');
   const wallpaperImgRef = useRef<HTMLImageElement | null>(null);
   const activeImageUrl =
-    activeWallpaper?.type === 'image' && activeWallpaper?.id !== 'none'
-      ? getCleanImageUrl(activeWallpaper.value || activeWallpaper.bg || '')
+    displayWallpaper?.type === 'image' && displayWallpaper?.id !== 'none'
+      ? getCleanImageUrl(displayWallpaper.value || displayWallpaper.bg || '')
       : '';
+
+  useEffect(() => {
+    if (currentTabIndex !== 14 && previewWallpaper) {
+      setPreviewWallpaper(null);
+    }
+  }, [currentTabIndex, previewWallpaper, setPreviewWallpaper]);
 
   useEffect(() => {
     if (!activeImageUrl) {
@@ -534,7 +541,7 @@ export default function App() {
       data-element-page="global"
       style={{
         padding: '0px',
-        gap: currentTabIndex === 16 ? '0px' : 'var(--shell-section-gap, 10px)',
+        gap: currentTabIndex === 16 ? '0px' : 'var(--shell-section-gap, 15px)',
       }}
       className="h-screen w-screen overflow-hidden flex flex-col items-center m-0 p-0 select-text relative transition-colors duration-300 ease-in-out"
     >
@@ -555,33 +562,36 @@ export default function App() {
         {/* Lớp 1 – Base Background: Gradient chuyển sắc đa màu thống nhất */}
         <div aria-hidden="true" className="ambient-layer-base" />
 
-        {/* Active Theme Texture / Custom Wallpaper (harmonized with Ambient Layers) */}
+        {/* Active Theme Texture / Custom Wallpaper (harmonized with Ambient Layers & Live Preview) */}
         {!(
-          activeWallpaper?.id === 'none' ||
-          (!activeWallpaper?.value &&
-            !activeWallpaper?.bg &&
-            (!activeWallpaper?.previewStyle || Object.keys(activeWallpaper.previewStyle).length === 0))
+          displayWallpaper?.id === 'none' ||
+          (!displayWallpaper?.value &&
+            !displayWallpaper?.bg &&
+            (!displayWallpaper?.previewStyle || Object.keys(displayWallpaper.previewStyle).length === 0))
         ) && (
           <div
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-500"
-            style={
-              activeWallpaper.id?.startsWith('theme-bg-')
+            className="absolute inset-0 w-full h-full pointer-events-none transition-all duration-300"
+            style={{
+              ...(displayWallpaper.id?.startsWith('theme-bg-')
                 ? { opacity: 'var(--ambient-wallpaper-opacity, 0.86)' }
-                : undefined
-            }
+                : undefined),
+              filter: 'blur(var(--wallpaper-bg-blur, 0px))',
+              WebkitFilter: 'blur(var(--wallpaper-bg-blur, 0px))',
+              transform: 'scale(var(--wallpaper-bg-scale, 1))',
+            }}
           >
-            {activeWallpaper.type === 'video' ? (
-              (activeWallpaper.value || activeWallpaper.bg || '').includes('youtube.com') ||
-              (activeWallpaper.value || activeWallpaper.bg || '').includes('youtu.be') ? (
+            {displayWallpaper.type === 'video' ? (
+              (displayWallpaper.value || displayWallpaper.bg || '').includes('youtube.com') ||
+              (displayWallpaper.value || displayWallpaper.bg || '').includes('youtu.be') ? (
                 <div
                   className="w-full h-full relative overflow-hidden flex items-center justify-center bg-cover bg-center"
-                  style={activeWallpaper.previewStyle || {}}
+                  style={displayWallpaper.previewStyle || {}}
                 >
                   <iframe
-                    key={activeWallpaper.id + '-' + (activeWallpaper.value || activeWallpaper.bg)}
-                    src={activeWallpaper.value || activeWallpaper.bg}
-                    title={activeWallpaper.name}
+                    key={displayWallpaper.id + '-' + (displayWallpaper.value || displayWallpaper.bg)}
+                    src={displayWallpaper.value || displayWallpaper.bg}
+                    title={displayWallpaper.name}
                     className="w-[120vw] h-[120vh] min-w-[120vw] min-h-[120vh] border-0 pointer-events-none scale-125"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -589,8 +599,8 @@ export default function App() {
                 </div>
               ) : (
                 <video
-                  key={activeWallpaper.id + '-' + (activeWallpaper.value || activeWallpaper.bg)}
-                  src={activeWallpaper.value || activeWallpaper.bg}
+                  key={displayWallpaper.id + '-' + (displayWallpaper.value || displayWallpaper.bg)}
+                  src={displayWallpaper.value || displayWallpaper.bg}
                   autoPlay
                   loop
                   muted
@@ -598,10 +608,10 @@ export default function App() {
                   className="w-full h-full object-cover"
                 />
               )
-            ) : activeWallpaper.type === 'webgl' ? (
-              activeWallpaper.id === 'webgl-dot-grid-waves' ? (
+            ) : displayWallpaper.type === 'webgl' ? (
+              displayWallpaper.id === 'webgl-dot-grid-waves' ? (
                 <div
-                  key={activeWallpaper.id}
+                  key={displayWallpaper.id}
                   className="relative w-full h-full overflow-hidden"
                 >
                   <div
@@ -616,7 +626,7 @@ export default function App() {
                 </div>
               ) : (
                 (() => {
-                  const gConfig = activeWallpaper.gravityConfig;
+                  const gConfig = displayWallpaper.gravityConfig;
                   const paletteId = gConfig?.paletteId || 'autoMorph';
                   const morphOnPageChange = gConfig?.morphOnPageChange ?? true;
                   const activeSlide = pageSlides[currentTabIndex] ?? 0;
@@ -628,7 +638,7 @@ export default function App() {
                   );
                   return (
                     <div
-                      key={activeWallpaper.id}
+                      key={displayWallpaper.id}
                       className="relative w-full h-full overflow-hidden"
                     >
                       <div
@@ -651,23 +661,23 @@ export default function App() {
                   );
                 })()
               )
-            ) : activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient' ? (
+            ) : displayWallpaper.type === 'css' || displayWallpaper.type === 'gradient' ? (
               <div
-                key={activeWallpaper.id}
+                key={displayWallpaper.id}
                 className="w-full h-full transition-all duration-500"
                 style={
-                  activeWallpaper.previewStyle && Object.keys(activeWallpaper.previewStyle).length > 0
-                    ? activeWallpaper.previewStyle
-                    : parseCssStringToStyle(activeWallpaper.value || activeWallpaper.bg || '')
+                  displayWallpaper.previewStyle && Object.keys(displayWallpaper.previewStyle).length > 0
+                    ? displayWallpaper.previewStyle
+                    : parseCssStringToStyle(displayWallpaper.value || displayWallpaper.bg || '')
                 }
               />
             ) : (
               <div
-                key={activeWallpaper.id}
+                key={displayWallpaper.id}
                 className="relative w-full h-full overflow-hidden transition-all duration-500"
                 style={{
-                  background: activeWallpaper.previewStyle?.background
-                    ? String(activeWallpaper.previewStyle.background)
+                  background: displayWallpaper.previewStyle?.background
+                    ? String(displayWallpaper.previewStyle.background)
                     : 'transparent',
                 }}
               >
@@ -691,11 +701,21 @@ export default function App() {
           </div>
         )}
 
+        {/* Lớp điều chỉnh độ tối nền (Dim Scrim) theo thanh trượt Trang Hình nền */}
+        <div
+          id="global-wallpaper-dim-layer"
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none transition-colors duration-200"
+          style={{
+            backgroundColor: 'rgba(4, 9, 20, var(--wallpaper-bg-dim, 0))',
+          }}
+        />
+
         {/* Lớp 2 – Ambient Glow: Quầng sáng mềm khuếch tán phía sau nội dung */}
         <div
           aria-hidden="true"
           className="ambient-layer-glow"
-          style={activeWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
+          style={displayWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
         >
           <span className="ambient-orb ambient-orb--1" />
           <span className="ambient-orb ambient-orb--2" />
@@ -707,7 +727,7 @@ export default function App() {
         <div
           aria-hidden="true"
           className="ambient-layer-abstract"
-          style={activeWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
+          style={displayWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
         >
           <span className="ambient-wave ambient-wave--1" />
           <span className="ambient-wave ambient-wave--2" />
@@ -760,12 +780,12 @@ export default function App() {
         data-element-parent="website-root"
         style={{
           width: '100%',
-          maxWidth: currentTabIndex === 16 ? '1250px' : '100%',
+          maxWidth: currentTabIndex === 16 ? 'calc(var(--container-max-w, 1250px) + 30px)' : '100%',
           flex: '1 1 0%',
           height:
             currentTabIndex === 16
               ? '100%'
-              : 'calc(80% - (var(--shell-section-gap, 10px) * 2))',
+              : 'calc(80% - (var(--shell-section-gap, 15px) * 2))',
           minHeight: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -773,7 +793,7 @@ export default function App() {
           marginBottom: '0px',
         }}
         className={`w-full ${
-          currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-full'
+          currentTabIndex === 16 ? 'max-w-[calc(var(--container-max-w,1250px)+30px)]' : 'max-w-full'
         } mx-auto my-0 min-h-0 rounded-[var(--radius-main,14px)] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
         <motion.div

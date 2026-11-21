@@ -65,36 +65,38 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
   root.style.setProperty('--layer-l2-lift', `${l2Lift}px`);
   root.style.setProperty('--layer-l3-lift', `${l3Lift}px`);
 
-  if (cardStyle === 'liquid-glass') {
+  if (cardStyle === 'liquid-glass' || cardStyle === 'multicolor-glass') {
+    const isMulticolor = cardStyle === 'multicolor-glass';
+    const shadowRgb = isMulticolor ? '79, 70, 229' : '30, 41, 59';
     const a1 = Math.min(0.22, 0.12 * scale + 0.03).toFixed(2);
     const a2 = Math.min(0.16, 0.08 * scale + 0.02).toFixed(2);
     root.style.setProperty(
       '--layer-l1-shadow',
-      `0 ${px(20 * scale)} ${px(46 * scale)} -${px(10 * scale)} rgba(30, 41, 59, ${a1}), inset 0 1.5px 0 rgba(255, 255, 255, 0.96)`
+      `0 ${px(20 * scale)} ${px(46 * scale)} -${px(10 * scale)} rgba(${shadowRgb}, ${a1}), inset 0 1.5px 0 rgba(255, 255, 255, 0.94)`
     );
     root.style.setProperty(
       '--layer-l1-header-shadow',
-      `0 ${px(10 * scale)} ${px(28 * scale)} rgba(30, 41, 59, ${a2}), inset 0 1px 0 rgba(255, 255, 255, 0.94)`
+      `0 ${px(10 * scale)} ${px(28 * scale)} rgba(${shadowRgb}, ${a2}), inset 0 1px 0 rgba(255, 255, 255, 0.92)`
     );
     root.style.setProperty(
       '--layer-l1-footer-shadow',
-      `0 -${px(10 * scale)} ${px(28 * scale)} rgba(30, 41, 59, ${a2}), inset 0 1px 0 rgba(255, 255, 255, 0.94)`
+      `0 -${px(10 * scale)} ${px(28 * scale)} rgba(${shadowRgb}, ${a2}), inset 0 1px 0 rgba(255, 255, 255, 0.92)`
     );
     root.style.setProperty(
       '--layer-l2-shadow',
-      `0 ${px(12 * scale)} ${px(28 * scale)} -${px(6 * scale)} rgba(30, 41, 59, ${(0.09 * scale + 0.02).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.95)`
+      `0 ${px(12 * scale)} ${px(28 * scale)} -${px(6 * scale)} rgba(${shadowRgb}, ${(0.09 * scale + 0.02).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.92)`
     );
     root.style.setProperty(
       '--layer-l2-shadow-hover',
-      `0 ${px(16 * scale)} ${px(34 * scale)} -${px(8 * scale)} rgba(30, 41, 59, ${(0.12 * scale + 0.03).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 1)`
+      `0 ${px(16 * scale)} ${px(34 * scale)} -${px(8 * scale)} rgba(${shadowRgb}, ${(0.12 * scale + 0.03).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.98)`
     );
     root.style.setProperty(
       '--layer-l3-shadow',
-      `0 ${px(6 * scale)} ${px(16 * scale)} -${px(4 * scale)} rgba(30, 41, 59, ${(0.06 * scale + 0.01).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.90)`
+      `0 ${px(6 * scale)} ${px(16 * scale)} -${px(4 * scale)} rgba(${shadowRgb}, ${(0.06 * scale + 0.01).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.88)`
     );
     root.style.setProperty(
       '--layer-l3-shadow-hover',
-      `0 ${px(8 * scale)} ${px(20 * scale)} -${px(4 * scale)} rgba(30, 41, 59, ${(0.09 * scale + 0.02).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.96)`
+      `0 ${px(8 * scale)} ${px(20 * scale)} -${px(4 * scale)} rgba(${shadowRgb}, ${(0.09 * scale + 0.02).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.95)`
     );
     return;
   }
@@ -198,6 +200,46 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
     root.style.setProperty(
       '--layer-l3-shadow-hover',
       `0 ${px(4 * scale)} ${px(14 * scale)} rgba(15, 23, 42, ${(0.05 * scale + 0.01).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.82)`
+    );
+    return;
+  }
+
+  if (cardStyle === 'neumorphism-beyond') {
+    const slateAlpha = Math.min(0.36, 0.20 * scale + 0.06).toFixed(2);
+    const ambientAlpha = Math.min(0.24, 0.13 * scale + 0.04).toFixed(2);
+    const l1Dist = 8 * scale;
+    const l1Blur = 20 * scale;
+    const l2Dist = 5 * scale;
+    const l2Blur = 14 * scale;
+    const l3Dist = 3.5 * scale;
+    const l3Blur = 10 * scale;
+    root.style.setProperty(
+      '--layer-l1-shadow',
+      `0 ${px(l1Dist * 1.1)} ${px(l1Blur)} rgba(148, 163, 184, ${ambientAlpha}), ${px(l1Dist * 0.55)} ${px(l1Dist * 0.65)} ${px(l1Blur * 0.75)} rgba(163, 177, 198, ${slateAlpha}), inset 0 1px 0 rgba(255, 255, 255, 0.36)`
+    );
+    root.style.setProperty(
+      '--layer-l1-header-shadow',
+      `0 ${px(6 * scale)} ${px(16 * scale)} rgba(148, 163, 184, ${ambientAlpha}), inset 0 1px 0 rgba(255, 255, 255, 0.34)`
+    );
+    root.style.setProperty(
+      '--layer-l1-footer-shadow',
+      `0 -${px(6 * scale)} ${px(16 * scale)} rgba(148, 163, 184, ${ambientAlpha}), inset 0 1px 0 rgba(255, 255, 255, 0.34)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow',
+      `0 ${px(l2Dist)} ${px(l2Blur)} rgba(148, 163, 184, ${ambientAlpha}), ${px(l2Dist * 0.55)} ${px(l2Dist * 0.65)} ${px(l2Blur * 0.75)} rgba(163, 177, 198, ${slateAlpha}), inset 0 1px 0 rgba(255, 255, 255, 0.34)`
+    );
+    root.style.setProperty(
+      '--layer-l2-shadow-hover',
+      `0 ${px(l2Dist * 1.15)} ${px(l2Blur * 1.1)} rgba(148, 163, 184, ${ambientAlpha}), ${px(l2Dist * 0.6)} ${px(l2Dist * 0.7)} ${px(l2Blur * 0.8)} rgba(163, 177, 198, ${slateAlpha}), inset 0 1px 0 rgba(255, 255, 255, 0.40)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow',
+      `0 ${px(l3Dist)} ${px(l3Blur)} rgba(148, 163, 184, ${(0.11 * scale + 0.04).toFixed(2)}), ${px(l3Dist * 0.5)} ${px(l3Dist * 0.6)} ${px(l3Blur * 0.7)} rgba(163, 177, 198, ${(0.18 * scale + 0.05).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.30)`
+    );
+    root.style.setProperty(
+      '--layer-l3-shadow-hover',
+      `0 ${px(l3Dist * 1.1)} ${px(l3Blur * 1.1)} rgba(148, 163, 184, ${(0.13 * scale + 0.04).toFixed(2)}), ${px(l3Dist * 0.55)} ${px(l3Dist * 0.65)} ${px(l3Blur * 0.75)} rgba(163, 177, 198, ${(0.20 * scale + 0.06).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.36)`
     );
     return;
   }

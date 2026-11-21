@@ -9,15 +9,19 @@ export type SurfaceDepthMode = 'flat' | 'depth';
 export type CardStyleMode =
   | 'liquid-glass'
   | 'dark-liquid-glass'
+  | 'multicolor-glass'
   | 'cowhide-leather'
   | 'deep-ocean'
-  | 'mica-fluent';
+  | 'mica-fluent'
+  | 'neumorphism-beyond';
 
 export type ThemeFamilyId =
   | 'liquid-glass'
+  | 'multicolor-glass'
   | 'cowhide-leather'
   | 'deep-ocean'
-  | 'mica-fluent';
+  | 'mica-fluent'
+  | 'neumorphism-beyond';
 
 export interface CardStyleConfig {
   id: CardStyleMode;
@@ -62,3 +66,46 @@ export interface GlassCustomization {
   cardOpacity: number;
   blurIntensity: number;
 }
+
+export interface WallpaperOverlaySettings {
+  blur: number;
+  dim: number;
+}
+
+export interface AdaptiveAccentPalette {
+  primary: string;
+  link: string;
+  gradient: string;
+  rgb: string;
+  recommendedDark: boolean;
+  contrastLabelVi: string;
+  contrastLabelEn: string;
+  swatches: string[];
+}
+
+export interface AdaptiveAccentState {
+  enabled: boolean;
+  activeAccent: AdaptiveAccentPalette | null;
+}
+
+export interface ThemeWallpaperPreset {
+  id: string;
+  name: string;
+  cardStyle: CardStyleMode;
+  wallpaper: {
+    id: string;
+    name: string;
+    type: 'image' | 'video' | 'css' | 'gradient' | 'webgl';
+    value: string;
+    bg?: string;
+    previewStyle?: React.CSSProperties;
+    gravityConfig?: any;
+    isCustom?: boolean;
+  };
+  blur: number;
+  dim: number;
+  adaptiveAccentEnabled: boolean;
+  isBuiltIn?: boolean;
+  createdAt: number;
+}
+

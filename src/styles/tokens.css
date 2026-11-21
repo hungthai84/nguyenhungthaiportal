@@ -956,7 +956,7 @@ html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="c
 @media (max-width: 767px) {
   :root,
   html.dark {
-    --about-peek-reserve: 16px;
+    --about-peek-reserve: 32px;
   }
 }
 

@@ -29,6 +29,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [activeLightboxIdx, setActiveLightboxIdx] = useState<number | null>(null);
   const [isSlideshowPlaying, setIsSlideshowPlaying] = useState<boolean>(false);
+  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const filterMenuRef = useRef<HTMLDivElement>(null);
   const filmstripRef = useRef<HTMLDivElement>(null);
@@ -201,30 +202,36 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
         style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
       >
         <div
-          className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
-          style={{
-            borderRadius: 'var(--radius-banner, 24px)',
-          }}
+          className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
-          <img
-            src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/K%E1%BB%B7_ni%E1%BB%87m.png"
-            alt="Khoảnh khắc kỷ niệm"
-            referrerPolicy="no-referrer"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
-            className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
-          />
+          {!heroVideoFailed ? (
+            <video
+              src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204136/K%E1%BB%B7_ni%E1%BB%87m.mp4"
+              poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/K%E1%BB%B7_ni%E1%BB%87m.png"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              onError={() => setHeroVideoFailed(true)}
+              className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+            />
+          ) : (
+            <img
+              src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/K%E1%BB%B7_ni%E1%BB%87m.png"
+              alt="Khoảnh khắc kỷ niệm"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+              className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+            />
+          )}
         </div>
-        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
         <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
           <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-            <WebIcon
-              name="camera"
-              className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-              style={{ width: '22px', height: '22px' }}
-            />
             <h1
               className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
               data-card-title="true"
@@ -251,7 +258,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                 SoundEngine.playTap();
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
-              className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+              className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
               title="Bộ lọc kỷ niệm"
               aria-label="Bộ lọc kỷ niệm"
               aria-expanded={isFilterDropdownOpen}
@@ -362,7 +369,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Tìm kỷ niệm, địa điểm, năm..."
                 aria-label="Tìm kiếm ảnh kỷ niệm"
-                className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-input font-play focus:outline-none"
+                className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-button font-bold font-play focus:outline-none"
               />
               {searchQuery && (
                 <button
@@ -402,7 +409,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
             </button>
           </div>
         ) : (
-          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-[15px] text-left">
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-[15px] [column-fill:balance] text-left w-full">
             {filteredMemories.map((item, idx) => (
               <div
                 id={`memory-card-${item.id}`}
@@ -447,14 +454,14 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                         'linear-gradient(135deg, rgba(15,23,42,0.55) 0%, rgba(30,41,59,0.75) 100%)';
                     }
                   }}
-                  style={{ borderRadius: 'calc(var(--radius-card, 14px) - 1px)' }}
-                  className="memory-crisp-img w-full h-auto min-h-[250px] max-h-[440px] object-cover block transition-opacity duration-300"
+                  style={{ borderRadius: 'var(--radius-card, 14px)' }}
+                  className="memory-crisp-img w-full h-auto min-h-[250px] max-h-[440px] object-cover block rounded-[inherit] transition-opacity duration-300"
                 />
 
                 {/* LỚP PHỦ THEO GIAO DIỆN ĐANG CHỌN — CHỈ HIỆN KHI RÊ CHUỘT */}
                 <div
-                  style={{ inset: '1px', borderRadius: 'calc(var(--radius-card, 14px) - 1px)' }}
-                  className="themed-image-card-scrim absolute pointer-events-none z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
+                  style={{ inset: '1px', borderRadius: 'var(--radius-card, 14px)' }}
+                  className="themed-image-card-scrim absolute pointer-events-none z-10 rounded-[inherit] opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
                 />
 
                 {/* TIÊU ĐỀ & CÁC ĐỐI TƯỢNG TRONG CARD (PADDING 15PX, CHỈ HIỆN KHI OVER MOUSE) */}
@@ -482,7 +489,6 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                       className="themed-image-card-title typo-h4 card-header-sync card-title-synced break-words line-clamp-2 mt-0.5 flex items-center gap-1.5"
                       data-card-title="true"
                     >
-                      <WebIcon name="camera" className="w-3.5 h-3.5 shrink-0" />
                       <span>{formatCardTitle(item.titleVi)}</span>
                     </h3>
                     <p className="themed-image-card-subtext typo-caption break-words mt-1 line-clamp-2">
@@ -534,15 +540,16 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
           >
             {/* Ảnh lớn & Điều khiển */}
             <div
+              style={{ borderRadius: 'var(--radius-card, 14px)' }}
               className={cn(
-                'relative w-full h-72 sm:h-[460px] md:h-[520px] rounded-[14px] flex items-center justify-center overflow-hidden',
+                'relative w-full h-72 sm:h-[460px] md:h-[520px] rounded-[var(--radius-card,14px)] flex items-center justify-center overflow-hidden',
                 isDark ? 'bg-[#0B1220]' : 'bg-slate-100'
               )}
             >
               <img
                 src={activePhoto.imageUrl}
                 alt={activePhoto.titleVi}
-                className="w-full h-full object-contain rounded-[14px] select-none"
+                className="w-full h-full object-contain rounded-[inherit] select-none"
               />
               <div
                 className={cn(
@@ -668,7 +675,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                       : 'border-transparent opacity-65 hover:opacity-100'
                   }`}
                 >
-                  <img src={thumb.imageUrl} alt={thumb.titleVi} className="w-full h-full object-cover rounded-[14px]" />
+                  <img src={thumb.imageUrl} alt={thumb.titleVi} className="w-full h-full object-cover rounded-[inherit]" />
                 </button>
               ))}
             </div>

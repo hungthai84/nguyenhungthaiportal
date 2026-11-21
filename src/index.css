@@ -143,6 +143,8 @@
 @import "./styles/themes/cowhide-leather.css";
 @import "./styles/themes/deep-ocean.css";
 @import "./styles/themes/mica-fluent.css";
+@import "./styles/themes/neumorphism-beyond.css";
+@import "./styles/themes/multicolor-glass.css";
 @import "./styles/layers.css";
 @import "./styles/container-system.css";
 
@@ -751,10 +753,14 @@ html[data-surface-depth="flat"] [id^="letter-card-"] {
 @media (max-width: 640px) {
   .page-main-card,
   [data-main-card="true"] {
-    padding: 12px !important;
-    gap: 12px !important;
-    row-gap: 12px !important;
-    column-gap: 12px !important;
+    padding: 15px !important;
+    padding-top: 15px !important;
+    padding-right: 15px !important;
+    padding-bottom: 15px !important;
+    padding-left: 15px !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
   }
 
   .page-cards-grid,
@@ -765,26 +771,9 @@ html[data-surface-depth="flat"] [id^="letter-card-"] {
   .page-main-card .page-cards-grid,
   .page-main-card [data-section-grid="true"],
   .page-main-card .grid {
-    gap: 12px !important;
-    row-gap: 12px !important;
-    column-gap: 12px !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .page-main-card,
-  [data-main-card="true"] {
-    padding: 12px !important;
-    gap: 12px !important;
-    row-gap: 12px !important;
-    column-gap: 12px !important;
-  }
-
-  .page-main-card .bento-grid,
-  .page-main-card .page-cards-grid,
-  .page-main-card [data-section-grid="true"],
-  .page-main-card .grid {
-    gap: 12px !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
   }
 }
 
@@ -844,9 +833,18 @@ html[data-surface-depth="flat"] [id^="letter-card-"] {
 }
 
 html #home-main-card,
-html #experience-main-card:has(#experience-timeline-board),
+html #experience-main-card:has(#experience-timeline-board):not(:has(#experience-hero-banner)),
 html #experience-main-card:has(#experience-job-detail-card) {
   overflow: hidden !important;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
+html #experience-main-card:has(#experience-hero-banner) {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   position: relative !important;
   display: flex !important;
   flex-direction: column !important;
@@ -1123,9 +1121,13 @@ html.dark[data-card-style] #about-intro-card-2 {
   border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
   border-radius: var(--radius-main, 14px) !important;
   padding: var(--main-card-padding, 15px) !important;
-  gap: clamp(12px, 1.4vw, 16px) !important;
-  row-gap: clamp(12px, 1.4vw, 16px) !important;
-  column-gap: clamp(12px, 1.4vw, 16px) !important;
+  padding-top: var(--main-card-padding, 15px) !important;
+  padding-right: var(--main-card-padding, 15px) !important;
+  padding-bottom: var(--main-card-padding, 15px) !important;
+  padding-left: var(--main-card-padding, 15px) !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   transition: box-shadow 260ms ease, border-color 240ms ease, outline-color 240ms ease, background 260ms ease, color 260ms ease !important;
   box-sizing: border-box !important;
 }
@@ -1349,7 +1351,7 @@ html #projects-grid .project-card .project-card-banner,
 html #project-detail-banner,
 html #project-detail-banner .project-detail-banner-media,
 html #project-detail-banner .project-detail-banner-scrim,
-html #wallpaper-page-container [id^="wallpaper-card-"],
+html #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"],
 html #wallpaper-page-container [id^="wallpaper-card-media-"],
 html #wallpaper-page-container #wallpaper-card-preview-none,
 html #memories-page-container [id^="memory-card-"],
@@ -1639,7 +1641,7 @@ html [id$="-cards-track"]::after {
   html #el-p1-div-85,
   html #memories-page-container [id^="memory-card-"],
   html .memory-photo-item,
-  html #wallpaper-page-container [id^="wallpaper-card-"],
+  html #wallpaper-page-container [id^="wallpaper-card-media-"],
   html .project-card-banner,
   html button.exp-bento-rect-btn.aspect-\[16\/10\] {
     padding: 0px !important;
@@ -2071,18 +2073,27 @@ html[data-card-style] :is(
   left: 5px !important;
   width: auto !important;
   height: auto !important;
-  border-radius: calc(var(--radius-banner, 14px) - 5px) !important;
+  border-radius: var(--radius-banner, 14px) !important;
   overflow: hidden !important;
   opacity: 1 !important;
 }
 
-html .project-detail-banner-media :is(img, video),
-html[data-card-style] .project-detail-banner-media :is(img, video) {
+html .project-detail-banner-media :is(img, video:not([data-smart-face-primary="true"]):not([data-smart-face-ambient="true"])),
+html[data-card-style] .project-detail-banner-media :is(img, video:not([data-smart-face-primary="true"]):not([data-smart-face-ambient="true"])) {
   opacity: 1 !important;
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  object-position: center !important;
+  object-position: 50% 22% !important;
+  border-radius: inherit !important;
+  filter: brightness(1.02) contrast(1.04) saturate(1.06) !important;
+}
+
+html .project-detail-banner-media .smart-face-video-root video[data-smart-face-primary="true"],
+html[data-card-style] .project-detail-banner-media .smart-face-video-root video[data-smart-face-primary="true"] {
+  opacity: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
   border-radius: inherit !important;
   filter: brightness(1.02) contrast(1.04) saturate(1.06) !important;
 }
@@ -2105,7 +2116,7 @@ html :is(
   left: 5px !important;
   width: auto !important;
   height: auto !important;
-  border-radius: calc(var(--radius-banner, 14px) - 5px) !important;
+  border-radius: var(--radius-banner, 14px) !important;
   overflow: hidden !important;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 48%, rgba(255, 255, 255, 0.14) 100%) !important;
   opacity: 1 !important;
@@ -2124,12 +2135,12 @@ html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-deta
 }
 
 /* Vertical TOC Sidebar Banner: keep background artwork vivid & crisp with subtle translucent veil */
-html #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-media :is(img, video),
-html[data-card-style] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-media :is(img, video) {
+html #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-media :is(img, video:not([data-smart-face-primary="true"]):not([data-smart-face-ambient="true"])),
+html[data-card-style] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-media :is(img, video:not([data-smart-face-primary="true"]):not([data-smart-face-ambient="true"])) {
   opacity: 0.92 !important;
   filter: brightness(1.02) contrast(1.04) saturate(1.06) !important;
   object-fit: cover !important;
-  object-position: center !important;
+  object-position: 50% 22% !important;
 }
 
 html #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim,
@@ -2259,14 +2270,12 @@ html :is(#weather-card, #weather-widget-card, .weather-card) {
 /*   - Strict 14px rounded corners across ALL themes                         */
 /*   - Strict 15px padding for inner hover overlay elements                  */
 /* ========================================================================= */
-html #wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]),
-html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]),
 html #memories-page-container [id^="memory-card-"],
 html[data-card-style] #memories-page-container [id^="memory-card-"],
-html .themed-image-card:not([data-media-card="video"]),
-html[data-card-style] .themed-image-card:not([data-media-card="video"]),
-html [data-media-card="image"],
-html[data-card-style] [data-media-card="image"] {
+html .themed-image-card:not([data-media-card="video"]):not(#wallpaper-cards-grid *),
+html[data-card-style] .themed-image-card:not([data-media-card="video"]):not(#wallpaper-cards-grid *),
+html [data-media-card="image"]:not(#wallpaper-cards-grid *),
+html[data-card-style] [data-media-card="image"]:not(#wallpaper-cards-grid *) {
   padding: 1px !important;
   border-radius: var(--radius-card, 14px) !important;
   -webkit-clip-path: inset(0 round var(--radius-card, 14px)) !important;
@@ -2278,12 +2287,10 @@ html[data-card-style] [data-media-card="image"] {
   overflow: hidden !important;
 }
 
-html #wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"],
-html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"],
-html .themed-image-card[data-media-card="video"],
-html[data-card-style] .themed-image-card[data-media-card="video"],
-html [data-media-card="video"],
-html[data-card-style] [data-media-card="video"],
+html .themed-image-card[data-media-card="video"]:not(#wallpaper-cards-grid *),
+html[data-card-style] .themed-image-card[data-media-card="video"]:not(#wallpaper-cards-grid *),
+html [data-media-card="video"]:not(#wallpaper-cards-grid *),
+html[data-card-style] [data-media-card="video"]:not(#wallpaper-cards-grid *),
 html #about-hero-video-container,
 html[data-card-style] #about-hero-video-container,
 html #bento-letter-video,
@@ -2295,36 +2302,60 @@ html[data-card-style] #experience-video-card-2026 {
   overflow: hidden !important;
 }
 
-html #wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]) [id^="wallpaper-card-media-"],
-html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]) [id^="wallpaper-card-media-"],
-html #wallpaper-page-container [id^="wallpaper-card-"]:not([data-media-card="video"]) [id^="wallpaper-card-media-"] > :is(img, video, div),
 html #memories-page-container [id^="memory-card-"] > img.memory-crisp-img,
-html [data-media-card="image"] > img,
+html [data-media-card="image"]:not(#wallpaper-cards-grid *) > img,
 html .themed-image-frame,
 html[data-card-style] .themed-image-frame {
-  border-radius: calc(var(--radius-card, 14px) - 1px) !important;
-  -webkit-clip-path: inset(0 round calc(var(--radius-card, 14px) - 1px)) !important;
-  clip-path: inset(0 round calc(var(--radius-card, 14px) - 1px)) !important;
+  border-radius: var(--radius-card, 14px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-card, 14px)) !important;
+  clip-path: inset(0 round var(--radius-card, 14px)) !important;
 }
 
-html #wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"] [id^="wallpaper-card-media-"],
-html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"] [id^="wallpaper-card-media-"],
-html #wallpaper-page-container [id^="wallpaper-card-"][data-media-card="video"] [id^="wallpaper-card-media-"] > :is(img, video, div),
-html [data-media-card="video"] > div,
-html [data-media-card="video"] > video {
-  border-radius: calc(var(--radius-card, 14px) - 5px) !important;
-  -webkit-clip-path: inset(0 round calc(var(--radius-card, 14px) - 5px)) !important;
-  clip-path: inset(0 round calc(var(--radius-card, 14px) - 5px)) !important;
+html [data-media-card="video"]:not(#wallpaper-cards-grid *) > div,
+html [data-media-card="video"]:not(#wallpaper-cards-grid *) > video {
+  border-radius: var(--radius-card, 14px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-card, 14px)) !important;
+  clip-path: inset(0 round var(--radius-card, 14px)) !important;
+}
+
+/* Trang Hình nền: Card hình nền cách ảnh 2px, bo cong hình khớp card, nội dung cách card 15px (mọi giao diện) */
+html #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"],
+html[data-card-style] #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"],
+html #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"][data-media-card="video"],
+html[data-card-style] #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"][data-media-card="video"] {
+  padding: 2px !important;
+  border-radius: var(--radius-card, 14px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-card, 14px)) !important;
+  clip-path: inset(0 round var(--radius-card, 14px)) !important;
+  border: var(--card-border-width, 1px) solid var(--border-image-card, var(--border-color)) !important;
+  outline: var(--outline-image-card, none) !important;
+  outline-offset: var(--outline-offset-image-card, 0px) !important;
+  box-shadow: var(--shadow-image-card, var(--shadow-card)) !important;
+  overflow: hidden !important;
+}
+
+html #wallpaper-page-container [id^="wallpaper-card-media-"],
+html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-media-"],
+html #wallpaper-page-container [id^="wallpaper-card-media-"] > :is(img, video, div),
+html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-media-"] > :is(img, video, div),
+html #wallpaper-page-container #wallpaper-card-preview-none,
+html[data-card-style] #wallpaper-page-container #wallpaper-card-preview-none,
+html #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"] .themed-image-card-scrim,
+html[data-card-style] #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"] .themed-image-card-scrim {
+  border-radius: var(--radius-card, 14px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-card, 14px)) !important;
+  clip-path: inset(0 round var(--radius-card, 14px)) !important;
 }
 
 html #wallpaper-page-container [id^="wallpaper-card-media-"],
 html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-media-"] {
+  padding: 0 !important;
   background: transparent !important;
   background-color: transparent !important;
 }
 
-html #wallpaper-page-container [id^="wallpaper-card-"][aria-pressed="true"],
-html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-"][aria-pressed="true"] {
+html #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"][aria-pressed="true"],
+html[data-card-style] #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"][aria-pressed="true"] {
   border-color: #34d399 !important;
   box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.95), 0 0 20px rgba(16, 185, 129, 0.35) !important;
 }
@@ -2333,7 +2364,9 @@ html #wallpaper-page-container [id^="wallpaper-card-content-"],
 html[data-card-style] #wallpaper-page-container [id^="wallpaper-card-content-"],
 html #memories-page-container [id^="memory-card-content-"],
 html[data-card-style] #memories-page-container [id^="memory-card-content-"] {
+  inset: 0 !important;
   padding: 15px !important;
+  border-radius: var(--radius-card, 14px) !important;
 }
 
 /* Banner quote text shadow contrast without overriding unified quote typography scale */
@@ -2554,7 +2587,33 @@ html:not([data-card-style="cowhide-leather"]) :is(
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.78), 0 2px 8px rgba(15, 23, 42, 0.22) !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  --tw-ring-color: rgba(255, 255, 255, 0.92) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+}
+
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="neumorphism-beyond"]) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge svg,
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="neumorphism-beyond"]) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg {
+  color: var(--nav-pill-accent, #4973FF) !important;
 }
 
 .radial-contact-pill {
@@ -2629,6 +2688,19 @@ button.nav-pill:not(#header-btn-hungthai-avatar) .nav-pill-icon-badge,
   background-color: var(--bg-nav-pill, rgba(255, 255, 255, 0.20)) !important;
   border-color: var(--surface-interactive-border, rgba(255, 255, 255, 0.52)) !important;
   box-sizing: border-box !important;
+}
+
+#app-footer #footer-nav-capsule #footer-page-counter {
+  font-family: var(--font-play, 'Play', sans-serif) !important;
+  font-weight: 800 !important;
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: 0.03em !important;
+  -webkit-text-stroke: 0.28px currentColor;
+}
+
+#app-footer #footer-nav-capsule svg,
+#app-footer #footer-nav-capsule #footer-page-icon {
+  stroke-width: 2.75 !important;
 }
 
 button.nav-pill:focus-visible,
@@ -2736,7 +2808,7 @@ html #el-p0-div-98::after {
 /* ========================================================================= */
 /* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL ACTIVE THEMES)      */
 /* ========================================================================= */
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"]) :is(
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"], [data-card-style="neumorphism-beyond"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
   #projects-grid .project-card .project-card-banner,
   .hero-banner .project-detail-banner-media,

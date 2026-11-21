@@ -24,8 +24,19 @@ import {
   THEME_DEFAULT_GLASS_SETTINGS,
   THEME_DEFAULT_WALLPAPER_ID,
   WALLPAPER_MANUAL_STORAGE_KEY,
+  WALLPAPER_OVERLAY_STORAGE_KEY,
+  ADAPTIVE_ACCENT_STORAGE_KEY,
 } from '../config/ui/themeDefaults';
-import { CardStyleMode, ColorSchemeMode, GlassCustomization, SurfaceDepthMode } from '../config/ui/theme.types';
+import {
+  AdaptiveAccentPalette,
+  CardStyleMode,
+  ColorSchemeMode,
+  GlassCustomization,
+  SurfaceDepthMode,
+  ThemeWallpaperPreset,
+  WallpaperOverlaySettings,
+} from '../config/ui/theme.types';
+import { getInstantWallpaperAccent } from '../utils/wallpaperColorAnalyzer';
 import {
   applyLayerDepthCssVariables,
   clampLayerDepth,
@@ -123,6 +134,33 @@ export function useThemeLegacy() {
     }
     return getDefaultWallpaperForTheme(initialStyle);
   });
+
+  const [previewWallpaper, setPreviewWallpaper] = useState<WallpaperPreset | null>(null);
+  const [wallpaperOverlay, setWallpaperOverlay] = useState<WallpaperOverlaySettings>(() => {
+    try {
+      const raw = localStorage.getItem(WALLPAPER_OVERLAY_STORAGE_KEY);
+      if (raw) {
+        const p = JSON.parse(raw);
+        return {
+          blur: Math.min(32, Math.max(0, Number(p?.blur) || 0)),
+          dim: Math.min(80, Math.max(0, Number(p?.dim) || 0)),
+        };
+      }
+    } catch {
+      // ignore
+    }
+    return { blur: 0, dim: 0 };
+  });
+  const [adaptiveAccentEnabled, setAdaptiveAccentEnabledState] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(ADAPTIVE_ACCENT_STORAGE_KEY) === 'true';
+    } catch {
+      return false;
+    }
+  });
+  const suggestedAccent: AdaptiveAccentPalette | null = getInstantWallpaperAccent(
+    previewWallpaper || activeWallpaper
+  );
 
   const [glassCustomizations, setGlassCustomizations] = useState<GlassCustomizationMap>(() => {
     try {
@@ -533,13 +571,47 @@ export function useThemeLegacy() {
     setSurfaceDepth(surfaceDepth === 'flat' ? 'depth' : 'flat');
   }, [surfaceDepth, setSurfaceDepth]);
 
+  const updateWallpaperOverlay = useCallback((patch: Partial<WallpaperOverlaySettings>) => {
+    setWallpaperOverlay((prev) => ({
+      blur: Math.min(32, Math.max(0, Math.round(patch.blur ?? prev.blur))),
+      dim: Math.min(80, Math.max(0, Math.round(patch.dim ?? prev.dim))),
+    }));
+  }, []);
+
+  const resetWallpaperOverlay = useCallback(() => {
+    setWallpaperOverlay({ blur: 0, dim: 0 });
+  }, []);
+
+  const setAdaptiveAccentEnabled = useCallback((enabled: boolean) => {
+    setAdaptiveAccentEnabledState(enabled);
+  }, []);
+
+  const applyThemeWallpaperPreset = useCallback(
+    (preset: ThemeWallpaperPreset) => {
+      setCardStyle(preset.cardStyle);
+      setWallpaper(preset.wallpaper);
+      updateWallpaperOverlay({ blur: preset.blur, dim: preset.dim });
+      setAdaptiveAccentEnabledState(preset.adaptiveAccentEnabled);
+    },
+    [setCardStyle, setWallpaper, updateWallpaperOverlay]
+  );
+
   return {
     isDark,
     colorSchemeMode,
     setColorSchemeMode,
     currentWallpaper: activeWallpaper.value || activeWallpaper.bg || '',
     activeWallpaper,
+    previewWallpaper,
+    setPreviewWallpaper,
     setWallpaper,
+    wallpaperOverlay,
+    updateWallpaperOverlay,
+    resetWallpaperOverlay,
+    adaptiveAccentEnabled,
+    setAdaptiveAccentEnabled,
+    suggestedAccent,
+    applyThemeWallpaperPreset,
     cardStyle,
     setCardStyle,
     toggleLightDark,

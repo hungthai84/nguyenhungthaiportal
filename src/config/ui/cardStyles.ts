@@ -5,9 +5,14 @@ import { DEFAULT_CARD_STYLE } from './themeDefaults';
 export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: string }> = {
   'liquid-glass': { vi: 'Liquid Glass Sáng', en: 'Liquid Glass Light' },
   'dark-liquid-glass': { vi: 'Liquid Glass Tối', en: 'Liquid Glass Dark' },
+  'multicolor-glass': { vi: 'Glass UI Đa Sắc', en: 'Multicolor Glass UI' },
   'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Brown Leather Classic Edition' },
   'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Deep Ocean Dark Blue' },
   'mica-fluent': { vi: 'Kính Mờ Hiện Đại', en: 'Mica Fluent Modern Light' },
+  'neumorphism-beyond': {
+    vi: 'Nổi Khối Kính Mờ',
+    en: 'Soft UI Glass Beyond',
+  },
 };
 
 export interface ThemeFamilyGroupMeta {
@@ -67,6 +72,30 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     icon: 'monitor',
     defaultMode: 'mica-fluent',
     lightMode: 'mica-fluent',
+  },
+  {
+    id: 'neumorphism-beyond',
+    label: 'Nổi Khối Kính Mờ',
+    labelEn: 'Soft UI Glass Beyond',
+    description:
+      'Giao diện Neumorphism, Glassmorphism & Beyond: nổi khối kép kết hợp kính mờ hiện đại trên nền xám băng #EBF0F6 cùng hệ 6 sắc màu (#EE6AD2, #64B6FF, #4973FF, #445CE6, #2AD8E6, #52E0A8).',
+    descriptionEn:
+      'Neumorphism, Glassmorphism & Beyond: tactile Soft UI extrusion blended with frosted glassmorphism on cool ice-slate #EBF0F6 surfaces, accented with 6 vivid reference hues.',
+    icon: 'sliders',
+    defaultMode: 'neumorphism-beyond',
+    lightMode: 'neumorphism-beyond',
+  },
+  {
+    id: 'multicolor-glass',
+    label: 'Glass UI Đa Sắc',
+    labelEn: 'Multicolor Glass UI',
+    description:
+      'Giao diện Kính Trong Đa Sắc hiện đại với bề mặt card trong suốt phủ sắc độ xanh lam, tím iris, hồng phớt, ngọc mint và cam đào hòa quyện.',
+    descriptionEn:
+      'Modern translucent multicolor frosted glass UI with vibrant cyan, violet, rose, mint and warm peach glass card tints.',
+    icon: 'sparkles',
+    defaultMode: 'multicolor-glass',
+    colorMode: 'multicolor-glass',
   },
 ];
 
@@ -278,6 +307,95 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     },
     badgeColorClass: 'bg-white/90 text-[#0067C0] border-black/10',
   },
+  {
+    id: 'neumorphism-beyond',
+    familyId: 'neumorphism-beyond',
+    familyLabel: 'Nổi Khối Kính Mờ',
+    familyLabelEn: 'Soft UI Glass Beyond',
+    mechanism: 'light',
+    counterpartMode: 'dark-liquid-glass',
+    cardClassName: 'card-neumorphism-beyond',
+    name: 'Nổi Khối Kính Mờ',
+    label: 'Nổi Khối Kính Mờ',
+    shortBadge: 'Nổi Khối Kính Mờ',
+    tagLabel: 'Neumorphism · Glass · 6 Màu',
+    modeLabel: 'Nổi Khối Kính Mờ',
+    isDark: false,
+    icon: 'sliders',
+    color: '#4973FF',
+    desc: 'Giao diện Neumorphism, Glassmorphism & Beyond nổi khối kép sắc nét, không phát sáng trên nền #EBF0F6 với bộ 6 màu (#EE6AD2, #64B6FF, #4973FF, #445CE6, #2AD8E6, #52E0A8).',
+    cardSampleStyle: {
+      background: 'linear-gradient(145deg, rgba(235, 240, 247, 0.94) 0%, rgba(226, 232, 241, 0.90) 100%)',
+      backdropFilter: 'blur(14px) saturate(105%)',
+      WebkitBackdropFilter: 'blur(14px) saturate(105%)',
+      borderRadius: '14px',
+      border: '1px solid rgba(196, 209, 226, 0.72)',
+      boxShadow:
+        '0 5px 14px rgba(148, 163, 184, 0.18), 3px 4px 10px rgba(163, 177, 198, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.34)',
+      color: '#1E293B',
+    },
+    miniPreviewWrapStyle: {
+      background: 'linear-gradient(145deg, #EAEFF6 0%, #E1E8F2 100%)',
+      borderColor: 'rgba(196, 209, 226, 0.72)',
+      boxShadow: 'inset 2px 2px 5px rgba(163, 177, 198, 0.38), inset -2px -2px 4px rgba(255, 255, 255, 0.42)',
+    },
+    miniTabStyle: {
+      background: '#E8EEF6',
+      color: '#1E293B',
+      borderColor: 'rgba(196, 209, 226, 0.74)',
+      boxShadow: '0 2px 6px rgba(148, 163, 184, 0.16), 2px 2px 6px rgba(163, 177, 198, 0.22)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #4973FF 0%, #64B6FF 55%, #2AD8E6 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-[#E5EBF3] text-[#4973FF] border-[#C4D1E2]',
+  },
+  {
+    id: 'multicolor-glass',
+    familyId: 'multicolor-glass',
+    familyLabel: 'Glass UI Đa Sắc',
+    familyLabelEn: 'Multicolor Glass UI',
+    mechanism: 'color',
+    counterpartMode: 'dark-liquid-glass',
+    cardClassName: 'card-multicolor-glass',
+    name: 'Glass UI Đa Sắc',
+    label: 'Glass UI Đa Sắc',
+    shortBadge: 'Glass Đa Sắc',
+    tagLabel: 'Glass UI · Đa sắc trong suốt',
+    modeLabel: 'Glass UI Đa Sắc',
+    isDark: false,
+    icon: 'sparkles',
+    color: '#6366F1',
+    desc: 'Giao diện Glass UI nền card trong suốt đa màu sắc hiện đại: hiệu ứng kính mờ bão hòa cao kết hợp sắc độ Cyan, Tím Iris, Hồng Blush và Mint.',
+    cardSampleStyle: {
+      background:
+        'linear-gradient(135deg, rgba(212, 240, 255, 0.56) 0%, rgba(238, 224, 255, 0.52) 52%, rgba(255, 228, 244, 0.54) 100%)',
+      backdropFilter: 'blur(22px) saturate(185%)',
+      WebkitBackdropFilter: 'blur(22px) saturate(185%)',
+      borderRadius: '22px',
+      border: '1px solid rgba(255, 255, 255, 0.84)',
+      boxShadow:
+        '0 14px 34px -8px rgba(79, 70, 229, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.92)',
+      color: '#0F172A',
+    },
+    miniPreviewWrapStyle: {
+      background:
+        'linear-gradient(135deg, rgba(216, 242, 255, 0.68) 0%, rgba(242, 228, 255, 0.62) 52%, rgba(255, 232, 245, 0.66) 100%)',
+      borderColor: 'rgba(255, 255, 255, 0.86)',
+      borderWidth: '1px',
+    },
+    miniTabStyle: {
+      background: 'rgba(255, 255, 255, 0.56)',
+      color: '#0F172A',
+      borderColor: 'rgba(255, 255, 255, 0.84)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #6366F1 0%, #EC4899 52%, #06B6D4 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-white/75 text-[#4F46E5] border-white/85',
+  },
 ];
 
 export const VALID_CARD_STYLES: CardStyleMode[] = UNIFIED_INTERFACE_THEMES.map((theme) => theme.id);
@@ -351,6 +469,27 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     icon: 'monitor',
     light: CARD_STYLES_MAP['mica-fluent'],
     dark: CARD_STYLES_MAP['mica-fluent'],
+  },
+  'neumorphism-beyond': {
+    familyId: 'neumorphism-beyond',
+    label: 'Nổi Khối Kính Mờ',
+    labelEn: 'Soft UI Glass Beyond',
+    description: 'Neumorphism, Glassmorphism & Beyond nổi khối kép sắc nét cùng 6 sắc màu chuẩn trên nền #EBF0F6.',
+    descriptionEn: 'Neumorphism, Glassmorphism & Beyond dual-shadow extrusion paired with frosted glass and 6 reference accents on #EBF0F6.',
+    icon: 'sliders',
+    light: CARD_STYLES_MAP['neumorphism-beyond'],
+    dark: CARD_STYLES_MAP['neumorphism-beyond'],
+  },
+  'multicolor-glass': {
+    familyId: 'multicolor-glass',
+    label: 'Glass UI Đa Sắc',
+    labelEn: 'Multicolor Glass UI',
+    description: 'Glass UI nền card trong suốt đa màu sắc hiện đại.',
+    descriptionEn: 'Modern translucent multicolor frosted glass UI.',
+    icon: 'sparkles',
+    light: CARD_STYLES_MAP['multicolor-glass'],
+    dark: CARD_STYLES_MAP['multicolor-glass'],
+    color: CARD_STYLES_MAP['multicolor-glass'],
   },
 };
 

@@ -247,6 +247,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
   const [mindmapProject, setMindmapProject] = useState<ProjectData | null>(null);
   const [activeSection, setActiveSection] = useState<string>('sec-mindmap');
   const [isBannerMuted, setIsBannerMuted] = useState<boolean>(true);
+  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
 
@@ -546,30 +547,39 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
           >
             <div
-              className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
+              className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
               style={{
                 borderRadius: 'var(--radius-banner, 24px)',
               }}
             >
-              <img
-                src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
-                alt="Banner Dự án"
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-                className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
-              />
+              {!heroVideoFailed ? (
+                <video
+                  src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
+                  poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  onError={() => setHeroVideoFailed(true)}
+                  className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+                />
+              ) : (
+                <img
+                  src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
+                  alt="Banner Dự án"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                  className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+                />
+              )}
             </div>
-            <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+            <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
             <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
               <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-                <WebIcon
-                  name="folder"
-                  className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                  style={{ width: '22px', height: '22px', fontWeight: 'bold' }}
-                />
                 <h1
                   className="typo-h3 card-title-synced font-bold font-play not-italic tracking-tight truncate"
                   data-card-title="true"
@@ -692,7 +702,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Tìm tên, mã dự án..."
                     aria-label="Tìm kiếm dự án"
-                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-input font-play focus:outline-none"
+                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-button font-bold font-play focus:outline-none"
                   />
                   {searchQuery && (
                     <button
@@ -742,7 +752,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               const cleanedTitle = proj.title.replace(/^[\d.]+\s*·\s*/, '').trim();
               const orderNumber = proj.code || proj.number || (proj.title.match(/^[\d.]+/)?.[0]) || '';
               const cardColor = getProjectCardColor(idx);
-              const titleIcon = getProjectIconByTitle(proj);
               const highlightText = proj.star?.results?.[0] || proj.description;
               const progressPct = typeof proj.progressPercent === 'number' ? proj.progressPercent : 100;
 
@@ -775,7 +784,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   {/* 1. Ảnh bìa thẻ Dự án 16:10: phân hệ nhóm + mã dự án + thanh thông tin vai trò & giai đoạn */}
                   <div
                     data-media-card="image"
-                    className="project-card-banner education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img rounded-[14px] m-0 p-[1px]"
+                    style={{ borderRadius: 'var(--radius-card, 14px)' }}
+                    className="project-card-banner education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img m-0 p-0"
                   >
                     <img
                       src={bannerInfo.primaryUrl}
@@ -783,7 +793,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       title={bannerInfo.imageName}
                       loading="lazy"
                       referrerPolicy="no-referrer"
-                      style={{ borderRadius: 'calc(var(--radius-card, 14px) - 1px)' }}
                       onError={(e) => {
                         if (bannerInfo.fallbackUrl && e.currentTarget.src !== bannerInfo.fallbackUrl) {
                           e.currentTarget.src = bannerInfo.fallbackUrl;
@@ -792,14 +801,13 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                             'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png';
                         }
                       }}
-                      className="w-full h-full object-cover object-center block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
+                      className="w-full h-full object-cover object-center rounded-[inherit] block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                     <div
-                      className="absolute inset-0 pointer-events-none"
+                      className="absolute inset-0 pointer-events-none rounded-[inherit]"
                       style={{
                         background:
                           'linear-gradient(180deg, rgba(15, 23, 42, 0.34) 0%, rgba(15, 23, 42, 0.04) 42%, rgba(15, 23, 42, 0.82) 100%)',
-                        borderRadius: 'calc(var(--radius-card, 14px) - 1px)',
                       }}
                     />
                     <span
@@ -831,11 +839,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   <div className="project-card-body education-card-body flex-1 flex flex-col justify-between gap-2 min-w-0">
                     <div className="min-w-0 flex flex-col gap-1.5">
                       <div className="card-header-sync flex items-start gap-2 min-w-0 min-h-[2.85em]" style={{ color: cardColor }}>
-                        <WebIcon
-                          name={titleIcon}
-                          className="w-[18px] h-[18px] shrink-0 mt-0.5"
-                          style={{ color: cardColor }}
-                        />
                         <h3
                           className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex-1 min-w-0"
                           data-card-title="true"
@@ -946,11 +949,14 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           maxWidth="5xl"
         >
           <div className="p-4 sm:p-5 flex flex-col gap-3">
-            <div className="themed-image-frame bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-3 sm:p-5 flex items-center justify-center rounded-[14px] overflow-auto horizontal-scroll-smooth max-h-[75vh]">
+            <div
+              style={{ borderRadius: 'var(--radius-card, 14px)' }}
+              className="themed-image-frame bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-3 sm:p-5 flex items-center justify-center overflow-auto horizontal-scroll-smooth max-h-[75vh]"
+            >
               <img
                 src={mindmapProject.mindmap || mindmapProject.image}
                 alt="Sơ đồ tư duy"
-                className="max-w-full max-h-[70vh] object-contain rounded-[14px] shadow-lg"
+                className="max-w-full max-h-[70vh] object-contain rounded-[inherit] shadow-lg"
               />
             </div>
             <div className="flex items-center justify-between typo-caption text-[var(--text-secondary)] pt-1">

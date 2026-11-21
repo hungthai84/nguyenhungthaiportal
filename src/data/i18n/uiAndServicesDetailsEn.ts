@@ -295,8 +295,8 @@ export const UI_AND_SERVICES_DETAILS_EN: Record<string, string> = {
     'Across 22+ years leading customer service operations, Nguyen Hung Thai stands firm on 3 core pillars: First, Efficiency & Process build the foundation. Second, Humanity & People create real value through empathy. Third, Sustainability & Technology unlock breakthroughs with CRM, Dashboards, and AI automation.',
   'Sự hài lòng của khách hàng không đến từ sự hoàn hảo, mà đến từ sự đồng cảm kịp thời.':
     'Customer satisfaction comes not from cold perfection, but from timely empathy.',
-  'Đang kết nối giọng PUCK MC Nam Sài Gòn thuyết trình 3 Trụ Cột...': 'Connecting Puck AI Voice for 3 Pillars presentation...',
-  'AI PUCK MC Nam Sài Gòn đang thuyết trình 3 Trụ Cột... 🎙️': 'Puck AI Voice is presenting the 3 Operational Pillars... 🎙️',
+  'Đang kết nối giọng AI Trí Nhân (Puck) thuyết trình 3 Trụ Cột...': 'Connecting AI Tri Nhan (Puck) Voice for 3 Pillars presentation...',
+  'AI Trí Nhân (Puck) đang thuyết trình 3 Trụ Cột... 🎙️': 'AI Tri Nhan (Puck) Voice is presenting the 3 Operational Pillars... 🎙️',
   'Không thể phát âm thanh thuyết trình.': 'Unable to play presentation audio.',
   'Lỗi phát âm thanh thuyết trình.': 'Presentation audio playback error.',
   'Đang phát Video: Giới thiệu bản thân 🎬': 'Playing Video: Personal Introduction 🎬',

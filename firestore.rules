@@ -45,6 +45,10 @@ service cloud.firestore {
         && style.size() >= 1
         && style.size() <= 64
         && style in [
+          'liquid-glass',
+          'dark-liquid-glass',
+          'multicolor-glass',
+          'neumorphism-beyond',
           'light-multicolor-glass',
           'light-multicolor-glass-dark',
           'light-multicolor-glass-color',

@@ -241,6 +241,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
   const [expandedSkillIds, setExpandedSkillIds] = useState<Set<string>>(new Set());
   const [highlightedSkillId, setHighlightedSkillId] = useState<string | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const filterMenuRef = useRef<HTMLDivElement>(null);
   const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -445,7 +446,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
             borderRadius: "var(--radius-banner, 24px)",
           }}
         >
-          {/* Lớp nền hình ảnh và gradient phủ */}
+          {/* Lớp nền video và gradient phủ */}
           <div
             id="skills-hero-banner-bg"
             className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
@@ -453,27 +454,37 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
               borderRadius: "var(--radius-banner, 24px)",
             }}
           >
-            <img
-              id="skills-hero-banner-img"
-              src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png"
-              alt="Banner Kỹ năng cốt lõi"
-              referrerPolicy="no-referrer"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
-              className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
-            />
+            {!heroVideoFailed ? (
+              <video
+                id="skills-hero-banner-video"
+                src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
+                poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                onError={() => setHeroVideoFailed(true)}
+                className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+              />
+            ) : (
+              <img
+                id="skills-hero-banner-img"
+                src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png"
+                alt="Banner Kỹ năng cốt lõi"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+                className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+              />
+            )}
           </div>
-          <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+          <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
-          {/* Vùng Tiêu Đề: Icon và Tiêu đề bên trái, Sub tiêu đề cùng hàng nằm bên phải */}
+          {/* Vùng Tiêu Đề: Tiêu đề bên trái, Sub tiêu đề cùng hàng nằm bên phải */}
           <div id="skills-hero-banner-header" className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
             <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: "var(--text-link, var(--color-primary))" }}>
-              <WebIcon
-                name="brain"
-                className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                style={{ width: '22px', height: '22px' }}
-              />
                 <h1
                   id="skills-hero-banner-title"
                   className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
@@ -500,7 +511,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                   id="skills-filter-toggle-btn"
                   type="button"
                   onClick={() => setIsFilterOpen((prev) => !prev)}
-                  className="banner-control-pill swot-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+                  className="banner-control-pill swot-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
                   title={isVi ? "Bộ lọc kỹ năng" : "Skill Filter"}
                   aria-label="Bộ lọc kỹ năng"
                   aria-expanded={isFilterOpen}
@@ -580,7 +591,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                   const allIds = QUADRANTS.flatMap((q) => q.data.map((d) => d.id));
                   setExpandedSkillIds((prev) => (prev.size > 0 ? new Set() : new Set(allIds)));
                 }}
-                className="banner-control-pill swot-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full transition-all cursor-pointer typo-button font-play active:scale-95"
+                className="banner-control-pill swot-control-pill h-9 inline-flex items-center gap-1.5 px-3.5 py-0 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95"
                 title={expandedSkillIds.size > 0 ? (isVi ? "Thu gọn tất cả mô tả" : "Collapse all details") : (isVi ? "Mở rộng tất cả mô tả" : "Expand all details")}
               >
                 <WebIcon name={expandedSkillIds.size > 0 ? "minimize" : "maximize-2"} className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
@@ -677,13 +688,6 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                           )}
                         >
                           <div className="card-header-sync flex items-center gap-2.5">
-                            {quad.key !== "W" && quad.key !== "T" && (
-                              <WebIcon
-                                name={quad.icon}
-                                className="swot-quadrant-icon w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                                style={{ width: '18px', height: '18px', color: quad.titleColor }}
-                              />
-                            )}
                             <h2
                               id={`${quad.id}-title`}
                               className="swot-quadrant-title card-title-synced typo-h3 font-play tracking-tight"
@@ -691,13 +695,6 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                             >
                               {quad.title}
                             </h2>
-                            {(quad.key === "W" || quad.key === "T") && (
-                              <WebIcon
-                                name={quad.icon}
-                                className="swot-quadrant-icon w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                                style={{ width: '18px', height: '18px', color: quad.titleColor }}
-                              />
-                            )}
                           </div>
                           {isSelected && (
                             <button
@@ -854,10 +851,6 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                                       className="swot-skill-disclosure mt-2 pt-2 text-left flex items-start gap-2 p-2.5 rounded-[14px] bg-transparent"
                                       style={{ background: 'transparent', backgroundColor: 'transparent', boxShadow: 'none' }}
                                     >
-                                      <WebIcon
-                                        name="info"
-                                        className="swot-skill-icon w-4 h-4 shrink-0 mt-0.5 opacity-90"
-                                      />
                                       <div className="flex-1 min-w-0">
                                         <span className="swot-skill-disclosure-label typo-label font-mono tracking-wide block opacity-85 mb-0.5">
                                           {isVi ? "Mô tả kỹ năng thực chiến" : "Practical Skill Description"}
@@ -899,7 +892,6 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           >
             <div id="skills-languages-header" className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3">
               <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-400">
-                <WebIcon name="globe" className="w-5 h-5 text-blue-600 dark:text-sky-400" />
                 <h2 id="skills-languages-title" className="card-title-synced typo-h3 font-play">
                   {isVi ? "Ngôn ngữ giao tiếp" : "Communication Languages"}
                 </h2>

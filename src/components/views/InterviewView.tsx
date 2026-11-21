@@ -11,6 +11,7 @@ import {
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { cn } from '@/lib/utils';
+import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 
 export interface InterviewViewProps {
   currentTheme?: string;
@@ -186,8 +187,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
         >
           {/* Nền Video phỏng vấn trực tiếp lấp đầy banner-card & đồng bộ bo cong theo giao diện */}
           <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0">
-            <video
-              ref={videoRef}
+            <SmartFaceVideo
+              videoRef={videoRef}
               autoPlay
               loop={!isVideoPlaying}
               muted={!isAudioOn}
@@ -195,7 +196,10 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               src={isVideoPlaying ? INTERVIEW_VIDEO_2_URL : INTERVIEW_VIDEO_1_URL}
               onTimeUpdate={handleTimeUpdate}
               onEnded={handleEnded}
-              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500 select-none pointer-events-none"
+              faceAnchor={{ x: 50, y: 18 }}
+              maxCropDistortion={1.6}
+              wrapperClassName="w-full h-full rounded-[inherit] pointer-events-none"
+              className="opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500 select-none pointer-events-none"
             />
           </div>
           <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
@@ -203,11 +207,6 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           {/* Hàng trên: Icon + Tiêu đề bên trái, Câu nói chữ ký bên phải */}
           <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
             <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-              <WebIcon
-                name="mic"
-                className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                style={{ width: '22px', height: '22px', fontWeight: 'bold' }}
-              />
               <h1
                 id="interview-hero-banner-title"
                 className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
@@ -458,7 +457,6 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           <div className="space-y-2 shrink-0 min-w-0">
             <div className="flex flex-wrap items-center justify-between gap-1.5 min-w-0">
               <h3 className="card-title card-title-synced typo-h3 flex items-center gap-2 text-pink-600 dark:text-pink-400 min-w-0">
-                <WebIcon name="message-circle" className="w-[18px] h-[18px] shrink-0" />
                 <span className="truncate">Chi tiết trả lời</span>
               </h3>
               <span className="typo-caption font-semibold text-[var(--text-secondary)] shrink-0 tabular-nums whitespace-nowrap">
@@ -509,7 +507,6 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               className="exp-detail-subcard p-[15px] rounded-[var(--radius-subcard,16px)] border flex flex-col gap-2 shrink-0"
             >
               <div className="interview-asker-heading subcard-header-sync typo-h4 flex items-center gap-2 flex-wrap text-indigo-600 dark:text-indigo-400">
-                <WebIcon name="building" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
                 <span className="subcard-title-synced tracking-wide text-indigo-600 dark:text-indigo-400 break-words" data-subcard-title="true">
                   Câu hỏi {String(currentQ.stt).padStart(2, '0')}: {currentQ.askerVi}
                 </span>
@@ -530,7 +527,6 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               className="exp-detail-subcard p-[15px] rounded-[var(--radius-subcard,16px)] border flex flex-col gap-2 shrink-0"
             >
               <div className="interview-answerer-heading subcard-header-sync typo-h4 flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
-                <WebIcon name="user" className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
                 <span className="subcard-title-synced tracking-wide text-emerald-700 dark:text-emerald-400" data-subcard-title="true">
                   Trả lời: {currentQ.answererVi}
                 </span>
@@ -548,7 +544,6 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               className="exp-detail-subcard p-[15px] rounded-[var(--radius-subcard,16px)] border flex flex-col gap-2 shrink-0"
             >
               <div className="interview-insights-heading subcard-header-sync typo-h4 flex items-center gap-2 text-amber-700 dark:text-amber-400">
-                <WebIcon name="target" className="w-4 h-4 shrink-0 text-amber-700 dark:text-amber-400" />
                 <span className="subcard-title-synced tracking-wide text-amber-700 dark:text-amber-400" data-subcard-title="true">
                   Trọng tâm
                 </span>

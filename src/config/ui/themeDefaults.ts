@@ -2,9 +2,11 @@ import { CardStyleMode, ThemeMechanismMode } from './theme.types';
 import rainbowGlassWallpaper from '@/assets/images/wallpaper_rainbow_glass_1795175771284.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
-import micaFluentWallpaper from '@/assets/images/wallpaper_mica_fluent_1795175772748.jpg';
+import lightDeepOceanWallpaper from '@/assets/images/light_deep_ocean_wallpaper_1795344399317.jpg';
 import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
+import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
+import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
 
 export const DEFAULT_CARD_STYLE: CardStyleMode = 'neumorphism-beyond';
 export const DEFAULT_LAYER_DEPTH = 100;
@@ -36,10 +38,12 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'liquid-glass': { cardOpacity: 64, blurIntensity: 24 },
   'dark-liquid-glass': { cardOpacity: 64, blurIntensity: 24 },
   'multicolor-glass': { cardOpacity: 44, blurIntensity: 22 },
+  'dark-neon-glass': { cardOpacity: 58, blurIntensity: 24 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'deep-ocean': { cardOpacity: 84, blurIntensity: 20 },
-  'mica-fluent': { cardOpacity: 82, blurIntensity: 30 },
+  'light-deep-ocean': { cardOpacity: 84, blurIntensity: 22 },
   'neumorphism-beyond': { cardOpacity: 91, blurIntensity: 14 },
+  'dark-neumorphism-beyond': { cardOpacity: 92, blurIntensity: 14 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -93,15 +97,15 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.18) 0%, transparent 55%), radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.14) 0%, transparent 60%), linear-gradient(145deg, #0A1128 0%, #050B14 50%, #030712 100%)',
     overlayBg: 'rgba(5, 11, 20, 0.22)',
   },
-  'mica-fluent': {
-    id: 'mica-fluent',
-    presetId: 'theme-bg-mica-fluent',
-    label: 'Nền Mica Fluent (Windows 11 Acrylic)',
+  'light-deep-ocean': {
+    id: 'light-deep-ocean',
+    presetId: 'theme-bg-light-deep-ocean',
+    label: 'Nền Đại Dương Sâu Thẳm Sáng',
     themeMode: 'light',
-    imagePath: micaFluentWallpaper,
+    imagePath: lightDeepOceanWallpaper,
     fallbackGradient:
-      'radial-gradient(circle at 15% 15%, rgba(200, 215, 235, 0.45) 0%, transparent 50%), radial-gradient(circle at 85% 25%, rgba(220, 230, 245, 0.4) 0%, transparent 52%), radial-gradient(circle at 50% 85%, rgba(210, 220, 240, 0.35) 0%, transparent 54%), linear-gradient(135deg, #f3f6fa 0%, #e8edf5 52%, #dfe6f0 100%)',
-    overlayBg: 'rgba(243, 246, 250, 0.12)',
+      'radial-gradient(circle at 20% 18%, rgba(6, 182, 212, 0.20) 0%, transparent 48%), radial-gradient(circle at 82% 82%, rgba(56, 189, 248, 0.22) 0%, transparent 52%), linear-gradient(155deg, #F2FBFF 0%, #E3F4FD 52%, #D4EEFC 100%)',
+    overlayBg: 'rgba(240, 250, 255, 0.12)',
   },
   'neumorphism-beyond': {
     id: 'neumorphism-beyond',
@@ -111,6 +115,15 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     imagePath: neumorphismBeyondWallpaper,
     fallbackGradient: 'linear-gradient(145deg, #EAEFF6 0%, #E6ECF4 55%, #DFE6F0 100%)',
     overlayBg: 'transparent',
+  },
+  'dark-neumorphism-beyond': {
+    id: 'dark-neumorphism-beyond',
+    presetId: 'theme-bg-dark-neumorphism-beyond',
+    label: 'Nền Nổi Khối Kính Mờ Tối',
+    themeMode: 'dark',
+    imagePath: darkNeumorphismBeyondWallpaper,
+    fallbackGradient: 'linear-gradient(145deg, #171E2B 0%, #141A25 55%, #111620 100%)',
+    overlayBg: 'rgba(15, 20, 30, 0.18)',
   },
   'multicolor-glass': {
     id: 'multicolor-glass',
@@ -122,14 +135,26 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(at 14% 16%, rgba(56, 189, 248, 0.34) 0px, transparent 50%), radial-gradient(at 86% 16%, rgba(192, 132, 252, 0.32) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(251, 146, 60, 0.24) 0px, transparent 52%), radial-gradient(at 20% 82%, rgba(52, 211, 153, 0.28) 0px, transparent 50%), linear-gradient(135deg, #edf6ff 0%, #f4eeff 50%, #fff0f7 100%)',
     overlayBg: 'rgba(244, 247, 255, 0.08)',
   },
+  'dark-neon-glass': {
+    id: 'dark-neon-glass',
+    presetId: 'theme-bg-dark-neon-glass',
+    label: 'Nền Glass UI Neon Tối',
+    themeMode: 'dark',
+    imagePath: darkNeonGlassWallpaper,
+    fallbackGradient:
+      'radial-gradient(at 16% 18%, rgba(34, 211, 238, 0.24) 0px, transparent 50%), radial-gradient(at 84% 18%, rgba(217, 70, 239, 0.22) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(99, 102, 241, 0.20) 0px, transparent 52%), linear-gradient(145deg, #050814 0%, #090e24 50%, #0d0822 100%)',
+    overlayBg: 'rgba(5, 8, 20, 0.20)',
+  },
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'liquid-glass': THEME_BACKGROUNDS['liquid-glass'].presetId,
   'dark-liquid-glass': THEME_BACKGROUNDS['dark-liquid-glass'].presetId,
   'multicolor-glass': THEME_BACKGROUNDS['multicolor-glass'].presetId,
+  'dark-neon-glass': THEME_BACKGROUNDS['dark-neon-glass'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
   'deep-ocean': THEME_BACKGROUNDS['deep-ocean'].presetId,
-  'mica-fluent': THEME_BACKGROUNDS['mica-fluent'].presetId,
+  'light-deep-ocean': THEME_BACKGROUNDS['light-deep-ocean'].presetId,
   'neumorphism-beyond': 'custom-wp-1788112774646',
+  'dark-neumorphism-beyond': THEME_BACKGROUNDS['dark-neumorphism-beyond'].presetId,
 };

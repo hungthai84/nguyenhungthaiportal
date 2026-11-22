@@ -116,7 +116,7 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
           }
         }}
         className={cn(
-          'w-full h-full min-w-full min-h-full border-0 pointer-events-none select-none scale-[1.28] rounded-[inherit] transition-opacity duration-500',
+          'banner-drive-iframe-cover absolute top-1/2 left-1/2 border-0 pointer-events-none select-none transition-opacity duration-500',
           className
         )}
       />
@@ -131,15 +131,18 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
         alt={alt}
         referrerPolicy="no-referrer"
         style={{
+          position: 'absolute',
+          inset: 0,
           width: '100%',
           height: '100%',
           minWidth: '100%',
           minHeight: '100%',
           objectFit: 'cover',
           objectPosition,
+          transform: 'translateZ(0) scale(1.02)',
         }}
         className={cn(
-          'w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none transition-all duration-700',
+          'absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none transition-all duration-700',
           className
         )}
       />
@@ -190,6 +193,10 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
         enforceVideoState(v);
         v.play().catch(() => {});
       }}
+      onPlaying={(e) => {
+        const v = e.currentTarget;
+        enforceVideoState(v);
+      }}
       onError={() => {
         if (stage === 'primary' && driveDirectAlt && normalizedPrimarySrc !== driveDirectAlt) {
           setStage('driveAlt');
@@ -202,17 +209,19 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
         }
       }}
       style={{
+        position: 'absolute',
+        inset: 0,
         width: '100%',
         height: '100%',
         minWidth: '100%',
         minHeight: '100%',
         objectFit: 'cover',
         objectPosition,
-        transform: 'translateZ(0) scale(1.005)',
+        transform: 'translateZ(0) scale(1.02)',
         backfaceVisibility: 'hidden',
       }}
       className={cn(
-        'w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp transition-all duration-700',
+        'absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp transition-all duration-700',
         className
       )}
     />

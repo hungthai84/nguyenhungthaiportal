@@ -32,7 +32,6 @@ import { SystemData, SiteTheme } from '@/types';
 import { useToast } from '@/components/ui/Toast';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { cn } from '@/lib/utils';
-import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 import { getSavedMutedPref, saveMutedPref, AUDIO_PREF_EVENT } from '@/utils/audioPreference';
 import { EcosystemDiagramModal } from '@/components/common/EcosystemDiagramModal';
 import { useTheme } from '@/hooks/useTheme';
@@ -571,8 +570,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
+    currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'deep-ocean';
+    currentTheme === 'deep-ocean' ||
+    currentTheme === 'dark-neumorphism-beyond';
   const isLight = !isDark;
   const isLeatherTheme = cardStyle === 'cowhide-leather';
 
@@ -1551,23 +1552,28 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     </button>
                   </div>
 
-                  <SmartFaceVideo
-                    videoRef={introStageVideoRef}
+                  <video
+                    ref={introStageVideoRef}
                     src={SYSTEM_FLOATING_INTRO_VIDEO_URL}
                     controls={false}
                     disablePictureInPicture
                     controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
                     autoPlay
                     loop
-                    alwaysCover
                     playsInline
                     preload="auto"
                     muted={isIntroStageMuted}
                     onEnded={() => setIsCircleVideoPlaying(false)}
-                    faceAnchor={{ x: 50, y: 18 }}
-                    maxCropDistortion={1.6}
-                    wrapperClassName="w-full h-full bg-black rounded-[inherit]"
-                    className="bg-black rounded-[inherit] banner-video-sharp"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: '50% 18%',
+                      transform: 'translateZ(0) scale(1.02)',
+                    }}
+                    className="absolute inset-0 w-full h-full object-cover bg-black rounded-[inherit] banner-video-sharp"
                   />
                 </div>
               </div>

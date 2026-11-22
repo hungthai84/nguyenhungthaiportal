@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from 'react';
+import { triggerThemeCrossFade } from '../utils/themeTransition';
 import {
   WALLPAPER_PRESETS_LIST,
   WallpaperPreset,
@@ -395,12 +396,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const checkTimeTheme = () => {
       const hour = new Date().getHours();
       const isNight = hour >= 18 || hour < 6;
-      if (cardStyle === 'liquid-glass' || cardStyle === 'dark-liquid-glass') {
-        if (isNight && cardStyle !== 'dark-liquid-glass') {
-          setCardStyle('dark-liquid-glass');
-        } else if (!isNight && cardStyle !== 'liquid-glass') {
-          setCardStyle('liquid-glass');
-        }
+      const targetStyle = getLightDarkCounterpart(cardStyle, isNight);
+      if (targetStyle !== cardStyle) {
+        setCardStyle(targetStyle);
       }
     };
     checkTimeTheme();
@@ -726,6 +724,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const applyCardStyleInternal = useCallback((mode: CardStyleMode, schemeOverride?: ColorSchemeMode) => {
     const normalized = normalizeCardStyle(mode);
+    if (cardStyleRef.current !== normalized) {
+      triggerThemeCrossFade();
+    }
     const nextDark = resolveCardStyleDark(normalized);
     const defaultWp = getDefaultWallpaperForTheme(normalized);
     const resolvedScheme: ColorSchemeMode = schemeOverride || (nextDark ? 'dark' : 'light');

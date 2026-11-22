@@ -97,9 +97,8 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
 #bento-letter-video > div,
 #experience-video-card-2026 > div,
 [data-media-card="video"] > div,
-[data-media-card="video"] .smart-face-video-root,
 [data-media-card="video"] > video,
-[data-media-card="video"] video:not([data-smart-face-ambient="true"]) {
+[data-media-card="video"] video {
   width: 100% !important;
   height: 100% !important;
   min-width: 100% !important;
@@ -107,10 +106,6 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
   object-fit: cover !important;
   border-radius: var(--radius-card, 14px) !important;
   overflow: hidden !important;
-}
-
-[data-media-card="video"] [data-smart-face-ambient="true"] {
-  display: none !important;
 }
 
 #contact-info-container {
@@ -665,12 +660,16 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 }
 
 #home-main-card,
+[id^="home-main-card-"],
+.home-screen-main-card,
 #experience-main-card,
 #ai-assistant-main-card {
   padding: var(--main-card-padding, 20px) !important;
 }
 
 #home-main-card,
+[id^="home-main-card-"],
+.home-screen-main-card,
 #experience-main-card:has(#experience-timeline-board),
 #experience-main-card:has(#experience-job-detail-card) {
   overflow: hidden !important;
@@ -1546,6 +1545,40 @@ html[data-card-style="dark-liquid-glass"] .themed-image-card-badge {
   color: #f1f5f9;
 }
 
+html[data-card-style="dark-neon-glass"] .themed-image-card-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(6, 10, 26, 0.95) 0%,
+    rgba(14, 16, 44, 0.66) 52%,
+    rgba(6, 10, 26, 0.20) 100%
+  );
+  backdrop-filter: blur(12px) saturate(165%);
+  -webkit-backdrop-filter: blur(12px) saturate(165%);
+}
+
+html[data-card-style="dark-neon-glass"] .themed-image-card-title {
+  color: #f8fafc;
+}
+
+html[data-card-style="dark-neon-glass"] .themed-image-card-subtext {
+  color: #cbd5e1;
+}
+
+html[data-card-style="dark-neon-glass"] .themed-image-card-kicker {
+  color: #22d3ee;
+}
+
+html[data-card-style="dark-neon-glass"] .themed-image-card-divider {
+  border-color: rgba(34, 211, 238, 0.24);
+}
+
+html[data-card-style="dark-neon-glass"] .themed-image-card-badge {
+  background: rgba(10, 18, 44, 0.88);
+  border: 1px solid rgba(34, 211, 238, 0.36);
+  box-shadow: var(--shadow-nav-pill);
+  color: #67e8f9;
+}
+
 /* Theme 02: Chất liệu da (màu nâu) */
 html[data-card-style="cowhide-leather"] .themed-image-card-scrim {
   background: linear-gradient(
@@ -1607,7 +1640,7 @@ html[data-card-style="cowhide-leather"] .themed-image-card-badge {
 #contact-hero-banner:hover .project-detail-banner-media img,
 #ai-assistant-hero-banner:hover .project-detail-banner-media video {
   opacity: 1 !important;
-  transform: none;
+  transform: translateZ(0) scale(1.02);
 }
 
 .project-detail-banner-scrim {
@@ -3007,6 +3040,7 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 }
 
 #home-main-card,
+[id^="home-main-card-"],
 [data-main-card="true"],
 .page-main-card,
 #about-intro-card-1,
@@ -3016,11 +3050,13 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 }
 
 .dark #home-main-card,
+.dark [id^="home-main-card-"],
 .dark [data-main-card="true"],
 .dark .page-main-card,
 .dark #about-intro-card-1,
 .dark #about-intro-card-2,
 :root[data-theme-mode="dark"] #home-main-card,
+:root[data-theme-mode="dark"] [id^="home-main-card-"],
 :root[data-theme-mode="dark"] [data-main-card="true"],
 :root[data-theme-mode="dark"] .page-main-card,
 :root[data-theme-mode="dark"] #about-intro-card-1,
@@ -3033,6 +3069,8 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 @media (prefers-reduced-motion: reduce) {
   #home-main-card,
   #home-main-card:hover,
+  [id^="home-main-card-"],
+  [id^="home-main-card-"]:hover,
   [data-main-card="true"],
   [data-main-card="true"]:hover,
   .page-main-card,
@@ -3593,30 +3631,30 @@ html[data-card-style="deep-ocean"] .video-play-btn--letter {
   --vp-text: #FFFFFF;
 }
 
-/* --- Theme 10: Mica Fluent (Windows 11 Acrylic) --- */
-html[data-card-style="mica-fluent"] .video-play-btn {
-  --vp-backdrop: blur(24px) saturate(165%);
-  --vp-border: rgba(0, 103, 192, 0.24);
-  --vp-text: #1F1F1F;
-  --vp-specular: rgba(255, 255, 255, 0.92);
-  --vp-chase-a: #0067C0;
-  --vp-chase-b: #00A4EF;
-  --vp-shadow-ambient: 0 8px 22px rgba(15, 23, 42, 0.10);
-  --vp-shadow-hover: 0 12px 28px rgba(0, 103, 192, 0.18);
-  --vp-sound-bg: rgba(0, 103, 192, 0.10);
-  --vp-sound-border: rgba(0, 103, 192, 0.24);
-  --vp-sound-hover: rgba(0, 103, 192, 0.18);
+/* --- Theme 10: Đại Dương Sâu Thẳm Sáng (Sunlit Coastal Aqua Glass) --- */
+html[data-card-style="light-deep-ocean"] .video-play-btn {
+  --vp-backdrop: blur(22px) saturate(160%);
+  --vp-border: rgba(2, 132, 199, 0.28);
+  --vp-text: #082F49;
+  --vp-specular: rgba(255, 255, 255, 0.95);
+  --vp-chase-a: #0284C7;
+  --vp-chase-b: #06B6D4;
+  --vp-shadow-ambient: 0 10px 24px rgba(2, 132, 199, 0.14);
+  --vp-shadow-hover: 0 14px 30px rgba(6, 182, 212, 0.24);
+  --vp-sound-bg: rgba(2, 132, 199, 0.10);
+  --vp-sound-border: rgba(2, 132, 199, 0.24);
+  --vp-sound-hover: rgba(6, 182, 212, 0.20);
 }
-html[data-card-style="mica-fluent"] .video-play-btn--home,
-html[data-card-style="mica-fluent"] .video-play-btn--about,
-html[data-card-style="mica-fluent"] .video-play-btn--interview,
-html[data-card-style="mica-fluent"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(240, 245, 252, 0.86) 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #e4effb 100%);
+html[data-card-style="light-deep-ocean"] .video-play-btn--home,
+html[data-card-style="light-deep-ocean"] .video-play-btn--about,
+html[data-card-style="light-deep-ocean"] .video-play-btn--interview,
+html[data-card-style="light-deep-ocean"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, rgba(240, 249, 255, 0.92) 0%, rgba(224, 242, 254, 0.86) 100%);
+  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #dbeafe 100%);
 }
-html[data-card-style="mica-fluent"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, #0067C0 0%, #0078D4 55%, #00A4EF 100%);
-  --vp-bg-hover: linear-gradient(135deg, #005A9E 0%, #0067C0 55%, #2B88D8 100%);
+html[data-card-style="light-deep-ocean"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #0284C7 0%, #0EA5E9 55%, #06B6D4 100%);
+  --vp-bg-hover: linear-gradient(135deg, #0369A1 0%, #0284C7 55%, #0891B2 100%);
   --vp-text: #FFFFFF;
 }
 
@@ -3659,6 +3697,45 @@ html[data-card-style="neumorphism-beyond"] .video-play-btn--letter {
   animation: none !important;
 }
 
+/* --- Theme 12: Nổi Khối Kính Mờ Tối (Dark Soft UI Matte Anti-Glare) --- */
+html[data-card-style="dark-neumorphism-beyond"] .video-play-btn {
+  --vp-backdrop: blur(12px) saturate(110%);
+  --vp-border: rgba(71, 85, 105, 0.50);
+  --vp-text: #F1F5F9;
+  --vp-specular: rgba(148, 163, 184, 0.14);
+  --vp-chase-a: transparent;
+  --vp-chase-b: transparent;
+  --vp-shadow-ambient: 5px 6px 14px rgba(4, 7, 15, 0.65), -3px -3px 10px rgba(40, 51, 72, 0.36);
+  --vp-shadow-hover: 7px 9px 18px rgba(4, 7, 15, 0.72), -4px -4px 12px rgba(46, 59, 82, 0.44);
+  --vp-sound-bg: rgba(100, 182, 255, 0.14);
+  --vp-sound-border: rgba(100, 182, 255, 0.30);
+  --vp-sound-hover: rgba(238, 106, 210, 0.24);
+  animation: none !important;
+}
+html[data-card-style="dark-neumorphism-beyond"] .video-play-btn:hover,
+html[data-card-style="dark-neumorphism-beyond"] .video-play-btn:focus-visible {
+  box-shadow:
+    var(--vp-shadow-hover),
+    inset 0 1px 0 rgba(148, 163, 184, 0.16) !important;
+}
+html[data-card-style="dark-neumorphism-beyond"] .video-play-btn::before {
+  display: none !important;
+  content: none !important;
+}
+html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--home,
+html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--about,
+html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--interview,
+html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, rgba(30, 38, 53, 0.94) 0%, rgba(22, 28, 41, 0.92) 100%);
+  --vp-bg-hover: linear-gradient(145deg, #252F42 0%, #1C2333 100%);
+}
+html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #EE6AD2 0%, #4973FF 55%, #2AD8E6 100%);
+  --vp-bg-hover: linear-gradient(135deg, #F27FD9 0%, #64B6FF 55%, #4CE3EF 100%);
+  --vp-text: #FFFFFF;
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .video-play-btn,
   html[data-card-style] .video-play-btn,
@@ -3694,7 +3771,7 @@ html[data-card-style="neumorphism-beyond"] .video-play-btn--letter {
     background-color 200ms ease;
 }
 
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="neumorphism-beyond"]) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]) :is(
   button[data-element-type="button"],
   .banner-control-pill,
   .nav-arrow-btn,
@@ -3760,7 +3837,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="neumorphism-
 }
 
 .project-detail-banner-media,
-.project-detail-banner-media :is(video, img, iframe, .smart-face-video-root) {
+.project-detail-banner-media :is(video, img) {
   border-radius: var(--radius-banner, var(--radius-card, 16px)) !important;
 }
 

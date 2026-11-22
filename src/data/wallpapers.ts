@@ -2,9 +2,11 @@ import React from 'react';
 import rainbowGlassWallpaper from '@/assets/images/wallpaper_rainbow_glass_1795175771284.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
-import micaFluentWallpaper from '@/assets/images/wallpaper_mica_fluent_1795175772748.jpg';
+import lightDeepOceanWallpaper from '@/assets/images/light_deep_ocean_wallpaper_1795344399317.jpg';
 import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
+import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
+import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
 
 export type WallpaperType = 'image' | 'video' | 'css' | 'gradient' | 'webgl';
 
@@ -47,20 +49,28 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     dark: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
   },
   'deep-ocean': {
-    light: deepOceanWallpaper,
+    light: lightDeepOceanWallpaper,
     dark: deepOceanWallpaper,
   },
-  'mica-fluent': {
-    light: micaFluentWallpaper,
-    dark: micaFluentWallpaper,
+  'light-deep-ocean': {
+    light: lightDeepOceanWallpaper,
+    dark: deepOceanWallpaper,
   },
   'neumorphism-beyond': {
     light: neumorphismBeyondWallpaper,
-    dark: neumorphismBeyondWallpaper,
+    dark: darkNeumorphismBeyondWallpaper,
+  },
+  'dark-neumorphism-beyond': {
+    light: neumorphismBeyondWallpaper,
+    dark: darkNeumorphismBeyondWallpaper,
   },
   'multicolor-glass': {
     light: multicolorGlassWallpaper,
     dark: multicolorGlassWallpaper,
+  },
+  'dark-neon-glass': {
+    light: darkNeonGlassWallpaper,
+    dark: darkNeonGlassWallpaper,
   },
 };
 
@@ -362,15 +372,15 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1794300000020,
   },
   {
-    id: 'theme-bg-mica-fluent',
-    name: '🪟 Nền Mica Fluent Windows 11 (Giao diện riêng)',
+    id: 'theme-bg-light-deep-ocean',
+    name: '🌊 Nền Đại Dương Sâu Thẳm Sáng (Giao diện riêng)',
     type: 'image',
-    value: micaFluentWallpaper,
-    bg: `url('${micaFluentWallpaper}') center/cover no-repeat`,
+    value: lightDeepOceanWallpaper,
+    bg: `url('${lightDeepOceanWallpaper}') center/cover no-repeat`,
     previewStyle: {
       background:
-        'radial-gradient(circle at 15% 15%, rgba(0, 103, 192, 0.14) 0%, transparent 50%), linear-gradient(135deg, #F3F6FA 0%, #E8EDF5 52%, #DFE6F0 100%)',
-      backgroundImage: `url('${micaFluentWallpaper}')`,
+        'radial-gradient(circle at 20% 18%, rgba(6, 182, 212, 0.22) 0%, transparent 50%), linear-gradient(155deg, #F2FBFF 0%, #E3F4FD 52%, #D4EEFC 100%)',
+      backgroundImage: `url('${lightDeepOceanWallpaper}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },
@@ -391,6 +401,37 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000022,
+  },
+  {
+    id: 'theme-bg-dark-neumorphism-beyond',
+    name: '🌑 Nền Nổi Khối Kính Mờ Tối (Giao diện riêng)',
+    type: 'image',
+    value: darkNeumorphismBeyondWallpaper,
+    bg: `url('${darkNeumorphismBeyondWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background: 'linear-gradient(145deg, #171E2B 0%, #141A25 55%, #111620 100%)',
+      backgroundImage: `url('${darkNeumorphismBeyondWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000024,
+  },
+  {
+    id: 'theme-bg-dark-neon-glass',
+    name: '🌌 Nền Glass UI Neon Tối (Giao diện riêng)',
+    type: 'image',
+    value: darkNeonGlassWallpaper,
+    bg: `url('${darkNeonGlassWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(at 16% 18%, rgba(34, 211, 238, 0.24) 0px, transparent 50%), radial-gradient(at 84% 18%, rgba(217, 70, 239, 0.22) 0px, transparent 48%), linear-gradient(145deg, #050814 0%, #090e24 50%, #0d0822 100%)',
+      backgroundImage: `url('${darkNeonGlassWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000023,
   },
 
   {

@@ -47,7 +47,6 @@ import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
 import { saveMutedPref } from '@/utils/audioPreference';
-import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
@@ -346,8 +345,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
+    currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'deep-ocean';
+    currentTheme === 'deep-ocean' ||
+    currentTheme === 'dark-neumorphism-beyond';
   const isLeather = cardStyle === 'cowhide-leather';
   const isDarkSurface = isDark && !isLeather;
   const isDarkCardText = isDarkSurface || isLeather;
@@ -2232,11 +2233,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <div
                     className="relative w-full h-full flex-1 rounded-[inherit] overflow-hidden min-h-0 flex flex-col justify-between"
                   >
-                    <SmartFaceVideo
-                      videoRef={jobVideoRef}
+                    <video
+                      ref={jobVideoRef}
                       id="experience-2026-video"
                       autoPlay
-                      alwaysCover={true}
                       loop={!isJobVideoPlaying}
                       muted={isJobVideoPlaying ? isJobVideoMuted : true}
                       playsInline
@@ -2259,10 +2259,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           }
                         }
                       }}
-                      faceAnchor={{ x: 50, y: 18 }}
-                      maxCropDistortion={1.6}
-                      wrapperClassName="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0"
-                      className="pointer-events-none select-none opacity-100 transition-opacity duration-700 banner-video-sharp"
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: '50% 18%',
+                        transform: 'translateZ(0) scale(1.02)',
+                      }}
+                      className="absolute inset-0 w-full h-full object-cover rounded-[inherit] pointer-events-none select-none opacity-100 transition-opacity duration-700 banner-video-sharp z-0"
                       src={isJobVideoPlaying ? "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841266/Th%E1%BA%BB_Job_2026.mp4" : "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841270/Man_h%C3%ACnh_ch%E1%BB%9D_Job_2026.mp4"}
                     />
 

@@ -11,11 +11,6 @@ import {
   Cpu,
   Maximize2,
   Minimize2,
-  CheckCircle2,
-  Wrench,
-  Building2,
-  UserCheck,
-  Tag,
   Users,
   Zap,
   Clock,
@@ -37,64 +32,15 @@ import { useBannerVideo } from '@/context/BannerVideoContext';
 import { ServiceDomainKey } from '@/utils/bannerVideoMatcher';
 import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import {
+  ServiceExpandedDetail,
+  type DomainIconKey,
+  type KpiIconKey,
+  type DomainUiMeta,
+} from '@/components/views/services/ServiceExpandedDetail';
 
 export interface ServicesViewProps {
   currentTheme?: SiteTheme;
-}
-
-type DomainIconKey =
-  | 'smartphone'
-  | 'shopping-bag'
-  | 'shield-check'
-  | 'gamepad-2'
-  | 'wallet'
-  | 'cpu';
-
-type KpiIconKey =
-  | 'users'
-  | 'zap'
-  | 'clock'
-  | 'smile'
-  | 'trending-up'
-  | 'activity'
-  | 'layers'
-  | 'award'
-  | 'heart-handshake'
-  | 'rotate-ccw'
-  | 'shield-check';
-
-interface DomainUiMeta {
-  shortTitle: string;
-  shortTitleEn: string;
-  iconKey: DomainIconKey;
-  accentLight: string;
-  accentDark: string;
-  gradient: string;
-  cardBgLight: string;
-  cardBgDark: string;
-  tintBgLight: string;
-  tintBgDark: string;
-  borderLight: string;
-  borderDark: string;
-  pillTextLight: string;
-  pillTextDark: string;
-  illustrationSrc: string;
-  fallbackIllustration: string;
-  frontMetrics: {
-    label: string;
-    labelEn: string;
-    value: string;
-    valueEn?: string;
-  }[];
-  detailKpis: {
-    icon: KpiIconKey;
-    value: string;
-    valueEn?: string;
-    label: string;
-    labelEn: string;
-  }[];
-  tags: string[];
-  tagsEn: string[];
 }
 
 const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
@@ -354,8 +300,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
+    currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'deep-ocean';
+    currentTheme === 'deep-ocean' ||
+    currentTheme === 'dark-neumorphism-beyond';
   const isLight = !isDark;
   const isEn = language === 'en';
   const isLeatherTheme = cardStyle === 'cowhide-leather';
@@ -403,7 +351,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
     if (!hostEl) return null;
 
     return {
-      top: 0,
+      top: hostEl.scrollTop || 0,
       left: 0,
       width: hostEl.clientWidth,
       height: hostEl.clientHeight,
@@ -445,11 +393,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
 
       const hostRect = hostEl.getBoundingClientRect();
       const cardRect = originEl.getBoundingClientRect();
+      const scrollTop = hostEl.scrollTop || 0;
 
       setWrapperMinHeight(undefined);
       setAnimPhase('entering');
       setMorphRect({
-        top: cardRect.top - hostRect.top,
+        top: scrollTop + (cardRect.top - hostRect.top),
         left: cardRect.left - hostRect.left,
         width: cardRect.width,
         height: cardRect.height,
@@ -501,10 +450,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
 
     const hostRect = hostEl.getBoundingClientRect();
     const cardRect = originEl.getBoundingClientRect();
+    const scrollTop = hostEl.scrollTop || 0;
 
     setAnimPhase('closing');
     setMorphRect({
-      top: cardRect.top - hostRect.top,
+      top: scrollTop + (cardRect.top - hostRect.top),
       left: cardRect.left - hostRect.left,
       width: cardRect.width,
       height: cardRect.height,
@@ -1015,404 +965,26 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
 
           {/* 3. THẺ CHI TIẾT MỞ RỘNG FLIP MORPH (PHÓNG TO TỪ ĐÚNG THẺ GỐC PHỦ TOÀN BỘ THẺ CHÍNH) */}
           {expandedDomain && expandedMeta && morphRect && (
-            <div
-              id="services-expanded-card"
-              ref={expandedCardRef}
-              data-element-type="card"
-              role="region"
-              aria-label={
-                isEn && expandedDomain.titleEn ? expandedDomain.titleEn : expandedDomain.title
-              }
-              className={`domain-card-expanded ${
-                animPhase === 'entering'
-                  ? ''
-                  : animPhase === 'open'
-                    ? 'is-animating is-open'
-                    : animPhase === 'closing'
-                      ? 'is-animating is-closing'
-                      : ''
-              }`}
-              style={{
-                top: `${morphRect.top}px`,
-                left: `${morphRect.left}px`,
-                width: `${morphRect.width}px`,
-                height: `${morphRect.height}px`,
-                borderRadius:
-                  animPhase === 'open'
-                    ? 'var(--radius-main, 30px)'
-                    : 'var(--radius-card, 20px)',
-                zIndex: 50,
-              }}
-            >
-                  {/* Header của thẻ chi tiết */}
-                  <div
-                    className="expanded-detail-content shrink-0 px-4 sm:px-5 py-3.5 border-b border-[var(--border-subcard)] flex flex-wrap items-center justify-between gap-3"
-                    style={{
-                      background: isLeatherTheme
-                        ? undefined
-                        : isLight
-                          ? expandedMeta.tintBgLight
-                          : expandedMeta.tintBgDark,
-                    }}
-                  >
-                    <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <div className="relative w-12 h-12 sm:w-14 sm:h-14 shrink-0 flex items-center justify-center">
-                        <div
-                          className="absolute inset-0 rounded-full blur-md opacity-50 pointer-events-none"
-                          style={{ background: expandedMeta.gradient }}
-                        />
-                        <img
-                          src={
-                            serviceAssignments[expandedDomain.id as ServiceDomainKey]
-                              ?.directImageUrl ||
-                            expandedDomain.customIllustrationUrl ||
-                            expandedMeta.illustrationSrc
-                          }
-                          alt={expandedDomain.title}
-                          referrerPolicy="no-referrer"
-                          onError={(e) => {
-                            if (e.currentTarget.src !== expandedMeta.fallbackIllustration) {
-                              e.currentTarget.src = expandedMeta.fallbackIllustration;
-                            }
-                          }}
-                          className="relative z-10 w-full h-full object-contain drop-shadow-md select-none"
-                        />
-                      </div>
-
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                          <span className="inline-flex items-center gap-1.5 typo-badge font-semibold px-2.5 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-secondary)]">
-                            {renderDomainIcon(expandedMeta.iconKey, 'w-3.5 h-3.5 shrink-0', expandedAccent)}
-                            <span>{isEn ? 'In-Depth Profile' : 'Hồ sơ chuyên sâu'}</span>
-                          </span>
-                        </div>
-                        <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: expandedAccent }}>
-                          {renderDomainIcon(expandedMeta.iconKey, 'w-5 h-5 shrink-0', expandedAccent)}
-                          <h2
-                            className="typo-h3 sm:typo-h2 card-title-synced font-play font-bold tracking-tight truncate m-0"
-                            data-card-title="true"
-                            style={{ color: expandedAccent }}
-                          >
-                            {isEn && expandedDomain.titleEn
-                              ? expandedDomain.titleEn
-                              : expandedDomain.title}
-                          </h2>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 shrink-0">
-
-                      <button
-                        type="button"
-                        onClick={closeExpandedCard}
-                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play font-semibold text-white cursor-pointer transition hover:opacity-95 active:scale-95 shadow-sm"
-                        style={{ background: expandedMeta.gradient }}
-                        aria-label={isEn ? 'Minimize domain details' : 'Thu nhỏ chi tiết lĩnh vực'}
-                      >
-                        <Minimize2 className="w-3.5 h-3.5" />
-                        <span>{isEn ? 'Minimize' : 'Thu nhỏ'}</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Thân nội dung chi tiết (Cuộn nội bộ mượt mà) */}
-                  <div
-                    ref={expandedBodyRef}
-                    className="expanded-detail-content flex-1 min-h-0 overflow-y-auto glass-scrollbar p-[15px] flex flex-col gap-[15px]"
-                  >
-                    {/* Hàng 1: 4 Thẻ KPI Trọng Tâm (Icon bỏ đóng khung, đặt cùng hàng với % / chỉ số) */}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-[15px] shrink-0">
-                      {expandedMeta.detailKpis.map((kpi, kIdx) => (
-                        <div
-                          key={kIdx}
-                          data-subcard="true"
-                          className="domain-card-sub rounded-2xl p-3 flex flex-col justify-center gap-1 min-w-0"
-                        >
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span
-                              className="inline-flex items-center shrink-0"
-                              style={{ color: expandedAccent }}
-                            >
-                              {renderKpiIcon(kpi.icon, 'w-5 h-5 shrink-0')}
-                            </span>
-                            <div
-                              className="typo-h4 font-bold leading-tight truncate tabular-nums"
-                              style={{ color: expandedAccent }}
-                            >
-                              {isEn && kpi.valueEn ? kpi.valueEn : kpi.value}
-                            </div>
-                          </div>
-                          <div className="typo-caption text-[var(--text-secondary)] leading-snug line-clamp-2">
-                            {isEn ? kpi.labelEn : kpi.label}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Hàng 2 & 3: 5 Thẻ Chuyên Đề Độc Lập + Thẻ Từ Khóa Năng Lực */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch flex-1 min-h-0">
-                      {/* Thẻ 1: Quy mô vận hành */}
-                      <div
-                        data-subcard="true"
-                        className="domain-card-sub lg:col-span-6 rounded-2xl p-[15px] flex flex-col gap-2.5 min-w-0"
-                      >
-                        <div className="subcard-header-sync flex items-center gap-2">
-                          <CheckCircle2
-                            className="w-4.5 h-4.5 shrink-0"
-                            style={{ color: expandedAccent }}
-                          />
-                          <h3
-                            className="typo-h4 subcard-title-synced font-play font-bold m-0"
-                            data-subcard-title="true"
-                            style={{ color: expandedAccent }}
-                          >
-                            {isEn ? 'Operational Scale & Scope' : 'Quy mô vận hành'}
-                          </h3>
-                        </div>
-                        <ul className="space-y-2 m-0 p-0 list-none">
-                          {(expandedDomain.scaleAndScope || []).map((item, sIdx) => (
-                            <li
-                              key={sIdx}
-                              className="flex items-start gap-2 typo-body-sm text-[var(--text-primary)] leading-relaxed"
-                            >
-                              <CheckCircle2
-                                className="w-4 h-4 mt-0.5 shrink-0 opacity-85"
-                                style={{ color: expandedAccent }}
-                              />
-                              <span className="min-w-0">
-                                <strong className="font-semibold text-[var(--text-primary)]">
-                                  {item.label}:{' '}
-                                </strong>
-                                <span className="text-[var(--text-secondary)]">
-                                  {item.content}
-                                </span>
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Thẻ 2: Thách thức đặc thù */}
-                      <div
-                        data-subcard="true"
-                        className="domain-card-sub lg:col-span-6 rounded-2xl p-[15px] flex flex-col gap-2.5 min-w-0"
-                      >
-                        <div className="flex items-center gap-2 subcard-header-sync">
-                          <WebIcon
-                            name="shield-alert"
-                            className="w-4 h-4 shrink-0"
-                            style={{ color: expandedAccent }}
-                          />
-                          <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
-                            {expandedDomain.id === '06'
-                              ? isEn
-                                ? 'Strategic Transformation Scope'
-                                : 'Bài toán chuyển đổi đặc thù'
-                              : isEn
-                                ? 'Specific Operational Challenges'
-                                : 'Thách thức đặc thù'}
-                          </h3>
-                        </div>
-                        <ul className="space-y-2 m-0 p-0 list-none">
-                          {(expandedDomain.operationalChallenges || []).map((ch, cIdx) => (
-                            <li
-                              key={cIdx}
-                              className="flex items-start gap-2.5 typo-body-sm text-[var(--text-secondary)] leading-relaxed"
-                            >
-                              <span
-                                className="w-2 h-2 rounded-full mt-2 shrink-0"
-                                style={{ background: expandedMeta.gradient }}
-                              />
-                              <span>{ch}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Thẻ 3: Công nghệ quản trị */}
-                      <div
-                        data-subcard="true"
-                        className="domain-card-sub lg:col-span-4 rounded-2xl p-[15px] flex flex-col gap-2.5 min-w-0"
-                      >
-                        <div className="subcard-header-sync flex items-center gap-2">
-                          <Wrench
-                            className="w-4 h-4 shrink-0"
-                            style={{ color: expandedAccent }}
-                          />
-                          <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
-                            {isEn ? 'Management Platforms' : 'Công nghệ quản trị'}
-                          </h3>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5">
-                          {(expandedDomain.tools || []).map((tool, tIdx) => (
-                            <span
-                              key={tIdx}
-                              className="typo-caption font-semibold px-2.5 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-primary)]"
-                            >
-                              {tool}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Thẻ 4: Doanh nghiệp tiêu biểu */}
-                      <div
-                        data-subcard="true"
-                        className="domain-card-sub lg:col-span-4 rounded-2xl p-[15px] flex flex-col gap-2.5 min-w-0"
-                      >
-                        <div className="subcard-header-sync flex items-center gap-2">
-                          <Building2
-                            className="w-4 h-4 shrink-0"
-                            style={{ color: expandedAccent }}
-                          />
-                          <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
-                            {isEn ? 'Representative Enterprises' : 'Doanh nghiệp tiêu biểu'}
-                          </h3>
-                        </div>
-                        <div className="flex flex-wrap items-center gap-2">
-                          {(expandedDomain.companyLogos || []).map((partner, pIdx) => (
-                            <div
-                              key={partner.name || pIdx}
-                              className="inline-flex items-center gap-2 pr-3 pl-1 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]"
-                            >
-                              <div className="w-6 h-6 rounded-full overflow-hidden bg-white dark:bg-slate-800 shrink-0 flex items-center justify-center">
-                                <img
-                                  src={partner.logo}
-                                  alt={partner.name}
-                                  referrerPolicy="no-referrer"
-                                  className="w-full h-full object-cover rounded-full"
-                                  onError={(e) => {
-                                    if (
-                                      partner.fallbackLogo &&
-                                      e.currentTarget.src !== partner.fallbackLogo
-                                    ) {
-                                      e.currentTarget.src = partner.fallbackLogo;
-                                    } else {
-                                      e.currentTarget.style.display = 'none';
-                                    }
-                                  }}
-                                />
-                              </div>
-                              <span className="typo-caption font-semibold text-[var(--text-primary)]">
-                                {partner.name}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Thẻ 5: Vai trò đảm nhiệm */}
-                      <div
-                        data-subcard="true"
-                        className="domain-card-sub lg:col-span-4 rounded-2xl p-[15px] flex flex-col gap-2.5 min-w-0"
-                      >
-                        <div className="subcard-header-sync flex items-center gap-2">
-                          <UserCheck
-                            className="w-4 h-4 shrink-0"
-                            style={{ color: expandedAccent }}
-                          />
-                          <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
-                            {isEn ? 'Leadership Roles Held' : 'Vai trò đảm nhiệm'}
-                          </h3>
-                        </div>
-                        <p className="typo-body-sm font-medium text-[var(--text-secondary)] leading-relaxed m-0">
-                          {expandedDomain.typicalRolesLine ||
-                            (expandedDomain.rolesHeld || []).join(' · ')}
-                        </p>
-                      </div>
-
-                      {/* Panel Tinted: Từ khóa năng lực & Giá trị cốt lõi */}
-                      <div
-                        data-subcard="true"
-                        className="lg:col-span-12 rounded-2xl p-[15px] border flex flex-col gap-2.5 min-w-0 justify-between"
-                        style={{
-                          backgroundColor: isLeatherTheme
-                            ? undefined
-                            : isLight
-                              ? expandedMeta.tintBgLight
-                              : expandedMeta.tintBgDark,
-                          borderColor: isLeatherTheme
-                            ? 'var(--border-subcard)'
-                            : isLight
-                              ? expandedMeta.borderLight
-                              : expandedMeta.borderDark,
-                        }}
-                      >
-                        <div>
-                          <div className="subcard-header-sync flex items-center gap-2 mb-2">
-                            <Tag
-                              className="w-4 h-4 shrink-0"
-                              style={{ color: expandedAccent }}
-                            />
-                            <h3
-                              className="typo-h4 subcard-title-synced font-play font-bold m-0"
-                              data-subcard-title="true"
-                              style={{ color: expandedAccent }}
-                            >
-                              {isEn ? 'Capability Keywords' : 'Từ khóa năng lực'}
-                            </h3>
-                          </div>
-                          <div className="flex flex-wrap gap-1.5">
-                            {(isEn ? expandedMeta.tagsEn : expandedMeta.tags).map((tag) => (
-                              <span
-                                key={tag}
-                                className="typo-badge font-bold px-2.5 py-1 rounded-full border bg-[var(--bg-card)]/75"
-                                style={{
-                                  borderColor: isLight
-                                    ? expandedMeta.borderLight
-                                    : expandedMeta.borderDark,
-                                  color: expandedAccent,
-                                }}
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        {(expandedDomain.summaryNote || expandedDomain.valueDelivered) && (
-                          <p className="typo-caption text-[var(--text-secondary)] leading-relaxed m-0 pt-2 border-t border-[var(--border-subcard)]/70">
-                            {expandedDomain.valueDelivered || expandedDomain.summaryNote}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Footer bar: Chuyển nhanh lĩnh vực 01 - 06 */}
-                  <div className="expanded-detail-content shrink-0 px-4 sm:px-5 py-2.5 border-t border-[var(--border-subcard)] bg-[var(--bg-subcard)]/65 flex items-center justify-between gap-2 flex-wrap">
-                    <span className="typo-caption font-semibold text-[var(--text-secondary)]">
-                      {isEn ? 'Quick domain switch:' : 'Chuyển nhanh lĩnh vực:'}
-                    </span>
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      {DOMAINS_DATA.map((item) => {
-                        const itemMeta = DOMAIN_UI_META[item.id] || DOMAIN_UI_META['01'];
-                        const isActiveItem = item.id === expandedDomain.id;
-                        return (
-                          <button
-                            key={item.id}
-                            type="button"
-                            onClick={() => switchExpandedDomain(item)}
-                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-caption font-semibold transition-all cursor-pointer active:scale-95 ${
-                              isActiveItem
-                                ? 'text-white shadow-sm'
-                                : 'bg-[var(--bg-card)]/80 hover:bg-[var(--bg-subcard)] text-[var(--text-secondary)] border border-[var(--border-subcard)]'
-                            }`}
-                            style={isActiveItem ? { background: itemMeta.gradient } : undefined}
-                          >
-                            {renderDomainIcon(
-                              itemMeta.iconKey,
-                              `w-3 h-3 ${isActiveItem ? 'text-white' : ''}`
-                            )}
-                            <span>{isEn ? itemMeta.shortTitleEn : itemMeta.shortTitle}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              )}
+            <ServiceExpandedDetail
+              expandedDomain={expandedDomain}
+              expandedMeta={expandedMeta}
+              expandedAccent={expandedAccent}
+              allDomains={DOMAINS_DATA}
+              domainMetaMap={DOMAIN_UI_META}
+              serviceAssignments={serviceAssignments}
+              animPhase={animPhase}
+              morphRect={morphRect}
+              isEn={isEn}
+              isLight={isLight}
+              isLeatherTheme={isLeatherTheme}
+              expandedCardRef={expandedCardRef}
+              expandedBodyRef={expandedBodyRef}
+              onClose={closeExpandedCard}
+              onSwitchDomain={switchExpandedDomain}
+              renderDomainIcon={renderDomainIcon}
+              renderKpiIcon={renderKpiIcon}
+            />
+          )}
         </div>
       </div>
     </div>

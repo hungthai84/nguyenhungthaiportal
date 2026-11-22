@@ -18,7 +18,6 @@ import {
 import { SiteTheme } from '@/types';
 import { useTheme } from '@/hooks/useTheme';
 import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
-import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 
 // Video thuyết minh Thư Ngỏ (Thư ngỏ video.mp4)
 export const LETTER_SLIDE_1_VIDEO_URL = '/assets/aistudio/Th__ng__video_edd9e9ee.mp4';
@@ -386,8 +385,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
+    currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'deep-ocean';
+    currentTheme === 'deep-ocean' ||
+    currentTheme === 'dark-neumorphism-beyond';
 
   // Chế độ thu gọn / mở rộng thanh tiện ích bên phải (Mặc định luôn hiển thị đầy đủ ở trang Thư Ngỏ)
   const [isRightDockCollapsed, setIsRightDockCollapsed] = useState<boolean>(false);
@@ -2097,13 +2098,12 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       <div
                         className="relative w-full h-full flex-1 rounded-[inherit] overflow-hidden min-h-0"
                       >
-                        <SmartFaceVideo
-                          videoRef={floatingVideoRef}
+                        <video
+                          ref={floatingVideoRef}
                           key={`letter-video-${letterVideoStage}`}
                           src={activeLetterVideoUrl}
                           autoPlay
                           loop
-                          alwaysCover
                           playsInline
                           muted={isVideoMuted}
                           preload="auto"
@@ -2118,10 +2118,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           onError={() =>
                             setLetterVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
                           }
-                          faceAnchor={{ x: 58, y: 50 }}
-                          maxCropDistortion={1.6}
-                          wrapperClassName="absolute inset-0 w-full h-full z-0 rounded-[inherit]"
-                          className="cursor-pointer rounded-[inherit] banner-video-sharp"
+                          style={{
+                            position: 'absolute',
+                            inset: 0,
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: '58% 50%',
+                            transform: 'translateZ(0) scale(1.02)',
+                          }}
+                          className="absolute inset-0 w-full h-full object-cover cursor-pointer rounded-[inherit] banner-video-sharp z-0"
                         />
 
                         {/* Avatar Video Giới Thiệu nằm gọn bên trong thẻ Video (không tràn ra ngoài main card hoặc đè tiêu đề ở mọi kích thước) */}

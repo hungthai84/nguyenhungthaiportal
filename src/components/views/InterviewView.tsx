@@ -11,7 +11,6 @@ import {
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { cn } from '@/lib/utils';
-import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 export interface InterviewViewProps {
@@ -210,11 +209,10 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           {/* Nền Hình chờ / Video phỏng vấn trực tiếp lấp đầy banner-card & đồng bộ bo cong theo giao diện */}
           <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0">
             {isVideoPlaying ? (
-              <SmartFaceVideo
-                videoRef={videoRef}
+              <video
+                ref={videoRef}
                 autoPlay
                 loop={true}
-                alwaysCover={true}
                 muted={!isAudioOn}
                 playsInline
                 preload="auto"
@@ -227,10 +225,16 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 src={INTERVIEW_VIDEO_2_URL}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleEnded}
-                faceAnchor={{ x: 50, y: 18 }}
-                maxCropDistortion={1.6}
-                wrapperClassName="w-full h-full rounded-[inherit] pointer-events-none"
-                className="opacity-100 banner-video-sharp transition-all duration-500 select-none pointer-events-none"
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: '50% 18%',
+                  transform: 'translateZ(0) scale(1.02)',
+                }}
+                className="absolute inset-0 w-full h-full object-cover rounded-[inherit] opacity-100 banner-video-sharp transition-all duration-500 select-none pointer-events-none"
               />
             ) : (
               <BannerBackgroundVideo

@@ -39,6 +39,23 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Subtle cross-fade when switching between theme types */
+  html[data-theme-transitioning="true"] body,
+  html[data-theme-transitioning="true"] [data-main-card="true"],
+  html[data-theme-transitioning="true"] .bento-card,
+  html[data-theme-transitioning="true"] .glass-card,
+  html[data-theme-transitioning="true"] .banner-card,
+  html[data-theme-transitioning="true"] header,
+  html[data-theme-transitioning="true"] nav,
+  html[data-theme-transitioning="true"] .nav-pill,
+  html[data-theme-transitioning="true"] .banner-control-pill {
+    transition:
+      background-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
   #root {
     font-family: var(--font-family-primary);
     font-size: var(--fs-body);

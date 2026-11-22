@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 // Icons migrated to WebIcon (Hugeicons)
@@ -146,8 +145,8 @@ const ABOUT_IDLE_VIDEO_URL =
   `https://drive.google.com/uc?export=download&id=${ABOUT_IDLE_VIDEO_ID}`;
 const ABOUT_IDLE_DRIVE_ALT_URL =
   `https://drive.usercontent.google.com/download?id=${ABOUT_IDLE_VIDEO_ID}&export=download&confirm=t`;
-const ABOUT_IDLE_PREVIEW_IFRAME_URL =
-  `https://drive.google.com/file/d/${ABOUT_IDLE_VIDEO_ID}/preview?autoplay=1&mute=1&loop=1`;
+const ABOUT_IDLE_MP4_BACKUP =
+  'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793623267/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_Ma_thu%C3%A2t_1.mp4';
 
 // Video 2: Giới thiệu vui nhộn.mp4 (Trang Giới Thiệu)
 const ABOUT_INTRO_VIDEO_ID = '12cdItjoc6LpIetmw6-1BiSt8kUaaNe7R';
@@ -155,8 +154,8 @@ const ABOUT_INTRO_VIDEO_URL =
   `https://drive.google.com/uc?export=download&id=${ABOUT_INTRO_VIDEO_ID}`;
 const ABOUT_INTRO_DRIVE_ALT_URL =
   `https://drive.usercontent.google.com/download?id=${ABOUT_INTRO_VIDEO_ID}&export=download&confirm=t`;
-const ABOUT_INTRO_PREVIEW_IFRAME_URL =
-  `https://drive.google.com/file/d/${ABOUT_INTRO_VIDEO_ID}/preview?autoplay=1&mute=1&loop=1`;
+const ABOUT_INTRO_MP4_BACKUP =
+  'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793542148/Thuy%E1%BA%BFt_tr%C3%ACnh_b%E1%BA%A3n_m%E1%BB%9Bi_2.mp4';
 
 const getWebIconName = (name: string): string => {
   const norm = name.toLowerCase();
@@ -815,20 +814,20 @@ export function AboutView({
   const activeAboutIdleVideoUrl =
     aboutVideoStage === 0
       ? ABOUT_IDLE_VIDEO_URL
-      : ABOUT_IDLE_DRIVE_ALT_URL;
+      : aboutVideoStage === 1
+        ? ABOUT_IDLE_DRIVE_ALT_URL
+        : ABOUT_IDLE_MP4_BACKUP;
 
   const activeAboutIntroVideoUrl =
     aboutVideoStage === 0
       ? ABOUT_INTRO_VIDEO_URL
-      : ABOUT_INTRO_DRIVE_ALT_URL;
+      : aboutVideoStage === 1
+        ? ABOUT_INTRO_DRIVE_ALT_URL
+        : ABOUT_INTRO_MP4_BACKUP;
 
   const activeAboutVideoUrl = isPlayingIntro
     ? activeAboutIntroVideoUrl
     : activeAboutIdleVideoUrl;
-
-  const activeAboutPreviewIframeUrl = isPlayingIntro
-    ? ABOUT_INTRO_PREVIEW_IFRAME_URL
-    : ABOUT_IDLE_PREVIEW_IFRAME_URL;
 
   useEffect(() => {
     if (aboutVideoStage >= 2) return;
@@ -840,6 +839,22 @@ export function AboutView({
     }, 4500);
     return () => window.clearTimeout(timer);
   }, [aboutVideoStage, isPlayingIntro]);
+
+  // Đảm bảo video trong #el-p2-div-87 luôn tự động phát lại khi tab trình duyệt active trở lại
+  useEffect(() => {
+    const enforceVideoPlayback = () => {
+      const v = videoRef.current;
+      if (!v || document.hidden || isPlayingIntro || activeHeroMedia !== 'video') return;
+      v.defaultMuted = true;
+      v.muted = true;
+      v.loop = true;
+      v.controls = false;
+      v.removeAttribute('controls');
+      if (v.paused) v.play().catch(() => {});
+    };
+    document.addEventListener('visibilitychange', enforceVideoPlayback);
+    return () => document.removeEventListener('visibilitychange', enforceVideoPlayback);
+  }, [isPlayingIntro, activeHeroMedia]);
 
   // Helper format mm:ss
   const formatCountdown = (secs: number) => {
@@ -1211,6 +1226,12 @@ export function AboutView({
   const handleVideoEnded = () => {
     if (isPlayingIntro) {
       handleCancelIntro();
+    } else if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.loop = true;
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
     }
   };
 
@@ -1242,26 +1263,16 @@ export function AboutView({
           <div className="space-y-4">
             <div className="sub-card grid grid-cols-1 md:grid-cols-2 gap-4 items-center rounded-[14px] p-5 border border-[var(--border-subcard)] text-[var(--text-primary)]">
               <div className="relative aspect-video rounded-[14px] overflow-hidden bg-black/60 border border-[var(--border-subcard)] flex items-center justify-center">
-                {aboutVideoStage === 2 ? (
-                  <iframe
-                    key="hero-modal-preview-iframe"
-                    src={ABOUT_INTRO_PREVIEW_IFRAME_URL}
-                    title="Giới thiệu vui nhộn"
-                    allow="autoplay; encrypted-media; fullscreen"
-                    tabIndex={-1}
-                    className="w-full h-full min-w-full min-h-full border-0 pointer-events-none select-none scale-[1.28] rounded-[inherit]"
-                  />
-                ) : (
-                  <video
-                    src={activeAboutIntroVideoUrl}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls={false}
-                    onError={() =>
-                      setAboutVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
-                    }
+                <video
+                  src={activeAboutIntroVideoUrl}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  controls={false}
+                  onError={() =>
+                    setAboutVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
+                  }
                     disablePictureInPicture
                     controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
                     preload="auto"
@@ -1300,7 +1311,6 @@ export function AboutView({
                     style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
                     className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] rounded-[inherit] pointer-events-none select-none banner-video-sharp"
                   />
-                )}
               </div>
               <div className="flex flex-col justify-between gap-3 text-left">
                 <div>
@@ -1785,12 +1795,24 @@ export function AboutView({
               className="bento-card glass-card col-span-1 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-0 min-w-0 group/video p-0 text-left"
             >
                   <div
+                    id="el-p2-div-87"
+                    style={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '100%',
+                      minWidth: '100%',
+                      minHeight: '100%',
+                      padding: 0,
+                      margin: 0,
+                      borderRadius: 'inherit',
+                      overflow: 'hidden',
+                    }}
                     className="relative w-full h-full flex-1 rounded-[inherit] overflow-hidden min-h-0 flex items-center justify-center"
                   >
                   {activeHeroMedia === 'video' ? (
                     <>
                       {driveAboutBanner && !isPlayingIntro ? (
-                        <div className="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0">
+                        <div className="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0 overflow-hidden">
                           <DriveAwareBannerMedia
                             directVideoUrl={driveAboutBanner.directStreamUrl}
                             iframeFallbackUrl={driveAboutBanner.previewIframeUrl}
@@ -1798,29 +1820,18 @@ export function AboutView({
                             title={driveAboutBanner.fileName}
                             muted={true}
                             loop={true}
-                            allowIframeFallback={true}
+                            allowIframeFallback={false}
                             className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
                           />
                         </div>
-                      ) : aboutVideoStage === 2 ? (
-                        <div className="absolute inset-0 w-full h-full rounded-[inherit] overflow-hidden pointer-events-none z-0">
-                          <iframe
-                            key={`${isPlayingIntro ? 'iframe-intro-2' : 'iframe-idle-1'}`}
-                            src={activeAboutPreviewIframeUrl}
-                            title={isPlayingIntro ? 'Giới thiệu vui nhộn' : 'Màn hình chờ Giới thiệu'}
-                            allow="autoplay; encrypted-media; fullscreen"
-                            tabIndex={-1}
-                            className="w-full h-full min-w-full min-h-full border-0 pointer-events-none select-none scale-[1.28] rounded-[inherit]"
-                          />
-                        </div>
                       ) : (
-                        <SmartFaceVideo
-                          videoRef={videoRef}
+                        <video
+                          ref={videoRef}
                           id="about-hero-video"
                           data-element-name="Video giới thiệu chân dung chuyên gia"
                           data-element-type="media"
                           data-element-page="about"
-                          data-element-parent="about-hero-video-container"
+                          data-element-parent="el-p2-div-87"
                           key={`${isPlayingIntro ? 'video-intro-2' : 'video-idle-1'}-${aboutVideoStage}`}
                           autoPlay
                           loop={!isPlayingIntro}
@@ -1832,7 +1843,19 @@ export function AboutView({
                           controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
                           aria-hidden="true"
                           tabIndex={-1}
-                          alwaysCover={true}
+                          onLoadedMetadata={(e) => {
+                            const v = e.currentTarget;
+                            if (!isPlayingIntro) {
+                              v.defaultMuted = true;
+                              v.muted = true;
+                              v.loop = true;
+                            }
+                            v.controls = false;
+                            v.disablePictureInPicture = true;
+                            (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                            v.removeAttribute('controls');
+                            if (v.paused) v.play().catch(() => {});
+                          }}
                           onLoadedData={(e) => {
                             const v = e.currentTarget;
                             if (!isPlayingIntro) {
@@ -1871,10 +1894,22 @@ export function AboutView({
                           onError={() =>
                             setAboutVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
                           }
-                          faceAnchor={{ x: 50, y: 18 }}
-                          maxCropDistortion={1.6}
-                          wrapperClassName="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0"
-                          className="pointer-events-none select-none opacity-100 banner-video-sharp transition-opacity duration-700"
+                          style={{
+                            position: 'absolute',
+                            inset: 0,
+                            width: '100%',
+                            height: '100%',
+                            minWidth: '100%',
+                            minHeight: '100%',
+                            objectFit: 'cover',
+                            objectPosition: '50% 18%',
+                            transform: 'translate3d(0, 0, 0) scale(1.02)',
+                            backfaceVisibility: 'hidden',
+                            WebkitBackfaceVisibility: 'hidden',
+                            imageRendering: '-webkit-optimize-contrast',
+                            filter: 'contrast(1.07) saturate(1.08) brightness(1.02)',
+                          }}
+                          className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none opacity-100 banner-video-sharp transition-opacity duration-700 z-0"
                           src={activeAboutVideoUrl}
                         />
                       )}
@@ -2808,20 +2843,10 @@ export function AboutView({
                 className="fixed inset-0 z-[1050] bg-slate-950/95 backdrop-blur-xl flex flex-col justify-between overflow-hidden select-none font-play"
               >
                 {/* Video toàn khung */}
-                {aboutVideoStage === 2 ? (
-                  <iframe
-                    key={`${isPlayingIntro ? 'fs-iframe-intro' : 'fs-iframe-idle'}`}
-                    src={activeAboutPreviewIframeUrl}
-                    title={isPlayingIntro ? 'Giới thiệu vui nhộn' : 'Màn hình chờ Giới thiệu'}
-                    allow="autoplay; encrypted-media; fullscreen"
-                    tabIndex={-1}
-                    className="absolute inset-0 w-full h-full min-w-full min-h-full border-0 pointer-events-none select-none scale-[1.28] z-0"
-                  />
-                ) : (
-                  <video
-                    ref={fullscreenVideoRef}
-                    key={`${isPlayingIntro ? 'fs-intro' : 'fs-idle'}-${aboutVideoStage}`}
-                    src={activeAboutVideoUrl}
+                <video
+                  ref={fullscreenVideoRef}
+                  key={`${isPlayingIntro ? 'fs-intro' : 'fs-idle'}-${aboutVideoStage}`}
+                  src={activeAboutVideoUrl}
                     autoPlay
                     loop={!isPlayingIntro}
                     muted={isPlayingIntro ? isVideoMuted : true}
@@ -2864,7 +2889,6 @@ export function AboutView({
                     style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
                     className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-[50%_18%] pointer-events-none select-none banner-video-sharp z-0"
                   />
-                )}
 
                 {/* Scrim trên & dưới đảm bảo độ tương phản WCAG AA (>= 4.5:1) */}
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/80 via-black/35 to-transparent z-10" />

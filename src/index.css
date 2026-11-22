@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="dark-neon-glass"], [data-theme="dark-neon-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *, [data-theme="dark-neumorphism-beyond"], [data-theme="dark-neumorphism-beyond"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -142,9 +142,11 @@
 @import "./styles/themes/liquid-glass.css";
 @import "./styles/themes/cowhide-leather.css";
 @import "./styles/themes/deep-ocean.css";
-@import "./styles/themes/mica-fluent.css";
+@import "./styles/themes/light-deep-ocean.css";
 @import "./styles/themes/neumorphism-beyond.css";
+@import "./styles/themes/dark-neumorphism-beyond.css";
 @import "./styles/themes/multicolor-glass.css";
+@import "./styles/themes/dark-neon-glass.css";
 @import "./styles/layers.css";
 @import "./styles/container-system.css";
 
@@ -862,6 +864,8 @@ html[data-surface-depth="flat"] :is(
 }
 
 html #home-main-card,
+html [id^="home-main-card-"],
+html .home-screen-main-card,
 html #experience-main-card:has(#experience-timeline-board):not(:has(#experience-hero-banner)),
 html #experience-main-card:has(#experience-job-detail-card) {
   overflow: hidden !important;
@@ -2072,8 +2076,8 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
     #pdf-hero-banner,
     #letter-hero-banner,
     #experience-hero-banner
-  ):hover .project-detail-banner-media :is(img, video) {
-    transform: none !important;
+  ):hover .project-detail-banner-media :is(img, video:not([data-smart-face-ambient="true"])) {
+    transform: translateZ(0) scale(1.02) !important;
   }
 }
 
@@ -2083,10 +2087,14 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
 /*   2) Crystal-clear sharp background video/media (GPU composited, zero blur)*/
 /*   3) Muted infinite-loop readiness & clean high-contrast text scrims      */
 /* ========================================================================= */
+html .project-detail-banner-media,
+html[data-card-style] .project-detail-banner-media,
 html :is(
   .hero-banner,
   .banner-card,
   #home-main-content,
+  [id^="home-main-content-"],
+  .home-screen-media-stage,
   #project-detail-banner,
   #contact-hero-banner,
   #ai-assistant-hero-banner,
@@ -2098,6 +2106,8 @@ html[data-card-style] :is(
   .hero-banner,
   .banner-card,
   #home-main-content,
+  [id^="home-main-content-"],
+  .home-screen-media-stage,
   #project-detail-banner,
   #contact-hero-banner,
   #ai-assistant-hero-banner,
@@ -2117,6 +2127,7 @@ html[data-card-style] :is(
   min-height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
+  container-type: size !important;
   border-radius: var(--radius-banner, 14px) !important;
   overflow: hidden !important;
   pointer-events: none !important;
@@ -2145,28 +2156,25 @@ video::-moz-media-controls {
 }
 
 html .project-detail-banner-media > div,
-html[data-card-style] .project-detail-banner-media > div,
-html .project-detail-banner-media .smart-face-video-root,
-html[data-card-style] .project-detail-banner-media .smart-face-video-root {
+html[data-card-style] .project-detail-banner-media > div {
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
   min-width: 100% !important;
   min-height: 100% !important;
+  container-type: size !important;
   border-radius: inherit !important;
   overflow: hidden !important;
   pointer-events: none !important;
 }
 
-html .project-detail-banner-media [data-smart-face-ambient="true"],
-html[data-card-style] .project-detail-banner-media [data-smart-face-ambient="true"] {
-  display: none !important;
-}
-
-html .project-detail-banner-media :is(img, video:not([data-smart-face-ambient="true"])),
-html[data-card-style] .project-detail-banner-media :is(img, video:not([data-smart-face-ambient="true"])),
+html .project-detail-banner-media :is(img, video),
+html[data-card-style] .project-detail-banner-media :is(img, video),
 .banner-video-sharp {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
   opacity: 1 !important;
   width: 100% !important;
   height: 100% !important;
@@ -2177,8 +2185,9 @@ html[data-card-style] .project-detail-banner-media :is(img, video:not([data-smar
   object-fit: cover !important;
   object-position: 50% 22% !important;
   border-radius: inherit !important;
-  transform: translateZ(0) scale(1.005);
-  -webkit-transform: translateZ(0) scale(1.005);
+  transform: translateZ(0) scale(1.02);
+  -webkit-transform: translateZ(0) scale(1.02);
+  transform-origin: center center;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   will-change: transform;
@@ -2190,25 +2199,23 @@ html[data-card-style] .project-detail-banner-media :is(img, video:not([data-smar
   -webkit-user-select: none !important;
 }
 
-html .project-detail-banner-media .smart-face-video-root video[data-smart-face-primary="true"],
-html[data-card-style] .project-detail-banner-media .smart-face-video-root video[data-smart-face-primary="true"] {
-  opacity: 1 !important;
-  width: 100% !important;
-  height: 100% !important;
+html .project-detail-banner-media iframe,
+html[data-card-style] .project-detail-banner-media iframe,
+.banner-drive-iframe-cover {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: max(100%, 177.78cqh) !important;
+  height: max(100%, 56.25cqw) !important;
   min-width: 100% !important;
   min-height: 100% !important;
   max-width: none !important;
   max-height: none !important;
-  object-fit: cover !important;
-  border-radius: inherit !important;
-  transform: translateZ(0) scale(1.005);
-  -webkit-transform: translateZ(0) scale(1.005);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: transform;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: high-quality;
-  filter: contrast(1.07) saturate(1.08) brightness(1.02) !important;
+  transform: translate(-50%, -50%) scale(1.14) !important;
+  -webkit-transform: translate(-50%, -50%) scale(1.14) !important;
+  transform-origin: center center !important;
+  border: 0 !important;
+  opacity: 1 !important;
   pointer-events: none !important;
   user-select: none !important;
   -webkit-user-select: none !important;
@@ -2218,6 +2225,8 @@ html :is(
   .hero-banner,
   .banner-card,
   #home-main-content,
+  [id^="home-main-content-"],
+  .home-screen-media-stage,
   #project-detail-banner,
   #contact-hero-banner,
   #ai-assistant-hero-banner,
@@ -2241,10 +2250,10 @@ html :is(
   -webkit-backdrop-filter: none !important;
 }
 
-html.dark :is(.hero-banner, .banner-card, #home-main-content, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #home-main-content, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #home-main-content, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #home-main-content, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
+html.dark :is(.hero-banner, .banner-card, #home-main-content, [id^="home-main-content-"], .home-screen-media-stage, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #home-main-content, [id^="home-main-content-"], .home-screen-media-stage, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #home-main-content, [id^="home-main-content-"], .home-screen-media-stage, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #home-main-content, [id^="home-main-content-"], .home-screen-media-stage, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
   background: linear-gradient(180deg, rgba(8, 13, 28, 0.24) 0%, rgba(8, 13, 28, 0.06) 48%, rgba(8, 13, 28, 0.22) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
@@ -2429,9 +2438,8 @@ html[data-card-style] .themed-image-frame {
 }
 
 html [data-media-card="video"]:not(#wallpaper-cards-grid *) > div,
-html [data-media-card="video"]:not(#wallpaper-cards-grid *) .smart-face-video-root,
 html [data-media-card="video"]:not(#wallpaper-cards-grid *) > video,
-html [data-media-card="video"]:not(#wallpaper-cards-grid *) video:not([data-smart-face-ambient="true"]) {
+html [data-media-card="video"]:not(#wallpaper-cards-grid *) video {
   width: 100% !important;
   height: 100% !important;
   min-width: 100% !important;
@@ -2440,8 +2448,8 @@ html [data-media-card="video"]:not(#wallpaper-cards-grid *) video:not([data-smar
   border-radius: var(--radius-card, 14px) !important;
   -webkit-clip-path: inset(0 round var(--radius-card, 14px)) !important;
   clip-path: inset(0 round var(--radius-card, 14px)) !important;
-  transform: translateZ(0) scale(1.005);
-  -webkit-transform: translateZ(0) scale(1.005);
+  transform: translateZ(0) scale(1.02);
+  -webkit-transform: translateZ(0) scale(1.02);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   image-rendering: -webkit-optimize-contrast;
@@ -2449,8 +2457,42 @@ html [data-media-card="video"]:not(#wallpaper-cards-grid *) video:not([data-smar
   filter: contrast(1.07) saturate(1.08) brightness(1.02) !important;
 }
 
-html [data-media-card="video"]:not(#wallpaper-cards-grid *) [data-smart-face-ambient="true"] {
-  display: none !important;
+html #about-hero-video-container > #el-p2-div-87,
+html[data-card-style] #about-hero-video-container > #el-p2-div-87 {
+  position: relative !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+  filter: none !important;
+  border-radius: var(--radius-card, 14px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-card, 14px)) !important;
+  clip-path: inset(0 round var(--radius-card, 14px)) !important;
+  overflow: hidden !important;
+}
+
+html #about-hero-video-container > #el-p2-div-87 #about-hero-video {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
+  object-position: 50% 18% !important;
+  transform: translate3d(0, 0, 0) scale(1.02) !important;
+  -webkit-transform: translate3d(0, 0, 0) scale(1.02) !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  filter: contrast(1.07) saturate(1.08) brightness(1.02) !important;
+  pointer-events: none !important;
 }
 
 /* Trang Hình nền: Ảnh & video lắp đầy 100% card, bo cong khớp card (mọi giao diện) */
@@ -2632,7 +2674,7 @@ html.dark:not([data-card-style="cowhide-leather"]) :is(
   #footer-wallpaper-btn,
   #footer-ai-btn
 ) .nav-pill-title,
-html:is([data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"]) :is(
+html:is([data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -2727,7 +2769,7 @@ html:not([data-card-style="cowhide-leather"]) :is(
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
 }
 
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="neumorphism-beyond"]) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -2737,7 +2779,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="neumorphism-
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge svg,
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="neumorphism-beyond"]) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -2942,7 +2984,7 @@ html #el-p0-div-98::after {
 /* ========================================================================= */
 /* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL ACTIVE THEMES)      */
 /* ========================================================================= */
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"], [data-card-style="neumorphism-beyond"], [data-card-style="cowhide-leather"]) :is(
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="light-deep-ocean"], [data-card-style="neumorphism-beyond"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="cowhide-leather"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
   #projects-grid .project-card .project-card-banner,
   .hero-banner .project-detail-banner-media,
@@ -2962,7 +3004,10 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"],
   #project-detail-banner .project-detail-banner-scrim,
   #home-main-content .project-detail-banner-media,
   #home-main-content .project-detail-banner-media :is(img, video),
-  #home-main-content .project-detail-banner-scrim
+  #home-main-content .project-detail-banner-scrim,
+  [id^="home-main-content-"] .project-detail-banner-media,
+  [id^="home-main-content-"] .project-detail-banner-media :is(img, video),
+  [id^="home-main-content-"] .project-detail-banner-scrim
 ) {
   border-radius: var(--radius-banner, 16px) !important;
   -webkit-clip-path: inset(0 round var(--radius-banner, 16px)) !important;
@@ -3111,6 +3156,17 @@ html[data-card-style="multicolor-glass"] .nav-pill-ripple-wave {
   );
 }
 
+html[data-card-style="dark-neon-glass"] .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    rgba(103, 232, 249, 0.88) 0%,
+    rgba(34, 211, 238, 0.48) 32%,
+    rgba(217, 70, 239, 0.36) 56%,
+    rgba(99, 102, 241, 0.22) 72%,
+    transparent 82%
+  );
+}
+
 html[data-card-style="cowhide-leather"] .nav-pill-ripple-wave {
   background: radial-gradient(
     circle,
@@ -3130,14 +3186,23 @@ html[data-card-style="deep-ocean"] .nav-pill-ripple-wave {
   );
 }
 
-html[data-card-style="mica-fluent"] .nav-pill-ripple-wave {
+html[data-card-style="light-deep-ocean"] .nav-pill-ripple-wave {
   background: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.82) 0%,
-    rgba(0, 103, 192, 0.34) 50%,
-    transparent 74%
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(6, 182, 212, 0.42) 48%,
+    rgba(2, 132, 199, 0.18) 68%,
+    transparent 78%
   );
-  animation-duration: 420ms;
+}
+
+html[data-card-style="dark-neumorphism-beyond"] .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--nav-pill-accent, #64B6FF) 52%, #E2E8F0) 0%,
+    rgba(73, 115, 255, 0.28) 52%,
+    transparent 76%
+  );
 }
 
 button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-ripple-wave {
@@ -3853,6 +3918,76 @@ html[data-card-style="multicolor-glass"] :is(button.nav-pill, .radial-contact-pi
   transform: scale(1.1) rotate(5deg);
 }
 
+/* 4B. Dark Neon Glass (Glass UI Neon Tối): Bùng sáng viền Cyan-Magenta điện tử */
+html[data-card-style="dark-neon-glass"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):hover {
+  transform: translate3d(0, -2.5px, 0) scale(1.02) !important;
+  border-color: rgba(103, 232, 249, 0.82) !important;
+  box-shadow:
+    0 10px 26px -4px rgba(34, 211, 238, 0.36),
+    0 4px 16px -4px rgba(217, 70, 239, 0.30),
+    inset 0 1px 0 rgba(165, 243, 252, 0.34) !important;
+  filter: saturate(1.16) brightness(1.06);
+}
+
+html[data-card-style="dark-neon-glass"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):active {
+  transform: translate3d(0, 0, 0) scale(0.96) !important;
+  box-shadow:
+    0 4px 14px -3px rgba(217, 70, 239, 0.32),
+    inset 0 1.5px 4px rgba(34, 211, 238, 0.28) !important;
+  filter: saturate(1.22) brightness(0.98);
+}
+
+html[data-card-style="dark-neon-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(1.1) rotate(-4deg);
+  filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.65));
+}
+
 /* 5. Da bò cổ điển (cowhide-leather): Ánh đồng đốt thủ công + Dập nổi chìm da thật */
 html[data-card-style="cowhide-leather"] :is(
   button.nav-pill,
@@ -4056,8 +4191,8 @@ html[data-card-style="deep-ocean"] :is(button.nav-pill, .radial-contact-pill):ho
   filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.65));
 }
 
-/* 7. Mica Fluent (Windows 11): Acrylic Reveal Highlight + Bấm gãy gọn Fluent Snap */
-html[data-card-style="mica-fluent"] :is(
+/* 7. Đại dương sâu thẳm sáng (light-deep-ocean): Sóng ngọc lam trong vắt + Phản quang mặt biển sáng */
+html[data-card-style="light-deep-ocean"] :is(
   button.nav-pill,
   button#header-btn-hungthai-avatar,
   #footer-lang-btn,
@@ -4082,14 +4217,14 @@ html[data-card-style="mica-fluent"] :is(
   main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ) {
   transition:
-    transform 150ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 160ms ease,
-    border-color 140ms ease,
-    filter 140ms ease,
-    background-color 140ms ease !important;
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 230ms ease,
+    border-color 200ms ease,
+    filter 200ms ease,
+    background-color 200ms ease !important;
 }
 
-html[data-card-style="mica-fluent"] :is(
+html[data-card-style="light-deep-ocean"] :is(
   button.nav-pill,
   button#header-btn-hungthai-avatar,
   #footer-lang-btn,
@@ -4113,16 +4248,16 @@ html[data-card-style="mica-fluent"] :is(
   [data-element-type="button"],
   main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ):hover {
-  transform: translate3d(0, -1.5px, 0) !important;
-  border-color: rgba(0, 103, 192, 0.56) !important;
+  transform: translate3d(0, -2px, 0) !important;
+  border-color: rgba(2, 132, 199, 0.56) !important;
   box-shadow:
-    0 6px 16px rgba(15, 23, 42, 0.10),
-    0 0 0 1px rgba(0, 120, 212, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.90) !important;
-  filter: brightness(1.02);
+    0 10px 22px -4px rgba(2, 132, 199, 0.22),
+    0 4px 10px rgba(6, 182, 212, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+  filter: brightness(1.03);
 }
 
-html[data-card-style="mica-fluent"] :is(
+html[data-card-style="light-deep-ocean"] :is(
   button.nav-pill,
   button#header-btn-hungthai-avatar,
   #footer-lang-btn,
@@ -4146,15 +4281,87 @@ html[data-card-style="mica-fluent"] :is(
   [data-element-type="button"],
   main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ):active {
-  transform: translate3d(0, 0.5px, 0) scale(0.98) !important;
+  transform: translate3d(0, 0.5px, 0) scale(0.975) !important;
   box-shadow:
-    0 2px 6px rgba(15, 23, 42, 0.08),
-    inset 0 1.5px 4px rgba(15, 23, 42, 0.14) !important;
-  filter: brightness(0.97);
+    0 4px 12px rgba(2, 132, 199, 0.20),
+    inset 0 2px 5px rgba(8, 47, 73, 0.14) !important;
+  filter: brightness(0.98);
 }
 
-html[data-card-style="mica-fluent"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(1.05);
+html[data-card-style="light-deep-ocean"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(1.06);
+  filter: drop-shadow(0 2px 6px rgba(2, 132, 199, 0.35));
+}
+
+/* 8. Nổi khối kính mờ tối (dark-neumorphism-beyond): Nổi khối Soft UI tối chống chói + Bấm lún âm bản */
+html[data-card-style="dark-neumorphism-beyond"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):hover {
+  transform: translate3d(0, -2px, 0) !important;
+  border-color: rgba(100, 182, 255, 0.48) !important;
+  box-shadow:
+    6px 8px 18px rgba(4, 7, 15, 0.68),
+    -3px -3px 10px rgba(42, 54, 76, 0.42),
+    inset 0 1px 0 rgba(148, 163, 184, 0.18) !important;
+}
+
+html[data-card-style="dark-neumorphism-beyond"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):active {
+  transform: translate3d(0, 1px, 0) scale(0.975) !important;
+  box-shadow:
+    inset 3px 3px 8px rgba(4, 7, 15, 0.72),
+    inset -2px -2px 6px rgba(46, 59, 82, 0.34) !important;
+}
+
+html[data-card-style="dark-neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(1.06);
+}
+
+html[data-card-style="dark-neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):active :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(0.93);
 }
 
 /* Focus ring khả dụng chuẩn Accessibility cho mọi giao diện */

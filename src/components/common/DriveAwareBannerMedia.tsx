@@ -124,7 +124,10 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
   }, [useIframe, videoFailedAll, iframeFallbackUrl, onModeChange]);
 
   return (
-    <div className="absolute inset-0 w-full h-full min-w-full min-h-full overflow-hidden rounded-[inherit]">
+    <div
+      style={{ containerType: 'size' }}
+      className="absolute inset-0 w-full h-full min-w-full min-h-full overflow-hidden rounded-[inherit]"
+    >
       {/* Poster & subtle backdrop while video buffers */}
       {isBuffering && posterUrl && (
         <div className="absolute inset-0 z-[1] pointer-events-none rounded-[inherit] overflow-hidden">
@@ -132,7 +135,15 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
             src={posterUrl}
             alt={title}
             referrerPolicy="no-referrer"
-            className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit]"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transform: 'translateZ(0) scale(1.02)',
+            }}
+            className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit]"
           />
         </div>
       )}
@@ -178,6 +189,10 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
               }
             }
           }}
+          onPlaying={() => setIsBuffering(false)}
+          onTimeUpdate={() => {
+            if (isBuffering) setIsBuffering(false);
+          }}
           onEnded={(e) => {
             if (!loop) return;
             const v = e.currentTarget;
@@ -203,19 +218,25 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
             }
           }}
           style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            minWidth: '100%',
+            minHeight: '100%',
             objectFit: 'cover',
-            transform: 'translateZ(0) scale(1.005)',
+            transform: 'translateZ(0) scale(1.02)',
             backfaceVisibility: 'hidden',
           }}
           className={cn(
-            'w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] pointer-events-none select-none transition-opacity duration-500 banner-video-sharp',
+            'absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] pointer-events-none select-none transition-opacity duration-500 banner-video-sharp',
             isBuffering ? 'opacity-0' : 'opacity-100',
             className
           )}
         />
       )}
 
-      {/* Optional Iframe Fallback (only when explicitly enabled) */}
+      {/* Optional Iframe Fallback (full-bleed container-query cover) */}
       {useIframe && allowIframeFallback && iframeFallbackUrl && !videoFailedAll && (
         <iframe
           key={`iframe-${iframeFallbackUrl}`}
@@ -229,7 +250,7 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
             setIsBuffering(false);
           }}
           className={cn(
-            'w-full h-full min-w-full min-h-full border-0 pointer-events-none select-none scale-[1.28] rounded-[inherit] transition-opacity duration-500',
+            'banner-drive-iframe-cover absolute top-1/2 left-1/2 border-0 pointer-events-none select-none transition-opacity duration-500',
             isBuffering ? 'opacity-0' : 'opacity-100',
             iframeClassName
           )}
@@ -242,7 +263,15 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
           src={posterUrl}
           alt={title}
           referrerPolicy="no-referrer"
-          className={cn('w-full h-full object-cover object-center rounded-[inherit]', className)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transform: 'translateZ(0) scale(1.02)',
+          }}
+          className={cn('absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit]', className)}
         />
       )}
     </div>

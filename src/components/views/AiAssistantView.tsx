@@ -22,7 +22,7 @@ import {
   DEFAULT_PUCK_VOICE_PERSONA,
   ENGLISH_PUCK_VOICE_PERSONA,
 } from '@/utils/speechVoice';
-import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 export { TRI_NHAN_CATEGORIES } from '@/data/aiSampleQuestions';
 
@@ -483,24 +483,12 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         }}
       >
         <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0">
-          <SmartFaceVideo
+          <BannerBackgroundVideo
             id="ai-assistant-banner-video"
             src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            controls={false}
-            disablePictureInPicture
-            controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-            aria-hidden="true"
-            tabIndex={-1}
-            alwaysCover
-            faceAnchor={{ x: 50, y: 18 }}
-            maxCropDistortion={1.55}
-            wrapperClassName="w-full h-full rounded-[inherit] pointer-events-none"
-            className="banner-video-sharp transition-all duration-700 select-none pointer-events-none"
+            alt="AI Hỗ Trợ • Trí Nhân"
+            objectPosition="50% 18%"
+            className="transition-all duration-700 select-none pointer-events-none"
           />
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />

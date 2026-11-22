@@ -10,17 +10,19 @@ export type CardStyleMode =
   | 'liquid-glass'
   | 'dark-liquid-glass'
   | 'multicolor-glass'
+  | 'dark-neon-glass'
   | 'cowhide-leather'
   | 'deep-ocean'
-  | 'mica-fluent'
-  | 'neumorphism-beyond';
+  | 'light-deep-ocean'
+  | 'neumorphism-beyond'
+  | 'dark-neumorphism-beyond';
 
 export type ThemeFamilyId =
   | 'liquid-glass'
   | 'multicolor-glass'
+  | 'dark-neon-glass'
   | 'cowhide-leather'
   | 'deep-ocean'
-  | 'mica-fluent'
   | 'neumorphism-beyond';
 
 export interface CardStyleConfig {

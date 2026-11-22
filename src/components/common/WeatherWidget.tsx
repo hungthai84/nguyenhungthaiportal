@@ -638,14 +638,16 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           isOpen={isForecastOpen}
           onClose={() => setIsForecastOpen(false)}
           title={isEn ? 'Visual Weather Forecast' : 'Dự Báo Thời Tiết Trực Quan'}
+          icon={<WebIcon name="sun" className="w-5 h-5 text-amber-500" />}
           maxWidth="4xl"
         >
           <div
             className="theme-modal-subcard p-5 sm:p-8 rounded-[14px] font-play select-none"
           >
             <div className="text-center mb-7">
-              <h2 className="typo-h2 font-bold tracking-wide" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
-                {isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}
+              <h2 className="typo-h2 font-bold tracking-wide inline-flex items-center justify-center gap-2" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
+                <WebIcon name="sun" className="w-5 h-5 text-amber-500 shrink-0" />
+                <span>{isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}</span>
               </h2>
               <p className="typo-body-sm font-medium mt-1" style={{ color: 'var(--text-secondary)' }} suppressHydrationWarning>
                 {dateInfo.fullDateHeader} • <span className="font-mono font-bold">{dateInfo.timeStr24Full}</span>

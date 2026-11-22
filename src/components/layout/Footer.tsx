@@ -389,7 +389,7 @@ export const Footer: React.FC<FooterProps> = ({
               <WebIcon
                 name={preset.icon || 'layers'}
                 className="w-4 h-4 shrink-0"
-                style={{ color: itemColor, strokeWidth: 2.25 }}
+                style={{ color: itemColor, strokeWidth: 2.75 }}
               />
               <span
                 className="typo-body-sm font-bold truncate min-w-0 flex-1"
@@ -978,8 +978,9 @@ export const Footer: React.FC<FooterProps> = ({
                   <span className="inline-block px-2.5 py-0.5 rounded-full typo-badge font-bold bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">
                     {isEn ? 'Official 2026 Edition' : 'Bản chính thức 2026'}
                   </span>
-                  <h4 className="typo-h4 font-bold">
-                    {isEn ? 'Capability Profile & Work Experience' : 'Hồ Sơ Năng Lực & Kinh Nghiệm Công Tác'}
+                  <h4 className="typo-h4 font-bold flex items-center gap-2">
+                    <WebIcon name="award" className="w-4 h-4 shrink-0 text-blue-600 dark:text-sky-400" />
+                    <span>{isEn ? 'Capability Profile & Work Experience' : 'Hồ Sơ Năng Lực & Kinh Nghiệm Công Tác'}</span>
                   </h4>
                   <p className="typo-caption" style={{ color: 'var(--text-secondary)' }}>
                     {isEn

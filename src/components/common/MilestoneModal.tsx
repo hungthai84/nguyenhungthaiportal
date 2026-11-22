@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { WebIcon } from '@/components/ui/WebIcon';
 import { CareerMilestoneItem } from '../../data/letterData';
 import { ExperienceMilestone } from '../../data/experience';
 
@@ -47,8 +48,9 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
               className="w-12 h-12 rounded-full object-cover shadow-sm"
             />
             <div>
-              <h3 className="typo-popup-title" style={{ color: item.color }}>
-                {item.company}
+              <h3 className="typo-popup-title flex items-center gap-1.5" style={{ color: item.color }}>
+                <WebIcon name="building-2" className="w-4 h-4 shrink-0" style={{ color: item.color }} />
+                <span>{item.company}</span>
               </h3>
               <p className="typo-caption font-bold" style={{ color: item.color }}>
                 {item.roleVi}

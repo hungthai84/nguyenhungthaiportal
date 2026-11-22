@@ -38,6 +38,8 @@ import { EcosystemDiagramModal } from '@/components/common/EcosystemDiagramModal
 import { useTheme } from '@/hooks/useTheme';
 import { stopActiveSpeech } from '@/utils/speechVoice';
 import { useLanguage } from '@/context/LanguageContext';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 
 export interface SystemsViewProps {
   currentTheme?: SiteTheme;
@@ -580,6 +582,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [isEcosystemDiagramOpen, setIsEcosystemDiagramOpen] = useState<boolean>(false);
   const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
+  const { bannerAssignments } = useBannerVideo();
+  const driveSystemsBanner = bannerAssignments.systems;
   const filterDropdownRef = useRef<HTMLDivElement>(null);
 
   // FLIP Morph Expansion State (giống ServicesView)
@@ -1175,7 +1179,15 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
               style={{ borderRadius: 'var(--radius-banner, 24px)' }}
             >
-              {!heroVideoFailed ? (
+              {driveSystemsBanner ? (
+                <DriveAwareBannerMedia
+                  directVideoUrl={driveSystemsBanner.directStreamUrl}
+                  iframeFallbackUrl={driveSystemsBanner.previewIframeUrl}
+                  posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591946/H%E1%BB%87_th%E1%BB%91ng.png"
+                  title={driveSystemsBanner.fileName}
+                  className="rounded-[inherit]"
+                />
+              ) : !heroVideoFailed ? (
                 <video
                   src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/H%E1%BB%87_th%E1%BB%91ng.mp4"
                   poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591946/H%E1%BB%87_th%E1%BB%91ng.png"
@@ -1207,6 +1219,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                 className="card-header-sync flex items-center gap-2 min-w-0"
                 style={{ color: 'var(--text-link, var(--color-primary))' }}
               >
+                <WebIcon name="cpu" className="w-[22px] h-[22px] shrink-0" />
                 <h1
                   className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
                   data-card-title="true"
@@ -1855,6 +1868,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       <div className="relative z-10 flex items-center justify-between gap-2.5 min-w-0">
                         <div className="flex-1 min-w-0 flex flex-col gap-1">
                           <div className="card-header-sync flex items-center gap-1.5 min-w-0" style={{ color: accentColor }}>
+                            <WebIcon name={meta.iconName} className="w-4 h-4 shrink-0" style={{ color: accentColor }} />
                             <h3
                               className="typo-h4 card-title-synced font-play font-bold truncate m-0"
                               data-card-title="true"
@@ -2044,14 +2058,18 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           </span>
                         </div>
 
-                        <h2
-                          className="typo-h4 sm:typo-h3 font-play font-bold tracking-tight truncate m-0"
-                          style={{ color: expandedAccent }}
-                        >
-                          {isEn
-                            ? expandedSystem.nameEn || expandedSystem.name
-                            : expandedSystem.nameVi || expandedSystem.name}
-                        </h2>
+                        <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: expandedAccent }}>
+                          <WebIcon name={expandedMeta.iconName} className="w-5 h-5 shrink-0" style={{ color: expandedAccent }} />
+                          <h2
+                            className="typo-h4 sm:typo-h3 card-title-synced font-play font-bold tracking-tight truncate m-0"
+                            data-card-title="true"
+                            style={{ color: expandedAccent }}
+                          >
+                            {isEn
+                              ? expandedSystem.nameEn || expandedSystem.name
+                              : expandedSystem.nameVi || expandedSystem.name}
+                          </h2>
+                        </div>
                       </div>
                     </div>
 
@@ -2246,10 +2264,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         </div>
                         <div className="flex-1 min-w-0 flex flex-col gap-2 text-left">
                           <div className="flex items-center justify-between gap-2">
-                            <h3 className="typo-h4 font-bold m-0 text-[var(--text-primary)]">
-                              {isEn
-                                ? `Quick QR Portal Access — ${expandedSystem.abbr}`
-                                : `Mã QR truy cập nhanh — ${expandedSystem.abbr}`}
+                            <h3 className="typo-h4 subcard-header-sync subcard-title-synced font-bold m-0 text-[var(--text-primary)] flex items-center gap-2" data-subcard-title="true">
+                              <QrCode className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
+                              <span>
+                                {isEn
+                                  ? `Quick QR Portal Access — ${expandedSystem.abbr}`
+                                  : `Mã QR truy cập nhanh — ${expandedSystem.abbr}`}
+                              </span>
                             </h3>
                             <button
                               type="button"
@@ -2308,7 +2329,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 border"
                         >
                           <div className="flex flex-wrap items-center justify-between gap-2">
-                            <div className="subcard-header-sync flex items-center gap-2">
+                            <div className="subcard-header-sync flex items-center gap-2" style={{ color: expandedAccent }}>
+                              <ArrowLeftRight className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
                               <h3 className="typo-h4 subcard-title-synced font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
                                 {isEn
                                   ? `Side-by-Side Comparison: ${expandedSystem.abbr} vs ${compareTargetSystem.abbr}`
@@ -2525,10 +2547,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           >
                             <div>
                               <h3
-                                className="typo-h4 font-play font-bold m-0 mb-1"
+                                className="typo-h4 subcard-header-sync subcard-title-synced font-play font-bold m-0 mb-1 flex items-center gap-2"
+                                data-subcard-title="true"
                                 style={{ color: expandedAccent }}
                               >
-                                {isEn ? 'System Overview' : 'Tổng quan phân hệ'}
+                                <WebIcon name={expandedMeta.iconName} className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
+                                <span>{isEn ? 'System Overview' : 'Tổng quan phân hệ'}</span>
                               </h3>
                               <p className="typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
                                 {isEn
@@ -2545,7 +2569,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
                         {/* Tính năng nổi bật */}
                         <div className="pt-3 border-t border-[var(--border-subcard)]">
-                          <div className="subcard-header-sync flex items-center gap-2 mb-2.5">
+                          <div className="subcard-header-sync flex items-center gap-2 mb-2.5" style={{ color: expandedAccent }}>
+                            <Activity className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
                             <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
                               {isEn ? 'Core Capabilities & Features' : 'Tính năng trọng tâm'}
                             </h3>
@@ -2573,7 +2598,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         {/* Hệ thống liên thông (Proposal 4: Direct Inter-system Navigation) */}
                         <div className="pt-3 border-t border-[var(--border-subcard)]">
                           <div className="flex items-center justify-between gap-2 flex-wrap mb-2.5">
-                            <div className="subcard-header-sync flex items-center gap-2">
+                            <div className="subcard-header-sync flex items-center gap-2" style={{ color: expandedAccent }}>
+                              <Network className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
                               <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
                                 {isEn ? 'Connected Systems' : 'Hệ thống liên thông trực tiếp'}
                               </h3>
@@ -2672,7 +2698,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           data-subcard="true"
                           className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 h-fit min-w-0"
                         >
-                          <div className="subcard-header-sync flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]">
+                          <div className="subcard-header-sync flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]" style={{ color: expandedAccent }}>
+                            <Server className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
                             <h3
                               className="typo-h4 subcard-title-synced font-play font-bold m-0"
                               data-subcard-title="true"
@@ -2739,7 +2766,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           }}
                         >
                           <div>
-                            <div className="subcard-header-sync flex items-center gap-2 mb-1.5">
+                            <div className="subcard-header-sync flex items-center gap-2 mb-1.5" style={{ color: expandedAccent }}>
+                              <WebIcon name="git-merge" className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
                               <h3
                                 className="typo-h4 subcard-title-synced font-play font-bold m-0"
                                 data-subcard-title="true"

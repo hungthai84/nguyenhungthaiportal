@@ -216,8 +216,9 @@ export const WallpaperStudioControls: React.FC<WallpaperStudioControlsProps> = (
           >
             {/* Header Cột trái */}
             <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2 min-w-0">
-                <h2 className="typo-h4 font-play text-[var(--text-primary)] truncate">
+              <div className="subcard-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
+                <WebIcon name="sliders" className="w-4 h-4 shrink-0" />
+                <h2 className="typo-h4 subcard-title-synced font-play text-[var(--text-primary)] truncate" data-subcard-title="true">
                   {isEn ? 'Backdrop Clarity & Adaptive Accent' : 'Lớp phủ nền & Màu nhấn thích ứng'}
                 </h2>
               </div>
@@ -373,8 +374,9 @@ export const WallpaperStudioControls: React.FC<WallpaperStudioControlsProps> = (
             className="sub-card lg:col-span-7 rounded-[14px] p-[15px] flex flex-col justify-between gap-2.5 min-w-0"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2 min-w-0">
-                <h2 className="typo-h4 font-play text-[var(--text-primary)] truncate">
+              <div className="subcard-header-sync flex items-center gap-2 min-w-0">
+                <WebIcon name="layers" className="w-4 h-4 shrink-0" />
+                <h2 className="typo-h4 subcard-title-synced font-play text-[var(--text-primary)] truncate" data-subcard-title="true">
                   {isEn ? 'Theme + Wallpaper Presets (1-Tap)' : 'Bộ sưu tập Hình nền + Giao diện (1 chạm)'}
                 </h2>
                 <span className="tabular-nums text-[11px] text-[var(--text-muted)]">

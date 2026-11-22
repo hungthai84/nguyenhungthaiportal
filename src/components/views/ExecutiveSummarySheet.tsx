@@ -510,6 +510,7 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
         <div className="w-full flex flex-col gap-2">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="card-header-sync flex items-center gap-2 min-w-0 text-indigo-600 dark:text-indigo-400">
+              <WebIcon name="file-text" className="w-5 h-5 shrink-0" />
               <h2 className="typo-h4 card-title-synced font-bold text-indigo-600 dark:text-indigo-400 truncate" data-card-title="true">
                 One-Page Executive Summary Sheet
               </h2>
@@ -647,8 +648,9 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             className="sub-card lg:col-span-7 p-[15px] rounded-[14px] flex flex-col gap-2.5 print-card-bg min-w-0"
           >
             <div className="border-b border-[var(--border-subcard)] pb-2 flex flex-col gap-0.5">
-              <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-blue-600 dark:text-sky-400" data-subcard-title="true">
-                Lộ trình Thăng tiến &amp; Đa lĩnh vực (2002 – 2026+)
+              <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-blue-600 dark:text-sky-400 flex items-center gap-2" data-subcard-title="true">
+                <WebIcon name="trending-up" className="w-4 h-4 shrink-0" />
+                <span>Lộ trình Thăng tiến &amp; Đa lĩnh vực (2002 – 2026+)</span>
               </h3>
               <p className="typo-caption text-[var(--text-muted)] font-medium">
                 Nhân viên → Giám sát → Trưởng phòng quy mô nhỏ → Trưởng phòng cấp cao · Kỹ năng: Quản lý · Quy trình · Đào tạo · Xây dựng hệ thống
@@ -680,8 +682,9 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             data-subcard="true"
             className="sub-card lg:col-span-5 p-[15px] rounded-[14px] flex flex-col gap-2.5 print-card-bg min-w-0"
           >
-            <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-emerald-600 dark:text-emerald-400 border-b border-[var(--border-subcard)] pb-2" data-subcard-title="true">
-              6 Lĩnh vực Chuyên môn
+            <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-emerald-600 dark:text-emerald-400 border-b border-[var(--border-subcard)] pb-2 flex items-center gap-2" data-subcard-title="true">
+              <WebIcon name="layers" className="w-4 h-4 shrink-0" />
+              <span>6 Lĩnh vực Chuyên môn</span>
             </h3>
             <div className="flex flex-col gap-2">
               {DOMAINS_DATA.map((d) => (
@@ -707,8 +710,9 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             data-subcard="true"
             className="sub-card lg:col-span-6 p-[15px] rounded-[14px] flex flex-col gap-2.5 print-card-bg min-w-0"
           >
-            <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-rose-600 dark:text-rose-400 border-b border-[var(--border-subcard)] pb-2" data-subcard-title="true">
-              Năng lực Cốt lõi &amp; Thích ứng (SWOT)
+            <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-rose-600 dark:text-rose-400 border-b border-[var(--border-subcard)] pb-2 flex items-center gap-2" data-subcard-title="true">
+              <WebIcon name="brain" className="w-4 h-4 shrink-0" />
+              <span>Năng lực Cốt lõi &amp; Thích ứng (SWOT)</span>
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {STRENGTHS_DATA.slice(0, 2).map((s) => (
@@ -736,8 +740,9 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             data-subcard="true"
             className="sub-card lg:col-span-6 p-[15px] rounded-[14px] flex flex-col gap-2.5 print-card-bg min-w-0"
           >
-            <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-indigo-600 dark:text-indigo-400 border-b border-[var(--border-subcard)] pb-2" data-subcard-title="true">
-              12 Hệ sinh thái Số (powerservice.one)
+            <h3 className="subcard-header-sync subcard-title-synced typo-h4 font-bold text-indigo-600 dark:text-indigo-400 border-b border-[var(--border-subcard)] pb-2 flex items-center gap-2" data-subcard-title="true">
+              <WebIcon name="network" className="w-4 h-4 shrink-0" />
+              <span>12 Hệ sinh thái Số (powerservice.one)</span>
             </h3>
             <div className="flex flex-wrap gap-1.5">
               {ENTERPRISE_SYSTEMS_LIST.map((sys) => (

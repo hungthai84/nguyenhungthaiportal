@@ -163,9 +163,12 @@ export const TechStackExplorerModal: React.FC<TechStackExplorerModalProps> = ({
                       >
                         {item.category}
                       </span>
-                      <h4 className="typo-h4 subcard-title-synced font-bold leading-snug" style={{ color: item.color }}>
-                        {item.name}
-                      </h4>
+                      <div className="subcard-header-sync flex items-center gap-1.5 min-w-0" style={{ color: item.color }}>
+                        <WebIcon name={item.icon} className="w-4 h-4 shrink-0" style={{ color: item.color }} />
+                        <h4 className="typo-h4 subcard-title-synced font-bold leading-snug truncate" data-subcard-title="true" style={{ color: item.color }}>
+                          {item.name}
+                        </h4>
+                      </div>
                     </div>
                   </div>
                 </div>

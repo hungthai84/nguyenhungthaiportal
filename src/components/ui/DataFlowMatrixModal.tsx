@@ -74,7 +74,10 @@ export const DataFlowMatrixModal: React.FC<DataFlowMatrixModalProps> = ({
                     </span>
                   </div>
                   <div>
-                    <h4 className="typo-h4" style={{ color: 'var(--text-heading, var(--text-primary))' }}>{sys.nameVi}</h4>
+                    <h4 className="typo-h4 flex items-center gap-1.5 subcard-header-sync subcard-title-synced" data-subcard-title="true" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
+                      <WebIcon name="cpu" className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
+                      <span>{sys.nameVi}</span>
+                    </h4>
                     <p className="typo-body-sm mt-1 line-clamp-2" style={{ color: 'var(--text-secondary)' }}>{sys.descVi}</p>
                   </div>
                   <div className="pt-2 border-t typo-label font-mono" style={{ borderColor: 'var(--border-subcard)', color: 'var(--color-primary)' }}>

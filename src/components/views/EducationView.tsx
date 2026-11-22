@@ -7,6 +7,8 @@ import { SkillsView } from './SkillsView';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 
 // Helper map skill tag to appropriate icon
 const getSkillTagIcon = (tag: string): string => {
@@ -241,6 +243,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const [lightboxTitle, setLightboxTitle] = useState<string>('');
   const [isBannerMuted, setIsBannerMuted] = useState<boolean>(true);
   const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
+  const { bannerAssignments } = useBannerVideo();
+  const driveEducationBanner = bannerAssignments.education;
   const [activeCarouselIdx, setActiveCarouselIdx] = useState<number>(0);
 
   const bannerVideoRef = useRef<HTMLVideoElement | null>(null);
@@ -459,7 +463,15 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             borderRadius: 'var(--radius-banner, 24px)',
           }}
         >
-          {!heroVideoFailed ? (
+          {driveEducationBanner ? (
+            <DriveAwareBannerMedia
+              directVideoUrl={driveEducationBanner.directStreamUrl}
+              iframeFallbackUrl={driveEducationBanner.previewIframeUrl}
+              posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042016/H%E1%BB%8Dc_v%E1%BA%A5n.png"
+              title={driveEducationBanner.fileName}
+              className="rounded-[inherit]"
+            />
+          ) : !heroVideoFailed ? (
             <video
               src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204142/H%E1%BB%8Dc_v%E1%BA%A5n.mp4"
               poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042016/H%E1%BB%8Dc_v%E1%BA%A5n.png"
@@ -487,6 +499,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
 
         <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
           <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+            <WebIcon name="graduation-cap" className="w-[22px] h-[22px] shrink-0" />
             <h1
               className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
               data-card-title="true"
@@ -683,6 +696,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 <div className="education-card-body flex-1 flex flex-col justify-between gap-2 min-w-0">
                   <div className="min-w-0">
                     <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: cardColor }}>
+                      <WebIcon name="award" className="w-4 h-4 shrink-0 mt-1" style={{ color: cardColor }} />
                       <h3
                         className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex-1 min-w-0"
                         data-card-title="true"
@@ -758,6 +772,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             {/* Master Header */}
             <div className="flex items-center justify-between gap-2 pb-3 border-b border-[var(--border-subcard)] min-w-0">
               <div className="card-header-sync flex items-center gap-2.5 min-w-0 text-blue-600 dark:text-sky-400" data-card-accent="blue">
+                <WebIcon name="graduation-cap" className="w-5 h-5 shrink-0" />
                 <div className="min-w-0">
                   <h3 className="card-title card-title-synced typo-h3 font-play font-bold whitespace-normal break-words text-blue-600 dark:text-sky-400 m-0" data-card-title="true">
                     {course.title}
@@ -788,6 +803,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 >
                   <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] flex-wrap">
                     <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-400 min-w-0" data-card-accent="blue">
+                      <WebIcon name="book-open" className="w-5 h-5 shrink-0" />
                       <h3 className="card-title card-title-synced typo-h3 font-play text-blue-600 dark:text-sky-400 m-0 p-0 whitespace-normal break-words" data-card-title="true">
                         {course.title}
                       </h3>
@@ -797,6 +813,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     {/* Mục 1: Năm học và mã */}
                     <div className="flex flex-col justify-between gap-2 min-w-0">
                       <div className="subcard-header-sync flex items-center gap-1.5 text-sky-600 dark:text-sky-400" data-subcard-accent="sky">
+                        <WebIcon name="calendar" className="w-4 h-4 shrink-0" />
                         <span className="subcard-title-synced typo-h4 tracking-normal text-sky-600 dark:text-sky-400" data-subcard-title="true">Năm học và mã</span>
                       </div>
                       <div className="flex items-center gap-2 flex-wrap">
@@ -814,6 +831,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     {/* Mục 2: Đơn vị đào tạo */}
                     <div className="flex flex-col justify-between gap-2 min-w-0">
                       <div className="subcard-header-sync flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400" data-subcard-accent="indigo">
+                        <WebIcon name="building-2" className="w-4 h-4 shrink-0" />
                         <span className="subcard-title-synced typo-h4 tracking-normal text-indigo-600 dark:text-indigo-400" data-subcard-title="true">Đơn vị đào tạo</span>
                       </div>
                       <span className="typo-body-sm font-semibold break-words" style={{ color: 'var(--text-primary)' }}>
@@ -824,6 +842,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     {/* Mục 3: Hình thức đào tạo */}
                     <div className="flex flex-col justify-between gap-2 min-w-0">
                       <div className="subcard-header-sync flex items-center gap-1.5 text-teal-600 dark:text-teal-400" data-subcard-accent="teal">
+                        <WebIcon name="layers" className="w-4 h-4 shrink-0" />
                         <span className="subcard-title-synced typo-h4 tracking-normal text-teal-600 dark:text-teal-400" data-subcard-title="true">Hình thức đào tạo</span>
                       </div>
                       <span className="typo-body-sm font-semibold text-teal-700 dark:text-teal-300 break-words">
@@ -843,6 +862,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 >
                   <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] flex-wrap">
                     <div className="card-header-sync flex items-center gap-2 text-amber-600 dark:text-amber-400" data-card-accent="amber">
+                      <WebIcon name="list-filter" className="w-5 h-5 shrink-0" />
                       <h3 className="card-title card-title-synced typo-h3 font-play text-amber-600 dark:text-amber-400 m-0 p-0" data-card-title="true">
                         Danh mục khóa học
                       </h3>
@@ -876,6 +896,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     {/* Từ khóa kỹ năng */}
                     <div className="h-fit py-1 flex flex-col gap-2 min-w-0">
                       <div className="subcard-header-sync flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400" data-subcard-accent="emerald">
+                        <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
                         <span className="subcard-title-synced typo-h4 tracking-normal text-emerald-700 dark:text-emerald-400" data-subcard-title="true">Từ khóa kỷ năng</span>
                       </div>
                       {course.skills && course.skills.length > 0 ? (
@@ -916,6 +937,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     >
                       <div className="flex items-center justify-between text-purple-600 dark:text-purple-400">
                         <div className="subcard-header-sync flex items-center gap-1.5 text-purple-600 dark:text-purple-400" data-subcard-accent="purple">
+                          <WebIcon name="image" className="w-4 h-4 shrink-0" />
                           <span className="subcard-title-synced typo-h4 tracking-normal text-purple-600 dark:text-purple-400" data-subcard-title="true">
                             Hình ảnh khóa học
                           </span>
@@ -959,6 +981,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 >
                   <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
                     <div className="card-header-sync flex items-center gap-2 text-emerald-600 dark:text-emerald-400" data-card-accent="emerald">
+                      <WebIcon name="trophy" className="w-5 h-5 shrink-0" />
                       <h3 className="card-title card-title-synced typo-h3 font-play text-emerald-600 dark:text-emerald-400 m-0 p-0" data-card-title="true">
                         Kết quả đạt được
                       </h3>
@@ -969,6 +992,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     {/* Chứng nhận đánh giá */}
                     <div className="h-fit py-1 flex flex-col gap-2">
                       <div className="subcard-header-sync flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400" data-subcard-accent="emerald">
+                        <WebIcon name="shield-check" className="w-4 h-4 shrink-0" />
                         <span className="subcard-title-synced typo-h4 tracking-normal text-emerald-700 dark:text-emerald-400" data-subcard-title="true">Chứng nhận đánh giá</span>
                       </div>
                       <p className="typo-body-sm font-semibold break-words" style={{ color: 'var(--text-primary)' }}>
@@ -980,6 +1004,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     {course.application && (
                       <div className="h-fit py-1 flex flex-col gap-2">
                         <div className="subcard-header-sync flex items-center gap-1.5 text-teal-700 dark:text-teal-400" data-subcard-accent="teal">
+                          <WebIcon name="target" className="w-4 h-4 shrink-0" />
                           <span className="subcard-title-synced typo-h4 tracking-normal text-teal-700 dark:text-teal-400" data-subcard-title="true">Ứng dụng thực tiễn</span>
                         </div>
                         <p className="typo-body-sm break-words" style={{ color: 'var(--text-secondary)' }}>
@@ -1003,6 +1028,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     >
                       <div className="flex items-center justify-between text-rose-600 dark:text-rose-400">
                         <div className="subcard-header-sync flex items-center gap-1.5 text-rose-600 dark:text-rose-400" data-subcard-accent="rose">
+                          <WebIcon name="award" className="w-4 h-4 shrink-0" />
                           <span className="subcard-title-synced typo-h4 tracking-normal text-rose-600 dark:text-rose-400" data-subcard-title="true">
                             Văn bằng chứng nhận
                           </span>
@@ -1063,6 +1089,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             >
               <div className="flex items-start justify-between gap-3 border-b pb-3" style={{ borderColor: 'var(--border-subcard)' }}>
                 <div className="card-header-sync flex items-center gap-2.5 text-emerald-600 dark:text-emerald-400">
+                  <WebIcon name="shield-check" className="w-5 h-5 shrink-0" />
                   <div>
                     <span className="typo-label font-mono tracking-wider text-emerald-600 dark:text-emerald-400 block">
                       Chứng chỉ xác thực số • Digital Credential

@@ -3,6 +3,8 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 // Icons migrated to WebIcon (Hugeicons)
 
 const LinkedinIcon = ({ className }: { className?: string }) => (
@@ -11,7 +13,7 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="2"
+    strokeWidth="2.75"
     strokeLinecap="round"
     strokeLinejoin="round"
   >
@@ -555,6 +557,8 @@ export function AboutView({
   onOpenBentoFocusModal
 }: AboutViewProps = {}) {
   const { showToast } = useToast();
+  const { bannerAssignments } = useBannerVideo();
+  const driveAboutBanner = bannerAssignments.about;
 
   // Chế độ xem: cố định duy nhất dạng Trình chiếu Slide ('slides')
   const [viewMode, setViewMode] = useState<'dashboard' | 'bento' | 'slides'>('slides');
@@ -1209,7 +1213,10 @@ export function AboutView({
                     <Sparkles className="w-3.5 h-3.5 text-blue-500 dark:text-cyan-400" />
                     <span>Lãnh Đạo Vận Hành CX 22+ Năm</span>
                   </div>
-                  <h3 className="card-title typo-h3 text-[var(--text-primary)]">Nguyễn Hùng Thái</h3>
+                  <h3 className="card-title card-header-sync card-title-synced typo-h3 text-[var(--text-primary)] flex items-center gap-2" data-card-title="true">
+                    <WebIcon name="user-round" className="w-5 h-5 shrink-0 text-[var(--color-primary)]" />
+                    <span>Nguyễn Hùng Thái</span>
+                  </h3>
                   <div className="typo-body-sm text-[var(--text-secondary)] mt-2 space-y-2">
                     <p>
                       Một chuyên gia dịch vụ khách hàng với hơn <strong>22 năm kinh nghiệm thực chiến</strong>. Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh khắc, dù là nhỏ nhất, đều là một cơ hội quý giá: để lắng nghe, để thấu hiểu, và để tạo ra những trải nghiệm vượt trên cả sự mong đợi.
@@ -1686,26 +1693,40 @@ export function AboutView({
                   >
                   {activeHeroMedia === 'video' ? (
                     <>
-                      <SmartFaceVideo
-                        videoRef={videoRef}
-                        id="about-hero-video"
-                        data-element-name="Video giới thiệu chân dung chuyên gia"
-                        data-element-type="media"
-                        data-element-page="about"
-                        data-element-parent="about-hero-video-container"
-                        key={isPlayingIntro ? 'video-intro-2' : 'video-idle-1'}
-                        autoPlay
-                        loop={!isPlayingIntro}
-                        muted={isPlayingIntro ? isVideoMuted : true}
-                        playsInline
-                        onTimeUpdate={handleTimeUpdate}
-                        onEnded={handleVideoEnded}
-                        faceAnchor={{ x: 50, y: 18 }}
-                        maxCropDistortion={1.6}
-                        wrapperClassName="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0"
-                        className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
-                        src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
-                      />
+                      {driveAboutBanner && !isPlayingIntro ? (
+                        <div className="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0">
+                          <DriveAwareBannerMedia
+                            directVideoUrl={driveAboutBanner.directStreamUrl}
+                            iframeFallbackUrl={driveAboutBanner.previewIframeUrl}
+                            posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.png"
+                            title={driveAboutBanner.fileName}
+                            muted={true}
+                            loop={true}
+                            className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
+                          />
+                        </div>
+                      ) : (
+                        <SmartFaceVideo
+                          videoRef={videoRef}
+                          id="about-hero-video"
+                          data-element-name="Video giới thiệu chân dung chuyên gia"
+                          data-element-type="media"
+                          data-element-page="about"
+                          data-element-parent="about-hero-video-container"
+                          key={isPlayingIntro ? 'video-intro-2' : 'video-idle-1'}
+                          autoPlay
+                          loop={!isPlayingIntro}
+                          muted={isPlayingIntro ? isVideoMuted : true}
+                          playsInline
+                          onTimeUpdate={handleTimeUpdate}
+                          onEnded={handleVideoEnded}
+                          faceAnchor={{ x: 50, y: 18 }}
+                          maxCropDistortion={1.6}
+                          wrapperClassName="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0"
+                          className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
+                          src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
+                        />
+                      )}
                       <button
                         type="button"
                         id="about-video-expand-btn"

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { WebIcon } from '@/components/ui/WebIcon';
 
 interface BentoFocusModalProps {
   cardKey: string | null;
@@ -56,7 +57,10 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 typo-body-sm text-left">
           <div className="p-4 rounded-[var(--radius-card,24px)] bg-gradient-to-br from-blue-600 to-sky-500 text-white flex flex-col justify-between shadow-md">
             <div>
-              <h4 className="typo-h4 font-bold text-white">01. Hiệu Quả</h4>
+              <h4 className="typo-h4 font-bold text-white flex items-center gap-2" data-subcard-title="true">
+                <WebIcon name="target" className="w-4 h-4 shrink-0 text-white" />
+                <span>01. Hiệu Quả</span>
+              </h4>
               <p className="mt-2 text-blue-100 leading-relaxed typo-body-sm">
                 Tối ưu hiệu suất vận hành, chuẩn hóa SOP, quản trị KPI, SLA, FCR và giải quyết triệt để rủi ro dịch vụ.
               </p>
@@ -67,7 +71,10 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
           </div>
           <div className="p-4 rounded-[var(--radius-card,24px)] bg-gradient-to-br from-rose-500 to-pink-500 text-white flex flex-col justify-between shadow-md">
             <div>
-              <h4 className="typo-h4 font-bold text-white">02. Nhân Văn</h4>
+              <h4 className="typo-h4 font-bold text-white flex items-center gap-2" data-subcard-title="true">
+                <WebIcon name="heart" className="w-4 h-4 shrink-0 text-white" />
+                <span>02. Nhân Văn</span>
+              </h4>
               <p className="mt-2 text-rose-100 leading-relaxed typo-body-sm">
                 Lắng nghe thấu hiểu từ tâm, lấy con người làm gốc rễ, đào tạo đội ngũ tận tâm và xây dựng văn hóa gắn kết.
               </p>
@@ -78,7 +85,10 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
           </div>
           <div className="p-4 rounded-[var(--radius-card,24px)] bg-gradient-to-br from-emerald-600 to-teal-500 text-white flex flex-col justify-between shadow-md">
             <div>
-              <h4 className="typo-h4 font-bold text-white">03. Bền Vững</h4>
+              <h4 className="typo-h4 font-bold text-white flex items-center gap-2" data-subcard-title="true">
+                <WebIcon name="leaf" className="w-4 h-4 shrink-0 text-white" />
+                <span>03. Bền Vững</span>
+              </h4>
               <p className="mt-2 text-emerald-100 leading-relaxed typo-body-sm">
                 Xây dựng niềm tin dài hạn, ứng dụng công nghệ CRM hiện đại, Data Analytics và tự động hóa AI tạo đòn bẩy.
               </p>

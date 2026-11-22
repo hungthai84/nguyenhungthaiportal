@@ -16,6 +16,8 @@ import { LAYER_DEPTH_PRESETS } from '@/config/ui/layerDepth';
 import { motion } from 'motion/react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useFirebase } from '@/context/FirebaseContext';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 
 const INTERFACE_UI_PREFS_KEY = 'hungthai_interface_ui_prefs_v1';
 
@@ -356,6 +358,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const [activeVideoPreviewId, setActiveVideoPreviewId] = useState<CardStyleMode | null>(null);
   const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
   const [heroVideoFailed, setHeroVideoFailed] = useState(false);
+  const { bannerAssignments } = useBannerVideo();
+  const driveInterfaceBanner = bannerAssignments.interface;
   const [neuSliders, setNeuSliders] = useState<number[]>(initialPrefs.neuSliders);
   const [focusedLayerLevel, setFocusedLayerLevel] = useState<'all' | 'l1' | 'l2' | 'l3'>(
     initialPrefs.focusedLayerLevel
@@ -498,7 +502,15 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
           >
             <div className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none">
-              {!heroVideoFailed && (
+              {driveInterfaceBanner ? (
+                <DriveAwareBannerMedia
+                  directVideoUrl={driveInterfaceBanner.directStreamUrl}
+                  iframeFallbackUrl={driveInterfaceBanner.previewIframeUrl}
+                  posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
+                  title={driveInterfaceBanner.fileName}
+                  className="rounded-[inherit]"
+                />
+              ) : !heroVideoFailed && (
                 <video
                   src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/Giao_di%E1%BB%87n.mp4"
                   autoPlay
@@ -515,6 +527,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
 
             <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
               <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+                <WebIcon name="palette" className="w-[22px] h-[22px] shrink-0" />
                 <h1
                   className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
                   data-card-title="true"
@@ -598,7 +611,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               }}
             >
               <div className="flex items-center justify-between gap-2 pb-2 border-b min-w-0" style={{ borderColor: 'var(--border-subcard)' }}>
-                <div className="card-header-sync flex items-center gap-2 min-w-0">
+                <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
+                  <WebIcon name="palette" className="w-4 h-4 shrink-0" />
                   <h2
                     className="typo-h5 font-bold tracking-tight truncate card-title-synced"
                     data-card-title="true"
@@ -664,7 +678,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               }}
             >
               <div className="flex items-center justify-between gap-2 pb-2 border-b" style={{ borderColor: 'var(--border-subcard)' }}>
-                <div className="card-header-sync flex items-center gap-2 min-w-0">
+                <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
+                  <WebIcon name="layers" className="w-4 h-4 shrink-0" />
                   <h2
                     className="typo-h5 font-bold tracking-tight truncate card-title-synced"
                     data-card-title="true"
@@ -767,7 +782,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-2.5 border-b"
               style={{ borderColor: 'var(--border-subcard)' }}
             >
-              <div className="card-header-sync flex items-center gap-2 min-w-0">
+              <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
+                <WebIcon name="eye" className="w-4 h-4 shrink-0" />
                 <h2
                   className="typo-h5 font-bold tracking-tight truncate card-title-synced"
                   data-card-title="true"
@@ -1293,7 +1309,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       className="flex items-center justify-between gap-2 pb-2.5 border-b"
                       style={{ borderColor: 'var(--border-subcard)' }}
                     >
-                      <div className="card-header-sync flex items-center gap-2 min-w-0">
+                      <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
+                        <WebIcon name={group.icon} className="w-4 h-4 shrink-0" />
                         <h3
                           className="typo-h5 font-bold tracking-tight truncate card-title-synced"
                           data-card-title="true"
@@ -1369,7 +1386,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
 
                               {/* Title & Description */}
                               <div className="min-w-0 flex flex-col gap-1.5">
-                                <div className="card-header-sync flex items-center gap-2 min-w-0">
+                                <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: meta.iconColor }}>
+                                  <WebIcon name={group.icon} className="w-4 h-4 shrink-0" style={{ color: meta.iconColor }} />
                                   <h4
                                     className="typo-h4 font-bold leading-snug min-w-0 truncate card-title-synced"
                                     data-card-title="true"
@@ -1557,7 +1575,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 className="flex items-center justify-between gap-3 pb-2.5 border-b"
                 style={{ borderColor: 'var(--border-subcard)' }}
               >
-                <div className="card-header-sync flex items-center gap-2 min-w-0">
+                <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
+                  <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
                   <h4
                     className="typo-h5 font-bold tracking-tight truncate card-title-synced"
                     data-card-title="true"

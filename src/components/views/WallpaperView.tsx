@@ -32,6 +32,8 @@ import {
   WallpaperStudioControls,
   SmartFilterCategory,
 } from './wallpaper/WallpaperStudioControls';
+import { DriveBannerStudio } from './DriveBannerStudio';
+import { useBannerVideo } from '@/context/BannerVideoContext';
 
 export interface WallpaperViewProps {
   activeWallpaper: WallpaperPreset;
@@ -148,6 +150,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
   });
 
   const [filterType, setFilterType] = useState<SmartFilterCategory>('all');
+  const [studioSection, setStudioSection] = useState<'wallpapers' | 'drive-banner'>('wallpapers');
+  const { pickedVideos } = useBannerVideo();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
@@ -741,6 +745,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         {/* Hàng trên: Tiêu đề bên trái, Câu nói chữ ký bên phải */}
         <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
           <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+            <WebIcon name="image" className="w-[22px] h-[22px] shrink-0" />
             <h1
               id="el-p14-div-4"
               data-element-id="el-p14-div-4"
@@ -848,6 +853,28 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             </div>
 
             <button
+              id="wallpaper-drive-banner-tab-btn"
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                setStudioSection((prev) => (prev === 'drive-banner' ? 'wallpapers' : 'drive-banner'));
+              }}
+              className={`h-9 px-3.5 py-0 rounded-full typo-button font-bold font-play transition cursor-pointer flex items-center gap-1.5 ${
+                studioSection === 'drive-banner'
+                  ? 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#EC4899] text-white shadow-md'
+                  : 'banner-control-pill'
+              }`}
+            >
+              <WebIcon name="video" className="w-3.5 h-3.5 shrink-0" />
+              <span>{isEn ? 'Drive Video Banner' : 'Video Banner Drive'}</span>
+              {pickedVideos.length > 0 && (
+                <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] tabular-nums">
+                  {pickedVideos.length}
+                </span>
+              )}
+            </button>
+
+            <button
               id="wallpaper-add-toggle-btn"
               type="button"
               onClick={() => {
@@ -863,6 +890,17 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         </div>
       </section>
 
+      {studioSection === 'drive-banner' ? (
+        <DriveBannerStudio
+          onNavigateTab={(tab) => {
+            window.dispatchEvent(new CustomEvent('app:navigate-tab', { detail: tab }));
+          }}
+          onShowNotification={onShowNotification}
+          onClose={() => setStudioSection('wallpapers')}
+        />
+      ) : (
+        <>
+
       {/* KHUNG THÊM HÌNH NỀN MỚI & NHẬP / XUẤT JSON XUẤT HIỆN NGAY DƯỚI BANNER KHI CLICK NÚT "THÊM HÌNH" */}
       {isAddModalOpen && (
         <section
@@ -875,8 +913,9 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         >
           <div id="wallpaper-add-panel-header" className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2.5">
             <div className="card-header-sync flex items-center gap-2 text-[var(--color-primary)]">
+              <WebIcon name="image" className="w-5 h-5 shrink-0" />
               <h3 id="wallpaper-add-panel-title" className="typo-h3 card-title-synced text-[var(--color-primary)]" data-card-title="true">
-                Thêm Hình Nền Mới & Nhập / Xuất Dữ Liệu JSON
+                Thêm Hình Nền Mới &amp; Nhập / Xuất Dữ Liệu JSON
               </h3>
             </div>
             <button
@@ -969,7 +1008,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             >
               <div className="space-y-3">
                 <h4 className="subcard-header-sync subcard-title-synced typo-h4 text-[var(--color-primary)] flex items-center gap-2" data-subcard-title="true">
-                  <span>Thêm Hình Nền Mới (Tự Động Nhận Diện Link & Tên Hình)</span>
+                  <WebIcon name="upload" className="w-4 h-4 shrink-0" />
+                  <span>Thêm Hình Nền Mới (Tự Động Nhận Diện Link &amp; Tên Hình)</span>
                 </h4>
 
                 <div>
@@ -1037,6 +1077,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
               <div className="space-y-2.5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h4 className="subcard-header-sync subcard-title-synced typo-h4 text-[var(--color-primary)] flex items-center gap-2" data-subcard-title="true">
+                    <WebIcon name="file-text" className="w-4 h-4 shrink-0" />
                     <span>Nhập / Xuất Dữ Liệu Hình Nền Bằng JSON</span>
                   </h4>
 
@@ -1475,6 +1516,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
             );
           })}
       </div>
+      )}
+        </>
       )}
         </div>
       </div>

@@ -34,6 +34,9 @@ import { TechStackExplorerModal } from '@/components/domains/TechStackExplorerMo
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { ServiceDomainKey } from '@/utils/bannerVideoMatcher';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 
 export interface ServicesViewProps {
   currentTheme?: SiteTheme;
@@ -357,6 +360,8 @@ const getCardDomId = (id: string) => {
 export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liquid-glass' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
+  const { bannerAssignments, serviceAssignments } = useBannerVideo();
+  const driveServicesBanner = bannerAssignments.services;
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
@@ -684,7 +689,15 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                 className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
                 style={{ borderRadius: 'var(--radius-banner, 24px)' }}
               >
-                {!heroVideoFailed ? (
+                {driveServicesBanner ? (
+                  <DriveAwareBannerMedia
+                    directVideoUrl={driveServicesBanner.directStreamUrl}
+                    iframeFallbackUrl={driveServicesBanner.previewIframeUrl}
+                    posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
+                    title={driveServicesBanner.fileName}
+                    className="rounded-[14px]"
+                  />
+                ) : !heroVideoFailed ? (
                   <video
                     src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204134/D%E1%BB%8Bch_V%E1%BB%A5.mp4"
                     poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
@@ -899,7 +912,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                   const summaryText = isEn
                     ? domain.subtitleEn || domain.descEn
                     : domain.coreCompetency || domain.subtitle;
-                  const serviceImage = domain.customIllustrationUrl || meta.illustrationSrc;
+                  const driveServiceImg =
+                    serviceAssignments[domain.id as ServiceDomainKey]?.directImageUrl;
+                  const serviceImage =
+                    driveServiceImg || domain.customIllustrationUrl || meta.illustrationSrc;
                   const tagsList = (isEn ? meta.tagsEn : meta.tags).slice(0, 2);
 
                   return (
@@ -1109,7 +1125,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                           style={{ background: expandedMeta.gradient }}
                         />
                         <img
-                          src={expandedDomain.customIllustrationUrl || expandedMeta.illustrationSrc}
+                          src={
+                            serviceAssignments[expandedDomain.id as ServiceDomainKey]
+                              ?.directImageUrl ||
+                            expandedDomain.customIllustrationUrl ||
+                            expandedMeta.illustrationSrc
+                          }
                           alt={expandedDomain.title}
                           referrerPolicy="no-referrer"
                           onError={(e) => {
@@ -1128,14 +1149,18 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                             <span>{isEn ? 'In-Depth Profile' : 'Hồ sơ chuyên sâu'}</span>
                           </span>
                         </div>
-                        <h2
-                          className="typo-h3 sm:typo-h2 font-play font-bold tracking-tight truncate m-0"
-                          style={{ color: expandedAccent }}
-                        >
-                          {isEn && expandedDomain.titleEn
-                            ? expandedDomain.titleEn
-                            : expandedDomain.title}
-                        </h2>
+                        <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: expandedAccent }}>
+                          {renderDomainIcon(expandedMeta.iconKey, 'w-5 h-5 shrink-0', expandedAccent)}
+                          <h2
+                            className="typo-h3 sm:typo-h2 card-title-synced font-play font-bold tracking-tight truncate m-0"
+                            data-card-title="true"
+                            style={{ color: expandedAccent }}
+                          >
+                            {isEn && expandedDomain.titleEn
+                              ? expandedDomain.titleEn
+                              : expandedDomain.title}
+                          </h2>
+                        </div>
                       </div>
                     </div>
 
@@ -1208,13 +1233,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         data-subcard="true"
                         className="domain-card-sub lg:col-span-6 rounded-2xl p-[15px] flex flex-col gap-2.5 min-w-0"
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="subcard-header-sync flex items-center gap-2">
                           <CheckCircle2
                             className="w-4.5 h-4.5 shrink-0"
                             style={{ color: expandedAccent }}
                           />
                           <h3
-                            className="typo-h4 font-play font-bold m-0"
+                            className="typo-h4 subcard-title-synced font-play font-bold m-0"
+                            data-subcard-title="true"
                             style={{ color: expandedAccent }}
                           >
                             {isEn ? 'Operational Scale & Scope' : 'Quy mô vận hành'}
@@ -1248,12 +1274,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         data-subcard="true"
                         className="domain-card-sub lg:col-span-6 rounded-2xl p-[15px] flex flex-col gap-2.5 min-w-0"
                       >
-                        <div className="flex items-center gap-2">
-                          <span
-                            className="w-2.5 h-2.5 rounded-full shrink-0"
-                            style={{ background: expandedMeta.gradient }}
+                        <div className="flex items-center gap-2 subcard-header-sync">
+                          <WebIcon
+                            name="shield-alert"
+                            className="w-4 h-4 shrink-0"
+                            style={{ color: expandedAccent }}
                           />
-                          <h3 className="typo-h4 font-play font-bold m-0 text-[var(--text-primary)]">
+                          <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
                             {expandedDomain.id === '06'
                               ? isEn
                                 ? 'Strategic Transformation Scope'
@@ -1284,12 +1311,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         data-subcard="true"
                         className="domain-card-sub lg:col-span-4 rounded-2xl p-[15px] flex flex-col gap-2.5 min-w-0"
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="subcard-header-sync flex items-center gap-2">
                           <Wrench
                             className="w-4 h-4 shrink-0"
                             style={{ color: expandedAccent }}
                           />
-                          <h3 className="typo-h4 font-play font-bold m-0 text-[var(--text-primary)]">
+                          <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
                             {isEn ? 'Management Platforms' : 'Công nghệ quản trị'}
                           </h3>
                         </div>
@@ -1310,12 +1337,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         data-subcard="true"
                         className="domain-card-sub lg:col-span-4 rounded-2xl p-[15px] flex flex-col gap-2.5 min-w-0"
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="subcard-header-sync flex items-center gap-2">
                           <Building2
                             className="w-4 h-4 shrink-0"
                             style={{ color: expandedAccent }}
                           />
-                          <h3 className="typo-h4 font-play font-bold m-0 text-[var(--text-primary)]">
+                          <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
                             {isEn ? 'Representative Enterprises' : 'Doanh nghiệp tiêu biểu'}
                           </h3>
                         </div>
@@ -1356,12 +1383,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         data-subcard="true"
                         className="domain-card-sub lg:col-span-4 rounded-2xl p-[15px] flex flex-col gap-2.5 min-w-0"
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="subcard-header-sync flex items-center gap-2">
                           <UserCheck
                             className="w-4 h-4 shrink-0"
                             style={{ color: expandedAccent }}
                           />
-                          <h3 className="typo-h4 font-play font-bold m-0 text-[var(--text-primary)]">
+                          <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
                             {isEn ? 'Leadership Roles Held' : 'Vai trò đảm nhiệm'}
                           </h3>
                         </div>
@@ -1389,13 +1416,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         }}
                       >
                         <div>
-                          <div className="flex items-center gap-2 mb-2">
+                          <div className="subcard-header-sync flex items-center gap-2 mb-2">
                             <Tag
                               className="w-4 h-4 shrink-0"
                               style={{ color: expandedAccent }}
                             />
                             <h3
-                              className="typo-h4 font-play font-bold m-0"
+                              className="typo-h4 subcard-title-synced font-play font-bold m-0"
+                              data-subcard-title="true"
                               style={{ color: expandedAccent }}
                             >
                               {isEn ? 'Capability Keywords' : 'Từ khóa năng lực'}

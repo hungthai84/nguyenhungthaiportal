@@ -4,6 +4,7 @@ import './index.css';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { FirebaseProvider } from './context/FirebaseContext';
+import { BannerVideoProvider } from './context/BannerVideoContext';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 
 createRoot(document.getElementById('root')!).render(
@@ -11,7 +12,9 @@ createRoot(document.getElementById('root')!).render(
     <ThemeProvider>
       <LanguageProvider>
         <FirebaseProvider>
-          <App />
+          <BannerVideoProvider>
+            <App />
+          </BannerVideoProvider>
         </FirebaseProvider>
       </LanguageProvider>
     </ThemeProvider>

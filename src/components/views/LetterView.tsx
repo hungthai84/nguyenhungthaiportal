@@ -1840,12 +1840,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
             </div>
             <div className="min-w-0 flex-1 subcard-header-sync" style={{ color: item.color }}>
               <h4
-                className="card-title subcard-title-synced typo-h4 tracking-tight font-play leading-snug break-words"
+                className="card-title subcard-title-synced typo-h4 tracking-tight font-play leading-snug break-words flex items-center gap-1.5"
                 data-subcard-title="true"
                 style={{ color: item.color }}
                 title={displayTitle}
               >
-                {displayTitle}
+                <WebIcon name="building-2" className="w-4 h-4 shrink-0" style={{ color: item.color }} />
+                <span>{displayTitle}</span>
               </h4>
               <div
                 className="card-tag flex items-start gap-1.5 typo-caption font-semibold mt-0.5 min-w-0 opacity-90"

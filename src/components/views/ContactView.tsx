@@ -5,6 +5,8 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { useLanguage } from '@/context/LanguageContext';
 import { useFirebase, InquiryTopic, CloudInquiryItem } from '@/context/FirebaseContext';
 import { BLUEPRINT_LIMITS, sanitizeInquiryTags } from '@/firebase';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 
 export interface ContactViewProps {
   currentTheme?: string;
@@ -22,6 +24,8 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
   void currentTheme;
   const { language } = useLanguage();
   const isEn = language === 'en';
+  const { bannerAssignments } = useBannerVideo();
+  const driveContactBanner = bannerAssignments.contact;
   const {
     user,
     isSigningIn,
@@ -172,7 +176,14 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
               }}
             >
               <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0">
-                {!heroVideoFailed ? (
+                {driveContactBanner ? (
+                  <DriveAwareBannerMedia
+                    directVideoUrl={driveContactBanner.directStreamUrl}
+                    iframeFallbackUrl={driveContactBanner.previewIframeUrl}
+                    posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
+                    title={driveContactBanner.fileName}
+                  />
+                ) : !heroVideoFailed ? (
                   <video
                     src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/%C4%90%E1%BA%B7t_l%E1%BB%8Bch.mp4"
                     poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
@@ -199,7 +210,8 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
               <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
               <div className="relative z-10 flex flex-col items-start gap-1.5 w-full">
-                <div className="card-header-sync flex items-start gap-2 w-full min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+                <div className="card-header-sync flex items-center gap-2 w-full min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+                  <WebIcon name="contact" className="w-[22px] h-[22px] shrink-0" />
                   <h1
                     id="contact-banner-h1"
                     className="typo-h3 card-title-synced font-play not-italic tracking-tight leading-tight whitespace-normal min-w-0"
@@ -346,6 +358,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                       data-subcard-title="true"
                       style={{ color: 'var(--color-primary)' }}
                     >
+                      <WebIcon name="edit" className="w-4 h-4 shrink-0" />
                       <span>
                         {editingInquiryId
                           ? isEn
@@ -513,6 +526,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                         data-subcard-title="true"
                         style={{ color: 'var(--color-primary)' }}
                       >
+                        <WebIcon name="mail" className="w-4 h-4 shrink-0" />
                         <span className="truncate">{isEn ? 'Your Sent Inquiries' : 'Lời nhắn đã gửi của bạn'}</span>
                       </h3>
                       {user && (

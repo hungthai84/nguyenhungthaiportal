@@ -10,6 +10,8 @@ import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { ProjectDetailView } from './ProjectDetailView';
 import { useTheme } from '@/hooks/useTheme';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 
 export interface ProjectCardGroup {
   id: string;
@@ -233,6 +235,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
   onReturnToOrigin,
 }) => {
   const { isDark: themeIsDark } = useTheme();
+  const { bannerAssignments } = useBannerVideo();
+  const driveProjectsBanner = bannerAssignments.projects;
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
@@ -552,7 +556,14 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                 borderRadius: 'var(--radius-banner, 24px)',
               }}
             >
-              {!heroVideoFailed ? (
+              {driveProjectsBanner ? (
+                <DriveAwareBannerMedia
+                  directVideoUrl={driveProjectsBanner.directStreamUrl}
+                  iframeFallbackUrl={driveProjectsBanner.previewIframeUrl}
+                  posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
+                  title={driveProjectsBanner.fileName}
+                />
+              ) : !heroVideoFailed ? (
                 <video
                   src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
                   poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
@@ -580,6 +591,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
 
             <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
               <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+                <WebIcon name="folder" className="w-[22px] h-[22px] shrink-0" />
                 <h1
                   className="typo-h3 card-title-synced font-bold font-play not-italic tracking-tight truncate"
                   data-card-title="true"
@@ -839,6 +851,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   <div className="project-card-body education-card-body flex-1 flex flex-col justify-between gap-2 min-w-0">
                     <div className="min-w-0 flex flex-col gap-1.5">
                       <div className="card-header-sync flex items-start gap-2 min-w-0 min-h-[2.85em]" style={{ color: cardColor }}>
+                        <WebIcon name={getProjectIconByTitle(proj)} className="w-4 h-4 shrink-0 mt-1" style={{ color: cardColor }} />
                         <h3
                           className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex-1 min-w-0"
                           data-card-title="true"

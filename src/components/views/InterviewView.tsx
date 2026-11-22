@@ -207,6 +207,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           {/* Hàng trên: Icon + Tiêu đề bên trái, Câu nói chữ ký bên phải */}
           <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
             <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+              <WebIcon name="mic" className="w-[22px] h-[22px] shrink-0" />
               <h1
                 id="interview-hero-banner-title"
                 className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
@@ -277,8 +278,9 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                   >
                     <div className="px-2 py-1.5 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 sticky top-0 bg-[var(--bg-popup)] z-10 rounded-t-[10px]">
                       <div className="flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">
-                        <span className="font-bold text-[var(--text-heading,var(--color-primary))] font-play typo-body-sm">
-                          Bộ lọc
+                        <span className="font-bold text-[var(--text-heading,var(--color-primary))] font-play typo-body-sm inline-flex items-center gap-1.5">
+                          <WebIcon name="sliders" className="w-3.5 h-3.5 shrink-0" />
+                          <span>Bộ lọc</span>
                         </span>
                       </div>
                     <div className="flex flex-wrap gap-1">
@@ -456,7 +458,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           {/* Header Tiêu đề thẻ (Pinned) */}
           <div className="space-y-2 shrink-0 min-w-0">
             <div className="flex flex-wrap items-center justify-between gap-1.5 min-w-0">
-              <h3 className="card-title card-title-synced typo-h3 flex items-center gap-2 text-pink-600 dark:text-pink-400 min-w-0">
+              <h3 className="card-title card-header-sync card-title-synced typo-h3 flex items-center gap-2 text-pink-600 dark:text-pink-400 min-w-0" data-card-title="true">
+                <WebIcon name="message-square" className="w-5 h-5 shrink-0" />
                 <span className="truncate">Chi tiết trả lời</span>
               </h3>
               <span className="typo-caption font-semibold text-[var(--text-secondary)] shrink-0 tabular-nums whitespace-nowrap">
@@ -507,6 +510,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               className="exp-detail-subcard p-[15px] rounded-[var(--radius-subcard,16px)] border flex flex-col gap-2 shrink-0"
             >
               <div className="interview-asker-heading subcard-header-sync typo-h4 flex items-center gap-2 flex-wrap text-indigo-600 dark:text-indigo-400">
+                <WebIcon name="circle-help" className="w-4 h-4 shrink-0" />
                 <span className="subcard-title-synced tracking-wide text-indigo-600 dark:text-indigo-400 break-words" data-subcard-title="true">
                   Câu hỏi {String(currentQ.stt).padStart(2, '0')}: {currentQ.askerVi}
                 </span>
@@ -527,6 +531,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               className="exp-detail-subcard p-[15px] rounded-[var(--radius-subcard,16px)] border flex flex-col gap-2 shrink-0"
             >
               <div className="interview-answerer-heading subcard-header-sync typo-h4 flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+                <WebIcon name="user-round" className="w-4 h-4 shrink-0" />
                 <span className="subcard-title-synced tracking-wide text-emerald-700 dark:text-emerald-400" data-subcard-title="true">
                   Trả lời: {currentQ.answererVi}
                 </span>
@@ -544,6 +549,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               className="exp-detail-subcard p-[15px] rounded-[var(--radius-subcard,16px)] border flex flex-col gap-2 shrink-0"
             >
               <div className="interview-insights-heading subcard-header-sync typo-h4 flex items-center gap-2 text-amber-700 dark:text-amber-400">
+                <WebIcon name="target" className="w-4 h-4 shrink-0" />
                 <span className="subcard-title-synced tracking-wide text-amber-700 dark:text-amber-400" data-subcard-title="true">
                   Trọng tâm
                 </span>

@@ -485,6 +485,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           {/* Vùng Tiêu Đề: Tiêu đề bên trái, Sub tiêu đề cùng hàng nằm bên phải */}
           <div id="skills-hero-banner-header" className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
             <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: "var(--text-link, var(--color-primary))" }}>
+                <WebIcon name="sparkles" className="w-[22px] h-[22px] shrink-0" />
                 <h1
                   id="skills-hero-banner-title"
                   className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
@@ -687,7 +688,8 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                               : "justify-start text-left"
                           )}
                         >
-                          <div className="card-header-sync flex items-center gap-2.5">
+                          <div className="card-header-sync flex items-center gap-2" style={{ color: quad.titleColor }}>
+                            <WebIcon name={quad.icon} className="w-5 h-5 shrink-0" style={{ color: quad.titleColor }} />
                             <h2
                               id={`${quad.id}-title`}
                               className="swot-quadrant-title card-title-synced typo-h3 font-play tracking-tight"
@@ -892,6 +894,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           >
             <div id="skills-languages-header" className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3">
               <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-400">
+                <WebIcon name="languages" className="w-5 h-5 shrink-0" />
                 <h2 id="skills-languages-title" className="card-title-synced typo-h3 font-play">
                   {isVi ? "Ngôn ngữ giao tiếp" : "Communication Languages"}
                 </h2>
@@ -935,8 +938,9 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
 
                     <div className="flex flex-col min-w-0 text-left flex-1">
                       <div className="flex items-center justify-between gap-1.5 flex-wrap">
-                        <h3 className={cn("skills-lang-title typo-h4 subcard-title-synced font-play font-bold whitespace-normal break-words", langItem.color)} data-subcard-title="true">
-                          {isVi ? langItem.nameVi : langItem.nameEn}
+                        <h3 className={cn("skills-lang-title typo-h4 subcard-header-sync subcard-title-synced font-play font-bold whitespace-normal break-words flex items-center gap-1.5", langItem.color)} data-subcard-title="true">
+                          <WebIcon name="globe" className="w-4 h-4 shrink-0" />
+                          <span>{isVi ? langItem.nameVi : langItem.nameEn}</span>
                         </h3>
                         {(isVi ? langItem.levelVi : langItem.levelEn) ? (
                           <span className="skills-lang-level typo-badge px-2 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-nested-badge)] text-[var(--text-secondary)] font-semibold shrink-0">

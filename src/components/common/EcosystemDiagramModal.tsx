@@ -1474,8 +1474,9 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               <div className="theme-modal-subcard flex-1 flex flex-col rounded-[14px] overflow-hidden min-h-0 shadow-inner">
                 <div className="theme-modal-header px-4 py-2.5 flex items-center justify-between shrink-0">
                   <div>
-                    <h3 className="typo-h4 font-bold" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
-                      Ma Trận Luồng Dữ Liệu & Giao Thức (12 Hệ Thống • 21 Tuyến Kết Nối)
+                    <h3 className="typo-h4 font-bold flex items-center gap-2" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
+                      <Table className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary)' }} />
+                      <span>Ma Trận Luồng Dữ Liệu &amp; Giao Thức (12 Hệ Thống • 21 Tuyến Kết Nối)</span>
                     </h3>
                     <p className="typo-caption font-medium" style={{ color: 'var(--text-secondary)' }}>
                       Chi tiết hướng truyền tải, giao thức kỹ thuật và tần suất đồng bộ giữa SDP và các phân hệ

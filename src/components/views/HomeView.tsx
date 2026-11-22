@@ -11,6 +11,8 @@ import { cn } from '@/lib/utils';
 import { speakSiteText, stopActiveSpeech } from '@/utils/speechVoice';
 import { useLanguage } from '@/context/LanguageContext';
 import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 
 export interface HomeViewProps {
   slideIndex?: number;
@@ -51,6 +53,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const { language } = useLanguage();
   const isEn = language === 'en';
   const { isDark: themeIsDark } = useTheme();
+  const { bannerAssignments, openStudioModal } = useBannerVideo();
+  const driveHomeBanner = bannerAssignments.home;
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const isDark =
@@ -396,23 +400,35 @@ export const HomeView: React.FC<HomeViewProps> = ({
               gap: '15px',
             }}
           >
-            {/* 1. Main Background Video - Hiển thị gọn trong vùng nội dung, cách viền #home-main-card đúng padding chuẩn ở mọi kích thước */}
+            {/* 1. Main Background Video - Hỗ trợ đồng bộ video nền từ Google Drive Picker hoặc video mặc định */}
             <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none rounded-[var(--radius-card,24px)]">
-              <SmartFaceVideo
-                videoRef={videoRef}
-                key={activeVideoUrl}
-                autoPlay
-                muted={isMuted}
-                playsInline
-                loop={playbackMode === 'idle' && !isIntroMode}
-                src={activeVideoUrl}
-                onTimeUpdate={handleTimeUpdate}
-                onEnded={handleEnded}
-                faceAnchor={{ x: 50, y: 18 }}
-                maxCropDistortion={1.6}
-                wrapperClassName="absolute inset-0 w-full h-full rounded-[var(--radius-card,24px)]"
-                className="transition-all duration-700 brightness-110 contrast-105"
-              />
+              {driveHomeBanner && !isIntroMode ? (
+                <DriveAwareBannerMedia
+                  directVideoUrl={driveHomeBanner.directStreamUrl}
+                  iframeFallbackUrl={driveHomeBanner.previewIframeUrl}
+                  posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
+                  title={driveHomeBanner.fileName}
+                  muted={isMuted}
+                  loop={true}
+                  className="transition-all duration-700 brightness-110 contrast-105"
+                />
+              ) : (
+                <SmartFaceVideo
+                  videoRef={videoRef}
+                  key={activeVideoUrl}
+                  autoPlay
+                  muted={isMuted}
+                  playsInline
+                  loop={playbackMode === 'idle' && !isIntroMode}
+                  src={activeVideoUrl}
+                  onTimeUpdate={handleTimeUpdate}
+                  onEnded={handleEnded}
+                  faceAnchor={{ x: 50, y: 18 }}
+                  maxCropDistortion={1.6}
+                  wrapperClassName="absolute inset-0 w-full h-full rounded-[var(--radius-card,24px)]"
+                  className="transition-all duration-700 brightness-110 contrast-105"
+                />
+              )}
               {/* Lớp phủ nhẹ nhàng đồng bộ Sáng / Tối, giữ video rõ nét tươi sáng */}
               <div
                 className={cn(
@@ -423,6 +439,30 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 )}
               />
             </div>
+
+            {/* Nút mở nhanh Google Drive Video Banner Studio ở góc trên trái */}
+            {!isIntroMode && (
+              <button
+                id="home-drive-banner-studio-btn"
+                type="button"
+                onClick={() => {
+                  SoundEngine.playTap();
+                  openStudioModal('home');
+                }}
+                title={
+                  isEn
+                    ? 'Pick background video from Google Drive'
+                    : 'Chọn video nền từ Google Drive & tự khớp trang Banner'
+                }
+                className="theme-video-capsule absolute top-3 left-3 sm:top-4 sm:left-4 z-40 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[999px] text-xs font-bold font-play cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95 pointer-events-auto shadow-md"
+              >
+                <WebIcon name="video" className="w-3.5 h-3.5 shrink-0" />
+                <span>{isEn ? 'Drive Video Banner' : 'Video Banner Drive'}</span>
+                {driveHomeBanner && (
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+                )}
+              </button>
+            )}
 
       {/* 2 Nút Trái và Phải qua lại giữa các màn hình trên Trang Chủ (không đè lên thẻ thông tin) - Ẩn khi đang phát video */}
       {!isIntroMode && (
@@ -557,9 +597,15 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   </div>
 
                   {/* Tiêu đề 1 hàng trên desktop, tự xuống dòng ở mobile */}
-                  <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                  <div className="card-header-sync flex items-center gap-2 flex-wrap sm:flex-nowrap" style={{ color: 'var(--card-synced-accent, var(--text-heading, ' + currentScreen.accentColor + '))' }}>
+                    <WebIcon
+                      name={currentScreen.heroIcon || 'sparkles'}
+                      className="w-5 h-5 shrink-0"
+                      style={{ color: 'var(--card-synced-accent, var(--text-heading, ' + currentScreen.accentColor + '))' }}
+                    />
                     <h3
                       className="card-title card-title-synced typo-h3 font-play tracking-tight leading-tight whitespace-normal"
+                      data-card-title="true"
                       style={{ color: 'var(--card-synced-accent, var(--text-heading, ' + currentScreen.accentColor + '))' }}
                     >
                       {currentScreen.title}

@@ -38,6 +38,8 @@ import { useLanguage } from '@/context/LanguageContext';
 import { stopActiveSpeech } from '@/utils/speechVoice';
 import { ZODIAC_SIGNS, ZODIAC_ORDER, getCanChiInfo } from '@/data/horoscope';
 import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 
 const HOROSCOPE_AVATAR_IMAGE_URL =
   'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794233300/T%E1%BB%AD_vi_avata.png';
@@ -286,6 +288,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const activeCardIndexRef = useRef<number>(0);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
+  const { bannerAssignments } = useBannerVideo();
+  const driveHoroscopeBanner = bannerAssignments.horoscope;
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -958,7 +962,15 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             borderRadius: 'var(--radius-banner, 24px)',
           }}
         >
-          {!heroVideoFailed ? (
+          {driveHoroscopeBanner ? (
+            <DriveAwareBannerMedia
+              directVideoUrl={driveHoroscopeBanner.directStreamUrl}
+              iframeFallbackUrl={driveHoroscopeBanner.previewIframeUrl}
+              posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
+              title={driveHoroscopeBanner.fileName}
+              className="rounded-[14px]"
+            />
+          ) : !heroVideoFailed ? (
             <video
               id="horoscope-hero-banner-img"
               src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204136/T%E1%BB%AD_vi.mp4"

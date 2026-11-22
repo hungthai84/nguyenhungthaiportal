@@ -13,6 +13,8 @@ import { useToast } from '@/components/ui/Toast';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 
 export interface MemoriesViewProps {
   currentTheme?: string;
@@ -30,6 +32,8 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
   const [activeLightboxIdx, setActiveLightboxIdx] = useState<number | null>(null);
   const [isSlideshowPlaying, setIsSlideshowPlaying] = useState<boolean>(false);
   const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
+  const { bannerAssignments } = useBannerVideo();
+  const driveMemoriesBanner = bannerAssignments.memories;
   const dropdownRef = useRef<HTMLDivElement>(null);
   const filterMenuRef = useRef<HTMLDivElement>(null);
   const filmstripRef = useRef<HTMLDivElement>(null);
@@ -211,7 +215,15 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
         <div
           className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
-          {!heroVideoFailed ? (
+          {driveMemoriesBanner ? (
+            <DriveAwareBannerMedia
+              directVideoUrl={driveMemoriesBanner.directStreamUrl}
+              iframeFallbackUrl={driveMemoriesBanner.previewIframeUrl}
+              posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/K%E1%BB%B7_ni%E1%BB%87m.png"
+              title={driveMemoriesBanner.fileName}
+              className="rounded-[inherit]"
+            />
+          ) : !heroVideoFailed ? (
             <video
               src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204136/K%E1%BB%B7_ni%E1%BB%87m.mp4"
               poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/K%E1%BB%B7_ni%E1%BB%87m.png"
@@ -239,6 +251,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
 
         <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
           <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+            <WebIcon name="camera" className="w-[22px] h-[22px] shrink-0" />
             <h1
               className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
               data-card-title="true"
@@ -496,6 +509,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                       className="themed-image-card-title typo-h4 card-header-sync card-title-synced break-words line-clamp-2 mt-0.5 flex items-center gap-1.5"
                       data-card-title="true"
                     >
+                      <WebIcon name="image" className="w-4 h-4 shrink-0" />
                       <span>{formatCardTitle(item.titleVi)}</span>
                     </h3>
                     <p className="themed-image-card-subtext typo-caption break-words mt-1 line-clamp-2">
@@ -660,8 +674,9 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                     {activePhoto.companyId}
                   </span>
                 </div>
-                <h3 className="typo-popup-title text-[#F8FAFC]">
-                  {activePhoto.titleVi}
+                <h3 className="typo-popup-title text-[#F8FAFC] flex items-center gap-2">
+                  <WebIcon name="camera" className="w-5 h-5 shrink-0 text-[#6EE7B7]" />
+                  <span>{activePhoto.titleVi}</span>
                 </h3>
               </div>
             </div>

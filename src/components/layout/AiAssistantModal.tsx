@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { WebIcon } from '@/components/ui/WebIcon';
 
 interface AiAssistantModalProps {
   isOpen: boolean;
@@ -112,8 +113,9 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
               />
             </button>
             <div>
-              <h3 className="typo-popup-title leading-tight" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
-                Trợ Lý AI Hùng Thái 24/7
+              <h3 className="typo-popup-title leading-tight flex items-center gap-1.5" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
+                <WebIcon name="bot" className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
+                <span>Trợ Lý AI Hùng Thái 24/7</span>
               </h3>
               <span className="typo-label text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>

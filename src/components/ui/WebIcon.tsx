@@ -178,7 +178,7 @@ export const WebIcon: React.FC<WebIconProps> = ({
   size,
   className = 'w-4 h-4',
   style,
-  strokeWidth = 2.35,
+  strokeWidth = 2.75,
 }) => {
   const normName = (name || '').toLowerCase().trim();
 
@@ -214,7 +214,8 @@ export const WebIcon: React.FC<WebIconProps> = ({
     IconComponent = LucideIcons.Sparkles;
   }
 
-  return <IconComponent id={id} size={size} className={className} style={style} strokeWidth={strokeWidth} />;
+  const mergedClassName = className ? `web-icon ${className}` : 'web-icon w-4 h-4';
+  return <IconComponent id={id} size={size} className={mergedClassName} style={style} strokeWidth={strokeWidth} />;
 };
 
 export default WebIcon;

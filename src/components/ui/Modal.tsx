@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X } from 'lucide-react';
+import { X, Sparkles } from 'lucide-react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -78,7 +78,9 @@ export const Modal: React.FC<ModalProps> = ({
         >
           <div className="theme-modal-header card-header-sync flex items-center justify-between -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 px-4 sm:px-6 py-3 sm:py-4 rounded-t-[var(--radius-modal,24px)] shrink-0">
             <div className="flex items-center gap-2.5">
-              {icon && <div className="shrink-0" style={{ color: accentColor || 'inherit' }}>{icon}</div>}
+              <div className="shrink-0 flex items-center" style={{ color: accentColor || 'var(--color-primary)' }}>
+                {icon || <Sparkles className="w-4 h-4 shrink-0" />}
+              </div>
               <div>
                 <h3
                   className="typo-popup-title card-title-synced leading-tight"

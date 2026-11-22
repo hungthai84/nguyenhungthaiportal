@@ -43,6 +43,8 @@ import { PROJECTS_DATA } from '@/data/projects';
 import { DOMAINS_DATA } from '@/data/domains';
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
@@ -376,6 +378,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const [isJobVideoPlaying, setIsJobVideoPlaying] = useState<boolean>(false);
   const [isJobVideoMuted, setIsJobVideoMuted] = useState<boolean>(true);
   const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
+  const { bannerAssignments } = useBannerVideo();
+  const driveExperienceBanner = bannerAssignments.experience;
   const jobVideoRef = useRef<HTMLVideoElement>(null);
 
   // States cho Timeline bìa gấp 3D theo cấu trúc mẫu đính kèm
@@ -848,7 +852,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
             style={{ borderRadius: 'var(--radius-banner, 24px)' }}
           >
-            {!heroVideoFailed && (
+            {driveExperienceBanner ? (
+              <DriveAwareBannerMedia
+                directVideoUrl={driveExperienceBanner.directStreamUrl}
+                iframeFallbackUrl={driveExperienceBanner.previewIframeUrl}
+                posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
+                title={driveExperienceBanner.fileName}
+                className="rounded-[var(--radius-banner,24px)]"
+              />
+            ) : !heroVideoFailed && (
               <video
                 src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/Kinh_nghi%E1%BB%87m.mp4"
                 autoPlay
@@ -1024,7 +1036,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <div className="flex items-center gap-2.5 sm:gap-3 whitespace-nowrap min-w-0">
                 <Briefcase
                   className="w-5 h-5 sm:w-[22px] sm:h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                  strokeWidth={2.2}
+                  strokeWidth={2.75}
                   style={{
                     color: isLeather
                       ? '#FDE68A'
@@ -1203,7 +1215,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         style={{ color: primaryTextColor }}
                         className="w-full h-7 shrink-0 flex items-center justify-center gap-1.5 typo-h5 font-bold tracking-[0.03em] leading-none mb-2"
                       >
-                        <Calendar className="w-[17px] h-[17px] shrink-0" strokeWidth={2.3} />
+                        <Calendar className="w-[17px] h-[17px] shrink-0" strokeWidth={2.75} />
                         <span>{item.yearBadge}</span>
                       </div>
 
@@ -1258,7 +1270,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               style={{ color: resolvedAccent }}
                               className="font-bold shrink-0 inline-flex items-center gap-1"
                             >
-                              <Briefcase className="w-3.5 h-3.5 shrink-0" strokeWidth={2.2} />
+                              <Briefcase className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
                               Vị trí:
                             </span>
                             <span style={{ color: primaryTextColor }} className="font-medium break-words">
@@ -1271,7 +1283,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               style={{ color: resolvedAccent }}
                               className="font-bold shrink-0 inline-flex items-center gap-1"
                             >
-                              <Users className="w-3.5 h-3.5 shrink-0" strokeWidth={2.2} />
+                              <Users className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
                               Quản lý:
                             </span>
                             <span style={{ color: primaryTextColor }} className="font-medium break-words">
@@ -2892,10 +2904,17 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         >
                           {proj.code}
                         </span>
-                        <div className="min-w-0 flex-1">
-                          <h3
+                        <div className="min-w-0 flex-1 subcard-header-sync flex items-center gap-2">
+                          <FolderKanban
                             className={cn(
-                              'font-bold text-sm sm:text-base transition-colors leading-snug break-words',
+                              'w-4 h-4 shrink-0',
+                              isDarkCardText ? 'text-orange-300' : 'text-orange-600'
+                            )}
+                          />
+                          <h3
+                            data-subcard-title="true"
+                            className={cn(
+                              'subcard-title-synced font-bold text-sm sm:text-base transition-colors leading-snug break-words min-w-0',
                               isDarkCardText ? 'text-white' : 'text-slate-900',
                               palette.titleHover
                             )}
@@ -3145,8 +3164,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </div>
               <div className="theme-modal-footer p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h4 className="typo-popup-title text-[var(--text-heading,var(--text-primary))] truncate">
+                  <div className="card-header-sync flex items-center gap-2 min-w-0">
+                    <WebIcon name="camera" className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
+                    <h4 className="typo-popup-title card-title-synced text-[var(--text-heading,var(--text-primary))] truncate" data-card-title="true">
                       {curPhoto.title || activeMilestone.company}
                     </h4>
                     <span className="px-2 py-0.5 rounded-full bg-[var(--bg-nested-badge)] border border-[var(--border-subcard)] typo-badge font-mono text-[var(--text-link,var(--color-primary))] shrink-0">

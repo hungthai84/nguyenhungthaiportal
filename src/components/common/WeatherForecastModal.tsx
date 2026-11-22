@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { WEATHER_PRESETS_DATA, WeatherItemData } from '../../data/weatherData';
 import { Weather3DIcon } from './Weather3DIcon';
 import { useLanguage } from '@/context/LanguageContext';
+import { WebIcon } from '@/components/ui/WebIcon';
 
 interface WeatherForecastModalProps {
   isOpen: boolean;
@@ -86,8 +87,9 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
 
         {/* Modal Header matching reference title */}
         <div className="theme-modal-header relative z-10 flex flex-col items-center justify-center text-center -mx-5 -mt-5 sm:-mx-7 sm:-mt-7 px-5 sm:px-7 py-5 mb-5 rounded-t-[var(--radius-modal,24px)]">
-          <h2 className="typo-popup-title font-play tracking-wide" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
-            {isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}
+          <h2 className="typo-popup-title font-play tracking-wide inline-flex items-center justify-center gap-2" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
+            <WebIcon name="sun" className="w-5 h-5 text-amber-500 shrink-0" />
+            <span>{isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}</span>
           </h2>
           <p className="typo-body-sm font-semibold mt-1" style={{ color: 'var(--text-secondary)' }} suppressHydrationWarning>
             {fullDateHeader} • <span className="font-mono font-bold" style={{ color: 'var(--color-primary)' }}>{liveTime24}</span>

@@ -498,7 +498,8 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
         <div className="relative z-10 flex flex-col items-start gap-1.5 w-full">
-          <div className="card-header-sync flex items-start gap-2 w-full min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+          <div className="card-header-sync flex items-center gap-2 w-full min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+            <WebIcon name="bot" className="w-[22px] h-[22px] shrink-0" />
             <h1
               id="ai-assistant-banner-h1"
               className="typo-h3 card-title-synced font-play not-italic tracking-tight leading-tight whitespace-normal min-w-0"
@@ -580,7 +581,10 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                             : undefined
                         }
                       >
-                        <span>{displayTitle}</span>
+                        <span className="inline-flex items-center gap-1.5 min-w-0">
+                          <WebIcon name={m.sender === 'ai' ? 'bot' : 'user'} className="w-4 h-4 shrink-0" />
+                          <span className="truncate">{displayTitle}</span>
+                        </span>
                         {m.sender === 'ai' && (
                           <button
                             type="button"

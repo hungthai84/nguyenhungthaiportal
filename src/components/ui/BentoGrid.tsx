@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { WebIcon } from '@/components/ui/WebIcon';
 
 export type BentoTone =
   | 'default'
@@ -95,13 +96,12 @@ export interface BentoCardHeaderProps {
 }
 
 export const BentoCardHeader: React.FC<BentoCardHeaderProps> = ({
-  icon: _icon,
+  icon,
   title,
   badge,
   accentClassName = 'text-indigo-600 dark:text-cyan-400',
   className,
 }) => {
-  void _icon;
   return (
     <div
       className={cn(
@@ -109,7 +109,10 @@ export const BentoCardHeader: React.FC<BentoCardHeaderProps> = ({
         className
       )}
     >
-      <div className={cn('card-heading card-header-sync min-w-0', accentClassName)}>
+      <div className={cn('card-heading card-header-sync flex items-center gap-2 min-w-0', accentClassName)}>
+        <span className="shrink-0 flex items-center">
+          {icon || <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />}
+        </span>
         <h3 className="card-heading__title card-title card-title-synced typo-h3 font-play truncate" data-card-title="true">
           {title}
         </h3>

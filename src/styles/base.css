@@ -88,9 +88,36 @@
     line-height: var(--lh-input, 1.45);
   }
 
-  /* Bold Vector Line Icons (Lucide) without altering 3D/custom illustrations */
-  svg.lucide:not([data-thin-stroke="true"]) {
-    stroke-width: 2.35;
+  /* Bold Vector Line & Font Icons Across All Themes & Interfaces */
+  html[data-card-style] svg.lucide:not([data-thin-stroke="true"]),
+  svg.lucide:not([data-thin-stroke="true"]),
+  .web-icon:not([data-thin-stroke="true"]),
+  .card-header-sync svg:not([data-thin-stroke="true"]),
+  .subcard-header-sync svg:not([data-thin-stroke="true"]),
+  .card-title svg:not([data-thin-stroke="true"]),
+  .subcard-title-synced svg:not([data-thin-stroke="true"]),
+  [data-card-title] svg:not([data-thin-stroke="true"]),
+  [data-subcard-title] svg:not([data-thin-stroke="true"]),
+  .nav-pill svg:not([data-thin-stroke="true"]),
+  .theme-modal-header svg:not([data-thin-stroke="true"]),
+  .theme-modal-close svg:not([data-thin-stroke="true"]),
+  .banner-control-pill svg:not([data-thin-stroke="true"]) {
+    stroke-width: 2.75 !important;
+  }
+
+  i.fa,
+  i.fas,
+  i.far,
+  i.fa-solid,
+  i.fa-regular,
+  i[class*="fa-"],
+  .fa,
+  .fas,
+  .far,
+  .fa-solid,
+  .fa-regular {
+    font-weight: 900 !important;
+    -webkit-text-stroke: 0.45px currentColor;
   }
 
   .tabular-nums,

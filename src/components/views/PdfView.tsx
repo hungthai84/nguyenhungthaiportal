@@ -311,6 +311,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
 
         <div className="relative z-10 flex items-center justify-between gap-3 flex-wrap w-full">
           <div className="card-header-sync flex items-center gap-2 min-w-0 text-blue-600 dark:text-sky-400">
+            <WebIcon name="file-text" className="w-[22px] h-[22px] shrink-0" />
             <h1 className="typo-h3 card-title-synced font-bold font-play leading-tight text-blue-600 dark:text-sky-400 truncate" data-card-title="true">
               Hồ sơ năng lực &amp; CV Portfolio
             </h1>
@@ -439,6 +440,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         >
           <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid gap-2">
             <div className="card-header-sync flex items-center gap-2.5 text-blue-600 dark:text-sky-400 min-w-0">
+              <WebIcon name="home" className="w-5 h-5 shrink-0" />
               <h2 className="typo-h2 card-title-synced font-bold font-play text-blue-600 dark:text-sky-400 truncate" data-card-title="true">
                 Tổng quan năng lực
               </h2>
@@ -547,6 +549,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         >
           <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid gap-2">
             <div className="card-header-sync flex items-center gap-2.5 text-cyan-600 dark:text-cyan-400 min-w-0">
+              <WebIcon name="mail" className="w-5 h-5 shrink-0" />
               <h2 className="typo-h2 card-title-synced font-bold font-play text-cyan-600 dark:text-cyan-400 truncate" data-card-title="true">
                 Thư ngỏ
               </h2>
@@ -557,6 +560,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           </div>
           <div className="flex flex-col gap-2 break-inside-avoid">
             <h3 className="typo-h3 card-header-sync card-title-synced font-bold text-cyan-600 dark:text-cyan-400 flex items-center gap-2" data-card-title="true">
+              <WebIcon name="sparkles" className="w-5 h-5 shrink-0" />
               <span>Kính chào Quý Công ty!</span>
             </h3>
             <p className="typo-body text-[var(--text-secondary)] leading-relaxed">
@@ -611,6 +615,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                     style={{ color: item.accent }}
                     data-subcard-title="true"
                   >
+                    <WebIcon name="briefcase" className="w-4 h-4 shrink-0" style={{ color: item.accent }} />
                     <span className="break-words">{item.title}</span>
                   </h4>
                   <p className="typo-label text-[var(--text-muted)] font-semibold break-words">
@@ -634,6 +639,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               className="typo-h4 subcard-header-sync subcard-title-synced font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-2"
               data-subcard-title="true"
             >
+              <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
               <span>Triết lý quản trị</span>
             </h4>
             <p className="typo-body-sm text-[var(--text-secondary)] leading-relaxed break-words">
@@ -687,6 +693,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         >
           <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid gap-2">
             <div className="card-header-sync flex items-center gap-2.5 text-emerald-600 dark:text-emerald-400 min-w-0">
+              <WebIcon name="user-round" className="w-5 h-5 shrink-0" />
               <h2 className="typo-h2 card-title-synced font-bold font-play text-emerald-600 dark:text-emerald-400 truncate" data-card-title="true">
                 Giới thiệu bản thân
               </h2>
@@ -753,6 +760,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         >
           <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid gap-2">
             <div className="card-header-sync flex items-center gap-2.5 text-purple-600 dark:text-purple-400 min-w-0">
+              <WebIcon name="graduation-cap" className="w-5 h-5 shrink-0" />
               <h2 className="typo-h2 card-title-synced font-bold font-play text-purple-600 dark:text-purple-400 truncate" data-card-title="true">
                 Học vấn bằng cấp
               </h2>
@@ -786,6 +794,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                     </div>
 
                     <div className="subcard-header-sync flex items-start gap-2" style={{ color: cardColor }}>
+                      <WebIcon name="award" className="w-4 h-4 shrink-0 mt-1" style={{ color: cardColor }} />
                       <h3 className="typo-h4 subcard-title-synced font-bold leading-snug" data-subcard-title="true" style={{ color: cardColor }}>
                         {course.title}
                       </h3>
@@ -823,6 +832,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         >
           <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid gap-2">
             <div className="card-header-sync flex items-center gap-2.5 text-amber-600 dark:text-amber-400 min-w-0">
+              <WebIcon name="heart-handshake" className="w-5 h-5 shrink-0" />
               <h2 className="typo-h2 card-title-synced font-bold font-play text-amber-600 dark:text-amber-400 truncate" data-card-title="true">
                 Dịch vụ trọng tâm
               </h2>
@@ -844,6 +854,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 >
                   <div className="min-w-0">
                     <div className="subcard-header-sync flex items-start gap-2 min-w-0" style={{ color: accentColor }}>
+                      <WebIcon name="layers" className="w-4 h-4 shrink-0 mt-1" style={{ color: accentColor }} />
                       <div className="min-w-0 flex-1">
                         <h3 className="typo-h4 subcard-title-synced font-bold leading-tight break-words" data-subcard-title="true" style={{ color: accentColor }}>
                           {domain.title}
@@ -911,6 +922,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         >
           <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid gap-2">
             <div className="card-header-sync flex items-center gap-2.5 text-blue-600 dark:text-sky-400 min-w-0">
+              <WebIcon name="briefcase" className="w-5 h-5 shrink-0" />
               <h2 className="typo-h2 card-title-synced font-bold font-play text-blue-600 dark:text-sky-400 truncate" data-card-title="true">
                 Kinh nghiệm công tác
               </h2>
@@ -963,7 +975,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                       )}
                     </div>
 
-                    <div className="subcard-header-sync flex items-center gap-2.5 min-w-0" style={{ color: expAccentColor }}>
+                    <div className="subcard-header-sync flex items-center gap-2 min-w-0" style={{ color: expAccentColor }}>
+                      <WebIcon name="building-2" className="w-4 h-4 shrink-0" style={{ color: expAccentColor }} />
                       <div className="min-w-0 flex-1">
                         <h3 className="typo-h4 subcard-title-synced font-bold leading-snug break-words" data-subcard-title="true" style={{ color: expAccentColor }}>
                           {m.company}
@@ -1047,6 +1060,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         >
           <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid gap-2">
             <div className="card-header-sync flex items-center gap-2.5 text-rose-600 dark:text-rose-400 min-w-0">
+              <WebIcon name="brain" className="w-5 h-5 shrink-0" />
               <h2 className="typo-h2 card-title-synced font-bold font-play text-rose-600 dark:text-rose-400 truncate" data-card-title="true">
                 Kỹ năng chuyên môn
               </h2>
@@ -1072,6 +1086,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               >
                 <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 gap-2">
                   <div className="subcard-header-sync flex items-center gap-2 min-w-0" style={{ color: quad.color }}>
+                    <WebIcon name={quad.icon} className="w-4 h-4 shrink-0" style={{ color: quad.color }} />
                     <h3 className="typo-h4 subcard-title-synced font-bold truncate" data-subcard-title="true" style={{ color: quad.color }}>
                       {quad.title}
                     </h3>
@@ -1111,6 +1126,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           >
             <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-2 gap-2">
               <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-indigo-600 dark:text-indigo-400">
+                <WebIcon name="languages" className="w-4 h-4 shrink-0" />
                 <h3 className="typo-h4 subcard-title-synced font-bold text-indigo-600 dark:text-indigo-400 truncate" data-subcard-title="true">
                   Ngôn ngữ giao tiếp
                 </h3>
@@ -1130,8 +1146,9 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                     className="nested-card border border-[var(--border-subcard)] bg-[var(--bg-nested-card)] p-3 rounded-[14px] flex flex-col justify-between gap-2.5 print-card-bg min-w-0"
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <div className="flex items-center gap-2 min-w-0" style={{ color: langHex }}>
-                        <h4 className="typo-h5 font-bold truncate" style={{ color: langHex }}>
+                      <div className="subcard-header-sync flex items-center gap-1.5 min-w-0" style={{ color: langHex }}>
+                        <WebIcon name="globe" className="w-4 h-4 shrink-0" style={{ color: langHex }} />
+                        <h4 className="typo-h5 subcard-title-synced font-bold truncate" data-subcard-title="true" style={{ color: langHex }}>
                           {lang.nameVi}
                         </h4>
                       </div>
@@ -1165,7 +1182,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           className="bento-card glass-card p-5 rounded-[14px] flex flex-col gap-4 print-card-bg min-w-0"
         >
           <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid gap-2">
-            <div className="card-header-sync flex items-center gap-2.5 min-w-0">
+            <div className="card-header-sync flex items-center gap-2.5 min-w-0 text-indigo-600 dark:text-indigo-400">
+              <WebIcon name="folder" className="w-5 h-5 shrink-0" />
               <h2 className="typo-h2 card-title-synced font-bold font-play text-indigo-600 dark:text-indigo-400 truncate" data-card-title="true">
                 Dự án trọng điểm
               </h2>
@@ -1201,6 +1219,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 >
                   <div className="min-w-0 flex-1">
                     <div className="subcard-header-sync flex items-start gap-1.5 min-w-0" style={{ color: projColor }}>
+                      <WebIcon name="folder" className="w-4 h-4 shrink-0 mt-0.5" style={{ color: projColor }} />
                       <h3
                         className="typo-h5 subcard-title-synced font-bold leading-snug break-words min-w-0"
                         data-subcard-title="true"
@@ -1230,6 +1249,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         >
           <div className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3 break-after-avoid gap-2">
             <div className="card-header-sync flex items-center gap-2.5 min-w-0 text-teal-600 dark:text-teal-400">
+              <WebIcon name="server" className="w-5 h-5 shrink-0" />
               <h2 className="typo-h2 card-title-synced font-bold font-play text-teal-600 dark:text-teal-400 truncate" data-card-title="true">
                 Hệ thống công nghệ
               </h2>
@@ -1264,7 +1284,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 >
                   <div className="flex items-start justify-between gap-2.5 min-w-0 flex-1">
                     <div className="min-w-0 flex-1">
-                      <h3 className="typo-h5 subcard-header-sync subcard-title-synced font-bold leading-snug flex items-start gap-1.5 flex-wrap min-w-0" data-subcard-title="true" style={{ color: iconColor }}>
+                      <h3 className="typo-h5 subcard-header-sync subcard-title-synced font-bold leading-snug flex items-center gap-1.5 flex-wrap min-w-0" data-subcard-title="true" style={{ color: iconColor }}>
+                        <WebIcon name="cpu" className="w-4 h-4 shrink-0" style={{ color: iconColor }} />
                         <span className="break-words" style={{ color: iconColor }}>
                           {sys.nameVi}
                         </span>

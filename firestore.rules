@@ -45,6 +45,8 @@ service cloud.firestore {
         && style.size() >= 1
         && style.size() <= 64
         && style in [
+          'soft-indigo-fintech',
+          'dark-soft-indigo-fintech',
           'liquid-glass',
           'dark-liquid-glass',
           'multicolor-glass',

@@ -6,29 +6,25 @@
 /* Synchronizes dynamically across all Themes & Layer Depth (0% - 200%)      */
 /* ========================================================================= */
 
-/* Level 1: Header & Footer Elevation */
-html:not([data-surface-depth="flat"]) #app-header {
-  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow)) !important;
-}
-
-html:not([data-surface-depth="flat"]) #app-footer {
-  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow)) !important;
-}
-
-/* Level 1: Main Card Surface */
-html:not([data-surface-depth="flat"]) :is(
-  .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
-  #home-main-card,
-  [id$="-main-card"],
-  #about-intro-card-1,
-  #about-intro-card-2,
-  #contact-main-card,
-  [id^="letter-card-"],
-  [data-layer-level="1"],
-  .layer-preview-l1
-) {
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+/* Level 1: Header, Main Card & Footer Surface (Flat, Zero Blur & Zero Effect) */
+#app-header,
+#app-footer,
+.page-main-card,
+[data-main-card="true"],
+#home-main-card,
+[id$="-main-card"],
+#about-intro-card-1,
+#about-intro-card-2,
+#contact-main-card,
+[id^="letter-card-"],
+[data-layer-level="1"] {
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
 }
 
 /* Level 2: Các card nằm trong Header, Main Card và Footer */

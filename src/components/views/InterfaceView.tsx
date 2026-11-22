@@ -18,6 +18,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useFirebase } from '@/context/FirebaseContext';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 const INTERFACE_UI_PREFS_KEY = 'hungthai_interface_ui_prefs_v1';
 
@@ -357,7 +358,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const [isSandboxOpen, setIsSandboxOpen] = useState<boolean>(initialPrefs.isSandboxOpen);
   const [activeVideoPreviewId, setActiveVideoPreviewId] = useState<CardStyleMode | null>(null);
   const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
-  const [heroVideoFailed, setHeroVideoFailed] = useState(false);
   const { bannerAssignments } = useBannerVideo();
   const driveInterfaceBanner = bannerAssignments.interface;
   const [neuSliders, setNeuSliders] = useState<number[]>(initialPrefs.neuSliders);
@@ -486,6 +486,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
         <div
           id="interface-main-card"
           data-main-card="true"
+          data-layer-level="1"
           data-element-name="Thẻ chính Trang Giao Diện"
           data-element-type="card"
           data-element-page="interface"
@@ -499,7 +500,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             data-element-type="banner-card"
             data-element-page="interface"
             data-section-card="true"
-            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
           >
             <div className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none">
               {driveInterfaceBanner ? (
@@ -510,25 +511,11 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   title={driveInterfaceBanner.fileName}
                   className="rounded-[inherit]"
                 />
-              ) : !heroVideoFailed && (
-                <video
+              ) : (
+                <BannerBackgroundVideo
                   src="https://drive.google.com/uc?export=download&id=1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  controls={false}
-                  disablePictureInPicture
-                  controlsList="nodownload nofullscreen noremoteplayback"
-                  preload="auto"
-                  onEnded={(e) => {
-                    const v = e.currentTarget;
-                    v.currentTime = 0;
-                    v.play().catch(() => {});
-                  }}
-                  onError={() => setHeroVideoFailed(true)}
-                  style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                  className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp"
+                  poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
+                  alt="Banner Kho giao diện hệ thống"
                 />
               )}
             </div>
@@ -1468,7 +1455,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                   <div
                                     data-media-card="video"
                                     style={{
-                                      padding: '2px',
+                                      padding: '0px',
                                       borderRadius: preset.id.includes('glass') ? '16px' : '12px',
                                     }}
                                     className="relative w-full h-[112px] overflow-hidden bg-slate-950/60 border border-white/20 box-border"
@@ -1482,7 +1469,25 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                       preload="auto"
                                       controls={false}
                                       disablePictureInPicture
-                                      controlsList="nodownload nofullscreen noremoteplayback"
+                                      controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                                      aria-hidden="true"
+                                      tabIndex={-1}
+                                      onLoadedMetadata={(e) => {
+                                        const v = e.currentTarget;
+                                        v.defaultMuted = true;
+                                        v.muted = true;
+                                        v.loop = true;
+                                        v.controls = false;
+                                        v.disablePictureInPicture = true;
+                                        (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                                      }}
+                                      onCanPlay={(e) => {
+                                        const v = e.currentTarget;
+                                        v.defaultMuted = true;
+                                        v.muted = true;
+                                        v.loop = true;
+                                        if (v.paused) v.play().catch(() => {});
+                                      }}
                                       onEnded={(e) => {
                                         const v = e.currentTarget;
                                         v.currentTime = 0;
@@ -1491,8 +1496,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                       onError={() =>
                                         setFailedVideoIds((prev) => ({ ...prev, [preset.id]: true }))
                                       }
-                                      style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                                      className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp"
+                                      style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
+                                      className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp"
                                     />
                                   </div>
                                 ) : (

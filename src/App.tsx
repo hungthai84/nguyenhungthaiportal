@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion } from 'motion/react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { Toast } from './components/common/Toast';
@@ -545,7 +544,7 @@ export default function App() {
       data-element-page="global"
       style={{
         padding: '0px',
-        gap: currentTabIndex === 16 ? '0px' : 'var(--shell-section-gap, 15px)',
+        gap: currentTabIndex === 16 ? '0px' : 'var(--shell-section-gap, 10px)',
       }}
       className="h-screen w-screen overflow-hidden flex flex-col items-center m-0 p-0 select-text relative transition-colors duration-300 ease-in-out"
     >
@@ -798,7 +797,7 @@ export default function App() {
           height:
             currentTabIndex === 16
               ? '100%'
-              : 'calc(80% - (var(--shell-section-gap, 15px) * 2))',
+              : 'calc(80% - (var(--shell-section-gap, 10px) * 2))',
           minHeight: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -809,16 +808,12 @@ export default function App() {
           currentTabIndex === 16 ? 'max-w-[calc(var(--container-max-w,1250px)+30px)]' : 'max-w-full'
         } mx-auto my-0 min-h-0 rounded-[var(--radius-main,14px)] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
-        <motion.div
+        <div
           key={`page-view-${currentTabIndex}`}
-          initial={{ opacity: 0, y: 10, scale: 0.995 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.28, ease: 'easeOut' }}
           className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
         >
           {renderActiveView()}
-        </motion.div>
+        </div>
 
         <Toast message={toastMessage} />
       </main>

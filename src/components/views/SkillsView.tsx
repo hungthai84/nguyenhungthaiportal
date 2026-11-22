@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { WebIcon } from "@/components/ui/WebIcon";
 import { cn } from "@/lib/utils";
 import { SoundEngine } from "@/components/ui/SoundEngine";
+import { BannerBackgroundVideo } from "@/components/common/BannerBackgroundVideo";
 import { 
   STRENGTHS_DATA, 
   WEAKNESSES_DATA, 
@@ -241,7 +242,6 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
   const [expandedSkillIds, setExpandedSkillIds] = useState<Set<string>>(new Set());
   const [highlightedSkillId, setHighlightedSkillId] = useState<string | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const filterMenuRef = useRef<HTMLDivElement>(null);
   const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -449,45 +449,14 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           {/* Lớp nền video và gradient phủ */}
           <div
             id="skills-hero-banner-bg"
-            className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
-            style={{
-              borderRadius: "var(--radius-banner, 24px)",
-            }}
+            className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
           >
-            {!heroVideoFailed ? (
-              <video
-                id="skills-hero-banner-video"
-                src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
-                poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png"
-                autoPlay
-                loop
-                muted
-                playsInline
-                controls={false}
-                disablePictureInPicture
-                controlsList="nodownload nofullscreen noremoteplayback"
-                preload="auto"
-                onEnded={(e) => {
-                  const v = e.currentTarget;
-                  v.currentTime = 0;
-                  v.play().catch(() => {});
-                }}
-                onError={() => setHeroVideoFailed(true)}
-                style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
-              />
-            ) : (
-              <img
-                id="skills-hero-banner-img"
-                src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png"
-                alt="Banner Kỹ năng cốt lõi"
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
-                className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
-              />
-            )}
+            <BannerBackgroundVideo
+              id="skills-hero-banner-video"
+              src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
+              poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png"
+              alt="Banner Kỹ năng cốt lõi"
+            />
           </div>
           <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
@@ -1009,6 +978,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
         <div
           id="skills-main-card"
           data-main-card="true"
+          data-layer-level="1"
           data-detail-open={selectedSwot ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Kỹ Năng"
           data-element-type="card"

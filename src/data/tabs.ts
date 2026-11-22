@@ -31,7 +31,7 @@ export const TABS_DATA: TabItem[] = [
   { id: 10, name: "Tử vi", nameEn: "Horoscope", shortTitleEn: "Horoscope", color: "#F05A36", textColor: "#ffffff", icon: "fa-compass", quote: "Thuận theo tự nhiên để tâm an trí sáng", quoteEn: "Flow with nature to keep the mind serene and the vision clear", data: null },
   { id: 11, name: "Kỷ niệm", nameEn: "Memories", shortTitleEn: "Memories", color: "#A78BFA", textColor: "#ffffff", icon: "fa-camera-retro", quote: "Lưu giữ những khoảnh khắc đáng nhớ trong từng hành trình", quoteEn: "Preserving memorable milestones across every journey", data: null },
   { id: 12, name: "Liên hệ", nameEn: "Contact", shortTitleEn: "Contact", color: "#1E266D", textColor: "#ffffff", icon: "fa-address-book", quote: "Luôn luôn sẵn sàng lắng nghe và kết nối", quoteEn: "Always ready to listen and connect", data: null },
-  { id: 13, name: "AI Hỗ Trợ", nameEn: "AI Support", shortTitleEn: "AI Support", color: "#A855F7", textColor: "#ffffff", icon: "fa-robot", quote: "Trợ lý AI thông minh đồng hành giải đáp mọi thắc mắc 24/7", quoteEn: "Smart AI assistant answering your questions 24/7", data: null },
+  { id: 13, name: "AI Hỗ Trợ", nameEn: "AI Support", shortTitleEn: "AI Support", color: "#0EA5E9", textColor: "#ffffff", icon: "fa-robot", quote: "Trợ lý AI thông minh đồng hành giải đáp mọi thắc mắc 24/7", quoteEn: "Smart AI assistant answering your questions 24/7", data: null },
   { id: 14, name: "Hình nền", nameEn: "Wallpaper", shortTitleEn: "Wallpaper", color: "#EC4899", textColor: "#ffffff", icon: "fa-image", quote: "Không gian trực quan mang đậm dấu ấn cá nhân ♡", quoteEn: "Visual space tailored with your personal signature ♡", data: { type: 'wallpaper' } },
   { id: 15, name: "Giao diện", nameEn: "Interface", shortTitleEn: "Interface", color: "#6366F1", textColor: "#ffffff", icon: "fa-palette", quote: "Tùy chỉnh phong cách hiển thị theo sở thích ♡", quoteEn: "Customize the display theme to match your preference ♡", data: { type: 'interface' } },
   { id: 16, name: "Tải PDF", nameEn: "Download PDF", shortTitleEn: "PDF CV", color: "#2563EB", textColor: "#ffffff", icon: "fa-file-text", quote: "Hồ sơ năng lực và kinh nghiệm công tác bản chuẩn PDF ♡", quoteEn: "Official executive profile & career dossier in PDF format ♡", data: { type: 'pdf' } }
@@ -51,7 +51,7 @@ export const PAGE_NEON_COLORS: Record<number, NeonColorData> = {
   10: { neon: '#F05A36', glow: 'rgba(240, 90, 54, 0.75)' },
   11: { neon: '#A78BFA', glow: 'rgba(167, 139, 250, 0.75)' },
   12: { neon: '#1E266D', glow: 'rgba(30, 38, 109, 0.75)' },
-  13: { neon: '#A855F7', glow: 'rgba(168, 85, 247, 0.75)' },
+  13: { neon: '#0EA5E9', glow: 'rgba(14, 165, 233, 0.75)' },
   14: { neon: '#EC4899', glow: 'rgba(236, 72, 153, 0.75)' },
   15: { neon: '#6366F1', glow: 'rgba(99, 102, 241, 0.75)' },
   16: { neon: '#2563EB', glow: 'rgba(37, 99, 235, 0.75)' }

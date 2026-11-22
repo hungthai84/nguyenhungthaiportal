@@ -15,6 +15,7 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 export interface MemoriesViewProps {
   currentTheme?: string;
@@ -31,7 +32,6 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [activeLightboxIdx, setActiveLightboxIdx] = useState<number | null>(null);
   const [isSlideshowPlaying, setIsSlideshowPlaying] = useState<boolean>(false);
-  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const { bannerAssignments } = useBannerVideo();
   const driveMemoriesBanner = bannerAssignments.memories;
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -156,6 +156,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
         <div
           id="memories-main-card"
           data-main-card="true"
+          data-layer-level="1"
           data-element-name="Thẻ chính Trang Kỷ Niệm"
           data-element-type="card"
           data-element-page="memories"
@@ -209,7 +210,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+        className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
         style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
       >
         <div
@@ -223,36 +224,11 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
               title={driveMemoriesBanner.fileName}
               className="rounded-[inherit]"
             />
-          ) : !heroVideoFailed ? (
-            <video
+          ) : (
+            <BannerBackgroundVideo
               src="https://drive.google.com/uc?export=download&id=1ruWiQjZF1D_sIiw0G6jY05qulslNMj7B"
               poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/K%E1%BB%B7_ni%E1%BB%87m.png"
-              autoPlay
-              loop
-              muted
-              playsInline
-              controls={false}
-              disablePictureInPicture
-              controlsList="nodownload nofullscreen noremoteplayback"
-              preload="auto"
-              onEnded={(e) => {
-                const v = e.currentTarget;
-                v.currentTime = 0;
-                v.play().catch(() => {});
-              }}
-              onError={() => setHeroVideoFailed(true)}
-              style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-              className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
-            />
-          ) : (
-            <img
-              src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/K%E1%BB%B7_ni%E1%BB%87m.png"
               alt="Khoảnh khắc kỷ niệm"
-              referrerPolicy="no-referrer"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-              className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
             />
           )}
         </div>

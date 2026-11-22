@@ -165,6 +165,9 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
         const safeLayerDepth = Math.max(0, Math.min(200, Math.round(latestUiRef.current.layerDepth)));
 
         if (!snap.exists()) {
+          if (!user.emailVerified) {
+            return;
+          }
           await setDoc(userRef, {
             uid: user.uid,
             displayName: safeName,
@@ -216,7 +219,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
             }, 250);
           }
 
-          if (data.displayName !== safeName || data.photoUrl !== safePhoto) {
+          if (user.emailVerified && (data.displayName !== safeName || data.photoUrl !== safePhoto)) {
             await updateDoc(userRef, {
               displayName: safeName,
               photoUrl: safePhoto,
@@ -238,7 +241,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   // Persist UI preference updates to /users/{uid} (Action 2 affectedKeys) when signed in
   useEffect(() => {
-    if (!authReady || !user) return;
+    if (!authReady || !user || !user.emailVerified) return;
     if (userDocReadyUidRef.current !== user.uid) return;
     if (isHydratingFromCloudRef.current) return;
 

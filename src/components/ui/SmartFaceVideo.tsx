@@ -94,22 +94,42 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
     }
   }, [src]);
 
+  const syncVideoDomFlags = useCallback(
+    (v: HTMLVideoElement | null) => {
+      if (!v) return;
+      v.defaultMuted = muted;
+      v.muted = muted;
+      v.loop = loop;
+      v.playsInline = playsInline;
+      v.autoplay = Boolean(autoPlay);
+      v.controls = false;
+      v.disablePictureInPicture = true;
+      (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+      v.removeAttribute('controls');
+    },
+    [muted, loop, playsInline, autoPlay]
+  );
+
   const handleMetadata = (e: React.SyntheticEvent<HTMLVideoElement>) => {
     const v = e.currentTarget;
+    syncVideoDomFlags(v);
+    if (autoPlay && v.paused) {
+      v.play().catch(() => {});
+    }
     if (v.videoWidth > 0 && v.videoHeight > 0) {
       setNaturalSize({ w: v.videoWidth, h: v.videoHeight });
     }
     onLoadedMetadata?.(e);
   };
 
-  // Đồng bộ thuộc tính muted/loop trên HTMLVideoElement khi props thay đổi
+  // Đồng bộ thuộc tính muted/loop/controls trên HTMLVideoElement khi props thay đổi
   useEffect(() => {
     const v = internalVideoRef.current;
-    if (!v) return;
-    v.defaultMuted = muted;
-    v.muted = muted;
-    v.loop = loop;
-  }, [muted, loop, src]);
+    syncVideoDomFlags(v);
+    if (autoPlay && v && v.paused) {
+      v.play().catch(() => {});
+    }
+  }, [syncVideoDomFlags, src, autoPlay]);
 
   // Tính toán chế độ hiển thị thông minh bảo toàn vùng khuôn mặt (hoặc alwaysCover cho video nền banner)
   const anchorX = faceAnchor?.x ?? 50;

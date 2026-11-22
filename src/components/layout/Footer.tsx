@@ -865,7 +865,7 @@ export const Footer: React.FC<FooterProps> = ({
                 className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
                 style={
                   {
-                    '--nav-pill-accent': '#A855F7',
+                    '--nav-pill-accent': '#0EA5E9',
                     width: '162px',
                     height: '46px',
                     paddingTop: '9px',
@@ -892,7 +892,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <div
                   className="nav-pill-icon-badge relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                   style={{
-                    backgroundColor: '#A855F7',
+                    backgroundColor: '#0EA5E9',
                   }}
                 >
                   {aiAvatarError ? (

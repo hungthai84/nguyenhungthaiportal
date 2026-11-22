@@ -140,13 +140,23 @@ export const BENTO_PALETTES: Record<BentoPaletteType, BentoPaletteConfig> = {
   },
 };
 
-// Video 1: Video phát ngầm mặc định của trang Giới Thiệu
+// Video 1: Màn hình chờ Gioi thieu.mp4 (Trang Giới Thiệu)
+const ABOUT_IDLE_VIDEO_ID = '1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
 const ABOUT_IDLE_VIDEO_URL =
-  'https://drive.google.com/uc?export=download&id=1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
+  `https://drive.google.com/uc?export=download&id=${ABOUT_IDLE_VIDEO_ID}`;
+const ABOUT_IDLE_DRIVE_ALT_URL =
+  `https://drive.usercontent.google.com/download?id=${ABOUT_IDLE_VIDEO_ID}&export=download&confirm=t`;
+const ABOUT_IDLE_PREVIEW_IFRAME_URL =
+  `https://drive.google.com/file/d/${ABOUT_IDLE_VIDEO_ID}/preview?autoplay=1&mute=1&loop=1`;
 
-// Video 2: Video giới thiệu bản thân chi tiết
+// Video 2: Giới thiệu vui nhộn.mp4 (Trang Giới Thiệu)
+const ABOUT_INTRO_VIDEO_ID = '12cdItjoc6LpIetmw6-1BiSt8kUaaNe7R';
 const ABOUT_INTRO_VIDEO_URL =
-  'https://drive.google.com/uc?export=download&id=12cdItjoc6LpIetmw6-1BiSt8kUaaNe7R';
+  `https://drive.google.com/uc?export=download&id=${ABOUT_INTRO_VIDEO_ID}`;
+const ABOUT_INTRO_DRIVE_ALT_URL =
+  `https://drive.usercontent.google.com/download?id=${ABOUT_INTRO_VIDEO_ID}&export=download&confirm=t`;
+const ABOUT_INTRO_PREVIEW_IFRAME_URL =
+  `https://drive.google.com/file/d/${ABOUT_INTRO_VIDEO_ID}/preview?autoplay=1&mute=1&loop=1`;
 
 const getWebIconName = (name: string): string => {
   const norm = name.toLowerCase();
@@ -800,6 +810,36 @@ export function AboutView({
   const [isVideoMuted, setIsVideoMuted] = useState<boolean>(true);
   const [videoCurrentTime, setVideoCurrentTime] = useState(0);
   const [isVideoPaused, setIsVideoPaused] = useState(false);
+  const [aboutVideoStage, setAboutVideoStage] = useState<0 | 1 | 2>(0);
+
+  const activeAboutIdleVideoUrl =
+    aboutVideoStage === 0
+      ? ABOUT_IDLE_VIDEO_URL
+      : ABOUT_IDLE_DRIVE_ALT_URL;
+
+  const activeAboutIntroVideoUrl =
+    aboutVideoStage === 0
+      ? ABOUT_INTRO_VIDEO_URL
+      : ABOUT_INTRO_DRIVE_ALT_URL;
+
+  const activeAboutVideoUrl = isPlayingIntro
+    ? activeAboutIntroVideoUrl
+    : activeAboutIdleVideoUrl;
+
+  const activeAboutPreviewIframeUrl = isPlayingIntro
+    ? ABOUT_INTRO_PREVIEW_IFRAME_URL
+    : ABOUT_IDLE_PREVIEW_IFRAME_URL;
+
+  useEffect(() => {
+    if (aboutVideoStage >= 2) return;
+    const timer = window.setTimeout(() => {
+      const el = videoRef.current;
+      if (el && el.readyState < 2) {
+        setAboutVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev));
+      }
+    }, 4500);
+    return () => window.clearTimeout(timer);
+  }, [aboutVideoStage, isPlayingIntro]);
 
   // Helper format mm:ss
   const formatCountdown = (secs: number) => {
@@ -1138,6 +1178,7 @@ export function AboutView({
   };
 
   const handlePlayIntro = () => {
+    setAboutVideoStage(0);
     setIsPlayingIntro(true);
     setIsVideoMuted(false);
     saveMutedPref(false);
@@ -1152,6 +1193,7 @@ export function AboutView({
   };
 
   const handleCancelIntro = () => {
+    setAboutVideoStage(0);
     setIsPlayingIntro(false);
     setIsVideoMuted(true);
     saveMutedPref(true);
@@ -1200,24 +1242,65 @@ export function AboutView({
           <div className="space-y-4">
             <div className="sub-card grid grid-cols-1 md:grid-cols-2 gap-4 items-center rounded-[14px] p-5 border border-[var(--border-subcard)] text-[var(--text-primary)]">
               <div className="relative aspect-video rounded-[14px] overflow-hidden bg-black/60 border border-[var(--border-subcard)] flex items-center justify-center">
-                <video
-                  src={ABOUT_INTRO_VIDEO_URL}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  controls={false}
-                  disablePictureInPicture
-                  controlsList="nodownload nofullscreen noremoteplayback"
-                  preload="auto"
-                  onEnded={(e) => {
-                    const v = e.currentTarget;
-                    v.currentTime = 0;
-                    v.play().catch(() => {});
-                  }}
-                  style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                  className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] rounded-[14px] banner-video-sharp"
-                />
+                {aboutVideoStage === 2 ? (
+                  <iframe
+                    key="hero-modal-preview-iframe"
+                    src={ABOUT_INTRO_PREVIEW_IFRAME_URL}
+                    title="Giới thiệu vui nhộn"
+                    allow="autoplay; encrypted-media; fullscreen"
+                    tabIndex={-1}
+                    className="w-full h-full min-w-full min-h-full border-0 pointer-events-none select-none scale-[1.28] rounded-[inherit]"
+                  />
+                ) : (
+                  <video
+                    src={activeAboutIntroVideoUrl}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls={false}
+                    onError={() =>
+                      setAboutVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
+                    }
+                    disablePictureInPicture
+                    controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                    preload="auto"
+                    aria-hidden="true"
+                    tabIndex={-1}
+                    onLoadedMetadata={(e) => {
+                      const v = e.currentTarget;
+                      v.defaultMuted = true;
+                      v.muted = true;
+                      v.loop = true;
+                      v.controls = false;
+                      v.disablePictureInPicture = true;
+                      (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                      v.removeAttribute('controls');
+                    }}
+                    onCanPlay={(e) => {
+                      const v = e.currentTarget;
+                      v.defaultMuted = true;
+                      v.muted = true;
+                      v.loop = true;
+                      if (v.paused) v.play().catch(() => {});
+                    }}
+                    onPause={(e) => {
+                      if (typeof document !== 'undefined' && document.hidden) return;
+                      const v = e.currentTarget;
+                      v.defaultMuted = true;
+                      v.muted = true;
+                      v.loop = true;
+                      v.play().catch(() => {});
+                    }}
+                    onEnded={(e) => {
+                      const v = e.currentTarget;
+                      v.currentTime = 0;
+                      v.play().catch(() => {});
+                    }}
+                    style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
+                    className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] rounded-[inherit] pointer-events-none select-none banner-video-sharp"
+                  />
+                )}
               </div>
               <div className="flex flex-col justify-between gap-3 text-left">
                 <div>
@@ -1646,6 +1729,7 @@ export function AboutView({
       <div
         id="about-intro-card-1"
         data-main-card="true"
+        data-layer-level="1"
         data-element-name="Card giới thiệu 1"
         data-element-type="card"
         data-element-page="about"
@@ -1696,13 +1780,12 @@ export function AboutView({
               data-element-parent="about-intro-card-1"
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
-                padding: '5px',
+                padding: '0px',
               }}
-              className="bento-card glass-card col-span-1 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-0 min-w-0 group/video p-[5px] text-left"
+              className="bento-card glass-card col-span-1 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-0 min-w-0 group/video p-0 text-left"
             >
                   <div
-                    style={{ borderRadius: 'calc(var(--radius-card, 14px) - 5px)' }}
-                    className="relative w-full h-full flex-1 overflow-hidden min-h-0 flex items-center justify-center"
+                    className="relative w-full h-full flex-1 rounded-[inherit] overflow-hidden min-h-0 flex items-center justify-center"
                   >
                   {activeHeroMedia === 'video' ? (
                     <>
@@ -1715,7 +1798,19 @@ export function AboutView({
                             title={driveAboutBanner.fileName}
                             muted={true}
                             loop={true}
+                            allowIframeFallback={true}
                             className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
+                          />
+                        </div>
+                      ) : aboutVideoStage === 2 ? (
+                        <div className="absolute inset-0 w-full h-full rounded-[inherit] overflow-hidden pointer-events-none z-0">
+                          <iframe
+                            key={`${isPlayingIntro ? 'iframe-intro-2' : 'iframe-idle-1'}`}
+                            src={activeAboutPreviewIframeUrl}
+                            title={isPlayingIntro ? 'Giới thiệu vui nhộn' : 'Màn hình chờ Giới thiệu'}
+                            allow="autoplay; encrypted-media; fullscreen"
+                            tabIndex={-1}
+                            className="w-full h-full min-w-full min-h-full border-0 pointer-events-none select-none scale-[1.28] rounded-[inherit]"
                           />
                         </div>
                       ) : (
@@ -1726,20 +1821,61 @@ export function AboutView({
                           data-element-type="media"
                           data-element-page="about"
                           data-element-parent="about-hero-video-container"
-                          key={isPlayingIntro ? 'video-intro-2' : 'video-idle-1'}
+                          key={`${isPlayingIntro ? 'video-intro-2' : 'video-idle-1'}-${aboutVideoStage}`}
                           autoPlay
                           loop={!isPlayingIntro}
                           muted={isPlayingIntro ? isVideoMuted : true}
                           playsInline
                           preload="auto"
-                          alwaysCover={!isPlayingIntro}
+                          controls={false}
+                          disablePictureInPicture
+                          controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                          aria-hidden="true"
+                          tabIndex={-1}
+                          alwaysCover={true}
+                          onLoadedData={(e) => {
+                            const v = e.currentTarget;
+                            if (!isPlayingIntro) {
+                              v.defaultMuted = true;
+                              v.muted = true;
+                              v.loop = true;
+                            }
+                            v.controls = false;
+                            v.disablePictureInPicture = true;
+                            (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                            v.removeAttribute('controls');
+                            if (v.paused) v.play().catch(() => {});
+                          }}
+                          onCanPlay={(e) => {
+                            const v = e.currentTarget;
+                            if (!isPlayingIntro) {
+                              v.defaultMuted = true;
+                              v.muted = true;
+                              v.loop = true;
+                            }
+                            v.controls = false;
+                            v.removeAttribute('controls');
+                            if (v.paused) v.play().catch(() => {});
+                          }}
+                          onPause={(e) => {
+                            if (isPlayingIntro) return;
+                            if (typeof document !== 'undefined' && document.hidden) return;
+                            const v = e.currentTarget;
+                            v.defaultMuted = true;
+                            v.muted = true;
+                            v.loop = true;
+                            v.play().catch(() => {});
+                          }}
                           onTimeUpdate={handleTimeUpdate}
                           onEnded={handleVideoEnded}
+                          onError={() =>
+                            setAboutVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
+                          }
                           faceAnchor={{ x: 50, y: 18 }}
                           maxCropDistortion={1.6}
                           wrapperClassName="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0"
-                          className="pointer-events-none opacity-100 banner-video-sharp transition-opacity duration-700"
-                          src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
+                          className="pointer-events-none select-none opacity-100 banner-video-sharp transition-opacity duration-700"
+                          src={activeAboutVideoUrl}
                         />
                       )}
                       <button
@@ -2189,6 +2325,7 @@ export function AboutView({
       <div
         id="about-intro-card-2"
         data-main-card="true"
+        data-layer-level="1"
         data-element-name="Card giới thiệu 2"
         data-element-type="card"
         data-element-page="about"
@@ -2671,22 +2808,63 @@ export function AboutView({
                 className="fixed inset-0 z-[1050] bg-slate-950/95 backdrop-blur-xl flex flex-col justify-between overflow-hidden select-none font-play"
               >
                 {/* Video toàn khung */}
-                <video
-                  ref={fullscreenVideoRef}
-                  key={isPlayingIntro ? 'fs-intro' : 'fs-idle'}
-                  src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
-                  autoPlay
-                  loop={!isPlayingIntro}
-                  muted={isPlayingIntro ? isVideoMuted : true}
-                  playsInline
-                  controls={false}
-                  disablePictureInPicture
-                  controlsList="nodownload nofullscreen noremoteplayback"
-                  preload="auto"
-                  onEnded={handleVideoEnded}
-                  style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                  className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-[50%_18%] banner-video-sharp z-0"
-                />
+                {aboutVideoStage === 2 ? (
+                  <iframe
+                    key={`${isPlayingIntro ? 'fs-iframe-intro' : 'fs-iframe-idle'}`}
+                    src={activeAboutPreviewIframeUrl}
+                    title={isPlayingIntro ? 'Giới thiệu vui nhộn' : 'Màn hình chờ Giới thiệu'}
+                    allow="autoplay; encrypted-media; fullscreen"
+                    tabIndex={-1}
+                    className="absolute inset-0 w-full h-full min-w-full min-h-full border-0 pointer-events-none select-none scale-[1.28] z-0"
+                  />
+                ) : (
+                  <video
+                    ref={fullscreenVideoRef}
+                    key={`${isPlayingIntro ? 'fs-intro' : 'fs-idle'}-${aboutVideoStage}`}
+                    src={activeAboutVideoUrl}
+                    autoPlay
+                    loop={!isPlayingIntro}
+                    muted={isPlayingIntro ? isVideoMuted : true}
+                    playsInline
+                    controls={false}
+                    disablePictureInPicture
+                    controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                    preload="auto"
+                    aria-hidden="true"
+                    tabIndex={-1}
+                    onLoadedMetadata={(e) => {
+                      const v = e.currentTarget;
+                      if (!isPlayingIntro) {
+                        v.defaultMuted = true;
+                        v.muted = true;
+                        v.loop = true;
+                      }
+                      v.controls = false;
+                      v.disablePictureInPicture = true;
+                      (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                      v.removeAttribute('controls');
+                    }}
+                    onCanPlay={(e) => {
+                      const v = e.currentTarget;
+                      if (v.paused) v.play().catch(() => {});
+                    }}
+                    onPause={(e) => {
+                      if (isPlayingIntro) return;
+                      if (typeof document !== 'undefined' && document.hidden) return;
+                      const v = e.currentTarget;
+                      v.defaultMuted = true;
+                      v.muted = true;
+                      v.loop = true;
+                      v.play().catch(() => {});
+                    }}
+                    onEnded={handleVideoEnded}
+                    onError={() =>
+                      setAboutVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
+                    }
+                    style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
+                    className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-[50%_18%] pointer-events-none select-none banner-video-sharp z-0"
+                  />
+                )}
 
                 {/* Scrim trên & dưới đảm bảo độ tương phản WCAG AA (>= 4.5:1) */}
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/80 via-black/35 to-transparent z-10" />

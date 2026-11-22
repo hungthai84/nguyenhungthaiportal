@@ -30,13 +30,13 @@ import {
 import { WebIcon } from '@/components/ui/WebIcon';
 import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/domains';
 import { DomainData, SiteTheme } from '@/types';
-import { TechStackExplorerModal } from '@/components/domains/TechStackExplorerModal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { ServiceDomainKey } from '@/utils/bannerVideoMatcher';
 import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 export interface ServicesViewProps {
   currentTheme?: SiteTheme;
@@ -372,10 +372,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
   } | null>(null);
   const [wrapperMinHeight, setWrapperMinHeight] = useState<number | undefined>(undefined);
 
-  const [isTechModalOpen, setIsTechModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
 
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const mainCardRef = useRef<HTMLDivElement | null>(null);
@@ -573,15 +571,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
       if (e.key !== 'Escape') return;
       if (isFilterOpen) {
         setIsFilterOpen(false);
-      } else if (isTechModalOpen) {
-        setIsTechModalOpen(false);
       } else if (expandedDomain) {
         closeExpandedCard();
       }
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isFilterOpen, isTechModalOpen, expandedDomain, closeExpandedCard]);
+  }, [isFilterOpen, expandedDomain, closeExpandedCard]);
 
   const filterCategories = [
     { id: 'ALL', label: isEn ? 'All 6 Domains' : 'Tất cả 6 lĩnh vực', icon: 'grid' },
@@ -640,6 +636,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
           id="service-main-card"
           ref={mainCardRef}
           data-main-card="true"
+          data-layer-level="1"
           data-detail-open={expandedDomain ? 'true' : 'false'}
           data-detail-overlay={expandedDomain ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Dịch Vụ"
@@ -675,8 +672,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
               }}
             >
               <div
-                className="project-detail-banner-media absolute inset-0 z-0 rounded-[14px] overflow-hidden pointer-events-none"
-                style={{ borderRadius: 'var(--radius-banner, 24px)' }}
+                className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
               >
                 {driveServicesBanner ? (
                   <DriveAwareBannerMedia
@@ -684,42 +680,17 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                     iframeFallbackUrl={driveServicesBanner.previewIframeUrl}
                     posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
                     title={driveServicesBanner.fileName}
-                    className="rounded-[14px]"
-                  />
-                ) : !heroVideoFailed ? (
-                  <video
-                    src="https://drive.google.com/uc?export=download&id=1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP"
-                    poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls={false}
-                    disablePictureInPicture
-                    controlsList="nodownload nofullscreen noremoteplayback"
-                    preload="auto"
-                    onEnded={(e) => {
-                      const v = e.currentTarget;
-                      v.currentTime = 0;
-                      v.play().catch(() => {});
-                    }}
-                    onError={() => setHeroVideoFailed(true)}
-                    style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                    className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] banner-video-sharp transition-all duration-700"
+                    className="rounded-[inherit]"
                   />
                 ) : (
-                  <img
-                    src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
+                  <BannerBackgroundVideo
+                    src="https://drive.google.com/uc?export=download&id=1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP"
+                    poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
                     alt="Banner Dịch vụ trọng tâm"
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
-                    className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
                   />
                 )}
               </div>
-              <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+              <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
               {/* Vùng Tiêu Đề */}
               <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
@@ -784,18 +755,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                     />
                   </button>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      setIsTechModalOpen(true);
-                    }}
-                    className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95"
-                  >
-                    <Cpu className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
-                    <span>{isEn ? 'Tech Ecosystem' : 'Hệ sinh thái công nghệ'}</span>
-                  </button>
-
                   <AnimatePresence>
                     {isFilterOpen && (
                       <motion.div
@@ -847,26 +806,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                             </button>
                           );
                         })}
-
-                        <div className="h-[1px] bg-[var(--border-subcard)] my-1" />
-
-                        <button
-                          type="button"
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            setIsFilterOpen(false);
-                            setIsTechModalOpen(true);
-                          }}
-                          className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play text-[var(--text-link,var(--color-primary))] transition-all cursor-pointer text-left"
-                        >
-                          <span className="flex items-center gap-2 truncate">
-                            <WebIcon name="cpu" className="w-3.5 h-3.5 shrink-0" />
-                            <span className="truncate">
-                              {isEn ? 'Tech Stack Ecosystem' : 'Hệ Sinh Thái Công Nghệ'}
-                            </span>
-                          </span>
-                          <WebIcon name="chevron-right" className="w-3.5 h-3.5 shrink-0" />
-                        </button>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -1163,19 +1102,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setIsTechModalOpen(true);
-                        }}
-                        className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition active:scale-95"
-                      >
-                        <Cpu className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">
-                          {isEn ? 'Tech Stack' : 'Công nghệ'}
-                        </span>
-                      </button>
 
                       <button
                         type="button"
@@ -1489,12 +1415,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
               )}
         </div>
       </div>
-
-      {/* 4. MODAL KHÁM PHÁ TECH STACK */}
-      <TechStackExplorerModal
-        isOpen={isTechModalOpen}
-        onClose={() => setIsTechModalOpen(false)}
-      />
     </div>
   );
 };

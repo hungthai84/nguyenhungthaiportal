@@ -439,6 +439,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         <div
           id="ai-assistant-main-card"
           data-main-card="true"
+          data-layer-level="1"
           data-chat-expanded={isChatExpanded ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Trợ lý AI"
           data-element-type="card"
@@ -490,11 +491,16 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             muted
             playsInline
             preload="auto"
+            controls={false}
+            disablePictureInPicture
+            controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+            aria-hidden="true"
+            tabIndex={-1}
             alwaysCover
             faceAnchor={{ x: 50, y: 18 }}
             maxCropDistortion={1.55}
-            wrapperClassName="w-full h-full rounded-[inherit]"
-            className="banner-video-sharp transition-all duration-700"
+            wrapperClassName="w-full h-full rounded-[inherit] pointer-events-none"
+            className="banner-video-sharp transition-all duration-700 select-none pointer-events-none"
           />
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />

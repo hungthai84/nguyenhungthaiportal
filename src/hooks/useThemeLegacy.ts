@@ -73,7 +73,7 @@ function getLegacyPrefersDark(): boolean {
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
-const LEGACY_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_neu_wp32';
+const LEGACY_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_neu_wp32_v2';
 let didRunLegacyUiSeed = false;
 
 function ensureLegacyDefaultUiSeedSync(): void {
@@ -86,6 +86,7 @@ function ensureLegacyDefaultUiSeedSync(): void {
       localStorage.removeItem(WALLPAPER_MANUAL_STORAGE_KEY);
       localStorage.removeItem(ACTIVE_WALLPAPER_STORAGE_KEY);
       localStorage.removeItem(WALLPAPER_OVERLAY_STORAGE_KEY);
+      localStorage.removeItem(ADAPTIVE_ACCENT_STORAGE_KEY);
       localStorage.setItem(LEGACY_UI_SEED_KEY, '1');
     }
   } catch {

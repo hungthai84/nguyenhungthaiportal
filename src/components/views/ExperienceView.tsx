@@ -43,8 +43,6 @@ import { PROJECTS_DATA } from '@/data/projects';
 import { DOMAINS_DATA } from '@/data/domains';
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { useBannerVideo } from '@/context/BannerVideoContext';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
@@ -377,9 +375,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const [isPhotoLightboxOpen, setIsPhotoLightboxOpen] = useState<boolean>(false);
   const [isJobVideoPlaying, setIsJobVideoPlaying] = useState<boolean>(false);
   const [isJobVideoMuted, setIsJobVideoMuted] = useState<boolean>(true);
-  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
-  const { bannerAssignments } = useBannerVideo();
-  const driveExperienceBanner = bannerAssignments.experience;
   const jobVideoRef = useRef<HTMLVideoElement>(null);
 
   // States cho Timeline bìa gấp 3D theo cấu trúc mẫu đính kèm
@@ -822,6 +817,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         <div
           id="experience-main-card"
           data-main-card="true"
+          data-layer-level="1"
           data-detail-open={showJobCard ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Hành trình sự nghiệp"
           data-element-type="card"
@@ -837,78 +833,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             gap: showJobCard ? '0px' : '15px',
           }}
         >
-      {/* BANNER VIDEO TRANG KINH NGHIỆM */}
-      {!showJobCard && (
-        <section
-          id="experience-hero-banner"
-          data-element-name="Banner Hành trình sự nghiệp"
-          data-element-type="banner-card"
-          data-element-page="experience"
-          data-section-card="true"
-          className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
-          style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
-        >
-          <div
-            className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
-            style={{ borderRadius: 'var(--radius-banner, 24px)' }}
-          >
-            {driveExperienceBanner ? (
-              <DriveAwareBannerMedia
-                directVideoUrl={driveExperienceBanner.directStreamUrl}
-                iframeFallbackUrl={driveExperienceBanner.previewIframeUrl}
-                posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
-                title={driveExperienceBanner.fileName}
-                className="rounded-[var(--radius-banner,24px)]"
-              />
-            ) : !heroVideoFailed && (
-              <video
-                src="https://drive.google.com/uc?export=download&id=1GLEn1qcwUCTdzcoCxy715IrvQe3l4QVn"
-                autoPlay
-                loop
-                muted
-                playsInline
-                controls={false}
-                disablePictureInPicture
-                controlsList="nodownload nofullscreen noremoteplayback"
-                preload="auto"
-                onEnded={(e) => {
-                  const v = e.currentTarget;
-                  v.currentTime = 0;
-                  v.play().catch(() => {});
-                }}
-                onError={() => setHeroVideoFailed(true)}
-                style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[var(--radius-banner,24px)] banner-video-sharp transition-all duration-700"
-              />
-            )}
-          </div>
-          <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[var(--radius-banner,24px)] z-0" />
-
-          <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
-            <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-              <WebIcon
-                name="briefcase"
-                className="w-[22px] h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                style={{ width: '22px', height: '22px' }}
-              />
-              <h1
-                className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
-                data-card-title="true"
-                style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
-              >
-                Kinh nghiệm
-              </h1>
-            </div>
-            <p
-              className="banner-quote typo-h3 font-handwriting font-quote not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
-              style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 700, fontStyle: 'normal' }}
-            >
-              &quot;Tận tâm phụng sự, dẫn dắt bằng kết quả ♡&quot;
-            </p>
-          </div>
-        </section>
-      )}
-
       {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH VỚI ĐỆM 15PX) */}
       {!showJobCard && (
         <section
@@ -2258,35 +2182,40 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <section
                   id="experience-video-card-2026"
                   data-media-card="video"
-                  style={{ padding: '5px', borderRadius: 'var(--radius-card, 14px)' }}
+                  style={{ padding: '0px', borderRadius: 'var(--radius-card, 14px)' }}
                   className={cn(
-                    'exp-bento-surface-card col-span-full transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,14px)] p-[5px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col justify-between min-h-[340px] sm:min-h-[400px] h-full self-stretch group/video text-left',
+                    'exp-bento-surface-card col-span-full transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,14px)] p-0 overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col justify-between min-h-[340px] sm:min-h-[400px] h-full self-stretch group/video text-left',
                     isDarkCardText
                       ? 'bg-slate-900/68 border-white/15 text-white'
                       : 'bg-white/82 border-white/80 text-slate-900'
                   )}
                 >
                   <div
-                    style={{ borderRadius: 'calc(var(--radius-card, 14px) - 5px)' }}
-                    className="relative w-full h-full flex-1 overflow-hidden min-h-0 flex flex-col justify-between"
+                    className="relative w-full h-full flex-1 rounded-[inherit] overflow-hidden min-h-0 flex flex-col justify-between"
                   >
                     <SmartFaceVideo
                       videoRef={jobVideoRef}
                       id="experience-2026-video"
                       autoPlay
+                      alwaysCover={true}
                       loop={!isJobVideoPlaying}
                       muted={isJobVideoPlaying ? isJobVideoMuted : true}
                       playsInline
+                      preload="auto"
                       controls={false}
                       disablePictureInPicture
-                      controlsList="nodownload nofullscreen noremoteplayback"
+                      controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                      aria-hidden="true"
+                      tabIndex={-1}
                       onEnded={() => {
                         if (isJobVideoPlaying) {
                           setIsJobVideoPlaying(false);
                           setIsJobVideoMuted(true);
                           if (jobVideoRef.current) {
                             jobVideoRef.current.src = "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841270/Man_h%C3%ACnh_ch%E1%BB%9D_Job_2026.mp4";
+                            jobVideoRef.current.defaultMuted = true;
                             jobVideoRef.current.muted = true;
+                            jobVideoRef.current.loop = true;
                             jobVideoRef.current.play().catch(() => {});
                           }
                         }
@@ -2294,7 +2223,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       faceAnchor={{ x: 50, y: 18 }}
                       maxCropDistortion={1.6}
                       wrapperClassName="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0"
-                      className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105 banner-video-sharp"
+                      className="pointer-events-none select-none opacity-100 transition-opacity duration-700 banner-video-sharp"
                       src={isJobVideoPlaying ? "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841266/Th%E1%BA%BB_Job_2026.mp4" : "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841270/Man_h%C3%ACnh_ch%E1%BB%9D_Job_2026.mp4"}
                     />
 

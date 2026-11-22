@@ -40,6 +40,7 @@ import { ZODIAC_SIGNS, ZODIAC_ORDER, getCanChiInfo } from '@/data/horoscope';
 import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 const HOROSCOPE_AVATAR_IMAGE_URL =
   'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794233300/T%E1%BB%AD_vi_avata.png';
@@ -285,9 +286,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
   // Active Card State: 0..5 (6 horizontal Main Cards matching LetterView)
   const [activeCardIndex, setActiveCardIndex] = useState<number>(0);
+  const [leadershipQuoteIndex, setLeadershipQuoteIndex] = useState<number>(0);
   const activeCardIndexRef = useRef<number>(0);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
-  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const { bannerAssignments } = useBannerVideo();
   const driveHoroscopeBanner = bannerAssignments.horoscope;
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
@@ -875,6 +876,15 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     },
   ];
 
+  const LEADERSHIP_PHILOSOPHY_QUOTES = [
+    'Tư duy bằng chiến lược, dẫn dắt bằng dữ liệu, thấu cảm bằng trái tim — lấy chân lý làm gốc, lấy hành động làm đường và lấy kết quả làm thước đo.',
+    'Chiến lược mở lối đi xa, dữ liệu soi sáng quyết định, và sự thấu cảm giữ trọn niềm tin nơi mỗi điểm chạm khách hàng.',
+    'Người dẫn dắt vững vàng không nói bằng cảm tính — lấy chân lý và dữ liệu minh bạch làm nền móng cho mọi đổi thay bền vững.',
+    'Hành động kỷ luật mỗi ngày biến tầm nhìn dài hạn thành kết quả thực chất; mỗi trải nghiệm hài lòng của khách hàng là thước đo danh dự của đội ngũ.',
+    'Quản trị tinh gọn bằng số liệu khách quan, nhưng phụng sự con người bằng tất cả sự tận tâm và lắng nghe đa chiều.',
+    'Chân lý giúp tổ chức đứng vững trước biến động, hành động bền bỉ tạo đà bứt phá, và giá trị trao đi cho khách hàng định nghĩa tầm vóc người lãnh đạo.',
+  ];
+
   const ZODIAC_SAMPLE_YEAR_BY_KEY: Record<string, number> = {
     rat: 1984,
     ox: 1985,
@@ -957,10 +967,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         {/* Lớp nền hình ảnh và gradient phủ */}
         <div
           id="horoscope-hero-banner-bg"
-          className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
-          style={{
-            borderRadius: 'var(--radius-banner, 24px)',
-          }}
+          className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
           {driveHoroscopeBanner ? (
             <DriveAwareBannerMedia
@@ -968,44 +975,18 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               iframeFallbackUrl={driveHoroscopeBanner.previewIframeUrl}
               posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
               title={driveHoroscopeBanner.fileName}
-              className="rounded-[14px]"
+              className="rounded-[inherit]"
             />
-          ) : !heroVideoFailed ? (
-            <video
+          ) : (
+            <BannerBackgroundVideo
               id="horoscope-hero-banner-img"
               src="https://drive.google.com/uc?export=download&id=1G2ydHrMUchyBLjl3YR5xat8eF1MdPOQ4"
               poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
-              autoPlay
-              loop
-              muted
-              playsInline
-              controls={false}
-              disablePictureInPicture
-              controlsList="nodownload nofullscreen noremoteplayback"
-              preload="auto"
-              onEnded={(e) => {
-                const v = e.currentTarget;
-                v.currentTime = 0;
-                v.play().catch(() => {});
-              }}
-              onError={() => setHeroVideoFailed(true)}
-              style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-              className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] banner-video-sharp transition-all duration-700"
-            />
-          ) : (
-            <img
-              id="horoscope-hero-banner-img"
-              src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
               alt="Banner Bản đồ tử vi & Phong thủy"
-              referrerPolicy="no-referrer"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-              className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
             />
           )}
         </div>
-        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
         {/* Vùng Tiêu Đề: Icon và Tiêu đề bên trái, Sub tiêu đề cùng hàng nằm bên phải */}
         <div
@@ -1891,12 +1872,27 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               fontStyle: 'normal',
             }}
           >
-            &ldquo;Tư duy bằng chiến lược, dẫn dắt bằng dữ liệu, thấu cảm bằng trái tim — lấy chân lý làm gốc, lấy hành động làm đường và lấy kết quả làm thước đo.&rdquo;
+            &ldquo;{LEADERSHIP_PHILOSOPHY_QUOTES[leadershipQuoteIndex % LEADERSHIP_PHILOSOPHY_QUOTES.length]}&rdquo;
           </blockquote>
         </div>
-        <span className="typo-badge px-3 py-1 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/25 whitespace-nowrap shrink-0 self-end sm:self-center">
-          5. Triết Lý Lãnh Đạo
-        </span>
+        <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+          <button
+            id="horoscope-generate-leadership-quote-btn"
+            type="button"
+            onClick={() => {
+              SoundEngine.playTap();
+              setLeadershipQuoteIndex((prev) => (prev + 1) % LEADERSHIP_PHILOSOPHY_QUOTES.length);
+            }}
+            className="banner-control-pill px-3 py-1 rounded-full typo-badge font-bold inline-flex items-center gap-1.5 cursor-pointer"
+            title="Tạo câu nói hay khác từ 5. Triết Lý Lãnh Đạo"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+            <span>Tạo câu nói mới</span>
+          </button>
+          <span className="typo-badge px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/25 whitespace-nowrap font-mono tabular-nums">
+            {(leadershipQuoteIndex % LEADERSHIP_PHILOSOPHY_QUOTES.length) + 1}/{LEADERSHIP_PHILOSOPHY_QUOTES.length}
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -2421,6 +2417,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 data-element-name={`Card tử vi ${cardIdx + 1}`}
                 data-element-type="card"
                 data-main-card="true"
+                data-layer-level="1"
                 data-element-page="horoscope"
                 data-element-parent="horoscope-cards-track"
                 onClickCapture={(e) => {

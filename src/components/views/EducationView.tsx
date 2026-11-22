@@ -9,6 +9,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 // Helper map skill tag to appropriate icon
 const getSkillTagIcon = (tag: string): string => {
@@ -242,7 +243,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const [lightboxImage, setLightboxImage] = useState<string>('');
   const [lightboxTitle, setLightboxTitle] = useState<string>('');
   const [isBannerMuted, setIsBannerMuted] = useState<boolean>(true);
-  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const { bannerAssignments } = useBannerVideo();
   const driveEducationBanner = bannerAssignments.education;
   const [activeCarouselIdx, setActiveCarouselIdx] = useState<number>(0);
@@ -436,6 +436,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       <div
         id="education-main-card"
         data-main-card="true"
+        data-layer-level="1"
         data-detail-open={selectedCourse ? 'true' : 'false'}
         data-element-name="Card học vấn"
         data-element-type="card"
@@ -458,10 +459,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
         >
         <div
-          className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
-          style={{
-            borderRadius: 'var(--radius-banner, 24px)',
-          }}
+          className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
           {driveEducationBanner ? (
             <DriveAwareBannerMedia
@@ -471,36 +469,11 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               title={driveEducationBanner.fileName}
               className="rounded-[inherit]"
             />
-          ) : !heroVideoFailed ? (
-            <video
+          ) : (
+            <BannerBackgroundVideo
               src="https://drive.google.com/uc?export=download&id=1SxwuMCwZEjqGXaBez6k2R1lUb1dfRKav"
               poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042016/H%E1%BB%8Dc_v%E1%BA%A5n.png"
-              autoPlay
-              loop
-              muted
-              playsInline
-              controls={false}
-              disablePictureInPicture
-              controlsList="nodownload nofullscreen noremoteplayback"
-              preload="auto"
-              onEnded={(e) => {
-                const v = e.currentTarget;
-                v.currentTime = 0;
-                v.play().catch(() => {});
-              }}
-              onError={() => setHeroVideoFailed(true)}
-              style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-              className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
-            />
-          ) : (
-            <img
-              src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042016/H%E1%BB%8Dc_v%E1%BA%A5n.png"
               alt="Banner Học vấn"
-              referrerPolicy="no-referrer"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-              className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
             />
           )}
         </div>
@@ -693,11 +666,28 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     loading="lazy"
                     referrerPolicy="no-referrer"
                   />
+                  {/* Hình thức ở góc trên bên trái ảnh */}
+                  <span
+                    title={`Hình thức: ${course.type}`}
+                    className="banner-control-pill absolute top-2.5 left-2.5 z-20 typo-badge px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold max-w-[54%] truncate"
+                  >
+                    <WebIcon name="book" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
+                    <span className="truncate">{course.type}</span>
+                  </span>
+                  {/* Năm hoàn thành ở góc trên bên phải ảnh */}
                   <span
                     className="education-year-badge banner-control-pill absolute top-2.5 right-2.5 z-20 typo-badge font-mono px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold"
                   >
                     <WebIcon name="calendar" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
                     <span>Năm {course.year}</span>
+                  </span>
+                  {/* Đào tạo nằm bên dưới góc trái ảnh */}
+                  <span
+                    title={`Đào tạo: ${course.issuer}`}
+                    className="banner-control-pill absolute bottom-2.5 left-2.5 z-20 typo-badge px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold max-w-[calc(100%-20px)] truncate"
+                  >
+                    <WebIcon name="graduation-cap" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
+                    <span className="truncate">{course.issuer}</span>
                   </span>
                 </div>
 
@@ -714,17 +704,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                       >
                         {displayTitle}
                       </h3>
-                    </div>
-
-                    <div className="space-y-1.5 mt-2 min-w-0">
-                      <div className="flex items-start gap-1.5 font-play min-w-0">
-                        <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Đào tạo:</span>
-                        <span className="typo-body-sm font-semibold whitespace-normal break-words line-clamp-2" style={{ color: 'var(--text-primary)' }}>{course.issuer}</span>
-                      </div>
-                      <div className="flex items-start gap-1.5 font-play min-w-0">
-                        <span className="typo-label shrink-0 pt-0.5" style={{ color: 'var(--text-muted)' }}>Hình thức:</span>
-                        <span className="typo-body-sm font-semibold whitespace-normal break-words line-clamp-2" style={{ color: 'var(--text-primary)' }}>{course.type}</span>
-                      </div>
                     </div>
                   </div>
 

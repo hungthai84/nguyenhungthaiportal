@@ -7,6 +7,7 @@ import { useFirebase, InquiryTopic, CloudInquiryItem } from '@/context/FirebaseC
 import { BLUEPRINT_LIMITS, sanitizeInquiryTags } from '@/firebase';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 export interface ContactViewProps {
   currentTheme?: string;
@@ -47,7 +48,6 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
   const [editingInquiryId, setEditingInquiryId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [feedbackMsg, setFeedbackMsg] = useState<string | null>(null);
-  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
 
   useEffect(() => {
     if (user?.displayName && !senderName) {
@@ -153,6 +153,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
         <div
           id="contact-main-card"
           data-main-card="true"
+          data-layer-level="1"
           data-element-name="Thẻ chính Trang Liên Hệ"
           data-element-type="card"
           data-element-page="contact"
@@ -182,37 +183,13 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     iframeFallbackUrl={driveContactBanner.previewIframeUrl}
                     posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
                     title={driveContactBanner.fileName}
-                  />
-                ) : !heroVideoFailed ? (
-                  <video
-                    src="https://drive.google.com/uc?export=download&id=1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP"
-                    poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls={false}
-                    disablePictureInPicture
-                    controlsList="nodownload nofullscreen noremoteplayback"
-                    preload="auto"
-                    onEnded={(e) => {
-                      const v = e.currentTarget;
-                      v.currentTime = 0;
-                      v.play().catch(() => {});
-                    }}
-                    onError={() => setHeroVideoFailed(true)}
-                    style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                    className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
+                    className="rounded-[inherit]"
                   />
                 ) : (
-                  <img
-                    src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
+                  <BannerBackgroundVideo
+                    src="https://drive.google.com/uc?export=download&id=1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP"
+                    poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
                     alt="Banner Liên hệ & Kết nối"
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
-                    className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
                   />
                 )}
               </div>

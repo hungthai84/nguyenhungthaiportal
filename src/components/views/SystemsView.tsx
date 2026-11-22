@@ -40,6 +40,7 @@ import { stopActiveSpeech } from '@/utils/speechVoice';
 import { useLanguage } from '@/context/LanguageContext';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 export interface SystemsViewProps {
   currentTheme?: SiteTheme;
@@ -580,7 +581,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   const [viewMode, setViewMode] = useState<'grid' | 'matrix'>('grid');
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [isEcosystemDiagramOpen, setIsEcosystemDiagramOpen] = useState<boolean>(false);
-  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const { bannerAssignments } = useBannerVideo();
   const driveSystemsBanner = bannerAssignments.systems;
   const filterDropdownRef = useRef<HTMLDivElement>(null);
@@ -1139,6 +1139,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
           id="systems-main-card"
           ref={systemsMainRef}
           data-main-card="true"
+          data-layer-level="1"
           data-detail-open={expandedSystem || isCircleVideoPlaying ? 'true' : 'false'}
           data-detail-overlay={expandedSystem ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Hệ Thống Vận Hành"
@@ -1175,8 +1176,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             }}
           >
             <div
-              className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
-              style={{ borderRadius: 'var(--radius-banner, 24px)' }}
+              className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
             >
               {driveSystemsBanner ? (
                 <DriveAwareBannerMedia
@@ -1186,36 +1186,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   title={driveSystemsBanner.fileName}
                   className="rounded-[inherit]"
                 />
-              ) : !heroVideoFailed ? (
-                <video
+              ) : (
+                <BannerBackgroundVideo
                   src="https://drive.google.com/uc?export=download&id=1rbcqxl4WUeZvXg98OfQUIxOO1ja5_vIY"
                   poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591946/H%E1%BB%87_th%E1%BB%91ng.png"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  controls={false}
-                  disablePictureInPicture
-                  controlsList="nodownload nofullscreen noremoteplayback"
-                  preload="auto"
-                  onEnded={(e) => {
-                    const v = e.currentTarget;
-                    v.currentTime = 0;
-                    v.play().catch(() => {});
-                  }}
-                  onError={() => setHeroVideoFailed(true)}
-                  style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                  className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
-                />
-              ) : (
-                <img
-                  src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591946/H%E1%BB%87_th%E1%BB%91ng.png"
                   alt="Banner Hệ thống"
-                  referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
-                  className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
                 />
               )}
             </div>
@@ -1563,9 +1538,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     src={SYSTEM_FLOATING_INTRO_VIDEO_URL}
                     controls={false}
                     disablePictureInPicture
-                    controlsList="nodownload nofullscreen noremoteplayback"
+                    controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
                     autoPlay
+                    loop
+                    alwaysCover
                     playsInline
+                    preload="auto"
                     muted={isIntroStageMuted}
                     onEnded={() => setIsCircleVideoPlaying(false)}
                     faceAnchor={{ x: 50, y: 18 }}
@@ -1798,14 +1776,32 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             preload="auto"
                             controls={false}
                             disablePictureInPicture
-                            controlsList="nodownload nofullscreen noremoteplayback"
+                            controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                            aria-hidden="true"
+                            tabIndex={-1}
+                            onLoadedMetadata={(e) => {
+                              const v = e.currentTarget;
+                              v.defaultMuted = true;
+                              v.muted = true;
+                              v.loop = true;
+                              v.controls = false;
+                              v.disablePictureInPicture = true;
+                              (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                            }}
+                            onCanPlay={(e) => {
+                              const v = e.currentTarget;
+                              v.defaultMuted = true;
+                              v.muted = true;
+                              v.loop = true;
+                              if (v.paused) v.play().catch(() => {});
+                            }}
                             onEnded={(e) => {
                               const v = e.currentTarget;
                               v.currentTime = 0;
                               v.play().catch(() => {});
                             }}
-                            style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                            className="w-full h-full min-w-full min-h-full object-cover banner-video-sharp"
+                            style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
+                            className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp"
                           />
                           <div className="absolute top-2.5 right-2.5 left-2.5 flex items-center justify-between gap-2 pointer-events-none">
                             <span className="px-2.5 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-white text-[11px] font-bold border border-white/20">
@@ -1943,13 +1939,31 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               preload="auto"
                               controls={false}
                               disablePictureInPicture
-                              controlsList="nodownload nofullscreen noremoteplayback"
+                              controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                              aria-hidden="true"
+                              tabIndex={-1}
+                              onLoadedMetadata={(e) => {
+                                const v = e.currentTarget;
+                                v.defaultMuted = true;
+                                v.muted = true;
+                                v.loop = true;
+                                v.controls = false;
+                                v.disablePictureInPicture = true;
+                                (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                              }}
+                              onCanPlay={(e) => {
+                                const v = e.currentTarget;
+                                v.defaultMuted = true;
+                                v.muted = true;
+                                v.loop = true;
+                                if (v.paused) v.play().catch(() => {});
+                              }}
                               onEnded={(e) => {
                                 const v = e.currentTarget;
                                 v.currentTime = 0;
                                 v.play().catch(() => {});
                               }}
-                              style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                              style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
                               className="relative z-20 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp pointer-events-none select-none border-0 shadow-none"
                             />
                           ) : (
@@ -1965,28 +1979,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             />
                           )}
                         </div>
-                      </div>
-
-                      {/* Footer Subcard: Highlighted Metric + Live Link Status */}
-                      <div className="system-card-sub relative z-10 rounded-xl px-2.5 py-2 flex items-center justify-between gap-2 min-w-0">
-                        <span
-                          className="typo-badge font-bold truncate"
-                          style={{ color: accentColor }}
-                          title={item.metrics}
-                        >
-                          {item.metrics}
-                        </span>
-
-                        {isPendingBi ? (
-                          <span className="text-[11px] font-semibold text-amber-600 dark:text-amber-300 shrink-0">
-                            {isEn ? 'Integrating' : 'Đang tích hợp'}
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-0.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-300 shrink-0">
-                            <span>Live</span>
-                            <ExternalLink className="w-2.5 h-2.5" />
-                          </span>
-                        )}
                       </div>
                     </article>
                   );

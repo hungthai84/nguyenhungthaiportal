@@ -606,12 +606,18 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):is([aria-current="page"], [data-active="true"]) {
-  background: linear-gradient(135deg, #4973FF 0%, #64B6FF 52%, #2AD8E6 100%) !important;
-  border-color: rgba(73, 115, 255, 0.48) !important;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--nav-pill-accent, #4973FF) 88%, #ffffff) 0%,
+    var(--nav-pill-accent, #4973FF) 54%,
+    color-mix(in srgb, var(--nav-pill-accent, #4973FF) 84%, #0f172a) 100%
+  ) !important;
+  background-color: var(--nav-pill-accent, #4973FF) !important;
+  border-color: color-mix(in srgb, var(--nav-pill-accent, #4973FF) 62%, #ffffff) !important;
   color: #FFFFFF !important;
   filter: none !important;
   box-shadow:
-    0 4px 11px rgba(73, 115, 255, 0.22),
+    0 4px 11px color-mix(in srgb, var(--nav-pill-accent, #4973FF) 28%, transparent),
     2px 3px 8px rgba(148, 163, 184, 0.24),
     inset 0 1px 0 rgba(255, 255, 255, 0.26) !important;
 }
@@ -628,7 +634,7 @@ html:root[data-card-style="neumorphism-beyond"] :is(
 ):is([aria-current="page"], [data-active="true"]):hover {
   filter: none !important;
   box-shadow:
-    0 5px 13px rgba(73, 115, 255, 0.26),
+    0 5px 13px color-mix(in srgb, var(--nav-pill-accent, #4973FF) 34%, transparent),
     2px 3px 9px rgba(148, 163, 184, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.30) !important;
 }
@@ -669,7 +675,7 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg {
-  color: #4973FF !important;
+  color: var(--nav-pill-accent, #4973FF) !important;
 }
 
 /* Concave Range Sliders & Progress Bars */

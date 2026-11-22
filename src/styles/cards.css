@@ -89,7 +89,7 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
 #bento-letter-video,
 #experience-video-card-2026,
 [data-media-card="video"] {
-  padding: 5px !important;
+  padding: 0 !important;
   overflow: hidden !important;
 }
 
@@ -97,9 +97,20 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
 #bento-letter-video > div,
 #experience-video-card-2026 > div,
 [data-media-card="video"] > div,
-[data-media-card="video"] > video {
+[data-media-card="video"] .smart-face-video-root,
+[data-media-card="video"] > video,
+[data-media-card="video"] video:not([data-smart-face-ambient="true"]) {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
   border-radius: var(--radius-card, 14px) !important;
   overflow: hidden !important;
+}
+
+[data-media-card="video"] [data-smart-face-ambient="true"] {
+  display: none !important;
 }
 
 #contact-info-container {
@@ -509,24 +520,24 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 }
 
 #app-header {
-  background: var(--surface-primary-bg, var(--surface-main-glass)) !important;
-  border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
+  background: var(--surface-primary-bg, var(--bg-main)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   border-top: none !important;
-  box-shadow: var(--surface-header-shadow, var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header)))) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border-radius: var(--radius-header, 0 0 20px 20px) !important;
   transition: none !important;
   animation: none !important;
 }
 
 #app-footer {
-  background: var(--surface-primary-bg, var(--surface-main-glass)) !important;
-  border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
+  background: var(--surface-primary-bg, var(--bg-main)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   border-bottom: none !important;
-  box-shadow: var(--surface-footer-shadow, var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header)))) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border-radius: var(--radius-footer, 20px 20px 0 0) !important;
   transition: none !important;
   animation: none !important;
@@ -2265,7 +2276,7 @@ button:focus-visible,
 }
 
 /* Row 2: Description / Content paragraph strictly clamped to exactly 1 single line */
-:is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard) :is(p, span.subcard-desc, .subcard-text, .text-muted) {
+:is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard):not([id^="core-val-"]) :is(p, span.subcard-desc, .subcard-text, .text-muted) {
   display: -webkit-box !important;
   -webkit-line-clamp: 1 !important;
   -webkit-box-orient: vertical !important;
@@ -2274,6 +2285,17 @@ button:focus-visible,
   white-space: normal !important;
   margin: 0 !important;
   flex: 0 1 auto !important;
+  line-height: 1.45 !important;
+}
+
+#core-values-grid [id^="core-val-"] p {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  margin: 0 !important;
   line-height: 1.45 !important;
 }
 
@@ -3725,14 +3747,19 @@ html[data-card-style="neumorphism-beyond"] .video-play-btn--letter {
   border-radius: var(--radius-modal, 20px) !important;
 }
 
-#global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]),
+#global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]):not(.project-detail-banner-media video),
 .theme-modal-card video:not(.rounded-full):not([class*="rounded-full"]),
 .theme-pip-player video:not(.rounded-full):not([class*="rounded-full"]),
-[data-section-card="true"] video:not(.rounded-full):not([class*="rounded-full"]),
-#global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
+[data-section-card="true"]:not(.banner-card):not(.hero-banner):not([data-element-type="banner-card"]) video:not(.rounded-full):not([class*="rounded-full"]),
+#global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]):not(.project-detail-banner-media img),
 .theme-modal-card img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
-[data-section-card="true"] img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]) {
+[data-section-card="true"]:not(.banner-card):not(.hero-banner):not([data-element-type="banner-card"]) img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]) {
   border-radius: var(--radius-card, 16px) !important;
+}
+
+.project-detail-banner-media,
+.project-detail-banner-media :is(video, img, iframe, .smart-face-video-root) {
+  border-radius: var(--radius-banner, var(--radius-card, 16px)) !important;
 }
 
 #app-header {

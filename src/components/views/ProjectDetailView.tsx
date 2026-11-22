@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ProjectData } from '@/types';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { getProjectCloudinaryBanner } from '@/data/projects';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 import {
   getProjectDetailedSpec,
   SCOPE_PALETTES,
@@ -1892,29 +1893,16 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           className="order-2 banner-card bento-card glass-card shrink-0 h-full min-h-full max-h-full self-stretch flex flex-col pointer-events-auto rounded-[14px] p-[15px] gap-2.5 overflow-hidden relative group"
         >
           {/* Hình nền banner dọc full chiều cao phía sau lớp phủ tương phản */}
-          {(bannerMediaInfo.primaryUrl || selectedArticle.image) && (
-            <div className="project-detail-banner-media absolute inset-0 overflow-hidden pointer-events-none rounded-[14px] z-0">
-              <img
-                src={bannerMediaInfo.primaryUrl || selectedArticle.image}
-                alt={selectedArticle.title}
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  const img = e.currentTarget;
-                  if (selectedArticle.image && img.src !== selectedArticle.image) {
-                    img.src = selectedArticle.image;
-                  } else if (bannerMediaInfo.fallbackUrl && img.src !== bannerMediaInfo.fallbackUrl) {
-                    img.src = bannerMediaInfo.fallbackUrl;
-                  } else {
-                    img.style.display = 'none';
-                  }
-                }}
-                className="w-full h-full object-cover object-center pointer-events-none rounded-[14px] transition-all duration-700 scale-100"
-              />
-            </div>
-          )}
+          <div className="project-detail-banner-media absolute inset-0 overflow-hidden pointer-events-none rounded-[inherit] z-0">
+            <BannerBackgroundVideo
+              src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
+              poster={bannerMediaInfo.primaryUrl || selectedArticle.image || bannerMediaInfo.fallbackUrl}
+              alt={selectedArticle.title}
+            />
+          </div>
 
           {/* Lớp phủ tương phản cao đồng bộ 11 Theme */}
-          <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[14px] z-0" />
+          <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
           {/* Nội dung phân tách trực tiếp trên Banner (chỉ giữ nút nổi X ở góc trên phải, chừa pr-10 cho dòng đầu tiên) */}
           <div

@@ -22,66 +22,85 @@
     <script>
       (function() {
         try {
-          var DEFAULT_THEME = 'liquid-glass';
-          var MIGRATION_KEY = 'hungthai_default_theme_v4';
-          var rawStyle = localStorage.getItem('hungthai_card_style');
-          var isManual = localStorage.getItem('hungthai_card_style_manual') === '1';
+          var DEFAULT_THEME = 'neumorphism-beyond';
+          var STYLE_KEY = 'hungthai_card_style_v2';
+          var SCHEME_KEY = 'hungthai_color_scheme_mode_v1';
+          var WALLPAPER_KEY = 'hungthai_active_wallpaper_v2';
+          var WALLPAPER_MANUAL_KEY = 'hungthai_wallpaper_manual_v2';
+          var OVERLAY_KEY = 'hungthai_wallpaper_overlay_v1';
+          var ADAPTIVE_KEY = 'hungthai_adaptive_accent_v1';
+          var SEED_KEY = 'hungthai_default_ui_seed_v2026_neu_wp32_v2';
+
+          if (localStorage.getItem(SEED_KEY) !== '1') {
+            localStorage.removeItem(STYLE_KEY);
+            localStorage.removeItem('hungthai_card_style');
+            localStorage.removeItem(SCHEME_KEY);
+            localStorage.removeItem(WALLPAPER_MANUAL_KEY);
+            localStorage.removeItem(WALLPAPER_KEY);
+            localStorage.removeItem(OVERLAY_KEY);
+            localStorage.removeItem(ADAPTIVE_KEY);
+            localStorage.setItem(SEED_KEY, '1');
+          }
+
+          var rawStyle = localStorage.getItem(STYLE_KEY) || localStorage.getItem('hungthai_card_style');
           var aliasMap = {
+            'soft-indigo': 'soft-indigo-fintech',
+            'dark-soft-indigo': 'dark-soft-indigo-fintech',
             'light-glassmorphism': 'liquid-glass',
             'guong-da-sac': 'liquid-glass',
             'guong-da-sac-sang': 'liquid-glass',
             'guong-don-sac': 'liquid-glass',
             'guong-da-sac-toi': 'dark-liquid-glass',
-            'light-multicolor-glass': 'liquid-glass',
+            'light-multicolor-glass': 'multicolor-glass',
             'light-multicolor-glass-dark': 'dark-liquid-glass',
-            'light-multicolor-glass-color': 'dark-liquid-glass',
+            'light-multicolor-glass-color': 'multicolor-glass',
             'rainbow-glass': 'liquid-glass',
             'dark-rainbow-glass': 'dark-liquid-glass',
-            'special-rainbow-glass': 'dark-liquid-glass',
+            'special-rainbow-glass': 'multicolor-glass',
             'glass-flat': 'liquid-glass',
-            'ice-blue-neu': 'liquid-glass',
+            'ice-blue-neu': 'neumorphism-beyond',
             'dark-ice-blue-neu': 'dark-liquid-glass',
-            'iceblueneu': 'liquid-glass',
+            'iceblueneu': 'neumorphism-beyond',
             'darkiceblueneu': 'dark-liquid-glass',
-            'light-cowhide-leather': 'liquid-glass',
-            'black-cowhide-leather': 'dark-liquid-glass',
-            'da-thuoc': 'liquid-glass',
+            'light-cowhide-leather': 'cowhide-leather',
+            'black-cowhide-leather': 'cowhide-leather',
+            'da-thuoc': 'cowhide-leather',
             'da-ca-sau-trang': 'liquid-glass',
             'da-den': 'dark-liquid-glass',
-            'da-bo': 'cowhide-leather'
+            'da-bo': 'cowhide-leather',
+            'noi-khoi-kinh-mo': 'neumorphism-beyond'
           };
           var validStyles = [
+            'soft-indigo-fintech',
+            'dark-soft-indigo-fintech',
             'liquid-glass',
             'dark-liquid-glass',
+            'multicolor-glass',
             'cowhide-leather',
             'deep-ocean',
-            'mica-fluent'
+            'mica-fluent',
+            'neumorphism-beyond'
           ];
           var cardStyle = rawStyle && aliasMap[rawStyle] ? aliasMap[rawStyle] : rawStyle;
           if (!cardStyle || validStyles.indexOf(cardStyle) === -1) {
             cardStyle = DEFAULT_THEME;
           }
-          if (localStorage.getItem(MIGRATION_KEY) !== DEFAULT_THEME) {
-            if (!isManual && !rawStyle) {
-              cardStyle = DEFAULT_THEME;
-            }
-            localStorage.setItem(MIGRATION_KEY, DEFAULT_THEME);
-          }
           document.documentElement.setAttribute('data-card-style', cardStyle);
-          var mechanism = cardStyle === 'cowhide-leather'
+          var darkThemes = [
+            'dark-soft-indigo-fintech',
+            'dark-liquid-glass',
+            'deep-ocean'
+          ];
+          var colorThemes = ['cowhide-leather', 'multicolor-glass'];
+          var mechanism = colorThemes.indexOf(cardStyle) !== -1
             ? 'color'
-            : (cardStyle === 'dark-liquid-glass' || cardStyle === 'deep-ocean')
+            : darkThemes.indexOf(cardStyle) !== -1
               ? 'dark'
               : 'light';
           document.documentElement.setAttribute('data-theme-mechanism', mechanism);
           if (rawStyle !== cardStyle) {
-            localStorage.setItem('hungthai_card_style', cardStyle);
+            localStorage.setItem(STYLE_KEY, cardStyle);
           }
-          var darkThemes = [
-            'dark-liquid-glass',
-            'cowhide-leather',
-            'deep-ocean'
-          ];
           var isDarkInit = darkThemes.indexOf(cardStyle) !== -1;
           if (isDarkInit) {
             document.documentElement.classList.add('dark');
@@ -100,6 +119,9 @@
           if (!isNaN(savedLayer) && isFinite(savedLayer)) {
             document.documentElement.setAttribute('data-layer-depth', String(Math.max(0, Math.min(200, Math.round(savedLayer)))));
           }
+          document.documentElement.style.setProperty('--wallpaper-bg-blur', '0px');
+          document.documentElement.style.setProperty('--wallpaper-bg-dim', '0');
+          document.documentElement.style.setProperty('--wallpaper-bg-scale', '1');
           localStorage.removeItem('hungthai_font_scale_v1');
           document.documentElement.removeAttribute('data-font-scale');
           document.documentElement.style.setProperty('--font-scale', '1');

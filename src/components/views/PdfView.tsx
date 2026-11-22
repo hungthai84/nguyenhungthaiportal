@@ -18,6 +18,7 @@ import {
 import { PROJECTS_DATA } from '@/data/projects';
 import { ENTERPRISE_SYSTEMS_LIST } from '@/data/systems';
 import { ExecutiveSummarySheet } from '@/components/views/ExecutiveSummarySheet';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 const SERVICE_ACCENT_COLORS: Record<string, string> = {
   cyan: '#0284c7',
@@ -169,7 +170,6 @@ const PDF_OPEN_LETTER_PRINCIPLES = [
 export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigateTab }) => {
   const [isExporting, setIsExporting] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<'full' | 'executive'>('full');
-  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handlePrintOrExport = (mode: 'print' | 'download') => {
@@ -196,6 +196,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
     <div
       ref={containerRef}
       id="pdf-page-container"
+      data-main-card="true"
+      data-layer-level="1"
       data-element-name="Trang Website CV Portfolio Landing Page"
       data-element-type="container"
       data-element-page="pdf"
@@ -281,40 +283,12 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       >
         <div
           className="project-detail-banner-media no-print absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
-          style={{ borderRadius: 'var(--radius-banner, 24px)' }}
         >
-          {!heroVideoFailed ? (
-            <video
-              src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
-              poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
-              autoPlay
-              loop
-              muted
-              playsInline
-              controls={false}
-              disablePictureInPicture
-              controlsList="nodownload nofullscreen noremoteplayback"
-              preload="auto"
-              onEnded={(e) => {
-                const v = e.currentTarget;
-                v.currentTime = 0;
-                v.play().catch(() => {});
-              }}
-              onError={() => setHeroVideoFailed(true)}
-              style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-              className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
-            />
-          ) : (
-            <img
-              src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
-              alt="Banner Hồ sơ năng lực & CV Portfolio"
-              referrerPolicy="no-referrer"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-              className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
-            />
-          )}
+          <BannerBackgroundVideo
+            src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
+            poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
+            alt="Banner Hồ sơ năng lực & CV Portfolio"
+          />
         </div>
         <div className="project-detail-banner-scrim no-print absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 

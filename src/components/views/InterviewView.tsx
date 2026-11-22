@@ -12,6 +12,7 @@ import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { cn } from '@/lib/utils';
 import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 export interface InterviewViewProps {
   currentTheme?: string;
@@ -184,6 +185,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
         <div
           id="interview-main-card"
           data-main-card="true"
+          data-layer-level="1"
           data-element-name="Thẻ chính Trang Phỏng Vấn"
           data-element-type="card"
           data-element-page="interview"
@@ -211,10 +213,16 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               <SmartFaceVideo
                 videoRef={videoRef}
                 autoPlay
-                loop={false}
+                loop={true}
+                alwaysCover={true}
                 muted={!isAudioOn}
                 playsInline
                 preload="auto"
+                controls={false}
+                disablePictureInPicture
+                controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                aria-hidden="true"
+                tabIndex={-1}
                 poster={INTERVIEW_VIDEO_1_URL}
                 src={INTERVIEW_VIDEO_2_URL}
                 onTimeUpdate={handleTimeUpdate}
@@ -225,11 +233,11 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 className="opacity-100 banner-video-sharp transition-all duration-500 select-none pointer-events-none"
               />
             ) : (
-              <img
-                src={INTERVIEW_VIDEO_1_URL}
+              <BannerBackgroundVideo
+                src={INTERVIEW_VIDEO_2_URL}
+                poster={INTERVIEW_VIDEO_1_URL}
                 alt="Phỏng vấn & Đối thoại"
-                referrerPolicy="no-referrer"
-                className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] rounded-[inherit] banner-video-sharp transition-all duration-500 select-none pointer-events-none"
+                objectPosition="50% 18%"
               />
             )}
           </div>

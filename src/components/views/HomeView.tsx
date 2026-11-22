@@ -73,7 +73,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
       idleUrl: 'https://drive.google.com/uc?export=download&id=1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp',
       transitionUrl: 'https://drive.google.com/uc?export=download&id=11FZeENhRMILyUrG-em1DIWPyx2zVdc9d',
       playUrl: 'https://drive.google.com/uc?export=download&id=12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm',
-      introUrl: 'https://drive.google.com/uc?export=download&id=12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm',
+      introUrl: 'https://drive.google.com/file/d/1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp/preview',
       title: isEn ? 'Leadership Presence & Vision' : 'Phong Thái Lãnh Đạo & Tầm Nhìn',
       description: isEn
         ? 'Executive presence in premier customer experience management'
@@ -89,11 +89,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
       id: 2,
       label: isEn ? 'Screen 2' : 'Màn hình 2',
       badge: isEn ? 'Video 2 (Default)' : 'Video 2 (Gốc)',
-      url: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302150/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_Ma_thu%C3%A2t_1.mp4',
-      idleUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302150/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_Ma_thu%C3%A2t_1.mp4',
-      transitionUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793303029/Man_hinh_2_chuyen_sang_man_hinh_1.mp4',
-      playUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793541818/Chinh_sua.mp4',
-      introUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793541818/Chinh_sua.mp4',
+      url: 'https://drive.google.com/file/d/1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp/preview',
+      idleUrl: 'https://drive.google.com/file/d/1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp/preview',
+      transitionUrl: 'https://drive.google.com/file/d/11FZeENhRMILyUrG-em1DIWPyx2zVdc9d/preview',
+      playUrl: 'https://drive.google.com/file/d/12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm/preview',
+      introUrl: 'https://drive.google.com/file/d/12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm/preview',
       title: isEn ? 'Executive Portrait & Greeting' : 'Chân Dung Chuyên Gia & Lời Chào',
       description: isEn
         ? 'Customer Service executive profile with 22+ years of hands-on experience'
@@ -144,9 +144,36 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const [duration, setDuration] = useState<string>('0:00');
   const [progressPct, setProgressPct] = useState<number>(0);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
+  const [videoFallbackStage, setVideoFallbackStage] = useState<0 | 1 | 2>(0);
 
   // Video URL đang active theo chế độ phát
   const currentScreen = VIDEO_SCREENS[activeVideoScreen - 1];
+
+  const extractDrivePreviewId = (url: string): string | null => {
+    const m = url.match(/drive\.google\.com\/file\/d\/([^/?#]+)/i);
+    if (m?.[1]) return m[1];
+    const dlMatch = url.match(/drive\.google\.com\/uc\?[^#]*id=([^&#]+)/i);
+    return dlMatch?.[1] ?? null;
+  };
+
+  const toPlayableVideoUrl = (url: string): string => {
+    const driveId = extractDrivePreviewId(url);
+    return driveId ? `https://drive.google.com/uc?export=download&id=${driveId}` : url;
+  };
+
+  const toDriveUsercontentUrl = (url: string): string | null => {
+    const driveId = extractDrivePreviewId(url);
+    return driveId
+      ? `https://drive.usercontent.google.com/download?id=${driveId}&export=download&confirm=t`
+      : null;
+  };
+
+  const nativeMp4BackupForMode =
+    playbackMode === 'play' || isIntroMode
+      ? 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793542148/Thuy%E1%BA%BFt_tr%C3%ACnh_b%E1%BA%A3n_m%E1%BB%9Bi_2.mp4'
+      : playbackMode === 'transition'
+        ? 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793623270/Chuyen_man_hinh_cho_1.mp4'
+        : 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793623267/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_Ma_thu%C3%A2t_1.mp4';
 
   const handleToggleSpeak = () => {
     SoundEngine.playTap();
@@ -180,17 +207,42 @@ export const HomeView: React.FC<HomeViewProps> = ({
       });
     }
   };
-  const activeVideoUrl =
+  const rawActiveVideoUrl =
     playbackMode === 'play' || isIntroMode
       ? currentScreen.playUrl
       : playbackMode === 'transition'
       ? currentScreen.transitionUrl
       : currentScreen.idleUrl;
+  const primaryVideoUrl = toPlayableVideoUrl(rawActiveVideoUrl);
+  const driveAltVideoUrl = toDriveUsercontentUrl(rawActiveVideoUrl);
+  const activeVideoUrl =
+    videoFallbackStage === 0
+      ? primaryVideoUrl
+      : videoFallbackStage === 1
+        ? driveAltVideoUrl || nativeMp4BackupForMode
+        : nativeMp4BackupForMode;
+
+  useEffect(() => {
+    setVideoFallbackStage(0);
+  }, [rawActiveVideoUrl]);
+
+  useEffect(() => {
+    if (videoFallbackStage >= 2) return;
+    if (activeVideoUrl === nativeMp4BackupForMode) return;
+    const stallTimer = window.setTimeout(() => {
+      const el = videoRef.current;
+      if (el && el.readyState < 2) {
+        setVideoFallbackStage((prev) => (prev === 0 && driveAltVideoUrl ? 1 : 2));
+      }
+    }, 4500);
+    return () => window.clearTimeout(stallTimer);
+  }, [videoFallbackStage, activeVideoUrl, driveAltVideoUrl, nativeMp4BackupForMode]);
 
   // Đồng bộ âm thanh và tự động phát khi đổi màn hình video
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
+      video.defaultMuted = isMuted;
       video.muted = isMuted;
       video.currentTime = 0;
       video.play().then(() => {
@@ -286,16 +338,17 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
   const handlePlayIntro = () => {
     const video = videoRef.current;
-    if (!video) return;
     setIsIntroMode(true);
     setPlaybackMode('play');
     setIsMuted(false);
     setIsPlaying(true);
-    video.src = currentScreen.playUrl;
-    video.loop = false;
-    video.muted = false;
-    video.currentTime = 0;
-    video.play().catch(() => {});
+    if (video) {
+      video.src = toPlayableVideoUrl(currentScreen.playUrl);
+      video.loop = false;
+      video.muted = false;
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
     showToast(
       isEn
         ? `Playing presentation video: ${currentScreen.title} 🔊`
@@ -305,16 +358,18 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
   const handleCancelIntro = () => {
     const video = videoRef.current;
-    if (!video) return;
     setIsIntroMode(false);
     setPlaybackMode('idle');
     setIsMuted(true);
     setIsPlaying(true);
-    video.src = currentScreen.idleUrl;
-    video.loop = true;
-    video.muted = true;
-    video.currentTime = 0;
-    video.play().catch(() => {});
+    if (video) {
+      video.src = toPlayableVideoUrl(currentScreen.idleUrl);
+      video.loop = true;
+      video.defaultMuted = true;
+      video.muted = true;
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
   };
 
   const handleTogglePlay = () => {
@@ -376,6 +431,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
         <div
           id="home-main-card"
           data-main-card="true"
+          data-layer-level="1"
           data-element-name="Thẻ chính Trang chủ cá nhân"
           data-element-type="card"
           data-element-page="home"
@@ -401,7 +457,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             }}
           >
             {/* 1. Main Background Video - Hỗ trợ đồng bộ video nền từ Google Drive Picker hoặc video mặc định */}
-            <div className="absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none rounded-[var(--radius-card,24px)]">
+            <div className="project-detail-banner-media absolute inset-0 w-full h-full min-w-full min-h-full z-0 overflow-hidden pointer-events-none rounded-[inherit]">
               {driveHomeBanner && !isIntroMode ? (
                 <DriveAwareBannerMedia
                   directVideoUrl={driveHomeBanner.directStreamUrl}
@@ -415,19 +471,38 @@ export const HomeView: React.FC<HomeViewProps> = ({
               ) : (
                 <SmartFaceVideo
                   videoRef={videoRef}
-                  key={activeVideoUrl}
+                  key={`${videoFallbackStage}-${activeVideoUrl}`}
                   autoPlay
                   muted={isMuted}
                   playsInline
                   preload="auto"
-                  alwaysCover={playbackMode === 'idle' && !isIntroMode}
+                  controls={false}
+                  disablePictureInPicture
+                  controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                  aria-hidden="true"
+                  tabIndex={-1}
+                  alwaysCover={true}
                   loop={playbackMode === 'idle' && !isIntroMode}
                   src={activeVideoUrl}
                   onTimeUpdate={handleTimeUpdate}
                   onEnded={handleEnded}
+                  onPause={(e) => {
+                    if (isIntroMode || playbackMode !== 'idle') return;
+                    if (typeof document !== 'undefined' && document.hidden) return;
+                    const v = e.currentTarget;
+                    v.defaultMuted = true;
+                    v.muted = true;
+                    v.loop = true;
+                    v.play().catch(() => {});
+                  }}
+                  onError={() => {
+                    setVideoFallbackStage((prev) =>
+                      prev === 0 && driveAltVideoUrl ? 1 : prev < 2 ? 2 : prev
+                    );
+                  }}
                   faceAnchor={{ x: 50, y: 18 }}
                   maxCropDistortion={1.6}
-                  wrapperClassName="absolute inset-0 w-full h-full rounded-[var(--radius-card,24px)]"
+                  wrapperClassName="absolute inset-0 w-full h-full rounded-[inherit]"
                   className="banner-video-sharp transition-all duration-700"
                 />
               )}

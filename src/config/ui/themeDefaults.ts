@@ -132,7 +132,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     themeMode: 'light',
     imagePath: neumorphismBeyondWallpaper,
     fallbackGradient: 'linear-gradient(145deg, #EAEFF6 0%, #E6ECF4 55%, #DFE6F0 100%)',
-    overlayBg: 'rgba(226, 234, 244, 0.14)',
+    overlayBg: 'transparent',
   },
   'multicolor-glass': {
     id: 'multicolor-glass',

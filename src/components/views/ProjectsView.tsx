@@ -12,6 +12,7 @@ import { ProjectDetailView } from './ProjectDetailView';
 import { useTheme } from '@/hooks/useTheme';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 export interface ProjectCardGroup {
   id: string;
@@ -251,7 +252,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
   const [mindmapProject, setMindmapProject] = useState<ProjectData | null>(null);
   const [activeSection, setActiveSection] = useState<string>('sec-mindmap');
   const [isBannerMuted, setIsBannerMuted] = useState<boolean>(true);
-  const [heroVideoFailed, setHeroVideoFailed] = useState<boolean>(false);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
 
@@ -510,6 +510,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
         <div
           id="projects-main-card"
           data-main-card="true"
+          data-layer-level="1"
           data-detail-open={selectedArticle ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Dự Án"
           data-element-type="card"
@@ -551,10 +552,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
           >
             <div
-              className="project-detail-banner-media absolute inset-0 z-0 rounded-[var(--radius-banner,24px)] overflow-hidden pointer-events-none"
-              style={{
-                borderRadius: 'var(--radius-banner, 24px)',
-              }}
+              className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
             >
               {driveProjectsBanner ? (
                 <DriveAwareBannerMedia
@@ -562,37 +560,13 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   iframeFallbackUrl={driveProjectsBanner.previewIframeUrl}
                   posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
                   title={driveProjectsBanner.fileName}
-                />
-              ) : !heroVideoFailed ? (
-                <video
-                  src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
-                  poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  controls={false}
-                  disablePictureInPicture
-                  controlsList="nodownload nofullscreen noremoteplayback"
-                  preload="auto"
-                  onEnded={(e) => {
-                    const v = e.currentTarget;
-                    v.currentTime = 0;
-                    v.play().catch(() => {});
-                  }}
-                  onError={() => setHeroVideoFailed(true)}
-                  style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                  className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
+                  className="rounded-[inherit]"
                 />
               ) : (
-                <img
-                  src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
+                <BannerBackgroundVideo
+                  src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
+                  poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
                   alt="Banner Dự án"
-                  referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
-                  className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
                 />
               )}
             </div>

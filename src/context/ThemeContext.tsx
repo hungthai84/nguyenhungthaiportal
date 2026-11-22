@@ -150,19 +150,32 @@ function clampWallpaperOverlay(raw?: Partial<WallpaperOverlaySettings>): Wallpap
 }
 
 function readStoredWallpaperOverlay(): WallpaperOverlaySettings {
-  return { blur: 0, dim: 0 };
+  try {
+    const raw = localStorage.getItem(WALLPAPER_OVERLAY_STORAGE_KEY);
+    if (!raw) return { blur: 0, dim: 0 };
+    const parsed = JSON.parse(raw) as Partial<WallpaperOverlaySettings>;
+    return clampWallpaperOverlay(parsed);
+  } catch {
+    return { blur: 0, dim: 0 };
+  }
 }
 
 function readStoredAdaptiveAccentEnabled(): boolean {
-  return false;
+  try {
+    return localStorage.getItem(ADAPTIVE_ACCENT_STORAGE_KEY) === 'true';
+  } catch {
+    return false;
+  }
 }
 
-function applyWallpaperOverlayCssVariables(_settings: WallpaperOverlaySettings) {
+function applyWallpaperOverlayCssVariables(settings: WallpaperOverlaySettings) {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
-  root.style.setProperty('--wallpaper-bg-blur', '0px');
-  root.style.setProperty('--wallpaper-bg-dim', '0');
-  root.style.setProperty('--wallpaper-bg-scale', '1');
+  const safe = clampWallpaperOverlay(settings);
+  const scale = safe.blur > 0 ? (1 + Math.min(0.06, safe.blur * 0.002)).toFixed(3) : '1';
+  root.style.setProperty('--wallpaper-bg-blur', `${safe.blur}px`);
+  root.style.setProperty('--wallpaper-bg-dim', (safe.dim / 100).toFixed(2));
+  root.style.setProperty('--wallpaper-bg-scale', scale);
 }
 
 function getDefaultWallpaperForTheme(mode: CardStyleMode): WallpaperPreset {
@@ -217,8 +230,8 @@ function getSystemPrefersDark(): boolean {
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
-const DEFAULT_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_neu_wp32';
-const DEFAULT_OVERLAY_RESET_SEED_KEY = 'hungthai_overlay_reset_0px_0pct_v1';
+const DEFAULT_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_neu_wp32_v2';
+const DEFAULT_OVERLAY_RESET_SEED_KEY = 'hungthai_overlay_reset_0px_0pct_v2';
 let didRunDefaultUiSeed = false;
 
 function ensureDefaultUiSeedSync(): void {

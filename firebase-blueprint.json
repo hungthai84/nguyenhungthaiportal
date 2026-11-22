@@ -28,6 +28,12 @@
           "type": "string",
           "description": "Selected visual theme mode across the portfolio.",
           "enum": [
+            "soft-indigo-fintech",
+            "dark-soft-indigo-fintech",
+            "liquid-glass",
+            "dark-liquid-glass",
+            "multicolor-glass",
+            "neumorphism-beyond",
             "light-multicolor-glass",
             "light-multicolor-glass-dark",
             "light-multicolor-glass-color",

@@ -535,7 +535,6 @@ html #letter-slide-4-card {
 
 html #el-p1-div-85 > :is(article, div):not(.partner-motto-container):not(.partner-motto-grid):not(.letter-right-stack),
 html #el-p1-div-85 .letter-right-stack > :is(article, div),
-html #el-p1-div-85 #card-core-values-pursued [data-subcard="true"],
 html #letter-slide-2-grid > :is(article, div),
 html #letter-slide-3-grid > :is(article, div),
 html #letter-slide-4-bento-grid > :is(article, div),
@@ -545,11 +544,29 @@ html #letter-slide-4-bento-grid [data-subcard="true"] {
   box-sizing: border-box !important;
 }
 
-html #el-p1-div-85 #card-core-values-pursued,
-html #el-p1-div-85 #card-core-values-pursued > div.grid {
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
+html #el-p1-div-85 #card-core-values-pursued {
+  gap: 14px !important;
+  row-gap: 14px !important;
+  column-gap: 14px !important;
+}
+
+html #el-p1-div-85 #card-core-values-pursued #core-values-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-auto-flow: column !important;
+  gap: clamp(6px, 0.9vw, 12px) !important;
+  row-gap: clamp(6px, 0.9vw, 12px) !important;
+  column-gap: clamp(6px, 0.9vw, 12px) !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+html #el-p1-div-85 #card-core-values-pursued [data-subcard="true"] {
+  padding: clamp(8px, 1vw, 12px) !important;
+  gap: clamp(6px, 0.7vw, 10px) !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 
 /* Outer Page Containers: Max Full Width, 100% Transparent, 0px Radius, 1px Line Border & Padding 0px */
@@ -1582,8 +1599,8 @@ html [id$="-cards-track"]::after {
   html[data-card-style] .letter-subcard,
   html .theme-modal-subcard,
   html[data-card-style] .theme-modal-subcard,
-  html [data-subcard="true"]:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video),
-  html .sub-card:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video) {
+  html [data-subcard="true"]:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video):not([id^="core-val-"]),
+  html .sub-card:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video):not([id^="core-val-"]) {
     padding: var(--space-subcard-padding, 12px) !important;
     gap: var(--space-subcard-gap, 12px) !important;
     row-gap: var(--space-subcard-gap, 12px) !important;
@@ -2047,6 +2064,7 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
 html :is(
   .hero-banner,
   .banner-card,
+  #home-main-content,
   #project-detail-banner,
   #contact-hero-banner,
   #ai-assistant-hero-banner,
@@ -2057,6 +2075,7 @@ html :is(
 html[data-card-style] :is(
   .hero-banner,
   .banner-card,
+  #home-main-content,
   #project-detail-banner,
   #contact-hero-banner,
   #ai-assistant-hero-banner,
@@ -2072,8 +2091,13 @@ html[data-card-style] :is(
   left: 0 !important;
   width: 100% !important;
   height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
   border-radius: var(--radius-banner, 14px) !important;
   overflow: hidden !important;
+  pointer-events: none !important;
   opacity: 1 !important;
 }
 
@@ -2081,11 +2105,41 @@ video::-webkit-media-controls,
 video::-webkit-media-controls-enclosure,
 video::-webkit-media-controls-panel,
 video::-webkit-media-controls-play-button,
-video::-webkit-media-controls-start-playback-button {
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-overlay-play-button,
+video::-webkit-media-controls-overlay-enclosure,
+video::-webkit-media-controls-timeline,
+video::-webkit-media-controls-current-time-display,
+video::-webkit-media-controls-time-remaining-display,
+video::-webkit-media-controls-mute-button,
+video::-webkit-media-controls-volume-slider,
+video::-webkit-media-controls-fullscreen-button,
+video::-moz-media-controls {
   display: none !important;
   opacity: 0 !important;
+  visibility: hidden !important;
   pointer-events: none !important;
   -webkit-appearance: none !important;
+}
+
+html .project-detail-banner-media > div,
+html[data-card-style] .project-detail-banner-media > div,
+html .project-detail-banner-media .smart-face-video-root,
+html[data-card-style] .project-detail-banner-media .smart-face-video-root {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  border-radius: inherit !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+html .project-detail-banner-media [data-smart-face-ambient="true"],
+html[data-card-style] .project-detail-banner-media [data-smart-face-ambient="true"] {
+  display: none !important;
 }
 
 html .project-detail-banner-media :is(img, video:not([data-smart-face-ambient="true"])),
@@ -2096,15 +2150,22 @@ html[data-card-style] .project-detail-banner-media :is(img, video:not([data-smar
   height: 100% !important;
   min-width: 100% !important;
   min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
   object-fit: cover !important;
   object-position: 50% 22% !important;
   border-radius: inherit !important;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  transform: translateZ(0) scale(1.005);
+  -webkit-transform: translateZ(0) scale(1.005);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  will-change: transform;
   image-rendering: -webkit-optimize-contrast;
-  filter: contrast(1.06) saturate(1.07) brightness(1.02) !important;
+  image-rendering: high-quality;
+  filter: contrast(1.07) saturate(1.08) brightness(1.02) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
 }
 
 html .project-detail-banner-media .smart-face-video-root video[data-smart-face-primary="true"],
@@ -2114,18 +2175,27 @@ html[data-card-style] .project-detail-banner-media .smart-face-video-root video[
   height: 100% !important;
   min-width: 100% !important;
   min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
   border-radius: inherit !important;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  transform: translateZ(0) scale(1.005);
+  -webkit-transform: translateZ(0) scale(1.005);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  will-change: transform;
   image-rendering: -webkit-optimize-contrast;
-  filter: contrast(1.06) saturate(1.07) brightness(1.02) !important;
+  image-rendering: high-quality;
+  filter: contrast(1.07) saturate(1.08) brightness(1.02) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
 }
 
 html :is(
   .hero-banner,
   .banner-card,
+  #home-main-content,
   #project-detail-banner,
   #contact-hero-banner,
   #ai-assistant-hero-banner,
@@ -2149,10 +2219,10 @@ html :is(
   -webkit-backdrop-filter: none !important;
 }
 
-html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
+html.dark :is(.hero-banner, .banner-card, #home-main-content, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #home-main-content, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #home-main-content, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #home-main-content, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
   background: linear-gradient(180deg, rgba(8, 13, 28, 0.24) 0%, rgba(8, 13, 28, 0.06) 48%, rgba(8, 13, 28, 0.22) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
@@ -2322,7 +2392,7 @@ html #bento-letter-video,
 html[data-card-style] #bento-letter-video,
 html #experience-video-card-2026,
 html[data-card-style] #experience-video-card-2026 {
-  padding: 5px !important;
+  padding: 0 !important;
   border-radius: var(--radius-card, 14px) !important;
   overflow: hidden !important;
 }
@@ -2337,18 +2407,36 @@ html[data-card-style] .themed-image-frame {
 }
 
 html [data-media-card="video"]:not(#wallpaper-cards-grid *) > div,
-html [data-media-card="video"]:not(#wallpaper-cards-grid *) > video {
+html [data-media-card="video"]:not(#wallpaper-cards-grid *) .smart-face-video-root,
+html [data-media-card="video"]:not(#wallpaper-cards-grid *) > video,
+html [data-media-card="video"]:not(#wallpaper-cards-grid *) video:not([data-smart-face-ambient="true"]) {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
   border-radius: var(--radius-card, 14px) !important;
   -webkit-clip-path: inset(0 round var(--radius-card, 14px)) !important;
   clip-path: inset(0 round var(--radius-card, 14px)) !important;
+  transform: translateZ(0) scale(1.005);
+  -webkit-transform: translateZ(0) scale(1.005);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  filter: contrast(1.07) saturate(1.08) brightness(1.02) !important;
 }
 
-/* Trang Hình nền: Card hình nền cách ảnh 2px, bo cong hình khớp card, nội dung cách card 15px (mọi giao diện) */
+html [data-media-card="video"]:not(#wallpaper-cards-grid *) [data-smart-face-ambient="true"] {
+  display: none !important;
+}
+
+/* Trang Hình nền: Ảnh & video lắp đầy 100% card, bo cong khớp card (mọi giao diện) */
 html #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"],
 html[data-card-style] #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"],
 html #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"][data-media-card="video"],
 html[data-card-style] #wallpaper-page-container .themed-image-card[id^="wallpaper-card-"][data-media-card="video"] {
-  padding: 2px !important;
+  padding: 0 !important;
   border-radius: var(--radius-card, 14px) !important;
   -webkit-clip-path: inset(0 round var(--radius-card, 14px)) !important;
   clip-path: inset(0 round var(--radius-card, 14px)) !important;
@@ -2833,7 +2921,7 @@ html #el-p0-div-98::after {
 /* ========================================================================= */
 /* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL ACTIVE THEMES)      */
 /* ========================================================================= */
-html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], [data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"], [data-card-style="neumorphism-beyond"]) :is(
+html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], [data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"], [data-card-style="neumorphism-beyond"], [data-card-style="cowhide-leather"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
   #projects-grid .project-card .project-card-banner,
   .hero-banner .project-detail-banner-media,
@@ -2850,7 +2938,10 @@ html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-ind
   #interview-questions-card .project-detail-banner-scrim,
   #project-detail-banner .project-detail-banner-media,
   #project-detail-banner .project-detail-banner-media :is(img, video),
-  #project-detail-banner .project-detail-banner-scrim
+  #project-detail-banner .project-detail-banner-scrim,
+  #home-main-content .project-detail-banner-media,
+  #home-main-content .project-detail-banner-media :is(img, video),
+  #home-main-content .project-detail-banner-scrim
 ) {
   border-radius: var(--radius-banner, 16px) !important;
   -webkit-clip-path: inset(0 round var(--radius-banner, 16px)) !important;
@@ -2978,14 +3069,97 @@ button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-ripple
 }
 
 /* ========================================================================= */
-/* LAYER 1 DE-BLUR & EFFECT STRIPPING: HEADER · CENTER MAIN SHELL · FOOTER   */
-/* Xóa hoàn toàn backdrop-filter blur, bóng đổ & hiệu ứng trang trí khỏi     */
-/* khu vực Header, khung chính giữa và Footer trên toàn bộ 9 giao diện.      */
+/* LAYER 1 FORMAT PARITY + DE-BLUR & EFFECT STRIPPING                        */
+/* Header (#app-header) · Center Viewport & Main Cards · Footer (#app-footer)*/
+/* - Đồng bộ format Layer Level 1 cho Header, Footer & Main Card từng trang  */
+/* - Xóa hoàn toàn độ mờ (backdrop-filter) và mọi hiệu ứng bóng/chuyển động  */
 /* ========================================================================= */
 html:root :is(
   #app-header,
   #app-footer,
+  [data-layer-level="1"],
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+),
+html[data-card-style] :is(
+  #app-header,
+  #app-footer,
+  [data-layer-level="1"],
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
+  background: var(--surface-primary-bg, var(--bg-main)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
+  color: var(--text-primary) !important;
+}
+
+@media screen {
+  html:root #pdf-page-container,
+  html[data-card-style] #pdf-page-container {
+    background: var(--surface-primary-bg, var(--bg-main)) !important;
+    border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
+    border-radius: var(--radius-main, 20px) !important;
+    color: var(--text-primary) !important;
+  }
+}
+
+html:root #app-header,
+html[data-card-style] #app-header {
+  border-top: none !important;
+  border-radius: var(--radius-header, 0 0 20px 20px) !important;
+}
+
+html:root #app-footer,
+html[data-card-style] #app-footer {
+  border-bottom: none !important;
+  border-radius: var(--radius-footer, 20px 20px 0 0) !important;
+}
+
+html:root :is(
+  [data-layer-level="1"]:not(#app-header):not(#app-footer):not(#pdf-page-container),
+  .page-main-card:not(#pdf-page-container),
+  [data-main-card="true"]:not(#pdf-page-container),
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+),
+html[data-card-style] :is(
+  [data-layer-level="1"]:not(#app-header):not(#app-footer):not(#pdf-page-container),
+  .page-main-card:not(#pdf-page-container),
+  [data-main-card="true"]:not(#pdf-page-container),
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
+  border-radius: var(--radius-main, 20px) !important;
+}
+
+html:root :is(
+  #app-header-container,
+  #app-header,
+  #app-footer,
+  #el-p0-div-98,
   #global-content-viewport,
+  .tab-content-host,
+  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -2997,9 +3171,13 @@ html:root :is(
   #pdf-page-container
 ),
 html[data-card-style] :is(
+  #app-header-container,
   #app-header,
   #app-footer,
+  #el-p0-div-98,
   #global-content-viewport,
+  .tab-content-host,
+  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3011,9 +3189,13 @@ html[data-card-style] :is(
   #pdf-page-container
 ),
 html:root :is(
+  #app-header-container,
   #app-header,
   #app-footer,
+  #el-p0-div-98,
   #global-content-viewport,
+  .tab-content-host,
+  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3025,9 +3207,13 @@ html:root :is(
   #pdf-page-container
 ):is(:hover, :focus, :focus-within, :active),
 html[data-card-style] :is(
+  #app-header-container,
   #app-header,
   #app-footer,
+  #el-p0-div-98,
   #global-content-viewport,
+  .tab-content-host,
+  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3043,6 +3229,7 @@ html[data-card-style] :is(
   filter: none !important;
   -webkit-filter: none !important;
   box-shadow: none !important;
+  text-shadow: none !important;
   animation: none !important;
   transition: none !important;
   transform: none !important;
@@ -3050,8 +3237,13 @@ html[data-card-style] :is(
 }
 
 html:root :is(
+  #app-header-container,
   #app-header,
   #app-footer,
+  #el-p0-div-98,
+  #global-content-viewport,
+  .tab-content-host,
+  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3063,8 +3255,13 @@ html:root :is(
   #pdf-page-container
 )::before,
 html:root :is(
+  #app-header-container,
   #app-header,
   #app-footer,
+  #el-p0-div-98,
+  #global-content-viewport,
+  .tab-content-host,
+  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3076,8 +3273,13 @@ html:root :is(
   #pdf-page-container
 )::after,
 html[data-card-style] :is(
+  #app-header-container,
   #app-header,
   #app-footer,
+  #el-p0-div-98,
+  #global-content-viewport,
+  .tab-content-host,
+  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3089,8 +3291,13 @@ html[data-card-style] :is(
   #pdf-page-container
 )::before,
 html[data-card-style] :is(
+  #app-header-container,
   #app-header,
   #app-footer,
+  #el-p0-div-98,
+  #global-content-viewport,
+  .tab-content-host,
+  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],

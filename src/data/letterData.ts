@@ -18,6 +18,8 @@ export interface CareerMilestoneItem extends ExperienceMilestone {
   showMoreLink?: string;
   color?: string;
   roleVi: string;
+  managementVi: string;
+  managementEn: string;
   borderClass?: string;
 }
 
@@ -26,7 +28,10 @@ const LETTER_MILESTONE_DEFINITIONS: Array<{
   sourceKey: keyof typeof EXPERIENCE_MILESTONES;
   yearLabelVi: string;
   yearLabelEn: string;
+  roleVi: string;
   roleEn: string;
+  managementVi: string;
+  managementEn: string;
   milestoneTitleVi: string;
   milestoneTitleEn: string;
   descVi: string;
@@ -40,9 +45,12 @@ const LETTER_MILESTONE_DEFINITIONS: Array<{
     sourceKey: '2003',
     yearLabelVi: '2002',
     yearLabelEn: '2002',
-    roleEn: 'Customer Service Staff (Telecom)',
-    milestoneTitleVi: 'Khởi đầu tại MobiFone · Nhân viên CSKH',
-    milestoneTitleEn: 'Starting Out at MobiFone · CS Specialist',
+    roleVi: 'Nhân viên CSKH',
+    roleEn: 'Customer Service Specialist',
+    managementVi: '12 nhân sự nhóm · Hỗ trợ tổng đài & hướng dẫn nhân sự mới',
+    managementEn: '12 team peers · Hotline support & onboarding coaching',
+    milestoneTitleVi: 'Khởi đầu tại MobiFone',
+    milestoneTitleEn: 'Starting Out at MobiFone',
     descVi:
       'Khởi đầu sự nghiệp ở vị trí **Nhân viên CSKH** ngành viễn thông tại **MobiFone**, được đào tạo bài bản về dịch vụ khách hàng, quản lý tổng đài, xử lý sự cố và chuẩn **quy trình** phục vụ – nền móng cho tư duy lấy khách hàng làm trung tâm.',
     descEn:
@@ -56,9 +64,12 @@ const LETTER_MILESTONE_DEFINITIONS: Array<{
     sourceKey: '2007',
     yearLabelVi: '2007',
     yearLabelEn: '2007',
-    roleEn: 'Customer Service Supervisor (Int’l Telecom)',
-    milestoneTitleVi: 'Phát triển tại Viễn Liên V247 · Giám sát CSKH',
-    milestoneTitleEn: 'Growth at Vien Lien V247 · CS Supervisor',
+    roleVi: 'Giám sát CSKH',
+    roleEn: 'Customer Service Supervisor',
+    managementVi: '12 nhân sự trực tiếp · Điều phối ca trực 24/7 & đánh giá QA',
+    managementEn: '12 direct staff · 24/7 shift orchestration & QA evaluation',
+    milestoneTitleVi: 'Phát triển tại Viễn Liên V247',
+    milestoneTitleEn: 'Growth at Vien Lien V247',
     descVi:
       'Thăng tiến lên vị trí **Giám sát CSKH** ngành viễn thông quốc tế tại **Viễn Liên V247**, trực tiếp **quản lý đội ngũ**, **đào tạo** ca trực 24/7, giám sát chất lượng dịch vụ và xây dựng chỉ số đánh giá SLA/QA quy mô lớn.',
     descEn:
@@ -72,9 +83,12 @@ const LETTER_MILESTONE_DEFINITIONS: Array<{
     sourceKey: '2011',
     yearLabelVi: '2011',
     yearLabelEn: '2011',
-    roleEn: 'CS Manager (Small Scale · Cable TV & ISP)',
-    milestoneTitleVi: 'Bước ngoặt tại LBC – HTVC · Trưởng phòng (Quy mô nhỏ)',
-    milestoneTitleEn: 'Turning Point at LBC – HTVC · CS Manager (Small Scale)',
+    roleVi: 'Trưởng phòng CSKH (Quy mô nhỏ)',
+    roleEn: 'CS Manager (Small Scale)',
+    managementVi: '12 nhân sự trực tiếp · Điều hành phòng CSKH & ngân sách',
+    managementEn: '12 direct staff · CS department ops & budgeting',
+    milestoneTitleVi: 'Bước ngoặt tại LBC – HTVC',
+    milestoneTitleEn: 'Turning Point at LBC – HTVC',
     descVi:
       'Lần đầu đảm nhiệm **Trưởng phòng CSKH (quy mô nhỏ)** trong lĩnh vực truyền hình cáp & internet tại **LBC – HTVC**: trực tiếp điều hành phòng ban, **chuẩn hóa quy trình**, thiết lập KPI, **đào tạo** nhân sự và phối hợp liên phòng ban.',
     descEn:
@@ -88,9 +102,12 @@ const LETTER_MILESTONE_DEFINITIONS: Array<{
     sourceKey: '2013',
     yearLabelVi: '2013 (Phần 1)',
     yearLabelEn: '2013 (Part 1)',
-    roleEn: 'Senior CS Manager (129 Staff · Gaming & eSports)',
-    milestoneTitleVi: 'Garena & eSports · Trưởng phòng cấp cao (129 NS)',
-    milestoneTitleEn: 'Garena & eSports · Senior CS Manager (129 Staff)',
+    roleVi: 'Trưởng phòng CSKH cấp cao',
+    roleEn: 'Senior CS Manager',
+    managementVi: '129 nhân sự trực tiếp · Cơ cấu bộ máy, Game Supporter & quản lý kế thừa',
+    managementEn: '129 direct staff · Org design, Game Support & succession leaders',
+    milestoneTitleVi: 'Garena & eSports',
+    milestoneTitleEn: 'Garena & eSports',
     descVi:
       'Mở rộng sang lĩnh vực Game trực tuyến (**Liên Minh Huyền Thoại**, **Liên Quân Mobile**) với vai trò **Trưởng phòng quản lý cấp cao** trực tiếp điều hành **129 nhân sự**: kiến thiết cơ cấu, **xây dựng hệ thống**, chuẩn hóa quy trình và **đào tạo** quản lý kế thừa.',
     descEn:
@@ -104,9 +121,12 @@ const LETTER_MILESTONE_DEFINITIONS: Array<{
     sourceKey: '2013',
     yearLabelVi: '2013 (Phần 2)',
     yearLabelEn: '2013 (Part 2)',
-    roleEn: 'Multi-Sector CX Lead (Shopee, AirPay, Gcafe)',
-    milestoneTitleVi: 'Hệ sinh thái Số (Shopee, AirPay, Gcafe) · Đa lĩnh vực',
-    milestoneTitleEn: 'Digital Ecosystem (Shopee, AirPay, Gcafe) · Multi-Sector',
+    roleVi: 'Trưởng phòng CSKH Đa lĩnh vực',
+    roleEn: 'Multi-Sector CX Lead',
+    managementVi: 'Đội ngũ CSKH đa nền tảng TMĐT Shopee, Ví AirPay & Gcafe',
+    managementEn: 'Multi-platform CX teams across Shopee, AirPay & Gcafe',
+    milestoneTitleVi: 'Hệ sinh thái Số (Shopee, AirPay, Gcafe)',
+    milestoneTitleEn: 'Digital Ecosystem (Shopee, AirPay, Gcafe)',
     descVi:
       'Đồng hành từ ngày đầu ra mắt **Shopee**, **AirPay** và **Gcafe**, làm chủ mô hình **TMĐT, Ví điện tử & Phòng máy**. Khẳng định triết lý: **xây dựng hệ thống trước khi mở rộng**, chuẩn **quy trình** và phát triển **con người** song hành cùng công nghệ.',
     descEn:
@@ -120,9 +140,12 @@ const LETTER_MILESTONE_DEFINITIONS: Array<{
     sourceKey: '2016',
     yearLabelVi: '2016',
     yearLabelEn: '2016',
-    roleEn: 'Call Center Manager (Insurance)',
-    milestoneTitleVi: 'Prudential Việt Nam · Ngành Bảo hiểm',
-    milestoneTitleEn: 'Prudential Vietnam · Life Insurance',
+    roleVi: 'Trưởng phòng Call Center',
+    roleEn: 'Call Center Manager',
+    managementVi: '12 nhân sự trực tiếp + 40+ chuyên viên tư vấn · Call Center Bảo hiểm',
+    managementEn: '12 direct staff + 40+ advisors · Insurance Call Center',
+    milestoneTitleVi: 'Prudential Việt Nam',
+    milestoneTitleEn: 'Prudential Vietnam',
     descVi:
       'Chuyển sang ngành **Bảo hiểm nhân thọ** đòi hỏi kỷ luật và tin cậy cao: điều hành Call Center, hoàn thiện **quy trình** thẩm định & BCP, **đào tạo** văn hóa đồng cảm và chuẩn hóa **hệ thống** quản trị trải nghiệm đa kênh.',
     descEn:
@@ -136,9 +159,12 @@ const LETTER_MILESTONE_DEFINITIONS: Array<{
     sourceKey: '2018',
     yearLabelVi: '2018',
     yearLabelEn: '2018',
-    roleEn: 'Senior CS Manager (FinTech · 60+ Staff & BPO)',
-    milestoneTitleVi: 'Ví MoMo · Trưởng phòng CSKH cấp cao (FinTech)',
-    milestoneTitleEn: 'MoMo · Senior CS Manager (FinTech)',
+    roleVi: 'Trưởng phòng CSKH cấp cao (FinTech)',
+    roleEn: 'Senior CS Manager (FinTech)',
+    managementVi: '60 nhân sự nội bộ + hàng trăm nhân sự đối tác BPO (Mắt Bão...)',
+    managementEn: '60 internal staff + hundreds of BPO partner agents',
+    milestoneTitleVi: 'Ví MoMo',
+    milestoneTitleEn: 'MoMo E-Wallet',
     descVi:
       'Dẫn dắt khối CSKH ngành **Tài chính số** quy mô 60 NS nội bộ + BPO: **quản lý** vận hành hàng triệu giao dịch, **xây dựng hệ thống** CRM thời gian thực, tinh gọn **quy trình** và **đào tạo** đội ngũ ứng dụng công nghệ tự động hóa.',
     descEn:
@@ -152,9 +178,12 @@ const LETTER_MILESTONE_DEFINITIONS: Array<{
     sourceKey: '2023',
     yearLabelVi: '2023',
     yearLabelEn: '2023',
-    roleEn: 'Head of Customer Service (ECO Wallet)',
-    milestoneTitleVi: 'Ví ECO · Hoàn thiện Hệ thống CSKH hiện đại',
-    milestoneTitleEn: 'ECO Wallet · Modern CS Architecture',
+    roleVi: 'Trưởng phòng CSKH',
+    roleEn: 'Head of Customer Service',
+    managementVi: '17 nhân sự trực tiếp · Hệ thống CSKH Ví ECO & bán lẻ B2B',
+    managementEn: '17 direct staff · ECO Wallet CS & B2B retail ops',
+    milestoneTitleVi: 'Ví ECO · Công nghệ Finviet',
+    milestoneTitleEn: 'ECO Wallet · Finviet Tech',
     descVi:
       'Tiếp tục vai trò **Trưởng phòng CSKH** lĩnh vực **Ví điện tử & Bán lẻ B2B**, hoàn thiện năng lực kết hợp **Quản lý – Quy trình – Đào tạo – Xây dựng hệ thống** (CRM, Dashboard BI, AI Chatbot) nhằm tối ưu trải nghiệm và tin cậy.',
     descEn:
@@ -173,8 +202,10 @@ export const CAREER_MILESTONES_DATA: CareerMilestoneItem[] = LETTER_MILESTONE_DE
     year: def.yearLabelVi,
     yearLabelVi: def.yearLabelVi,
     yearLabelEn: def.yearLabelEn,
-    roleTitle: base.roleTitle,
+    roleTitle: def.roleVi,
     roleEn: def.roleEn,
+    managementVi: def.managementVi,
+    managementEn: def.managementEn,
     highlightVi: def.highlightVi,
     highlightEn: def.highlightEn,
     milestoneTitleVi: def.milestoneTitleVi,
@@ -184,7 +215,7 @@ export const CAREER_MILESTONES_DATA: CareerMilestoneItem[] = LETTER_MILESTONE_DE
     roleIconName: 'briefcase',
     highlightIconName: def.highlightIconName,
     color: base.hexColor,
-    roleVi: base.roleTitle,
+    roleVi: def.roleVi,
   };
 });
 

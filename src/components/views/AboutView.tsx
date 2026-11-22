@@ -133,19 +133,22 @@ export const BENTO_PALETTES: Record<BentoPaletteType, BentoPaletteConfig> = {
   },
 };
 
-// Video 1 làm hình nền mặc định cho Card Giới thiệu
+// Video 1 làm hình nền mặc định cho Card Giới thiệu (tự động phát khi mở, tắt âm thanh, phát vòng lặp)
 const ABOUT_VIDEO_1_ID = '1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
-const ABOUT_VIDEO_1_STREAM_URL = `/api/media/drive-video/${ABOUT_VIDEO_1_ID}`;
-const ABOUT_VIDEO_1_ALT_STREAM_URL = `https://drive.usercontent.google.com/download?id=${ABOUT_VIDEO_1_ID}&export=download&confirm=t`;
-const ABOUT_VIDEO_1_URL = `https://drive.google.com/file/d/${ABOUT_VIDEO_1_ID}/preview`;
+const ABOUT_VIDEO_1_STREAM_URL = 'https://cdn.scena.ai/project/8606/e48a67884f3a52e8a68cf06b97979f3b22835ec92bf466a058c0d78da97c83b0.mp4';
+const ABOUT_VIDEO_1_UC_URL = ABOUT_VIDEO_1_STREAM_URL;
+const ABOUT_VIDEO_1_ALT_STREAM_URL = ABOUT_VIDEO_1_STREAM_URL;
+const ABOUT_VIDEO_1_POSTER_URL = `https://drive.google.com/thumbnail?id=${ABOUT_VIDEO_1_ID}&sz=w1600`;
+const ABOUT_VIDEO_1_URL = ABOUT_VIDEO_1_STREAM_URL;
 
 // Video 2 phát khi bấm nút Phát Video (tự động phát, vòng lặp, mở âm thanh mặc định, không control)
 const ABOUT_VIDEO_2_ID = '12cdItjoc6LpIetmw6-1BiSt8kUaaNe7R';
-const ABOUT_VIDEO_2_STREAM_URL = `/api/media/drive-video/${ABOUT_VIDEO_2_ID}`;
-const ABOUT_VIDEO_2_ALT_STREAM_URL = `https://drive.usercontent.google.com/download?id=${ABOUT_VIDEO_2_ID}&export=download&confirm=t`;
-const ABOUT_VIDEO_2_URL = `https://drive.google.com/file/d/${ABOUT_VIDEO_2_ID}/preview`;
+const ABOUT_VIDEO_2_STREAM_URL = 'https://cdn.scena.ai/project/9626/42eba857297b415c8be72327102671129b5ebbdbaab55ac9eb6897411b4bdeda.mp4';
+const ABOUT_VIDEO_2_UC_URL = ABOUT_VIDEO_2_STREAM_URL;
+const ABOUT_VIDEO_2_ALT_STREAM_URL = ABOUT_VIDEO_2_STREAM_URL;
+const ABOUT_VIDEO_2_URL = ABOUT_VIDEO_2_STREAM_URL;
 
-type AboutStreamStage = 'primary' | 'alt' | 'iframe';
+type AboutStreamStage = 'primary' | 'uc' | 'alt' | 'iframe';
 
 const ABOUT_VIDEO_SHARED_STYLE: React.CSSProperties = {
   position: 'absolute',
@@ -821,11 +824,15 @@ export function AboutView({
   const [video2PlayNonce, setVideo2PlayNonce] = useState<number>(0);
 
   const getVideo1StreamUrl = useCallback((stage: AboutStreamStage): string => {
-    return stage === 'alt' ? ABOUT_VIDEO_1_ALT_STREAM_URL : ABOUT_VIDEO_1_STREAM_URL;
+    if (stage === 'uc') return ABOUT_VIDEO_1_UC_URL;
+    if (stage === 'alt') return ABOUT_VIDEO_1_ALT_STREAM_URL;
+    return ABOUT_VIDEO_1_STREAM_URL;
   }, []);
 
   const getVideo2StreamUrl = useCallback((stage: AboutStreamStage): string => {
-    return stage === 'alt' ? ABOUT_VIDEO_2_ALT_STREAM_URL : ABOUT_VIDEO_2_STREAM_URL;
+    if (stage === 'uc') return ABOUT_VIDEO_2_UC_URL;
+    if (stage === 'alt') return ABOUT_VIDEO_2_ALT_STREAM_URL;
+    return ABOUT_VIDEO_2_STREAM_URL;
   }, []);
 
   const activeAboutIntroVideoUrl = getVideo2StreamUrl(video2Stage);
@@ -996,6 +1003,8 @@ export function AboutView({
 
   const handleVideo1Error = useCallback(() => {
     if (video1StageRef.current === 'primary') {
+      loadVideo1('uc');
+    } else if (video1StageRef.current === 'uc') {
       loadVideo1('alt');
     } else if (video1StageRef.current === 'alt') {
       video1StageRef.current = 'iframe';
@@ -1005,6 +1014,8 @@ export function AboutView({
 
   const handleVideo2Error = useCallback(() => {
     if (video2StageRef.current === 'primary') {
+      loadVideo2('uc', isPlayingIntroRef.current);
+    } else if (video2StageRef.current === 'uc') {
       loadVideo2('alt', isPlayingIntroRef.current);
     } else if (video2StageRef.current === 'alt') {
       video2StageRef.current = 'iframe';
@@ -1015,15 +1026,16 @@ export function AboutView({
     }
   }, [loadVideo2]);
 
-  // Đồng bộ CustomEvent âm thanh toàn cục nếu nơi khác thay đổi
+  // Video 1 là hình nền mặc định luôn tắt âm thanh khi mở; chỉ đồng bộ AUDIO_PREF_EVENT khi đang phát Video 2
   useEffect(() => {
     const handleAudioPref = (e: Event) => {
+      if (!isPlayingIntroRef.current) return;
       const customEvent = e as CustomEvent<{ muted: boolean }>;
       if (customEvent.detail && typeof customEvent.detail.muted === 'boolean') {
         const nextAudioOn = !customEvent.detail.muted;
         isAudioOnRef.current = nextAudioOn;
         setIsAudioOn(nextAudioOn);
-        const activeEl = isPlayingIntroRef.current ? video2Ref.current : video1Ref.current;
+        const activeEl = video2Ref.current;
         if (activeEl) {
           enforceVideoAttributes(activeEl, !nextAudioOn, true);
         }
@@ -1986,19 +1998,20 @@ export function AboutView({
           className="w-full flex-1 min-h-full grid grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] sm:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[minmax(0,1fr)] gap-[15px] p-0 overflow-hidden items-stretch box-border"
         >
             
-            {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA (70%) */}
+            {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA (70% - Video 1 làm hình nền mặc định: tự động phát, tắt tiếng, vòng lặp) */}
             <div
               id="about-hero-video-container"
               data-element-name="Card video chân dung chuyên gia"
               data-element-type="card"
-              data-media-card="video"
+              data-media-card={activeHeroMedia === 'video' ? 'video' : undefined}
+              data-video-bg-card={activeHeroMedia === 'video' ? 'true' : 'false'}
               data-element-page="about"
               data-element-parent="about-intro-card-1"
               style={{
-                borderRadius: 'var(--radius-card, 14px)',
+                borderRadius: 'var(--radius-card, 16px)',
                 padding: '0px',
               }}
-              className="bento-card glass-card col-span-1 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-0 min-w-0 group/video p-0 text-left"
+              className="bento-card glass-card col-span-1 relative rounded-[var(--radius-card,16px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-0 min-w-0 group/video p-0 text-left"
             >
                   <div
                     id="el-p2-div-87"
@@ -2023,11 +2036,24 @@ export function AboutView({
                         style={{ containerType: 'size' }}
                         className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0"
                       >
-                        {/* VIDEO 1 — Hình nền mặc định Card Giới thiệu (autoPlay, vòng lặp, tắt âm thanh, không control) */}
+                        {/* Ảnh nền chân dung tải trước giúp card luôn hiển thị mượt mà trước khi luồng video bắt đầu */}
+                        <img
+                          src={ABOUT_VIDEO_1_POSTER_URL}
+                          alt="Hình nền chân dung chuyên gia Nguyễn Hùng Thái"
+                          loading="eager"
+                          referrerPolicy="no-referrer"
+                          aria-hidden="true"
+                          style={ABOUT_VIDEO_SHARED_STYLE}
+                          className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] select-none pointer-events-none z-0"
+                        />
+
+                        {/* VIDEO 1 — Hình nền mặc định Card Giới thiệu (tự động phát khi mở, tắt âm thanh, phát vòng lặp, không control) */}
                         {video1Stage !== 'iframe' ? (
                           <video
                             ref={video1Ref}
                             id="about-bg-video-1"
+                            src={getVideo1StreamUrl(video1Stage)}
+                            poster={ABOUT_VIDEO_1_POSTER_URL}
                             data-video-slot={1}
                             data-video-id={ABOUT_VIDEO_1_ID}
                             data-video-layer-active={!(isPlayingIntro && isVideo2Ready) ? 'true' : 'false'}
@@ -2089,7 +2115,7 @@ export function AboutView({
                           <iframe
                             key={`about-bg-iframe-1-${ABOUT_VIDEO_1_ID}`}
                             src={ABOUT_VIDEO_1_URL}
-                            title="Video giới thiệu 1 - Nguyễn Hùng Thái"
+                            title="Video nền giới thiệu 1 - Nguyễn Hùng Thái"
                             allow="autoplay; fullscreen; picture-in-picture"
                             tabIndex={-1}
                             aria-hidden="true"

@@ -22,7 +22,7 @@ import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 // Video thuyết minh Thư Ngỏ (Video 1 & Video 2 Google Drive ID)
 export const LETTER_VIDEO_1_ID = '156Uwr88AhLmybquXyrMsXqzxdAs5I6lw';
 export const LETTER_VIDEO_2_ID = '156Uwr88AhLmybquXyrMsXqzxdAs5I6lw';
-export const LETTER_SLIDE_1_VIDEO_URL = '/assets/aistudio/Th__ng__video_1_f7778906.mp4';
+export const LETTER_SLIDE_1_VIDEO_URL = 'https://cdn.scena.ai/project/10223/73bc236e3e9c7f6be95f2e882e26e6ff67b5f2a108d180fba8b33518146ff2b7.mp4';
 const LETTER_SLIDE_1_DRIVE_ALT_URL =
   `https://drive.google.com/uc?export=download&id=${LETTER_VIDEO_1_ID}`;
 const LETTER_SLIDE_1_MP4_BACKUP_URL =
@@ -1968,6 +1968,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           video1Id={LETTER_VIDEO_1_ID}
                           video1Src={LETTER_SLIDE_1_VIDEO_URL}
                           video2Id={LETTER_VIDEO_2_ID}
+                          autoPlayVideo1={true}
+                          muteVideo1={true}
+                          loopVideo1={true}
                           className="absolute inset-0 z-0 pointer-events-auto"
                         />
                       </div>

@@ -11,6 +11,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
 import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 
+
 export interface HomeViewProps {
   slideIndex?: number;
   currentTheme?: SiteTheme;
@@ -409,20 +410,37 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     }}
                     className="relative w-full h-full flex-1 rounded-[inherit] overflow-hidden min-h-0 flex items-center justify-center"
                   >
-                    {/* Dual-Layer Video chuẩn Video card Giới thiệu */}
-                    <DualLayerVideoPlayer className="absolute inset-0 z-0 pointer-events-auto" />
+                    {/* Dual-Layer Video chuẩn Video card Giới thiệu (dùng màu capsule riêng của Trang chủ) */}
+                    <DualLayerVideoPlayer
+                      video1Src="https://cdn.scena.ai/project/8606/5f84521bf5c51ff234fb0f4029fb9fba29e7e386f13912a56bc7ee25aebcbc10.mp4"
+                      video2Src="https://cdn.scena.ai/project/9626/42eba857297b415c8be72327102671129b5ebbdbaab55ac9eb6897411b4bdeda.mp4"
+                      autoPlayVideo1={true}
+                      muteVideo1={true}
+                      loopVideo1={true}
+                      capsuleVariant="home"
+                      className="absolute inset-0 z-0 pointer-events-auto"
+                    />
 
-                    {/* Lớp nội dung nổi trên video (Nhãn màn hình top + Thẻ thông tin tổng quan bottom-left để không đè capsule góc phải) */}
-                    <div className="relative z-20 w-full h-full flex flex-col justify-between p-[15px] pointer-events-none">
+                    {/* Lớp scrim chuyển sắc nhẹ bảo vệ độ tương phản chữ và điều khiển trên nền video */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 z-10 rounded-[inherit]"
+                      style={{
+                        background: isDark
+                          ? 'linear-gradient(180deg, rgba(2,6,23,0.28) 0%, rgba(2,6,23,0.04) 28%, rgba(2,6,23,0.18) 65%, rgba(2,6,23,0.62) 100%)'
+                          : 'linear-gradient(180deg, rgba(15,23,42,0.16) 0%, rgba(15,23,42,0.02) 28%, rgba(15,23,42,0.12) 68%, rgba(15,23,42,0.44) 100%)',
+                      }}
+                    />
+
+                    {/* Lớp nội dung nhãn top màn hình */}
+                    <div className="relative z-20 w-full h-full flex flex-col justify-between p-3.5 sm:p-5 pointer-events-none">
                       <div className="relative z-20 flex items-center justify-between gap-3 pointer-events-none">
                         {!isActive ? (
                           <span
-                            className="text-xs font-semibold tracking-wide px-1 py-0.5 select-none"
+                            className="typo-caption font-semibold tracking-wide px-1 py-0.5 select-none"
                             style={{
-                              color: isDark ? 'rgba(241,245,249,0.85)' : 'rgba(15,23,42,0.8)',
-                              textShadow: isDark
-                                ? '0 1px 4px rgba(0,0,0,0.65)'
-                                : '0 1px 4px rgba(255,255,255,0.85)',
+                              color: isDark ? 'rgba(241,245,249,0.9)' : 'rgba(255,255,255,0.92)',
+                              textShadow: '0 1px 6px rgba(2,6,23,0.65)',
                             }}
                           >
                             {screen.label} · {screen.id} / {VIDEO_SCREENS.length}
@@ -430,116 +448,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         ) : (
                           <span aria-hidden="true" />
                         )}
-
-                        {isActive && (
-                          <span
-                            className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide px-1 py-0.5 select-none tabular-nums"
-                            style={{
-                              color: isDark ? 'rgba(241,245,249,0.88)' : 'rgba(15,23,42,0.82)',
-                              textShadow: isDark
-                                ? '0 1px 6px rgba(0,0,0,0.6)'
-                                : '0 1px 6px rgba(255,255,255,0.9)',
-                            }}
-                          >
-                            {VIDEO_SCREENS.length > 1
-                              ? `${screen.label} · ${screen.id}/${VIDEO_SCREENS.length}`
-                              : screen.label}
-                          </span>
-                        )}
                       </div>
-
-                      {/* Thẻ thông tin tổng quan nằm góc dưới trái (~1/2 kích thước) để tách biệt hoàn toàn khỏi nút capsule Video góc dưới phải */}
-                      <div className="relative z-20 w-full flex-1 min-h-0 flex items-end justify-start pointer-events-none pt-4 sm:pt-0 sm:pl-6 pb-10 sm:pb-2.5">
-                        <div className="pointer-events-none flex items-end justify-start w-fit max-w-full mr-auto">
-                          <div
-                            id={heroCardId}
-                            data-element-name={`Thẻ thông tin tổng quan ${screen.label}`}
-                            data-element-type="card"
-                            data-element-page="home"
-                            data-element-parent={`home-main-card-${screen.id}`}
-                            data-section-card="true"
-                            data-card-theme-sync="true"
-                            className="home-hero-card bento-card layered-card pointer-events-auto p-2.5 rounded-[var(--radius-card,14px)] relative max-h-full overflow-y-auto overflow-x-hidden glass-scrollbar group transition-all duration-300 w-fit max-w-[205px] sm:max-w-[225px] text-left"
-                          >
-                            <div className="relative z-10 flex flex-col gap-1.5 w-full">
-                              <div className="flex items-center justify-between gap-2">
-                                <div
-                                  className="home-hero-badge inline-flex items-center gap-1 text-[10.5px] sm:text-[11px] font-bold tracking-tight leading-tight px-0 py-0 border-0 bg-transparent shadow-none"
-                                  style={{
-                                    color: `var(--card-synced-accent, var(--color-primary, ${screen.accentColor}))`,
-                                  }}
-                                >
-                                  <span>{screen.heroBadge}</span>
-                                </div>
-                              </div>
-
-                              <div
-                                className="card-header-sync flex items-center gap-1.5 flex-wrap sm:flex-nowrap"
-                                style={{
-                                  color: `var(--card-synced-accent, var(--text-heading, ${screen.accentColor}))`,
-                                }}
-                              >
-                                <WebIcon
-                                  name={screen.heroIcon || 'sparkles'}
-                                  className="w-3.5 h-3.5 shrink-0"
-                                  style={{
-                                    color: `var(--card-synced-accent, var(--text-heading, ${screen.accentColor}))`,
-                                  }}
-                                />
-                                <h3
-                                  className="card-title card-title-synced text-[11.5px] sm:text-[12.5px] font-bold font-play tracking-tight leading-snug whitespace-normal m-0"
-                                  data-card-title="true"
-                                  style={{
-                                    color: `var(--card-synced-accent, var(--text-heading, ${screen.accentColor}))`,
-                                  }}
-                                >
-                                  {screen.title}
-                                </h3>
-                              </div>
-
-                              <p
-                                className="text-[10px] sm:text-[10.5px] font-medium leading-snug m-0"
-                                style={{ color: 'var(--text-secondary)' }}
-                              >
-                                {screen.description}
-                              </p>
-
-                              {/* Nhóm điều khiển: Nút hành động phụ chuyển nhanh Giới thiệu / Liên hệ */}
-                              <div
-                                id={isActive ? 'el-p0-group-container' : `home-group-container-${screen.id}`}
-                                data-element-name="Nhóm điều khiển chuyển nhanh trang"
-                                data-element-type="container"
-                                data-element-page="home"
-                                className="pt-0.5 flex flex-wrap items-center justify-start gap-1.5 w-full"
-                              >
-                                <button
-                                  id={isActive ? 'home-quick-about-btn' : `home-quick-about-btn-${screen.id}`}
-                                  type="button"
-                                  onClick={handleQuickNavigateAbout}
-                                  title={isEn ? 'Open Executive Profile (About)' : 'Xem chi tiết Hồ sơ Giới thiệu'}
-                                  aria-label={isEn ? 'About Profile' : 'Giới thiệu'}
-                                  className="theme-modal-close inline-flex items-center justify-center gap-1 px-2.5 py-1 min-h-[24px] rounded-[999px] text-[10px] sm:text-[10.5px] font-bold font-play whitespace-nowrap shrink-0 cursor-pointer pointer-events-auto transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-                                >
-                                  <WebIcon name="user" className="w-3 h-3 shrink-0" />
-                                  <span>{isEn ? 'About' : 'Giới thiệu'}</span>
-                                </button>
-
-                                <button
-                                  id={isActive ? 'home-quick-contact-btn' : `home-quick-contact-btn-${screen.id}`}
-                                  type="button"
-                                  onClick={handleQuickNavigateContact}
-                                  title={isEn ? 'Go to Contact & Booking' : 'Đặt lịch hẹn & Liên hệ trực tiếp'}
-                                  aria-label={isEn ? 'Contact' : 'Liên hệ'}
-                                  className="theme-modal-close inline-flex items-center justify-center gap-1 px-2.5 py-1 min-h-[24px] rounded-[999px] text-[10px] sm:text-[10.5px] font-bold font-play whitespace-nowrap shrink-0 cursor-pointer pointer-events-auto transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-                                >
-                                  <WebIcon name="calendar" className="w-3 h-3 shrink-0" />
-                                  <span>{isEn ? 'Contact' : 'Liên hệ'}</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <div />
                     </div>
                   </div>
                 </div>

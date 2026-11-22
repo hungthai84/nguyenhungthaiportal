@@ -125,29 +125,29 @@ export const VIDEO_BANNER_CONFIG: Record<
     previewUrl: 'https://drive.google.com/file/d/1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP/preview',
   },
   horoscope: {
-    videoId: '1G2ydHrMUchyBLjl3YR5xat8eF1MdPOQ4',
+    videoId: 'https://cdn.scena.ai/project/10223/93137f897eb5f97382f02d64e99ca0270133bea596646ca5f574e96e80aab770.mp4',
     title: 'Video Banner Tử Vi',
-    previewUrl: 'https://drive.google.com/file/d/1G2ydHrMUchyBLjl3YR5xat8eF1MdPOQ4/preview',
+    previewUrl: 'https://cdn.scena.ai/project/10223/93137f897eb5f97382f02d64e99ca0270133bea596646ca5f574e96e80aab770.mp4',
   },
   interface: {
-    videoId: '1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx',
+    videoId: 'https://cdn.scena.ai/project/10223/13eee325b1e14c3b5496ca67e6bf5a3558a5ff156c17f40045f15f82d9e29391.mp4',
     title: 'Video Banner Giao diện',
-    previewUrl: 'https://drive.google.com/file/d/1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx/preview',
+    previewUrl: 'https://cdn.scena.ai/project/10223/13eee325b1e14c3b5496ca67e6bf5a3558a5ff156c17f40045f15f82d9e29391.mp4',
   },
   education: {
-    videoId: '1SxwuMCwZEjqGXaBez6k2R1lUb1dfRKav',
+    videoId: 'https://cdn.scena.ai/project/10223/3b21c889ee1a2e472ff083f353aacceecbaf898663debad53a46736097ec4df1.mp4',
     title: 'Video Banner Học vấn',
-    previewUrl: 'https://drive.google.com/file/d/1SxwuMCwZEjqGXaBez6k2R1lUb1dfRKav/preview',
+    previewUrl: 'https://cdn.scena.ai/project/10223/3b21c889ee1a2e472ff083f353aacceecbaf898663debad53a46736097ec4df1.mp4',
   },
   wallpaper: {
-    videoId: '1x-u8GDuR95rAAiFJo2Qc7eV4qtiKGfwB',
+    videoId: 'https://cdn.scena.ai/project/10223/f05fad8258c2979cd5d67217df4e4258a6f7da100249899f7bfd535a17e29cee.mp4',
     title: 'Video Banner Hình nền',
-    previewUrl: 'https://drive.google.com/file/d/1x-u8GDuR95rAAiFJo2Qc7eV4qtiKGfwB/preview',
+    previewUrl: 'https://cdn.scena.ai/project/10223/f05fad8258c2979cd5d67217df4e4258a6f7da100249899f7bfd535a17e29cee.mp4',
   },
   memories: {
-    videoId: '1ruWiQjZF1D_sIiw0G6jY05qulslNMj7B',
+    videoId: 'https://cdn.scena.ai/project/10223/623a65aeff2baa4f3c3dd477737d31d9d1b6da96a011e9a34e8707268e60202f.mp4',
     title: 'Video Banner Kỷ niệm',
-    previewUrl: 'https://drive.google.com/file/d/1ruWiQjZF1D_sIiw0G6jY05qulslNMj7B/preview',
+    previewUrl: 'https://cdn.scena.ai/project/10223/623a65aeff2baa4f3c3dd477737d31d9d1b6da96a011e9a34e8707268e60202f.mp4',
   },
   experience: {
     videoId: '1GLEn1qcwUCTdzcoCxy715IrvQe3l4QVn',
@@ -160,19 +160,19 @@ export const VIDEO_BANNER_CONFIG: Record<
     previewUrl: 'https://drive.google.com/file/d/1rbcqxl4WUeZvXg98OfQUIxOO1ja5_vIY/preview',
   },
   services: {
-    videoId: '1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP',
+    videoId: 'https://cdn.scena.ai/project/10223/f3a9f7acb4f23d90f7ad166286a0f41384d667aa1bf72e6803e0c6a9468c4c4f.mp4',
     title: 'Video Banner Dịch vụ',
-    previewUrl: 'https://drive.google.com/file/d/1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP/preview',
+    previewUrl: 'https://cdn.scena.ai/project/10223/f3a9f7acb4f23d90f7ad166286a0f41384d667aa1bf72e6803e0c6a9468c4c4f.mp4',
   },
   projects: {
-    videoId: '1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U',
+    videoId: 'https://cdn.scena.ai/project/10223/4acb98f87ccd8420e92440c96d0d0d1a21ecb4efb212fdee490e43811ae8128e.mp4',
     title: 'Video Banner Dự án',
-    previewUrl: 'https://drive.google.com/file/d/1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U/preview',
+    previewUrl: 'https://cdn.scena.ai/project/10223/4acb98f87ccd8420e92440c96d0d0d1a21ecb4efb212fdee490e43811ae8128e.mp4',
   },
   skills: {
-    videoId: '1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx',
-    title: 'Video Banner Kỹ năng',
-    previewUrl: 'https://drive.google.com/file/d/1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx/preview',
+    videoId: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
+    title: 'Video Banner AI hỗ trợ',
+    previewUrl: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
   },
 };
 

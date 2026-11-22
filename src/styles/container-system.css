@@ -1083,14 +1083,14 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 }
 
-/* Compact 1/2 scale overlay safeguards for .home-hero-card ("Hồ Sơ Lãnh Đạo" & siblings) */
+/* Responsive Layer Card UI & Typography Scale safeguards for .home-hero-card */
 html .home-hero-card,
 html #home-stats-card,
 html #home-intro-card,
 html #home-capabilities-card,
 html #home-achievements-card {
-  padding: 10px !important;
-  max-width: 205px !important;
+  padding: clamp(14px, 1.5cqi, 20px) !important;
+  max-width: min(100%, 340px) !important;
 }
 
 @media (min-width: 640px) {
@@ -1099,29 +1099,39 @@ html #home-achievements-card {
   html #home-intro-card,
   html #home-capabilities-card,
   html #home-achievements-card {
-    max-width: 225px !important;
+    max-width: 370px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  html .home-hero-card,
+  html #home-stats-card,
+  html #home-intro-card,
+  html #home-capabilities-card,
+  html #home-achievements-card {
+    max-width: 400px !important;
   }
 }
 
 html .home-hero-card .home-hero-badge {
-  font-size: 10.5px !important;
-  line-height: 1.2 !important;
+  font-size: var(--fs-label, 12px) !important;
+  line-height: var(--lh-label, 1.38) !important;
 }
 
 html .home-hero-card :is(h3.card-title, .card-title-synced, [data-card-title="true"]) {
-  font-size: 12px !important;
-  line-height: 1.3 !important;
+  font-size: var(--fs-h4, clamp(16px, 1.15cqi, 20px)) !important;
+  line-height: var(--lh-h4, 1.32) !important;
   margin-bottom: 0 !important;
 }
 
 html .home-hero-card p {
-  font-size: 10.5px !important;
-  line-height: 1.35 !important;
+  font-size: var(--fs-body-sm, 14px) !important;
+  line-height: var(--lh-body-sm, 1.55) !important;
 }
 
 html .home-hero-card button.theme-modal-close {
-  min-height: 24px !important;
-  padding: 3px 10px !important;
-  font-size: 10px !important;
+  min-height: 36px !important;
+  padding: 6px 14px !important;
+  font-size: var(--fs-button, 13.5px) !important;
 }
 

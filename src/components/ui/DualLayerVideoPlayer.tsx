@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useToast } from '@/components/ui/Toast';
 import { cn } from '@/lib/utils';
 
@@ -10,19 +9,39 @@ export interface DualLayerVideoPlayerProps {
   video1Id?: string;
   video1Src?: string;
   video2Id?: string;
+  video2Src?: string;
+  autoPlayVideo1?: boolean;
+  muteVideo1?: boolean;
+  loopVideo1?: boolean;
+  capsuleVariant?: 'home' | 'about';
   className?: string;
   style?: React.CSSProperties;
 }
 
-type StreamStage = 'primary' | 'alt' | 'iframe';
+type StreamStage = 'custom' | 'proxy' | 'uc' | 'alt' | 'iframe';
 
 const DEFAULT_VIDEO_1_ID = '1-XpJWJEyTq4PYh902i7FQbWYnpO17PvM';
 const DEFAULT_VIDEO_2_ID = '1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
+
+const normalizeMediaSrc = (src?: string): string | undefined => {
+  if (!src) return undefined;
+  const trimmed = src.trim();
+  if (!trimmed) return undefined;
+  if (/^https:\/\/(photos\.app\.goo\.gl\/|photos\.google\.com\/share\/)/i.test(trimmed)) {
+    return `/api/media/photos-video?url=${encodeURIComponent(trimmed)}`;
+  }
+  return trimmed;
+};
 
 export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
   video1Id = DEFAULT_VIDEO_1_ID,
   video1Src,
   video2Id = DEFAULT_VIDEO_2_ID,
+  video2Src,
+  autoPlayVideo1 = true,
+  muteVideo1 = true,
+  loopVideo1 = true,
+  capsuleVariant = 'about',
   className,
   style,
 }) => {
@@ -30,85 +49,113 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
   const video1Ref = useRef<HTMLVideoElement | null>(null);
   const video2Ref = useRef<HTMLVideoElement | null>(null);
 
-  const video1StageRef = useRef<StreamStage>('primary');
-  const video2StageRef = useRef<StreamStage>('primary');
-  const isPlayingIntroRef = useRef<boolean>(false);
-  const isAudioOnRef = useRef<boolean>(false);
+  const resolvedVideo1Src = normalizeMediaSrc(video1Src);
+  const resolvedVideo2Src = normalizeMediaSrc(video2Src);
 
-  const [video1Stage, setVideo1Stage] = useState<StreamStage>('primary');
-  const [video2Stage, setVideo2Stage] = useState<StreamStage>('primary');
+  const initialVideo1Stage: StreamStage = resolvedVideo1Src ? 'custom' : 'proxy';
+  const initialVideo2Stage: StreamStage = resolvedVideo2Src ? 'custom' : 'proxy';
+
+  const video1StageRef = useRef<StreamStage>(initialVideo1Stage);
+  const video2StageRef = useRef<StreamStage>(initialVideo2Stage);
+  const isPlayingIntroRef = useRef<boolean>(false);
+  const isAudioOnRef = useRef<boolean>(!muteVideo1);
+
+  const [video1Stage, setVideo1Stage] = useState<StreamStage>(initialVideo1Stage);
+  const [video2Stage, setVideo2Stage] = useState<StreamStage>(initialVideo2Stage);
   const [isPlayingIntro, setIsPlayingIntro] = useState<boolean>(false);
   const [isVideo2Ready, setIsVideo2Ready] = useState<boolean>(false);
-  const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
+  const [isAudioOn, setIsAudioOn] = useState<boolean>(!muteVideo1);
+  const [isPosterError, setIsPosterError] = useState<boolean>(false);
 
   const getVideo1StreamUrl = useCallback(
     (stage: StreamStage, id: string): string => {
-      if (stage === 'primary' && video1Src) {
-        return video1Src;
+      if (stage === 'custom' && resolvedVideo1Src) {
+        return resolvedVideo1Src;
       }
-      return stage === 'alt'
-        ? `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`
-        : `/api/media/drive-video/${id}`;
+      if (stage === 'uc') {
+        return `https://drive.google.com/uc?export=download&id=${id}`;
+      }
+      if (stage === 'alt') {
+        return `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`;
+      }
+      return `/api/media/drive-video/${id}`;
     },
-    [video1Src]
+    [resolvedVideo1Src]
   );
 
-  const getVideo2StreamUrl = useCallback((stage: StreamStage, id: string): string => {
-    return stage === 'alt'
-      ? `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`
-      : `/api/media/drive-video/${id}`;
-  }, []);
+  const getVideo2StreamUrl = useCallback(
+    (stage: StreamStage, id: string): string => {
+      if (stage === 'custom' && resolvedVideo2Src) {
+        return resolvedVideo2Src;
+      }
+      if (stage === 'uc') {
+        return `https://drive.google.com/uc?export=download&id=${id}`;
+      }
+      if (stage === 'alt') {
+        return `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`;
+      }
+      return `/api/media/drive-video/${id}`;
+    },
+    [resolvedVideo2Src]
+  );
 
-  const enforceVideoAttributes = useCallback((el: HTMLVideoElement | null, muted: boolean, autoplay: boolean) => {
-    if (!el) return;
-    el.defaultMuted = muted;
-    el.muted = muted;
-    el.volume = 1;
-    el.loop = true;
-    el.autoplay = autoplay;
-    el.playsInline = true;
-    el.controls = false;
-    el.disablePictureInPicture = true;
-    (el as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-    if (muted) {
-      el.setAttribute('muted', '');
-    } else {
-      el.removeAttribute('muted');
-    }
-    if (autoplay) {
-      el.setAttribute('autoplay', '');
-    } else {
-      el.removeAttribute('autoplay');
-    }
-    el.setAttribute('loop', '');
-    el.setAttribute('playsinline', '');
-    el.setAttribute('webkit-playsinline', '');
-    el.removeAttribute('controls');
-  }, []);
+  const enforceVideoAttributes = useCallback(
+    (el: HTMLVideoElement | null, muted: boolean, autoplay: boolean, loop: boolean = true) => {
+      if (!el) return;
+      el.defaultMuted = muted;
+      el.muted = muted;
+      el.volume = 1;
+      el.loop = loop;
+      el.autoplay = autoplay;
+      el.playsInline = true;
+      el.controls = false;
+      el.disablePictureInPicture = true;
+      (el as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+      if (muted) {
+        el.setAttribute('muted', '');
+      } else {
+        el.removeAttribute('muted');
+      }
+      if (autoplay) {
+        el.setAttribute('autoplay', '');
+      } else {
+        el.removeAttribute('autoplay');
+      }
+      if (loop) {
+        el.setAttribute('loop', '');
+      } else {
+        el.removeAttribute('loop');
+      }
+      el.setAttribute('playsinline', '');
+      el.setAttribute('webkit-playsinline', '');
+      el.removeAttribute('controls');
+    },
+    []
+  );
 
   const tryStartVideo1 = useCallback(
     (el: HTMLVideoElement | null, audioOn: boolean) => {
       if (!el) return;
-      enforceVideoAttributes(el, !audioOn, true);
+      enforceVideoAttributes(el, !audioOn, autoPlayVideo1, loopVideo1);
       const playPromise = el.play();
       if (playPromise && typeof playPromise.catch === 'function') {
         playPromise.catch(() => {
           if (audioOn && !isPlayingIntroRef.current) {
             isAudioOnRef.current = false;
             setIsAudioOn(false);
-            enforceVideoAttributes(el, true, true);
+            enforceVideoAttributes(el, true, autoPlayVideo1, loopVideo1);
             el.play().catch(() => {});
           }
         });
       }
     },
-    [enforceVideoAttributes]
+    [autoPlayVideo1, enforceVideoAttributes, loopVideo1]
   );
 
   const tryStartVideo2 = useCallback(
     (el: HTMLVideoElement | null, audioOn: boolean) => {
       if (!el) return;
-      enforceVideoAttributes(el, !audioOn, true);
+      enforceVideoAttributes(el, !audioOn, true, true);
       const playPromise = el.play();
       if (playPromise && typeof playPromise.catch === 'function') {
         playPromise.catch((err) => {
@@ -116,7 +163,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
           if (err && err.name === 'NotAllowedError' && audioOn) {
             isAudioOnRef.current = false;
             setIsAudioOn(false);
-            enforceVideoAttributes(el, true, true);
+            enforceVideoAttributes(el, true, true, true);
             el.play().catch(() => {});
             showToast('Trình duyệt tạm chặn âm thanh tự động — bấm biểu tượng loa để bật tiếng.');
           }
@@ -138,15 +185,15 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
       video.src = getVideo1StreamUrl(stage, video1Id);
       video.preload = 'auto';
       const shouldAudioOn = !isPlayingIntroRef.current && isAudioOnRef.current;
-      enforceVideoAttributes(video, !shouldAudioOn, true);
+      enforceVideoAttributes(video, !shouldAudioOn, autoPlayVideo1, loopVideo1);
       try {
         video.load();
       } catch {}
-      if (!isPlayingIntroRef.current) {
+      if (!isPlayingIntroRef.current && autoPlayVideo1) {
         tryStartVideo1(video, shouldAudioOn);
       }
     },
-    [enforceVideoAttributes, getVideo1StreamUrl, tryStartVideo1, video1Id]
+    [autoPlayVideo1, enforceVideoAttributes, getVideo1StreamUrl, loopVideo1, tryStartVideo1, video1Id]
   );
 
   const loadVideo2 = useCallback(
@@ -161,7 +208,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
       video.src = getVideo2StreamUrl(stage, video2Id);
       video.preload = shouldPlayImmediately ? 'auto' : 'metadata';
       const shouldAudioOn = isPlayingIntroRef.current && isAudioOnRef.current;
-      enforceVideoAttributes(video, !shouldAudioOn, shouldPlayImmediately);
+      enforceVideoAttributes(video, !shouldAudioOn, shouldPlayImmediately, true);
       try {
         video.load();
       } catch {}
@@ -173,20 +220,57 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
   );
 
   useEffect(() => {
-    loadVideo1(video1StageRef.current === 'iframe' ? 'primary' : video1StageRef.current);
+    setIsPosterError(false);
+    const startStage1: StreamStage = resolvedVideo1Src ? 'custom' : 'proxy';
+    const startStage2: StreamStage = resolvedVideo2Src ? 'custom' : 'proxy';
+    video1StageRef.current = startStage1;
+    video2StageRef.current = startStage2;
+    setVideo1Stage(startStage1);
+    setVideo2Stage(startStage2);
+
+    if (!isPlayingIntroRef.current) {
+      isAudioOnRef.current = !muteVideo1;
+      setIsAudioOn(!muteVideo1);
+    }
+
+    loadVideo1(startStage1);
     const v2 = video2Ref.current;
-    if (v2 && video2StageRef.current !== 'iframe') {
-      v2.src = getVideo2StreamUrl(video2StageRef.current, video2Id);
+    if (v2) {
+      v2.src = getVideo2StreamUrl(startStage2, video2Id);
       v2.preload = isPlayingIntroRef.current ? 'auto' : 'metadata';
-      enforceVideoAttributes(v2, !(isPlayingIntroRef.current && isAudioOnRef.current), isPlayingIntroRef.current);
+      enforceVideoAttributes(v2, !(isPlayingIntroRef.current && isAudioOnRef.current), isPlayingIntroRef.current, true);
       if (isPlayingIntroRef.current) {
         tryStartVideo2(v2, isAudioOnRef.current);
       }
     }
-  }, [enforceVideoAttributes, getVideo2StreamUrl, loadVideo1, tryStartVideo2, video1Id, video1Src, video2Id]);
+  }, [enforceVideoAttributes, getVideo2StreamUrl, loadVideo1, muteVideo1, tryStartVideo2, video1Id, resolvedVideo1Src, video2Id, resolvedVideo2Src]);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const handleVisibilityChange = () => {
+      const v1 = video1Ref.current;
+      const v2 = video2Ref.current;
+      if (document.hidden) {
+        if (v1 && !v1.paused) v1.pause();
+        if (v2 && !v2.paused) v2.pause();
+      } else if (isPlayingIntroRef.current) {
+        if (v2 && video2StageRef.current !== 'iframe' && v2.paused) {
+          tryStartVideo2(v2, isAudioOnRef.current);
+        }
+      } else if (autoPlayVideo1 && v1 && video1StageRef.current !== 'iframe' && v1.paused) {
+        tryStartVideo1(v1, isAudioOnRef.current);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [autoPlayVideo1, tryStartVideo1, tryStartVideo2]);
 
   const handleVideo1Error = useCallback(() => {
-    if (video1StageRef.current === 'primary') {
+    if (video1StageRef.current === 'custom') {
+      loadVideo1('proxy');
+    } else if (video1StageRef.current === 'proxy') {
+      loadVideo1('uc');
+    } else if (video1StageRef.current === 'uc') {
       loadVideo1('alt');
     } else if (video1StageRef.current === 'alt') {
       video1StageRef.current = 'iframe';
@@ -195,7 +279,11 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
   }, [loadVideo1]);
 
   const handleVideo2Error = useCallback(() => {
-    if (video2StageRef.current === 'primary') {
+    if (video2StageRef.current === 'custom') {
+      loadVideo2('proxy', isPlayingIntroRef.current);
+    } else if (video2StageRef.current === 'proxy') {
+      loadVideo2('uc', isPlayingIntroRef.current);
+    } else if (video2StageRef.current === 'uc') {
       loadVideo2('alt', isPlayingIntroRef.current);
     } else if (video2StageRef.current === 'alt') {
       video2StageRef.current = 'iframe';
@@ -224,11 +312,11 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
     const v2 = video2Ref.current;
     if (v2) {
       const targetSrc = getVideo2StreamUrl(video2StageRef.current, video2Id);
-      if (!v2.src || !v2.src.includes(video2Id)) {
+      if (!v2.src || (!v2.src.includes(video2Id) && v2.src !== targetSrc)) {
         v2.src = targetSrc;
       }
       v2.preload = 'auto';
-      enforceVideoAttributes(v2, false, true);
+      enforceVideoAttributes(v2, false, true, true);
       if (v2.readyState >= 1) {
         try {
           v2.currentTime = 0;
@@ -241,17 +329,18 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
 
   const handleCancelIntro = useCallback(() => {
     isPlayingIntroRef.current = false;
-    isAudioOnRef.current = false;
+    const restoredAudioOn = !muteVideo1;
+    isAudioOnRef.current = restoredAudioOn;
     setIsPlayingIntro(false);
     setIsVideo2Ready(false);
-    setIsAudioOn(false);
+    setIsAudioOn(restoredAudioOn);
 
     const v2 = video2Ref.current;
     if (v2) {
       try {
         v2.pause();
       } catch {}
-      enforceVideoAttributes(v2, true, false);
+      enforceVideoAttributes(v2, true, false, true);
       if (v2.readyState >= 1) {
         try {
           v2.currentTime = 0;
@@ -261,11 +350,13 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
 
     const v1 = video1Ref.current;
     if (v1 && video1StageRef.current !== 'iframe') {
-      enforceVideoAttributes(v1, true, true);
-      tryStartVideo1(v1, false);
+      enforceVideoAttributes(v1, !restoredAudioOn, autoPlayVideo1, loopVideo1);
+      if (autoPlayVideo1) {
+        tryStartVideo1(v1, restoredAudioOn);
+      }
     }
-    showToast('Đã quay về Video 1 (tắt âm thanh)');
-  }, [enforceVideoAttributes, showToast, tryStartVideo1]);
+    showToast(restoredAudioOn ? 'Đã quay về Video 1' : 'Đã quay về Video 1 (tắt âm thanh)');
+  }, [autoPlayVideo1, enforceVideoAttributes, loopVideo1, muteVideo1, showToast, tryStartVideo1]);
 
   const toggleVideoMute = useCallback(() => {
     const nextAudioOn = !isAudioOnRef.current;
@@ -275,18 +366,18 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
     if (isPlayingIntroRef.current) {
       const v2 = video2Ref.current;
       if (v2 && video2StageRef.current !== 'iframe') {
-        enforceVideoAttributes(v2, !nextAudioOn, true);
+        enforceVideoAttributes(v2, !nextAudioOn, true, true);
         if (v2.paused) tryStartVideo2(v2, nextAudioOn);
       }
     } else {
       const v1 = video1Ref.current;
       if (v1 && video1StageRef.current !== 'iframe') {
-        enforceVideoAttributes(v1, !nextAudioOn, true);
-        if (v1.paused) tryStartVideo1(v1, nextAudioOn);
+        enforceVideoAttributes(v1, !nextAudioOn, autoPlayVideo1, loopVideo1);
+        if (autoPlayVideo1 && v1.paused) tryStartVideo1(v1, nextAudioOn);
       }
     }
     showToast(nextAudioOn ? 'Đã bật âm thanh video' : 'Đã tắt âm thanh video');
-  }, [enforceVideoAttributes, showToast, tryStartVideo1, tryStartVideo2]);
+  }, [autoPlayVideo1, enforceVideoAttributes, loopVideo1, showToast, tryStartVideo1, tryStartVideo2]);
 
   const sharedVideoStyle: React.CSSProperties = {
     position: 'absolute',
@@ -320,12 +411,27 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
         style={{ containerType: 'size' }}
         className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0"
       >
+        {/* Ảnh nền tải trước giúp card không bị trống khi đệm luồng video */}
+        {video1Id && !isPosterError && (
+          <img
+            src={`https://drive.google.com/thumbnail?id=${video1Id}&sz=w1600`}
+            alt="Hình nền video"
+            loading="eager"
+            referrerPolicy="no-referrer"
+            aria-hidden="true"
+            onError={() => setIsPosterError(true)}
+            style={sharedVideoStyle}
+            className={cn(sharedVideoClass, isPlayingIntro && isVideo2Ready ? 'opacity-0 z-0' : 'opacity-100 z-0')}
+          />
+        )}
+
         {/* VIDEO 1 */}
         {video1Stage !== 'iframe' ? (
           <video
             ref={video1Ref}
-            autoPlay
-            loop
+            poster={video1Id ? `https://drive.google.com/thumbnail?id=${video1Id}&sz=w1600` : undefined}
+            autoPlay={autoPlayVideo1}
+            loop={loopVideo1}
             muted={!(!isPlayingIntro && isAudioOn)}
             playsInline
             preload="auto"
@@ -337,35 +443,35 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
             onLoadedMetadata={(e) => {
               const v = e.currentTarget;
               const audioOn = !isPlayingIntroRef.current && isAudioOnRef.current;
-              enforceVideoAttributes(v, !audioOn, !isPlayingIntroRef.current);
-              if (!isPlayingIntroRef.current && v.paused) tryStartVideo1(v, audioOn);
+              enforceVideoAttributes(v, !audioOn, autoPlayVideo1 && !isPlayingIntroRef.current, loopVideo1);
+              if (autoPlayVideo1 && !isPlayingIntroRef.current && v.paused) tryStartVideo1(v, audioOn);
             }}
             onLoadedData={(e) => {
               const v = e.currentTarget;
               const audioOn = !isPlayingIntroRef.current && isAudioOnRef.current;
-              enforceVideoAttributes(v, !audioOn, !isPlayingIntroRef.current);
-              if (!isPlayingIntroRef.current && v.paused) tryStartVideo1(v, audioOn);
+              enforceVideoAttributes(v, !audioOn, autoPlayVideo1 && !isPlayingIntroRef.current, loopVideo1);
+              if (autoPlayVideo1 && !isPlayingIntroRef.current && v.paused) tryStartVideo1(v, audioOn);
             }}
             onCanPlay={(e) => {
               const v = e.currentTarget;
               const audioOn = !isPlayingIntroRef.current && isAudioOnRef.current;
-              enforceVideoAttributes(v, !audioOn, !isPlayingIntroRef.current);
-              if (!isPlayingIntroRef.current && v.paused) tryStartVideo1(v, audioOn);
+              enforceVideoAttributes(v, !audioOn, autoPlayVideo1 && !isPlayingIntroRef.current, loopVideo1);
+              if (autoPlayVideo1 && !isPlayingIntroRef.current && v.paused) tryStartVideo1(v, audioOn);
             }}
             onPlaying={(e) => {
               const audioOn = !isPlayingIntroRef.current && isAudioOnRef.current;
-              enforceVideoAttributes(e.currentTarget, !audioOn, !isPlayingIntroRef.current);
+              enforceVideoAttributes(e.currentTarget, !audioOn, autoPlayVideo1 && !isPlayingIntroRef.current, loopVideo1);
             }}
             onEnded={(e) => {
-              if (isPlayingIntroRef.current) return;
+              if (isPlayingIntroRef.current || !loopVideo1) return;
               const v = e.currentTarget;
               const audioOn = isAudioOnRef.current;
-              enforceVideoAttributes(v, !audioOn, true);
+              enforceVideoAttributes(v, !audioOn, autoPlayVideo1, loopVideo1);
               v.currentTime = 0;
               tryStartVideo1(v, audioOn);
             }}
             onPause={(e) => {
-              if (isPlayingIntroRef.current) return;
+              if (!autoPlayVideo1 || isPlayingIntroRef.current) return;
               if (typeof document !== 'undefined' && document.hidden) return;
               const v = e.currentTarget;
               if (v.seeking) return;
@@ -377,7 +483,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
           />
         ) : (
           <iframe
-            src={`https://drive.google.com/file/d/${video1Id}/preview`}
+            src={`https://drive.google.com/file/d/${video1Id}/preview?autoplay=${autoPlayVideo1 ? 1 : 0}&mute=${muteVideo1 ? 1 : 0}&loop=${loopVideo1 ? 1 : 0}`}
             title="Video 1"
             allow="autoplay; fullscreen; picture-in-picture"
             tabIndex={-1}
@@ -405,22 +511,22 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
             onLoadedMetadata={(e) => {
               const v = e.currentTarget;
               if (!isPlayingIntroRef.current) {
-                enforceVideoAttributes(v, true, false);
+                enforceVideoAttributes(v, true, false, true);
                 return;
               }
-              enforceVideoAttributes(v, !isAudioOnRef.current, true);
+              enforceVideoAttributes(v, !isAudioOnRef.current, true, true);
               if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
             }}
             onLoadedData={(e) => {
               const v = e.currentTarget;
               if (!isPlayingIntroRef.current) return;
-              enforceVideoAttributes(v, !isAudioOnRef.current, true);
+              enforceVideoAttributes(v, !isAudioOnRef.current, true, true);
               if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
             }}
             onCanPlay={(e) => {
               const v = e.currentTarget;
               if (!isPlayingIntroRef.current) return;
-              enforceVideoAttributes(v, !isAudioOnRef.current, true);
+              enforceVideoAttributes(v, !isAudioOnRef.current, true, true);
               if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
             }}
             onPlaying={(e) => {
@@ -428,7 +534,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
                 e.currentTarget.pause();
                 return;
               }
-              enforceVideoAttributes(e.currentTarget, !isAudioOnRef.current, true);
+              enforceVideoAttributes(e.currentTarget, !isAudioOnRef.current, true, true);
               setIsVideo2Ready(true);
               const v1 = video1Ref.current;
               if (v1 && !v1.paused) v1.pause();
@@ -437,7 +543,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
               if (!isPlayingIntroRef.current) return;
               const v = e.currentTarget;
               const audioOn = isAudioOnRef.current;
-              enforceVideoAttributes(v, !audioOn, true);
+              enforceVideoAttributes(v, !audioOn, true, true);
               v.currentTime = 0;
               tryStartVideo2(v, audioOn);
             }}
@@ -455,7 +561,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
         ) : (
           isPlayingIntro && (
             <iframe
-              src={`https://drive.google.com/file/d/${video2Id}/preview`}
+              src={`https://drive.google.com/file/d/${video2Id}/preview?autoplay=1&loop=1`}
               title="Video 2"
               allow="autoplay; fullscreen; picture-in-picture"
               tabIndex={-1}
@@ -470,9 +576,10 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
       <div
         style={{ borderRadius: '999px' }}
         className={cn(
-          'theme-video-capsule video-play-btn video-play-btn--about',
+          'theme-video-capsule video-play-btn',
+          capsuleVariant === 'home' ? 'video-play-btn--home' : 'video-play-btn--about',
           isPlayingIntro ? 'is-playing' : '',
-          'absolute bottom-2 right-2 sm:bottom-3.5 sm:right-3.5 z-30 max-w-[calc(100%-16px)] inline-flex items-center gap-1.5 sm:gap-2.5 px-2 sm:px-3 py-1 sm:py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none'
+          'absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-30 max-w-[calc(100%-24px)] inline-flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-200 pointer-events-auto select-none'
         )}
       >
         {/* Speaker Toggle Button */}
@@ -483,7 +590,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
             toggleVideoMute();
           }}
           className={cn(
-            'video-play-btn__sound w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90',
+            'video-play-btn__sound w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
             isAudioOn ? 'text-current shadow-xs' : 'is-muted text-white shadow-md'
           )}
           title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
@@ -492,14 +599,14 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
         >
           <span className="flex items-center justify-center">
             {isAudioOn ? (
-              <WebIcon name="volume-2" className="w-3.5 h-3.5 text-current" />
+              <WebIcon name="volume-2" className="w-4 h-4 text-current" />
             ) : (
-              <WebIcon name="volume-x" className="w-3.5 h-3.5 text-white" />
+              <WebIcon name="volume-x" className="w-4 h-4 text-white" />
             )}
           </span>
         </button>
 
-        <div className="w-[1px] h-4 bg-current opacity-25 shrink-0 mx-0.5" />
+        <div className="w-[1px] h-4 bg-current opacity-25 shrink-0" />
 
         {/* Play / Cancel Toggle Button */}
         {!isPlayingIntro ? (
@@ -509,14 +616,14 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
               e.stopPropagation();
               handlePlayIntro();
             }}
-            style={{ paddingLeft: '8px', paddingRight: '10px', borderRadius: '999px' }}
-            className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+            style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
+            className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
             title="Bấm để phát video"
           >
             <span className="flex items-center justify-center">
               <WebIcon name="play" className="w-4 h-4 fill-current text-current shrink-0" style={{ height: '16px', width: '16px' }} />
             </span>
-            <span className="typo-button text-current truncate font-play text-left">
+            <span className="typo-button text-current whitespace-nowrap font-play text-left">
               Phát Video
             </span>
           </button>
@@ -527,14 +634,14 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
               e.stopPropagation();
               handleCancelIntro();
             }}
-            style={{ paddingLeft: '8px', paddingRight: '10px', borderRadius: '999px' }}
-            className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+            style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
+            className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
             title="Bấm để hủy phát video"
           >
             <span className="flex items-center justify-center">
               <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-current shrink-0" style={{ height: '16px', width: '16px' }} />
             </span>
-            <span className="typo-button text-current truncate font-play text-left">
+            <span className="typo-button text-current whitespace-nowrap font-play text-left">
               Hủy Phát
             </span>
           </button>

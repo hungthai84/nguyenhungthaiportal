@@ -136,6 +136,8 @@ const ALLOWED_DRIVE_VIDEO_IDS = new Set<string>([
   // About Video 1 & 2
   '1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5',
   '12cdItjoc6LpIetmw6-1BiSt8kUaaNe7R',
+  // Letter Video 1 & 2 (Thư Ngỏ)
+  '156Uwr88AhLmybquXyrMsXqzxdAs5I6lw',
   // 11 Banner Card Videos
   '1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP',
   '1G2ydHrMUchyBLjl3YR5xat8eF1MdPOQ4',
@@ -227,6 +229,110 @@ async function startServer() {
       }
       if (!res.headersSent) {
         res.status(502).json({ error: 'Không thể truyền phát video lúc này.' });
+      } else {
+        res.end();
+      }
+    }
+  });
+
+  // Safe resolver/proxy for public Google Photos share links (photos.app.goo.gl / photos.google.com/share)
+  app.get('/api/media/photos-video', async (req, res) => {
+    const rawUrl = typeof req.query.url === 'string' ? req.query.url.trim() : '';
+    let parsed: URL;
+    try {
+      parsed = new URL(rawUrl);
+    } catch {
+      res.status(400).json({ error: 'URL Google Photos không hợp lệ.' });
+      return;
+    }
+
+    const isAllowedHost =
+      parsed.protocol === 'https:' &&
+      (parsed.hostname === 'photos.app.goo.gl' ||
+        parsed.hostname === 'photos.google.com' ||
+        parsed.hostname.endsWith('.googleusercontent.com'));
+    if (!isAllowedHost) {
+      res.status(403).json({
+        error: 'Chỉ hỗ trợ liên kết chia sẻ công khai từ Google Photos.',
+      });
+      return;
+    }
+
+    const controller = new AbortController();
+    res.on('close', () => {
+      if (!res.writableEnded) controller.abort();
+    });
+
+    try {
+      const pageRes = await fetch(parsed.toString(), {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+        },
+        redirect: 'follow',
+        signal: controller.signal,
+      });
+
+      if (pageRes.url.includes('accounts.google.com')) {
+        res.status(403).json({ error: 'Liên kết Google Photos yêu cầu đăng nhập.' });
+        return;
+      }
+
+      const html = await pageRes.text();
+      const videoMatch =
+        html.match(/https:\/\/video-downloads\.googleusercontent\.com\/[^"'\s\\<>]+/i) ||
+        html.match(/https:\/\/lh3\.googleusercontent\.com\/[^"'\s\\<>]+=m(?:37|22|18)\b/i) ||
+        html.match(/https:\/\/[^"'\s\\<>]+\.googlevideo\.com\/[^"'\s\\<>]+/i);
+
+      if (!videoMatch?.[0]) {
+        res.status(404).json({ error: 'Không tìm thấy luồng MP4 công khai trong liên kết Google Photos này.' });
+        return;
+      }
+
+      const streamUrl = videoMatch[0].replace(/\\u003d/g, '=').replace(/\\u0026/g, '&');
+      const upstreamHeaders: Record<string, string> = {
+        'User-Agent': 'Mozilla/5.0 (compatible; PortfolioVideoStream/1.0)',
+      };
+      if (typeof req.headers.range === 'string' && /^bytes=\d*-\d*(,\s*\d*-\d*)*$/.test(req.headers.range)) {
+        upstreamHeaders.Range = req.headers.range;
+      }
+
+      const upstreamRes = await fetch(streamUrl, {
+        method: req.method === 'HEAD' ? 'HEAD' : 'GET',
+        headers: upstreamHeaders,
+        redirect: 'follow',
+        signal: controller.signal,
+      });
+
+      if (!upstreamRes.ok && upstreamRes.status !== 206) {
+        res.status(upstreamRes.status).end();
+        return;
+      }
+
+      res.status(upstreamRes.status);
+      res.setHeader('Content-Type', upstreamRes.headers.get('content-type') || 'video/mp4');
+      res.setHeader('Content-Disposition', 'inline');
+      res.setHeader('Accept-Ranges', upstreamRes.headers.get('accept-ranges') || 'bytes');
+      res.setHeader('Cache-Control', 'public, max-age=1800');
+      const contentLength = upstreamRes.headers.get('content-length');
+      if (contentLength) res.setHeader('Content-Length', contentLength);
+      const contentRange = upstreamRes.headers.get('content-range');
+      if (contentRange) res.setHeader('Content-Range', contentRange);
+
+      if (req.method === 'HEAD' || !upstreamRes.body) {
+        res.end();
+        return;
+      }
+
+      const nodeStream = Readable.fromWeb(upstreamRes.body as unknown as NodeReadableStream);
+      nodeStream.on('error', () => {
+        if (!res.headersSent) res.status(502).end();
+        else res.end();
+      });
+      nodeStream.pipe(res);
+    } catch (err: unknown) {
+      if ((err as { name?: string })?.name === 'AbortError') return;
+      if (!res.headersSent) {
+        res.status(502).json({ error: 'Không thể tải video từ Google Photos lúc này.' });
       } else {
         res.end();
       }

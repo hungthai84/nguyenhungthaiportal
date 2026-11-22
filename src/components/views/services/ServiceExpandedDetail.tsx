@@ -609,81 +609,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
               </ul>
             </div>
 
-            {/* Card D: Hiệu quả & Chỉ số Vận hành đạt được */}
-            <div
-              data-subcard="true"
-              className="domain-card-sub order-4 lg:order-none rounded-2xl p-[15px] flex flex-col gap-3 h-fit w-full min-w-0"
-            >
-              <div className="subcard-header-sync flex items-center gap-2">
-                <TrendingUp
-                  className="w-4 h-4 shrink-0"
-                  style={{ color: expandedAccent }}
-                />
-                <h3
-                  className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
-                  data-subcard-title="true"
-                >
-                  {isEn ? 'Measurable Operational Impact' : 'Hiệu quả vận hành đạt được'}
-                </h3>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                {(expandedDomain.operationalResults || []).map((res, rIdx) => (
-                  <div
-                    key={rIdx}
-                    className="rounded-xl px-3 py-2.5 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/55 flex items-center justify-between gap-3"
-                  >
-                    <span className="typo-body-sm text-[var(--text-secondary)] leading-snug min-w-0">
-                      {res.indicator}
-                    </span>
-                    <span
-                      className="typo-body-sm font-bold shrink-0 tabular-nums text-right"
-                      style={{ color: expandedAccent }}
-                    >
-                      {res.outcome}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Card F: Vai trò đảm nhiệm */}
-            <div
-              data-subcard="true"
-              className="domain-card-sub order-6 lg:order-none rounded-2xl p-[15px] flex flex-col gap-2.5 h-fit w-full min-w-0"
-            >
-              <div className="subcard-header-sync flex items-center gap-2">
-                <UserCheck
-                  className="w-4 h-4 shrink-0"
-                  style={{ color: expandedAccent }}
-                />
-                <h3
-                  className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
-                  data-subcard-title="true"
-                >
-                  {isEn ? 'Leadership Roles Held' : 'Vai trò đảm nhiệm'}
-                </h3>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {(expandedDomain.rolesHeld && expandedDomain.rolesHeld.length > 0
-                  ? expandedDomain.rolesHeld
-                  : expandedDomain.typicalRolesLine
-                    ? expandedDomain.typicalRolesLine.split('|').map((s) => s.trim())
-                    : []
-                ).map((role, roleIdx) => (
-                  <span
-                    key={roleIdx}
-                    className="inline-flex items-center gap-1.5 typo-body-sm font-medium px-3 py-1.5 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/65 text-[var(--text-primary)]"
-                  >
-                    <Award className="w-3.5 h-3.5 shrink-0" style={{ color: expandedAccent }} />
-                    <span>{role}</span>
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Card G: Giá trị cốt lõi & Từ khóa năng lực (Toàn chiều ngang 2 cột) */}
+          {/* Card G: Năng lực vận hành & Năng lực chuyên môn & Kinh nghiệm thực chiến (Toàn chiều ngang 2 cột) */}
           <div
             data-subcard="true"
             className="order-7 lg:order-none lg:col-span-2 rounded-2xl p-[15px] border flex flex-col gap-3 h-fit w-full min-w-0"
@@ -709,76 +635,39 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
                 data-subcard-title="true"
               >
-                {isEn ? 'Core Value & Competency Keywords' : 'Giá trị cốt lõi & Từ khóa năng lực'}
+                {isEn ? 'Operational, Professional & Practical Capabilities' : 'Năng lực vận hành & Năng lực chuyên môn & Kinh nghiệm thực chiến'}
               </h3>
             </div>
 
-            {(expandedDomain.valueDelivered || expandedDomain.summaryNote) && (
-              <p className="typo-body-sm font-medium text-[var(--text-primary)] leading-relaxed m-0">
-                {expandedDomain.valueDelivered || expandedDomain.summaryNote}
-              </p>
-            )}
-
-            <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[var(--border-subcard)]/70">
-              <span
-                className="inline-flex items-center gap-1.5 typo-caption font-bold mr-1"
-                style={{ color: expandedAccent }}
-              >
-                <Tag className="w-3.5 h-3.5 shrink-0" />
-                <span>{isEn ? 'Keywords:' : 'Từ khóa năng lực:'}</span>
-              </span>
-              {(isEn ? expandedMeta.tagsEn : expandedMeta.tags).map((tag) => (
-                <span
-                  key={tag}
-                  className="typo-badge font-bold px-2.5 py-1 rounded-full border bg-[var(--bg-card)]/75"
-                  style={{
-                    borderColor: isLight
-                      ? expandedMeta.borderLight
-                      : expandedMeta.borderDark,
-                    color: expandedAccent,
-                  }}
-                >
-                  {tag}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+              <div className="rounded-xl p-3 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/65 flex flex-col gap-1">
+                <span className="typo-badge font-bold" style={{ color: expandedAccent }}>
+                  {isEn ? 'Operational Capability' : 'Năng lực vận hành'}
                 </span>
-              ))}
+                <span className="typo-body-sm text-[var(--text-secondary)] leading-snug">
+                  {isEn ? 'Optimizing SLAs workflows, resource allocation and seamless multi-channel governance.' : 'Tối ưu hóa quy trình SLAs, phân bổ nguồn lực và quản trị vận hành đa kênh thông suốt.'}
+                </span>
+              </div>
+
+              <div className="rounded-xl p-3 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/65 flex flex-col gap-1">
+                <span className="typo-badge font-bold" style={{ color: expandedAccent }}>
+                  {isEn ? 'Professional Competency' : 'Năng lực chuyên môn'}
+                </span>
+                <span className="typo-body-sm text-[var(--text-secondary)] leading-snug">
+                  {isEn ? 'Technical solution architecture, cross-platform integration & data-driven analytics.' : 'Kiến trúc giải pháp kỹ thuật, tích hợp đa nền tảng và phân tích dữ liệu chuyên sâu.'}
+                </span>
+              </div>
+
+              <div className="rounded-xl p-3 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/65 flex flex-col gap-1">
+                <span className="typo-badge font-bold" style={{ color: expandedAccent }}>
+                  {isEn ? 'Practical Experience' : 'Kinh nghiệm thực chiến'}
+                </span>
+                <span className="typo-body-sm text-[var(--text-secondary)] leading-snug">
+                  {isEn ? '15+ years leading large-scale transformation projects across major enterprises.' : '15+ năm lãnh đạo và triển khai thành công các dự án chuyển đổi quy mô lớn.'}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* 3. FOOTER: Chuyển nhanh lĩnh vực 6.1 - 6.6 (1 hàng cuộn ngang gọn trên Mobile) */}
-      <div className="expanded-detail-content shrink-0 px-4 sm:px-5 py-2.5 border-t border-[var(--border-subcard)] bg-[var(--bg-subcard)]/65 flex items-center justify-between gap-2.5">
-        <span className="hidden md:inline typo-caption font-semibold text-[var(--text-secondary)] shrink-0">
-          {isEn ? 'Quick domain switch:' : 'Chuyển nhanh lĩnh vực:'}
-        </span>
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar sm:flex-wrap flex-1 md:justify-end py-0.5">
-          {allDomains.map((item) => {
-            const itemMeta = domainMetaMap[item.id] || domainMetaMap['01'];
-            const isActiveItem = item.id === expandedDomain.id;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                aria-current={isActiveItem ? 'true' : undefined}
-                onClick={() => onSwitchDomain(item)}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-caption font-semibold transition-all cursor-pointer active:scale-95 shrink-0 whitespace-nowrap ${
-                  isActiveItem
-                    ? 'text-white shadow-sm'
-                    : 'bg-[var(--bg-card)]/80 hover:bg-[var(--bg-subcard)] text-[var(--text-secondary)] border border-[var(--border-subcard)]'
-                }`}
-                style={isActiveItem ? { background: itemMeta.gradient } : undefined}
-              >
-                {renderDomainIcon(
-                  itemMeta.iconKey,
-                  `w-3 h-3 ${isActiveItem ? 'text-white' : ''}`
-                )}
-                <span>
-                  {item.serviceCode ? `${item.serviceCode} · ` : ''}
-                  {isEn ? itemMeta.shortTitleEn : itemMeta.shortTitle}
-                </span>
-              </button>
-            );
-          })}
         </div>
       </div>
     </div>

@@ -181,11 +181,13 @@ export const VideoBanner: React.FC<VideoBannerProps> = React.memo(
       };
     }, [autoplay, shouldLoad, stage, tryAutoPlay, videoId]);
 
-    const activeVideoSrc =
-      stage === 'proxy'
+    const isDirectUrl = videoId.startsWith('http://') || videoId.startsWith('https://') || videoId.startsWith('/');
+    const activeVideoSrc = isDirectUrl
+      ? videoId
+      : stage === 'proxy'
         ? buildSameOriginDriveVideoUrl(videoId)
         : buildDirectDriveVideoUrl(videoId);
-    const previewSrc = buildGoogleDrivePreviewUrl(videoId);
+    const previewSrc = isDirectUrl ? videoId : buildGoogleDrivePreviewUrl(videoId);
 
     const handleStreamError = () => {
       if (stage === 'proxy') {

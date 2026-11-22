@@ -897,15 +897,13 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               onClick={handleCloseDetail}
               title="Đóng bài viết"
               aria-label="Đóng bài viết chi tiết dự án"
-              className="theme-modal-close absolute top-6 right-6 z-50 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 shrink-0"
+              className="theme-modal-close absolute top-3 right-3 z-50 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 shrink-0"
             >
               <WebIcon name="x" className="w-4 h-4" />
             </button>
 
             <ProjectDetailView
               selectedArticle={selectedArticle}
-              selectedGroup={selectedGroup}
-              onSelectProject={(proj) => setSelectedArticle(proj)}
               onClose={handleCloseDetail}
               onOpenMindmap={(proj) => setMindmapProject(proj)}
               getCardVisualConfig={getCardVisualConfig}

@@ -7,7 +7,7 @@ export const TECH_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Xây dựng nền tảng CRM và hồ sơ khách hàng 360 là dự án kiến trúc công nghệ lõi cho khối dịch vụ phục vụ hơn 5 triệu tài khoản người dùng (như mô hình MoMo Admin / Finviet CRM), hợp nhất toàn bộ dữ liệu định danh, lịch sử giao dịch tài chính, nhật ký tương tác đa kênh và trạng thái xử lý khiếu nại về một giao diện duy nhất.',
       'Dự án chấm dứt cảnh nhân viên phải mở 4–5 màn hình phần mềm khác nhau để ghép nối dữ liệu khi khách hàng gọi lên tổng đài. Bằng tích hợp API thời gian thực với Core Banking, máy chủ ứng dụng và tổng đài CTI, hệ thống tự động bật hồ sơ toàn cảnh khách hàng ngay khoảnh khắc chuông reo.',
-      'Với vai trò CRM Product Owner & Architect, trọng tâm là cân bằng hoàn hảo giữa tốc độ thao tác tối ưu cho Agent (giảm 65% thời gian tra cứu và giảm 40 giây AHT/cuộc gọi) với kỷ luật bảo mật thông tin tài chính chặt chẽ theo chuẩn phân quyền RBAC.',
+      'Với vai trò Chủ sở hữu & Kiến trúc sư Hệ thống CRM, trọng tâm là cân bằng hoàn hảo giữa tốc độ thao tác tối ưu cho Agent (giảm 65% thời gian tra cứu và giảm 40 giây AHT/cuộc gọi) với kỷ luật bảo mật thông tin tài chính chặt chẽ theo chuẩn phân quyền RBAC.',
     ],
     context: {
       intro: 'Khi lượng tài khoản vượt mốc hàng triệu người dùng và sản phẩm mở rộng đa dịch vụ, hạ tầng quản trị dữ liệu cũ bộc lộ 7 điểm nghẽn nghiêm trọng:',
@@ -176,7 +176,7 @@ export const TECH_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Các chỉ số độ trễ API, AHT và truy vết bảo mật được giám sát liên tục bởi đội ngũ Platform Engineering & CS Operations.',
     },
     pmRoles: {
-      intro: 'Với vai trò CRM Product Owner & Architect định hình sản phẩm công nghệ xương sống cho toàn khối CSKH, trách nhiệm gồm:',
+      intro: 'Với vai trò Chủ sở hữu & Kiến trúc sư Hệ thống CRM định hình sản phẩm công nghệ xương sống cho toàn khối CSKH, trách nhiệm gồm:',
       items: [
         { role: 'Định hình tầm nhìn 360', desc: 'Xây dựng Product Roadmap hợp nhất 5 hệ thống rời rạc về một nền tảng tập trung duy nhất.' },
         { role: 'Thiết kế trải nghiệm Agent', desc: 'Tối ưu từng pixel giao diện Single View và CTI Pop-up để tiết kiệm từng giây thao tác.' },
@@ -215,7 +215,7 @@ export const TECH_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Phân tích dữ liệu và xây dựng báo cáo BI là dự án số hóa toàn bộ đường ống báo cáo vận hành của khối CSKH trên nền tảng Power BI / Tableau và xây dựng Trung tâm Giám sát Thời gian thực (Realtime Command Center Wallboard), xóa bỏ hoàn toàn quy trình tổng hợp file Excel thủ công chậm trễ và dễ sai sót.',
       'Hệ thống hợp nhất dữ liệu tự động từ Tổng đài Telephony, Livechat, CRM Ticket, Hệ thống Chấm điểm QA và Khảo sát CSAT về một Kho dữ liệu chuẩn hóa (Data Warehouse), phục vụ hai tầng ra quyết định: Giám sát điều phối ca trực theo phút cho Team Leader/WFM và Báo cáo Chiến lược – Chi phí cho Ban Giám đốc C-Level.',
-      'Với vai trò BI System Lead, trọng tâm là thiết kế mô hình dữ liệu sạch một nguồn sự thật (Single Source of Truth), thiết lập các ngưỡng cảnh báo đỏ tức thì khi có dấu hiệu vi phạm SLA và tiết kiệm trực tiếp 15 giờ làm báo cáo thủ công mỗi tuần cho cấp quản lý.',
+      'Với vai trò Trưởng nhóm Hệ thống Phân tích & Báo cáo BI, trọng tâm là thiết kế mô hình dữ liệu sạch một nguồn sự thật (Single Source of Truth), thiết lập các ngưỡng cảnh báo đỏ tức thì khi có dấu hiệu vi phạm SLA và tiết kiệm trực tiếp 15 giờ làm báo cáo thủ công mỗi tuần cho cấp quản lý.',
     ],
     context: {
       intro: 'Trước khi tự động hóa đường ống dữ liệu BI tập trung, công tác điều hành bằng số liệu tại khối dịch vụ đối mặt với 7 vấn đề lớn:',
@@ -384,7 +384,7 @@ export const TECH_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Hệ thống kiểm tra chất lượng ETL tự động giám sát độ tươi mới và độ khớp dữ liệu vào 6h00 sáng mỗi ngày.',
     },
     pmRoles: {
-      intro: 'Với vai trò BI System Lead kiến tạo hệ thần kinh dữ liệu cho toàn khối dịch vụ, trách nhiệm gồm:',
+      intro: 'Với vai trò Trưởng nhóm Hệ thống Phân tích & Báo cáo BI kiến tạo hệ thần kinh dữ liệu cho toàn khối dịch vụ, trách nhiệm gồm:',
       items: [
         { role: 'Định chuẩn ngôn ngữ số', desc: 'Chủ trì xây dựng Từ điển Dữ liệu 45+ chỉ số chấm dứt tranh cãi vênh số giữa các bộ phận.' },
         { role: 'Kiến trúc đường ống', desc: 'Phối hợp Data Engineering thiết lập luồng ETL hợp nhất 5 nguồn dữ liệu về Data Mart.' },
@@ -423,7 +423,7 @@ export const TECH_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Tự động hóa quy trình CSKH bằng công nghệ RPA là dự án ứng dụng Robot Phần mềm (Robotic Process Automation - UiPath) kết hợp Macro 1-Click để thay thế hoàn toàn con người trong các tác vụ văn phòng lặp đi lặp lại có tần suất cao như đối soát giao dịch liên hệ thống, hoàn tiền tài chính, cập nhật trạng thái và phân loại ticket.',
       'Trong môi trường tài chính số và thương mại điện tử, hàng nghìn yêu cầu mỗi ngày đòi hỏi nhân viên Back-office phải chép mã giao dịch từ CRM sang Core Banking, đối chiếu file sao kê ngân hàng rồi quay lại bấm duyệt trên hệ thống kế toán — vừa chậm chạp lên tới 48 giờ vừa dễ gõ nhầm số gây rủi ro tài chính.',
-      'Với vai trò Automation Champion, trọng tâm là chọn đúng các quy trình có quy tắc rõ ràng (Rule-based) để Robot thực thi 24/7 không sai sót, tự động hóa 70% thao tác lặp, rút ngắn thời gian hoàn tiền từ 48 giờ xuống còn 90 giây và giảm 50% sai sót con người.',
+      'Với vai trò Trưởng nhóm Tự động hóa Quy trình, trọng tâm là chọn đúng các quy trình có quy tắc rõ ràng (Rule-based) để Robot thực thi 24/7 không sai sót, tự động hóa 70% thao tác lặp, rút ngắn thời gian hoàn tiền từ 48 giờ xuống còn 90 giây và giảm 50% sai sót con người.',
     ],
     context: {
       intro: 'Trước khi đưa Robot RPA và Macro 1-Click vào sàn vận hành Back-office và Tuyến 1, bộ phận xử lý nghiệp vụ gặp 7 điểm nghẽn nặng nề:',
@@ -592,7 +592,7 @@ export const TECH_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Số lượng ca Robot hoàn thành và thời gian xử lý trung bình được theo dõi trực tiếp trên RPA Orchestrator.',
     },
     pmRoles: {
-      intro: 'Với vai trò Automation Champion dẫn dắt chuyển đổi từ thao tác tay sang vận hành cùng Robot, trách nhiệm gồm:',
+      intro: 'Với vai trò Trưởng nhóm Tự động hóa Quy trình dẫn dắt chuyển đổi từ thao tác tay sang vận hành cùng Robot, trách nhiệm gồm:',
       items: [
         { role: 'Tìm kiếm cơ hội RPA', desc: 'Phát hiện đúng những quy trình lặp tốn công nhất và chuẩn hóa logic trước khi viết Bot.' },
         { role: 'Thiết kế luồng an toàn', desc: 'Xây dựng quy tắc ngoại lệ, hạn mức tài chính và chống lặp cho Robot tương tác Core.' },
@@ -631,7 +631,7 @@ export const TECH_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Phát triển Chatbot và Voicebot AI đa kênh là dự án xây dựng Trợ lý ảo thông minh thế hệ mới ứng dụng mô hình Ngôn ngữ Tự nhiên (NLP tiếng Việt) và Generative AI kết hợp Kiến trúc RAG (Retrieval-Augmented Generation) phục vụ tự động 24/7/365 trên Livechat, Mobile App, Zalo, Facebook và Kênh Thoại tổng đài.',
       'Khác với các Chatbot cây kịch bản bấm nút cứng nhắc hay các Bot AI đại trà dễ gặp lỗi "ảo giác thông tin" (Hallucination - tự bịa chính sách), hệ thống chỉ được phép truy xuất câu trả lời từ Kho Tri thức Chuẩn hóa nội bộ có trích dẫn rõ ràng, đồng thời trang bị cơ chế Human Handoff thông minh tự động bàn giao ngay cho nhân viên thật khi phát hiện cảm xúc tiêu cực hoặc nghiệp vụ phức tạp.',
-      'Với vai trò AI Product Owner, trọng tâm là làm sạch dữ liệu tri thức đầu vào, kiểm soát chặt chẽ độ chính xác nghiệp vụ và tinh chỉnh giọng điệu tự nhiên, giúp Bot tự động giải quyết hoàn chỉnh >180,000 lượt yêu cầu/tháng, giảm 60% tin nhắn dồn về nhân viên và giải phóng 35% ngân sách nhân sự tổng đài.',
+      'Với vai trò Chủ sở hữu Sản phẩm Trợ lý AI CSKH, trọng tâm là làm sạch dữ liệu tri thức đầu vào, kiểm soát chặt chẽ độ chính xác nghiệp vụ và tinh chỉnh giọng điệu tự nhiên, giúp Bot tự động giải quyết hoàn chỉnh >180,000 lượt yêu cầu/tháng, giảm 60% tin nhắn dồn về nhân viên và giải phóng 35% ngân sách nhân sự tổng đài.',
     ],
     context: {
       intro: 'Trước khi nâng cấp lên Chatbot/Voicebot AI kiến trúc RAG, hệ thống hỗ trợ tự động cũ và tổng đài gặp phải 7 rào cản lớn:',
@@ -800,7 +800,7 @@ export const TECH_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Các chỉ số Containment thực (không liên hệ lại trong 24h) và tỷ lệ chính xác được QA kiểm tra mẫu độc lập mỗi tuần.',
     },
     pmRoles: {
-      intro: 'Với vai trò AI Product Owner dẫn dắt triển khai Trợ lý ảo quy mô lớn an toàn và hiệu quả, trách nhiệm gồm:',
+      intro: 'Với vai trò Chủ sở hữu Sản phẩm Trợ lý AI CSKH dẫn dắt triển khai Trợ lý ảo quy mô lớn an toàn và hiệu quả, trách nhiệm gồm:',
       items: [
         { role: 'Kiến trúc sản phẩm AI', desc: 'Định hình trải nghiệm Chatbot & Voicebot đa kênh và ranh giới giữa Bot với Con người.' },
         { role: 'Quản trị tri thức RAG', desc: 'Bảo đảm dữ liệu đầu vào sạch 100%, không trộn chính sách cũ gây nhiễu câu trả lời.' },
@@ -839,7 +839,7 @@ export const TECH_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Ứng dụng AI Copilot và Auto-QA nâng cao hiệu suất là dự án tiên phong đưa trí tuệ nhân tạo vào hỗ trợ trực tiếp cho đội ngũ nhân sự nội bộ trên cả hai mặt trận: AI Agent Copilot đồng hành cùng chuyên viên ngay trong ca làm việc (gợi ý câu trả lời chuẩn, tra cứu SOP tức thì, tự động tóm tắt cuộc gọi 1-click) và Hệ thống Speech-to-Text Auto-QA tự động phiên âm, chấm điểm chất lượng và phân tích cảm xúc trên 100% toàn bộ cuộc gọi thay vì chỉ bốc mẫu <5% thủ công.',
       'Trong các Contact Center quy mô >300,000 cuộc gọi/tháng, kiểm tra thủ công để lại "điểm mù chất lượng" lên tới 95% dễ bỏ sót rủi ro tuân thủ và các tín hiệu khủng hoảng âm ỉ. Công nghệ Speech-to-Text tinh chỉnh tiếng Việt đa vùng miền kết hợp LLM chấm điểm theo bộ tiêu chí COPC giúp phát hiện tức thì 100% lỗi nghiêm trọng và rút ngắn thời gian sau cuộc gọi (ACW) cho Agent.',
-      'Với vai trò AI Innovation Director, trọng tâm là thiết kế công cụ AI phục vụ con người thuận tiện nhất và bảo đảm tính công bằng minh bạch trong chấm điểm tự động, giúp tăng 40% năng suất xử lý của Agent và phủ sóng kiểm soát chất lượng Auto-QA 100% trên >300,000 cuộc gọi mỗi tháng.',
+      'Với vai trò Giám đốc Đổi mới & Ứng dụng Trí tuệ Nhân tạo, trọng tâm là thiết kế công cụ AI phục vụ con người thuận tiện nhất và bảo đảm tính công bằng minh bạch trong chấm điểm tự động, giúp tăng 40% năng suất xử lý của Agent và phủ sóng kiểm soát chất lượng Auto-QA 100% trên >300,000 cuộc gọi mỗi tháng.',
     ],
     context: {
       intro: 'Ở quy mô hàng trăm nghìn tương tác thoại và chat mỗi tháng, mô hình vận hành và kiểm soát chất lượng truyền thống gặp 7 giới hạn không thể vượt qua bằng sức người:',
@@ -1008,7 +1008,7 @@ export const TECH_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Dữ liệu năng suất Copilot và kết quả Auto-QA 100% được tích hợp trực tiếp lên báo cáo điều hành hàng tuần.',
     },
     pmRoles: {
-      intro: 'Với vai trò AI Innovation Director tiên phong ứng dụng trí tuệ nhân tạo nâng tầm toàn diện Contact Center, trách nhiệm gồm:',
+      intro: 'Với vai trò Giám đốc Đổi mới & Ứng dụng Trí tuệ Nhân tạo tiên phong ứng dụng trí tuệ nhân tạo nâng tầm toàn diện Contact Center, trách nhiệm gồm:',
       items: [
         { role: 'Định hướng AI chiến lược', desc: 'Xác định bài toán kép: Copilot tăng lực cho tuyến đầu và Auto-QA xóa điểm mù 95%.' },
         { role: 'Kiến trúc Speech-to-Text', desc: 'Chỉ đạo tinh chỉnh nhận diện tiếng Việt đa vùng miền và bảo mật che giấu dữ liệu PII.' },

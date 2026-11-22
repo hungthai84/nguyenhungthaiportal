@@ -7,7 +7,7 @@ export const CX_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Thiết kế hành trình và nâng cao trải nghiệm khách hàng là dự án kiến trúc lại toàn bộ bản đồ hành trình khách hàng (Customer Journey Map - CJM) phục vụ hàng triệu người dùng trên hệ sinh thái đa dịch vụ, kết nối liền mạch các điểm chạm vốn bị đứt gãy từ nhận biết, đăng ký, giao dịch, hỗ trợ đến duy trì gắn bó.',
       'Khác với cách làm CJM chỉ vẽ trên bảng giấy rồi cất tủ, dự án biến bản đồ hành trình thành hệ thống điều hành sống động: gắn chỉ số sức khỏe tại từng điểm chạm, ứng dụng AI Sentiment Analytics nhận diện sớm cảm xúc tiêu cực theo thời gian thực và kích hoạt quy trình Closed-Loop cứu vãn khách hàng bất mãn (Detractor) trong vòng 15 phút.',
-      'Với vai trò CX Architect & Lead, trọng tâm là đứng ở đôi mắt của khách hàng để loại bỏ 100% tình trạng lặp lại thông tin khi chuyển kênh, xử lý tận gốc các "Khoảnh khắc sự thật" (Moments of Truth) và đưa chỉ số hài lòng chung CSAT vượt mốc 96.5%.',
+      'Với vai trò Kiến trúc sư & Trưởng nhóm Trải nghiệm Khách hàng, trọng tâm là đứng ở đôi mắt của khách hàng để loại bỏ 100% tình trạng lặp lại thông tin khi chuyển kênh, xử lý tận gốc các "Khoảnh khắc sự thật" (Moments of Truth) và đưa chỉ số hài lòng chung CSAT vượt mốc 96.5%.',
     ],
     context: {
       intro: 'Khi sản phẩm phát triển nhiều tính năng và mở rộng qua nhiều phòng ban vận hành độc lập, hành trình trải nghiệm của khách hàng bộc lộ 7 vết nứt nghiêm trọng:',
@@ -176,7 +176,7 @@ export const CX_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Số liệu từng điểm chạm trên hành trình 6 giai đoạn được tổng hợp hàng tuần và trình bày tại phiên họp CX Council.',
     },
     pmRoles: {
-      intro: 'Với vai trò CX Architect & Lead dẫn dắt chuyển đổi tư duy lấy khách hàng làm trọng tâm toàn doanh nghiệp, trách nhiệm gồm:',
+      intro: 'Với vai trò Kiến trúc sư & Trưởng nhóm Trải nghiệm Khách hàng dẫn dắt chuyển đổi tư duy lấy khách hàng làm trọng tâm toàn doanh nghiệp, trách nhiệm gồm:',
       items: [
         { role: 'Kiến trúc hành trình', desc: 'Vẽ và làm chủ Bản đồ Hành trình 6 giai đoạn liên kết toàn bộ điểm chạm số và con người.' },
         { role: 'Đại diện tiếng nói khách', desc: 'Mang bằng chứng thực địa vào các cuộc họp điều hành để thúc đẩy ưu tiên giải quyết điểm đau.' },
@@ -215,7 +215,7 @@ export const CX_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Phân tích phản hồi và thúc đẩy cải tiến sản phẩm là dự án biến phòng CSKH từ bộ phận "chữa cháy cuối dòng" thành trung tâm tình báo dữ liệu sản phẩm (Product Intelligence Hub), thiết lập cầu nối định lượng chặt chẽ giữa CSKH, Product Management và Engineering.',
       'Thông qua chuẩn hóa hệ thống phân loại lỗi VoC (Voice of Customer Taxonomy) trên CRM, tích hợp Dashboard định lượng mức độ ảnh hưởng và vận hành cơ chế giao ban định kỳ CSKH – Product hàng tuần, mọi nỗi đau lặp đi lặp lại của người dùng đều được chứng minh bằng số liệu tiền bạc và tần suất thuyết phục.',
-      'Với vai trò Strategic VoC Lead, trọng tâm là xóa bỏ cảnh báo cảm tính, rút ngắn thời gian phát hiện lỗi hệ thống diện rộng xuống dưới 15 phút và thúc đẩy khắc phục hơn 200 điểm nghẽn UX/UI, giúp giảm 40% tổng lượng ticket lỗi sản phẩm.',
+      'Với vai trò Trưởng nhóm Chiến lược Tiếng nói Khách hàng, trọng tâm là xóa bỏ cảnh báo cảm tính, rút ngắn thời gian phát hiện lỗi hệ thống diện rộng xuống dưới 15 phút và thúc đẩy khắc phục hơn 200 điểm nghẽn UX/UI, giúp giảm 40% tổng lượng ticket lỗi sản phẩm.',
     ],
     context: {
       intro: 'Trước khi thiết lập cầu nối dữ liệu VoC khép kín, kho phản hồi quý giá tại phòng CSKH bị lãng phí nghiêm trọng do 7 nguyên nhân sau:',
@@ -384,7 +384,7 @@ export const CX_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Số liệu giảm lượng ticket và thời gian phát hiện sự cố được theo dõi liên tục sau mỗi bản cập nhật ứng dụng.',
     },
     pmRoles: {
-      intro: 'Với vai trò Strategic VoC Lead làm cầu nối dữ liệu giữa khách hàng, tổng đài và khối Sản phẩm – Công nghệ, trách nhiệm gồm:',
+      intro: 'Với vai trò Trưởng nhóm Chiến lược Tiếng nói Khách hàng làm cầu nối dữ liệu giữa khách hàng, tổng đài và khối Sản phẩm – Công nghệ, trách nhiệm gồm:',
       items: [
         { role: 'Kiến trúc dữ liệu VoC', desc: 'Xây dựng bộ VoC Taxonomy 3 tầng bảo đảm ngôn ngữ phân loại thống nhất giữa CSKH và Product.' },
         { role: 'Xây hệ thống cảnh báo', desc: 'Thiết lập Dashboard realtime và cơ chế phát hiện sự cố diện rộng dưới 15 phút.' },
@@ -423,7 +423,7 @@ export const CX_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Ứng phó khủng hoảng và kiểm soát khách hàng rời bỏ là dự án kiến tạo hệ thống phòng thủ khẩn cấp cho Contact Center trước các sự cố gián đoạn hệ thống nghiêm trọng (thanh toán treo, sập mạng, bảo mật, lỗi diện rộng), đồng thời chủ động khoanh vùng giữ chân nhóm khách hàng có nguy cơ rời bỏ cao (High Churn Risk) sau sự cố.',
       'Điểm đột phá của dự án là mô hình phối hợp hai tầng: Tầng phản ứng tức thì kích hoạt War-Room liên phòng ban (CSKH – IT – PR – Pháp lý) trong vòng 10 phút kết hợp đẩy thông báo chủ động qua Smart IVR/App Push; và Tầng phục hồi thông minh ứng dụng thuật toán AI Churn Prediction chấm điểm rủi ro để chăm sóc đền bù trúng đích.',
-      'Với vai trò Crisis Response Commander, trọng tâm là giữ vững kỷ luật thông tin dưới áp lực lưu lượng tăng gấp 20 lần bình thường, xử lý 100% sự cố lớn không để bùng phát khủng hoảng truyền thông và kéo giảm 30% tỷ lệ khách hàng rời bỏ dịch vụ sau biến cố.',
+      'Với vai trò Chỉ huy Ứng phó Khủng hoảng Dịch vụ, trọng tâm là giữ vững kỷ luật thông tin dưới áp lực lưu lượng tăng gấp 20 lần bình thường, xử lý 100% sự cố lớn không để bùng phát khủng hoảng truyền thông và kéo giảm 30% tỷ lệ khách hàng rời bỏ dịch vụ sau biến cố.',
     ],
     context: {
       intro: 'Khi xảy ra sự cố gián đoạn hệ thống quy mô lớn ảnh hưởng hàng trăm nghìn người dùng cùng lúc, Contact Center phải đối diện với 7 hiểm họa dây chuyền:',
@@ -592,7 +592,7 @@ export const CX_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Toàn bộ kết quả giảm Churn 30 ngày được xác nhận bởi đội ngũ Data Analytics độc lập sau mỗi sự cố.',
     },
     pmRoles: {
-      intro: 'Với vai trò Crisis Response Commander chịu trách nhiệm tối cao về mặt trận khách hàng khi biến cố xảy ra, trọng trách gồm:',
+      intro: 'Với vai trò Chỉ huy Ứng phó Khủng hoảng Dịch vụ chịu trách nhiệm tối cao về mặt trận khách hàng khi biến cố xảy ra, trọng trách gồm:',
       items: [
         { role: 'Kích hoạt War-Room', desc: 'Phát lệnh tập hợp liên phòng ban trong 10 phút và giữ nhịp bình tĩnh cho toàn bộ cuộc họp chỉ huy.' },
         { role: 'Điều phối xả tải', desc: 'Ra quyết định kích hoạt Smart IVR, App Push và thông báo Chatbot dập nghẽn mạng tổng đài.' },
@@ -631,7 +631,7 @@ export const CX_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Đo lường trải nghiệm qua CSAT, NPS và CES là dự án thiết kế lại toàn bộ hệ thống đo lường cảm nhận khách hàng đa kênh, chuyển từ các bảng khảo sát dài dòng gây khó chịu sang mô hình Khảo sát Siêu ngắn 1-Click tự động sau giao dịch kết hợp AI Text Analytics bóc tách nguyên nhân và quy trình xử lý Closed-Loop trong 60 phút.',
       'Thay vì thu thập điểm số đẹp để báo cáo cuối tháng khi mọi bức xúc đã nguội lạnh, hệ thống mới biến từng cú chạm đánh giá của khách hàng thành tín hiệu hành động tức thời: điểm cao để khen thưởng lan tỏa nhân viên, điểm thấp lập tức mở ticket gán cho Quản lý ca liên hệ giải tỏa trong ngày.',
-      'Với vai trò VoC Program Manager, trọng tâm là tối ưu trải nghiệm điền khảo sát ngay trên App/Web/SMS/Zalo, nâng tỷ lệ phản hồi từ 5% lên 28% với >50,000 lượt đánh giá/tháng và xử lý dứt điểm 90% phản ánh không hài lòng ngay trong ngày.',
+      'Với vai trò Quản lý Chương trình Đo lường Trải nghiệm, trọng tâm là tối ưu trải nghiệm điền khảo sát ngay trên App/Web/SMS/Zalo, nâng tỷ lệ phản hồi từ 5% lên 28% với >50,000 lượt đánh giá/tháng và xử lý dứt điểm 90% phản ánh không hài lòng ngay trong ngày.',
     ],
     context: {
       intro: 'Trước khi cải tổ chương trình đo lường CSAT/NPS/CES, doanh nghiệp gặp phải 7 hạn chế khiến dữ liệu khảo sát thiếu giá trị thực tiễn:',
@@ -800,7 +800,7 @@ export const CX_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Báo cáo đo lường CSAT/NPS/CES được cập nhật liên tục hàng ngày trên Dashboard điều hành toàn khối.',
     },
     pmRoles: {
-      intro: 'Với vai trò VoC Program Manager thiết kế và vận hành toàn diện hệ thống lắng nghe khách hàng, trách nhiệm gồm:',
+      intro: 'Với vai trò Quản lý Chương trình Đo lường Trải nghiệm thiết kế và vận hành toàn diện hệ thống lắng nghe khách hàng, trách nhiệm gồm:',
       items: [
         { role: 'Thiết kế thước đo', desc: 'Xác lập cấu trúc bộ 3 chỉ số CSAT, NPS, CES và quy chuẩn đặt câu hỏi không gây phiền.' },
         { role: 'Tối ưu UX khảo sát', desc: 'Chuyển đổi khảo sát rườm rà sang mô hình 1-Click nâng tỷ lệ phản hồi từ 5% lên 28%.' },
@@ -839,7 +839,7 @@ export const CX_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Xây dựng văn hóa khách hàng và chuẩn chất lượng COPC là dự án thiết lập hệ thống Quản trị Chất lượng Toàn diện (Total Quality Assurance - TQA) theo chuẩn mực quốc tế COPC cho đội ngũ >300 nhân sự, đồng thời chuyển hóa tư duy kiểm tra chất lượng từ "giám sát bắt lỗi" sang "huấn luyện đồng hành phát triển" và thẩm thấu văn hóa Customer-Centric vào từng ca trực.',
       'Điểm cốt lõi của dự án là tái cấu trúc bộ tiêu chí chấm điểm QA phân tách rõ nhóm Lỗi Nghiêm trọng (Critical Errors ảnh hưởng tài chính/bảo mật/khách hàng) với Lỗi Kỹ năng (Non-critical), kết hợp chu kỳ Hiệu chuẩn chéo (Calibration) hằng tuần và quy trình Coaching 1-1 tích cực.',
-      'Với vai trò Quality Assurance Director, trọng tâm là đưa độ lệch chấm điểm giữa các QA xuống dưới 2.5%, nâng điểm chất lượng QA Score toàn diện vượt 95% và giảm 30% khiếu nại liên quan đến thái độ tư vấn.',
+      'Với vai trò Giám đốc Quản trị Chất lượng Dịch vụ, trọng tâm là đưa độ lệch chấm điểm giữa các QA xuống dưới 2.5%, nâng điểm chất lượng QA Score toàn diện vượt 95% và giảm 30% khiếu nại liên quan đến thái độ tư vấn.',
     ],
     context: {
       intro: 'Trước khi áp dụng chuẩn chất lượng TQA theo khung COPC, công tác đảm bảo chất lượng dịch vụ tại nhiều trung tâm lớn gặp phải 7 tồn tại cố hữu:',
@@ -1008,7 +1008,7 @@ export const CX_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Số liệu chất lượng được phân tích sâu tại phiên họp Tam giác Chất lượng hàng tuần và báo cáo điều hành tháng.',
     },
     pmRoles: {
-      intro: 'Với vai trò Quality Assurance Director dẫn dắt chuẩn mực chất lượng và văn hóa phụng sự cho hơn 300 nhân sự, trọng trách gồm:',
+      intro: 'Với vai trò Giám đốc Quản trị Chất lượng Dịch vụ dẫn dắt chuẩn mực chất lượng và văn hóa phụng sự cho hơn 300 nhân sự, trọng trách gồm:',
       items: [
         { role: 'Thiết lập chuẩn COPC', desc: 'Chuyển hóa triết lý quản trị chất lượng quốc tế thành khung TQA thực tiễn phù hợp doanh nghiệp.' },
         { role: 'Cầm cân nảy mực', desc: 'Chủ trì hệ thống Calibration hàng tuần giữ độ lệch < 2.5% và bảo đảm công bằng tuyệt đối.' },

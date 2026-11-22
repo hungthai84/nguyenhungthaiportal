@@ -419,7 +419,7 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow))) !important;
+  box-shadow: none !important;
 }
 
 .dark div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p12-div-87:nth-of-type(1) > div#contact-page-container:nth-of-type(1) > div#contact-cards-track:nth-of-type(1) > div#contact-main-card:nth-of-type(1),
@@ -436,7 +436,7 @@ html[data-theme-mode="dark"] .page-main-card,
 html[data-theme-mode="dark"] [data-main-card="true"],
 html[data-theme-mode="dark"] #about-intro-card-1,
 html[data-theme-mode="dark"] #about-intro-card-2 {
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow-dark))) !important;
+  box-shadow: none !important;
 }
 
 /* Unified Full-Width Viewport, Outer Page Container (100% Transparent, 0px, 1px Border) & Centered Level-01 .page-main-card */
@@ -475,21 +475,22 @@ html #services-main-content {
   box-sizing: border-box !important;
 }
 
-html #about-intro-grid-2 {
+html #about-intro-card-2-scroll-viewport {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  height: auto !important;
+  height: 100% !important;
   min-height: 0 !important;
-  flex: 0 0 auto !important;
-  margin-top: auto !important;
-  margin-bottom: auto !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+  flex: 1 1 0% !important;
+  margin: 0 !important;
   padding: 0px !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
+  align-items: start !important;
+  align-content: safe center !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
@@ -729,10 +730,10 @@ html:not([data-surface-depth="flat"]) :is(
   #letter-card-1,
   [id^="letter-card-"]
 ) {
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow))) !important;
+  box-shadow: none !important;
   transform: none !important;
   animation: none !important;
-  transition: box-shadow 220ms ease, border-color 220ms ease !important;
+  transition: border-color 220ms ease !important;
 }
 
 html.dark:not([data-surface-depth="flat"]) :is(
@@ -757,7 +758,7 @@ html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) :is(
   #letter-card-1,
   [id^="letter-card-"]
 ) {
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow-dark))) !important;
+  box-shadow: none !important;
 }
 
 /* Explicit Flat Mode: Strip shadows when flat mode is actively selected */
@@ -857,7 +858,7 @@ html[data-surface-depth="flat"] :is(
   html:not([data-surface-depth="flat"]) [id^="letter-card-"]:hover {
     border-color: var(--surface-primary-border) !important;
     transform: none !important;
-    box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+    box-shadow: none !important;
   }
 
   html.dark:not([data-surface-depth="flat"]) .page-main-card:hover,
@@ -871,7 +872,7 @@ html[data-surface-depth="flat"] :is(
   html.dark:not([data-surface-depth="flat"]) #letter-card-1:hover,
   html.dark:not([data-surface-depth="flat"]) [id^="letter-card-"]:hover {
     transform: none !important;
-    box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+    box-shadow: none !important;
   }
 
   html[data-surface-depth="flat"] .page-main-card:hover,
@@ -958,13 +959,21 @@ html.dark[data-card-style] #experience-job-detail-card {
 }
 
 html #about-intro-grid-1,
-html #about-intro-grid-2 {
+html #about-intro-card-2-scroll-viewport {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
+}
+
+html #about-intro-grid-1,
+html[data-card-style] #about-intro-grid-1 {
+  background: var(--surface-primary-bg, var(--bg-main)) !important;
+  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  border-radius: 14px !important;
 }
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p7-div-81:nth-of-type(1) > div#projects-page-container:nth-of-type(1) > div#el-p7-div-83:nth-of-type(1) > div#el-p7-div-84:nth-of-type(1) > div#el-p7-div-85:nth-of-type(1) {
@@ -1345,7 +1354,7 @@ html[data-card-style="black-cowhide-leather"] #pdf-page-container {
     .hero-banner:hover,
     .banner-card:hover
   )) {
-    box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+    box-shadow: none !important;
     border-color: var(--surface-primary-border) !important;
   }
 
@@ -1391,7 +1400,7 @@ html[data-card-style="black-cowhide-leather"] #pdf-page-container {
     .hero-banner:hover,
     .banner-card:hover
   )) {
-    box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+    box-shadow: none !important;
   }
 
   html[data-surface-depth="flat"] .page-main-card:hover,
@@ -1542,7 +1551,7 @@ html #pdf-hero-banner .project-detail-banner-media :is(img, video) {
   html[data-card-style] #interview-questions-card:hover,
   html #contact-main-card #contact-hero-banner:hover,
   html[data-card-style] #contact-main-card #contact-hero-banner:hover {
-    box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow, var(--shadow-card))) !important;
+    box-shadow: none !important;
   }
 }
 
@@ -1912,17 +1921,9 @@ html[data-card-style]:not([data-surface-depth="depth"]) :is(
   transition: opacity 260ms ease, border-color 260ms ease, outline-color 260ms ease, background 260ms ease, color 260ms ease !important;
 }
 
-/* Layered Depth Mode ('depth'): Restore Layer Card Level 1 shadows for Header, Footer & Main Cards */
-html[data-surface-depth="depth"] #app-header {
-  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, 0 18px 40px -12px rgba(15, 23, 42, 0.22), 0 6px 16px -4px rgba(15, 23, 42, 0.12))) !important;
-  transition: box-shadow 220ms ease, border-color 220ms ease !important;
-}
-
-html[data-surface-depth="depth"] #app-footer {
-  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, 0 -14px 36px -12px rgba(15, 23, 42, 0.20), 0 -4px 14px -4px rgba(15, 23, 42, 0.10))) !important;
-  transition: box-shadow 220ms ease, border-color 220ms ease !important;
-}
-
+/* Layer Card Level elevation shadows disabled across all depth states */
+html[data-surface-depth="depth"] #app-header,
+html[data-surface-depth="depth"] #app-footer,
 html[data-surface-depth="depth"] :is(
   #letter-card-1,
   [id^="letter-card-"],
@@ -1935,27 +1936,11 @@ html[data-surface-depth="depth"] :is(
   #about-intro-card-2,
   #contact-main-card
 ) {
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, 0 26px 60px -12px rgba(15, 23, 42, 0.26), 0 12px 26px -6px rgba(15, 23, 42, 0.15))) !important;
+  box-shadow: none !important;
   transform: none !important;
-  transition: box-shadow 220ms ease, border-color 220ms ease !important;
+  transition: border-color 220ms ease !important;
 }
 
-html.dark[data-surface-depth="depth"] :is(
-  #letter-card-1,
-  [id^="letter-card-"],
-  .page-main-card,
-  [data-main-card="true"],
-  [data-layer-level="1"]:not(#app-header):not(#app-footer),
-  #home-main-card,
-  [id$="-main-card"],
-  #about-intro-card-1,
-  #about-intro-card-2,
-  #contact-main-card
-) {
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, 0 28px 68px -12px rgba(0, 0, 0, 0.72), 0 12px 28px -6px rgba(0, 0, 0, 0.50))) !important;
-}
-
-/* Hover on Depth Mode Level 2 Cards & Banners: keep calm resting shadow without hover glow */
 @media (hover: hover) and (pointer: fine) {
   html[data-surface-depth="depth"] :is(
     .project-card,
@@ -1964,7 +1949,7 @@ html.dark[data-surface-depth="depth"] :is(
     .hero-banner,
     .banner-card
   ):hover {
-    box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow)) !important;
+    box-shadow: none !important;
   }
 }
 
@@ -1978,25 +1963,23 @@ html :is(
   .banner-card,
   [data-element-type="banner-card"],
   #services-hero-banner,
-  #project-detail-banner,
   #contact-hero-banner,
   #ai-assistant-hero-banner,
   #interview-questions-card,
   #pdf-hero-banner,
   [id$="-hero-banner"]
-),
+):not(#project-detail-banner),
 html[data-card-style] :is(
   .hero-banner,
   .banner-card,
   [data-element-type="banner-card"],
   #services-hero-banner,
-  #project-detail-banner,
   #contact-hero-banner,
   #ai-assistant-hero-banner,
   #interview-questions-card,
   #pdf-hero-banner,
   [id$="-hero-banner"]
-) {
+):not(#project-detail-banner) {
   border-radius: var(--radius-banner, var(--radius-card, 24px)) !important;
   background: var(--banner-transparent-bg, rgba(255, 255, 255, 0.10)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--banner-border, var(--border-color))) !important;
@@ -2004,6 +1987,18 @@ html[data-card-style] :is(
   outline-offset: var(--outline-offset-card, var(--banner-outline-offset, -6px));
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease, outline-color 220ms ease, background 220ms ease !important;
+}
+
+html #project-detail-banner,
+html[data-card-style] #project-detail-banner {
+  border-radius: var(--radius-card, 24px) !important;
+  background: var(--surface-secondary-bg, var(--bg-card)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-color)) !important;
+  outline: var(--outline-card, none);
+  outline-offset: var(--outline-offset-card, -6px);
+  backdrop-filter: blur(var(--surface-secondary-blur, 18px)) saturate(var(--surface-secondary-saturate, 134%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 18px)) saturate(var(--surface-secondary-saturate, 134%)) !important;
   transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease, outline-color 220ms ease, background 220ms ease !important;
 }
 
@@ -2031,7 +2026,7 @@ html[data-card-style]:not([data-surface-depth="flat"]) :is(
   #pdf-hero-banner,
   [id$="-hero-banner"]
 ) {
-  box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow, var(--banner-shadow, var(--shadow-card)))) !important;
+  box-shadow: none !important;
 }
 
 html[data-surface-depth="flat"] :is(
@@ -2120,7 +2115,7 @@ html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, [d
     #memories-hero-banner,
     #wallpaper-hero-banner
   ):hover {
-    box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow)) !important;
+    box-shadow: none !important;
   }
 
   html:not([data-surface-depth="flat"]) :is(
@@ -2502,6 +2497,36 @@ html :is(
 ) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
   color: #0f172a !important;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.72) !important;
+}
+
+/* Light Deep Ocean: Sunlit crystal aqua optical contrast plates & ocean banner scrim */
+html[data-card-style="light-deep-ocean"] :is(.hero-banner, .banner-card, #home-main-content, [id^="home-main-content-"], .home-screen-media-stage, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
+  background: linear-gradient(180deg, rgba(234, 246, 253, 0.26) 0%, rgba(224, 242, 254, 0.08) 48%, rgba(214, 240, 252, 0.24) 100%) !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="light-deep-ocean"] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-scrim {
+  background: linear-gradient(180deg, rgba(242, 250, 255, 0.50) 0%, rgba(228, 246, 254, 0.36) 48%, rgba(220, 243, 254, 0.54) 100%) !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="light-deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
+  background: linear-gradient(135deg, rgba(244, 251, 255, 0.84) 0%, rgba(226, 245, 254, 0.74) 100%) !important;
+  border: 1px solid rgba(14, 165, 233, 0.30) !important;
+  box-shadow: 0 4px 14px -2px rgba(2, 132, 199, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.94) !important;
+}
+
+html[data-card-style="light-deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .card-header-sync {
+  color: #0369A1 !important;
+}
+
+html[data-card-style="light-deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #interview-questions-card, [id$="-hero-banner"]) :is(p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
+  color: #082F49 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.85) !important;
 }
 
 /* Adaptive Optical Contrast Plates for Banner Icon + Title & Banner Quote (Dark Themes) */
@@ -3229,11 +3254,11 @@ html #app-footer {
 }
 
 html:not([data-surface-depth="flat"]) #app-header {
-  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, var(--surface-primary-shadow))) !important;
+  box-shadow: none !important;
 }
 
 html:not([data-surface-depth="flat"]) #app-footer {
-  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, var(--surface-primary-shadow))) !important;
+  box-shadow: none !important;
 }
 
 html:not([data-surface-depth="flat"]) :is(
@@ -3247,7 +3272,7 @@ html:not([data-surface-depth="flat"]) :is(
   #letter-card-1,
   [id^="letter-card-"]
 ) {
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+  box-shadow: none !important;
 }
 
 html[data-surface-depth="flat"] :is(
@@ -3526,12 +3551,12 @@ html[data-card-style] :is(
 
 html:root:not([data-surface-depth="flat"]) #app-header,
 html[data-card-style]:not([data-surface-depth="flat"]) #app-header {
-  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, var(--surface-primary-shadow))) !important;
+  box-shadow: none !important;
 }
 
 html:root:not([data-surface-depth="flat"]) #app-footer,
 html[data-card-style]:not([data-surface-depth="flat"]) #app-footer {
-  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, var(--surface-primary-shadow))) !important;
+  box-shadow: none !important;
 }
 
 html:root:not([data-surface-depth="flat"]) :is(
@@ -3556,7 +3581,7 @@ html[data-card-style]:not([data-surface-depth="flat"]) :is(
   #contact-main-card,
   [id^="letter-card-"]
 ) {
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+  box-shadow: none !important;
 }
 
 html:root[data-surface-depth="flat"] :is(

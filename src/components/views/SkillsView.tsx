@@ -890,52 +890,54 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                     data-element-name={`Thẻ ngôn ngữ: ${langItem.nameVi}`}
                     data-element-page="skills"
                     style={{ borderRadius: 'var(--radius-subcard, 16px)', padding: '15px' }}
-                    className="sub-card exp-detail-subcard w-full h-full min-w-0 flex items-center gap-[15px] p-[15px] rounded-[var(--radius-subcard,16px)] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none box-border"
+                    className="sub-card exp-detail-subcard w-full h-full min-w-0 flex flex-col justify-center gap-[12px] p-[15px] rounded-[var(--radius-subcard,16px)] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none box-border"
                   >
-                    <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
-                      <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                        <path
-                          className="stroke-current opacity-30"
-                          style={{ color: 'var(--border-subcard, rgba(148, 163, 184, 0.35))' }}
-                          strokeWidth="3.2"
-                          fill="none"
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                        />
-                        <path 
-                          className={cn("skills-lang-ring-arc stroke-current", langItem.color)} 
-                          strokeWidth="3.2" 
-                          strokeDasharray={`${langItem.percent}, 100`} 
-                          strokeLinecap="round" 
-                          fill="none" 
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" 
-                        />
-                      </svg>
-                      <span className="about-info-value absolute typo-label font-mono font-bold whitespace-nowrap text-[var(--text-heading,var(--text-primary))]">
-                        {langItem.percent}%
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col min-w-0 text-left flex-1">
-                      <div className="flex items-center justify-between gap-1.5 flex-wrap">
-                        <h3 className={cn("skills-lang-title typo-h4 subcard-header-sync subcard-title-synced font-play font-bold whitespace-normal break-words flex items-center gap-1.5", langItem.color)} data-subcard-title="true">
-                          <WebIcon name="globe" className="w-4 h-4 shrink-0" />
-                          <span>{isVi ? langItem.nameVi : langItem.nameEn}</span>
-                        </h3>
-                        {(isVi ? langItem.levelVi : langItem.levelEn) ? (
-                          <span className="skills-lang-level typo-badge px-2 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-nested-badge)] text-[var(--text-secondary)] font-semibold shrink-0">
-                            {isVi ? langItem.levelVi : langItem.levelEn}
-                          </span>
-                        ) : null}
+                    <div className="skills-lang-main-row flex flex-row items-center gap-[14px] w-full min-w-0">
+                      <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
+                        <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                          <path
+                            className="stroke-current opacity-30"
+                            style={{ color: 'var(--border-subcard, rgba(148, 163, 184, 0.35))' }}
+                            strokeWidth="3.2"
+                            fill="none"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          />
+                          <path 
+                            className={cn("skills-lang-ring-arc stroke-current", langItem.color)} 
+                            strokeWidth="3.2" 
+                            strokeDasharray={`${langItem.percent}, 100`} 
+                            strokeLinecap="round" 
+                            fill="none" 
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" 
+                          />
+                        </svg>
+                        <span className="about-info-value absolute typo-label font-mono font-bold whitespace-nowrap text-[var(--text-heading,var(--text-primary))]">
+                          {langItem.percent}%
+                        </span>
                       </div>
-                      <span className="about-info-label typo-caption text-[var(--text-secondary)] mt-0.5 font-medium">
-                        {isVi ? langItem.roleVi : langItem.roleEn}
-                      </span>
-                      {langItem.descVi && (
-                        <p className="typo-caption text-[var(--text-muted)] mt-1.5 line-clamp-2 leading-relaxed">
-                          {isVi ? langItem.descVi : langItem.roleEn}
-                        </p>
-                      )}
+
+                      <div className="flex flex-col justify-center min-w-0 text-left flex-1 gap-0.5">
+                        <div className="flex items-center justify-between gap-1.5 flex-wrap">
+                          <h3 className={cn("skills-lang-title typo-h4 subcard-header-sync subcard-title-synced font-play font-bold whitespace-normal break-words flex items-center gap-1.5", langItem.color)} data-subcard-title="true">
+                            <WebIcon name="globe" className="w-4 h-4 shrink-0" />
+                            <span>{isVi ? langItem.nameVi : langItem.nameEn}</span>
+                          </h3>
+                          {(isVi ? langItem.levelVi : langItem.levelEn) ? (
+                            <span className="skills-lang-level typo-badge px-2 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-nested-badge)] text-[var(--text-secondary)] font-semibold shrink-0">
+                              {isVi ? langItem.levelVi : langItem.levelEn}
+                            </span>
+                          ) : null}
+                        </div>
+                        <span className="about-info-label typo-caption text-[var(--text-secondary)] font-medium leading-snug break-words">
+                          {isVi ? langItem.roleVi : langItem.roleEn}
+                        </span>
+                      </div>
                     </div>
+                    {langItem.descVi && (
+                      <p className="typo-caption text-[var(--text-muted)] line-clamp-2 leading-relaxed">
+                        {isVi ? langItem.descVi : langItem.roleEn}
+                      </p>
+                    )}
                   </div>
                 );
               })}

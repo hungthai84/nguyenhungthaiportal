@@ -3,32 +3,14 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ProjectData } from '@/types';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { VideoBanner } from '@/components/common/VideoBanner';
-import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import {
   getProjectDetailedSpec,
   SCOPE_PALETTES,
   CHALLENGE_PALETTES,
 } from '@/utils/projectSpecGenerator';
 
-interface ProjectCardGroup {
-  id: string;
-  code: string;
-  filterKey: string;
-  badgeText: string;
-  fourWordTitle: string;
-  pillText: string;
-  desc: string;
-  visualId: string;
-  illustrationSrc: string;
-  iconName: string;
-  projects: ProjectData[];
-}
-
 export interface ProjectDetailViewProps {
   selectedArticle: ProjectData;
-  selectedGroup: ProjectCardGroup | null;
-  onSelectProject: (proj: ProjectData) => void;
   onClose: () => void;
   onOpenMindmap: (proj: ProjectData) => void;
   getCardVisualConfig: (visualId: string) => {
@@ -74,8 +56,6 @@ const TOC_ITEMS = [
 
 export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
   selectedArticle,
-  selectedGroup,
-  onSelectProject,
   onClose,
   onOpenMindmap,
   isLight = true,
@@ -85,7 +65,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
   const [isLightMode, setIsLightMode] = useState<boolean>(true);
   const [mindmapMode, setMindmapMode] = useState<'interactive' | 'image'>('interactive');
   const spec = useMemo(() => getProjectDetailedSpec(selectedArticle), [selectedArticle]);
-  const projectsBannerVideo = getDefaultBannerVideoConfig('projects');
   const outerScrollRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -223,19 +202,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     }
   };
 
-  const currentProjectIdx =
-    selectedGroup?.projects.findIndex((p) => p.id === selectedArticle.id) ?? -1;
-  const nextProject =
-    selectedGroup &&
-    currentProjectIdx >= 0 &&
-    currentProjectIdx < selectedGroup.projects.length - 1
-      ? selectedGroup.projects[currentProjectIdx + 1]
-      : null;
-  const prevProject =
-    selectedGroup && currentProjectIdx > 0
-      ? selectedGroup.projects[currentProjectIdx - 1]
-      : null;
-
   const activeTocIndex = Math.max(
     0,
     TOC_ITEMS.findIndex((item) => item.id === activeSection)
@@ -246,7 +212,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     <div
       id="project-detail-layout"
       ref={outerScrollRef}
-      className="w-full h-full flex-1 min-h-0 flex flex-row gap-[15px] p-[15px] box-border items-stretch relative overflow-hidden glass-scrollbar rounded-[inherit] text-left font-play"
+      className="w-full h-full flex-1 min-h-0 flex flex-row gap-[15px] p-0 box-border items-stretch relative overflow-hidden glass-scrollbar rounded-[inherit] text-left font-play"
     >
       {/* 1. KHỐI NỘI DUNG CHI TIẾT BÀI VIẾT DỰ ÁN BÊN TRÁI (Luôn cao bằng banner chi tiết dự án ở mọi kích thước) */}
       <div
@@ -1893,19 +1859,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           data-section-card="true"
           className="order-2 banner-card bento-card glass-card shrink-0 h-full min-h-full max-h-full self-stretch flex flex-col pointer-events-auto rounded-[14px] p-[15px] gap-2.5 overflow-hidden relative group"
         >
-          {/* Hình nền banner dọc full chiều cao phía sau lớp phủ tương phản */}
-          <div className="project-detail-banner-media absolute inset-0 overflow-hidden pointer-events-none rounded-[inherit] z-0">
-            <VideoBanner
-              videoId={projectsBannerVideo.videoId}
-              title={projectsBannerVideo.title}
-              className="rounded-[inherit]"
-            />
-          </div>
-
-          {/* Lớp phủ tương phản cao đồng bộ 11 Theme */}
-          <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
-
-          {/* Nội dung phân tách trực tiếp trên Banner (chỉ giữ nút nổi X ở góc trên phải, chừa pr-10 cho dòng đầu tiên) */}
+          {/* Nội dung phân tách trực tiếp trên Mục lục dọc (chỉ giữ nút nổi X ở góc trên phải, chừa pr-10 cho dòng đầu tiên) */}
           <div
             className="relative z-10 pr-10 typo-label font-bold leading-snug break-words shrink-0"
             style={{
@@ -2026,32 +1980,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               );
             })}
           </nav>
-
-          {/* Điều hướng nhanh giữa các dự án trong cùng nhóm */}
-          {(prevProject || nextProject) && (
-            <div className="relative z-10 pt-2.5 border-t border-[var(--border-subcard)] flex items-center justify-between gap-2 shrink-0 mt-auto">
-              <button
-                type="button"
-                disabled={!prevProject}
-                onClick={() => prevProject && onSelectProject(prevProject)}
-                title={prevProject ? `Dự án trước: ${prevProject.title}` : 'Đây là dự án đầu tiên'}
-                className="project-detail-chip flex-1 min-w-0 px-2.5 py-1.5 rounded-[10px] border border-[var(--border-subcard)] typo-label font-bold text-[var(--text-primary)] flex items-center justify-center gap-1 transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:opacity-90 whitespace-nowrap"
-              >
-                <WebIcon name="arrow-left" className="w-3.5 h-3.5 shrink-0" />
-                <span className="truncate">Bài Trước</span>
-              </button>
-              <button
-                type="button"
-                disabled={!nextProject}
-                onClick={() => nextProject && onSelectProject(nextProject)}
-                title={nextProject ? `Dự án tiếp: ${nextProject.title}` : 'Đây là dự án cuối cùng'}
-                className="project-detail-chip flex-1 min-w-0 px-2.5 py-1.5 rounded-[10px] border border-[var(--border-subcard)] typo-label font-bold text-[var(--text-primary)] flex items-center justify-center gap-1 transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:opacity-90 whitespace-nowrap"
-              >
-                <span className="truncate">Bài Tiếp</span>
-                <WebIcon name="arrow-right" className="w-3.5 h-3.5 shrink-0" />
-              </button>
-            </div>
-          )}
         </aside>
       )}
     </div>

@@ -218,12 +218,46 @@ html[data-card-style="deep-ocean"] :is(
   .exp-bento-surface-card,
   .education-card,
   .education-course-card
-) {
+):not([data-multicolor-bento="true"]) {
   background: rgba(14, 30, 60, 0.78) !important;
   backdrop-filter: blur(20px) saturate(145%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(145%) !important;
   border: 1px solid rgba(56, 189, 248, 0.26) !important;
   box-shadow: 0 14px 34px rgba(3, 9, 20, 0.56), inset 0 1px 0 rgba(125, 211, 252, 0.16) !important;
+}
+
+html[data-card-style="deep-ocean"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-sky {
+  background: linear-gradient(145deg, rgba(12, 54, 92, 0.72) 0%, rgba(10, 26, 56, 0.80) 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.34) !important;
+}
+html[data-card-style="deep-ocean"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-amber {
+  background: linear-gradient(145deg, rgba(66, 36, 18, 0.72) 0%, rgba(16, 26, 52, 0.80) 100%) !important;
+  border: 1px solid rgba(251, 191, 36, 0.30) !important;
+}
+html[data-card-style="deep-ocean"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-emerald {
+  background: linear-gradient(145deg, rgba(8, 62, 54, 0.72) 0%, rgba(10, 28, 52, 0.80) 100%) !important;
+  border: 1px solid rgba(52, 211, 153, 0.32) !important;
+}
+html[data-card-style="deep-ocean"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-cyan,
+html[data-card-style="deep-ocean"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-teal {
+  background: linear-gradient(145deg, rgba(10, 56, 72, 0.72) 0%, rgba(10, 26, 54, 0.80) 100%) !important;
+  border: 1px solid rgba(45, 212, 191, 0.32) !important;
+}
+html[data-card-style="deep-ocean"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-pink {
+  background: linear-gradient(145deg, rgba(68, 22, 54, 0.72) 0%, rgba(16, 24, 52, 0.80) 100%) !important;
+  border: 1px solid rgba(244, 114, 182, 0.30) !important;
+}
+html[data-card-style="deep-ocean"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-purple {
+  background: linear-gradient(145deg, rgba(44, 24, 82, 0.72) 0%, rgba(14, 24, 54, 0.80) 100%) !important;
+  border: 1px solid rgba(192, 132, 252, 0.32) !important;
+}
+html[data-card-style="deep-ocean"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-blue {
+  background: linear-gradient(145deg, rgba(18, 42, 88, 0.74) 0%, rgba(12, 24, 54, 0.80) 100%) !important;
+  border: 1px solid rgba(96, 165, 250, 0.34) !important;
+}
+html[data-card-style="deep-ocean"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-indigo {
+  background: linear-gradient(145deg, rgba(28, 32, 82, 0.74) 0%, rgba(12, 24, 54, 0.80) 100%) !important;
+  border: 1px solid rgba(129, 140, 248, 0.34) !important;
 }
 
 html[data-card-style="deep-ocean"] :is(
@@ -234,7 +268,7 @@ html[data-card-style="deep-ocean"] :is(
   .exp-detail-subcard,
   .education-subcard,
   .project-detail-subcard
-) {
+):not([data-bento-subtone]) {
   background: rgba(20, 42, 82, 0.68) !important;
   border: 1px solid rgba(56, 189, 248, 0.18) !important;
   box-shadow: 0 8px 20px rgba(3, 9, 20, 0.42), inset 0 1px 0 rgba(125, 211, 252, 0.12) !important;

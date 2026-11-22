@@ -7,7 +7,7 @@ export const LEARNING_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Phát triển CS Academy và hệ thống đào tạo trực tuyến là dự án chuyển đổi số toàn diện hoạt động đào tạo và phát triển năng lực khối CSKH, chuyển từ mô hình lớp học tập trung phụ thuộc giảng viên sang Học viện số CS Academy LMS với hơn 85 module Micro-learning, bài tập mô phỏng cuộc gọi/chat và hệ thống sát hạch tự động.',
       'Trong môi trường dịch vụ thay đổi sản phẩm liên tục hàng tuần và tỷ lệ tuyển mới thường xuyên, mô hình đào tạo truyền thống vừa tốn kém chi phí hội trường, giảng viên vừa gây lệch chất lượng giữa các lứa nhân viên. CS Academy giải quyết triệt để bài toán nhân bản chất lượng đào tạo ở quy mô hàng trăm nhân sự nội bộ lẫn đối tác BPO.',
-      'Với vai trò Head of CS Academy, trọng tâm lãnh đạo là thiết kế lộ trình học tập pha trộn (Blended Learning), xây dựng kho mô phỏng tương tác sát 95% thực tế và gắn chặt chứng chỉ đầu ra trên LMS với quyền cấp tài khoản vận hành, rút ngắn thời gian Onboarding từ 28 ngày xuống còn 9 ngày.',
+      'Với vai trò Giám đốc Học viện Đào tạo CSKH, trọng tâm lãnh đạo là thiết kế lộ trình học tập pha trộn (Blended Learning), xây dựng kho mô phỏng tương tác sát 95% thực tế và gắn chặt chứng chỉ đầu ra trên LMS với quyền cấp tài khoản vận hành, rút ngắn thời gian Onboarding từ 28 ngày xuống còn 9 ngày.',
     ],
     context: {
       intro: 'Trước khi xây dựng Học viện trực tuyến CS Academy, công tác đào tạo hội nhập và cập nhật nghiệp vụ thường xuyên vấp phải 7 rào cản lớn:',
@@ -176,7 +176,7 @@ export const LEARNING_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Dữ liệu học tập trên LMS được liên kết trực tiếp với Dashboard hiệu suất nhân viên mới 30-60-90 ngày.',
     },
     pmRoles: {
-      intro: 'Với vai trò Head of CS Academy kiến trúc và vận hành toàn bộ học viện số, trách nhiệm trọng tâm bao gồm:',
+      intro: 'Với vai trò Giám đốc Học viện Đào tạo CSKH kiến trúc và vận hành toàn bộ học viện số, trách nhiệm trọng tâm bao gồm:',
       items: [
         { role: 'Kiến trúc học viện', desc: 'Định hình cấu trúc chương trình 4 cấp độ và chuẩn hóa quy trình thiết kế học liệu số.' },
         { role: 'Đổi mới phương pháp', desc: 'Chuyển đổi từ giảng lý thuyết kéo dài sang Micro-learning kết hợp Simulation thực chiến.' },
@@ -215,7 +215,7 @@ export const LEARNING_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Xây dựng khung năng lực ASK và lộ trình nghề nghiệp là dự án quản trị con người cốt lõi nhằm giải quyết bài toán tỷ lệ nghỉ việc (Attrition) vốn luôn cao trong ngành dịch vụ khách hàng, bằng cách kiến tạo một hệ thống đánh giá năng lực minh bạch theo 3 trụ cột Thái độ (Attitude) – Kỹ năng (Skill) – Kiến thức (Knowledge) và Lộ trình thăng tiến kép (Dual Career Path).',
       'Thay vì buộc mọi nhân viên giỏi đều phải rẽ sang làm quản lý đội nhóm mới được tăng thu nhập và vị thế, dự án mở ra hai cánh cửa phát triển song hành công bằng: Nhánh Quản lý Vận hành (Team Lead → Manager) và Nhánh Chuyên gia Nghiệp vụ (Senior Specialist → QA/Trainer/BA/CX Expert).',
-      'Với vai trò People & Culture CS Lead, trọng tâm là mã hóa tiêu chí lên bậc rõ ràng trên hệ thống HRM, vận hành chương trình phát hiện và bồi dưỡng lãnh đạo kế thừa (Succession Pipeline), giúp giảm tỷ lệ nghỉ việc xuống dưới 3% và 85% quản lý cấp trung được bổ nhiệm từ nguồn nội bộ.',
+      'Với vai trò Trưởng nhóm Phát triển Nhân sự & Văn hóa CSKH, trọng tâm là mã hóa tiêu chí lên bậc rõ ràng trên hệ thống HRM, vận hành chương trình phát hiện và bồi dưỡng lãnh đạo kế thừa (Succession Pipeline), giúp giảm tỷ lệ nghỉ việc xuống dưới 3% và 85% quản lý cấp trung được bổ nhiệm từ nguồn nội bộ.',
     ],
     context: {
       intro: 'Khi nhân sự CSKH làm việc từ 6–12 tháng trở lên, động lực gắn bó thường suy giảm nghiêm trọng do 7 bất cập về phát triển nghề nghiệp:',
@@ -384,7 +384,7 @@ export const LEARNING_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Số liệu biến động nhân sự và kết quả kế thừa được đối soát hàng tháng cùng phòng Nhân sự (HRBP).',
     },
     pmRoles: {
-      intro: 'Với vai trò People & Culture CS Lead kiến tạo hệ sinh thái phát triển nghề nghiệp cho đội ngũ, trọng trách gồm:',
+      intro: 'Với vai trò Trưởng nhóm Phát triển Nhân sự & Văn hóa CSKH kiến tạo hệ sinh thái phát triển nghề nghiệp cho đội ngũ, trọng trách gồm:',
       items: [
         { role: 'Định chuẩn năng lực', desc: 'Thiết kế Từ điển ASK 5 cấp độ bảo đảm phản ánh đúng yêu cầu thực chiến của nghề CSKH.' },
         { role: 'Kiến tạo cơ hội', desc: 'Phá vỡ thế độc đạo bằng Lộ trình Thăng tiến Kép tôn vinh cả quản lý lẫn chuyên gia sâu.' },
@@ -423,7 +423,7 @@ export const LEARNING_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Xây dựng trung tâm hỗ trợ khách hàng tự phục vụ là dự án thiết lập cổng thông tin Self-Service Help Center tập trung trên cả Web và Mobile App, biên soạn hệ thống >650 bài viết hướng dẫn chuẩn SEO kết hợp công cụ tìm kiếm ngữ nghĩa AI Search và cổng tra cứu tiến độ ticket tự động 24/7.',
       'Thay vì để khách hàng phải gọi tổng đài hay chờ nhân viên chat chỉ để hỏi những câu phổ thông như cách đổi mật khẩu, tra lịch sử đối soát hoặc điều kiện hoàn tiền, dự án trao cho người dùng quyền chủ động giải quyết vấn đề ngay tức thì chỉ trong 30 giây bất kể ngày đêm.',
-      'Với vai trò Helpdesk & Knowledge Manager, trọng tâm là tối ưu kiến trúc thông tin theo góc nhìn người dùng cuối, kết nối luồng đẩy bài viết thông minh ngay trước nút gọi tổng đài (In-flow Deflection), phục vụ >800,000 lượt xem/tháng với tỷ lệ tự giải quyết đạt 45%.',
+      'Với vai trò Quản lý Trung tâm Hỗ trợ & Tri thức, trọng tâm là tối ưu kiến trúc thông tin theo góc nhìn người dùng cuối, kết nối luồng đẩy bài viết thông minh ngay trước nút gọi tổng đài (In-flow Deflection), phục vụ >800,000 lượt xem/tháng với tỷ lệ tự giải quyết đạt 45%.',
     ],
     context: {
       intro: 'Trước khi xây dựng Trung tâm Hỗ trợ Tự phục vụ tập trung, khách hàng và bộ phận tổng đài phải đối mặt với 7 vấn đề gây lãng phí lớn:',
@@ -592,7 +592,7 @@ export const LEARNING_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Số liệu lưu lượng và tỷ lệ Deflection được theo dõi tự động qua Google Analytics 4, Search Logs và CRM Ticket Matching.',
     },
     pmRoles: {
-      intro: 'Với vai trò Helpdesk & Knowledge Manager kiến trúc kho tri thức phục vụ hàng trăm nghìn người dùng, trách nhiệm gồm:',
+      intro: 'Với vai trò Quản lý Trung tâm Hỗ trợ & Tri thức kiến trúc kho tri thức phục vụ hàng trăm nghìn người dùng, trách nhiệm gồm:',
       items: [
         { role: 'Kiến trúc thông tin', desc: 'Thiết kế cấu trúc Help Center trực quan, dễ tìm kiếm trên cả Web, Google và Mobile App.' },
         { role: 'Quản trị nội dung', desc: 'Ban hành chuẩn biên tập dễ hiểu và điều phối biên soạn >650 bài viết chuẩn SEO.' },

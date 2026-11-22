@@ -151,7 +151,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-white/85 text-[#4F46E5] border-white/90',
-    layerDepth: 100,
+    layerDepth: 0,
   },
   {
     id: 'dark-liquid-glass',
@@ -195,7 +195,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#0B1221',
     },
     badgeColorClass: 'bg-[#121d34]/90 text-[#A5B4FC] border-white/20',
-    layerDepth: 100,
+    layerDepth: 0,
   },
   {
     id: 'cowhide-leather',
@@ -236,7 +236,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#522E10]/90 text-white border-[#F5DEB3]/50',
-    layerDepth: 100,
+    layerDepth: 0,
   },
   {
     id: 'black-cowhide-leather',
@@ -277,7 +277,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#0B0C10',
     },
     badgeColorClass: 'bg-[#14171D]/92 text-white border-white/70',
-    layerDepth: 100,
+    layerDepth: 0,
   },
   {
     id: 'deep-ocean',
@@ -317,7 +317,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#101C38] text-sky-200 border-sky-400/40',
-    layerDepth: 110,
+    layerDepth: 0,
   },
   {
     id: 'light-deep-ocean',
@@ -335,11 +335,11 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     isDark: false,
     icon: 'sun',
     color: '#0284C7',
-    desc: 'Giao diện Deep Ocean sáng: nền biển xanh ngọc ban mai (#EAF6FD), kính mờ trong trẻo phản chiếu tia nắng nước, chữ navy đậm sắc nét.',
+    desc: 'Phiên bản sáng phát triển từ Đại Dương Sâu Thẳm: nền biển xanh ngọc ban mai (#EAF6FD), lớp kính đại dương trong suốt 155deg, chữ navy sâu và điểm nhấn cyan/aqua đồng bộ.',
     cardSampleStyle: {
-      background: 'linear-gradient(145deg, rgba(246, 252, 255, 0.90) 0%, rgba(226, 245, 254, 0.84) 100%)',
+      background: 'linear-gradient(155deg, rgba(244, 251, 255, 0.90) 0%, rgba(224, 244, 254, 0.84) 100%)',
       borderRadius: '14px',
-      border: '1px solid rgba(14, 165, 233, 0.28)',
+      border: '1px solid rgba(14, 165, 233, 0.30)',
       boxShadow: '0 14px 32px rgba(12, 74, 110, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.92)',
       color: '#082F49',
     },
@@ -357,7 +357,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-sky-50 text-[#0284C7] border-sky-300/70',
-    layerDepth: 100,
+    layerDepth: 0,
   },
   {
     id: 'neumorphism-beyond',
@@ -402,7 +402,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#E5EBF3] text-[#4973FF] border-[#C4D1E2]',
-    layerDepth: 100,
+    layerDepth: 0,
   },
   {
     id: 'dark-neumorphism-beyond',
@@ -447,7 +447,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#1E2738] text-[#64B6FF] border-slate-600/50',
-    layerDepth: 100,
+    layerDepth: 0,
   },
   {
     id: 'multicolor-glass',
@@ -491,7 +491,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-white/75 text-[#4F46E5] border-white/85',
-    layerDepth: 100,
+    layerDepth: 0,
   },
   {
     id: 'dark-neon-glass',
@@ -537,7 +537,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#091229]/90 text-[#67E8F9] border-cyan-400/40',
-    layerDepth: 120,
+    layerDepth: 0,
   },
 ];
 

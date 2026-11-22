@@ -243,7 +243,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #letter-intro-right-stack,
 #core-values-grid,
 #brands-bento-grid,
-#about-intro-grid-2,
+#about-intro-card-2-scroll-viewport,
 #services-main-content,
 #services-main-content .services-cards-grid,
 #interview-main-content,
@@ -438,7 +438,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #letter-slide-2-grid,
   #letter-slide-3-grid,
   #letter-slide-4-bento-grid,
-  #about-intro-grid-2,
+  #about-intro-card-2-scroll-viewport,
   #experience-bento-grid {
     grid-template-columns: minmax(0, 1fr) !important;
   }
@@ -452,7 +452,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #letter-slide-2-grid > *,
   #letter-slide-3-grid > *,
   #letter-slide-4-bento-grid > *,
-  #about-intro-grid-2 > *,
+  #about-intro-card-2-scroll-viewport > *,
   #experience-bento-grid > * {
     grid-column: 1 / -1 !important;
   }
@@ -607,11 +607,11 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 1 / span 1 !important;
   }
 
-  #about-intro-grid-2 {
+  #about-intro-card-2-scroll-viewport {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
-  #about-intro-grid-2 > * {
+  #about-intro-card-2-scroll-viewport > * {
     grid-column: 1 / -1 !important;
   }
 
@@ -775,7 +775,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 6 / span 6 !important;
   }
 
-  #about-intro-grid-2 {
+  #about-intro-card-2-scroll-viewport {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
 
@@ -956,7 +956,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 6 / span 6 !important;
   }
 
-  #about-intro-grid-2 {
+  #about-intro-card-2-scroll-viewport {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
 

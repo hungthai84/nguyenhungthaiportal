@@ -1,12 +1,9 @@
 /* ========================================================================= */
-/* LAYER CARD HIERARCHY SYSTEM                                               */
-/* Level 1: Header · Main Card · Footer                                      */
-/* Level 2: Các card nằm trong Header · Main Card · Footer                   */
-/* Level 3: Tạm chưa phân bổ (Reserved for explicit [data-layer-level="3"])  */
-/* Synchronizes dynamically across all Themes & Layer Depth (0% - 200%)      */
+/* LAYER CARD EFFECTS DISABLED                                               */
+/* Preserves base card surface geometry without Level 1/2/3 depth shadows    */
 /* ========================================================================= */
 
-/* Level 1: Header, Main Card & Footer Surface (Unified Layer Level 1 Format) */
+/* Base surface styling for shell containers (without layer depth shadows) */
 :is(
   #app-header,
   #app-footer,
@@ -27,7 +24,8 @@
   -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
   filter: none !important;
   text-shadow: none !important;
-  transition: box-shadow 220ms ease, border-color 220ms ease !important;
+  box-shadow: none !important;
+  transition: border-color 220ms ease !important;
   animation: none !important;
   transform: none !important;
   will-change: auto !important;
@@ -57,205 +55,8 @@
   border-radius: var(--radius-main, 20px) !important;
 }
 
-html:not([data-surface-depth="flat"]) #app-header {
-  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, var(--surface-primary-shadow))) !important;
-}
-
-html:not([data-surface-depth="flat"]) #app-footer {
-  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, var(--surface-primary-shadow))) !important;
-}
-
-html:not([data-surface-depth="flat"]) :is(
-  [data-layer-level="1"],
-  .page-main-card,
-  [data-main-card="true"],
-  #home-main-card,
-  [id$="-main-card"],
-  #about-intro-card-1,
-  #about-intro-card-2,
-  #contact-main-card,
-  [id^="letter-card-"]
-):not(#app-header):not(#app-footer) {
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
-}
-
-/* Level 2: Các card nằm trong Header, Main Card và Footer */
+/* Strip all Layer Card Level shadows & elevation transforms across every card level */
 :is(
-  /* Cards trong Main Card */
-  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not([id$="-page-container"]):not([id$="-page-root"]),
-  .bento-card:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
-  .layered-card,
-  .exp-bento-surface-card,
-  .exp-detail-card,
-  .education-card,
-  .education-course-card,
-  .project-card,
-  .project-detail-section-card,
-  .banner-card,
-  .hero-banner,
-  [id$="-hero-banner"],
-  #interview-questions-card,
-  #interview-answers-card,
-  #home-intro-card,
-  #home-stats-card,
-  #home-capabilities-card,
-  #home-achievements-card,
-  #horoscope-lookup-card,
-  #bento-letter-video,
-  [data-subcard="true"]:not(.skill-swot-subcard):not([id^="skill-item-"]),
-  .sub-card:not(.skill-swot-subcard):not([id^="skill-item-"]),
-  .nested-card,
-  .exp-bento-item-card:not(.exp-bento-rect-btn),
-  .exp-detail-subcard,
-  .education-subcard,
-  .letter-subcard,
-  .letter-header-subcard,
-  .letter-footer-subcard,
-  .project-detail-subcard,
-  .theme-modal-subcard,
-  /* Cards trong Footer */
-  #footer-nav-capsule,
-  #footer-theme-popup,
-  #footer-lang-popup,
-  #app-footer [data-layer-level="2"],
-  [data-layer-level="2"],
-  .layer-preview-l2
-) {
-  transition:
-    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 260ms ease,
-    border-color 220ms ease,
-    outline-color 220ms ease !important;
-  will-change: transform;
-}
-
-html:not([data-surface-depth="flat"]) :is(
-  /* Cards trong Main Card */
-  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not([id$="-page-container"]):not([id$="-page-root"]),
-  .bento-card:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
-  .layered-card,
-  .exp-bento-surface-card,
-  .exp-detail-card,
-  .education-card,
-  .education-course-card,
-  .project-card,
-  .project-detail-section-card,
-  .banner-card,
-  .hero-banner,
-  [id$="-hero-banner"],
-  #interview-questions-card,
-  #interview-answers-card,
-  #home-intro-card,
-  #home-stats-card,
-  #home-capabilities-card,
-  #home-achievements-card,
-  #horoscope-lookup-card,
-  #bento-letter-video,
-  [data-subcard="true"]:not(.skill-swot-subcard):not([id^="skill-item-"]),
-  .sub-card:not(.skill-swot-subcard):not([id^="skill-item-"]),
-  .nested-card,
-  .exp-bento-item-card:not(.exp-bento-rect-btn),
-  .exp-detail-subcard,
-  .education-subcard,
-  .letter-subcard,
-  .letter-header-subcard,
-  .letter-footer-subcard,
-  .project-detail-subcard,
-  .theme-modal-subcard,
-  /* Cards trong Footer */
-  #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]):not(:hover),
-  #footer-nav-capsule,
-  #footer-theme-popup,
-  #footer-lang-popup,
-  #app-footer [data-layer-level="2"],
-  [data-layer-level="2"],
-  .layer-preview-l2
-) {
-  box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow)) !important;
-}
-
-/* Level 3: Tạm chưa phân bổ (Chỉ áp dụng khi gán tường minh [data-layer-level="3"] hoặc mô phỏng .layer-preview-l3) */
-:is(
-  [data-layer-level="3"],
-  .layer-preview-l3
-) {
-  transition:
-    transform 210ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 230ms ease,
-    border-color 200ms ease,
-    outline-color 200ms ease !important;
-}
-
-html:not([data-surface-depth="flat"]) :is(
-  [data-layer-level="3"],
-  .layer-preview-l3
-) {
-  box-shadow: var(--layer-l3-shadow, var(--surface-tertiary-shadow)) !important;
-}
-
-/* Hover state for Level 2 & Level 3 cards: no glow/flash on mouseover */
-@media (hover: hover) and (pointer: fine) {
-  html:not([data-surface-depth="flat"]) :is(
-    [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not([id$="-page-container"]):not([id$="-page-root"]):not(#footer-theme-popup):not(#footer-lang-popup):not(.banner-dropdown-menu):not(:has(.banner-dropdown-menu)),
-    .bento-card:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]):not(#footer-theme-popup):not(#footer-lang-popup):not(:has(.banner-dropdown-menu)),
-    .layered-card,
-    .exp-bento-surface-card,
-    .exp-detail-card,
-    .education-card,
-    .education-course-card,
-    .project-card,
-    .project-detail-section-card,
-    .banner-card:not(:has(.banner-dropdown-menu)),
-    .hero-banner:not(:has(.banner-dropdown-menu)),
-    [id$="-hero-banner"]:not(:has(.banner-dropdown-menu)),
-    #interview-questions-card:not(:has(.banner-dropdown-menu)),
-    #interview-answers-card,
-    #home-intro-card,
-    #home-stats-card,
-    #home-capabilities-card,
-    #home-achievements-card,
-    #horoscope-lookup-card,
-    #bento-letter-video,
-    [data-subcard="true"]:not(.skill-swot-subcard):not([id^="skill-item-"]),
-    .sub-card:not(.skill-swot-subcard):not([id^="skill-item-"]),
-    .nested-card,
-    .exp-bento-item-card:not(.exp-bento-rect-btn),
-    .exp-detail-subcard,
-    .education-subcard,
-    .letter-subcard,
-    .letter-header-subcard,
-    .letter-footer-subcard,
-    .project-detail-subcard,
-    .theme-modal-subcard,
-    [data-layer-level="2"],
-    .layer-preview-l2
-  ):hover {
-    box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow)) !important;
-  }
-
-  html:not([data-surface-depth="flat"]) :is(
-    [data-layer-level="3"],
-    .layer-preview-l3
-  ):hover {
-    box-shadow: var(--layer-l3-shadow, var(--surface-tertiary-shadow)) !important;
-  }
-}
-
-/* Touch Press Feedback on Mobile & Tablet */
-@media (hover: none), (pointer: coarse) {
-  html:not([data-surface-depth="flat"]) :is(
-    .project-card,
-    .exp-bento-item-card:not(.exp-bento-rect-btn),
-    .education-card,
-    .layer-preview-l2,
-    .layer-preview-l3
-  ):active {
-    transform: scale(0.992) !important;
-  }
-}
-
-/* Flat Minimal Mode (Layer Depth = 0%) */
-html[data-surface-depth="flat"] :is(
   #app-header,
   #app-footer,
   #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
@@ -289,9 +90,42 @@ html[data-surface-depth="flat"] :is(
   .layer-preview-l1,
   .layer-preview-l2,
   .layer-preview-l3
-) {
+),
+:is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  [data-section-card="true"],
+  .bento-card,
+  .layered-card,
+  .banner-card,
+  .hero-banner,
+  [data-subcard="true"],
+  .sub-card,
+  .nested-card,
+  .exp-bento-surface-card,
+  .exp-bento-item-card,
+  .exp-detail-card,
+  .exp-detail-subcard,
+  .education-card,
+  .education-course-card,
+  .education-subcard,
+  .project-card,
+  .project-detail-section-card,
+  .project-detail-subcard,
+  [data-layer-level="1"],
+  [data-layer-level="2"],
+  [data-layer-level="3"],
+  .layer-preview-l1,
+  .layer-preview-l2,
+  .layer-preview-l3
+):is(:hover, :active, :focus-within) {
   box-shadow: none !important;
   transform: none !important;
+  will-change: auto !important;
 }
 
 /* ========================================================================= */

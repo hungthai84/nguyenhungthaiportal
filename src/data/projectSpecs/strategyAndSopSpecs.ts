@@ -7,7 +7,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Thiết lập mục tiêu và hệ thống KPI/OKR phòng ban là dự án quản trị trọng tâm nhằm chuyển đổi phương thức điều hành CSKH từ đánh giá cảm tính sang quản trị dựa trên dữ liệu, kết nối chặt chẽ nỗ lực vận hành hằng ngày của đội ngũ >100 nhân sự nội bộ và đối tác BPO với các ưu tiên chiến lược của Ban lãnh đạo.',
       'Dự án không dừng ở việc ban hành bảng chỉ tiêu cuối tháng, mà kiến tạo một hệ sinh thái mục tiêu hai tầng: OKR tạo động lực bứt phá và cải tiến liên phòng ban, kết hợp cùng bộ KPI vận hành cân bằng giữa tốc độ phản hồi (SLA/AHT), chất lượng giải quyết (FCR/QA) và cảm xúc khách hàng (CSAT/NPS).',
-      'Với vai trò Head of CX / CS Lead, trọng tâm điều hành là chuẩn hóa định nghĩa công thức, đồng bộ nguồn dữ liệu tự động lên Dashboard thời gian thực và thiết lập chu kỳ đánh giá – huấn luyện minh bạch, giúp mỗi chuyên viên tự chủ theo dõi hiệu suất cá nhân mỗi ngày.',
+      'Với vai trò Trưởng bộ phận CX / Điều hành CSKH, trọng tâm điều hành là chuẩn hóa định nghĩa công thức, đồng bộ nguồn dữ liệu tự động lên Dashboard thời gian thực và thiết lập chu kỳ đánh giá – huấn luyện minh bạch, giúp mỗi chuyên viên tự chủ theo dõi hiệu suất cá nhân mỗi ngày.',
     ],
     context: {
       intro: 'Khi quy mô nhân sự CSKH mở rộng nhanh cả đội ngũ trực tiếp lẫn thuê ngoài, công tác hoạch định mục tiêu và đo lường hiệu suất thường đối mặt với 7 điểm nghẽn điển hình:',
@@ -176,7 +176,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Các chỉ số được đối chiếu tự động hàng ngày trên Power BI và nghiệm thu độc lập bởi bộ phận QA & Nhân sự vào cuối mỗi tháng.',
     },
     pmRoles: {
-      intro: 'Với vai trò Head of CX / CS Lead dẫn dắt trực tiếp toàn bộ quá trình chuẩn hóa mục tiêu, trách nhiệm trọng tâm bao gồm:',
+      intro: 'Với vai trò Trưởng bộ phận CX / Điều hành CSKH dẫn dắt trực tiếp toàn bộ quá trình chuẩn hóa mục tiêu, trách nhiệm trọng tâm bao gồm:',
       items: [
         { role: 'Định hướng', desc: 'Kết nối tầm nhìn Ban Giám đốc thành hệ thống OKR và nguyên tắc cân bằng KPI cho toàn khối.' },
         { role: 'Kiến trúc', desc: 'Thiết kế cấu trúc trọng số, từ điển công thức và quy tắc chấm điểm công bằng giữa các kênh.' },
@@ -215,7 +215,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Quản trị dự án và cải tiến vận hành CSKH là chương trình thiết lập kỷ luật thực thi cho toàn bộ chuỗi sáng kiến nâng cấp hạ tầng, quy trình và công cụ dịch vụ khách hàng theo phương pháp luận Agile/Kanban, giúp kiểm soát chặt chẽ tiến độ, nguồn lực và khối lượng công việc đang thực hiện (WIP).',
       'Thay vì để các đề xuất cải tiến bị chìm giữa áp lực trực tổng đài hằng ngày, dự án xây dựng cơ chế quản trị danh mục sáng kiến bài bản từ khâu lập Project Charter, phân tách Sprint, giới hạn WIP trên bảng Kanban đến đánh giá ROI sau khi bàn giao vào vận hành chuẩn.',
-      'Với vai trò Project Manager / CS Project Lead, trọng tâm là làm cầu nối điều phối giữa CSKH với IT, Product, Pháp chế và Đối tác, đảm bảo >15 dự án cải tiến liên phòng ban hoàn thành đúng cam kết và rút ngắn tới 70% chu kỳ triển khai.',
+      'Với vai trò Quản lý Dự án / Trưởng dự án CSKH, trọng tâm là làm cầu nối điều phối giữa CSKH với IT, Product, Pháp chế và Đối tác, đảm bảo >15 dự án cải tiến liên phòng ban hoàn thành đúng cam kết và rút ngắn tới 70% chu kỳ triển khai.',
     ],
     context: {
       intro: 'Trước khi chuẩn hóa năng lực quản trị dự án chuyên biệt trong khối CSKH, các sáng kiến cải tiến thường bị đình trệ bởi 7 rào cản vận hành phổ biến:',
@@ -384,7 +384,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Các chỉ số tiến độ được cập nhật tự động từ Jira/Trello lên báo cáo điều hành hàng tuần gửi Ban Giám đốc.',
     },
     pmRoles: {
-      intro: 'Trong vai trò Project Manager / CS Project Lead điều hành trực tiếp danh mục dự án cải tiến, các trọng trách bao gồm:',
+      intro: 'Trong vai trò Quản lý Dự án / Trưởng dự án CSKH điều hành trực tiếp danh mục dự án cải tiến, các trọng trách bao gồm:',
       items: [
         { role: 'Định hướng danh mục', desc: 'Sàng lọc sáng kiến và ưu tiên nguồn lực vào những dự án tác động lớn nhất tới khách hàng và chi phí.' },
         { role: 'Lập kế hoạch', desc: 'Xây dựng Project Charter, phân rã đầu việc, lộ trình Sprint và kiểm soát WIP Limit chặt chẽ.' },
@@ -423,7 +423,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Chuẩn hóa quy trình và tiêu chuẩn vận hành CSKH là dự án nền tảng nhằm hệ thống hóa toàn bộ tri thức nghiệp vụ đang phân tán thành thư viện Visual SOP trực quan, khép kín và dễ tra cứu tức thì trong lúc nhân viên đang hỗ trợ khách hàng.',
       'Khác với các tập tài liệu Word dài hàng trăm trang ít người đọc, dự án tái thiết kế quy trình theo tư duy sơ đồ luồng quyết định (Decision Tree), ma trận leo thang 3 tuyến và cam kết OLA liên phòng ban, giúp mọi chuyên viên mới hay cũ đều xử lý đúng chuẩn ngay lần đầu.',
-      'Với vai trò Process Standardizer, trọng tâm là loại bỏ thao tác thừa, số hóa toàn bộ kho quy trình lên Confluence/Notion với khả năng tìm kiếm trong 5 giây và rút ngắn thời gian đào tạo hội nhập nhân sự mới từ 4 tuần xuống còn 10 ngày.',
+      'Với vai trò Chuyên gia Chuẩn hóa Quy trình Vận hành, trọng tâm là loại bỏ thao tác thừa, số hóa toàn bộ kho quy trình lên Confluence/Notion với khả năng tìm kiếm trong 5 giây và rút ngắn thời gian đào tạo hội nhập nhân sự mới từ 4 tuần xuống còn 10 ngày.',
     ],
     context: {
       intro: 'Trước khi chuẩn hóa thư viện Visual SOP tập trung, công tác vận hành nghiệp vụ tại các tuyến hỗ trợ thường gặp 7 vấn đề nghiêm trọng:',
@@ -592,7 +592,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Kho tri thức Knowledge Base tự động ghi nhận số lượt truy cập và điểm hữu ích của từng bài viết để liên tục tối ưu.',
     },
     pmRoles: {
-      intro: 'Với vai trò Process Standardizer trực tiếp kiến tạo hệ thống quy trình chuẩn, trách nhiệm bao gồm:',
+      intro: 'Với vai trò Chuyên gia Chuẩn hóa Quy trình Vận hành trực tiếp kiến tạo hệ thống quy trình chuẩn, trách nhiệm bao gồm:',
       items: [
         { role: 'Kiểm toán luồng', desc: 'Phát hiện các điểm đứt gãy, bước lặp thừa và sự thiếu nhất quán trong cách làm hiện tại.' },
         { role: 'Kiến trúc Visual SOP', desc: 'Thiết lập chuẩn trình bày sơ đồ luồng và cây thư mục tri thức thống nhất toàn phòng.' },
@@ -631,7 +631,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Tích hợp và tối ưu hệ thống hỗ trợ đa kênh là dự án tái cấu trúc hạ tầng tiếp nhận tương tác nhằm hợp nhất toàn bộ kênh Hotline, Livechat, Email, Mạng xã hội và In-app Support về một không gian làm việc duy nhất (Single Agent Workspace), xóa bỏ hoàn toàn ma sát chuyển kênh.',
       'Khác với mô hình đa kênh rời rạc (Multichannel) nơi mỗi kênh chạy một phần mềm riêng và khách hàng phải trình bày lại vấn đề từ đầu, dự án kiến tạo nền tảng Omnichannel thực thụ với ngữ cảnh hội thoại đồng bộ tức thì và thuật toán định tuyến theo kỹ năng (Skill-based Routing).',
-      'Với vai trò Omnichannel Operations Lead, trọng tâm là tối ưu kiến trúc kết nối tổng đài – CRM, tinh giản thao tác phím tắt cho Agent và cân bằng tải thông minh, giúp tăng 140% năng suất xử lý và giảm 35% chi phí cước viễn thông.',
+      'Với vai trò Trưởng nhóm Vận hành Hỗ trợ Đa kênh, trọng tâm là tối ưu kiến trúc kết nối tổng đài – CRM, tinh giản thao tác phím tắt cho Agent và cân bằng tải thông minh, giúp tăng 140% năng suất xử lý và giảm 35% chi phí cước viễn thông.',
     ],
     context: {
       intro: 'Trước khi hợp nhất hệ thống đa kênh, mô hình hỗ trợ khách hàng rời rạc đã tạo ra 7 nút thắt lớn về trải nghiệm và chi phí:',
@@ -800,7 +800,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Toàn bộ số liệu được thu thập đồng bộ trên nền tảng Omnichannel Analytics và đối soát hàng tháng với hóa đơn viễn thông.',
     },
     pmRoles: {
-      intro: 'Với vai trò Omnichannel Operations Lead điều phối cả nghiệp vụ lẫn hạ tầng kỹ thuật, các trách nhiệm cốt lõi gồm:',
+      intro: 'Với vai trò Trưởng nhóm Vận hành Hỗ trợ Đa kênh điều phối cả nghiệp vụ lẫn hạ tầng kỹ thuật, các trách nhiệm cốt lõi gồm:',
       items: [
         { role: 'Kiến trúc vận hành', desc: 'Định hình trải nghiệm đa kênh liền mạch và thiết kế bố cục Single Agent Workspace tối ưu thao tác.' },
         { role: 'Thiết kế định tuyến', desc: 'Xây dựng luật phân bổ kỹ năng, hàng đợi ưu tiên và kịch bản Smart IVR thông minh.' },
@@ -839,7 +839,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Điều hành chiến dịch Outbound chăm sóc khách hàng là dự án chuyển dịch CSKH từ thế bị động "chờ khách hàng gặp lỗi mới gọi" sang thế chủ động tiếp cận có chiến lược qua các chương trình Welcome Call, khảo sát NPS, chăm sóc VIP và tái kích hoạt khách hàng có dấu hiệu rời bỏ (Win-back).',
       'Khác với các cuộc gọi telesales đại trà gây phản cảm, dự án kết hợp hệ thống quay số dự đoán thông minh (Predictive Auto-Dialer), dữ liệu phân tập hành vi người dùng và kịch bản giao tiếp giàu sự thấu cảm nhằm giải quyết vướng mắc tiềm ẩn trước khi khách hàng rời đi.',
-      'Với vai trò Outbound Campaign Manager, trọng tâm điều hành là tối ưu chất lượng danh sách gọi (Lead Hygiene), quản trị khung giờ vàng tăng tỷ lệ bắt máy lên 88.5% và đạt năng suất 165 cuộc kết nối/Agent/ngày, tái kích hoạt thành công 18% người dùng ngừng hoạt động.',
+      'Với vai trò Quản lý Chiến dịch Chăm sóc Chủ động, trọng tâm điều hành là tối ưu chất lượng danh sách gọi (Lead Hygiene), quản trị khung giờ vàng tăng tỷ lệ bắt máy lên 88.5% và đạt năng suất 165 cuộc kết nối/Agent/ngày, tái kích hoạt thành công 18% người dùng ngừng hoạt động.',
     ],
     context: {
       intro: 'Khi triển khai tiếp cận chủ động quy mô lớn bằng phương pháp thủ công trước đây, bộ phận Outbound gặp phải 7 thách thức lớn:',
@@ -1008,7 +1008,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Số liệu được đối chiếu giữa hệ thống tổng đài Dialer và dữ liệu giao dịch thực tế của nhóm đối chứng sau 30 ngày.',
     },
     pmRoles: {
-      intro: 'Với vai trò Outbound Campaign Manager chịu trách nhiệm từ chiến lược tập khách hàng đến vận hành phòng gọi, trọng trách gồm:',
+      intro: 'Với vai trò Quản lý Chiến dịch Chăm sóc Chủ động chịu trách nhiệm từ chiến lược tập khách hàng đến vận hành phòng gọi, trọng trách gồm:',
       items: [
         { role: 'Hoạch định chiến dịch', desc: 'Xác định mục tiêu, thông điệp, ngân sách ưu đãi và đối tượng khách hàng cho từng đợt gọi.' },
         { role: 'Quản trị dữ liệu', desc: 'Phối hợp Data Team làm sạch dữ liệu, phân khúc hành vi và bảo đảm tuân thủ tuyệt đối DNC.' },
@@ -1047,7 +1047,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Quản trị chất lượng và hiệu quả đối tác BPO là dự án thiết lập khung điều hành toàn diện cho các đơn vị thuê ngoài vận hành CSKH, bảo đảm khách hàng nhận được chất lượng phục vụ đồng nhất bất kể yêu cầu được tiếp nhận bởi nhân viên nội bộ hay đối tác bên ngoài.',
       'Thay vì giao khoán chỉ số một chiều rồi xử lý bị động khi phát sinh khiếu nại, dự án triển khai mô hình quản trị BPO 360°: chuẩn hóa bộ KPI/SLA đầu vào, tổ chức hiệu chuẩn chấm điểm chất lượng chéo (Calibration) hằng tuần và tích hợp dữ liệu giám sát đối tác về chung một Dashboard trung tâm.',
-      'Với vai trò BPO Governance Lead, trọng tâm là xây dựng mối quan hệ vừa kỷ luật vừa đồng hành chuyển giao năng lực, giúp nâng tỷ lệ tuân thủ chất lượng của đối tác lên >92% và rút ngắn 25% thời gian phối hợp xử lý khiếu nại liên quan đến BPO.',
+      'Với vai trò Trưởng nhóm Quản trị Đối tác Thuê ngoài (BPO), trọng tâm là xây dựng mối quan hệ vừa kỷ luật vừa đồng hành chuyển giao năng lực, giúp nâng tỷ lệ tuân thủ chất lượng của đối tác lên >92% và rút ngắn 25% thời gian phối hợp xử lý khiếu nại liên quan đến BPO.',
     ],
     context: {
       intro: 'Khi doanh nghiệp mở rộng quy mô thông qua hợp tác nhiều đối tác thuê ngoài (BPO), công tác quản trị thường đối mặt với 7 vấn đề nhức nhối:',
@@ -1216,7 +1216,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Vendor Scorecard được công bố vào ngày 05 hàng tháng làm căn cứ nghiệm thu thanh toán và tái phân bổ sản lượng quý tiếp theo.',
     },
     pmRoles: {
-      intro: 'Với vai trò BPO Governance Lead đại diện doanh nghiệp quản lý toàn diện các đối tác thuê ngoài, trách nhiệm gồm:',
+      intro: 'Với vai trò Trưởng nhóm Quản trị Đối tác Thuê ngoài (BPO) đại diện doanh nghiệp quản lý toàn diện các đối tác thuê ngoài, trách nhiệm gồm:',
       items: [
         { role: 'Thiết lập chuẩn mực', desc: 'Xây dựng khung SLA/KPI, Vendor Scorecard và tiêu chuẩn bảo mật áp dụng chung cho đối tác.' },
         { role: 'Quản trị hợp đồng', desc: 'Chủ trì nghiệm thu thanh toán, cơ chế thưởng phạt chất lượng và điều phối sản lượng giữa các Vendor.' },
@@ -1255,7 +1255,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
     overview: [
       'Quản trị thay đổi và ứng phó khủng hoảng dịch vụ là dự án thiết lập lá chắn vận hành xuyên suốt giúp khối CSKH chủ động thích ứng trước các đợt nâng cấp hệ thống, thay đổi chính sách sản phẩm đột xuất hay sự cố kỹ thuật diện rộng gây tăng tải bất thường.',
       'Điểm cốt lõi của dự án là xây dựng Ma trận cảnh báo sớm 4 cấp độ (Xanh – Vàng – Cam – Đỏ) kết nối chặt chẽ giữa Kỹ thuật, Sản phẩm, Truyền thông và Tổng đài, đi kèm quy trình kích hoạt bộ thông điệp phát ngôn chuẩn (Holding Statements) trong vòng 15 phút để dập tắt khủng hoảng thông tin ngay từ đầu.',
-      'Với vai trò Change Management Lead, trọng tâm là bảo vệ đồng thời hai mặt trận: giữ vững sự minh bạch an tâm cho khách hàng bên ngoài và ổn định tâm lý – thao tác của nhân viên tuyến đầu trước mọi biến động, giải tỏa tức thời áp lực nghẽn tổng đài tăng gấp 20 lần.',
+      'Với vai trò Trưởng nhóm Quản trị Thay đổi Dịch vụ, trọng tâm là bảo vệ đồng thời hai mặt trận: giữ vững sự minh bạch an tâm cho khách hàng bên ngoài và ổn định tâm lý – thao tác của nhân viên tuyến đầu trước mọi biến động, giải tỏa tức thời áp lực nghẽn tổng đài tăng gấp 20 lần.',
     ],
     context: {
       intro: 'Trong thực tế vận hành doanh nghiệp công nghệ và tài chính số tăng trưởng nhanh, 7 điểm yếu lớn thường bộc lộ khi thay đổi chính sách hoặc xảy ra biến cố:',
@@ -1424,7 +1424,7 @@ export const STRATEGY_AND_SOP_SPECS: Record<string, ProjectDetailedSpec> = {
       outro: 'Mỗi đợt biến động hoặc diễn tập đều được bấm giờ chuẩn xác từng cột mốc và lưu hồ sơ đánh giá năng lực ứng phó khối.',
     },
     pmRoles: {
-      intro: 'Với vai trò Change Management Lead đứng mũi chịu sào trong các thời khắc nhạy cảm nhất của dịch vụ, trách nhiệm gồm:',
+      intro: 'Với vai trò Trưởng nhóm Quản trị Thay đổi Dịch vụ đứng mũi chịu sào trong các thời khắc nhạy cảm nhất của dịch vụ, trách nhiệm gồm:',
       items: [
         { role: 'Thiết kế khung ứng phó', desc: 'Xây dựng Ma trận cảnh báo 4 cấp độ và bộ quy chuẩn Change Readiness toàn khối.' },
         { role: 'Điều phối phát ngôn', desc: 'Làm đầu mối chốt thông điệp trong 15 phút giữa CSKH, PR, Pháp chế và Ban Giám đốc.' },

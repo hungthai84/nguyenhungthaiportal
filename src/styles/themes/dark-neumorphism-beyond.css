@@ -383,7 +383,7 @@ html[data-card-style="dark-neumorphism-beyond"] :is(
   .bento-card:not(.page-main-card):not([data-main-card="true"]):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card),
   .glass-card:not(.page-main-card):not([data-main-card="true"]):not([data-multicolor-bento="true"]),
   .project-card,
-  .exp-bento-surface-card,
+  .exp-bento-surface-card:not([data-multicolor-bento="true"]),
   .education-card,
   .education-course-card
 ) {
@@ -445,7 +445,7 @@ html[data-card-style="dark-neumorphism-beyond"] :is(
   [data-subcard="true"],
   .sub-card,
   .nested-card,
-  .exp-bento-item-card,
+  .exp-bento-item-card:not([data-bento-subtone]),
   .exp-detail-subcard,
   .education-subcard,
   .project-detail-subcard

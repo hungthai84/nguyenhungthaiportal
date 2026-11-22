@@ -2056,47 +2056,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       </div>
 
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
-                          <span
-                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold text-white shadow-xs"
-                            style={{ background: expandedMeta.gradient }}
-                          >
-                            <WebIcon name={expandedMeta.iconName} className="w-3 h-3 text-white" />
-                            <span>{expandedSystem.abbr}</span>
-                          </span>
-
-                          <span className="typo-badge font-semibold px-2 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-secondary)]">
-                            {isEn ? expandedTech.ecosystemLabelEn : expandedTech.ecosystemLabel}
-                          </span>
-
-                          <span
-                            className={cn(
-                              'inline-flex items-center gap-1 typo-badge font-semibold px-2 py-0.5 rounded-full border',
-                              expandedSystem.id === 'bi' || !expandedSystem.url
-                                ? 'bg-amber-500/15 border-amber-500/35 text-amber-700 dark:text-amber-300'
-                                : 'bg-emerald-500/15 border-emerald-500/35 text-emerald-700 dark:text-emerald-300'
-                            )}
-                          >
-                            <span
-                              className={cn(
-                                'w-1.5 h-1.5 rounded-full',
-                                expandedSystem.id === 'bi' || !expandedSystem.url
-                                  ? 'bg-amber-400'
-                                  : 'bg-emerald-500'
-                              )}
-                            />
-                            <span>
-                              {expandedSystem.id === 'bi' || !expandedSystem.url
-                                ? isEn
-                                  ? 'API Integration'
-                                  : 'Đang tích hợp API'
-                                : isEn
-                                  ? 'Live Production'
-                                  : 'Hoạt động chính thức'}
-                            </span>
-                          </span>
-                        </div>
-
                         <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: expandedAccent }}>
                           <WebIcon name={expandedMeta.iconName} className="w-5 h-5 shrink-0" style={{ color: expandedAccent }} />
                           <h2
@@ -2114,44 +2073,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
                     {/* Action buttons */}
                     <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setIsQrOpen((prev) => !prev);
-                          if (!isQrOpen) setIsCompareOpen(false);
-                        }}
-                        className={cn(
-                          'banner-control-pill inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition active:scale-95',
-                          isQrOpen && 'ring-2 ring-[var(--color-primary)]/50 font-bold'
-                        )}
-                        title={isEn ? 'QR Access Code' : 'Mã QR truy cập cổng hệ thống'}
-                      >
-                        <QrCode className="w-3.5 h-3.5" />
-                        <span className="hidden md:inline">
-                          {isEn ? 'QR Access' : 'QR Truy cập'}
-                        </span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setIsCompareOpen((prev) => !prev);
-                          if (!isCompareOpen) setIsQrOpen(false);
-                        }}
-                        className={cn(
-                          'banner-control-pill inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition active:scale-95',
-                          isCompareOpen && 'ring-2 ring-[var(--color-primary)]/50 font-bold'
-                        )}
-                        title={isEn ? 'Compare Systems' : 'So sánh song song 2 hệ thống'}
-                      >
-                        <ArrowLeftRight className="w-3.5 h-3.5" />
-                        <span className="hidden md:inline">
-                          {isEn ? 'Compare' : 'So sánh'}
-                        </span>
-                      </button>
-
                       {expandedSystem.url && (
                         <button
                           type="button"
@@ -2880,40 +2801,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Footer Quick-Switcher Bar across all 12 systems */}
-                  <div className="expanded-detail-content shrink-0 px-4 sm:px-5 py-2.5 border-t border-[var(--border-subcard)] bg-[var(--bg-subcard)]/65 flex items-center justify-between gap-2 flex-wrap">
-                    <span className="typo-caption font-semibold text-[var(--text-secondary)]">
-                      {isEn ? 'Quick module switch:' : 'Chuyển nhanh 12 phân hệ:'}
-                    </span>
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      {orderedAllSystems.map((sysItem) => {
-                        const sysMeta = SYSTEM_DESIGN_MAP[sysItem.id] || SYSTEM_DESIGN_MAP.sdp;
-                        const isActiveItem = sysItem.id === expandedSystem.id;
-                        return (
-                          <button
-                            key={sysItem.id}
-                            type="button"
-                            onClick={() => switchExpandedSystem(sysItem)}
-                            className={cn(
-                              'inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer active:scale-95',
-                              isActiveItem
-                                ? 'text-white shadow-sm'
-                                : 'bg-[var(--bg-card)]/80 hover:bg-[var(--bg-subcard)] text-[var(--text-secondary)] border border-[var(--border-subcard)]'
-                            )}
-                            style={isActiveItem ? { background: sysMeta.gradient } : undefined}
-                            title={isEn ? sysItem.nameEn : sysItem.nameVi}
-                          >
-                            <WebIcon
-                              name={sysMeta.iconName}
-                              className={cn('w-3 h-3', isActiveItem && 'text-white')}
-                            />
-                            <span>{sysMeta.shortCodeLabel}</span>
-                          </button>
-                        );
-                      })}
                     </div>
                   </div>
                 </div>

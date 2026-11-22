@@ -1994,8 +1994,15 @@ export function AboutView({
         >
         <div
           id="about-intro-grid-1"
-          style={{ padding: '0px', gap: '15px', rowGap: '15px', columnGap: '15px' }}
-          className="w-full flex-1 min-h-full grid grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] sm:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[minmax(0,1fr)] gap-[15px] p-0 overflow-hidden items-stretch box-border"
+          style={{
+            padding: '0px',
+            gap: '15px',
+            rowGap: '15px',
+            columnGap: '15px',
+            borderRadius: '14px',
+            background: 'var(--surface-primary-bg, var(--bg-main))',
+          }}
+          className="w-full flex-1 min-h-full grid grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] sm:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[minmax(0,1fr)] gap-[15px] p-0 rounded-[14px] overflow-hidden items-stretch box-border"
         >
             
             {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA (70% - Video 1 làm hình nền mặc định: tự động phát, tắt tiếng, vòng lặp) */}
@@ -2714,12 +2721,7 @@ export function AboutView({
       >
         <div
           id="about-intro-card-2-scroll-viewport"
-          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
-        >
-        <div
-          id="about-intro-grid-2"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 14px)' }}
-          className="w-full h-fit my-auto grid grid-cols-1 lg:grid-cols-12 gap-[15px] p-[15px] overflow-visible items-start content-start box-border bento-card glass-card rounded-[14px]"
+          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-start content-start overflow-y-auto overflow-x-hidden no-scrollbar box-border"
         >
             {/* CARD 3: CARD GIỚI THIỆU BẢN THÂN (ABOUT ME) - CHIỀU CAO VỪA KHÍT NỘI DUNG */}
             <div
@@ -3005,8 +3007,6 @@ export function AboutView({
                 </div>
               </div>
             </div>
-
-          </div>
         </div>
       </div>
       </div>

@@ -362,6 +362,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const [isFamilyFilterOpen, setIsFamilyFilterOpen] = useState<boolean>(false);
   const familyFilterMenuRef = useRef<HTMLDivElement | null>(null);
   const [isSandboxOpen, setIsSandboxOpen] = useState<boolean>(initialPrefs.isSandboxOpen);
+  const [isQuickThemeSectionOpen, setIsQuickThemeSectionOpen] = useState<boolean>(false);
   const [sandboxQuery, setSandboxQuery] = useState<string>('');
   const [activeVideoPreviewId, setActiveVideoPreviewId] = useState<CardStyleMode | null>(null);
   const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
@@ -761,6 +762,36 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 </span>
                 <button
                   type="button"
+                  aria-expanded={isQuickThemeSectionOpen}
+                  aria-controls="el-p15-section-2"
+                  onClick={() => {
+                    SoundEngine.playTap();
+                    setIsQuickThemeSectionOpen((prev) => !prev);
+                  }}
+                  className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
+                  style={
+                    isQuickThemeSectionOpen
+                      ? {
+                          background: 'var(--bg-button-primary)',
+                          borderColor: 'transparent',
+                          color: '#FFFFFF',
+                        }
+                      : undefined
+                  }
+                >
+                  <WebIcon name="palette" className="w-3.5 h-3.5 shrink-0" />
+                  <span>
+                    {isQuickThemeSectionOpen
+                      ? isEn
+                        ? 'Hide Theme Names'
+                        : 'Ẩn tên giao diện'
+                      : isEn
+                        ? 'Theme Names'
+                        : 'Tên giao diện'}
+                  </span>
+                </button>
+                <button
+                  type="button"
                   aria-expanded={isSandboxOpen}
                   onClick={() => {
                     SoundEngine.playTap();
@@ -803,17 +834,27 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             </div>
           </section>
 
-          {/* 1. Bảng điều khiển nhanh: Chọn tên giao diện (tự động lưu mặc định) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch w-full">
-            {/* Chọn nhanh theo Tên giao diện */}
-            <section
-              data-subcard="true"
-              className="sub-card lg:col-span-12 flex flex-col justify-between gap-[12px] p-[15px] border min-w-0"
-              style={{
-                background: 'var(--bg-subcard)',
-                borderColor: 'var(--border-subcard)',
-              }}
-            >
+          {/* 1. Bảng điều khiển nhanh: Chọn tên giao diện (ẩn mặc định, fade-in mượt mà khi hiển thị lại) */}
+          <AnimatePresence initial={false}>
+            {isQuickThemeSectionOpen && (
+              <motion.div
+                key="el-p15-section-2-wrapper"
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch w-full"
+              >
+                {/* Chọn nhanh theo Tên giao diện */}
+                <section
+                  id="el-p15-section-2"
+                  data-subcard="true"
+                  className="sub-card animate-fadeIn lg:col-span-12 flex flex-col justify-between gap-[12px] p-[15px] border min-w-0"
+                  style={{
+                    background: 'var(--bg-subcard)',
+                    borderColor: 'var(--border-subcard)',
+                  }}
+                >
               <div className="flex items-center justify-between gap-2 pb-2 border-b min-w-0" style={{ borderColor: 'var(--border-subcard)' }}>
                 <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
                   <WebIcon name="palette" className="w-4 h-4 shrink-0" />
@@ -956,8 +997,10 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   );
                 })}
               </div>
-            </section>
-          </div>
+                </section>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* 2. Danh sách nhóm giao diện & thẻ xem trước tương tác kèm hình nền riêng từng giao diện */}
           <div className="flex flex-col gap-[15px]">

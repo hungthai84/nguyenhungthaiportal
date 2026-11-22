@@ -391,16 +391,58 @@ html[data-card-style="multicolor-glass"] #experience-job-detail-card:hover {
   -webkit-backdrop-filter: blur(22px) saturate(185%) !important;
 }
 
-html[data-card-style="multicolor-glass"] #experience-job-detail-card .exp-bento-surface-card,
-html[data-card-style="multicolor-glass"] #experience-job-detail-card .exp-bento-item-card {
+html[data-card-style="multicolor-glass"] #experience-job-detail-card .exp-bento-surface-card:not([data-multicolor-bento="true"]),
+html[data-card-style="multicolor-glass"] #experience-job-detail-card .exp-bento-item-card:not([data-bento-subtone]) {
   background: rgba(255, 255, 255, 0.96) !important;
   border: 1px solid rgba(226, 232, 240, 0.82) !important;
   color: #0f172a !important;
 }
 
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-sky {
+  background: linear-gradient(145deg, rgba(224, 242, 254, 0.88) 0%, rgba(238, 242, 255, 0.84) 100%) !important;
+  border: 1px solid rgba(125, 211, 252, 0.80) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-amber {
+  background: linear-gradient(145deg, rgba(254, 243, 199, 0.88) 0%, rgba(255, 237, 213, 0.84) 100%) !important;
+  border: 1px solid rgba(253, 186, 116, 0.82) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-emerald {
+  background: linear-gradient(145deg, rgba(209, 250, 229, 0.88) 0%, rgba(207, 250, 254, 0.84) 100%) !important;
+  border: 1px solid rgba(110, 231, 183, 0.80) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-cyan,
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-teal {
+  background: linear-gradient(145deg, rgba(207, 250, 254, 0.88) 0%, rgba(204, 251, 241, 0.84) 100%) !important;
+  border: 1px solid rgba(103, 232, 249, 0.80) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-pink {
+  background: linear-gradient(145deg, rgba(252, 231, 243, 0.88) 0%, rgba(255, 228, 230, 0.84) 100%) !important;
+  border: 1px solid rgba(249, 168, 212, 0.82) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-purple {
+  background: linear-gradient(145deg, rgba(237, 233, 254, 0.88) 0%, rgba(245, 243, 255, 0.84) 100%) !important;
+  border: 1px solid rgba(196, 181, 253, 0.82) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-blue {
+  background: linear-gradient(145deg, rgba(219, 234, 254, 0.88) 0%, rgba(224, 231, 255, 0.84) 100%) !important;
+  border: 1px solid rgba(147, 197, 253, 0.80) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-indigo {
+  background: linear-gradient(145deg, rgba(224, 231, 255, 0.88) 0%, rgba(237, 233, 254, 0.84) 100%) !important;
+  border: 1px solid rgba(165, 180, 252, 0.82) !important;
+  color: #0f172a !important;
+}
+
 html[data-card-style="multicolor-glass"] #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
-  background: #ffffff !important;
-  border-color: rgba(199, 210, 254, 0.95) !important;
+  filter: brightness(1.03);
+  border-color: rgba(165, 180, 252, 0.95) !important;
 }
 
 /* ------------------------------------------------------------------------- */

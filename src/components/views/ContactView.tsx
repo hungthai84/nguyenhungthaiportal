@@ -185,15 +185,24 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                   />
                 ) : !heroVideoFailed ? (
                   <video
-                    src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/%C4%90%E1%BA%B7t_l%E1%BB%8Bch.mp4"
+                    src="https://drive.google.com/uc?export=download&id=1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP"
                     poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
                     autoPlay
                     loop
                     muted
                     playsInline
+                    controls={false}
+                    disablePictureInPicture
+                    controlsList="nodownload nofullscreen noremoteplayback"
                     preload="auto"
+                    onEnded={(e) => {
+                      const v = e.currentTarget;
+                      v.currentTime = 0;
+                      v.play().catch(() => {});
+                    }}
                     onError={() => setHeroVideoFailed(true)}
-                    className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+                    style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                    className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
                   />
                 ) : (
                   <img
@@ -222,8 +231,13 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                 </div>
                 <p
                   id="contact-banner-quote"
-                  className="typo-h2 font-moon-dance not-italic font-normal select-none text-left w-full whitespace-normal leading-snug"
-                  style={{ color: 'var(--text-secondary)', fontFamily: "'Moon Dance', cursive, sans-serif", fontWeight: 400, fontStyle: 'normal' }}
+                  className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left w-full whitespace-normal leading-snug"
+                  style={{
+                    color: 'var(--text-secondary)',
+                    fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
+                    fontWeight: 600,
+                    fontStyle: 'normal',
+                  }}
                 >
                   &quot;Luôn sẵn sàng lắng nghe và đồng hành ♡&quot;
                 </p>

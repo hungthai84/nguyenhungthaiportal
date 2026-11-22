@@ -104,8 +104,9 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
               className="w-9 h-9 rounded-full bg-purple-950/80 text-white overflow-hidden ring-2 ring-purple-400 shrink-0 cursor-pointer transition-transform duration-300 active:scale-95 focus:outline-none"
             >
               <img
-                src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550149/Avata_AI_h%E1%BB%97_tr%E1%BB%A3.gif"
+                src="https://lh3.googleusercontent.com/d/1gY_ln5UNMGbqeLu5Sh6AQF-7Ymu7tIxJ"
                 alt="AI Hỗ trợ Avatar"
+                referrerPolicy="no-referrer"
                 className={`w-full h-full object-cover transition-transform duration-300 ${isAvatarZoomed ? 'scale-150' : 'scale-100'}`}
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';

@@ -150,29 +150,19 @@ function clampWallpaperOverlay(raw?: Partial<WallpaperOverlaySettings>): Wallpap
 }
 
 function readStoredWallpaperOverlay(): WallpaperOverlaySettings {
-  try {
-    const raw = localStorage.getItem(WALLPAPER_OVERLAY_STORAGE_KEY);
-    if (!raw) return { blur: 0, dim: 0 };
-    return clampWallpaperOverlay(JSON.parse(raw));
-  } catch {
-    return { blur: 0, dim: 0 };
-  }
+  return { blur: 0, dim: 0 };
 }
 
 function readStoredAdaptiveAccentEnabled(): boolean {
-  try {
-    return localStorage.getItem(ADAPTIVE_ACCENT_STORAGE_KEY) === 'true';
-  } catch {
-    return false;
-  }
+  return false;
 }
 
-function applyWallpaperOverlayCssVariables(settings: WallpaperOverlaySettings) {
+function applyWallpaperOverlayCssVariables(_settings: WallpaperOverlaySettings) {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
-  root.style.setProperty('--wallpaper-bg-blur', `${settings.blur}px`);
-  root.style.setProperty('--wallpaper-bg-dim', String(settings.dim / 100));
-  root.style.setProperty('--wallpaper-bg-scale', settings.blur > 0 ? (1 + settings.blur * 0.0022).toFixed(4) : '1');
+  root.style.setProperty('--wallpaper-bg-blur', '0px');
+  root.style.setProperty('--wallpaper-bg-dim', '0');
+  root.style.setProperty('--wallpaper-bg-scale', '1');
 }
 
 function getDefaultWallpaperForTheme(mode: CardStyleMode): WallpaperPreset {
@@ -227,7 +217,35 @@ function getSystemPrefersDark(): boolean {
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
+const DEFAULT_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_neu_wp32';
+const DEFAULT_OVERLAY_RESET_SEED_KEY = 'hungthai_overlay_reset_0px_0pct_v1';
+let didRunDefaultUiSeed = false;
+
+function ensureDefaultUiSeedSync(): void {
+  if (didRunDefaultUiSeed || typeof window === 'undefined') return;
+  didRunDefaultUiSeed = true;
+  try {
+    if (localStorage.getItem(DEFAULT_UI_SEED_KEY) !== '1') {
+      localStorage.removeItem(CARD_STYLE_STORAGE_KEY);
+      localStorage.removeItem(COLOR_SCHEME_MODE_STORAGE_KEY);
+      localStorage.removeItem(WALLPAPER_MANUAL_STORAGE_KEY);
+      localStorage.removeItem(ACTIVE_WALLPAPER_STORAGE_KEY);
+      localStorage.removeItem(WALLPAPER_OVERLAY_STORAGE_KEY);
+      localStorage.removeItem(ADAPTIVE_ACCENT_STORAGE_KEY);
+      localStorage.setItem(DEFAULT_UI_SEED_KEY, '1');
+    }
+    if (localStorage.getItem(DEFAULT_OVERLAY_RESET_SEED_KEY) !== '1') {
+      localStorage.removeItem(WALLPAPER_OVERLAY_STORAGE_KEY);
+      localStorage.removeItem(ADAPTIVE_ACCENT_STORAGE_KEY);
+      localStorage.setItem(DEFAULT_OVERLAY_RESET_SEED_KEY, '1');
+    }
+  } catch {
+    // ignore storage errors
+  }
+}
+
 function readInitialColorSchemeMode(): ColorSchemeMode {
+  ensureDefaultUiSeedSync();
   try {
     const savedMode = localStorage.getItem(COLOR_SCHEME_MODE_STORAGE_KEY);
     if (savedMode === 'light' || savedMode === 'dark' || savedMode === 'system') {
@@ -245,6 +263,7 @@ function readInitialColorSchemeMode(): ColorSchemeMode {
 }
 
 function readInitialCardStyle(initialSchemeMode: ColorSchemeMode): CardStyleMode {
+  ensureDefaultUiSeedSync();
   try {
     const savedStyle = localStorage.getItem(CARD_STYLE_STORAGE_KEY);
     const baseStyle = savedStyle ? normalizeCardStyle(savedStyle) : DEFAULT_CARD_STYLE;
@@ -599,6 +618,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     let activeWpToRender = activeWallpaper;
     if (
       activeWallpaper.type === 'image' &&
+      !activeWallpaper.isCustom &&
+      activeWallpaper.id.startsWith('theme-bg-') &&
       activeWallpaper.id === THEME_DEFAULT_WALLPAPER_ID[cardStyle]
     ) {
       const autoBgUrl = getThemeBackgroundForMode(cardStyle, isDark);
@@ -937,8 +958,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           ? parseCssStringToStyle(preset.wallpaper.value || preset.wallpaper.bg || '')
           : undefined),
     };
-    const nextOverlay = clampWallpaperOverlay({ blur: preset.blur, dim: preset.dim });
-    const nextAdaptive = Boolean(preset.adaptiveAccentEnabled);
+    const nextOverlay: WallpaperOverlaySettings = { blur: 0, dim: 0 };
+    const nextAdaptive = false;
 
     cardStyleRef.current = normalized;
     setCardStyleState(normalized);

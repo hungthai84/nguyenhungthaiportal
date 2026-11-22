@@ -365,15 +365,26 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 }
 
-@container core-values-card (max-width: 399px) {
+@container core-values-card (max-width: 579px) {
   #core-values-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    column-gap: 6px !important;
   }
-}
 
-@container core-values-card (min-width: 400px) and (max-width: 579px) {
-  #core-values-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  #core-values-grid [id^="core-val-"] {
+    padding: 8px !important;
+    gap: 6px !important;
+  }
+
+  #core-values-grid [id^="core-val-"] h4 {
+    font-size: clamp(11px, 2.2cqi, 13px) !important;
+    line-height: 1.2 !important;
+  }
+
+  #core-values-grid [id^="core-val-"] p {
+    font-size: clamp(10px, 1.9cqi, 12px) !important;
+    line-height: 1.35 !important;
   }
 }
 
@@ -443,7 +454,14 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #core-values-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    column-gap: 6px !important;
+  }
+
+  #core-values-grid [id^="core-val-"] {
+    padding: 8px !important;
+    gap: 6px !important;
   }
 
   #brands-bento-grid {
@@ -492,7 +510,9 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #bento-letter-video {
     grid-column: span 6 / span 6 !important;
-    min-height: 260px !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    align-self: stretch !important;
   }
 
   /* Cột phải cùng hàng với Video: Thông điệp hợp tác trên, Thương hiệu đồng hành ngay bên dưới */
@@ -501,6 +521,8 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
+    height: 100% !important;
+    align-self: stretch !important;
   }
 
   /* Giá trị cốt lỗi & Châm ngôn phụng sự cùng hàng */
@@ -628,13 +650,17 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #bento-letter-video {
     grid-column: span 7 / span 7 !important;
-    min-height: 270px !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    align-self: stretch !important;
   }
 
   #letter-intro-right-stack {
     grid-column: span 5 / span 5 !important;
     display: flex !important;
     flex-direction: column !important;
+    height: 100% !important;
+    align-self: stretch !important;
   }
 
   #card-core-values-pursued {
@@ -768,13 +794,17 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #bento-letter-video {
     grid-column: span 7 / span 7 !important;
-    min-height: 270px !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    align-self: stretch !important;
   }
 
   #letter-intro-right-stack {
     grid-column: span 5 / span 5 !important;
     display: flex !important;
     flex-direction: column !important;
+    height: 100% !important;
+    align-self: stretch !important;
   }
 
   #card-core-values-pursued {

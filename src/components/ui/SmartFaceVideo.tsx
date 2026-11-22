@@ -14,6 +14,8 @@ export interface SmartFaceVideoProps
   maxCropDistortion?: number;
   /** Additional classes applied to the outer container wrapper */
   wrapperClassName?: string;
+  /** Always fill container edge-to-edge with object-fit: cover (disables blurred contain ambient pillars) */
+  alwaysCover?: boolean;
 }
 
 /**
@@ -26,6 +28,7 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
   faceAnchor,
   maxCropDistortion = 1.72,
   wrapperClassName,
+  alwaysCover = false,
   className,
   style,
   src,
@@ -33,6 +36,7 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
   loop = false,
   muted = true,
   playsInline = true,
+  preload = 'auto',
   onLoadedMetadata,
   onPlay,
   onPause,
@@ -98,7 +102,16 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
     onLoadedMetadata?.(e);
   };
 
-  // Tính toán chế độ hiển thị thông minh bảo toàn vùng khuôn mặt
+  // Đồng bộ thuộc tính muted/loop trên HTMLVideoElement khi props thay đổi
+  useEffect(() => {
+    const v = internalVideoRef.current;
+    if (!v) return;
+    v.defaultMuted = muted;
+    v.muted = muted;
+    v.loop = loop;
+  }, [muted, loop, src]);
+
+  // Tính toán chế độ hiển thị thông minh bảo toàn vùng khuôn mặt (hoặc alwaysCover cho video nền banner)
   const anchorX = faceAnchor?.x ?? 50;
   const baseAnchorY = faceAnchor?.y ?? 18;
 
@@ -106,7 +119,7 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
   let objectPosition = `${anchorX}% ${baseAnchorY}%`;
   let isFaceSafeContain = false;
 
-  if (containerSize.w > 0 && containerSize.h > 0 && naturalSize.w > 0 && naturalSize.h > 0) {
+  if (!alwaysCover && containerSize.w > 0 && containerSize.h > 0 && naturalSize.w > 0 && naturalSize.h > 0) {
     const containerRatio = containerSize.w / containerSize.h;
     const videoRatio = naturalSize.w / naturalSize.h;
     const distortion = Math.max(containerRatio / videoRatio, videoRatio / containerRatio);
@@ -169,6 +182,9 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
           loop
           muted
           playsInline
+          controls={false}
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback"
           aria-hidden="true"
           tabIndex={-1}
           style={{
@@ -181,29 +197,43 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
         />
       )}
 
-      {/* Video chính với cơ chế tự động giữ trọn khuôn mặt nhân vật */}
+      {/* Video chính */}
       <video
         {...restProps}
         ref={setMergedVideoRef}
         data-smart-face-primary="true"
+        data-banner-always-cover={alwaysCover ? 'true' : undefined}
         src={src}
         autoPlay={autoPlay}
         loop={loop}
         muted={muted}
         playsInline={playsInline}
+        controls={false}
+        disablePictureInPicture
+        controlsList="nodownload nofullscreen noremoteplayback"
+        preload={preload}
         onLoadedMetadata={handleMetadata}
         onPlay={handlePlay}
         onPause={handlePause}
         onTimeUpdate={handleTimeUpdate}
-        onEnded={onEnded}
+        onEnded={(e) => {
+          if (loop) {
+            const v = e.currentTarget;
+            v.currentTime = 0;
+            v.play().catch(() => {});
+          }
+          onEnded?.(e);
+        }}
         onClick={onClick}
         style={{
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden',
           ...style,
           objectFit,
           objectPosition,
         }}
         className={cn(
-          'relative z-[1] w-full h-full rounded-[inherit] transition-[object-position,filter] duration-300',
+          'relative z-[1] w-full h-full min-w-full min-h-full rounded-[inherit] banner-video-sharp transition-[object-position,filter] duration-300',
           className
         )}
       />

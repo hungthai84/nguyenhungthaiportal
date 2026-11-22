@@ -113,9 +113,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(56, 189, 248, 0.38)',
     pillTextLight: '#0369a1',
     pillTextDark: '#7dd3fc',
-    illustrationSrc: 'https://i.ibb.co/4RYYfBvx/D-ch-v-vi-n-th-ng-removebg-preview.png',
-    fallbackIllustration:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069236/Gemini_Generated_Image_9y00s39y00s39y00.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1EZTKZuFTA5EjI56gGwEQ_4pdjfg-hBZE',
+    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1EZTKZuFTA5EjI56gGwEQ_4pdjfg-hBZE',
     frontMetrics: [
       { label: 'SLA & CSAT', labelEn: 'SLA & CSAT', value: '>98% · 96,5%' },
       { label: 'Quy mô ca kíp', labelEn: 'Operations Scale', value: '50–130+ · 24/7' },
@@ -144,10 +143,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(251, 146, 60, 0.38)',
     pillTextLight: '#c2410c',
     pillTextDark: '#fdba74',
-    illustrationSrc:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542367/Th%C6%B0%C6%A1ng_m%E1%BA%A1i_%C4%91i%E1%BB%87n_t%E1%BB%AD-removebg-preview.png',
-    fallbackIllustration:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069235/Gemini_Generated_Image_6g07kh6g07kh6g07.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1szhpY7ClmC9DLMhLw4M-On2bKC_L27Mz',
+    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1szhpY7ClmC9DLMhLw4M-On2bKC_L27Mz',
     frontMetrics: [
       { label: 'CSKH & Fraud', labelEn: 'CS & Fraud Team', value: '>100 nhân sự', valueEn: '100+ Staff' },
       { label: 'CSAT & Chat', labelEn: 'CSAT & Chat', value: '88% → 96,5%' },
@@ -176,10 +173,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(251, 113, 133, 0.38)',
     pillTextLight: '#be123c',
     pillTextDark: '#fda4af',
-    illustrationSrc:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542365/D%E1%BB%8Bch_v%E1%BB%A5_b%E1%BA%A3o_hi%E1%BB%83m-removebg-preview.png',
-    fallbackIllustration:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069237/Gemini_Generated_Image_r1a3t4r1a3t4r1a3.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1j1HNT64M4jaAtvUaUUHAEUxlgr1WLfH7',
+    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1j1HNT64M4jaAtvUaUUHAEUxlgr1WLfH7',
     frontMetrics: [
       { label: 'Xử lý yêu cầu', labelEn: 'Cycle Reduction', value: 'Giảm 45%', valueEn: '-45% Time' },
       { label: 'FCR & Retention', labelEn: 'FCR & Retention', value: '>92% · +15%' },
@@ -208,10 +203,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(192, 132, 252, 0.38)',
     pillTextLight: '#6d28d9',
     pillTextDark: '#d8b4fe',
-    illustrationSrc:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542366/Game_eSports-removebg-preview.png',
-    fallbackIllustration:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069238/Gemini_Generated_Image_s1e5xks1e5xks1e5.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1N9hGfjN9XABOs43QqxZNRhlC5_LZsy1Q',
+    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1N9hGfjN9XABOs43QqxZNRhlC5_LZsy1Q',
     frontMetrics: [
       { label: 'Lưu lượng xử lý', labelEn: 'Ticket Volume', value: '>50.000/ngày', valueEn: '>50K / day' },
       { label: 'Phản hồi & CSAT', labelEn: 'Response & CSAT', value: '<30s · 96%' },
@@ -240,10 +233,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(129, 140, 248, 0.38)',
     pillTextLight: '#3730a3',
     pillTextDark: '#a5b4fc',
-    illustrationSrc:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542372/Thanh_to%C3%A1n_%C4%91i%E1%BB%87n_t%E1%BB%AD-removebg-preview.png',
-    fallbackIllustration:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069234/Gemini_Generated_Image_3b9s6n3b9s6n3b9s.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1hxfswQ7LzGpdFCddUOFoHiK29EBWuk67',
+    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1hxfswQ7LzGpdFCddUOFoHiK29EBWuk67',
     frontMetrics: [
       { label: 'Hoàn tiền RPA', labelEn: 'RPA Refund', value: '48h → 90 giây', valueEn: '48h → 90s' },
       { label: 'CSAT & BPO SLA', labelEn: 'CSAT & BPO SLA', value: '98,2% · 98,6%' },
@@ -272,10 +263,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(52, 211, 153, 0.38)',
     pillTextLight: '#047857',
     pillTextDark: '#6ee7b7',
-    illustrationSrc:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793542368/X%C3%A2y_d%E1%BB%B1ng_h%E1%BB%87_th%E1%BB%91ng-removebg-preview.png',
-    fallbackIllustration:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069236/Gemini_Generated_Image_i12r2fi12r2fi12r.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1RuoLQ4l2n8LNiVv6ntj251Y_1E6cLIpk',
+    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1RuoLQ4l2n8LNiVv6ntj251Y_1E6cLIpk',
     frontMetrics: [
       { label: 'Chuẩn hóa', labelEn: 'Standardization', value: '100% SOP/KPI' },
       { label: 'Onboarding & Perf', labelEn: 'Onboarding & Perf', value: '-65% · +40%' },
@@ -699,15 +688,24 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                   />
                 ) : !heroVideoFailed ? (
                   <video
-                    src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204134/D%E1%BB%8Bch_V%E1%BB%A5.mp4"
+                    src="https://drive.google.com/uc?export=download&id=1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP"
                     poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
                     autoPlay
                     loop
                     muted
                     playsInline
+                    controls={false}
+                    disablePictureInPicture
+                    controlsList="nodownload nofullscreen noremoteplayback"
                     preload="auto"
+                    onEnded={(e) => {
+                      const v = e.currentTarget;
+                      v.currentTime = 0;
+                      v.play().catch(() => {});
+                    }}
                     onError={() => setHeroVideoFailed(true)}
-                    className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
+                    style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                    className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] banner-video-sharp transition-all duration-700"
                   />
                 ) : (
                   <img

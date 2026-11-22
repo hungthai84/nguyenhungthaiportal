@@ -512,14 +512,23 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 />
               ) : !heroVideoFailed && (
                 <video
-                  src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/Giao_di%E1%BB%87n.mp4"
+                  src="https://drive.google.com/uc?export=download&id=1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx"
                   autoPlay
                   loop
                   muted
                   playsInline
+                  controls={false}
+                  disablePictureInPicture
+                  controlsList="nodownload nofullscreen noremoteplayback"
                   preload="auto"
+                  onEnded={(e) => {
+                    const v = e.currentTarget;
+                    v.currentTime = 0;
+                    v.play().catch(() => {});
+                  }}
                   onError={() => setHeroVideoFailed(true)}
-                  className="w-full h-full object-cover object-center rounded-[inherit]"
+                  style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                  className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp"
                 />
               )}
             </div>
@@ -536,8 +545,13 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 </h1>
               </div>
               <p
-                className="banner-quote typo-h3 font-handwriting font-italianno not-italic select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
-                style={{ color: 'var(--text-secondary)' }}
+                className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
+                style={{
+                  color: 'var(--text-secondary)',
+                  fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
+                  fontWeight: 600,
+                  fontStyle: 'normal',
+                }}
               >
                 &quot;Tinh tế từng sắc màu, kiến tạo không gian sống động ♡&quot;
               </p>
@@ -1465,10 +1479,20 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                       loop
                                       muted
                                       playsInline
+                                      preload="auto"
+                                      controls={false}
+                                      disablePictureInPicture
+                                      controlsList="nodownload nofullscreen noremoteplayback"
+                                      onEnded={(e) => {
+                                        const v = e.currentTarget;
+                                        v.currentTime = 0;
+                                        v.play().catch(() => {});
+                                      }}
                                       onError={() =>
                                         setFailedVideoIds((prev) => ({ ...prev, [preset.id]: true }))
                                       }
-                                      className="w-full h-full object-cover rounded-[inherit]"
+                                      style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                                      className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp"
                                     />
                                   </div>
                                 ) : (

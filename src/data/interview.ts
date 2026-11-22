@@ -1,9 +1,9 @@
 import { InterviewQuestion } from '@/types';
 
 export const INTERVIEW_VIDEO_1_URL =
-  'https://cdn.scena.ai/project/9741/f7053626ae15c847304143dc6cf41f1fd2cf1611b27c30ff75ac9da6e47d005b.mp4';
+  'https://lh3.googleusercontent.com/d/1Fy9sQL2RnSpuwZgaRNDhQPHhtUtFasFQ';
 export const INTERVIEW_VIDEO_2_URL =
-  'https://cdn.scena.ai/project/9741/021c21b2f677c4341e06c62c9432d06d251e22c83716e55b927633e254a67730.mp4';
+  'https://drive.google.com/uc?export=download&id=10oUM0icL2Q2SbDkS2phSskqqWm8DaIZf';
 
 export const INTERVIEW_TABS = [
   { key: 'all', labelVi: 'Tất cả câu hỏi' },

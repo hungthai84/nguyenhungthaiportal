@@ -424,7 +424,7 @@ export const Footer: React.FC<FooterProps> = ({
         borderRight: glassBorderVal,
         borderRadius: 'var(--radius-footer, 24px 24px 0 0)',
       }}
-      className="mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t backdrop-blur-md mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t mb-0 overflow-visible pointer-events-auto"
     >
       <div
         className={`w-full h-full flex flex-nowrap items-center justify-between gap-2 md:gap-0 ${
@@ -899,8 +899,9 @@ export const Footer: React.FC<FooterProps> = ({
                     <WebIcon name="bot" className="nav-pill-icon-svg w-4 h-4 text-white shrink-0" />
                   ) : (
                     <img
-                      src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550149/Avata_AI_h%E1%BB%97_tr%E1%BB%A3.gif"
+                      src="https://lh3.googleusercontent.com/d/1gY_ln5UNMGbqeLu5Sh6AQF-7Ymu7tIxJ"
                       alt={isEn ? 'AI Tri Nhan' : 'AI Trí Nhân'}
+                      referrerPolicy="no-referrer"
                       loading="eager"
                       decoding="async"
                       className="w-full h-full object-cover rounded-full"

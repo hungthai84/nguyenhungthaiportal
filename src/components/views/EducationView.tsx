@@ -473,15 +473,24 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             />
           ) : !heroVideoFailed ? (
             <video
-              src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204142/H%E1%BB%8Dc_v%E1%BA%A5n.mp4"
+              src="https://drive.google.com/uc?export=download&id=1SxwuMCwZEjqGXaBez6k2R1lUb1dfRKav"
               poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042016/H%E1%BB%8Dc_v%E1%BA%A5n.png"
               autoPlay
               loop
               muted
               playsInline
+              controls={false}
+              disablePictureInPicture
+              controlsList="nodownload nofullscreen noremoteplayback"
               preload="auto"
+              onEnded={(e) => {
+                const v = e.currentTarget;
+                v.currentTime = 0;
+                v.play().catch(() => {});
+              }}
               onError={() => setHeroVideoFailed(true)}
-              className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+              style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+              className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
             />
           ) : (
             <img

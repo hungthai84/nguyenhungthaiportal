@@ -2040,10 +2040,9 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
 
 /* ========================================================================= */
 /* HORIZONTAL & VERTICAL HERO BANNERS:                                       */
-/*   1) Strict 5px padding around background image/video media               */
-/*   2) Crystal-clear sharp background media (no full-bleed muddying blur)   */
-/*   3) Adaptive localized frosted contrast plates on Icon+Title & Quote     */
-/*      so both typography/icons AND background artwork stay vividly clear   */
+/*   1) Full-bleed edge-to-edge fill inside banner card (inset: 0)           */
+/*   2) Crystal-clear sharp background video/media (GPU composited, zero blur)*/
+/*   3) Muted infinite-loop readiness & clean high-contrast text scrims      */
 /* ========================================================================= */
 html :is(
   .hero-banner,
@@ -2066,27 +2065,46 @@ html[data-card-style] :is(
   [id$="-hero-banner"]
 ) .project-detail-banner-media {
   position: absolute !important;
-  inset: 5px !important;
-  top: 5px !important;
-  right: 5px !important;
-  bottom: 5px !important;
-  left: 5px !important;
-  width: auto !important;
-  height: auto !important;
+  inset: 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   border-radius: var(--radius-banner, 14px) !important;
   overflow: hidden !important;
   opacity: 1 !important;
 }
 
-html .project-detail-banner-media :is(img, video:not([data-smart-face-primary="true"]):not([data-smart-face-ambient="true"])),
-html[data-card-style] .project-detail-banner-media :is(img, video:not([data-smart-face-primary="true"]):not([data-smart-face-ambient="true"])) {
+video::-webkit-media-controls,
+video::-webkit-media-controls-enclosure,
+video::-webkit-media-controls-panel,
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  -webkit-appearance: none !important;
+}
+
+html .project-detail-banner-media :is(img, video:not([data-smart-face-ambient="true"])),
+html[data-card-style] .project-detail-banner-media :is(img, video:not([data-smart-face-ambient="true"])),
+.banner-video-sharp {
   opacity: 1 !important;
   width: 100% !important;
   height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
   object-fit: cover !important;
   object-position: 50% 22% !important;
   border-radius: inherit !important;
-  filter: brightness(1.02) contrast(1.04) saturate(1.06) !important;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  filter: contrast(1.06) saturate(1.07) brightness(1.02) !important;
 }
 
 html .project-detail-banner-media .smart-face-video-root video[data-smart-face-primary="true"],
@@ -2094,8 +2112,15 @@ html[data-card-style] .project-detail-banner-media .smart-face-video-root video[
   opacity: 1 !important;
   width: 100% !important;
   height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
   border-radius: inherit !important;
-  filter: brightness(1.02) contrast(1.04) saturate(1.06) !important;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  filter: contrast(1.06) saturate(1.07) brightness(1.02) !important;
 }
 
 html :is(
@@ -2109,13 +2134,13 @@ html :is(
   [id$="-hero-banner"]
 ) .project-detail-banner-scrim {
   position: absolute !important;
-  inset: 5px !important;
-  top: 5px !important;
-  right: 5px !important;
-  bottom: 5px !important;
-  left: 5px !important;
-  width: auto !important;
-  height: auto !important;
+  inset: 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   border-radius: var(--radius-banner, 14px) !important;
   overflow: hidden !important;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 48%, rgba(255, 255, 255, 0.14) 100%) !important;
@@ -2135,10 +2160,10 @@ html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-deta
 }
 
 /* Vertical TOC Sidebar Banner: keep background artwork vivid & crisp with subtle translucent veil */
-html #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-media :is(img, video:not([data-smart-face-primary="true"]):not([data-smart-face-ambient="true"])),
-html[data-card-style] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-media :is(img, video:not([data-smart-face-primary="true"]):not([data-smart-face-ambient="true"])) {
-  opacity: 0.92 !important;
-  filter: brightness(1.02) contrast(1.04) saturate(1.06) !important;
+html #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-media :is(img, video:not([data-smart-face-ambient="true"])),
+html[data-card-style] #project-detail-banner[data-banner-aspect="sidebar"] .project-detail-banner-media :is(img, video:not([data-smart-face-ambient="true"])) {
+  opacity: 1 !important;
+  filter: contrast(1.06) saturate(1.07) brightness(1.02) !important;
   object-fit: cover !important;
   object-position: 50% 22% !important;
 }
@@ -2949,5 +2974,501 @@ button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-ripple
   .nav-pill-ripple-wave {
     animation: none !important;
     opacity: 0 !important;
+  }
+}
+
+/* ========================================================================= */
+/* LAYER 1 DE-BLUR & EFFECT STRIPPING: HEADER · CENTER MAIN SHELL · FOOTER   */
+/* Xóa hoàn toàn backdrop-filter blur, bóng đổ & hiệu ứng trang trí khỏi     */
+/* khu vực Header, khung chính giữa và Footer trên toàn bộ 9 giao diện.      */
+/* ========================================================================= */
+html:root :is(
+  #app-header,
+  #app-footer,
+  #global-content-viewport,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"],
+  #pdf-page-container
+),
+html[data-card-style] :is(
+  #app-header,
+  #app-footer,
+  #global-content-viewport,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"],
+  #pdf-page-container
+),
+html:root :is(
+  #app-header,
+  #app-footer,
+  #global-content-viewport,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"],
+  #pdf-page-container
+):is(:hover, :focus, :focus-within, :active),
+html[data-card-style] :is(
+  #app-header,
+  #app-footer,
+  #global-content-viewport,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"],
+  #pdf-page-container
+):is(:hover, :focus, :focus-within, :active) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+html:root :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"],
+  #pdf-page-container
+)::before,
+html:root :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"],
+  #pdf-page-container
+)::after,
+html[data-card-style] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"],
+  #pdf-page-container
+)::before,
+html[data-card-style] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"],
+  #pdf-page-container
+)::after {
+  content: none !important;
+  display: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ========================================================================= */
+/* PER-THEME INTERACTIVE BUTTON EFFECTS (ALL 9 ACTIVE THEMES)                */
+/* Mỗi giao diện sở hữu tương tác Hover / Active / Focus-Visible đặc trưng   */
+/* cho hệ thống nút bấm (giữ nguyên Layer 1 phẳng sạch không hiệu ứng).     */
+/* ========================================================================= */
+html[data-card-style] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(:disabled)
+) {
+  transition:
+    transform 190ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 210ms ease,
+    border-color 180ms ease,
+    filter 180ms ease,
+    background-color 180ms ease;
+}
+
+/* 1. Nổi khối kính mờ (neumorphism-beyond): Bấm lún xúc giác + Nổi mềm khi rê chuột */
+html[data-card-style="neumorphism-beyond"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 18px rgba(148, 163, 184, 0.28),
+    3px 4px 10px rgba(163, 177, 198, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68);
+}
+
+html[data-card-style="neumorphism-beyond"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):active {
+  transform: translateY(1px) scale(0.975);
+  box-shadow:
+    inset 3px 3px 7px rgba(148, 163, 184, 0.42),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.72);
+}
+
+/* 2. Soft Indigo Fintech (Sáng): Nâng dứt khoát + viền Indigo phản hồi */
+html[data-card-style="soft-indigo-fintech"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):hover {
+  transform: translateY(-2px);
+  border-color: rgba(79, 70, 229, 0.55);
+  box-shadow: 0 8px 20px -4px rgba(79, 70, 229, 0.26);
+}
+
+html[data-card-style="soft-indigo-fintech"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.22);
+}
+
+/* 3. Dark Soft Indigo Fintech (Tối): Ánh sáng Neon Indigo nhẹ & nén sâu */
+html[data-card-style="dark-soft-indigo-fintech"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):hover {
+  transform: translateY(-2px);
+  border-color: rgba(129, 140, 248, 0.65);
+  box-shadow: 0 0 18px rgba(99, 102, 241, 0.34), 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+html[data-card-style="dark-soft-indigo-fintech"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):active {
+  transform: scale(0.965);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.42);
+}
+
+/* 4. Liquid Glass (Sáng): Phản chiếu giọt nước trong suốt + nảy đàn hồi */
+html[data-card-style="liquid-glass"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):hover {
+  transform: translateY(-2px) scale(1.015);
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 10px 24px -6px rgba(37, 99, 235, 0.22),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.9);
+  filter: brightness(1.04);
+}
+
+html[data-card-style="liquid-glass"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):active {
+  transform: scale(0.96);
+  filter: brightness(0.97);
+}
+
+/* 5. Dark Liquid Glass (Tối): Viền khúc xạ pha lê + hào quang Cyan */
+html[data-card-style="dark-liquid-glass"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):hover {
+  transform: translateY(-2px) scale(1.015);
+  border-color: rgba(56, 189, 248, 0.65);
+  box-shadow:
+    0 8px 22px rgba(14, 165, 233, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  filter: brightness(1.08);
+}
+
+html[data-card-style="dark-liquid-glass"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):active {
+  transform: scale(0.96);
+  filter: brightness(0.95);
+}
+
+/* 6. Multicolor Glass (Kính đa sắc): Chuyển sắc ánh cầu vồng nhẹ */
+html[data-card-style="multicolor-glass"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):hover {
+  transform: translateY(-2px) scale(1.015);
+  box-shadow:
+    0 8px 22px -4px rgba(168, 85, 247, 0.28),
+    0 4px 12px -4px rgba(56, 189, 248, 0.24);
+  filter: saturate(1.12) brightness(1.04);
+}
+
+html[data-card-style="multicolor-glass"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):active {
+  transform: scale(0.965);
+}
+
+/* 7. Da bò cổ điển (cowhide-leather): Nhấn chìm khâu chỉ da thủ công + ánh đồng ấm */
+html[data-card-style="cowhide-leather"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):hover {
+  transform: translateY(-1px);
+  border-color: rgba(217, 155, 67, 0.78);
+  box-shadow:
+    0 6px 16px rgba(45, 22, 6, 0.38),
+    inset 0 1px 0 rgba(255, 232, 188, 0.32);
+  filter: brightness(1.06);
+}
+
+html[data-card-style="cowhide-leather"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):active {
+  transform: translateY(1px) scale(0.975);
+  box-shadow: inset 0 2px 6px rgba(34, 15, 4, 0.55);
+}
+
+/* 8. Đại dương sâu (deep-ocean): Sóng lam phát quang sinh học êm ái */
+html[data-card-style="deep-ocean"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):hover {
+  transform: translateY(-2px);
+  border-color: rgba(34, 211, 238, 0.65);
+  box-shadow:
+    0 0 20px rgba(6, 182, 212, 0.34),
+    0 6px 14px rgba(2, 12, 27, 0.45);
+}
+
+html[data-card-style="deep-ocean"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):active {
+  transform: scale(0.97);
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.45);
+}
+
+/* 9. Mica Fluent (Windows 11): Ánh sáng acrylic sắc nét góc cạnh chuẩn Fluent */
+html[data-card-style="mica-fluent"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):hover {
+  transform: translateY(-1px);
+  border-color: rgba(0, 120, 212, 0.55);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  filter: brightness(1.03);
+}
+
+html[data-card-style="mica-fluent"] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):active {
+  transform: scale(0.98);
+  filter: brightness(0.97);
+}
+
+/* Focus ring khả dụng chuẩn Accessibility cho mọi giao diện */
+html[data-card-style] :is(
+  button.nav-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  [data-element-type="button"],
+  main button:not(:disabled)
+):focus-visible {
+  outline: 2px solid var(--color-primary, #4f46e5);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-card-style] :is(
+    button.nav-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    [data-element-type="button"],
+    main button:not(:disabled)
+  ) {
+    transition: none !important;
+    transform: none !important;
   }
 }

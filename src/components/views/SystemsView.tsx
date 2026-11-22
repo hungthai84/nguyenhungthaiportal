@@ -47,9 +47,9 @@ export interface SystemsViewProps {
 }
 
 const SYSTEM_FLOATING_IDLE_VIDEO_URL =
-  'https://res.cloudinary.com/q5tpzaxk/video/upload/v1794639666/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_h%E1%BB%87_th%E1%BB%91ng_gi%E1%BB%9Bi_thi%E1%BB%87u.mp4';
+  'https://drive.google.com/uc?export=download&id=1FHYWSXVPkWwTPU1UeSDjCwkwx_0ceB36';
 const SYSTEM_FLOATING_INTRO_VIDEO_URL =
-  'https://res.cloudinary.com/q5tpzaxk/video/upload/v1794639693/Video_gi%E1%BB%9Bi_thi%E1%BB%87u_h%E1%BB%87_th%E1%BB%91ng.mp4';
+  'https://drive.google.com/uc?export=download&id=1jZ_oty3--e-2c3LqifNPp3d73zXL6cVB';
 
 interface SystemTechSpecItem {
   database: string;
@@ -272,7 +272,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#a16207',
     darkAccent: '#facc15',
     iconName: 'globe',
-    illustrationSrc: 'https://i.ibb.co/1fb35MSh/SDP-C-ng-l-m-vi-c-CSKH.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1_zCMxIls3Se9t1z6Ydpdqi0ghcRZDa_a',
     cardTheme: '#EAB308',
   },
   csc: {
@@ -289,7 +289,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#0369a1',
     darkAccent: '#38bdf8',
     iconName: 'headphones',
-    illustrationSrc: 'https://i.ibb.co/p6CQLKDg/CSC-Trung-t-m-Ch-m-s-c-Kh-ch-h-ng.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1r0Pl_hzX7DILkQyIj9Fv0kNuoja1x9lS',
     cardTheme: '#0EA5E9',
   },
   crm: {
@@ -306,7 +306,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#047857',
     darkAccent: '#34d399',
     iconName: 'users',
-    illustrationSrc: 'https://i.ibb.co/ZpzdS7g2/CRM-Qu-n-l-Quan-h-Kh-ch-h-ng.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/13Dtp99V1A4HXoChWsZEp9UK-TGsEKDxy',
     cardTheme: '#10B981',
   },
   clp: {
@@ -323,7 +323,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#be123c',
     darkAccent: '#fb7185',
     iconName: 'gift',
-    illustrationSrc: 'https://i.ibb.co/0jLTkKZG/CLP-Kh-ch-h-ng-Th-n-thi-t.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1fOKwCICmG8PCy6EYoNkG64C5nQUsShyT',
     cardTheme: '#F43F5E',
   },
   pos: {
@@ -340,7 +340,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#0e7490',
     darkAccent: '#22d3ee',
     iconName: 'shopping-cart',
-    illustrationSrc: 'https://i.ibb.co/1tqgwmgq/POS-Qu-n-l-B-n-h-ng-t-i-Qu-y.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1IKzIg6pkzYQhqIu0eumxYctIkZvYm6vq',
     cardTheme: '#06B6D4',
   },
   erp: {
@@ -357,7 +357,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#0f766e',
     darkAccent: '#2dd4bf',
     iconName: 'chart',
-    illustrationSrc: 'https://i.ibb.co/HTWGjNzS/ERP-T-i-ch-nh-k-to-n.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/17pVP6aKtDX3Czvox2qmtoJ3aamgYWah6',
     cardTheme: '#14B8A6',
   },
   hrm: {
@@ -374,7 +374,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#c2410c',
     darkAccent: '#fb923c',
     iconName: 'briefcase',
-    illustrationSrc: 'https://i.ibb.co/TjXJQZk/HRM-Qu-n-l-Ngu-n-nh-n-l-c.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1xpG5XkjxgYeV1OK1-u82x3PmH7A-Y69k',
     cardTheme: '#F97316',
   },
   bpm: {
@@ -391,7 +391,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#6d28d9',
     darkAccent: '#c084fc',
     iconName: 'file-text',
-    illustrationSrc: 'https://i.ibb.co/PsbZP2Rt/BPM-Qu-n-l-Quy-tr-nh-Nghi-p-v.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1UGN6bAdd_B5gkn56rl9ymm3C61VESuLd',
     cardTheme: '#8B5CF6',
   },
   okr: {
@@ -408,7 +408,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#15803d',
     darkAccent: '#4ade80',
     iconName: 'target',
-    illustrationSrc: 'https://i.ibb.co/SwNpks2H/OKR-Qu-n-l-M-c-ti-u-K-t-qu.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/11HTbjVNXWn_Q9l79qZVXneM0RJhqn_U8',
     cardTheme: '#22C55E',
   },
   lms: {
@@ -425,7 +425,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#1d4ed8',
     darkAccent: '#60a5fa',
     iconName: 'graduation',
-    illustrationSrc: 'https://i.ibb.co/6JtKW8bR/LMS-Qu-n-l-o-t-o.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1nlAazLnCH8_fYSXns1gX0tJpDbnXYPrL',
     cardTheme: '#2563EB',
   },
   bi: {
@@ -442,8 +442,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#7e22ce',
     darkAccent: '#d8b4fe',
     iconName: 'trending',
-    illustrationSrc:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793064652/BI_Dashboard_-_B%C3%A1o_c%C3%A1o_Ph%C3%A2n_t%C3%ADch.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/10EuOHcVkQ8iuDovIVCZCLf1S0iS_4O_L',
     cardTheme: '#9333EA',
   },
   ai: {
@@ -460,7 +459,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#4338ca',
     darkAccent: '#818cf8',
     iconName: 'robot',
-    illustrationSrc: 'https://i.ibb.co/pSBJ5s3/AI-Assistant-Tr-l-Tr-tu-Nh-n-t-o.png',
+    illustrationSrc: 'https://lh3.googleusercontent.com/d/1KYjQYOTnsbDqiQ2T8Gm5F7Mra_eRH2ln',
     cardTheme: '#4F46E5',
   },
 };
@@ -1189,15 +1188,24 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                 />
               ) : !heroVideoFailed ? (
                 <video
-                  src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/H%E1%BB%87_th%E1%BB%91ng.mp4"
+                  src="https://drive.google.com/uc?export=download&id=1rbcqxl4WUeZvXg98OfQUIxOO1ja5_vIY"
                   poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591946/H%E1%BB%87_th%E1%BB%91ng.png"
                   autoPlay
                   loop
                   muted
                   playsInline
+                  controls={false}
+                  disablePictureInPicture
+                  controlsList="nodownload nofullscreen noremoteplayback"
                   preload="auto"
+                  onEnded={(e) => {
+                    const v = e.currentTarget;
+                    v.currentTime = 0;
+                    v.play().catch(() => {});
+                  }}
                   onError={() => setHeroVideoFailed(true)}
-                  className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+                  style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                  className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
                 />
               ) : (
                 <img
@@ -1453,7 +1461,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       loop
                       muted
                       playsInline
-                      className="w-full h-full object-cover object-[50%_18%] rounded-full pointer-events-none scale-[1.06]"
+                      preload="auto"
+                      controls={false}
+                      disablePictureInPicture
+                      controlsList="nodownload nofullscreen noremoteplayback"
+                      onEnded={(e) => {
+                        const v = e.currentTarget;
+                        v.currentTime = 0;
+                        v.play().catch(() => {});
+                      }}
+                      style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                      className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] rounded-full banner-video-sharp pointer-events-none scale-[1.06]"
                     />
                     <div
                       className={cn(
@@ -1543,7 +1561,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   <SmartFaceVideo
                     videoRef={introStageVideoRef}
                     src={SYSTEM_FLOATING_INTRO_VIDEO_URL}
-                    controls
+                    controls={false}
+                    disablePictureInPicture
+                    controlsList="nodownload nofullscreen noremoteplayback"
                     autoPlay
                     playsInline
                     muted={isIntroStageMuted}
@@ -1551,7 +1571,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     faceAnchor={{ x: 50, y: 18 }}
                     maxCropDistortion={1.6}
                     wrapperClassName="w-full h-full bg-black rounded-[inherit]"
-                    className="bg-black rounded-[inherit]"
+                    className="bg-black rounded-[inherit] banner-video-sharp"
                   />
                 </div>
               </div>
@@ -1775,7 +1795,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             loop
                             muted
                             playsInline
-                            className="w-full h-full object-cover"
+                            preload="auto"
+                            controls={false}
+                            disablePictureInPicture
+                            controlsList="nodownload nofullscreen noremoteplayback"
+                            onEnded={(e) => {
+                              const v = e.currentTarget;
+                              v.currentTime = 0;
+                              v.play().catch(() => {});
+                            }}
+                            style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                            className="w-full h-full min-w-full min-h-full object-cover banner-video-sharp"
                           />
                           <div className="absolute top-2.5 right-2.5 left-2.5 flex items-center justify-between gap-2 pointer-events-none">
                             <span className="px-2.5 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-white text-[11px] font-bold border border-white/20">
@@ -1913,7 +1943,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               preload="auto"
                               controls={false}
                               disablePictureInPicture
-                              className="relative z-20 w-full h-full object-cover rounded-[inherit] pointer-events-none select-none border-0 shadow-none"
+                              controlsList="nodownload nofullscreen noremoteplayback"
+                              onEnded={(e) => {
+                                const v = e.currentTarget;
+                                v.currentTime = 0;
+                                v.play().catch(() => {});
+                              }}
+                              style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                              className="relative z-20 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp pointer-events-none select-none border-0 shadow-none"
                             />
                           ) : (
                             <img
@@ -2495,7 +2532,16 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                     muted={isExpandedVideoMuted}
                                     playsInline
                                     preload="auto"
-                                    className="w-full h-full object-cover rounded-[inherit]"
+                                    controls={false}
+                                    disablePictureInPicture
+                                    controlsList="nodownload nofullscreen noremoteplayback"
+                                    onEnded={(e) => {
+                                      const v = e.currentTarget;
+                                      v.currentTime = 0;
+                                      v.play().catch(() => {});
+                                    }}
+                                    style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                                    className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp"
                                   />
                                   <button
                                     type="button"
@@ -2529,6 +2575,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 <img
                                   src={expandedMeta.illustrationSrc || expandedSystem.imageUrl}
                                   alt={expandedSystem.nameVi}
+                                  referrerPolicy="no-referrer"
                                   className="w-full h-full object-contain rounded-[inherit] p-0 border-0 shadow-none"
                                 />
                               )}

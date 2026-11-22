@@ -1,5 +1,5 @@
-export const ABOUT_IDLE_VIDEO_URL = 'https://cdn.scena.ai/project/8606/e48a67884f3a52e8a68cf06b97979f3b22835ec92bf466a058c0d78da97c83b0.mp4';
-export const ABOUT_INTRO_VIDEO_URL = 'https://cdn.scena.ai/project/8606/5f84521bf5c51ff234fb0f4029fb9fba29e7e386f13912a56bc7ee25aebcbc10.mp4';
+export const ABOUT_IDLE_VIDEO_URL = 'https://drive.google.com/uc?export=download&id=1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
+export const ABOUT_INTRO_VIDEO_URL = 'https://drive.google.com/uc?export=download&id=12cdItjoc6LpIetmw6-1BiSt8kUaaNe7R';
 
 export interface ProfileStatItem {
   id: string;

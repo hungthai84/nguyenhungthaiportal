@@ -21,6 +21,7 @@ export interface InterviewViewProps {
 export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'liquid-glass' }) => {
   const { showToast } = useToast();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const pendingSeekSecRef = useRef<number | null>(null);
   const filterDropdownRef = useRef<HTMLDivElement>(null);
 
   const [activeFilter, setActiveFilter] = useState<string>('all');
@@ -32,7 +33,34 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
 
   const currentQ = INTERVIEW_QUESTIONS[currentQIdx] || INTERVIEW_QUESTIONS[0];
 
+  useEffect(() => {
+    if (!isVideoPlaying) return;
+    const video = videoRef.current;
+    if (!video) return;
 
+    const targetSec = pendingSeekSecRef.current ?? currentQ.startSec;
+    pendingSeekSecRef.current = null;
+
+    const applySeekAndPlay = () => {
+      try {
+        video.currentTime = targetSec;
+      } catch {
+        // Ignore seek error before metadata loads
+      }
+      video.muted = !isAudioOn;
+      video.play().catch(() => {});
+    };
+
+    if (video.readyState >= 1) {
+      applySeekAndPlay();
+    } else {
+      const handleLoaded = () => {
+        applySeekAndPlay();
+      };
+      video.addEventListener('loadedmetadata', handleLoaded, { once: true });
+      return () => video.removeEventListener('loadedmetadata', handleLoaded);
+    }
+  }, [isVideoPlaying]);
 
   const filteredQuestions = INTERVIEW_QUESTIONS.filter((q) => {
     if (activeFilter === 'all') return true;
@@ -46,18 +74,16 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
     const q = INTERVIEW_QUESTIONS[clamped];
 
     const video = videoRef.current;
-    if (!video) return;
-
-    if (!isVideoPlaying || video.src !== INTERVIEW_VIDEO_2_URL) {
+    if (!isVideoPlaying || !video) {
+      pendingSeekSecRef.current = q.startSec;
       setIsVideoPlaying(true);
-      setIsAudioOn(true);
-      video.src = INTERVIEW_VIDEO_2_URL;
-      video.loop = false;
-      video.muted = false;
-      video.currentTime = q.startSec;
-      video.play().catch(() => {});
     } else {
-      video.currentTime = q.startSec;
+      video.muted = !isAudioOn;
+      try {
+        video.currentTime = q.startSec;
+      } catch {
+        // Seek after metadata
+      }
       if (video.paused) {
         video.play().catch(() => {});
       }
@@ -66,32 +92,26 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
   };
 
   const togglePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
     if (isVideoPlaying) {
+      const video = videoRef.current;
+      if (video) {
+        video.pause();
+      }
+      pendingSeekSecRef.current = null;
       setIsVideoPlaying(false);
-      video.src = INTERVIEW_VIDEO_1_URL;
-      video.loop = true;
-      video.muted = true;
-      video.play().catch(() => {});
     } else {
+      pendingSeekSecRef.current = currentQ.startSec;
       setIsVideoPlaying(true);
-      setIsAudioOn(true);
-      video.src = INTERVIEW_VIDEO_2_URL;
-      video.loop = false;
-      video.muted = false;
-      video.currentTime = currentQ.startSec;
-      video.play().catch(() => {});
     }
   };
 
   const toggleAudio = () => {
-    const video = videoRef.current;
-    if (!video) return;
     const nextAudio = !isAudioOn;
     setIsAudioOn(nextAudio);
-    video.muted = !nextAudio;
+    const video = videoRef.current;
+    if (video) {
+      video.muted = !nextAudio;
+    }
     showToast(nextAudio ? 'Đã bật tiếng video phỏng vấn' : 'Đã tắt tiếng video phỏng vấn');
   };
 
@@ -185,22 +205,33 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-layer-level="2"
           className="banner-card hero-banner w-full h-full min-h-0 max-h-full self-stretch rounded-[var(--radius-card,24px)] relative overflow-visible bento-card glass-card text-[var(--text-primary)] min-w-0 z-30 flex flex-col justify-between border group p-[15px]"
         >
-          {/* Nền Video phỏng vấn trực tiếp lấp đầy banner-card & đồng bộ bo cong theo giao diện */}
+          {/* Nền Hình chờ / Video phỏng vấn trực tiếp lấp đầy banner-card & đồng bộ bo cong theo giao diện */}
           <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0">
-            <SmartFaceVideo
-              videoRef={videoRef}
-              autoPlay
-              loop={!isVideoPlaying}
-              muted={!isAudioOn}
-              playsInline
-              src={isVideoPlaying ? INTERVIEW_VIDEO_2_URL : INTERVIEW_VIDEO_1_URL}
-              onTimeUpdate={handleTimeUpdate}
-              onEnded={handleEnded}
-              faceAnchor={{ x: 50, y: 18 }}
-              maxCropDistortion={1.6}
-              wrapperClassName="w-full h-full rounded-[inherit] pointer-events-none"
-              className="opacity-100 brightness-105 contrast-105 saturate-110 transition-all duration-500 select-none pointer-events-none"
-            />
+            {isVideoPlaying ? (
+              <SmartFaceVideo
+                videoRef={videoRef}
+                autoPlay
+                loop={false}
+                muted={!isAudioOn}
+                playsInline
+                preload="auto"
+                poster={INTERVIEW_VIDEO_1_URL}
+                src={INTERVIEW_VIDEO_2_URL}
+                onTimeUpdate={handleTimeUpdate}
+                onEnded={handleEnded}
+                faceAnchor={{ x: 50, y: 18 }}
+                maxCropDistortion={1.6}
+                wrapperClassName="w-full h-full rounded-[inherit] pointer-events-none"
+                className="opacity-100 banner-video-sharp transition-all duration-500 select-none pointer-events-none"
+              />
+            ) : (
+              <img
+                src={INTERVIEW_VIDEO_1_URL}
+                alt="Phỏng vấn & Đối thoại"
+                referrerPolicy="no-referrer"
+                className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] rounded-[inherit] banner-video-sharp transition-all duration-500 select-none pointer-events-none"
+              />
+            )}
           </div>
           <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 

@@ -73,7 +73,28 @@ function getLegacyPrefersDark(): boolean {
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
+const LEGACY_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_neu_wp32';
+let didRunLegacyUiSeed = false;
+
+function ensureLegacyDefaultUiSeedSync(): void {
+  if (didRunLegacyUiSeed || typeof window === 'undefined') return;
+  didRunLegacyUiSeed = true;
+  try {
+    if (localStorage.getItem(LEGACY_UI_SEED_KEY) !== '1') {
+      localStorage.removeItem(CARD_STYLE_STORAGE_KEY);
+      localStorage.removeItem(COLOR_SCHEME_MODE_STORAGE_KEY);
+      localStorage.removeItem(WALLPAPER_MANUAL_STORAGE_KEY);
+      localStorage.removeItem(ACTIVE_WALLPAPER_STORAGE_KEY);
+      localStorage.removeItem(WALLPAPER_OVERLAY_STORAGE_KEY);
+      localStorage.setItem(LEGACY_UI_SEED_KEY, '1');
+    }
+  } catch {
+    // ignore
+  }
+}
+
 function readLegacyColorSchemeMode(): ColorSchemeMode {
+  ensureLegacyDefaultUiSeedSync();
   try {
     const savedMode = localStorage.getItem(COLOR_SCHEME_MODE_STORAGE_KEY);
     if (savedMode === 'light' || savedMode === 'dark' || savedMode === 'system') return savedMode;
@@ -84,7 +105,7 @@ function readLegacyColorSchemeMode(): ColorSchemeMode {
   } catch {
     // ignore
   }
-  return 'system';
+  return 'light';
 }
 
 export function useThemeLegacy() {
@@ -136,28 +157,8 @@ export function useThemeLegacy() {
   });
 
   const [previewWallpaper, setPreviewWallpaper] = useState<WallpaperPreset | null>(null);
-  const [wallpaperOverlay, setWallpaperOverlay] = useState<WallpaperOverlaySettings>(() => {
-    try {
-      const raw = localStorage.getItem(WALLPAPER_OVERLAY_STORAGE_KEY);
-      if (raw) {
-        const p = JSON.parse(raw);
-        return {
-          blur: Math.min(32, Math.max(0, Number(p?.blur) || 0)),
-          dim: Math.min(80, Math.max(0, Number(p?.dim) || 0)),
-        };
-      }
-    } catch {
-      // ignore
-    }
-    return { blur: 0, dim: 0 };
-  });
-  const [adaptiveAccentEnabled, setAdaptiveAccentEnabledState] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem(ADAPTIVE_ACCENT_STORAGE_KEY) === 'true';
-    } catch {
-      return false;
-    }
-  });
+  const [wallpaperOverlay, setWallpaperOverlay] = useState<WallpaperOverlaySettings>({ blur: 0, dim: 0 });
+  const [adaptiveAccentEnabled, setAdaptiveAccentEnabledState] = useState<boolean>(false);
   const suggestedAccent: AdaptiveAccentPalette | null = getInstantWallpaperAccent(
     previewWallpaper || activeWallpaper
   );
@@ -590,8 +591,8 @@ export function useThemeLegacy() {
     (preset: ThemeWallpaperPreset) => {
       setCardStyle(preset.cardStyle);
       setWallpaper(preset.wallpaper);
-      updateWallpaperOverlay({ blur: preset.blur, dim: preset.dim });
-      setAdaptiveAccentEnabledState(preset.adaptiveAccentEnabled);
+      updateWallpaperOverlay({ blur: 0, dim: 0 });
+      setAdaptiveAccentEnabledState(false);
     },
     [setCardStyle, setWallpaper, updateWallpaperOverlay]
   );

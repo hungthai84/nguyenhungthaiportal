@@ -215,7 +215,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     subColor: 'text-purple-600 dark:text-purple-300',
     subVi: 'Trợ lý 24/7',
     subEn: '24/7 AI',
-    avatarGif: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550149/Avata_AI_h%E1%BB%97_tr%E1%BB%A3.gif',
+    avatarGif: 'https://lh3.googleusercontent.com/d/1gY_ln5UNMGbqeLu5Sh6AQF-7Ymu7tIxJ',
   },
   14: {
     accentColor: '#F43F5E',
@@ -607,6 +607,7 @@ export const Header: React.FC<HeaderProps> = ({
                       <img
                         src={styleCfg.avatarGif}
                         alt={pageTitle}
+                        referrerPolicy="no-referrer"
                         className="w-full h-full object-cover rounded-full"
                         onError={(e) => {
                           (e.target as HTMLElement).style.display = 'none';
@@ -739,8 +740,9 @@ export const Header: React.FC<HeaderProps> = ({
                     }}
                   >
                     <img
-                      src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.gif"
+                      src="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
                       alt="Hùng Thái"
+                      referrerPolicy="no-referrer"
                       className="w-full h-full object-cover rounded-full"
                       onError={(e) => {
                         (e.target as HTMLElement).style.display = 'none';

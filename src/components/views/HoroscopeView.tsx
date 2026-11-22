@@ -973,15 +973,24 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           ) : !heroVideoFailed ? (
             <video
               id="horoscope-hero-banner-img"
-              src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204136/T%E1%BB%AD_vi.mp4"
+              src="https://drive.google.com/uc?export=download&id=1G2ydHrMUchyBLjl3YR5xat8eF1MdPOQ4"
               poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
               autoPlay
               loop
               muted
               playsInline
+              controls={false}
+              disablePictureInPicture
+              controlsList="nodownload nofullscreen noremoteplayback"
               preload="auto"
+              onEnded={(e) => {
+                const v = e.currentTarget;
+                v.currentTime = 0;
+                v.play().catch(() => {});
+              }}
               onError={() => setHeroVideoFailed(true)}
-              className="w-full h-full object-cover object-center rounded-[14px] transition-all duration-700"
+              style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+              className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[14px] banner-video-sharp transition-all duration-700"
             />
           ) : (
             <img
@@ -1814,7 +1823,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="card"
       data-section-card="true"
       style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[auto_1fr_1fr] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[auto_1fr_1fr_auto] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
     >
       <div className="col-span-full flex items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)]">
         <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
@@ -1862,6 +1871,33 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           </div>
         );
       })}
+
+      {/* Câu nói hay tổng hợp từ 6 trụ cột của 5. Triết Lý Lãnh Đạo */}
+      <div
+        id="horoscope-card5-leadership-quote"
+        data-layer-level="2"
+        style={level2CardStyle}
+        className="col-span-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 min-w-0"
+      >
+        <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
+          <div className="w-9 h-9 rounded-[10px] bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+            <Sparkles className="w-4.5 h-4.5" />
+          </div>
+          <blockquote
+            className="typo-h3 font-handwriting font-quote not-italic font-semibold text-[var(--text-primary)] leading-snug m-0 break-words"
+            style={{
+              fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
+              fontWeight: 600,
+              fontStyle: 'normal',
+            }}
+          >
+            &ldquo;Tư duy bằng chiến lược, dẫn dắt bằng dữ liệu, thấu cảm bằng trái tim — lấy chân lý làm gốc, lấy hành động làm đường và lấy kết quả làm thước đo.&rdquo;
+          </blockquote>
+        </div>
+        <span className="typo-badge px-3 py-1 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/25 whitespace-nowrap shrink-0 self-end sm:self-center">
+          5. Triết Lý Lãnh Đạo
+        </span>
+      </div>
     </div>
   );
 

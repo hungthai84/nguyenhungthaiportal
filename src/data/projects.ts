@@ -23,7 +23,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '1.1._Xây_dựng_Phòng_Dịch_vụ_Khách_hàng.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.1._X%C3%A2y_d%E1%BB%B1ng_Ph%C3%B2ng_D%E1%BB%8Bch_v%E1%BB%A5_Kh%C3%A1ch_h%C3%A0ng.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070191/1.1._X%C3%A2y_d%E1%BB%B1ng_Ph%C3%B2ng_D%E1%BB%8Bch_v%E1%BB%A5_Kh%C3%A1ch_h%C3%A0ng.png',
+      'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv',
   },
   {
     projectId: 'p1_2',
@@ -31,7 +31,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '1.2._Thiết_lập_mục_tiêu_phòng_ban.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.2._Thi%E1%BA%BFt_l%E1%BA%ADp_m%E1%BB%A5c_ti%C3%AAu_ph%C3%B2ng_ban.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070181/1.2._Thi%E1%BA%BFt_l%E1%BA%ADp_m%E1%BB%A5c_ti%C3%AAu_ph%C3%B2ng_ban.png',
+      'https://lh3.googleusercontent.com/d/1gxj_0izu0yQSuZXlEBFrDCHK75Zqykx0',
   },
   {
     projectId: 'p2_1',
@@ -39,7 +39,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '2.1._Chuẩn_hóa_quy_trình_CSKH.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/2.1._Chu%E1%BA%A9n_h%C3%B3a_quy_tr%C3%ACnh_CSKH.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070200/2.1._Chu%E1%BA%A9n_h%C3%B3a_quy_tr%C3%ACnh_CSKH.png',
+      'https://lh3.googleusercontent.com/d/192THDLvQaHtJVFAT2GYxfirfbX-w7Gfs',
   },
   {
     projectId: 'p2_2',
@@ -47,7 +47,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '2.2._Tối_ưu_hóa_kênh_hỗ_trợ.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/2.2._T%E1%BB%91i_%C6%B0u_h%C3%B3a_k%C3%AAnh_h%E1%BB%97_tr%E1%BB%A3.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070202/2.2._T%E1%BB%91i_%C6%B0u_h%C3%B3a_k%C3%AAnh_h%E1%BB%97_tr%E1%BB%A3.png',
+      'https://lh3.googleusercontent.com/d/1oj9ml7FNZl21Ye5qY_cnUuQ-SGeElo0y',
   },
   {
     projectId: 'p2_3',
@@ -55,7 +55,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '2.3._Triển_khai_tự_động_hóa_2.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/2.3._Tri%E1%BB%83n_khai_t%E1%BB%B1_%C4%91%E1%BB%99ng_h%C3%B3a_2.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070208/2.3._Tri%E1%BB%83n_khai_t%E1%BB%B1_%C4%91%E1%BB%99ng_h%C3%B3a_2.png',
+      'https://lh3.googleusercontent.com/d/1RqBnHWXVpj8fseeSmlnRvlv8dGpgM55y',
   },
   {
     projectId: 'p2_4',
@@ -63,7 +63,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '2.4._Quản_lý_chiến_dịch_Outbound.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/2.4._Qu%E1%BA%A3n_l%C3%BD_chi%E1%BA%BFn_d%E1%BB%8Bch_Outbound.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070210/2.4._Qu%E1%BA%A3n_l%C3%BD_chi%E1%BA%BFn_d%E1%BB%8Bch_Outbound.png',
+      'https://lh3.googleusercontent.com/d/1Wo1g3ht16kZKovN8OBXUL3CJ-BbXNOYj',
   },
   {
     projectId: 'p3_1',
@@ -71,7 +71,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '1.3._Nâng_cao_trải_nghiệm_khách_hàng.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.3._N%C3%A2ng_cao_tr%E1%BA%A3i_nghi%E1%BB%87m_kh%C3%A1ch_h%C3%A0ng.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070183/1.3._N%C3%A2ng_cao_tr%E1%BA%A3i_nghi%E1%BB%87m_kh%C3%A1ch_h%C3%A0ng.png',
+      'https://lh3.googleusercontent.com/d/1e0Oo1yNKQWJgCxIZfqpAnbZ-wHV3Xa2c',
   },
   {
     projectId: 'p3_2',
@@ -79,7 +79,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '1.4._Quản_lý_dự_án_CSKH.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.4._Qu%E1%BA%A3n_l%C3%BD_d%E1%BB%B1_%C3%A1n_CSKH.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070196/1.4._Qu%E1%BA%A3n_l%C3%BD_d%E1%BB%B1_%C3%A1n_CSKH.png',
+      'https://lh3.googleusercontent.com/d/1HU4eNMMrhZLw5f82EghLztUXiOC3BNcy',
   },
   {
     projectId: 'p3_3',
@@ -87,7 +87,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '1.5._Thúc_đẩy_cải_tiến_sản_phẩm.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.5._Th%C3%BAc_%C4%91%E1%BA%A9y_c%E1%BA%A3i_ti%E1%BA%BFn_s%E1%BA%A3n_ph%E1%BA%A9m.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070197/1.5._Th%C3%BAc_%C4%91%E1%BA%A9y_c%E1%BA%A3i_ti%E1%BA%BFn_s%E1%BA%A3n_ph%E1%BA%A9m.png',
+      'https://lh3.googleusercontent.com/d/19vlcJ_sRkh-H9wWn3zsMnSMsyJoBu1Il',
   },
   {
     projectId: 'p3_4',
@@ -95,7 +95,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '1.6_Quản_lý_khủng_hoảng_và_giảm_khách_hàng_rời_bỏ.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/1.6_Qu%E1%BA%A3n_l%C3%BD_kh%E1%BB%A7ng_ho%E1%BA%A3ng_v%C3%A0_gi%E1%BA%A3m_kh%C3%A1ch_h%C3%A0ng_r%E1%BB%9Di_b%E1%BB%8F.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070199/1.6_Qu%E1%BA%A3n_l%C3%BD_kh%E1%BB%A7ng_ho%E1%BA%A3ng_v%C3%A0_gi%E1%BA%A3m_kh%C3%A1ch_h%C3%A0ng_r%E1%BB%9Di_b%E1%BB%8F.png',
+      'https://lh3.googleusercontent.com/d/1QQJWbw4Ysw8_Xj3Zo5pIOli3YqtigX5r',
   },
   {
     projectId: 'p4_1',
@@ -103,7 +103,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '3.1._Xây_dựng_hệ_thống_CRM.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/3.1._X%C3%A2y_d%E1%BB%B1ng_h%E1%BB%87_th%E1%BB%91ng_CRM.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070278/3.1._X%C3%A2y_d%E1%BB%B1ng_h%E1%BB%87_th%E1%BB%91ng_CRM.png',
+      'https://lh3.googleusercontent.com/d/1s0iJoRD2_9_9DbrgAmIM7lY2qxgk63GO',
   },
   {
     projectId: 'p4_2',
@@ -111,7 +111,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '3.2._Phân_tích_Báo_cáo.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/3.2._Ph%C3%A2n_t%C3%ADch_B%C3%A1o_c%C3%A1o.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070280/3.2._Ph%C3%A2n_t%C3%ADch_B%C3%A1o_c%C3%A1o.png',
+      'https://lh3.googleusercontent.com/d/1ilPz9Y8JeMtuPAtRif0De8DIaIWqFlsA',
   },
   {
     projectId: 'p4_3',
@@ -119,7 +119,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '3.3._Khảo_sát_Đánh_giá_khách_hàng.jpg',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/3.3._Kh%E1%BA%A3o_s%C3%A1t_%C4%90%C3%A1nh_gi%C3%A1_kh%C3%A1ch_h%C3%A0ng.jpg`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070281/3.3._Kh%E1%BA%A3o_s%C3%A1t_%C4%90%C3%A1nh_gi%C3%A1_kh%C3%A1ch_h%C3%A0ng.jpg',
+      'https://lh3.googleusercontent.com/d/1omxermozpnwDRahy8yHDpBJ0yrPpK8PJ',
   },
   {
     projectId: 'p4_4',
@@ -127,7 +127,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '3.4._Xây_dựng_AI_Bot.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/3.4._X%C3%A2y_d%E1%BB%B1ng_AI_Bot.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070283/3.4._X%C3%A2y_d%E1%BB%B1ng_AI_Bot.png',
+      'https://lh3.googleusercontent.com/d/1ykTpxRrgnhGOUBDAv7f-_tEzoaJm2AZJ',
   },
   {
     projectId: 'p5_1',
@@ -135,7 +135,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '4.1._Phát_triển_đào_tạo_trực_tuyến.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/4.1._Ph%C3%A1t_tri%E1%BB%83n_%C4%91%C3%A0o_t%E1%BA%A1o_tr%E1%BB%B1c_tuy%E1%BA%BFn.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070284/4.1._Ph%C3%A1t_tri%E1%BB%83n_%C4%91%C3%A0o_t%E1%BA%A1o_tr%E1%BB%B1c_tuy%E1%BA%BFn.png',
+      'https://lh3.googleusercontent.com/d/1_ywo-wgWjADotWPTREb3yswj6qSC0j-B',
   },
   {
     projectId: 'p5_2',
@@ -143,7 +143,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '4.2_Xây_dựng_khung_năng_lực_và_lộ_trình_phát_triển.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/4.2_X%C3%A2y_d%E1%BB%B1ng_khung_n%C4%83ng_l%E1%BB%B1c_v%C3%A0_l%E1%BB%99_tr%C3%ACnh_ph%C3%A1t_tri%E1%BB%83n.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070287/4.2_X%C3%A2y_d%E1%BB%B1ng_khung_n%C4%83ng_l%E1%BB%B1c_v%C3%A0_l%E1%BB%99_tr%C3%ACnh_ph%C3%A1t_tri%E1%BB%83n.png',
+      'https://lh3.googleusercontent.com/d/1TThpm_UUhxsWzM7N1jhSNMHIgTg-KBAH',
   },
   {
     projectId: 'p5_3',
@@ -151,7 +151,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '5.1._Thành_lập_trung_tâm_hỗ_trợ.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/5.1._Th%C3%A0nh_l%E1%BA%ADp_trung_t%C3%A2m_h%E1%BB%97_tr%E1%BB%A3.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070288/5.1._Th%C3%A0nh_l%E1%BA%ADp_trung_t%C3%A2m_h%E1%BB%97_tr%E1%BB%A3.png',
+      'https://lh3.googleusercontent.com/d/1FpTtnORo5RZtBmaY21YxF_bdm-MyEqTI',
   },
   {
     projectId: 'p5_4',
@@ -159,7 +159,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '6.1._Khách_hàng_là_trung_tâm.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/6.1._Kh%C3%A1ch_h%C3%A0ng_l%C3%A0_trung_t%C3%A2m.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070290/6.1._Kh%C3%A1ch_h%C3%A0ng_l%C3%A0_trung_t%C3%A2m.png',
+      'https://lh3.googleusercontent.com/d/18KRBnFWPc9oPbiv2fUxKpEcpmodZACDM',
   },
   {
     projectId: 'p5_5',
@@ -167,7 +167,7 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '6.2_Quản_trị_sự_thay_đổi_và_khủng_hoảng_dịch_vụ.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/6.2_Qu%E1%BA%A3n_tr%E1%BB%8B_s%E1%BB%B1_thay_%C4%91%E1%BB%95i_v%C3%A0_kh%E1%BB%A7ng_ho%E1%BA%A3ng_d%E1%BB%8Bch_v%E1%BB%A5.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070291/6.2_Qu%E1%BA%A3n_tr%E1%BB%8B_s%E1%BB%B1_thay_%C4%91%E1%BB%95i_v%C3%A0_kh%E1%BB%A7ng_ho%E1%BA%A3ng_d%E1%BB%8Bch_v%E1%BB%A5.png',
+      'https://lh3.googleusercontent.com/d/1SQecc8riLUTRwdd6wv_Mr7OpmFeaTKMB',
   },
   {
     projectId: 'p5_6',
@@ -175,7 +175,15 @@ export const CLOUDINARY_PROJECT_BANNER_BY_NAME: ProjectCloudinaryBannerEntry[] =
     imageName: '6.3_Ứng_dụng_trí_tuệ_nhân_tạo_nâng_cao_hiệu_suất_CSKH.png',
     folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/6.3_%E1%BB%A8ng_d%E1%BB%A5ng_tr%C3%AD_tu%E1%BB%87_nh%C3%A2n_t%E1%BA%A1o_n%C3%A2ng_cao_hi%E1%BB%87u_su%E1%BA%A5t_CSKH.png`,
     verifiedDirectUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070293/6.3_%E1%BB%A8ng_d%E1%BB%A5ng_tr%C3%AD_tu%E1%BB%87_nh%C3%A2n_t%E1%BA%A1o_n%C3%A2ng_cao_hi%E1%BB%87u_su%E1%BA%A5t_CSKH.png',
+      'https://lh3.googleusercontent.com/d/1DjS312PhAPMEdwptdhToDo-946vow9dP',
+  },
+  {
+    projectId: 'p2_5',
+    code: '2.4',
+    imageName: '2.5_Quản_lý_đối_tác_thuê_ngoài_chăm_sóc_khách_hàng.png',
+    folderUrl: `${CLOUDINARY_PROJECT_BANNER_FOLDER}/2.5_Qu%E1%BA%A3n_l%C3%BD_%C4%91%E1%BB%91i_t%C3%A1c_thu%C3%AA_ngo%C3%A0i_ch%C4%83m_s%C3%B3c_kh%C3%A1ch_h%C3%A0ng.png`,
+    verifiedDirectUrl:
+      'https://lh3.googleusercontent.com/d/1PFmwHDS4Lu-yKxunts6xp9PShxgcWiNW',
   },
 ];
 
@@ -234,8 +242,8 @@ export const FEATURED_PROJECT_1_1: ProjectData = {
     progressPercent: 100,
     role: "Trưởng phòng Chăm sóc Khách hàng",
     hashtags: ["#CS_Strategy", "#Structure", "#CấuTrúc", "#LãnhĐạo", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070191/1.1._X%C3%A2y_d%E1%BB%B1ng_Ph%C3%B2ng_D%E1%BB%8Bch_v%E1%BB%A5_Kh%C3%A1ch_h%C3%A0ng.png",
-    mindmap: "https://i.ibb.co/sdxtx0hR/1-1-X-y-d-ng-Ph-ng-D-ch-v-Kh-ch-h-ng.png",
+    image: "https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv",
+    mindmap: "https://lh3.googleusercontent.com/d/1gnj8GXGixU37wiMKvIdcDD8IPRmYmqC5",
     quote: "Xây dựng hệ thống để vận hành hiệu quả, phát triển con người để phục vụ tốt hơn và lấy trải nghiệm khách hàng làm nền tảng cho sự phát triển bền vững.",
     star: {
       situation: "Khi doanh nghiệp phát triển về quy mô khách hàng, sản phẩm và kênh giao tiếp, hoạt động CSKH đối mặt với nhiều thách thức: cơ cấu tổ chức và trách nhiệm chưa phân định rõ; quy trình phụ thuộc kinh nghiệm cá nhân; lưu lượng tương tác tăng nhưng nhân sự chưa phân bổ tối ưu; thông tin phân tán; chất lượng chưa đồng đều; KPI/SLA/báo cáo chưa phản ánh đầy đủ hiệu quả và thiếu cơ chế phối hợp liên phòng ban.",
@@ -498,8 +506,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 80,
     role: "Head of CX / CS Lead",
     hashtags: ["#CS_Strategy", "#OKR", "#KPI", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070181/1.2._Thi%E1%BA%BFt_l%E1%BA%ADp_m%E1%BB%A5c_ti%C3%AAu_ph%C3%B2ng_ban.png",
-    mindmap: "https://i.ibb.co/1fNzL0x5/1-2-Thi-t-l-p-m-c-ti-u-ph-ng-ban.png",
+    image: "https://lh3.googleusercontent.com/d/1gxj_0izu0yQSuZXlEBFrDCHK75Zqykx0",
+    mindmap: "https://lh3.googleusercontent.com/d/1gCAdAln2lijX6iyrnM6UhhFNPTTznb_t",
     quote: "Mục tiêu rõ ràng, dữ liệu minh bạch, vận hành đột phá.",
     star: {
       situation: "Mục tiêu của phòng CSKH phân tán, chưa đồng bộ với mục tiêu kinh doanh chung của công ty; thiếu công cụ theo dõi hiệu suất thời gian thực cho nhân sự. Thách thức cốt lõi là chuyển đổi từ quản lý theo cảm tính sang quản trị bằng dữ liệu, xây dựng bộ KPI/OKR công bằng, đo lường chính xác cả hiệu quả vận hành và chất lượng dịch vụ.",
@@ -531,8 +539,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 90,
     role: "CX Architect & Lead",
     hashtags: ["#CS_Strategy", "#CXDesign", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070183/1.3._N%C3%A2ng_cao_tr%E1%BA%A3i_nghi%E1%BB%87m_kh%C3%A1ch_h%C3%A0ng.png",
-    mindmap: "https://i.ibb.co/BkVdp76/1-3-N-ng-cao-tr-i-nghi-m-kh-ch-h-ng.png",
+    image: "https://lh3.googleusercontent.com/d/1e0Oo1yNKQWJgCxIZfqpAnbZ-wHV3Xa2c",
+    mindmap: "https://lh3.googleusercontent.com/d/1ypdHvXQN8cUKp5ITglXgpRuVzURbtVv1",
     quote: "Thấu cảm từng điểm chạm, nâng tầm trải nghiệm 5 sao.",
     star: {
       situation: "Hành trình khách hàng bị đứt gãy giữa các kênh; khách hàng phải lặp lại thông tin nhiều lần; thiếu cơ chế lắng nghe phản hồi thời gian thực (VoC). Thách thức cốt lõi là xóa bỏ điểm nghẽn trải nghiệm tại các điểm chạm nhạy cảm, giảm tỷ lệ khách hàng bất mãn (Detractor) và tăng chỉ số trung thành thương hiệu.",
@@ -563,8 +571,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 90,
     role: "Project Manager / CS Project Lead",
     hashtags: ["#CS_Strategy", "#ProjectManagement", "#Agile", "#Kanban", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070196/1.4._Qu%E1%BA%A3n_l%C3%BD_d%E1%BB%B1_%C3%A1n_CSKH.png",
-    mindmap: "https://i.ibb.co/4ZtQD8gK/1-4-Qu-n-l-d-n-CSKH.png",
+    image: "https://lh3.googleusercontent.com/d/1HU4eNMMrhZLw5f82EghLztUXiOC3BNcy",
+    mindmap: "https://lh3.googleusercontent.com/d/1KVJ6SX0S3jnU3lmG3XuZfUuVM9hLcqoz",
     quote: "Điều hành khoa học, tiến độ chuẩn xác, tối ưu giá trị vận hành.",
     star: {
       situation: "Các sáng kiến cải tiến dịch vụ thường xuyên trễ hạn, thiếu công cụ theo dõi tiến độ công khai và quản lý khối lượng công việc đang thực hiện (WIP). Thách thức cốt lõi là kiểm soát xung đột nguồn lực giữa vận hành hàng ngày và triển khai dự án, đảm bảo hoàn thành đúng tiến độ mà không phát sinh thêm chi phí.",
@@ -598,8 +606,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 82,
     role: "Strategic VoC Lead",
     hashtags: ["#CS_Strategy", "#VoiceOfCustomer", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070197/1.5._Th%C3%BAc_%C4%91%E1%BA%A9y_c%E1%BA%A3i_ti%E1%BA%BFn_s%E1%BA%A3n_ph%E1%BA%A9m.png",
-    mindmap: "https://i.ibb.co/Fk5Vd9bV/1-5-Th-c-y-c-i-ti-n-s-n-ph-m.png",
+    image: "https://lh3.googleusercontent.com/d/19vlcJ_sRkh-H9wWn3zsMnSMsyJoBu1Il",
+    mindmap: "https://lh3.googleusercontent.com/d/1LnPKlNi6LKkT0zGS7qRivRo-cTYNpFTY",
     quote: "Lắng nghe tiếng nói thực địa, liên tục hoàn thiện sản phẩm.",
     star: {
       situation: "Phòng CSKH tiếp nhận rất nhiều phản hồi về lỗi sản phẩm nhưng dữ liệu này bị bỏ ngỏ, không được phản hồi lại cho khối Sản phẩm (Product) để cải tiến. Thách thức cốt lõi là phân loại và định lượng chính xác các 'pain-point' của người dùng để thuyết phục khối Sản phẩm ưu tiên xử lý các lỗi ảnh hưởng lớn nhất.",
@@ -630,7 +638,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Crisis Response Commander",
     hashtags: ["#CSStrategy", "#CrisisManagement", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070199/1.6_Qu%E1%BA%A3n_l%C3%BD_kh%E1%BB%A7ng_ho%E1%BA%A3ng_v%C3%A0_gi%E1%BA%A3m_kh%C3%A1ch_h%C3%A0ng_r%E1%BB%9Di_b%E1%BB%8F.png",
+    image: "https://lh3.googleusercontent.com/d/1QQJWbw4Ysw8_Xj3Zo5pIOli3YqtigX5r",
     mindmap: "https://i.ibb.co/nMJCLcjz/1-6-Qu-n-l-kh-ng-ho-ng-v-gi-m-kh-ch-h-ng-r-i-b.jpg",
     quote: "Bản lĩnh trước sóng gió, bảo vệ trọn vẹn niềm tin thương hiệu.",
     star: {
@@ -661,8 +669,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 90,
     role: "Process Standardizer",
     hashtags: ["#CS_Operations", "#SOP", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070200/2.1._Chu%E1%BA%A9n_h%C3%B3a_quy_tr%C3%ACnh_CSKH.png",
-    mindmap: "https://i.ibb.co/F4TQSP1H/2-1-Chu-n-h-a-quy-tr-nh-CSKH.png",
+    image: "https://lh3.googleusercontent.com/d/192THDLvQaHtJVFAT2GYxfirfbX-w7Gfs",
+    mindmap: "https://lh3.googleusercontent.com/d/1FRDdgabqoDl6oRtT6AlMbcCqJfY5cDsC",
     quote: "Quy trình chuẩn hóa, vận hành mượt mà, chất lượng đồng nhất.",
     star: {
       situation: "Quy trình xử lý yêu cầu khách hàng phân tán, không nhất quán giữa các tuyến nhân viên, dẫn đến thời gian Onboarding nhân sự mới kéo dài. Thách thức cốt lõi là đóng gói hàng trăm kịch bản nghiệp vụ phức tạp thành định dạng trực quan, dễ tra cứu tức thì trong khi nhân viên đang thao tác hỗ trợ.",
@@ -692,8 +700,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Omnichannel Operations Lead",
     hashtags: ["#CS_Operations", "#OmniChannel", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070202/2.2._T%E1%BB%91i_%C6%B0u_h%C3%B3a_k%C3%AAnh_h%E1%BB%97_tr%E1%BB%A3.png",
-    mindmap: "https://i.ibb.co/hFBv9tcX/2-2-T-i-u-h-a-k-nh-h-tr.png",
+    image: "https://lh3.googleusercontent.com/d/1oj9ml7FNZl21Ye5qY_cnUuQ-SGeElo0y",
+    mindmap: "https://lh3.googleusercontent.com/d/1CgLKcbwiZiyGVmTsJLAILPjqe8yCQlaq",
     quote: "Hợp nhất điểm chạm, trải nghiệm mượt mà, tối ưu chi phí.",
     star: {
       situation: "Các kênh tương tác (Hotline, Chat, Email, Social) hoạt động rời rạc; nhân viên phải chuyển đổi nhiều phần mềm gây tốn thời gian và dễ bỏ sót thông tin. Thách thức cốt lõi là đảm bảo độ trễ dữ liệu bằng 0 khi khách hàng chuyển từ kênh Chat sang Call; tối ưu hóa chi phí viễn thông và hạ tầng phần mềm.",
@@ -723,8 +731,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 50,
     role: "Automation Champion",
     hashtags: ["#CS_Operations", "#Automation", "#RPA", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070208/2.3._Tri%E1%BB%83n_khai_t%E1%BB%B1_%C4%91%E1%BB%99ng_h%C3%B3a_2.png",
-    mindmap: "https://i.ibb.co/KzLgL3YG/2-3-Tri-n-khai-t-ng-h-a.png",
+    image: "https://lh3.googleusercontent.com/d/1RqBnHWXVpj8fseeSmlnRvlv8dGpgM55y",
+    mindmap: "https://lh3.googleusercontent.com/d/1BVwzaqHNZHmd7E_6Hw7e6LpBRpzbuMDx",
     quote: "Tự động hóa thao tác, giải phóng tư duy, nâng tầm giá trị.",
     star: {
       situation: "Nhân viên mất quá nhiều thời gian cho các tác vụ thủ công lặp đi lặp lại như nhập liệu, kiểm tra đối soát giao dịch và phân loại ticket. Thách thức cốt lõi là tích hợp phần mềm tự động hóa với hệ thống Core cũ mà không làm ảnh hưởng đến độ ổn định của dữ liệu giao dịch.",
@@ -753,8 +761,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Outbound Campaign Manager",
     hashtags: ["#CS_Operations", "#OutboundCS", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070210/2.4._Qu%E1%BA%A3n_l%C3%BD_chi%E1%BA%BFn_d%E1%BB%8Bch_Outbound.png",
-    mindmap: "https://i.ibb.co/4nt76fLN/2-4-Qu-n-l-chi-n-d-ch-Outbound.png",
+    image: "https://lh3.googleusercontent.com/d/1Wo1g3ht16kZKovN8OBXUL3CJ-BbXNOYj",
+    mindmap: "https://lh3.googleusercontent.com/d/1vpNzK6dzL6XbL_eqOPlkkgvPFP4-XIoI",
     quote: "Chủ động kết nối, thấu hiểu nhu cầu, gia tăng gắn kết.",
     star: {
       situation: "Doanh nghiệp cần các chiến dịch chủ động tiếp cận người dùng để chào đón (Welcome Call), khảo sát độ hài lòng và tái kích hoạt người dùng rời bỏ. Thách thức cốt lõi là nâng cao tỷ lệ bắt máy thành công, tối ưu năng suất quay số và tránh gây phiền hà cho khách hàng.",
@@ -783,8 +791,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 85,
     role: "BPO Governance Lead",
     hashtags: ["#BPO", "#QualityManagement", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070210/2.4._Qu%E1%BA%A3n_l%C3%BD_chi%E1%BA%BFn_d%E1%BB%8Bch_Outbound.png",
-    mindmap: "https://i.ibb.co/4nt76fLN/2-4-Qu-n-l-chi-n-d-ch-Outbound.png",
+    image: "https://lh3.googleusercontent.com/d/1PFmwHDS4Lu-yKxunts6xp9PShxgcWiNW",
+    mindmap: "https://lh3.googleusercontent.com/d/1vpNzK6dzL6XbL_eqOPlkkgvPFP4-XIoI",
     quote: "Quản trị minh bạch, đối tác đồng hành, chất lượng vượt trội.",
     star: {
       situation: "Chất lượng dịch vụ của đối tác BPO không đồng nhất với đội ngũ nội bộ; thiếu cơ chế kiểm soát hiệu quả và quy trình phối hợp xử lý sự cố. Thách thức cốt lõi là xây dựng bộ tiêu chuẩn đánh giá chung và hệ thống báo cáo tích hợp để theo dõi hiệu suất đối tác thời gian thực.",
@@ -813,8 +821,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "CRM Product Owner & Architect",
     hashtags: ["#CS_TechData", "#CRM", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070278/3.1._X%C3%A2y_d%E1%BB%B1ng_h%E1%BB%87_th%E1%BB%91ng_CRM.png",
-    mindmap: "https://i.ibb.co/Xxgqd4Rn/3-1-X-y-d-ng-h-th-ng-CRM.png",
+    image: "https://lh3.googleusercontent.com/d/1s0iJoRD2_9_9DbrgAmIM7lY2qxgk63GO",
+    mindmap: "https://lh3.googleusercontent.com/d/1E_tkqH1Ufa4-hnCEM2nPtkbFupHVPNS0",
     quote: "Dữ liệu tập trung, thấu hiểu khách hàng, hỗ trợ tức thì.",
     star: {
       situation: "Dữ liệu thông tin và lịch sử giao dịch khách hàng phân tán ở nhiều hệ thống riêng biệt, Agent tốn nhiều thời gian tra cứu khi hỗ trợ. Thách thức cốt lõi là tích hợp API thời gian thực với Core Banking, hệ thống máy chủ ứng dụng và mạng tổng đài telephony mà vẫn bảo mật thông tin tuyệt đối.",
@@ -843,8 +851,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "BI System Lead",
     hashtags: ["#CS_TechData", "#Insight", "#PowerBI", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070280/3.2._Ph%C3%A2n_t%C3%ADch_B%C3%A1o_c%C3%A1o.png",
-    mindmap: "https://i.ibb.co/cj0W4bJ/3-2-Ph-n-t-ch-B-o-c-o.png",
+    image: "https://lh3.googleusercontent.com/d/1ilPz9Y8JeMtuPAtRif0De8DIaIWqFlsA",
+    mindmap: "https://lh3.googleusercontent.com/d/1u6fPVAbS1KAkiaiDtmzIoXJ1eQqkaw0f",
     quote: "Số liệu minh bạch, quyết định tức thì, vận hành chủ động.",
     star: {
       situation: "Việc lập báo cáo vận hành thủ công bằng file Excel gây mất thời gian, độ trễ cao và dễ phát sinh sai sót số liệu khi gửi C-Level. Thách thức cốt lõi là gom tự động dữ liệu từ nhiều nguồn (Call, Chat, Ticket, CSAT) và hiển thị trực quan theo thời gian thực phục vụ điều hành ca kíp.",
@@ -873,8 +881,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 80,
     role: "VoC Program Manager",
     hashtags: ["#CS_TechData", "#Survey", "#CSAT", "#NPS", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070281/3.3._Kh%E1%BA%A3o_s%C3%A1t_%C4%90%C3%A1nh_gi%C3%A1_kh%C3%A1ch_h%C3%A0ng.jpg",
-    mindmap: "https://i.ibb.co/wFmLP6wQ/3-3-Kh-o-s-t-nh-gi-kh-ch-h-ng.png",
+    image: "https://lh3.googleusercontent.com/d/1omxermozpnwDRahy8yHDpBJ0yrPpK8PJ",
+    mindmap: "https://lh3.googleusercontent.com/d/15Ztt4QkMA44OycOXUgskOZDaEmkpPFUP",
     quote: "Lắng nghe đo lường, phản hồi kịp thời, giữ trọn niềm tin.",
     star: {
       situation: "Tỷ lệ khách hàng phản hồi khảo sát thấp; câu hỏi chưa tối ưu; thiếu công cụ tự động theo dõi và giải quyết phản hồi tiêu cực. Thách thức cốt lõi là gia tăng tỷ lệ hoàn thành khảo sát của người dùng mà không gây phiền thoái; tự động hóa luồng xử lý thông tin phản hồi bất mãn.",
@@ -903,8 +911,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 75,
     role: "AI Product Owner",
     hashtags: ["#CS_TechData", "#Chatbot", "#AI", "#RAG", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070283/3.4._X%C3%A2y_d%E1%BB%B1ng_AI_Bot.png",
-    mindmap: "https://i.ibb.co/Z658Pr76/3-4-X-y-d-ng-AI-Bot.png",
+    image: "https://lh3.googleusercontent.com/d/1ykTpxRrgnhGOUBDAv7f-_tEzoaJm2AZJ",
+    mindmap: "https://lh3.googleusercontent.com/d/1uBurTLw7HMzCTkcRBqEqwHBcL3tNR4mQ",
     quote: "Trợ lý AI thông minh, hỗ trợ tức thì 24/7, tối ưu nguồn lực.",
     star: {
       situation: "Lượng tin nhắn/cuộc gọi hỏi nghiệp vụ đơn giản dồn về quá lớn gây quá tải cho Agent, làm tăng thời gian chờ của khách hàng có ca khẩn cấp. Thách thức cốt lõi là đảm bảo AI trả lời chính xác, tránh hiện tượng 'ảo giác' (Hallucination) thông tin; chuyển giao cuộc gọi mượt mà cho con người khi quá tầm xử lý của Bot.",
@@ -933,8 +941,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Head of CS Academy",
     hashtags: ["#CS_Learning", "#CSAcademy", "#LMS", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070284/4.1._Ph%C3%A1t_tri%E1%BB%83n_%C4%91%C3%A0o_t%E1%BA%A1o_tr%E1%BB%B1c_tuy%E1%BA%BFn.png",
-    mindmap: "https://i.ibb.co/0yDjkH17/4-1-Ph-t-tri-n-o-t-o-tr-c-tuy-n.png",
+    image: "https://lh3.googleusercontent.com/d/1_ywo-wgWjADotWPTREb3yswj6qSC0j-B",
+    mindmap: "https://lh3.googleusercontent.com/d/1t5wWWZnL4X_3ZLqTlEIa5dZJl1qBllvv",
     quote: "Đào tạo chủ động, kiến thức vững vàng, tự tin phục vụ.",
     star: {
       situation: "Đào tạo tập trung truyền thống tốn nhiều chi phí, thời gian và khó đảm bảo tính cập nhật liên tục khi nghiệp vụ thay đổi hàng tuần. Thách thức cốt lõi là số hóa toàn bộ bài giảng nghiệp vụ thành các bài học nhỏ (Micro-learning) hấp dẫn và đo lường chính xác kết quả học tập của nhân viên.",
@@ -963,7 +971,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "People & Culture CS Lead",
     hashtags: ["#CSLearning", "#CareerPath", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070287/4.2_X%C3%A2y_d%E1%BB%B1ng_khung_n%C4%83ng_l%E1%BB%B1c_v%C3%A0_l%E1%BB%99_tr%C3%ACnh_ph%C3%A1t_tri%E1%BB%83n.png",
+    image: "https://lh3.googleusercontent.com/d/1TThpm_UUhxsWzM7N1jhSNMHIgTg-KBAH",
     mindmap: "https://i.ibb.co/kVtqcFW8/4-2-X-y-d-ng-khung-n-ng-l-c-v-l-tr-nh-ph-t-tri-n.png",
     quote: "Lộ trình rõ ràng, phát triển bản thân, gắn kết bền vững.",
     star: {
@@ -993,8 +1001,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 70,
     role: "Helpdesk & Knowledge Manager",
     hashtags: ["#CS_SelfService", "#HelpDesk", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070288/5.1._Th%C3%A0nh_l%E1%BA%ADp_trung_t%C3%A2m_h%E1%BB%97_tr%E1%BB%A3.png",
-    mindmap: "https://i.ibb.co/BVc2W8bJ/5-1-Th-nh-l-p-trung-t-m-h-tr.png",
+    image: "https://lh3.googleusercontent.com/d/1FpTtnORo5RZtBmaY21YxF_bdm-MyEqTI",
+    mindmap: "https://lh3.googleusercontent.com/d/1JASPG_MfCaiMg4QbE7TyFZq2dhWdTsoO",
     quote: "Tự phục vụ thông minh, chủ động giải đáp, nâng tầm trải nghiệm.",
     star: {
       situation: "Khách hàng khó khăn trong việc tự tìm kiếm thông tin hướng dẫn dịch vụ; số lượng ticket lặp lại về cùng một chủ đề quá cao. Thách thức cốt lõi là biên soạn và cấu trúc kho tri thức khổng lồ sao cho chuẩn SEO, dễ hiểu và tích hợp công cụ tìm kiếm thông minh.",
@@ -1023,8 +1031,8 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 82,
     role: "Quality Assurance Director",
     hashtags: ["#CustomerCentric", "#Culture", "#TQA", "#COPC", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070290/6.1._Kh%C3%A1ch_h%C3%A0ng_l%C3%A0_trung_t%C3%A2m.png",
-    mindmap: "https://i.ibb.co/ccxHsCYw/6-1-Kh-ch-h-ng-l-trung-t-m.png",
+    image: "https://lh3.googleusercontent.com/d/18KRBnFWPc9oPbiv2fUxKpEcpmodZACDM",
+    mindmap: "https://lh3.googleusercontent.com/d/1D2q5OShioYAOz76WPsaGCJCoqOXkdCRU",
     quote: "Tiêu chuẩn quốc tế, chất lượng đồng nhất, tận tâm phụng sự.",
     star: {
       situation: "Hoạt động đánh giá chất lượng dịch vụ (QA) thiếu chuẩn mực quốc tế, chấm điểm chủ quan và chưa phản ánh đúng cảm nhận thực tế của khách hàng. Thách thức cốt lõi là thống nhất tiêu chí đánh giá chất lượng giữa các QA; chuyển đổi tư duy của Agent từ 'bị bắt lỗi' sang 'được đồng hành phát triển'.",
@@ -1054,7 +1062,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Change Management Lead",
     hashtags: ["#CustomerCentric", "#CrisisManagement", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070291/6.2_Qu%E1%BA%A3n_tr%E1%BB%8B_s%E1%BB%B1_thay_%C4%91%E1%BB%95i_v%C3%A0_kh%E1%BB%A7ng_ho%E1%BA%A3ng_d%E1%BB%8Bch_v%E1%BB%A5.png",
+    image: "https://lh3.googleusercontent.com/d/1SQecc8riLUTRwdd6wv_Mr7OpmFeaTKMB",
     mindmap: "https://i.ibb.co/xq60FfQk/6-2-Qu-n-tr-s-thay-i-v-kh-ng-ho-ng-d-ch-v.png",
     quote: "Chủ động thích ứng, thông tin minh bạch, biến đổi thành công.",
     star: {
@@ -1085,7 +1093,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 95,
     role: "AI Innovation Director",
     hashtags: ["#CustomerCentric", "#GenerativeAI", "#AutoQA", "#STAR_CaseStudy"],
-    image: "https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070293/6.3_%E1%BB%A8ng_d%E1%BB%A5ng_tr%C3%AD_tu%E1%BB%87_nh%C3%A2n_t%E1%BA%A1o_n%C3%A2ng_cao_hi%E1%BB%87u_su%E1%BA%A5t_CSKH.png",
+    image: "https://lh3.googleusercontent.com/d/1DjS312PhAPMEdwptdhToDo-946vow9dP",
     mindmap: "https://i.ibb.co/wFZ1qXFt/6-3-ng-d-ng-tr-tu-nh-n-t-o-n-ng-cao-hi-u-su-t-CSKH.png",
     quote: "Trí tuệ nhân tạo, đột phá hiệu suất, quản trị toàn diện.",
     star: {

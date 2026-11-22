@@ -65,14 +65,14 @@ export interface PdfViewProps {
 }
 
 const PARTNER_BRANDS = [
-  { id: 'mobifone', company: 'MobiFone', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842198/Kinh%20nghi%E1%BB%87m/Logo_Mobifone.png' },
-  { id: 'v247', company: 'Viễn Liên V247', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842199/Kinh%20nghi%E1%BB%87m/Logo_V247.png' },
-  { id: 'lbc', company: 'LBC – HTVC', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842200/Kinh%20nghi%E1%BB%87m/Logo_LBC.png' },
-  { id: 'ved', company: 'VED (Garena / Shopee)', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842328/Kinh%20nghi%E1%BB%87m/Logo_VED.png' },
-  { id: 'prudential', company: 'Prudential Việt Nam', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842246/Kinh%20nghi%E1%BB%87m/Logo_Prudential.png' },
-  { id: 'momo', company: 'Ví MoMo', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842331/Kinh%20nghi%E1%BB%87m/Logo_Momo.png' },
-  { id: 'finviet', company: 'Finviet (Ví ECO)', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842205/Kinh%20nghi%E1%BB%87m/Logo_Finviet.png' },
-  { id: 'powerservice', company: 'Power Service', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842335/Kinh%20nghi%E1%BB%87m/Logo_PowerService.png' },
+  { id: 'mobifone', company: 'MobiFone', logo: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX' },
+  { id: 'v247', company: 'Viễn Liên V247', logo: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r' },
+  { id: 'lbc', company: 'LBC – HTVC', logo: 'https://lh3.googleusercontent.com/d/1abaPHlTrYu7tZl6vSCtEruWQ_qUUCdBH' },
+  { id: 'ved', company: 'VED (Garena / Shopee)', logo: 'https://lh3.googleusercontent.com/d/1v-FBxPLdWKF45qqt2nrmga_2aw2v20nZ' },
+  { id: 'prudential', company: 'Prudential Việt Nam', logo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT' },
+  { id: 'momo', company: 'Ví MoMo', logo: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd' },
+  { id: 'finviet', company: 'Finviet (Ví ECO)', logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R' },
+  { id: 'powerservice', company: 'Power Service', logo: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH' },
 ];
 
 const DISTINCT_COURSE_PALETTE = [
@@ -291,9 +291,18 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               loop
               muted
               playsInline
+              controls={false}
+              disablePictureInPicture
+              controlsList="nodownload nofullscreen noremoteplayback"
               preload="auto"
+              onEnded={(e) => {
+                const v = e.currentTarget;
+                v.currentTime = 0;
+                v.play().catch(() => {});
+              }}
               onError={() => setHeroVideoFailed(true)}
-              className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+              style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+              className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
             />
           ) : (
             <img
@@ -885,6 +894,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                                 <img
                                   src={logoSrc}
                                   alt={partner.name}
+                                  referrerPolicy="no-referrer"
                                   className="w-full h-full object-cover rounded-full p-0"
                                   onError={(e) => {
                                     if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
@@ -970,7 +980,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                       </span>
                       {m.logo && (
                         <div className="w-7 h-7 rounded-[8px] overflow-hidden bg-white border border-[var(--border-subcard)] p-0.5 shrink-0 flex items-center justify-center">
-                          <img src={m.logo} alt={m.company} className="w-full h-full object-contain rounded-[inherit]" />
+                          <img src={m.logo} alt={m.company} referrerPolicy="no-referrer" className="w-full h-full object-contain rounded-[inherit]" />
                         </div>
                       )}
                     </div>

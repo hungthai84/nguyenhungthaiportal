@@ -571,9 +571,18 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   loop
                   muted
                   playsInline
+                  controls={false}
+                  disablePictureInPicture
+                  controlsList="nodownload nofullscreen noremoteplayback"
                   preload="auto"
+                  onEnded={(e) => {
+                    const v = e.currentTarget;
+                    v.currentTime = 0;
+                    v.play().catch(() => {});
+                  }}
                   onError={() => setHeroVideoFailed(true)}
-                  className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+                  style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                  className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
                 />
               ) : (
                 <img

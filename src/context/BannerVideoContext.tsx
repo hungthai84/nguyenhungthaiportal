@@ -21,9 +21,11 @@ import {
   ScannedDriveFolderNode,
   buildDriveDirectImageUrl,
 } from '@/services/googleDriveBannerService';
+import { DEFAULT_DRIVE_BANNER_ASSIGNMENTS, type DriveBannerDefaultEntry } from '@/data/driveBannerDefaults';
 
 const DRIVE_PICKED_VIDEOS_STORAGE_KEY = 'hungthai_drive_banner_videos_v1';
 const DRIVE_BANNER_MAP_STORAGE_KEY = 'hungthai_drive_banner_map_v1';
+const DRIVE_BANNER_SEED_VERSION_KEY = 'hungthai_drive_banner_links_v1';
 const DRIVE_SERVICE_MAP_STORAGE_KEY = 'hungthai_drive_service_map_v1';
 const DRIVE_SCAN_FOLDERS_STORAGE_KEY = 'hungthai_drive_scan_folders_v1';
 const DRIVE_SCAN_ASSETS_STORAGE_KEY = 'hungthai_drive_scan_assets_v1';
@@ -104,10 +106,38 @@ function readJsonStorage<T>(key: string, fallback: T): T {
   }
 }
 
+function getInitialBannerAssignments(): BannerAssignmentsMap {
+  const defaults: BannerAssignmentsMap = { ...DEFAULT_DRIVE_BANNER_ASSIGNMENTS };
+  if (typeof window === 'undefined') return defaults;
+
+  const stored = readJsonStorage<BannerAssignmentsMap>(DRIVE_BANNER_MAP_STORAGE_KEY, {});
+  const seededFlag = localStorage.getItem(DRIVE_BANNER_SEED_VERSION_KEY);
+
+  // Nạp mặc định 9 liên kết Google Drive [Video Banner] khi chưa từng đồng bộ bản mới
+  if (!seededFlag) {
+    try {
+      localStorage.setItem(DRIVE_BANNER_SEED_VERSION_KEY, 'applied');
+    } catch {
+      // ignore storage errors
+    }
+    const merged: BannerAssignmentsMap = { ...stored, ...defaults };
+    // Gỡ liên kết Hình nền.mp4 cũ trên 'home' nếu từng tự khớp nhầm trước đây
+    if (merged.home?.fileName === 'Hình nền.mp4') {
+      delete merged.home;
+    }
+    return merged;
+  }
+
+  return Object.keys(stored).length > 0 ? stored : defaults;
+}
+
 export const BannerVideoProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [pickedVideos, setPickedVideos] = useState<DriveBannerItem[]>(() => {
     const data = readJsonStorage<DriveBannerItem[]>(DRIVE_PICKED_VIDEOS_STORAGE_KEY, []);
-    return Array.isArray(data) ? data : [];
+    if (Array.isArray(data) && data.length > 0) return data;
+    return Object.values(DEFAULT_DRIVE_BANNER_ASSIGNMENTS).filter(
+      (item): item is DriveBannerDefaultEntry => Boolean(item)
+    );
   });
   const [scannedFolders, setScannedFolders] = useState<ScannedDriveFolderNode[]>(() => {
     const data = readJsonStorage<ScannedDriveFolderNode[]>(DRIVE_SCAN_FOLDERS_STORAGE_KEY, []);
@@ -118,7 +148,7 @@ export const BannerVideoProvider: React.FC<{ children: ReactNode }> = ({ childre
     return Array.isArray(data) ? data : [];
   });
   const [bannerAssignments, setBannerAssignments] = useState<BannerAssignmentsMap>(() =>
-    readJsonStorage<BannerAssignmentsMap>(DRIVE_BANNER_MAP_STORAGE_KEY, {})
+    getInitialBannerAssignments()
   );
   const [serviceAssignments, setServiceAssignments] = useState<ServiceAssignmentsMap>(() =>
     readJsonStorage<ServiceAssignmentsMap>(DRIVE_SERVICE_MAP_STORAGE_KEY, {})
@@ -129,7 +159,7 @@ export const BannerVideoProvider: React.FC<{ children: ReactNode }> = ({ childre
   });
 
   const [isStudioModalOpen, setIsStudioModalOpen] = useState<boolean>(false);
-  const [studioInitialPage, setStudioInitialPage] = useState<BannerPageKey>('home');
+  const [studioInitialPage, setStudioInitialPage] = useState<BannerPageKey>('wallpaper');
 
   useEffect(() => {
     try {

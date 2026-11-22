@@ -22,7 +22,7 @@ import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 
 // Video thuyết minh Thư Ngỏ (Cloudinary Transition Studio)
 export const LETTER_SLIDE_1_VIDEO_URL =
-  'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793040322/transition-studio-take_24.mp4';
+  'https://drive.google.com/uc?export=download&id=1duiew2xu_mga6cTOezc65A6W6ym1_bex';
 
 // Video Màn hình 2 từ Trang Chủ (Chân Dung Chuyên Gia & Lời Chào)
 export const HOME_SCREEN_2_IDLE_URL =
@@ -45,14 +45,14 @@ const SignatureSvg = () => (
 
 // 8 Thương hiệu từng đồng hành lấy trực tiếp từ trang kinh nghiệm (Experience)
 const EXPERIENCE_BRANDS_MARQUEE = [
-  { id: 'mobifone', company: 'MobiFone', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842198/Kinh%20nghi%E1%BB%87m/Logo_Mobifone.png' },
-  { id: 'v247', company: 'Viễn Liên V247', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842199/Kinh%20nghi%E1%BB%87m/Logo_V247.png' },
-  { id: 'lbc', company: 'LBC – HTVC', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842200/Kinh%20nghi%E1%BB%87m/Logo_LBC.png' },
-  { id: 'ved', company: 'VED (Garena / Shopee)', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842328/Kinh%20nghi%E1%BB%87m/Logo_VED.png' },
-  { id: 'prudential', company: 'Prudential Việt Nam', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842246/Kinh%20nghi%E1%BB%87m/Logo_Prudential.png' },
-  { id: 'momo', company: 'Ví MoMo', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842331/Kinh%20nghi%E1%BB%87m/Logo_Momo.png' },
-  { id: 'finviet', company: 'Finviet (Ví ECO)', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842205/Kinh%20nghi%E1%BB%87m/Logo_Finviet.png' },
-  { id: 'challenge', company: 'Sẵn sàng thử thách mới', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842335/Kinh%20nghi%E1%BB%87m/Logo_PowerService.png' },
+  { id: 'mobifone', company: 'MobiFone', logo: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX' },
+  { id: 'v247', company: 'Viễn Liên V247', logo: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r' },
+  { id: 'lbc', company: 'LBC – HTVC', logo: 'https://lh3.googleusercontent.com/d/1abaPHlTrYu7tZl6vSCtEruWQ_qUUCdBH' },
+  { id: 'ved', company: 'VED (Garena / Shopee)', logo: 'https://lh3.googleusercontent.com/d/1Mr7QbcTxwqb2h_RRzMzxHqs3kFORpbYL' },
+  { id: 'prudential', company: 'Prudential Việt Nam', logo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT' },
+  { id: 'momo', company: 'Ví MoMo', logo: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd' },
+  { id: 'finviet', company: 'Finviet (Ví ECO)', logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R' },
+  { id: 'challenge', company: 'Sẵn sàng thử thách mới', logo: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH' },
 ];
 
 // Map icon string name to WebIcon name
@@ -2041,7 +2041,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                     borderRadius: '0px',
                   }}
                 >
-                    {/* THẺ BENTO 1: Video Card Thuyết Minh (Cùng hàng với Thông điệp hợp tác & Thương hiệu đồng hành) */}
+                    {/* THẺ BENTO 1: Video Card Thuyết Minh (Chiều cao khớp bằng Thông điệp hợp tác + Thương hiệu đồng hành) */}
                     <article
                       id="bento-letter-video"
                       data-element-name="Video card Thư ngỏ"
@@ -2052,7 +2052,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-page="letter"
                       data-element-parent="letter-card-1"
                       style={{ padding: '5px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] min-h-[240px] sm:min-h-[280px] lg:min-h-[300px] w-full h-full min-w-0 relative overflow-hidden flex flex-col p-[5px] box-border transition-colors duration-200 group/vcard ${
+                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] min-h-[220px] md:min-h-0 self-stretch w-full h-full min-w-0 relative overflow-hidden flex flex-col p-[5px] box-border transition-colors duration-200 group/vcard ${
                         activeTargetId === 'bento-experience-intro' || activeTargetId === 'callout-salutation'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.3)]'
                           : ''
@@ -2068,6 +2068,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           src={LETTER_SLIDE_1_VIDEO_URL}
                           autoPlay
                           loop
+                          alwaysCover
                           playsInline
                           muted={isVideoMuted}
                           onClick={() => toggleFloatingVideoPlay()}
@@ -2078,7 +2079,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           faceAnchor={{ x: 50, y: 18 }}
                           maxCropDistortion={1.6}
                           wrapperClassName="absolute inset-0 w-full h-full z-0 rounded-[inherit]"
-                          className="cursor-pointer rounded-[inherit]"
+                          className="cursor-pointer rounded-[inherit] banner-video-sharp"
                         />
 
                         {/* Avatar Video Giới Thiệu nằm gọn bên trong thẻ Video (không tràn ra ngoài main card hoặc đè tiêu đề ở mọi kích thước) */}
@@ -2130,9 +2131,14 @@ export const LetterView: React.FC<LetterViewProps> = ({
                                     loop={!isCircleVideoPlaying}
                                     playsInline
                                     muted={!isCircleVideoPlaying}
+                                    controls={false}
+                                    disablePictureInPicture
+                                    controlsList="nodownload nofullscreen noremoteplayback"
+                                    preload="auto"
                                     onTimeUpdate={handleCircleVideoTimeUpdate}
                                     onEnded={handleCircleVideoEnded}
-                                    className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] pointer-events-none rounded-full"
+                                    style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                                    className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] pointer-events-none rounded-full banner-video-sharp"
                                   />
                                 </div>
                               </div>
@@ -2349,7 +2355,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                       <div
                         id="core-values-grid"
-                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 auto-rows-fr gap-3 items-stretch w-full flex-1"
+                        className="grid grid-cols-4 auto-rows-fr gap-2 sm:gap-3 items-stretch w-full flex-1 min-w-0"
                         style={{ gap: '12px', rowGap: '12px', columnGap: '12px' }}
                       >
                         {CORE_VALUES_DATA.map((val) => {
@@ -2382,13 +2388,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
                                 }}
                               />
 
-                              <div className="flex items-center justify-between relative z-10 gap-2 min-w-0">
+                              <div className="flex items-center justify-between relative z-10 gap-1.5 min-w-0">
                                 <div
-                                  className={`subcard-header-sync flex items-center gap-2 min-w-0 flex-1 ${val.colorTheme.text}`}
+                                  className={`subcard-header-sync flex items-center gap-1.5 min-w-0 flex-1 ${val.colorTheme.text}`}
                                 >
                                   <WebIcon name={valIconName} className="w-4 h-4 shrink-0" />
                                   <h4
-                                    className={`card-title subcard-title-synced typo-h4 tracking-tight font-play truncate ${val.colorTheme.text}`}
+                                    className={`card-title subcard-title-synced typo-h4 tracking-tight font-play leading-snug break-words min-w-0 ${val.colorTheme.text}`}
                                     data-subcard-title="true"
                                   >
                                     {formatCardTitle(val.titleVi)}

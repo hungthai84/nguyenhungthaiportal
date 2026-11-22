@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 export interface DriveAwareBannerMediaProps {
@@ -16,8 +16,8 @@ export interface DriveAwareBannerMediaProps {
 
 /**
  * Component phát Video Nền chuẩn HTML5:
- * - Tự phát (autoPlay), tắt tiếng mặc định (muted), lặp vô tận (loop), nội tuyến di động (playsInline)
- * - Trạng thái tải mượt mà kèm ảnh tĩnh dự phòng (poster)
+ * - Tự phát (autoPlay), tắt tiếng mặc định (muted), lặp vô tận (loop + onEnded fallback), nội tuyến di động (playsInline)
+ * - Lấp đầy khung banner và tối ưu hiển thị sắc nét bằng GPU compositing
  * - Tự động fallback sang <iframe> Google Drive preview nếu trình duyệt chặn phát luồng trực tiếp
  */
 export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
@@ -35,12 +35,33 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
   const [useIframe, setUseIframe] = useState<boolean>(forceIframeFallback);
   const [videoFailedAll, setVideoFailedAll] = useState<boolean>(false);
   const [isBuffering, setIsBuffering] = useState<boolean>(true);
+  const videoElRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     setUseIframe(forceIframeFallback);
     setVideoFailedAll(false);
     setIsBuffering(true);
   }, [directVideoUrl, iframeFallbackUrl, forceIframeFallback]);
+
+  useEffect(() => {
+    const el = videoElRef.current;
+    if (!el) return;
+    el.defaultMuted = muted;
+    el.muted = muted;
+    el.loop = loop;
+    el.playsInline = true;
+  }, [muted, loop, directVideoUrl, useIframe]);
+
+  useEffect(() => {
+    if (!isBuffering || useIframe || videoFailedAll || !iframeFallbackUrl) {
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      setUseIframe(true);
+      setIsBuffering(true);
+    }, 9000);
+    return () => window.clearTimeout(timer);
+  }, [isBuffering, useIframe, videoFailedAll, iframeFallbackUrl]);
 
   useEffect(() => {
     if (videoFailedAll) {
@@ -54,7 +75,7 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
 
   return (
     <div className="relative w-full h-full overflow-hidden rounded-[inherit]">
-      {/* Poster & Loading Shimmer layer while video/iframe buffers */}
+      {/* Poster & Loading indicator while video/iframe buffers (no blur filter over media) */}
       {isBuffering && (
         <div className="absolute inset-0 z-[1] pointer-events-none">
           {posterUrl ? (
@@ -67,7 +88,7 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
           ) : (
             <div className="w-full h-full bg-slate-900/70" />
           )}
-          <div className="absolute inset-0 bg-slate-950/30 backdrop-blur-[2px] flex items-center justify-center">
+          <div className="absolute inset-0 bg-slate-950/24 flex items-center justify-center">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[999px] bg-black/55 border border-white/20 text-white text-xs font-play">
               <span className="w-3.5 h-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
               <span>Đang tải video nền...</span>
@@ -79,6 +100,7 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
       {/* Primary: HTML5 <video> Direct Stream */}
       {!useIframe && !videoFailedAll && (
         <video
+          ref={videoElRef}
           key={`video-${directVideoUrl}`}
           src={directVideoUrl}
           poster={posterUrl}
@@ -86,9 +108,28 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
           muted={muted}
           loop={loop}
           playsInline
+          controls={false}
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback"
           preload="auto"
           onLoadedData={() => setIsBuffering(false)}
-          onCanPlay={() => setIsBuffering(false)}
+          onCanPlay={() => {
+            setIsBuffering(false);
+            const el = videoElRef.current;
+            if (el) {
+              el.defaultMuted = muted;
+              el.muted = muted;
+              if (el.paused) {
+                el.play().catch(() => {});
+              }
+            }
+          }}
+          onEnded={(e) => {
+            if (!loop) return;
+            const v = e.currentTarget;
+            v.currentTime = 0;
+            v.play().catch(() => {});
+          }}
           onError={() => {
             if (iframeFallbackUrl) {
               setUseIframe(true);
@@ -98,8 +139,12 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
               setIsBuffering(false);
             }
           }}
+          style={{
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+          }}
           className={cn(
-            'w-full h-full object-cover object-center rounded-[inherit] transition-opacity duration-500',
+            'w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] transition-opacity duration-500 banner-video-sharp',
             isBuffering ? 'opacity-0' : 'opacity-100',
             className
           )}

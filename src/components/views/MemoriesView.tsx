@@ -225,15 +225,24 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
             />
           ) : !heroVideoFailed ? (
             <video
-              src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204136/K%E1%BB%B7_ni%E1%BB%87m.mp4"
+              src="https://drive.google.com/uc?export=download&id=1ruWiQjZF1D_sIiw0G6jY05qulslNMj7B"
               poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/K%E1%BB%B7_ni%E1%BB%87m.png"
               autoPlay
               loop
               muted
               playsInline
+              controls={false}
+              disablePictureInPicture
+              controlsList="nodownload nofullscreen noremoteplayback"
               preload="auto"
+              onEnded={(e) => {
+                const v = e.currentTarget;
+                v.currentTime = 0;
+                v.play().catch(() => {});
+              }}
               onError={() => setHeroVideoFailed(true)}
-              className="w-full h-full object-cover object-center rounded-[inherit] transition-all duration-700"
+              style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+              className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[inherit] banner-video-sharp transition-all duration-700"
             />
           ) : (
             <img

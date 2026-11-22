@@ -749,7 +749,7 @@ export const DriveBannerStudio: React.FC<DriveBannerStudioProps> = ({
               className="px-3 py-1 rounded-[999px] text-[11px] font-bold border cursor-pointer hover:bg-black/5 dark:hover:bg-white/10"
               style={{ borderColor: 'var(--border-subcard)', background: 'var(--bg-card)' }}
             >
-              {showExtendedPages ? 'Thu gọn 9 trang chính' : '+ Giới Thiệu & Dự Án'}
+              {showExtendedPages ? 'Thu gọn 9 trang chính' : '+ Trang Chủ, Giới Thiệu & Dự Án'}
             </button>
 
             <div

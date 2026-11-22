@@ -489,10 +489,12 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             loop
             muted
             playsInline
+            preload="auto"
+            alwaysCover
             faceAnchor={{ x: 50, y: 18 }}
             maxCropDistortion={1.55}
             wrapperClassName="w-full h-full rounded-[inherit]"
-            className="transition-all duration-700"
+            className="banner-video-sharp transition-all duration-700"
           />
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
@@ -510,8 +512,13 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           </div>
           <p
             id="ai-assistant-banner-quote"
-            className="typo-h2 font-moon-dance not-italic font-normal select-none text-left w-full whitespace-normal leading-snug"
-            style={{ color: 'var(--text-secondary)', fontFamily: "'Moon Dance', cursive, sans-serif", fontWeight: 400, fontStyle: 'normal' }}
+            className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left w-full whitespace-normal leading-snug"
+            style={{
+              color: 'var(--text-secondary)',
+              fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
+              fontWeight: 600,
+              fontStyle: 'normal',
+            }}
           >
             &quot;Trí Nhân đồng hành giải đáp thông tin anh Hùng Thái 24/7 ♡&quot;
           </p>

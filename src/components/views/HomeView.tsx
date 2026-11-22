@@ -69,11 +69,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
       id: 1,
       label: isEn ? 'Screen 1' : 'Màn hình 1',
       badge: 'Video 1',
-      url: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302419/Man_hinh_cho_4.mp4',
-      idleUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302419/Man_hinh_cho_4.mp4',
-      transitionUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793541875/M%C3%A0n_h%C3%ACnh_chuy%E1%BB%83n.mp4',
-      playUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302434/Thuyet_trinh_4.mp4',
-      introUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302434/Thuyet_trinh_4.mp4',
+      url: 'https://drive.google.com/uc?export=download&id=1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp',
+      idleUrl: 'https://drive.google.com/uc?export=download&id=1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp',
+      transitionUrl: 'https://drive.google.com/uc?export=download&id=11FZeENhRMILyUrG-em1DIWPyx2zVdc9d',
+      playUrl: 'https://drive.google.com/uc?export=download&id=12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm',
+      introUrl: 'https://drive.google.com/uc?export=download&id=12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm',
       title: isEn ? 'Leadership Presence & Vision' : 'Phong Thái Lãnh Đạo & Tầm Nhìn',
       description: isEn
         ? 'Executive presence in premier customer experience management'
@@ -419,6 +419,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   autoPlay
                   muted={isMuted}
                   playsInline
+                  preload="auto"
+                  alwaysCover={playbackMode === 'idle' && !isIntroMode}
                   loop={playbackMode === 'idle' && !isIntroMode}
                   src={activeVideoUrl}
                   onTimeUpdate={handleTimeUpdate}
@@ -426,7 +428,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   faceAnchor={{ x: 50, y: 18 }}
                   maxCropDistortion={1.6}
                   wrapperClassName="absolute inset-0 w-full h-full rounded-[var(--radius-card,24px)]"
-                  className="transition-all duration-700 brightness-110 contrast-105"
+                  className="banner-video-sharp transition-all duration-700"
                 />
               )}
               {/* Lớp phủ nhẹ nhàng đồng bộ Sáng / Tối, giữ video rõ nét tươi sáng */}

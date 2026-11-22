@@ -210,7 +210,7 @@ export default function App() {
   // Read URL query parameter `?company=...` and sync document title & favicon
   useEffect(() => {
     document.title = 'Nguyễn Hùng Thái';
-    const avatarUrl = 'https://res.cloudinary.com/q5tpzaxk/image/upload/w_128,h_128,c_fill,g_face,r_max/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.png';
+    const avatarUrl = 'https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm';
     let iconLink = document.querySelector("link[rel~='icon']") as HTMLLinkElement | null;
     if (!iconLink) {
       iconLink = document.createElement('link');
@@ -609,7 +609,16 @@ export default function App() {
                   loop
                   muted
                   playsInline
-                  className="w-full h-full object-cover"
+                  controls={false}
+                  disablePictureInPicture
+                  controlsList="nodownload nofullscreen noremoteplayback"
+                  onEnded={(e) => {
+                    const v = e.currentTarget;
+                    v.currentTime = 0;
+                    v.play().catch(() => {});
+                  }}
+                  style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                  className="w-full h-full min-w-full min-h-full object-cover banner-video-sharp"
                 />
               )
             ) : displayWallpaper.type === 'webgl' ? (

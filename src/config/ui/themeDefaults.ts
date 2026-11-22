@@ -6,7 +6,7 @@ import micaFluentWallpaper from '@/assets/images/wallpaper_mica_fluent_179517577
 import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 
-export const DEFAULT_CARD_STYLE: CardStyleMode = 'soft-indigo-fintech';
+export const DEFAULT_CARD_STYLE: CardStyleMode = 'neumorphism-beyond';
 export const DEFAULT_LAYER_DEPTH = 100;
 
 export const CARD_STYLE_STORAGE_KEY = 'hungthai_card_style_v2';
@@ -155,5 +155,5 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
   'deep-ocean': THEME_BACKGROUNDS['deep-ocean'].presetId,
   'mica-fluent': THEME_BACKGROUNDS['mica-fluent'].presetId,
-  'neumorphism-beyond': THEME_BACKGROUNDS['neumorphism-beyond'].presetId,
+  'neumorphism-beyond': 'custom-wp-1788112774646',
 };

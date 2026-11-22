@@ -444,15 +444,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Nhân viên CSKH',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2003']?.cardDescription || '',
-      logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Mobifone.png',
+      logo: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX',
       productSummary: 'MobiFone Di Động',
       products: [
-        { name: 'MobiFone', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Mobifone.png' },
+        { name: 'MobiFone', logo: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX' },
       ],
       logos: [
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842198/Kinh%20nghi%E1%BB%87m/Logo_Mobifone.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Mobifone.png',
+          src: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX',
+          fallback: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX',
           alt: 'Logo Mobifone',
         },
       ],
@@ -472,15 +472,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Giám sát CSKH',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2007']?.cardDescription || '',
-      logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070949/V247.png',
+      logo: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r',
       productSummary: 'Call 247 Quốc Tế',
       products: [
-        { name: 'Call 247', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070949/V247.png' },
+        { name: 'Call 247', logo: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r' },
       ],
       logos: [
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842199/Kinh%20nghi%E1%BB%87m/Logo_V247.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070949/V247.png',
+          src: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r',
+          fallback: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r',
           alt: 'Logo V247',
         },
       ],
@@ -500,20 +500,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng (Quy mô nhỏ)',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2011']?.cardDescription || '',
-      logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070947/LBC.png',
+      logo: 'https://lh3.googleusercontent.com/d/1abaPHlTrYu7tZl6vSCtEruWQ_qUUCdBH',
       productSummary: 'Truyền hình Cáp HTVC',
       products: [
-        { name: 'HTVC', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070946/HTVC.png' },
+        { name: 'HTVC', logo: 'https://lh3.googleusercontent.com/d/1eZFAQSz3jBKymiWy_vhswUjO7HF0bBE_' },
       ],
       logos: [
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842200/Kinh%20nghi%E1%BB%87m/Logo_LBC.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070947/LBC.png',
+          src: 'https://lh3.googleusercontent.com/d/1abaPHlTrYu7tZl6vSCtEruWQ_qUUCdBH',
+          fallback: 'https://lh3.googleusercontent.com/d/1abaPHlTrYu7tZl6vSCtEruWQ_qUUCdBH',
           alt: 'Logo LBC',
         },
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842202/Kinh%20nghi%E1%BB%87m/Logo_HTVC.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070946/HTVC.png',
+          src: 'https://lh3.googleusercontent.com/d/1eZFAQSz3jBKymiWy_vhswUjO7HF0bBE_',
+          fallback: 'https://lh3.googleusercontent.com/d/1eZFAQSz3jBKymiWy_vhswUjO7HF0bBE_',
           alt: 'Logo HTVC',
         },
       ],
@@ -533,39 +533,39 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng cấp cao',
       headcountLabel: '129–130 Nhân sự',
       description: EXPERIENCE_MILESTONES['2013']?.cardDescription || '',
-      logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070950/VED.png',
+      logo: 'https://lh3.googleusercontent.com/d/1Mr7QbcTxwqb2h_RRzMzxHqs3kFORpbYL',
       productSummary: 'Shopee · Garena · AirPay · GCafe',
       products: [
-        { name: 'VED', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070950/VED.png' },
-        { name: 'Garena', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070946/Garena.png' },
-        { name: 'Shopee', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070949/Shopee.png' },
-        { name: 'AirPay', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070949/Shopee_Paye.png' },
-        { name: 'GCafe', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070946/GCafe.png' },
+        { name: 'VED', logo: 'https://lh3.googleusercontent.com/d/1v-FBxPLdWKF45qqt2nrmga_2aw2v20nZ' },
+        { name: 'Garena', logo: 'https://lh3.googleusercontent.com/d/1xlSa23bzlZKpRB1Pc4NxoLckK--PUAa7' },
+        { name: 'Shopee', logo: 'https://lh3.googleusercontent.com/d/1V_wb5gQTZAIWB2vA2iBjk5KMyf0PUOjP' },
+        { name: 'AirPay', logo: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC' },
+        { name: 'GCafe', logo: 'https://lh3.googleusercontent.com/d/1-CTafAdaDF5JJZAeUcWwWNIULmm10ZIj' },
       ],
       logos: [
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842328/Kinh%20nghi%E1%BB%87m/Logo_VED.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070950/VED.png',
+          src: 'https://lh3.googleusercontent.com/d/1Mr7QbcTxwqb2h_RRzMzxHqs3kFORpbYL',
+          fallback: 'https://lh3.googleusercontent.com/d/1v-FBxPLdWKF45qqt2nrmga_2aw2v20nZ',
           alt: 'Logo VED',
         },
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793265515/Garena.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070946/Garena.png',
+          src: 'https://lh3.googleusercontent.com/d/1xlSa23bzlZKpRB1Pc4NxoLckK--PUAa7',
+          fallback: 'https://lh3.googleusercontent.com/d/1xlSa23bzlZKpRB1Pc4NxoLckK--PUAa7',
           alt: 'Logo Garena',
         },
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842329/Kinh%20nghi%E1%BB%87m/Logo_GCafe.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070946/GCafe.png',
+          src: 'https://lh3.googleusercontent.com/d/1-CTafAdaDF5JJZAeUcWwWNIULmm10ZIj',
+          fallback: 'https://lh3.googleusercontent.com/d/1-CTafAdaDF5JJZAeUcWwWNIULmm10ZIj',
           alt: 'Logo GCafe',
         },
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842332/Kinh%20nghi%E1%BB%87m/Logo_AirPay_ShopeePay.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070949/Shopee_Paye.png',
+          src: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC',
+          fallback: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC',
           alt: 'Logo AirPay ShopeePay',
         },
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842203/Kinh%20nghi%E1%BB%87m/Logo_Shopee.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070949/Shopee.png',
+          src: 'https://lh3.googleusercontent.com/d/1V_wb5gQTZAIWB2vA2iBjk5KMyf0PUOjP',
+          fallback: 'https://lh3.googleusercontent.com/d/1V_wb5gQTZAIWB2vA2iBjk5KMyf0PUOjP',
           alt: 'Logo Shopee',
         },
       ],
@@ -585,15 +585,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng Phòng CallCenter',
       headcountLabel: '12 NS + 40 Tư vấn',
       description: EXPERIENCE_MILESTONES['2016']?.cardDescription || '',
-      logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Prudential.png',
+      logo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
       productSummary: 'Bảo hiểm PruLife',
       products: [
-        { name: 'Prudential', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Prudential.png' },
+        { name: 'Prudential', logo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT' },
       ],
       logos: [
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842246/Kinh%20nghi%E1%BB%87m/Logo_Prudential.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Prudential.png',
+          src: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
+          fallback: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
           alt: 'Logo Prudential Vietnam',
         },
       ],
@@ -613,15 +613,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng cấp cao',
       headcountLabel: '60+ NS & BPO',
       description: EXPERIENCE_MILESTONES['2018']?.cardDescription || '',
-      logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Momo.png',
+      logo: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd',
       productSummary: 'Siêu ứng dụng Ví MoMo',
       products: [
-        { name: 'Ví MoMo', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Momo.png' },
+        { name: 'Ví MoMo', logo: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd' },
       ],
       logos: [
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842331/Kinh%20nghi%E1%BB%87m/Logo_Momo.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Momo.png',
+          src: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd',
+          fallback: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd',
           alt: 'Logo MoMo',
         },
       ],
@@ -641,15 +641,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng Phòng CSKH',
       headcountLabel: '17 Nhân sự',
       description: EXPERIENCE_MILESTONES['2023']?.cardDescription || '',
-      logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070946/Finviet.png',
+      logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
       productSummary: 'Chợ Số Finviet',
       products: [
-        { name: 'Finviet', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070946/Finviet.png' },
+        { name: 'Finviet', logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R' },
       ],
       logos: [
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842205/Kinh%20nghi%E1%BB%87m/Logo_Finviet.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070946/Finviet.png',
+          src: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
+          fallback: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
           alt: 'Logo Finviet',
         },
       ],
@@ -669,15 +669,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng / GĐ CX',
       headcountLabel: '100–150+ Nhân sự',
       description: EXPERIENCE_MILESTONES['2026']?.cardDescription || '',
-      logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Power_Service.png',
+      logo: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH',
       productSummary: 'Power Service • CS Strategy',
       products: [
-        { name: 'Power Service', logo: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Power_Service.png' },
+        { name: 'Power Service', logo: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH' },
       ],
       logos: [
         {
-          src: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793842335/Kinh%20nghi%E1%BB%87m/Logo_PowerService.png',
-          fallback: 'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793070948/Power_Service.png',
+          src: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH',
+          fallback: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH',
           alt: 'Logo Power Service',
         },
       ],
@@ -862,14 +862,23 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               />
             ) : !heroVideoFailed && (
               <video
-                src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1795204135/Kinh_nghi%E1%BB%87m.mp4"
+                src="https://drive.google.com/uc?export=download&id=1GLEn1qcwUCTdzcoCxy715IrvQe3l4QVn"
                 autoPlay
                 loop
                 muted
                 playsInline
+                controls={false}
+                disablePictureInPicture
+                controlsList="nodownload nofullscreen noremoteplayback"
                 preload="auto"
+                onEnded={(e) => {
+                  const v = e.currentTarget;
+                  v.currentTime = 0;
+                  v.play().catch(() => {});
+                }}
                 onError={() => setHeroVideoFailed(true)}
-                className="w-full h-full object-cover object-center rounded-[var(--radius-banner,24px)] transition-all duration-700"
+                style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                className="w-full h-full min-w-full min-h-full object-cover object-center rounded-[var(--radius-banner,24px)] banner-video-sharp transition-all duration-700"
               />
             )}
           </div>
@@ -2268,6 +2277,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       loop={!isJobVideoPlaying}
                       muted={isJobVideoPlaying ? isJobVideoMuted : true}
                       playsInline
+                      controls={false}
+                      disablePictureInPicture
+                      controlsList="nodownload nofullscreen noremoteplayback"
                       onEnded={() => {
                         if (isJobVideoPlaying) {
                           setIsJobVideoPlaying(false);
@@ -2282,7 +2294,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       faceAnchor={{ x: 50, y: 18 }}
                       maxCropDistortion={1.6}
                       wrapperClassName="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0"
-                      className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
+                      className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105 banner-video-sharp"
                       src={isJobVideoPlaying ? "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841266/Th%E1%BA%BB_Job_2026.mp4" : "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841270/Man_h%C3%ACnh_ch%E1%BB%9D_Job_2026.mp4"}
                     />
 
@@ -3127,6 +3139,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <img
                   src={curPhoto.src}
                   alt={curPhoto.title || activeMilestone.company}
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-contain rounded-[var(--radius-subcard,16px)]"
                 />
                 {lightboxPhotos.length > 1 && (

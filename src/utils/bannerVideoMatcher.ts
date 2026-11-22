@@ -1,5 +1,6 @@
 export type BannerPageKey =
   | 'home'
+  | 'wallpaper'
   | 'memories'
   | 'experience'
   | 'education'
@@ -45,7 +46,7 @@ export interface ServiceDomainMeta {
 }
 
 export const PRIMARY_9_BANNER_PAGE_KEYS: BannerPageKey[] = [
-  'home',
+  'wallpaper',
   'memories',
   'experience',
   'education',
@@ -63,8 +64,8 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     shortLabelVi: 'Trang Chủ',
     labelVi: 'Trang Chủ (Home / Landing Page)',
     labelEn: 'Home Page Banner',
-    expectedFilename: 'Hình nền.mp4',
-    keywords: ['hinh-nen', 'home', 'trang-chu', 'main'],
+    expectedFilename: 'Trang chủ.mp4',
+    keywords: ['home', 'trang-chu', 'main'],
     posterUrl:
       'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png',
     previewTitleVi: 'Nguyễn Hùng Thái · Lãnh Đạo Vận Hành CX',
@@ -76,6 +77,26 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     ctaLabelVi: 'Khám phá Hồ sơ',
     ctaLabelEn: 'Explore Profile',
     accentGradient: 'from-amber-500 via-orange-500 to-rose-500',
+  },
+  {
+    key: 'wallpaper',
+    tabIndex: 14,
+    shortLabelVi: 'Hình Nền',
+    labelVi: 'Trang Hình Nền & Giao Diện (Wallpaper)',
+    labelEn: 'Wallpaper & Ambient Page Banner',
+    expectedFilename: 'Hình nền.mp4',
+    keywords: ['hinh-nen', 'wallpaper', 'wallpapers'],
+    posterUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png',
+    previewTitleVi: 'Hình Nền Động & Không Gian Trực Quan Sáng Tạo',
+    previewTitleEn: 'Dynamic Wallpapers & Creative Visual Space',
+    previewSubtitleVi:
+      'Không gian trực quan khơi nguồn cảm hứng sáng tạo với thư viện hình nền video & WebGL 3D.',
+    previewSubtitleEn:
+      'Inspiring visual workspace powered by motion video wallpapers & interactive WebGL scenes.',
+    ctaLabelVi: 'Chọn Hình Nền',
+    ctaLabelEn: 'Browse Wallpapers',
+    accentGradient: 'from-sky-500 via-indigo-500 to-purple-600',
   },
   {
     key: 'memories',
@@ -426,8 +447,9 @@ const BANNER_KEYWORD_RULES: Array<{
   keyword: string;
   matchTokens: string[];
 }> = [
+  // Hình nền (WallpaperView)
+  { pageKey: 'wallpaper', keyword: 'Hình nền', matchTokens: ['hinh-nen', 'hinh nen', 'hinhnen', 'wallpaper', 'wallpapers'] },
   // Trang chủ
-  { pageKey: 'home', keyword: 'Hình nền', matchTokens: ['hinh-nen', 'hinh nen', 'hinhnen'] },
   { pageKey: 'home', keyword: 'trang-chu', matchTokens: ['trang-chu', 'trang chu', 'trangchu'] },
   { pageKey: 'home', keyword: 'home', matchTokens: ['home'] },
   { pageKey: 'home', keyword: 'main', matchTokens: ['main'] },
@@ -689,13 +711,17 @@ export function ${componentName}() {
           muted
           loop
           playsInline
+          controls={false}
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback"
           preload="auto"
+          style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
           onCanPlay={() => setIsLoading(false)}
           onError={() => {
             setIsLoading(false);
             setUseIframeFallback(true);
           }}
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover z-0 banner-video-sharp"
         />
       ) : (
         <iframe
@@ -864,8 +890,13 @@ export function PortfolioDriveSyncedWebsite() {
             muted
             loop
             playsInline
+            controls={false}
+            disablePictureInPicture
+            controlsList="nodownload nofullscreen noremoteplayback"
+            preload="auto"
+            style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
             onError={() => setUseIframe(true)}
-            className="absolute inset-0 w-full h-full object-cover z-0"
+            className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover z-0 banner-video-sharp"
           />
         ) : (
           <iframe

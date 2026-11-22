@@ -142,11 +142,11 @@ export const BENTO_PALETTES: Record<BentoPaletteType, BentoPaletteConfig> = {
 
 // Video 1: Video phát ngầm mặc định của trang Giới Thiệu
 const ABOUT_IDLE_VIDEO_URL =
-  'https://cdn.scena.ai/project/8606/e48a67884f3a52e8a68cf06b97979f3b22835ec92bf466a058c0d78da97c83b0.mp4';
+  'https://drive.google.com/uc?export=download&id=1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
 
 // Video 2: Video giới thiệu bản thân chi tiết
 const ABOUT_INTRO_VIDEO_URL =
-  'https://cdn.scena.ai/project/8606/5f84521bf5c51ff234fb0f4029fb9fba29e7e386f13912a56bc7ee25aebcbc10.mp4';
+  'https://drive.google.com/uc?export=download&id=12cdItjoc6LpIetmw6-1BiSt8kUaaNe7R';
 
 const getWebIconName = (name: string): string => {
   const norm = name.toLowerCase();
@@ -1202,9 +1202,21 @@ export function AboutView({
               <div className="relative aspect-video rounded-[14px] overflow-hidden bg-black/60 border border-[var(--border-subcard)] flex items-center justify-center">
                 <video
                   src={ABOUT_INTRO_VIDEO_URL}
-                  controls
+                  autoPlay
+                  loop
+                  muted
                   playsInline
-                  className="w-full h-full object-cover object-[50%_18%] rounded-[14px]"
+                  controls={false}
+                  disablePictureInPicture
+                  controlsList="nodownload nofullscreen noremoteplayback"
+                  preload="auto"
+                  onEnded={(e) => {
+                    const v = e.currentTarget;
+                    v.currentTime = 0;
+                    v.play().catch(() => {});
+                  }}
+                  style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                  className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] rounded-[14px] banner-video-sharp"
                 />
               </div>
               <div className="flex flex-col justify-between gap-3 text-left">
@@ -1234,8 +1246,9 @@ export function AboutView({
                 </div>
                 <div className="flex items-center gap-2 pt-2 border-t border-[var(--border-subcard)]">
                   <img
-                    src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.gif"
+                    src="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
                     alt="Nguyễn Hùng Thái"
+                    referrerPolicy="no-referrer"
                     className="w-8 h-8 rounded-full object-cover"
                   />
                   <div className="typo-caption text-[var(--text-secondary)]">
@@ -1698,7 +1711,7 @@ export function AboutView({
                           <DriveAwareBannerMedia
                             directVideoUrl={driveAboutBanner.directStreamUrl}
                             iframeFallbackUrl={driveAboutBanner.previewIframeUrl}
-                            posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.png"
+                            posterUrl="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
                             title={driveAboutBanner.fileName}
                             muted={true}
                             loop={true}
@@ -1718,12 +1731,14 @@ export function AboutView({
                           loop={!isPlayingIntro}
                           muted={isPlayingIntro ? isVideoMuted : true}
                           playsInline
+                          preload="auto"
+                          alwaysCover={!isPlayingIntro}
                           onTimeUpdate={handleTimeUpdate}
                           onEnded={handleVideoEnded}
                           faceAnchor={{ x: 50, y: 18 }}
                           maxCropDistortion={1.6}
                           wrapperClassName="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0"
-                          className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
+                          className="pointer-events-none opacity-100 banner-video-sharp transition-opacity duration-700"
                           src={isPlayingIntro ? ABOUT_INTRO_VIDEO_URL : ABOUT_IDLE_VIDEO_URL}
                         />
                       )}
@@ -2664,8 +2679,13 @@ export function AboutView({
                   loop={!isPlayingIntro}
                   muted={isPlayingIntro ? isVideoMuted : true}
                   playsInline
+                  controls={false}
+                  disablePictureInPicture
+                  controlsList="nodownload nofullscreen noremoteplayback"
+                  preload="auto"
                   onEnded={handleVideoEnded}
-                  className="absolute inset-0 w-full h-full object-contain sm:object-cover object-[50%_18%] z-0"
+                  style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                  className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-[50%_18%] banner-video-sharp z-0"
                 />
 
                 {/* Scrim trên & dưới đảm bảo độ tương phản WCAG AA (>= 4.5:1) */}
@@ -2676,8 +2696,9 @@ export function AboutView({
                 <div className="relative z-20 flex flex-wrap items-center justify-between gap-2 p-4 sm:p-6">
                   <div className="flex items-center gap-3 min-w-0">
                     <img
-                      src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.gif"
+                      src="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
                       alt="Nguyễn Hùng Thái"
+                      referrerPolicy="no-referrer"
                       className="w-10 h-10 rounded-full object-cover border border-white/30 shrink-0"
                     />
                     <div className="min-w-0">

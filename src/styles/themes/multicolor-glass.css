@@ -320,7 +320,8 @@ html[data-card-style="multicolor-glass"] :is(
   .education-course-card,
   .system-card-tile,
   .exp-bento-surface-card,
-  .project-detail-section-card
+  .project-detail-section-card,
+  #about-personal-info-grid
 ):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#weather-card):not(#weather-widget-card):not(.weather-card):not(#app-header):not(#app-footer):not(#card-main-letter-content):not([id^="horoscope-card-"]) {
   backdrop-filter: blur(22px) saturate(185%) !important;
   -webkit-backdrop-filter: blur(22px) saturate(185%) !important;
@@ -336,7 +337,8 @@ html[data-card-style="multicolor-glass"] :is(
   .education-course-card,
   .system-card-tile,
   .exp-bento-surface-card,
-  .project-detail-section-card
+  .project-detail-section-card,
+  #about-personal-info-grid
 ):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#weather-card):not(#weather-widget-card):not(.weather-card):not(#app-header):not(#app-footer):nth-of-type(5n + 1) {
   background: linear-gradient(145deg, rgba(214, 240, 255, 0.44) 0%, rgba(235, 246, 255, 0.36) 100%) !important;
   border-color: rgba(186, 230, 253, 0.82) !important;
@@ -349,7 +351,8 @@ html[data-card-style="multicolor-glass"] :is(
   .education-course-card,
   .system-card-tile,
   .exp-bento-surface-card,
-  .project-detail-section-card
+  .project-detail-section-card,
+  #about-personal-info-grid
 ):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#weather-card):not(#weather-widget-card):not(.weather-card):not(#app-header):not(#app-footer):nth-of-type(5n + 2) {
   background: linear-gradient(145deg, rgba(237, 225, 255, 0.44) 0%, rgba(244, 238, 255, 0.36) 100%) !important;
   border-color: rgba(221, 214, 254, 0.84) !important;
@@ -362,7 +365,8 @@ html[data-card-style="multicolor-glass"] :is(
   .education-course-card,
   .system-card-tile,
   .exp-bento-surface-card,
-  .project-detail-section-card
+  .project-detail-section-card,
+  #about-personal-info-grid
 ):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#weather-card):not(#weather-widget-card):not(.weather-card):not(#app-header):not(#app-footer):nth-of-type(5n + 3) {
   background: linear-gradient(145deg, rgba(255, 224, 240, 0.44) 0%, rgba(255, 240, 248, 0.36) 100%) !important;
   border-color: rgba(251, 207, 232, 0.84) !important;
@@ -375,7 +379,8 @@ html[data-card-style="multicolor-glass"] :is(
   .education-course-card,
   .system-card-tile,
   .exp-bento-surface-card,
-  .project-detail-section-card
+  .project-detail-section-card,
+  #about-personal-info-grid
 ):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#weather-card):not(#weather-widget-card):not(.weather-card):not(#app-header):not(#app-footer):nth-of-type(5n + 4) {
   background: linear-gradient(145deg, rgba(212, 250, 235, 0.44) 0%, rgba(236, 253, 245, 0.36) 100%) !important;
   border-color: rgba(167, 243, 208, 0.82) !important;
@@ -388,7 +393,8 @@ html[data-card-style="multicolor-glass"] :is(
   .education-course-card,
   .system-card-tile,
   .exp-bento-surface-card,
-  .project-detail-section-card
+  .project-detail-section-card,
+  #about-personal-info-grid
 ):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#weather-card):not(#weather-widget-card):not(.weather-card):not(#app-header):not(#app-footer):nth-of-type(5n + 5) {
   background: linear-gradient(145deg, rgba(255, 234, 214, 0.44) 0%, rgba(255, 245, 235, 0.36) 100%) !important;
   border-color: rgba(254, 215, 170, 0.84) !important;

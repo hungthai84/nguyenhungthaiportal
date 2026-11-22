@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   WALLPAPER_PRESETS_LIST,
@@ -9,8 +9,6 @@ import {
   CUSTOM_WALLPAPERS_STORAGE_KEY,
   ACTIVE_WALLPAPER_STORAGE_KEY,
   parseCssStringToStyle,
-  getCleanImageUrl,
-  getWallpaperThumbnailUrl,
   isCodePenWallpaper,
 } from '@/data/wallpapers';
 import {
@@ -20,20 +18,17 @@ import {
   saveActiveWallpaperToDB,
 } from '@/utils/indexedDBWallpaper';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { Modal } from '@/components/ui/Modal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme, getCardStyleConfig } from '@/hooks/useTheme';
-import { LAYER_DEPTH_PRESETS } from '@/config/ui/layerDepth';
 import { useLanguage } from '@/context/LanguageContext';
 import { useFirebase } from '@/context/FirebaseContext';
 import {
   WallpaperStudioControls,
   SmartFilterCategory,
 } from './wallpaper/WallpaperStudioControls';
-import { DriveBannerStudio } from './DriveBannerStudio';
-import { useBannerVideo } from '@/context/BannerVideoContext';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { WallpaperGridCard } from './wallpaper/WallpaperGridCard';
+import { VideoBanner } from '@/components/common/VideoBanner';
+import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 
 export interface WallpaperViewProps {
   activeWallpaper: WallpaperPreset;
@@ -48,19 +43,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
   onShowNotification,
   onClose,
 }) => {
-  const {
-    cardStyle,
-    surfaceDepth,
-    setSurfaceDepth,
-    layerDepth,
-    setLayerDepth,
-    wallpaperOverlay,
-    updateWallpaperOverlay,
-    resetWallpaperOverlay,
-    adaptiveAccentEnabled,
-    setAdaptiveAccentEnabled,
-    suggestedAccent,
-  } = useTheme();
+  const { cardStyle } = useTheme();
   const { language, t } = useLanguage();
   const { user, cloudWallpapers, saveCloudWallpaper, deleteCloudWallpaper } = useFirebase();
   const isEn = language === 'en';
@@ -80,9 +63,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
   });
 
   const [filterType, setFilterType] = useState<SmartFilterCategory>('all');
-  const [studioSection, setStudioSection] = useState<'wallpapers' | 'drive-banner'>('wallpapers');
-  const { pickedVideos, bannerAssignments } = useBannerVideo();
-  const driveWallpaperBanner = bannerAssignments.wallpaper;
+  const wallpaperBannerVideo = getDefaultBannerVideoConfig('wallpaper');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
@@ -147,11 +128,10 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     }).catch(() => {});
   }, []);
 
-  // Lưu trữ lâu dài customWallpapers vào localStorage & IndexedDB mỗi khi cập nhật
+  // Lưu trữ customWallpapers vào localStorage (IndexedDB chỉ ghi/xóa đúng mục phát sinh)
   useEffect(() => {
     try {
       localStorage.setItem(CUSTOM_WALLPAPERS_STORAGE_KEY, JSON.stringify(customWallpapers));
-      customWallpapers.forEach((wp) => saveCustomWallpaperToDB(wp));
     } catch (e) {
       // ignore
     }
@@ -221,32 +201,35 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
   }, [allWallpapers, filterType, searchQuery, userUploadedIds]);
 
   // Chọn hình nền và lưu trữ lâu dài làm mặc định
-  const handleApplyWallpaper = (wp: WallpaperPreset) => {
-    SoundEngine.playPop();
-    onSelectWallpaper(wp);
-    try {
-      localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(wp));
-      localStorage.setItem('theme_wallpaper', wp.value || wp.bg || '');
-      saveActiveWallpaperToDB(wp);
-    } catch (e) {
-      // ignore
-    }
-    if (onShowNotification) {
-      if (wp.id === 'none') {
-        onShowNotification(
-          isEn
-            ? '✓ Set Default Wallpaper (Transparent Glass) & saved permanently!'
-            : '✓ Đã đặt hình nền Mặc định (Hệ thống) & lưu lâu dài!'
-        );
-      } else {
-        onShowNotification(
-          isEn
-            ? `✓ Applied & saved permanently: ${t(wp.name)}`
-            : `✓ Đã áp dụng & lưu mặc định lâu dài: ${wp.name}`
-        );
+  const handleApplyWallpaper = useCallback(
+    (wp: WallpaperPreset) => {
+      SoundEngine.playPop();
+      onSelectWallpaper(wp);
+      try {
+        localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(wp));
+        localStorage.setItem('theme_wallpaper', wp.value || wp.bg || '');
+        void saveActiveWallpaperToDB(wp);
+      } catch (e) {
+        // ignore
       }
-    }
-  };
+      if (onShowNotification) {
+        if (wp.id === 'none') {
+          onShowNotification(
+            isEn
+              ? '✓ Set Default Wallpaper (Transparent Glass) & saved permanently!'
+              : '✓ Đã đặt hình nền Mặc định (Hệ thống) & lưu lâu dài!'
+          );
+        } else {
+          onShowNotification(
+            isEn
+              ? `✓ Applied & saved permanently: ${t(wp.name)}`
+              : `✓ Đã áp dụng & lưu mặc định lâu dài: ${wp.name}`
+          );
+        }
+      }
+    },
+    [isEn, onSelectWallpaper, onShowNotification, t]
+  );
 
   // Thêm hình nền mới (Link Video, Link Hình, CSS Hình Nền)
   const handleAddWallpaperSubmit = (e: React.FormEvent) => {
@@ -292,6 +275,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     };
 
     setCustomWallpapers((prev) => [createdWp, ...prev]);
+    void saveCustomWallpaperToDB(createdWp);
     if (user) {
       void saveCloudWallpaper(createdWp);
     }
@@ -310,6 +294,11 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     setNewValue('');
     setIsAddModalOpen(false);
   };
+
+  void handleAddWallpaperSubmit;
+  void onClose;
+  void setNewType;
+  void setSetAsDefaultImmediately;
 
   // Xuất file JSON toàn bộ danh sách hình nền
   const handleExportJson = () => {
@@ -379,6 +368,9 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         });
         return Array.from(merged.values());
       });
+      validItems.forEach((item) => {
+        void saveCustomWallpaperToDB(item);
+      });
       if (user) {
         validItems.forEach((item) => {
           if (item.isCustom) {
@@ -423,16 +415,27 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     e.target.value = '';
   };
 
-  const handleDeleteCustomWallpaper = (wp: WallpaperPreset, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCustomWallpapers((prev) => prev.filter((item) => item.id !== wp.id));
-    if (user) {
-      void deleteCloudWallpaper(wp.id);
-    }
-    onShowNotification?.(
-      isEn ? `Removed custom wallpaper: ${wp.name}` : `Đã xóa hình nền tùy chỉnh: ${wp.name}`
-    );
-  };
+  const handleDeleteCustomWallpaper = useCallback(
+    (wp: WallpaperPreset, e: React.MouseEvent) => {
+      e.stopPropagation();
+      setCustomWallpapers((prev) => prev.filter((item) => item.id !== wp.id));
+      void deleteCustomWallpaperFromDB(wp.id);
+      if (wp.value && wp.value.startsWith('blob:')) {
+        try {
+          URL.revokeObjectURL(wp.value);
+        } catch {
+          // ignore
+        }
+      }
+      if (user) {
+        void deleteCloudWallpaper(wp.id);
+      }
+      onShowNotification?.(
+        isEn ? `Removed custom wallpaper: ${wp.name}` : `Đã xóa hình nền tùy chỉnh: ${wp.name}`
+      );
+    },
+    [deleteCloudWallpaper, isEn, onShowNotification, user]
+  );
 
   const handleLocalMediaUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -460,6 +463,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         createdAt: Date.now(),
       };
       setCustomWallpapers((prev) => [createdWp, ...prev]);
+      void saveCustomWallpaperToDB(createdWp);
       handleApplyWallpaper(createdWp);
       setIsAddModalOpen(false);
       e.target.value = '';
@@ -485,6 +489,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         createdAt: Date.now(),
       };
       setCustomWallpapers((prev) => [createdWp, ...prev]);
+      void saveCustomWallpaperToDB(createdWp);
       if (user) {
         void saveCloudWallpaper(createdWp);
       }
@@ -544,21 +549,11 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         <div
           className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
-          {driveWallpaperBanner ? (
-            <DriveAwareBannerMedia
-              directVideoUrl={driveWallpaperBanner.directStreamUrl}
-              iframeFallbackUrl={driveWallpaperBanner.previewIframeUrl}
-              posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
-              title={driveWallpaperBanner.fileName}
-              className="rounded-[inherit]"
-            />
-          ) : (
-            <BannerBackgroundVideo
-              src="https://drive.google.com/uc?export=download&id=1x-u8GDuR95rAAiFJo2Qc7eV4qtiKGfwB"
-              poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
-              alt="Banner Hình nền & Giao diện"
-            />
-          )}
+          <VideoBanner
+            videoId={wallpaperBannerVideo.videoId}
+            title={wallpaperBannerVideo.title}
+            className="rounded-[inherit]"
+          />
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
@@ -637,13 +632,18 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                           data-selected={isActive ? 'true' : 'false'}
                           onClick={() => {
                             SoundEngine.playTap();
-                            setFilterType(cat.id as any);
+                            setFilterType(cat.id as SmartFilterCategory);
                             setIsFilterDropdownOpen(false);
                           }}
-                          className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
+                          className="theme-dropdown-option w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
                         >
                           <span className="truncate">{cat.label}</span>
-                          {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
+                          <span className="inline-flex items-center gap-1.5 shrink-0">
+                            <span className="typo-badge font-mono opacity-75 tabular-nums">
+                              {cat.count}
+                            </span>
+                            {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
+                          </span>
                         </button>
                       );
                     })}
@@ -667,32 +667,21 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                 }}
-                placeholder="Tìm hình nền, video, css..."
-                className="banner-search-input h-9 w-full pl-8 pr-3 py-0 rounded-full typo-button font-bold font-play focus:outline-none"
+                placeholder={isEn ? 'Search wallpaper, video, css...' : 'Tìm hình nền, video, css...'}
+                className="banner-search-input h-9 w-full pl-8 pr-8 py-0 rounded-full typo-button font-bold font-play focus:outline-none"
               />
-            </div>
-
-            <button
-              id="wallpaper-drive-banner-tab-btn"
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                setStudioSection((prev) => (prev === 'drive-banner' ? 'wallpapers' : 'drive-banner'));
-              }}
-              className={`h-9 px-3.5 py-0 rounded-full typo-button font-bold font-play transition cursor-pointer flex items-center gap-1.5 ${
-                studioSection === 'drive-banner'
-                  ? 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#EC4899] text-white shadow-md'
-                  : 'banner-control-pill'
-              }`}
-            >
-              <WebIcon name="video" className="w-3.5 h-3.5 shrink-0" />
-              <span>{isEn ? 'Drive Video Banner' : 'Video Banner Drive'}</span>
-              {pickedVideos.length > 0 && (
-                <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] tabular-nums">
-                  {pickedVideos.length}
-                </span>
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  aria-label={isEn ? 'Clear search' : 'Xóa từ khóa tìm kiếm'}
+                  title={isEn ? 'Clear search' : 'Xóa tìm kiếm'}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer transition-colors"
+                >
+                  <WebIcon name="x" className="w-3 h-3" />
+                </button>
               )}
-            </button>
+            </div>
 
             <button
               id="wallpaper-add-toggle-btn"
@@ -709,17 +698,6 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
           </div>
         </div>
       </section>
-
-      {studioSection === 'drive-banner' ? (
-        <DriveBannerStudio
-          onNavigateTab={(tab) => {
-            window.dispatchEvent(new CustomEvent('app:navigate-tab', { detail: tab }));
-          }}
-          onShowNotification={onShowNotification}
-          onClose={() => setStudioSection('wallpapers')}
-        />
-      ) : (
-        <>
 
       {/* KHUNG THÊM HÌNH NỀN MỚI & NHẬP / XUẤT JSON XUẤT HIỆN NGAY DƯỚI BANNER KHI CLICK NÚT "THÊM HÌNH" */}
       {isAddModalOpen && (
@@ -813,6 +791,10 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 };
 
                 setCustomWallpapers((prev) => [createdWp, ...prev]);
+                void saveCustomWallpaperToDB(createdWp);
+                if (user) {
+                  void saveCloudWallpaper(createdWp);
+                }
                 handleApplyWallpaper(createdWp);
                 setNewValue('');
                 setNewName('');
@@ -959,143 +941,36 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         </section>
       )}
 
-      {/* THANH LỌC THÔNG MINH & LỚP PHỦ NỀN HÌNH NỀN */}
+      {/* THANH LỌC THÔNG MINH HÌNH NỀN */}
       <WallpaperStudioControls
         isEn={isEn}
         filterType={filterType}
         onChangeFilter={setFilterType}
         filterCounts={filterCounts}
-        wallpaperOverlay={wallpaperOverlay}
-        onUpdateWallpaperOverlay={updateWallpaperOverlay}
-        onResetWallpaperOverlay={resetWallpaperOverlay}
-        adaptiveAccentEnabled={adaptiveAccentEnabled}
-        onToggleAdaptiveAccent={setAdaptiveAccentEnabled}
-        suggestedAccent={suggestedAccent}
       />
 
-      {/* TÙY CHỈNH BỀ MẶT (PHẲNG / CHIỀU SÂU) & ĐỘ SÂU LAYER CARD LEVEL */}
-      <section
-        id="wallpaper-layer-depth-controls"
-        data-element-name="Tùy chỉnh Phẳng và Độ sâu Layer Card"
-        data-element-type="section"
-        data-element-page="wallpaper"
-        data-subcard="true"
-        className="sub-card rounded-[14px] px-[15px] py-3 flex flex-col lg:flex-row lg:items-center justify-between gap-3 shrink-0"
-      >
-        <div className="flex flex-wrap items-center gap-3 min-w-0">
-          <div className="flex items-center gap-2 text-[var(--color-primary)] shrink-0">
-            <WebIcon name="layers" className="w-4 h-4 shrink-0" />
-            <span className="typo-label font-bold font-play">
-              {isEn ? 'Surface & Layer Depth' : 'Chiều sâu & Độ nổi Layer Card'}
-            </span>
-          </div>
-
-          <div
-            className="inline-flex items-center gap-1 p-0.5 rounded-full border shrink-0"
-            style={{ background: 'var(--bg-card)', borderColor: 'var(--border-subcard)' }}
+      {/* THANH TRẠNG THÁI KẾT QUẢ LỌC NHANH (CHỈ HIỆN KHI ĐANG LỌC HOẶC TÌM KIẾM) */}
+      {(filterType !== 'all' || searchQuery.trim().length > 0) && filteredWallpapers.length > 0 && (
+        <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-[14px] border border-[var(--border-subcard)] bg-[var(--bg-subcard)] shrink-0">
+          <span className="typo-caption font-semibold text-[var(--text-secondary)]">
+            {isEn
+              ? `Showing ${filteredWallpapers.length} of ${allWallpapers.length} wallpapers`
+              : `Đang hiển thị ${filteredWallpapers.length} / ${allWallpapers.length} hình nền`}
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              SoundEngine.playTap();
+              setFilterType('all');
+              setSearchQuery('');
+            }}
+            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-card)] text-[var(--text-primary)] typo-badge font-semibold cursor-pointer hover:border-[var(--color-primary)] transition-colors"
           >
-            <button
-              id="wallpaper-surface-flat-btn"
-              type="button"
-              aria-pressed={surfaceDepth === 'flat'}
-              onClick={() => {
-                SoundEngine.playTap();
-                setSurfaceDepth('flat');
-                onShowNotification?.(
-                  isEn ? '✓ Switched to Flat surface' : '✓ Đã chuyển sang chế độ Bề mặt Phẳng'
-                );
-              }}
-              className={`px-3 py-1 rounded-full typo-badge font-bold cursor-pointer transition-all ${
-                surfaceDepth === 'flat' ? 'text-white shadow-xs' : 'opacity-75 hover:opacity-100'
-              }`}
-              style={
-                surfaceDepth === 'flat'
-                  ? { background: 'var(--bg-button-primary)' }
-                  : { color: 'var(--text-secondary)' }
-              }
-            >
-              {isEn ? 'Flat' : 'Phẳng'}
-            </button>
-            <button
-              id="wallpaper-surface-depth-btn"
-              type="button"
-              aria-pressed={surfaceDepth === 'depth'}
-              onClick={() => {
-                SoundEngine.playTap();
-                setSurfaceDepth('depth');
-                onShowNotification?.(
-                  isEn ? '✓ Switched to 3D Layer Depth' : '✓ Đã bật chế độ Chiều sâu Layer'
-                );
-              }}
-              className={`px-3 py-1 rounded-full typo-badge font-bold cursor-pointer transition-all ${
-                surfaceDepth === 'depth' ? 'text-white shadow-xs' : 'opacity-75 hover:opacity-100'
-              }`}
-              style={
-                surfaceDepth === 'depth'
-                  ? { background: 'var(--bg-button-primary)' }
-                  : { color: 'var(--text-secondary)' }
-              }
-            >
-              {isEn ? '3D Layer' : 'Chiều sâu'}
-            </button>
-          </div>
+            <WebIcon name="rotate-ccw" className="w-3 h-3 shrink-0" />
+            <span>{isEn ? 'Reset filters' : 'Xóa bộ lọc'}</span>
+          </button>
         </div>
-
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-1 lg:max-w-[580px] min-w-0">
-          <div className="flex-1 flex items-center gap-2.5 min-w-[180px]">
-            <span className="typo-caption font-semibold text-[var(--text-secondary)] whitespace-nowrap shrink-0">
-              {isEn ? 'Layer Depth' : 'Mức độ sâu'}
-            </span>
-            <input
-              id="wallpaper-layer-depth-slider"
-              type="range"
-              min={0}
-              max={200}
-              step={10}
-              value={layerDepth}
-              aria-label={isEn ? 'Adjust Layer Card depth' : 'Điều chỉnh độ sâu Layer Card'}
-              onChange={(e) => setLayerDepth(Number(e.target.value))}
-              className="w-full accent-[var(--color-primary)] cursor-pointer h-1.5"
-            />
-            <span
-              className="typo-badge font-mono font-bold tabular-nums w-11 text-right shrink-0"
-              style={{ color: 'var(--text-link, var(--color-primary))' }}
-            >
-              {layerDepth}%
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1 flex-wrap shrink-0">
-            {LAYER_DEPTH_PRESETS.map((preset) => (
-              <button
-                key={preset.value}
-                type="button"
-                aria-pressed={layerDepth === preset.value}
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setLayerDepth(preset.value);
-                }}
-                className={`px-2.5 py-1 rounded-full typo-badge font-bold tabular-nums border cursor-pointer transition-all ${
-                  layerDepth === preset.value
-                    ? 'text-white border-transparent shadow-xs'
-                    : 'hover:opacity-90'
-                }`}
-                style={
-                  layerDepth === preset.value
-                    ? { background: 'var(--bg-button-primary)' }
-                    : {
-                        background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        color: 'var(--text-secondary)',
-                      }
-                }
-              >
-                {preset.value}%
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
+      )}
 
       {/* LƯỚI HÌNH NỀN THU NHỎ HOẶC EMPTY STATE */}
       {filteredWallpapers.length === 0 ? (
@@ -1150,254 +1025,21 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
           </div>
         </div>
       ) : (
-      <div id="wallpaper-cards-grid" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[15px] items-stretch flex-1">
-          {filteredWallpapers.map((wp) => {
-            const isSelected = activeWallpaper?.id === wp.id;
-            const isCustomAdded = customWallpapers.some((c) => c.id === wp.id);
-            const localizedName = t(wp.name);
-            const titleWords = localizedName.trim().split(/\s+/);
-            const title4Words = titleWords.length <= 4 ? localizedName : titleWords.slice(0, 4).join(' ');
-
-            return (
-              <div
-                id={`wallpaper-card-${wp.id}`}
-                key={wp.id}
-                role="button"
-                tabIndex={0}
-                aria-pressed={isSelected}
-                onClick={() => {
-                  handleApplyWallpaper(wp);
-                }}
-                onKeyDown={(e) => {
-                  if (e.target !== e.currentTarget) return;
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleApplyWallpaper(wp);
-                  }
-                }}
-                title={isEn ? localizedName : wp.name}
-                data-element-type="card"
-                data-media-card={wp.type === 'video' ? 'video' : 'image'}
-                style={{
-                  borderRadius: 'var(--radius-card, 14px)',
-                  padding: '0px',
-                }}
-                className={`themed-image-card group relative flex flex-col rounded-[var(--radius-card,14px)] overflow-hidden transition-all duration-300 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto ${
-                  isSelected
-                    ? 'ring-2 ring-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]'
-                    : ''
-                }`}
-              >
-                {/* NỀN HÌNH & VIDEO LẮP ĐẦY 100% CARD */}
-                <div
-                  id={`wallpaper-card-media-${wp.id}`}
-                  style={{
-                    borderRadius: 'var(--radius-card, 14px)',
-                    background: 'transparent',
-                  }}
-                  className="relative flex-1 w-full h-full z-0 rounded-[inherit] overflow-hidden bg-transparent"
-                >
-                  {wp.id === 'none' ? (
-                    <div
-                      id="wallpaper-card-preview-none"
-                      style={{
-                        ...activeCardStyleMeta.cardSampleStyle,
-                        borderRadius: 'var(--radius-card, 14px)',
-                      }}
-                      className="w-full h-full rounded-[inherit] flex items-center justify-center transition-all"
-                    />
-                  ) : wp.type === 'video' ? (
-                    wp.value.includes('youtube.com') || wp.value.includes('youtu.be') ? (
-                      <div
-                        className="w-full h-full rounded-[inherit] bg-cover bg-center"
-                        style={
-                          wp.previewStyle || {
-                            backgroundImage:
-                              "url('https://img.youtube.com/vi/Jox6R5-rIH0/hqdefault.jpg')",
-                          }
-                        }
-                      />
-                    ) : (
-                      <video
-                        src={wp.value}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        controls={false}
-                        disablePictureInPicture
-                        controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                        preload="auto"
-                        aria-hidden="true"
-                        tabIndex={-1}
-                        onLoadedMetadata={(e) => {
-                          const v = e.currentTarget;
-                          v.defaultMuted = true;
-                          v.muted = true;
-                          v.loop = true;
-                          v.controls = false;
-                          v.disablePictureInPicture = true;
-                          (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                        }}
-                        onCanPlay={(e) => {
-                          const v = e.currentTarget;
-                          v.defaultMuted = true;
-                          v.muted = true;
-                          v.loop = true;
-                          if (v.paused) v.play().catch(() => {});
-                        }}
-                        onEnded={(e) => {
-                          const v = e.currentTarget;
-                          v.currentTime = 0;
-                          v.play().catch(() => {});
-                        }}
-                        style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
-                        className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] block pointer-events-none select-none banner-video-sharp"
-                      />
-                    )
-                  ) : wp.type === 'webgl' ? (
-                    <div
-                      className="relative w-full h-full rounded-[inherit] overflow-hidden"
-                      style={
-                        wp.previewStyle && Object.keys(wp.previewStyle).length > 0
-                          ? wp.previewStyle
-                          : { background: wp.value || wp.bg }
-                      }
-                    >
-                      {/* Cụm cầu 3D thu nhỏ đại diện cho trường hấp dẫn GRAVITY */}
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        {(wp.gravityConfig?.previewSpheres || ['#2F69FF', '#A8C1FF', '#4D80FF', '#ECEFFF']).map(
-                          (sphereColor, sIdx) => {
-                            const positions = [
-                              'w-14 h-14 -translate-x-7 -translate-y-2',
-                              'w-10 h-10 translate-x-6 -translate-y-4',
-                              'w-12 h-12 translate-x-2 translate-y-3',
-                              'w-8 h-8 -translate-x-2 translate-y-4',
-                            ];
-                            const isGlassOrb = sIdx === 3;
-                            return (
-                              <span
-                                key={`${wp.id}-orb-${sIdx}`}
-                                className={`absolute rounded-full ${
-                                  positions[sIdx % positions.length]
-                                }`}
-                                style={
-                                  isGlassOrb
-                                    ? {
-                                        background: `radial-gradient(circle at 30% 28%, rgba(255,255,255,0.95) 0%, ${sphereColor}55 48%, ${sphereColor}88 100%)`,
-                                        border: '1px solid rgba(255,255,255,0.75)',
-                                        boxShadow: `inset 0 2px 6px rgba(255,255,255,0.85), 0 8px 18px ${sphereColor}55`,
-                                        backdropFilter: 'blur(4px)',
-                                      }
-                                    : {
-                                        background: `radial-gradient(circle at 32% 28%, #ffffff 0%, ${sphereColor} 58%, rgba(15,23,42,0.28) 100%)`,
-                                        boxShadow: `inset -3px -4px 8px rgba(15,23,42,0.14), 0 8px 18px ${sphereColor}50`,
-                                      }
-                                }
-                              />
-                            );
-                          }
-                        )}
-                      </div>
-                    </div>
-                  ) : wp.type === 'css' || wp.type === 'gradient' ? (
-                    <div
-                      className="w-full h-full"
-                      style={
-                        wp.previewStyle && Object.keys(wp.previewStyle).length > 0
-                          ? wp.previewStyle
-                          : parseCssStringToStyle(wp.value)
-                      }
-                    />
-                  ) : (
-                    <img
-                      src={getWallpaperThumbnailUrl(wp.value || wp.bg || '')}
-                      alt={wp.name}
-                      referrerPolicy="no-referrer"
-                      loading="lazy"
-                      onError={(e) => {
-                        const originalUrl = getCleanImageUrl(wp.value || wp.bg || '');
-                        if (e.currentTarget.src !== originalUrl) {
-                          e.currentTarget.src = originalUrl;
-                          return;
-                        }
-                        e.currentTarget.style.display = 'none';
-                        const parent = e.currentTarget.parentElement;
-                        if (parent) {
-                          parent.style.background = 'linear-gradient(135deg, #0284c7 0%, #4f46e5 50%, #e11d48 100%)';
-                        }
-                      }}
-                      className="w-full h-full object-cover rounded-[inherit] block brightness-110 contrast-110 saturate-110"
-                    />
-                  )}
-                </div>
-
-                {/* THÔNG TIN GỌN TRONG CARD (KHÔNG HIỆU ỨNG XEM TRƯỚC KHI RÊ CHUỘT) */}
-                <div
-                  id={`wallpaper-card-content-${wp.id}`}
-                  style={{
-                    padding: '10px',
-                  }}
-                  className="absolute inset-0 z-20 w-full h-full flex flex-col justify-between p-[10px] pointer-events-none"
-                >
-                  <div className="flex items-center justify-between gap-1.5 w-full relative z-20">
-                    <span className="themed-image-card-badge px-2 py-0.5 rounded-full typo-badge font-mono shadow-xs bg-slate-950/55 text-white backdrop-blur-xs">
-                      {wp.id === 'custom-wp-1788112774646'
-                        ? isEn
-                          ? 'Default'
-                          : 'Mặc định'
-                        : wp.id === 'none'
-                        ? isEn
-                          ? 'System'
-                          : 'Hệ thống'
-                        : wp.type === 'webgl'
-                        ? isEn
-                          ? '3D · Morph'
-                          : '3D · Qua trang'
-                        : wp.type}
-                    </span>
-
-                    <div className="flex items-center gap-1.5">
-                      {isSelected && (
-                        <span className="px-2 py-0.5 rounded-full bg-emerald-500 text-white typo-badge shadow-xs flex items-center gap-1">
-                          <WebIcon name="check" className="w-2.5 h-2.5" />
-                          <span>Đang dùng</span>
-                        </span>
-                      )}
-                      {isCustomAdded && wp.id !== 'none' && wp.id !== 'custom-wp-1788112774646' && (
-                        <button
-                          id={`wallpaper-card-delete-${wp.id}`}
-                          type="button"
-                          onClick={(e) => handleDeleteCustomWallpaper(wp, e)}
-                          title="Xóa hình nền này"
-                          className="pointer-events-auto w-5 h-5 rounded-full bg-rose-600/90 hover:bg-rose-500 text-white flex items-center justify-center shadow-sm cursor-pointer"
-                        >
-                          <WebIcon name="x" className="w-3 h-3" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="w-full mt-auto flex items-center justify-between gap-1.5 pt-1">
-                    <span className="px-2 py-0.5 rounded-full bg-slate-950/55 text-white backdrop-blur-xs typo-badge font-play font-semibold truncate max-w-full">
-                      {wp.id === 'custom-wp-1788112774646'
-                        ? isEn
-                          ? 'Wallpaper #32 (Default)'
-                          : 'Hình nền #32 (Mặc định)'
-                        : wp.id === 'none'
-                        ? isEn
-                          ? 'No Wallpaper (Theme Base)'
-                          : 'Nền gốc giao diện'
-                        : title4Words}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-      </div>
-      )}
-        </>
+        <div id="wallpaper-cards-grid" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[15px] items-stretch flex-1">
+          {filteredWallpapers.map((wp) => (
+            <WallpaperGridCard
+              key={wp.id}
+              wp={wp}
+              localizedName={t(wp.name)}
+              isSelected={activeWallpaper?.id === wp.id}
+              isCustomAdded={userUploadedIds.has(wp.id)}
+              isEn={isEn}
+              nonePreviewStyle={wp.id === 'none' ? activeCardStyleMeta.cardSampleStyle : undefined}
+              onApply={handleApplyWallpaper}
+              onDelete={handleDeleteCustomWallpaper}
+            />
+          ))}
+        </div>
       )}
         </div>
       </div>

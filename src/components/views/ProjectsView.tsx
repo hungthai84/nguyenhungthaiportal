@@ -10,9 +10,8 @@ import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { ProjectDetailView } from './ProjectDetailView';
 import { useTheme } from '@/hooks/useTheme';
-import { useBannerVideo } from '@/context/BannerVideoContext';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { VideoBanner } from '@/components/common/VideoBanner';
+import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 
 export interface ProjectCardGroup {
   id: string;
@@ -236,13 +235,13 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
   onReturnToOrigin,
 }) => {
   const { isDark: themeIsDark } = useTheme();
-  const { bannerAssignments } = useBannerVideo();
-  const driveProjectsBanner = bannerAssignments.projects;
+  const projectsBannerVideo = getDefaultBannerVideoConfig('projects');
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
+    currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond';
   const isLight = !isDark;
@@ -514,15 +513,17 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           data-main-card="true"
           data-layer-level="1"
           data-detail-open={selectedArticle ? 'true' : 'false'}
+          data-detail-overlay="true"
           data-element-name="Thẻ chính Trang Dự Án"
           data-element-type="card"
           data-element-page="projects"
           data-element-parent="projects-cards-track"
-          className={cn(
-            'page-main-card flex flex-col justify-start rounded-[var(--radius-main,30px)] overflow-x-hidden glass-scrollbar font-play select-none text-left text-[var(--text-primary)] box-border',
-            selectedArticle ? 'p-0 gap-0 overflow-hidden' : 'p-[15px] gap-[15px] overflow-y-auto'
-          )}
+          className="page-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play select-none text-left text-[var(--text-primary)] box-border"
         >
+          <div
+            id="projects-main-scroll-viewport"
+            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+          >
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
       {!selectedGroup && !selectedArticle ? (
         <>
@@ -556,21 +557,11 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             <div
               className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
             >
-              {driveProjectsBanner ? (
-                <DriveAwareBannerMedia
-                  directVideoUrl={driveProjectsBanner.directStreamUrl}
-                  iframeFallbackUrl={driveProjectsBanner.previewIframeUrl}
-                  posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
-                  title={driveProjectsBanner.fileName}
-                  className="rounded-[inherit]"
-                />
-              ) : (
-                <BannerBackgroundVideo
-                  src="https://drive.google.com/uc?export=download&id=1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U"
-                  poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
-                  alt="Banner Dự án"
-                />
-              )}
+              <VideoBanner
+                videoId={projectsBannerVideo.videoId}
+                title={projectsBannerVideo.title}
+                className="rounded-[inherit]"
+              />
             </div>
             <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
@@ -762,27 +753,27 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   tabIndex={0}
                   onClick={() => {
                     handleOpenGroup(parentGroup, proj);
-                    document.getElementById('projects-main-card')?.scrollTo({ top: 0, behavior: 'smooth' });
+                    document.getElementById('projects-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   onKeyDown={(e) => {
                     if (e.target !== e.currentTarget) return;
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
                       handleOpenGroup(parentGroup, proj);
-                      document.getElementById('projects-main-card')?.scrollTo({ top: 0, behavior: 'smooth' });
+                      document.getElementById('projects-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                   }}
-                  className="project-card education-course-card bento-card glass-card layered-card group relative rounded-[14px] p-[10px] flex flex-col justify-between gap-[10px] border select-none transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play min-w-0"
+                  className="project-card education-course-card bento-card glass-card layered-card group relative h-full rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] border select-none transition-all duration-300 cursor-pointer font-play min-w-0"
                   style={{
                     borderColor: `${cardColor}45`,
-                    padding: '10px',
+                    padding: '15px',
                   }}
                 >
-                  {/* 1. Ảnh bìa thẻ Dự án 16:10: phân hệ nhóm + mã dự án + thanh thông tin vai trò & giai đoạn */}
+                  {/* 1. Ảnh bìa thẻ Dự án 16:10 (padding 5px chuẩn thẻ media) */}
                   <div
                     data-media-card="image"
-                    style={{ borderRadius: 'var(--radius-card, 14px)' }}
-                    className="project-card-banner education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img m-0 p-0"
+                    style={{ borderRadius: 'var(--radius-card, 14px)', padding: '5px' }}
+                    className="project-card-banner education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img m-0 p-[5px] box-border"
                   >
                     <img
                       src={bannerInfo.primaryUrl}
@@ -935,6 +926,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           </div>
         )
       )}
+          </div>
         </div>
       </div>
 
@@ -949,7 +941,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           <div className="p-4 sm:p-5 flex flex-col gap-3">
             <div
               style={{ borderRadius: 'var(--radius-card, 14px)' }}
-              className="themed-image-frame bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-3 sm:p-5 flex items-center justify-center overflow-auto horizontal-scroll-smooth max-h-[75vh]"
+              className="themed-image-frame bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-3 sm:p-5 flex items-center justify-center overflow-auto horizontal-scroll-smooth no-scrollbar max-h-[75vh]"
             >
               <img
                 src={mindmapProject.mindmap || mindmapProject.image}

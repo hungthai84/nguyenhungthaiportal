@@ -217,7 +217,8 @@ html[data-card-style="light-deep-ocean"] :is(
   .project-card,
   .exp-bento-surface-card,
   .education-card,
-  .education-course-card
+  .education-course-card,
+  #about-personal-info-grid
 ) {
   background: rgba(246, 252, 255, 0.84) !important;
   backdrop-filter: blur(20px) saturate(145%) !important;

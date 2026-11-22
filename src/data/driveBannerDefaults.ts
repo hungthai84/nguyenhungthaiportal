@@ -22,7 +22,7 @@ interface RawDriveBannerLinkItem {
 }
 
 /**
- * Danh sách 9 video banner chính thức từ Google Drive
+ * Danh sách 11 video banner chính thức từ Google Drive
  * (Thư mục `Video Banner` — `Website Hung Thai CV database`).
  */
 const DRIVE_VIDEO_BANNER_SEED_LIST: RawDriveBannerLinkItem[] = [
@@ -84,9 +84,9 @@ const DRIVE_VIDEO_BANNER_SEED_LIST: RawDriveBannerLinkItem[] = [
   },
   {
     pageKey: 'services',
-    fileName: 'Dịch Vụ.mp4',
+    fileName: 'Dịch vụ.mp4',
     fileId: '1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP',
-    matchedKeyword: 'Dịch Vụ',
+    matchedKeyword: 'Dịch vụ',
     previewUrl: 'https://drive.google.com/file/d/1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP/preview',
   },
   {
@@ -98,12 +98,88 @@ const DRIVE_VIDEO_BANNER_SEED_LIST: RawDriveBannerLinkItem[] = [
   },
   {
     pageKey: 'skills',
-    fileName: 'Kỷ năng.mp4',
+    fileName: 'Kỹ năng.mp4',
     fileId: '1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx',
-    matchedKeyword: 'Kỷ năng',
+    matchedKeyword: 'Kỹ năng',
     previewUrl: 'https://drive.google.com/file/d/1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx/preview',
   },
 ];
+
+export const VIDEO_BANNER_CONFIG: Record<
+  | 'contact'
+  | 'horoscope'
+  | 'interface'
+  | 'education'
+  | 'wallpaper'
+  | 'memories'
+  | 'experience'
+  | 'systems'
+  | 'services'
+  | 'projects'
+  | 'skills',
+  { videoId: string; title: string; previewUrl: string }
+> = {
+  contact: {
+    videoId: '1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP',
+    title: 'Video Banner Đặt lịch',
+    previewUrl: 'https://drive.google.com/file/d/1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP/preview',
+  },
+  horoscope: {
+    videoId: '1G2ydHrMUchyBLjl3YR5xat8eF1MdPOQ4',
+    title: 'Video Banner Tử Vi',
+    previewUrl: 'https://drive.google.com/file/d/1G2ydHrMUchyBLjl3YR5xat8eF1MdPOQ4/preview',
+  },
+  interface: {
+    videoId: '1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx',
+    title: 'Video Banner Giao diện',
+    previewUrl: 'https://drive.google.com/file/d/1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx/preview',
+  },
+  education: {
+    videoId: '1SxwuMCwZEjqGXaBez6k2R1lUb1dfRKav',
+    title: 'Video Banner Học vấn',
+    previewUrl: 'https://drive.google.com/file/d/1SxwuMCwZEjqGXaBez6k2R1lUb1dfRKav/preview',
+  },
+  wallpaper: {
+    videoId: '1x-u8GDuR95rAAiFJo2Qc7eV4qtiKGfwB',
+    title: 'Video Banner Hình nền',
+    previewUrl: 'https://drive.google.com/file/d/1x-u8GDuR95rAAiFJo2Qc7eV4qtiKGfwB/preview',
+  },
+  memories: {
+    videoId: '1ruWiQjZF1D_sIiw0G6jY05qulslNMj7B',
+    title: 'Video Banner Kỷ niệm',
+    previewUrl: 'https://drive.google.com/file/d/1ruWiQjZF1D_sIiw0G6jY05qulslNMj7B/preview',
+  },
+  experience: {
+    videoId: '1GLEn1qcwUCTdzcoCxy715IrvQe3l4QVn',
+    title: 'Video Banner Kinh nghiệm',
+    previewUrl: 'https://drive.google.com/file/d/1GLEn1qcwUCTdzcoCxy715IrvQe3l4QVn/preview',
+  },
+  systems: {
+    videoId: '1rbcqxl4WUeZvXg98OfQUIxOO1ja5_vIY',
+    title: 'Video Banner Hệ thống',
+    previewUrl: 'https://drive.google.com/file/d/1rbcqxl4WUeZvXg98OfQUIxOO1ja5_vIY/preview',
+  },
+  services: {
+    videoId: '1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP',
+    title: 'Video Banner Dịch vụ',
+    previewUrl: 'https://drive.google.com/file/d/1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP/preview',
+  },
+  projects: {
+    videoId: '1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U',
+    title: 'Video Banner Dự án',
+    previewUrl: 'https://drive.google.com/file/d/1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U/preview',
+  },
+  skills: {
+    videoId: '1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx',
+    title: 'Video Banner Kỹ năng',
+    previewUrl: 'https://drive.google.com/file/d/1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx/preview',
+  },
+};
+
+export type ManagedVideoBannerKey = keyof typeof VIDEO_BANNER_CONFIG;
+
+export const getDefaultBannerVideoConfig = (pageKey: ManagedVideoBannerKey) =>
+  VIDEO_BANNER_CONFIG[pageKey];
 
 const DEFAULT_SEED_TIMESTAMP = 1795204136000;
 

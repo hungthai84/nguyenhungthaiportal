@@ -1,7 +1,9 @@
 class SoundEngineClass {
   private ctx: AudioContext | null = null;
+  private noiseBuffer: AudioBuffer | null = null;
   private lastTapTime: number = 0;
   private lastFlipTime: number = 0;
+  private lastBookSoundTime: number = 0;
 
   private getContext(): AudioContext | null {
     if (typeof window === 'undefined') return null;
@@ -15,6 +17,38 @@ class SoundEngineClass {
       this.ctx.resume().catch(() => {});
     }
     return this.ctx;
+  }
+
+  private getNoiseBuffer(ctx: AudioContext): AudioBuffer {
+    if (this.noiseBuffer && this.noiseBuffer.sampleRate === ctx.sampleRate) {
+      return this.noiseBuffer;
+    }
+    const durationSec = 0.6;
+    const length = Math.floor(ctx.sampleRate * durationSec);
+    const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    // Warm pink-tinted noise (Paul Kellet's refined filter) for natural paper texture
+    let b0 = 0;
+    let b1 = 0;
+    let b2 = 0;
+    let b3 = 0;
+    let b4 = 0;
+    let b5 = 0;
+    let b6 = 0;
+    for (let i = 0; i < length; i++) {
+      const white = Math.random() * 2 - 1;
+      b0 = 0.99886 * b0 + white * 0.0555179;
+      b1 = 0.99332 * b1 + white * 0.0750759;
+      b2 = 0.96900 * b2 + white * 0.1538520;
+      b3 = 0.86650 * b3 + white * 0.3104856;
+      b4 = 0.55000 * b4 + white * 0.5329522;
+      b5 = -0.7616 * b5 - white * 0.0168980;
+      const pink = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+      b6 = white * 0.115926;
+      data[i] = Math.max(-1, Math.min(1, pink * 0.14));
+    }
+    this.noiseBuffer = buffer;
+    return buffer;
   }
 
   playPop() {
@@ -97,6 +131,187 @@ class SoundEngineClass {
         osc.start(start);
         osc.stop(start + 0.11);
       });
+    } catch {}
+  }
+
+  /**
+   * Realistic tactile book cover opening sound (warm spine lift + airy paper sweep + soft settle)
+   */
+  playBookOpen() {
+    try {
+      const now = Date.now();
+      if (now - this.lastBookSoundTime < 90) return;
+      this.lastBookSoundTime = now;
+      const ctx = this.getContext();
+      if (!ctx) return;
+      const t = ctx.currentTime;
+      const noiseBuf = this.getNoiseBuffer(ctx);
+
+      // 1. Soft hardcover/spine creak & air lift
+      const liftSrc = ctx.createBufferSource();
+      liftSrc.buffer = noiseBuf;
+      const liftFilter = ctx.createBiquadFilter();
+      liftFilter.type = 'bandpass';
+      liftFilter.Q.setValueAtTime(1.1, t);
+      liftFilter.frequency.setValueAtTime(420, t);
+      liftFilter.frequency.exponentialRampToValueAtTime(1250, t + 0.14);
+      liftFilter.frequency.exponentialRampToValueAtTime(680, t + 0.30);
+      const liftGain = ctx.createGain();
+      liftGain.gain.setValueAtTime(0.001, t);
+      liftGain.gain.linearRampToValueAtTime(0.22, t + 0.04);
+      liftGain.gain.exponentialRampToValueAtTime(0.001, t + 0.32);
+      liftSrc.connect(liftFilter);
+      liftFilter.connect(liftGain);
+      liftGain.connect(ctx.destination);
+      liftSrc.start(t);
+      liftSrc.stop(t + 0.34);
+
+      // 2. Crisp paper edge shimmer
+      const crispSrc = ctx.createBufferSource();
+      crispSrc.buffer = noiseBuf;
+      const crispFilter = ctx.createBiquadFilter();
+      crispFilter.type = 'highpass';
+      crispFilter.frequency.setValueAtTime(1900, t + 0.04);
+      const crispGain = ctx.createGain();
+      crispGain.gain.setValueAtTime(0.001, t + 0.04);
+      crispGain.gain.linearRampToValueAtTime(0.11, t + 0.09);
+      crispGain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+      crispSrc.connect(crispFilter);
+      crispFilter.connect(crispGain);
+      crispGain.connect(ctx.destination);
+      crispSrc.start(t + 0.04, 0.08);
+      crispSrc.stop(t + 0.27);
+
+      // 3. Soft open-book settle thump
+      const thudOsc = ctx.createOscillator();
+      const thudGain = ctx.createGain();
+      thudOsc.type = 'sine';
+      thudOsc.frequency.setValueAtTime(135, t + 0.15);
+      thudOsc.frequency.exponentialRampToValueAtTime(58, t + 0.27);
+      thudGain.gain.setValueAtTime(0.001, t + 0.15);
+      thudGain.gain.linearRampToValueAtTime(0.07, t + 0.165);
+      thudGain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+      thudOsc.connect(thudGain);
+      thudGain.connect(ctx.destination);
+      thudOsc.start(t + 0.15);
+      thudOsc.stop(t + 0.29);
+    } catch {}
+  }
+
+  /**
+   * Realistic paper page flip rustle synced to forward (+1) or backward (-1) page turns
+   */
+  playBookPageTurn(dir: 1 | -1 = 1) {
+    try {
+      const now = Date.now();
+      if (now - this.lastBookSoundTime < 75) return;
+      this.lastBookSoundTime = now;
+      const ctx = this.getContext();
+      if (!ctx) return;
+      const t = ctx.currentTime;
+      const noiseBuf = this.getNoiseBuffer(ctx);
+
+      // 1. Initial finger brush / paper edge lift
+      const edgeSrc = ctx.createBufferSource();
+      edgeSrc.buffer = noiseBuf;
+      const edgeFilter = ctx.createBiquadFilter();
+      edgeFilter.type = 'bandpass';
+      edgeFilter.Q.setValueAtTime(1.6, t);
+      edgeFilter.frequency.setValueAtTime(dir === 1 ? 2300 : 1950, t);
+      const edgeGain = ctx.createGain();
+      edgeGain.gain.setValueAtTime(0.001, t);
+      edgeGain.gain.linearRampToValueAtTime(0.14, t + 0.018);
+      edgeGain.gain.exponentialRampToValueAtTime(0.001, t + 0.085);
+      edgeSrc.connect(edgeFilter);
+      edgeFilter.connect(edgeGain);
+      edgeGain.connect(ctx.destination);
+      edgeSrc.start(t, 0.02);
+      edgeSrc.stop(t + 0.095);
+
+      // 2. Main paper arc swoosh across the spine
+      const sweepSrc = ctx.createBufferSource();
+      sweepSrc.buffer = noiseBuf;
+      const sweepFilter = ctx.createBiquadFilter();
+      sweepFilter.type = 'bandpass';
+      sweepFilter.Q.setValueAtTime(1.25, t);
+      if (dir === 1) {
+        sweepFilter.frequency.setValueAtTime(880, t + 0.02);
+        sweepFilter.frequency.exponentialRampToValueAtTime(2200, t + 0.13);
+        sweepFilter.frequency.exponentialRampToValueAtTime(920, t + 0.24);
+      } else {
+        sweepFilter.frequency.setValueAtTime(1950, t + 0.02);
+        sweepFilter.frequency.exponentialRampToValueAtTime(1050, t + 0.14);
+        sweepFilter.frequency.exponentialRampToValueAtTime(760, t + 0.24);
+      }
+      const sweepGain = ctx.createGain();
+      sweepGain.gain.setValueAtTime(0.001, t + 0.02);
+      sweepGain.gain.linearRampToValueAtTime(0.24, t + 0.075);
+      sweepGain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+      sweepSrc.connect(sweepFilter);
+      sweepFilter.connect(sweepGain);
+      sweepGain.connect(ctx.destination);
+      sweepSrc.start(t + 0.02, 0.14);
+      sweepSrc.stop(t + 0.26);
+
+      // 3. Gentle paper settle against opposite page
+      const settleSrc = ctx.createBufferSource();
+      settleSrc.buffer = noiseBuf;
+      const settleFilter = ctx.createBiquadFilter();
+      settleFilter.type = 'lowpass';
+      settleFilter.frequency.setValueAtTime(720, t + 0.18);
+      const settleGain = ctx.createGain();
+      settleGain.gain.setValueAtTime(0.001, t + 0.18);
+      settleGain.gain.linearRampToValueAtTime(0.11, t + 0.205);
+      settleGain.gain.exponentialRampToValueAtTime(0.001, t + 0.27);
+      settleSrc.connect(settleFilter);
+      settleFilter.connect(settleGain);
+      settleGain.connect(ctx.destination);
+      settleSrc.start(t + 0.18, 0.28);
+      settleSrc.stop(t + 0.28);
+    } catch {}
+  }
+
+  /**
+   * Soft muted book-closing sound when shutting cover or exiting book view
+   */
+  playBookClose() {
+    try {
+      const now = Date.now();
+      if (now - this.lastBookSoundTime < 75) return;
+      this.lastBookSoundTime = now;
+      const ctx = this.getContext();
+      if (!ctx) return;
+      const t = ctx.currentTime;
+      const noiseBuf = this.getNoiseBuffer(ctx);
+
+      const puffSrc = ctx.createBufferSource();
+      puffSrc.buffer = noiseBuf;
+      const puffFilter = ctx.createBiquadFilter();
+      puffFilter.type = 'lowpass';
+      puffFilter.frequency.setValueAtTime(920, t);
+      puffFilter.frequency.exponentialRampToValueAtTime(320, t + 0.16);
+      const puffGain = ctx.createGain();
+      puffGain.gain.setValueAtTime(0.001, t);
+      puffGain.gain.linearRampToValueAtTime(0.18, t + 0.025);
+      puffGain.gain.exponentialRampToValueAtTime(0.001, t + 0.17);
+      puffSrc.connect(puffFilter);
+      puffFilter.connect(puffGain);
+      puffGain.connect(ctx.destination);
+      puffSrc.start(t, 0.22);
+      puffSrc.stop(t + 0.18);
+
+      const thudOsc = ctx.createOscillator();
+      const thudGain = ctx.createGain();
+      thudOsc.type = 'sine';
+      thudOsc.frequency.setValueAtTime(115, t + 0.03);
+      thudOsc.frequency.exponentialRampToValueAtTime(48, t + 0.15);
+      thudGain.gain.setValueAtTime(0.001, t + 0.03);
+      thudGain.gain.linearRampToValueAtTime(0.085, t + 0.045);
+      thudGain.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
+      thudOsc.connect(thudGain);
+      thudGain.connect(ctx.destination);
+      thudOsc.start(t + 0.03);
+      thudOsc.stop(t + 0.17);
     } catch {}
   }
 

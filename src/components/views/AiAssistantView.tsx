@@ -453,10 +453,14 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                 } as React.CSSProperties)
               : undefined
           }
-          className="page-main-card flex flex-col items-stretch p-[15px] gap-[15px] rounded-[14px] overflow-y-auto lg:overflow-hidden font-play text-left justify-start box-border"
+          className="page-main-card relative flex flex-col items-stretch p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left justify-start box-border"
         >
+          <div
+            id="ai-assistant-main-scroll-viewport"
+            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+          >
       <div
-        className={`flex-1 min-h-0 w-full flex flex-col lg:flex-row items-stretch ${
+        className={`flex-1 min-h-full w-full flex flex-col lg:flex-row items-stretch ${
           chatExpandPx >= 200 ? 'gap-0 lg:gap-0' : 'gap-[15px]'
         }`}
       >
@@ -807,6 +811,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         </form>
       </div>
       </div>
+          </div>
         </div>
       </div>
     </div>

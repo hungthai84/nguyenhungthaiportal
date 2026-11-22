@@ -41,3 +41,10 @@
 2. **Desktop / Laptop (1200px–1599px):** Ưu tiên lưới 3 cột khi đủ diện tích (`@container main-card >= 1050px`), thanh điều hướng và thanh công cụ không chen chúc.
 3. **Tablet (768px–1199px):** Tự động chuyển 3 cột xuống 2 cột (`@container main-card 600px–959px` và vùng chuyển tiếp `960px–1049px`), tiêu đề xuống dòng tự nhiên, tối ưu lề và khoảng cách.
 4. **Mobile (dưới 768px):** Lưới chính chuyển thành 1 cột chiếm 100% chiều rộng khả dụng (`@container main-card < 600px`), điều hướng cuộn/menu thu gọn, khoảng cách đồng bộ `10px` giữa Header – Main Card – Footer, nút chạm đạt tối thiểu chuẩn thao tác ngón tay.
+
+---
+
+## Phần III. Ghi Chú & Quy Tắc Thực Thi Bắt Buộc
+
+- **Phạm vi áp dụng mặc định cho mọi yêu cầu:** Khi chat và lệnh yêu cầu mà **không xác định giao diện cụ thể** thì mặc định **thực thi đồng bộ cho TẤT CẢ các giao diện** trong hệ thống (bao gồm cả các giao diện mới thêm về sau).
+

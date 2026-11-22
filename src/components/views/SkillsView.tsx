@@ -6,9 +6,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { WebIcon } from "@/components/ui/WebIcon";
 import { cn } from "@/lib/utils";
 import { SoundEngine } from "@/components/ui/SoundEngine";
-import { BannerBackgroundVideo } from "@/components/common/BannerBackgroundVideo";
-import { DriveAwareBannerMedia } from "@/components/common/DriveAwareBannerMedia";
-import { useBannerVideo } from "@/context/BannerVideoContext";
+import { VideoBanner } from "@/components/common/VideoBanner";
+import { getDefaultBannerVideoConfig } from "@/data/driveBannerDefaults";
 import { 
   STRENGTHS_DATA, 
   WEAKNESSES_DATA, 
@@ -239,8 +238,7 @@ export interface SkillsViewProps {
 export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {}) {
   void currentTheme;
   const { language: lang, t } = useLanguage();
-  const { bannerAssignments } = useBannerVideo();
-  const driveSkillsBanner = bannerAssignments.skills;
+  const skillsBannerVideo = getDefaultBannerVideoConfig("skills");
   const isVi = lang === "vi";
   const [selectedSwot, setSelectedSwot] = useState<string | null>(null);
   const [expandedSkillIds, setExpandedSkillIds] = useState<Set<string>>(new Set());
@@ -455,22 +453,11 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
             id="skills-hero-banner-bg"
             className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
           >
-            {driveSkillsBanner ? (
-              <DriveAwareBannerMedia
-                directVideoUrl={driveSkillsBanner.directStreamUrl}
-                iframeFallbackUrl={driveSkillsBanner.previewIframeUrl}
-                posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png"
-                title={driveSkillsBanner.fileName}
-                className="rounded-[inherit]"
-              />
-            ) : (
-              <BannerBackgroundVideo
-                id="skills-hero-banner-video"
-                src="https://drive.google.com/uc?export=download&id=1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx"
-                poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png"
-                alt="Banner Kỹ năng cốt lõi"
-              />
-            )}
+            <VideoBanner
+              videoId={skillsBannerVideo.videoId}
+              title={skillsBannerVideo.title}
+              className="rounded-[inherit]"
+            />
           </div>
           <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
@@ -994,16 +981,19 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           data-main-card="true"
           data-layer-level="1"
           data-detail-open={selectedSwot ? 'true' : 'false'}
+          data-detail-overlay="true"
           data-element-name="Thẻ chính Trang Kỹ Năng"
           data-element-type="card"
           data-element-page="skills"
           data-element-parent="skills-cards-track"
-          className={cn(
-            "page-main-card flex flex-col justify-start rounded-[14px] overflow-x-hidden glass-scrollbar font-play text-left box-border",
-            selectedSwot ? "p-0 gap-0 overflow-hidden" : "p-[15px] gap-[15px] overflow-y-auto"
-          )}
+          className="page-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
         >
-          {skillsMainBody}
+          <div
+            id="skills-main-scroll-viewport"
+            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+          >
+            {skillsMainBody}
+          </div>
         </div>
       </div>
     </div>

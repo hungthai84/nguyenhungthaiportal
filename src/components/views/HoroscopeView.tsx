@@ -38,9 +38,8 @@ import { useLanguage } from '@/context/LanguageContext';
 import { stopActiveSpeech } from '@/utils/speechVoice';
 import { ZODIAC_SIGNS, ZODIAC_ORDER, getCanChiInfo } from '@/data/horoscope';
 import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
-import { useBannerVideo } from '@/context/BannerVideoContext';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { VideoBanner } from '@/components/common/VideoBanner';
+import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 
 const HOROSCOPE_AVATAR_IMAGE_URL =
   'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794233300/T%E1%BB%AD_vi_avata.png';
@@ -289,8 +288,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const [leadershipQuoteIndex, setLeadershipQuoteIndex] = useState<number>(0);
   const activeCardIndexRef = useRef<number>(0);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
-  const { bannerAssignments } = useBannerVideo();
-  const driveHoroscopeBanner = bannerAssignments.horoscope;
+  const horoscopeBannerVideo = getDefaultBannerVideoConfig('horoscope');
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -969,22 +967,11 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           id="horoscope-hero-banner-bg"
           className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
-          {driveHoroscopeBanner ? (
-            <DriveAwareBannerMedia
-              directVideoUrl={driveHoroscopeBanner.directStreamUrl}
-              iframeFallbackUrl={driveHoroscopeBanner.previewIframeUrl}
-              posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
-              title={driveHoroscopeBanner.fileName}
-              className="rounded-[inherit]"
-            />
-          ) : (
-            <BannerBackgroundVideo
-              id="horoscope-hero-banner-img"
-              src="https://drive.google.com/uc?export=download&id=1G2ydHrMUchyBLjl3YR5xat8eF1MdPOQ4"
-              poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png"
-              alt="Banner Bản đồ tử vi & Phong thủy"
-            />
-          )}
+          <VideoBanner
+            videoId={horoscopeBannerVideo.videoId}
+            title={horoscopeBannerVideo.title}
+            className="rounded-[inherit]"
+          />
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
@@ -2443,17 +2430,22 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   height: '100%',
                   minHeight: '100%',
                   padding: '15px',
-                  gap: '15px',
-                  rowGap: '15px',
-                  columnGap: '15px',
-                  borderRadius: 'var(--radius-main, 30px)',
+                  gap: '0px',
+                  rowGap: '0px',
+                  columnGap: '0px',
+                  borderRadius: 'var(--radius-main, 14px)',
                 }}
                 className={cn(
-                  'group/horoscope page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
+                  'group/horoscope page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left select-none box-border transition-opacity duration-300',
                   !isActiveCard ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
                 )}
               >
-                {cardMeta.render()}
+                <div
+                  id={`horoscope-card-${cardIdx + 1}-scroll-viewport`}
+                  className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+                >
+                  {cardMeta.render()}
+                </div>
               </div>
             );
           })}

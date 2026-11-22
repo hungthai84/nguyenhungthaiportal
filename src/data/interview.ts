@@ -1,9 +1,22 @@
 import { InterviewQuestion } from '@/types';
 
+export const INTERVIEW_VIDEO_1_ID = '1-XpJWJEyTq4PYh902i7FQbWYnpO17PvM';
+export const INTERVIEW_VIDEO_2_ID = '10oUM0icL2Q2SbDkS2phSskqqWm8DaIZf';
+
+export const INTERVIEW_VIDEO_1_STREAM_URL =
+  `/api/media/drive-video/${INTERVIEW_VIDEO_1_ID}`;
+export const INTERVIEW_VIDEO_2_STREAM_URL =
+  `/api/media/drive-video/${INTERVIEW_VIDEO_2_ID}`;
+
+export const INTERVIEW_VIDEO_1_ALT_STREAM_URL =
+  `https://drive.usercontent.google.com/download?id=${INTERVIEW_VIDEO_1_ID}&export=download&confirm=t`;
+export const INTERVIEW_VIDEO_2_ALT_STREAM_URL =
+  `https://drive.usercontent.google.com/download?id=${INTERVIEW_VIDEO_2_ID}&export=download&confirm=t`;
+
 export const INTERVIEW_VIDEO_1_URL =
-  'https://lh3.googleusercontent.com/d/1Fy9sQL2RnSpuwZgaRNDhQPHhtUtFasFQ';
+  `https://drive.google.com/file/d/${INTERVIEW_VIDEO_1_ID}/preview`;
 export const INTERVIEW_VIDEO_2_URL =
-  'https://drive.google.com/uc?export=download&id=10oUM0icL2Q2SbDkS2phSskqqWm8DaIZf';
+  `https://drive.google.com/file/d/${INTERVIEW_VIDEO_2_ID}/preview`;
 
 export const INTERVIEW_TABS = [
   { key: 'all', labelVi: 'Tất cả câu hỏi' },

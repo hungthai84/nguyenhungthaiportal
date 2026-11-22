@@ -7,6 +7,7 @@ import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallp
 import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
+import blackCowhideLeatherWallpaper from '@/assets/images/black_cowhide_leather_bg_1795346191975.jpg';
 
 export const DEFAULT_CARD_STYLE: CardStyleMode = 'neumorphism-beyond';
 export const DEFAULT_LAYER_DEPTH = 100;
@@ -35,11 +36,12 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   CardStyleMode,
   { cardOpacity: number; blurIntensity: number }
 > = {
-  'liquid-glass': { cardOpacity: 64, blurIntensity: 24 },
-  'dark-liquid-glass': { cardOpacity: 64, blurIntensity: 24 },
+  'liquid-glass': { cardOpacity: 13, blurIntensity: 18 },
+  'dark-liquid-glass': { cardOpacity: 13, blurIntensity: 18 },
   'multicolor-glass': { cardOpacity: 44, blurIntensity: 22 },
   'dark-neon-glass': { cardOpacity: 58, blurIntensity: 24 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
+  'black-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'deep-ocean': { cardOpacity: 84, blurIntensity: 20 },
   'light-deep-ocean': { cardOpacity: 84, blurIntensity: 22 },
   'neumorphism-beyond': { cardOpacity: 91, blurIntensity: 14 },
@@ -86,6 +88,16 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     fallbackGradient:
       'radial-gradient(circle at 20% 18%, rgba(217, 119, 6, 0.30) 0%, transparent 54%), radial-gradient(circle at 82% 24%, rgba(180, 115, 58, 0.28) 0%, transparent 54%), radial-gradient(circle at 65% 84%, rgba(154, 52, 18, 0.24) 0%, transparent 56%), linear-gradient(145deg, #351b0b 0%, #241206 50%, #44230e 100%)',
     overlayBg: 'rgba(28, 14, 5, 0.08)',
+  },
+  'black-cowhide-leather': {
+    id: 'black-cowhide-leather',
+    presetId: 'theme-bg-black-cowhide-leather',
+    label: 'Nền Da Bò Đen Chỉ Trắng',
+    themeMode: 'dark',
+    imagePath: blackCowhideLeatherWallpaper,
+    fallbackGradient:
+      'radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.08) 0%, transparent 52%), radial-gradient(circle at 82% 24%, rgba(148, 163, 184, 0.09) 0%, transparent 54%), linear-gradient(145deg, #16181E 0%, #0B0C10 52%, #14171D 100%)',
+    overlayBg: 'rgba(10, 11, 15, 0.10)',
   },
   'deep-ocean': {
     id: 'deep-ocean',
@@ -153,6 +165,7 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'multicolor-glass': THEME_BACKGROUNDS['multicolor-glass'].presetId,
   'dark-neon-glass': THEME_BACKGROUNDS['dark-neon-glass'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
+  'black-cowhide-leather': THEME_BACKGROUNDS['black-cowhide-leather'].presetId,
   'deep-ocean': THEME_BACKGROUNDS['deep-ocean'].presetId,
   'light-deep-ocean': THEME_BACKGROUNDS['light-deep-ocean'].presetId,
   'neumorphism-beyond': 'custom-wp-1788112774646',

@@ -23,8 +23,8 @@
   background: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   color: var(--text-primary) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
+  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
   filter: none !important;
   text-shadow: none !important;
   transition: box-shadow 220ms ease, border-color 220ms ease !important;
@@ -299,14 +299,7 @@ html[data-surface-depth="flat"] :is(
 /* (#home-intro-card, #home-stats-card, #home-capabilities-card,             */
 /*  #home-achievements-card)                                                 */
 /* ========================================================================= */
-html:not([data-card-style="multicolor-glass"]):not([data-card-style="dark-neon-glass"]) :is(
-  .home-hero-card,
-  #home-intro-card,
-  #home-stats-card,
-  #home-capabilities-card,
-  #home-achievements-card
-),
-html[data-card-style]:not([data-card-style="multicolor-glass"]):not([data-card-style="dark-neon-glass"]) :is(
+html[data-card-style]:not([data-card-style="liquid-glass"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="multicolor-glass"]):not([data-card-style="dark-neon-glass"]) :is(
   .home-hero-card,
   #home-intro-card,
   #home-stats-card,
@@ -317,19 +310,21 @@ html[data-card-style]:not([data-card-style="multicolor-glass"]):not([data-card-s
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="liquid-glass"] :is(
+html:is([data-card-style="liquid-glass"], :not([data-card-style])) :is(
   .home-hero-card,
   #home-intro-card,
   #home-stats-card,
   #home-capabilities-card,
   #home-achievements-card
 ) {
-  background: linear-gradient(145deg, #ffffff 0%, #f4f7ff 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.96) !important;
-  border-radius: var(--radius-card, 16px) !important;
+  background: rgba(255, 255, 255, 0.13) !important;
+  backdrop-filter: blur(18px) saturate(188%) contrast(108%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(188%) contrast(108%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.26) !important;
+  border-radius: var(--radius-card, 28px) !important;
   outline: none !important;
-  color: #162036 !important;
-  box-shadow: 0 12px 28px -6px rgba(30, 41, 59, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+  color: #0f172a !important;
+  box-shadow: var(--lg-clear-shadow) !important;
 }
 
 html[data-card-style="dark-liquid-glass"] :is(
@@ -339,12 +334,14 @@ html[data-card-style="dark-liquid-glass"] :is(
   #home-capabilities-card,
   #home-achievements-card
 ) {
-  background: linear-gradient(145deg, #16223d 0%, #0f192f 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  border-radius: var(--radius-card, 16px) !important;
+  background: rgba(0, 0, 0, 0.13) !important;
+  backdrop-filter: blur(18px) saturate(188%) contrast(108%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(188%) contrast(108%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.26) !important;
+  border-radius: var(--radius-card, 14px) !important;
   outline: none !important;
-  color: #f1f5f9 !important;
-  box-shadow: 0 16px 36px -6px rgba(2, 6, 23, 0.56), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+  color: #f8fafc !important;
+  box-shadow: var(--lg-clear-shadow) !important;
 }
 
 html[data-card-style="cowhide-leather"] :is(

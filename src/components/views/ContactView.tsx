@@ -5,9 +5,8 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { useLanguage } from '@/context/LanguageContext';
 import { useFirebase, InquiryTopic, CloudInquiryItem } from '@/context/FirebaseContext';
 import { BLUEPRINT_LIMITS, sanitizeInquiryTags } from '@/firebase';
-import { useBannerVideo } from '@/context/BannerVideoContext';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { VideoBanner } from '@/components/common/VideoBanner';
+import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 
 export interface ContactViewProps {
   currentTheme?: string;
@@ -25,8 +24,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
   void currentTheme;
   const { language } = useLanguage();
   const isEn = language === 'en';
-  const { bannerAssignments } = useBannerVideo();
-  const driveContactBanner = bannerAssignments.contact;
+  const contactBannerVideo = getDefaultBannerVideoConfig('contact');
   const {
     user,
     isSigningIn,
@@ -158,9 +156,13 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
           data-element-type="card"
           data-element-page="contact"
           data-element-parent="contact-cards-track"
-          className="page-main-card flex flex-col items-stretch p-[15px] gap-[15px] rounded-[14px] overflow-y-auto lg:overflow-hidden font-play text-left box-border"
+          className="page-main-card relative flex flex-col items-stretch p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
         >
-          <div className="flex-1 min-h-0 w-full flex flex-col lg:flex-row items-stretch gap-[15px]">
+          <div
+            id="contact-main-scroll-viewport"
+            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+          >
+          <div className="flex-1 min-h-full w-full flex flex-col lg:flex-row items-stretch gap-[15px]">
             {/* 1. HERO BANNER TRANG LIÊN HỆ */}
             <section
               id="contact-hero-banner"
@@ -177,21 +179,11 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
               }}
             >
               <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0">
-                {driveContactBanner ? (
-                  <DriveAwareBannerMedia
-                    directVideoUrl={driveContactBanner.directStreamUrl}
-                    iframeFallbackUrl={driveContactBanner.previewIframeUrl}
-                    posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
-                    title={driveContactBanner.fileName}
-                    className="rounded-[inherit]"
-                  />
-                ) : (
-                  <BannerBackgroundVideo
-                    src="https://drive.google.com/uc?export=download&id=1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP"
-                    poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png"
-                    alt="Banner Liên hệ & Kết nối"
-                  />
-                )}
+                <VideoBanner
+                  videoId={contactBannerVideo.videoId}
+                  title={contactBannerVideo.title}
+                  className="rounded-[inherit]"
+                />
               </div>
               <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
@@ -621,6 +613,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                 </div>
               )}
             </div>
+          </div>
           </div>
         </div>
       </div>

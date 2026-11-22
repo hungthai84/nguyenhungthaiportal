@@ -12,6 +12,7 @@ export type CardStyleMode =
   | 'multicolor-glass'
   | 'dark-neon-glass'
   | 'cowhide-leather'
+  | 'black-cowhide-leather'
   | 'deep-ocean'
   | 'light-deep-ocean'
   | 'neumorphism-beyond'
@@ -19,11 +20,10 @@ export type CardStyleMode =
 
 export type ThemeFamilyId =
   | 'liquid-glass'
-  | 'multicolor-glass'
-  | 'dark-neon-glass'
   | 'cowhide-leather'
   | 'deep-ocean'
-  | 'neumorphism-beyond';
+  | 'neumorphism-beyond'
+  | 'multicolor-glass';
 
 export interface CardStyleConfig {
   id: CardStyleMode;
@@ -47,6 +47,7 @@ export interface CardStyleConfig {
   miniTabStyle?: React.CSSProperties;
   miniBtnStyle?: React.CSSProperties;
   badgeColorClass?: string;
+  layerDepth?: number;
 }
 
 export interface DesignTokens {

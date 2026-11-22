@@ -3,7 +3,7 @@ import { TABS_DATA } from '../../data/tabs';
 import { WeatherCard } from '../common/WeatherCard';
 import { WebIcon } from '../ui/WebIcon';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
-import { UNIFIED_INTERFACE_THEMES, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/config/ui/cardStyles';
+import { CARD_STYLE_GROUPS, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/config/ui/cardStyles';
 import { useLanguage, LanguagePreference } from '@/context/LanguageContext';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 
@@ -110,6 +110,9 @@ export const Footer: React.FC<FooterProps> = ({
     SoundEngine.playGlassChime();
     setLanguageMode(mode);
     setIsLangMenuOpen(false);
+    setHoveredRightBtn(null);
+    setFocusedRightBtn(null);
+    rightPillBtnRefs.current[0]?.blur();
     if (mode === 'vi') {
       onShowNotification('✓ Đã chuyển ngôn ngữ sang Tiếng Việt');
     } else {
@@ -118,6 +121,11 @@ export const Footer: React.FC<FooterProps> = ({
   };
 
   const handleWallpaperClick = () => {
+    setIsLangMenuOpen(false);
+    setIsThemeMenuOpen(false);
+    setHoveredRightBtn(null);
+    setFocusedRightBtn(null);
+    rightPillBtnRefs.current[2]?.blur();
     if (onOpenWallpaper) {
       onOpenWallpaper();
     } else {
@@ -131,6 +139,9 @@ export const Footer: React.FC<FooterProps> = ({
     SoundEngine.playGlassChime();
     setIsLangMenuOpen(false);
     setIsThemeMenuOpen(false);
+    setHoveredRightBtn(null);
+    setFocusedRightBtn(null);
+    rightPillBtnRefs.current[1]?.blur();
     _onSelectTab(15);
     onShowNotification(
       isEn ? '✓ Navigated to Interface Configuration' : '✓ Chuyển đến trang Cấu hình Giao diện'
@@ -227,28 +238,17 @@ export const Footer: React.FC<FooterProps> = ({
     : isThemeMenuOpen
       ? 1
       : null;
-  const selectedUtilityPageIndex =
-    currentTabIndex === 15
-      ? 1
-      : currentTabIndex === 14
-        ? 2
-        : currentTabIndex === 13
-          ? 3
-          : null;
   const activeRightIndex =
     hoveredRightBtn !== null
       ? hoveredRightBtn
       : focusedRightBtn !== null
         ? focusedRightBtn
-        : openUtilityIndex !== null
-          ? openUtilityIndex
-          : selectedUtilityPageIndex;
+        : openUtilityIndex;
   const hideCenterNavCapsule =
     !isCompactMobile &&
     (hoveredRightBtn !== null ||
       focusedRightBtn !== null ||
-      openUtilityIndex !== null ||
-      (selectedUtilityPageIndex !== null && viewportWidth < 1100));
+      openUtilityIndex !== null);
 
   const exposedRightWidth = viewportWidth < 768 ? 46 : viewportWidth < 1024 ? 38 : 52;
   const overlapRightPx = uniformRightWidth
@@ -341,68 +341,157 @@ export const Footer: React.FC<FooterProps> = ({
     </div>
   );
 
-  const renderThemePopup = (mobilePlacement: boolean) => (
-    <div
-      id="footer-theme-popup"
-      ref={themePopupRef}
-      style={{ background: 'var(--bg-popup)' }}
-      className={`theme-popup absolute bottom-[calc(100%+12px)] ${
-        mobilePlacement
-          ? 'inset-x-3 mx-auto w-[min(264px,calc(100vw-24px))] max-w-[calc(100vw-24px)] sm:inset-x-auto sm:right-3'
-          : 'left-auto right-0 w-[264px] max-w-[calc(100vw-32px)]'
-      } rounded-[var(--radius-popup,16px)] p-2 z-[9999] flex flex-col gap-1 font-play text-left animate-slide-up pointer-events-auto`}
-    >
-      <div className="max-h-[380px] overflow-y-auto no-scrollbar flex flex-col gap-1">
-        {UNIFIED_INTERFACE_THEMES.map((preset) => {
-          const isSelected = cardStyle === preset.id;
-          const shortName = isEn
-            ? THEME_FOUR_WORD_NAMES[preset.id]?.en || t(preset.name)
-            : THEME_FOUR_WORD_NAMES[preset.id]?.vi || preset.name;
-          const itemColor = isSelected
-            ? 'var(--text-link, var(--color-primary))'
-            : 'var(--text-primary)';
+  const renderThemePopup = (mobilePlacement: boolean) => {
+    const applyThemeFromPopup = (mode: typeof cardStyle) => {
+      const targetName = isEn
+        ? THEME_FOUR_WORD_NAMES[mode]?.en || t(getCardStyleConfig(mode).name)
+        : THEME_FOUR_WORD_NAMES[mode]?.vi || getCardStyleConfig(mode).name;
+      SoundEngine.playGlassChime();
+      setCardStyle(mode);
+      setIsThemeMenuOpen(false);
+      setHoveredRightBtn(null);
+      setFocusedRightBtn(null);
+      rightPillBtnRefs.current[1]?.blur();
+      onShowNotification(
+        isEn
+          ? `✓ Saved & applied: ${targetName}`
+          : `✓ Đã lưu & áp dụng: ${targetName}`
+      );
+    };
 
-          return (
-            <button
-              key={preset.id}
-              type="button"
-              aria-pressed={isSelected}
-              onClick={() => {
-                SoundEngine.playGlassChime();
-                setCardStyle(preset.id);
-                setIsThemeMenuOpen(false);
-                onShowNotification(
-                  isEn
-                    ? `✓ Saved & applied: ${shortName}`
-                    : `✓ Đã lưu & áp dụng: ${shortName}`
-                );
-              }}
-              className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[12px] border transition-colors cursor-pointer text-left min-w-0 ${
-                isSelected ? 'shadow-xs' : 'theme-dropdown-option border-transparent'
-              }`}
-              style={{
-                background: isSelected ? 'var(--bg-subcard)' : undefined,
-                borderColor: isSelected ? 'var(--color-primary)' : 'transparent',
-                color: itemColor,
-              }}
-            >
-              <WebIcon
-                name={preset.icon || 'layers'}
-                className="w-4 h-4 shrink-0"
-                style={{ color: itemColor, strokeWidth: 2.75 }}
-              />
-              <span
-                className="typo-body-sm font-bold truncate min-w-0 flex-1"
-                style={{ color: itemColor, fontWeight: 700 }}
+    return (
+      <div
+        id="footer-theme-popup"
+        ref={themePopupRef}
+        style={{ background: 'var(--bg-popup)' }}
+        className={`theme-popup absolute bottom-[calc(100%+12px)] ${
+          mobilePlacement
+            ? 'inset-x-3 mx-auto w-[min(348px,calc(100vw-24px))] max-w-[calc(100vw-24px)] sm:inset-x-auto sm:right-3'
+            : 'left-auto right-0 w-[348px] max-w-[calc(100vw-32px)]'
+        } rounded-[var(--radius-popup,16px)] p-2 z-[9999] flex flex-col gap-1 font-play text-left animate-slide-up pointer-events-auto`}
+      >
+        <div className="max-h-[380px] overflow-y-auto no-scrollbar flex flex-col gap-1">
+          {CARD_STYLE_GROUPS.map((group) => {
+            const lightMode = group.lightMode || group.defaultMode || group.presets[0]?.id;
+            const darkMode = group.darkMode || group.presets[group.presets.length - 1]?.id || lightMode;
+            const isLightActive = Boolean(lightMode && cardStyle === lightMode);
+            const isDarkActive = Boolean(darkMode && cardStyle === darkMode);
+            const isGroupActive = isLightActive || isDarkActive;
+            const groupTitle = isEn ? group.labelEn : group.label;
+            const itemColor = isGroupActive
+              ? 'var(--text-link, var(--color-primary))'
+              : 'var(--text-primary)';
+
+            return (
+              <div
+                key={group.id}
+                data-selected={isGroupActive ? 'true' : undefined}
+                className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[12px] border transition-colors min-w-0 ${
+                  isGroupActive ? 'shadow-xs' : 'theme-dropdown-option border-transparent'
+                }`}
+                style={{
+                  background: isGroupActive ? 'var(--bg-subcard)' : undefined,
+                  borderColor: isGroupActive ? 'var(--color-primary)' : 'transparent',
+                }}
               >
-                {shortName}
-              </span>
-            </button>
-          );
-        })}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const preferred = isDark ? darkMode : lightMode;
+                    if (preferred) applyThemeFromPopup(preferred);
+                  }}
+                  className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer py-0.5"
+                  style={{ color: itemColor }}
+                >
+                  <WebIcon
+                    name={group.icon || 'layers'}
+                    className="w-4 h-4 shrink-0"
+                    style={{ color: itemColor, strokeWidth: 2.5 }}
+                  />
+                  <span
+                    className="typo-body-sm font-bold truncate min-w-0"
+                    style={{ color: itemColor, fontWeight: 700 }}
+                  >
+                    {groupTitle}
+                  </span>
+                </button>
+
+                <div
+                  role="group"
+                  aria-label={`${groupTitle} ${isEn ? 'Light or Dark' : 'Sáng hoặc Tối'}`}
+                  className="inline-flex items-center gap-0.5 p-0.5 rounded-full border shrink-0"
+                  style={{
+                    background: 'var(--bg-card)',
+                    borderColor: 'var(--border-subcard)',
+                  }}
+                >
+                  {lightMode && (
+                    <button
+                      type="button"
+                      aria-pressed={isLightActive}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        applyThemeFromPopup(lightMode);
+                      }}
+                      title={
+                        isEn
+                          ? THEME_FOUR_WORD_NAMES[lightMode]?.en
+                          : THEME_FOUR_WORD_NAMES[lightMode]?.vi
+                      }
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                        isLightActive ? 'shadow-xs' : 'opacity-75 hover:opacity-100'
+                      }`}
+                      style={
+                        isLightActive
+                          ? {
+                              background: 'var(--bg-button-primary)',
+                              color: 'var(--text-button-primary, #FFFFFF)',
+                            }
+                          : { color: 'var(--text-secondary)' }
+                      }
+                    >
+                      <WebIcon name="sun" className="w-3 h-3 shrink-0" />
+                      <span>{isEn ? 'Light' : 'Sáng'}</span>
+                    </button>
+                  )}
+
+                  {darkMode && (
+                    <button
+                      type="button"
+                      aria-pressed={isDarkActive}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        applyThemeFromPopup(darkMode);
+                      }}
+                      title={
+                        isEn
+                          ? THEME_FOUR_WORD_NAMES[darkMode]?.en
+                          : THEME_FOUR_WORD_NAMES[darkMode]?.vi
+                      }
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                        isDarkActive ? 'shadow-xs' : 'opacity-75 hover:opacity-100'
+                      }`}
+                      style={
+                        isDarkActive
+                          ? {
+                              background: 'var(--bg-button-primary)',
+                              color: 'var(--text-button-primary, #FFFFFF)',
+                            }
+                          : { color: 'var(--text-secondary)' }
+                      }
+                    >
+                      <WebIcon name="moon" className="w-3 h-3 shrink-0" />
+                      <span>{isEn ? 'Dark' : 'Tối'}</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const footerElement = (
     <footer
@@ -668,7 +757,6 @@ export const Footer: React.FC<FooterProps> = ({
                     data-active={currentTabIndex === 15 || isThemeMenuOpen ? 'true' : 'false'}
                     onFocus={() => setFocusedRightBtn(1)}
                     onClick={(e) => {
-                      triggerPillRipple('theme', e);
                       setIsLangMenuOpen(false);
                       const now = Date.now();
                       const isRapidSecondClick =
@@ -676,16 +764,19 @@ export const Footer: React.FC<FooterProps> = ({
                       if (isRapidSecondClick) {
                         themeDblHandledRef.current = true;
                         themeLastClickTimeRef.current = 0;
+                        e.currentTarget.blur();
                         handleOpenAppearancePage();
                         return;
                       }
                       themeDblHandledRef.current = false;
                       themeLastClickTimeRef.current = now;
+                      triggerPillRipple('theme', e);
                       SoundEngine.playTap();
                       setIsThemeMenuOpen((prev) => !prev);
                     }}
                     onDoubleClick={(e) => {
                       e.stopPropagation();
+                      e.currentTarget.blur();
                       if (themeDblHandledRef.current) {
                         themeDblHandledRef.current = false;
                         return;
@@ -775,9 +866,7 @@ export const Footer: React.FC<FooterProps> = ({
                 data-active={currentTabIndex === 14 ? 'true' : 'false'}
                 onFocus={() => setFocusedRightBtn(2)}
                 onClick={(e) => {
-                  triggerPillRipple('wallpaper', e);
-                  setIsLangMenuOpen(false);
-                  setIsThemeMenuOpen(false);
+                  e.currentTarget.blur();
                   handleWallpaperClick();
                 }}
                 title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
@@ -855,10 +944,12 @@ export const Footer: React.FC<FooterProps> = ({
                 aria-label={isEn ? 'Open AI Tri Nhan (24/7 Support)' : 'Mở AI Trí Nhân (Hỗ trợ 24/7)'}
                 onFocus={() => setFocusedRightBtn(3)}
                 onClick={(e) => {
-                  triggerPillRipple('ai', e);
                   SoundEngine.playTap();
                   setIsLangMenuOpen(false);
                   setIsThemeMenuOpen(false);
+                  setHoveredRightBtn(null);
+                  setFocusedRightBtn(null);
+                  e.currentTarget.blur();
                   onOpenAiAssistant();
                 }}
                 title={isEn ? 'AI Tri Nhan (24/7 Support)' : 'AI Trí Nhân (Hỗ trợ 24/7)'}

@@ -7,9 +7,8 @@ import { SkillsView } from './SkillsView';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
-import { useBannerVideo } from '@/context/BannerVideoContext';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { VideoBanner } from '@/components/common/VideoBanner';
+import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { EducationBookView } from './education/EducationBookView';
 
 // Helper map skill tag to appropriate icon
@@ -226,6 +225,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
+    currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond';
 
@@ -246,8 +246,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const [lightboxImage, setLightboxImage] = useState<string>('');
   const [lightboxTitle, setLightboxTitle] = useState<string>('');
   const [isBannerMuted, setIsBannerMuted] = useState<boolean>(true);
-  const { bannerAssignments } = useBannerVideo();
-  const driveEducationBanner = bannerAssignments.education;
+  const educationBannerVideo = getDefaultBannerVideoConfig('education');
   const [activeCarouselIdx, setActiveCarouselIdx] = useState<number>(0);
 
   const bannerVideoRef = useRef<HTMLVideoElement | null>(null);
@@ -277,6 +276,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       } else if (isFilterDropdownOpen) {
         setIsFilterDropdownOpen(false);
       } else if (selectedCourse) {
+        SoundEngine.playBookClose();
         setSelectedCourse(null);
       }
     };
@@ -298,7 +298,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   }, [activeCategory, maxYearFilter, exactYearFilter]);
 
   const handleOpenDetail = (course: EducationCourse) => {
-    SoundEngine.playTap();
+    SoundEngine.playBookOpen();
     setSelectedCourse(course);
     document.getElementById('education-main-card')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -464,21 +464,11 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         <div
           className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
-          {driveEducationBanner ? (
-            <DriveAwareBannerMedia
-              directVideoUrl={driveEducationBanner.directStreamUrl}
-              iframeFallbackUrl={driveEducationBanner.previewIframeUrl}
-              posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042016/H%E1%BB%8Dc_v%E1%BA%A5n.png"
-              title={driveEducationBanner.fileName}
-              className="rounded-[inherit]"
-            />
-          ) : (
-            <BannerBackgroundVideo
-              src="https://drive.google.com/uc?export=download&id=1SxwuMCwZEjqGXaBez6k2R1lUb1dfRKav"
-              poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042016/H%E1%BB%8Dc_v%E1%BA%A5n.png"
-              alt="Banner Học vấn"
-            />
-          )}
+          <VideoBanner
+            videoId={educationBannerVideo.videoId}
+            title={educationBannerVideo.title}
+            className="rounded-[inherit]"
+          />
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
@@ -671,11 +661,11 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   padding: '10px',
                 }}
               >
-                {/* 1. Ảnh bìa banner tỷ lệ 16:10 nằm gọn trong card padding 1px */}
+                {/* 1. Ảnh bìa banner tỷ lệ 16:10 nằm gọn trong card padding 0px */}
                 <div
                   data-media-card="image"
-                  style={{ borderRadius: 'var(--radius-card, 14px)' }}
-                  className="education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img rounded-[var(--radius-card,14px)] m-0 p-[1px]"
+                  style={{ borderRadius: 'var(--radius-card, 14px)', padding: '0px' }}
+                  className="education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img rounded-[var(--radius-card,14px)] m-0 p-0"
                 >
                   <img
                     src={course.image}
@@ -741,6 +731,16 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     </div>
                   )}
                 </div>
+
+                {/* Hiệu ứng nếp gấp góc giấy mời mở sách khi rê chuột */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-0 right-0 w-0 h-0 group-hover:w-7 group-hover:h-7 transition-all duration-300 ease-out rounded-tl-[8px] z-20"
+                  style={{
+                    background: `linear-gradient(135deg, ${cardColor}45 0%, ${cardColor}20 48%, transparent 52%)`,
+                    boxShadow: '-2px -2px 6px rgba(15, 23, 42, 0.14)',
+                  }}
+                />
 
               </motion.article>
             );

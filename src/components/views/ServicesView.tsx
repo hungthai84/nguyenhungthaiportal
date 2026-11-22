@@ -30,8 +30,8 @@ import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { ServiceDomainKey } from '@/utils/bannerVideoMatcher';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { VideoBanner } from '@/components/common/VideoBanner';
+import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import {
   ServiceExpandedDetail,
   type DomainIconKey,
@@ -295,18 +295,19 @@ const getCardDomId = (id: string) => {
 export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liquid-glass' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
-  const { bannerAssignments, serviceAssignments } = useBannerVideo();
-  const driveServicesBanner = bannerAssignments.services;
+  const { serviceAssignments } = useBannerVideo();
+  const servicesBannerVideo = getDefaultBannerVideoConfig('services');
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
+    currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond';
   const isLight = !isDark;
   const isEn = language === 'en';
-  const isLeatherTheme = cardStyle === 'cowhide-leather';
+  const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'black-cowhide-leather';
 
   const [expandedDomain, setExpandedDomain] = useState<DomainData | null>(null);
   const [originDomainId, setOriginDomainId] = useState<string | null>(null);
@@ -540,6 +541,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
   ];
 
   const getAccentColor = (id: string) => {
+    if (cardStyle === 'black-cowhide-leather') {
+      return '#FFFFFF';
+    }
     if (isLeatherTheme) {
       return '#FDE68A';
     }
@@ -593,11 +597,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
           data-element-type="card"
           data-element-page="services"
           data-element-parent="services-cards-track"
-          className={`page-main-card relative flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-x-hidden glass-scrollbar box-border ${
-            expandedDomain ? 'overflow-hidden' : 'overflow-y-auto'
-          }`}
-          style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-main, 30px)' }}
+          className="page-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden box-border"
+          style={{ padding: '15px', gap: '0px', borderRadius: 'var(--radius-main, 14px)' }}
         >
+          <div
+            id="services-main-scroll-viewport"
+            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+          >
           <div
             id="services-main-content"
             data-element-parent="service-main-card"
@@ -624,21 +630,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
               <div
                 className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
               >
-                {driveServicesBanner ? (
-                  <DriveAwareBannerMedia
-                    directVideoUrl={driveServicesBanner.directStreamUrl}
-                    iframeFallbackUrl={driveServicesBanner.previewIframeUrl}
-                    posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
-                    title={driveServicesBanner.fileName}
-                    className="rounded-[inherit]"
-                  />
-                ) : (
-                  <BannerBackgroundVideo
-                    src="https://drive.google.com/uc?export=download&id=1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP"
-                    poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
-                    alt="Banner Dịch vụ trọng tâm"
-                  />
-                )}
+                <VideoBanner
+                  videoId={servicesBannerVideo.videoId}
+                  title={servicesBannerVideo.title}
+                  className="rounded-[inherit]"
+                />
               </div>
               <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
@@ -961,6 +957,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                 })}
               </div>
             </div>
+          </div>
           </div>
 
           {/* 3. THẺ CHI TIẾT MỞ RỘNG FLIP MORPH (PHÓNG TO TỪ ĐÚNG THẺ GỐC PHỦ TOÀN BỘ THẺ CHÍNH) */}

@@ -12,13 +12,10 @@ import {
   COLOR_SCHEME_MODE_STORAGE_KEY,
   COLOR_SCHEME_MODE_SYNC_EVENT,
   DEFAULT_CARD_STYLE,
-  DEFAULT_LAYER_DEPTH,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
   LAYER_DEPTH_STORAGE_KEY,
-  LAYER_DEPTH_SYNC_EVENT,
   SURFACE_DEPTH_STORAGE_KEY,
-  SURFACE_DEPTH_SYNC_EVENT,
   AUTO_TIME_THEME_STORAGE_KEY,
   AUTO_TIME_THEME_SYNC_EVENT,
   THEME_BACKGROUNDS,
@@ -40,7 +37,7 @@ import {
 import { getInstantWallpaperAccent } from '../utils/wallpaperColorAnalyzer';
 import {
   applyLayerDepthCssVariables,
-  clampLayerDepth,
+  getLayerDepthForTheme,
 } from '../config/ui/layerDepth';
 import {
   CARD_STYLES_MAP,
@@ -88,6 +85,8 @@ function ensureLegacyDefaultUiSeedSync(): void {
       localStorage.removeItem(ACTIVE_WALLPAPER_STORAGE_KEY);
       localStorage.removeItem(WALLPAPER_OVERLAY_STORAGE_KEY);
       localStorage.removeItem(ADAPTIVE_ACCENT_STORAGE_KEY);
+      localStorage.removeItem(LAYER_DEPTH_STORAGE_KEY);
+      localStorage.removeItem(SURFACE_DEPTH_STORAGE_KEY);
       localStorage.setItem(LEGACY_UI_SEED_KEY, '1');
     }
   } catch {
@@ -159,8 +158,8 @@ export function useThemeLegacy() {
   });
 
   const [previewWallpaper, setPreviewWallpaper] = useState<WallpaperPreset | null>(null);
-  const [wallpaperOverlay, setWallpaperOverlay] = useState<WallpaperOverlaySettings>({ blur: 0, dim: 0 });
-  const [adaptiveAccentEnabled, setAdaptiveAccentEnabledState] = useState<boolean>(false);
+  const wallpaperOverlay: WallpaperOverlaySettings = { blur: 0, dim: 0 };
+  const adaptiveAccentEnabled = false;
   const suggestedAccent: AdaptiveAccentPalette | null = getInstantWallpaperAccent(
     previewWallpaper || activeWallpaper
   );
@@ -175,23 +174,8 @@ export function useThemeLegacy() {
     return {};
   });
 
-  const [surfaceDepth, setSurfaceDepthState] = useState<SurfaceDepthMode>(() => {
-    try {
-      return localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY) === 'depth' ? 'depth' : 'flat';
-    } catch {
-      return 'flat';
-    }
-  });
-
-  const [layerDepth, setLayerDepthState] = useState<number>(() => {
-    try {
-      const savedDepth = localStorage.getItem(LAYER_DEPTH_STORAGE_KEY);
-      if (savedDepth !== null) return clampLayerDepth(Number(savedDepth));
-      return localStorage.getItem(SURFACE_DEPTH_STORAGE_KEY) === 'depth' ? DEFAULT_LAYER_DEPTH : 0;
-    } catch {
-      return 0;
-    }
-  });
+  const layerDepth = getLayerDepthForTheme(cardStyle);
+  const surfaceDepth: SurfaceDepthMode = layerDepth === 0 ? 'flat' : 'depth';
 
   const [autoTimeTheme, setAutoTimeThemeState] = useState<boolean>(() => {
     try {
@@ -288,18 +272,11 @@ export function useThemeLegacy() {
       const nextStyle = normalizeCardStyle((e as CustomEvent<string>).detail);
       setCardStyleState((prev) => (prev === nextStyle ? prev : nextStyle));
     };
-    const handleLayerDepthSync = (e: Event) => {
-      const nextDepth = clampLayerDepth((e as CustomEvent<number>).detail);
-      setLayerDepthState(nextDepth);
-      setSurfaceDepthState(nextDepth === 0 ? 'flat' : 'depth');
-    };
     window.addEventListener(WALLPAPER_SYNC_EVENT, handleSync);
     window.addEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
-    window.addEventListener(LAYER_DEPTH_SYNC_EVENT, handleLayerDepthSync);
     return () => {
       window.removeEventListener(WALLPAPER_SYNC_EVENT, handleSync);
       window.removeEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
-      window.removeEventListener(LAYER_DEPTH_SYNC_EVENT, handleLayerDepthSync);
     };
   }, []);
 
@@ -536,67 +513,20 @@ export function useThemeLegacy() {
     [cardStyle]
   );
 
-  const setLayerDepth = useCallback((rawDepth: number) => {
-    const nextDepth = clampLayerDepth(rawDepth);
-    const nextSurface: SurfaceDepthMode = nextDepth === 0 ? 'flat' : 'depth';
-    setLayerDepthState(nextDepth);
-    setSurfaceDepthState(nextSurface);
-    try {
-      localStorage.setItem(LAYER_DEPTH_STORAGE_KEY, String(nextDepth));
-      localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, nextSurface);
-    } catch {
-      // ignore
-    }
-    window.dispatchEvent(new CustomEvent(LAYER_DEPTH_SYNC_EVENT, { detail: nextDepth }));
-    window.dispatchEvent(new CustomEvent(SURFACE_DEPTH_SYNC_EVENT, { detail: nextSurface }));
-  }, []);
-
-  const resetLayerDepth = useCallback(() => {
-    setLayerDepth(DEFAULT_LAYER_DEPTH);
-  }, [setLayerDepth]);
-
-  const setSurfaceDepth = useCallback((mode: SurfaceDepthMode) => {
-    const next: SurfaceDepthMode = mode === 'depth' ? 'depth' : 'flat';
-    const nextDepth = next === 'flat' ? 0 : layerDepth === 0 ? DEFAULT_LAYER_DEPTH : layerDepth;
-    setSurfaceDepthState(next);
-    setLayerDepthState(nextDepth);
-    try {
-      localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, next);
-      localStorage.setItem(LAYER_DEPTH_STORAGE_KEY, String(nextDepth));
-    } catch {
-      // ignore
-    }
-    window.dispatchEvent(new CustomEvent(SURFACE_DEPTH_SYNC_EVENT, { detail: next }));
-    window.dispatchEvent(new CustomEvent(LAYER_DEPTH_SYNC_EVENT, { detail: nextDepth }));
-  }, [layerDepth]);
-
-  const toggleSurfaceDepth = useCallback(() => {
-    setSurfaceDepth(surfaceDepth === 'flat' ? 'depth' : 'flat');
-  }, [surfaceDepth, setSurfaceDepth]);
-
-  const updateWallpaperOverlay = useCallback((patch: Partial<WallpaperOverlaySettings>) => {
-    setWallpaperOverlay((prev) => ({
-      blur: Math.min(32, Math.max(0, Math.round(patch.blur ?? prev.blur))),
-      dim: Math.min(80, Math.max(0, Math.round(patch.dim ?? prev.dim))),
-    }));
-  }, []);
-
-  const resetWallpaperOverlay = useCallback(() => {
-    setWallpaperOverlay({ blur: 0, dim: 0 });
-  }, []);
-
-  const setAdaptiveAccentEnabled = useCallback((enabled: boolean) => {
-    setAdaptiveAccentEnabledState(enabled);
-  }, []);
+  const setLayerDepth = useCallback((_rawDepth: number) => {}, []);
+  const resetLayerDepth = useCallback(() => {}, []);
+  const setSurfaceDepth = useCallback((_mode: SurfaceDepthMode) => {}, []);
+  const toggleSurfaceDepth = useCallback(() => {}, []);
+  const updateWallpaperOverlay = useCallback((_patch: Partial<WallpaperOverlaySettings>) => {}, []);
+  const resetWallpaperOverlay = useCallback(() => {}, []);
+  const setAdaptiveAccentEnabled = useCallback((_enabled: boolean) => {}, []);
 
   const applyThemeWallpaperPreset = useCallback(
     (preset: ThemeWallpaperPreset) => {
       setCardStyle(preset.cardStyle);
       setWallpaper(preset.wallpaper);
-      updateWallpaperOverlay({ blur: 0, dim: 0 });
-      setAdaptiveAccentEnabledState(false);
     },
-    [setCardStyle, setWallpaper, updateWallpaperOverlay]
+    [setCardStyle, setWallpaper]
   );
 
   return {

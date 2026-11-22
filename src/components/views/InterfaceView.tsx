@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import {
@@ -11,21 +12,17 @@ import {
 } from '@/hooks/useTheme';
 import { THEME_FOUR_WORD_NAMES } from '@/config/ui/cardStyles';
 import { CardStyleMode, ThemeFamilyId } from '@/config/ui/theme.types';
-import { DEFAULT_CARD_STYLE, DEFAULT_LAYER_DEPTH, THEME_BACKGROUNDS } from '@/config/ui/themeDefaults';
-import { LAYER_DEPTH_PRESETS } from '@/config/ui/layerDepth';
-import { motion } from 'motion/react';
+import { DEFAULT_CARD_STYLE, THEME_BACKGROUNDS } from '@/config/ui/themeDefaults';
 import { useLanguage } from '@/context/LanguageContext';
-import { useFirebase } from '@/context/FirebaseContext';
-import { useBannerVideo } from '@/context/BannerVideoContext';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { VideoBanner } from '@/components/common/VideoBanner';
+import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
+import { ThemePresetCard, ThemeVisualMeta } from './interface/ThemePresetCard';
 
 const INTERFACE_UI_PREFS_KEY = 'hungthai_interface_ui_prefs_v1';
 
 interface InterfaceUiPrefs {
   selectedFamilyFilter: 'all' | ThemeFamilyId;
   selectedMechanismFilter: 'all' | ThemeMechanismMode;
-  focusedLayerLevel: 'all' | 'l1' | 'l2' | 'l3';
   isSandboxOpen: boolean;
   neuSliders: number[];
 }
@@ -34,7 +31,6 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
   const fallback: InterfaceUiPrefs = {
     selectedFamilyFilter: 'all',
     selectedMechanismFilter: 'all',
-    focusedLayerLevel: 'all',
     isSandboxOpen: false,
     neuSliders: [68, 38, 92, 54, 82, 70],
   };
@@ -43,16 +39,21 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
     const raw = localStorage.getItem(INTERFACE_UI_PREFS_KEY);
     if (!raw) return fallback;
     const parsed = JSON.parse(raw) as Partial<InterfaceUiPrefs>;
+    const rawFamily = parsed.selectedFamilyFilter as string | undefined;
+    const migratedFamily: 'all' | ThemeFamilyId =
+      rawFamily === 'dark-neon-glass'
+        ? 'multicolor-glass'
+        : rawFamily === 'all' ||
+            rawFamily === 'liquid-glass' ||
+            rawFamily === 'cowhide-leather' ||
+            rawFamily === 'deep-ocean' ||
+            rawFamily === 'neumorphism-beyond' ||
+            rawFamily === 'multicolor-glass'
+          ? rawFamily
+          : fallback.selectedFamilyFilter;
     return {
-      selectedFamilyFilter: parsed.selectedFamilyFilter ?? fallback.selectedFamilyFilter,
+      selectedFamilyFilter: migratedFamily,
       selectedMechanismFilter: parsed.selectedMechanismFilter ?? fallback.selectedMechanismFilter,
-      focusedLayerLevel:
-        parsed.focusedLayerLevel === 'all' ||
-        parsed.focusedLayerLevel === 'l1' ||
-        parsed.focusedLayerLevel === 'l2' ||
-        parsed.focusedLayerLevel === 'l3'
-          ? parsed.focusedLayerLevel
-          : fallback.focusedLayerLevel,
       isSandboxOpen: typeof parsed.isSandboxOpen === 'boolean' ? parsed.isSandboxOpen : fallback.isSandboxOpen,
       neuSliders:
         Array.isArray(parsed.neuSliders) && parsed.neuSliders.length === 6
@@ -68,32 +69,9 @@ export interface InterfaceViewProps {
   onShowNotification?: (msg: string) => void;
 }
 
-interface ThemeVisualMeta {
-  radius: string;
-  activeRingColor: string;
-  activeBorderClass: string;
-  idleBorderClass: string;
-  activeBadgeClass: string;
-  iconColor: string;
-  titleTextClass: string;
-  bodyTextClass: string;
-  accentTextClass: string;
-  previewBorderClass: string;
-  dividerClass: string;
-  ctaIdleClass: string;
-  ctaActiveClass: string;
-  toggleTrackDarkClass: string;
-  toggleTrackLightClass: string;
-  toggleThumbDarkClass: string;
-  toggleThumbLightClass: string;
-  outlineStyle?: (isActive: boolean) => React.CSSProperties;
-  demoVideoUrl: string;
-  gradientBars: Array<{ label: string; width: string; gradient: string; glow?: string }>;
-}
-
 const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
   'liquid-glass': {
-    radius: '24px',
+    radius: '28px',
     activeRingColor: '#0284C7',
     activeBorderClass: 'border-[#0284C7]',
     idleBorderClass: 'border-white/80 hover:border-sky-400/60',
@@ -118,7 +96,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     ],
   },
   'dark-liquid-glass': {
-    radius: '24px',
+    radius: '14px',
     activeRingColor: '#38BDF8',
     activeBorderClass: 'border-[#38BDF8]',
     idleBorderClass: 'border-white/15 hover:border-sky-400/50',
@@ -194,6 +172,35 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     gradientBars: [
       { label: 'B1', width: '88%', gradient: 'linear-gradient(90deg, #f59e0b, #fde68a)' },
       { label: 'B2', width: '72%', gradient: 'linear-gradient(90deg, #d97706, #fbbf24)' },
+    ],
+  },
+  'black-cowhide-leather': {
+    radius: '14px',
+    activeRingColor: '#FFFFFF',
+    activeBorderClass: 'border-white',
+    idleBorderClass: 'border-[#08090C] hover:border-white/75',
+    activeBadgeClass: 'bg-gradient-to-r from-[#2D313D] to-[#14171F] text-white border-white/85',
+    iconColor: '#FFFFFF',
+    titleTextClass: 'text-white',
+    bodyTextClass: 'text-zinc-200',
+    accentTextClass: 'text-white',
+    previewBorderClass: 'border-white/75 border-dashed',
+    dividerClass: 'border-white/40 border-dashed',
+    ctaIdleClass: 'bg-[#14171D]/92 text-white hover:bg-[#232731] border border-white/55',
+    ctaActiveClass: 'bg-gradient-to-r from-[#FFFFFF] to-[#E4E4E7] text-[#0B0C10] font-bold shadow-xs border border-white',
+    toggleTrackDarkClass: 'bg-[#0D0F14] border-white/65',
+    toggleTrackLightClass: 'bg-[#522E10] border-[#F5DEB3]/60',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#FFFFFF] to-[#D4D4D8] text-[#0B0C10]',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#FDE68A] to-[#D97706] text-[#3D210B]',
+    outlineStyle: (isActive) => ({
+      outline: isActive ? '2px dashed #FFFFFF' : '1.5px dashed rgba(255, 255, 255, 0.76)',
+      outlineOffset: '-6px',
+    }),
+    demoVideoUrl:
+      'https://cdn.scena.ai/project/10223/50b7b30031d4b9124af4948a069cdf530ca8f0942767f6e6b713c350cb8bd6b2.mp4',
+    gradientBars: [
+      { label: 'Stitch', width: '92%', gradient: 'linear-gradient(90deg, #FFFFFF, #E4E4E7)' },
+      { label: 'Grain', width: '76%', gradient: 'linear-gradient(90deg, #A1A1AA, #F4F4F5)' },
     ],
   },
   'deep-ocean': {
@@ -340,14 +347,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     cardStyle,
     setCardStyle,
     isDark,
-    surfaceDepth,
-    setSurfaceDepth,
-    layerDepth,
-    setLayerDepth,
-    resetLayerDepth,
   } = useTheme();
   const { language, t } = useLanguage();
-  const { user, isSigningIn, signInWithGoogle, logout } = useFirebase();
   const isEn = language === 'en';
   const activePreset = getCardStyleConfig(cardStyle);
 
@@ -358,15 +359,45 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const [selectedMechanismFilter, setSelectedMechanismFilter] = useState<'all' | ThemeMechanismMode>(
     initialPrefs.selectedMechanismFilter
   );
+  const [isFamilyFilterOpen, setIsFamilyFilterOpen] = useState<boolean>(false);
+  const familyFilterMenuRef = useRef<HTMLDivElement | null>(null);
   const [isSandboxOpen, setIsSandboxOpen] = useState<boolean>(initialPrefs.isSandboxOpen);
+  const [sandboxQuery, setSandboxQuery] = useState<string>('');
   const [activeVideoPreviewId, setActiveVideoPreviewId] = useState<CardStyleMode | null>(null);
   const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
-  const { bannerAssignments } = useBannerVideo();
-  const driveInterfaceBanner = bannerAssignments.interface;
+  const interfaceBannerVideo = getDefaultBannerVideoConfig('interface');
   const [neuSliders, setNeuSliders] = useState<number[]>(initialPrefs.neuSliders);
-  const [focusedLayerLevel, setFocusedLayerLevel] = useState<'all' | 'l1' | 'l2' | 'l3'>(
-    initialPrefs.focusedLayerLevel
-  );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        familyFilterMenuRef.current &&
+        !familyFilterMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsFamilyFilterOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsFamilyFilterOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  // Cache style specimen cho từng giao diện để tránh tính lại mỗi khi thay đổi bộ lọc
+  const presetSampleStyles = useMemo(() => {
+    const cache = {} as Record<CardStyleMode, React.CSSProperties>;
+    UNIFIED_INTERFACE_THEMES.forEach((preset) => {
+      cache[preset.id] = getCardStyleProperties(preset.id).cardSampleStyle;
+    });
+    return cache;
+  }, []);
 
   // Tự động lưu toàn bộ các lựa chọn trong trang Giao diện để áp dụng mặc định cho sau này
   useEffect(() => {
@@ -374,7 +405,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       const payload: InterfaceUiPrefs = {
         selectedFamilyFilter,
         selectedMechanismFilter,
-        focusedLayerLevel,
         isSandboxOpen,
         neuSliders,
       };
@@ -382,56 +412,57 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     } catch {
       // ignore storage quota errors
     }
-  }, [selectedFamilyFilter, selectedMechanismFilter, focusedLayerLevel, isSandboxOpen, neuSliders]);
+  }, [selectedFamilyFilter, selectedMechanismFilter, isSandboxOpen, neuSliders]);
 
-  const getMechanismLabel = (mech: ThemeMechanismMode) => {
-    if (mech === 'light') return isEn ? 'Light' : 'Sáng';
-    if (mech === 'dark') return isEn ? 'Dark' : 'Tối';
-    return isEn ? 'Color' : 'Màu';
-  };
+  const handleSelectTheme = useCallback(
+    (mode: CardStyleMode, label: string) => {
+      SoundEngine.playGlassChime();
+      setCardStyle(mode);
+      if (onShowNotification) {
+        onShowNotification(
+          isEn
+            ? `✓ Saved & applied theme: ${t(label)}`
+            : `✓ Đã lưu & áp dụng giao diện: ${label}`
+        );
+      }
+    },
+    [isEn, onShowNotification, setCardStyle, t]
+  );
 
-  const handleSelectTheme = (mode: CardStyleMode, label: string) => {
-    SoundEngine.playGlassChime();
-    setCardStyle(mode);
-    if (onShowNotification) {
-      onShowNotification(
+  const handleToggleVideoPreview = useCallback(
+    (id: CardStyleMode) => {
+      SoundEngine.playTap();
+      setFailedVideoIds((prev) => {
+        if (!prev[id]) return prev;
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
+      setActiveVideoPreviewId((prev) => (prev === id ? null : id));
+    },
+    []
+  );
+
+  const handleVideoPreviewError = useCallback(
+    (id: CardStyleMode) => {
+      setFailedVideoIds((prev) => ({ ...prev, [id]: true }));
+      setActiveVideoPreviewId((prev) => (prev === id ? null : prev));
+      onShowNotification?.(
         isEn
-          ? `✓ Saved & applied theme: ${t(label)}`
-          : `✓ Đã lưu & áp dụng giao diện: ${label}`
+          ? 'Unable to load preview video for this theme. Click Retry to try again.'
+          : 'Không tải được video minh họa cho giao diện này. Bấm Thử lại để kiểm tra.'
       );
-    }
-  };
-
-  const handleSelectSurfaceDepth = (mode: 'flat' | 'depth') => {
-    if (mode === surfaceDepth) return;
-    SoundEngine.playGlassChime();
-    setSurfaceDepth(mode);
-    if (onShowNotification) {
-      onShowNotification(
-        mode === 'flat'
-          ? isEn
-            ? '✓ Saved: Minimalist Flat (No Shadow)'
-            : '✓ Đã lưu: Giao diện phẳng tối giản'
-          : isEn
-            ? '✓ Saved: Layered Depth (Elevated Shadows)'
-            : '✓ Đã lưu: Giao diện có chiều sâu'
-      );
-    }
-  };
+    },
+    [isEn, onShowNotification]
+  );
 
   const handleResetDefault = () => {
     const defaultCfg = getCardStyleConfig(DEFAULT_CARD_STYLE);
     SoundEngine.playGlassChime();
     setCardStyle(DEFAULT_CARD_STYLE);
-    if (surfaceDepth !== 'depth') {
-      setSurfaceDepth('depth');
-    }
-    if (layerDepth !== DEFAULT_LAYER_DEPTH) {
-      resetLayerDepth();
-    }
     setSelectedFamilyFilter('all');
     setSelectedMechanismFilter('all');
-    setFocusedLayerLevel('all');
+    setIsFamilyFilterOpen(false);
     if (onShowNotification) {
       onShowNotification(
         isEn
@@ -452,9 +483,15 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     return familyScoped
       .map((g) => ({
         ...g,
-        presets: g.presets.filter(
-          (p) => (p.mechanism || (p.isDark ? 'dark' : 'light')) === selectedMechanismFilter
-        ),
+        presets: g.presets.filter((p) => {
+          if (selectedMechanismFilter === 'light') {
+            return p.id === g.lightMode || p.mechanism === 'light';
+          }
+          if (selectedMechanismFilter === 'dark') {
+            return p.id === g.darkMode || p.mechanism === 'dark';
+          }
+          return (p.mechanism || (p.isDark ? 'dark' : 'light')) === selectedMechanismFilter;
+        }),
       }))
       .filter((g) => g.presets.length > 0);
   }, [selectedFamilyFilter, selectedMechanismFilter]);
@@ -464,10 +501,19 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     () => visibleGroups.reduce((acc, g) => acc + g.presets.length, 0),
     [visibleGroups]
   );
-  const isDefaultConfig =
-    cardStyle === DEFAULT_CARD_STYLE &&
-    surfaceDepth === 'depth' &&
-    layerDepth === DEFAULT_LAYER_DEPTH;
+
+  // Tự động đóng video preview nếu card đó bị ẩn bởi bộ lọc
+  useEffect(() => {
+    if (!activeVideoPreviewId) return;
+    const isStillVisible = visibleGroups.some((g) =>
+      g.presets.some((p) => p.id === activeVideoPreviewId)
+    );
+    if (!isStillVisible) {
+      setActiveVideoPreviewId(null);
+    }
+  }, [activeVideoPreviewId, visibleGroups]);
+
+  const isDefaultConfig = cardStyle === DEFAULT_CARD_STYLE;
 
   return (
     <div
@@ -506,21 +552,11 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
           >
             <div className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none">
-              {driveInterfaceBanner ? (
-                <DriveAwareBannerMedia
-                  directVideoUrl={driveInterfaceBanner.directStreamUrl}
-                  iframeFallbackUrl={driveInterfaceBanner.previewIframeUrl}
-                  posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
-                  title={driveInterfaceBanner.fileName}
-                  className="rounded-[inherit]"
-                />
-              ) : (
-                <BannerBackgroundVideo
-                  src="https://drive.google.com/uc?export=download&id=1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx"
-                  poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png"
-                  alt="Banner Kho giao diện hệ thống"
-                />
-              )}
+              <VideoBanner
+                videoId={interfaceBannerVideo.videoId}
+                title={interfaceBannerVideo.title}
+                className="rounded-[inherit]"
+              />
             </div>
             <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
@@ -547,53 +583,217 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               </p>
             </div>
 
-            <div className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto">
+            <div
+              id="interface-hero-banner-controls"
+              className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto w-full"
+            >
               <div className="flex flex-wrap items-center gap-2 min-w-0">
-                <span className="banner-control-pill typo-badge font-semibold px-3 py-1 rounded-full border truncate max-w-full">
+                {/* Bộ lọc 1: Nhóm chất liệu giao diện (Dropdown trong Banner) */}
+                <div className="relative inline-block text-left" ref={familyFilterMenuRef}>
+                  <button
+                    id="interface-family-filter-btn"
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setIsFamilyFilterOpen((prev) => !prev);
+                    }}
+                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95"
+                    title={isEn ? 'Theme family filter' : 'Bộ lọc nhóm giao diện'}
+                    aria-label={isEn ? 'Theme family filter' : 'Bộ lọc nhóm giao diện'}
+                    aria-expanded={isFamilyFilterOpen}
+                    aria-haspopup="listbox"
+                  >
+                    <WebIcon name="sliders" className="w-4 h-4 shrink-0" />
+                    <span>
+                      {selectedFamilyFilter === 'all'
+                        ? isEn
+                          ? `All Families (${displayedThemesCount})`
+                          : `Tất cả nhóm (${displayedThemesCount})`
+                        : (() => {
+                            const activeGrp = CARD_STYLE_GROUPS.find((g) => g.id === selectedFamilyFilter);
+                            if (!activeGrp) return isEn ? 'Filter' : 'Bộ lọc';
+                            return `${isEn ? activeGrp.labelEn : activeGrp.label} (${activeGrp.presets.length})`;
+                          })()}
+                    </span>
+                    <WebIcon
+                      name="chevron-down"
+                      className={`w-3.5 h-3.5 transition-transform duration-200 shrink-0 ${
+                        isFamilyFilterOpen ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {isFamilyFilterOpen && (
+                      <motion.div
+                        id="interface-family-filter-listbox"
+                        data-element-type="card"
+                        initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                        transition={{ duration: 0.16 }}
+                        role="listbox"
+                        className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14.5rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                      >
+                        <button
+                          type="button"
+                          role="option"
+                          aria-selected={selectedFamilyFilter === 'all'}
+                          data-selected={selectedFamilyFilter === 'all' ? 'true' : 'false'}
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            setSelectedFamilyFilter('all');
+                            setIsFamilyFilterOpen(false);
+                          }}
+                          className="theme-dropdown-option w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
+                        >
+                          <span className="inline-flex items-center gap-2 truncate">
+                            <WebIcon name="grid" className="w-3.5 h-3.5 shrink-0" />
+                            <span className="truncate">{isEn ? 'All Families' : 'Tất cả giao diện'}</span>
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 shrink-0">
+                            <span className="typo-badge font-mono opacity-75 tabular-nums">
+                              {displayedThemesCount}
+                            </span>
+                            {selectedFamilyFilter === 'all' && (
+                              <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />
+                            )}
+                          </span>
+                        </button>
+
+                        {CARD_STYLE_GROUPS.map((grp) => {
+                          const isSelectedTab = selectedFamilyFilter === grp.id;
+                          return (
+                            <button
+                              key={grp.id}
+                              type="button"
+                              role="option"
+                              aria-selected={isSelectedTab}
+                              data-selected={isSelectedTab ? 'true' : 'false'}
+                              onClick={() => {
+                                SoundEngine.playTap();
+                                setSelectedFamilyFilter(grp.id);
+                                setIsFamilyFilterOpen(false);
+                              }}
+                              className="theme-dropdown-option w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
+                            >
+                              <span className="inline-flex items-center gap-2 truncate">
+                                <WebIcon name={grp.icon} className="w-3.5 h-3.5 shrink-0" />
+                                <span className="truncate">{isEn ? grp.labelEn : grp.label}</span>
+                              </span>
+                              <span className="inline-flex items-center gap-1.5 shrink-0">
+                                <span className="typo-badge font-mono opacity-75 tabular-nums">
+                                  {grp.presets.length}
+                                </span>
+                                {isSelectedTab && (
+                                  <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />
+                                )}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Bộ lọc 2: Cơ chế Sáng / Tối / Màu ngay trong Banner */}
+                <div
+                  role="group"
+                  aria-label={isEn ? 'Filter by mechanism' : 'Lọc theo chế độ Sáng, Tối, Màu'}
+                  className="banner-control-pill h-9 inline-flex items-center gap-1 px-1.5 py-1 rounded-full border"
+                >
+                  {(
+                    [
+                      { id: 'all' as const, labelVi: 'Tất cả', labelEn: 'All' },
+                      { id: 'light' as const, labelVi: 'Sáng', labelEn: 'Light' },
+                      { id: 'dark' as const, labelVi: 'Tối', labelEn: 'Dark' },
+                      { id: 'color' as const, labelVi: 'Màu', labelEn: 'Color' },
+                    ]
+                  ).map((item) => {
+                    const active = selectedMechanismFilter === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        aria-pressed={active}
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          setSelectedMechanismFilter(item.id);
+                        }}
+                        className={`px-2.5 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all whitespace-nowrap ${
+                          active ? 'text-white shadow-xs' : 'opacity-80 hover:opacity-100'
+                        }`}
+                        style={
+                          active
+                            ? { background: 'var(--bg-button-primary)' }
+                            : { color: 'var(--text-primary)' }
+                        }
+                      >
+                        {isEn ? item.labelEn : item.labelVi}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {(selectedFamilyFilter !== 'all' || selectedMechanismFilter !== 'all') && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setSelectedFamilyFilter('all');
+                      setSelectedMechanismFilter('all');
+                    }}
+                    className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
+                    title={isEn ? 'Clear filters' : 'Xóa bộ lọc'}
+                  >
+                    <WebIcon name="x" className="w-3.5 h-3.5 shrink-0" />
+                    <span>{isEn ? 'Clear' : 'Xóa lọc'}</span>
+                  </button>
+                )}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2 ml-auto">
+                <span className="banner-control-pill h-9 inline-flex items-center typo-badge font-semibold px-3 py-0 rounded-full border truncate max-w-full">
                   {isEn
                     ? THEME_FOUR_WORD_NAMES[activePreset.id]?.en || t(activePreset.name)
                     : THEME_FOUR_WORD_NAMES[activePreset.id]?.vi || activePreset.name}
                 </span>
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
-                {user ? (
-                  <button
-                    id="btn-firebase-signout"
-                    type="button"
-                    onClick={() => void logout()}
-                    className="banner-control-pill inline-flex items-center gap-2 px-3 py-1 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
-                  >
-                    {user.photoURL ? (
-                      <img
-                        src={user.photoURL}
-                        alt={user.displayName || 'User'}
-                        referrerPolicy="no-referrer"
-                        className="w-4 h-4 rounded-full object-cover shrink-0"
-                      />
-                    ) : (
-                      <WebIcon name="user" className="w-3.5 h-3.5 shrink-0" />
-                    )}
-                    <span className="max-w-[120px] truncate">{user.displayName || (isEn ? 'Account' : 'Tài khoản')}</span>
-                    <WebIcon name="log-out" className="w-3.5 h-3.5 shrink-0 opacity-75" />
-                  </button>
-                ) : (
-                  <button
-                    id="btn-firebase-signin"
-                    type="button"
-                    disabled={isSigningIn}
-                    onClick={() => void signInWithGoogle()}
-                    className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90 disabled:opacity-60"
-                  >
-                    <WebIcon name="log-in" className="w-3.5 h-3.5 shrink-0" />
-                    <span>{isSigningIn ? (isEn ? 'Signing in...' : 'Đang đăng nhập...') : isEn ? 'Google Sync' : 'Đồng bộ Google'}</span>
-                  </button>
-                )}
+                <button
+                  type="button"
+                  aria-expanded={isSandboxOpen}
+                  onClick={() => {
+                    SoundEngine.playTap();
+                    setIsSandboxOpen((prev) => !prev);
+                  }}
+                  className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
+                  style={
+                    isSandboxOpen
+                      ? {
+                          background: 'var(--bg-button-primary)',
+                          borderColor: 'transparent',
+                          color: '#FFFFFF',
+                        }
+                      : undefined
+                  }
+                >
+                  <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
+                  <span>
+                    {isSandboxOpen
+                      ? isEn
+                        ? 'Hide Material Lab'
+                        : 'Ẩn phòng thử vật liệu'
+                      : isEn
+                        ? 'Material Lab'
+                        : 'Phòng thử vật liệu'}
+                  </span>
+                </button>
                 {!isDefaultConfig && (
                   <button
                     id="btn-interface-reset-default"
                     type="button"
                     onClick={handleResetDefault}
-                    className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
+                    className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
                   >
                     <WebIcon name="rotate-ccw" className="w-3.5 h-3.5 shrink-0" />
                     <span>{isEn ? 'Reset Default' : 'Khôi phục mặc định'}</span>
@@ -603,12 +803,12 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             </div>
           </section>
 
-          {/* 1. Bảng điều khiển nhanh: Chọn tên giao diện & Chiều sâu Layer (tự động lưu mặc định) */}
+          {/* 1. Bảng điều khiển nhanh: Chọn tên giao diện (tự động lưu mặc định) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch w-full">
-            {/* Thẻ trái: Chọn nhanh chỉ theo Tên giao diện */}
+            {/* Chọn nhanh theo Tên giao diện */}
             <section
               data-subcard="true"
-              className="sub-card lg:col-span-6 flex flex-col justify-between gap-[12px] p-[15px] border min-w-0"
+              className="sub-card lg:col-span-12 flex flex-col justify-between gap-[12px] p-[15px] border min-w-0"
               style={{
                 background: 'var(--bg-subcard)',
                 borderColor: 'var(--border-subcard)',
@@ -634,654 +834,132 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
 
               <div
                 role="group"
-                aria-label={isEn ? 'Select interface theme by name' : 'Chọn giao diện theo tên'}
-                className="flex flex-wrap gap-1.5 w-full min-w-0"
+                aria-label={isEn ? 'Select interface theme by name' : 'Danh sách giao diện Sáng và Tối'}
+                className="flex flex-col gap-1.5 w-full min-w-0"
               >
-                {UNIFIED_INTERFACE_THEMES.map((preset) => {
-                  const isSelected = cardStyle === preset.id;
-                  const shortName = isEn
-                    ? THEME_FOUR_WORD_NAMES[preset.id]?.en || t(preset.name)
-                    : THEME_FOUR_WORD_NAMES[preset.id]?.vi || preset.name;
+                {CARD_STYLE_GROUPS.map((group) => {
+                  const lightMode = group.lightMode || group.defaultMode || group.presets[0]?.id;
+                  const darkMode = group.darkMode || group.presets[group.presets.length - 1]?.id || lightMode;
+                  const isLightActive = Boolean(lightMode && cardStyle === lightMode);
+                  const isDarkActive = Boolean(darkMode && cardStyle === darkMode);
+                  const isGroupActive = isLightActive || isDarkActive;
+                  const groupTitle = isEn ? group.labelEn : group.label;
+
                   return (
-                    <button
-                      key={preset.id}
-                      id={`btn-quick-theme-${preset.id}`}
-                      type="button"
-                      aria-pressed={isSelected}
-                      onClick={() => handleSelectTheme(preset.id, shortName)}
-                      className={`px-3 py-1.5 rounded-full typo-badge font-bold border transition-colors cursor-pointer max-w-full truncate ${
-                        isSelected ? 'shadow-xs border-transparent' : 'hover:opacity-90'
-                      }`}
-                      style={
-                        isSelected
-                          ? {
-                              background: 'var(--bg-button-primary)',
-                              color: 'var(--text-button-primary, #FFFFFF)',
-                            }
-                          : {
-                              background: 'var(--bg-card)',
-                              borderColor: 'var(--border-subcard)',
-                              color: 'var(--text-primary)',
-                            }
-                      }
-                    >
-                      {shortName}
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-
-            {/* Thẻ phải: Tinh chỉnh Chiều sâu & Độ nổi Layer */}
-            <section
-              data-subcard="true"
-              className="sub-card lg:col-span-6 flex flex-col justify-between gap-[15px] p-[15px] border min-w-0"
-              style={{
-                background: 'var(--bg-subcard)',
-                borderColor: 'var(--border-subcard)',
-              }}
-            >
-              <div className="flex items-center justify-between gap-2 pb-2 border-b" style={{ borderColor: 'var(--border-subcard)' }}>
-                <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
-                  <WebIcon name="layers" className="w-4 h-4 shrink-0" />
-                  <h2
-                    className="typo-h5 font-bold tracking-tight truncate card-title-synced"
-                    data-card-title="true"
-                    style={{ color: 'var(--color-primary)' }}
-                  >
-                    {isEn ? 'Layer Depth & Elevation' : 'Chiều sâu & Độ nổi Layer'}
-                  </h2>
-                </div>
-                <div className="inline-flex items-center gap-1 p-0.5 rounded-full border shrink-0" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-subcard)' }}>
-                  <button
-                    type="button"
-                    aria-pressed={surfaceDepth === 'flat'}
-                    onClick={() => handleSelectSurfaceDepth('flat')}
-                    className={`px-2.5 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
-                      surfaceDepth === 'flat' ? 'text-white shadow-xs' : 'opacity-75 hover:opacity-100'
-                    }`}
-                    style={surfaceDepth === 'flat' ? { background: 'var(--bg-button-primary)' } : { color: 'var(--text-secondary)' }}
-                  >
-                    {isEn ? 'Flat' : 'Phẳng'}
-                  </button>
-                  <button
-                    type="button"
-                    aria-pressed={surfaceDepth === 'depth'}
-                    onClick={() => handleSelectSurfaceDepth('depth')}
-                    className={`px-2.5 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
-                      surfaceDepth === 'depth' ? 'text-white shadow-xs' : 'opacity-75 hover:opacity-100'
-                    }`}
-                    style={surfaceDepth === 'depth' ? { background: 'var(--bg-button-primary)' } : { color: 'var(--text-secondary)' }}
-                  >
-                    {isEn ? '3D Layer' : 'Chiều sâu'}
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row sm:items-center gap-[15px] w-full">
-                {/* Thanh kéo Độ sâu Layer */}
-                <div className="flex-1 flex flex-col gap-2 min-w-0">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="typo-label font-bold" style={{ color: 'var(--text-secondary)' }}>
-                      {isEn ? 'Layer Elevation' : 'Độ nổi Layer'}
-                    </span>
-                    <span className="typo-badge font-mono font-bold tabular-nums" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-                      {layerDepth}%
-                    </span>
-                  </div>
-                  <input
-                    id="interface-layer-depth-slider"
-                    type="range"
-                    min={0}
-                    max={200}
-                    step={10}
-                    value={layerDepth}
-                    aria-label={isEn ? 'Adjust Layer Card elevation' : 'Điều chỉnh độ nổi Layer Card'}
-                    onChange={(e) => setLayerDepth(Number(e.target.value))}
-                    className="w-full accent-[var(--color-primary)] cursor-pointer h-1.5"
-                  />
-                </div>
-
-                {/* Các mốc nhanh Độ sâu Layer */}
-                <div className="flex items-center gap-1.5 flex-wrap shrink-0">
-                  {LAYER_DEPTH_PRESETS.map((preset) => (
-                    <button
-                      key={preset.value}
-                      type="button"
-                      aria-pressed={layerDepth === preset.value}
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setLayerDepth(preset.value);
-                      }}
-                      className={`px-2.5 py-1 rounded-full typo-badge font-bold tabular-nums border cursor-pointer transition-all ${
-                        layerDepth === preset.value ? 'text-white border-transparent shadow-xs' : 'hover:opacity-90'
-                      }`}
-                      style={
-                        layerDepth === preset.value
-                          ? { background: 'var(--bg-button-primary)' }
-                          : { background: 'var(--bg-card)', borderColor: 'var(--border-subcard)', color: 'var(--text-secondary)' }
-                      }
-                    >
-                      {preset.value}%
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </section>
-          </div>
-
-          {/* 1B. Sơ đồ xem trước trực tiếp phân tầng Layer Card Level 1 – 2 – 3 */}
-          <section
-            id="interface-layer-preview-card"
-            data-section-card="true"
-            className="flex flex-col gap-[15px] p-[15px] border min-w-0"
-            style={{
-              background: 'var(--bg-card)',
-              borderColor: 'var(--border-color)',
-              borderRadius: 'var(--radius-card, 14px)',
-            }}
-          >
-            {/* Header chuẩn quy tắc: Trái chỉ có Icon không khung + Tiêu đề cùng màu; Phải là bộ lọc xem tập trung */}
-            <div
-              className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-2.5 border-b"
-              style={{ borderColor: 'var(--border-subcard)' }}
-            >
-              <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
-                <WebIcon name="eye" className="w-4 h-4 shrink-0" />
-                <h2
-                  className="typo-h5 font-bold tracking-tight truncate card-title-synced"
-                  data-card-title="true"
-                  style={{ color: 'var(--color-primary)' }}
-                >
-                  {isEn
-                    ? 'Live Layer Card Hierarchy Preview (Level 1 – 2 – 3)'
-                    : 'Xem trước phân tầng Layer Card trực tiếp (Level 1 – 2 – 3)'}
-                </h2>
-              </div>
-
-              <div className="flex items-center gap-1.5 flex-wrap shrink-0">
-                {(
-                  [
-                    { id: 'all' as const, vi: 'Tất cả', en: 'All' },
-                    { id: 'l1' as const, vi: 'Level 1', en: 'Level 1' },
-                    { id: 'l2' as const, vi: 'Level 2', en: 'Level 2' },
-                    { id: 'l3' as const, vi: 'Level 3', en: 'Level 3' },
-                  ]
-                ).map((tab) => {
-                  const isSelected = focusedLayerLevel === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      aria-pressed={isSelected}
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setFocusedLayerLevel(tab.id);
-                      }}
-                      className={`px-2.5 py-1 rounded-full typo-badge font-bold border cursor-pointer transition-all ${
-                        isSelected ? 'text-white border-transparent shadow-xs' : 'hover:opacity-90'
-                      }`}
-                      style={
-                        isSelected
-                          ? { background: 'var(--bg-button-primary)' }
-                          : {
-                              background: 'var(--bg-subcard)',
-                              borderColor: 'var(--border-subcard)',
-                              color: 'var(--text-secondary)',
-                            }
-                      }
-                    >
-                      {isEn ? tab.en : tab.vi}
-                    </button>
-                  );
-                })}
-                <span
-                  className="px-2.5 py-1 rounded-full typo-badge font-mono font-bold tabular-nums border"
-                  style={{
-                    background: 'var(--bg-subcard)',
-                    borderColor: 'var(--border-subcard)',
-                    color: 'var(--text-link, var(--color-primary))',
-                  }}
-                >
-                  {surfaceDepth === 'flat' ? '0% · Flat' : `${layerDepth}%`}
-                </span>
-              </div>
-            </div>
-
-            {/* Sơ đồ trực quan Header · Main Card · Footer (Level 1) chứa các Card bên trong (Level 2) + Khe dự phòng Level 3 */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch">
-              {/* Cột trái (8/12): Mô phỏng trực tiếp cấu trúc trang thực tế */}
-              <div
-                className="lg:col-span-8 flex flex-col gap-3 p-3.5 border rounded-[var(--radius-card,14px)] min-w-0"
-                style={{
-                  background: 'var(--bg-subcard)',
-                  borderColor: 'var(--border-subcard)',
-                }}
-              >
-                {/* Mini Header — Level 1 */}
-                <div
-                  className={`layer-preview-l1 flex flex-wrap items-center justify-between gap-2 px-3 py-2 border transition-opacity duration-200 ${
-                    focusedLayerLevel !== 'all' && focusedLayerLevel !== 'l1' && focusedLayerLevel !== 'l2'
-                      ? 'opacity-45'
-                      : 'opacity-100'
-                  }`}
-                  style={{
-                    background: 'var(--surface-primary-bg, var(--bg-main))',
-                    borderColor:
-                      focusedLayerLevel === 'l1'
-                        ? 'var(--color-primary)'
-                        : 'var(--surface-primary-border, var(--border-color))',
-                    borderRadius: '0 0 12px 12px',
-                    backdropFilter:
-                      'blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))',
-                    WebkitBackdropFilter:
-                      'blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))',
-                    boxShadow:
-                      surfaceDepth === 'flat'
-                        ? 'none'
-                        : 'var(--layer-l1-header-shadow, var(--surface-header-shadow))',
-                  }}
-                >
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    <span
-                      className="px-2 py-0.5 rounded-full typo-badge font-bold shrink-0"
-                      style={{
-                        background: 'var(--color-primary)',
-                        color: '#FFFFFF',
-                      }}
-                    >
-                      L1
-                    </span>
-                    <span className="typo-label font-bold truncate" style={{ color: 'var(--text-primary)' }}>
-                      Header
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1.5 flex-wrap">
                     <div
-                      className={`layer-preview-l2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-all ${
-                        focusedLayerLevel === 'l2' ? 'ring-2 ring-[var(--color-primary)]' : ''
+                      key={group.id}
+                      id={`quick-theme-group-${group.id}`}
+                      className={`w-full flex flex-wrap items-center justify-between gap-2 px-2.5 py-1.5 rounded-[12px] border transition-colors min-w-0 ${
+                        isGroupActive ? 'shadow-xs' : 'hover:opacity-95'
                       }`}
-                      style={{
-                        background: 'var(--surface-secondary-bg, var(--bg-card))',
-                        borderColor: 'var(--surface-secondary-border, var(--border-subcard))',
-                      }}
-                    >
-                      <span className="typo-badge font-semibold" style={{ color: 'var(--text-primary)' }}>
-                        {isEn ? 'L2 · Header Pill Card' : 'L2 · Card trong Header'}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Mini Main Card — Level 1 */}
-                <div
-                  className={`layer-preview-l1 flex flex-col gap-2.5 p-3 border rounded-[var(--radius-card,14px)] transition-opacity duration-200 ${
-                    focusedLayerLevel !== 'all' && focusedLayerLevel !== 'l1' && focusedLayerLevel !== 'l2'
-                      ? 'opacity-45'
-                      : 'opacity-100'
-                  }`}
-                  style={{
-                    background: 'var(--surface-primary-bg, var(--bg-main))',
-                    borderColor:
-                      focusedLayerLevel === 'l1'
-                        ? 'var(--color-primary)'
-                        : 'var(--surface-primary-border, var(--border-color))',
-                    borderRadius: 'var(--radius-main, 20px)',
-                    backdropFilter:
-                      'blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))',
-                    WebkitBackdropFilter:
-                      'blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))',
-                    boxShadow:
-                      surfaceDepth === 'flat'
-                        ? 'none'
-                        : 'var(--layer-l1-shadow, var(--surface-primary-shadow))',
-                  }}
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1.5 min-w-0">
-                      <span
-                        className="px-2 py-0.5 rounded-full typo-badge font-bold shrink-0"
-                        style={{
-                          background: 'var(--color-primary)',
-                          color: '#FFFFFF',
-                        }}
-                      >
-                        L1
-                      </span>
-                      <span className="typo-label font-bold truncate" style={{ color: 'var(--text-primary)' }}>
-                        Main Card
-                      </span>
-                    </div>
-                    <span className="typo-badge font-mono" style={{ color: 'var(--text-muted)' }}>
-                      --layer-l1-shadow
-                    </span>
-                  </div>
-
-                  {/* Cards bên trong Main Card — Level 2 */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <div
-                      className={`layer-preview-l2 flex flex-col gap-1.5 p-2.5 border rounded-[var(--radius-subcard,12px)] transition-all ${
-                        focusedLayerLevel === 'l2' ? 'ring-2 ring-[var(--color-primary)]' : ''
-                      } ${
-                        focusedLayerLevel !== 'all' && focusedLayerLevel !== 'l2'
-                          ? 'opacity-55'
-                          : 'opacity-100'
-                      }`}
-                      style={{
-                        background: 'var(--surface-secondary-bg, var(--bg-card))',
-                        borderColor: 'var(--surface-secondary-border, var(--border-subcard))',
-                      }}
-                    >
-                      <div className="flex items-center justify-between gap-1.5">
-                        <span className="typo-badge font-bold" style={{ color: 'var(--accent-blue, #2563EB)' }}>
-                          {isEn ? 'L2 · Content Card A' : 'L2 · Card nội dung A'}
-                        </span>
-                        <span className="typo-badge font-mono" style={{ color: 'var(--text-muted)' }}>
-                          Hover ↑
-                        </span>
-                      </div>
-                      <span className="typo-caption" style={{ color: 'var(--text-secondary)' }}>
-                        {isEn
-                          ? 'Cards nested inside Main Card share Level 2 elevation.'
-                          : 'Các thẻ nội dung nằm trong Main Card dùng chung tầng Level 2.'}
-                      </span>
-                    </div>
-
-                    <div
-                      className={`layer-preview-l2 flex flex-col gap-1.5 p-2.5 border rounded-[var(--radius-subcard,12px)] transition-all ${
-                        focusedLayerLevel === 'l2' ? 'ring-2 ring-[var(--color-primary)]' : ''
-                      } ${
-                        focusedLayerLevel !== 'all' && focusedLayerLevel !== 'l2'
-                          ? 'opacity-55'
-                          : 'opacity-100'
-                      }`}
-                      style={{
-                        background: 'var(--surface-secondary-bg, var(--bg-card))',
-                        borderColor: 'var(--surface-secondary-border, var(--border-subcard))',
-                      }}
-                    >
-                      <div className="flex items-center justify-between gap-1.5">
-                        <span className="typo-badge font-bold" style={{ color: 'var(--accent-emerald, #059669)' }}>
-                          {isEn ? 'L2 · Content Card B' : 'L2 · Card nội dung B'}
-                        </span>
-                        <span className="typo-badge font-mono" style={{ color: 'var(--text-muted)' }}>
-                          --layer-l2
-                        </span>
-                      </div>
-                      <span className="typo-caption" style={{ color: 'var(--text-secondary)' }}>
-                        {isEn
-                          ? 'Synchronizes blur, border, and shadow depth live with slider.'
-                          : 'Đồng bộ bóng đổ, viền và hiệu ứng nổi theo thanh Độ sâu Layer.'}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Mini Footer — Level 1 */}
-                <div
-                  className={`layer-preview-l1 flex flex-wrap items-center justify-between gap-2 px-3 py-2 border transition-opacity duration-200 ${
-                    focusedLayerLevel !== 'all' && focusedLayerLevel !== 'l1' && focusedLayerLevel !== 'l2'
-                      ? 'opacity-45'
-                      : 'opacity-100'
-                  }`}
-                  style={{
-                    background: 'var(--surface-primary-bg, var(--bg-main))',
-                    borderColor:
-                      focusedLayerLevel === 'l1'
-                        ? 'var(--color-primary)'
-                        : 'var(--surface-primary-border, var(--border-color))',
-                    borderRadius: '12px 12px 0 0',
-                    backdropFilter:
-                      'blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))',
-                    WebkitBackdropFilter:
-                      'blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))',
-                    boxShadow:
-                      surfaceDepth === 'flat'
-                        ? 'none'
-                        : 'var(--layer-l1-footer-shadow, var(--surface-footer-shadow))',
-                  }}
-                >
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    <span
-                      className="px-2 py-0.5 rounded-full typo-badge font-bold shrink-0"
-                      style={{
-                        background: 'var(--color-primary)',
-                        color: '#FFFFFF',
-                      }}
-                    >
-                      L1
-                    </span>
-                    <span className="typo-label font-bold truncate" style={{ color: 'var(--text-primary)' }}>
-                      Footer
-                    </span>
-                  </div>
-                  <div
-                    className={`layer-preview-l2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-all ${
-                      focusedLayerLevel === 'l2' ? 'ring-2 ring-[var(--color-primary)]' : ''
-                    }`}
-                    style={{
-                      background: 'var(--surface-secondary-bg, var(--bg-card))',
-                      borderColor: 'var(--surface-secondary-border, var(--border-subcard))',
-                    }}
-                  >
-                    <span className="typo-badge font-semibold" style={{ color: 'var(--text-primary)' }}>
-                      {isEn ? 'L2 · Footer Control Card' : 'L2 · Card trong Footer'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Cột phải (4/12): Bảng phân bổ 3 tầng Level 1 – 2 – 3 & Mẫu dự phòng Level 3 */}
-              <div className="lg:col-span-4 flex flex-col justify-between gap-2.5 min-w-0">
-                <div
-                  className={`flex flex-col gap-1 p-3 border rounded-[var(--radius-subcard,12px)] transition-all ${
-                    focusedLayerLevel === 'l1' ? 'ring-2 ring-[var(--color-primary)]' : ''
-                  }`}
-                  style={{
-                    background: 'var(--bg-subcard)',
-                    borderColor: 'var(--border-subcard)',
-                  }}
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="typo-label font-bold" style={{ color: 'var(--color-primary)' }}>
-                      Level Layer 1
-                    </span>
-                    <span className="typo-badge font-mono" style={{ color: 'var(--text-muted)' }}>
-                      Khung chính
-                    </span>
-                  </div>
-                  <span className="typo-body-sm" style={{ color: 'var(--text-secondary)' }}>
-                    {isEn ? 'Header, Main Card, Footer' : 'Header, Main Card, Footer'}
-                  </span>
-                </div>
-
-                <div
-                  className={`flex flex-col gap-1 p-3 border rounded-[var(--radius-subcard,12px)] transition-all ${
-                    focusedLayerLevel === 'l2' ? 'ring-2 ring-[var(--color-primary)]' : ''
-                  }`}
-                  style={{
-                    background: 'var(--bg-subcard)',
-                    borderColor: 'var(--border-subcard)',
-                  }}
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="typo-label font-bold" style={{ color: 'var(--accent-blue, #2563EB)' }}>
-                      Level Layer 2
-                    </span>
-                    <span className="typo-badge font-mono" style={{ color: 'var(--text-muted)' }}>
-                      Card nội dung
-                    </span>
-                  </div>
-                  <span className="typo-body-sm" style={{ color: 'var(--text-secondary)' }}>
-                    {isEn
-                      ? 'All cards inside Header, Main Card, and Footer'
-                      : 'Các card nằm trong Header, Main Card, Footer'}
-                  </span>
-                </div>
-
-                <div
-                  className={`layer-preview-l3 flex flex-col gap-1 p-3 border border-dashed rounded-[var(--radius-subcard,12px)] transition-all ${
-                    focusedLayerLevel === 'l3' ? 'ring-2 ring-[var(--color-primary)]' : ''
-                  }`}
-                  style={{
-                    background: 'var(--surface-tertiary-bg, var(--bg-subcard))',
-                    borderColor:
-                      focusedLayerLevel === 'l3'
-                        ? 'var(--color-primary)'
-                        : 'var(--border-subcard)',
-                  }}
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="typo-label font-bold" style={{ color: 'var(--text-muted)' }}>
-                      Level Layer 3
-                    </span>
-                    <span
-                      className="px-2 py-0.5 rounded-full typo-badge font-semibold border"
                       style={{
                         background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        color: 'var(--text-muted)',
+                        borderColor: isGroupActive ? 'var(--color-primary)' : 'var(--border-subcard)',
                       }}
                     >
-                      {isEn ? 'Reserved' : 'Dự phòng'}
-                    </span>
-                  </div>
-                  <span className="typo-body-sm" style={{ color: 'var(--text-muted)' }}>
-                    {isEn ? 'Currently unassigned' : 'Tạm chưa phân bổ'}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </section>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const targetMode = isDark ? darkMode : lightMode;
+                          if (!targetMode) return;
+                          const modeName = isEn
+                            ? THEME_FOUR_WORD_NAMES[targetMode]?.en || groupTitle
+                            : THEME_FOUR_WORD_NAMES[targetMode]?.vi || groupTitle;
+                          handleSelectTheme(targetMode, modeName);
+                        }}
+                        className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer py-0.5"
+                        style={{
+                          color: isGroupActive
+                            ? 'var(--text-link, var(--color-primary))'
+                            : 'var(--text-primary)',
+                        }}
+                      >
+                        <WebIcon name={group.icon} className="w-3.5 h-3.5 shrink-0" />
+                        <span className="typo-badge font-bold truncate">{groupTitle}</span>
+                      </button>
 
-          {/* 2. Bộ lọc nhanh theo nhóm phong cách & tông Sáng/Tối/Màu + Nút mở phòng thử vật liệu */}
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-[15px] flex-wrap">
-            <div
-              role="tablist"
-              aria-label={isEn ? 'Filter themes by family' : 'Lọc giao diện theo nhóm chất liệu'}
-              className="flex items-center gap-1.5 flex-wrap"
-            >
-              <button
-                type="button"
-                role="tab"
-                aria-selected={selectedFamilyFilter === 'all'}
-                onClick={() => setSelectedFamilyFilter('all')}
-                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border typo-label font-bold cursor-pointer transition-all ${
-                  selectedFamilyFilter === 'all'
-                    ? 'text-white border-transparent shadow-xs'
-                    : 'hover:opacity-90'
-                }`}
-                style={
-                  selectedFamilyFilter === 'all'
-                    ? { background: 'var(--bg-button-primary)' }
-                    : {
-                        background: 'var(--bg-subcard)',
-                        borderColor: 'var(--border-subcard)',
-                        color: 'var(--text-primary)',
-                      }
-                }
-              >
-                <WebIcon name="grid" className="w-3.5 h-3.5 shrink-0" />
-                <span>
-                  {isEn ? `All (${displayedThemesCount})` : `Tất cả (${displayedThemesCount})`}
-                </span>
-              </button>
-
-              {CARD_STYLE_GROUPS.map((grp) => {
-                const isSelectedTab = selectedFamilyFilter === grp.id;
-                return (
-                  <button
-                    key={grp.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={isSelectedTab}
-                    onClick={() => setSelectedFamilyFilter(grp.id)}
-                    className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border typo-label font-bold cursor-pointer transition-all ${
-                      isSelectedTab
-                        ? 'text-white border-transparent shadow-xs'
-                        : 'hover:opacity-90'
-                    }`}
-                    style={
-                      isSelectedTab
-                        ? { background: 'var(--bg-button-primary)' }
-                        : {
-                            background: 'var(--bg-subcard)',
-                            borderColor: 'var(--border-subcard)',
-                            color: 'var(--text-primary)',
-                          }
-                    }
-                  >
-                    <WebIcon name={grp.icon} className="w-3.5 h-3.5 shrink-0" />
-                    <span>
-                      {isEn ? grp.labelEn : grp.label} ({grp.presets.length})
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="flex items-center gap-2 flex-wrap">
-              {/* Lọc nhanh theo cơ chế Sáng / Tối / Màu */}
-              <div
-                className="inline-flex items-center gap-1 p-1 rounded-full border"
-                style={{ background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }}
-              >
-                {(
-                  [
-                    { id: 'all' as const, labelVi: 'Tất cả', labelEn: 'All' },
-                    { id: 'light' as const, labelVi: 'Sáng', labelEn: 'Light' },
-                    { id: 'dark' as const, labelVi: 'Tối', labelEn: 'Dark' },
-                    { id: 'color' as const, labelVi: 'Màu', labelEn: 'Color' },
-                  ]
-                ).map((item) => {
-                  const active = selectedMechanismFilter === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      aria-pressed={active}
-                      onClick={() => setSelectedMechanismFilter(item.id)}
-                      className={`px-2.5 py-1 rounded-full typo-badge font-bold cursor-pointer transition-all ${
-                        active ? 'text-white shadow-xs' : 'hover:opacity-90'
-                      }`}
-                      style={active ? { background: 'var(--bg-button-primary)' } : { color: 'var(--text-secondary)' }}
-                    >
-                      {isEn ? item.labelEn : item.labelVi}
-                    </button>
+                      <div
+                        role="group"
+                        aria-label={`${groupTitle} ${isEn ? 'Light or Dark' : 'Sáng hoặc Tối'}`}
+                        className="inline-flex items-center gap-0.5 p-0.5 rounded-full border shrink-0"
+                        style={{
+                          background: 'var(--bg-subcard)',
+                          borderColor: 'var(--border-subcard)',
+                        }}
+                      >
+                        {lightMode && (
+                          <button
+                            id={`btn-quick-theme-${lightMode}`}
+                            type="button"
+                            aria-pressed={isLightActive}
+                            onClick={() => {
+                              const modeName = isEn
+                                ? THEME_FOUR_WORD_NAMES[lightMode]?.en || groupTitle
+                                : THEME_FOUR_WORD_NAMES[lightMode]?.vi || groupTitle;
+                              handleSelectTheme(lightMode, modeName);
+                            }}
+                            title={
+                              isEn
+                                ? THEME_FOUR_WORD_NAMES[lightMode]?.en
+                                : THEME_FOUR_WORD_NAMES[lightMode]?.vi
+                            }
+                            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                              isLightActive ? 'shadow-xs' : 'opacity-75 hover:opacity-100'
+                            }`}
+                            style={
+                              isLightActive
+                                ? {
+                                    background: 'var(--bg-button-primary)',
+                                    color: 'var(--text-button-primary, #FFFFFF)',
+                                  }
+                                : { color: 'var(--text-secondary)' }
+                            }
+                          >
+                            <WebIcon name="sun" className="w-3 h-3 shrink-0" />
+                            <span>{isEn ? 'Light' : 'Sáng'}</span>
+                          </button>
+                        )}
+                        {darkMode && (
+                          <button
+                            id={`btn-quick-theme-${darkMode}`}
+                            type="button"
+                            aria-pressed={isDarkActive}
+                            onClick={() => {
+                              const modeName = isEn
+                                ? THEME_FOUR_WORD_NAMES[darkMode]?.en || groupTitle
+                                : THEME_FOUR_WORD_NAMES[darkMode]?.vi || groupTitle;
+                              handleSelectTheme(darkMode, modeName);
+                            }}
+                            title={
+                              isEn
+                                ? THEME_FOUR_WORD_NAMES[darkMode]?.en
+                                : THEME_FOUR_WORD_NAMES[darkMode]?.vi
+                            }
+                            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                              isDarkActive ? 'shadow-xs' : 'opacity-75 hover:opacity-100'
+                            }`}
+                            style={
+                              isDarkActive
+                                ? {
+                                    background: 'var(--bg-button-primary)',
+                                    color: 'var(--text-button-primary, #FFFFFF)',
+                                  }
+                                : { color: 'var(--text-secondary)' }
+                            }
+                          >
+                            <WebIcon name="moon" className="w-3 h-3 shrink-0" />
+                            <span>{isEn ? 'Dark' : 'Tối'}</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   );
                 })}
               </div>
-
-              {/* Nút mở / thu gọn phòng thử vật liệu Soft UI */}
-              <button
-                type="button"
-                aria-expanded={isSandboxOpen}
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setIsSandboxOpen((prev) => !prev);
-                }}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
-                style={{
-                  background: isSandboxOpen ? 'var(--bg-button-primary)' : 'var(--bg-subcard)',
-                  borderColor: isSandboxOpen ? 'transparent' : 'var(--border-subcard)',
-                  color: isSandboxOpen ? '#FFFFFF' : 'var(--text-primary)',
-                }}
-              >
-                <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
-                <span>
-                  {isSandboxOpen
-                    ? isEn
-                      ? 'Hide Material Lab'
-                      : 'Ẩn phòng thử vật liệu'
-                    : isEn
-                      ? 'Material Lab'
-                      : 'Phòng thử vật liệu'}
-                </span>
-              </button>
-            </div>
+            </section>
           </div>
 
-          {/* 3. Danh sách nhóm giao diện & thẻ xem trước tương tác kèm hình nền riêng từng giao diện */}
+          {/* 2. Danh sách nhóm giao diện & thẻ xem trước tương tác kèm hình nền riêng từng giao diện */}
           <div className="flex flex-col gap-[15px]">
             {visibleThemesCount === 0 ? (
               <div
@@ -1327,19 +1005,88 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     }}
                   >
                     <div
-                      className="flex items-center justify-between gap-2 pb-2.5 border-b"
+                      className="flex items-center justify-between gap-2 flex-wrap pb-2.5 border-b"
                       style={{ borderColor: 'var(--border-subcard)' }}
                     >
-                      <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
-                        <WebIcon name={group.icon} className="w-4 h-4 shrink-0" />
-                        <h3
-                          className="typo-h5 font-bold tracking-tight truncate card-title-synced"
-                          data-card-title="true"
-                          style={{ color: 'var(--color-primary)' }}
+                      <div className="flex items-center gap-2.5 flex-wrap min-w-0">
+                        <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
+                          <WebIcon name={group.icon} className="w-4 h-4 shrink-0" />
+                          <h3
+                            className="typo-h5 font-bold tracking-tight truncate card-title-synced"
+                            data-card-title="true"
+                            style={{ color: 'var(--color-primary)' }}
+                          >
+                            {isEn ? group.labelEn : group.label}
+                          </h3>
+                        </div>
+
+                        <div
+                          role="group"
+                          aria-label={`${isEn ? group.labelEn : group.label} ${isEn ? 'Light or Dark' : 'Sáng hoặc Tối'}`}
+                          className="inline-flex items-center gap-0.5 p-0.5 rounded-full border shrink-0"
+                          style={{
+                            background: 'var(--bg-card)',
+                            borderColor: 'var(--border-subcard)',
+                          }}
                         >
-                          {isEn ? group.labelEn : group.label}
-                        </h3>
+                          {group.lightMode && (
+                            <button
+                              type="button"
+                              aria-pressed={cardStyle === group.lightMode}
+                              onClick={() => {
+                                const mode = group.lightMode!;
+                                const modeName = isEn
+                                  ? THEME_FOUR_WORD_NAMES[mode]?.en || group.labelEn
+                                  : THEME_FOUR_WORD_NAMES[mode]?.vi || group.label;
+                                handleSelectTheme(mode, modeName);
+                              }}
+                              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                                cardStyle === group.lightMode ? 'shadow-xs' : 'opacity-75 hover:opacity-100'
+                              }`}
+                              style={
+                                cardStyle === group.lightMode
+                                  ? {
+                                      background: 'var(--bg-button-primary)',
+                                      color: 'var(--text-button-primary, #FFFFFF)',
+                                    }
+                                  : { color: 'var(--text-secondary)' }
+                              }
+                            >
+                              <WebIcon name="sun" className="w-3 h-3 shrink-0" />
+                              <span>{isEn ? 'Light' : 'Sáng'}</span>
+                            </button>
+                          )}
+
+                          {group.darkMode && (
+                            <button
+                              type="button"
+                              aria-pressed={cardStyle === group.darkMode}
+                              onClick={() => {
+                                const mode = group.darkMode!;
+                                const modeName = isEn
+                                  ? THEME_FOUR_WORD_NAMES[mode]?.en || group.labelEn
+                                  : THEME_FOUR_WORD_NAMES[mode]?.vi || group.label;
+                                handleSelectTheme(mode, modeName);
+                              }}
+                              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
+                                cardStyle === group.darkMode ? 'shadow-xs' : 'opacity-75 hover:opacity-100'
+                              }`}
+                              style={
+                                cardStyle === group.darkMode
+                                  ? {
+                                      background: 'var(--bg-button-primary)',
+                                      color: 'var(--text-button-primary, #FFFFFF)',
+                                    }
+                                  : { color: 'var(--text-secondary)' }
+                              }
+                            >
+                              <WebIcon name="moon" className="w-3 h-3 shrink-0" />
+                              <span>{isEn ? 'Dark' : 'Tối'}</span>
+                            </button>
+                          )}
+                        </div>
                       </div>
+
                       <span
                         className="typo-badge px-2 py-0.5 rounded-full border font-semibold shrink-0"
                         style={{
@@ -1356,252 +1103,28 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     </p>
 
                     <div className={gridColsClass}>
-                      {group.presets.map((preset) => {
-                        const isActive = cardStyle === preset.id;
-                        const meta = THEME_VISUAL_META[preset.id];
-                        const bgSpec = THEME_BACKGROUNDS[preset.id];
-                        const displayPresetName = t(preset.name);
-                        const displayShortBadge = t(preset.shortBadge);
-                        const sampleProps = getCardStyleProperties(preset.id).cardSampleStyle;
-                        const isVideoVisible =
-                          activeVideoPreviewId === preset.id && !failedVideoIds[preset.id];
-
-                        return (
-                          <motion.article
-                            key={preset.id}
-                            whileTap={{ scale: 0.99 }}
-                            style={{
-                              ...sampleProps,
-                              borderRadius: meta.radius,
-                              padding: '15px',
-                              ...(meta.outlineStyle ? meta.outlineStyle(isActive) : {}),
-                              ...(isActive
-                                ? {
-                                    boxShadow: `${(sampleProps as any).boxShadow || ''}, 0 0 0 2.5px ${meta.activeRingColor}`,
-                                  }
-                                : {}),
-                            }}
-                            className={`relative flex flex-col justify-between gap-[15px] transition-all duration-300 border min-w-0 ${preset.cardClassName} ${
-                              isActive ? meta.activeBorderClass : meta.idleBorderClass
-                            }`}
-                          >
-                            {/* Top Row: Badge + Dedicated Wallpaper Thumbnail Preview */}
-                            <div className="flex flex-col gap-2.5 min-w-0">
-                              <div className="flex items-center justify-between gap-2">
-                                <span
-                                  className={`typo-badge font-bold px-2.5 py-0.5 rounded-full border ${
-                                    isActive ? meta.activeBadgeClass : preset.badgeColorClass
-                                  }`}
-                                >
-                                  {displayShortBadge}
-                                </span>
-                                <div className="flex items-center gap-1.5 shrink-0">
-                                  {isActive && (
-                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-500/35">
-                                      <WebIcon name="check" className="w-3 h-3 shrink-0" />
-                                      <span>{isEn ? 'Active' : 'Đang bật'}</span>
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-
-                              {/* Title & Description */}
-                              <div className="min-w-0 flex flex-col gap-1.5">
-                                <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: meta.iconColor }}>
-                                  <WebIcon name={group.icon} className="w-4 h-4 shrink-0" style={{ color: meta.iconColor }} />
-                                  <h4
-                                    className="typo-h4 font-bold leading-snug min-w-0 truncate card-title-synced"
-                                    data-card-title="true"
-                                    style={{ color: meta.iconColor }}
-                                  >
-                                    {displayPresetName}
-                                  </h4>
-                                </div>
-                                <p className={`typo-body-sm leading-relaxed ${meta.bodyTextClass}`}>
-                                  {t(preset.desc)}
-                                </p>
-                              </div>
-                            </div>
-
-                            {/* Dedicated Theme Wallpaper + Live Material Specimen */}
-                            <div
-                              style={{
-                                borderRadius: preset.id.includes('glass') ? '20px' : 'var(--radius-subcard, 14px)',
-                                backgroundImage: bgSpec?.imagePath
-                                  ? `url('${bgSpec.imagePath}'), ${bgSpec.fallbackGradient}`
-                                  : bgSpec?.fallbackGradient,
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                              }}
-                              className={`relative overflow-hidden p-3 flex flex-col gap-2.5 border ${meta.previewBorderClass}`}
-                            >
-                              <div
-                                className="relative z-10 p-2.5 flex flex-col gap-2 border"
-                                style={{
-                                  ...preset.miniPreviewWrapStyle,
-                                  borderRadius: preset.id.includes('glass') ? '16px' : '12px',
-                                }}
-                              >
-                                <div className="flex items-center justify-between gap-2">
-                                  <span className={`typo-badge font-bold truncate ${meta.titleTextClass}`}>
-                                    {isEn ? 'Wallpaper & Surface' : 'Hình nền & Vật liệu'}
-                                  </span>
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      setActiveVideoPreviewId((prev) =>
-                                        prev === preset.id ? null : preset.id
-                                      )
-                                    }
-                                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-semibold border cursor-pointer transition-opacity hover:opacity-90 shrink-0 ${meta.ctaIdleClass}`}
-                                  >
-                                    <WebIcon
-                                      name={isVideoVisible ? 'x' : 'play'}
-                                      className="w-3 h-3 shrink-0"
-                                    />
-                                    <span>
-                                      {isVideoVisible
-                                        ? isEn
-                                          ? 'Close'
-                                          : 'Đóng'
-                                        : isEn
-                                          ? 'Demo'
-                                          : 'Video'}
-                                    </span>
-                                  </button>
-                                </div>
-
-                                {isVideoVisible ? (
-                                  <div
-                                    data-media-card="video"
-                                    style={{
-                                      padding: '0px',
-                                      borderRadius: preset.id.includes('glass') ? '16px' : '12px',
-                                    }}
-                                    className="relative w-full h-[112px] overflow-hidden bg-slate-950/60 border border-white/20 box-border"
-                                  >
-                                    <video
-                                      src={meta.demoVideoUrl}
-                                      autoPlay
-                                      loop
-                                      muted
-                                      playsInline
-                                      preload="auto"
-                                      controls={false}
-                                      disablePictureInPicture
-                                      controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                                      aria-hidden="true"
-                                      tabIndex={-1}
-                                      onLoadedMetadata={(e) => {
-                                        const v = e.currentTarget;
-                                        v.defaultMuted = true;
-                                        v.muted = true;
-                                        v.loop = true;
-                                        v.controls = false;
-                                        v.disablePictureInPicture = true;
-                                        (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                                      }}
-                                      onCanPlay={(e) => {
-                                        const v = e.currentTarget;
-                                        v.defaultMuted = true;
-                                        v.muted = true;
-                                        v.loop = true;
-                                        if (v.paused) v.play().catch(() => {});
-                                      }}
-                                      onEnded={(e) => {
-                                        const v = e.currentTarget;
-                                        v.currentTime = 0;
-                                        v.play().catch(() => {});
-                                      }}
-                                      onError={() =>
-                                        setFailedVideoIds((prev) => ({ ...prev, [preset.id]: true }))
-                                      }
-                                      style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
-                                      className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp"
-                                    />
-                                  </div>
-                                ) : (
-                                  <div className="flex flex-col gap-2">
-                                    <div className="flex items-center justify-between gap-1.5">
-                                      <span
-                                        style={preset.miniTabStyle}
-                                        className="px-2.5 py-1 typo-badge font-bold flex-1 truncate rounded-full border text-center"
-                                      >
-                                        {isEn ? 'Header · Tab' : 'Header · Tab Mẫu'}
-                                      </span>
-                                      <span
-                                        style={preset.miniBtnStyle}
-                                        className="px-2.5 py-1 typo-badge font-bold rounded-full shadow-2xs shrink-0"
-                                      >
-                                        {isEn ? 'Accent' : 'Nút Nhấn'}
-                                      </span>
-                                    </div>
-
-                                    <div className="flex flex-col gap-1.5 pt-0.5">
-                                      {meta.gradientBars.slice(0, 3).map((bar) => (
-                                        <div key={bar.label} className="flex items-center gap-2">
-                                          <span
-                                            className={`w-9 shrink-0 typo-badge font-mono ${meta.accentTextClass}`}
-                                          >
-                                            {bar.label}
-                                          </span>
-                                          <div
-                                            className="flex-1 h-2 rounded-full overflow-hidden"
-                                            style={{
-                                              background: preset.isDark
-                                                ? 'rgba(15, 23, 42, 0.55)'
-                                                : 'rgba(148, 163, 184, 0.22)',
-                                            }}
-                                          >
-                                            <div
-                                              className="h-full rounded-full"
-                                              style={{
-                                                width: bar.width,
-                                                background: bar.gradient,
-                                                boxShadow: bar.glow,
-                                              }}
-                                            />
-                                          </div>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* Single Clear Card Footer Action */}
-                            <div className={`mt-auto pt-2.5 flex items-center justify-between gap-2 border-t ${meta.dividerClass}`}>
-                              <span className={`typo-caption font-mono truncate ${meta.accentTextClass}`}>
-                                {preset.id.includes('glass') ? '24px · blur(24px)' : meta.radius}
-                              </span>
-
-                              <button
-                                type="button"
-                                aria-pressed={isActive}
-                                onClick={() => handleSelectTheme(preset.id, displayPresetName)}
-                                className={`typo-button font-bold px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 cursor-pointer shrink-0 ${
-                                  isActive ? meta.ctaActiveClass : meta.ctaIdleClass
-                                }`}
-                              >
-                                <WebIcon
-                                  name={isActive ? 'check' : 'sparkles'}
-                                  className="w-3.5 h-3.5 shrink-0"
-                                />
-                                <span>
-                                  {isActive
-                                    ? isEn
-                                      ? 'Active Theme'
-                                      : 'Đang áp dụng'
-                                    : isEn
-                                      ? 'Apply Theme'
-                                      : 'Áp dụng giao diện'}
-                                </span>
-                              </button>
-                            </div>
-                          </motion.article>
-                        );
-                      })}
+                      {group.presets.map((preset) => (
+                        <ThemePresetCard
+                          key={preset.id}
+                          preset={preset}
+                          groupIcon={group.icon}
+                          meta={THEME_VISUAL_META[preset.id]}
+                          bgSpec={THEME_BACKGROUNDS[preset.id]}
+                          sampleProps={presetSampleStyles[preset.id]}
+                          isActive={cardStyle === preset.id}
+                          isEn={isEn}
+                          isVideoVisible={
+                            activeVideoPreviewId === preset.id && !failedVideoIds[preset.id]
+                          }
+                          hasVideoFailed={Boolean(failedVideoIds[preset.id])}
+                          displayPresetName={t(preset.name)}
+                          displayShortBadge={t(preset.shortBadge)}
+                          displayDesc={t(preset.desc)}
+                          onSelectTheme={handleSelectTheme}
+                          onToggleVideo={handleToggleVideoPreview}
+                          onVideoError={handleVideoPreviewError}
+                        />
+                      ))}
                     </div>
                   </section>
                 );
@@ -1654,10 +1177,21 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     <WebIcon name="search" className="w-4 h-4 shrink-0 opacity-70" />
                     <input
                       type="text"
-                      placeholder="Search for ..."
+                      value={sandboxQuery}
+                      onChange={(e) => setSandboxQuery(e.target.value)}
+                      placeholder={isEn ? 'Search for ...' : 'Nhập thử từ khóa...'}
                       className="w-full bg-transparent border-none outline-none typo-body text-[var(--text-input)] placeholder-[var(--text-placeholder)]"
-                      readOnly
                     />
+                    {sandboxQuery && (
+                      <button
+                        type="button"
+                        onClick={() => setSandboxQuery('')}
+                        aria-label={isEn ? 'Clear text' : 'Xóa chữ'}
+                        className="w-5 h-5 rounded-full flex items-center justify-center opacity-70 hover:opacity-100 cursor-pointer shrink-0"
+                      >
+                        <WebIcon name="x" className="w-3.5 h-3.5" />
+                      </button>
+                    )}
                   </div>
 
                   <button

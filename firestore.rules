@@ -48,7 +48,9 @@ service cloud.firestore {
           'liquid-glass',
           'dark-liquid-glass',
           'multicolor-glass',
+          'dark-neon-glass',
           'neumorphism-beyond',
+          'dark-neumorphism-beyond',
           'light-multicolor-glass',
           'light-multicolor-glass-dark',
           'light-multicolor-glass-color',
@@ -62,6 +64,7 @@ service cloud.firestore {
           'dark-rainbow-glass',
           'special-rainbow-glass',
           'deep-ocean',
+          'light-deep-ocean',
           'mica-fluent'
         ];
     }

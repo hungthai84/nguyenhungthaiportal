@@ -387,7 +387,8 @@ html[data-card-style="neumorphism-beyond"] :is(
   .project-card,
   .exp-bento-surface-card,
   .education-card,
-  .education-course-card
+  .education-course-card,
+  #about-personal-info-grid
 ) {
   background: linear-gradient(145deg, rgba(236, 241, 247, 0.94) 0%, rgba(226, 233, 242, 0.90) 100%) !important;
   border: 1px solid rgba(196, 209, 226, 0.72) !important;

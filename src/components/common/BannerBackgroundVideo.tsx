@@ -42,12 +42,49 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
     ? `https://drive.google.com/file/d/${driveId}/preview?autoplay=1&mute=1&loop=1`
     : '';
 
+  const supportsIO = typeof IntersectionObserver !== 'undefined';
   const [stage, setStage] = useState<'primary' | 'driveAlt' | 'driveIframe' | 'fallback' | 'poster'>('primary');
+  const [shouldLoad, setShouldLoad] = useState<boolean>(!supportsIO);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const isInViewportRef = useRef<boolean>(!supportsIO);
 
   useEffect(() => {
     setStage('primary');
+    setShouldLoad(isInViewportRef.current);
   }, [src, fallbackSrc]);
+
+  // Lazy load khi banner sắp vào viewport + tạm dừng khi cuộn ra ngoài
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      isInViewportRef.current = true;
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isVisible = entries.some((entry) => entry.isIntersecting);
+        isInViewportRef.current = isVisible;
+        if (isVisible) {
+          setShouldLoad(true);
+          const video = videoRef.current;
+          if (video && stage !== 'poster' && stage !== 'driveIframe' && video.paused) {
+            video.play().catch(() => {});
+          }
+        } else {
+          const video = videoRef.current;
+          if (video && !video.paused) {
+            video.pause();
+          }
+        }
+      },
+      { rootMargin: '250px', threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [stage]);
 
   const activeSrc =
     stage === 'primary'
@@ -59,12 +96,13 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
           : '';
 
   useEffect(() => {
-    if (stage === 'poster' || stage === 'driveIframe') return;
+    if (!shouldLoad || stage === 'poster' || stage === 'driveIframe') return;
     if (stage === 'primary' && !driveDirectAlt && !drivePreviewIframe && (!fallbackSrc || normalizedPrimarySrc === fallbackSrc)) return;
     if (stage === 'driveAlt' && !drivePreviewIframe && (!fallbackSrc || driveDirectAlt === fallbackSrc)) return;
     if (stage === 'fallback') return;
 
     const stallTimer = window.setTimeout(() => {
+      if (!isInViewportRef.current) return;
       const el = videoRef.current;
       if (el && el.readyState < 2) {
         if (stage === 'primary' && driveDirectAlt && normalizedPrimarySrc !== driveDirectAlt) {
@@ -77,7 +115,7 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
       }
     }, 4500);
     return () => window.clearTimeout(stallTimer);
-  }, [stage, normalizedPrimarySrc, driveDirectAlt, drivePreviewIframe, fallbackSrc, activeSrc]);
+  }, [shouldLoad, stage, normalizedPrimarySrc, driveDirectAlt, drivePreviewIframe, fallbackSrc, activeSrc]);
 
   const enforceVideoState = (el: HTMLVideoElement | null) => {
     if (!el) return;
@@ -94,137 +132,168 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
 
   useEffect(() => {
     const el = videoRef.current;
-    if (!el || stage === 'poster' || stage === 'driveIframe') return;
+    if (!shouldLoad || !el || stage === 'poster' || stage === 'driveIframe' || !isInViewportRef.current) return;
     enforceVideoState(el);
     el.play().catch(() => {});
-  }, [activeSrc, stage]);
-
-  if (stage === 'driveIframe' && drivePreviewIframe) {
-    return (
-      <iframe
-        id={id}
-        src={drivePreviewIframe}
-        title={alt}
-        allow="autoplay; encrypted-media; fullscreen"
-        tabIndex={-1}
-        aria-hidden="true"
-        onError={() => {
-          if (fallbackSrc) {
-            setStage('fallback');
-          } else {
-            setStage('poster');
-          }
-        }}
-        className={cn(
-          'banner-drive-iframe-cover absolute top-1/2 left-1/2 border-0 pointer-events-none select-none transition-opacity duration-500',
-          className
-        )}
-      />
-    );
-  }
-
-  if (stage === 'poster' && poster) {
-    return (
-      <img
-        id={id}
-        src={poster}
-        alt={alt}
-        referrerPolicy="no-referrer"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          minWidth: '100%',
-          minHeight: '100%',
-          objectFit: 'cover',
-          objectPosition,
-          transform: 'translateZ(0) scale(1.02)',
-        }}
-        className={cn(
-          'absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none transition-all duration-700',
-          className
-        )}
-      />
-    );
-  }
+  }, [activeSrc, shouldLoad, stage]);
 
   return (
-    <video
-      id={id}
-      ref={videoRef}
-      key={`${stage}-${activeSrc}`}
-      src={activeSrc}
-      poster={poster}
-      autoPlay
-      loop
-      muted
-      playsInline
-      controls={false}
-      disablePictureInPicture
-      controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-      preload="auto"
-      aria-hidden="true"
-      tabIndex={-1}
-      onLoadedMetadata={(e) => {
-        const v = e.currentTarget;
-        enforceVideoState(v);
-        if (v.paused) v.play().catch(() => {});
-      }}
-      onLoadedData={(e) => {
-        const v = e.currentTarget;
-        enforceVideoState(v);
-        if (v.paused) v.play().catch(() => {});
-      }}
-      onCanPlay={(e) => {
-        const v = e.currentTarget;
-        enforceVideoState(v);
-        if (v.paused) v.play().catch(() => {});
-      }}
-      onEnded={(e) => {
-        const v = e.currentTarget;
-        enforceVideoState(v);
-        v.currentTime = 0;
-        v.play().catch(() => {});
-      }}
-      onPause={(e) => {
-        if (typeof document !== 'undefined' && document.hidden) return;
-        const v = e.currentTarget;
-        enforceVideoState(v);
-        v.play().catch(() => {});
-      }}
-      onPlaying={(e) => {
-        const v = e.currentTarget;
-        enforceVideoState(v);
-      }}
-      onError={() => {
-        if (stage === 'primary' && driveDirectAlt && normalizedPrimarySrc !== driveDirectAlt) {
-          setStage('driveAlt');
-        } else if (drivePreviewIframe) {
-          setStage('driveIframe');
-        } else if (stage !== 'fallback' && fallbackSrc && activeSrc !== fallbackSrc) {
-          setStage('fallback');
-        } else {
-          setStage('poster');
-        }
-      }}
-      style={{
-        position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        minWidth: '100%',
-        minHeight: '100%',
-        objectFit: 'cover',
-        objectPosition,
-        transform: 'translateZ(0) scale(1.02)',
-        backfaceVisibility: 'hidden',
-      }}
-      className={cn(
-        'absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp transition-all duration-700',
-        className
+    <div
+      ref={containerRef}
+      data-banner-bg-lazy={shouldLoad ? 'loaded' : 'pending'}
+      className="absolute inset-0 w-full h-full min-w-full min-h-full rounded-[inherit] overflow-hidden pointer-events-none select-none"
+    >
+      {!shouldLoad && poster && (
+        <img
+          src={poster}
+          alt={alt}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            minWidth: '100%',
+            minHeight: '100%',
+            objectFit: 'cover',
+            objectPosition,
+            transform: 'translateZ(0) scale(1.02)',
+          }}
+          className={cn(
+            'absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none transition-all duration-700',
+            className
+          )}
+        />
       )}
-    />
+
+      {shouldLoad && stage === 'driveIframe' && drivePreviewIframe && (
+        <iframe
+          id={id}
+          src={drivePreviewIframe}
+          title={alt}
+          loading="lazy"
+          allow="autoplay; encrypted-media; fullscreen"
+          tabIndex={-1}
+          aria-hidden="true"
+          onError={() => {
+            if (fallbackSrc) {
+              setStage('fallback');
+            } else {
+              setStage('poster');
+            }
+          }}
+          className={cn(
+            'banner-drive-iframe-cover absolute top-1/2 left-1/2 border-0 pointer-events-none select-none transition-opacity duration-500',
+            className
+          )}
+        />
+      )}
+
+      {shouldLoad && stage === 'poster' && poster && (
+        <img
+          id={id}
+          src={poster}
+          alt={alt}
+          referrerPolicy="no-referrer"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            minWidth: '100%',
+            minHeight: '100%',
+            objectFit: 'cover',
+            objectPosition,
+            transform: 'translateZ(0) scale(1.02)',
+          }}
+          className={cn(
+            'absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none transition-all duration-700',
+            className
+          )}
+        />
+      )}
+
+      {shouldLoad && stage !== 'driveIframe' && stage !== 'poster' && (
+        <video
+          id={id}
+          ref={videoRef}
+          key={`${stage}-${activeSrc}`}
+          src={activeSrc}
+          poster={poster}
+          autoPlay
+          loop
+          muted
+          playsInline
+          controls={false}
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+          preload="auto"
+          aria-hidden="true"
+          tabIndex={-1}
+          onLoadedMetadata={(e) => {
+            const v = e.currentTarget;
+            enforceVideoState(v);
+            if (isInViewportRef.current && v.paused) v.play().catch(() => {});
+          }}
+          onLoadedData={(e) => {
+            const v = e.currentTarget;
+            enforceVideoState(v);
+            if (isInViewportRef.current && v.paused) v.play().catch(() => {});
+          }}
+          onCanPlay={(e) => {
+            const v = e.currentTarget;
+            enforceVideoState(v);
+            if (isInViewportRef.current && v.paused) v.play().catch(() => {});
+          }}
+          onEnded={(e) => {
+            if (!isInViewportRef.current) return;
+            const v = e.currentTarget;
+            enforceVideoState(v);
+            v.currentTime = 0;
+            v.play().catch(() => {});
+          }}
+          onPause={(e) => {
+            if (!isInViewportRef.current) return;
+            if (typeof document !== 'undefined' && document.hidden) return;
+            const v = e.currentTarget;
+            enforceVideoState(v);
+            v.play().catch(() => {});
+          }}
+          onPlaying={(e) => {
+            const v = e.currentTarget;
+            enforceVideoState(v);
+          }}
+          onError={() => {
+            if (stage === 'primary' && driveDirectAlt && normalizedPrimarySrc !== driveDirectAlt) {
+              setStage('driveAlt');
+            } else if (drivePreviewIframe) {
+              setStage('driveIframe');
+            } else if (stage !== 'fallback' && fallbackSrc && activeSrc !== fallbackSrc) {
+              setStage('fallback');
+            } else {
+              setStage('poster');
+            }
+          }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            minWidth: '100%',
+            minHeight: '100%',
+            objectFit: 'cover',
+            objectPosition,
+            transform: 'translateZ(0) scale(1.02)',
+            backfaceVisibility: 'hidden',
+          }}
+          className={cn(
+            'absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp transition-all duration-700',
+            className
+          )}
+        />
+      )}
+    </div>
   );
 };
 

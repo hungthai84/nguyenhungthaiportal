@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { createPortal } from 'react-dom';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { Modal } from '@/components/ui/Modal';
 import { SoundEngine } from '@/components/ui/SoundEngine';
@@ -18,6 +17,7 @@ import {
 import { SiteTheme } from '@/types';
 import { useTheme } from '@/hooks/useTheme';
 import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
+import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 
 // Video thuyết minh Thư Ngỏ (Thư ngỏ video.mp4)
 export const LETTER_SLIDE_1_VIDEO_URL = '/assets/aistudio/Th__ng__video_edd9e9ee.mp4';
@@ -26,15 +26,6 @@ const LETTER_SLIDE_1_DRIVE_ALT_URL =
 const LETTER_SLIDE_1_MP4_BACKUP_URL =
   'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793623267/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_Ma_thu%C3%A2t_1.mp4';
 
-// Video Màn hình 2 từ Trang Chủ (Chân Dung Chuyên Gia & Lời Chào - §11 Google Drive)
-export const HOME_SCREEN_2_IDLE_URL =
-  'https://drive.google.com/uc?export=download&id=1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp';
-export const HOME_SCREEN_2_INTRO_URL =
-  'https://drive.google.com/uc?export=download&id=12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm';
-const HOME_SCREEN_2_IDLE_ALT_URL =
-  'https://drive.usercontent.google.com/download?id=1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp&export=download&confirm=t';
-const HOME_SCREEN_2_INTRO_ALT_URL =
-  'https://drive.usercontent.google.com/download?id=12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm&export=download&confirm=t';
 
 // Authentic Signature image for Nguyễn Hùng Thái
 const SIGNATURE_IMAGE_URL =
@@ -387,6 +378,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
+    currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond';
 
@@ -412,7 +404,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
     top: 0,
     height: 0,
   });
-  const [isClientMounted, setIsClientMounted] = useState<boolean>(true);
   const [isNavMenuOpen, setIsNavMenuOpen] = useState<boolean>(false);
 
   // Slides and Presentation State
@@ -610,132 +601,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
         ? LETTER_SLIDE_1_DRIVE_ALT_URL
         : LETTER_SLIDE_1_MP4_BACKUP_URL;
   const isPausedRef = useRef<boolean>(false);
-
-  // Floating Circle Video 2 (Màn hình 2 ở trang chủ)
-  const circleVideoRef = useRef<HTMLVideoElement>(null);
-  const [isCircleVideoPlaying, setIsCircleVideoPlaying] = useState<boolean>(false);
-  const [circleVideoProgress, setCircleVideoProgress] = useState<number>(0);
-
-  // Điều khiển phát Video 2 từ vòng tròn nổi và đồng bộ hiệu ứng tô chữ Thư Ngỏ
-  const handleToggleCircleVideo = useCallback(() => {
-    SoundEngine.playTap();
-    if (!circleVideoRef.current) return;
-
-    if (currentSlideRef.current !== 0) {
-      scrollToLetterCard(0, true);
-    }
-
-    if (isCircleVideoPlaying) {
-      circleVideoRef.current.pause();
-      setIsCircleVideoPlaying(false);
-      showToast('Đã tạm dừng video 2');
-    } else {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
-      setIsNarrating(false);
-      setIsCircleVideoPlaying(true);
-      const video = circleVideoRef.current;
-      video.src = HOME_SCREEN_2_INTRO_URL;
-      video.loop = false;
-      video.muted = false;
-      video.currentTime = 0;
-      video.play().then(() => {
-        showToast('Đang phát video 2 và đồng bộ nội dung Thư Ngỏ 🔊');
-      }).catch(() => {
-        video.muted = true;
-        video.play().catch(() => {});
-        showToast('Đang phát video 2 (vui lòng chạm bật tiếng)');
-      });
-    }
-  }, [isCircleVideoPlaying, scrollToLetterCard, showToast]);
-
-  const handleCircleVideoEnded = useCallback(() => {
-    setIsCircleVideoPlaying(false);
-    setCircleVideoProgress(0);
-    if (circleVideoRef.current) {
-      circleVideoRef.current.src = HOME_SCREEN_2_IDLE_URL;
-      circleVideoRef.current.loop = true;
-      circleVideoRef.current.muted = true;
-      circleVideoRef.current.play().catch(() => {});
-    }
-    showToast('Video 2 đã hoàn thành thuyết minh Thư Ngỏ');
-  }, [showToast]);
-
-  const handleCircleVideoTimeUpdate = useCallback(() => {
-    if (!circleVideoRef.current) return;
-    const { currentTime, duration } = circleVideoRef.current;
-    if (duration > 0 && !isNaN(duration)) {
-      const p = Math.min(1, Math.max(0, currentTime / duration));
-      setCircleVideoProgress(p);
-      setVideoProgressPct(p * 100);
-    }
-  }, []);
-
-  // Hàm render karaoke từng từ/cụm từ theo tiến trình video
-  const renderKaraokeWords = useCallback(
-    (
-      text: string,
-      startRange: number,
-      endRange: number,
-      currentProgress: number,
-      isActiveOverall: boolean
-    ) => {
-      if (!text) return null;
-      if (!isActiveOverall) return text;
-
-      // Nếu toàn bộ đoạn đã được đọc qua
-      if (currentProgress >= endRange) {
-        return (
-          <span className="text-cyan-700 dark:text-cyan-300 font-bold transition-colors duration-200">
-            {text}
-          </span>
-        );
-      }
-
-      // Nếu chưa đến mốc này
-      if (currentProgress < startRange) {
-        return <span>{text}</span>;
-      }
-
-      // Đang phát trong khoảng [startRange, endRange]
-      const words = text.split(' ');
-      const rangeSpan = Math.max(0.01, endRange - startRange);
-      const subProgress = Math.max(0, Math.min(1, (currentProgress - startRange) / rangeSpan));
-      const activeWordIndex = Math.floor(subProgress * words.length);
-
-      return (
-        <span>
-          {words.map((w, idx) => {
-            const isPast = idx < activeWordIndex;
-            const isCurrent = idx === activeWordIndex;
-            if (isCurrent) {
-              return (
-                <span
-                  key={idx}
-                  className="inline-block px-1 py-0.5 mx-0.5 rounded bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 dark:from-amber-400 dark:via-yellow-300 dark:to-amber-400 text-slate-950 font-bold shadow-[0_0_12px_rgba(251,191,36,0.85)] ring-1 ring-amber-400 scale-[1.04] transition-all duration-150"
-                >
-                  {w}{' '}
-                </span>
-              );
-            }
-            if (isPast) {
-              return (
-                <span
-                  key={idx}
-                  className="text-cyan-600 dark:text-cyan-300 font-bold transition-colors duration-150"
-                >
-                  {w}{' '}
-                </span>
-              );
-            }
-            return <span key={idx}>{w} </span>;
-          })}
-        </span>
-      );
-    },
-    []
-  );
 
   // Constants / Nulls for disabled presentation features
   const activeTargetId = null;
@@ -2088,175 +1953,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-page="letter"
                       data-element-parent="letter-card-1"
                       style={{ padding: '0px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] aspect-video md:aspect-auto min-h-[200px] md:min-h-0 self-stretch w-full h-full min-w-0 relative overflow-hidden flex flex-col p-0 box-border transition-colors duration-200 group/vcard ${
+                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[var(--radius-card,14px)] aspect-video md:aspect-auto min-h-[200px] md:min-h-0 self-stretch w-full h-full min-w-0 relative overflow-hidden flex flex-col justify-center items-center p-0 box-border transition-colors duration-200 group/video text-left ${
                         activeTargetId === 'bento-experience-intro' || activeTargetId === 'callout-salutation'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.3)]'
                           : ''
                       }`}
                     >
-                      {/* Video Container lắp đầy 100% thẻ video */}
                       <div
-                        className="relative w-full h-full flex-1 rounded-[inherit] overflow-hidden min-h-0"
+                        className="relative w-full h-full flex-1 rounded-[inherit] overflow-hidden min-h-0 flex items-center justify-center"
                       >
-                        <video
-                          ref={floatingVideoRef}
-                          key={`letter-video-${letterVideoStage}`}
-                          src={activeLetterVideoUrl}
-                          autoPlay
-                          loop
-                          playsInline
-                          muted={isVideoMuted}
-                          preload="auto"
-                          controls={false}
-                          disablePictureInPicture
-                          controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                          onClick={() => toggleFloatingVideoPlay()}
-                          onTimeUpdate={handleFloatingVideoTimeUpdate}
-                          onLoadedMetadata={handleFloatingVideoLoadedMetadata}
-                          onPlay={() => setIsVideoPlaying(true)}
-                          onPause={() => setIsVideoPlaying(false)}
-                          onError={() =>
-                            setLetterVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
-                          }
-                          style={{
-                            position: 'absolute',
-                            inset: 0,
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: '58% 50%',
-                            transform: 'translateZ(0) scale(1.02)',
-                          }}
-                          className="absolute inset-0 w-full h-full object-cover cursor-pointer rounded-[inherit] banner-video-sharp z-0"
-                        />
-
-                        {/* Avatar Video Giới Thiệu nằm gọn bên trong thẻ Video (không tràn ra ngoài main card hoặc đè tiêu đề ở mọi kích thước) */}
-                        {isClientMounted && (
-                          <div
-                            id="letter-video-avatar-overlay"
-                            className="absolute bottom-3 right-3 z-20 flex items-center gap-2 sm:gap-2.5 select-none pointer-events-auto max-w-[calc(100%-24px)]"
-                            role="region"
-                            aria-label="Video Giới Thiệu Chân Dung"
-                          >
-                            <div
-                              id="letter-video-speech-bubble"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleToggleCircleVideo();
-                              }}
-                              className="flex cursor-pointer relative items-center bg-[#2563eb]/95 hover:bg-[#1d4ed8] text-white px-3 py-1.5 rounded-[12px] shadow-md transition-colors duration-200 border border-blue-300/40 backdrop-blur-sm"
-                              title="Bấm vào để xem video giới thiệu của anh!"
-                            >
-                              <p className="typo-caption font-bold font-play text-white m-0 text-left leading-snug">
-                                Bấm vào để xem video giới thiệu của anh!
-                              </p>
-                              <div className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[6px] border-y-transparent border-l-[7px] border-l-[#2563eb]/95 pointer-events-none" />
-                            </div>
-
-                            <div
-                              className="relative cursor-pointer flex flex-col items-center shrink-0"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleToggleCircleVideo();
-                              }}
-                            >
-                              <div className="relative">
-                                <div
-                                  className={cn(
-                                    'relative w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden border-[2.5px]',
-                                    isCircleVideoPlaying ? 'ring-3 ring-[var(--color-primary)]/45' : ''
-                                  )}
-                                  style={{
-                                    backgroundColor: 'var(--bg-card)',
-                                    borderColor: 'var(--color-primary)',
-                                    boxShadow: 'var(--shadow-layer-2, 0 8px 18px rgba(15, 23, 42, 0.28))',
-                                  }}
-                                >
-                                  <video
-                                    ref={circleVideoRef}
-                                    src={isCircleVideoPlaying ? HOME_SCREEN_2_INTRO_URL : HOME_SCREEN_2_IDLE_URL}
-                                    autoPlay
-                                    loop={!isCircleVideoPlaying}
-                                    playsInline
-                                    muted={!isCircleVideoPlaying}
-                                    controls={false}
-                                    disablePictureInPicture
-                                    controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                                    preload="auto"
-                                    onLoadedMetadata={(e) => {
-                                      const v = e.currentTarget;
-                                      v.controls = false;
-                                      v.disablePictureInPicture = true;
-                                      (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                                      if (!isCircleVideoPlaying) {
-                                        v.defaultMuted = true;
-                                        v.muted = true;
-                                        v.loop = true;
-                                      }
-                                    }}
-                                    onError={(e) => {
-                                      const v = e.currentTarget;
-                                      const fallbackUrl = isCircleVideoPlaying
-                                        ? HOME_SCREEN_2_INTRO_ALT_URL
-                                        : HOME_SCREEN_2_IDLE_ALT_URL;
-                                      if (v.dataset.driveAltTried !== '1' && v.src !== fallbackUrl) {
-                                        v.dataset.driveAltTried = '1';
-                                        v.src = fallbackUrl;
-                                        v.play().catch(() => {});
-                                      }
-                                    }}
-                                    onTimeUpdate={handleCircleVideoTimeUpdate}
-                                    onEnded={handleCircleVideoEnded}
-                                    style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
-                                    className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] pointer-events-none rounded-full banner-video-sharp"
-                                  />
-                                </div>
-                              </div>
-
-                              <button
-                                id="letter-circle-video-play-btn"
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleToggleCircleVideo();
-                                }}
-                                className={`video-play-btn video-play-btn--letter ${
-                                  isCircleVideoPlaying ? 'is-playing' : ''
-                                } relative -mt-2.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full active:scale-95 flex items-center justify-center transition-colors duration-200 z-20 cursor-pointer shadow-md`}
-                                title={isCircleVideoPlaying ? 'Tạm dừng video' : 'Xem video giới thiệu'}
-                                aria-label={isCircleVideoPlaying ? 'Tạm dừng video' : 'Xem video giới thiệu'}
-                              >
-                                {isCircleVideoPlaying ? (
-                                  <WebIcon name="pause" className="w-3.5 h-3.5 fill-current text-current" />
-                                ) : (
-                                  <WebIcon name="play" className="w-3.5 h-3.5 fill-current text-current ml-0.5" />
-                                )}
-                              </button>
-
-                              {isCircleVideoPlaying && (
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (circleVideoRef.current) {
-                                      circleVideoRef.current.muted = !circleVideoRef.current.muted;
-                                      showToast(circleVideoRef.current.muted ? 'Đã tắt tiếng video' : 'Đã bật âm thanh video');
-                                    }
-                                  }}
-                                  style={{
-                                    background: 'var(--bg-popup)',
-                                    borderColor: 'var(--border-card)',
-                                    color: 'var(--text-link, var(--color-primary))',
-                                  }}
-                                  className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center border typo-badge shadow-md z-20 cursor-pointer hover:opacity-90"
-                                  title="Bật/Tắt âm thanh"
-                                >
-                                  <WebIcon name="volume-2" className="w-2.5 h-2.5 text-current" />
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        )}
+                        <DualLayerVideoPlayer className="absolute inset-0 z-0 pointer-events-auto" />
                       </div>
                     </article>
 
@@ -2304,40 +2010,21 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         <div className="my-auto py-1 space-y-2.5 flex-1 flex flex-col justify-center text-left min-w-0">
                           <h3
                             id="callout-salutation"
-                            className={cn(
-                              "card-title typo-h4 font-play tracking-tight transition-all duration-300 break-words",
-                              isCircleVideoPlaying && circleVideoProgress < 0.12
-                                ? "text-slate-950 dark:text-amber-100 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 px-2.5 py-0.5 rounded-[14px] ring-2 ring-amber-400 shadow-[0_0_16px_rgba(251,191,36,0.85)] inline-block w-fit"
-                                : isCircleVideoPlaying && circleVideoProgress >= 0.12
-                                ? "text-cyan-700 dark:text-cyan-300 font-semibold"
-                                : "text-[var(--text-primary)]"
-                            )}
+                            className="card-title typo-h4 font-play tracking-tight transition-all duration-300 break-words text-[var(--text-primary)]"
                           >
                             Kính chào {companyDisplay}!
                           </h3>
 
                           <p className="card-body typo-body leading-relaxed text-[var(--text-secondary)] break-words [overflow-wrap:anywhere]">
-                            {isCircleVideoPlaying ? (
-                              renderKaraokeWords(
-                                `Tôi là Nguyễn Hùng Thái , Trưởng phòng Chăm sóc Khách hàng với hơn 22 năm kinh nghiệm trong lĩnh vực xây dựng , vận hành và phát triển hệ thống dịch vụ khách hàng .`,
-                                0.12,
-                                0.45,
-                                circleVideoProgress,
-                                isCircleVideoPlaying
-                              )
-                            ) : (
-                              <>
-                                Tôi là{' '}
-                                <strong className="font-bold text-[var(--text-primary)]">
-                                  Nguyễn Hùng Thái
-                                </strong>
-                                , Trưởng phòng Chăm sóc Khách hàng với hơn{' '}
-                                <span className="font-bold text-cyan-700 dark:text-cyan-400 tabular-nums">
-                                  22 năm kinh nghiệm
-                                </span>{' '}
-                                trong lĩnh vực xây dựng, vận hành và phát triển hệ thống dịch vụ khách hàng.
-                              </>
-                            )}
+                            Tôi là{' '}
+                            <strong className="font-bold text-[var(--text-primary)]">
+                              Nguyễn Hùng Thái
+                            </strong>
+                            , Trưởng phòng Chăm sóc Khách hàng với hơn{' '}
+                            <span className="font-bold text-cyan-700 dark:text-cyan-400 tabular-nums">
+                              22 năm kinh nghiệm
+                            </span>{' '}
+                            trong lĩnh vực xây dựng, vận hành và phát triển hệ thống dịch vụ khách hàng.
                           </p>
                         </div>
                       </article>
@@ -2375,41 +2062,33 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                         <div
                           id="brands-bento-grid"
-                          onWheel={(e) => {
-                            const el = e.currentTarget;
-                            if (el.scrollWidth > el.clientWidth && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-                              const nextLeft = el.scrollLeft + e.deltaY;
-                              if ((e.deltaY > 0 && el.scrollLeft < el.scrollWidth - el.clientWidth - 1) || (e.deltaY < 0 && el.scrollLeft > 1)) {
-                                e.stopPropagation();
-                                el.scrollLeft = nextLeft;
-                              }
-                            }
-                          }}
-                          className="flex flex-row flex-nowrap items-stretch gap-[10px] w-full overflow-x-auto overflow-y-hidden glass-scrollbar min-w-0 pb-1"
+                          className="flex flex-row flex-nowrap items-stretch gap-[10px] w-full overflow-hidden min-w-0 pb-1"
                         >
-                          {EXPERIENCE_BRANDS_MARQUEE.map((item, idx) => (
-                            <div
-                              key={`${item.id}-${idx}`}
-                              data-subcard="true"
-                              className="sub-card letter-subcard partner-brand-tile group/logo shrink-0 inline-flex flex-row flex-nowrap items-center gap-2 whitespace-nowrap p-2 rounded-[var(--radius-subcard,16px)] transition-colors duration-200"
-                              title={item.company}
-                            >
+                          <div className="animate-marquee-ltr flex flex-row items-center gap-[10px]">
+                            {[...EXPERIENCE_BRANDS_MARQUEE, ...EXPERIENCE_BRANDS_MARQUEE].map((item, idx) => (
                               <div
-                                className="partner-logo-badge w-7 h-7 sm:w-8 sm:h-8 aspect-square rounded-[99999px] bg-white dark:bg-slate-800 border border-[var(--border-subcard)] shadow-2xs group-hover/logo:scale-105 group-hover/logo:border-blue-500/50 transition-all duration-300 relative shrink-0"
-                                style={{ borderRadius: '99999px' }}
+                                key={`${item.id}-${idx}`}
+                                data-subcard="true"
+                                className="sub-card letter-subcard partner-brand-tile group/logo shrink-0 inline-flex flex-row flex-nowrap items-center gap-2 whitespace-nowrap p-2 rounded-[var(--radius-subcard,16px)] transition-colors duration-200"
+                                title={item.company}
                               >
-                                <img
-                                  src={item.logo}
-                                  alt={item.company}
-                                  className="partner-logo-img transition-transform duration-300"
-                                  referrerPolicy="no-referrer"
-                                />
+                                <div
+                                  className="partner-logo-badge w-7 h-7 sm:w-8 sm:h-8 aspect-square rounded-[99999px] bg-white dark:bg-slate-800 border border-[var(--border-subcard)] shadow-2xs group-hover/logo:scale-105 group-hover/logo:border-blue-500/50 transition-all duration-300 relative shrink-0"
+                                  style={{ borderRadius: '99999px' }}
+                                >
+                                  <img
+                                    src={item.logo}
+                                    alt={item.company}
+                                    className="partner-logo-img transition-transform duration-300"
+                                    referrerPolicy="no-referrer"
+                                  />
+                                </div>
+                                <span className="card-tag typo-body-sm font-semibold font-play text-[var(--text-primary)] group-hover/logo:text-blue-700 dark:group-hover/logo:text-cyan-300 transition-colors leading-tight whitespace-nowrap shrink-0">
+                                  {item.company}
+                                </span>
                               </div>
-                              <span className="card-tag typo-body-sm font-semibold font-play text-[var(--text-primary)] group-hover/logo:text-blue-700 dark:group-hover/logo:text-cyan-300 transition-colors leading-tight whitespace-nowrap shrink-0">
-                                {item.company}
-                              </span>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
                       </article>
                     </div>

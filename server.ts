@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import express from 'express';
 import path from 'node:path';
+import { Readable } from 'node:stream';
+import type { ReadableStream as NodeReadableStream } from 'node:stream/web';
 import { fileURLToPath } from 'node:url';
 import { GoogleGenAI } from '@google/genai';
 import {
@@ -126,9 +128,110 @@ function markModelQuotaCooldown(model: string, cooldownMs: number, reason: strin
   }
 }
 
+const ALLOWED_DRIVE_VIDEO_IDS = new Set<string>([
+  // Interview Video 1 & 2
+  '1-XpJWJEyTq4PYh902i7FQbWYnpO17PvM',
+  '10oUM0icL2Q2SbDkS2phSskqqWm8DaIZf',
+  '2-10oUM0icL2Q2SbDkS2phSskqqWm8DaIZf',
+  // About Video 1 & 2
+  '1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5',
+  '12cdItjoc6LpIetmw6-1BiSt8kUaaNe7R',
+  // 11 Banner Card Videos
+  '1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP',
+  '1G2ydHrMUchyBLjl3YR5xat8eF1MdPOQ4',
+  '1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx',
+  '1SxwuMCwZEjqGXaBez6k2R1lUb1dfRKav',
+  '1x-u8GDuR95rAAiFJo2Qc7eV4qtiKGfwB',
+  '1ruWiQjZF1D_sIiw0G6jY05qulslNMj7B',
+  '1GLEn1qcwUCTdzcoCxy715IrvQe3l4QVn',
+  '1rbcqxl4WUeZvXg98OfQUIxOO1ja5_vIY',
+  '1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP',
+  '1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U',
+]);
+
 async function startServer() {
   const app = express();
   app.use(express.json({ limit: '2mb' }));
+
+  // Same-origin inline MP4 range-streaming proxy for allowlisted Google Drive portfolio videos
+  app.get('/api/media/drive-video/:fileId', async (req, res) => {
+    const fileId = typeof req.params.fileId === 'string' ? req.params.fileId.trim() : '';
+    if (!ALLOWED_DRIVE_VIDEO_IDS.has(fileId)) {
+      res.status(403).json({ error: 'Video ID không thuộc danh sách được phép.' });
+      return;
+    }
+
+    const upstreamUrl = `https://drive.usercontent.google.com/download?id=${encodeURIComponent(fileId)}&export=download&confirm=t`;
+    const controller = new AbortController();
+    res.on('close', () => {
+      if (!res.writableEnded) {
+        controller.abort();
+      }
+    });
+
+    try {
+      const upstreamHeaders: Record<string, string> = {
+        'User-Agent': 'Mozilla/5.0 (compatible; PortfolioVideoStream/1.0)',
+      };
+      if (typeof req.headers.range === 'string' && /^bytes=\d*-\d*(,\s*\d*-\d*)*$/.test(req.headers.range)) {
+        upstreamHeaders.Range = req.headers.range;
+      }
+
+      const upstreamRes = await fetch(upstreamUrl, {
+        method: req.method === 'HEAD' ? 'HEAD' : 'GET',
+        headers: upstreamHeaders,
+        redirect: 'follow',
+        signal: controller.signal,
+      });
+
+      if (!upstreamRes.ok && upstreamRes.status !== 206) {
+        res.status(upstreamRes.status).end();
+        return;
+      }
+
+      const upstreamType = upstreamRes.headers.get('content-type') || 'video/mp4';
+      if (!upstreamType.toLowerCase().includes('video') && !upstreamType.toLowerCase().includes('octet-stream')) {
+        res.status(502).json({ error: 'Nguồn video không trả về luồng MP4 hợp lệ.' });
+        return;
+      }
+
+      res.status(upstreamRes.status);
+      res.setHeader('Content-Type', upstreamType.includes('video') ? upstreamType : 'video/mp4');
+      res.setHeader('Content-Disposition', 'inline');
+      res.setHeader('Accept-Ranges', upstreamRes.headers.get('accept-ranges') || 'bytes');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+
+      const contentLength = upstreamRes.headers.get('content-length');
+      if (contentLength) res.setHeader('Content-Length', contentLength);
+
+      const contentRange = upstreamRes.headers.get('content-range');
+      if (contentRange) res.setHeader('Content-Range', contentRange);
+
+      if (req.method === 'HEAD' || !upstreamRes.body) {
+        res.end();
+        return;
+      }
+
+      const nodeStream = Readable.fromWeb(upstreamRes.body as unknown as NodeReadableStream);
+      nodeStream.on('error', () => {
+        if (!res.headersSent) {
+          res.status(502).end();
+        } else {
+          res.end();
+        }
+      });
+      nodeStream.pipe(res);
+    } catch (err: unknown) {
+      if ((err as { name?: string })?.name === 'AbortError') {
+        return;
+      }
+      if (!res.headersSent) {
+        res.status(502).json({ error: 'Không thể truyền phát video lúc này.' });
+      } else {
+        res.end();
+      }
+    }
+  });
 
   // Gemini TTS endpoint using male Puck voice (Southern Vietnamese & English)
   app.post('/api/tts', async (req, res) => {

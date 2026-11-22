@@ -22,12 +22,12 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     token: 'Display – Tiêu đề nổi bật',
     cssVar: '--fs-display',
     className: 'typo-display',
-    desktop: '56px',
-    tablet: '44px',
-    mobile: '32px',
-    fluidClamp: 'clamp(32px, 3vw + 20px, 56px)',
-    lineHeight: '1.16',
-    letterSpacing: '-0.025em',
+    desktop: '46px',
+    tablet: '36px',
+    mobile: '26px',
+    fluidClamp: 'clamp(26px, 2.2vw + 18px, 46px)',
+    lineHeight: '1.18',
+    letterSpacing: '-0.024em',
     fontWeight: 700,
     textWrap: 'balance',
   },
@@ -35,12 +35,12 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     token: 'H1 – Tiêu đề trang',
     cssVar: '--fs-h1',
     className: 'typo-h1',
-    desktop: '48px',
-    tablet: '36px',
-    mobile: '26px',
-    fluidClamp: 'clamp(26px, 2.2vw + 16px, 48px)',
-    lineHeight: '1.25',
-    letterSpacing: '-0.022em',
+    desktop: '36px',
+    tablet: '29px',
+    mobile: '22px',
+    fluidClamp: 'clamp(22px, 1.55vw + 16.5px, 36px)',
+    lineHeight: '1.24',
+    letterSpacing: '-0.02em',
     fontWeight: 700,
     textWrap: 'balance',
   },
@@ -116,7 +116,7 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     desktop: '16px',
     tablet: '15px',
     mobile: '14px',
-    fluidClamp: 'clamp(14px, 0.3vw + 13.5px, 16px)',
+    fluidClamp: 'clamp(14px, 0.22vw + 13.2px, 16px)',
     lineHeight: '1.6',
     letterSpacing: '0.005em',
     fontWeight: 400,
@@ -420,10 +420,11 @@ export function evaluateOverallLayoutTypography(
   }
 
   // Kết hợp trọng số chiều rộng + chiều cao + mật độ cột/subcard
-  const combinedBase = widthFactor * 0.58 + heightFactor * 0.42;
-  const rawLayoutFactor = Math.min(combinedBase, heightFactor + 0.03) * (0.94 + colDensityFactor * 0.06);
-  const layoutFactor = Math.round(clampNum(rawLayoutFactor, 0.87, 1.04) * 1000) / 1000;
-  const colFactor = Math.round(clampNum(colDensityFactor, 0.9, 1.02) * 1000) / 1000;
+  // Giới hạn mềm trong [0.92, 1.03] để tránh co chữ quá nhỏ khi thu hẹp cửa sổ
+  const combinedBase = widthFactor * 0.62 + heightFactor * 0.38;
+  const rawLayoutFactor = Math.min(combinedBase, heightFactor + 0.04) * (0.95 + colDensityFactor * 0.05);
+  const layoutFactor = Math.round(clampNum(rawLayoutFactor, 0.92, 1.03) * 1000) / 1000;
+  const colFactor = Math.round(clampNum(colDensityFactor, 0.94, 1.02) * 1000) / 1000;
 
   const densityTier: LayoutTypographyEvaluation['densityTier'] =
     layoutFactor <= 0.945 || colFactor <= 0.95
@@ -574,7 +575,8 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   rootStyle.setProperty('--lh-kpi', '1.18');
 
   // 5. Letter spacing mặc định
-  rootStyle.setProperty('--ls-h1', '-0.022em');
+  rootStyle.setProperty('--ls-display', '-0.024em');
+  rootStyle.setProperty('--ls-h1', '-0.02em');
   rootStyle.setProperty('--ls-h2', '-0.016em');
   rootStyle.setProperty('--ls-h3', '-0.01em');
   rootStyle.setProperty('--ls-h4', '-0.005em');
@@ -595,11 +597,25 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   }
   rootStyle.setProperty('--font-scale', '1');
 
+  /**
+   * Nhân --layout-typo-factor vào BÊN TRONG tham số ưu tiên (preferred) của clamp(min, pref, max)
+   * thay vì nhân bên ngoài, nhằm bảo vệ tuyệt đối ngưỡng min (không bị quá nhỏ trên màn hẹp)
+   * và ngưỡng max (không bị quá to trên màn lớn).
+   */
+  const buildBoundedFluidSize = (fluidExpr: string): string => {
+    const match = fluidExpr.trim().match(/^clamp\(\s*([^,]+?)\s*,\s*([^,]+?)\s*,\s*([^)]+?)\s*\)$/i);
+    if (!match) {
+      return `calc(${fluidExpr} * var(--layout-typo-factor, 1))`;
+    }
+    const [, minVal, preferredVal, maxVal] = match;
+    return `clamp(${minVal}, calc((${preferredVal}) * var(--layout-typo-factor, 1)), ${maxVal})`;
+  };
+
   Object.entries(TYPOGRAPHY_SCALE).forEach(([key, spec]) => {
     const isLockedMobileInput = key === 'input' && isMobile;
     const derivedFluidSize = isLockedMobileInput
       ? '16px'
-      : `calc(${spec.fluidClamp} * var(--layout-typo-factor, 1))`;
+      : buildBoundedFluidSize(spec.fluidClamp);
 
     rootStyle.setProperty(spec.cssVar, derivedFluidSize);
     rootStyle.setProperty(`${spec.cssVar}-fluid`, spec.fluidClamp);

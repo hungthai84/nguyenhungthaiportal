@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 import QRCode from 'qrcode';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -37,9 +38,8 @@ import { EcosystemDiagramModal } from '@/components/common/EcosystemDiagramModal
 import { useTheme } from '@/hooks/useTheme';
 import { stopActiveSpeech } from '@/utils/speechVoice';
 import { useLanguage } from '@/context/LanguageContext';
-import { useBannerVideo } from '@/context/BannerVideoContext';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { VideoBanner } from '@/components/common/VideoBanner';
+import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 
 export interface SystemsViewProps {
   currentTheme?: SiteTheme;
@@ -572,18 +572,18 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
+    currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond';
   const isLight = !isDark;
-  const isLeatherTheme = cardStyle === 'cowhide-leather';
+  const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'black-cowhide-leather';
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'grid' | 'matrix'>('grid');
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [isEcosystemDiagramOpen, setIsEcosystemDiagramOpen] = useState<boolean>(false);
-  const { bannerAssignments } = useBannerVideo();
-  const driveSystemsBanner = bannerAssignments.systems;
+  const systemsBannerVideo = getDefaultBannerVideoConfig('systems');
   const filterDropdownRef = useRef<HTMLDivElement>(null);
 
   // FLIP Morph Expansion State (giống ServicesView)
@@ -737,6 +737,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
   const getAccentColor = useCallback(
     (id: string) => {
+      if (cardStyle === 'black-cowhide-leather') {
+        return '#FFFFFF';
+      }
       if (isLeatherTheme) {
         return '#FDE68A';
       }
@@ -1147,16 +1150,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
           data-element-type="card"
           data-element-page="systems"
           data-element-parent="systems-cards-track"
-          className={cn(
-            'page-main-card relative flex flex-col justify-start rounded-[14px] overflow-x-hidden glass-scrollbar font-play select-none text-left box-border',
-            isCircleVideoPlaying ? 'p-0 gap-0 overflow-hidden' : expandedSystem ? 'p-[15px] gap-[15px] overflow-hidden' : 'p-[15px] gap-[15px] overflow-y-auto'
-          )}
+          className="page-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play select-none text-left box-border"
           style={{
-            padding: isCircleVideoPlaying ? '0px' : '15px',
-            gap: isCircleVideoPlaying ? '0px' : '15px',
-            borderRadius: 'var(--radius-main, 30px)',
+            padding: '15px',
+            gap: '0px',
+            borderRadius: 'var(--radius-main, 14px)',
           }}
         >
+          <div
+            id="systems-main-scroll-viewport"
+            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+          >
           {/* 1. HERO BANNER ĐẦU TRANG HỆ THỐNG */}
           {!isCircleVideoPlaying && (
           <motion.section
@@ -1179,21 +1183,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             <div
               className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
             >
-              {driveSystemsBanner ? (
-                <DriveAwareBannerMedia
-                  directVideoUrl={driveSystemsBanner.directStreamUrl}
-                  iframeFallbackUrl={driveSystemsBanner.previewIframeUrl}
-                  posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591946/H%E1%BB%87_th%E1%BB%91ng.png"
-                  title={driveSystemsBanner.fileName}
-                  className="rounded-[inherit]"
-                />
-              ) : (
-                <BannerBackgroundVideo
-                  src="https://drive.google.com/uc?export=download&id=1rbcqxl4WUeZvXg98OfQUIxOO1ja5_vIY"
-                  poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591946/H%E1%BB%87_th%E1%BB%91ng.png"
-                  alt="Banner Hệ thống"
-                />
-              )}
+              <VideoBanner
+                videoId={systemsBannerVideo.videoId}
+                title={systemsBannerVideo.title}
+                className="rounded-[inherit]"
+              />
             </div>
             <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
@@ -1430,43 +1424,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       borderColor: 'var(--border-card)',
                     }}
                   >
-                    <video
-                      ref={circleVideoRef}
-                      src={SYSTEM_FLOATING_IDLE_VIDEO_URL}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      preload="auto"
-                      controls={false}
-                      disablePictureInPicture
-                      controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                      onLoadedMetadata={(e) => {
-                        const v = e.currentTarget;
-                        v.defaultMuted = true;
-                        v.muted = true;
-                        v.loop = true;
-                        v.controls = false;
-                        v.disablePictureInPicture = true;
-                        (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                      }}
-                      onError={(e) => {
-                        const v = e.currentTarget;
-                        const m = v.src.match(/[?&]id=([^&#]+)/i);
-                        if (m?.[1] && v.dataset.driveAltTried !== m[1]) {
-                          v.dataset.driveAltTried = m[1];
-                          v.src = `https://drive.usercontent.google.com/download?id=${m[1]}&export=download&confirm=t`;
-                          v.play().catch(() => {});
-                        }
-                      }}
-                      onEnded={(e) => {
-                        const v = e.currentTarget;
-                        v.currentTime = 0;
-                        v.play().catch(() => {});
-                      }}
-                      style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
-                      className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] rounded-full banner-video-sharp pointer-events-none scale-[1.06]"
-                    />
+                    <DualLayerVideoPlayer className="absolute inset-0 z-0 pointer-events-auto" />
                     <div
                       className={cn(
                         'absolute inset-0 rounded-full flex items-center justify-center transition-all duration-300',
@@ -1611,7 +1569,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             </div>
           ) : viewMode === 'matrix' ? (
             /* CHẾ ĐỘ XEM BẢNG MA TRẬN KỸ THUẬT 12 PHÂN HỆ */
-            <div className="flex-1 min-h-0 overflow-auto glass-scrollbar">
+            <div className="flex-1 min-h-0 overflow-auto glass-scrollbar no-scrollbar">
               <table className="theme-table w-full text-left border-collapse min-w-[780px] rounded-[14px] overflow-hidden">
                 <thead
                   className="sticky top-0 z-20 backdrop-blur-md border-b typo-caption font-semibold font-mono tracking-wider"
@@ -2028,6 +1986,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               </div>
             </div>
           )}
+          </div>
 
           {/* CẤP 2: THẺ MỞ RỘNG FLIP MORPH CHI TIẾT HỆ THỐNG (PHỦ TOÀN BỘ THẺ CHÍNH) */}
           {expandedSystem && expandedMeta && expandedTech && morphRect && (
@@ -2313,7 +2272,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     {isQrOpen && (
                       <div
                         data-subcard="true"
-                        className="system-card-sub rounded-2xl p-[15px] flex flex-col sm:flex-row items-center gap-[15px] border"
+                        className="system-card-sub rounded-2xl p-[15px] flex flex-col sm:flex-row items-center gap-[15px] h-fit border"
                         style={{
                           borderColor: isLeatherTheme
                             ? 'var(--border-subcard)'
@@ -2397,7 +2356,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       return (
                         <div
                           data-subcard="true"
-                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 border"
+                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 h-fit border"
                         >
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="subcard-header-sync flex items-center gap-2" style={{ color: expandedAccent }}>
@@ -2455,8 +2414,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               })}
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-[15px]">
-                            <div className="p-3 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/70 flex flex-col gap-1.5">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-[15px] items-start">
+                            <div className="p-3 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/70 flex flex-col gap-1.5 h-fit">
                               <span
                                 className="typo-body-sm font-bold"
                                 style={{ color: expandedAccent }}
@@ -2479,7 +2438,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               </div>
                             </div>
 
-                            <div className="p-3 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/70 flex flex-col gap-1.5">
+                            <div className="p-3 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/70 flex flex-col gap-1.5 h-fit">
                               <div className="flex items-center justify-between gap-2">
                                 <span
                                   className="typo-body-sm font-bold"
@@ -2545,9 +2504,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             expandedMeta.illustrationSrc ||
                             expandedSystem.imageUrl) && (
                             <div
-                              style={{ borderRadius: 'var(--radius-subcard, 16px)' }}
+                              data-media-card={expandedSystem.videoUrl ? 'video' : 'image'}
+                              style={{
+                                padding: '5px',
+                                borderRadius: 'var(--radius-card, 14px)',
+                              }}
                               className={cn(
-                                'md:col-span-5 relative w-full aspect-video overflow-hidden min-w-0',
+                                'md:col-span-5 relative w-full aspect-video overflow-hidden min-w-0 p-[5px] box-border',
                                 expandedSystem.videoUrl ? 'bg-black' : 'bg-[var(--bg-card)]'
                               )}
                             >
@@ -2633,7 +2596,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
                           <div
                             className={cn(
-                              'flex flex-col justify-between gap-2 min-w-0',
+                              'flex flex-col justify-start gap-2 h-fit min-w-0',
                               expandedSystem.videoUrl ||
                                 expandedMeta.illustrationSrc ||
                                 expandedSystem.imageUrl

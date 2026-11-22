@@ -118,11 +118,13 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 @container about-info-panel (min-width: 320px) {
   #about-personal-info-grid {
     grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(0, 1fr) !important;
+    grid-auto-rows: max-content !important;
+    align-content: start !important;
+    align-items: start !important;
   }
 
   #about-personal-info-grid > .about-info-subcard {
-    height: 100% !important;
+    height: auto !important;
     min-height: 0 !important;
   }
 }
@@ -155,6 +157,13 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #about-personal-info-grid > .about-info-subcard .about-info-value {
     font-size: 12px !important;
   }
+}
+
+html #about-personal-info-grid,
+html[data-card-style] #about-personal-info-grid {
+  border-radius: 14px !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
 }
 
 /* Preserve #education-main-card existing container name alongside main-card */
@@ -239,6 +248,8 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #services-main-content .services-cards-grid,
 #interview-main-content,
 #experience-bento-grid,
+#experience-company-memories-row,
+#experience-results-commitments-row,
 #experience-bento-col-left,
 #experience-bento-col-right,
 #systems-page-container .systems-cards-grid,
@@ -251,12 +262,11 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 }
 
 /* Fluid inner card & subcard padding */
-.page-main-card [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#bento-letter-video):not(#experience-hero-video-card):not(#experience-timeline-board):not(#experience-job-detail-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card),
+.page-main-card [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not([data-media-card="video"]):not(#about-hero-video-container):not(#bento-letter-video):not(#experience-hero-video-card):not(#experience-video-card-2026):not(#interview-questions-card):not([id^="home-main-content-"]):not(#experience-timeline-board):not(#experience-job-detail-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card),
 .page-main-card .bento-view-card,
 .page-main-card .exp-bento-surface-card,
 .page-main-card .partner-card,
 .page-main-card .motto-card,
-.page-main-card #interview-questions-card,
 .page-main-card #interview-answers-card,
 .page-main-card #services-hero-banner {
   padding: var(--mc-card-pad, 16px) !important;
@@ -499,6 +509,21 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     display: contents !important;
   }
 
+  #experience-company-memories-row,
+  #experience-results-commitments-row {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #experience-memories-slot {
+    height: auto !important;
+  }
+
+  #experience-memories-card {
+    position: relative !important;
+    inset: auto !important;
+    height: auto !important;
+  }
+
   #horoscope-card-1-grid,
   #horoscope-card-profile,
   #horoscope-card-management-style,
@@ -607,12 +632,57 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  /* Experience Detail stacks into spacious single flow below 960px */
+  /* Experience Detail: Company + Memory Gallery (exact same height) & Results + Commitments side-by-side at >= 600px */
   #experience-bento-grid {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
   #experience-bento-grid > * {
+    grid-column: 1 / -1 !important;
+  }
+
+  #experience-company-memories-row {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+  }
+
+  #experience-company-memories-row > #experience-info-card {
+    grid-column: span 7 / span 7 !important;
+    height: auto !important;
+  }
+
+  #experience-company-memories-row > #experience-memories-slot {
+    grid-column: span 5 / span 5 !important;
+    position: relative !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    align-self: stretch !important;
+  }
+
+  #experience-company-memories-row > #experience-memories-slot > #experience-memories-card {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+
+  #experience-results-commitments-row {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: start !important;
+  }
+
+  #experience-results-commitments-row > #experience-results-card {
+    grid-column: span 7 / span 7 !important;
+    height: auto !important;
+  }
+
+  #experience-results-commitments-row > #experience-commitments-card {
+    grid-column: span 5 / span 5 !important;
+    height: auto !important;
+  }
+
+  #experience-results-commitments-row:not(:has(#experience-results-card)) > #experience-commitments-card {
     grid-column: 1 / -1 !important;
   }
 
@@ -750,21 +820,61 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
 
-  #experience-bento-grid > #experience-info-card {
+  #experience-bento-grid > #experience-company-memories-row,
+  #experience-bento-grid > #experience-results-commitments-row,
+  #experience-bento-grid > #experience-banner-card,
+  #experience-bento-grid > #experience-video-card-2026,
+  #experience-bento-grid > #experience-detail-footer-nav {
     grid-column: 1 / -1 !important;
   }
 
-  #experience-bento-grid:has(#experience-video-card-2026) > #experience-info-card {
+  #experience-company-memories-row {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+  }
+
+  #experience-company-memories-row > #experience-info-card {
     grid-column: span 7 / span 7 !important;
+    height: auto !important;
+  }
+
+  #experience-company-memories-row > #experience-memories-slot {
+    grid-column: span 5 / span 5 !important;
+    position: relative !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    align-self: stretch !important;
+  }
+
+  #experience-company-memories-row > #experience-memories-slot > #experience-memories-card {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+
+  #experience-results-commitments-row {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: start !important;
+  }
+
+  #experience-results-commitments-row > #experience-results-card {
+    grid-column: span 7 / span 7 !important;
+    height: auto !important;
+  }
+
+  #experience-results-commitments-row > #experience-commitments-card {
+    grid-column: span 5 / span 5 !important;
+    height: auto !important;
+  }
+
+  #experience-results-commitments-row:not(:has(#experience-results-card)) > #experience-commitments-card {
+    grid-column: 1 / -1 !important;
   }
 
   #experience-bento-grid > #experience-video-card-2026 {
-    grid-column: span 5 / span 5 !important;
     min-height: 360px !important;
-  }
-
-  #experience-bento-grid > #experience-detail-footer-nav {
-    grid-column: 1 / -1 !important;
   }
 
   #experience-bento-col-left {
@@ -891,21 +1001,61 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
 
-  #experience-bento-grid > #experience-info-card {
+  #experience-bento-grid > #experience-company-memories-row,
+  #experience-bento-grid > #experience-results-commitments-row,
+  #experience-bento-grid > #experience-banner-card,
+  #experience-bento-grid > #experience-video-card-2026,
+  #experience-bento-grid > #experience-detail-footer-nav {
     grid-column: 1 / -1 !important;
   }
 
-  #experience-bento-grid:has(#experience-video-card-2026) > #experience-info-card {
+  #experience-company-memories-row {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+  }
+
+  #experience-company-memories-row > #experience-info-card {
     grid-column: span 7 / span 7 !important;
+    height: auto !important;
+  }
+
+  #experience-company-memories-row > #experience-memories-slot {
+    grid-column: span 5 / span 5 !important;
+    position: relative !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    align-self: stretch !important;
+  }
+
+  #experience-company-memories-row > #experience-memories-slot > #experience-memories-card {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+
+  #experience-results-commitments-row {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: start !important;
+  }
+
+  #experience-results-commitments-row > #experience-results-card {
+    grid-column: span 7 / span 7 !important;
+    height: auto !important;
+  }
+
+  #experience-results-commitments-row > #experience-commitments-card {
+    grid-column: span 5 / span 5 !important;
+    height: auto !important;
+  }
+
+  #experience-results-commitments-row:not(:has(#experience-results-card)) > #experience-commitments-card {
+    grid-column: 1 / -1 !important;
   }
 
   #experience-bento-grid > #experience-video-card-2026 {
-    grid-column: span 5 / span 5 !important;
     min-height: 360px !important;
-  }
-
-  #experience-bento-grid > #experience-detail-footer-nav {
-    grid-column: 1 / -1 !important;
   }
 
   #experience-bento-col-left {
@@ -932,3 +1082,46 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 8 / span 8 !important;
   }
 }
+
+/* Compact 1/2 scale overlay safeguards for .home-hero-card ("Hồ Sơ Lãnh Đạo" & siblings) */
+html .home-hero-card,
+html #home-stats-card,
+html #home-intro-card,
+html #home-capabilities-card,
+html #home-achievements-card {
+  padding: 10px !important;
+  max-width: 205px !important;
+}
+
+@media (min-width: 640px) {
+  html .home-hero-card,
+  html #home-stats-card,
+  html #home-intro-card,
+  html #home-capabilities-card,
+  html #home-achievements-card {
+    max-width: 225px !important;
+  }
+}
+
+html .home-hero-card .home-hero-badge {
+  font-size: 10.5px !important;
+  line-height: 1.2 !important;
+}
+
+html .home-hero-card :is(h3.card-title, .card-title-synced, [data-card-title="true"]) {
+  font-size: 12px !important;
+  line-height: 1.3 !important;
+  margin-bottom: 0 !important;
+}
+
+html .home-hero-card p {
+  font-size: 10.5px !important;
+  line-height: 1.35 !important;
+}
+
+html .home-hero-card button.theme-modal-close {
+  min-height: 24px !important;
+  padding: 3px 10px !important;
+  font-size: 10px !important;
+}
+

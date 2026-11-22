@@ -13,9 +13,8 @@ import { useToast } from '@/components/ui/Toast';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
-import { useBannerVideo } from '@/context/BannerVideoContext';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { VideoBanner } from '@/components/common/VideoBanner';
+import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 
 export interface MemoriesViewProps {
   currentTheme?: string;
@@ -32,8 +31,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [activeLightboxIdx, setActiveLightboxIdx] = useState<number | null>(null);
   const [isSlideshowPlaying, setIsSlideshowPlaying] = useState<boolean>(false);
-  const { bannerAssignments } = useBannerVideo();
-  const driveMemoriesBanner = bannerAssignments.memories;
+  const memoriesBannerVideo = getDefaultBannerVideoConfig('memories');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const filterMenuRef = useRef<HTMLDivElement>(null);
   const filmstripRef = useRef<HTMLDivElement>(null);
@@ -216,21 +214,11 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
         <div
           className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
-          {driveMemoriesBanner ? (
-            <DriveAwareBannerMedia
-              directVideoUrl={driveMemoriesBanner.directStreamUrl}
-              iframeFallbackUrl={driveMemoriesBanner.previewIframeUrl}
-              posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/K%E1%BB%B7_ni%E1%BB%87m.png"
-              title={driveMemoriesBanner.fileName}
-              className="rounded-[inherit]"
-            />
-          ) : (
-            <BannerBackgroundVideo
-              src="https://drive.google.com/uc?export=download&id=1ruWiQjZF1D_sIiw0G6jY05qulslNMj7B"
-              poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/K%E1%BB%B7_ni%E1%BB%87m.png"
-              alt="Khoảnh khắc kỷ niệm"
-            />
-          )}
+          <VideoBanner
+            videoId={memoriesBannerVideo.videoId}
+            title={memoriesBannerVideo.title}
+            className="rounded-[inherit]"
+          />
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
@@ -438,14 +426,14 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                   animationDelay: `${(idx % 16) * 35}ms`,
                   borderRadius: 'var(--radius-card, 14px)',
                   minHeight: '250px',
-                  padding: '1px',
+                  padding: '0px',
                   cursor: 'pointer',
                 }}
                 className={cn(
-                  'themed-image-card memory-photo-item break-inside-avoid mb-[15px] relative rounded-[14px] overflow-hidden block group transition-all duration-300 hover:-translate-y-1'
+                  'themed-image-card memory-photo-item break-inside-avoid mb-[15px] relative rounded-[14px] overflow-hidden block group transition-all duration-300 hover:-translate-y-1 p-0'
                 )}
               >
-                {/* HÌNH ẢNH NẰM GỌN TRONG CARD VỚI PADDING 1PX */}
+                {/* HÌNH ẢNH NẰM GỌN TRONG CARD VỚI PADDING 0PX */}
                 <img
                   src={item.imageUrl}
                   alt={item.titleVi}
@@ -465,7 +453,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
 
                 {/* LỚP PHỦ THEO GIAO DIỆN ĐANG CHỌN — CHỈ HIỆN KHI RÊ CHUỘT */}
                 <div
-                  style={{ inset: '1px', borderRadius: 'var(--radius-card, 14px)' }}
+                  style={{ inset: '0px', borderRadius: 'var(--radius-card, 14px)' }}
                   className="themed-image-card-scrim absolute pointer-events-none z-10 rounded-[inherit] opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
                 />
 

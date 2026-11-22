@@ -1,9 +1,6 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { createPortal } from 'react-dom';
-import { useBannerVideo } from '@/context/BannerVideoContext';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
 // Icons migrated to WebIcon (Hugeicons)
 
 const LinkedinIcon = ({ className }: { className?: string }) => (
@@ -21,16 +18,13 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
     <circle cx="4" cy="4" r="2" />
   </svg>
 );
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import QRCode from 'qrcode';
 import {
-  Maximize2,
-  Minimize2,
   Copy,
   Check,
   QrCode,
   Download,
-  Map as MapIcon,
 } from 'lucide-react';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SiteTheme } from '@/types';
@@ -139,23 +133,35 @@ export const BENTO_PALETTES: Record<BentoPaletteType, BentoPaletteConfig> = {
   },
 };
 
-// Video 1: Màn hình chờ Gioi thieu.mp4 (Trang Giới Thiệu)
-const ABOUT_IDLE_VIDEO_ID = '1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
-const ABOUT_IDLE_VIDEO_URL =
-  `https://drive.google.com/uc?export=download&id=${ABOUT_IDLE_VIDEO_ID}`;
-const ABOUT_IDLE_DRIVE_ALT_URL =
-  `https://drive.usercontent.google.com/download?id=${ABOUT_IDLE_VIDEO_ID}&export=download&confirm=t`;
-const ABOUT_IDLE_MP4_BACKUP =
-  'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793623267/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_Ma_thu%C3%A2t_1.mp4';
+// Video 1 làm hình nền mặc định cho Card Giới thiệu (copy từ Video 1 phỏng vấn)
+const ABOUT_VIDEO_1_ID = '1-XpJWJEyTq4PYh902i7FQbWYnpO17PvM';
+const ABOUT_VIDEO_1_STREAM_URL = `/api/media/drive-video/${ABOUT_VIDEO_1_ID}`;
+const ABOUT_VIDEO_1_ALT_STREAM_URL = `https://drive.usercontent.google.com/download?id=${ABOUT_VIDEO_1_ID}&export=download&confirm=t`;
+const ABOUT_VIDEO_1_URL = `https://drive.google.com/file/d/${ABOUT_VIDEO_1_ID}/preview`;
 
-// Video 2: Giới thiệu vui nhộn.mp4 (Trang Giới Thiệu)
-const ABOUT_INTRO_VIDEO_ID = '12cdItjoc6LpIetmw6-1BiSt8kUaaNe7R';
-const ABOUT_INTRO_VIDEO_URL =
-  `https://drive.google.com/uc?export=download&id=${ABOUT_INTRO_VIDEO_ID}`;
-const ABOUT_INTRO_DRIVE_ALT_URL =
-  `https://drive.usercontent.google.com/download?id=${ABOUT_INTRO_VIDEO_ID}&export=download&confirm=t`;
-const ABOUT_INTRO_MP4_BACKUP =
-  'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793542148/Thuy%E1%BA%BFt_tr%C3%ACnh_b%E1%BA%A3n_m%E1%BB%9Bi_2.mp4';
+// Video 2 phát khi bấm nút Phát Video (tự động phát, vòng lặp, mở âm thanh mặc định, không control)
+const ABOUT_VIDEO_2_ID = '1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
+const ABOUT_VIDEO_2_STREAM_URL = `/api/media/drive-video/${ABOUT_VIDEO_2_ID}`;
+const ABOUT_VIDEO_2_ALT_STREAM_URL = `https://drive.usercontent.google.com/download?id=${ABOUT_VIDEO_2_ID}&export=download&confirm=t`;
+const ABOUT_VIDEO_2_URL = `https://drive.google.com/file/d/${ABOUT_VIDEO_2_ID}/preview`;
+
+type AboutStreamStage = 'primary' | 'alt' | 'iframe';
+
+const ABOUT_VIDEO_SHARED_STYLE: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  width: '100%',
+  height: '100%',
+  minWidth: '100%',
+  minHeight: '100%',
+  objectFit: 'cover',
+  objectPosition: '50% 22%',
+  transform: 'translateZ(0) scale(1.02)',
+  backfaceVisibility: 'hidden',
+};
+
+const ABOUT_VIDEO_SHARED_CLASS =
+  'absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp select-none pointer-events-none transition-opacity duration-300';
 
 const getWebIconName = (name: string): string => {
   const norm = name.toLowerCase();
@@ -566,8 +572,6 @@ export function AboutView({
   onOpenBentoFocusModal
 }: AboutViewProps = {}) {
   const { showToast } = useToast();
-  const { bannerAssignments } = useBannerVideo();
-  const driveAboutBanner = bannerAssignments.about;
 
   // Chế độ xem: cố định duy nhất dạng Trình chiếu Slide ('slides')
   const [viewMode, setViewMode] = useState<'dashboard' | 'bento' | 'slides'>('slides');
@@ -578,7 +582,6 @@ export function AboutView({
   const [bentoPalette, setBentoPalette] = useState<BentoPaletteType>('pastel');
   const [isPaletteMenuOpen, setIsPaletteMenuOpen] = useState(false);
 
-  const [isClientMounted, setIsClientMounted] = useState<boolean>(false);
   const [isRightDockCollapsed, setIsRightDockCollapsed] = useState<boolean>(false);
   const [isAboutNavMenuOpen, setIsAboutNavMenuOpen] = useState(false);
   const [isAboutNavHovered, setIsAboutNavHovered] = useState(false);
@@ -635,7 +638,6 @@ export function AboutView({
   }, []);
 
   useEffect(() => {
-    setIsClientMounted(true);
     setViewMode('slides');
     try {
       const saved = localStorage.getItem('hungthai_bento_palette') as BentoPaletteType;
@@ -684,13 +686,11 @@ export function AboutView({
   const [activeHeroMedia, setActiveHeroMedia] = useState<'video' | 'map'>('video');
   const [activeHeroMapType, setActiveHeroMapType] = useState<'tam_tru' | 'cu_tru'>('tam_tru');
 
-  // Chế độ thu phóng toàn cảnh Card Video, sao chép danh thiếp 1 chạm & mã QR vCard động
-  const [isVideoFullscreenOpen, setIsVideoFullscreenOpen] = useState(false);
+  // Sao chép danh thiếp 1 chạm & mã QR vCard động
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [qrMode, setQrMode] = useState<'vcard' | 'url'>('vcard');
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
   const [isVCardCopied, setIsVCardCopied] = useState(false);
-  const fullscreenVideoRef = useRef<HTMLVideoElement>(null);
 
   const ABOUT_VCARD_PAYLOAD = useMemo(
     () =>
@@ -803,81 +803,233 @@ export function AboutView({
     });
   }, [activeHeroMapType, showToast]);
 
-  // Video State & Controls
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlayingIntro, setIsPlayingIntro] = useState(false);
-  const [isVideoMuted, setIsVideoMuted] = useState<boolean>(true);
-  const [videoCurrentTime, setVideoCurrentTime] = useState(0);
-  const [isVideoPaused, setIsVideoPaused] = useState(false);
-  const [aboutVideoStage, setAboutVideoStage] = useState<0 | 1 | 2>(0);
+  // Dual-Layer Video State & Controls (Format chuẩn giống 100% Card Phỏng vấn)
+  const video1Ref = useRef<HTMLVideoElement | null>(null);
+  const video2Ref = useRef<HTMLVideoElement | null>(null);
+  const hasInitializedAboutVideosRef = useRef<boolean>(false);
+  const video1StageRef = useRef<AboutStreamStage>('primary');
+  const video2StageRef = useRef<AboutStreamStage>('primary');
+  const isPlayingIntroRef = useRef<boolean>(false);
+  const isAudioOnRef = useRef<boolean>(false);
 
-  const activeAboutIdleVideoUrl =
-    aboutVideoStage === 0
-      ? ABOUT_IDLE_VIDEO_URL
-      : aboutVideoStage === 1
-        ? ABOUT_IDLE_DRIVE_ALT_URL
-        : ABOUT_IDLE_MP4_BACKUP;
+  const [video1Stage, setVideo1Stage] = useState<AboutStreamStage>('primary');
+  const [video2Stage, setVideo2Stage] = useState<AboutStreamStage>('primary');
+  const [isPlayingIntro, setIsPlayingIntro] = useState<boolean>(false);
+  const [isVideo2Ready, setIsVideo2Ready] = useState<boolean>(false);
+  const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
 
-  const activeAboutIntroVideoUrl =
-    aboutVideoStage === 0
-      ? ABOUT_INTRO_VIDEO_URL
-      : aboutVideoStage === 1
-        ? ABOUT_INTRO_DRIVE_ALT_URL
-        : ABOUT_INTRO_MP4_BACKUP;
+  const getVideo1StreamUrl = useCallback((stage: AboutStreamStage): string => {
+    return stage === 'alt' ? ABOUT_VIDEO_1_ALT_STREAM_URL : ABOUT_VIDEO_1_STREAM_URL;
+  }, []);
 
-  const activeAboutVideoUrl = isPlayingIntro
-    ? activeAboutIntroVideoUrl
-    : activeAboutIdleVideoUrl;
+  const getVideo2StreamUrl = useCallback((stage: AboutStreamStage): string => {
+    return stage === 'alt' ? ABOUT_VIDEO_2_ALT_STREAM_URL : ABOUT_VIDEO_2_STREAM_URL;
+  }, []);
 
-  useEffect(() => {
-    if (aboutVideoStage >= 2) return;
-    const timer = window.setTimeout(() => {
-      const el = videoRef.current;
-      if (el && el.readyState < 2) {
-        setAboutVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev));
+  const activeAboutIntroVideoUrl = getVideo2StreamUrl(video2Stage);
+
+  const enforceVideoAttributes = useCallback((el: HTMLVideoElement | null, muted: boolean, autoplay: boolean) => {
+    if (!el) return;
+    el.defaultMuted = muted;
+    el.muted = muted;
+    el.volume = 1;
+    el.loop = true;
+    el.autoplay = autoplay;
+    el.playsInline = true;
+    el.controls = false;
+    el.disablePictureInPicture = true;
+    (el as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+    if (muted) {
+      el.setAttribute('muted', '');
+    } else {
+      el.removeAttribute('muted');
+    }
+    if (autoplay) {
+      el.setAttribute('autoplay', '');
+    } else {
+      el.removeAttribute('autoplay');
+    }
+    el.setAttribute('loop', '');
+    el.setAttribute('playsinline', '');
+    el.setAttribute('webkit-playsinline', '');
+    el.removeAttribute('controls');
+  }, []);
+
+  const tryStartVideo1 = useCallback(
+    (el: HTMLVideoElement | null, audioOn: boolean) => {
+      if (!el) return;
+      enforceVideoAttributes(el, !audioOn, true);
+      const playPromise = el.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          if (audioOn && !isPlayingIntroRef.current) {
+            isAudioOnRef.current = false;
+            setIsAudioOn(false);
+            enforceVideoAttributes(el, true, true);
+            el.play().catch(() => {});
+          }
+        });
       }
-    }, 4500);
-    return () => window.clearTimeout(timer);
-  }, [aboutVideoStage, isPlayingIntro]);
+    },
+    [enforceVideoAttributes]
+  );
 
-  // Đảm bảo video trong #el-p2-div-87 luôn tự động phát lại khi tab trình duyệt active trở lại
+  const tryStartVideo2 = useCallback(
+    (el: HTMLVideoElement | null, audioOn: boolean) => {
+      if (!el) return;
+      enforceVideoAttributes(el, !audioOn, true);
+      const playPromise = el.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch((err) => {
+          if (!isPlayingIntroRef.current) return;
+          if (err && err.name === 'NotAllowedError' && audioOn) {
+            isAudioOnRef.current = false;
+            setIsAudioOn(false);
+            enforceVideoAttributes(el, true, true);
+            el.play().catch(() => {});
+            showToast('Trình duyệt tạm chặn âm thanh tự động — bấm biểu tượng loa để bật tiếng.');
+          }
+        });
+      }
+    },
+    [enforceVideoAttributes, showToast]
+  );
+
+  const loadVideo1 = useCallback(
+    (stage: AboutStreamStage) => {
+      video1StageRef.current = stage;
+      setVideo1Stage(stage);
+      if (stage === 'iframe') return;
+
+      const video = video1Ref.current;
+      if (!video) return;
+
+      video.src = getVideo1StreamUrl(stage);
+      video.preload = 'auto';
+      const shouldAudioOn = !isPlayingIntroRef.current && isAudioOnRef.current;
+      enforceVideoAttributes(video, !shouldAudioOn, true);
+      try {
+        video.load();
+      } catch {
+        // Ignore reload exception
+      }
+      if (!isPlayingIntroRef.current) {
+        tryStartVideo1(video, shouldAudioOn);
+      }
+    },
+    [enforceVideoAttributes, getVideo1StreamUrl, tryStartVideo1]
+  );
+
+  const loadVideo2 = useCallback(
+    (stage: AboutStreamStage, shouldPlayImmediately: boolean) => {
+      video2StageRef.current = stage;
+      setVideo2Stage(stage);
+      if (stage === 'iframe') return;
+
+      const video = video2Ref.current;
+      if (!video) return;
+
+      video.src = getVideo2StreamUrl(stage);
+      video.preload = shouldPlayImmediately ? 'auto' : 'metadata';
+      const shouldAudioOn = isPlayingIntroRef.current && isAudioOnRef.current;
+      enforceVideoAttributes(video, !shouldAudioOn, shouldPlayImmediately);
+      try {
+        video.load();
+      } catch {
+        // Ignore reload exception
+      }
+      if (shouldPlayImmediately && isPlayingIntroRef.current) {
+        tryStartVideo2(video, shouldAudioOn);
+      }
+    },
+    [enforceVideoAttributes, getVideo2StreamUrl, tryStartVideo2]
+  );
+
+  // Khởi tạo Video 1 làm nền mặc định (tắt tiếng, vòng lặp) và gắn sẵn nguồn cho Video 2 (preload metadata)
   useEffect(() => {
-    const enforceVideoPlayback = () => {
-      const v = videoRef.current;
-      if (!v || document.hidden || isPlayingIntro || activeHeroMedia !== 'video') return;
-      v.defaultMuted = true;
-      v.muted = true;
-      v.loop = true;
-      v.controls = false;
-      v.removeAttribute('controls');
-      if (v.paused) v.play().catch(() => {});
+    if (activeHeroMedia !== 'video') {
+      hasInitializedAboutVideosRef.current = false;
+      return;
+    }
+    if (hasInitializedAboutVideosRef.current) return;
+    hasInitializedAboutVideosRef.current = true;
+    loadVideo1(video1StageRef.current === 'iframe' ? 'primary' : video1StageRef.current);
+    const v2 = video2Ref.current;
+    if (v2 && video2StageRef.current !== 'iframe') {
+      v2.src = getVideo2StreamUrl(video2StageRef.current);
+      v2.preload = isPlayingIntroRef.current ? 'auto' : 'metadata';
+      enforceVideoAttributes(v2, !(isPlayingIntroRef.current && isAudioOnRef.current), isPlayingIntroRef.current);
+      if (isPlayingIntroRef.current) {
+        tryStartVideo2(v2, isAudioOnRef.current);
+      }
+    }
+  }, [activeHeroMedia, enforceVideoAttributes, getVideo2StreamUrl, loadVideo1, tryStartVideo2]);
+
+  // Tự động tiếp tục phát khi quay lại tab hoặc chạm lần đầu trên thiết bị di động
+  useEffect(() => {
+    const resumeActivePlayback = () => {
+      if (typeof document !== 'undefined' && document.hidden) return;
+      if (activeHeroMedia !== 'video') return;
+      if (isPlayingIntroRef.current) {
+        if (video2StageRef.current === 'iframe') return;
+        const v2 = video2Ref.current;
+        if (!v2 || !v2.paused) return;
+        tryStartVideo2(v2, isAudioOnRef.current);
+      } else {
+        if (video1StageRef.current === 'iframe') return;
+        const v1 = video1Ref.current;
+        if (!v1 || !v1.paused) return;
+        tryStartVideo1(v1, isAudioOnRef.current);
+      }
     };
-    document.addEventListener('visibilitychange', enforceVideoPlayback);
-    return () => document.removeEventListener('visibilitychange', enforceVideoPlayback);
-  }, [isPlayingIntro, activeHeroMedia]);
+    document.addEventListener('visibilitychange', resumeActivePlayback);
+    window.addEventListener('pointerdown', resumeActivePlayback, { passive: true, once: true });
+    window.addEventListener('touchstart', resumeActivePlayback, { passive: true, once: true });
+    return () => {
+      document.removeEventListener('visibilitychange', resumeActivePlayback);
+      window.removeEventListener('pointerdown', resumeActivePlayback);
+      window.removeEventListener('touchstart', resumeActivePlayback);
+    };
+  }, [activeHeroMedia, tryStartVideo1, tryStartVideo2]);
 
-  // Helper format mm:ss
-  const formatCountdown = (secs: number) => {
-    const m = Math.floor(secs / 60);
-    const s = secs % 60;
-    return `0${m}:${s < 10 ? '0' : ''}${s}`;
-  };
+  const handleVideo1Error = useCallback(() => {
+    if (video1StageRef.current === 'primary') {
+      loadVideo1('alt');
+    } else if (video1StageRef.current === 'alt') {
+      video1StageRef.current = 'iframe';
+      setVideo1Stage('iframe');
+    }
+  }, [loadVideo1]);
 
-  // Đồng bộ lưu & khôi phục trạng thái âm thanh qua CustomEvent
+  const handleVideo2Error = useCallback(() => {
+    if (video2StageRef.current === 'primary') {
+      loadVideo2('alt', isPlayingIntroRef.current);
+    } else if (video2StageRef.current === 'alt') {
+      video2StageRef.current = 'iframe';
+      setVideo2Stage('iframe');
+      if (isPlayingIntroRef.current) {
+        setIsVideo2Ready(true);
+      }
+    }
+  }, [loadVideo2]);
+
+  // Đồng bộ CustomEvent âm thanh toàn cục nếu nơi khác thay đổi
   useEffect(() => {
-    setIsVideoMuted(getSavedMutedPref(true));
     const handleAudioPref = (e: Event) => {
       const customEvent = e as CustomEvent<{ muted: boolean }>;
       if (customEvent.detail && typeof customEvent.detail.muted === 'boolean') {
-        setIsVideoMuted(customEvent.detail.muted);
-        if (videoRef.current) {
-          videoRef.current.muted = customEvent.detail.muted;
+        const nextAudioOn = !customEvent.detail.muted;
+        isAudioOnRef.current = nextAudioOn;
+        setIsAudioOn(nextAudioOn);
+        const activeEl = isPlayingIntroRef.current ? video2Ref.current : video1Ref.current;
+        if (activeEl) {
+          enforceVideoAttributes(activeEl, !nextAudioOn, true);
         }
       }
     };
     window.addEventListener(AUDIO_PREF_EVENT, handleAudioPref);
     return () => window.removeEventListener(AUDIO_PREF_EVENT, handleAudioPref);
-  }, []);
+  }, [enforceVideoAttributes]);
 
   // Active ecosystem banner tab index (7 Phân Hệ)
   const [activeBannerIndex, setActiveBannerIndex] = useState<number>(0);
@@ -1131,9 +1283,7 @@ export function AboutView({
       }
 
       if (e.key === 'Escape') {
-        if (isVideoFullscreenOpen) {
-          setIsVideoFullscreenOpen(false);
-        } else if (isQrModalOpen) {
+        if (isQrModalOpen) {
           setIsQrModalOpen(false);
         } else if (focusedBentoCard) {
           handleCloseBentoFocus();
@@ -1149,19 +1299,12 @@ export function AboutView({
       if (!isQrModalOpen && !focusedBentoCard) {
         if (lowerKey === 'm') {
           e.preventDefault();
-          if (isVideoFullscreenOpen) setIsVideoFullscreenOpen(false);
           toggleHeroMediaMode();
-          return;
-        }
-        if (lowerKey === 'f' && activeHeroMedia === 'video') {
-          e.preventDefault();
-          SoundEngine.playPop();
-          setIsVideoFullscreenOpen((prev) => !prev);
           return;
         }
       }
 
-      if (viewMode === 'slides' && !isPlayingIntro && !focusedBentoCard && !isVideoFullscreenOpen && !isQrModalOpen) {
+      if (viewMode === 'slides' && !isPlayingIntro && !focusedBentoCard && !isQrModalOpen) {
         if (e.key === 'ArrowLeft') {
           e.preventDefault();
           scrollToIntroCard(1, true);
@@ -1177,83 +1320,111 @@ export function AboutView({
     isPlayingIntro,
     viewMode,
     focusedBentoCard,
-    isVideoFullscreenOpen,
     isQrModalOpen,
-    activeHeroMedia,
     handleCloseBentoFocus,
     scrollToIntroCard,
     toggleHeroMediaMode,
   ]);
 
-  // Video time tracking
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      setVideoCurrentTime(videoRef.current.currentTime);
-    }
-  };
-
-  const handlePlayIntro = () => {
-    setAboutVideoStage(0);
+  const handlePlayIntro = useCallback(() => {
+    isPlayingIntroRef.current = true;
+    isAudioOnRef.current = true;
     setIsPlayingIntro(true);
-    setIsVideoMuted(false);
+    setIsAudioOn(true);
+    setIsVideo2Ready(false);
     saveMutedPref(false);
-    setIsVideoPaused(false);
-    if (videoRef.current) {
-      videoRef.current.src = ABOUT_INTRO_VIDEO_URL;
-      videoRef.current.muted = false;
-      videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => {});
-    }
-    showToast('Đang phát Video: Giới thiệu bản thân 🎬');
-  };
 
-  const handleCancelIntro = () => {
-    setAboutVideoStage(0);
+    if (video2StageRef.current === 'iframe') {
+      setIsVideo2Ready(true);
+      const v1 = video1Ref.current;
+      if (v1 && !v1.paused) {
+        v1.pause();
+      }
+      showToast('Đang phát Video 2 giới thiệu (mở âm thanh)');
+      return;
+    }
+
+    const v2 = video2Ref.current;
+    if (v2) {
+      const targetSrc = getVideo2StreamUrl(video2StageRef.current);
+      if (!v2.src || !v2.src.includes(ABOUT_VIDEO_2_ID)) {
+        v2.src = targetSrc;
+      }
+      v2.preload = 'auto';
+      enforceVideoAttributes(v2, false, true);
+      if (v2.readyState >= 1) {
+        try {
+          v2.currentTime = 0;
+        } catch {
+          // Ignore seek error
+        }
+      }
+      tryStartVideo2(v2, true);
+    }
+
+    showToast('Đang phát Video 2 giới thiệu (mở âm thanh)');
+  }, [enforceVideoAttributes, getVideo2StreamUrl, showToast, tryStartVideo2]);
+
+  const handleCancelIntro = useCallback(() => {
+    isPlayingIntroRef.current = false;
+    isAudioOnRef.current = false;
     setIsPlayingIntro(false);
-    setIsVideoMuted(true);
+    setIsVideo2Ready(false);
+    setIsAudioOn(false);
     saveMutedPref(true);
-    setIsVideoPaused(false);
-    setVideoCurrentTime(0);
-    if (videoRef.current) {
-      videoRef.current.src = ABOUT_IDLE_VIDEO_URL;
-      videoRef.current.muted = true;
-      videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => {});
+
+    const v2 = video2Ref.current;
+    if (v2) {
+      try {
+        v2.pause();
+      } catch {
+        // Ignore
+      }
+      enforceVideoAttributes(v2, true, false);
+      if (v2.readyState >= 1) {
+        try {
+          v2.currentTime = 0;
+        } catch {
+          // Ignore
+        }
+      }
     }
-    showToast('Đã dừng nghe — Quay về Video Ban đầu');
-  };
 
-  const handleVideoEnded = () => {
-    if (isPlayingIntro) {
-      handleCancelIntro();
-    } else if (videoRef.current) {
-      videoRef.current.defaultMuted = true;
-      videoRef.current.muted = true;
-      videoRef.current.loop = true;
-      videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => {});
+    const v1 = video1Ref.current;
+    if (v1 && video1StageRef.current !== 'iframe') {
+      enforceVideoAttributes(v1, true, true);
+      tryStartVideo1(v1, false);
     }
-  };
 
-  const toggleVideoMute = () => {
-    if (!videoRef.current) return;
-    const nextMuted = !isVideoMuted;
-    videoRef.current.muted = nextMuted;
-    setIsVideoMuted(nextMuted);
-    saveMutedPref(nextMuted);
-    showToast(nextMuted ? 'Đã tắt âm thanh video' : 'Đã mở âm thanh video 🔊');
-  };
+    showToast('Đã hủy phát — quay về Video 1 mặc định (tắt âm thanh)');
+  }, [enforceVideoAttributes, showToast, tryStartVideo1]);
 
-  const togglePlayPause = () => {
-    if (!videoRef.current) return;
-    if (videoRef.current.paused) {
-      videoRef.current.play().catch(() => {});
-      setIsVideoPaused(false);
+  const toggleVideoMute = useCallback(() => {
+    const nextAudioOn = !isAudioOnRef.current;
+    isAudioOnRef.current = nextAudioOn;
+    setIsAudioOn(nextAudioOn);
+    saveMutedPref(!nextAudioOn);
+
+    if (isPlayingIntroRef.current) {
+      const v2 = video2Ref.current;
+      if (v2 && video2StageRef.current !== 'iframe') {
+        enforceVideoAttributes(v2, !nextAudioOn, true);
+        if (v2.paused) {
+          tryStartVideo2(v2, nextAudioOn);
+        }
+      }
     } else {
-      videoRef.current.pause();
-      setIsVideoPaused(true);
+      const v1 = video1Ref.current;
+      if (v1 && video1StageRef.current !== 'iframe') {
+        enforceVideoAttributes(v1, !nextAudioOn, true);
+        if (v1.paused) {
+          tryStartVideo1(v1, nextAudioOn);
+        }
+      }
     }
-  };
+
+    showToast(nextAudioOn ? 'Đã bật âm thanh video' : 'Đã tắt âm thanh video');
+  }, [enforceVideoAttributes, showToast, tryStartVideo1, tryStartVideo2]);
 
   // Render nội dung phóng to chi tiết cho Bento Expand Modal (Yêu cầu 5)
   const renderFocusedCardContent = () => {
@@ -1270,9 +1441,7 @@ export function AboutView({
                   muted
                   playsInline
                   controls={false}
-                  onError={() =>
-                    setAboutVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
-                  }
+                  onError={handleVideo2Error}
                     disablePictureInPicture
                     controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
                     preload="auto"
@@ -1764,20 +1933,24 @@ export function AboutView({
           paddingRight: '15px',
           paddingBottom: '15px',
           paddingLeft: '15px',
-          gap: '15px',
-          rowGap: '15px',
-          columnGap: '15px',
-          borderRadius: 'var(--radius-main, 30px)',
+          gap: '0px',
+          rowGap: '0px',
+          columnGap: '0px',
+          borderRadius: 'var(--radius-main, 14px)',
         }}
         className={cn(
-          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-center p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          'page-main-card relative max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden box-border transition-opacity duration-300',
           activeIntroCard !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
         <div
+          id="about-intro-card-1-scroll-viewport"
+          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+        >
+        <div
           id="about-intro-grid-1"
-          style={{ padding: '0px' }}
-          className="w-full flex-1 min-h-0 my-auto grid grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] sm:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[minmax(0,1fr)] gap-[10px] sm:gap-[15px] p-0 overflow-hidden items-stretch box-border"
+          style={{ padding: '0px', gap: '15px', rowGap: '15px', columnGap: '15px' }}
+          className="w-full flex-1 min-h-full grid grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] sm:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[minmax(0,1fr)] gap-[15px] p-0 overflow-hidden items-stretch box-border"
         >
             
             {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA (70%) */}
@@ -1810,125 +1983,176 @@ export function AboutView({
                     className="relative w-full h-full flex-1 rounded-[inherit] overflow-hidden min-h-0 flex items-center justify-center"
                   >
                   {activeHeroMedia === 'video' ? (
-                    <>
-                      {driveAboutBanner && !isPlayingIntro ? (
-                        <div className="absolute inset-0 w-full h-full rounded-[inherit] pointer-events-none z-0 overflow-hidden">
-                          <DriveAwareBannerMedia
-                            directVideoUrl={driveAboutBanner.directStreamUrl}
-                            iframeFallbackUrl={driveAboutBanner.previewIframeUrl}
-                            posterUrl="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
-                            title={driveAboutBanner.fileName}
-                            muted={true}
-                            loop={true}
-                            allowIframeFallback={false}
-                            className="pointer-events-none opacity-100 transition-opacity duration-700 brightness-105 contrast-105"
-                          />
-                        </div>
-                      ) : (
-                        <video
-                          ref={videoRef}
-                          id="about-hero-video"
-                          data-element-name="Video giới thiệu chân dung chuyên gia"
-                          data-element-type="media"
-                          data-element-page="about"
-                          data-element-parent="el-p2-div-87"
-                          key={`${isPlayingIntro ? 'video-intro-2' : 'video-idle-1'}-${aboutVideoStage}`}
-                          autoPlay
-                          loop={!isPlayingIntro}
-                          muted={isPlayingIntro ? isVideoMuted : true}
-                          playsInline
-                          preload="auto"
-                          controls={false}
-                          disablePictureInPicture
-                          controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                          aria-hidden="true"
-                          tabIndex={-1}
-                          onLoadedMetadata={(e) => {
-                            const v = e.currentTarget;
-                            if (!isPlayingIntro) {
-                              v.defaultMuted = true;
-                              v.muted = true;
-                              v.loop = true;
-                            }
-                            v.controls = false;
-                            v.disablePictureInPicture = true;
-                            (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                            v.removeAttribute('controls');
-                            if (v.paused) v.play().catch(() => {});
-                          }}
-                          onLoadedData={(e) => {
-                            const v = e.currentTarget;
-                            if (!isPlayingIntro) {
-                              v.defaultMuted = true;
-                              v.muted = true;
-                              v.loop = true;
-                            }
-                            v.controls = false;
-                            v.disablePictureInPicture = true;
-                            (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                            v.removeAttribute('controls');
-                            if (v.paused) v.play().catch(() => {});
-                          }}
-                          onCanPlay={(e) => {
-                            const v = e.currentTarget;
-                            if (!isPlayingIntro) {
-                              v.defaultMuted = true;
-                              v.muted = true;
-                              v.loop = true;
-                            }
-                            v.controls = false;
-                            v.removeAttribute('controls');
-                            if (v.paused) v.play().catch(() => {});
-                          }}
-                          onPause={(e) => {
-                            if (isPlayingIntro) return;
-                            if (typeof document !== 'undefined' && document.hidden) return;
-                            const v = e.currentTarget;
-                            v.defaultMuted = true;
-                            v.muted = true;
-                            v.loop = true;
-                            v.play().catch(() => {});
-                          }}
-                          onTimeUpdate={handleTimeUpdate}
-                          onEnded={handleVideoEnded}
-                          onError={() =>
-                            setAboutVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
-                          }
-                          style={{
-                            position: 'absolute',
-                            inset: 0,
-                            width: '100%',
-                            height: '100%',
-                            minWidth: '100%',
-                            minHeight: '100%',
-                            objectFit: 'cover',
-                            objectPosition: '50% 18%',
-                            transform: 'translate3d(0, 0, 0) scale(1.02)',
-                            backfaceVisibility: 'hidden',
-                            WebkitBackfaceVisibility: 'hidden',
-                            imageRendering: '-webkit-optimize-contrast',
-                            filter: 'contrast(1.07) saturate(1.08) brightness(1.02)',
-                          }}
-                          className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none opacity-100 banner-video-sharp transition-opacity duration-700 z-0"
-                          src={activeAboutVideoUrl}
-                        />
-                      )}
-                      <button
-                        type="button"
-                        id="about-video-expand-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          SoundEngine.playPop();
-                          setIsVideoFullscreenOpen(true);
-                        }}
-                        title="Mở rộng toàn cảnh Video giới thiệu (Phím F)"
-                        aria-label="Mở rộng toàn cảnh Video giới thiệu"
-                        className="theme-video-capsule absolute top-3 right-3 z-30 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-semibold font-play cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95 pointer-events-auto"
+                      <div
+                        id="about-video-background-layer"
+                        data-video-slot={isPlayingIntro ? 2 : 1}
+                        data-video-id={isPlayingIntro ? ABOUT_VIDEO_2_ID : ABOUT_VIDEO_1_ID}
+                        style={{ containerType: 'size' }}
+                        className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0"
                       >
-                        <Maximize2 className="w-3.5 h-3.5 shrink-0" />
-                        <span className="hidden sm:inline whitespace-nowrap">Toàn cảnh</span>
-                      </button>
-                    </>
+                        {/* VIDEO 1 — Hình nền mặc định Card Giới thiệu (autoPlay, vòng lặp, tắt âm thanh, không control) */}
+                        {video1Stage !== 'iframe' ? (
+                          <video
+                            ref={video1Ref}
+                            id="about-bg-video-1"
+                            data-video-slot={1}
+                            data-video-id={ABOUT_VIDEO_1_ID}
+                            data-video-layer-active={!isPlayingIntro ? 'true' : 'false'}
+                            autoPlay
+                            loop
+                            muted={!(!isPlayingIntro && isAudioOn)}
+                            playsInline
+                            preload="auto"
+                            controls={false}
+                            disablePictureInPicture
+                            controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                            aria-hidden="true"
+                            tabIndex={-1}
+                            onLoadedMetadata={(e) => {
+                              const v = e.currentTarget;
+                              const audioOn = !isPlayingIntroRef.current && isAudioOnRef.current;
+                              enforceVideoAttributes(v, !audioOn, !isPlayingIntroRef.current);
+                              if (!isPlayingIntroRef.current && v.paused) tryStartVideo1(v, audioOn);
+                            }}
+                            onLoadedData={(e) => {
+                              const v = e.currentTarget;
+                              const audioOn = !isPlayingIntroRef.current && isAudioOnRef.current;
+                              enforceVideoAttributes(v, !audioOn, !isPlayingIntroRef.current);
+                              if (!isPlayingIntroRef.current && v.paused) tryStartVideo1(v, audioOn);
+                            }}
+                            onCanPlay={(e) => {
+                              const v = e.currentTarget;
+                              const audioOn = !isPlayingIntroRef.current && isAudioOnRef.current;
+                              enforceVideoAttributes(v, !audioOn, !isPlayingIntroRef.current);
+                              if (!isPlayingIntroRef.current && v.paused) tryStartVideo1(v, audioOn);
+                            }}
+                            onPlaying={(e) => {
+                              const audioOn = !isPlayingIntroRef.current && isAudioOnRef.current;
+                              enforceVideoAttributes(e.currentTarget, !audioOn, !isPlayingIntroRef.current);
+                            }}
+                            onEnded={(e) => {
+                              if (isPlayingIntroRef.current) return;
+                              const v = e.currentTarget;
+                              const audioOn = isAudioOnRef.current;
+                              enforceVideoAttributes(v, !audioOn, true);
+                              v.currentTime = 0;
+                              tryStartVideo1(v, audioOn);
+                            }}
+                            onPause={(e) => {
+                              if (isPlayingIntroRef.current) return;
+                              if (typeof document !== 'undefined' && document.hidden) return;
+                              const v = e.currentTarget;
+                              if (v.seeking) return;
+                              tryStartVideo1(v, isAudioOnRef.current);
+                            }}
+                            onError={handleVideo1Error}
+                            style={ABOUT_VIDEO_SHARED_STYLE}
+                            className={cn(
+                              ABOUT_VIDEO_SHARED_CLASS,
+                              isPlayingIntro && isVideo2Ready ? 'opacity-0 z-[1]' : 'opacity-100 z-[1]'
+                            )}
+                          />
+                        ) : (
+                          <iframe
+                            key={`about-bg-iframe-1-${ABOUT_VIDEO_1_ID}`}
+                            src={ABOUT_VIDEO_1_URL}
+                            title="Video giới thiệu 1 - Nguyễn Hùng Thái"
+                            allow="autoplay; fullscreen; picture-in-picture"
+                            tabIndex={-1}
+                            aria-hidden="true"
+                            className={cn(
+                              'banner-drive-iframe-cover absolute top-1/2 left-1/2 border-0 pointer-events-none select-none transition-opacity duration-300',
+                              isPlayingIntro && isVideo2Ready ? 'opacity-0 z-[1]' : 'opacity-100 z-[1]'
+                            )}
+                          />
+                        )}
+
+                        {/* VIDEO 2 — Định dạng y hệt Video 1 (autoPlay khi kích hoạt, vòng lặp, mở âm thanh mặc định, không control) */}
+                        {video2Stage !== 'iframe' ? (
+                          <video
+                            ref={video2Ref}
+                            id="about-bg-video-2"
+                            data-video-slot={2}
+                            data-video-id={ABOUT_VIDEO_2_ID}
+                            data-video-layer-active={isPlayingIntro ? 'true' : 'false'}
+                            loop
+                            muted={!(isPlayingIntro && isAudioOn)}
+                            playsInline
+                            preload="metadata"
+                            controls={false}
+                            disablePictureInPicture
+                            controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                            aria-hidden="true"
+                            tabIndex={-1}
+                            onLoadedMetadata={(e) => {
+                              const v = e.currentTarget;
+                              if (!isPlayingIntroRef.current) {
+                                enforceVideoAttributes(v, true, false);
+                                return;
+                              }
+                              enforceVideoAttributes(v, !isAudioOnRef.current, true);
+                              if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
+                            }}
+                            onLoadedData={(e) => {
+                              const v = e.currentTarget;
+                              if (!isPlayingIntroRef.current) return;
+                              enforceVideoAttributes(v, !isAudioOnRef.current, true);
+                              if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
+                            }}
+                            onCanPlay={(e) => {
+                              const v = e.currentTarget;
+                              if (!isPlayingIntroRef.current) return;
+                              enforceVideoAttributes(v, !isAudioOnRef.current, true);
+                              if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
+                            }}
+                            onPlaying={(e) => {
+                              if (!isPlayingIntroRef.current) {
+                                e.currentTarget.pause();
+                                return;
+                              }
+                              enforceVideoAttributes(e.currentTarget, !isAudioOnRef.current, true);
+                              setIsVideo2Ready(true);
+                              const v1 = video1Ref.current;
+                              if (v1 && !v1.paused) {
+                                v1.pause();
+                              }
+                            }}
+                            onEnded={(e) => {
+                              if (!isPlayingIntroRef.current) return;
+                              const v = e.currentTarget;
+                              const audioOn = isAudioOnRef.current;
+                              enforceVideoAttributes(v, !audioOn, true);
+                              v.currentTime = 0;
+                              tryStartVideo2(v, audioOn);
+                            }}
+                            onPause={(e) => {
+                              if (!isPlayingIntroRef.current) return;
+                              if (typeof document !== 'undefined' && document.hidden) return;
+                              const v = e.currentTarget;
+                              if (v.seeking) return;
+                              tryStartVideo2(v, isAudioOnRef.current);
+                            }}
+                            onError={handleVideo2Error}
+                            style={ABOUT_VIDEO_SHARED_STYLE}
+                            className={cn(
+                              ABOUT_VIDEO_SHARED_CLASS,
+                              isPlayingIntro && isVideo2Ready ? 'opacity-100 z-[2]' : 'opacity-0 z-[0]'
+                            )}
+                          />
+                        ) : (
+                          isPlayingIntro && (
+                            <iframe
+                              key={`about-bg-iframe-2-${ABOUT_VIDEO_2_ID}`}
+                              src={ABOUT_VIDEO_2_URL}
+                              title="Video giới thiệu 2 - Nguyễn Hùng Thái"
+                              allow="autoplay; fullscreen; picture-in-picture"
+                              tabIndex={-1}
+                              aria-hidden="true"
+                              className="banner-drive-iframe-cover absolute top-1/2 left-1/2 border-0 pointer-events-none select-none z-[2]"
+                            />
+                          )
+                        )}
+                      </div>
                   ) : (
                     <div className="absolute inset-0 w-full h-full z-0 animate-fadeIn flex flex-col justify-between">
                       {/* Google Maps Iframe with Red Pin marker centered */}
@@ -2057,29 +2281,25 @@ export function AboutView({
                       style={{ borderRadius: '999px' }}
                       className={`theme-video-capsule video-play-btn video-play-btn--about ${isPlayingIntro ? 'is-playing' : ''} absolute bottom-2 right-2 sm:bottom-3.5 sm:right-3.5 z-30 max-w-[calc(100%-16px)] inline-flex items-center gap-1.5 sm:gap-2.5 px-2 sm:px-3 py-1 sm:py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none`}
                     >
-                      {/* Speaker / Sound Toggle Button */}
+                      {/* Speaker / Sound Toggle Button — mặc định tắt ở Video 1, mặc định mở ở Video 2 */}
                       <button
                         type="button"
                         id="el-p2-btn-sound-toggle"
                         onClick={(e) => {
                           e.stopPropagation();
-                          const nextMuted = !isVideoMuted;
-                          setIsVideoMuted(nextMuted);
-                          saveMutedPref(nextMuted);
-                          if (videoRef.current) {
-                            videoRef.current.muted = nextMuted;
-                          }
+                          toggleVideoMute();
                         }}
                         className={`video-play-btn__sound w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
-                          !isVideoMuted
+                          isAudioOn
                             ? 'text-current shadow-xs'
                             : 'is-muted text-white shadow-md'
                         }`}
-                        title={!isVideoMuted ? 'Tắt tiếng video' : 'Bật âm thanh video'}
-                        aria-label={!isVideoMuted ? 'Tắt tiếng video' : 'Bật âm thanh video'}
+                        title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
+                        aria-label={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
+                        aria-pressed={isAudioOn}
                       >
                         <span className="flex items-center justify-center">
-                          {!isVideoMuted ? (
+                          {isAudioOn ? (
                             <WebIcon name="volume-2" className="w-3.5 h-3.5 text-current" />
                           ) : (
                             <WebIcon name="volume-x" className="w-3.5 h-3.5 text-white" />
@@ -2167,10 +2387,10 @@ export function AboutView({
                     </div>
                   </div>
 
-                  {/* Sub-Card Bento Grid (Sắp xếp 3 tầng ưu tiên: Liên hệ trực tiếp -> Bản đồ vị trí -> Nhân khẩu học, 6 hàng cân đối không ô trống) */}
+                  {/* Sub-Card Bento Grid (chiều cao mỗi sub-card vừa khít nội dung bên trong) */}
                   <div
                     id="about-personal-info-grid"
-                    className="grid grid-cols-1 sm:grid-cols-6 lg:auto-rows-fr gap-2 sm:gap-2.5 py-0.5 flex-1 min-h-0 overflow-y-auto glass-scrollbar items-stretch w-full min-w-0"
+                    className="grid grid-cols-1 sm:grid-cols-6 auto-rows-max gap-2 sm:gap-2.5 py-0.5 flex-1 min-h-0 overflow-y-auto glass-scrollbar items-start content-start w-full min-w-0"
                   >
                     {[
                       // TẦNG 1: LIÊN HỆ & KẾT NỐI TRỰC TIẾP
@@ -2323,7 +2543,7 @@ export function AboutView({
                         }}
                         title={`${item.label}: ${item.value}`}
                         className={cn(
-                          'about-info-subcard h-full min-h-[60px] sm:min-h-[64px] w-full flex flex-col justify-between p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
+                          'about-info-subcard h-fit w-full flex flex-col justify-start gap-1.5 p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
                           item.colSpan,
                           item.bgCls
                         )}
@@ -2351,6 +2571,7 @@ export function AboutView({
 
                 </div>
 
+        </div>
         </div>
       </div>
 
@@ -2385,21 +2606,25 @@ export function AboutView({
           paddingRight: '15px',
           paddingBottom: '15px',
           paddingLeft: '15px',
-          gap: '15px',
-          rowGap: '15px',
-          columnGap: '15px',
+          gap: '0px',
+          rowGap: '0px',
+          columnGap: '0px',
         }}
         className={cn(
-          'page-main-card max-w-[1250px] shrink-0 h-full min-h-full flex flex-col p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border transition-opacity duration-300',
+          'page-main-card relative max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-0 rounded-[14px] overflow-hidden box-border transition-opacity duration-300',
           activeIntroCard !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
         )}
       >
         <div
-          id="about-intro-grid-2"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px' }}
-          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 lg:auto-rows-fr gap-[15px] p-0 overflow-visible items-stretch box-border"
+          id="about-intro-card-2-scroll-viewport"
+          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
         >
-            {/* CARD 3: CARD GIỚI THIỆU BẢN THÂN (ABOUT ME) - ĐÃ XÓA HÌNH NỀN THẺ VIDEO */}
+        <div
+          id="about-intro-grid-2"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 14px)' }}
+          className="w-full h-fit my-auto grid grid-cols-1 lg:grid-cols-12 gap-[15px] p-[15px] overflow-visible items-start content-start box-border bento-card glass-card rounded-[14px]"
+        >
+            {/* CARD 3: CARD GIỚI THIỆU BẢN THÂN (ABOUT ME) - CHIỀU CAO VỪA KHÍT NỘI DUNG */}
             <div
               id="about-career-goal-card"
               data-element-name="Card Giới Thiệu Bản Thân Chuyên Gia"
@@ -2409,9 +2634,9 @@ export function AboutView({
               style={{
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-full flex flex-col justify-between gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-fit self-start flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
-              <div className="relative z-10 flex flex-col justify-between h-full gap-[15px]">
+              <div className="relative z-10 flex flex-col justify-start gap-[15px]">
                 {/* Header */}
                 <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
                   <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
@@ -2423,7 +2648,7 @@ export function AboutView({
                 </div>
 
                 {/* Body Text: Giữ nguyên 100% dữ liệu */}
-                <p className="typo-body text-[var(--text-secondary)] my-auto">
+                <p className="typo-body text-[var(--text-secondary)] m-0">
                   Một chuyên gia dịch vụ khách hàng với hơn{' '}
                   <strong className="font-semibold text-[var(--text-primary)]">22 năm kinh nghiệm</strong> thực chiến.
                   Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh
@@ -2433,7 +2658,7 @@ export function AboutView({
               </div>
             </div>
 
-            {/* CARD 4: CARD 3 TRỤ CỘT VẬN HÀNH (3 OPERATING PILLARS) - THẺ ĐỘC LẬP */}
+            {/* CARD 4: CARD 3 TRỤ CỘT VẬN HÀNH (3 OPERATING PILLARS) - CHIỀU CAO VỪA KHÍT NỘI DUNG */}
             <div
               id="about-operating-pillars-card"
               data-element-name="Card 3 Trụ Cột Vận Hành Chiến Lược"
@@ -2443,7 +2668,7 @@ export function AboutView({
               style={{
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-full flex flex-col justify-between gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-fit self-start flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2455,8 +2680,8 @@ export function AboutView({
                 </div>
               </div>
 
-              {/* 3 Pillars Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-[15px] items-stretch flex-1">
+              {/* 3 Pillars Grid - Sub-cards fit inner content height */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-[15px] items-start h-fit">
                 {/* Pillar 1: Hiệu Quả */}
                 <div
                   data-subcard="true"
@@ -2464,18 +2689,18 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-1')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-1') &&
                       'ring-2 ring-cyan-300 dark:ring-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="my-auto relative z-10">
+                  <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-2 text-blue-600 dark:text-sky-300">
                       <BarChart3 className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Hiệu quả vận hành</h5>
                     </div>
-                    <span className="pillar-sub typo-label block mt-0.5">Tối ưu &amp; Kết quả</span>
-                    <p className="pillar-body typo-body-sm mt-1">
+                    <span className="pillar-sub typo-label block">Tối ưu &amp; Kết quả</span>
+                    <p className="pillar-body typo-body-sm m-0">
                       Chuẩn hóa SLAs, tối ưu hiệu suất quy trình và tạo kết quả đo lường rõ ràng.
                     </p>
                   </div>
@@ -2488,18 +2713,18 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-2')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="my-auto relative z-10">
+                  <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-2 text-rose-600 dark:text-rose-300">
                       <Heart className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Nhân văn con người</h5>
                     </div>
-                    <span className="pillar-sub typo-label block mt-0.5">Đồng cảm &amp; Thấu hiểu</span>
-                    <p className="pillar-body typo-body-sm mt-1">
+                    <span className="pillar-sub typo-label block">Đồng cảm &amp; Thấu hiểu</span>
+                    <p className="pillar-body typo-body-sm m-0">
                       Lắng nghe chân thành, phục vụ từ tâm và lấy con người làm trọng tâm.
                     </p>
                   </div>
@@ -2512,18 +2737,18 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-3')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[145px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-3') &&
                       'ring-2 ring-emerald-300 dark:ring-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="my-auto relative z-10">
+                  <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-2 text-emerald-600 dark:text-emerald-300">
                       <Leaf className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Bền vững dài hạn</h5>
                     </div>
-                    <span className="pillar-sub typo-label block mt-0.5">Giá trị &amp; Tin cậy</span>
-                    <p className="pillar-body typo-body-sm mt-1">
+                    <span className="pillar-sub typo-label block">Giá trị &amp; Tin cậy</span>
+                    <p className="pillar-body typo-body-sm m-0">
                       Xây dựng niềm tin vững bền, bảo chứng chất lượng và đồng hành lâu dài.
                     </p>
                   </div>
@@ -2538,7 +2763,10 @@ export function AboutView({
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-2"
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-full flex flex-col justify-between gap-[16px] text-left rounded-[16px] p-[16px] overflow-hidden group select-none relative"
+              style={{
+                padding: '15px',
+              }}
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-fit self-start flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2550,8 +2778,8 @@ export function AboutView({
                 </div>
               </div>
 
-              {/* 3 Core Values Grid (Không có speaker, không lật thẻ) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-[12px] items-stretch flex-1">
+              {/* 3 Core Values Grid - Sub-cards fit inner content height */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-[15px] items-start h-fit">
                 {/* Core Value 1: Tận tâm trách nhiệm */}
                 <div
                   data-subcard="true"
@@ -2563,18 +2791,18 @@ export function AboutView({
                     showToast('Giá trị 01: Tận tâm trách nhiệm - Dốc trọn tâm sức');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[12px] p-[12px] gap-[12px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[12px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-1') &&
                       'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="my-auto relative z-10">
+                  <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-2 text-amber-600 dark:text-amber-300">
                       <Award className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Tận tâm trách nhiệm</h5>
                     </div>
-                    <span className="pillar-sub typo-label block mt-0.5">Trách nhiệm &amp; Hết lòng</span>
-                    <p className="pillar-body typo-body-sm mt-1">
+                    <span className="pillar-sub typo-label block">Trách nhiệm &amp; Hết lòng</span>
+                    <p className="pillar-body typo-body-sm m-0">
                       Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.
                     </p>
                   </div>
@@ -2591,18 +2819,18 @@ export function AboutView({
                     showToast('Giá trị 02: Kịp Thời - Nhanh nhạy & Đúng lúc');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[12px] p-[12px] gap-[12px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[12px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="my-auto relative z-10">
+                  <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-2 text-pink-600 dark:text-pink-300">
                       <Clock className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Kịp thời nhanh nhạy</h5>
                     </div>
-                    <span className="pillar-sub typo-label block mt-0.5">Tốc độ &amp; Đúng lúc</span>
-                    <p className="pillar-body typo-body-sm mt-1">
+                    <span className="pillar-sub typo-label block">Tốc độ &amp; Đúng lúc</span>
+                    <p className="pillar-body typo-body-sm m-0">
                       Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng mắc.
                     </p>
                   </div>
@@ -2619,18 +2847,18 @@ export function AboutView({
                     showToast('Giá trị 03: Đồng Cảm Chân Thành - Lắng nghe & Thấu cảm');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[12px] p-[12px] gap-[12px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[12px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-3') &&
                       'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  <div className="my-auto relative z-10">
+                  <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-2 text-purple-600 dark:text-purple-300">
                       <HeartHandshake className="w-4 h-4 shrink-0" />
                       <h5 className="pillar-heading typo-h5 font-play m-0">Đồng cảm chân thành</h5>
                     </div>
-                    <span className="pillar-sub typo-label block mt-0.5">Lắng nghe &amp; Thấu cảm</span>
-                    <p className="pillar-body typo-body-sm mt-1">
+                    <span className="pillar-sub typo-label block">Lắng nghe &amp; Thấu cảm</span>
+                    <p className="pillar-body typo-body-sm m-0">
                       Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng khách hàng.
                     </p>
                   </div>
@@ -2645,9 +2873,12 @@ export function AboutView({
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-2"
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-full flex flex-col justify-between gap-[16px] text-left rounded-[16px] p-[16px] overflow-hidden group select-none relative"
+              style={{
+                padding: '15px',
+              }}
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-fit self-start flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
             >
-              <div className="relative z-10 flex flex-col justify-between h-full gap-[16px]">
+              <div className="relative z-10 flex flex-col justify-start gap-[15px]">
                 {/* Header */}
                 <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
                   <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
@@ -2659,7 +2890,7 @@ export function AboutView({
                 </div>
 
                 {/* Bố cục Câu Nói Hay (Editorial Signature Quote) */}
-                <div className="flex-1 flex flex-col items-center justify-center text-center px-2 sm:px-3 py-1 gap-2.5 my-auto">
+                <div className="flex flex-col items-center justify-center text-center px-2 sm:px-3 py-1 gap-2.5">
                   <WebIcon
                     name="quote"
                     className="w-6 h-6 text-blue-500/80 dark:text-cyan-400/80 shrink-0"
@@ -2674,14 +2905,12 @@ export function AboutView({
                   <span className="typo-h3 font-handwriting text-blue-600 dark:text-cyan-300 font-bold leading-none">
                     Nguyễn Hùng Thái
                   </span>
-                  <span className="typo-label font-mono text-[var(--text-muted)] truncate">
-                    22+ Năm Phụng Sự CX
-                  </span>
                 </div>
               </div>
             </div>
 
           </div>
+        </div>
       </div>
       </div>
 
@@ -2824,214 +3053,6 @@ export function AboutView({
           </div>
         </div>
       </Modal>
-
-      {/* Chế độ Thu Phóng Toàn Cảnh Card Video kèm Thanh Thông Số Tóm Tắt Trượt Nhẹ ở Cạnh Dưới */}
-      {isClientMounted &&
-        typeof document !== 'undefined' &&
-        createPortal(
-          <AnimatePresence>
-            {isVideoFullscreenOpen && (
-              <motion.div
-                id="about-video-panoramic-overlay"
-                role="dialog"
-                aria-modal="true"
-                aria-label="Chế độ toàn cảnh Video giới thiệu"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-[1050] bg-slate-950/95 backdrop-blur-xl flex flex-col justify-between overflow-hidden select-none font-play"
-              >
-                {/* Video toàn khung */}
-                <video
-                  ref={fullscreenVideoRef}
-                  key={`${isPlayingIntro ? 'fs-intro' : 'fs-idle'}-${aboutVideoStage}`}
-                  src={activeAboutVideoUrl}
-                    autoPlay
-                    loop={!isPlayingIntro}
-                    muted={isPlayingIntro ? isVideoMuted : true}
-                    playsInline
-                    controls={false}
-                    disablePictureInPicture
-                    controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                    preload="auto"
-                    aria-hidden="true"
-                    tabIndex={-1}
-                    onLoadedMetadata={(e) => {
-                      const v = e.currentTarget;
-                      if (!isPlayingIntro) {
-                        v.defaultMuted = true;
-                        v.muted = true;
-                        v.loop = true;
-                      }
-                      v.controls = false;
-                      v.disablePictureInPicture = true;
-                      (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                      v.removeAttribute('controls');
-                    }}
-                    onCanPlay={(e) => {
-                      const v = e.currentTarget;
-                      if (v.paused) v.play().catch(() => {});
-                    }}
-                    onPause={(e) => {
-                      if (isPlayingIntro) return;
-                      if (typeof document !== 'undefined' && document.hidden) return;
-                      const v = e.currentTarget;
-                      v.defaultMuted = true;
-                      v.muted = true;
-                      v.loop = true;
-                      v.play().catch(() => {});
-                    }}
-                    onEnded={handleVideoEnded}
-                    onError={() =>
-                      setAboutVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
-                    }
-                    style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
-                    className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-[50%_18%] pointer-events-none select-none banner-video-sharp z-0"
-                  />
-
-                {/* Scrim trên & dưới đảm bảo độ tương phản WCAG AA (>= 4.5:1) */}
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/80 via-black/35 to-transparent z-10" />
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/90 via-black/55 to-transparent z-10" />
-
-                {/* Thanh tiêu đề trên cùng */}
-                <div className="relative z-20 flex flex-wrap items-center justify-between gap-2 p-4 sm:p-6">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <img
-                      src="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
-                      alt="Nguyễn Hùng Thái"
-                      referrerPolicy="no-referrer"
-                      className="w-10 h-10 rounded-full object-cover border border-white/30 shrink-0"
-                    />
-                    <div className="min-w-0">
-                      <div className="text-sm sm:text-base font-bold text-white truncate">
-                        Nguyễn Hùng Thái · Video Giới Thiệu Chuyên Gia
-                      </div>
-                      <div className="text-xs text-slate-300 flex items-center gap-2 truncate">
-                        <span>{isPlayingIntro ? 'Đang phát Video Thuyết Minh' : 'Video Chân Dung Tĩnh'}</span>
-                        <span aria-hidden="true">·</span>
-                        <span>22+ Năm Kinh Nghiệm CX</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        if (isPlayingIntro) {
-                          handleCancelIntro();
-                        } else {
-                          handlePlayIntro();
-                        }
-                      }}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/15 hover:bg-white/25 text-white border border-white/25 text-xs font-semibold cursor-pointer transition whitespace-nowrap"
-                    >
-                      {isPlayingIntro ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                      <span>{isPlayingIntro ? 'Về video nền' : 'Phát thuyết minh'}</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        const nextMuted = !isVideoMuted;
-                        setIsVideoMuted(nextMuted);
-                        saveMutedPref(nextMuted);
-                        if (fullscreenVideoRef.current) fullscreenVideoRef.current.muted = nextMuted;
-                        if (videoRef.current) videoRef.current.muted = nextMuted;
-                      }}
-                      title={isVideoMuted ? 'Bật âm thanh' : 'Tắt âm thanh'}
-                      aria-label={isVideoMuted ? 'Bật âm thanh' : 'Tắt âm thanh'}
-                      className="w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white border border-white/25 flex items-center justify-center cursor-pointer transition"
-                    >
-                      {isVideoMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setIsVideoFullscreenOpen(false);
-                      }}
-                      title="Thu nhỏ lại Card Video (ESC)"
-                      aria-label="Đóng chế độ toàn cảnh"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white text-slate-900 hover:bg-slate-100 text-xs font-bold cursor-pointer transition whitespace-nowrap"
-                    >
-                      <Minimize2 className="w-3.5 h-3.5" />
-                      <span>Thu nhỏ</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Thanh thông số tóm tắt trượt nhẹ ở cạnh dưới */}
-                <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 18 }}
-                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-20 mx-3 sm:mx-6 mb-4 sm:mb-6 p-3.5 sm:p-4 rounded-[18px] bg-slate-950/75 backdrop-blur-xl border border-white/20 shadow-2xl text-white flex flex-col lg:flex-row lg:items-center justify-between gap-3"
-                >
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 flex-1 min-w-0">
-                    <div className="min-w-0">
-                      <div className="text-[11px] text-slate-300">Kinh nghiệm</div>
-                      <div className="text-xs sm:text-sm font-bold text-cyan-300 truncate tabular-nums">22+ Năm CX Ops</div>
-                    </div>
-                    <div className="min-w-0">
-                      <div className="text-[11px] text-slate-300">Điện thoại / Zalo</div>
-                      <div className="text-xs sm:text-sm font-bold text-white truncate tabular-nums">+84 0909097882</div>
-                    </div>
-                    <div className="min-w-0">
-                      <div className="text-[11px] text-slate-300">Hộp thư</div>
-                      <div className="text-xs sm:text-sm font-bold text-white truncate">hungthai84@gmail.com</div>
-                    </div>
-                    <div className="min-w-0">
-                      <div className="text-[11px] text-slate-300">Nơi làm việc</div>
-                      <div className="text-xs sm:text-sm font-bold text-white truncate">P. Tân Phú (Q7), TP.HCM</div>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-2 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 lg:border-l border-white/15 lg:pl-4">
-                    <button
-                      type="button"
-                      onClick={handleCopyFullVCard}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white border border-white/20 text-xs font-semibold cursor-pointer transition whitespace-nowrap"
-                    >
-                      {isVCardCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                      <span>{isVCardCopied ? 'Đã sao chép' : 'Sao chép danh thiếp'}</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playPop();
-                        setIsVideoFullscreenOpen(false);
-                        setIsQrModalOpen(true);
-                      }}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-xs font-semibold cursor-pointer hover:opacity-95 transition whitespace-nowrap"
-                    >
-                      <QrCode className="w-3.5 h-3.5" />
-                      <span>Mã QR vCard</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playPop();
-                        setIsVideoFullscreenOpen(false);
-                        setActiveHeroMedia('map');
-                      }}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white border border-white/20 text-xs font-semibold cursor-pointer transition whitespace-nowrap"
-                    >
-                      <MapIcon className="w-3.5 h-3.5" />
-                      <span>Xem Bản đồ</span>
-                    </button>
-                  </div>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>,
-          document.body
-        )}
     </div>
   );
 }

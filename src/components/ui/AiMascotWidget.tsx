@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -10,6 +10,8 @@ export interface AiMascotWidgetProps {
   isDark?: boolean;
   onOpenAiAssistant: () => void;
 }
+
+const TRANSPARENT_VIDEO_SRC = '/assets/widgets/ai-mascot-transparent.webm';
 
 const POSE_FRAMES = [
   '/assets/widgets/ai-mascot-welcome.png',
@@ -49,21 +51,37 @@ export const AiMascotWidget: React.FC<AiMascotWidgetProps> = ({
   const { language } = useLanguage();
   const isEn = language === 'en';
   const prefersReducedMotion = usePrefersReducedMotion();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
+  const [videoFailed, setVideoFailed] = useState(false);
   const [useAnimatedWebp, setUseAnimatedWebp] = useState(true);
   const [poseIdx, setPoseIdx] = useState(0);
   const [webpFailed, setWebpFailed] = useState(false);
   const [pngFailed, setPngFailed] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Subtle pose cycle fallback only if animated webp fails
+  // Ensure transparent mascot video stays autoplaying smoothly when visible
   useEffect(() => {
-    if (!visible || prefersReducedMotion || (useAnimatedWebp && !webpFailed)) return;
+    const v = videoRef.current;
+    if (!v || !visible || prefersReducedMotion || videoFailed) return;
+    v.defaultMuted = true;
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+    v.controls = false;
+    if (v.paused) {
+      v.play().catch(() => {});
+    }
+  }, [visible, prefersReducedMotion, videoFailed]);
+
+  // Subtle pose cycle fallback only if both transparent video and animated webp fail
+  useEffect(() => {
+    if (!visible || prefersReducedMotion || !videoFailed || (useAnimatedWebp && !webpFailed)) return;
     const interval = window.setInterval(() => {
       setPoseIdx((prev) => (prev + 1) % POSE_FRAMES.length);
     }, 1800);
     return () => window.clearInterval(interval);
-  }, [visible, prefersReducedMotion, useAnimatedWebp, webpFailed]);
+  }, [visible, prefersReducedMotion, videoFailed, useAnimatedWebp, webpFailed]);
 
   if (!visible || widthPx <= 0) {
     return null;
@@ -73,7 +91,7 @@ export const AiMascotWidget: React.FC<AiMascotWidgetProps> = ({
     ? 'Tri Nhan AI Assistant — Click to open AI Assistant'
     : 'Trợ lý AI Trí Nhân — Nhấn để mở Trợ lý AI';
 
-  const activeSrc =
+  const fallbackSrc =
     prefersReducedMotion
       ? '/assets/widgets/ai-mascot-welcome.png'
       : useAnimatedWebp && !webpFailed
@@ -127,19 +145,47 @@ export const AiMascotWidget: React.FC<AiMascotWidgetProps> = ({
           {isEn ? 'Ask AI Assistant' : 'Hỏi Trợ lý AI'}
         </span>
 
-        {/* GPU-composited nhún nhảy 10s frame layer (zero layout shifts, zero JS timer loop) */}
+        {/* Video xóa nền (VP9 alpha transparent WebM) */}
         <span
-          className={`block w-full pointer-events-none select-none ${
+          className={`block w-full pointer-events-none select-none bg-transparent ${
             prefersReducedMotion ? '' : 'ai-mascot-motion-layer'
           }`}
           style={{
             aspectRatio: '1 / 1',
             contain: 'layout style',
+            background: 'transparent',
           }}
         >
-          {!pngFailed ? (
+          {!prefersReducedMotion && !videoFailed ? (
+            <video
+              ref={videoRef}
+              src={TRANSPARENT_VIDEO_SRC}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              controls={false}
+              disablePictureInPicture
+              controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+              poster="/assets/widgets/ai-mascot-welcome.png"
+              aria-hidden="true"
+              tabIndex={-1}
+              onLoadedData={(e) => {
+                const v = e.currentTarget;
+                v.defaultMuted = true;
+                v.muted = true;
+                v.loop = true;
+                v.controls = false;
+                if (v.paused) v.play().catch(() => {});
+              }}
+              onError={() => setVideoFailed(true)}
+              style={{ background: 'transparent' }}
+              className="w-full h-full object-contain block pointer-events-none select-none bg-transparent"
+            />
+          ) : !pngFailed ? (
             <img
-              src={activeSrc}
+              src={fallbackSrc}
               alt={isEn ? 'Animated AI Mascot' : 'Nhân vật Trợ lý AI'}
               draggable={false}
               decoding="async"

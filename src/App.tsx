@@ -27,7 +27,6 @@ import { WallpaperView } from './components/views/WallpaperView';
 import { ContactView } from './components/views/ContactView';
 import { InterfaceView } from './components/views/InterfaceView';
 import { PdfView } from './components/views/PdfView';
-import { DriveBannerStudio } from './components/views/DriveBannerStudio';
 import { Modal } from './components/ui/Modal';
 import { useBannerVideo } from './context/BannerVideoContext';
 
@@ -875,19 +874,6 @@ export default function App() {
       <BentoFocusModal cardKey={bentoFocusKey} onClose={() => setBentoFocusKey(null)} />
       <MilestoneModal item={selectedMilestone} onClose={() => setSelectedMilestone(null)} />
       <XRayInspector onShowNotification={showNotification} />
-      <Modal
-        isOpen={isStudioModalOpen}
-        onClose={closeStudioModal}
-        title="Google Drive Banner Video Studio"
-        maxWidth="6xl"
-      >
-        <DriveBannerStudio
-          initialPage={studioInitialPage}
-          onNavigateTab={(tab) => handleSelectTabWithSound(tab)}
-          onShowNotification={showNotification}
-          onClose={closeStudioModal}
-        />
-      </Modal>
     </div>
   );
 }

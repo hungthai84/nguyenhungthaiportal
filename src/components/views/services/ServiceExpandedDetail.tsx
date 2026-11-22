@@ -288,12 +288,12 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         className="expanded-detail-content flex-1 min-h-0 overflow-y-auto glass-scrollbar p-[15px] flex flex-col gap-[15px]"
       >
         {/* TẦNG 1: 4 Thẻ KPI Trọng Tâm */}
-        <div className="grid grid-cols-1 min-[360px]:grid-cols-2 lg:grid-cols-4 gap-[15px] shrink-0">
+        <div className="grid grid-cols-1 min-[360px]:grid-cols-2 lg:grid-cols-4 gap-[15px] items-start shrink-0">
           {expandedMeta.detailKpis.map((kpi, kIdx) => (
             <div
               key={kIdx}
               data-subcard="true"
-              className="domain-card-sub rounded-2xl p-3.5 flex flex-col justify-between gap-2 min-w-0"
+              className="domain-card-sub rounded-2xl p-3.5 flex flex-col justify-start gap-2 h-fit min-w-0"
             >
               <div className="flex items-start justify-between gap-2 min-w-0">
                 <div
@@ -326,7 +326,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         {/* TẦNG 2: Tổng quan Năng lực chuyên môn & Điều phối vận hành */}
         <div
           data-subcard="true"
-          className="domain-card-sub rounded-2xl p-[15px] grid grid-cols-1 lg:grid-cols-12 gap-4 shrink-0"
+          className="domain-card-sub services-detail-overview-subcard rounded-2xl p-[15px] grid grid-cols-1 lg:grid-cols-12 gap-4 items-start h-fit w-full shrink-0"
         >
           <div className="lg:col-span-7 flex flex-col gap-2 min-w-0">
             <div className="subcard-header-sync flex items-center gap-2">
@@ -379,198 +379,195 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           </div>
         </div>
 
-        {/* TẦNG 3 & 4: Lưới Bento 12 Cột Chuyên Sâu */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-stretch min-w-0">
-          {/* Card A: Quy mô vận hành (6 cols) */}
-          <div
-            data-subcard="true"
-            className="domain-card-sub lg:col-span-6 rounded-2xl p-[15px] flex flex-col gap-3 min-w-0"
-          >
-            <div className="subcard-header-sync flex items-center gap-2">
-              <CheckCircle2
-                className="w-4 h-4 shrink-0"
-                style={{ color: expandedAccent }}
-              />
-              <h3
-                className="typo-h4 subcard-title-synced font-play font-bold m-0"
-                data-subcard-title="true"
-                style={{ color: expandedAccent }}
-              >
-                {isEn ? 'Operational Scale & Scope' : 'Quy mô vận hành'}
-              </h3>
-            </div>
-            <div className="flex flex-col divide-y divide-[var(--border-subcard)]/70">
-              {(expandedDomain.scaleAndScope || []).map((item, sIdx) => (
-                <div
-                  key={sIdx}
-                  className="py-2 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2.5 typo-body-sm"
-                >
-                  <span
-                    className="font-semibold shrink-0 sm:min-w-[140px]"
-                    style={{ color: expandedAccent }}
-                  >
-                    {item.label}
-                  </span>
-                  <span className="text-[var(--text-secondary)] leading-relaxed min-w-0">
-                    {item.content}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Card B: Thách thức đặc thù (6 cols) */}
-          <div
-            data-subcard="true"
-            className="domain-card-sub lg:col-span-6 rounded-2xl p-[15px] flex flex-col gap-3 min-w-0"
-          >
-            <div className="flex items-center gap-2 subcard-header-sync">
-              <WebIcon
-                name="shield-alert"
-                className="w-4 h-4 shrink-0"
-                style={{ color: expandedAccent }}
-              />
-              <h3
-                className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
-                data-subcard-title="true"
-              >
-                {expandedDomain.id === '06'
-                  ? isEn
-                    ? 'Strategic Transformation Scope'
-                    : 'Bài toán chuyển đổi đặc thù'
-                  : isEn
-                    ? 'Specific Operational Challenges'
-                    : 'Thách thức đặc thù'}
-              </h3>
-            </div>
-            <ul className="space-y-2.5 m-0 p-0 list-none">
-              {(expandedDomain.operationalChallenges || []).map((ch, cIdx) => (
-                <li
-                  key={cIdx}
-                  className="flex items-start gap-2.5 typo-body-sm text-[var(--text-secondary)] leading-relaxed"
-                >
-                  <span
-                    className="inline-flex items-center justify-center w-5 h-5 rounded-md text-[11px] font-bold tabular-nums shrink-0 mt-0.5"
-                    style={{
-                      backgroundColor: isLeatherTheme
-                        ? 'rgba(253, 230, 138, 0.16)'
-                        : isLight
-                          ? expandedMeta.tintBgLight
-                          : expandedMeta.tintBgDark,
-                      color: expandedAccent,
-                    }}
-                  >
-                    {String(cIdx + 1).padStart(2, '0')}
-                  </span>
-                  <span className="min-w-0">{ch}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Card C: Công nghệ & Giải pháp triển khai (6 cols - hiển thị cả mô tả techSolutions) */}
-          <div
-            data-subcard="true"
-            className="domain-card-sub lg:col-span-6 rounded-2xl p-[15px] flex flex-col justify-between gap-3 min-w-0"
-          >
-            <div className="flex flex-col gap-3">
+        {/* TẦNG 3 & 4: Lưới Bento 2 Cột Độc Lập (mỗi Sub-card vừa khít nội dung bên trong) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px] items-start min-w-0">
+          {/* Cột Trái độc lập: A -> C -> E */}
+          <div className="contents lg:flex lg:flex-col lg:gap-[15px] lg:min-w-0">
+            {/* Card A: Quy mô vận hành */}
+            <div
+              data-subcard="true"
+              className="domain-card-sub order-1 lg:order-none rounded-2xl p-[15px] flex flex-col gap-3 h-fit w-full min-w-0"
+            >
               <div className="subcard-header-sync flex items-center gap-2">
-                <Wrench
+                <CheckCircle2
                   className="w-4 h-4 shrink-0"
                   style={{ color: expandedAccent }}
                 />
                 <h3
-                  className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
+                  className="typo-h4 subcard-title-synced font-play font-bold m-0"
                   data-subcard-title="true"
+                  style={{ color: expandedAccent }}
                 >
-                  {isEn
-                    ? 'Technology & Management Solutions'
-                    : 'Giải pháp & Công nghệ quản trị'}
+                  {isEn ? 'Operational Scale & Scope' : 'Quy mô vận hành'}
                 </h3>
               </div>
-
-              {(expandedDomain.techSolutions || []).length > 0 && (
-                <div className="flex flex-col gap-2">
-                  {(expandedDomain.techSolutions || []).map((sol, solIdx) => (
-                    <div
-                      key={solIdx}
-                      className="rounded-xl px-3 py-2 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/55 flex flex-col gap-0.5"
+              <div className="flex flex-col divide-y divide-[var(--border-subcard)]/70">
+                {(expandedDomain.scaleAndScope || []).map((item, sIdx) => (
+                  <div
+                    key={sIdx}
+                    className="py-2 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2.5 typo-body-sm"
+                  >
+                    <span
+                      className="font-semibold shrink-0 sm:min-w-[140px]"
+                      style={{ color: expandedAccent }}
                     >
-                      <span
-                        className="typo-body-sm font-semibold leading-snug"
-                        style={{ color: expandedAccent }}
+                      {item.label}
+                    </span>
+                    <span className="text-[var(--text-secondary)] leading-relaxed min-w-0">
+                      {item.content}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Card C: Công nghệ & Giải pháp triển khai (hiển thị cả mô tả techSolutions) */}
+            <div
+              data-subcard="true"
+              className="domain-card-sub order-3 lg:order-none rounded-2xl p-[15px] flex flex-col justify-start gap-3 h-fit w-full min-w-0"
+            >
+              <div className="flex flex-col gap-3">
+                <div className="subcard-header-sync flex items-center gap-2">
+                  <Wrench
+                    className="w-4 h-4 shrink-0"
+                    style={{ color: expandedAccent }}
+                  />
+                  <h3
+                    className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
+                    data-subcard-title="true"
+                  >
+                    {isEn
+                      ? 'Technology & Management Solutions'
+                      : 'Giải pháp & Công nghệ quản trị'}
+                  </h3>
+                </div>
+
+                {(expandedDomain.techSolutions || []).length > 0 && (
+                  <div className="flex flex-col gap-2">
+                    {(expandedDomain.techSolutions || []).map((sol, solIdx) => (
+                      <div
+                        key={solIdx}
+                        className="rounded-xl px-3 py-2 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/55 flex flex-col gap-0.5"
                       >
-                        {sol.name}
-                      </span>
-                      <span className="typo-caption text-[var(--text-secondary)] leading-relaxed">
-                        {sol.desc}
-                      </span>
-                    </div>
+                        <span
+                          className="typo-body-sm font-semibold leading-snug"
+                          style={{ color: expandedAccent }}
+                        >
+                          {sol.name}
+                        </span>
+                        <span className="typo-caption text-[var(--text-secondary)] leading-relaxed">
+                          {sol.desc}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {(expandedDomain.tools || []).length > 0 && (
+                <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[var(--border-subcard)]/70">
+                  {(expandedDomain.tools || []).map((tool, tIdx) => (
+                    <span
+                      key={tIdx}
+                      className="typo-caption font-semibold px-2.5 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-primary)]"
+                    >
+                      {tool}
+                    </span>
                   ))}
                 </div>
               )}
             </div>
 
-            {(expandedDomain.tools || []).length > 0 && (
-              <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[var(--border-subcard)]/70">
-                {(expandedDomain.tools || []).map((tool, tIdx) => (
-                  <span
-                    key={tIdx}
-                    className="typo-caption font-semibold px-2.5 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-primary)]"
-                  >
-                    {tool}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Card D: Hiệu quả & Chỉ số Vận hành đạt được (6 cols) */}
-          <div
-            data-subcard="true"
-            className="domain-card-sub lg:col-span-6 rounded-2xl p-[15px] flex flex-col gap-3 min-w-0"
-          >
-            <div className="subcard-header-sync flex items-center gap-2">
-              <TrendingUp
-                className="w-4 h-4 shrink-0"
-                style={{ color: expandedAccent }}
-              />
-              <h3
-                className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
-                data-subcard-title="true"
-              >
-                {isEn ? 'Measurable Operational Impact' : 'Hiệu quả vận hành đạt được'}
-              </h3>
-            </div>
-
-            <div className="flex flex-col gap-2 flex-1 justify-center">
-              {(expandedDomain.operationalResults || []).map((res, rIdx) => (
-                <div
-                  key={rIdx}
-                  className="rounded-xl px-3 py-2.5 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/55 flex items-center justify-between gap-3"
-                >
-                  <span className="typo-body-sm text-[var(--text-secondary)] leading-snug min-w-0">
-                    {res.indicator}
-                  </span>
-                  <span
-                    className="typo-body-sm font-bold shrink-0 tabular-nums text-right"
+            {/* Card E: Doanh nghiệp tiêu biểu */}
+            <div
+              data-subcard="true"
+              className="domain-card-sub order-5 lg:order-none rounded-2xl p-[15px] flex flex-col justify-start gap-3 h-fit w-full min-w-0"
+            >
+              <div className="flex flex-col gap-2.5">
+                <div className="subcard-header-sync flex items-center gap-2">
+                  <Building2
+                    className="w-4 h-4 shrink-0"
                     style={{ color: expandedAccent }}
+                  />
+                  <h3
+                    className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
+                    data-subcard-title="true"
                   >
-                    {res.outcome}
-                  </span>
+                    {isEn ? 'Representative Enterprises' : 'Doanh nghiệp tiêu biểu'}
+                  </h3>
                 </div>
-              ))}
+
+                <div className="flex flex-wrap items-center gap-2">
+                  {(expandedDomain.companyLogos || []).map((partner, pIdx) => {
+                    const content = (
+                      <>
+                        <div className="w-7 h-7 rounded-full overflow-hidden bg-white shrink-0 flex items-center justify-center p-0.5 border border-black/5">
+                          <img
+                            src={partner.logo}
+                            alt={partner.name}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-contain rounded-full"
+                            onError={(e) => {
+                              if (
+                                partner.fallbackLogo &&
+                                e.currentTarget.src !== partner.fallbackLogo
+                              ) {
+                                e.currentTarget.src = partner.fallbackLogo;
+                              } else {
+                                e.currentTarget.style.display = 'none';
+                              }
+                            }}
+                          />
+                        </div>
+                        <span className="typo-caption font-semibold text-[var(--text-primary)]">
+                          {partner.name}
+                        </span>
+                        {partner.url && (
+                          <ExternalLink className="w-3 h-3 text-[var(--text-muted)] shrink-0" />
+                        )}
+                      </>
+                    );
+
+                    return partner.url ? (
+                      <a
+                        key={partner.name || pIdx}
+                        href={partner.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 pr-3 pl-1 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] hover:border-[var(--color-primary)] transition-colors"
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      <div
+                        key={partner.name || pIdx}
+                        className="inline-flex items-center gap-2 pr-3 pl-1 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]"
+                      >
+                        {content}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {expandedDomain.ecosystemNote && (
+                <p className="typo-caption text-[var(--text-secondary)] leading-relaxed m-0 pt-2 border-t border-[var(--border-subcard)]/70">
+                  {expandedDomain.ecosystemNote}
+                </p>
+              )}
             </div>
           </div>
 
-          {/* Card E: Doanh nghiệp tiêu biểu (6 cols) */}
-          <div
-            data-subcard="true"
-            className="domain-card-sub lg:col-span-6 rounded-2xl p-[15px] flex flex-col justify-between gap-3 min-w-0"
-          >
-            <div className="flex flex-col gap-2.5">
-              <div className="subcard-header-sync flex items-center gap-2">
-                <Building2
+          {/* Cột Phải độc lập: B -> D -> F */}
+          <div className="contents lg:flex lg:flex-col lg:gap-[15px] lg:min-w-0">
+            {/* Card B: Thách thức đặc thù */}
+            <div
+              data-subcard="true"
+              className="domain-card-sub order-2 lg:order-none rounded-2xl p-[15px] flex flex-col gap-3 h-fit w-full min-w-0"
+            >
+              <div className="flex items-center gap-2 subcard-header-sync">
+                <WebIcon
+                  name="shield-alert"
                   className="w-4 h-4 shrink-0"
                   style={{ color: expandedAccent }}
                 />
@@ -578,109 +575,118 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                   className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
                   data-subcard-title="true"
                 >
-                  {isEn ? 'Representative Enterprises' : 'Doanh nghiệp tiêu biểu'}
+                  {expandedDomain.id === '06'
+                    ? isEn
+                      ? 'Strategic Transformation Scope'
+                      : 'Bài toán chuyển đổi đặc thù'
+                    : isEn
+                      ? 'Specific Operational Challenges'
+                      : 'Thách thức đặc thù'}
+                </h3>
+              </div>
+              <ul className="space-y-2.5 m-0 p-0 list-none">
+                {(expandedDomain.operationalChallenges || []).map((ch, cIdx) => (
+                  <li
+                    key={cIdx}
+                    className="flex items-start gap-2.5 typo-body-sm text-[var(--text-secondary)] leading-relaxed"
+                  >
+                    <span
+                      className="inline-flex items-center justify-center w-5 h-5 rounded-md text-[11px] font-bold tabular-nums shrink-0 mt-0.5"
+                      style={{
+                        backgroundColor: isLeatherTheme
+                          ? 'rgba(253, 230, 138, 0.16)'
+                          : isLight
+                            ? expandedMeta.tintBgLight
+                            : expandedMeta.tintBgDark,
+                        color: expandedAccent,
+                      }}
+                    >
+                      {String(cIdx + 1).padStart(2, '0')}
+                    </span>
+                    <span className="min-w-0">{ch}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Card D: Hiệu quả & Chỉ số Vận hành đạt được */}
+            <div
+              data-subcard="true"
+              className="domain-card-sub order-4 lg:order-none rounded-2xl p-[15px] flex flex-col gap-3 h-fit w-full min-w-0"
+            >
+              <div className="subcard-header-sync flex items-center gap-2">
+                <TrendingUp
+                  className="w-4 h-4 shrink-0"
+                  style={{ color: expandedAccent }}
+                />
+                <h3
+                  className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
+                  data-subcard-title="true"
+                >
+                  {isEn ? 'Measurable Operational Impact' : 'Hiệu quả vận hành đạt được'}
                 </h3>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2">
-                {(expandedDomain.companyLogos || []).map((partner, pIdx) => {
-                  const content = (
-                    <>
-                      <div className="w-7 h-7 rounded-full overflow-hidden bg-white shrink-0 flex items-center justify-center p-0.5 border border-black/5">
-                        <img
-                          src={partner.logo}
-                          alt={partner.name}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-contain rounded-full"
-                          onError={(e) => {
-                            if (
-                              partner.fallbackLogo &&
-                              e.currentTarget.src !== partner.fallbackLogo
-                            ) {
-                              e.currentTarget.src = partner.fallbackLogo;
-                            } else {
-                              e.currentTarget.style.display = 'none';
-                            }
-                          }}
-                        />
-                      </div>
-                      <span className="typo-caption font-semibold text-[var(--text-primary)]">
-                        {partner.name}
-                      </span>
-                      {partner.url && (
-                        <ExternalLink className="w-3 h-3 text-[var(--text-muted)] shrink-0" />
-                      )}
-                    </>
-                  );
-
-                  return partner.url ? (
-                    <a
-                      key={partner.name || pIdx}
-                      href={partner.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 pr-3 pl-1 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] hover:border-[var(--color-primary)] transition-colors"
+              <div className="flex flex-col gap-2">
+                {(expandedDomain.operationalResults || []).map((res, rIdx) => (
+                  <div
+                    key={rIdx}
+                    className="rounded-xl px-3 py-2.5 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/55 flex items-center justify-between gap-3"
+                  >
+                    <span className="typo-body-sm text-[var(--text-secondary)] leading-snug min-w-0">
+                      {res.indicator}
+                    </span>
+                    <span
+                      className="typo-body-sm font-bold shrink-0 tabular-nums text-right"
+                      style={{ color: expandedAccent }}
                     >
-                      {content}
-                    </a>
-                  ) : (
-                    <div
-                      key={partner.name || pIdx}
-                      className="inline-flex items-center gap-2 pr-3 pl-1 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]"
-                    >
-                      {content}
-                    </div>
-                  );
-                })}
+                      {res.outcome}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {expandedDomain.ecosystemNote && (
-              <p className="typo-caption text-[var(--text-secondary)] leading-relaxed m-0 pt-2 border-t border-[var(--border-subcard)]/70">
-                {expandedDomain.ecosystemNote}
-              </p>
-            )}
-          </div>
-
-          {/* Card F: Vai trò đảm nhiệm (6 cols) */}
-          <div
-            data-subcard="true"
-            className="domain-card-sub lg:col-span-6 rounded-2xl p-[15px] flex flex-col gap-2.5 min-w-0"
-          >
-            <div className="subcard-header-sync flex items-center gap-2">
-              <UserCheck
-                className="w-4 h-4 shrink-0"
-                style={{ color: expandedAccent }}
-              />
-              <h3
-                className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
-                data-subcard-title="true"
-              >
-                {isEn ? 'Leadership Roles Held' : 'Vai trò đảm nhiệm'}
-              </h3>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {(expandedDomain.rolesHeld && expandedDomain.rolesHeld.length > 0
-                ? expandedDomain.rolesHeld
-                : expandedDomain.typicalRolesLine
-                  ? expandedDomain.typicalRolesLine.split('|').map((s) => s.trim())
-                  : []
-              ).map((role, roleIdx) => (
-                <span
-                  key={roleIdx}
-                  className="inline-flex items-center gap-1.5 typo-body-sm font-medium px-3 py-1.5 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/65 text-[var(--text-primary)]"
+            {/* Card F: Vai trò đảm nhiệm */}
+            <div
+              data-subcard="true"
+              className="domain-card-sub order-6 lg:order-none rounded-2xl p-[15px] flex flex-col gap-2.5 h-fit w-full min-w-0"
+            >
+              <div className="subcard-header-sync flex items-center gap-2">
+                <UserCheck
+                  className="w-4 h-4 shrink-0"
+                  style={{ color: expandedAccent }}
+                />
+                <h3
+                  className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
+                  data-subcard-title="true"
                 >
-                  <Award className="w-3.5 h-3.5 shrink-0" style={{ color: expandedAccent }} />
-                  <span>{role}</span>
-                </span>
-              ))}
+                  {isEn ? 'Leadership Roles Held' : 'Vai trò đảm nhiệm'}
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {(expandedDomain.rolesHeld && expandedDomain.rolesHeld.length > 0
+                  ? expandedDomain.rolesHeld
+                  : expandedDomain.typicalRolesLine
+                    ? expandedDomain.typicalRolesLine.split('|').map((s) => s.trim())
+                    : []
+                ).map((role, roleIdx) => (
+                  <span
+                    key={roleIdx}
+                    className="inline-flex items-center gap-1.5 typo-body-sm font-medium px-3 py-1.5 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/65 text-[var(--text-primary)]"
+                  >
+                    <Award className="w-3.5 h-3.5 shrink-0" style={{ color: expandedAccent }} />
+                    <span>{role}</span>
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Card G: Giá trị cốt lõi & Từ khóa năng lực (12 cols) */}
+          {/* Card G: Giá trị cốt lõi & Từ khóa năng lực (Toàn chiều ngang 2 cột) */}
           <div
             data-subcard="true"
-            className="lg:col-span-12 rounded-2xl p-[15px] border flex flex-col gap-3 min-w-0"
+            className="order-7 lg:order-none lg:col-span-2 rounded-2xl p-[15px] border flex flex-col gap-3 h-fit w-full min-w-0"
             style={{
               backgroundColor: isLeatherTheme
                 ? undefined

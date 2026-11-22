@@ -271,6 +271,11 @@
   100% { transform: translate3d(-50%, 0, 0); }
 }
 
+@keyframes marquee-scroll-ltr {
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
 .animate-marquee {
   display: flex;
   width: max-content;
@@ -278,7 +283,15 @@
   animation: marquee-scroll 28s linear infinite;
 }
 
-.animate-marquee:hover {
+.animate-marquee-ltr {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-scroll-ltr 28s linear infinite;
+}
+
+.animate-marquee:hover,
+.animate-marquee-ltr:hover {
   animation-play-state: paused;
 }
 

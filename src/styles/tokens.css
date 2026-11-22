@@ -609,7 +609,7 @@
 }
 
 /* Dark Mode Overrides (Soft Liquid Glass 3D Custom Dark Palette) */
-html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="dark-neon-glass"], html[data-card-style="dark-neon-glass"], [data-theme="cowhide-leather"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"], [data-theme="dark-neumorphism-beyond"], html[data-card-style="dark-neumorphism-beyond"] {
+html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="dark-neon-glass"], html[data-card-style="dark-neon-glass"], [data-theme="cowhide-leather"], [data-theme="black-cowhide-leather"], html[data-card-style="black-cowhide-leather"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"], [data-theme="dark-neumorphism-beyond"], html[data-card-style="dark-neumorphism-beyond"] {
   --color-bg: #101A2B;
   --color-bg-soft: #171F33;
   --color-bg-blue: #202A40;

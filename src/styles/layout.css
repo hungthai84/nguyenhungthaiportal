@@ -205,23 +205,27 @@
 
 .page-main-card,
 [data-main-card="true"] {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  scrollbar-gutter: auto !important;
+  -webkit-overflow-scrolling: touch;
 }
 
 .page-main-card::-webkit-scrollbar,
-[data-main-card="true"]::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
+[data-main-card="true"]::-webkit-scrollbar,
+.page-main-card::-webkit-scrollbar-track,
+[data-main-card="true"]::-webkit-scrollbar-track,
 .page-main-card::-webkit-scrollbar-thumb,
-[data-main-card="true"]::-webkit-scrollbar-thumb {
-  background-color: rgba(148, 163, 184, 0.4);
-  border-radius: 999px;
+[data-main-card="true"]::-webkit-scrollbar-thumb,
+.page-main-card::-webkit-scrollbar-corner,
+[data-main-card="true"]::-webkit-scrollbar-corner {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
 }
 
-/* Smooth scrolling across all scrollable sections & slide containers (non-blocking for active drag/wheel handlers) */
+/* Smooth scrolling across all scrollable sections & slide containers with scrollbars hidden on all browsers */
 .overflow-y-auto,
 .overflow-x-auto,
 .overflow-auto,
@@ -231,11 +235,40 @@
 [class*="overflow-y-auto"],
 [class*="overflow-x-auto"],
 [class*="overflow-auto"],
+[class*="overflow-scroll"],
+[class*="overflow-y-scroll"],
+[class*="overflow-x-scroll"],
 .no-scrollbar,
 .custom-scrollbar,
 .glass-scrollbar,
 [data-scrollable="true"] {
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  scrollbar-gutter: auto !important;
+}
+
+.overflow-y-auto::-webkit-scrollbar,
+.overflow-x-auto::-webkit-scrollbar,
+.overflow-auto::-webkit-scrollbar,
+.overflow-scroll::-webkit-scrollbar,
+.overflow-y-scroll::-webkit-scrollbar,
+.overflow-x-scroll::-webkit-scrollbar,
+[class*="overflow-y-auto"]::-webkit-scrollbar,
+[class*="overflow-x-auto"]::-webkit-scrollbar,
+[class*="overflow-auto"]::-webkit-scrollbar,
+[class*="overflow-scroll"]::-webkit-scrollbar,
+[class*="overflow-y-scroll"]::-webkit-scrollbar,
+[class*="overflow-x-scroll"]::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar,
+.glass-scrollbar::-webkit-scrollbar,
+[data-scrollable="true"]::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
 }
 
 /* Thẻ hệ thống cách nhau 15px ở mọi kích thước màn hình */

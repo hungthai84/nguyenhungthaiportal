@@ -3,10 +3,8 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ProjectData } from '@/types';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { getProjectCloudinaryBanner } from '@/data/projects';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
-import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
-import { useBannerVideo } from '@/context/BannerVideoContext';
+import { VideoBanner } from '@/components/common/VideoBanner';
+import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import {
   getProjectDetailedSpec,
   SCOPE_PALETTES,
@@ -87,8 +85,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
   const [isLightMode, setIsLightMode] = useState<boolean>(true);
   const [mindmapMode, setMindmapMode] = useState<'interactive' | 'image'>('interactive');
   const spec = useMemo(() => getProjectDetailedSpec(selectedArticle), [selectedArticle]);
-  const { bannerAssignments } = useBannerVideo();
-  const driveProjectsBanner = bannerAssignments.projects;
+  const projectsBannerVideo = getDefaultBannerVideoConfig('projects');
   const outerScrollRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -110,6 +107,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
         effectiveStyle === 'dark-liquid-glass' ||
         effectiveStyle === 'dark-neon-glass' ||
         effectiveStyle === 'cowhide-leather' ||
+        effectiveStyle === 'black-cowhide-leather' ||
         effectiveStyle === 'deep-ocean' ||
         effectiveStyle === 'dark-neumorphism-beyond';
       if (typeof isLight === 'boolean') {
@@ -243,10 +241,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     TOC_ITEMS.findIndex((item) => item.id === activeSection)
   );
   const tocProgressPercent = Math.round(((activeTocIndex + 1) / TOC_ITEMS.length) * 100);
-  const bannerMediaInfo = useMemo(
-    () => getProjectCloudinaryBanner(selectedArticle),
-    [selectedArticle]
-  );
 
   return (
     <div
@@ -1900,21 +1894,11 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
         >
           {/* Hình nền banner dọc full chiều cao phía sau lớp phủ tương phản */}
           <div className="project-detail-banner-media absolute inset-0 overflow-hidden pointer-events-none rounded-[inherit] z-0">
-            {driveProjectsBanner ? (
-              <DriveAwareBannerMedia
-                directVideoUrl={driveProjectsBanner.directStreamUrl}
-                iframeFallbackUrl={driveProjectsBanner.previewIframeUrl}
-                posterUrl={bannerMediaInfo.primaryUrl || selectedArticle.image || bannerMediaInfo.fallbackUrl}
-                title={driveProjectsBanner.fileName}
-                className="rounded-[inherit]"
-              />
-            ) : (
-              <BannerBackgroundVideo
-                src="https://drive.google.com/uc?export=download&id=1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U"
-                poster={bannerMediaInfo.primaryUrl || selectedArticle.image || bannerMediaInfo.fallbackUrl}
-                alt={selectedArticle.title}
-              />
-            )}
+            <VideoBanner
+              videoId={projectsBannerVideo.videoId}
+              title={projectsBannerVideo.title}
+              className="rounded-[inherit]"
+            />
           </div>
 
           {/* Lớp phủ tương phản cao đồng bộ 11 Theme */}

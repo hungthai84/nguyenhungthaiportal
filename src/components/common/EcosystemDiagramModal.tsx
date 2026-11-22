@@ -1266,6 +1266,25 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               color: #FDE68A !important;
             }
 
+            /* Black Cowhide Leather (White Stitching) inside Ecosystem Diagram Modal */
+            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal .glass-flat,
+            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
+              background: linear-gradient(145deg, rgba(24, 27, 33, 0.96) 0%, rgba(13, 15, 19, 0.98) 100%) !important;
+              border: 1.5px solid #08090C !important;
+              outline: 1px dashed rgba(255, 255, 255, 0.72);
+              outline-offset: -4px;
+              box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.16) !important;
+              color: #FFFFFF !important;
+            }
+            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal :is(.glass-flat, .theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) :is(.text-slate-950, .text-slate-900, .text-slate-800, .text-slate-700, .text-slate-600) {
+              color: #FFFFFF !important;
+            }
+            html[data-card-style="black-cowhide-leather"] #ecosystem-diagram-modal :is(.bg-white, .bg-white\\/90, .bg-white\\/85, .bg-white\\/80, .bg-slate-50, .bg-slate-100) {
+              background-color: rgba(16, 18, 23, 0.90) !important;
+              border-color: rgba(255, 255, 255, 0.40) !important;
+              color: #FFFFFF !important;
+            }
+
           `}</style>
 
           {/* TOP HEADER */}
@@ -1491,7 +1510,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                   </button>
                 </div>
 
-                <div className="flex-1 overflow-auto horizontal-scroll-smooth p-1">
+                <div className="flex-1 overflow-auto horizontal-scroll-smooth no-scrollbar p-1">
                   <table className="theme-table w-full text-left border-collapse typo-caption">
                     <thead className="sticky top-0 z-10">
                       <tr className="border-b font-bold typo-label" style={{ borderColor: 'var(--border-table)' }}>

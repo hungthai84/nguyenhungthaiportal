@@ -51,7 +51,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[999] flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+      <div className="fixed inset-0 z-[999] flex items-center justify-center p-3 sm:p-5 overflow-y-auto no-scrollbar">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -74,7 +74,7 @@ export const Modal: React.FC<ModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 10 }}
           transition={{ duration: 0.22, ease: [0.2, 0.7, 0.2, 1] }}
-          className={`theme-modal-card relative w-full ${maxWidthClass} rounded-[var(--radius-modal,24px)] p-4 sm:p-6 shadow-2xl z-10 flex flex-col gap-3 max-h-[90vh] overflow-y-auto font-play text-left`}
+          className={`theme-modal-card relative w-full ${maxWidthClass} rounded-[var(--radius-modal,24px)] p-4 sm:p-6 shadow-2xl z-10 flex flex-col gap-3 max-h-[90vh] overflow-y-auto no-scrollbar font-play text-left`}
         >
           <div className="theme-modal-header card-header-sync flex items-center justify-between -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 px-4 sm:px-6 py-3 sm:py-4 rounded-t-[var(--radius-modal,24px)] shrink-0">
             <div className="flex items-center gap-2.5">
@@ -106,7 +106,7 @@ export const Modal: React.FC<ModalProps> = ({
             </button>
           </div>
 
-          <div className="flex-1 min-h-0 overflow-y-auto pr-1 pt-1">
+          <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pr-1 pt-1">
             {children}
           </div>
         </motion.div>

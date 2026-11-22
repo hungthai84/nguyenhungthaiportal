@@ -7,6 +7,7 @@ import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallp
 import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
+import blackCowhideLeatherWallpaper from '@/assets/images/black_cowhide_leather_bg_1795346191975.jpg';
 
 export type WallpaperType = 'image' | 'video' | 'css' | 'gradient' | 'webgl';
 
@@ -47,6 +48,10 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
   'cowhide-leather': {
     light: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
     dark: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
+  },
+  'black-cowhide-leather': {
+    light: blackCowhideLeatherWallpaper,
+    dark: blackCowhideLeatherWallpaper,
   },
   'deep-ocean': {
     light: lightDeepOceanWallpaper,
@@ -322,6 +327,22 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000005,
+  },
+  {
+    id: 'theme-bg-black-cowhide-leather',
+    name: '🖤 Nền Da Bò Đen Chỉ Trắng (Theme Background)',
+    type: 'image',
+    value: blackCowhideLeatherWallpaper,
+    bg: `url('${blackCowhideLeatherWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 22% 20%, rgba(255, 255, 255, 0.12) 0%, transparent 52%), linear-gradient(145deg, #1E2128 0%, #0B0C10 55%, #16181F 100%)',
+      backgroundImage: `url('${blackCowhideLeatherWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000006,
   },
   {
     id: 'theme-bg-liquid-glass',
@@ -1585,6 +1606,20 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794035601000,
+  },
+  {
+    id: 'css-black-cowhide-leather-craft',
+    name: 'Da bò đen chỉ trắng thủ công (Black Full-Grain Leather)',
+    type: 'css',
+    value:
+      'background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 52%), radial-gradient(circle at 80% 78%, rgba(148, 163, 184, 0.08) 0%, transparent 54%), linear-gradient(145deg, #1E2128 0%, #0B0C10 55%, #15181F 100%);',
+    bg: 'linear-gradient(145deg, #1E2128 0%, #0B0C10 55%, #15181F 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.12) 0%, transparent 55%), linear-gradient(145deg, #22252D 0%, #0B0C10 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794035602000,
   },
   {
     id: 'css-pastel-bento-soft',

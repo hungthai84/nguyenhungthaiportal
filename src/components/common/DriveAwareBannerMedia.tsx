@@ -51,11 +51,15 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
     ? `https://drive.usercontent.google.com/download?id=${driveId}&export=download&confirm=t`
     : '';
 
+  const supportsIO = typeof IntersectionObserver !== 'undefined';
+  const [shouldLoad, setShouldLoad] = useState<boolean>(!supportsIO);
   const [useIframe, setUseIframe] = useState<boolean>(allowIframeFallback && forceIframeFallback);
   const [videoStage, setVideoStage] = useState<'primary' | 'driveAlt' | 'mp4Fallback'>('primary');
   const [videoFailedAll, setVideoFailedAll] = useState<boolean>(false);
   const [isBuffering, setIsBuffering] = useState<boolean>(true);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const videoElRef = useRef<HTMLVideoElement | null>(null);
+  const isInViewportRef = useRef<boolean>(!supportsIO);
 
   const activeVideoSrc =
     videoStage === 'primary'
@@ -69,11 +73,44 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
     setVideoStage('primary');
     setVideoFailedAll(false);
     setIsBuffering(true);
+    setShouldLoad(isInViewportRef.current);
   }, [directVideoUrl, iframeFallbackUrl, forceIframeFallback, allowIframeFallback]);
+
+  // Lazy loading bằng IntersectionObserver: chỉ nạp video Drive khi banner sắp xuất hiện trong viewport
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      isInViewportRef.current = true;
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isVisible = entries.some((entry) => entry.isIntersecting);
+        isInViewportRef.current = isVisible;
+        if (isVisible) {
+          setShouldLoad(true);
+          const video = videoElRef.current;
+          if (video && !useIframe && !videoFailedAll && video.paused) {
+            video.play().catch(() => {});
+          }
+        } else {
+          const video = videoElRef.current;
+          if (video && !video.paused) {
+            video.pause();
+          }
+        }
+      },
+      { rootMargin: '250px', threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [useIframe, videoFailedAll]);
 
   useEffect(() => {
     const el = videoElRef.current;
-    if (!el) return;
+    if (!shouldLoad || !el) return;
     el.defaultMuted = muted;
     el.muted = muted;
     el.loop = loop;
@@ -83,13 +120,14 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
     el.disablePictureInPicture = true;
     (el as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
     el.removeAttribute('controls');
-  }, [muted, loop, activeVideoSrc, useIframe]);
+  }, [muted, loop, activeVideoSrc, shouldLoad, useIframe]);
 
   useEffect(() => {
-    if (!isBuffering || useIframe || videoFailedAll) {
+    if (!shouldLoad || !isBuffering || useIframe || videoFailedAll) {
       return;
     }
     const timer = window.setTimeout(() => {
+      if (!isInViewportRef.current) return;
       if (videoStage === 'primary' && driveUsercontentUrl && directVideoUrl !== driveUsercontentUrl) {
         setVideoStage('driveAlt');
       } else if (allowIframeFallback && iframeFallbackUrl) {
@@ -101,6 +139,7 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
     }, 4500);
     return () => window.clearTimeout(timer);
   }, [
+    shouldLoad,
     isBuffering,
     useIframe,
     videoFailedAll,
@@ -125,15 +164,18 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
 
   return (
     <div
+      ref={containerRef}
+      data-drive-banner-lazy={shouldLoad ? 'loaded' : 'pending'}
       style={{ containerType: 'size' }}
       className="absolute inset-0 w-full h-full min-w-full min-h-full overflow-hidden rounded-[inherit]"
     >
-      {/* Poster & subtle backdrop while video buffers */}
-      {isBuffering && posterUrl && (
+      {/* Poster & subtle backdrop while waiting for viewport or buffering */}
+      {(!shouldLoad || isBuffering) && posterUrl && (
         <div className="absolute inset-0 z-[1] pointer-events-none rounded-[inherit] overflow-hidden">
           <img
             src={posterUrl}
             alt={title}
+            loading="lazy"
             referrerPolicy="no-referrer"
             style={{
               position: 'absolute',
@@ -149,7 +191,7 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
       )}
 
       {/* Primary & Chained MP4 HTML5 <video> Direct Stream */}
-      {!useIframe && !videoFailedAll && (
+      {shouldLoad && !useIframe && !videoFailedAll && (
         <video
           ref={videoElRef}
           key={`video-${videoStage}-${activeVideoSrc}`}
@@ -184,7 +226,7 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
               el.muted = muted;
               el.loop = loop;
               el.removeAttribute('controls');
-              if (el.paused) {
+              if (isInViewportRef.current && el.paused) {
                 el.play().catch(() => {});
               }
             }
@@ -194,13 +236,13 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
             if (isBuffering) setIsBuffering(false);
           }}
           onEnded={(e) => {
-            if (!loop) return;
+            if (!loop || !isInViewportRef.current) return;
             const v = e.currentTarget;
             v.currentTime = 0;
             v.play().catch(() => {});
           }}
           onPause={(e) => {
-            if (!loop || (typeof document !== 'undefined' && document.hidden)) return;
+            if (!loop || !isInViewportRef.current || (typeof document !== 'undefined' && document.hidden)) return;
             const v = e.currentTarget;
             v.play().catch(() => {});
           }}
@@ -237,11 +279,12 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
       )}
 
       {/* Optional Iframe Fallback (full-bleed container-query cover) */}
-      {useIframe && allowIframeFallback && iframeFallbackUrl && !videoFailedAll && (
+      {shouldLoad && useIframe && allowIframeFallback && iframeFallbackUrl && !videoFailedAll && (
         <iframe
           key={`iframe-${iframeFallbackUrl}`}
           src={iframeFallbackUrl}
           title={title}
+          loading="lazy"
           allow="autoplay; encrypted-media; fullscreen"
           tabIndex={-1}
           onLoad={() => setIsBuffering(false)}

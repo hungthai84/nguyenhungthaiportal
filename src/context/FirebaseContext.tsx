@@ -309,16 +309,6 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
                 setCardStyle(normalized);
               }
             }
-            if (typeof data.layerDepth === 'number' && Number.isFinite(data.layerDepth)) {
-              const clampedCloudDepth = Math.max(0, Math.min(200, Math.round(data.layerDepth)));
-              if (clampedCloudDepth !== latestUiRef.current.layerDepth) {
-                setLayerDepth(clampedCloudDepth);
-              }
-            } else if (data.surfaceDepth === 'flat' || data.surfaceDepth === 'depth') {
-              if (data.surfaceDepth !== latestUiRef.current.surfaceDepth) {
-                setSurfaceDepth(data.surfaceDepth);
-              }
-            }
             if (typeof data.autoTimeTheme === 'boolean' && data.autoTimeTheme !== latestUiRef.current.autoTimeTheme) {
               setAutoTimeTheme(data.autoTimeTheme);
             }

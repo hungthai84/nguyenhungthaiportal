@@ -88,7 +88,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
         effectiveStyle === 'cowhide-leather' ||
         effectiveStyle === 'black-cowhide-leather' ||
         effectiveStyle === 'deep-ocean' ||
-        effectiveStyle === 'dark-neumorphism-beyond';
+        effectiveStyle === 'dark-neumorphism-beyond' ||
+        effectiveStyle === 'dark-frost-ice-neu';
       if (typeof isLight === 'boolean') {
         setIsLightMode(isLight && !isDarkClass && !isDarkThemeAttr);
       } else {

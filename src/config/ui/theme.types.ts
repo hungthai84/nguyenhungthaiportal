@@ -16,13 +16,16 @@ export type CardStyleMode =
   | 'deep-ocean'
   | 'light-deep-ocean'
   | 'neumorphism-beyond'
-  | 'dark-neumorphism-beyond';
+  | 'dark-neumorphism-beyond'
+  | 'frost-ice-neu'
+  | 'dark-frost-ice-neu';
 
 export type ThemeFamilyId =
   | 'liquid-glass'
   | 'cowhide-leather'
   | 'deep-ocean'
   | 'neumorphism-beyond'
+  | 'frost-ice-neu'
   | 'multicolor-glass';
 
 export interface CardStyleConfig {
@@ -90,4 +93,10 @@ export interface AdaptiveAccentState {
   enabled: boolean;
   activeAccent: AdaptiveAccentPalette | null;
 }
+
+export type ThemeWallpaperPreset = import('../../data/wallpapers').WallpaperPreset & {
+  cardStyle?: import('./theme.types').CardStyleMode;
+  wallpaper?: any;
+};
+
 

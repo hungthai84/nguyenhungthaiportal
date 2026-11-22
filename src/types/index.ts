@@ -1,4 +1,4 @@
-export type SiteTheme = 'liquid-glass' | 'dark-liquid-glass' | 'multicolor-glass' | 'dark-neon-glass' | 'cowhide-leather' | 'black-cowhide-leather' | 'deep-ocean' | 'light-deep-ocean' | 'neumorphism-beyond' | 'dark-neumorphism-beyond' | string;
+export type SiteTheme = 'liquid-glass' | 'dark-liquid-glass' | 'multicolor-glass' | 'dark-neon-glass' | 'cowhide-leather' | 'black-cowhide-leather' | 'deep-ocean' | 'light-deep-ocean' | 'neumorphism-beyond' | 'dark-neumorphism-beyond' | 'frost-ice-neu' | 'dark-frost-ice-neu' | string;
 export type { MemoryPhoto } from '@/data/memories';
 
 export interface WeatherPreset {

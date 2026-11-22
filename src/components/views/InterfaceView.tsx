@@ -48,6 +48,7 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
             rawFamily === 'cowhide-leather' ||
             rawFamily === 'deep-ocean' ||
             rawFamily === 'neumorphism-beyond' ||
+            rawFamily === 'frost-ice-neu' ||
             rawFamily === 'multicolor-glass'
           ? rawFamily
           : fallback.selectedFamilyFilter;
@@ -338,6 +339,56 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Pink', width: '56%', gradient: 'linear-gradient(90deg, #EE6AD2, #DE54C2)' },
       { label: 'Cyan', width: '80%', gradient: 'linear-gradient(90deg, #2AD8E6, #18C2D2)' },
       { label: 'Mint', width: '70%', gradient: 'linear-gradient(90deg, #52E0A8, #3ACF94)' },
+    ],
+  },
+  'frost-ice-neu': {
+    radius: '20px',
+    activeRingColor: '#6E6AF6',
+    activeBorderClass: 'border-[#6E6AF6]',
+    idleBorderClass: 'border-white/90 hover:border-[#4AB8F9]',
+    activeBadgeClass: 'bg-[#EEF6FD] text-[#6E6AF6] border-white shadow-xs',
+    iconColor: '#6E6AF6',
+    titleTextClass: 'text-[#25384B]',
+    bodyTextClass: 'text-[#546B82]',
+    accentTextClass: 'text-[#6E6AF6]',
+    previewBorderClass: 'border-white/90 border-solid',
+    dividerClass: 'border-[#CFE0F0]/75 border-solid',
+    ctaIdleClass: 'bg-[#EDF6FD] text-[#546B82] hover:text-[#25384B] border border-white/90 shadow-xs',
+    ctaActiveClass: 'bg-gradient-to-r from-[#6E6AF6] via-[#965CE8] to-[#4AB8F9] text-white shadow-xs border border-[#6E6AF6]/40',
+    toggleTrackDarkClass: 'bg-[#DFECF8] border-white/80',
+    toggleTrackLightClass: 'bg-[#6E6AF6] border-[#6E6AF6]',
+    toggleThumbDarkClass: 'bg-[#F5FAFF] text-[#546B82]',
+    toggleThumbLightClass: 'bg-[#F5FAFF] text-[#6E6AF6]',
+    gradientBars: [
+      { label: 'Violet', width: '73%', gradient: 'linear-gradient(90deg, #6E6AF6, #965CE8)' },
+      { label: 'Aqua', width: '82%', gradient: 'linear-gradient(90deg, #4AB8F9, #3CD9D8)' },
+      { label: 'Apricot', width: '54%', gradient: 'linear-gradient(90deg, #FDCB63, #FA8F60)' },
+      { label: 'Rose', width: '91%', gradient: 'linear-gradient(90deg, #FF70A1, #F84D9C)' },
+    ],
+  },
+  'dark-frost-ice-neu': {
+    radius: '20px',
+    activeRingColor: '#8E8BFF',
+    activeBorderClass: 'border-[#8E8BFF]',
+    idleBorderClass: 'border-sky-300/20 hover:border-[#4AB8F9]/60',
+    activeBadgeClass: 'bg-[#1D2B40] text-[#A4A1FF] border-sky-300/25 shadow-xs',
+    iconColor: '#8E8BFF',
+    titleTextClass: 'text-[#F1F8FF]',
+    bodyTextClass: 'text-[#B5CAE0]',
+    accentTextClass: 'text-[#8E8BFF]',
+    previewBorderClass: 'border-sky-300/20 border-solid',
+    dividerClass: 'border-sky-300/18 border-solid',
+    ctaIdleClass: 'bg-[#1A263A] text-[#B5CAE0] hover:text-white border border-sky-300/20 shadow-xs',
+    ctaActiveClass: 'bg-gradient-to-r from-[#6E6AF6] via-[#965CE8] to-[#4AB8F9] text-white shadow-xs border border-[#8E8BFF]/45',
+    toggleTrackDarkClass: 'bg-[#101927] border-sky-300/20',
+    toggleTrackLightClass: 'bg-[#6E6AF6] border-[#8E8BFF]',
+    toggleThumbDarkClass: 'bg-[#23344F] text-[#8E8BFF]',
+    toggleThumbLightClass: 'bg-[#F1F8FF] text-[#141F31]',
+    gradientBars: [
+      { label: 'Violet', width: '73%', gradient: 'linear-gradient(90deg, #6E6AF6, #965CE8)' },
+      { label: 'Aqua', width: '82%', gradient: 'linear-gradient(90deg, #4AB8F9, #3CD9D8)' },
+      { label: 'Apricot', width: '54%', gradient: 'linear-gradient(90deg, #FDCB63, #FA8F60)' },
+      { label: 'Rose', width: '91%', gradient: 'linear-gradient(90deg, #FF70A1, #F84D9C)' },
     ],
   },
 };

@@ -16,7 +16,6 @@
   .sys-bento-action-btn,
   [data-element-type="button"]
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]) {
-  position: relative;
   isolation: isolate;
   transition:
     transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -25,6 +24,21 @@
     background-color 180ms ease,
     filter 180ms ease !important;
   will-change: transform;
+}
+
+:where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(.absolute):not(.fixed):not(.sticky):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]) {
+  position: relative;
 }
 
 /* Keyboard Focus Ring across all themes */
@@ -153,6 +167,8 @@
     [data-card-style="deep-ocean"],
     [data-card-style="light-deep-ocean"],
     [data-card-style="neumorphism-beyond"],
+    [data-card-style="frost-ice-neu"],
+    [data-card-style="dark-frost-ice-neu"],
     [data-card-style="cowhide-leather"],
     [data-card-style="soft-indigo-fintech"],
     [data-card-style="dark-soft-indigo-fintech"],
@@ -173,7 +189,7 @@
 /* ------------------------------------------------------------------------- */
 /* 1. NEUMORPHISM & BEYOND (Nổi Khối Kính Mờ — Matte Soft UI Tactile Press)  */
 /* ------------------------------------------------------------------------- */
-html:is([data-card-style="neumorphism-beyond"], :not([data-card-style])) :where(
+html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"], :not([data-card-style])) :where(
   button,
   a[role="button"],
   .nav-pill,
@@ -193,7 +209,7 @@ html:is([data-card-style="neumorphism-beyond"], :not([data-card-style])) :where(
   );
 }
 
-html:is([data-card-style="neumorphism-beyond"], :not([data-card-style])) :where(
+html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"], :not([data-card-style])) :where(
   button.nav-pill,
   .banner-control-pill,
   .edu-bento-action-btn,
@@ -211,7 +227,7 @@ html:is([data-card-style="neumorphism-beyond"], :not([data-card-style])) :where(
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html:is([data-card-style="neumorphism-beyond"], :not([data-card-style])) :where(
+  html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"], :not([data-card-style])) :where(
     button,
     a[role="button"],
     .nav-pill,
@@ -232,7 +248,7 @@ html:is([data-card-style="neumorphism-beyond"], :not([data-card-style])) :where(
   }
 }
 
-html:is([data-card-style="neumorphism-beyond"], :not([data-card-style])) :where(
+html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"], :not([data-card-style])) :where(
   button,
   a[role="button"],
   .nav-pill,

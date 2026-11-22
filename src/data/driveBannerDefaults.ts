@@ -156,9 +156,9 @@ export const VIDEO_BANNER_CONFIG: Record<
     previewUrl: 'https://drive.google.com/file/d/1GLEn1qcwUCTdzcoCxy715IrvQe3l4QVn/preview',
   },
   systems: {
-    videoId: '1rbcqxl4WUeZvXg98OfQUIxOO1ja5_vIY',
+    videoId: 'https://cdn.scena.ai/project/10223/0bd6e45854837053445e091d7cf58d9045dc25df8904024321fdba07c557447c.mp4',
     title: 'Video Banner Hệ thống',
-    previewUrl: 'https://drive.google.com/file/d/1rbcqxl4WUeZvXg98OfQUIxOO1ja5_vIY/preview',
+    previewUrl: 'https://cdn.scena.ai/project/10223/0bd6e45854837053445e091d7cf58d9045dc25df8904024321fdba07c557447c.mp4',
   },
   services: {
     videoId: 'https://cdn.scena.ai/project/10223/f3a9f7acb4f23d90f7ad166286a0f41384d667aa1bf72e6803e0c6a9468c4c4f.mp4',
@@ -171,9 +171,9 @@ export const VIDEO_BANNER_CONFIG: Record<
     previewUrl: 'https://cdn.scena.ai/project/10223/4acb98f87ccd8420e92440c96d0d0d1a21ecb4efb212fdee490e43811ae8128e.mp4',
   },
   skills: {
-    videoId: '1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx',
+    videoId: 'https://cdn.scena.ai/project/10223/f05fad8258c2979cd5d67217df4e4258a6f7da100249899f7bfd535a17e29cee.mp4',
     title: 'Video Banner Kỹ năng',
-    previewUrl: 'https://drive.google.com/file/d/1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx/preview',
+    previewUrl: 'https://cdn.scena.ai/project/10223/f05fad8258c2979cd5d67217df4e4258a6f7da100249899f7bfd535a17e29cee.mp4',
   },
   aiAssistant: {
     videoId: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',

@@ -60,11 +60,12 @@ export const VideoBanner: React.FC<VideoBannerProps> = React.memo(
     lazyRootMargin = '250px',
     backgroundMode = true,
   }) => {
+    const isDirectUrl = videoId.startsWith('http://') || videoId.startsWith('https://') || videoId.startsWith('/');
     const supportsIO = typeof IntersectionObserver !== 'undefined';
     const containerRef = useRef<HTMLDivElement | null>(null);
     const videoElRef = useRef<HTMLVideoElement | null>(null);
-    const isInViewportRef = useRef<boolean>(!supportsIO);
-    const [shouldLoad, setShouldLoad] = useState<boolean>(!supportsIO);
+    const isInViewportRef = useRef<boolean>(!supportsIO || isDirectUrl);
+    const [shouldLoad, setShouldLoad] = useState<boolean>(!supportsIO || isDirectUrl);
     const [stage, setStage] = useState<BannerStreamStage>('proxy');
     const [isReady, setIsReady] = useState<boolean>(false);
 
@@ -125,8 +126,8 @@ export const VideoBanner: React.FC<VideoBannerProps> = React.memo(
     useEffect(() => {
       setStage('proxy');
       setIsReady(false);
-      setShouldLoad(isInViewportRef.current);
-    }, [videoId]);
+      setShouldLoad(isDirectUrl || isInViewportRef.current);
+    }, [videoId, isDirectUrl]);
 
     // Lazy load khi banner sắp xuất hiện trong viewport + tạm dừng khi cuộn ra ngoài
     useEffect(() => {
@@ -181,7 +182,6 @@ export const VideoBanner: React.FC<VideoBannerProps> = React.memo(
       };
     }, [autoplay, shouldLoad, stage, tryAutoPlay, videoId]);
 
-    const isDirectUrl = videoId.startsWith('http://') || videoId.startsWith('https://') || videoId.startsWith('/');
     const activeVideoSrc = isDirectUrl
       ? videoId
       : stage === 'proxy'
@@ -190,6 +190,7 @@ export const VideoBanner: React.FC<VideoBannerProps> = React.memo(
     const previewSrc = isDirectUrl ? videoId : buildGoogleDrivePreviewUrl(videoId);
 
     const handleStreamError = () => {
+      if (isDirectUrl) return;
       if (stage === 'proxy') {
         setStage('direct');
       } else if (stage === 'direct') {

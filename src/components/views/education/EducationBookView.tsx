@@ -742,15 +742,17 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
       onClick={handleStageBackdropClick}
       className="relative w-full h-full flex-1 min-h-0 flex items-center justify-center p-3 sm:p-4 font-play text-left overflow-hidden box-border select-none"
     >
-      {/* Nút đóng sách tối giản ở góc trên phải để quay về danh sách học vấn */}
+      {/* Nút đóng sách ở góc trên bên phải để quay về danh sách học vấn */}
       <button
+        id="education-book-close-btn"
         type="button"
         onClick={(e) => {
           e.stopPropagation();
           SoundEngine.playBookClose();
           onClose();
         }}
-        className="absolute top-2.5 right-2.5 z-40 w-8 h-8 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/85 hover:bg-[var(--bg-button-primary)] hover:text-white text-[var(--text-secondary)] backdrop-blur-md flex items-center justify-center shrink-0 transition-all cursor-pointer active:scale-95 shadow-xs"
+        style={{ position: 'absolute', top: '12px', right: '12px' }}
+        className="no-theme-btn absolute top-3 right-3 z-40 w-9 h-9 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/90 hover:bg-[var(--bg-button-primary)] hover:text-white text-[var(--text-primary)] backdrop-blur-md flex items-center justify-center shrink-0 transition-all cursor-pointer active:scale-95 shadow-sm"
         title={isEn ? 'Close book (Esc)' : 'Đóng sách (Esc)'}
         aria-label={isEn ? 'Close book' : 'Đóng sách'}
       >

@@ -35,7 +35,7 @@
   justify-content: space-between;
   min-width: 0;
   padding: 18px;
-  border-radius: 24px !important;
+  border-radius: var(--radius-card, 14px) !important;
   border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.24)) !important;
   background: var(--surface-secondary-bg, var(--bg-card)) !important;
   box-shadow: var(--shadow-card, 0 8px 24px rgba(15, 23, 42, 0.08)) !important;
@@ -84,6 +84,7 @@ html[data-card-style="cowhide-leather"] .edu-bento-tile {
 }
 
 html[data-card-style="neumorphism-beyond"] .edu-bento-tile,
+html[data-card-style="frost-ice-neu"] .edu-bento-tile,
 html:not([data-card-style]) .edu-bento-tile {
   border-color: rgba(196, 209, 226, 0.78) !important;
   box-shadow:
@@ -100,6 +101,7 @@ html:not([data-card-style]) .edu-bento-tile {
   }
 
   html[data-card-style="neumorphism-beyond"] .edu-bento-tile:hover,
+  html[data-card-style="frost-ice-neu"] .edu-bento-tile:hover,
   html:not([data-card-style]) .edu-bento-tile:hover {
     border-color: rgba(100, 182, 255, 0.64) !important;
     box-shadow:
@@ -110,19 +112,19 @@ html:not([data-card-style]) .edu-bento-tile {
 }
 
 .edu-bento-subtile {
-  border-radius: 16px;
+  border-radius: var(--radius-subcard, 14px);
   border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.22));
   background: var(--bg-subcard, rgba(255, 255, 255, 0.55));
   transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease, background-color 200ms ease;
 }
 
 html.dark .edu-bento-subtile,
-html:is([data-theme-mode="dark"], [data-card-style="deep-ocean"], [data-card-style="dark-liquid-glass"], [data-card-style="dark-soft-indigo-fintech"]) .edu-bento-subtile {
+html:is([data-theme-mode="dark"], [data-card-style="deep-ocean"], [data-card-style="dark-liquid-glass"], [data-card-style="dark-soft-indigo-fintech"], [data-card-style="dark-frost-ice-neu"]) .edu-bento-subtile {
   background: var(--bg-subcard, rgba(15, 23, 42, 0.46));
 }
 
 .edu-bento-media-frame {
-  border-radius: 18px !important;
+  border-radius: var(--radius-media, 14px) !important;
   overflow: hidden;
   border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.24));
 }

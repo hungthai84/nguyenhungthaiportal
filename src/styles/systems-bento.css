@@ -39,7 +39,7 @@
   min-width: 0;
   width: 100%;
   padding: 18px;
-  border-radius: 24px !important;
+  border-radius: var(--radius-card, 14px) !important;
   border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.24)) !important;
   background: var(--surface-secondary-bg, var(--bg-card)) !important;
   box-shadow: var(--shadow-card, 0 8px 24px rgba(15, 23, 42, 0.08)) !important;
@@ -82,7 +82,7 @@ html:is([data-theme-mode="dark"], [data-card-style="deep-ocean"], [data-card-sty
 }
 
 html.dark .sys-bento-tile,
-html:is([data-theme-mode="dark"], [data-card-style="deep-ocean"], [data-card-style="dark-liquid-glass"], [data-card-style="dark-soft-indigo-fintech"]) .sys-bento-tile {
+html:is([data-theme-mode="dark"], [data-card-style="deep-ocean"], [data-card-style="dark-liquid-glass"], [data-card-style="dark-soft-indigo-fintech"], [data-card-style="dark-frost-ice-neu"]) .sys-bento-tile {
   background: var(--surface-secondary-bg, rgba(15, 23, 42, 0.56)) !important;
   border-color: var(--border-subcard, rgba(148, 163, 184, 0.2)) !important;
 }
@@ -98,6 +98,7 @@ html[data-card-style="cowhide-leather"] .sys-bento-tile {
 }
 
 html[data-card-style="neumorphism-beyond"] .sys-bento-tile,
+html[data-card-style="frost-ice-neu"] .sys-bento-tile,
 html:not([data-card-style]) .sys-bento-tile {
   border-color: rgba(196, 209, 226, 0.78) !important;
   box-shadow:
@@ -114,6 +115,7 @@ html:not([data-card-style]) .sys-bento-tile {
   }
 
   html[data-card-style="neumorphism-beyond"] .sys-bento-tile:hover,
+  html[data-card-style="frost-ice-neu"] .sys-bento-tile:hover,
   html:not([data-card-style]) .sys-bento-tile:hover {
     border-color: rgba(100, 182, 255, 0.64) !important;
     box-shadow:
@@ -131,7 +133,7 @@ html:not([data-card-style]) .sys-bento-tile {
   text-align: left;
   width: 100%;
   min-width: 0;
-  border-radius: 16px;
+  border-radius: var(--radius-subcard, 14px);
   border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.22));
   background: var(--bg-subcard, rgba(255, 255, 255, 0.55));
   transition:
@@ -141,7 +143,7 @@ html:not([data-card-style]) .sys-bento-tile {
 }
 
 html.dark .sys-bento-subtile,
-html:is([data-theme-mode="dark"], [data-card-style="deep-ocean"], [data-card-style="dark-liquid-glass"], [data-card-style="dark-soft-indigo-fintech"]) .sys-bento-subtile {
+html:is([data-theme-mode="dark"], [data-card-style="deep-ocean"], [data-card-style="dark-liquid-glass"], [data-card-style="dark-soft-indigo-fintech"], [data-card-style="dark-frost-ice-neu"]) .sys-bento-subtile {
   background: var(--bg-subcard, rgba(15, 23, 42, 0.46));
 }
 
@@ -153,7 +155,7 @@ html[data-card-style="cowhide-leather"] .sys-bento-subtile {
 
 .sys-bento-media-frame {
   width: 100%;
-  border-radius: 16px !important;
+  border-radius: var(--radius-media, 14px) !important;
   overflow: hidden;
   border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.24));
 }

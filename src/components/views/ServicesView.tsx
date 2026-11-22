@@ -304,7 +304,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'deep-ocean' ||
-    currentTheme === 'dark-neumorphism-beyond';
+    currentTheme === 'dark-neumorphism-beyond' ||
+    currentTheme === 'dark-frost-ice-neu';
   const isLight = !isDark;
   const isEn = language === 'en';
   const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'black-cowhide-leather';
@@ -831,7 +832,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                             ? meta.borderLight
                             : meta.borderDark,
                       }}
-                      className="service-card domain-card bento-card glass-card group relative rounded-[20px] p-[15px] box-border min-h-[250px] sm:min-h-[268px] lg:min-h-0 h-full w-full flex flex-col justify-between gap-2.5 text-left"
+                      className="service-card domain-card bento-card glass-card group relative rounded-[20px] box-border min-h-0 h-full w-full flex flex-col justify-between text-left"
                     >
                       {/* Góc trên phải: Nút chỉ dấu mở rộng toàn khung */}
                       <span
@@ -841,9 +842,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         <Maximize2 className="w-3.5 h-3.5" />
                       </span>
 
-                      {/* Tầng 1: Trái (Tiêu đề 2 dòng + Logo doanh nghiệp bên dưới) | Phải (Hình minh họa nổi bật + Halo) */}
-                      <div className="relative z-10 flex items-center justify-between gap-3 pt-0.5 pr-7 min-w-0">
-                        <div className="flex-1 min-w-0 flex flex-col gap-2">
+                      {/* Tầng 1: Trái (Tiêu đề 2 dòng + Logo doanh nghiệp bên dưới) | Phải (Hình minh họa co giãn theo kích thước thẻ) */}
+                      <div className="service-card-top relative z-10 flex items-center justify-between gap-2.5 pt-0.5 pr-7 min-w-0">
+                        <div className="flex-1 min-w-0 flex flex-col gap-1.5">
                           <h3
                             className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 break-words"
                             data-card-title="true"
@@ -863,7 +864,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                                 <div
                                   key={partner.name || pIdx}
                                   title={partner.name}
-                                  className="w-6 h-6 sm:w-7 sm:h-7 rounded-full overflow-hidden bg-white dark:bg-slate-800 border border-[var(--border-subcard)] flex items-center justify-center shrink-0 shadow-xs"
+                                  className="w-6 h-6 rounded-full overflow-hidden bg-white dark:bg-slate-800 border border-[var(--border-subcard)] flex items-center justify-center shrink-0 shadow-xs"
                                 >
                                   <img
                                     src={partner.logo}
@@ -887,8 +888,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                           )}
                         </div>
 
-                        {/* Ảnh minh họa tách nền trên quầng sáng domain */}
-                        <div className="relative w-[84px] h-[84px] sm:w-[94px] sm:h-[94px] shrink-0 flex items-center justify-center">
+                        {/* Ảnh minh họa tách nền co giãn mượt theo kích thước thẻ */}
+                        <div className="service-card-illustration relative shrink-0 flex items-center justify-center">
                           <div
                             className="service-ambient-glow absolute inset-1 rounded-full blur-xl opacity-45 group-hover:opacity-75 transition-opacity duration-300 pointer-events-none"
                             style={{ background: meta.gradient }}
@@ -907,30 +908,30 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         </div>
                       </div>
 
-                      {/* Tầng 2: 2 Ô KPI Nổi Bật Song Song (.domain-card-sub) */}
-                      <div className="relative z-10 grid grid-cols-2 gap-2.5 w-full">
+                      {/* Tầng 2: 2 Ô KPI Nổi Bật Co Giãn (.domain-card-sub) */}
+                      <div className="service-kpi-grid relative z-10 w-full">
                         {meta.frontMetrics.map((m, mIdx) => (
                           <div
                             key={mIdx}
                             className="domain-card-sub rounded-xl px-2.5 py-2 flex flex-col justify-center min-w-0"
                           >
                             <span
-                              className="typo-body-sm sm:typo-body font-bold leading-tight truncate"
+                              className="service-kpi-val font-bold leading-tight truncate"
                               style={{ color: accentColor }}
                             >
                               {isEn && m.valueEn ? m.valueEn : m.value}
                             </span>
-                            <span className="text-[11px] text-[var(--text-secondary)] truncate mt-0.5">
+                            <span className="service-kpi-lbl text-[var(--text-secondary)] truncate mt-0.5">
                               {isEn ? m.labelEn : m.label}
                             </span>
                           </div>
                         ))}
                       </div>
 
-                      {/* Tầng 3: Tóm tắt giá trị cốt lõi (2 dòng gọn gàng) */}
+                      {/* Tầng 3: Tóm tắt giá trị cốt lõi co giãn theo chiều rộng thẻ */}
                       <p
                         id={`service-card-desc-${domain.id}`}
-                        className="relative z-10 typo-caption sm:typo-body-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2 m-0"
+                        className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-2 m-0"
                         title={summaryText}
                       >
                         {summaryText}
@@ -938,11 +939,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
 
                       {/* Tầng 4: Footer Hashtags */}
                       <div className="service-divider relative z-10 pt-2 border-t border-[var(--border-subcard)] flex items-center justify-start gap-2 shrink-0 min-w-0">
-                        <div className="flex items-center gap-1.5 flex-wrap min-w-0 overflow-hidden">
+                        <div className="flex items-center gap-1.5 flex-wrap min-w-0">
                           {tagsList.map((tag) => (
                             <span
                               key={tag}
-                              className="text-[11px] font-semibold px-2 py-0.5 rounded-full border truncate max-w-[110px]"
+                              className="text-[11px] font-semibold px-2 py-0.5 rounded-full border truncate max-w-full"
                               style={{
                                 backgroundColor: isLight ? meta.tintBgLight : meta.tintBgDark,
                                 borderColor: isLight ? meta.borderLight : meta.borderDark,

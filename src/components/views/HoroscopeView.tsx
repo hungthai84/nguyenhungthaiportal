@@ -251,9 +251,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     width: '100%',
     maxWidth: '100%',
     minWidth: 0,
-    height: 'auto',
-    minHeight: 0,
-    flex: '1 1 auto',
+    height: '100%',
+    minHeight: '100%',
+    flex: '1 1 100%',
     alignSelf: 'stretch',
     margin: '0px',
     padding: '0px',
@@ -943,7 +943,13 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   // CARD 1: 1. HỒ SƠ TỬ VI
   // =========================================================================
   const renderCard1HoSoTuVi = () => (
-    <>
+    <div
+      id="horoscope-card-profile"
+      data-element-type="card"
+      data-section-card="true"
+      style={horoscopeFullCardTransparentStyle}
+      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 flex flex-col items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+    >
       {/* Banner trang Tử Vi */}
       <motion.section
         id="horoscope-hero-banner"
@@ -1280,7 +1286,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] w-full min-w-0 flex-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-stretch gap-[15px] w-full min-w-0 flex-1">
             <div
               data-layer-level="2"
               style={level2InnerCardStyle}
@@ -1480,14 +1486,20 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 
   // =========================================================================
   // CARD 2: 2. PHONG CÁCH QUẢN TRỊ
   // =========================================================================
   const renderCard2PhongCachQuanTri = () => (
-    <>
+    <div
+      id="horoscope-card-management-style"
+      data-element-type="card"
+      data-section-card="true"
+      style={horoscopeFullCardTransparentStyle}
+      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 flex flex-col items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+    >
       <div className="w-full flex items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)] shrink-0">
         <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
           <Briefcase style={transparentLogoStyle} className="w-6 h-6 text-blue-600 dark:text-cyan-400 shrink-0" />
@@ -1552,7 +1564,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 
   // =========================================================================
@@ -1564,7 +1576,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="card"
       data-section-card="true"
       style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr_1fr] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr_1fr] items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
     >
       <div className="col-span-full flex items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)]">
         <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
@@ -1695,7 +1707,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="card"
       data-section-card="true"
       style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 md:grid-cols-6 md:grid-rows-[auto_auto_1fr_1fr] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 md:grid-cols-6 md:grid-rows-[auto_auto_1fr_1fr] items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
     >
       <div className="col-span-full flex items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)]">
         <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
@@ -1791,7 +1803,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="card"
       data-section-card="true"
       style={horoscopeFullCardTransparentStyle}
-      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[auto_1fr_1fr_auto] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+      className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[auto_1fr_1fr_auto] items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
     >
       <div className="col-span-full flex items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)]">
         <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
@@ -1902,7 +1914,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         data-element-type="card"
         data-section-card="true"
         style={horoscopeFullCardTransparentStyle}
-        className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_1fr] content-start items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
+        className="bento-card glass-card w-full max-w-full h-full min-h-full flex-1 grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_1fr] items-stretch gap-[15px] p-0 rounded-[14px] bg-transparent border-0 shadow-none"
       >
         <div className="col-span-full flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-[var(--border-subcard)]">
           <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
@@ -2443,7 +2455,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               >
                 <div
                   id={`horoscope-card-${cardIdx + 1}-scroll-viewport`}
-                  className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+                  className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
                 >
                   {cardMeta.render()}
                 </div>

@@ -3,16 +3,16 @@
 /* ========================================================================= */
 
 :root {
-  --radius-main: 20px;
-  --radius-card: 16px;
-  --radius-subcard: 12px;
-  --radius-banner: 16px;
-  --radius-modal: 20px;
-  --radius-popup: 16px;
-  --radius-widget: 16px;
-  --radius-input: 12px;
-  --radius-header: 0 0 20px 20px;
-  --radius-footer: 20px 20px 0 0;
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
   --radius-button: 999px;
   --space-card-padding: 16px;
   --space-card-gap: 16px;
@@ -23,7 +23,7 @@
 #contact-info-card,
 #ai-assistant-hero-banner,
 #interview-video-banner {
-  border-radius: var(--radius-banner, 16px) !important;
+  border-radius: var(--radius-banner, 14px) !important;
 }
 
 .hero-banner {
@@ -2677,36 +2677,36 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
   border: 1px solid rgba(249, 168, 212, 0.58) !important;
 }
 
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="indigo"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="indigo"] {
   background: linear-gradient(145deg, rgba(30, 27, 75, 0.64) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(129, 140, 248, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="blue"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="blue"] {
   background: linear-gradient(145deg, rgba(23, 37, 84, 0.64) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(96, 165, 250, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="sky"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="sky"] {
   background: linear-gradient(145deg, rgba(12, 74, 110, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(56, 189, 248, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="amber"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="amber"] {
   background: linear-gradient(145deg, rgba(69, 26, 3, 0.60) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(251, 191, 36, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="emerald"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="emerald"] {
   background: linear-gradient(145deg, rgba(6, 78, 59, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(52, 211, 153, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="teal"],
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="cyan"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="teal"],
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="cyan"] {
   background: linear-gradient(145deg, rgba(19, 78, 74, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(45, 212, 191, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="purple"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="purple"] {
   background: linear-gradient(145deg, rgba(46, 16, 101, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(192, 132, 252, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="pink"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="pink"] {
   background: linear-gradient(145deg, rgba(80, 7, 36, 0.60) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(251, 113, 133, 0.30) !important;
 }
@@ -3142,13 +3142,15 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 .projects-responsive-grid,
 #projects-grid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 255px), 1fr)) !important;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 265px), 1fr)) !important;
+  grid-auto-rows: 1fr !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
   width: 100% !important;
   min-width: 0 !important;
   align-items: stretch !important;
+  align-content: start !important;
   overflow: visible !important;
   box-sizing: border-box !important;
 }
@@ -3158,7 +3160,26 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 #projects-grid > * {
   min-width: 0 !important;
   max-width: 100% !important;
+  height: 100% !important;
   box-sizing: border-box !important;
+}
+
+#projects-grid .project-card {
+  container-type: inline-size;
+  container-name: project-card;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  border-radius: var(--radius-card, 14px) !important;
+  padding: clamp(12px, 4.2cqi, 15px) !important;
+  gap: clamp(10px, 3.8cqi, 14px) !important;
+  overflow: hidden !important;
+}
+
+#projects-grid .project-card .project-card-banner {
+  border-radius: var(--radius-media, 14px) !important;
+  overflow: hidden !important;
 }
 
 #education-courses-grid .education-course-card {
@@ -3167,7 +3188,7 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
   backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  border-radius: var(--radius-card, 24px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   padding: 10px !important;
   gap: 10px !important;
   overflow: visible !important;
@@ -3189,7 +3210,7 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   box-shadow: var(--shadow-image-card, var(--shadow-subcard)) !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
-  border-radius: var(--radius-subcard, 16px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
 }
@@ -3302,16 +3323,26 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 /* ========================================================================= */
 /* SERVICES VIEW: DOMAIN CARDS & FLIP MORPH EXPANSION SYSTEM                 */
 /* ========================================================================= */
-#services-page-container #services-hero-banner,
-#services-page-container .service-card.domain-card {
-  padding: 15px !important;
+#services-page-container #services-hero-banner {
+  padding: clamp(12px, 1.5cqi, 18px) !important;
   box-sizing: border-box !important;
 }
 
+#services-page-container .service-card.domain-card {
+  padding: clamp(12px, 3.8cqi, 18px) !important;
+  gap: clamp(8px, 2.4cqi, 14px) !important;
+  box-sizing: border-box !important;
+  container-type: inline-size;
+  container-name: service-card;
+}
+
 #services-page-container .services-cards-grid {
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)) !important;
+  grid-auto-rows: minmax(0, 1fr) !important;
+  gap: clamp(12px, 1.4cqi, 18px) !important;
+  row-gap: clamp(12px, 1.4cqi, 18px) !important;
+  column-gap: clamp(12px, 1.4cqi, 18px) !important;
   transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease;
 }
 
@@ -3322,12 +3353,16 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   pointer-events: none !important;
 }
 
-/* Front Domain Card */
+/* Front Domain Card — Fluid Responsive Scaling */
 #services-page-container .domain-card {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
   border-radius: var(--radius-card, 20px);
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.45));
   box-shadow: var(--shadow-card, 0 8px 24px rgba(15, 23, 42, 0.06));
@@ -3336,6 +3371,56 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.38s ease, border-color 0.28s ease;
   overflow: hidden;
   cursor: pointer;
+}
+
+#services-page-container .domain-card .service-card-illustration {
+  width: clamp(60px, 23cqi, 100px);
+  height: clamp(60px, 23cqi, 100px);
+  flex-shrink: 0;
+}
+
+#services-page-container .domain-card .service-title-text {
+  font-size: clamp(0.92rem, 4.4cqi, 1.15rem) !important;
+  line-height: 1.28 !important;
+}
+
+#services-page-container .domain-card .service-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(6px, 2.2cqi, 10px);
+}
+
+#services-page-container .domain-card .service-kpi-val {
+  font-size: clamp(0.78rem, 3.6cqi, 0.96rem);
+  line-height: 1.25;
+}
+
+#services-page-container .domain-card .service-kpi-lbl {
+  font-size: clamp(0.66rem, 2.8cqi, 0.76rem);
+  line-height: 1.25;
+}
+
+#services-page-container .domain-card .service-desc-text {
+  font-size: clamp(0.75rem, 3.2cqi, 0.88rem);
+  line-height: 1.48;
+}
+
+@container service-card (max-width: 280px) {
+  #services-page-container .domain-card .service-card-top {
+    flex-direction: column-reverse !important;
+    align-items: flex-start !important;
+    padding-right: 1.75rem !important;
+    gap: 8px !important;
+  }
+
+  #services-page-container .domain-card .service-card-illustration {
+    width: 60px;
+    height: 60px;
+  }
+
+  #services-page-container .domain-card .service-kpi-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 #services-page-container .domain-card:hover {
@@ -3988,6 +4073,71 @@ html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--letter {
   animation: none !important;
 }
 
+/* --- Theme 13: Băng Tuyết Nổi Khối (Sáng & Tối) --- */
+html[data-card-style="frost-ice-neu"] .video-play-btn {
+  --vp-backdrop: blur(12px) saturate(112%);
+  --vp-border: rgba(255, 255, 255, 0.92);
+  --vp-text: #25384B;
+  --vp-specular: rgba(255, 255, 255, 0.96);
+  --vp-chase-a: transparent;
+  --vp-chase-b: transparent;
+  --vp-shadow-ambient: 6px 8px 16px rgba(162, 193, 224, 0.38), -5px -5px 12px rgba(255, 255, 255, 0.96);
+  --vp-shadow-hover: 8px 10px 20px rgba(154, 187, 220, 0.44), -6px -6px 14px rgba(255, 255, 255, 1);
+  --vp-sound-bg: rgba(110, 106, 246, 0.14);
+  --vp-sound-border: rgba(110, 106, 246, 0.28);
+  --vp-sound-hover: rgba(74, 184, 249, 0.24);
+  animation: none !important;
+}
+html[data-card-style="frost-ice-neu"] .video-play-btn::before {
+  display: none !important;
+  content: none !important;
+}
+html[data-card-style="frost-ice-neu"] .video-play-btn--home,
+html[data-card-style="frost-ice-neu"] .video-play-btn--about,
+html[data-card-style="frost-ice-neu"] .video-play-btn--interview,
+html[data-card-style="frost-ice-neu"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, #F6FBFF 0%, #E7F2FC 100%);
+  --vp-bg-hover: linear-gradient(145deg, #FFFFFF 0%, #EDF6FD 100%);
+}
+html[data-card-style="frost-ice-neu"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #6E6AF6 0%, #965CE8 52%, #4AB8F9 100%);
+  --vp-bg-hover: linear-gradient(135deg, #7D7AF8 0%, #A46EED 52%, #5EC4FA 100%);
+  --vp-text: #FFFFFF;
+  animation: none !important;
+}
+
+html[data-card-style="dark-frost-ice-neu"] .video-play-btn {
+  --vp-backdrop: blur(12px) saturate(112%);
+  --vp-border: rgba(148, 189, 232, 0.22);
+  --vp-text: #F1F8FF;
+  --vp-specular: rgba(186, 218, 250, 0.16);
+  --vp-chase-a: transparent;
+  --vp-chase-b: transparent;
+  --vp-shadow-ambient: 6px 8px 16px rgba(4, 9, 18, 0.68), -4px -4px 10px rgba(44, 67, 102, 0.34);
+  --vp-shadow-hover: 8px 10px 20px rgba(4, 9, 18, 0.76), -5px -5px 12px rgba(52, 78, 118, 0.42);
+  --vp-sound-bg: rgba(142, 139, 255, 0.16);
+  --vp-sound-border: rgba(142, 139, 255, 0.34);
+  --vp-sound-hover: rgba(74, 184, 249, 0.24);
+  animation: none !important;
+}
+html[data-card-style="dark-frost-ice-neu"] .video-play-btn::before {
+  display: none !important;
+  content: none !important;
+}
+html[data-card-style="dark-frost-ice-neu"] .video-play-btn--home,
+html[data-card-style="dark-frost-ice-neu"] .video-play-btn--about,
+html[data-card-style="dark-frost-ice-neu"] .video-play-btn--interview,
+html[data-card-style="dark-frost-ice-neu"] .video-play-btn--systems {
+  --vp-bg: linear-gradient(145deg, #213049 0%, #152134 100%);
+  --vp-bg-hover: linear-gradient(145deg, #283A57 0%, #1B2940 100%);
+}
+html[data-card-style="dark-frost-ice-neu"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #6E6AF6 0%, #965CE8 52%, #4AB8F9 100%);
+  --vp-bg-hover: linear-gradient(135deg, #7D7AF8 0%, #A46EED 52%, #5EC4FA 100%);
+  --vp-text: #FFFFFF;
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .video-play-btn,
   html[data-card-style] .video-play-btn,
@@ -4017,13 +4167,13 @@ html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--letter {
   backface-visibility: hidden;
   transition:
     transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
     border-color 200ms ease,
     filter 200ms ease,
     background-color 200ms ease;
 }
 
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) :is(
   button[data-element-type="button"],
   .banner-control-pill,
   .nav-arrow-btn,
@@ -4037,31 +4187,40 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 }
 
 /* ========================================================================= */
-/* TOKEN-DRIVEN LAYER BORDER-RADIUS CONSISTENCY (20px / 16px / 12px)         */
+/* GLOBAL UNIFIED 14PX BORDER-RADIUS ACROSS ALL THEMES                       */
+/* Cards, Sub-cards, Banners, Modals, Videos & Non-Circular Images -> 14px   */
 /* ========================================================================= */
 .page-main-card,
 [data-main-card="true"],
 [data-layer-level="1"]:not(#app-header):not(#app-footer) {
-  border-radius: var(--radius-main, 20px) !important;
+  border-radius: 14px !important;
 }
 
 [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#app-header):not(#app-footer),
-.bento-card,
-.glass-card,
-.layered-card,
+[data-element-type="card"]:not(.rounded-full):not([class*="rounded-full"]),
+.bento-card:not(.rounded-full):not([class*="rounded-full"]),
+.glass-card:not(.rounded-full):not([class*="rounded-full"]),
+.layered-card:not(.rounded-full):not([class*="rounded-full"]),
 .exp-bento-surface-card,
 .themed-image-card,
-.themed-image-frame {
-  border-radius: var(--radius-card, 16px) !important;
+.themed-image-frame,
+.service-card,
+.project-card,
+.system-card-tile,
+.education-course-card {
+  border-radius: 14px !important;
 }
 
-[data-subcard="true"],
-.sub-card,
-.nested-card,
+[data-subcard="true"]:not(.rounded-full):not([class*="rounded-full"]),
+.sub-card:not(.rounded-full):not([class*="rounded-full"]),
+.nested-card:not(.rounded-full):not([class*="rounded-full"]),
 .exp-bento-item-card,
 .exp-detail-subcard,
-.theme-modal-subcard {
-  border-radius: var(--radius-subcard, 12px) !important;
+.skill-swot-subcard,
+.system-card-sub,
+.theme-modal-subcard,
+.theme-muted-surface:not(.rounded-full):not([class*="rounded-full"]) {
+  border-radius: 14px !important;
 }
 
 .banner-card,
@@ -4069,22 +4228,26 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 [id$="-hero-banner"],
 #project-detail-banner,
 #pdf-hero-banner {
-  border-radius: var(--radius-banner, var(--radius-card, 16px)) !important;
+  border-radius: 14px !important;
 }
 
 .theme-modal-card,
-.theme-pip-player {
-  border-radius: var(--radius-modal, 20px) !important;
+.theme-pip-player,
+.banner-dropdown-menu {
+  border-radius: 14px !important;
 }
 
-#global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]):not(.project-detail-banner-media video),
+/* Videos & Non-Circular Images across the entire interface -> 14px */
+#global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]),
 .theme-modal-card video:not(.rounded-full):not([class*="rounded-full"]),
 .theme-pip-player video:not(.rounded-full):not([class*="rounded-full"]),
-[data-section-card="true"]:not(.banner-card):not(.hero-banner):not([data-element-type="banner-card"]) video:not(.rounded-full):not([class*="rounded-full"]),
-#global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]):not(.project-detail-banner-media img),
+[data-section-card="true"] video:not(.rounded-full):not([class*="rounded-full"]),
+#global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
 .theme-modal-card img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
-[data-section-card="true"]:not(.banner-card):not(.hero-banner):not([data-element-type="banner-card"]) img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]) {
-  border-radius: var(--radius-card, 16px) !important;
+[data-section-card="true"] img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
+[data-media-card="image"],
+[data-media-card="video"] {
+  border-radius: 14px !important;
 }
 
 #education-book-view .education-book-media-rounded,
@@ -4096,13 +4259,13 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 
 .project-detail-banner-media,
 .project-detail-banner-media :is(video, img) {
-  border-radius: var(--radius-banner, var(--radius-card, 16px)) !important;
+  border-radius: 14px !important;
 }
 
 #app-header {
-  border-radius: var(--radius-header, 0 0 20px 20px) !important;
+  border-radius: var(--radius-header, 0 0 14px 14px) !important;
 }
 
 #app-footer {
-  border-radius: var(--radius-footer, 20px 20px 0 0) !important;
+  border-radius: var(--radius-footer, 14px 14px 0 0) !important;
 }

@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="dark-neon-glass"], [data-theme="dark-neon-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *, [data-theme="dark-neumorphism-beyond"], [data-theme="dark-neumorphism-beyond"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="dark-neon-glass"], [data-theme="dark-neon-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *, [data-theme="dark-neumorphism-beyond"], [data-theme="dark-neumorphism-beyond"] *, [data-theme="dark-frost-ice-neu"], [data-theme="dark-frost-ice-neu"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -148,6 +148,8 @@
 @import "./styles/themes/light-deep-ocean.css";
 @import "./styles/themes/neumorphism-beyond.css";
 @import "./styles/themes/dark-neumorphism-beyond.css";
+@import "./styles/themes/frost-ice-neu.css";
+@import "./styles/themes/dark-frost-ice-neu.css";
 @import "./styles/themes/multicolor-glass.css";
 @import "./styles/themes/dark-neon-glass.css";
 @import "./styles/layers.css";
@@ -2906,7 +2908,7 @@ html.dark:not([data-card-style="cowhide-leather"]):not([data-card-style="black-c
   #footer-wallpaper-btn,
   #footer-ai-btn
 ) .nav-pill-title,
-html:is([data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]) :is(
+html:is([data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3001,7 +3003,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
 }
 
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3011,7 +3013,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge svg,
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3216,7 +3218,7 @@ html #el-p0-div-98::after {
 /* ========================================================================= */
 /* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL ACTIVE THEMES)      */
 /* ========================================================================= */
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="light-deep-ocean"], [data-card-style="neumorphism-beyond"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"]) :is(
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="light-deep-ocean"], [data-card-style="neumorphism-beyond"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"], [data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
   #projects-grid .project-card .project-card-banner,
   .hero-banner .project-detail-banner-media,
@@ -3434,6 +3436,26 @@ html[data-card-style="dark-neumorphism-beyond"] .nav-pill-ripple-wave {
     color-mix(in srgb, var(--nav-pill-accent, #64B6FF) 52%, #E2E8F0) 0%,
     rgba(73, 115, 255, 0.28) 52%,
     transparent 76%
+  );
+}
+
+html[data-card-style="frost-ice-neu"] .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.90) 0%,
+    rgba(110, 106, 246, 0.30) 42%,
+    rgba(74, 184, 249, 0.22) 64%,
+    transparent 78%
+  );
+}
+
+html[data-card-style="dark-frost-ice-neu"] .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    rgba(164, 161, 255, 0.62) 0%,
+    rgba(74, 184, 249, 0.32) 48%,
+    rgba(255, 112, 161, 0.16) 66%,
+    transparent 80%
   );
 }
 
@@ -4859,6 +4881,147 @@ html[data-card-style="dark-neumorphism-beyond"] :is(button.nav-pill, .radial-con
   transform: translate3d(0, 1px, 0) scale(0.90);
 }
 
+/* 9. Băng tuyết nổi khối (frost-ice-neu & dark-frost-ice-neu): Frost Clay Soft Extrusion + Recessed Press */
+html[data-card-style="frost-ice-neu"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):hover {
+  transform: translate3d(0, -2px, 0) !important;
+  border-color: rgba(110, 106, 246, 0.44) !important;
+  box-shadow:
+    7px 9px 18px rgba(154, 187, 220, 0.40),
+    -5px -5px 14px rgba(255, 255, 255, 0.98),
+    inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+}
+
+html[data-card-style="frost-ice-neu"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
+  [data-element-type="button"],
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 2px, 0) scale3d(0.96, 0.96, 1) !important;
+  box-shadow:
+    inset 4px 4px 9px rgba(154, 187, 220, 0.56),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.92) !important;
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease !important;
+}
+
+html[data-card-style="dark-frost-ice-neu"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):hover {
+  transform: translate3d(0, -2px, 0) !important;
+  border-color: rgba(142, 139, 255, 0.48) !important;
+  box-shadow:
+    7px 9px 18px rgba(4, 9, 18, 0.72),
+    -4px -4px 12px rgba(46, 70, 108, 0.40),
+    inset 0 1px 0 rgba(186, 218, 250, 0.18) !important;
+}
+
+html[data-card-style="dark-frost-ice-neu"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
+  [data-element-type="button"],
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 2px, 0) scale3d(0.96, 0.96, 1) !important;
+  box-shadow:
+    inset 4px 4px 10px rgba(3, 7, 15, 0.85),
+    inset -3px -3px 7px rgba(48, 72, 108, 0.38) !important;
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease !important;
+}
+
 /* Focus ring khả dụng chuẩn Accessibility cho mọi giao diện */
 html[data-card-style] :is(
   button.nav-pill,
@@ -4934,3 +5097,71 @@ html[data-card-style] :is(
     transform: none !important;
   }
 }
+
+/* ========================================================================= */
+/* FINAL GLOBAL 14PX BORDER-RADIUS ENFORCEMENT ACROSS ALL THEMES             */
+/* ========================================================================= */
+html,
+html[data-card-style],
+html[data-theme] {
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-media: 14px;
+  --radius-video: 14px;
+  --radius-image: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+}
+
+html[data-card-style] :is(
+  .page-main-card,
+  [data-main-card="true"],
+  [data-section-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  [data-subcard="true"]:not(.rounded-full):not([class*="rounded-full"]),
+  .bento-card:not(.rounded-full):not([class*="rounded-full"]),
+  .glass-card:not(.rounded-full):not([class*="rounded-full"]),
+  .layered-card:not(.rounded-full):not([class*="rounded-full"]),
+  .sub-card:not(.rounded-full):not([class*="rounded-full"]),
+  .nested-card:not(.rounded-full):not([class*="rounded-full"]),
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
+  .service-card,
+  .project-card,
+  .system-card-tile,
+  .education-course-card,
+  .exp-bento-surface-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .skill-swot-subcard,
+  .system-card-sub,
+  .themed-image-card,
+  .themed-image-frame,
+  .theme-modal-card,
+  .theme-modal-subcard,
+  .theme-pip-player,
+  .project-detail-banner-media,
+  [data-media-card="image"],
+  [data-media-card="video"]
+) {
+  border-radius: 14px !important;
+}
+
+html[data-card-style] :is(
+  #global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]),
+  #global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
+  .theme-modal-card video:not(.rounded-full):not([class*="rounded-full"]),
+  .theme-modal-card img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
+  .theme-pip-player video:not(.rounded-full):not([class*="rounded-full"]),
+  .project-detail-banner-media video,
+  .project-detail-banner-media img
+) {
+  border-radius: 14px !important;
+}
+

@@ -45,6 +45,8 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'light-deep-ocean': { cardOpacity: 84, blurIntensity: 22 },
   'neumorphism-beyond': { cardOpacity: 91, blurIntensity: 14 },
   'dark-neumorphism-beyond': { cardOpacity: 92, blurIntensity: 14 },
+  'frost-ice-neu': { cardOpacity: 93, blurIntensity: 14 },
+  'dark-frost-ice-neu': { cardOpacity: 93, blurIntensity: 14 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -136,6 +138,26 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     fallbackGradient: 'linear-gradient(145deg, #171E2B 0%, #141A25 55%, #111620 100%)',
     overlayBg: 'rgba(15, 20, 30, 0.18)',
   },
+  'frost-ice-neu': {
+    id: 'frost-ice-neu',
+    presetId: 'theme-bg-frost-ice-neu',
+    label: 'Nền Băng Tuyết Nổi Khối (Sáng)',
+    themeMode: 'light',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.92) 0%, transparent 48%), radial-gradient(circle at 86% 24%, rgba(168, 212, 248, 0.50) 0%, transparent 54%), radial-gradient(circle at 50% 88%, rgba(186, 218, 245, 0.45) 0%, transparent 56%), linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
+    overlayBg: 'rgba(232, 243, 252, 0.12)',
+  },
+  'dark-frost-ice-neu': {
+    id: 'dark-frost-ice-neu',
+    presetId: 'theme-bg-dark-frost-ice-neu',
+    label: 'Nền Băng Tuyết Nổi Khối (Tối)',
+    themeMode: 'dark',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 18% 14%, rgba(110, 106, 246, 0.16) 0%, transparent 46%), radial-gradient(circle at 84% 22%, rgba(74, 184, 249, 0.14) 0%, transparent 50%), radial-gradient(circle at 74% 84%, rgba(255, 112, 161, 0.10) 0%, transparent 52%), linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
+    overlayBg: 'rgba(12, 19, 32, 0.22)',
+  },
   'multicolor-glass': {
     id: 'multicolor-glass',
     presetId: 'theme-bg-multicolor-glass',
@@ -169,4 +191,6 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'light-deep-ocean': THEME_BACKGROUNDS['light-deep-ocean'].presetId,
   'neumorphism-beyond': 'custom-wp-1788112774646',
   'dark-neumorphism-beyond': THEME_BACKGROUNDS['dark-neumorphism-beyond'].presetId,
+  'frost-ice-neu': THEME_BACKGROUNDS['frost-ice-neu'].presetId,
+  'dark-frost-ice-neu': THEME_BACKGROUNDS['dark-frost-ice-neu'].presetId,
 };

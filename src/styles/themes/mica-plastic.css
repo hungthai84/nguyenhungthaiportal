@@ -1,0 +1,493 @@
+/* ========================================================================= */
+/* MICA PLASTIC THEME — GIAO DIỆN MICA NHỰA (FROSTED ACRYLIC / PMMA SHEET)   */
+/* Material: 3mm Frosted Translucent Polycarbonate / Milky Acrylic Plastic   */
+/* Tactile Satin Micro-Grain · Laser-Cut Beveled Polymer Edge · Soft Diffuse */
+/* Full Level 1 / Level 2 / Level 3 Surface Hierarchy & WCAG AA Contrast     */
+/* ========================================================================= */
+
+.card-mica-plastic {
+  background-color: rgba(244, 248, 253, 0.84) !important;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23m)' opacity='0.045'/%3E%3C/svg%3E"),
+    linear-gradient(142deg, rgba(255, 255, 255, 0.90) 0%, rgba(241, 246, 252, 0.82) 52%, rgba(231, 239, 249, 0.86) 100%) !important;
+  backdrop-filter: blur(22px) saturate(126%) contrast(1.02) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(126%) contrast(1.02) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.90) !important;
+  border-radius: var(--radius-card, var(--radius-standard, 14px)) !important;
+  box-shadow:
+    0 10px 26px -6px rgba(30, 41, 59, 0.11),
+    0 0 0 1px rgba(100, 116, 139, 0.16),
+    inset 0 2px 0 rgba(255, 255, 255, 0.96),
+    inset 1.5px 0 0 rgba(255, 255, 255, 0.78),
+    inset 0 -2px 3px rgba(132, 150, 175, 0.22),
+    inset -1.5px 0 2px rgba(132, 150, 175, 0.14) !important;
+  color: #15202e !important;
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease !important;
+}
+
+.card-mica-plastic:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.98) !important;
+  box-shadow:
+    0 12px 30px -6px rgba(2, 132, 199, 0.14),
+    0 0 0 1px rgba(2, 132, 199, 0.24),
+    inset 0 2px 0 rgba(255, 255, 255, 1),
+    inset 1.5px 0 0 rgba(255, 255, 255, 0.85),
+    inset 0 -2px 3px rgba(132, 150, 175, 0.24) !important;
+}
+
+[data-theme="mica-plastic"],
+html[data-card-style="mica-plastic"],
+html[data-card-style="mica-plastic"] body {
+  color-scheme: light;
+  --ambient-wallpaper-opacity: 0.88;
+
+  /* Fine Satin Frosted Polymer Micro-Grain Layer */
+  --mica-plastic-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23m)' opacity='0.045'/%3E%3C/svg%3E");
+
+  /* Core Color Tokens */
+  --color-bg: #e7eef6;
+  --color-bg-soft: #eef3f9;
+  --color-bg-blue: #e2f1fb;
+  --color-surface: rgba(246, 250, 254, 0.86);
+  --color-surface-elevated: rgba(251, 253, 255, 0.94);
+  --color-surface-indigo: #eae8fc;
+  --color-surface-cyan: #dff2fc;
+  --color-surface-green: #dcf6e8;
+  --color-surface-orange: #fcecd9;
+  --color-surface-pink: #fae5f0;
+  --color-surface-purple: #f0e6fc;
+
+  --color-heading: #15202e;
+  --color-text: #223041;
+  --color-text-secondary: #4a5c71;
+  --color-text-muted: #64758a;
+  --color-text-inverse: #ffffff;
+
+  --color-primary: #0284c7;
+  --color-secondary: #0ea5e9;
+  --color-tertiary: #2563eb;
+  --color-accent: #0369a1;
+  --color-indigo: #4f46e5;
+  --color-blue: #0284c7;
+  --color-cyan: #0891b2;
+  --color-green: #0d9488;
+  --color-amber: #b45309;
+  --color-pink: #be185d;
+  --color-purple: #6d28d9;
+
+  /* Semantic Text Tokens — High-Contrast Graphite Ink on Milky Mica */
+  --text-primary: #15202e;
+  --text-heading: #0f1926;
+  --text-secondary: #3f5166;
+  --text-muted: #5d7086;
+  --text-link: #0369a1;
+  --text-accent: #0284c7;
+  --text-input: #15202e;
+  --text-placeholder: #6b7d93;
+  --text-on-dark: #ffffff;
+  --text-badge: #0369a1;
+  --text-highlight: #0284c7;
+
+  /* Semantic Background Tokens — Milky Frosted Acrylic Sheets */
+  --bg-app: #e6edf6;
+  --bg-page: transparent;
+  --bg-main: linear-gradient(
+    144deg,
+    rgba(247, 250, 254, 0.80) 0%,
+    rgba(235, 242, 250, 0.74) 55%,
+    rgba(242, 247, 252, 0.78) 100%
+  );
+  --bg-header: linear-gradient(
+    144deg,
+    rgba(250, 252, 255, 0.85) 0%,
+    rgba(238, 244, 251, 0.79) 100%
+  );
+  --bg-footer: linear-gradient(
+    144deg,
+    rgba(250, 252, 255, 0.85) 0%,
+    rgba(238, 244, 251, 0.79) 100%
+  );
+  --bg-card: linear-gradient(
+    142deg,
+    rgba(252, 253, 255, 0.88) 0%,
+    rgba(241, 246, 252, 0.82) 56%,
+    rgba(233, 240, 249, 0.84) 100%
+  );
+  --bg-card-hover: linear-gradient(
+    142deg,
+    rgba(255, 255, 255, 0.94) 0%,
+    rgba(244, 248, 254, 0.88) 100%
+  );
+  --bg-subcard: linear-gradient(
+    145deg,
+    rgba(244, 248, 253, 0.86) 0%,
+    rgba(233, 240, 249, 0.80) 100%
+  );
+  --bg-subcard-hover: linear-gradient(
+    145deg,
+    rgba(250, 252, 255, 0.94) 0%,
+    rgba(238, 245, 253, 0.88) 100%
+  );
+  --bg-nested: rgba(235, 242, 250, 0.82);
+  --bg-nested-card: rgba(238, 244, 251, 0.86);
+  --bg-modal: rgba(249, 251, 255, 0.95);
+  --bg-popup: rgba(249, 251, 255, 0.95);
+  --bg-dropdown: rgba(251, 253, 255, 0.97);
+  --bg-tooltip: rgba(21, 32, 46, 0.94);
+  --bg-input: rgba(252, 254, 255, 0.90);
+  --bg-table: rgba(248, 251, 255, 0.86);
+  --bg-table-head: rgba(232, 241, 250, 0.90);
+  --bg-nav-pill: linear-gradient(145deg, rgba(252, 254, 255, 0.80) 0%, rgba(235, 242, 250, 0.72) 100%);
+  --bg-nav-pill-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 247, 254, 0.90) 100%);
+  --bg-button-primary: linear-gradient(135deg, #0369a1 0%, #0284c7 52%, #0ea5e9 100%);
+  --text-button-primary: #ffffff;
+  --bg-button-secondary: linear-gradient(145deg, rgba(252, 254, 255, 0.88) 0%, rgba(236, 243, 250, 0.82) 100%);
+  --text-button-secondary: #15202e;
+  --bg-badge: rgba(226, 241, 251, 0.88);
+  --bg-highlight: rgba(2, 132, 199, 0.12);
+  --bg-banner: rgba(248, 251, 255, 0.82);
+
+  /* Border & Focus Tokens — Luminous Cut-Acrylic Sheet Rim */
+  --color-border: rgba(100, 116, 139, 0.18);
+  --color-border-soft: rgba(100, 116, 139, 0.12);
+  --border-color: rgba(255, 255, 255, 0.88);
+  --border-card: rgba(255, 255, 255, 0.90);
+  --border-subcard: rgba(148, 163, 184, 0.24);
+  --border-modal: rgba(2, 132, 199, 0.22);
+  --border-input: rgba(100, 116, 139, 0.24);
+  --border-popup: rgba(255, 255, 255, 0.92);
+  --color-focus-ring: #0284c7;
+  --card-border-width: 1.5px;
+
+  /* Frosted Polymer Diffusion Blur (Slightly denser, satin milky vs clear glass) */
+  --bg-blur: 22px;
+  --glass-bg: rgba(246, 250, 254, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.88);
+  --glass-blur: 22px;
+  --glass-saturate: 126%;
+  --blur-subcard: 16px;
+  --blur-nav-pill: 18px;
+  --blur-modal: 28px;
+  --shadow-nav-pill:
+    0 4px 12px -2px rgba(30, 41, 59, 0.08),
+    0 0 0 1px rgba(100, 116, 139, 0.14),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.94),
+    inset 0 -1px 2px rgba(132, 150, 175, 0.18);
+  --outline-nav-pill: none;
+
+  /* Radii — Kế thừa chuẩn bo cong chung 14px từ Da bò cổ điển */
+  --radius-main: var(--radius-standard, 14px);
+  --radius-card: var(--radius-standard, 14px);
+  --radius-subcard: var(--radius-standard, 14px);
+  --radius-banner: var(--radius-standard, 14px);
+  --radius-modal: var(--radius-standard, 14px);
+  --radius-popup: var(--radius-standard, 14px);
+  --radius-widget: var(--radius-standard, 14px);
+  --radius-input: var(--radius-standard, 14px);
+  --radius-header: 0 0 var(--radius-standard, 14px) var(--radius-standard, 14px);
+  --radius-footer: var(--radius-standard, 14px) var(--radius-standard, 14px) 0 0;
+  --radius-button: 999px;
+  --radius-pill: 999px;
+  --radius-badge: 999px;
+
+  /* Native Plastic Beveled Slab Shadows (Level 1 / Level 2 / Level 3) */
+  --shadow-card:
+    0 9px 24px -6px rgba(30, 41, 59, 0.10),
+    0 0 0 1px rgba(100, 116, 139, 0.15),
+    inset 0 2px 0 rgba(255, 255, 255, 0.96),
+    inset 1.5px 0 0 rgba(255, 255, 255, 0.76),
+    inset 0 -2px 3px rgba(132, 150, 175, 0.22);
+  --shadow-card-hover:
+    0 14px 32px -6px rgba(2, 132, 199, 0.14),
+    0 0 0 1px rgba(2, 132, 199, 0.22),
+    inset 0 2px 0 rgba(255, 255, 255, 1),
+    inset 0 -2px 3px rgba(132, 150, 175, 0.24);
+  --shadow-subcard:
+    0 3px 10px -2px rgba(30, 41, 59, 0.07),
+    0 0 0 1px rgba(100, 116, 139, 0.11),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -1.5px 2px rgba(132, 150, 175, 0.18);
+  --shadow-subcard-hover:
+    0 6px 16px -3px rgba(30, 41, 59, 0.10),
+    0 0 0 1px rgba(2, 132, 199, 0.18),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.98),
+    inset 0 -1.5px 2px rgba(132, 150, 175, 0.20);
+  --shadow-button: 0 6px 18px -4px rgba(2, 132, 199, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  --shadow-popup:
+    0 22px 50px -10px rgba(15, 23, 42, 0.16),
+    0 0 0 1px rgba(100, 116, 139, 0.18),
+    inset 0 2px 0 rgba(255, 255, 255, 0.96),
+    inset 0 -2px 3px rgba(132, 150, 175, 0.22);
+
+  /* Layered Surface Tokens — Authentic Thick Frosted Mica Plastic */
+  --surface-header-bg: linear-gradient(144deg, rgba(250, 252, 255, 0.85) 0%, rgba(236, 243, 251, 0.79) 100%);
+  --surface-footer-bg: linear-gradient(144deg, rgba(250, 252, 255, 0.85) 0%, rgba(236, 243, 251, 0.79) 100%);
+  --surface-header-shadow:
+    0 8px 24px -4px rgba(30, 41, 59, 0.10),
+    0 0 0 1px rgba(100, 116, 139, 0.15),
+    inset 0 -2px 3px rgba(132, 150, 175, 0.22),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.96);
+  --surface-footer-shadow:
+    0 -8px 24px -4px rgba(30, 41, 59, 0.10),
+    0 0 0 1px rgba(100, 116, 139, 0.15),
+    inset 0 2px 0 rgba(255, 255, 255, 0.96),
+    inset 0 -1.5px 2px rgba(132, 150, 175, 0.20);
+
+  --surface-primary-bg: linear-gradient(
+    144deg,
+    rgba(248, 251, 255, 0.82) 0%,
+    rgba(235, 242, 250, 0.76) 54%,
+    rgba(243, 247, 252, 0.80) 100%
+  );
+  --surface-primary-border: rgba(255, 255, 255, 0.90);
+  --surface-primary-shadow:
+    0 16px 38px -8px rgba(30, 41, 59, 0.12),
+    0 4px 12px -2px rgba(51, 65, 85, 0.06),
+    0 0 0 1px rgba(100, 116, 139, 0.16),
+    inset 0 2px 0 rgba(255, 255, 255, 0.96),
+    inset 1.5px 0 0 rgba(255, 255, 255, 0.78),
+    inset 0 -2px 4px rgba(132, 150, 175, 0.24),
+    inset -1.5px 0 3px rgba(132, 150, 175, 0.16);
+  --surface-primary-blur: 22px;
+  --surface-primary-saturate: 126%;
+
+  --surface-secondary-bg: linear-gradient(
+    142deg,
+    rgba(252, 254, 255, 0.88) 0%,
+    rgba(240, 246, 253, 0.82) 55%,
+    rgba(233, 240, 249, 0.84) 100%
+  );
+  --surface-secondary-border: rgba(255, 255, 255, 0.92);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-blur: 18px;
+  --surface-secondary-saturate: 122%;
+
+  --surface-tertiary-bg: linear-gradient(
+    145deg,
+    rgba(244, 248, 253, 0.86) 0%,
+    rgba(232, 240, 249, 0.80) 100%
+  );
+  --surface-tertiary-border: rgba(255, 255, 255, 0.84);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 14px;
+  --surface-tertiary-saturate: 118%;
+
+  --surface-nested-bg: rgba(236, 243, 251, 0.86);
+  --surface-nested-border: rgba(148, 163, 184, 0.22);
+  --surface-nested-shadow:
+    0 2px 8px -2px rgba(30, 41, 59, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+  --surface-nested-blur: 12px;
+  --surface-nested-saturate: 115%;
+
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: var(--bg-nav-pill-hover);
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: rgba(255, 255, 255, 0.88);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 18px;
+
+  /* Banner & Pillar Tokens */
+  --banner-transparent-bg: rgba(246, 250, 254, 0.82);
+  --banner-border: rgba(255, 255, 255, 0.90);
+  --bg-banner-pill: rgba(252, 254, 255, 0.90);
+  --text-banner-pill: #0369a1;
+  --bg-banner-cta: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+  --text-banner-cta: #ffffff;
+
+  --pillar-blue: #0284c7;
+  --pillar-cyan: #0891b2;
+  --pillar-emerald: #0d9488;
+  --pillar-violet: #4f46e5;
+  --pillar-amber: #b45309;
+  --pillar-rose: #be185d;
+
+  --app-bg-base: #e6edf6;
+  --app-bg-gradient:
+    radial-gradient(circle at 16% 18%, rgba(186, 230, 253, 0.52) 0%, transparent 50%),
+    radial-gradient(circle at 82% 24%, rgba(226, 232, 240, 0.58) 0%, transparent 52%),
+    radial-gradient(circle at 54% 84%, rgba(241, 245, 249, 0.62) 0%, transparent 55%),
+    linear-gradient(135deg, #eef3f9 0%, #e1eaf4 52%, #d8e3ef 100%);
+  --ambient-base-bg: var(--app-bg-gradient);
+}
+
+/* ========================================================================= */
+/* LEVEL 1 — MICA NHỰA SLABS: HEADER · MAIN CARD · FOOTER                    */
+/* Frosted milky polycarbonate plate + fine satin grain + cut-acrylic bevel  */
+/* ========================================================================= */
+html[data-card-style="mica-plastic"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
+  background-color: rgba(241, 246, 252, 0.80) !important;
+  background-image:
+    var(--mica-plastic-grain),
+    linear-gradient(144deg, rgba(249, 252, 255, 0.84) 0%, rgba(235, 242, 250, 0.76) 54%, rgba(242, 247, 253, 0.80) 100%) !important;
+  backdrop-filter: blur(22px) saturate(126%) contrast(1.02) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(126%) contrast(1.02) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.90) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
+  color: #15202e;
+}
+
+html[data-card-style="mica-plastic"] #app-header {
+  border-top: none !important;
+  box-shadow: var(--surface-header-shadow) !important;
+}
+
+html[data-card-style="mica-plastic"] #app-footer {
+  border-bottom: none !important;
+  box-shadow: var(--surface-footer-shadow) !important;
+}
+
+/* ========================================================================= */
+/* BANNER CARDS — MICA NHỰA MỜ ÁNH SÁNG KHUẾCH TÁN                           */
+/* ========================================================================= */
+html[data-card-style="mica-plastic"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+) {
+  background-color: rgba(245, 249, 254, 0.84) !important;
+  background-image:
+    var(--mica-plastic-grain),
+    linear-gradient(138deg, rgba(252, 254, 255, 0.88) 0%, rgba(231, 243, 252, 0.80) 58%, rgba(238, 245, 252, 0.84) 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.92) !important;
+  border-radius: var(--radius-banner, var(--radius-standard, 14px)) !important;
+  box-shadow:
+    0 10px 28px -6px rgba(2, 132, 199, 0.11),
+    0 0 0 1px rgba(100, 116, 139, 0.15),
+    inset 0 2px 0 rgba(255, 255, 255, 0.98),
+    inset 0 -2px 3px rgba(132, 150, 175, 0.22) !important;
+  backdrop-filter: blur(20px) saturate(126%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(126%) !important;
+}
+
+/* ========================================================================= */
+/* LEVEL 2 — SECTION / BENTO / PROJECT / EDUCATION CARDS                     */
+/* Authentic milky frosted mica acrylic tiles with polymer bevel rim         */
+/* ========================================================================= */
+html[data-card-style="mica-plastic"] :is(
+  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(.hero-banner):not(.banner-card):not([id$="-hero-banner"]),
+  .bento-card,
+  .glass-card,
+  .bento-view-card,
+  .project-card,
+  .exp-bento-surface-card,
+  .exp-detail-card,
+  .project-detail-section-card,
+  .education-card,
+  .education-course-card,
+  .swot-quadrant-card,
+  .partner-card,
+  .motto-card,
+  #about-personal-info-grid
+) {
+  background-color: rgba(247, 250, 254, 0.86) !important;
+  background-image:
+    var(--mica-plastic-grain),
+    linear-gradient(142deg, rgba(253, 254, 255, 0.90) 0%, rgba(241, 246, 252, 0.83) 56%, rgba(233, 240, 249, 0.86) 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.92) !important;
+  box-shadow: var(--surface-secondary-shadow) !important;
+  border-radius: var(--radius-card, var(--radius-standard, 14px)) !important;
+  backdrop-filter: blur(18px) saturate(122%) contrast(1.01) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(122%) contrast(1.01) !important;
+}
+
+/* ========================================================================= */
+/* LEVEL 3 — SUBCARDS / NESTED MOLDED MICA POLYMER TILES                     */
+/* ========================================================================= */
+html[data-card-style="mica-plastic"] :is(
+  [data-subcard="true"],
+  .sub-card,
+  .nested-card,
+  .letter-subcard,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  .theme-modal-subcard
+) {
+  background-color: rgba(240, 246, 252, 0.84) !important;
+  background-image:
+    var(--mica-plastic-grain),
+    linear-gradient(145deg, rgba(248, 251, 255, 0.88) 0%, rgba(233, 240, 249, 0.80) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.86) !important;
+  box-shadow: var(--surface-tertiary-shadow) !important;
+  border-radius: var(--radius-subcard, var(--radius-standard, 14px)) !important;
+  backdrop-filter: blur(14px) saturate(118%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(118%) !important;
+}
+
+/* ========================================================================= */
+/* MODALS, DIALOGS, POPOVERS & DROPDOWNS                                     */
+/* ========================================================================= */
+html[data-card-style="mica-plastic"] :is(
+  .theme-modal-card,
+  [role="dialog"],
+  .dropdown-menu,
+  .popover-card
+) {
+  background-color: rgba(249, 251, 255, 0.94) !important;
+  background-image:
+    var(--mica-plastic-grain),
+    linear-gradient(145deg, rgba(253, 254, 255, 0.96) 0%, rgba(239, 245, 252, 0.92) 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.94) !important;
+  box-shadow: var(--shadow-popup) !important;
+  backdrop-filter: blur(28px) saturate(128%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(128%) !important;
+  color: #15202e !important;
+}
+
+/* ========================================================================= */
+/* INPUTS & FORM CONTROLS — FROSTED SATIN POLYMER WELL                       */
+/* ========================================================================= */
+html[data-card-style="mica-plastic"] :is(input, textarea, select):not([type="range"]):not([type="checkbox"]):not([type="radio"]) {
+  background-color: rgba(252, 254, 255, 0.90) !important;
+  border: 1px solid rgba(100, 116, 139, 0.24) !important;
+  box-shadow: inset 0 1px 3px rgba(30, 41, 59, 0.06), 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+  color: #15202e !important;
+}
+
+html[data-card-style="mica-plastic"] :is(input, textarea, select):not([type="range"]):not([type="checkbox"]):not([type="radio"]):focus {
+  border-color: rgba(2, 132, 199, 0.55) !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14), inset 0 1px 2px rgba(30, 41, 59, 0.05) !important;
+}
+
+/* ========================================================================= */
+/* HEADER NAV PILLS & FOOTER CAPSULES — MOLDED MICA TABS                     */
+/* ========================================================================= */
+html[data-card-style="mica-plastic"] #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
+html[data-card-style="mica-plastic"] #app-footer #footer-nav-capsule {
+  background: linear-gradient(145deg, rgba(252, 254, 255, 0.84) 0%, rgba(235, 242, 250, 0.78) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.90) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  color: #15202e !important;
+}
+
+html[data-card-style="mica-plastic"] #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(238, 246, 254, 0.90) 100%) !important;
+  box-shadow:
+    0 6px 14px -3px rgba(2, 132, 199, 0.14),
+    0 0 0 1px rgba(2, 132, 199, 0.22),
+    inset 0 1.5px 0 rgba(255, 255, 255, 1) !important;
+}

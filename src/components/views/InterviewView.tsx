@@ -1,10 +1,8 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import {
   INTERVIEW_QUESTIONS,
-  INTERVIEW_TABS,
   INTERVIEW_VIDEO_1_ALT_STREAM_URL,
   INTERVIEW_VIDEO_1_ID,
   INTERVIEW_VIDEO_1_STREAM_URL,
@@ -52,10 +50,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
   const isAudioOnRef = useRef<boolean>(false);
   const pendingSeekSecRef = useRef<number | null>(null);
   const shouldResetVideo2StartRef = useRef<boolean>(false);
-  const filterDropdownRef = useRef<HTMLDivElement>(null);
 
-  const [activeFilter, setActiveFilter] = useState<string>('all');
-  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [currentQIdx, setCurrentQIdx] = useState<number>(0);
   const [video1Stage, setVideo1Stage] = useState<InterviewStreamStage>('primary');
   const [video2Stage, setVideo2Stage] = useState<InterviewStreamStage>('primary');
@@ -368,11 +363,6 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
     showToast(nextAudioOn ? 'Đã bật âm thanh video' : 'Đã tắt âm thanh video');
   }, [enforceVideoAttributes, showToast, tryStartVideo1, tryStartVideo2]);
 
-  const filteredQuestions = useMemo(() => {
-    if (activeFilter === 'all') return INTERVIEW_QUESTIONS;
-    return INTERVIEW_QUESTIONS.filter((q) => q.categoryKey === activeFilter);
-  }, [activeFilter]);
-
   const selectQuestion = useCallback(
     (idx: number) => {
       const clamped = Math.max(0, Math.min(INTERVIEW_QUESTIONS.length - 1, idx));
@@ -410,7 +400,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
   // Phím tắt điều khiển nhanh (Space: Phát/Hủy Video 2, M: Bật/Tắt tiếng, Mũi tên Trái/Phải: Chuyển câu)
   useEffect(() => {
     const handleInterviewShortcuts = (e: KeyboardEvent) => {
-      if (isFilterDropdownOpen || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
       const target = e.target as HTMLElement | null;
       const tag = target?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target?.isContentEditable) {
@@ -434,7 +424,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
 
     window.addEventListener('keydown', handleInterviewShortcuts);
     return () => window.removeEventListener('keydown', handleInterviewShortcuts);
-  }, [currentQIdx, isFilterDropdownOpen, selectQuestion, toggleAudio, togglePlayVideo]);
+  }, [currentQIdx, selectQuestion, toggleAudio, togglePlayVideo]);
 
   const handleVideo1Error = () => {
     if (!INTERVIEW_VIDEO_1_ID) return;
@@ -458,27 +448,6 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
       }
     }
   };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target as Node)) {
-        setIsFilterDropdownOpen(false);
-      }
-    };
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isFilterDropdownOpen) {
-        setIsFilterDropdownOpen(false);
-      }
-    };
-    if (isFilterDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      window.addEventListener('keydown', handleKeyDown);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isFilterDropdownOpen]);
 
   void currentTheme;
 
@@ -810,128 +779,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
             </p>
           </div>
 
-              {/* Hàng dưới: Bộ lọc câu hỏi (trái) & Nút Phát Video / Hủy Phát + Loa (phải) */}
-              <div id="interview-video-banner-controls" className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto w-full min-w-0 shrink-0 pointer-events-auto">
-            {/* Nhóm các câu hỏi ở banner vào 1 nút filter với menu xổ xuống */}
-            <div className="relative inline-block text-left max-w-full" ref={filterDropdownRef}>
-              <button
-                id="interview-question-filter-btn"
-                type="button"
-                onClick={() => {
-                  setIsFilterDropdownOpen((prev) => !prev);
-                }}
-                className="banner-control-pill h-9 inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95 group max-w-full shrink-0"
-                title="Bộ lọc câu hỏi"
-                aria-label="Bộ lọc câu hỏi phỏng vấn"
-                aria-expanded={isFilterDropdownOpen}
-                aria-haspopup="listbox"
-              >
-                <WebIcon
-                  name="sliders"
-                  className="w-4 h-4 text-[var(--color-primary)] shrink-0"
-                />
-                <span className="truncate">Bộ lọc câu hỏi</span>
-                {activeFilter !== 'all' && (
-                  <span className="banner-count-pill hidden sm:inline-flex px-2 py-0.2 rounded-full border typo-badge font-mono font-bold shrink-0">
-                    {INTERVIEW_TABS.find((t) => t.key === activeFilter)?.labelVi}
-                  </span>
-                )}
-                <WebIcon
-                  name="chevron-down"
-                  className={cn(
-                    'w-3.5 h-3.5 transition-transform duration-200 shrink-0',
-                    isFilterDropdownOpen ? 'rotate-180' : ''
-                  )}
-                />
-              </button>
-
-              <AnimatePresence>
-                {isFilterDropdownOpen && (
-                  <motion.div
-                    id="interview-question-filter-listbox"
-                    data-element-type="card"
-                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                    transition={{ duration: 0.16 }}
-                    role="listbox"
-                    className="banner-dropdown-menu bento-card glass-card absolute left-0 bottom-[calc(100%+8px)] w-[min(22rem,calc(100cqi-30px))] max-w-[calc(100vw-48px)] max-h-72 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
-                  >
-                    <div className="px-2 py-1.5 border-b border-[var(--border-subcard)] flex flex-col gap-1.5 sticky top-0 bg-[var(--bg-popup)] z-10 rounded-t-[10px]">
-                      <div className="flex items-center justify-between typo-label font-mono text-[var(--text-muted)]">
-                        <span className="font-bold text-[var(--text-heading,var(--color-primary))] font-play typo-body-sm inline-flex items-center gap-1.5">
-                          <WebIcon name="sliders" className="w-3.5 h-3.5 shrink-0" />
-                          <span>Bộ lọc</span>
-                        </span>
-                      </div>
-                    <div className="flex flex-wrap gap-1">
-                      {INTERVIEW_TABS.map((tab) => {
-                        const isTabActive = activeFilter === tab.key;
-                        return (
-                          <button
-                            key={tab.key}
-                            type="button"
-                            onClick={() => setActiveFilter(tab.key)}
-                            style={isTabActive ? { background: 'var(--bg-button-primary)' } : undefined}
-                            className={cn(
-                              'px-2.5 py-0.5 rounded-full typo-tab transition-all cursor-pointer border',
-                              isTabActive
-                                ? 'text-white border-transparent shadow-2xs'
-                                : 'bg-[var(--bg-subcard)] text-[var(--text-secondary)] border-[var(--border-subcard)] hover:bg-[var(--bg-subcard-hover)]'
-                            )}
-                          >
-                            {tab.labelVi}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  {filteredQuestions.map((q) => {
-                    const origIdx = INTERVIEW_QUESTIONS.findIndex((item) => item.stt === q.stt);
-                    const isSelected = origIdx === currentQIdx;
-                    return (
-                      <button
-                        key={q.stt}
-                        type="button"
-                        role="option"
-                        aria-selected={isSelected}
-                        data-selected={isSelected ? 'true' : 'false'}
-                        onClick={() => {
-                          selectQuestion(origIdx !== -1 ? origIdx : 0);
-                          setIsFilterDropdownOpen(false);
-                        }}
-                        className={cn(
-                          'theme-dropdown-option w-full text-left px-3 py-2 rounded-[14px] transition-all cursor-pointer flex items-center justify-between gap-2 typo-nav font-play',
-                          isSelected ? 'shadow-xs' : ''
-                        )}
-                      >
-                        <div className="flex items-center gap-2 min-w-0">
-                          <span
-                            className={cn(
-                              'w-6 h-6 rounded-full flex items-center justify-center typo-badge font-mono shrink-0',
-                              isSelected
-                                ? 'bg-white/25 text-white'
-                                : 'bg-[var(--bg-nested-badge)] text-[var(--text-link,var(--color-primary))]'
-                            )}
-                          >
-                            {String(q.stt).padStart(2, '0')}
-                          </span>
-                          <div className="flex flex-col min-w-0">
-                            <span className="truncate font-semibold">{q.categoryVi}</span>
-                            <span className={cn('typo-label truncate', isSelected ? 'text-white/85' : 'text-[var(--text-muted)]')}>
-                              {q.questionVi.replace(/^Câu hỏi\s*\d+:\s*/i, '')}
-                            </span>
-                          </div>
-                        </div>
-                        {isSelected && <WebIcon name="check" className="w-3.5 h-3.5 text-white shrink-0" />}
-                      </button>
-                    );
-                  })}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
+              {/* Hàng dưới: Nút Phát Video / Hủy Phát + Loa (phải) */}
+              <div id="interview-video-banner-controls" className="relative z-30 flex flex-wrap items-center justify-end gap-2 mt-auto w-full min-w-0 shrink-0 pointer-events-auto">
             {/* Nút Phát Video / Hủy Phát kèm nút bật tắt âm thanh (cùng định dạng Card Giới thiệu) */}
             <div
               id="interview-play-video-capsule"

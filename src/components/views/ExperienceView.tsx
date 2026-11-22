@@ -345,7 +345,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'deep-ocean' ||
-    currentTheme === 'dark-neumorphism-beyond';
+    currentTheme === 'dark-neumorphism-beyond' ||
+    currentTheme === 'dark-frost-ice-neu';
   const isBrownLeather = cardStyle === 'cowhide-leather';
   const isBlackLeather = cardStyle === 'black-cowhide-leather';
   const isLeather = isBrownLeather || isBlackLeather;
@@ -2004,27 +2005,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </div>
             </div>
 
+            {/* BỐ CỤC MASONRY LAYOUT (PINTEREST GRID) CHO CHI TIẾT CÔNG VIỆC */}
             <div
               id="experience-bento-grid"
-              className="grid grid-cols-1 gap-[15px] items-stretch content-start w-full min-w-0"
+              data-layout-mode="masonry"
+              className="experience-masonry-grid w-full min-w-0"
             >
-              {/* HÀNG 1: Thẻ công ty cùng hàng với Hình ảnh kỷ niệm (chiều cao Hình ảnh kỷ niệm bằng chiều cao Thẻ công ty) */}
-              <div
-                id="experience-company-memories-row"
-                className="col-span-full grid grid-cols-1 gap-[15px] items-stretch w-full min-w-0"
+              {/* THẺ 1: Thẻ công ty */}
+              <section
+                id="experience-info-card"
+                data-multicolor-bento="true"
+                data-bento-tone="sky"
+                className={cn(
+                  'experience-masonry-item exp-bento-surface-card bento-tone-sky transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col gap-[15px] relative group min-w-0 h-auto',
+                  isDarkCardText
+                    ? 'bg-gradient-to-br from-sky-950/55 via-slate-900/72 to-indigo-950/48 border-sky-500/28 text-white'
+                    : 'bg-gradient-to-br from-sky-50/92 via-white/85 to-indigo-50/88 border-sky-200/75 text-slate-900'
+                )}
               >
-                {/* Thẻ công ty */}
-                <section
-                  id="experience-info-card"
-                  data-multicolor-bento="true"
-                  data-bento-tone="sky"
-                  className={cn(
-                    'exp-bento-surface-card bento-tone-sky transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col gap-[15px] relative group min-w-0 h-auto',
-                    isDarkCardText
-                      ? 'bg-gradient-to-br from-sky-950/55 via-slate-900/72 to-indigo-950/48 border-sky-500/28 text-white'
-                      : 'bg-gradient-to-br from-sky-50/92 via-white/85 to-indigo-50/88 border-sky-200/75 text-slate-900'
-                  )}
-                >
                   {/* Banner Video / Image Header */}
                   {activeMilestone.videoCard ? (
                     <div
@@ -2289,24 +2287,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       </div>
                     </div>
                   </div>
-                </section>
+              </section>
 
-                {/* Hình ảnh kỷ niệm — chiều cao luôn khớp chính xác chiều cao Thẻ công ty */}
-                <div
-                  id="experience-memories-slot"
-                  className="relative min-w-0 min-h-0 h-full w-full"
-                >
-                  <section
-                    id="experience-memories-card"
-                    data-multicolor-bento="true"
-                    data-bento-tone="amber"
-                    className={cn(
-                      'exp-bento-surface-card bento-tone-amber transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border relative overflow-hidden flex flex-col gap-[15px] min-w-0 min-h-0 h-full',
-                      isDarkCardText
-                        ? 'bg-gradient-to-br from-amber-950/55 via-slate-900/74 to-orange-950/48 border-amber-500/28 text-white'
-                        : 'bg-gradient-to-br from-amber-50/92 via-orange-50/78 to-yellow-50/88 border-amber-200/78 text-slate-900'
-                    )}
-                  >
+              {/* THẺ 2: Hình ảnh kỷ niệm (Masonry Item) */}
+              <section
+                id="experience-memories-card"
+                data-multicolor-bento="true"
+                data-bento-tone="amber"
+                className={cn(
+                  'experience-masonry-item exp-bento-surface-card bento-tone-amber transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border relative overflow-hidden flex flex-col gap-[15px] min-w-0 h-auto',
+                  isDarkCardText
+                    ? 'bg-gradient-to-br from-amber-950/55 via-slate-900/74 to-orange-950/48 border-amber-500/28 text-white'
+                    : 'bg-gradient-to-br from-amber-50/92 via-orange-50/78 to-yellow-50/88 border-amber-200/78 text-slate-900'
+                )}
+              >
                     <div className="flex flex-wrap items-center justify-between gap-2 shrink-0">
                       <h2
                         className={cn(
@@ -2347,14 +2341,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                     {photosList.length > 0 ? (
                       <div
-                        data-scrollable="true"
                         className={cn(
-                          'flex-1 min-h-0 overflow-y-auto overflow-x-hidden glass-scrollbar pr-0.5 grid gap-[12px]',
+                          'grid gap-[12px] content-start',
                           photosList.length === 1
-                            ? 'grid-cols-1 grid-rows-1'
-                            : photosList.length === 2
-                              ? 'grid-cols-1 grid-rows-2'
-                              : 'grid-cols-2 content-start'
+                            ? 'grid-cols-1'
+                            : 'grid-cols-2'
                         )}
                       >
                         {photosList.map((photo, pIdx) => {
@@ -2452,30 +2443,23 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         </span>
                       </div>
                     )}
-                  </section>
-                </div>
-              </div>
+              </section>
 
-              {/* HÀNG 2: Kết quả đạt được cùng hàng với Cam kết chất lượng */}
-              <div
-                id="experience-results-commitments-row"
-                className="col-span-full grid grid-cols-1 gap-[15px] items-start w-full min-w-0"
-              >
-                {/* KẾT QUẢ ĐẠT ĐƯỢC (KPIs & THÀNH TỰU ĐO LƯỜNG) */}
-                {kpisList.length > 0 && (
-                  <section
-                    id="experience-results-card"
-                    data-element-name="Thẻ Kết quả đạt được"
-                    data-element-type="card"
-                    data-multicolor-bento="true"
-                    data-bento-tone="emerald"
-                    className={cn(
-                      'exp-bento-surface-card bento-tone-emerald transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border min-w-0 h-fit flex flex-col gap-[15px]',
-                      isDarkCardText
-                        ? 'bg-gradient-to-br from-emerald-950/55 via-slate-900/74 to-cyan-950/48 border-emerald-500/28 text-white'
-                        : 'bg-gradient-to-br from-emerald-50/92 via-teal-50/80 to-cyan-50/88 border-emerald-200/75 text-slate-900'
-                    )}
-                  >
+              {/* THẺ 3: KẾT QUẢ ĐẠT ĐƯỢC (KPIs & THÀNH TỰU ĐO LƯỜNG) */}
+              {kpisList.length > 0 && (
+                <section
+                  id="experience-results-card"
+                  data-element-name="Thẻ Kết quả đạt được"
+                  data-element-type="card"
+                  data-multicolor-bento="true"
+                  data-bento-tone="emerald"
+                  className={cn(
+                    'experience-masonry-item exp-bento-surface-card bento-tone-emerald transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border min-w-0 h-auto flex flex-col gap-[15px]',
+                    isDarkCardText
+                      ? 'bg-gradient-to-br from-emerald-950/55 via-slate-900/74 to-cyan-950/48 border-emerald-500/28 text-white'
+                      : 'bg-gradient-to-br from-emerald-50/92 via-teal-50/80 to-cyan-50/88 border-emerald-200/75 text-slate-900'
+                  )}
+                >
                     <div className="flex flex-wrap items-center justify-between gap-2 relative z-10">
                       <h2
                         className={cn(
@@ -2608,19 +2592,18 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </section>
                 )}
 
-                {/* CAM KẾT CHẤT LƯỢNG (cùng hàng với Kết quả đạt được) */}
-                <section
-                  id="experience-commitments-card"
-                  data-multicolor-bento="true"
-                  data-bento-tone="cyan"
-                  className={cn(
-                    'exp-bento-surface-card bento-tone-cyan transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md relative overflow-hidden flex flex-col gap-[15px] min-w-0 h-fit border',
-                    kpisList.length === 0 && 'col-span-full',
-                    isDarkSurface || isLeather
-                      ? 'text-white bg-gradient-to-br from-cyan-950/55 via-slate-900/74 to-teal-950/48 border-cyan-500/28'
-                      : 'text-slate-900 bg-gradient-to-br from-cyan-50/92 via-teal-50/78 to-sky-50/88 border-cyan-200/75'
-                  )}
-                >
+              {/* THẺ 4: CAM KẾT CHẤT LƯỢNG */}
+              <section
+                id="experience-commitments-card"
+                data-multicolor-bento="true"
+                data-bento-tone="cyan"
+                className={cn(
+                  'experience-masonry-item exp-bento-surface-card bento-tone-cyan transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md relative overflow-hidden flex flex-col gap-[15px] min-w-0 h-auto border',
+                  isDarkSurface || isLeather
+                    ? 'text-white bg-gradient-to-br from-cyan-950/55 via-slate-900/74 to-teal-950/48 border-cyan-500/28'
+                    : 'text-slate-900 bg-gradient-to-br from-cyan-50/92 via-teal-50/78 to-sky-50/88 border-cyan-200/75'
+                )}
+              >
                   <div
                     className={cn(
                       'card-header-sync flex items-center gap-2.5 relative z-10',
@@ -2691,16 +2674,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       );
                     })}
                   </div>
-                </section>
-              </div>
+              </section>
 
-              {/* HÀNG 3: Giới thiệu hành trình (Full width) */}
+              {/* THẺ 5: Giới thiệu hành trình */}
               <section
                 id="experience-banner-card"
                 data-multicolor-bento="true"
                 data-bento-tone="pink"
                 className={cn(
-                  'exp-bento-surface-card bento-tone-pink col-span-full transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border min-w-0 h-auto flex flex-col gap-[15px]',
+                  'experience-masonry-item exp-bento-surface-card bento-tone-pink transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border min-w-0 h-auto flex flex-col gap-[15px]',
                   isDarkCardText
                     ? 'bg-gradient-to-br from-rose-950/52 via-slate-900/75 to-pink-950/42 border-rose-500/28 text-white'
                     : 'bg-gradient-to-br from-rose-50/92 via-pink-50/80 to-orange-50/88 border-rose-200/75 text-slate-900'
@@ -2744,7 +2726,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 )}
 
                 {introBlocks.length > 0 && (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-[15px] items-start">
+                  <div className="grid grid-cols-1 gap-[12px] items-start">
                     {introBlocks.map((item, idx) => {
                       const colStyle = introColumnStyles[idx % introColumnStyles.length];
                       const ColIcon = colStyle.Icon;
@@ -2789,22 +2771,18 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </div>
               </section>
 
-              {/* CỘT TRÁI HÀNG 4: Danh sách công việc */}
-              <div
-                id="experience-bento-col-left"
-                className="contents gap-[15px] min-w-0"
+              {/* THẺ 6: Danh sách công việc */}
+              <section
+                id="experience-responsibility-card"
+                data-multicolor-bento="true"
+                data-bento-tone="purple"
+                className={cn(
+                  'experience-masonry-item exp-bento-surface-card bento-tone-purple transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border min-w-0 h-auto flex flex-col gap-[15px]',
+                  isDarkCardText
+                    ? 'bg-gradient-to-b from-purple-950/55 via-slate-900/74 to-violet-950/48 border-purple-500/28 text-white'
+                    : 'bg-gradient-to-b from-purple-50/92 via-violet-50/78 to-fuchsia-50/85 border-purple-200/75 text-slate-900'
+                )}
               >
-                <section
-                  id="experience-responsibility-card"
-                  data-multicolor-bento="true"
-                  data-bento-tone="purple"
-                  className={cn(
-                    'exp-bento-surface-card bento-tone-purple transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border min-w-0 h-fit flex flex-col gap-[15px]',
-                    isDarkCardText
-                      ? 'bg-gradient-to-b from-purple-950/55 via-slate-900/74 to-violet-950/48 border-purple-500/28 text-white'
-                      : 'bg-gradient-to-b from-purple-50/92 via-violet-50/78 to-fuchsia-50/85 border-purple-200/75 text-slate-900'
-                  )}
-                >
                   <div className="flex items-center justify-between gap-2">
                     <h2
                       className={cn(
@@ -2861,25 +2839,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       );
                     })}
                   </ul>
-                </section>
-              </div>
+              </section>
 
-              {/* CỘT PHẢI HÀNG 4: Danh sách dự án */}
-              <div
-                id="experience-bento-col-right"
-                className="contents gap-[15px] min-w-0"
+              {/* THẺ 7: Danh sách dự án */}
+              <section
+                id="experience-achievement-card"
+                data-multicolor-bento="true"
+                data-bento-tone="blue"
+                className={cn(
+                  'experience-masonry-item exp-bento-surface-card bento-tone-blue transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border flex flex-col gap-[15px] min-w-0 h-auto',
+                  isDarkCardText
+                    ? 'bg-gradient-to-br from-blue-950/55 via-slate-900/74 to-indigo-950/48 border-blue-500/28 text-white'
+                    : 'bg-gradient-to-br from-blue-50/92 via-indigo-50/78 to-sky-50/88 border-blue-200/75 text-slate-900'
+                )}
               >
-                <section
-                  id="experience-achievement-card"
-                  data-multicolor-bento="true"
-                  data-bento-tone="blue"
-                  className={cn(
-                    'exp-bento-surface-card bento-tone-blue transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border flex flex-col gap-[15px] min-w-0 h-fit',
-                    isDarkCardText
-                      ? 'bg-gradient-to-br from-blue-950/55 via-slate-900/74 to-indigo-950/48 border-blue-500/28 text-white'
-                      : 'bg-gradient-to-br from-blue-50/92 via-indigo-50/78 to-sky-50/88 border-blue-200/75 text-slate-900'
-                  )}
-                >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <h2
                       className={cn(
@@ -2959,21 +2932,21 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       );
                     })}
                   </div>
-                </section>
-              </div>
+              </section>
+            </div>
 
-              {/* HÀNG CUỐI: Thanh điều hướng nhanh giữa các cột mốc ở cuối trang chi tiết */}
-              <div
-                id="experience-detail-footer-nav"
-                data-multicolor-bento="true"
-                data-bento-tone="indigo"
-                className={cn(
-                  'exp-bento-surface-card bento-tone-indigo col-span-full order-10 lg:order-none w-full rounded-[var(--radius-card,14px)] p-3 sm:p-3.5 border backdrop-blur-md flex flex-wrap items-center justify-between gap-2.5 min-w-0',
-                  isDarkCardText
-                    ? 'bg-gradient-to-r from-indigo-950/55 via-slate-900/74 to-violet-950/48 border-indigo-500/28 text-white'
-                    : 'bg-gradient-to-r from-indigo-50/92 via-violet-50/78 to-sky-50/88 border-indigo-200/75 text-slate-900'
-                )}
-              >
+            {/* HÀNG CUỐI: Thanh điều hướng nhanh giữa các cột mốc ở cuối trang chi tiết (Full width dưới Masonry Grid) */}
+            <div
+              id="experience-detail-footer-nav"
+              data-multicolor-bento="true"
+              data-bento-tone="indigo"
+              className={cn(
+                'exp-bento-surface-card bento-tone-indigo mt-[15px] w-full rounded-[var(--radius-card,14px)] p-3 sm:p-3.5 border backdrop-blur-md flex flex-wrap items-center justify-between gap-2.5 min-w-0',
+                isDarkCardText
+                  ? 'bg-gradient-to-r from-indigo-950/55 via-slate-900/74 to-violet-950/48 border-indigo-500/28 text-white'
+                  : 'bg-gradient-to-r from-indigo-50/92 via-violet-50/78 to-sky-50/88 border-indigo-200/75 text-slate-900'
+              )}
+            >
                 <div className="flex items-center gap-2 min-w-0">
                   {prevMilestone ? (
                     <button
@@ -3025,7 +2998,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <span className="text-xs text-[var(--text-muted)] px-2">Cột mốc hiện tại</span>
                   )}
                 </div>
-              </div>
             </div>
           </main>
         </>

@@ -23,6 +23,8 @@ export const THEME_LAYER_DEPTH_MAP: Record<CardStyleMode, number> = {
   'light-deep-ocean': 0,
   'neumorphism-beyond': 0,
   'dark-neumorphism-beyond': 0,
+  'frost-ice-neu': 0,
+  'dark-frost-ice-neu': 0,
   'multicolor-glass': 0,
   'dark-neon-glass': 0,
 };

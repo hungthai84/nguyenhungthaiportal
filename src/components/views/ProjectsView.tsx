@@ -243,7 +243,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'deep-ocean' ||
-    currentTheme === 'dark-neumorphism-beyond';
+    currentTheme === 'dark-neumorphism-beyond' ||
+    currentTheme === 'dark-frost-ice-neu';
   const isLight = !isDark;
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -551,8 +552,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             data-element-type="banner-card"
             data-element-page="projects"
             data-section-card="true"
-            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
-            style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
+            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+            style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 14px)' }}
           >
             <div
               className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
@@ -731,7 +732,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           ) : (
           <div
             id="projects-grid"
-            className="projects-responsive-grid education-responsive-grid w-full min-w-0 items-stretch"
+            className="projects-responsive-grid w-full min-w-0 items-stretch"
             style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
           >
             {filteredProjects.map((proj, idx) => {
@@ -846,10 +847,12 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     <div className="flex flex-col gap-2 min-w-0 pt-0.5">
                       {highlightText && (
                         <div
-                          className="p-2 rounded-[10px] border flex items-start gap-1.5 transition-colors min-w-0"
+                          data-subcard="true"
+                          className="p-2.5 rounded-[14px] border flex items-start gap-1.5 transition-colors min-w-0"
                           style={{
                             backgroundColor: `${cardColor}10`,
                             borderColor: `${cardColor}30`,
+                            borderRadius: 'var(--radius-subcard, 14px)',
                           }}
                         >
                           <WebIcon name="award" className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: cardColor }} />

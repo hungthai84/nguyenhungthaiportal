@@ -748,7 +748,15 @@
   }
 }
 
-/* Horoscope Slide Cards Max Full Dimensions & 100% Transparent Background across all themes & viewport resizes */
+/* Horoscope Page Grid Stretch & Slide Cards 100% Height Sync with LetterView Main Card */
+#horoscope-page-container .grid {
+  align-items: stretch !important;
+}
+
+#horoscope-page-container .grid > * {
+  align-self: stretch;
+}
+
 #horoscope-card-profile,
 #horoscope-card-profile:hover,
 #horoscope-card-profile:focus-within,
@@ -788,15 +796,15 @@
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  height: auto !important;
+  height: 100% !important;
   max-height: none !important;
-  min-height: 0 !important;
+  min-height: 100% !important;
   flex: 1 0 auto !important;
   flex-grow: 1 !important;
   flex-shrink: 0 !important;
   align-self: stretch !important;
   margin: 0 !important;
-  padding: 0px 0px 15px 0px !important;
+  padding: 0px !important;
   box-sizing: border-box !important;
   background-color: transparent !important;
   background: transparent !important;

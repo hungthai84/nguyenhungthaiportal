@@ -129,18 +129,21 @@
   --space-8: 32px;
   --space-10: 40px;
 
-  /* Layer Card UI Border Radius Tokens – Đồng bộ chuẩn 20px / 16px / 12px trên mọi Theme */
-  --radius-main: 20px;
-  --radius-card: 16px;
-  --radius-subcard: 12px;
+  /* Layer Card UI Border Radius Tokens – Đồng bộ chuẩn 14px cho Card, Sub-card, Video & Hình ảnh trên mọi Theme */
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-media: 14px;
+  --radius-video: 14px;
+  --radius-image: 14px;
   --radius-button: 999px;
-  --radius-input: 12px;
-  --radius-modal: 20px;
-  --radius-popup: 16px;
-  --radius-widget: 16px;
-  --radius-banner: 16px;
-  --radius-header: 0 0 20px 20px;
-  --radius-footer: 20px 20px 0 0;
+  --radius-input: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-banner: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
 
   /* Component Dimensions & Unified Layer Card Padding Tokens (20px -> 16px -> 12px) */
   --main-card-padding: 20px;
@@ -609,7 +612,7 @@
 }
 
 /* Dark Mode Overrides (Soft Liquid Glass 3D Custom Dark Palette) */
-html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="dark-neon-glass"], html[data-card-style="dark-neon-glass"], [data-theme="cowhide-leather"], [data-theme="black-cowhide-leather"], html[data-card-style="black-cowhide-leather"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"], [data-theme="dark-neumorphism-beyond"], html[data-card-style="dark-neumorphism-beyond"] {
+html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="dark-neon-glass"], html[data-card-style="dark-neon-glass"], [data-theme="cowhide-leather"], [data-theme="black-cowhide-leather"], html[data-card-style="black-cowhide-leather"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"], [data-theme="dark-neumorphism-beyond"], html[data-card-style="dark-neumorphism-beyond"], [data-theme="dark-frost-ice-neu"], html[data-card-style="dark-frost-ice-neu"] {
   --color-bg: #101A2B;
   --color-bg-soft: #171F33;
   --color-bg-blue: #202A40;

@@ -247,11 +247,6 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #services-main-content,
 #services-main-content .services-cards-grid,
 #interview-main-content,
-#experience-bento-grid,
-#experience-company-memories-row,
-#experience-results-commitments-row,
-#experience-bento-col-left,
-#experience-bento-col-right,
 #systems-page-container .systems-cards-grid,
 #projects-page-container .grid,
 #skills-page-container .grid,
@@ -259,6 +254,25 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   gap: var(--mc-gap, 16px) !important;
   row-gap: var(--mc-gap, 16px) !important;
   column-gap: var(--mc-gap, 16px) !important;
+}
+
+/* Pinterest Masonry Layout for Experience Job Detail View */
+#experience-bento-grid.experience-masonry-grid {
+  display: block !important;
+  column-count: 1 !important;
+  column-gap: 15px !important;
+  width: 100% !important;
+}
+
+#experience-bento-grid.experience-masonry-grid > .experience-masonry-item {
+  break-inside: avoid !important;
+  -webkit-column-break-inside: avoid !important;
+  page-break-inside: avoid !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  margin-bottom: 15px !important;
+  height: auto !important;
 }
 
 /* Fluid inner card & subcard padding */
@@ -438,8 +452,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #letter-slide-2-grid,
   #letter-slide-3-grid,
   #letter-slide-4-bento-grid,
-  #about-intro-card-2-scroll-viewport,
-  #experience-bento-grid {
+  #about-intro-card-2-scroll-viewport {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
@@ -452,9 +465,12 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #letter-slide-2-grid > *,
   #letter-slide-3-grid > *,
   #letter-slide-4-bento-grid > *,
-  #about-intro-card-2-scroll-viewport > *,
-  #experience-bento-grid > * {
+  #about-intro-card-2-scroll-viewport > * {
     grid-column: 1 / -1 !important;
+  }
+
+  #experience-bento-grid.experience-masonry-grid {
+    column-count: 1 !important;
   }
 
   /* About Card 1 luôn duy trì bố cục 2 cột song song trên mọi kích thước */
@@ -498,30 +514,27 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
-  #services-main-content .services-cards-grid,
-  #systems-page-container .systems-cards-grid,
+  #services-main-content .services-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)) !important;
+  }
+
+  #systems-page-container .systems-cards-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: 1fr !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+    align-content: start !important;
+    align-items: stretch !important;
+  }
+
+  #projects-grid.projects-responsive-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: 1fr !important;
+    align-items: stretch !important;
+  }
+
   #skills-languages-grid {
     grid-template-columns: minmax(0, 1fr) !important;
-  }
-
-  #experience-bento-col-left,
-  #experience-bento-col-right {
-    display: contents !important;
-  }
-
-  #experience-company-memories-row,
-  #experience-results-commitments-row {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-
-  #experience-memories-slot {
-    height: auto !important;
-  }
-
-  #experience-memories-card {
-    position: relative !important;
-    inset: auto !important;
-    height: auto !important;
   }
 
   #horoscope-card-1-grid,
@@ -627,73 +640,33 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     overflow: hidden !important;
   }
 
-  /* Services 2 columns */
+  /* Services fluid responsive auto-fit grid */
   #services-main-content .services-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)) !important;
+    grid-auto-rows: minmax(0, 1fr) !important;
+  }
+
+  /* Experience Detail: Pinterest Masonry 2-column Grid */
+  #experience-bento-grid.experience-masonry-grid {
+    column-count: 2 !important;
+    column-gap: 15px !important;
+  }
+
+  /* Systems 2 columns — content-sized rows with equal height across all cards */
+  #systems-page-container .systems-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-
-  /* Experience Detail: Company + Memory Gallery (exact same height) & Results + Commitments side-by-side at >= 600px */
-  #experience-bento-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-
-  #experience-bento-grid > * {
-    grid-column: 1 / -1 !important;
-  }
-
-  #experience-company-memories-row {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+    align-content: start !important;
     align-items: stretch !important;
   }
 
-  #experience-company-memories-row > #experience-info-card {
-    grid-column: span 7 / span 7 !important;
-    height: auto !important;
-  }
-
-  #experience-company-memories-row > #experience-memories-slot {
-    grid-column: span 5 / span 5 !important;
-    position: relative !important;
-    min-height: 0 !important;
-    height: 100% !important;
-    align-self: stretch !important;
-  }
-
-  #experience-company-memories-row > #experience-memories-slot > #experience-memories-card {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 0 !important;
-  }
-
-  #experience-results-commitments-row {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-    align-items: start !important;
-  }
-
-  #experience-results-commitments-row > #experience-results-card {
-    grid-column: span 7 / span 7 !important;
-    height: auto !important;
-  }
-
-  #experience-results-commitments-row > #experience-commitments-card {
-    grid-column: span 5 / span 5 !important;
-    height: auto !important;
-  }
-
-  #experience-results-commitments-row:not(:has(#experience-results-card)) > #experience-commitments-card {
-    grid-column: 1 / -1 !important;
-  }
-
-  #experience-bento-col-left,
-  #experience-bento-col-right {
-    display: contents !important;
-  }
-
-  /* Systems 2 columns (Projects uses .education-responsive-grid auto-fill) */
-  #systems-page-container .systems-cards-grid {
+  /* Projects Responsive Grid Card View: 2 columns */
+  #projects-grid.projects-responsive-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    align-items: stretch !important;
   }
 
   #skills-languages-grid {
@@ -802,13 +775,24 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr)) !important;
     grid-auto-rows: minmax(0, 1fr) !important;
   }
 
   #systems-page-container .systems-cards-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(0, 1fr) !important;
+    grid-auto-rows: 1fr !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+    align-content: start !important;
+    align-items: stretch !important;
+  }
+
+  /* Projects Responsive Grid Card View: 3 columns */
+  #projects-grid.projects-responsive-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    align-items: stretch !important;
   }
 
   #interview-main-content {
@@ -816,77 +800,10 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-rows: minmax(0, 1fr) !important;
   }
 
-  #experience-bento-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-  }
-
-  #experience-bento-grid > #experience-company-memories-row,
-  #experience-bento-grid > #experience-results-commitments-row,
-  #experience-bento-grid > #experience-banner-card,
-  #experience-bento-grid > #experience-video-card-2026,
-  #experience-bento-grid > #experience-detail-footer-nav {
-    grid-column: 1 / -1 !important;
-  }
-
-  #experience-company-memories-row {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-    align-items: stretch !important;
-  }
-
-  #experience-company-memories-row > #experience-info-card {
-    grid-column: span 7 / span 7 !important;
-    height: auto !important;
-  }
-
-  #experience-company-memories-row > #experience-memories-slot {
-    grid-column: span 5 / span 5 !important;
-    position: relative !important;
-    min-height: 0 !important;
-    height: 100% !important;
-    align-self: stretch !important;
-  }
-
-  #experience-company-memories-row > #experience-memories-slot > #experience-memories-card {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 0 !important;
-  }
-
-  #experience-results-commitments-row {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-    align-items: start !important;
-  }
-
-  #experience-results-commitments-row > #experience-results-card {
-    grid-column: span 7 / span 7 !important;
-    height: auto !important;
-  }
-
-  #experience-results-commitments-row > #experience-commitments-card {
-    grid-column: span 5 / span 5 !important;
-    height: auto !important;
-  }
-
-  #experience-results-commitments-row:not(:has(#experience-results-card)) > #experience-commitments-card {
-    grid-column: 1 / -1 !important;
-  }
-
-  #experience-bento-grid > #experience-video-card-2026 {
-    min-height: 360px !important;
-  }
-
-  #experience-bento-col-left {
-    display: flex !important;
-    flex-direction: column !important;
-    grid-column: span 7 / span 7 !important;
-  }
-
-  #experience-bento-col-right {
-    display: flex !important;
-    flex-direction: column !important;
-    grid-column: span 5 / span 5 !important;
+  /* Experience Detail: Pinterest Masonry 2-column Grid */
+  #experience-bento-grid.experience-masonry-grid {
+    column-count: 2 !important;
+    column-gap: 15px !important;
   }
 
   #horoscope-card-1-grid {
@@ -983,13 +900,24 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)) !important;
     grid-auto-rows: minmax(0, 1fr) !important;
   }
 
   #systems-page-container .systems-cards-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(0, 1fr) !important;
+    grid-auto-rows: 1fr !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+    align-content: start !important;
+    align-items: stretch !important;
+  }
+
+  /* Projects Responsive Grid Card View: auto-fill responsive columns on wide desktop */
+  #projects-grid.projects-responsive-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 275px), 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    align-items: stretch !important;
   }
 
   #interview-main-content {
@@ -997,77 +925,10 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-rows: minmax(0, 1fr) !important;
   }
 
-  #experience-bento-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-  }
-
-  #experience-bento-grid > #experience-company-memories-row,
-  #experience-bento-grid > #experience-results-commitments-row,
-  #experience-bento-grid > #experience-banner-card,
-  #experience-bento-grid > #experience-video-card-2026,
-  #experience-bento-grid > #experience-detail-footer-nav {
-    grid-column: 1 / -1 !important;
-  }
-
-  #experience-company-memories-row {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-    align-items: stretch !important;
-  }
-
-  #experience-company-memories-row > #experience-info-card {
-    grid-column: span 7 / span 7 !important;
-    height: auto !important;
-  }
-
-  #experience-company-memories-row > #experience-memories-slot {
-    grid-column: span 5 / span 5 !important;
-    position: relative !important;
-    min-height: 0 !important;
-    height: 100% !important;
-    align-self: stretch !important;
-  }
-
-  #experience-company-memories-row > #experience-memories-slot > #experience-memories-card {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 0 !important;
-  }
-
-  #experience-results-commitments-row {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-    align-items: start !important;
-  }
-
-  #experience-results-commitments-row > #experience-results-card {
-    grid-column: span 7 / span 7 !important;
-    height: auto !important;
-  }
-
-  #experience-results-commitments-row > #experience-commitments-card {
-    grid-column: span 5 / span 5 !important;
-    height: auto !important;
-  }
-
-  #experience-results-commitments-row:not(:has(#experience-results-card)) > #experience-commitments-card {
-    grid-column: 1 / -1 !important;
-  }
-
-  #experience-bento-grid > #experience-video-card-2026 {
-    min-height: 360px !important;
-  }
-
-  #experience-bento-col-left {
-    display: flex !important;
-    flex-direction: column !important;
-    grid-column: span 7 / span 7 !important;
-  }
-
-  #experience-bento-col-right {
-    display: flex !important;
-    flex-direction: column !important;
-    grid-column: span 5 / span 5 !important;
+  /* Experience Detail: Pinterest Masonry 3-column Grid on Wide Desktop */
+  #experience-bento-grid.experience-masonry-grid {
+    column-count: 3 !important;
+    column-gap: 15px !important;
   }
 
   #horoscope-card-1-grid {

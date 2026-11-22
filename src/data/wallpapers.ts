@@ -69,6 +69,14 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     light: neumorphismBeyondWallpaper,
     dark: darkNeumorphismBeyondWallpaper,
   },
+  'frost-ice-neu': {
+    light: 'linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
+    dark: 'linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
+  },
+  'dark-frost-ice-neu': {
+    light: 'linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
+    dark: 'linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
+  },
   'multicolor-glass': {
     light: multicolorGlassWallpaper,
     dark: multicolorGlassWallpaper,
@@ -437,6 +445,34 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000024,
+  },
+  {
+    id: 'theme-bg-frost-ice-neu',
+    name: '❄️ Nền Băng Tuyết Nổi Khối Sáng (Giao diện riêng)',
+    type: 'gradient',
+    value:
+      'background: radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.92) 0%, transparent 48%), radial-gradient(circle at 86% 24%, rgba(168, 212, 248, 0.50) 0%, transparent 54%), radial-gradient(circle at 50% 88%, rgba(186, 218, 245, 0.45) 0%, transparent 56%), linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%);',
+    bg: 'linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.95) 0%, transparent 50%), radial-gradient(circle at 84% 78%, rgba(154, 200, 240, 0.55) 0%, transparent 56%), linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794300000025,
+  },
+  {
+    id: 'theme-bg-dark-frost-ice-neu',
+    name: '🌌 Nền Băng Tuyết Nổi Khối Tối (Giao diện riêng)',
+    type: 'gradient',
+    value:
+      'background: radial-gradient(circle at 18% 14%, rgba(110, 106, 246, 0.16) 0%, transparent 46%), radial-gradient(circle at 84% 22%, rgba(74, 184, 249, 0.14) 0%, transparent 50%), radial-gradient(circle at 74% 84%, rgba(255, 112, 161, 0.10) 0%, transparent 52%), linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%);',
+    bg: 'linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 20% 20%, rgba(110, 106, 246, 0.24) 0%, transparent 48%), radial-gradient(circle at 82% 76%, rgba(74, 184, 249, 0.22) 0%, transparent 52%), linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794300000026,
   },
   {
     id: 'theme-bg-dark-neon-glass',

@@ -61,7 +61,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'deep-ocean' ||
-    currentTheme === 'dark-neumorphism-beyond';
+    currentTheme === 'dark-neumorphism-beyond' ||
+    currentTheme === 'dark-frost-ice-neu';
 
   // Màn hình trang chủ (dùng chung định dạng Video card Giới thiệu)
   const VIDEO_SCREENS: VideoScreenItem[] = [

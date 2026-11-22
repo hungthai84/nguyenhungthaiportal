@@ -10,7 +10,7 @@
   backdrop-filter: blur(22px) saturate(148%) !important;
   -webkit-backdrop-filter: blur(22px) saturate(148%) !important;
   border: 1px solid rgba(14, 165, 233, 0.24) !important;
-  border-radius: var(--radius-card, 16px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   box-shadow: 0 14px 34px rgba(12, 74, 110, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.90) !important;
   color: #0C3B59 !important;
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -113,16 +113,16 @@ html[data-card-style="light-deep-ocean"] {
   --outline-nav-pill: none;
 
   /* Radii */
-  --radius-main: 20px;
-  --radius-card: 16px;
-  --radius-subcard: 12px;
-  --radius-banner: 16px;
-  --radius-modal: 20px;
-  --radius-popup: 16px;
-  --radius-widget: 16px;
-  --radius-input: 12px;
-  --radius-header: 0 0 20px 20px;
-  --radius-footer: 20px 20px 0 0;
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
   --radius-button: 999px;
 
   /* Elevation Shadows */

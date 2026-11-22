@@ -2998,13 +2998,6 @@ export function AboutView({
                     “Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.”
                   </blockquote>
                 </div>
-
-                {/* Footer trích dẫn tác giả */}
-                <div className="pt-2 border-t border-[var(--border-subcard)] flex items-center justify-between gap-2 shrink-0">
-                  <span className="typo-h3 font-handwriting text-blue-600 dark:text-cyan-300 font-bold leading-none">
-                    Nguyễn Hùng Thái
-                  </span>
-                </div>
               </div>
             </div>
         </div>

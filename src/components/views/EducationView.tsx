@@ -227,7 +227,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'deep-ocean' ||
-    currentTheme === 'dark-neumorphism-beyond';
+    currentTheme === 'dark-neumorphism-beyond' ||
+    currentTheme === 'dark-frost-ice-neu';
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');

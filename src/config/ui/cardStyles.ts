@@ -19,6 +19,14 @@ export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: stri
     vi: 'Nổi Khối Kính Mờ Tối',
     en: 'Soft UI Glass Dark',
   },
+  'frost-ice-neu': {
+    vi: 'Băng Tuyết Nổi Khối',
+    en: 'Frost Ice Neumorphism',
+  },
+  'dark-frost-ice-neu': {
+    vi: 'Băng Tuyết Nổi Khối Tối',
+    en: 'Dark Frost Ice Neu',
+  },
 };
 
 export interface ThemeFamilyGroupMeta {
@@ -88,6 +96,19 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     defaultMode: 'neumorphism-beyond',
     lightMode: 'neumorphism-beyond',
     darkMode: 'dark-neumorphism-beyond',
+  },
+  {
+    id: 'frost-ice-neu',
+    label: 'Băng Tuyết Nổi Khối',
+    labelEn: 'Frost Ice Neumorphism',
+    description:
+      'Giao diện Soft Ice-Blue Clay Neumorphism thanh khiết từ hình mẫu: bề mặt băng tuyết xanh ngọc nổi khối kép (#EAF4FC), rãnh lõm tinh tế cùng 4 dải màu điểm nhấn Tím Violet, Xanh Aqua, Cam Mơ và Hồng Rose.',
+    descriptionEn:
+      'Soft Ice-Blue Clay Neumorphism inspired by reference UI: luminous glacier surfaces with dual soft extrusion, recessed pill tracks, and 4 vibrant gradient accents (Violet, Aqua, Apricot, Rose).',
+    icon: 'sparkles',
+    defaultMode: 'frost-ice-neu',
+    lightMode: 'frost-ice-neu',
+    darkMode: 'dark-frost-ice-neu',
   },
   {
     id: 'multicolor-glass',
@@ -450,6 +471,96 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     layerDepth: 0,
   },
   {
+    id: 'frost-ice-neu',
+    familyId: 'frost-ice-neu',
+    familyLabel: 'Băng Tuyết Nổi Khối',
+    familyLabelEn: 'Frost Ice Neumorphism',
+    mechanism: 'light',
+    counterpartMode: 'dark-frost-ice-neu',
+    cardClassName: 'card-frost-ice-neu',
+    name: 'Băng Tuyết Nổi Khối (Sáng)',
+    label: 'Băng Tuyết Nổi Khối',
+    shortBadge: 'Frost Ice Sáng',
+    tagLabel: 'Frost Clay · Soft Ice Neumorphism',
+    modeLabel: 'Băng Tuyết Sáng',
+    isDark: false,
+    icon: 'sun',
+    color: '#6E6AF6',
+    desc: 'Giao diện Soft Ice-Blue Neumorphism trích xuất từ hình mẫu: nền băng xanh phấn #E6F1FB, thẻ nổi khối trắng ngọc mềm mại và 4 dải gradient Tím, Aqua, Cam Mơ, Hồng Rose.',
+    cardSampleStyle: {
+      background: 'linear-gradient(145deg, #F5FAFF 0%, #E7F2FC 100%)',
+      backdropFilter: 'blur(14px) saturate(112%)',
+      WebkitBackdropFilter: 'blur(14px) saturate(112%)',
+      borderRadius: '20px',
+      border: '1px solid rgba(255, 255, 255, 0.90)',
+      boxShadow:
+        '8px 10px 22px rgba(162, 193, 224, 0.36), -6px -6px 16px rgba(255, 255, 255, 0.96), inset 0 1px 0 rgba(255, 255, 255, 0.98)',
+      color: '#25384B',
+    },
+    miniPreviewWrapStyle: {
+      background: 'linear-gradient(145deg, #EDF6FD 0%, #DFECF8 100%)',
+      borderColor: 'rgba(255, 255, 255, 0.92)',
+      boxShadow: 'inset 3px 3px 7px rgba(162, 193, 224, 0.36), inset -3px -3px 7px rgba(255, 255, 255, 0.94)',
+    },
+    miniTabStyle: {
+      background: 'linear-gradient(145deg, #F6FBFF 0%, #E6F1FB 100%)',
+      color: '#25384B',
+      borderColor: 'rgba(255, 255, 255, 0.88)',
+      boxShadow: '4px 5px 10px rgba(162, 193, 224, 0.32), -3px -3px 8px rgba(255, 255, 255, 0.94)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #6E6AF6 0%, #965CE8 55%, #4AB8F9 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-[#EEF6FD] text-[#6E6AF6] border-white/90',
+    layerDepth: 0,
+  },
+  {
+    id: 'dark-frost-ice-neu',
+    familyId: 'frost-ice-neu',
+    familyLabel: 'Băng Tuyết Nổi Khối',
+    familyLabelEn: 'Frost Ice Neumorphism',
+    mechanism: 'dark',
+    counterpartMode: 'frost-ice-neu',
+    cardClassName: 'card-dark-frost-ice-neu',
+    name: 'Băng Tuyết Nổi Khối (Tối)',
+    label: 'Băng Tuyết Nổi Khối Tối',
+    shortBadge: 'Frost Ice Tối',
+    tagLabel: 'Midnight Glacier · Dark Frost Neu',
+    modeLabel: 'Băng Tuyết Tối',
+    isDark: true,
+    icon: 'moon',
+    color: '#8E8BFF',
+    desc: 'Phiên bản tối của Băng Tuyết Nổi Khối: nền băng đêm sâu #101928 nổi khối mềm chống chói, rãnh lõm tinh xảo cùng 4 dải điểm nhấn phát sáng Violet, Aqua, Apricot, Rose.',
+    cardSampleStyle: {
+      background: 'linear-gradient(145deg, #1E2C42 0%, #141F31 100%)',
+      backdropFilter: 'blur(14px) saturate(112%)',
+      WebkitBackdropFilter: 'blur(14px) saturate(112%)',
+      borderRadius: '20px',
+      border: '1px solid rgba(148, 189, 232, 0.18)',
+      boxShadow:
+        '8px 10px 22px rgba(4, 9, 18, 0.68), -5px -5px 14px rgba(44, 67, 102, 0.32), inset 0 1px 0 rgba(186, 218, 250, 0.12)',
+      color: '#F1F8FF',
+    },
+    miniPreviewWrapStyle: {
+      background: 'linear-gradient(145deg, #162235 0%, #0E1725 100%)',
+      borderColor: 'rgba(148, 189, 232, 0.16)',
+      boxShadow: 'inset 3px 3px 7px rgba(4, 9, 18, 0.72), inset -2px -2px 6px rgba(44, 67, 102, 0.28)',
+    },
+    miniTabStyle: {
+      background: 'linear-gradient(145deg, #213049 0%, #172336 100%)',
+      color: '#F1F8FF',
+      borderColor: 'rgba(148, 189, 232, 0.18)',
+      boxShadow: '4px 5px 10px rgba(4, 9, 18, 0.56), -2px -2px 7px rgba(44, 67, 102, 0.28)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #6E6AF6 0%, #965CE8 55%, #4AB8F9 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-[#1B283D] text-[#A4A1FF] border-sky-300/25',
+    layerDepth: 0,
+  },
+  {
     id: 'multicolor-glass',
     familyId: 'multicolor-glass',
     familyLabel: 'Glass UI',
@@ -612,6 +723,18 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     icon: 'sliders',
     light: CARD_STYLES_MAP['neumorphism-beyond'],
     dark: CARD_STYLES_MAP['dark-neumorphism-beyond'],
+  },
+  'frost-ice-neu': {
+    familyId: 'frost-ice-neu',
+    label: 'Băng Tuyết Nổi Khối',
+    labelEn: 'Frost Ice Neumorphism',
+    description:
+      'Băng Tuyết Nổi Khối Sáng & Tối: Soft Clay Neumorphism xanh băng thanh khiết với 4 dải điểm nhấn Tím Violet, Aqua, Cam Mơ, Hồng Rose.',
+    descriptionEn:
+      'Frost Ice Neumorphism Light & Dark: soft glacier clay extrusion paired with Violet, Aqua, Apricot, and Rose luminous accents.',
+    icon: 'sparkles',
+    light: CARD_STYLES_MAP['frost-ice-neu'],
+    dark: CARD_STYLES_MAP['dark-frost-ice-neu'],
   },
   'multicolor-glass': {
     familyId: 'multicolor-glass',

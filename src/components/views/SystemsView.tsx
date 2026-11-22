@@ -574,7 +574,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'black-cowhide-leather' ||
     currentTheme === 'deep-ocean' ||
-    currentTheme === 'dark-neumorphism-beyond';
+    currentTheme === 'dark-neumorphism-beyond' ||
+    currentTheme === 'dark-frost-ice-neu';
   const isLight = !isDark;
   const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'black-cowhide-leather';
 
@@ -1390,10 +1391,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   )}
                 </div>
 
-                <button
+                <div
                   id="systems-intro-video-circle-btn"
-                  type="button"
+                  role="button"
+                  tabIndex={0}
                   onClick={handleToggleCircleVideo}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleToggleCircleVideo();
+                    }
+                  }}
                   aria-label={
                     isCircleVideoPlaying
                       ? isEn
@@ -1463,7 +1471,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       </span>
                     </div>
                   </div>
-                </button>
+                </div>
               </div>
             </div>
           </motion.section>
@@ -1483,8 +1491,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                 id="systems-intro-video-stage"
                 data-element-type="card"
                 data-section-card="true"
-                className="bento-card glass-card w-full h-full flex flex-col rounded-[var(--radius-main,30px)] overflow-hidden border-0 shadow-2xl bg-black relative"
-                style={{ borderRadius: 'var(--radius-main, 30px)' }}
+                className="bento-card glass-card w-full h-full flex flex-col rounded-[var(--radius-main,14px)] overflow-hidden border-0 shadow-2xl bg-black relative"
+                style={{ borderRadius: 'var(--radius-main, 14px)' }}
               >
                 <div className="relative w-full h-full flex-1 bg-black rounded-[inherit] overflow-hidden">
                   <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 shrink-0">
@@ -1695,14 +1703,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             <div
               id="systems-cards-wrapper"
               ref={cardsWrapperRef}
-              className="relative w-full lg:flex-1 lg:min-h-0 flex flex-col"
+              className="relative w-full flex flex-col"
               style={wrapperMinHeight ? { minHeight: `${wrapperMinHeight}px` } : undefined}
             >
               <div
                 id="systems-cards-grid"
                 ref={cardsGridRef}
                 className={cn(
-                  'systems-cards-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full lg:flex-1 min-w-0',
+                  'systems-cards-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr content-start items-stretch gap-[15px] w-full min-w-0',
                   isGridDimmed && 'grid-dimmed'
                 )}
               >
@@ -1750,7 +1758,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             ? meta.borderLight
                             : meta.borderDark,
                       }}
-                      className="system-card-tile system-item bento-card glass-card group relative rounded-[20px] p-[15px] box-border min-h-[192px] h-full w-full flex flex-col justify-between gap-2.5 text-left"
+                      className="system-card-tile system-item bento-card glass-card group relative rounded-[14px] p-[15px] box-border h-full w-full flex flex-col justify-between gap-2.5 text-left"
                     >
                       {/* Demo Video Overlay (Controlled via Explicit Button Only) */}
                       {isDemoActive && item.videoUrl && (
@@ -1926,8 +1934,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           onMouseLeave={() => {
                             setHoveredImageSystemId((prev) => (prev === item.id ? null : prev));
                           }}
-                          style={{ borderRadius: 'var(--radius-card, 20px)' }}
-                          className="relative w-[132px] h-[132px] sm:w-[144px] sm:h-[144px] shrink-0 flex items-center justify-center overflow-hidden border-0 ring-0 shadow-none"
+                          style={{ borderRadius: 'var(--radius-card, 14px)' }}
+                          className="relative w-[132px] h-[132px] sm:w-[144px] sm:h-[144px] shrink-0 flex items-center justify-center overflow-hidden border-0 ring-0 shadow-none rounded-[14px]"
                         >
                           {hoveredImageSystemId === item.id && item.videoUrl ? (
                             <video

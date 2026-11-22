@@ -247,16 +247,19 @@ html[data-theme="multicolor-glass"] {
   --surface-interactive-shadow: var(--shadow-nav-pill);
   --surface-interactive-blur: 18px;
 
-  --radius-main: 26px;
-  --radius-card: 22px;
-  --radius-subcard: 16px;
-  --radius-banner: 22px;
-  --radius-header: 0 0 22px 22px;
-  --radius-footer: 22px 22px 0 0;
+  --radius-main: 20px;
+  --radius-card: 16px;
+  --radius-subcard: 12px;
+  --radius-banner: 16px;
+  --radius-modal: 20px;
+  --radius-popup: 16px;
+  --radius-widget: 16px;
+  --radius-header: 0 0 20px 20px;
+  --radius-footer: 20px 20px 0 0;
   --radius-button: 999px;
   --radius-pill: 999px;
   --radius-badge: 999px;
-  --radius-input: 999px;
+  --radius-input: 12px;
 
   --text-header-title: #0f172a;
   --text-header-sub: #334155;

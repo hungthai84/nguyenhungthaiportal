@@ -107,17 +107,17 @@ html[data-card-style="mica-fluent"] {
   --shadow-nav-pill: 0 4px 16px rgba(15, 23, 42, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.85);
   --outline-nav-pill: none;
 
-  /* Radii (Windows 11 Fluent Rounded Corners) */
-  --radius-main: 18px;
+  /* Radii (Layer Card Standard 20px / 16px / 12px) */
+  --radius-main: 20px;
   --radius-card: 16px;
   --radius-subcard: 12px;
   --radius-banner: 16px;
-  --radius-modal: 18px;
+  --radius-modal: 20px;
   --radius-popup: 16px;
   --radius-widget: 16px;
-  --radius-input: 10px;
-  --radius-header: 0 0 16px 16px;
-  --radius-footer: 16px 16px 0 0;
+  --radius-input: 12px;
+  --radius-header: 0 0 20px 20px;
+  --radius-footer: 20px 20px 0 0;
   --radius-button: 999px;
 
   /* Elevation Shadows */

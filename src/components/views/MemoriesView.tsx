@@ -156,29 +156,36 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
           data-element-type="card"
           data-element-page="memories"
           data-element-parent="memories-cards-track"
-          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+          className="page-main-card flex flex-col justify-start p-[20px] gap-[16px] rounded-[20px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
-      {/* Style for crisp bright image, smooth zoom & fly-up animation */}
+      {/* Style for crisp bright image, smooth zoom & GPU-composited fly-up animation */}
       <style
         dangerouslySetInnerHTML={{
           __html: `
             @keyframes flyUpMemories {
               0% {
                 opacity: 0;
-                transform: translateY(40px) scale(0.96);
+                transform: translate3d(0, 40px, 0) scale3d(0.96, 0.96, 1);
               }
               65% {
                 opacity: 0.95;
-                transform: translateY(-3px) scale(1.01);
+                transform: translate3d(0, -3px, 0) scale3d(1.01, 1.01, 1);
               }
               100% {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
               }
             }
             .memory-photo-item {
               animation: flyUpMemories 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
               will-change: transform, opacity;
+              backface-visibility: hidden;
+            }
+            @media (prefers-reduced-motion: reduce) {
+              .memory-photo-item {
+                animation: none !important;
+                will-change: auto;
+              }
             }
             .memory-crisp-img {
               filter: brightness(1.06) contrast(1.06) saturate(1.06);

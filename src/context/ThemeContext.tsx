@@ -363,7 +363,13 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const checkTimeTheme = () => {
       const hour = new Date().getHours();
       const isNight = hour >= 18 || hour < 6;
-      if (cardStyle === 'liquid-glass' || cardStyle === 'dark-liquid-glass') {
+      if (cardStyle === 'soft-indigo-fintech' || cardStyle === 'dark-soft-indigo-fintech') {
+        if (isNight && cardStyle !== 'dark-soft-indigo-fintech') {
+          setCardStyle('dark-soft-indigo-fintech');
+        } else if (!isNight && cardStyle !== 'soft-indigo-fintech') {
+          setCardStyle('soft-indigo-fintech');
+        }
+      } else if (cardStyle === 'liquid-glass' || cardStyle === 'dark-liquid-glass') {
         if (isNight && cardStyle !== 'dark-liquid-glass') {
           setCardStyle('dark-liquid-glass');
         } else if (!isNight && cardStyle !== 'liquid-glass') {

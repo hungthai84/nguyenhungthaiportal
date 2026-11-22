@@ -30,7 +30,6 @@ import {
   QrCode,
   Download,
   Map as MapIcon,
-  Video as VideoIcon,
 } from 'lucide-react';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SiteTheme } from '@/types';
@@ -422,6 +421,8 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
           top: 0;
           width: 0;
           height: 0;
+          will-change: transform;
+          backface-visibility: hidden;
           animation: u306-r var(--t) linear infinite;
           animation-direction: var(--dir);
         }
@@ -437,12 +438,17 @@ const IntegrationsUI: React.FC<IntegrationsUIProps> = ({ onOpenMap, onNavigatePa
           box-shadow: 0 0 14px rgba(34, 211, 238, 0.12);
         }
         .u306.is-hold .u306-rg, .u306.is-hold .u306-up { animation-play-state: paused; }
-        @keyframes u306-r { to { transform: rotate(360deg); } }
+        @keyframes u306-r { to { transform: rotate3d(0, 0, 1, 360deg); } }
+        @media (prefers-reduced-motion: reduce) {
+          .u306-rg, .u306-up { animation: none !important; will-change: auto; }
+        }
         .u306-sl { position: absolute; left: 0; top: 0; }
         .u306-up {
           position: absolute;
           left: -18px;
           top: -18px;
+          will-change: transform;
+          backface-visibility: hidden;
           animation: u306-r var(--t) linear infinite;
           animation-direction: var(--rdir);
         }
@@ -1952,72 +1958,6 @@ export function AboutView({
                         Thông tin chi tiết
                       </h3>
                     </div>
-
-                    <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
-                      <button
-                        type="button"
-                        id="about-toggle-media-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleHeroMediaMode();
-                        }}
-                        title={
-                          activeHeroMedia === 'video'
-                            ? 'Chuyển khung trái sang Bản đồ (Phím M)'
-                            : 'Quay lại Video chân dung (Phím M)'
-                        }
-                        aria-label="Chuyển đổi giữa Video và Bản đồ"
-                        className={cn(
-                          'banner-control-pill inline-flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-full typo-badge font-semibold font-play cursor-pointer transition-all active:scale-95 whitespace-nowrap shrink-0',
-                          activeHeroMedia === 'map' && 'ring-1 ring-cyan-500/60 text-cyan-700 dark:text-cyan-300'
-                        )}
-                      >
-                        {activeHeroMedia === 'video' ? (
-                          <MapIcon className="w-3.5 h-3.5 shrink-0" />
-                        ) : (
-                          <VideoIcon className="w-3.5 h-3.5 shrink-0" />
-                        )}
-                        <span className="hidden sm:inline">{activeHeroMedia === 'video' ? 'Bản đồ' : 'Video'}</span>
-                        <kbd className="hidden md:inline-block px-1 py-0 text-[10px] rounded bg-black/10 dark:bg-white/10 font-mono">
-                          M
-                        </kbd>
-                      </button>
-
-                      <button
-                        type="button"
-                        id="about-copy-vcard-btn"
-                        onClick={handleCopyFullVCard}
-                        title="Sao chép toàn bộ thông tin danh thiếp chỉ với một chạm"
-                        aria-label="Sao chép toàn bộ thông tin liên hệ"
-                        className={cn(
-                          'banner-control-pill inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold font-play cursor-pointer transition-all active:scale-95 whitespace-nowrap shrink-0',
-                          isVCardCopied && 'text-emerald-600 dark:text-emerald-300 ring-1 ring-emerald-500/50'
-                        )}
-                      >
-                        {isVCardCopied ? (
-                          <Check className="w-3.5 h-3.5 shrink-0 text-emerald-500" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5 shrink-0" />
-                        )}
-                        <span className="hidden xl:inline">{isVCardCopied ? 'Đã chép' : 'Sao chép'}</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        id="about-qr-vcard-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          SoundEngine.playPop();
-                          setIsQrModalOpen(true);
-                        }}
-                        title="Tạo mã QR danh thiếp vCard động để lưu vào danh bạ"
-                        aria-label="Mở mã QR danh thiếp cá nhân"
-                        className="banner-control-pill inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold font-play cursor-pointer transition-all active:scale-95 whitespace-nowrap shrink-0"
-                      >
-                        <QrCode className="w-3.5 h-3.5 shrink-0" />
-                        <span className="hidden sm:inline">QR</span>
-                      </button>
-                    </div>
                   </div>
 
                   {/* Sub-Card Bento Grid (Sắp xếp 3 tầng ưu tiên: Liên hệ trực tiếp -> Bản đồ vị trí -> Nhân khẩu học, 6 hàng cân đối không ô trống) */}
@@ -2390,10 +2330,7 @@ export function AboutView({
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-2"
-              style={{
-                padding: '15px',
-              }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-full flex flex-col justify-between gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-full flex flex-col justify-between gap-[16px] text-left rounded-[16px] p-[16px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2406,7 +2343,7 @@ export function AboutView({
               </div>
 
               {/* 3 Core Values Grid (Không có speaker, không lật thẻ) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-[15px] items-stretch flex-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-[12px] items-stretch flex-1">
                 {/* Core Value 1: Tận tâm trách nhiệm */}
                 <div
                   data-subcard="true"
@@ -2418,7 +2355,7 @@ export function AboutView({
                     showToast('Giá trị 01: Tận tâm trách nhiệm - Dốc trọn tâm sức');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[12px] p-[12px] gap-[12px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-1') &&
                       'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
                   )}
@@ -2446,7 +2383,7 @@ export function AboutView({
                     showToast('Giá trị 02: Kịp Thời - Nhanh nhạy & Đúng lúc');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[12px] p-[12px] gap-[12px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
                   )}
@@ -2474,7 +2411,7 @@ export function AboutView({
                     showToast('Giá trị 03: Đồng Cảm Chân Thành - Lắng nghe & Thấu cảm');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] gap-[15px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card layered-card rounded-[12px] p-[12px] gap-[12px] shadow-md flex flex-col justify-center min-h-[168px] sm:min-h-[175px] relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-3') &&
                       'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
                   )}
@@ -2500,12 +2437,9 @@ export function AboutView({
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-2"
-              style={{
-                padding: '15px',
-              }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-full flex flex-col justify-between gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-full flex flex-col justify-between gap-[16px] text-left rounded-[16px] p-[16px] overflow-hidden group select-none relative"
             >
-              <div className="relative z-10 flex flex-col justify-between h-full gap-[15px]">
+              <div className="relative z-10 flex flex-col justify-between h-full gap-[16px]">
                 {/* Header */}
                 <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
                   <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">

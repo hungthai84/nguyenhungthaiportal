@@ -113,16 +113,16 @@ html[data-card-style="deep-ocean"] {
   --outline-nav-pill: none;
 
   /* Radii */
-  --radius-main: 26px;
-  --radius-card: 22px;
-  --radius-subcard: 16px;
-  --radius-banner: 22px;
-  --radius-modal: 24px;
-  --radius-popup: 20px;
-  --radius-widget: 20px;
-  --radius-input: 14px;
-  --radius-header: 0 0 22px 22px;
-  --radius-footer: 22px 22px 0 0;
+  --radius-main: 20px;
+  --radius-card: 16px;
+  --radius-subcard: 12px;
+  --radius-banner: 16px;
+  --radius-modal: 20px;
+  --radius-popup: 16px;
+  --radius-widget: 16px;
+  --radius-input: 12px;
+  --radius-header: 0 0 20px 20px;
+  --radius-footer: 20px 20px 0 0;
   --radius-button: 999px;
 
   /* Elevation Shadows */
@@ -260,22 +260,6 @@ html[data-card-style="deep-ocean"] :is(input, textarea, select):not([type="range
   color: #F0F8FF !important;
 }
 
-/* Aqua light traversing animation and subtle water current effect */
-@keyframes deepOceanGlow {
-  0% {
-    border-color: rgba(56, 189, 248, 0.28);
-    box-shadow: 0 18px 40px rgba(5, 11, 20, 0.72), inset 0 1px 2px rgba(56, 189, 248, 0.20);
-  }
-  50% {
-    border-color: rgba(6, 182, 212, 0.56);
-    box-shadow: 0 20px 45px rgba(6, 182, 212, 0.24), inset 0 1px 3px rgba(6, 182, 212, 0.34);
-  }
-  100% {
-    border-color: rgba(56, 189, 248, 0.28);
-    box-shadow: 0 18px 40px rgba(5, 11, 20, 0.72), inset 0 1px 2px rgba(56, 189, 248, 0.20);
-  }
-}
-
 html[data-card-style="deep-ocean"] :is(
   .banner-card,
   .hero-banner,
@@ -290,10 +274,10 @@ html[data-card-style="deep-ocean"] :is(
 ) {
   background: linear-gradient(145deg, rgba(12, 28, 58, 0.82) 0%, rgba(8, 22, 46, 0.76) 100%) !important;
   border: 1px solid rgba(56, 189, 248, 0.34) !important;
-  border-radius: var(--radius-banner, 22px) !important;
+  border-radius: var(--radius-banner, 16px) !important;
+  box-shadow: 0 18px 40px rgba(5, 11, 20, 0.72), inset 0 1px 2px rgba(56, 189, 248, 0.24) !important;
   backdrop-filter: blur(20px) saturate(145%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(145%) !important;
-  animation: deepOceanGlow 8s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

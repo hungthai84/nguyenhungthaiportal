@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="dark-soft-indigo-fintech"], [data-theme="dark-soft-indigo-fintech"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -139,6 +139,7 @@
 @import "./styles/base.css";
 @import "./styles/layout.css";
 @import "./styles/cards.css";
+@import "./styles/themes/soft-indigo-fintech.css";
 @import "./styles/themes/liquid-glass.css";
 @import "./styles/themes/cowhide-leather.css";
 @import "./styles/themes/deep-ocean.css";
@@ -149,17 +150,8 @@
 @import "./styles/container-system.css";
 
 /* ========================================================================= */
-/* UNIFIED MOTION UTILITY SYSTEM — STANDARDIZED TRANSITIONS & CURVES         */
+/* UNIFIED MOTION UTILITY SYSTEM — GPU-SAFE TRANSITIONS & CURVES             */
 /* ========================================================================= */
-@keyframes causticBreathe {
-  0%, 100% {
-    box-shadow: 0 12px 28px -6px rgba(50, 40, 80, 0.11), 0 4px 12px -2px rgba(50, 40, 80, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  }
-  50% {
-    box-shadow: 0 18px 36px -4px rgba(124, 92, 255, 0.22), 0 6px 16px -2px rgba(103, 199, 199, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.88);
-  }
-}
-
 .motion-card,
 .bento-card,
 .glass-card,
@@ -168,7 +160,8 @@
               box-shadow var(--motion-normal, 220ms) var(--ease-standard, cubic-bezier(0.2, 0.7, 0.2, 1)),
               border-color var(--motion-fast, 150ms) ease,
               background-color var(--motion-normal, 220ms) ease !important;
-  animation: causticBreathe 7s ease-in-out infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .motion-card:hover,
@@ -1119,15 +1112,15 @@ html.dark[data-card-style] #about-intro-card-2 {
   backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
   border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
-  border-radius: var(--radius-main, 14px) !important;
-  padding: var(--main-card-padding, 15px) !important;
-  padding-top: var(--main-card-padding, 15px) !important;
-  padding-right: var(--main-card-padding, 15px) !important;
-  padding-bottom: var(--main-card-padding, 15px) !important;
-  padding-left: var(--main-card-padding, 15px) !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
+  border-radius: var(--radius-main, 20px) !important;
+  padding: var(--main-card-padding, 20px) !important;
+  padding-top: var(--main-card-padding, 20px) !important;
+  padding-right: var(--main-card-padding, 20px) !important;
+  padding-bottom: var(--main-card-padding, 20px) !important;
+  padding-left: var(--main-card-padding, 20px) !important;
+  gap: 16px !important;
+  row-gap: 16px !important;
+  column-gap: 16px !important;
   transition: box-shadow 260ms ease, border-color 240ms ease, outline-color 240ms ease, background 260ms ease, color 260ms ease !important;
   box-sizing: border-box !important;
 }
@@ -1191,11 +1184,11 @@ html #contact-main-card > div:first-child {
     backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
     -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%)) !important;
     border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
-    border-radius: var(--radius-main, 14px) !important;
-    padding: var(--main-card-padding, 15px) !important;
-    gap: 15px !important;
-    row-gap: 15px !important;
-    column-gap: 15px !important;
+    border-radius: var(--radius-main, 20px) !important;
+    padding: var(--main-card-padding, 20px) !important;
+    gap: 16px !important;
+    row-gap: 16px !important;
+    column-gap: 16px !important;
     box-shadow: none !important;
     transform: none !important;
     animation: none !important;
@@ -1356,11 +1349,11 @@ html #wallpaper-page-container [id^="wallpaper-card-media-"],
 html #wallpaper-page-container #wallpaper-card-preview-none,
 html #memories-page-container [id^="memory-card-"],
 html .memory-photo-item {
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: var(--radius-card, 16px) !important;
   overflow: hidden !important;
   isolation: isolate;
-  -webkit-clip-path: inset(0 round var(--radius-card, 14px));
-  clip-path: inset(0 round var(--radius-card, 14px));
+  -webkit-clip-path: inset(0 round var(--radius-card, 16px));
+  clip-path: inset(0 round var(--radius-card, 16px));
 }
 
 html #education-courses-grid .education-course-card .education-card-banner img,
@@ -1372,7 +1365,7 @@ html #wallpaper-page-container [id^="wallpaper-card-media-"] > video,
 html #wallpaper-page-container [id^="wallpaper-card-media-"] > div,
 html #memories-page-container [id^="memory-card-"] > img,
 html .memory-photo-item > img.memory-crisp-img {
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: var(--radius-card, 16px) !important;
 }
 
 /* 4. Hero Banners (#services-hero-banner & All Similar Banners): All-Theme Sync + Deep Drop Shadow across All Viewports */
@@ -1394,8 +1387,8 @@ html[data-card-style] #interview-questions-card,
 html[data-card-style] #pdf-hero-banner,
 html #contact-main-card #contact-hero-banner,
 html[data-card-style] #contact-main-card #contact-hero-banner {
-  border-radius: var(--radius-banner, var(--radius-card, 14px)) !important;
-  padding: 15px !important;
+  border-radius: var(--radius-banner, var(--radius-card, 16px)) !important;
+  padding: 16px !important;
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
   transform: none !important;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -1409,14 +1402,14 @@ html #project-detail-banner,
 html[data-card-style] #project-detail-banner {
   overflow: hidden !important;
   isolation: isolate;
-  -webkit-clip-path: inset(0 round var(--radius-banner, var(--radius-card, 14px)));
-  clip-path: inset(0 round var(--radius-banner, var(--radius-card, 14px)));
+  -webkit-clip-path: inset(0 round var(--radius-banner, var(--radius-card, 16px)));
+  clip-path: inset(0 round var(--radius-banner, var(--radius-card, 16px)));
 }
 
 html :is(.hero-banner, .banner-card, [id$="-hero-banner"], #interview-questions-card, #project-detail-banner, #contact-main-card #contact-hero-banner) .project-detail-banner-media,
 html :is(.hero-banner, .banner-card, [id$="-hero-banner"], #interview-questions-card, #project-detail-banner, #contact-main-card #contact-hero-banner) .project-detail-banner-media :is(img, video),
 html :is(.hero-banner, .banner-card, [id$="-hero-banner"], #interview-questions-card, #project-detail-banner, #contact-main-card #contact-hero-banner) .project-detail-banner-scrim {
-  border-radius: var(--radius-banner, var(--radius-card, 14px)) !important;
+  border-radius: var(--radius-banner, var(--radius-card, 16px)) !important;
 }
 
 /* Enhanced Clarity & Sharpness for Hero Banners & Banner Background Images */
@@ -1552,42 +1545,49 @@ html [id$="-cards-track"]::after {
 }
 
 /* ========================================================================= */
-/* MASTER OVERRIDE A: STRICT 15PX PADDING & 15PX GAP AT ALL VIEWPORTS        */
+/* MASTER OVERRIDE A: LAYER CARD PADDING & GAP (16px CARDS / 12px SUBCARDS)  */
 /* ========================================================================= */
 @media all {
   html #experience-job-detail-card,
   html[data-card-style] #experience-job-detail-card,
   html .exp-bento-surface-card,
   html[data-card-style] .exp-bento-surface-card,
-  html .exp-bento-item-card:not(.exp-bento-rect-btn.aspect-\[16\/10\]),
-  html[data-card-style] .exp-bento-item-card:not(.exp-bento-rect-btn.aspect-\[16\/10\]),
   html .exp-detail-card,
   html[data-card-style] .exp-detail-card,
-  html .exp-detail-subcard,
-  html[data-card-style] .exp-detail-subcard,
   html .project-detail-section-card,
   html[data-card-style] .project-detail-section-card,
-  html .project-detail-subcard,
-  html[data-card-style] .project-detail-subcard,
   html .education-card,
   html[data-card-style] .education-card,
-  html .education-subcard,
-  html[data-card-style] .education-subcard,
-  html .letter-subcard,
-  html[data-card-style] .letter-subcard,
   html .swot-quadrant-card,
   html[data-card-style] .swot-quadrant-card,
   html .theme-modal-card,
   html[data-card-style] .theme-modal-card,
+  html [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(.main-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video):not(#interview-questions-card):not(.project-card):not(.education-course-card):not([id^="memory-card-"]):not(.memory-photo-item):not([id^="wallpaper-card-"]):not([id$="-page-container"]):not([id$="-page-root"]) {
+    padding: var(--space-card-padding, 16px) !important;
+    gap: var(--space-card-gap, 16px) !important;
+    row-gap: var(--space-card-gap, 16px) !important;
+    column-gap: var(--space-card-gap, 16px) !important;
+    box-sizing: border-box !important;
+  }
+
+  html .exp-bento-item-card:not(.exp-bento-rect-btn.aspect-\[16\/10\]),
+  html[data-card-style] .exp-bento-item-card:not(.exp-bento-rect-btn.aspect-\[16\/10\]),
+  html .exp-detail-subcard,
+  html[data-card-style] .exp-detail-subcard,
+  html .project-detail-subcard,
+  html[data-card-style] .project-detail-subcard,
+  html .education-subcard,
+  html[data-card-style] .education-subcard,
+  html .letter-subcard,
+  html[data-card-style] .letter-subcard,
   html .theme-modal-subcard,
   html[data-card-style] .theme-modal-subcard,
-  html [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(.main-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video):not(#interview-questions-card):not(.project-card):not(.education-course-card):not([id^="memory-card-"]):not(.memory-photo-item):not([id^="wallpaper-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
   html [data-subcard="true"]:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video),
   html .sub-card:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video) {
-    padding: 15px !important;
-    gap: 15px !important;
-    row-gap: 15px !important;
-    column-gap: 15px !important;
+    padding: var(--space-subcard-padding, 12px) !important;
+    gap: var(--space-subcard-gap, 12px) !important;
+    row-gap: var(--space-subcard-gap, 12px) !important;
+    column-gap: var(--space-subcard-gap, 12px) !important;
     box-sizing: border-box !important;
   }
 
@@ -1606,9 +1606,9 @@ html [id$="-cards-track"]::after {
   html .exp-bento-surface-card > *,
   html [data-main-card="true"] > div.grid,
   html [data-main-card="true"] > div.flex-col {
-    gap: 15px !important;
-    row-gap: 15px !important;
-    column-gap: 15px !important;
+    gap: 16px !important;
+    row-gap: 16px !important;
+    column-gap: 16px !important;
   }
 
   /* Preserve explicit 10px card rules (video cards enforce 5px padding globally) */
@@ -2808,7 +2808,7 @@ html #el-p0-div-98::after {
 /* ========================================================================= */
 /* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL ACTIVE THEMES)      */
 /* ========================================================================= */
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"], [data-card-style="neumorphism-beyond"]) :is(
+html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], [data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"], [data-card-style="neumorphism-beyond"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
   #projects-grid .project-card .project-card-banner,
   .hero-banner .project-detail-banner-media,
@@ -2827,9 +2827,9 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"],
   #project-detail-banner .project-detail-banner-media :is(img, video),
   #project-detail-banner .project-detail-banner-scrim
 ) {
-  border-radius: var(--radius-banner, 24px) !important;
-  -webkit-clip-path: inset(0 round var(--radius-banner, 24px)) !important;
-  clip-path: inset(0 round var(--radius-banner, 24px)) !important;
+  border-radius: var(--radius-banner, 16px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-banner, 16px)) !important;
+  clip-path: inset(0 round var(--radius-banner, 16px)) !important;
 }
 
 /* ========================================================================= */

@@ -532,8 +532,8 @@
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
-  border-radius: var(--radius-banner, 14px) !important;
-  padding: 15px !important;
+  border-radius: var(--radius-banner, 16px) !important;
+  padding: 16px !important;
 }
 
 @media (min-width: 640px) {
@@ -583,8 +583,8 @@
     max-height: none !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    border-radius: var(--radius-banner, 14px) !important;
-    padding: 15px !important;
+    border-radius: var(--radius-banner, 16px) !important;
+    padding: 16px !important;
   }
 
   #interview-main-content {
@@ -605,8 +605,8 @@
     min-height: 0 !important;
     max-height: 100% !important;
     align-self: stretch !important;
-    border-radius: var(--radius-card, 14px) !important;
-    padding: 15px !important;
+    border-radius: var(--radius-card, 16px) !important;
+    padding: 16px !important;
   }
 
   #projects-hero-banner {
@@ -617,8 +617,8 @@
     max-height: none !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    border-radius: var(--radius-banner, 14px) !important;
-    padding: 15px !important;
+    border-radius: var(--radius-banner, 16px) !important;
+    padding: 16px !important;
   }
 }
 
@@ -633,14 +633,14 @@
     max-height: none !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    border-radius: var(--radius-banner, 14px) !important;
-    padding: 15px !important;
+    border-radius: var(--radius-banner, 16px) !important;
+    padding: 16px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
-    gap: 15px !important;
-    row-gap: 15px !important;
-    column-gap: 15px !important;
+    gap: 16px !important;
+    row-gap: 16px !important;
+    column-gap: 16px !important;
   }
 
   #interview-questions-card,
@@ -651,8 +651,8 @@
     min-height: 0 !important;
     max-height: 100% !important;
     align-self: stretch !important;
-    border-radius: var(--radius-card, 14px) !important;
-    padding: 15px !important;
+    border-radius: var(--radius-card, 16px) !important;
+    padding: 16px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;

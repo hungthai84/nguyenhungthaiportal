@@ -605,6 +605,11 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
 
   return (
     <div id="xray-inspector-root" className="fixed inset-0 pointer-events-none z-[99999] select-none font-play">
+      <style>{`
+        body *:not(#xray-inspector-root):not(#xray-inspector-root *) {
+          cursor: ${pinnedTargets.length > 0 && !isShiftHeld && !isShiftAddMode ? 'not-allowed' : 'crosshair'} !important;
+        }
+      `}</style>
       {/* Trạng thái thanh chỉ dẫn nhanh trên cùng khi đang bật X-Ray & có đối tượng ghim */}
       {pinnedTargets.length > 0 && (
         <div className="fixed top-3 left-1/2 -translate-x-1/2 pointer-events-auto z-[100001] inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/90 text-white border border-white/20 shadow-lg backdrop-blur-md text-[11px] font-play whitespace-nowrap max-w-[calc(100vw-24px)] overflow-x-auto no-scrollbar">

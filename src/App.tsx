@@ -426,7 +426,7 @@ export default function App() {
     [currentTabIndex, pageSlides]
   );
 
-  const activeTheme = cardStyle || (isDark ? 'dark-liquid-glass' : 'liquid-glass');
+  const activeTheme = cardStyle || (isDark ? 'dark-soft-indigo-fintech' : 'soft-indigo-fintech');
 
   const renderActiveView = () => {
     switch (currentTabIndex) {

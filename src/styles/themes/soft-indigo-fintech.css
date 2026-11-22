@@ -1,0 +1,624 @@
+/* ========================================================================= */
+/* THEME SYSTEM: SOFT INDIGO FINTECH (LIGHT DEFAULT & DARK VARIANT)          */
+/* Visual Grammar: Soft layered cards · Indigo gradient hero · Pill bars     */
+/* Light Canvas: #EEF0FA -> #DCE0F5 · Pure #FFFFFF KPI cards (20/16/12px)    */
+/* Stacked right-edge tabs · #6C4CE6 -> #4E2AD4 hero · #A3E635 -> #38BDF8    */
+/* ========================================================================= */
+
+/* ------------------------------------------------------------------------- */
+/* 1. SOFT INDIGO FINTECH · SÁNG (Default Light Theme)                       */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="soft-indigo-fintech"],
+html[data-card-style="soft-indigo-fintech"] body,
+html[data-theme="soft-indigo-fintech"],
+html:not([data-card-style]) {
+  --color-bg: #EEF0FA;
+  --color-bg-soft: #DCE0F5;
+  --color-bg-blue: #E2E6F8;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-surface-indigo: #EEF0FA;
+  --color-surface-cyan: #E6F7FE;
+  --color-surface-green: #DCFCE7;
+
+  --color-heading: #191B38;
+  --color-text: #191B38;
+  --color-text-secondary: #4B527A;
+  --color-text-muted: #656C91;
+  --color-text-inverse: #FFFFFF;
+
+  --color-primary: #5E48E8;
+  --color-secondary: #6C4CE6;
+  --color-tertiary: #38BDF8;
+  --color-indigo: #5E48E8;
+  --color-violet: #6C4CE6;
+  --color-blue: #4E2AD4;
+  --color-cyan: #38BDF8;
+  --color-lime: #A3E635;
+  --color-green: #10B981;
+
+  --text-primary: #191B38;
+  --text-secondary: #4B527A;
+  --text-muted: #656C91;
+  --text-heading: #191B38;
+  --text-link: #4E2AD4;
+  --text-accent: #5E48E8;
+  --text-input: #191B38;
+  --text-placeholder: #6E769B;
+  --text-on-dark: #FFFFFF;
+  --text-button-primary: #FFFFFF;
+  --text-button-secondary: #191B38;
+  --text-badge: #047857;
+  --text-highlight: #5E48E8;
+
+  /* FinTech Semantic Tokens */
+  --fintech-pill-bar-pastel: #A5B4FC;
+  --fintech-pill-bar-active: #5E48E8;
+  --fintech-gauge-gradient: linear-gradient(90deg, #A3E635 0%, #38BDF8 100%);
+  --fintech-hero-gradient: linear-gradient(145deg, #6C4CE6 0%, #5E48E8 48%, #4E2AD4 100%);
+  --fintech-badge-bg: #DCFCE7;
+  --fintech-badge-text: #047857;
+  --fintech-badge-dot: #10B981;
+
+  /* Background Canvas (#EEF0FA on #DCE0F5 lavender frame) */
+  --app-bg-base: #EEF0FA;
+  --app-bg-gradient:
+    radial-gradient(ellipse 76% 60% at 12% 14%, rgba(108, 76, 230, 0.22) 0%, transparent 56%),
+    radial-gradient(ellipse 72% 58% at 88% 16%, rgba(56, 189, 248, 0.20) 0%, transparent 54%),
+    radial-gradient(ellipse 68% 54% at 80% 88%, rgba(163, 230, 53, 0.14) 0%, transparent 54%),
+    radial-gradient(ellipse 72% 58% at 18% 84%, rgba(165, 180, 252, 0.28) 0%, transparent 56%),
+    linear-gradient(135deg, #EEF0FA 0%, #E3E7F7 52%, #DCE0F5 100%);
+
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: rgba(108, 76, 230, 0.22);
+  --ambient-glow-2: rgba(56, 189, 248, 0.18);
+  --ambient-glow-3: rgba(165, 180, 252, 0.22);
+  --ambient-glow-4: rgba(16, 185, 129, 0.12);
+  --ambient-wave-1: rgba(108, 76, 230, 0.15);
+  --ambient-wave-2: rgba(56, 189, 248, 0.14);
+  --ambient-depth-vignette: radial-gradient(circle at 50% 42%, transparent 58%, rgba(94, 72, 232, 0.08) 100%);
+  --ambient-wallpaper-opacity: 0.78;
+
+  /* Liquid Glass Specular Rims (for Floating Nav / Action Buttons / Shell) */
+  --liquid-specular-rim: rgba(255, 255, 255, 0.94);
+  --liquid-rim-soft: rgba(255, 255, 255, 0.78);
+  --liquid-rim-inset: inset 0 1px 0 rgba(255, 255, 255, 0.96), inset 0 -1px 0 rgba(94, 72, 232, 0.08);
+  --liquid-specular-sheen: linear-gradient(130deg, rgba(255, 255, 255, 0.56) 0%, rgba(255, 255, 255, 0.12) 48%, rgba(165, 180, 252, 0.20) 100%);
+
+  /* Translucent Lavender-Glass Level-1 Shell vs Pure White #FFFFFF Level-2 KPI Cards */
+  --bg-main: rgba(238, 240, 250, 0.74);
+  --bg-header: linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(238, 240, 250, 0.68) 100%);
+  --bg-footer: linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(238, 240, 250, 0.68) 100%);
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FFFFFF;
+  --bg-subcard: #F8F9FE;
+  --bg-subcard-hover: #FFFFFF;
+  --bg-nested-card: #F3F5FC;
+  --bg-popup: rgba(255, 255, 255, 0.94);
+  --bg-dropdown: rgba(255, 255, 255, 0.96);
+  --bg-tooltip: #191B38;
+
+  --bg-nav-pill: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(238, 240, 250, 0.58) 100%);
+  --bg-nav-pill-hover: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(240, 243, 255, 0.88) 100%);
+  --bg-button-primary: linear-gradient(135deg, #6C4CE6 0%, #5E48E8 55%, #4E2AD4 100%);
+  --bg-button-secondary: rgba(255, 255, 255, 0.86);
+  --bg-button-hover: #FFFFFF;
+
+  --bg-input: rgba(255, 255, 255, 0.94);
+  --bg-badge: #DCFCE7;
+  --bg-highlight: rgba(94, 72, 232, 0.12);
+  --bg-banner: rgba(255, 255, 255, 0.90);
+
+  --border-color: rgba(255, 255, 255, 0.88);
+  --border-card: rgba(199, 207, 244, 0.72);
+  --border-subcard: rgba(199, 207, 244, 0.56);
+  --border-input: rgba(165, 180, 252, 0.52);
+  --border-popup: rgba(255, 255, 255, 0.92);
+  --color-focus-ring: #5E48E8;
+
+  --bg-blur: 22px;
+  --glass-blur: 22px;
+  --blur-subcard: 10px;
+  --blur-nav-pill: 18px;
+  --blur-modal: 26px;
+  --glass-saturate: 150%;
+  --card-border-width: 1px;
+
+  /* Soft Purple Shadows + Subtle Stacked Right-Edge Layered Card Tab */
+  --shadow-card:
+    0 12px 28px -6px rgba(94, 72, 232, 0.12),
+    0 4px 12px -2px rgba(78, 42, 212, 0.06),
+    4px 0 0 -1px rgba(108, 76, 230, 0.14),
+    7px 0 0 -2px rgba(56, 189, 248, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  --shadow-card-hover:
+    0 18px 36px -6px rgba(94, 72, 232, 0.18),
+    0 6px 16px -3px rgba(78, 42, 212, 0.09),
+    5px 0 0 -1px rgba(108, 76, 230, 0.20),
+    9px 0 0 -2px rgba(56, 189, 248, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  --shadow-subcard:
+    0 6px 16px -4px rgba(94, 72, 232, 0.09),
+    0 2px 6px rgba(78, 42, 212, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94);
+  --shadow-subcard-hover:
+    0 10px 24px -4px rgba(94, 72, 232, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  --shadow-nav-pill:
+    0 6px 18px -4px rgba(94, 72, 232, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --shadow-button: 0 10px 24px -4px rgba(94, 72, 232, 0.36);
+  --shadow-popup:
+    0 22px 54px -12px rgba(78, 42, 212, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+
+  /* Surface Tokens */
+  --surface-primary-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.68) 0%, rgba(238, 240, 250, 0.56) 100%);
+  --surface-primary-border: rgba(255, 255, 255, 0.92);
+  --surface-primary-shadow:
+    0 20px 48px -12px rgba(94, 72, 232, 0.15),
+    0 6px 18px -4px rgba(78, 42, 212, 0.07),
+    var(--liquid-rim-inset);
+  --surface-primary-blur: 22px;
+  --surface-primary-saturate: 155%;
+
+  --surface-secondary-bg: #FFFFFF;
+  --surface-secondary-border: rgba(199, 207, 244, 0.72);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-shadow-hover: var(--shadow-card-hover);
+  --surface-secondary-blur: 0px;
+  --surface-secondary-saturate: 100%;
+
+  --surface-tertiary-bg: #F8F9FE;
+  --surface-tertiary-hover: #FFFFFF;
+  --surface-tertiary-border: rgba(199, 207, 244, 0.62);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-shadow-hover: var(--shadow-subcard-hover);
+  --surface-tertiary-blur: 0px;
+  --surface-tertiary-saturate: 100%;
+
+  --surface-nested-bg: #F3F5FC;
+  --surface-nested-border: rgba(199, 207, 244, 0.52);
+  --surface-nested-shadow: 0 3px 10px -4px rgba(94, 72, 232, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.94);
+
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: var(--bg-nav-pill-hover);
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: rgba(255, 255, 255, 0.90);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 18px;
+
+  /* Unified Layer Card Radii (20px / 16px / 12px) */
+  --radius-main: 20px;
+  --radius-card: 16px;
+  --radius-subcard: 12px;
+  --radius-banner: 16px;
+  --radius-modal: 20px;
+  --radius-popup: 16px;
+  --radius-widget: 16px;
+  --radius-input: 12px;
+  --radius-header: 0 0 20px 20px;
+  --radius-footer: 20px 20px 0 0;
+  --radius-button: 999px;
+  --radius-pill: 999px;
+  --radius-badge: 999px;
+
+  --text-header-title: #191B38;
+  --text-header-sub: #4B527A;
+  --text-nav-default: #262952;
+  --text-nav-active: #FFFFFF;
+  --text-nav-arrow: #262952;
+  --text-banner-pill: #191B38;
+  --text-banner-input: #191B38;
+  --text-banner-placeholder: #656C91;
+  --pillar-heading: #191B38;
+  --pillar-sub: #5E48E8;
+  --pillar-body: #4B527A;
+  --pillar-badge-bg: #DCFCE7;
+  --pillar-badge-text: #047857;
+  --pillar-progress-track: rgba(165, 180, 252, 0.34);
+  --pillar-progress-fill: linear-gradient(90deg, #A3E635 0%, #38BDF8 100%);
+}
+
+/* ------------------------------------------------------------------------- */
+/* 2. SOFT INDIGO FINTECH · TỐI (Dark Soft Indigo Variant)                   */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="dark-soft-indigo-fintech"],
+html[data-card-style="dark-soft-indigo-fintech"] body,
+html[data-theme="dark-soft-indigo-fintech"] {
+  --color-bg: #0E1225;
+  --color-bg-soft: #151A33;
+  --color-bg-blue: #1C2240;
+  --color-surface: #1C2240;
+  --color-surface-elevated: #232A4D;
+  --color-surface-indigo: #232852;
+  --color-surface-cyan: #152B42;
+  --color-surface-green: #122E2B;
+
+  --color-heading: #F4F6FF;
+  --color-text: #EEF1FF;
+  --color-text-secondary: #C6CCE8;
+  --color-text-muted: #98A2CA;
+  --color-text-inverse: #0E1225;
+
+  --color-primary: #8B7BFF;
+  --color-secondary: #6C4CE6;
+  --color-tertiary: #38BDF8;
+  --color-indigo: #8B7BFF;
+  --color-violet: #A594FF;
+  --color-blue: #60A5FA;
+  --color-cyan: #38BDF8;
+  --color-lime: #A3E635;
+  --color-green: #34D399;
+
+  --text-primary: #EEF1FF;
+  --text-secondary: #C6CCE8;
+  --text-muted: #98A2CA;
+  --text-heading: #F8F9FF;
+  --text-link: #A5B4FC;
+  --text-accent: #8B7BFF;
+  --text-input: #F4F6FF;
+  --text-placeholder: #8D97BF;
+  --text-on-dark: #FFFFFF;
+  --text-button-primary: #FFFFFF;
+  --text-button-secondary: #EEF1FF;
+  --text-badge: #6EE7B7;
+  --text-highlight: #38BDF8;
+
+  --fintech-pill-bar-pastel: #4F5696;
+  --fintech-pill-bar-active: #8B7BFF;
+  --fintech-gauge-gradient: linear-gradient(90deg, #A3E635 0%, #38BDF8 100%);
+  --fintech-hero-gradient: linear-gradient(145deg, #6C4CE6 0%, #5534DC 52%, #3D1FA8 100%);
+  --fintech-badge-bg: rgba(16, 185, 129, 0.18);
+  --fintech-badge-text: #6EE7B7;
+  --fintech-badge-dot: #34D399;
+
+  --app-bg-base: #0E1225;
+  --app-bg-gradient:
+    radial-gradient(ellipse 76% 60% at 14% 14%, rgba(108, 76, 230, 0.28) 0%, transparent 56%),
+    radial-gradient(ellipse 72% 58% at 86% 16%, rgba(56, 189, 248, 0.22) 0%, transparent 52%),
+    radial-gradient(ellipse 68% 54% at 78% 86%, rgba(163, 230, 53, 0.10) 0%, transparent 52%),
+    linear-gradient(135deg, #0E1225 0%, #141932 52%, #151A33 100%);
+
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: rgba(108, 76, 230, 0.26);
+  --ambient-glow-2: rgba(56, 189, 248, 0.20);
+  --ambient-glow-3: rgba(139, 123, 255, 0.18);
+  --ambient-glow-4: rgba(52, 211, 153, 0.12);
+  --ambient-wave-1: rgba(139, 123, 255, 0.16);
+  --ambient-wave-2: rgba(56, 189, 248, 0.14);
+  --ambient-depth-vignette: radial-gradient(circle at 50% 42%, transparent 52%, rgba(6, 8, 20, 0.54) 100%);
+  --ambient-wallpaper-opacity: 0.72;
+
+  --liquid-specular-rim: rgba(212, 222, 255, 0.30);
+  --liquid-rim-soft: rgba(165, 180, 252, 0.18);
+  --liquid-rim-inset: inset 0 1px 0 rgba(212, 222, 255, 0.24), inset 0 -1px 0 rgba(6, 8, 20, 0.56);
+  --liquid-specular-sheen: linear-gradient(130deg, rgba(212, 222, 255, 0.14) 0%, rgba(139, 123, 255, 0.08) 48%, rgba(56, 189, 248, 0.10) 100%);
+
+  --bg-main: rgba(21, 26, 51, 0.72);
+  --bg-header: linear-gradient(135deg, rgba(28, 34, 64, 0.78) 0%, rgba(20, 25, 50, 0.68) 100%);
+  --bg-footer: linear-gradient(135deg, rgba(28, 34, 64, 0.78) 0%, rgba(20, 25, 50, 0.68) 100%);
+  --bg-card: #1C2240;
+  --bg-card-hover: #22294D;
+  --bg-subcard: #232A4D;
+  --bg-subcard-hover: #293159;
+  --bg-nested-card: #181E38;
+  --bg-popup: rgba(24, 30, 58, 0.95);
+  --bg-dropdown: rgba(24, 30, 58, 0.96);
+  --bg-tooltip: #090C1A;
+
+  --bg-nav-pill: linear-gradient(135deg, rgba(35, 42, 77, 0.72) 0%, rgba(24, 30, 58, 0.60) 100%);
+  --bg-nav-pill-hover: linear-gradient(135deg, rgba(48, 57, 102, 0.88) 0%, rgba(33, 41, 76, 0.80) 100%);
+  --bg-button-primary: linear-gradient(135deg, #7B61FF 0%, #6C4CE6 55%, #5E48E8 100%);
+  --bg-button-secondary: rgba(35, 42, 77, 0.86);
+  --bg-button-hover: rgba(46, 55, 99, 0.94);
+
+  --bg-input: rgba(21, 26, 51, 0.92);
+  --bg-badge: rgba(16, 185, 129, 0.18);
+  --bg-highlight: rgba(139, 123, 255, 0.18);
+  --bg-banner: rgba(24, 30, 58, 0.88);
+
+  --border-color: rgba(165, 180, 252, 0.22);
+  --border-card: rgba(165, 180, 252, 0.24);
+  --border-subcard: rgba(165, 180, 252, 0.18);
+  --border-input: rgba(165, 180, 252, 0.26);
+  --border-popup: rgba(165, 180, 252, 0.26);
+  --color-focus-ring: #8B7BFF;
+
+  --bg-blur: 22px;
+  --glass-blur: 22px;
+  --blur-subcard: 10px;
+  --blur-nav-pill: 18px;
+  --blur-modal: 26px;
+  --glass-saturate: 150%;
+  --card-border-width: 1px;
+
+  --shadow-card:
+    0 14px 34px -8px rgba(4, 6, 18, 0.56),
+    4px 0 0 -1px rgba(139, 123, 255, 0.20),
+    7px 0 0 -2px rgba(56, 189, 248, 0.14),
+    inset 0 1px 0 rgba(212, 222, 255, 0.16);
+  --shadow-card-hover:
+    0 20px 44px -8px rgba(4, 6, 18, 0.68),
+    5px 0 0 -1px rgba(139, 123, 255, 0.28),
+    9px 0 0 -2px rgba(56, 189, 248, 0.20),
+    inset 0 1px 0 rgba(212, 222, 255, 0.24);
+  --shadow-subcard:
+    0 8px 20px -6px rgba(4, 6, 18, 0.44),
+    inset 0 1px 0 rgba(212, 222, 255, 0.12);
+  --shadow-subcard-hover:
+    0 12px 26px -6px rgba(4, 6, 18, 0.56),
+    inset 0 1px 0 rgba(212, 222, 255, 0.20);
+  --shadow-nav-pill:
+    0 8px 20px -4px rgba(4, 6, 18, 0.46),
+    inset 0 1px 0 rgba(212, 222, 255, 0.18);
+  --shadow-button: 0 10px 24px -4px rgba(108, 76, 230, 0.44);
+  --shadow-popup:
+    0 24px 60px -12px rgba(4, 6, 18, 0.78),
+    inset 0 1px 0 rgba(212, 222, 255, 0.22);
+
+  --surface-primary-bg: linear-gradient(145deg, rgba(28, 34, 64, 0.76) 0%, rgba(20, 25, 50, 0.64) 100%);
+  --surface-primary-border: rgba(165, 180, 252, 0.26);
+  --surface-primary-shadow:
+    0 22px 52px -12px rgba(4, 6, 18, 0.68),
+    0 8px 20px -6px rgba(108, 76, 230, 0.16),
+    var(--liquid-rim-inset);
+  --surface-primary-blur: 22px;
+  --surface-primary-saturate: 155%;
+
+  --surface-secondary-bg: #1C2240;
+  --surface-secondary-border: rgba(165, 180, 252, 0.22);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-shadow-hover: var(--shadow-card-hover);
+  --surface-secondary-blur: 0px;
+  --surface-secondary-saturate: 100%;
+
+  --surface-tertiary-bg: #232A4D;
+  --surface-tertiary-hover: #293159;
+  --surface-tertiary-border: rgba(165, 180, 252, 0.18);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-shadow-hover: var(--shadow-subcard-hover);
+  --surface-tertiary-blur: 0px;
+  --surface-tertiary-saturate: 100%;
+
+  --surface-nested-bg: #181E38;
+  --surface-nested-border: rgba(165, 180, 252, 0.14);
+  --surface-nested-shadow: 0 4px 12px -4px rgba(4, 6, 18, 0.36), inset 0 1px 0 rgba(212, 222, 255, 0.10);
+
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: var(--bg-nav-pill-hover);
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: rgba(165, 180, 252, 0.26);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 18px;
+
+  --radius-main: 20px;
+  --radius-card: 16px;
+  --radius-subcard: 12px;
+  --radius-banner: 16px;
+  --radius-modal: 20px;
+  --radius-popup: 16px;
+  --radius-widget: 16px;
+  --radius-input: 12px;
+  --radius-header: 0 0 20px 20px;
+  --radius-footer: 20px 20px 0 0;
+  --radius-button: 999px;
+  --radius-pill: 999px;
+  --radius-badge: 999px;
+
+  --text-header-title: #F8F9FF;
+  --text-header-sub: #C6CCE8;
+  --text-nav-default: #EEF1FF;
+  --text-nav-active: #FFFFFF;
+  --text-nav-arrow: #EEF1FF;
+  --text-banner-pill: #F8F9FF;
+  --text-banner-input: #F8F9FF;
+  --text-banner-placeholder: #98A2CA;
+  --pillar-heading: #F8F9FF;
+  --pillar-sub: #A5B4FC;
+  --pillar-body: #C6CCE8;
+  --pillar-badge-bg: rgba(16, 185, 129, 0.20);
+  --pillar-badge-text: #6EE7B7;
+  --pillar-progress-track: rgba(165, 180, 252, 0.20);
+  --pillar-progress-fill: linear-gradient(90deg, #A3E635 0%, #38BDF8 100%);
+}
+
+/* ------------------------------------------------------------------------- */
+/* 3. LAYERED SHELL, KPI CARD ELEVATION & FINTECH ACCENTS                    */
+/* ------------------------------------------------------------------------- */
+html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], :not([data-card-style])) :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]
+) {
+  border-color: var(--surface-primary-border) !important;
+  box-shadow: var(--surface-primary-shadow) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 22px)) saturate(var(--surface-primary-saturate, 155%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 22px)) saturate(var(--surface-primary-saturate, 155%)) !important;
+}
+
+/* Neutralize infinite causticBreathe box-shadow animation in Soft Indigo FinTech */
+html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], :not([data-card-style])) :is(
+  .motion-card,
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"]
+) {
+  animation: none !important;
+}
+
+/* Stacked Layered Cards (Level 2) + Hover Lift 2.5px with Diffused Indigo Shadow */
+html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], :not([data-card-style])) :is(
+  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not(#home-intro-card),
+  .bento-card:not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not(#home-intro-card),
+  .exp-bento-surface-card,
+  .project-card,
+  .education-course-card
+) {
+  background: var(--surface-secondary-bg) !important;
+  border-color: var(--surface-secondary-border) !important;
+  border-radius: var(--radius-card, 16px) !important;
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease !important;
+}
+
+html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], :not([data-card-style])):not([data-surface-depth="flat"]) :is(
+  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not(#home-intro-card),
+  .bento-card:not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not(#home-intro-card),
+  .exp-bento-surface-card,
+  .project-card,
+  .education-course-card
+) {
+  box-shadow: var(--shadow-card) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], :not([data-card-style])):not([data-surface-depth="flat"]) :is(
+    [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not(#home-intro-card):not(:has(.banner-dropdown-menu)),
+    .bento-card:not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not(#home-intro-card):not(:has(.banner-dropdown-menu)),
+    .exp-bento-surface-card,
+    .project-card,
+    .education-course-card
+  ):hover {
+    transform: translate3d(0, -2.5px, 0) !important;
+    box-shadow: var(--shadow-card-hover) !important;
+  }
+}
+
+/* Pill Bar Charts & Progress Bars Growth (420–650ms FinTech Motion) */
+html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], :not([data-card-style])) :is(
+  .swot-skill-track > div,
+  .pillar-progress-fill,
+  [data-progress-bar="true"]
+) {
+  border-radius: 999px !important;
+  background: var(--fintech-gauge-gradient) !important;
+  transition: width 540ms cubic-bezier(0.22, 1, 0.36, 1), transform 540ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* Liquid Glass Specular Rim on Floating Nav Pills */
+html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], :not([data-card-style])) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #app-footer #footer-nav-capsule,
+  .banner-control-pill,
+  .nav-arrow-btn,
+  .theme-prev-next-btn,
+  .theme-capsule-btn
+) {
+  border-color: var(--surface-interactive-border) !important;
+  box-shadow: var(--surface-interactive-shadow), var(--liquid-rim-inset) !important;
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], :not([data-card-style])) :is(
+    #app-header button.nav-pill,
+    #app-footer button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    .banner-control-pill,
+    .nav-arrow-btn,
+    .theme-prev-next-btn
+  ):hover {
+    background: var(--surface-interactive-hover) !important;
+    border-color: var(--liquid-specular-rim) !important;
+  }
+}
+
+/* Video Play Buttons under Soft Indigo FinTech */
+html:is([data-card-style="soft-indigo-fintech"], :not([data-card-style])) .video-play-btn {
+  --vp-backdrop: blur(18px) saturate(160%);
+  --vp-border: rgba(255, 255, 255, 0.92);
+  --vp-text: #191B38;
+  --vp-specular: rgba(255, 255, 255, 0.96);
+  --vp-chase-a: #6C4CE6;
+  --vp-chase-b: #38BDF8;
+  --vp-shadow-ambient: 0 10px 24px -4px rgba(94, 72, 232, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  --vp-shadow-hover: 0 14px 30px -4px rgba(94, 72, 232, 0.28), inset 0 1px 0 #ffffff;
+  --vp-sound-bg: rgba(94, 72, 232, 0.12);
+  --vp-sound-border: rgba(94, 72, 232, 0.28);
+  --vp-sound-hover: rgba(94, 72, 232, 0.22);
+}
+
+html:is([data-card-style="soft-indigo-fintech"], :not([data-card-style])) :is(
+  .video-play-btn--home,
+  .video-play-btn--about,
+  .video-play-btn--interview,
+  .video-play-btn--systems
+) {
+  --vp-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(238, 240, 250, 0.84) 100%);
+  --vp-bg-hover: linear-gradient(135deg, #ffffff 0%, rgba(226, 230, 248, 0.98) 100%);
+}
+
+html:is([data-card-style="soft-indigo-fintech"], :not([data-card-style])) .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #6C4CE6 0%, #5E48E8 55%, #4E2AD4 100%);
+  --vp-bg-hover: linear-gradient(135deg, #5E48E8 0%, #4E2AD4 100%);
+  --vp-text: #FFFFFF;
+}
+
+html[data-card-style="dark-soft-indigo-fintech"] .video-play-btn {
+  --vp-backdrop: blur(18px) saturate(160%);
+  --vp-border: rgba(165, 180, 252, 0.34);
+  --vp-text: #F4F6FF;
+  --vp-specular: rgba(212, 222, 255, 0.28);
+  --vp-chase-a: #A3E635;
+  --vp-chase-b: #38BDF8;
+  --vp-shadow-ambient: 0 12px 26px -4px rgba(4, 6, 18, 0.65), inset 0 1px 0 rgba(212, 222, 255, 0.22);
+  --vp-shadow-hover: 0 16px 34px -4px rgba(108, 76, 230, 0.36), inset 0 1px 0 rgba(212, 222, 255, 0.32);
+  --vp-sound-bg: rgba(139, 123, 255, 0.18);
+  --vp-sound-border: rgba(139, 123, 255, 0.38);
+  --vp-sound-hover: rgba(139, 123, 255, 0.28);
+}
+
+html[data-card-style="dark-soft-indigo-fintech"] :is(
+  .video-play-btn--home,
+  .video-play-btn--about,
+  .video-play-btn--interview,
+  .video-play-btn--systems
+) {
+  --vp-bg: linear-gradient(135deg, rgba(28, 34, 64, 0.90) 0%, rgba(20, 25, 50, 0.84) 100%);
+  --vp-bg-hover: linear-gradient(135deg, rgba(40, 48, 90, 0.96) 0%, rgba(28, 34, 64, 0.92) 100%);
+}
+
+html[data-card-style="dark-soft-indigo-fintech"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #6C4CE6 0%, #5E48E8 55%, #38BDF8 100%);
+  --vp-bg-hover: linear-gradient(135deg, #8B7BFF 0%, #6C4CE6 60%, #38BDF8 100%);
+  --vp-text: #FFFFFF;
+}
+
+/* Accessibility & Hardware Fallbacks */
+@media (prefers-reduced-transparency: reduce) {
+  html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], :not([data-card-style])) :is(
+    #app-header,
+    #app-footer,
+    .page-main-card,
+    [data-main-card="true"],
+    .banner-dropdown-menu,
+    [role="listbox"],
+    .theme-popup
+  ) {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--color-surface-elevated) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], :not([data-card-style])) :is(
+    [data-section-card="true"],
+    .bento-card,
+    .exp-bento-surface-card,
+    .project-card,
+    .education-course-card
+  ):hover {
+    transform: none !important;
+  }
+}

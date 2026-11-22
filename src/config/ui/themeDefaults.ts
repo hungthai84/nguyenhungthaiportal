@@ -6,7 +6,7 @@ import micaFluentWallpaper from '@/assets/images/wallpaper_mica_fluent_179517577
 import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 
-export const DEFAULT_CARD_STYLE: CardStyleMode = 'liquid-glass';
+export const DEFAULT_CARD_STYLE: CardStyleMode = 'soft-indigo-fintech';
 export const DEFAULT_LAYER_DEPTH = 100;
 
 export const CARD_STYLE_STORAGE_KEY = 'hungthai_card_style_v2';
@@ -33,6 +33,8 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   CardStyleMode,
   { cardOpacity: number; blurIntensity: number }
 > = {
+  'soft-indigo-fintech': { cardOpacity: 96, blurIntensity: 18 },
+  'dark-soft-indigo-fintech': { cardOpacity: 92, blurIntensity: 20 },
   'liquid-glass': { cardOpacity: 64, blurIntensity: 24 },
   'dark-liquid-glass': { cardOpacity: 64, blurIntensity: 24 },
   'multicolor-glass': { cardOpacity: 44, blurIntensity: 22 },
@@ -53,6 +55,26 @@ export interface ThemeBackgroundSpec {
 }
 
 export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
+  'soft-indigo-fintech': {
+    id: 'soft-indigo-fintech',
+    presetId: 'theme-bg-soft-indigo-fintech',
+    label: 'Nền Soft Indigo FinTech (Sáng)',
+    themeMode: 'light',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(at 14% 16%, rgba(165, 180, 252, 0.34) 0px, transparent 52%), radial-gradient(at 86% 18%, rgba(56, 189, 248, 0.18) 0px, transparent 48%), radial-gradient(at 78% 86%, rgba(108, 76, 230, 0.14) 0px, transparent 52%), linear-gradient(145deg, #EEF0FA 0%, #DCE0F5 55%, #E7EAF8 100%)',
+    overlayBg: 'rgba(238, 240, 250, 0.14)',
+  },
+  'dark-soft-indigo-fintech': {
+    id: 'dark-soft-indigo-fintech',
+    presetId: 'theme-bg-dark-soft-indigo-fintech',
+    label: 'Nền Soft Indigo FinTech (Tối)',
+    themeMode: 'dark',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(at 16% 16%, rgba(108, 76, 230, 0.24) 0px, transparent 52%), radial-gradient(at 84% 18%, rgba(56, 189, 248, 0.16) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(163, 230, 53, 0.08) 0px, transparent 52%), linear-gradient(145deg, #0E1225 0%, #151A33 55%, #0D1123 100%)',
+    overlayBg: 'rgba(14, 18, 37, 0.22)',
+  },
   'liquid-glass': {
     id: 'liquid-glass',
     presetId: 'theme-bg-liquid-glass',
@@ -125,6 +147,8 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
+  'soft-indigo-fintech': THEME_BACKGROUNDS['soft-indigo-fintech'].presetId,
+  'dark-soft-indigo-fintech': THEME_BACKGROUNDS['dark-soft-indigo-fintech'].presetId,
   'liquid-glass': THEME_BACKGROUNDS['liquid-glass'].presetId,
   'dark-liquid-glass': THEME_BACKGROUNDS['dark-liquid-glass'].presetId,
   'multicolor-glass': THEME_BACKGROUNDS['multicolor-glass'].presetId,

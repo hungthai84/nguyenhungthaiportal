@@ -2333,8 +2333,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-section-card="true"
                       data-layer-level="2"
-                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-7 lg:col-span-8 w-full h-full p-[15px] gap-[15px] transition-all duration-200 flex flex-col items-start justify-between group/values z-10 text-left rounded-[14px] min-w-0 ${getGlassCardClass()} ${
+                      style={{ gap: '16px', padding: '16px', borderRadius: 'var(--radius-card, 16px)' }}
+                      className={`bento-view-card col-span-1 md:col-span-7 lg:col-span-8 w-full h-full p-4 gap-4 transition-all duration-200 flex flex-col items-start justify-between group/values z-10 text-left rounded-[16px] min-w-0 ${getGlassCardClass()} ${
                         activeTargetId === 'card-core-values-pursued'
                           ? 'ring-2 ring-amber-400 dark:ring-cyan-400 shadow-[0_0_24px_rgba(251,191,36,0.35)]'
                           : ''
@@ -2348,8 +2348,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                       <div
                         id="core-values-grid"
-                        className="grid grid-cols-1 sm:grid-cols-2 auto-rows-fr gap-[15px] items-stretch w-full flex-1"
-                        style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
+                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 auto-rows-fr gap-3 items-stretch w-full flex-1"
+                        style={{ gap: '12px', rowGap: '12px', columnGap: '12px' }}
                       >
                         {CORE_VALUES_DATA.map((val) => {
                           const valIconName =
@@ -2367,8 +2367,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                               key={val.number}
                               id={`core-val-${val.number}`}
                               data-subcard="true"
-                              style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-subcard, 16px)' }}
-                              className={`sub-card letter-subcard relative overflow-hidden flex flex-col justify-between h-full p-[15px] gap-[15px] transition-colors duration-200 text-left group rounded-[14px] min-w-0 ${
+                              style={{ gap: '10px', padding: '12px', borderRadius: 'var(--radius-subcard, 12px)' }}
+                              className={`sub-card letter-subcard relative overflow-hidden flex flex-col justify-between h-full p-3 gap-2.5 transition-colors duration-200 text-left group rounded-[12px] min-w-0 ${
                                 isValBeingRead
                                   ? 'ring-2 ring-emerald-500 dark:ring-cyan-400 shadow-[0_0_24px_rgba(16,185,129,0.28)]'
                                   : ''

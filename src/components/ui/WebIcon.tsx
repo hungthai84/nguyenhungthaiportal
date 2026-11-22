@@ -178,7 +178,7 @@ export const WebIcon: React.FC<WebIconProps> = ({
   size,
   className = 'w-4 h-4',
   style,
-  strokeWidth = 1.8,
+  strokeWidth = 2.35,
 }) => {
   const normName = (name || '').toLowerCase().trim();
 

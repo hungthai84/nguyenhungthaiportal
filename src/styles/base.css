@@ -84,8 +84,13 @@
   input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
   textarea,
   select {
-    font-size: var(--fs-input);
+    font-size: max(16px, var(--fs-input, 16px));
     line-height: var(--lh-input, 1.45);
+  }
+
+  /* Bold Vector Line Icons (Lucide) without altering 3D/custom illustrations */
+  svg.lucide:not([data-thin-stroke="true"]) {
+    stroke-width: 2.35;
   }
 
   .tabular-nums,
@@ -233,32 +238,41 @@
   animation-play-state: paused;
 }
 
-/* Slide Transitions */
+/* Slide Transitions (GPU-composited translate3d) */
 @keyframes slideNext {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translate3d(20px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 @keyframes slidePrev {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translate3d(-20px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes icon-floating {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -4px, 0); }
 }
 
 .animate-slide-next {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
   animation: slideNext 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-slide-prev {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
   animation: slidePrev 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-
 
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
   .animate-pulse,
   .animate-bounce,
   .animate-ping,
-  .animate-spin {
+  .animate-spin,
+  [class*="icon-floating"] {
     animation: none !important;
   }
   *, *::before, *::after {

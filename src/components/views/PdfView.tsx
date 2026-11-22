@@ -265,26 +265,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           }
         }
 
-        @keyframes titleShimmer {
-          0% { background-position: -200% center; }
-          100% { background-position: 200% center; }
-        }
         .shimmer-title {
-          background: linear-gradient(
-            90deg,
-            currentColor 0%,
-            currentColor 25%,
-            #0284c7 45%,
-            #38bdf8 52%,
-            #818cf8 60%,
-            currentColor 75%,
-            currentColor 100%
-          );
-          background-size: 200% auto;
-          color: inherit;
-          background-clip: text;
-          -webkit-background-clip: text;
-          animation: titleShimmer 7.5s ease-in-out infinite;
+          color: var(--text-heading, currentColor);
           display: inline-block;
         }
       `}</style>

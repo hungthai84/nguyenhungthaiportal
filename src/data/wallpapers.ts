@@ -34,6 +34,18 @@ export interface ThemeBackground {
 }
 
 export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
+  'soft-indigo-fintech': {
+    light:
+      'radial-gradient(at 14% 16%, rgba(165, 180, 252, 0.34) 0px, transparent 52%), radial-gradient(at 86% 18%, rgba(56, 189, 248, 0.18) 0px, transparent 48%), linear-gradient(145deg, #EEF0FA 0%, #DCE0F5 55%, #E7EAF8 100%)',
+    dark:
+      'radial-gradient(at 16% 16%, rgba(108, 76, 230, 0.24) 0px, transparent 52%), radial-gradient(at 84% 18%, rgba(56, 189, 248, 0.16) 0px, transparent 48%), linear-gradient(145deg, #0E1225 0%, #151A33 55%, #0D1123 100%)',
+  },
+  'dark-soft-indigo-fintech': {
+    light:
+      'radial-gradient(at 16% 16%, rgba(108, 76, 230, 0.24) 0px, transparent 52%), radial-gradient(at 84% 18%, rgba(56, 189, 248, 0.16) 0px, transparent 48%), linear-gradient(145deg, #0E1225 0%, #151A33 55%, #0D1123 100%)',
+    dark:
+      'radial-gradient(at 16% 16%, rgba(108, 76, 230, 0.24) 0px, transparent 52%), radial-gradient(at 84% 18%, rgba(56, 189, 248, 0.16) 0px, transparent 48%), linear-gradient(145deg, #0E1225 0%, #151A33 55%, #0D1123 100%)',
+  },
   'liquid-glass': {
     light: rainbowGlassWallpaper,
     dark: rainbowGlassWallpaper,
@@ -312,6 +324,34 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000005,
+  },
+  {
+    id: 'theme-bg-soft-indigo-fintech',
+    name: '🪻 Nền Soft Indigo FinTech Sáng (Giao diện riêng)',
+    type: 'gradient',
+    value:
+      'background: radial-gradient(at 14% 16%, rgba(165, 180, 252, 0.34) 0px, transparent 52%), radial-gradient(at 86% 18%, rgba(56, 189, 248, 0.18) 0px, transparent 48%), linear-gradient(145deg, #EEF0FA 0%, #DCE0F5 55%, #E7EAF8 100%);',
+    bg: 'linear-gradient(145deg, #EEF0FA 0%, #DCE0F5 55%, #E7EAF8 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(at 14% 16%, rgba(165, 180, 252, 0.34) 0px, transparent 52%), radial-gradient(at 86% 18%, rgba(56, 189, 248, 0.18) 0px, transparent 48%), linear-gradient(145deg, #EEF0FA 0%, #DCE0F5 55%, #E7EAF8 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794300000015,
+  },
+  {
+    id: 'theme-bg-dark-soft-indigo-fintech',
+    name: '🌌 Nền Soft Indigo FinTech Tối (Giao diện riêng)',
+    type: 'gradient',
+    value:
+      'background: radial-gradient(at 16% 16%, rgba(108, 76, 230, 0.24) 0px, transparent 52%), radial-gradient(at 84% 18%, rgba(56, 189, 248, 0.16) 0px, transparent 48%), linear-gradient(145deg, #0E1225 0%, #151A33 55%, #0D1123 100%);',
+    bg: 'linear-gradient(145deg, #0E1225 0%, #151A33 55%, #0D1123 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(at 16% 16%, rgba(108, 76, 230, 0.24) 0px, transparent 52%), radial-gradient(at 84% 18%, rgba(56, 189, 248, 0.16) 0px, transparent 48%), linear-gradient(145deg, #0E1225 0%, #151A33 55%, #0D1123 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794300000016,
   },
   {
     id: 'theme-bg-liquid-glass',

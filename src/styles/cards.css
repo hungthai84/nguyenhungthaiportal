@@ -3,19 +3,19 @@
 /* ========================================================================= */
 
 :root {
-  --radius-main: 14px;
-  --radius-card: 14px;
-  --radius-subcard: 14px;
-  --radius-banner: 14px;
-  --radius-modal: 14px;
-  --radius-popup: 14px;
-  --radius-widget: 14px;
-  --radius-input: 14px;
-  --radius-header: 0 0 14px 14px;
-  --radius-footer: 14px 14px 0 0;
+  --radius-main: 20px;
+  --radius-card: 16px;
+  --radius-subcard: 12px;
+  --radius-banner: 16px;
+  --radius-modal: 20px;
+  --radius-popup: 16px;
+  --radius-widget: 16px;
+  --radius-input: 12px;
+  --radius-header: 0 0 20px 20px;
+  --radius-footer: 20px 20px 0 0;
   --radius-button: 999px;
-  --space-card-padding: 15px;
-  --space-card-gap: 15px;
+  --space-card-padding: 16px;
+  --space-card-gap: 16px;
 }
 
 .hero-banner,
@@ -23,7 +23,7 @@
 #contact-info-card,
 #ai-assistant-hero-banner,
 #interview-video-banner {
-  border-radius: var(--radius-banner, 14px) !important;
+  border-radius: var(--radius-banner, 16px) !important;
 }
 
 .hero-banner {
@@ -515,7 +515,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   box-shadow: var(--surface-header-shadow, var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header)))) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
-  border-radius: var(--radius-header, 0 0 14px 14px) !important;
+  border-radius: var(--radius-header, 0 0 20px 20px) !important;
   transition: none !important;
   animation: none !important;
 }
@@ -527,7 +527,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   box-shadow: var(--surface-footer-shadow, var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header)))) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
-  border-radius: var(--radius-footer, 14px 14px 0 0) !important;
+  border-radius: var(--radius-footer, 20px 20px 0 0) !important;
   transition: none !important;
   animation: none !important;
 }
@@ -636,23 +636,23 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   -webkit-overflow-scrolling: touch !important;
   scroll-behavior: smooth !important;
   margin: 0 !important;
-  padding: 15px !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
+  padding: var(--main-card-padding, 20px) !important;
+  gap: 16px !important;
+  row-gap: 16px !important;
+  column-gap: 16px !important;
   background: var(--surface-primary-bg, var(--surface-main-glass)) !important;
   border: 1px solid var(--surface-primary-border, var(--glass-main-border)) !important;
   box-shadow: var(--surface-primary-shadow, var(--shadow-main-glass, var(--shadow-header))) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-main-blur, 24px))) saturate(var(--surface-primary-saturate, var(--glass-main-saturate, 144%))) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: var(--radius-main, 20px) !important;
   transition: var(--surface-primary-transition, transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms ease, outline-color 300ms ease, background 300ms ease, color 300ms ease, backdrop-filter 300ms ease);
 }
 
 #home-main-card,
 #experience-main-card,
 #ai-assistant-main-card {
-  padding: 15px !important;
+  padding: var(--main-card-padding, 20px) !important;
 }
 
 #home-main-card,
@@ -2020,45 +2020,51 @@ button:focus-visible,
 @keyframes pageFadeInUp {
   0% {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translate3d(0, 8px, 0);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 .page-transition-enter {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
   animation: pageFadeInUp var(--motion-normal) var(--motion-ease-out) both;
 }
 
 @keyframes modalScaleIn {
   0% {
     opacity: 0;
-    transform: scale(0.97) translateY(8px);
+    transform: translate3d(0, 8px, 0) scale3d(0.97, 0.97, 1);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   }
 }
 
 .modal-dialog-enter {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
   animation: modalScaleIn var(--motion-slow) var(--motion-ease) both;
 }
 
 @keyframes dropdownFadeIn {
   0% {
     opacity: 0;
-    transform: translateY(-6px) scale(0.98);
+    transform: translate3d(0, -6px, 0) scale3d(0.98, 0.98, 1);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   }
 }
 
 .dropdown-menu-enter {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
   animation: dropdownFadeIn var(--motion-fast) var(--motion-ease-out) both;
 }
 
@@ -2225,7 +2231,7 @@ button:focus-visible,
   }
 }
 
-/* Standardize padding to 15px, gap to 15px, equal height, and row 1 title / row 2 single-line clamp for all sub-cards */
+/* Standardize padding to 12px, gap to 12px, equal height, and row 1 title / row 2 single-line clamp for all sub-cards */
 :is(
   [data-subcard="true"],
   .sub-card,
@@ -2236,11 +2242,11 @@ button:focus-visible,
   .bento-subcard-grid > *,
   .bento-grid-responsive > *
 ) {
-  padding: 15px !important;
+  padding: var(--space-subcard-padding, 12px) !important;
   gap: 12px !important;
   row-gap: 12px !important;
-  column-gap: 15px !important;
-  border-radius: var(--radius-subcard, 14px) !important;
+  column-gap: 12px !important;
+  border-radius: var(--radius-subcard, 12px) !important;
   height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
@@ -2967,10 +2973,10 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 
 @keyframes float-gentle {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-4px);
+    transform: translate3d(0, -4px, 0);
   }
 }
 
@@ -3283,23 +3289,19 @@ html.dark #systems-page-container .system-card-sub {
 
 @keyframes vp-float-pulse {
   0%, 100% {
-    transform: translateY(0px) scale(1);
-    filter: brightness(1);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   }
   50% {
-    transform: translateY(-3px) scale(1.03);
-    filter: brightness(1.06);
+    transform: translate3d(0, -3px, 0) scale3d(1.03, 1.03, 1);
   }
 }
 
 @keyframes vp-letter-float-pulse {
   0%, 100% {
-    transform: translateX(-50%) translateY(0px) scale(1);
-    filter: brightness(1);
+    transform: translate3d(-50%, 0, 0) scale3d(1, 1, 1);
   }
   50% {
-    transform: translateX(-50%) translateY(-3px) scale(1.07);
-    filter: brightness(1.08);
+    transform: translate3d(-50%, -3px, 0) scale3d(1.06, 1.06, 1);
   }
 }
 
@@ -3320,8 +3322,11 @@ html[data-card-style] .video-play-btn {
     var(--vp-shadow-ambient),
     0 6px 16px -4px rgba(15, 23, 42, 0.24),
     inset 0 1.5px 1px var(--vp-specular, rgba(255, 255, 255, 0.65)) !important;
+  will-change: transform;
+  backface-visibility: hidden;
   animation: vp-float-pulse 3.1s ease-in-out infinite !important;
   transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
     background 260ms ease,
     border-color 260ms ease,
     box-shadow 260ms ease,
@@ -3331,6 +3336,8 @@ html[data-card-style] .video-play-btn {
 
 .video-play-btn--letter,
 html[data-card-style] .video-play-btn--letter {
+  will-change: transform;
+  backface-visibility: hidden;
   animation: vp-letter-float-pulse 2.9s ease-in-out infinite !important;
 }
 
@@ -3639,14 +3646,50 @@ html[data-card-style="neumorphism-beyond"] .video-play-btn--letter {
 }
 
 /* ========================================================================= */
-/* TOKEN-DRIVEN LAYER BORDER-RADIUS CONSISTENCY                              */
-/* Đồng bộ bán kính bo góc theo từng tầng Layer Card UI & Theme Token:       */
-/* --radius-main / --radius-card / --radius-subcard / --radius-banner        */
-/* Giữ nguyên dạng tròn (rounded-full) cho Avatar/Logo tròn và Nút pill.     */
+/* LIQUID GLASS ACTION BUTTONS (SPECULAR RIM + BLUR + 200MS SCALE ON TAP)    */
+/* Preserves compact slide dots, orbital nodes, and SWOT accordion items     */
+/* ========================================================================= */
+:is(
+  button[data-element-type="button"],
+  .banner-control-pill,
+  .nav-arrow-btn,
+  .theme-prev-next-btn,
+  .theme-capsule-btn,
+  .exp-bento-rect-btn,
+  .btn-liquid-action
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn) {
+  backdrop-filter: blur(14px) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(145%) !important;
+  box-shadow:
+    var(--liquid-rim-inset, inset 0 1px 0 rgba(255, 255, 255, 0.72), inset 0 -1px 0 rgba(15, 23, 42, 0.08)),
+    0 6px 16px -4px rgba(30, 27, 75, 0.14);
+  will-change: transform;
+  backface-visibility: hidden;
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease,
+    background-color 200ms ease !important;
+}
+
+:is(
+  button[data-element-type="button"],
+  .banner-control-pill,
+  .nav-arrow-btn,
+  .theme-prev-next-btn,
+  .theme-capsule-btn,
+  .exp-bento-rect-btn,
+  .btn-liquid-action
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):active {
+  transform: scale3d(0.97, 0.97, 1) !important;
+}
+
+/* ========================================================================= */
+/* TOKEN-DRIVEN LAYER BORDER-RADIUS CONSISTENCY (20px / 16px / 12px)         */
 /* ========================================================================= */
 .page-main-card,
 [data-main-card="true"]:not(#pdf-page-container) {
-  border-radius: var(--radius-main, 30px) !important;
+  border-radius: var(--radius-main, 20px) !important;
 }
 
 [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#app-header):not(#app-footer),
@@ -3656,7 +3699,7 @@ html[data-card-style="neumorphism-beyond"] .video-play-btn--letter {
 .exp-bento-surface-card,
 .themed-image-card,
 .themed-image-frame {
-  border-radius: var(--radius-card, 24px) !important;
+  border-radius: var(--radius-card, 16px) !important;
 }
 
 [data-subcard="true"],
@@ -3665,7 +3708,7 @@ html[data-card-style="neumorphism-beyond"] .video-play-btn--letter {
 .exp-bento-item-card,
 .exp-detail-subcard,
 .theme-modal-subcard {
-  border-radius: var(--radius-subcard, 16px) !important;
+  border-radius: var(--radius-subcard, 12px) !important;
 }
 
 .banner-card,
@@ -3674,12 +3717,12 @@ html[data-card-style="neumorphism-beyond"] .video-play-btn--letter {
 #project-detail-banner,
 #interview-questions-card,
 #pdf-hero-banner {
-  border-radius: var(--radius-banner, var(--radius-card, 24px)) !important;
+  border-radius: var(--radius-banner, var(--radius-card, 16px)) !important;
 }
 
 .theme-modal-card,
 .theme-pip-player {
-  border-radius: var(--radius-modal, 24px) !important;
+  border-radius: var(--radius-modal, 20px) !important;
 }
 
 #global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]),
@@ -3689,13 +3732,13 @@ html[data-card-style="neumorphism-beyond"] .video-play-btn--letter {
 #global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
 .theme-modal-card img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
 [data-section-card="true"] img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]) {
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: var(--radius-card, 16px) !important;
 }
 
 #app-header {
-  border-radius: var(--radius-header, 0 0 28px 28px) !important;
+  border-radius: var(--radius-header, 0 0 20px 20px) !important;
 }
 
 #app-footer {
-  border-radius: var(--radius-footer, 28px 28px 0 0) !important;
+  border-radius: var(--radius-footer, 20px 20px 0 0) !important;
 }

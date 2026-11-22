@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 
 export interface DualLayerVideoPlayerProps {
   video1Id?: string;
+  video1Src?: string;
   video2Id?: string;
   className?: string;
   style?: React.CSSProperties;
@@ -20,6 +21,7 @@ const DEFAULT_VIDEO_2_ID = '1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
 
 export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
   video1Id = DEFAULT_VIDEO_1_ID,
+  video1Src,
   video2Id = DEFAULT_VIDEO_2_ID,
   className,
   style,
@@ -39,11 +41,17 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
   const [isVideo2Ready, setIsVideo2Ready] = useState<boolean>(false);
   const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
 
-  const getVideo1StreamUrl = useCallback((stage: StreamStage, id: string): string => {
-    return stage === 'alt'
-      ? `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`
-      : `/api/media/drive-video/${id}`;
-  }, []);
+  const getVideo1StreamUrl = useCallback(
+    (stage: StreamStage, id: string): string => {
+      if (stage === 'primary' && video1Src) {
+        return video1Src;
+      }
+      return stage === 'alt'
+        ? `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`
+        : `/api/media/drive-video/${id}`;
+    },
+    [video1Src]
+  );
 
   const getVideo2StreamUrl = useCallback((stage: StreamStage, id: string): string => {
     return stage === 'alt'
@@ -175,7 +183,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
         tryStartVideo2(v2, isAudioOnRef.current);
       }
     }
-  }, [enforceVideoAttributes, getVideo2StreamUrl, loadVideo1, tryStartVideo2, video1Id, video2Id]);
+  }, [enforceVideoAttributes, getVideo2StreamUrl, loadVideo1, tryStartVideo2, video1Id, video1Src, video2Id]);
 
   const handleVideo1Error = useCallback(() => {
     if (video1StageRef.current === 'primary') {

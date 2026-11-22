@@ -111,6 +111,7 @@ export const PROFILE_CAREER_EN: Record<string, string> = {
   '22+ Năm Vận Hành Thực Chiến': '22+ Years Hands-On Operations',
   'Phát Video': 'Play Video',
   'Hủy Phát': 'Stop Video',
+  'Hủy Video': 'Stop Video',
   'Thông tin chi tiết': 'Detailed Info',
   'Hộp thư': 'Email',
   'Triết lý & Giá trị': 'Philosophy & Values',

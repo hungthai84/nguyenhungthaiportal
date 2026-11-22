@@ -399,8 +399,7 @@ html[data-card-style="mica-plastic"] :is(
   .education-course-card,
   .swot-quadrant-card,
   .partner-card,
-  .motto-card,
-  #about-personal-info-grid
+  .motto-card
 ) {
   background-color: rgba(247, 250, 254, 0.86) !important;
   background-image:

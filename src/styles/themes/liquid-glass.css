@@ -687,8 +687,7 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"],
   [id^="system-expanded-card-"]:not(.is-open),
   [data-subcard="true"],
   .sub-card,
-  .pillar-gradient-card,
-  #about-personal-info-grid
+  .pillar-gradient-card
 ):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(.weather-card):not(#weather-card):not(#weather-widget-card):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule) {
   --lg-chromatic: 8;
   --lg-noise: 2;

@@ -51,6 +51,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
   const isPlayingVideo2Ref = useRef<boolean>(false);
   const isAudioOnRef = useRef<boolean>(false);
   const pendingSeekSecRef = useRef<number | null>(null);
+  const shouldResetVideo2StartRef = useRef<boolean>(false);
   const filterDropdownRef = useRef<HTMLDivElement>(null);
 
   const [activeFilter, setActiveFilter] = useState<string>('all');
@@ -60,6 +61,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
   const [video2Stage, setVideo2Stage] = useState<InterviewStreamStage>('primary');
   const [isPlayingVideo2, setIsPlayingVideo2] = useState<boolean>(false);
   const [isVideo2Ready, setIsVideo2Ready] = useState<boolean>(false);
+  const [video2PlayNonce, setVideo2PlayNonce] = useState<number>(0);
   const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
   const [video2TimeSec, setVideo2TimeSec] = useState<number>(0);
 
@@ -242,19 +244,22 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
   const handlePlayVideo2 = useCallback(() => {
     isPlayingVideo2Ref.current = true;
     isAudioOnRef.current = true;
+    shouldResetVideo2StartRef.current = true;
     setIsPlayingVideo2(true);
     setIsAudioOn(true);
     setIsVideo2Ready(false);
+    setVideo2PlayNonce((prev) => prev + 1);
     setVideo2TimeSec(0);
-    pendingSeekSecRef.current = 0;
+    pendingSeekSecRef.current = null;
 
     if (video2StageRef.current === 'iframe') {
+      shouldResetVideo2StartRef.current = false;
       setIsVideo2Ready(true);
       const v1 = video1Ref.current;
       if (v1 && !v1.paused) {
         v1.pause();
       }
-      showToast('Đang phát Video 2 phỏng vấn (có âm thanh)');
+      showToast('Đang phát Video 2 phỏng vấn (mở âm thanh)');
       return;
     }
 
@@ -266,15 +271,28 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
       }
       v2.preload = 'auto';
       enforceVideoAttributes(v2, false, true);
-      if (v2.readyState >= 1) {
+      if (v2.readyState >= 1 && v2.currentTime > 0.08) {
+        try {
+          v2.pause();
+        } catch {
+          // Ignore
+        }
         try {
           v2.currentTime = 0;
-          pendingSeekSecRef.current = null;
         } catch {
-          // Will seek on loadedmetadata
+          shouldResetVideo2StartRef.current = false;
+          tryStartVideo2(v2, true);
         }
+      } else {
+        if (v2.readyState >= 1) {
+          try {
+            v2.currentTime = 0;
+          } catch {
+            // Ignore seek exception
+          }
+        }
+        tryStartVideo2(v2, true);
       }
-      tryStartVideo2(v2, true);
     }
 
     showToast('Đang phát Video 2 phỏng vấn (mở âm thanh)');
@@ -283,6 +301,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
   const handleCancelVideo2 = useCallback(() => {
     isPlayingVideo2Ref.current = false;
     isAudioOnRef.current = false;
+    shouldResetVideo2StartRef.current = false;
     pendingSeekSecRef.current = null;
     setIsPlayingVideo2(false);
     setIsVideo2Ready(false);
@@ -312,7 +331,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
       tryStartVideo1(v1, false);
     }
 
-    showToast('Đã hủy phát — quay về Video 1 mặc định');
+    showToast('Đã hủy video — quay về Video 1 mặc định (tắt âm thanh)');
   }, [enforceVideoAttributes, showToast, tryStartVideo1]);
 
   const togglePlayVideo = useCallback(() => {
@@ -361,6 +380,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
       const q = INTERVIEW_QUESTIONS[clamped];
 
       if (isPlayingVideo2Ref.current && video2StageRef.current !== 'iframe') {
+        shouldResetVideo2StartRef.current = false;
         const v2 = video2Ref.current;
         if (v2) {
           if (v2.readyState >= 1) {
@@ -536,14 +556,14 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               style={{ containerType: 'size' }}
               className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0"
             >
-            {/* VIDEO 1 — Màn hình nền mặc định */}
+            {/* VIDEO 1 — Màn hình nền mặc định (tự động phát, vòng lặp, tắt âm thanh, không control) */}
             {video1Stage !== 'iframe' ? (
               <video
                 ref={video1Ref}
                 id="interview-bg-video-1"
                 data-video-slot={1}
                 data-video-id={INTERVIEW_VIDEO_1_ID}
-                data-video-layer-active={!isPlayingVideo2 ? 'true' : 'false'}
+                data-video-layer-active={!(isPlayingVideo2 && isVideo2Ready) ? 'true' : 'false'}
                 autoPlay
                 loop
                 muted={!(!isPlayingVideo2 && isAudioOn)}
@@ -613,14 +633,15 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               />
             )}
 
-            {/* VIDEO 2 — Tạo y hệt định dạng Video 1 (autoPlay khi kích hoạt, vòng lặp, mở âm thanh mặc định, không control) */}
+            {/* VIDEO 2 — Tự động phát từ đầu, vòng lặp, mở âm thanh mặc định, không control */}
             {video2Stage !== 'iframe' ? (
               <video
                 ref={video2Ref}
                 id="interview-bg-video-2"
                 data-video-slot={2}
                 data-video-id={INTERVIEW_VIDEO_2_ID}
-                data-video-layer-active={isPlayingVideo2 ? 'true' : 'false'}
+                data-video-preparing={isPlayingVideo2 && !isVideo2Ready ? 'true' : 'false'}
+                data-video-layer-active={isPlayingVideo2 && isVideo2Ready ? 'true' : 'false'}
                 loop
                 muted={!(isPlayingVideo2 && isAudioOn)}
                 playsInline
@@ -638,6 +659,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                   }
                   enforceVideoAttributes(v, !isAudioOnRef.current, true);
                   if (pendingSeekSecRef.current !== null) {
+                    shouldResetVideo2StartRef.current = false;
                     try {
                       v.currentTime = pendingSeekSecRef.current;
                       setVideo2TimeSec(pendingSeekSecRef.current);
@@ -645,6 +667,13 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                       // Ignore seek errors
                     }
                     pendingSeekSecRef.current = null;
+                  } else if (shouldResetVideo2StartRef.current && v.currentTime > 0.08) {
+                    try {
+                      v.currentTime = 0;
+                      return;
+                    } catch {
+                      // Ignore
+                    }
                   }
                   if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
                 }}
@@ -652,20 +681,57 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                   const v = e.currentTarget;
                   if (!isPlayingVideo2Ref.current) return;
                   enforceVideoAttributes(v, !isAudioOnRef.current, true);
+                  if (shouldResetVideo2StartRef.current && pendingSeekSecRef.current === null && v.readyState >= 1 && v.currentTime > 0.08) {
+                    try {
+                      v.currentTime = 0;
+                      return;
+                    } catch {
+                      // Ignore
+                    }
+                  }
                   if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
                 }}
                 onCanPlay={(e) => {
                   const v = e.currentTarget;
                   if (!isPlayingVideo2Ref.current) return;
                   enforceVideoAttributes(v, !isAudioOnRef.current, true);
+                  if (shouldResetVideo2StartRef.current && pendingSeekSecRef.current === null && v.readyState >= 1 && v.currentTime > 0.08) {
+                    try {
+                      v.currentTime = 0;
+                      return;
+                    } catch {
+                      // Ignore
+                    }
+                  }
                   if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
                 }}
+                onSeeked={(e) => {
+                  if (!isPlayingVideo2Ref.current) return;
+                  const v = e.currentTarget;
+                  if (shouldResetVideo2StartRef.current && v.currentTime <= 0.15) {
+                    shouldResetVideo2StartRef.current = false;
+                    setVideo2TimeSec(0);
+                    enforceVideoAttributes(v, !isAudioOnRef.current, true);
+                    if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
+                  }
+                }}
                 onPlaying={(e) => {
+                  const v = e.currentTarget;
                   if (!isPlayingVideo2Ref.current) {
-                    e.currentTarget.pause();
+                    v.pause();
                     return;
                   }
-                  enforceVideoAttributes(e.currentTarget, !isAudioOnRef.current, true);
+                  if (shouldResetVideo2StartRef.current && pendingSeekSecRef.current === null && v.readyState >= 1 && v.currentTime > 0.15) {
+                    try {
+                      v.pause();
+                      v.currentTime = 0;
+                    } catch {
+                      shouldResetVideo2StartRef.current = false;
+                    }
+                    return;
+                  }
+                  shouldResetVideo2StartRef.current = false;
+                  enforceVideoAttributes(v, !isAudioOnRef.current, true);
                   setIsVideo2Ready(true);
                   const v1 = video1Ref.current;
                   if (v1 && !v1.paused) {
@@ -687,6 +753,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 }}
                 onPause={(e) => {
                   if (!isPlayingVideo2Ref.current) return;
+                  if (shouldResetVideo2StartRef.current) return;
                   if (typeof document !== 'undefined' && document.hidden) return;
                   const v = e.currentTarget;
                   if (v.seeking) return;
@@ -702,7 +769,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
             ) : (
               isPlayingVideo2 && (
                 <iframe
-                  key={`interview-bg-iframe-2-${INTERVIEW_VIDEO_2_ID}`}
+                  key={`interview-bg-iframe-2-${INTERVIEW_VIDEO_2_ID}-${video2PlayNonce}`}
                   src={INTERVIEW_VIDEO_2_URL}
                   title="Video phỏng vấn 2 - Nguyễn Hùng Thái"
                   allow="autoplay; fullscreen; picture-in-picture"
@@ -938,13 +1005,13 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                     borderRadius: '999px',
                   }}
                   className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
-                  title="Bấm để hủy phát Video 2 và quay về Video 1"
+                  title="Bấm để hủy video và quay về Video 1"
                 >
                   <span className="flex items-center justify-center">
                     <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-current shrink-0" style={{ height: '16px', width: '16px' }} />
                   </span>
                   <span className="typo-button text-current truncate font-play text-left">
-                    Hủy Phát
+                    Hủy Video
                   </span>
                 </button>
               )}

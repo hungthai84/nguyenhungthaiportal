@@ -838,16 +838,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                         </h3>
                       </div>
 
-                      <div className="flex items-center gap-1.5 flex-wrap pb-1.5 border-b border-[var(--border-subcard)] typo-caption font-semibold min-w-0">
-                        <span className="truncate max-w-full text-[var(--text-primary)]">
-                          Vai trò: {proj.role}
-                        </span>
-                        <span className="text-[var(--text-muted)]">·</span>
-                        <span className="shrink-0 font-mono" style={{ color: cardColor }}>
-                          {proj.phase}
-                        </span>
-                      </div>
-
                       <p className="typo-caption text-[var(--text-secondary)] leading-relaxed line-clamp-2 break-words m-0">
                         {proj.description}
                       </p>

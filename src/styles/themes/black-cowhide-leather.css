@@ -344,8 +344,7 @@ html[data-card-style="black-cowhide-leather"] #home-stats-card,
 html[data-card-style="black-cowhide-leather"] #home-intro-card,
 html[data-card-style="black-cowhide-leather"] #home-capabilities-card,
 html[data-card-style="black-cowhide-leather"] #home-achievements-card,
-html[data-card-style="black-cowhide-leather"] #bento-letter-video,
-html[data-card-style="black-cowhide-leather"] #about-personal-info-grid {
+html[data-card-style="black-cowhide-leather"] #bento-letter-video {
   background: linear-gradient(145deg, #242730 0%, #12141A 52%, #1A1D24 100%) !important;
   border: 2px solid #08090C !important;
   box-shadow: var(--shadow-card) !important;
@@ -354,10 +353,6 @@ html[data-card-style="black-cowhide-leather"] #about-personal-info-grid {
   -webkit-backdrop-filter: none !important;
   outline: 1.5px dashed rgba(255, 255, 255, 0.78);
   outline-offset: -7px;
-}
-
-html[data-card-style="black-cowhide-leather"] #about-personal-info-grid {
-  outline: none !important;
 }
 
 html[data-card-style="black-cowhide-leather"] #bento-letter-video {

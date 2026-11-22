@@ -38,7 +38,7 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
 > = {
   'liquid-glass': { cardOpacity: 13, blurIntensity: 18 },
   'dark-liquid-glass': { cardOpacity: 13, blurIntensity: 18 },
-  'multicolor-glass': { cardOpacity: 44, blurIntensity: 22 },
+  'multicolor-glass': { cardOpacity: 92, blurIntensity: 22 },
   'dark-neon-glass': { cardOpacity: 58, blurIntensity: 24 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'black-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },

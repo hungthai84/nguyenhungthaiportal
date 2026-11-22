@@ -71,7 +71,8 @@ html #about-personal-info-card-right {
 html #about-personal-info-card-right {
   container-type: inline-size;
   container-name: about-info-panel;
-  overflow: hidden !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
 /* Detail View Occupancy: Khi mở chi tiết dự án / lĩnh vực / hệ thống / học vấn / kỹ năng / kinh nghiệm -> lấp đầy 100% thẻ chính */
@@ -95,18 +96,21 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 /* Subcard adaptation inside #about-personal-info-card-right across narrow & wide columns */
 @container about-info-panel (max-width: 319px) {
   #about-personal-info-card-right {
-    padding: 8px !important;
-    gap: 6px !important;
-  }
-
-  #about-personal-info-grid {
     grid-template-columns: minmax(0, 1fr) !important;
     grid-auto-rows: max-content !important;
     align-content: start !important;
+    align-items: start !important;
+    padding: 8px !important;
     gap: 6px !important;
+    row-gap: 6px !important;
+    column-gap: 6px !important;
   }
 
-  #about-personal-info-grid > .about-info-subcard {
+  #about-personal-info-card-right > :first-child {
+    grid-column: 1 / -1 !important;
+  }
+
+  #about-personal-info-card-right > .about-info-subcard {
     grid-column: 1 / -1 !important;
     height: auto !important;
     min-height: 44px !important;
@@ -116,14 +120,21 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 }
 
 @container about-info-panel (min-width: 320px) {
-  #about-personal-info-grid {
+  #about-personal-info-card-right {
     grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
     grid-auto-rows: max-content !important;
     align-content: start !important;
     align-items: start !important;
+    gap: 10px !important;
+    row-gap: 10px !important;
+    column-gap: 10px !important;
   }
 
-  #about-personal-info-grid > .about-info-subcard {
+  #about-personal-info-card-right > :first-child {
+    grid-column: 1 / -1 !important;
+  }
+
+  #about-personal-info-card-right > .about-info-subcard {
     height: auto !important;
     min-height: 0 !important;
   }
@@ -132,38 +143,27 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 @container about-info-panel (min-width: 320px) and (max-width: 429px) {
   #about-personal-info-card-right {
     padding: 12px !important;
-    gap: 10px !important;
+    gap: 8px !important;
+    row-gap: 8px !important;
+    column-gap: 8px !important;
   }
 
   #about-personal-info-card-right #about-copy-vcard-btn span {
     display: none !important;
   }
 
-  #about-personal-info-grid {
-    gap: 8px !important;
-    row-gap: 8px !important;
-    column-gap: 8px !important;
-  }
-
-  #about-personal-info-grid > .about-info-subcard {
+  #about-personal-info-card-right > .about-info-subcard {
     padding: 7px 9px !important;
     gap: 4px !important;
   }
 
-  #about-personal-info-grid > .about-info-subcard .about-info-label {
+  #about-personal-info-card-right > .about-info-subcard .about-info-label {
     font-size: 11px !important;
   }
 
-  #about-personal-info-grid > .about-info-subcard .about-info-value {
+  #about-personal-info-card-right > .about-info-subcard .about-info-value {
     font-size: 12px !important;
   }
-}
-
-html #about-personal-info-grid,
-html[data-card-style] #about-personal-info-grid {
-  border-radius: 14px !important;
-  padding: 10px !important;
-  box-sizing: border-box !important;
 }
 
 /* Preserve #education-main-card existing container name alongside main-card */

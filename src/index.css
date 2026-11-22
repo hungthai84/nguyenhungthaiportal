@@ -2252,27 +2252,27 @@ html[data-card-style] .project-detail-banner-media :is(img, video),
   -webkit-user-select: none !important;
 }
 
-html #interview-questions-card .project-detail-banner-media video[data-video-layer-active="false"],
-html[data-card-style] #interview-questions-card .project-detail-banner-media video[data-video-layer-active="false"] {
+html :is(#interview-questions-card, #about-hero-video-container) .project-detail-banner-media video[data-video-layer-active="false"],
+html[data-card-style] :is(#interview-questions-card, #about-hero-video-container) .project-detail-banner-media video[data-video-layer-active="false"] {
   opacity: 0 !important;
   visibility: hidden !important;
   z-index: 1 !important;
   transition: opacity 280ms ease, visibility 0s linear 280ms !important;
 }
 
-html #interview-questions-card .project-detail-banner-media video[data-video-preparing="true"],
-html[data-card-style] #interview-questions-card .project-detail-banner-media video[data-video-preparing="true"] {
+html :is(#interview-questions-card, #about-hero-video-container) .project-detail-banner-media video[data-video-preparing="true"],
+html[data-card-style] :is(#interview-questions-card, #about-hero-video-container) .project-detail-banner-media video[data-video-preparing="true"] {
   opacity: 0 !important;
   visibility: visible !important;
   z-index: 2 !important;
   transition: opacity 280ms ease !important;
 }
 
-html #interview-questions-card .project-detail-banner-media video[data-video-layer-active="true"],
-html[data-card-style] #interview-questions-card .project-detail-banner-media video[data-video-layer-active="true"] {
+html :is(#interview-questions-card, #about-hero-video-container) .project-detail-banner-media video[data-video-layer-active="true"],
+html[data-card-style] :is(#interview-questions-card, #about-hero-video-container) .project-detail-banner-media video[data-video-layer-active="true"] {
   opacity: 1 !important;
   visibility: visible !important;
-  z-index: 2 !important;
+  z-index: 3 !important;
   transition: opacity 280ms ease, transform 500ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms ease !important;
 }
 

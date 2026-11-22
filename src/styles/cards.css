@@ -85,17 +85,6 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
   transition: transform var(--motion-normal) var(--motion-ease), box-shadow 300ms ease-in-out, border-color 300ms ease-in-out, background 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out !important;
 }
 
-#about-personal-info-grid {
-  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
-  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-secondary-blur, var(--glass-card-blur, var(--bg-blur, 19px)))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%)))) !important;
-  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-secondary-blur, var(--glass-card-blur, var(--bg-blur, 19px)))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%)))) !important;
-  border-radius: 14px !important;
-  padding: 10px !important;
-  box-sizing: border-box !important;
-}
-
 #about-hero-video-container,
 #bento-letter-video,
 #experience-video-card-2026,

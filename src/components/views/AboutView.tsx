@@ -133,14 +133,14 @@ export const BENTO_PALETTES: Record<BentoPaletteType, BentoPaletteConfig> = {
   },
 };
 
-// Video 1 làm hình nền mặc định cho Card Giới thiệu (copy từ Video 1 phỏng vấn)
-const ABOUT_VIDEO_1_ID = '1-XpJWJEyTq4PYh902i7FQbWYnpO17PvM';
+// Video 1 làm hình nền mặc định cho Card Giới thiệu
+const ABOUT_VIDEO_1_ID = '1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
 const ABOUT_VIDEO_1_STREAM_URL = `/api/media/drive-video/${ABOUT_VIDEO_1_ID}`;
 const ABOUT_VIDEO_1_ALT_STREAM_URL = `https://drive.usercontent.google.com/download?id=${ABOUT_VIDEO_1_ID}&export=download&confirm=t`;
 const ABOUT_VIDEO_1_URL = `https://drive.google.com/file/d/${ABOUT_VIDEO_1_ID}/preview`;
 
 // Video 2 phát khi bấm nút Phát Video (tự động phát, vòng lặp, mở âm thanh mặc định, không control)
-const ABOUT_VIDEO_2_ID = '1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
+const ABOUT_VIDEO_2_ID = '12cdItjoc6LpIetmw6-1BiSt8kUaaNe7R';
 const ABOUT_VIDEO_2_STREAM_URL = `/api/media/drive-video/${ABOUT_VIDEO_2_ID}`;
 const ABOUT_VIDEO_2_ALT_STREAM_URL = `https://drive.usercontent.google.com/download?id=${ABOUT_VIDEO_2_ID}&export=download&confirm=t`;
 const ABOUT_VIDEO_2_URL = `https://drive.google.com/file/d/${ABOUT_VIDEO_2_ID}/preview`;
@@ -811,12 +811,14 @@ export function AboutView({
   const video2StageRef = useRef<AboutStreamStage>('primary');
   const isPlayingIntroRef = useRef<boolean>(false);
   const isAudioOnRef = useRef<boolean>(false);
+  const shouldResetVideo2StartRef = useRef<boolean>(false);
 
   const [video1Stage, setVideo1Stage] = useState<AboutStreamStage>('primary');
   const [video2Stage, setVideo2Stage] = useState<AboutStreamStage>('primary');
   const [isPlayingIntro, setIsPlayingIntro] = useState<boolean>(false);
   const [isVideo2Ready, setIsVideo2Ready] = useState<boolean>(false);
   const [isAudioOn, setIsAudioOn] = useState<boolean>(false);
+  const [video2PlayNonce, setVideo2PlayNonce] = useState<number>(0);
 
   const getVideo1StreamUrl = useCallback((stage: AboutStreamStage): string => {
     return stage === 'alt' ? ABOUT_VIDEO_1_ALT_STREAM_URL : ABOUT_VIDEO_1_STREAM_URL;
@@ -1329,12 +1331,15 @@ export function AboutView({
   const handlePlayIntro = useCallback(() => {
     isPlayingIntroRef.current = true;
     isAudioOnRef.current = true;
+    shouldResetVideo2StartRef.current = true;
     setIsPlayingIntro(true);
     setIsAudioOn(true);
     setIsVideo2Ready(false);
+    setVideo2PlayNonce((prev) => prev + 1);
     saveMutedPref(false);
 
     if (video2StageRef.current === 'iframe') {
+      shouldResetVideo2StartRef.current = false;
       setIsVideo2Ready(true);
       const v1 = video1Ref.current;
       if (v1 && !v1.paused) {
@@ -1347,19 +1352,41 @@ export function AboutView({
     const v2 = video2Ref.current;
     if (v2) {
       const targetSrc = getVideo2StreamUrl(video2StageRef.current);
-      if (!v2.src || !v2.src.includes(ABOUT_VIDEO_2_ID)) {
+      const needsReload = v2.getAttribute('src') !== targetSrc || Boolean(v2.error);
+      if (needsReload) {
         v2.src = targetSrc;
       }
       v2.preload = 'auto';
       enforceVideoAttributes(v2, false, true);
-      if (v2.readyState >= 1) {
+      if (needsReload) {
+        try {
+          v2.load();
+        } catch {
+          // Ignore reload exception
+        }
+      }
+      if (v2.readyState >= 1 && v2.currentTime > 0.08) {
+        try {
+          v2.pause();
+        } catch {
+          // Ignore
+        }
         try {
           v2.currentTime = 0;
         } catch {
-          // Ignore seek error
+          shouldResetVideo2StartRef.current = false;
+          tryStartVideo2(v2, true);
         }
+      } else {
+        if (v2.readyState >= 1) {
+          try {
+            v2.currentTime = 0;
+          } catch {
+            // Ignore seek error
+          }
+        }
+        tryStartVideo2(v2, true);
       }
-      tryStartVideo2(v2, true);
     }
 
     showToast('Đang phát Video 2 giới thiệu (mở âm thanh)');
@@ -1368,6 +1395,7 @@ export function AboutView({
   const handleCancelIntro = useCallback(() => {
     isPlayingIntroRef.current = false;
     isAudioOnRef.current = false;
+    shouldResetVideo2StartRef.current = false;
     setIsPlayingIntro(false);
     setIsVideo2Ready(false);
     setIsAudioOn(false);
@@ -1396,7 +1424,7 @@ export function AboutView({
       tryStartVideo1(v1, false);
     }
 
-    showToast('Đã hủy phát — quay về Video 1 mặc định (tắt âm thanh)');
+    showToast('Đã hủy video — quay về Video 1 mặc định (tắt âm thanh)');
   }, [enforceVideoAttributes, showToast, tryStartVideo1]);
 
   const toggleVideoMute = useCallback(() => {
@@ -1453,6 +1481,11 @@ export function AboutView({
                       v.muted = true;
                       v.loop = true;
                       v.controls = false;
+                      try {
+                        v.currentTime = 0;
+                      } catch {
+                        // Ignore seek error
+                      }
                       v.disablePictureInPicture = true;
                       (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
                       v.removeAttribute('controls');
@@ -1997,7 +2030,7 @@ export function AboutView({
                             id="about-bg-video-1"
                             data-video-slot={1}
                             data-video-id={ABOUT_VIDEO_1_ID}
-                            data-video-layer-active={!isPlayingIntro ? 'true' : 'false'}
+                            data-video-layer-active={!(isPlayingIntro && isVideo2Ready) ? 'true' : 'false'}
                             autoPlay
                             loop
                             muted={!(!isPlayingIntro && isAudioOn)}
@@ -2074,7 +2107,8 @@ export function AboutView({
                             id="about-bg-video-2"
                             data-video-slot={2}
                             data-video-id={ABOUT_VIDEO_2_ID}
-                            data-video-layer-active={isPlayingIntro ? 'true' : 'false'}
+                            data-video-preparing={isPlayingIntro && !isVideo2Ready ? 'true' : 'false'}
+                            data-video-layer-active={isPlayingIntro && isVideo2Ready ? 'true' : 'false'}
                             loop
                             muted={!(isPlayingIntro && isAudioOn)}
                             playsInline
@@ -2091,26 +2125,70 @@ export function AboutView({
                                 return;
                               }
                               enforceVideoAttributes(v, !isAudioOnRef.current, true);
+                              if (shouldResetVideo2StartRef.current && v.currentTime > 0.08) {
+                                try {
+                                  v.currentTime = 0;
+                                  return;
+                                } catch {
+                                  // Ignore
+                                }
+                              }
                               if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
                             }}
                             onLoadedData={(e) => {
                               const v = e.currentTarget;
                               if (!isPlayingIntroRef.current) return;
                               enforceVideoAttributes(v, !isAudioOnRef.current, true);
+                              if (shouldResetVideo2StartRef.current && v.readyState >= 1 && v.currentTime > 0.08) {
+                                try {
+                                  v.currentTime = 0;
+                                  return;
+                                } catch {
+                                  // Ignore
+                                }
+                              }
                               if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
                             }}
                             onCanPlay={(e) => {
                               const v = e.currentTarget;
                               if (!isPlayingIntroRef.current) return;
                               enforceVideoAttributes(v, !isAudioOnRef.current, true);
+                              if (shouldResetVideo2StartRef.current && v.readyState >= 1 && v.currentTime > 0.08) {
+                                try {
+                                  v.currentTime = 0;
+                                  return;
+                                } catch {
+                                  // Ignore
+                                }
+                              }
                               if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
                             }}
+                            onSeeked={(e) => {
+                              if (!isPlayingIntroRef.current) return;
+                              const v = e.currentTarget;
+                              if (shouldResetVideo2StartRef.current && v.currentTime <= 0.15) {
+                                shouldResetVideo2StartRef.current = false;
+                                enforceVideoAttributes(v, !isAudioOnRef.current, true);
+                                if (v.paused) tryStartVideo2(v, isAudioOnRef.current);
+                              }
+                            }}
                             onPlaying={(e) => {
+                              const v = e.currentTarget;
                               if (!isPlayingIntroRef.current) {
-                                e.currentTarget.pause();
+                                v.pause();
                                 return;
                               }
-                              enforceVideoAttributes(e.currentTarget, !isAudioOnRef.current, true);
+                              if (shouldResetVideo2StartRef.current && v.readyState >= 1 && v.currentTime > 0.15) {
+                                try {
+                                  v.pause();
+                                  v.currentTime = 0;
+                                } catch {
+                                  shouldResetVideo2StartRef.current = false;
+                                }
+                                return;
+                              }
+                              shouldResetVideo2StartRef.current = false;
+                              enforceVideoAttributes(v, !isAudioOnRef.current, true);
                               setIsVideo2Ready(true);
                               const v1 = video1Ref.current;
                               if (v1 && !v1.paused) {
@@ -2127,6 +2205,7 @@ export function AboutView({
                             }}
                             onPause={(e) => {
                               if (!isPlayingIntroRef.current) return;
+                              if (shouldResetVideo2StartRef.current) return;
                               if (typeof document !== 'undefined' && document.hidden) return;
                               const v = e.currentTarget;
                               if (v.seeking) return;
@@ -2142,7 +2221,7 @@ export function AboutView({
                         ) : (
                           isPlayingIntro && (
                             <iframe
-                              key={`about-bg-iframe-2-${ABOUT_VIDEO_2_ID}`}
+                              key={`about-bg-iframe-2-${ABOUT_VIDEO_2_ID}-${video2PlayNonce}`}
                               src={ABOUT_VIDEO_2_URL}
                               title="Video giới thiệu 2 - Nguyễn Hùng Thái"
                               allow="autoplay; fullscreen; picture-in-picture"
@@ -2350,13 +2429,13 @@ export function AboutView({
                             borderRadius: '999px',
                           }}
                           className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
-                          title="Bấm để hủy phát video"
+                          title="Bấm để hủy video và quay về Video 1"
                         >
                           <span id="el-p2-span-36" className="flex items-center justify-center">
                             <WebIcon id="el-p2-svg-17" name="cancel" className="w-4 h-4 stroke-[2.8] text-current shrink-0" style={{ height: '16px', width: '16px' }} />
                           </span>
                           <span id="el-p2-span-37" className="typo-button text-current truncate font-play text-left" style={{ textAlign: 'left' }}>
-                            Hủy Phát
+                            Hủy Video
                           </span>
                         </button>
                       )}
@@ -2375,10 +2454,10 @@ export function AboutView({
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
               }}
-              className="bento-card glass-card col-span-1 flex flex-col justify-between gap-2 sm:gap-2.5 self-stretch h-full min-h-0 min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[15px] overflow-hidden"
+              className="bento-card glass-card col-span-1 grid grid-cols-1 sm:grid-cols-6 auto-rows-max content-start items-start gap-2 sm:gap-2.5 self-stretch h-full min-h-0 min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[15px] overflow-y-auto overflow-x-hidden glass-scrollbar"
             >
                   {/* Header Bento Box Bar + Thanh thao tác nhanh (Lật Bản đồ M, Sao chép 1 chạm, Mã QR vCard) */}
-                  <div className="flex flex-wrap items-center justify-between gap-1 sm:gap-2 border-b border-[var(--border-subcard)] pb-1.5 sm:pb-2 shrink-0 min-w-0">
+                  <div className="col-span-full sm:col-span-6 w-full flex flex-wrap items-center justify-between gap-1 sm:gap-2 border-b border-[var(--border-subcard)] pb-1.5 sm:pb-2 min-w-0">
                     <div className="card-header-sync flex items-center gap-1.5 sm:gap-2 text-blue-600 dark:text-cyan-400 min-w-0 flex-1">
                       <WebIcon name="user" className="w-[15px] h-[15px] sm:w-[18px] sm:h-[18px] text-blue-600 dark:text-cyan-400 shrink-0" />
                       <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight truncate" data-card-title="true">
@@ -2387,188 +2466,180 @@ export function AboutView({
                     </div>
                   </div>
 
-                  {/* Sub-Card Bento Grid (chiều cao mỗi sub-card vừa khít nội dung bên trong) */}
-                  <div
-                    id="about-personal-info-grid"
-                    className="grid grid-cols-1 sm:grid-cols-6 auto-rows-max gap-2 sm:gap-2.5 py-0.5 flex-1 min-h-0 overflow-y-auto glass-scrollbar items-start content-start w-full min-w-0"
-                  >
-                    {[
-                      // TẦNG 1: LIÊN HỆ & KẾT NỐI TRỰC TIẾP
-                      {
-                        id: 'phone',
-                        label: 'Điện thoại',
-                        value: '+84 0909097882',
-                        icon: 'phone',
-                        iconColorCls: 'text-orange-600 dark:text-orange-300',
-                        bgCls: 'bg-orange-500/10 dark:bg-orange-500/15 border-orange-500/25 dark:border-orange-400/30',
-                        action: () => {
-                          window.open('https://zalo.me/0909097882', '_blank', 'noopener,noreferrer');
-                        },
-                        colSpan: 'col-span-1 sm:col-span-3',
+                  {[
+                    // TẦNG 1: LIÊN HỆ & KẾT NỐI TRỰC TIẾP
+                    {
+                      id: 'phone',
+                      label: 'Điện thoại',
+                      value: '+84 0909097882',
+                      icon: 'phone',
+                      iconColorCls: 'text-orange-600 dark:text-orange-300',
+                      bgCls: 'bg-orange-500/10 dark:bg-orange-500/15 border-orange-500/25 dark:border-orange-400/30',
+                      action: () => {
+                        window.open('https://zalo.me/0909097882', '_blank', 'noopener,noreferrer');
                       },
-                      {
-                        id: 'email',
-                        label: 'Hộp thư',
-                        value: 'hungthai84@gmail.com',
-                        icon: 'mail',
-                        iconColorCls: 'text-pink-600 dark:text-pink-300',
-                        bgCls: 'bg-pink-500/10 dark:bg-pink-500/15 border-pink-500/25 dark:border-pink-400/30',
-                        action: () => {
-                          if (typeof navigator !== 'undefined' && navigator.clipboard) {
-                            navigator.clipboard.writeText('hungthai84@gmail.com');
-                            showToast('✓ Đã sao chép Email: hungthai84@gmail.com');
-                          }
-                        },
-                        colSpan: 'col-span-1 sm:col-span-3',
+                      colSpan: 'col-span-1 sm:col-span-3',
+                    },
+                    {
+                      id: 'email',
+                      label: 'Hộp thư',
+                      value: 'hungthai84@gmail.com',
+                      icon: 'mail',
+                      iconColorCls: 'text-pink-600 dark:text-pink-300',
+                      bgCls: 'bg-pink-500/10 dark:bg-pink-500/15 border-pink-500/25 dark:border-pink-400/30',
+                      action: () => {
+                        if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                          navigator.clipboard.writeText('hungthai84@gmail.com');
+                          showToast('✓ Đã sao chép Email: hungthai84@gmail.com');
+                        }
                       },
-                      {
-                        id: 'website',
-                        label: 'Website',
-                        value: 'Vào website',
-                        icon: 'globe',
-                        iconColorCls: 'text-blue-600 dark:text-sky-300',
-                        bgCls: 'bg-blue-500/10 dark:bg-blue-500/15 border-blue-500/25 dark:border-blue-400/30',
-                        action: () => {
-                          window.open('https://nguyenhungthai.powerservice.one/', '_blank', 'noopener,noreferrer');
-                        },
-                        colSpan: 'col-span-1 sm:col-span-3',
+                      colSpan: 'col-span-1 sm:col-span-3',
+                    },
+                    {
+                      id: 'website',
+                      label: 'Website',
+                      value: 'Vào website',
+                      icon: 'globe',
+                      iconColorCls: 'text-blue-600 dark:text-sky-300',
+                      bgCls: 'bg-blue-500/10 dark:bg-blue-500/15 border-blue-500/25 dark:border-blue-400/30',
+                      action: () => {
+                        window.open('https://nguyenhungthai.powerservice.one/', '_blank', 'noopener,noreferrer');
                       },
-                      {
-                        id: 'linkedin',
-                        label: 'LinkedIn',
-                        value: 'Vào linkedin',
-                        icon: 'user-check',
-                        iconColorCls: 'text-indigo-600 dark:text-indigo-300',
-                        bgCls: 'bg-indigo-500/10 dark:bg-indigo-500/15 border-indigo-500/25 dark:border-indigo-400/30',
-                        action: () => {
-                          window.open('https://www.linkedin.com/in/hungthai84/', '_blank', 'noopener,noreferrer');
-                        },
-                        colSpan: 'col-span-1 sm:col-span-3',
+                      colSpan: 'col-span-1 sm:col-span-3',
+                    },
+                    {
+                      id: 'linkedin',
+                      label: 'LinkedIn',
+                      value: 'Vào linkedin',
+                      icon: 'user-check',
+                      iconColorCls: 'text-indigo-600 dark:text-indigo-300',
+                      bgCls: 'bg-indigo-500/10 dark:bg-indigo-500/15 border-indigo-500/25 dark:border-indigo-400/30',
+                      action: () => {
+                        window.open('https://www.linkedin.com/in/hungthai84/', '_blank', 'noopener,noreferrer');
                       },
-                      // TẦNG 2: ĐỊA ĐIỂM & BẢN ĐỒ TƯƠNG TÁC
-                      {
-                        id: 'tam_tru',
-                        label: 'Tạm trú',
-                        value: 'P.Tân Phú (Q7) , TP. Hồ Chí Minh',
-                        icon: 'map-pin',
-                        iconColorCls: 'text-cyan-600 dark:text-cyan-300',
-                        bgCls: cn(
-                          'bg-cyan-500/10 dark:bg-cyan-500/15 border-cyan-500/25 dark:border-cyan-400/30',
-                          activeHeroMedia === 'map' && activeHeroMapType === 'tam_tru' && 'ring-2 ring-cyan-500/70'
-                        ),
-                        action: () => {
-                          setActiveHeroMedia('map');
-                          setActiveHeroMapType('tam_tru');
-                          setActiveMapTab('tam_tru');
-                          showToast('📍 Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh');
-                        },
-                        colSpan: 'col-span-1 sm:col-span-6',
+                      colSpan: 'col-span-1 sm:col-span-3',
+                    },
+                    // TẦNG 2: ĐỊA ĐIỂM & BẢN ĐỒ TƯƠNG TÁC
+                    {
+                      id: 'tam_tru',
+                      label: 'Tạm trú',
+                      value: 'P.Tân Phú (Q7) , TP. Hồ Chí Minh',
+                      icon: 'map-pin',
+                      iconColorCls: 'text-cyan-600 dark:text-cyan-300',
+                      bgCls: cn(
+                        'bg-cyan-500/10 dark:bg-cyan-500/15 border-cyan-500/25 dark:border-cyan-400/30',
+                        activeHeroMedia === 'map' && activeHeroMapType === 'tam_tru' && 'ring-2 ring-cyan-500/70'
+                      ),
+                      action: () => {
+                        setActiveHeroMedia('map');
+                        setActiveHeroMapType('tam_tru');
+                        setActiveMapTab('tam_tru');
+                        showToast('📍 Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh');
                       },
-                      {
-                        id: 'cu_tru',
-                        label: 'Cư trú',
-                        value: 'Phường Mỹ Tho, Tỉnh Đồng Tháp',
-                        icon: 'home',
-                        iconColorCls: 'text-teal-600 dark:text-teal-300',
-                        bgCls: cn(
-                          'bg-teal-500/10 dark:bg-teal-500/15 border-teal-500/25 dark:border-teal-400/30',
-                          activeHeroMedia === 'map' && activeHeroMapType === 'cu_tru' && 'ring-2 ring-teal-500/70'
-                        ),
-                        action: () => {
-                          setActiveHeroMedia('map');
-                          setActiveHeroMapType('cu_tru');
-                          setActiveMapTab('cu_tru');
-                          showToast('📍 Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp');
-                        },
-                        colSpan: 'col-span-1 sm:col-span-6',
+                      colSpan: 'col-span-1 sm:col-span-6',
+                    },
+                    {
+                      id: 'cu_tru',
+                      label: 'Cư trú',
+                      value: 'Phường Mỹ Tho, Tỉnh Đồng Tháp',
+                      icon: 'home',
+                      iconColorCls: 'text-teal-600 dark:text-teal-300',
+                      bgCls: cn(
+                        'bg-teal-500/10 dark:bg-teal-500/15 border-teal-500/25 dark:border-teal-400/30',
+                        activeHeroMedia === 'map' && activeHeroMapType === 'cu_tru' && 'ring-2 ring-teal-500/70'
+                      ),
+                      action: () => {
+                        setActiveHeroMedia('map');
+                        setActiveHeroMapType('cu_tru');
+                        setActiveMapTab('cu_tru');
+                        showToast('📍 Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp');
                       },
-                      // TẦNG 3: THÔNG TIN CÁ NHÂN & NHÂN KHẨU HỌC
-                      {
-                        id: 'birthday',
-                        label: 'Sinh nhật',
-                        value: '22/06/1984',
-                        icon: 'calendar',
-                        iconColorCls: 'text-amber-600 dark:text-amber-300',
-                        bgCls: 'bg-amber-500/10 dark:bg-amber-500/15 border-amber-500/25 dark:border-amber-400/30',
-                        action: () => showToast('Sinh nhật: 22/06/1984'),
-                        colSpan: 'col-span-1 sm:col-span-3',
-                      },
-                      {
-                        id: 'horoscope',
-                        label: 'Tử vi',
-                        value: 'Giáp Tý',
-                        icon: 'sparkles',
-                        iconColorCls: 'text-purple-600 dark:text-purple-300',
-                        bgCls: 'bg-purple-500/10 dark:bg-purple-500/15 border-purple-500/25 dark:border-purple-400/30',
-                        action: () => showToast('Tử vi: Giáp Tý - Mệnh Hải Trung Kim'),
-                        colSpan: 'col-span-1 sm:col-span-3',
-                      },
-                      {
-                        id: 'gender',
-                        label: 'Giới tính',
-                        value: 'Nam giới',
-                        icon: 'user',
-                        iconColorCls: 'text-sky-600 dark:text-sky-300',
-                        bgCls: 'bg-sky-500/10 dark:bg-sky-500/15 border-sky-500/25 dark:border-sky-400/30',
-                        action: () => showToast('Giới tính: Nam giới'),
-                        colSpan: 'col-span-1 sm:col-span-2',
-                      },
-                      {
-                        id: 'ethnicity',
-                        label: 'Dân tộc',
-                        value: 'Kinh',
-                        icon: 'globe',
-                        iconColorCls: 'text-emerald-600 dark:text-emerald-300',
-                        bgCls: 'bg-emerald-500/10 dark:bg-emerald-500/15 border-emerald-500/25 dark:border-emerald-400/30',
-                        action: () => showToast('Dân tộc: Kinh'),
-                        colSpan: 'col-span-1 sm:col-span-2',
-                      },
-                      {
-                        id: 'marital',
-                        label: 'Hôn nhân',
-                        value: 'Độc thân',
-                        icon: 'heart',
-                        iconColorCls: 'text-rose-600 dark:text-rose-300',
-                        bgCls: 'bg-rose-500/10 dark:bg-rose-500/15 border-rose-500/25 dark:border-rose-400/30',
-                        action: () => showToast('Hôn nhân: Độc thân'),
-                        colSpan: 'col-span-1 sm:col-span-2',
-                      },
-                    ].map((item) => (
-                      <div
-                        key={item.id}
-                        data-subcard="true"
-                        onClick={() => {
-                          SoundEngine.playPop();
-                          item.action();
-                        }}
-                        title={`${item.label}: ${item.value}`}
-                        className={cn(
-                          'about-info-subcard h-fit w-full flex flex-col justify-start gap-1.5 p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
-                          item.colSpan,
-                          item.bgCls
-                        )}
-                      >
-                        {/* Hàng 1: Icon & Tiêu đề */}
-                        <div className="flex items-center gap-1.5 min-w-0 w-full">
-                          <WebIcon
-                            name={item.icon}
-                            className={cn('w-3.5 h-3.5 shrink-0', item.iconColorCls)}
-                            style={{ width: '14px', height: '14px' }}
-                          />
-                          <span className={cn('about-info-label typo-label font-bold leading-tight whitespace-nowrap truncate min-w-0', item.iconColorCls)}>
-                            {item.label}
-                          </span>
-                        </div>
-
-                        {/* Hàng 2: Chỉ hiển thị 1 dòng */}
-                        <div className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 w-full">
-                          {item.value}
-                        </div>
+                      colSpan: 'col-span-1 sm:col-span-6',
+                    },
+                    // TẦNG 3: THÔNG TIN CÁ NHÂN & NHÂN KHẨU HỌC
+                    {
+                      id: 'birthday',
+                      label: 'Sinh nhật',
+                      value: '22/06/1984',
+                      icon: 'calendar',
+                      iconColorCls: 'text-amber-600 dark:text-amber-300',
+                      bgCls: 'bg-amber-500/10 dark:bg-amber-500/15 border-amber-500/25 dark:border-amber-400/30',
+                      action: () => showToast('Sinh nhật: 22/06/1984'),
+                      colSpan: 'col-span-1 sm:col-span-3',
+                    },
+                    {
+                      id: 'horoscope',
+                      label: 'Tử vi',
+                      value: 'Giáp Tý',
+                      icon: 'sparkles',
+                      iconColorCls: 'text-purple-600 dark:text-purple-300',
+                      bgCls: 'bg-purple-500/10 dark:bg-purple-500/15 border-purple-500/25 dark:border-purple-400/30',
+                      action: () => showToast('Tử vi: Giáp Tý - Mệnh Hải Trung Kim'),
+                      colSpan: 'col-span-1 sm:col-span-3',
+                    },
+                    {
+                      id: 'gender',
+                      label: 'Giới tính',
+                      value: 'Nam giới',
+                      icon: 'user',
+                      iconColorCls: 'text-sky-600 dark:text-sky-300',
+                      bgCls: 'bg-sky-500/10 dark:bg-sky-500/15 border-sky-500/25 dark:border-sky-400/30',
+                      action: () => showToast('Giới tính: Nam giới'),
+                      colSpan: 'col-span-1 sm:col-span-2',
+                    },
+                    {
+                      id: 'ethnicity',
+                      label: 'Dân tộc',
+                      value: 'Kinh',
+                      icon: 'globe',
+                      iconColorCls: 'text-emerald-600 dark:text-emerald-300',
+                      bgCls: 'bg-emerald-500/10 dark:bg-emerald-500/15 border-emerald-500/25 dark:border-emerald-400/30',
+                      action: () => showToast('Dân tộc: Kinh'),
+                      colSpan: 'col-span-1 sm:col-span-2',
+                    },
+                    {
+                      id: 'marital',
+                      label: 'Hôn nhân',
+                      value: 'Độc thân',
+                      icon: 'heart',
+                      iconColorCls: 'text-rose-600 dark:text-rose-300',
+                      bgCls: 'bg-rose-500/10 dark:bg-rose-500/15 border-rose-500/25 dark:border-rose-400/30',
+                      action: () => showToast('Hôn nhân: Độc thân'),
+                      colSpan: 'col-span-1 sm:col-span-2',
+                    },
+                  ].map((item) => (
+                    <div
+                      key={item.id}
+                      data-subcard="true"
+                      onClick={() => {
+                        SoundEngine.playPop();
+                        item.action();
+                      }}
+                      title={`${item.label}: ${item.value}`}
+                      className={cn(
+                        'about-info-subcard h-fit w-full flex flex-col justify-start gap-1.5 p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
+                        item.colSpan,
+                        item.bgCls
+                      )}
+                    >
+                      {/* Hàng 1: Icon & Tiêu đề */}
+                      <div className="flex items-center gap-1.5 min-w-0 w-full">
+                        <WebIcon
+                          name={item.icon}
+                          className={cn('w-3.5 h-3.5 shrink-0', item.iconColorCls)}
+                          style={{ width: '14px', height: '14px' }}
+                        />
+                        <span className={cn('about-info-label typo-label font-bold leading-tight whitespace-nowrap truncate min-w-0', item.iconColorCls)}>
+                          {item.label}
+                        </span>
                       </div>
-                    ))}
-                  </div>
 
-
+                      {/* Hàng 2: Chỉ hiển thị 1 dòng */}
+                      <div className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 w-full">
+                        {item.value}
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
         </div>

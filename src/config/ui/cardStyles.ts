@@ -465,28 +465,26 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     isDark: false,
     icon: 'sparkles',
     color: '#6366F1',
-    desc: 'Giao diện Glass UI nền card trong suốt đa màu sắc hiện đại: hiệu ứng kính mờ bão hòa cao kết hợp sắc độ Cyan, Tím Iris, Hồng Blush và Mint.',
+    desc: 'Giao diện Glass UI nền card màu trắng kính mờ hiện đại kết hợp sắc độ đa sắc ở viền, bóng đổ và điểm nhấn Cyan, Tím Iris, Hồng Blush.',
     cardSampleStyle: {
-      background:
-        'linear-gradient(135deg, rgba(212, 240, 255, 0.56) 0%, rgba(238, 224, 255, 0.52) 52%, rgba(255, 228, 244, 0.54) 100%)',
+      background: 'rgba(255, 255, 255, 0.92)',
       backdropFilter: 'blur(22px) saturate(185%)',
       WebkitBackdropFilter: 'blur(22px) saturate(185%)',
       borderRadius: '22px',
-      border: '1px solid rgba(255, 255, 255, 0.84)',
+      border: '1px solid rgba(255, 255, 255, 0.94)',
       boxShadow:
-        '0 14px 34px -8px rgba(79, 70, 229, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.92)',
+        '0 14px 34px -8px rgba(79, 70, 229, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.98)',
       color: '#0F172A',
     },
     miniPreviewWrapStyle: {
-      background:
-        'linear-gradient(135deg, rgba(216, 242, 255, 0.68) 0%, rgba(242, 228, 255, 0.62) 52%, rgba(255, 232, 245, 0.66) 100%)',
-      borderColor: 'rgba(255, 255, 255, 0.86)',
+      background: 'rgba(255, 255, 255, 0.92)',
+      borderColor: 'rgba(255, 255, 255, 0.94)',
       borderWidth: '1px',
     },
     miniTabStyle: {
-      background: 'rgba(255, 255, 255, 0.56)',
+      background: 'rgba(255, 255, 255, 0.96)',
       color: '#0F172A',
-      borderColor: 'rgba(255, 255, 255, 0.84)',
+      borderColor: 'rgba(226, 232, 240, 0.85)',
     },
     miniBtnStyle: {
       background: 'linear-gradient(135deg, #6366F1 0%, #EC4899 52%, #06B6D4 100%)',

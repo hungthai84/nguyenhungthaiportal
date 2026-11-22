@@ -68,7 +68,7 @@ export default function App() {
   // Thứ tự trang theo Menu Icon trên Header (0..11, PDF 16, Hùng Thái 12) rồi tới các trang tiện ích Footer (15, 14, 13)
   const MENU_ICON_ORDER = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 12, 15, 14, 13];
   const PAGE_SLIDE_COUNTS: Record<number, number> = {
-    0: 3,
+    0: 1,
     1: 4,
     2: 2,
     5: 1,
@@ -76,7 +76,7 @@ export default function App() {
   };
 
   const [pageSlides, setPageSlides] = useState<Record<number, number>>({
-    0: 1,
+    0: 0,
     5: 0,
   });
   const [pendingSlideTarget, setPendingSlideTarget] = useState<{

@@ -21,7 +21,7 @@ export interface HomeViewProps {
 }
 
 export interface VideoScreenItem {
-  id: 1 | 2 | 3;
+  id: 1;
   label: string;
   badge: string;
   title: string;
@@ -32,7 +32,6 @@ export interface VideoScreenItem {
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
-  slideIndex,
   currentTheme = 'liquid-glass',
   onNavigateContact,
   onNavigatePage,
@@ -43,7 +42,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const { isDark: themeIsDark } = useTheme();
 
   const homeContainerRef = useRef<HTMLDivElement | null>(null);
-  const activeScreenRef = useRef<1 | 2 | 3>(2);
+  const activeScreenRef = useRef<1>(1);
   const isProgrammaticScrollRef = useRef<boolean>(false);
   const scrollTimeoutRef = useRef<number | null>(null);
   const hasInitializedScrollRef = useRef<boolean>(false);
@@ -63,7 +62,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond';
 
-  // Danh sách 3 màn hình trang chủ (dùng chung định dạng Video card Giới thiệu)
+  // Màn hình trang chủ (dùng chung định dạng Video card Giới thiệu)
   const VIDEO_SCREENS: VideoScreenItem[] = [
     {
       id: 1,
@@ -77,36 +76,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
       heroBadge: isEn ? 'Leadership Vision' : 'Tầm Nhìn Lãnh Đạo',
       heroIcon: 'target',
     },
-    {
-      id: 2,
-      label: isEn ? 'Screen 2' : 'Màn hình 2',
-      badge: isEn ? 'Video 2 (Default)' : 'Video 2 (Gốc)',
-      title: isEn ? 'Executive Portrait & Greeting' : 'Chân Dung Chuyên Gia & Lời Chào',
-      description: isEn
-        ? 'Customer Service executive profile with 22+ years of hands-on experience'
-        : 'Chân dung điều hành dịch vụ khách hàng 22+ năm kinh nghiệm',
-      accentColor: '#F125D6',
-      heroBadge: isEn ? 'Senior Executive Profile' : 'Hồ Sơ Lãnh Đạo',
-      heroIcon: 'user',
-    },
-    {
-      id: 3,
-      label: isEn ? 'Screen 3' : 'Màn hình 3',
-      badge: 'Video 3',
-      title: isEn ? 'Digital Space & Ecosystem' : 'Không Gian Số Hóa & Hệ Sinh Thái',
-      description: isEn
-        ? 'Automated technology infrastructure and modern solution architecture'
-        : 'Hạ tầng công nghệ tự động hóa và kiến trúc giải pháp hiện đại',
-      accentColor: '#10B981',
-      heroBadge: isEn ? 'Digital Ecosystem' : 'Hệ Sinh Thái Số',
-      heroIcon: 'layers',
-    },
   ];
 
-  const initialScreen: 1 | 2 | 3 =
-    slideIndex === 0 ? 1 : slideIndex === 2 ? 3 : 2;
-
-  const [activeVideoScreen, setActiveVideoScreen] = useState<1 | 2 | 3>(initialScreen);
+  const [activeVideoScreen, setActiveVideoScreen] = useState<1>(1);
 
   // Đo kích thước khung nhìn & container để căn giữa 1 Main Card / màn hình và hé lộ thẻ kế bên (peek)
   const [viewportWidth, setViewportWidth] = useState<number>(() =>
@@ -144,11 +116,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const homeSideInset = Math.max(15, (homeContainerWidth - homeCardWidth) / 2);
 
   const getCenteredScrollLeftForCard = useCallback(
-    (screenId: 1 | 2 | 3) => {
+    (screenId: 1) => {
       const container = homeContainerRef.current;
-      if (!container) return (screenId - 1) * (homeCardWidth + 15);
+      if (!container) return 0;
       const cardEl = document.getElementById(`home-main-card-${screenId}`);
-      if (!cardEl) return (screenId - 1) * (homeCardWidth + 15);
+      if (!cardEl) return 0;
       const headerEl = document.getElementById('app-header');
       const containerRect = container.getBoundingClientRect();
       const headerRect = headerEl?.getBoundingClientRect();
@@ -160,11 +132,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
         desiredCenterX - (containerRect.left + container.clientLeft) - cardEl.offsetWidth / 2;
       return Math.max(0, Math.round(cardEl.offsetLeft - desiredLeftInContainer));
     },
-    [homeCardWidth]
+    []
   );
 
   const scrollToHomeCard = useCallback(
-    (targetId: 1 | 2 | 3, smooth = true) => {
+    (targetId: 1, smooth = true) => {
       activeScreenRef.current = targetId;
       setActiveVideoScreen(targetId);
       const container = homeContainerRef.current;
@@ -195,7 +167,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
     [getCenteredScrollLeftForCard]
   );
 
-  // Căn giữa Màn hình mặc định (Màn hình 2) ngay khi mount xong
+  // Căn giữa Màn hình 1 ngay khi mount xong
   useLayoutEffect(() => {
     if (!hasInitializedScrollRef.current && homeContainerWidth > 0) {
       hasInitializedScrollRef.current = true;
@@ -234,9 +206,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
         (detail.tabIndex === undefined || detail.tabIndex === 0) &&
         typeof detail.slide === 'number'
       ) {
-        const clampedSlide = Math.max(0, Math.min(2, detail.slide));
-        const targetId = (clampedSlide + 1) as 1 | 2 | 3;
-        scrollToHomeCard(targetId, true);
+        scrollToHomeCard(1, true);
       }
     };
     window.addEventListener('app:set-slide', handleExternalSlide);
@@ -250,53 +220,35 @@ export const HomeView: React.FC<HomeViewProps> = ({
   }, []);
 
   const handleSelectScreen = useCallback(
-    (nextScreenId: 1 | 2 | 3) => {
+    (nextScreenId: 1) => {
       if (nextScreenId === activeScreenRef.current) {
         return;
       }
       SoundEngine.playGlassChime();
       scrollToHomeCard(nextScreenId, true);
-      const target = VIDEO_SCREENS[nextScreenId - 1];
-      showToast(
-        isEn
-          ? `Switching to ${target.label} · ${target.title}`
-          : `Đang chuyển sang ${target.label} · ${target.title}`
-      );
+      const target = VIDEO_SCREENS[0];
+      if (target) {
+        showToast(
+          isEn
+            ? `Switching to ${target.label} · ${target.title}`
+            : `Đang chuyển sang ${target.label} · ${target.title}`
+        );
+      }
     },
     [scrollToHomeCard, showToast, isEn]
   );
-
-  const handlePrevVideoScreen = useCallback(() => {
-    const next = (activeVideoScreen === 1 ? 3 : activeVideoScreen - 1) as 1 | 2 | 3;
-    handleSelectScreen(next);
-  }, [activeVideoScreen, handleSelectScreen]);
-
-  const handleNextVideoScreen = useCallback(() => {
-    const next = (activeVideoScreen === 3 ? 1 : activeVideoScreen + 1) as 1 | 2 | 3;
-    handleSelectScreen(next);
-  }, [activeVideoScreen, handleSelectScreen]);
 
   const handleHomeContainerScroll = useCallback(() => {
     if (isProgrammaticScrollRef.current) return;
     const container = homeContainerRef.current;
     if (!container) return;
-    const ids: Array<1 | 2 | 3> = [1, 2, 3];
-    let closestId: 1 | 2 | 3 = activeScreenRef.current;
-    let closestDist = Number.POSITIVE_INFINITY;
-    ids.forEach((id) => {
-      const dist = Math.abs(container.scrollLeft - getCenteredScrollLeftForCard(id));
-      if (dist < closestDist) {
-        closestDist = dist;
-        closestId = id;
-      }
-    });
-    if (closestId !== activeScreenRef.current) {
-      activeScreenRef.current = closestId;
-      setActiveVideoScreen(closestId);
+    if (activeScreenRef.current !== 1) {
+      activeScreenRef.current = 1;
+      setActiveVideoScreen(1);
     }
-  }, [getCenteredScrollLeftForCard]);
+  }, []);
 
-  // Hỗ trợ vuốt cảm ứng (Touch Swipe) mượt mà cho track Trang chủ trên mobile/tablet
+  // Hỗ trợ vuốt cảm ứng (Touch Swipe) cho track Trang chủ trên mobile/tablet
   const handleTouchStart = useCallback(
     (e: React.TouchEvent<HTMLDivElement>) => {
       if (e.touches.length !== 1) return;
@@ -322,44 +274,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
     }
   }, []);
 
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent<HTMLDivElement>) => {
-      const state = touchSwipeRef.current;
-      touchSwipeRef.current = null;
-      if (!state || e.changedTouches.length === 0) return;
-
-      const touch = e.changedTouches[0];
-      const dx = touch.clientX - state.x;
-      const dy = touch.clientY - state.y;
-      const elapsed = Date.now() - state.time;
-
-      const isQuickFlick = Math.abs(dx) >= 24 && elapsed <= 260;
-      const isClearSwipe = Math.abs(dx) >= 42 || isQuickFlick;
-      if (!isClearSwipe || Math.abs(dx) <= Math.abs(dy) * 1.15) return;
-
-      if (dx < 0 && activeScreenRef.current < 3) {
-        handleSelectScreen((activeScreenRef.current + 1) as 1 | 2 | 3);
-      } else if (dx > 0 && activeScreenRef.current > 1) {
-        handleSelectScreen((activeScreenRef.current - 1) as 1 | 2 | 3);
-      }
-    },
-    [handleSelectScreen]
-  );
-
-  // Điều hướng 3 màn hình trang chủ bằng phím mũi tên Trái / Phải
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
-      if (e.key === 'ArrowLeft') {
-        handlePrevVideoScreen();
-      } else if (e.key === 'ArrowRight') {
-        handleNextVideoScreen();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handlePrevVideoScreen, handleNextVideoScreen]);
+  const handleTouchEnd = useCallback(() => {
+    touchSwipeRef.current = null;
+  }, []);
 
   const handleQuickNavigateAbout = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -420,12 +337,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
         >
           {VIDEO_SCREENS.map((screen) => {
             const isActive = activeVideoScreen === screen.id;
-            const heroCardId =
-              screen.id === 1
-                ? 'home-intro-card'
-                : screen.id === 2
-                  ? 'home-stats-card'
-                  : 'home-capabilities-card';
+            const heroCardId = 'home-intro-card';
 
             return (
               <div
@@ -529,7 +441,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
                                 : '0 1px 6px rgba(255,255,255,0.9)',
                             }}
                           >
-                            {screen.label} · {screen.id}/{VIDEO_SCREENS.length}
+                            {VIDEO_SCREENS.length > 1
+                              ? `${screen.label} · ${screen.id}/${VIDEO_SCREENS.length}`
+                              : screen.label}
                           </span>
                         )}
                       </div>
@@ -635,42 +549,13 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
       </div>
 
-      {/* Lớp điều khiển nổi căn theo thẻ chính ở giữa: Nút Trái/Phải & Dock chuyển 3 Main Card */}
-      <div className="pointer-events-none absolute inset-0 z-30 flex items-stretch justify-center overflow-hidden">
+      {/* Lớp điều khiển nổi căn theo thẻ chính ở giữa (chỉ hiển thị khi có nhiều hơn 1 màn hình) */}
+      {VIDEO_SCREENS.length > 1 && (
+        <div className="pointer-events-none absolute inset-0 z-30 flex items-stretch justify-center overflow-hidden">
           <div
             className="relative h-full max-w-full pointer-events-none"
             style={{ width: `${homeCardWidth}px` }}
           >
-            <button
-              id="el-p0-button-1"
-              data-element-id="el-p0-button-1"
-              type="button"
-              onClick={handlePrevVideoScreen}
-              title="Màn hình trước (Chuyển màn hình video)"
-              aria-label="Màn hình trước"
-              className="nav-arrow-btn theme-prev-next-btn absolute left-[26px] sm:left-[26px] top-[26px] sm:top-1/2 sm:-translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center hover:scale-110 hover:-translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto shadow-md"
-            >
-              <WebIcon
-                name="chevron-left"
-                className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform"
-              />
-            </button>
-
-            <button
-              id="el-p0-button-2"
-              data-element-id="el-p0-button-2"
-              type="button"
-              onClick={handleNextVideoScreen}
-              title="Màn hình kế tiếp (Chuyển màn hình video)"
-              aria-label="Màn hình kế tiếp"
-              className="nav-arrow-btn theme-prev-next-btn absolute right-[26px] sm:right-[26px] top-[26px] sm:top-1/2 sm:-translate-y-1/2 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square flex items-center justify-center hover:scale-110 hover:translate-x-0.5 transition-all duration-300 cursor-pointer group active:scale-95 pointer-events-auto shadow-md"
-            >
-              <WebIcon
-                name="chevron-right"
-                className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform"
-              />
-            </button>
-
             <div className="absolute bottom-[22px] left-0 right-0 z-30 flex items-center justify-center pointer-events-none">
               <div
                 id="el-p0-div-16"
@@ -706,6 +591,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             </div>
           </div>
         </div>
+      )}
     </div>
   );
 };

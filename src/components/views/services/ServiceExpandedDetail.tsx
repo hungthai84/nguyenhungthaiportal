@@ -700,6 +700,19 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                   : expandedMeta.borderDark,
             }}
           >
+            <div className="subcard-header-sync flex items-center gap-2">
+              <Award
+                className="w-4 h-4 shrink-0"
+                style={{ color: expandedAccent }}
+              />
+              <h3
+                className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
+                data-subcard-title="true"
+              >
+                {isEn ? 'Core Value & Competency Keywords' : 'Giá trị cốt lõi & Từ khóa năng lực'}
+              </h3>
+            </div>
+
             {(expandedDomain.valueDelivered || expandedDomain.summaryNote) && (
               <p className="typo-body-sm font-medium text-[var(--text-primary)] leading-relaxed m-0">
                 {expandedDomain.valueDelivered || expandedDomain.summaryNote}

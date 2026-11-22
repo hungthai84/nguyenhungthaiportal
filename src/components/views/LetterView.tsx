@@ -19,10 +19,12 @@ import { useTheme } from '@/hooks/useTheme';
 import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
 import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 
-// Video thuyết minh Thư Ngỏ (Thư ngỏ video.mp4)
-export const LETTER_SLIDE_1_VIDEO_URL = '/assets/aistudio/Th__ng__video_edd9e9ee.mp4';
+// Video thuyết minh Thư Ngỏ (Video 1 & Video 2 Google Drive ID)
+export const LETTER_VIDEO_1_ID = '156Uwr88AhLmybquXyrMsXqzxdAs5I6lw';
+export const LETTER_VIDEO_2_ID = '156Uwr88AhLmybquXyrMsXqzxdAs5I6lw';
+export const LETTER_SLIDE_1_VIDEO_URL = '/assets/aistudio/Th__ng__video_1_f7778906.mp4';
 const LETTER_SLIDE_1_DRIVE_ALT_URL =
-  'https://drive.google.com/uc?export=download&id=1duiew2xu_mga6cTOezc65A6W6ym1_bex';
+  `https://drive.google.com/uc?export=download&id=${LETTER_VIDEO_1_ID}`;
 const LETTER_SLIDE_1_MP4_BACKUP_URL =
   'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793623267/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_Ma_thu%C3%A2t_1.mp4';
 
@@ -1962,7 +1964,12 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       <div
                         className="relative w-full h-full flex-1 rounded-[inherit] overflow-hidden min-h-0 flex items-center justify-center"
                       >
-                        <DualLayerVideoPlayer className="absolute inset-0 z-0 pointer-events-auto" />
+                        <DualLayerVideoPlayer
+                          video1Id={LETTER_VIDEO_1_ID}
+                          video1Src={LETTER_SLIDE_1_VIDEO_URL}
+                          video2Id={LETTER_VIDEO_2_ID}
+                          className="absolute inset-0 z-0 pointer-events-auto"
+                        />
                       </div>
                     </article>
 

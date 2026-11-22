@@ -156,7 +156,7 @@ export const Footer: React.FC<FooterProps> = ({
     WebkitBackdropFilter: _fwbf,
     ...cleanFooterStyle
   } = footerCardStyle as any;
-  const glassBorderVal = '1px solid var(--surface-primary-border, rgba(255, 255, 255, 0.86))';
+  const glassBorderVal = 'var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color))';
   const activeThemeConfig = getCardStyleConfig(cardStyle);
 
   // Đo chiều ngang nội dung tự nhiên của 4 nút bên phải Footer và đồng bộ chiều ngang bằng nút rộng nhất
@@ -422,7 +422,7 @@ export const Footer: React.FC<FooterProps> = ({
         borderTop: glassBorderVal,
         borderLeft: glassBorderVal,
         borderRight: glassBorderVal,
-        borderRadius: 'var(--radius-footer, 24px 24px 0 0)',
+        borderRadius: 'var(--radius-footer, 20px 20px 0 0)',
       }}
       className="mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t mb-0 overflow-visible pointer-events-auto"
     >

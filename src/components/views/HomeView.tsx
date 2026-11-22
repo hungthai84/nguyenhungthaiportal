@@ -89,11 +89,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
       id: 2,
       label: isEn ? 'Screen 2' : 'Màn hình 2',
       badge: isEn ? 'Video 2 (Default)' : 'Video 2 (Gốc)',
-      url: 'https://drive.google.com/file/d/1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp/preview',
-      idleUrl: 'https://drive.google.com/file/d/1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp/preview',
-      transitionUrl: 'https://drive.google.com/file/d/11FZeENhRMILyUrG-em1DIWPyx2zVdc9d/preview',
-      playUrl: 'https://drive.google.com/file/d/12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm/preview',
-      introUrl: 'https://drive.google.com/file/d/12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm/preview',
+      url: 'https://drive.google.com/uc?export=download&id=1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp',
+      idleUrl: 'https://drive.google.com/uc?export=download&id=1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp',
+      transitionUrl: 'https://drive.google.com/uc?export=download&id=11FZeENhRMILyUrG-em1DIWPyx2zVdc9d',
+      playUrl: 'https://drive.google.com/uc?export=download&id=12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm',
+      introUrl: 'https://drive.google.com/uc?export=download&id=12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm',
       title: isEn ? 'Executive Portrait & Greeting' : 'Chân Dung Chuyên Gia & Lời Chào',
       description: isEn
         ? 'Customer Service executive profile with 22+ years of hands-on experience'
@@ -338,6 +338,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
   const handlePlayIntro = () => {
     const video = videoRef.current;
+    setVideoFallbackStage(0);
     setIsIntroMode(true);
     setPlaybackMode('play');
     setIsMuted(false);
@@ -346,6 +347,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
       video.src = toPlayableVideoUrl(currentScreen.playUrl);
       video.loop = false;
       video.muted = false;
+      video.controls = false;
+      video.disablePictureInPicture = true;
+      (video as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
       video.currentTime = 0;
       video.play().catch(() => {});
     }
@@ -358,6 +362,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
   const handleCancelIntro = () => {
     const video = videoRef.current;
+    setVideoFallbackStage(0);
     setIsIntroMode(false);
     setPlaybackMode('idle');
     setIsMuted(true);
@@ -367,6 +372,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
       video.loop = true;
       video.defaultMuted = true;
       video.muted = true;
+      video.controls = false;
+      video.disablePictureInPicture = true;
+      (video as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
       video.currentTime = 0;
       video.play().catch(() => {});
     }

@@ -5,6 +5,7 @@ export type BannerPageKey =
   | 'experience'
   | 'education'
   | 'services'
+  | 'skills'
   | 'systems'
   | 'interface'
   | 'contact'
@@ -298,6 +299,26 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     ctaLabelEn: 'View Case Studies',
     accentGradient: 'from-cyan-500 via-sky-500 to-indigo-600',
   },
+  {
+    key: 'skills',
+    tabIndex: 6,
+    shortLabelVi: 'Kỹ Năng',
+    labelVi: 'Trang Kỹ Năng & SWOT (Skills)',
+    labelEn: 'Skills & SWOT Matrix Banner',
+    expectedFilename: 'Kỷ năng.mp4',
+    keywords: ['ky-nang', 'skills', 'swot'],
+    posterUrl:
+      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png',
+    previewTitleVi: 'Năng Lực Quản Trị & Ma Trận Kỹ Năng SWOT',
+    previewTitleEn: 'Leadership Competencies & SWOT Skills Matrix',
+    previewSubtitleVi:
+      'Kỹ năng là nền tảng nâng tầm dịch vụ — Kết hợp tư duy chiến lược, vận hành và công nghệ AI.',
+    previewSubtitleEn:
+      'Skills are the foundation that elevates service excellence across strategy, operations, and AI.',
+    ctaLabelVi: 'Xem Ma Trận Kỹ Năng',
+    ctaLabelEn: 'Explore Skills',
+    accentGradient: 'from-violet-500 via-indigo-500 to-purple-600',
+  },
 ];
 
 export const BANNER_PAGE_MAP: Record<BannerPageKey, BannerPageMeta> = BANNER_PAGES.reduce(
@@ -315,7 +336,7 @@ export const SERVICE_DOMAINS_META: ServiceDomainMeta[] = [
     titleEn: 'Telecom Services',
     expectedFilename: 'Viễn thông di động.png',
     keywords: ['vien-thong-di-dong', 'vien-thong', 'telecom', 'di-dong'],
-    defaultImageUrl: '/assets/domains/domain_telecom.png',
+    defaultImageUrl: 'https://lh3.googleusercontent.com/d/1EZTKZuFTA5EjI56gGwEQ_4pdjfg-hBZE',
     accentGradient: 'from-sky-500 to-blue-600',
     taglineVi: 'Vận hành tổng đài CSKH đa kênh quy mô triệu thuê bao (Mobifone / Telecom).',
   },
@@ -325,7 +346,7 @@ export const SERVICE_DOMAINS_META: ServiceDomainMeta[] = [
     titleEn: 'E-Commerce Operations',
     expectedFilename: 'Thương mại điện tử.png',
     keywords: ['thuong-mai-dien-tu', 'tmdt', 'ecommerce', 'e-commerce', 'shopee'],
-    defaultImageUrl: '/assets/domains/domain_ecommerce.png',
+    defaultImageUrl: 'https://lh3.googleusercontent.com/d/1szhpY7ClmC9DLMhLw4M-On2bKC_L27Mz',
     accentGradient: 'from-orange-500 to-rose-600',
     taglineVi: 'Quản trị xử lý khiếu nại, hoàn trả & vận hành sàn TMĐT tốc độ cao.',
   },
@@ -335,7 +356,7 @@ export const SERVICE_DOMAINS_META: ServiceDomainMeta[] = [
     titleEn: 'Financial & Insurance CX',
     expectedFilename: 'Dịch vụ bảo hiểm.png',
     keywords: ['dich-vu-bao-hiem', 'bao-hiem', 'insurance', 'prudential'],
-    defaultImageUrl: '/assets/domains/domain_insurance.png',
+    defaultImageUrl: 'https://lh3.googleusercontent.com/d/1j1HNT64M4jaAtvUaUUHAEUxlgr1WLfH7',
     accentGradient: 'from-rose-500 to-pink-600',
     taglineVi: 'Chăm sóc khách hàng hợp đồng bảo hiểm, bảo mật thông tin & chuẩn tuân thủ.',
   },
@@ -345,7 +366,7 @@ export const SERVICE_DOMAINS_META: ServiceDomainMeta[] = [
     titleEn: 'Gaming & eSports CX',
     expectedFilename: 'Thể thao điện tử.png',
     keywords: ['the-thao-dien-tu', 'esports', 'e-sports', 'game', 'garena'],
-    defaultImageUrl: '/assets/domains/domain_esports.png',
+    defaultImageUrl: 'https://lh3.googleusercontent.com/d/1N9hGfjN9XABOs43QqxZNRhlC5_LZsy1Q',
     accentGradient: 'from-violet-500 to-indigo-600',
     taglineVi: 'Điều phối hỗ trợ cộng đồng game thủ 24/7, giải đấu & an toàn tài khoản.',
   },
@@ -355,7 +376,7 @@ export const SERVICE_DOMAINS_META: ServiceDomainMeta[] = [
     titleEn: 'FinTech & E-Wallet',
     expectedFilename: 'Thanh toán điện tử.png',
     keywords: ['thanh-toan-dien-tu', 'fintech', 'ewallet', 'e-wallet', 'payment', 'momo', 'finviet'],
-    defaultImageUrl: '/assets/domains/domain_ewallet.png',
+    defaultImageUrl: 'https://lh3.googleusercontent.com/d/1hxfswQ7LzGpdFCddUOFoHiK29EBWuk67',
     accentGradient: 'from-fuchsia-500 to-purple-600',
     taglineVi: 'Giám sát giao dịch, xử lý tra soát thanh toán tức thời & chống gian lận.',
   },
@@ -365,7 +386,7 @@ export const SERVICE_DOMAINS_META: ServiceDomainMeta[] = [
     titleEn: 'System Engineering & CX Platform',
     expectedFilename: 'Xây dựng hệ thống.png',
     keywords: ['xay-dung-he-thong', 'xay-he-thong', 'he-thong', 'system', 'platform'],
-    defaultImageUrl: '/assets/domains/domain_cx_ops.png',
+    defaultImageUrl: 'https://lh3.googleusercontent.com/d/1RuoLQ4l2n8LNiVv6ntj251Y_1E6cLIpk',
     accentGradient: 'from-emerald-500 to-teal-600',
     taglineVi: 'Kiến trúc phần mềm CRM, Ticketing, Workforce Management & AI Automation.',
   },
@@ -502,6 +523,11 @@ const BANNER_KEYWORD_RULES: Array<{
     pageKey: 'projects',
     keyword: 'Dự án',
     matchTokens: ['du-an', 'du an', 'duan', 'san-pham', 'san pham', 'portfolio', 'product'],
+  },
+  {
+    pageKey: 'skills',
+    keyword: 'Kỷ năng',
+    matchTokens: ['ky-nang', 'ky nang', 'kynang', 'skills', 'skill'],
   },
 ];
 

@@ -6,25 +6,77 @@
 /* Synchronizes dynamically across all Themes & Layer Depth (0% - 200%)      */
 /* ========================================================================= */
 
-/* Level 1: Header, Main Card & Footer Surface (Flat, Zero Blur & Zero Effect) */
-#app-header,
-#app-footer,
-.page-main-card,
-[data-main-card="true"],
-#home-main-card,
-[id$="-main-card"],
-#about-intro-card-1,
-#about-intro-card-2,
-#contact-main-card,
-[id^="letter-card-"],
-[data-layer-level="1"] {
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+/* Level 1: Header, Main Card & Footer Surface (Unified Layer Level 1 Format) */
+:is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"],
+  [data-layer-level="1"]
+) {
+  background: var(--surface-primary-bg, var(--bg-main)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
+  color: var(--text-primary) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
   filter: none !important;
-  transition: none !important;
+  text-shadow: none !important;
+  transition: box-shadow 220ms ease, border-color 220ms ease !important;
   animation: none !important;
   transform: none !important;
+  will-change: auto !important;
+}
+
+#app-header {
+  border-top: none !important;
+  border-radius: var(--radius-header, 0 0 20px 20px) !important;
+}
+
+#app-footer {
+  border-bottom: none !important;
+  border-radius: var(--radius-footer, 20px 20px 0 0) !important;
+}
+
+:is(
+  [data-layer-level="1"],
+  .page-main-card,
+  [data-main-card="true"],
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+):not(#app-header):not(#app-footer) {
+  border-radius: var(--radius-main, 20px) !important;
+}
+
+html:not([data-surface-depth="flat"]) #app-header {
+  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, var(--surface-primary-shadow))) !important;
+}
+
+html:not([data-surface-depth="flat"]) #app-footer {
+  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, var(--surface-primary-shadow))) !important;
+}
+
+html:not([data-surface-depth="flat"]) :is(
+  [data-layer-level="1"],
+  .page-main-card,
+  [data-main-card="true"],
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+):not(#app-header):not(#app-footer) {
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
 }
 
 /* Level 2: Các card nằm trong Header, Main Card và Footer */
@@ -209,7 +261,7 @@ html[data-surface-depth="flat"] :is(
   #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
   #footer-nav-capsule,
   .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
+  [data-main-card="true"],
   #about-intro-card-1,
   #about-intro-card-2,
   [data-section-card="true"],
@@ -263,62 +315,6 @@ html[data-card-style]:not([data-card-style="multicolor-glass"]) :is(
 ) {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-}
-
-html:is([data-card-style="soft-indigo-fintech"], :not([data-card-style])) :is(
-  .home-hero-card,
-  #home-intro-card
-) {
-  background: linear-gradient(145deg, #6C4CE6 0%, #5E48E8 52%, #4E2AD4 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.34) !important;
-  border-radius: var(--radius-card, 16px) !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 18px 40px -8px rgba(78, 42, 212, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.36) !important;
-}
-
-html:is([data-card-style="soft-indigo-fintech"], :not([data-card-style])) :is(
-  #home-intro-card h1,
-  #home-intro-card h2,
-  #home-intro-card h3,
-  #home-intro-card p,
-  #home-intro-card span
-) {
-  color: #FFFFFF !important;
-}
-
-html:is([data-card-style="soft-indigo-fintech"], :not([data-card-style])) :is(
-  #home-stats-card,
-  #home-capabilities-card,
-  #home-achievements-card
-) {
-  background: #FFFFFF !important;
-  border: 1px solid rgba(199, 207, 244, 0.78) !important;
-  border-radius: var(--radius-card, 16px) !important;
-  color: #191B38 !important;
-  box-shadow: var(--shadow-card) !important;
-}
-
-html[data-card-style="dark-soft-indigo-fintech"] :is(
-  .home-hero-card,
-  #home-intro-card
-) {
-  background: linear-gradient(145deg, #6C4CE6 0%, #5534DC 52%, #3D1FA8 100%) !important;
-  border: 1px solid rgba(165, 180, 252, 0.36) !important;
-  border-radius: var(--radius-card, 16px) !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 20px 44px -8px rgba(108, 76, 230, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
-}
-
-html[data-card-style="dark-soft-indigo-fintech"] :is(
-  #home-stats-card,
-  #home-capabilities-card,
-  #home-achievements-card
-) {
-  background: #1C2240 !important;
-  border: 1px solid rgba(165, 180, 252, 0.24) !important;
-  border-radius: var(--radius-card, 16px) !important;
-  color: #EEF1FF !important;
-  box-shadow: var(--shadow-card) !important;
 }
 
 html[data-card-style="liquid-glass"] :is(
@@ -454,13 +450,13 @@ html[data-card-style="multicolor-glass"] :is(
   }
 }
 
-html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], [data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], :not([data-card-style])) .ambient-wave--1 {
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], :not([data-card-style])) .ambient-wave--1 {
   will-change: transform;
   backface-visibility: hidden;
   animation: opticalLensDriftA 28s ease-in-out infinite alternate;
 }
 
-html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], [data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], :not([data-card-style])) .ambient-wave--2 {
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], :not([data-card-style])) .ambient-wave--2 {
   will-change: transform;
   backface-visibility: hidden;
   animation: opticalLensDriftB 32s ease-in-out infinite alternate;

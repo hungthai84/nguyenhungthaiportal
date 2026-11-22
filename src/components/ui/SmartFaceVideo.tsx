@@ -18,22 +18,39 @@ export interface SmartFaceVideoProps
   alwaysCover?: boolean;
 }
 
+const extractSmartVideoDriveId = (url?: string): string | null => {
+  if (!url) return null;
+  const ucMatch = url.match(/[?&]id=([^&#]+)/i);
+  if (ucMatch?.[1]) return ucMatch[1];
+  const pathMatch = url.match(/drive\.google\.com\/file\/d\/([^/?#]+)/i);
+  return pathMatch?.[1] ?? null;
+};
+
+const normalizeSmartVideoSrc = (url?: string): string | undefined => {
+  if (!url) return url;
+  if (/drive\.google\.com\/file\/d\//i.test(url)) {
+    const id = extractSmartVideoDriveId(url);
+    if (id) return `https://drive.google.com/uc?export=download&id=${id}`;
+  }
+  return url;
+};
+
 /**
  * SmartFaceVideo: Tự động nhận diện kích thước khung chứa (ResizeObserver) và tỷ lệ gốc của video
- * để tính toán object-position / object-fit thông minh, luôn giữ trọn khuôn mặt nhân vật
- * ở mọi kích thước Desktop, Tablet và Mobile mà không bị cắt mất phần đầu/mặt.
+ * để tính toán object-position / object-fit thông minh, luôn lấp đầy card sắc nét, tắt tiếng mặc định,
+ * lặp vô tận và ẩn hoàn toàn thanh điều khiển trình duyệt ở mọi kích thước Desktop, Tablet và Mobile.
  */
 export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
   videoRef,
   faceAnchor,
   maxCropDistortion = 1.72,
   wrapperClassName,
-  alwaysCover = false,
+  alwaysCover = true,
   className,
   style,
   src,
   autoPlay = true,
-  loop = false,
+  loop = true,
   muted = true,
   playsInline = true,
   preload = 'auto',
@@ -42,6 +59,7 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
   onPause,
   onTimeUpdate,
   onEnded,
+  onError,
   onClick,
   ...restProps
 }) => {
@@ -49,8 +67,24 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
   const internalVideoRef = useRef<HTMLVideoElement | null>(null);
   const ambientVideoRef = useRef<HTMLVideoElement | null>(null);
 
+  const normalizedSrc = normalizeSmartVideoSrc(src);
+  const [driveFallbackActive, setDriveFallbackActive] = useState<boolean>(false);
   const [containerSize, setContainerSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
   const [naturalSize, setNaturalSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
+
+  useEffect(() => {
+    setDriveFallbackActive(false);
+  }, [src]);
+
+  const driveId = extractSmartVideoDriveId(normalizedSrc);
+  const driveUsercontentUrl = driveId
+    ? `https://drive.usercontent.google.com/download?id=${driveId}&export=download&confirm=t`
+    : undefined;
+
+  const effectiveSrc =
+    driveFallbackActive && driveUsercontentUrl && normalizedSrc !== driveUsercontentUrl
+      ? driveUsercontentUrl
+      : normalizedSrc;
 
   const setMergedVideoRef = useCallback(
     (node: HTMLVideoElement | null) => {
@@ -92,7 +126,7 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
     if (v && v.videoWidth > 0 && v.videoHeight > 0) {
       setNaturalSize({ w: v.videoWidth, h: v.videoHeight });
     }
-  }, [src]);
+  }, [effectiveSrc]);
 
   const syncVideoDomFlags = useCallback(
     (v: HTMLVideoElement | null) => {
@@ -129,9 +163,9 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
     if (autoPlay && v && v.paused) {
       v.play().catch(() => {});
     }
-  }, [syncVideoDomFlags, src, autoPlay]);
+  }, [syncVideoDomFlags, effectiveSrc, autoPlay]);
 
-  // Tính toán chế độ hiển thị thông minh bảo toàn vùng khuôn mặt (hoặc alwaysCover cho video nền banner)
+  // Tính toán chế độ hiển thị thông minh bảo toàn vùng khuôn mặt (hoặc alwaysCover cho video nền card)
   const anchorX = faceAnchor?.x ?? 50;
   const baseAnchorY = faceAnchor?.y ?? 18;
 
@@ -145,17 +179,14 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
     const distortion = Math.max(containerRatio / videoRatio, videoRatio / containerRatio);
 
     if (distortion > maxCropDistortion) {
-      // Khung thiết bị quá hẹp/dọc hoặc quá dẹt so với video -> chuyển sang hiển thị trọn vẹn khuôn mặt kết hợp nền mờ đồng bộ
       objectFit = 'contain';
       objectPosition = '50% 50%';
       isFaceSafeContain = true;
     } else if (containerRatio > videoRatio) {
-      // Khung rộng hơn video -> cắt theo chiều dọc, neo sát phần đầu/mặt phía trên để không mất trán/mắt/cằm
       const cropIntensity = Math.min(1, (containerRatio / videoRatio - 1) / 0.75);
       const dynamicY = Math.round(Math.max(12, baseAnchorY - cropIntensity * 6));
       objectPosition = `${anchorX}% ${dynamicY}%`;
     } else {
-      // Khung cao/hẹp hơn video -> giữ chính giữa theo chiều ngang và neo vùng mặt ở phần trên khung
       objectPosition = `${anchorX}% ${baseAnchorY}%`;
     }
   }
@@ -182,6 +213,14 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
     onTimeUpdate?.(e);
   };
 
+  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    if (!onError && !driveFallbackActive && driveUsercontentUrl && normalizedSrc !== driveUsercontentUrl) {
+      setDriveFallbackActive(true);
+      return;
+    }
+    onError?.(e);
+  };
+
   return (
     <div
       ref={containerRef}
@@ -192,19 +231,18 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
         wrapperClassName
       )}
     >
-      {/* Nền mờ đồng bộ từ chính video khi tỷ lệ khung quá hẹp/dài, loại bỏ hoàn toàn viền đen */}
-      {isFaceSafeContain && src && (
+      {isFaceSafeContain && effectiveSrc && (
         <video
           ref={ambientVideoRef}
           data-smart-face-ambient="true"
-          src={src}
+          src={effectiveSrc}
           autoPlay={autoPlay}
           loop
           muted
           playsInline
           controls={false}
           disablePictureInPicture
-          controlsList="nodownload nofullscreen noremoteplayback"
+          controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
           aria-hidden="true"
           tabIndex={-1}
           style={{
@@ -223,19 +261,28 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
         ref={setMergedVideoRef}
         data-smart-face-primary="true"
         data-banner-always-cover={alwaysCover ? 'true' : undefined}
-        src={src}
+        src={effectiveSrc}
         autoPlay={autoPlay}
         loop={loop}
         muted={muted}
         playsInline={playsInline}
         controls={false}
         disablePictureInPicture
-        controlsList="nodownload nofullscreen noremoteplayback"
+        controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
         preload={preload}
         onLoadedMetadata={handleMetadata}
+        onCanPlay={(e) => {
+          const v = e.currentTarget;
+          syncVideoDomFlags(v);
+          if (autoPlay && v.paused) {
+            v.play().catch(() => {});
+          }
+          restProps.onCanPlay?.(e);
+        }}
         onPlay={handlePlay}
         onPause={handlePause}
         onTimeUpdate={handleTimeUpdate}
+        onError={handleVideoError}
         onEnded={(e) => {
           if (loop) {
             const v = e.currentTarget;
@@ -246,14 +293,14 @@ export const SmartFaceVideo: React.FC<SmartFaceVideoProps> = ({
         }}
         onClick={onClick}
         style={{
-          transform: 'translateZ(0)',
+          transform: 'translateZ(0) scale(1.005)',
           backfaceVisibility: 'hidden',
           ...style,
           objectFit,
           objectPosition,
         }}
         className={cn(
-          'relative z-[1] w-full h-full min-w-full min-h-full rounded-[inherit] banner-video-sharp transition-[object-position,filter] duration-300',
+          'relative z-[1] w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp transition-[object-position,filter] duration-300',
           className
         )}
       />

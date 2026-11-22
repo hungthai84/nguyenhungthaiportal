@@ -3,8 +3,6 @@ import { CardStyleMode, CardStyleConfig, ThemeFamilyId, ThemeMechanismMode } fro
 import { DEFAULT_CARD_STYLE } from './themeDefaults';
 
 export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: string }> = {
-  'soft-indigo-fintech': { vi: 'Soft Indigo Sáng', en: 'Soft Indigo Light' },
-  'dark-soft-indigo-fintech': { vi: 'Soft Indigo Tối', en: 'Soft Indigo Dark' },
   'liquid-glass': { vi: 'Liquid Glass Sáng', en: 'Liquid Glass Light' },
   'dark-liquid-glass': { vi: 'Liquid Glass Tối', en: 'Liquid Glass Dark' },
   'multicolor-glass': { vi: 'Glass UI Đa Sắc', en: 'Multicolor Glass UI' },
@@ -32,19 +30,6 @@ export interface ThemeFamilyGroupMeta {
 }
 
 export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets'>> = [
-  {
-    id: 'soft-indigo-fintech',
-    label: 'Soft Indigo FinTech',
-    labelEn: 'Soft Indigo FinTech',
-    description:
-      'Thẻ xếp lớp trắng tinh khôi trên nền oải hương dịu (#EEF0FA / #DCE0F5), điểm nhấn chuyển sắc Indigo (#6C4CE6 → #4E2AD4), biểu đồ viên thuốc (#A5B4FC / #5E48E8) và huy hiệu xanh bạc hà (#DCFCE7).',
-    descriptionEn:
-      'Soft layered white cards on lavender backdrop (#EEF0FA / #DCE0F5) with Indigo gradient hero accents (#6C4CE6 → #4E2AD4), pill bar charts, and mint status badges.',
-    icon: 'layers',
-    defaultMode: 'soft-indigo-fintech',
-    lightMode: 'soft-indigo-fintech',
-    darkMode: 'dark-soft-indigo-fintech',
-  },
   {
     id: 'liquid-glass',
     label: 'Liquid Glass UI',
@@ -118,88 +103,6 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
  * Mảng hợp nhất tất cả giao diện hệ thống theo từng nhóm đồng nhất (Single Source of Truth)
  */
 export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
-  {
-    id: 'soft-indigo-fintech',
-    familyId: 'soft-indigo-fintech',
-    familyLabel: 'Soft Indigo FinTech',
-    familyLabelEn: 'Soft Indigo FinTech',
-    mechanism: 'light',
-    counterpartMode: 'dark-soft-indigo-fintech',
-    cardClassName: 'card-soft-indigo-fintech',
-    name: 'Soft Indigo FinTech (Sáng)',
-    label: 'Soft Indigo FinTech (Sáng)',
-    shortBadge: 'Indigo Sáng',
-    tagLabel: 'Soft Indigo · Layered Light',
-    modeLabel: 'Soft Indigo Sáng',
-    isDark: false,
-    icon: 'layers',
-    color: '#5E48E8',
-    desc: 'Thẻ KPI trắng tinh bo góc 16px/20px có mép xếp lớp cạnh phải, bóng tím mềm rgba(94, 72, 232, 0.12), khối điểm nhấn Indigo (#6C4CE6 → #4E2AD4) và huy hiệu xanh bạc hà.',
-    cardSampleStyle: {
-      background: '#FFFFFF',
-      borderRadius: '16px',
-      border: '1px solid rgba(94, 72, 232, 0.14)',
-      boxShadow:
-        '0 10px 26px -6px rgba(94, 72, 232, 0.14), 4px 0 0 -1px rgba(165, 180, 252, 0.50)',
-      color: '#1E1B4B',
-    },
-    miniPreviewWrapStyle: {
-      background: '#EEF0FA',
-      borderColor: '#DCE0F5',
-      borderWidth: '1px',
-    },
-    miniTabStyle: {
-      background: '#FFFFFF',
-      color: '#1E1B4B',
-      borderColor: 'rgba(94, 72, 232, 0.16)',
-    },
-    miniBtnStyle: {
-      background: 'linear-gradient(135deg, #6C4CE6 0%, #4E2AD4 100%)',
-      color: '#FFFFFF',
-    },
-    badgeColorClass: 'bg-[#DCFCE7] text-[#047857] border-[#10B981]/40',
-  },
-  {
-    id: 'dark-soft-indigo-fintech',
-    familyId: 'soft-indigo-fintech',
-    familyLabel: 'Soft Indigo FinTech',
-    familyLabelEn: 'Soft Indigo FinTech',
-    mechanism: 'dark',
-    counterpartMode: 'soft-indigo-fintech',
-    cardClassName: 'card-dark-soft-indigo-fintech',
-    name: 'Soft Indigo FinTech (Tối)',
-    label: 'Soft Indigo FinTech (Tối)',
-    shortBadge: 'Indigo Tối',
-    tagLabel: 'Soft Indigo · Layered Dark',
-    modeLabel: 'Soft Indigo Tối',
-    isDark: true,
-    icon: 'moon',
-    color: '#8B7BFF',
-    desc: 'Phiên bản tối Soft Indigo FinTech: nền xanh tím đêm (#0E1225 / #151A33), thẻ xếp lớp #1C2240 với viền ánh tím sáng và biểu đồ chanh–ngọc nổi bật chuẩn WCAG AA.',
-    cardSampleStyle: {
-      background: '#1C2240',
-      borderRadius: '16px',
-      border: '1px solid rgba(165, 180, 252, 0.20)',
-      boxShadow:
-        '0 14px 32px -6px rgba(4, 7, 20, 0.56), 4px 0 0 -1px rgba(108, 76, 230, 0.38)',
-      color: '#EEF2FF',
-    },
-    miniPreviewWrapStyle: {
-      background: '#151A33',
-      borderColor: 'rgba(139, 123, 255, 0.28)',
-      borderWidth: '1px',
-    },
-    miniTabStyle: {
-      background: '#1C2240',
-      color: '#EEF2FF',
-      borderColor: 'rgba(165, 180, 252, 0.24)',
-    },
-    miniBtnStyle: {
-      background: 'linear-gradient(135deg, #8B7BFF 0%, #6C4CE6 100%)',
-      color: '#FFFFFF',
-    },
-    badgeColorClass: 'bg-[#064E3B]/70 text-[#6EE7B7] border-[#10B981]/45',
-  },
   {
     id: 'liquid-glass',
     familyId: 'liquid-glass',
@@ -525,18 +428,6 @@ export interface ThemeFamilyRegistryEntry {
 }
 
 export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
-  'soft-indigo-fintech': {
-    familyId: 'soft-indigo-fintech',
-    label: 'Soft Indigo FinTech',
-    labelEn: 'Soft Indigo FinTech',
-    description:
-      'Thẻ xếp lớp trắng tinh khôi trên nền oải hương dịu (#EEF0FA / #DCE0F5), điểm nhấn chuyển sắc Indigo (#6C4CE6 → #4E2AD4) và huy hiệu xanh bạc hà.',
-    descriptionEn:
-      'Soft layered white cards on lavender canvas with Indigo hero gradient accents and mint badges.',
-    icon: 'layers',
-    light: CARD_STYLES_MAP['soft-indigo-fintech'],
-    dark: CARD_STYLES_MAP['dark-soft-indigo-fintech'],
-  },
   'liquid-glass': {
     familyId: 'liquid-glass',
     label: 'Liquid Glass UI',
@@ -645,6 +536,8 @@ export const getThemeForMechanism = (
 };
 
 const DELETED_THEME_MIGRATION_MAP: Record<string, CardStyleMode> = {
+  'soft-indigo-fintech': 'neumorphism-beyond',
+  'dark-soft-indigo-fintech': 'dark-liquid-glass',
   'light-cowhide-leather': 'liquid-glass',
   'black-cowhide-leather': 'dark-liquid-glass',
   'ice-blue-neu': 'liquid-glass',

@@ -89,6 +89,20 @@ const DRIVE_VIDEO_BANNER_SEED_LIST: RawDriveBannerLinkItem[] = [
     matchedKeyword: 'Dịch Vụ',
     previewUrl: 'https://drive.google.com/file/d/1e1yYVIngi93onbPdKdKL9TdiI_lIOfzP/preview',
   },
+  {
+    pageKey: 'projects',
+    fileName: 'Dự án.mp4',
+    fileId: '1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U',
+    matchedKeyword: 'Dự án',
+    previewUrl: 'https://drive.google.com/file/d/1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U/preview',
+  },
+  {
+    pageKey: 'skills',
+    fileName: 'Kỷ năng.mp4',
+    fileId: '1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx',
+    matchedKeyword: 'Kỷ năng',
+    previewUrl: 'https://drive.google.com/file/d/1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx/preview',
+  },
 ];
 
 const DEFAULT_SEED_TIMESTAMP = 1795204136000;

@@ -11,9 +11,9 @@ export interface MainCardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Standardized Unified Main Card Container Component
- * Ensures 100% visual harmony, universal 14px border radius, 25px padding,
- * and synchronized elevation shadow across all website views.
+ * Standardized Unified Main Card Container Component (Layer Level 1)
+ * Ensures 100% visual harmony, unified border radius, padding,
+ * and synchronized Layer Level 1 surface across all website views.
  */
 export const MainCard = forwardRef<HTMLDivElement, MainCardProps>(
   (
@@ -42,7 +42,7 @@ export const MainCard = forwardRef<HTMLDivElement, MainCardProps>(
         data-main-card="true"
         data-layer-level="1"
         className={cn(
-          'main-card w-full min-w-0 h-full max-w-[1250px] mx-auto flex flex-col justify-start p-[15px] gap-[15px] font-play select-none text-left animate-fadeIn rounded-[var(--radius-main,30px)] box-border relative transition-all duration-300 ease-in-out',
+          'main-card page-main-card w-full min-w-0 h-full max-w-[1250px] mx-auto flex flex-col justify-start p-[15px] gap-[15px] font-play select-none text-left animate-fadeIn rounded-[var(--radius-main,20px)] box-border relative',
           !hasCustomScroll && 'overflow-y-auto no-scrollbar',
           className
         )}
@@ -52,7 +52,7 @@ export const MainCard = forwardRef<HTMLDivElement, MainCardProps>(
           maxWidth: '1250px',
           marginInline: 'auto',
           padding: 'var(--main-card-padding, 15px)',
-          borderRadius: 'var(--radius-main, 30px)',
+          borderRadius: 'var(--radius-main, 20px)',
           ...style,
         }}
         {...props}

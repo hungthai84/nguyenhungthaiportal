@@ -5,6 +5,8 @@ import { ProjectData } from '@/types';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { getProjectCloudinaryBanner } from '@/data/projects';
 import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
+import { useBannerVideo } from '@/context/BannerVideoContext';
 import {
   getProjectDetailedSpec,
   SCOPE_PALETTES,
@@ -85,6 +87,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
   const [isLightMode, setIsLightMode] = useState<boolean>(true);
   const [mindmapMode, setMindmapMode] = useState<'interactive' | 'image'>('interactive');
   const spec = useMemo(() => getProjectDetailedSpec(selectedArticle), [selectedArticle]);
+  const { bannerAssignments } = useBannerVideo();
+  const driveProjectsBanner = bannerAssignments.projects;
   const outerScrollRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -1894,11 +1898,21 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
         >
           {/* Hình nền banner dọc full chiều cao phía sau lớp phủ tương phản */}
           <div className="project-detail-banner-media absolute inset-0 overflow-hidden pointer-events-none rounded-[inherit] z-0">
-            <BannerBackgroundVideo
-              src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
-              poster={bannerMediaInfo.primaryUrl || selectedArticle.image || bannerMediaInfo.fallbackUrl}
-              alt={selectedArticle.title}
-            />
+            {driveProjectsBanner ? (
+              <DriveAwareBannerMedia
+                directVideoUrl={driveProjectsBanner.directStreamUrl}
+                iframeFallbackUrl={driveProjectsBanner.previewIframeUrl}
+                posterUrl={bannerMediaInfo.primaryUrl || selectedArticle.image || bannerMediaInfo.fallbackUrl}
+                title={driveProjectsBanner.fileName}
+                className="rounded-[inherit]"
+              />
+            ) : (
+              <BannerBackgroundVideo
+                src="https://drive.google.com/uc?export=download&id=1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U"
+                poster={bannerMediaInfo.primaryUrl || selectedArticle.image || bannerMediaInfo.fallbackUrl}
+                alt={selectedArticle.title}
+              />
+            )}
           </div>
 
           {/* Lớp phủ tương phản cao đồng bộ 11 Theme */}

@@ -564,7 +564,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                 />
               ) : (
                 <BannerBackgroundVideo
-                  src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
+                  src="https://drive.google.com/uc?export=download&id=1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U"
                   poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
                   alt="Banner Dự án"
                 />

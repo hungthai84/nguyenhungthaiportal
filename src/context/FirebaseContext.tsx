@@ -94,6 +94,85 @@ function timestampToMs(ts: unknown): number {
   return Date.now();
 }
 
+function isTimestampLike(value: unknown): boolean {
+  return (
+    value instanceof Timestamp ||
+    (Boolean(value) && typeof (value as { toMillis?: unknown }).toMillis === 'function')
+  );
+}
+
+function isPermissionDeniedError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') return false;
+  const code = (error as { code?: unknown }).code;
+  const message = (error as { message?: unknown }).message;
+  return (
+    code === 'permission-denied' ||
+    (typeof message === 'string' && message.toLowerCase().includes('missing or insufficient permissions'))
+  );
+}
+
+const USER_PREF_REQUIRED_KEYS = [
+  'uid',
+  'displayName',
+  'photoUrl',
+  'cardStyle',
+  'surfaceDepth',
+  'autoTimeTheme',
+  'language',
+  'activeWallpaperId',
+  'createdAt',
+  'updatedAt',
+] as const;
+
+const USER_PREF_ALLOWED_KEYS = new Set<string>([
+  ...USER_PREF_REQUIRED_KEYS,
+  'layerDepth',
+]);
+
+function isValidExistingUserDoc(data: Record<string, unknown> | undefined, expectedUid: string): boolean {
+  if (!data) return false;
+  const keys = Object.keys(data);
+  if (!USER_PREF_REQUIRED_KEYS.every((k) => k in data)) return false;
+  if (!keys.every((k) => USER_PREF_ALLOWED_KEYS.has(k))) return false;
+  if (typeof data.uid !== 'string' || data.uid !== expectedUid || !BLUEPRINT_LIMITS.ID_REGEX.test(data.uid)) {
+    return false;
+  }
+  if (typeof data.displayName !== 'string' || data.displayName.length < 1 || data.displayName.length > BLUEPRINT_LIMITS.DISPLAY_NAME_MAX) {
+    return false;
+  }
+  if (typeof data.photoUrl !== 'string' || data.photoUrl.length > BLUEPRINT_LIMITS.PHOTO_URL_MAX) {
+    return false;
+  }
+  if (typeof data.cardStyle !== 'string' || !VALID_CARD_STYLES.includes(data.cardStyle as any)) {
+    return false;
+  }
+  if (data.surfaceDepth !== 'flat' && data.surfaceDepth !== 'depth') {
+    return false;
+  }
+  if ('layerDepth' in data) {
+    if (
+      typeof data.layerDepth !== 'number' ||
+      !Number.isInteger(data.layerDepth) ||
+      data.layerDepth < 0 ||
+      data.layerDepth > 200
+    ) {
+      return false;
+    }
+  }
+  if (typeof data.autoTimeTheme !== 'boolean') return false;
+  if (data.language !== 'auto' && data.language !== 'vi' && data.language !== 'en') return false;
+  if (
+    typeof data.activeWallpaperId !== 'string' ||
+    data.activeWallpaperId.length < 1 ||
+    data.activeWallpaperId.length > BLUEPRINT_LIMITS.ID_MAX_LEN ||
+    !BLUEPRINT_LIMITS.ID_REGEX.test(data.activeWallpaperId)
+  ) {
+    return false;
+  }
+  if (!isTimestampLike(data.createdAt) || !isTimestampLike(data.updatedAt)) return false;
+  return true;
+}
+
 export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState<boolean>(false);
@@ -117,6 +196,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const isHydratingFromCloudRef = useRef<boolean>(false);
   const userDocReadyUidRef = useRef<string | null>(null);
+  const layerDepthSupportedRef = useRef<boolean>(true);
   const latestUiRef = useRef({
     cardStyle,
     surfaceDepth,
@@ -154,35 +234,73 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     const userPath = `users/${user.uid}`;
     const userRef = doc(db, 'users', user.uid);
 
-    const bootstrapUserDoc = async () => {
+    const buildFreshDocPayload = (
+      safeName: string,
+      safePhoto: string,
+      safeWpId: string,
+      includeLayerDepth: boolean
+    ) => {
+      const ui = latestUiRef.current;
+      const normalizedCardStyle = normalizeCardStyle(ui.cardStyle);
+      const safeSurfaceDepth = ui.surfaceDepth === 'flat' ? 'flat' : 'depth';
+      const safeLanguage = ui.language === 'en' ? 'en' : 'vi';
+      const safeLayerDepth = Math.max(0, Math.min(200, Math.round(ui.layerDepth)));
+      const base: Record<string, unknown> = {
+        uid: user.uid,
+        displayName: safeName,
+        photoUrl: safePhoto,
+        cardStyle: normalizedCardStyle,
+        surfaceDepth: safeSurfaceDepth,
+        autoTimeTheme: Boolean(ui.autoTimeTheme),
+        language: safeLanguage,
+        activeWallpaperId: safeWpId,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      };
+      if (includeLayerDepth) {
+        base.layerDepth = safeLayerDepth;
+      }
+      return base;
+    };
+
+    const createFreshUserDoc = async (safeName: string, safePhoto: string, safeWpId: string) => {
+      const tryLayerDepth = layerDepthSupportedRef.current;
       try {
-        const snap = await getDoc(userRef);
-        if (cancelled) return;
+        await setDoc(userRef, buildFreshDocPayload(safeName, safePhoto, safeWpId, tryLayerDepth));
+      } catch (err) {
+        if (tryLayerDepth && isPermissionDeniedError(err)) {
+          layerDepthSupportedRef.current = false;
+          await setDoc(userRef, buildFreshDocPayload(safeName, safePhoto, safeWpId, false));
+        } else {
+          throw err;
+        }
+      }
+    };
 
-        const safeName = clampString(user.displayName || user.email || 'Member', BLUEPRINT_LIMITS.DISPLAY_NAME_MAX, 'Member');
-        const safePhoto = clampString(user.photoURL, BLUEPRINT_LIMITS.PHOTO_URL_MAX, '');
-        const safeWpId = sanitizeFirestoreId(latestUiRef.current.activeWallpaperId, 'theme-bg');
-        const safeLayerDepth = Math.max(0, Math.min(200, Math.round(latestUiRef.current.layerDepth)));
+    const bootstrapUserDoc = async () => {
+      let snap;
+      try {
+        snap = await getDoc(userRef);
+      } catch (readError) {
+        if (!cancelled) {
+          console.warn(`Firestore read skipped for ${userPath}; using local preferences.`, readError);
+        }
+        return;
+      }
+      if (cancelled) return;
 
+      const safeName = clampString(user.displayName || user.email || 'Member', BLUEPRINT_LIMITS.DISPLAY_NAME_MAX, 'Member');
+      const safePhoto = clampString(user.photoURL, BLUEPRINT_LIMITS.PHOTO_URL_MAX, '');
+      const safeWpId = sanitizeFirestoreId(latestUiRef.current.activeWallpaperId, 'theme-bg');
+
+      try {
         if (!snap.exists()) {
           if (!user.emailVerified) {
             return;
           }
-          await setDoc(userRef, {
-            uid: user.uid,
-            displayName: safeName,
-            photoUrl: safePhoto,
-            cardStyle: latestUiRef.current.cardStyle,
-            surfaceDepth: latestUiRef.current.surfaceDepth,
-            layerDepth: safeLayerDepth,
-            autoTimeTheme: Boolean(latestUiRef.current.autoTimeTheme),
-            language: latestUiRef.current.language === 'en' ? 'en' : 'vi',
-            activeWallpaperId: safeWpId,
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
-          });
+          await createFreshUserDoc(safeName, safePhoto, safeWpId);
         } else {
-          const data = snap.data();
+          const data = snap.data() as Record<string, unknown>;
           isHydratingFromCloudRef.current = true;
           try {
             if (typeof data.cardStyle === 'string' && VALID_CARD_STYLES.includes(data.cardStyle as any)) {
@@ -219,17 +337,32 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
             }, 250);
           }
 
-          if (user.emailVerified && (data.displayName !== safeName || data.photoUrl !== safePhoto)) {
-            await updateDoc(userRef, {
-              displayName: safeName,
-              photoUrl: safePhoto,
-              updatedAt: serverTimestamp(),
-            });
+          if (user.emailVerified) {
+            if (!isValidExistingUserDoc(data, user.uid)) {
+              // Migrate legacy/incomplete user preference document cleanly
+              await deleteDoc(userRef);
+              if (cancelled) return;
+              await createFreshUserDoc(safeName, safePhoto, safeWpId);
+            } else if (data.displayName !== safeName || data.photoUrl !== safePhoto) {
+              await updateDoc(userRef, {
+                displayName: safeName,
+                photoUrl: safePhoto,
+                updatedAt: serverTimestamp(),
+              });
+            }
           }
         }
-        userDocReadyUidRef.current = user.uid;
+        if (!cancelled) {
+          userDocReadyUidRef.current = user.uid;
+        }
       } catch (error) {
-        handleFirestoreError(error, OperationType.WRITE, userPath);
+        if (!cancelled) {
+          userDocReadyUidRef.current = null;
+          console.warn(
+            `Firestore preference bootstrap fallback (${userPath}):`,
+            error instanceof Error ? error.message : String(error)
+          );
+        }
       }
     };
 
@@ -249,17 +382,34 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     const timer = setTimeout(() => {
       const safeWpId = sanitizeFirestoreId(activeWallpaper?.id || 'theme-bg-prism', 'theme-bg');
       const safeLayerDepth = Math.max(0, Math.min(200, Math.round(layerDepth)));
-      const prefPayload = {
-        cardStyle,
-        surfaceDepth,
-        layerDepth: safeLayerDepth,
+      const basePayload: Record<string, unknown> = {
+        cardStyle: normalizeCardStyle(cardStyle),
+        surfaceDepth: surfaceDepth === 'flat' ? 'flat' : 'depth',
         autoTimeTheme: Boolean(autoTimeTheme),
         language: language === 'en' ? 'en' : 'vi',
         activeWallpaperId: safeWpId,
         updatedAt: serverTimestamp(),
       };
+      const tryLayerDepth = layerDepthSupportedRef.current;
+      const prefPayload = tryLayerDepth
+        ? { ...basePayload, layerDepth: safeLayerDepth }
+        : basePayload;
+
       updateDoc(doc(db, 'users', user.uid), prefPayload).catch((error) => {
-        handleFirestoreError(error, OperationType.UPDATE, userPath);
+        if (tryLayerDepth && isPermissionDeniedError(error)) {
+          layerDepthSupportedRef.current = false;
+          updateDoc(doc(db, 'users', user.uid), basePayload).catch((retryErr) => {
+            console.warn(
+              `Firestore preference sync skipped (${userPath}):`,
+              retryErr instanceof Error ? retryErr.message : String(retryErr)
+            );
+          });
+          return;
+        }
+        console.warn(
+          `Firestore preference sync skipped (${userPath}):`,
+          error instanceof Error ? error.message : String(error)
+        );
       });
     }, 350);
 

@@ -44,8 +44,10 @@
 
           var rawStyle = localStorage.getItem(STYLE_KEY) || localStorage.getItem('hungthai_card_style');
           var aliasMap = {
-            'soft-indigo': 'soft-indigo-fintech',
-            'dark-soft-indigo': 'dark-soft-indigo-fintech',
+            'soft-indigo': 'neumorphism-beyond',
+            'dark-soft-indigo': 'dark-liquid-glass',
+            'soft-indigo-fintech': 'neumorphism-beyond',
+            'dark-soft-indigo-fintech': 'dark-liquid-glass',
             'light-glassmorphism': 'liquid-glass',
             'guong-da-sac': 'liquid-glass',
             'guong-da-sac-sang': 'liquid-glass',
@@ -71,8 +73,6 @@
             'noi-khoi-kinh-mo': 'neumorphism-beyond'
           };
           var validStyles = [
-            'soft-indigo-fintech',
-            'dark-soft-indigo-fintech',
             'liquid-glass',
             'dark-liquid-glass',
             'multicolor-glass',
@@ -87,7 +87,6 @@
           }
           document.documentElement.setAttribute('data-card-style', cardStyle);
           var darkThemes = [
-            'dark-soft-indigo-fintech',
             'dark-liquid-glass',
             'deep-ocean'
           ];

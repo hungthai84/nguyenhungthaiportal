@@ -174,7 +174,8 @@ html[data-card-style="mica-fluent"] :is(
   #app-header,
   #app-footer,
   .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
+  [data-main-card="true"],
+  [data-layer-level="1"],
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
@@ -183,8 +184,8 @@ html[data-card-style="mica-fluent"] :is(
   [id^="letter-card-"]
 ) {
   background: linear-gradient(155deg, rgba(250, 251, 254, 0.82) 0%, rgba(241, 245, 251, 0.74) 100%) !important;
-  backdrop-filter: blur(28px) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(165%) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 28px)) saturate(var(--surface-primary-saturate, 165%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 28px)) saturate(var(--surface-primary-saturate, 165%)) !important;
   border: 1px solid rgba(255, 255, 255, 0.78) !important;
   box-shadow: var(--layer-l1-shadow, 0 14px 40px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.92)) !important;
 }

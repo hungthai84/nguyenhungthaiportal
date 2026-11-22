@@ -48,6 +48,9 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
 import { saveMutedPref } from '@/utils/audioPreference';
 import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
+import { useBannerVideo } from '@/context/BannerVideoContext';
+import { DriveAwareBannerMedia } from '@/components/common/DriveAwareBannerMedia';
+import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 
 interface MilestoneLogoItem {
   src: string;
@@ -338,6 +341,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 }) => {
   const { showToast } = useToast();
   const { isDark: themeIsDark, cardStyle } = useTheme();
+  const { bannerAssignments } = useBannerVideo();
+  const driveExperienceBanner = bannerAssignments.experience;
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
@@ -874,6 +879,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             isDragging ? 'cursor-grabbing' : 'cursor-grab'
           )}
         >
+          {/* LỚP VIDEO NỀN KINH NGHIỆM (NHẸ NHÀNG SAU BẢN ĐỒ THẾ GIỚI) */}
+          <div className="project-detail-banner-media absolute inset-0 z-[2] rounded-[inherit] overflow-hidden pointer-events-none opacity-25">
+            {driveExperienceBanner ? (
+              <DriveAwareBannerMedia
+                directVideoUrl={driveExperienceBanner.directStreamUrl}
+                iframeFallbackUrl={driveExperienceBanner.previewIframeUrl}
+                posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
+                title={driveExperienceBanner.fileName}
+                className="rounded-[inherit]"
+              />
+            ) : (
+              <BannerBackgroundVideo
+                src="https://drive.google.com/uc?export=download&id=1GLEn1qcwUCTdzcoCxy715IrvQe3l4QVn"
+                poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
+                alt="Banner Kinh nghiệm làm việc"
+              />
+            )}
+          </div>
           {/* LỚP BẢN ĐỒ THẾ GIỚI DẠNG CHẤM TRÒN (HALFTONE DOTTED WORLD MAP) */}
           <div
             className={cn(
@@ -1945,14 +1968,30 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       style={{ borderRadius: 'calc(var(--radius-banner, 14px) - 5px)' }}
                       className="w-full h-full object-cover object-center transition-opacity duration-700 opacity-100 brightness-105 contrast-105 saturate-105 block"
                     />
+                  ) : driveExperienceBanner ? (
+                    <div
+                      style={{ borderRadius: 'calc(var(--radius-banner, 14px) - 5px)' }}
+                      className="relative w-full h-full overflow-hidden"
+                    >
+                      <DriveAwareBannerMedia
+                        directVideoUrl={driveExperienceBanner.directStreamUrl}
+                        iframeFallbackUrl={driveExperienceBanner.previewIframeUrl}
+                        posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
+                        title={driveExperienceBanner.fileName}
+                        className="rounded-[inherit]"
+                      />
+                    </div>
                   ) : (
                     <div
                       style={{ borderRadius: 'calc(var(--radius-banner, 14px) - 5px)' }}
-                      className={cn(
-                        'w-full h-full bg-gradient-to-br opacity-95',
-                        customContent.gradient
-                      )}
-                    />
+                      className="relative w-full h-full overflow-hidden"
+                    >
+                      <BannerBackgroundVideo
+                        src="https://drive.google.com/uc?export=download&id=1GLEn1qcwUCTdzcoCxy715IrvQe3l4QVn"
+                        poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png"
+                        alt={`Banner ${activeMilestone.company}`}
+                      />
+                    </div>
                   )}
                   <div
                     style={{ inset: '5px', borderRadius: 'calc(var(--radius-banner, 14px) - 5px)' }}

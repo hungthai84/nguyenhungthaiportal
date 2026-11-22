@@ -20,19 +20,22 @@ import { useTheme } from '@/hooks/useTheme';
 import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
 import { SmartFaceVideo } from '@/components/ui/SmartFaceVideo';
 
-// Video thuyết minh Thư Ngỏ (15. Thư ngỏ video.mp4)
-export const LETTER_SLIDE_1_VIDEO_URL =
-  'https://drive.google.com/uc?export=download&id=1duiew2xu_mga6cTOezc65A6W6ym1_bex';
+// Video thuyết minh Thư Ngỏ (Thư ngỏ video.mp4)
+export const LETTER_SLIDE_1_VIDEO_URL = '/assets/aistudio/Th__ng__video_edd9e9ee.mp4';
 const LETTER_SLIDE_1_DRIVE_ALT_URL =
-  'https://drive.usercontent.google.com/download?id=1duiew2xu_mga6cTOezc65A6W6ym1_bex&export=download&confirm=t';
+  'https://drive.google.com/uc?export=download&id=1duiew2xu_mga6cTOezc65A6W6ym1_bex';
 const LETTER_SLIDE_1_MP4_BACKUP_URL =
   'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793623267/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_Ma_thu%C3%A2t_1.mp4';
 
-// Video Màn hình 2 từ Trang Chủ (Chân Dung Chuyên Gia & Lời Chào)
+// Video Màn hình 2 từ Trang Chủ (Chân Dung Chuyên Gia & Lời Chào - §11 Google Drive)
 export const HOME_SCREEN_2_IDLE_URL =
-  'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793302150/M%C3%A0n_h%C3%ACnh_ch%E1%BB%9D_Ma_thu%C3%A2t_1.mp4';
+  'https://drive.google.com/uc?export=download&id=1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp';
 export const HOME_SCREEN_2_INTRO_URL =
-  'https://res.cloudinary.com/q5tpzaxk/video/upload/v1793541818/Chinh_sua.mp4';
+  'https://drive.google.com/uc?export=download&id=12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm';
+const HOME_SCREEN_2_IDLE_ALT_URL =
+  'https://drive.usercontent.google.com/download?id=1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp&export=download&confirm=t';
+const HOME_SCREEN_2_INTRO_ALT_URL =
+  'https://drive.usercontent.google.com/download?id=12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm&export=download&confirm=t';
 
 // Authentic Signature image for Nguyễn Hùng Thái
 const SIGNATURE_IMAGE_URL =
@@ -605,16 +608,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
       : letterVideoStage === 1
         ? LETTER_SLIDE_1_DRIVE_ALT_URL
         : LETTER_SLIDE_1_MP4_BACKUP_URL;
-  useEffect(() => {
-    if (letterVideoStage >= 2) return;
-    const timer = window.setTimeout(() => {
-      const el = floatingVideoRef.current;
-      if (el && el.readyState < 2) {
-        setLetterVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev));
-      }
-    }, 4500);
-    return () => window.clearTimeout(timer);
-  }, [letterVideoStage]);
   const isPausedRef = useRef<boolean>(false);
 
   // Floating Circle Video 2 (Màn hình 2 ở trang chủ)
@@ -2094,7 +2087,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-page="letter"
                       data-element-parent="letter-card-1"
                       style={{ padding: '0px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] min-h-[220px] md:min-h-0 self-stretch w-full h-full min-w-0 relative overflow-hidden flex flex-col p-0 box-border transition-colors duration-200 group/vcard ${
+                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[14px] aspect-video md:aspect-auto min-h-[200px] md:min-h-0 self-stretch w-full h-full min-w-0 relative overflow-hidden flex flex-col p-0 box-border transition-colors duration-200 group/vcard ${
                         activeTargetId === 'bento-experience-intro' || activeTargetId === 'callout-salutation'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.3)]'
                           : ''
@@ -2125,7 +2118,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           onError={() =>
                             setLetterVideoStage((prev) => (prev < 2 ? ((prev + 1) as 0 | 1 | 2) : prev))
                           }
-                          faceAnchor={{ x: 50, y: 18 }}
+                          faceAnchor={{ x: 58, y: 50 }}
                           maxCropDistortion={1.6}
                           wrapperClassName="absolute inset-0 w-full h-full z-0 rounded-[inherit]"
                           className="cursor-pointer rounded-[inherit] banner-video-sharp"
@@ -2182,11 +2175,33 @@ export const LetterView: React.FC<LetterViewProps> = ({
                                     muted={!isCircleVideoPlaying}
                                     controls={false}
                                     disablePictureInPicture
-                                    controlsList="nodownload nofullscreen noremoteplayback"
+                                    controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
                                     preload="auto"
+                                    onLoadedMetadata={(e) => {
+                                      const v = e.currentTarget;
+                                      v.controls = false;
+                                      v.disablePictureInPicture = true;
+                                      (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                                      if (!isCircleVideoPlaying) {
+                                        v.defaultMuted = true;
+                                        v.muted = true;
+                                        v.loop = true;
+                                      }
+                                    }}
+                                    onError={(e) => {
+                                      const v = e.currentTarget;
+                                      const fallbackUrl = isCircleVideoPlaying
+                                        ? HOME_SCREEN_2_INTRO_ALT_URL
+                                        : HOME_SCREEN_2_IDLE_ALT_URL;
+                                      if (v.dataset.driveAltTried !== '1' && v.src !== fallbackUrl) {
+                                        v.dataset.driveAltTried = '1';
+                                        v.src = fallbackUrl;
+                                        v.play().catch(() => {});
+                                      }
+                                    }}
                                     onTimeUpdate={handleCircleVideoTimeUpdate}
                                     onEnded={handleCircleVideoEnded}
-                                    style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                                    style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
                                     className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] pointer-events-none rounded-full banner-video-sharp"
                                   />
                                 </div>
@@ -2354,17 +2369,27 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                         <div
                           id="brands-bento-grid"
-                          className="grid grid-cols-2 gap-[10px] w-full items-stretch min-w-0"
+                          onWheel={(e) => {
+                            const el = e.currentTarget;
+                            if (el.scrollWidth > el.clientWidth && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                              const nextLeft = el.scrollLeft + e.deltaY;
+                              if ((e.deltaY > 0 && el.scrollLeft < el.scrollWidth - el.clientWidth - 1) || (e.deltaY < 0 && el.scrollLeft > 1)) {
+                                e.stopPropagation();
+                                el.scrollLeft = nextLeft;
+                              }
+                            }
+                          }}
+                          className="flex flex-row flex-nowrap items-stretch gap-[10px] w-full overflow-x-auto overflow-y-hidden glass-scrollbar min-w-0 pb-1"
                         >
                           {EXPERIENCE_BRANDS_MARQUEE.map((item, idx) => (
                             <div
                               key={`${item.id}-${idx}`}
                               data-subcard="true"
-                              className="sub-card letter-subcard partner-brand-tile group/logo flex items-center gap-2 p-2 rounded-[var(--radius-subcard,16px)] min-w-0 transition-colors duration-200"
+                              className="sub-card letter-subcard partner-brand-tile group/logo shrink-0 inline-flex flex-row flex-nowrap items-center gap-2 whitespace-nowrap p-2 rounded-[var(--radius-subcard,16px)] transition-colors duration-200"
                               title={item.company}
                             >
                               <div
-                                className="partner-logo-badge w-8 h-8 sm:w-9 sm:h-9 aspect-square rounded-[99999px] bg-white dark:bg-slate-800 border border-[var(--border-subcard)] shadow-2xs group-hover/logo:scale-105 group-hover/logo:border-blue-500/50 transition-all duration-300 relative shrink-0"
+                                className="partner-logo-badge w-7 h-7 sm:w-8 sm:h-8 aspect-square rounded-[99999px] bg-white dark:bg-slate-800 border border-[var(--border-subcard)] shadow-2xs group-hover/logo:scale-105 group-hover/logo:border-blue-500/50 transition-all duration-300 relative shrink-0"
                                 style={{ borderRadius: '99999px' }}
                               >
                                 <img
@@ -2374,7 +2399,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                                   referrerPolicy="no-referrer"
                                 />
                               </div>
-                              <span className="card-tag typo-body-sm font-semibold font-play text-[var(--text-primary)] group-hover/logo:text-blue-700 dark:group-hover/logo:text-cyan-300 transition-colors leading-tight truncate min-w-0">
+                              <span className="card-tag typo-body-sm font-semibold font-play text-[var(--text-primary)] group-hover/logo:text-blue-700 dark:group-hover/logo:text-cyan-300 transition-colors leading-tight whitespace-nowrap shrink-0">
                                 {item.company}
                               </span>
                             </div>

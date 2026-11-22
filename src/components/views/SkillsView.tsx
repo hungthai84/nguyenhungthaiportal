@@ -7,6 +7,8 @@ import { WebIcon } from "@/components/ui/WebIcon";
 import { cn } from "@/lib/utils";
 import { SoundEngine } from "@/components/ui/SoundEngine";
 import { BannerBackgroundVideo } from "@/components/common/BannerBackgroundVideo";
+import { DriveAwareBannerMedia } from "@/components/common/DriveAwareBannerMedia";
+import { useBannerVideo } from "@/context/BannerVideoContext";
 import { 
   STRENGTHS_DATA, 
   WEAKNESSES_DATA, 
@@ -237,6 +239,8 @@ export interface SkillsViewProps {
 export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {}) {
   void currentTheme;
   const { language: lang, t } = useLanguage();
+  const { bannerAssignments } = useBannerVideo();
+  const driveSkillsBanner = bannerAssignments.skills;
   const isVi = lang === "vi";
   const [selectedSwot, setSelectedSwot] = useState<string | null>(null);
   const [expandedSkillIds, setExpandedSkillIds] = useState<Set<string>>(new Set());
@@ -451,12 +455,22 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
             id="skills-hero-banner-bg"
             className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
           >
-            <BannerBackgroundVideo
-              id="skills-hero-banner-video"
-              src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
-              poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png"
-              alt="Banner Kỹ năng cốt lõi"
-            />
+            {driveSkillsBanner ? (
+              <DriveAwareBannerMedia
+                directVideoUrl={driveSkillsBanner.directStreamUrl}
+                iframeFallbackUrl={driveSkillsBanner.previewIframeUrl}
+                posterUrl="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png"
+                title={driveSkillsBanner.fileName}
+                className="rounded-[inherit]"
+              />
+            ) : (
+              <BannerBackgroundVideo
+                id="skills-hero-banner-video"
+                src="https://drive.google.com/uc?export=download&id=1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx"
+                poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png"
+                alt="Banner Kỹ năng cốt lõi"
+              />
+            )}
           </div>
           <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 

@@ -183,9 +183,9 @@ html[data-card-style="deep-ocean"] body {
 html[data-card-style="deep-ocean"] :is(
   #app-header,
   #app-footer,
-  .main-card,
   .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
+  [data-main-card="true"],
+  [data-layer-level="1"],
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
@@ -194,8 +194,8 @@ html[data-card-style="deep-ocean"] :is(
   [id^="letter-card-"]
 ) {
   background: linear-gradient(155deg, rgba(11, 24, 50, 0.82) 0%, rgba(7, 16, 36, 0.76) 100%) !important;
-  backdrop-filter: blur(22px) saturate(148%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(148%) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 22px)) saturate(var(--surface-primary-saturate, 148%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 22px)) saturate(var(--surface-primary-saturate, 148%)) !important;
   border: 1px solid rgba(56, 189, 248, 0.28) !important;
   box-shadow: var(--layer-l1-shadow, 0 18px 42px rgba(3, 9, 20, 0.65), inset 0 1px 0 rgba(125, 211, 252, 0.18)) !important;
 }

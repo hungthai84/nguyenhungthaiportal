@@ -366,12 +366,30 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"],
   #app-header,
   #app-footer,
   .page-main-card,
-  [data-main-card="true"]
+  [data-main-card="true"],
+  [data-layer-level="1"],
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
 ) {
+  background: var(--surface-primary-bg) !important;
   border-color: var(--surface-primary-border) !important;
-  box-shadow: var(--surface-primary-shadow) !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 165%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 165%)) !important;
+}
+
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], :not([data-card-style])) #app-header {
+  border-top: none !important;
+  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, var(--surface-primary-shadow))) !important;
+}
+
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], :not([data-card-style])) #app-footer {
+  border-bottom: none !important;
+  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, var(--surface-primary-shadow))) !important;
 }
 
 /* Specular light rim on floating navigation pills & interactive bars */

@@ -1439,13 +1439,31 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       preload="auto"
                       controls={false}
                       disablePictureInPicture
-                      controlsList="nodownload nofullscreen noremoteplayback"
+                      controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                      onLoadedMetadata={(e) => {
+                        const v = e.currentTarget;
+                        v.defaultMuted = true;
+                        v.muted = true;
+                        v.loop = true;
+                        v.controls = false;
+                        v.disablePictureInPicture = true;
+                        (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                      }}
+                      onError={(e) => {
+                        const v = e.currentTarget;
+                        const m = v.src.match(/[?&]id=([^&#]+)/i);
+                        if (m?.[1] && v.dataset.driveAltTried !== m[1]) {
+                          v.dataset.driveAltTried = m[1];
+                          v.src = `https://drive.usercontent.google.com/download?id=${m[1]}&export=download&confirm=t`;
+                          v.play().catch(() => {});
+                        }
+                      }}
                       onEnded={(e) => {
                         const v = e.currentTarget;
                         v.currentTime = 0;
                         v.play().catch(() => {});
                       }}
-                      style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                      style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
                       className="w-full h-full min-w-full min-h-full object-cover object-[50%_18%] rounded-full banner-video-sharp pointer-events-none scale-[1.06]"
                     />
                     <div
@@ -1795,6 +1813,15 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               v.loop = true;
                               if (v.paused) v.play().catch(() => {});
                             }}
+                            onError={(e) => {
+                              const v = e.currentTarget;
+                              const m = v.src.match(/[?&]id=([^&#]+)/i);
+                              if (m?.[1] && v.dataset.driveAltTried !== m[1]) {
+                                v.dataset.driveAltTried = m[1];
+                                v.src = `https://drive.usercontent.google.com/download?id=${m[1]}&export=download&confirm=t`;
+                                v.play().catch(() => {});
+                              }
+                            }}
                             onEnded={(e) => {
                               const v = e.currentTarget;
                               v.currentTime = 0;
@@ -1957,6 +1984,15 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 v.muted = true;
                                 v.loop = true;
                                 if (v.paused) v.play().catch(() => {});
+                              }}
+                              onError={(e) => {
+                                const v = e.currentTarget;
+                                const m = v.src.match(/[?&]id=([^&#]+)/i);
+                                if (m?.[1] && v.dataset.driveAltTried !== m[1]) {
+                                  v.dataset.driveAltTried = m[1];
+                                  v.src = `https://drive.usercontent.google.com/download?id=${m[1]}&export=download&confirm=t`;
+                                  v.play().catch(() => {});
+                                }
                               }}
                               onEnded={(e) => {
                                 const v = e.currentTarget;
@@ -2526,14 +2562,29 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                     preload="auto"
                                     controls={false}
                                     disablePictureInPicture
-                                    controlsList="nodownload nofullscreen noremoteplayback"
+                                    controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                                    onLoadedMetadata={(e) => {
+                                      const v = e.currentTarget;
+                                      v.controls = false;
+                                      v.disablePictureInPicture = true;
+                                      (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                                    }}
+                                    onError={(e) => {
+                                      const v = e.currentTarget;
+                                      const m = v.src.match(/[?&]id=([^&#]+)/i);
+                                      if (m?.[1] && v.dataset.driveAltTried !== m[1]) {
+                                        v.dataset.driveAltTried = m[1];
+                                        v.src = `https://drive.usercontent.google.com/download?id=${m[1]}&export=download&confirm=t`;
+                                        v.play().catch(() => {});
+                                      }
+                                    }}
                                     onEnded={(e) => {
                                       const v = e.currentTarget;
                                       v.currentTime = 0;
                                       v.play().catch(() => {});
                                     }}
-                                    style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-                                    className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp"
+                                    style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
+                                    className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none banner-video-sharp"
                                   />
                                   <button
                                     type="button"

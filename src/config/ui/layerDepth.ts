@@ -54,7 +54,6 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
   }
 
   const isDarkTheme =
-    cardStyle === 'dark-soft-indigo-fintech' ||
     cardStyle === 'dark-liquid-glass' ||
     cardStyle === 'cowhide-leather' ||
     cardStyle === 'deep-ocean';
@@ -65,75 +64,6 @@ export function applyLayerDepthCssVariables(depthRaw: number, cardStyle: CardSty
 
   root.style.setProperty('--layer-l2-lift', `${l2Lift}px`);
   root.style.setProperty('--layer-l3-lift', `${l3Lift}px`);
-
-  if (cardStyle === 'soft-indigo-fintech') {
-    const a1 = Math.min(0.18, 0.10 * scale + 0.03).toFixed(2);
-    const a2 = Math.min(0.16, 0.09 * scale + 0.03).toFixed(2);
-    const aHover = Math.min(0.24, 0.14 * scale + 0.04).toFixed(2);
-    root.style.setProperty(
-      '--layer-l1-shadow',
-      `0 ${px(16 * scale)} ${px(40 * scale)} -${px(10 * scale)} rgba(94, 72, 232, ${a1}), inset 0 1px 0 rgba(255, 255, 255, 0.96)`
-    );
-    root.style.setProperty(
-      '--layer-l1-header-shadow',
-      `0 ${px(8 * scale)} ${px(24 * scale)} rgba(94, 72, 232, ${a2}), inset 0 1px 0 rgba(255, 255, 255, 0.94)`
-    );
-    root.style.setProperty(
-      '--layer-l1-footer-shadow',
-      `0 -${px(8 * scale)} ${px(24 * scale)} rgba(94, 72, 232, ${a2}), inset 0 1px 0 rgba(255, 255, 255, 0.94)`
-    );
-    root.style.setProperty(
-      '--layer-l2-shadow',
-      `0 ${px(10 * scale)} ${px(26 * scale)} -${px(6 * scale)} rgba(94, 72, 232, ${a2}), ${px(4 * scale)} 0 0 -${px(1 * scale)} rgba(165, 180, 252, 0.45)`
-    );
-    root.style.setProperty(
-      '--layer-l2-shadow-hover',
-      `0 ${px(16 * scale)} ${px(34 * scale)} -${px(6 * scale)} rgba(94, 72, 232, ${aHover}), ${px(5 * scale)} 0 0 -${px(1 * scale)} rgba(94, 72, 232, 0.28)`
-    );
-    root.style.setProperty(
-      '--layer-l3-shadow',
-      `0 ${px(5 * scale)} ${px(14 * scale)} -${px(4 * scale)} rgba(94, 72, 232, ${(0.07 * scale + 0.02).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.92)`
-    );
-    root.style.setProperty(
-      '--layer-l3-shadow-hover',
-      `0 ${px(9 * scale)} ${px(20 * scale)} -${px(4 * scale)} rgba(94, 72, 232, ${(0.11 * scale + 0.03).toFixed(2)}), inset 0 1px 0 rgba(255, 255, 255, 0.96)`
-    );
-    return;
-  }
-
-  if (cardStyle === 'dark-soft-indigo-fintech') {
-    const a1 = Math.min(0.65, 0.42 * scale + 0.10).toFixed(2);
-    const a2 = Math.min(0.50, 0.30 * scale + 0.08).toFixed(2);
-    root.style.setProperty(
-      '--layer-l1-shadow',
-      `0 ${px(18 * scale)} ${px(44 * scale)} -${px(10 * scale)} rgba(4, 7, 20, ${a1}), 0 0 ${px(22 * scale)} rgba(108, 76, 230, 0.14), inset 0 1px 0 rgba(165, 180, 252, 0.16)`
-    );
-    root.style.setProperty(
-      '--layer-l1-header-shadow',
-      `0 ${px(10 * scale)} ${px(26 * scale)} rgba(4, 7, 20, ${a2}), inset 0 1px 0 rgba(165, 180, 252, 0.14)`
-    );
-    root.style.setProperty(
-      '--layer-l1-footer-shadow',
-      `0 -${px(10 * scale)} ${px(26 * scale)} rgba(4, 7, 20, ${a2}), inset 0 1px 0 rgba(165, 180, 252, 0.14)`
-    );
-    root.style.setProperty(
-      '--layer-l2-shadow',
-      `0 ${px(12 * scale)} ${px(28 * scale)} -${px(6 * scale)} rgba(4, 7, 20, ${a2}), ${px(4 * scale)} 0 0 -${px(1 * scale)} rgba(108, 76, 230, 0.34)`
-    );
-    root.style.setProperty(
-      '--layer-l2-shadow-hover',
-      `0 ${px(16 * scale)} ${px(36 * scale)} -${px(6 * scale)} rgba(4, 7, 20, ${a1}), 0 ${px(8 * scale)} ${px(24 * scale)} rgba(108, 76, 230, 0.24), ${px(5 * scale)} 0 0 -${px(1 * scale)} rgba(139, 123, 255, 0.44)`
-    );
-    root.style.setProperty(
-      '--layer-l3-shadow',
-      `0 ${px(6 * scale)} ${px(16 * scale)} -${px(4 * scale)} rgba(4, 7, 20, ${(0.30 * scale).toFixed(2)}), inset 0 1px 0 rgba(165, 180, 252, 0.10)`
-    );
-    root.style.setProperty(
-      '--layer-l3-shadow-hover',
-      `0 ${px(10 * scale)} ${px(22 * scale)} -${px(4 * scale)} rgba(4, 7, 20, ${(0.40 * scale).toFixed(2)}), inset 0 1px 0 rgba(165, 180, 252, 0.18)`
-    );
-    return;
-  }
 
   if (cardStyle === 'liquid-glass' || cardStyle === 'multicolor-glass') {
     const isMulticolor = cardStyle === 'multicolor-glass';

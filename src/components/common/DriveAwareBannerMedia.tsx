@@ -36,7 +36,7 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
   directVideoUrl,
   iframeFallbackUrl,
   mp4FallbackUrl = DEFAULT_MP4_BANNER_FALLBACK,
-  allowIframeFallback = false,
+  allowIframeFallback = true,
   posterUrl,
   title = 'Banner background video',
   forceIframeFallback = false,
@@ -92,11 +92,11 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
     const timer = window.setTimeout(() => {
       if (videoStage === 'primary' && driveUsercontentUrl && directVideoUrl !== driveUsercontentUrl) {
         setVideoStage('driveAlt');
-      } else if (videoStage !== 'mp4Fallback' && mp4FallbackUrl && activeVideoSrc !== mp4FallbackUrl) {
-        setVideoStage('mp4Fallback');
       } else if (allowIframeFallback && iframeFallbackUrl) {
         setUseIframe(true);
         setIsBuffering(true);
+      } else if (videoStage !== 'mp4Fallback' && mp4FallbackUrl && activeVideoSrc !== mp4FallbackUrl) {
+        setVideoStage('mp4Fallback');
       }
     }, 4500);
     return () => window.clearTimeout(timer);
@@ -192,11 +192,11 @@ export const DriveAwareBannerMedia: React.FC<DriveAwareBannerMediaProps> = ({
           onError={() => {
             if (videoStage === 'primary' && driveUsercontentUrl && directVideoUrl !== driveUsercontentUrl) {
               setVideoStage('driveAlt');
-            } else if (videoStage !== 'mp4Fallback' && mp4FallbackUrl && activeVideoSrc !== mp4FallbackUrl) {
-              setVideoStage('mp4Fallback');
             } else if (allowIframeFallback && iframeFallbackUrl) {
               setUseIframe(true);
               setIsBuffering(true);
+            } else if (videoStage !== 'mp4Fallback' && mp4FallbackUrl && activeVideoSrc !== mp4FallbackUrl) {
+              setVideoStage('mp4Fallback');
             } else {
               setVideoFailedAll(true);
               setIsBuffering(false);

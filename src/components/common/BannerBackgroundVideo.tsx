@@ -31,11 +31,18 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
   className,
 }) => {
   const driveId = extractDriveFileId(src);
+  const normalizedPrimarySrc =
+    driveId && /\/file\/d\/[^/]+\/preview/i.test(src)
+      ? `https://drive.google.com/uc?export=download&id=${driveId}`
+      : src;
   const driveDirectAlt = driveId
     ? `https://drive.usercontent.google.com/download?id=${driveId}&export=download&confirm=t`
     : '';
+  const drivePreviewIframe = driveId
+    ? `https://drive.google.com/file/d/${driveId}/preview?autoplay=1&mute=1&loop=1`
+    : '';
 
-  const [stage, setStage] = useState<'primary' | 'driveAlt' | 'fallback' | 'poster'>('primary');
+  const [stage, setStage] = useState<'primary' | 'driveAlt' | 'driveIframe' | 'fallback' | 'poster'>('primary');
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -44,7 +51,7 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
 
   const activeSrc =
     stage === 'primary'
-      ? src
+      ? normalizedPrimarySrc
       : stage === 'driveAlt'
         ? driveDirectAlt || fallbackSrc
         : stage === 'fallback'
@@ -52,23 +59,25 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
           : '';
 
   useEffect(() => {
-    if (stage === 'poster') return;
-    if (stage === 'primary' && !driveDirectAlt && (!fallbackSrc || src === fallbackSrc)) return;
-    if (stage === 'driveAlt' && (!fallbackSrc || driveDirectAlt === fallbackSrc)) return;
+    if (stage === 'poster' || stage === 'driveIframe') return;
+    if (stage === 'primary' && !driveDirectAlt && !drivePreviewIframe && (!fallbackSrc || normalizedPrimarySrc === fallbackSrc)) return;
+    if (stage === 'driveAlt' && !drivePreviewIframe && (!fallbackSrc || driveDirectAlt === fallbackSrc)) return;
     if (stage === 'fallback') return;
 
     const stallTimer = window.setTimeout(() => {
       const el = videoRef.current;
       if (el && el.readyState < 2) {
-        if (stage === 'primary' && driveDirectAlt && src !== driveDirectAlt) {
+        if (stage === 'primary' && driveDirectAlt && normalizedPrimarySrc !== driveDirectAlt) {
           setStage('driveAlt');
+        } else if (drivePreviewIframe) {
+          setStage('driveIframe');
         } else if (fallbackSrc && activeSrc !== fallbackSrc) {
           setStage('fallback');
         }
       }
     }, 4500);
     return () => window.clearTimeout(stallTimer);
-  }, [stage, src, driveDirectAlt, fallbackSrc, activeSrc]);
+  }, [stage, normalizedPrimarySrc, driveDirectAlt, drivePreviewIframe, fallbackSrc, activeSrc]);
 
   const enforceVideoState = (el: HTMLVideoElement | null) => {
     if (!el) return;
@@ -85,10 +94,34 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
 
   useEffect(() => {
     const el = videoRef.current;
-    if (!el || stage === 'poster') return;
+    if (!el || stage === 'poster' || stage === 'driveIframe') return;
     enforceVideoState(el);
     el.play().catch(() => {});
   }, [activeSrc, stage]);
+
+  if (stage === 'driveIframe' && drivePreviewIframe) {
+    return (
+      <iframe
+        id={id}
+        src={drivePreviewIframe}
+        title={alt}
+        allow="autoplay; encrypted-media; fullscreen"
+        tabIndex={-1}
+        aria-hidden="true"
+        onError={() => {
+          if (fallbackSrc) {
+            setStage('fallback');
+          } else {
+            setStage('poster');
+          }
+        }}
+        className={cn(
+          'w-full h-full min-w-full min-h-full border-0 pointer-events-none select-none scale-[1.28] rounded-[inherit] transition-opacity duration-500',
+          className
+        )}
+      />
+    );
+  }
 
   if (stage === 'poster' && poster) {
     return (
@@ -158,8 +191,10 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
         v.play().catch(() => {});
       }}
       onError={() => {
-        if (stage === 'primary' && driveDirectAlt && src !== driveDirectAlt) {
+        if (stage === 'primary' && driveDirectAlt && normalizedPrimarySrc !== driveDirectAlt) {
           setStage('driveAlt');
+        } else if (drivePreviewIframe) {
+          setStage('driveIframe');
         } else if (stage !== 'fallback' && fallbackSrc && activeSrc !== fallbackSrc) {
           setStage('fallback');
         } else {

@@ -7,8 +7,6 @@ export type ColorSchemeMode = 'light' | 'dark' | 'system';
 export type SurfaceDepthMode = 'flat' | 'depth';
 
 export type CardStyleMode =
-  | 'soft-indigo-fintech'
-  | 'dark-soft-indigo-fintech'
   | 'liquid-glass'
   | 'dark-liquid-glass'
   | 'multicolor-glass'
@@ -18,7 +16,6 @@ export type CardStyleMode =
   | 'neumorphism-beyond';
 
 export type ThemeFamilyId =
-  | 'soft-indigo-fintech'
   | 'liquid-glass'
   | 'multicolor-glass'
   | 'cowhide-leather'

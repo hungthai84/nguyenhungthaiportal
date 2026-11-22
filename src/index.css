@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="dark-soft-indigo-fintech"], [data-theme="dark-soft-indigo-fintech"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -139,7 +139,6 @@
 @import "./styles/base.css";
 @import "./styles/layout.css";
 @import "./styles/cards.css";
-@import "./styles/themes/soft-indigo-fintech.css";
 @import "./styles/themes/liquid-glass.css";
 @import "./styles/themes/cowhide-leather.css";
 @import "./styles/themes/deep-ocean.css";
@@ -199,7 +198,7 @@ textarea {
   transition: transform var(--motion-fast, 150ms) var(--ease-out, cubic-bezier(0, 0, 0.2, 1)),
               box-shadow var(--motion-fast, 150ms) var(--ease-out, cubic-bezier(0, 0, 0.2, 1)),
               background-color var(--motion-fast, 150ms) ease,
-              color var(--motion-fast, 150ms) ease !important;
+              color var(--motion-fast, 150ms) ease;
 }
 
 .motion-interactive:active,
@@ -682,41 +681,61 @@ html [id$="-page-root"]:hover {
   transform: none !important;
 }
 
-/* Main Cards (Level 01): Deep Shadow & Hover Lift for Depth & Visual Hierarchy */
-html:not([data-surface-depth="flat"]) .page-main-card,
-html:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container),
-html:not([data-surface-depth="flat"]) #about-intro-card-1,
-html:not([data-surface-depth="flat"]) #about-intro-card-2,
-html:not([data-surface-depth="flat"]) #contact-main-card,
-html:not([data-surface-depth="flat"]) #home-main-card,
-html:not([data-surface-depth="flat"]) #letter-card-1,
-html:not([data-surface-depth="flat"]) [id^="letter-card-"] {
+/* Main Cards (Level 01): Unified Static Layer Level 1 Elevation */
+html:not([data-surface-depth="flat"]) :is(
+  .page-main-card,
+  [data-main-card="true"],
+  [data-layer-level="1"]:not(#app-header):not(#app-footer),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #home-main-card,
+  #letter-card-1,
+  [id^="letter-card-"]
+) {
   box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow))) !important;
-  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease, outline-color 220ms ease, background 240ms ease, color 220ms ease !important;
+  transform: none !important;
+  animation: none !important;
+  transition: box-shadow 220ms ease, border-color 220ms ease !important;
 }
 
-html.dark:not([data-surface-depth="flat"]) .page-main-card,
-html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) .page-main-card,
-html.dark:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container),
-html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container),
-html.dark:not([data-surface-depth="flat"]) #about-intro-card-1,
-html.dark:not([data-surface-depth="flat"]) #about-intro-card-2,
-html.dark:not([data-surface-depth="flat"]) #contact-main-card,
-html.dark:not([data-surface-depth="flat"]) #home-main-card,
-html.dark:not([data-surface-depth="flat"]) #letter-card-1,
-html.dark:not([data-surface-depth="flat"]) [id^="letter-card-"] {
+html.dark:not([data-surface-depth="flat"]) :is(
+  .page-main-card,
+  [data-main-card="true"],
+  [data-layer-level="1"]:not(#app-header):not(#app-footer),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #home-main-card,
+  #letter-card-1,
+  [id^="letter-card-"]
+),
+html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) :is(
+  .page-main-card,
+  [data-main-card="true"],
+  [data-layer-level="1"]:not(#app-header):not(#app-footer),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #home-main-card,
+  #letter-card-1,
+  [id^="letter-card-"]
+) {
   box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow-dark))) !important;
 }
 
-/* Explicit Flat Mode: Only strip shadows when flat mode is actively selected */
-html[data-surface-depth="flat"] .page-main-card,
-html[data-surface-depth="flat"] [data-main-card="true"]:not(#pdf-page-container),
-html[data-surface-depth="flat"] #about-intro-card-1,
-html[data-surface-depth="flat"] #about-intro-card-2,
-html[data-surface-depth="flat"] #contact-main-card,
-html[data-surface-depth="flat"] #home-main-card,
-html[data-surface-depth="flat"] #letter-card-1,
-html[data-surface-depth="flat"] [id^="letter-card-"] {
+/* Explicit Flat Mode: Strip shadows when flat mode is actively selected */
+html[data-surface-depth="flat"] :is(
+  .page-main-card,
+  [data-main-card="true"],
+  [data-layer-level="1"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  #home-main-card,
+  #letter-card-1,
+  [id^="letter-card-"]
+) {
   box-shadow: none !important;
   transform: none !important;
   animation: none !important;
@@ -1834,19 +1853,20 @@ html[data-card-style]:not([data-surface-depth="depth"]) :is(
 /* Layered Depth Mode ('depth'): Restore Layer Card Level 1 shadows for Header, Footer & Main Cards */
 html[data-surface-depth="depth"] #app-header {
   box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, 0 18px 40px -12px rgba(15, 23, 42, 0.22), 0 6px 16px -4px rgba(15, 23, 42, 0.12))) !important;
-  transition: min-height 240ms ease, padding 240ms ease, box-shadow 260ms ease !important;
+  transition: box-shadow 220ms ease, border-color 220ms ease !important;
 }
 
 html[data-surface-depth="depth"] #app-footer {
   box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, 0 -14px 36px -12px rgba(15, 23, 42, 0.20), 0 -4px 14px -4px rgba(15, 23, 42, 0.10))) !important;
-  transition: min-height 240ms ease, padding 240ms ease, box-shadow 260ms ease !important;
+  transition: box-shadow 220ms ease, border-color 220ms ease !important;
 }
 
 html[data-surface-depth="depth"] :is(
   #letter-card-1,
   [id^="letter-card-"],
   .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
+  [data-main-card="true"],
+  [data-layer-level="1"]:not(#app-header):not(#app-footer),
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
@@ -1854,14 +1874,16 @@ html[data-surface-depth="depth"] :is(
   #contact-main-card
 ) {
   box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, 0 26px 60px -12px rgba(15, 23, 42, 0.26), 0 12px 26px -6px rgba(15, 23, 42, 0.15))) !important;
-  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1), opacity 260ms ease, border-color 260ms ease, background 260ms ease, color 260ms ease !important;
+  transform: none !important;
+  transition: box-shadow 220ms ease, border-color 220ms ease !important;
 }
 
 html.dark[data-surface-depth="depth"] :is(
   #letter-card-1,
   [id^="letter-card-"],
   .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
+  [data-main-card="true"],
+  [data-layer-level="1"]:not(#app-header):not(#app-footer),
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
@@ -2549,7 +2571,7 @@ html.dark button#header-btn-hungthai-avatar {
   box-shadow: var(--surface-interactive-shadow, 0 6px 18px rgba(0, 0, 0, 0.30)), inset 0 1px 0 rgba(225, 235, 255, 0.16) !important;
 }
 
-/* Micro-interaction on hover & active */
+/* Micro-interaction on hover & active (defers transform/shadow/border to per-theme rules) */
 button#footer-ai-btn:hover,
 #footer-lang-btn:hover,
 #footer-appearance-btn:hover,
@@ -2560,9 +2582,8 @@ button#footer-ai-btn:hover,
 button.nav-pill:hover,
 button#header-btn-hungthai-avatar:hover {
   background-color: var(--bg-nav-pill-hover, rgba(255, 255, 255, 0.34)) !important;
-  transform: none !important;
-  border-color: rgba(255, 255, 255, 0.85) !important;
-  box-shadow: 0 10px 24px -4px rgba(50, 40, 80, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.90) !important;
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 24px -4px rgba(50, 40, 80, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.90);
 }
 
 html.dark button#footer-ai-btn:hover,
@@ -2575,13 +2596,13 @@ html.dark #app-footer button.nav-pill:hover,
 html.dark button.nav-pill:hover,
 html.dark button#header-btn-hungthai-avatar:hover {
   background-color: var(--bg-nav-pill-hover, rgba(38, 49, 75, 0.42)) !important;
-  border-color: rgba(181, 167, 244, 0.40) !important;
-  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(225, 235, 255, 0.25) !important;
+  border-color: rgba(181, 167, 244, 0.40);
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(225, 235, 255, 0.25);
 }
 
 button#header-btn-hungthai-avatar:active,
 button.nav-pill:active {
-  transform: scale(0.98) !important;
+  transform: scale(0.98);
 }
 
 /* ========================================================================= */
@@ -2921,7 +2942,7 @@ html #el-p0-div-98::after {
 /* ========================================================================= */
 /* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL ACTIVE THEMES)      */
 /* ========================================================================= */
-html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"], [data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"], [data-card-style="neumorphism-beyond"], [data-card-style="cowhide-leather"]) :is(
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="deep-ocean"], [data-card-style="mica-fluent"], [data-card-style="neumorphism-beyond"], [data-card-style="cowhide-leather"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
   #projects-grid .project-card .project-card-banner,
   .hero-banner .project-detail-banner-media,
@@ -3052,11 +3073,78 @@ html[data-surface-depth="flat"] :is(
   animation: navPillRippleWave 560ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+html[data-card-style="neumorphism-beyond"] .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--nav-pill-accent, #4973FF) 42%, #ffffff) 0%,
+    rgba(100, 182, 255, 0.26) 52%,
+    transparent 76%
+  );
+}
+
+html[data-card-style="liquid-glass"] .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.88) 0%,
+    color-mix(in srgb, var(--nav-pill-accent, #4f46e5) 40%, rgba(14, 165, 233, 0.32)) 48%,
+    transparent 76%
+  );
+}
+
+html[data-card-style="dark-liquid-glass"] .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    rgba(125, 211, 252, 0.78) 0%,
+    color-mix(in srgb, var(--nav-pill-accent, #38bdf8) 42%, rgba(99, 102, 241, 0.28)) 50%,
+    transparent 76%
+  );
+}
+
+html[data-card-style="multicolor-glass"] .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.84) 0%,
+    rgba(56, 189, 248, 0.44) 32%,
+    rgba(168, 85, 247, 0.34) 56%,
+    rgba(244, 114, 182, 0.22) 70%,
+    transparent 80%
+  );
+}
+
+html[data-card-style="cowhide-leather"] .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    rgba(253, 230, 138, 0.68) 0%,
+    rgba(217, 119, 6, 0.38) 52%,
+    transparent 76%
+  );
+}
+
+html[data-card-style="deep-ocean"] .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    rgba(165, 243, 252, 0.76) 0%,
+    rgba(6, 182, 212, 0.44) 48%,
+    rgba(56, 189, 248, 0.18) 66%,
+    transparent 78%
+  );
+}
+
+html[data-card-style="mica-fluent"] .nav-pill-ripple-wave {
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.82) 0%,
+    rgba(0, 103, 192, 0.34) 50%,
+    transparent 74%
+  );
+  animation-duration: 420ms;
+}
+
 button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-ripple-wave {
   background: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.72) 0%,
-    rgba(255, 255, 255, 0.28) 55%,
+    rgba(255, 255, 255, 0.76) 0%,
+    rgba(255, 255, 255, 0.30) 55%,
     transparent 75%
   );
 }
@@ -3069,10 +3157,11 @@ button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-ripple
 }
 
 /* ========================================================================= */
-/* LAYER 1 FORMAT PARITY + DE-BLUR & EFFECT STRIPPING                        */
-/* Header (#app-header) · Center Viewport & Main Cards · Footer (#app-footer)*/
-/* - Đồng bộ format Layer Level 1 cho Header, Footer & Main Card từng trang  */
-/* - Xóa hoàn toàn độ mờ (backdrop-filter) và mọi hiệu ứng bóng/chuyển động  */
+/* LAYER 1 FORMAT PARITY: HEADER · MAIN CARD · FOOTER                        */
+/* Header (#app-header) · Page Main Cards · Footer (#app-footer)             */
+/* - Đồng bộ 100% format Layer Level 1 (nền, viền, blur, bo góc, độ sâu)     */
+/* - Khung bọc ngoài (#app-header-container, #el-p0-div-98, viewport, track) */
+/*   giữ hoàn toàn trong suốt & sạch hiệu ứng                                */
 /* ========================================================================= */
 html:root :is(
   #app-header,
@@ -3103,6 +3192,15 @@ html[data-card-style] :is(
   background: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   color: var(--text-primary) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  transition: box-shadow 220ms ease, border-color 220ms ease !important;
 }
 
 @media screen {
@@ -3112,6 +3210,8 @@ html[data-card-style] :is(
     border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
     border-radius: var(--radius-main, 20px) !important;
     color: var(--text-primary) !important;
+    backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
+    -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
   }
 }
 
@@ -3152,14 +3252,18 @@ html[data-card-style] :is(
   border-radius: var(--radius-main, 20px) !important;
 }
 
-html:root :is(
-  #app-header-container,
-  #app-header,
-  #app-footer,
-  #el-p0-div-98,
-  #global-content-viewport,
-  .tab-content-host,
-  [data-layer-level="1"],
+html:root:not([data-surface-depth="flat"]) #app-header,
+html[data-card-style]:not([data-surface-depth="flat"]) #app-header {
+  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, var(--surface-primary-shadow))) !important;
+}
+
+html:root:not([data-surface-depth="flat"]) #app-footer,
+html[data-card-style]:not([data-surface-depth="flat"]) #app-footer {
+  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, var(--surface-primary-shadow))) !important;
+}
+
+html:root:not([data-surface-depth="flat"]) :is(
+  [data-layer-level="1"]:not(#app-header):not(#app-footer),
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3167,16 +3271,25 @@ html:root :is(
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
-  [id^="letter-card-"],
-  #pdf-page-container
+  [id^="letter-card-"]
 ),
-html[data-card-style] :is(
-  #app-header-container,
+html[data-card-style]:not([data-surface-depth="flat"]) :is(
+  [data-layer-level="1"]:not(#app-header):not(#app-footer),
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+}
+
+html:root[data-surface-depth="flat"] :is(
   #app-header,
   #app-footer,
-  #el-p0-div-98,
-  #global-content-viewport,
-  .tab-content-host,
   [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
@@ -3185,16 +3298,11 @@ html[data-card-style] :is(
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
-  [id^="letter-card-"],
-  #pdf-page-container
+  [id^="letter-card-"]
 ),
-html:root :is(
-  #app-header-container,
+html[data-card-style][data-surface-depth="flat"] :is(
   #app-header,
   #app-footer,
-  #el-p0-div-98,
-  #global-content-viewport,
-  .tab-content-host,
   [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
@@ -3203,16 +3311,28 @@ html:root :is(
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
-  [id^="letter-card-"],
-  #pdf-page-container
+  [id^="letter-card-"]
+) {
+  box-shadow: none !important;
+}
+
+/* Keep static geometry & suppress hover lift/transform on Level 1 surfaces */
+html:root :is(
+  #app-header,
+  #app-footer,
+  [data-layer-level="1"],
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
 ):is(:hover, :focus, :focus-within, :active),
 html[data-card-style] :is(
-  #app-header-container,
   #app-header,
   #app-footer,
-  #el-p0-div-98,
-  #global-content-viewport,
-  .tab-content-host,
   [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
@@ -3221,9 +3341,25 @@ html[data-card-style] :is(
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
-  [id^="letter-card-"],
-  #pdf-page-container
+  [id^="letter-card-"]
 ):is(:hover, :focus, :focus-within, :active) {
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Outer transparent layout wrappers (no glass/shadow/border) */
+html:root :is(
+  #app-header-container,
+  #el-p0-div-98,
+  #global-content-viewport,
+  .tab-content-host
+),
+html[data-card-style] :is(
+  #app-header-container,
+  #el-p0-div-98,
+  #global-content-viewport,
+  .tab-content-host
+) {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   filter: none !important;
@@ -3236,6 +3372,7 @@ html[data-card-style] :is(
   will-change: auto !important;
 }
 
+/* Suppress pseudo-elements on both wrappers and Level 1 surfaces */
 html:root :is(
   #app-header-container,
   #app-header,
@@ -3317,363 +3454,771 @@ html[data-card-style] :is(
 }
 
 /* ========================================================================= */
-/* PER-THEME INTERACTIVE BUTTON EFFECTS (ALL 9 ACTIVE THEMES)                */
-/* Mỗi giao diện sở hữu tương tác Hover / Active / Focus-Visible đặc trưng   */
-/* cho hệ thống nút bấm (giữ nguyên Layer 1 phẳng sạch không hiệu ứng).     */
+/* PER-THEME INTERACTIVE BUTTON EFFECTS (ALL 7 ACTIVE THEMES)                */
+/* Mỗi giao diện sở hữu tương tác Hover / Active / Icon / Ripple / Focus     */
+/* đặc trưng theo vật liệu bề mặt (giữ nguyên Layer 1 tĩnh Level 1).         */
 /* ========================================================================= */
 html[data-card-style] :is(
   button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
   .theme-capsule-btn,
   .theme-prev-next-btn,
+  .nav-arrow-btn,
   .banner-control-pill,
   .banner-primary-cta,
   .swot-control-pill,
   .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(:disabled)
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ) {
+  will-change: transform;
+  backface-visibility: hidden;
   transition:
     transform 190ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 210ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms ease,
+    filter 180ms ease,
+    background-color 180ms ease !important;
+}
+
+html[data-card-style] :is(
+  button.nav-pill .nav-pill-icon-badge,
+  .radial-contact-pill .radial-contact-icon-badge,
+  .banner-control-pill svg,
+  .banner-primary-cta svg,
+  .theme-capsule-btn svg,
+  .project-card-btn-primary svg,
+  .project-card-btn-secondary svg
+) {
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), filter 200ms ease, box-shadow 200ms ease;
+}
+
+/* 1. Nổi khối kính mờ (neumorphism-beyond): Nổi mềm Soft UI + Bấm lún xúc giác (Concave Press) */
+html[data-card-style="neumorphism-beyond"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):hover {
+  transform: translate3d(0, -2px, 0) !important;
+  border-color: rgba(100, 182, 255, 0.72) !important;
+  box-shadow:
+    0 8px 18px rgba(148, 163, 184, 0.28),
+    3px 5px 12px rgba(163, 177, 198, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+}
+
+html[data-card-style="neumorphism-beyond"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):active {
+  transform: translate3d(0, 1px, 0) scale(0.975) !important;
+  box-shadow:
+    inset 3px 3px 7px rgba(148, 163, 184, 0.48),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.78) !important;
+}
+
+html[data-card-style="neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(1.06);
+}
+
+html[data-card-style="neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):active :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(0.93);
+}
+
+/* 2. Liquid Glass (Sáng): Phản chiếu giọt nước quang học + Đàn hồi lò xo lỏng */
+html[data-card-style="liquid-glass"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+) {
+  transition:
+    transform 210ms cubic-bezier(0.34, 1.45, 0.64, 1),
     box-shadow 210ms ease,
     border-color 180ms ease,
     filter 180ms ease,
-    background-color 180ms ease;
-}
-
-/* 1. Nổi khối kính mờ (neumorphism-beyond): Bấm lún xúc giác + Nổi mềm khi rê chuột */
-html[data-card-style="neumorphism-beyond"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
-):hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 8px 18px rgba(148, 163, 184, 0.28),
-    3px 4px 10px rgba(163, 177, 198, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.68);
-}
-
-html[data-card-style="neumorphism-beyond"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
-):active {
-  transform: translateY(1px) scale(0.975);
-  box-shadow:
-    inset 3px 3px 7px rgba(148, 163, 184, 0.42),
-    inset -2px -2px 6px rgba(255, 255, 255, 0.72);
-}
-
-/* 2. Soft Indigo Fintech (Sáng): Nâng dứt khoát + viền Indigo phản hồi */
-html[data-card-style="soft-indigo-fintech"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
-):hover {
-  transform: translateY(-2px);
-  border-color: rgba(79, 70, 229, 0.55);
-  box-shadow: 0 8px 20px -4px rgba(79, 70, 229, 0.26);
-}
-
-html[data-card-style="soft-indigo-fintech"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
-):active {
-  transform: translateY(0) scale(0.97);
-  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.22);
-}
-
-/* 3. Dark Soft Indigo Fintech (Tối): Ánh sáng Neon Indigo nhẹ & nén sâu */
-html[data-card-style="dark-soft-indigo-fintech"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
-):hover {
-  transform: translateY(-2px);
-  border-color: rgba(129, 140, 248, 0.65);
-  box-shadow: 0 0 18px rgba(99, 102, 241, 0.34), 0 6px 16px rgba(0, 0, 0, 0.45);
-}
-
-html[data-card-style="dark-soft-indigo-fintech"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
-):active {
-  transform: scale(0.965);
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.42);
-}
-
-/* 4. Liquid Glass (Sáng): Phản chiếu giọt nước trong suốt + nảy đàn hồi */
-html[data-card-style="liquid-glass"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
-):hover {
-  transform: translateY(-2px) scale(1.015);
-  border-color: rgba(255, 255, 255, 0.85);
-  box-shadow:
-    0 10px 24px -6px rgba(37, 99, 235, 0.22),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.9);
-  filter: brightness(1.04);
+    background-color 180ms ease !important;
 }
 
 html[data-card-style="liquid-glass"] :is(
   button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
   .theme-capsule-btn,
   .theme-prev-next-btn,
+  .nav-arrow-btn,
   .banner-control-pill,
   .banner-primary-cta,
   .swot-control-pill,
   .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
   [data-element-type="button"],
-  main button:not(:disabled)
-):active {
-  transform: scale(0.96);
-  filter: brightness(0.97);
-}
-
-/* 5. Dark Liquid Glass (Tối): Viền khúc xạ pha lê + hào quang Cyan */
-html[data-card-style="dark-liquid-glass"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ):hover {
-  transform: translateY(-2px) scale(1.015);
-  border-color: rgba(56, 189, 248, 0.65);
+  transform: translate3d(0, -2.5px, 0) scale(1.02) !important;
+  border-color: rgba(255, 255, 255, 0.96) !important;
   box-shadow:
-    0 8px 22px rgba(14, 165, 233, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34);
-  filter: brightness(1.08);
+    0 12px 26px -6px rgba(37, 99, 235, 0.24),
+    0 4px 12px -2px rgba(14, 165, 233, 0.16),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.98),
+    inset 0 -1px 0 rgba(99, 102, 241, 0.16) !important;
+  filter: brightness(1.05);
 }
 
-html[data-card-style="dark-liquid-glass"] :is(
+html[data-card-style="liquid-glass"] :is(
   button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
   .theme-capsule-btn,
   .theme-prev-next-btn,
+  .nav-arrow-btn,
   .banner-control-pill,
   .banner-primary-cta,
   .swot-control-pill,
   .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
   [data-element-type="button"],
-  main button:not(:disabled)
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ):active {
-  transform: scale(0.96);
+  transform: translate3d(0, 0, 0) scale(0.955) !important;
+  box-shadow:
+    0 3px 10px -2px rgba(37, 99, 235, 0.20),
+    inset 0 2px 5px rgba(79, 70, 229, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+  filter: brightness(0.98);
+}
+
+html[data-card-style="liquid-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+html[data-card-style="liquid-glass"] :is(.banner-control-pill, .banner-primary-cta, .project-card-btn-primary):hover svg {
+  transform: scale(1.08);
+}
+
+/* 3. Dark Liquid Glass (Tối): Viền khúc xạ pha lê + Hào quang Cyan điện tử */
+html[data-card-style="dark-liquid-glass"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+) {
+  transition:
+    transform 210ms cubic-bezier(0.34, 1.45, 0.64, 1),
+    box-shadow 210ms ease,
+    border-color 180ms ease,
+    filter 180ms ease,
+    background-color 180ms ease !important;
+}
+
+html[data-card-style="dark-liquid-glass"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):hover {
+  transform: translate3d(0, -2.5px, 0) scale(1.02) !important;
+  border-color: rgba(125, 211, 252, 0.72) !important;
+  box-shadow:
+    0 10px 26px -4px rgba(14, 165, 233, 0.34),
+    0 0 14px rgba(99, 102, 241, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42) !important;
+  filter: brightness(1.10);
+}
+
+html[data-card-style="dark-liquid-glass"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):active {
+  transform: translate3d(0, 0, 0) scale(0.955) !important;
+  box-shadow:
+    0 2px 10px rgba(14, 165, 233, 0.25),
+    inset 0 0 12px rgba(56, 189, 248, 0.34) !important;
+  filter: brightness(0.96);
+}
+
+html[data-card-style="dark-liquid-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(1.08) rotate(-4deg);
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.55));
+}
+
+/* 4. Multicolor Glass (Kính đa sắc): Lăng kính chuyển sắc cầu vồng rực rỡ */
+html[data-card-style="multicolor-glass"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):hover {
+  transform: translate3d(0, -2.5px, 0) scale(1.02) !important;
+  border-color: rgba(255, 255, 255, 0.96) !important;
+  box-shadow:
+    0 10px 24px -4px rgba(168, 85, 247, 0.30),
+    0 4px 14px -4px rgba(6, 182, 212, 0.26),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.94) !important;
+  filter: saturate(1.18) brightness(1.05);
+}
+
+html[data-card-style="multicolor-glass"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):active {
+  transform: translate3d(0, 0, 0) scale(0.96) !important;
+  box-shadow:
+    0 4px 14px -3px rgba(236, 72, 153, 0.28),
+    inset 0 1.5px 4px rgba(99, 102, 241, 0.22) !important;
+  filter: saturate(1.24) brightness(0.99);
+}
+
+html[data-card-style="multicolor-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* 5. Da bò cổ điển (cowhide-leather): Ánh đồng đốt thủ công + Dập nổi chìm da thật */
+html[data-card-style="cowhide-leather"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+) {
+  transition:
+    transform 170ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 180ms ease,
+    border-color 170ms ease,
+    filter 170ms ease,
+    background-color 170ms ease !important;
+}
+
+html[data-card-style="cowhide-leather"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):hover {
+  transform: translate3d(0, -1.5px, 0) !important;
+  border-color: rgba(253, 230, 138, 0.78) !important;
+  box-shadow:
+    0 8px 18px rgba(30, 14, 4, 0.46),
+    0 0 12px rgba(245, 158, 11, 0.16),
+    inset 0 1px 1px rgba(255, 232, 188, 0.36) !important;
+  filter: brightness(1.07);
+}
+
+html[data-card-style="cowhide-leather"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):active {
+  transform: translate3d(0, 1.5px, 0) scale(0.975) !important;
+  box-shadow:
+    inset 0 3px 7px rgba(22, 10, 2, 0.68),
+    inset 0 -1px 0 rgba(245, 222, 179, 0.18) !important;
   filter: brightness(0.95);
 }
 
-/* 6. Multicolor Glass (Kính đa sắc): Chuyển sắc ánh cầu vồng nhẹ */
-html[data-card-style="multicolor-glass"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
-):hover {
-  transform: translateY(-2px) scale(1.015);
-  box-shadow:
-    0 8px 22px -4px rgba(168, 85, 247, 0.28),
-    0 4px 12px -4px rgba(56, 189, 248, 0.24);
-  filter: saturate(1.12) brightness(1.04);
+html[data-card-style="cowhide-leather"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 5px rgba(253, 230, 138, 0.45));
 }
 
-html[data-card-style="multicolor-glass"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
-):active {
-  transform: scale(0.965);
-}
-
-/* 7. Da bò cổ điển (cowhide-leather): Nhấn chìm khâu chỉ da thủ công + ánh đồng ấm */
-html[data-card-style="cowhide-leather"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
-):hover {
-  transform: translateY(-1px);
-  border-color: rgba(217, 155, 67, 0.78);
-  box-shadow:
-    0 6px 16px rgba(45, 22, 6, 0.38),
-    inset 0 1px 0 rgba(255, 232, 188, 0.32);
-  filter: brightness(1.06);
-}
-
-html[data-card-style="cowhide-leather"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
-):active {
-  transform: translateY(1px) scale(0.975);
-  box-shadow: inset 0 2px 6px rgba(34, 15, 4, 0.55);
-}
-
-/* 8. Đại dương sâu (deep-ocean): Sóng lam phát quang sinh học êm ái */
+/* 6. Đại dương sâu (deep-ocean): Sóng lam phát quang sinh học êm ái dưới đáy biển */
 html[data-card-style="deep-ocean"] :is(
   button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
   .theme-capsule-btn,
   .theme-prev-next-btn,
+  .nav-arrow-btn,
   .banner-control-pill,
   .banner-primary-cta,
   .swot-control-pill,
   .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
   [data-element-type="button"],
-  main button:not(:disabled)
-):hover {
-  transform: translateY(-2px);
-  border-color: rgba(34, 211, 238, 0.65);
-  box-shadow:
-    0 0 20px rgba(6, 182, 212, 0.34),
-    0 6px 14px rgba(2, 12, 27, 0.45);
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+) {
+  transition:
+    transform 230ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 240ms ease,
+    border-color 210ms ease,
+    filter 210ms ease,
+    background-color 210ms ease !important;
 }
 
 html[data-card-style="deep-ocean"] :is(
   button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
   .theme-capsule-btn,
   .theme-prev-next-btn,
+  .nav-arrow-btn,
   .banner-control-pill,
   .banner-primary-cta,
   .swot-control-pill,
   .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
   [data-element-type="button"],
-  main button:not(:disabled)
-):active {
-  transform: scale(0.97);
-  box-shadow: 0 0 12px rgba(34, 211, 238, 0.45);
-}
-
-/* 9. Mica Fluent (Windows 11): Ánh sáng acrylic sắc nét góc cạnh chuẩn Fluent */
-html[data-card-style="mica-fluent"] :is(
-  button.nav-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  [data-element-type="button"],
-  main button:not(:disabled)
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ):hover {
-  transform: translateY(-1px);
-  border-color: rgba(0, 120, 212, 0.55);
+  transform: translate3d(0, -2px, 0) !important;
+  border-color: rgba(34, 211, 238, 0.74) !important;
   box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  filter: brightness(1.03);
+    0 0 22px rgba(6, 182, 212, 0.36),
+    0 8px 18px rgba(2, 10, 24, 0.54),
+    inset 0 1px 0 rgba(165, 243, 252, 0.30) !important;
+  filter: brightness(1.08);
 }
 
-html[data-card-style="mica-fluent"] :is(
+html[data-card-style="deep-ocean"] :is(
   button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
   .theme-capsule-btn,
   .theme-prev-next-btn,
+  .nav-arrow-btn,
   .banner-control-pill,
   .banner-primary-cta,
   .swot-control-pill,
   .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
   [data-element-type="button"],
-  main button:not(:disabled)
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ):active {
-  transform: scale(0.98);
+  transform: translate3d(0, 0.5px, 0) scale(0.97) !important;
+  box-shadow:
+    0 0 14px rgba(34, 211, 238, 0.52),
+    inset 0 2px 6px rgba(2, 10, 24, 0.55) !important;
+}
+
+html[data-card-style="deep-ocean"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(1.07);
+  filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.65));
+}
+
+/* 7. Mica Fluent (Windows 11): Acrylic Reveal Highlight + Bấm gãy gọn Fluent Snap */
+html[data-card-style="mica-fluent"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+) {
+  transition:
+    transform 150ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 160ms ease,
+    border-color 140ms ease,
+    filter 140ms ease,
+    background-color 140ms ease !important;
+}
+
+html[data-card-style="mica-fluent"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):hover {
+  transform: translate3d(0, -1.5px, 0) !important;
+  border-color: rgba(0, 103, 192, 0.56) !important;
+  box-shadow:
+    0 6px 16px rgba(15, 23, 42, 0.10),
+    0 0 0 1px rgba(0, 120, 212, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90) !important;
+  filter: brightness(1.02);
+}
+
+html[data-card-style="mica-fluent"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):active {
+  transform: translate3d(0, 0.5px, 0) scale(0.98) !important;
+  box-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.08),
+    inset 0 1.5px 4px rgba(15, 23, 42, 0.14) !important;
   filter: brightness(0.97);
+}
+
+html[data-card-style="mica-fluent"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: scale(1.05);
 }
 
 /* Focus ring khả dụng chuẩn Accessibility cho mọi giao diện */
 html[data-card-style] :is(
   button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
   .theme-capsule-btn,
   .theme-prev-next-btn,
+  .nav-arrow-btn,
   .banner-control-pill,
   .banner-primary-cta,
   .swot-control-pill,
   .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
   [data-element-type="button"],
-  main button:not(:disabled)
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ):focus-visible {
-  outline: 2px solid var(--color-primary, #4f46e5);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-focus-ring, var(--color-primary, #4f46e5)) !important;
+  outline-offset: 2px !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html[data-card-style] :is(
     button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
     .theme-capsule-btn,
     .theme-prev-next-btn,
+    .nav-arrow-btn,
     .banner-control-pill,
     .banner-primary-cta,
     .swot-control-pill,
     .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ),
+  html[data-card-style] :is(
+    button.nav-pill .nav-pill-icon-badge,
+    .radial-contact-pill .radial-contact-icon-badge,
+    .banner-control-pill svg,
+    .banner-primary-cta svg,
+    .theme-capsule-btn svg,
+    .project-card-btn-primary svg,
+    .project-card-btn-secondary svg
   ) {
     transition: none !important;
     transform: none !important;

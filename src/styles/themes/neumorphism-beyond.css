@@ -297,7 +297,8 @@ html[data-card-style="neumorphism-beyond"] :is(
   #app-header,
   #app-footer,
   .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
+  [data-main-card="true"],
+  [data-layer-level="1"],
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
@@ -306,8 +307,8 @@ html[data-card-style="neumorphism-beyond"] :is(
   [id^="letter-card-"]
 ) {
   background: linear-gradient(145deg, rgba(234, 240, 247, 0.91) 0%, rgba(225, 232, 241, 0.87) 100%) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, 14px)) saturate(106%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 14px)) saturate(106%) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 14px)) saturate(var(--surface-primary-saturate, 106%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 14px)) saturate(var(--surface-primary-saturate, 106%)) !important;
   border: 1px solid rgba(196, 209, 226, 0.72) !important;
   box-shadow: var(
     --layer-l1-shadow,

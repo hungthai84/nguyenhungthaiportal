@@ -266,7 +266,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
     const v2 = video2Ref.current;
     if (v2) {
       const targetSrc = getVideo2StreamUrl(video2StageRef.current);
-      if (!v2.src || !v2.src.includes(INTERVIEW_VIDEO_2_ID)) {
+      if (!v2.src || (INTERVIEW_VIDEO_2_ID ? !v2.src.includes(INTERVIEW_VIDEO_2_ID) && v2.src !== targetSrc : v2.src !== targetSrc)) {
         v2.src = targetSrc;
       }
       v2.preload = 'auto';
@@ -437,6 +437,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
   }, [currentQIdx, isFilterDropdownOpen, selectQuestion, toggleAudio, togglePlayVideo]);
 
   const handleVideo1Error = () => {
+    if (!INTERVIEW_VIDEO_1_ID) return;
     if (video1StageRef.current === 'primary') {
       loadVideo1('alt');
     } else if (video1StageRef.current === 'alt') {
@@ -446,6 +447,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
   };
 
   const handleVideo2Error = () => {
+    if (!INTERVIEW_VIDEO_2_ID) return;
     if (video2StageRef.current === 'primary') {
       loadVideo2('alt', isPlayingVideo2Ref.current);
     } else if (video2StageRef.current === 'alt') {

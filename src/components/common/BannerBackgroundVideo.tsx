@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 const DEFAULT_FALLBACK_BANNER_VIDEO =
-  'https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4';
+  'https://drive.usercontent.google.com/download?id=1GLEn1qcwUCTdzcoCxy715IrvQe3l4QVn&export=download&confirm=t';
 
 export interface BannerBackgroundVideoProps {
   id?: string;

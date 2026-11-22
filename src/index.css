@@ -54,8 +54,9 @@
 .ai-mascot-btn:hover {
   transform: none;
 }
-.ai-mascot-btn:active {
-  transform: translate3d(0, 0, 0) scale(0.96);
+.ai-mascot-btn:is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale(0.95);
+  transition: transform 60ms ease;
 }
 .ai-mascot-motion-layer {
   transform-origin: 50% 92%;
@@ -106,8 +107,9 @@
 .plant-widget-btn:hover {
   transform: none;
 }
-.plant-widget-btn:active {
-  transform: translate3d(0, 0, 0) scale(0.975);
+.plant-widget-btn:is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale(0.96);
+  transition: transform 60ms ease;
 }
 .plant-canopy-breeze {
   transform-origin: 50% 85%;
@@ -150,6 +152,9 @@
 @import "./styles/themes/dark-neon-glass.css";
 @import "./styles/layers.css";
 @import "./styles/container-system.css";
+@import "./styles/education-bento.css";
+@import "./styles/systems-bento.css";
+@import "./styles/theme-button-effects.css";
 
 /* ========================================================================= */
 /* UNIFIED MOTION UTILITY SYSTEM — GPU-SAFE TRANSITIONS & CURVES             */
@@ -204,9 +209,10 @@ textarea {
               color var(--motion-fast, 150ms) ease;
 }
 
-.motion-interactive:active,
-button:active {
-  transform: scale(var(--motion-scale-pressed, 0.98));
+.motion-interactive:is(:active, [data-btn-pressed="true"]),
+button:not(:disabled):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale(var(--motion-scale-pressed, 0.958));
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease;
 }
 
 /* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection & Better-Typography Craft */
@@ -1647,7 +1653,7 @@ html [id$="-cards-track"]::after {
   html[data-card-style] .swot-quadrant-card,
   html .theme-modal-card,
   html[data-card-style] .theme-modal-card,
-  html [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(.main-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video):not(#interview-questions-card):not([data-media-card="video"]):not([id^="home-main-content-"]):not(#experience-video-card-2026):not(.project-card):not(.education-course-card):not([id^="memory-card-"]):not(.memory-photo-item):not([id^="wallpaper-card-"]):not([id$="-page-container"]):not([id$="-page-root"]) {
+  html [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(.main-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video):not(#interview-questions-card):not([data-media-card="video"]):not([id^="home-main-content-"]):not(#experience-video-card-2026):not(.project-card):not(.education-course-card):not([id^="memory-card-"]):not(.memory-photo-item):not([id^="wallpaper-card-"]):not([id$="-page-container"]):not([id$="-page-root"]) {
     padding: var(--space-card-padding, 16px) !important;
     gap: var(--space-card-gap, 16px) !important;
     row-gap: var(--space-card-gap, 16px) !important;
@@ -1667,8 +1673,8 @@ html [id$="-cards-track"]::after {
   html[data-card-style] .letter-subcard,
   html .theme-modal-subcard,
   html[data-card-style] .theme-modal-subcard,
-  html [data-subcard="true"]:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video):not([id^="core-val-"]),
-  html .sub-card:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not([id^="horoscope-card-"]):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video):not([id^="core-val-"]) {
+  html [data-subcard="true"]:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video):not([id^="core-val-"]),
+  html .sub-card:not(.skill-swot-subcard):not(.education-course-card):not(#interview-questions-card):not([id^="wallpaper-card-content-"]):not(#card-main-letter-content):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#el-p3-div-87):not([id^="education-detail-panel-"]):not(#el-p1-div-85):not(#about-hero-video-container):not(#bento-letter-video):not([id^="core-val-"]) {
     padding: var(--space-subcard-padding, 12px) !important;
     gap: var(--space-subcard-gap, 12px) !important;
     row-gap: var(--space-subcard-gap, 12px) !important;
@@ -1722,7 +1728,12 @@ html [id$="-cards-track"]::after {
 
   /* Preserve 0px padding transparent containers & full-bleed media frames */
   html #card-main-letter-content,
-  html [id^="horoscope-card-"],
+  html #horoscope-card-profile,
+  html #horoscope-card-management-style,
+  html #horoscope-card-career-portrait,
+  html #horoscope-card-five-elements,
+  html #horoscope-card-leadership-philosophy,
+  html #horoscope-card-work-synergy-check,
   html #el-p3-div-87,
   html [id^="education-detail-panel-"],
   html #el-p1-div-85,
@@ -2838,9 +2849,9 @@ html.dark button#header-btn-hungthai-avatar:hover {
   box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(225, 235, 255, 0.25);
 }
 
-button#header-btn-hungthai-avatar:active,
-button.nav-pill:active {
-  transform: scale(0.98);
+button#header-btn-hungthai-avatar:is(:active, [data-btn-pressed="true"]),
+button.nav-pill:is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale(0.955);
 }
 
 /* ========================================================================= */
@@ -3740,17 +3751,83 @@ html[data-card-style] :is(
   .project-card-btn-primary,
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ) {
   will-change: transform;
   backface-visibility: hidden;
   transition:
-    transform 190ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 210ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 210ms cubic-bezier(0.22, 1, 0.36, 1),
     border-color 180ms ease,
     filter 180ms ease,
     background-color 180ms ease !important;
+}
+
+html[data-card-style] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
+  [data-element-type="button"],
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1) !important;
+  box-shadow:
+    inset 0 3px 8px rgba(15, 23, 42, 0.26),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.35),
+    0 1px 2px rgba(15, 23, 42, 0.08) !important;
+  filter: brightness(0.96);
+  transition:
+    transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1),
+    box-shadow 60ms ease,
+    border-color 60ms ease,
+    filter 60ms ease,
+    background-color 60ms ease !important;
+}
+
+html[data-card-style] :is(
+  button.nav-pill,
+  .radial-contact-pill,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .project-card-btn-primary,
+  .project-card-btn-secondary
+):is(:active, [data-btn-pressed="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge, svg) {
+  transform: translate3d(0, 1px, 0) scale(0.92);
+  transition: transform 60ms ease;
 }
 
 html[data-card-style] :is(
@@ -3819,21 +3896,34 @@ html[data-card-style="neumorphism-beyond"] :is(
   .project-card-btn-primary,
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):active {
-  transform: translate3d(0, 1px, 0) scale(0.975) !important;
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1) !important;
   box-shadow:
-    inset 3px 3px 7px rgba(148, 163, 184, 0.48),
-    inset -2px -2px 6px rgba(255, 255, 255, 0.78) !important;
+    inset 4px 4px 9px rgba(130, 148, 175, 0.58),
+    inset -3px -3px 7px rgba(255, 255, 255, 0.86),
+    0 1px 2px rgba(148, 163, 184, 0.14) !important;
+  filter: brightness(0.97);
+  transition:
+    transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1),
+    box-shadow 60ms ease,
+    filter 60ms ease !important;
 }
 
 html[data-card-style="neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
   transform: scale(1.06);
 }
 
-html[data-card-style="neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):active :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(0.93);
+html[data-card-style="neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):is(:active, [data-btn-pressed="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: translate3d(0, 1px, 0) scale(0.90);
 }
 
 /* 2. Liquid Glass (Sáng): Phản chiếu giọt nước quang học + Đàn hồi lò xo lỏng */
@@ -3924,15 +4014,23 @@ html[data-card-style="liquid-glass"] :is(
   .project-card-btn-primary,
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):active {
-  transform: translate3d(0, 0, 0) scale(0.955) !important;
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.95, 0.95, 1) !important;
   box-shadow:
-    0 3px 10px -2px rgba(37, 99, 235, 0.20),
-    inset 0 2px 5px rgba(79, 70, 229, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
-  filter: brightness(0.98);
+    0 2px 6px rgba(37, 99, 235, 0.16),
+    inset 0 3px 7px rgba(30, 64, 175, 0.22),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.72) !important;
+  filter: brightness(0.96);
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
 }
 
 html[data-card-style="liquid-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
@@ -4030,14 +4128,23 @@ html[data-card-style="dark-liquid-glass"] :is(
   .project-card-btn-primary,
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):active {
-  transform: translate3d(0, 0, 0) scale(0.955) !important;
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.95, 0.95, 1) !important;
   box-shadow:
-    0 2px 10px rgba(14, 165, 233, 0.25),
-    inset 0 0 12px rgba(56, 189, 248, 0.34) !important;
-  filter: brightness(0.96);
+    0 2px 8px rgba(2, 6, 23, 0.58),
+    inset 0 3px 9px rgba(2, 6, 23, 0.65),
+    inset 0 0 12px rgba(56, 189, 248, 0.30) !important;
+  filter: brightness(0.94);
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
 }
 
 html[data-card-style="dark-liquid-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
@@ -4100,14 +4207,23 @@ html[data-card-style="multicolor-glass"] :is(
   .project-card-btn-primary,
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):active {
-  transform: translate3d(0, 0, 0) scale(0.96) !important;
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.95, 0.95, 1) !important;
   box-shadow:
-    0 4px 14px -3px rgba(236, 72, 153, 0.28),
-    inset 0 1.5px 4px rgba(99, 102, 241, 0.22) !important;
-  filter: saturate(1.24) brightness(0.99);
+    0 2px 8px rgba(139, 92, 246, 0.22),
+    inset 0 3px 7px rgba(99, 102, 241, 0.28),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.72) !important;
+  filter: saturate(1.18) brightness(0.96);
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
 }
 
 html[data-card-style="multicolor-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
@@ -4169,14 +4285,23 @@ html[data-card-style="dark-neon-glass"] :is(
   .project-card-btn-primary,
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):active {
-  transform: translate3d(0, 0, 0) scale(0.96) !important;
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.95, 0.95, 1) !important;
   box-shadow:
-    0 4px 14px -3px rgba(217, 70, 239, 0.32),
-    inset 0 1.5px 4px rgba(34, 211, 238, 0.28) !important;
-  filter: saturate(1.22) brightness(0.98);
+    0 2px 10px rgba(217, 70, 239, 0.28),
+    inset 0 3px 9px rgba(2, 6, 23, 0.75),
+    inset 0 0 10px rgba(34, 211, 238, 0.30) !important;
+  filter: saturate(1.18) brightness(0.95);
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
 }
 
 html[data-card-style="dark-neon-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
@@ -4271,14 +4396,23 @@ html[data-card-style="cowhide-leather"] :is(
   .project-card-btn-primary,
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):active {
-  transform: translate3d(0, 1.5px, 0) scale(0.975) !important;
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.958, 0.958, 1) !important;
   box-shadow:
-    inset 0 3px 7px rgba(22, 10, 2, 0.68),
-    inset 0 -1px 0 rgba(245, 222, 179, 0.18) !important;
-  filter: brightness(0.95);
+    inset 0 4px 10px rgba(18, 8, 2, 0.78),
+    inset 0 -1px 0 rgba(245, 222, 179, 0.22),
+    0 1px 2px rgba(18, 8, 2, 0.30) !important;
+  filter: brightness(0.93);
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
 }
 
 html[data-card-style="cowhide-leather"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
@@ -4373,14 +4507,23 @@ html[data-card-style="black-cowhide-leather"] :is(
   .project-card-btn-primary,
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):active {
-  transform: translate3d(0, 1.5px, 0) scale(0.975) !important;
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.958, 0.958, 1) !important;
   box-shadow:
-    inset 0 3px 7px rgba(0, 0, 0, 0.82),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.22) !important;
-  filter: brightness(0.95);
+    inset 0 4px 10px rgba(0, 0, 0, 0.88),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.22),
+    0 1px 2px rgba(0, 0, 0, 0.40) !important;
+  filter: brightness(0.93);
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
 }
 
 html[data-card-style="black-cowhide-leather"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
@@ -4475,13 +4618,23 @@ html[data-card-style="deep-ocean"] :is(
   .project-card-btn-primary,
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):active {
-  transform: translate3d(0, 0.5px, 0) scale(0.97) !important;
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1) !important;
   box-shadow:
-    0 0 14px rgba(34, 211, 238, 0.52),
-    inset 0 2px 6px rgba(2, 10, 24, 0.55) !important;
+    0 0 10px rgba(34, 211, 238, 0.42),
+    inset 0 3px 9px rgba(2, 10, 24, 0.72),
+    inset 0 -1px 0 rgba(125, 211, 252, 0.22) !important;
+  filter: brightness(0.94);
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
 }
 
 html[data-card-style="deep-ocean"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
@@ -4576,14 +4729,23 @@ html[data-card-style="light-deep-ocean"] :is(
   .project-card-btn-primary,
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):active {
-  transform: translate3d(0, 0.5px, 0) scale(0.975) !important;
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1) !important;
   box-shadow:
-    0 4px 12px rgba(2, 132, 199, 0.20),
-    inset 0 2px 5px rgba(8, 47, 73, 0.14) !important;
-  filter: brightness(0.98);
+    0 2px 8px rgba(2, 132, 199, 0.18),
+    inset 0 3px 7px rgba(8, 47, 73, 0.22),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.75) !important;
+  filter: brightness(0.96);
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
 }
 
 html[data-card-style="light-deep-ocean"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
@@ -4645,21 +4807,31 @@ html[data-card-style="dark-neumorphism-beyond"] :is(
   .project-card-btn-primary,
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):active {
-  transform: translate3d(0, 1px, 0) scale(0.975) !important;
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1) !important;
   box-shadow:
-    inset 3px 3px 8px rgba(4, 7, 15, 0.72),
-    inset -2px -2px 6px rgba(46, 59, 82, 0.34) !important;
+    inset 4px 4px 10px rgba(3, 6, 12, 0.85),
+    inset -2.5px -2.5px 7px rgba(54, 69, 94, 0.42),
+    0 1px 2px rgba(0, 0, 0, 0.25) !important;
+  filter: brightness(0.94);
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
 }
 
 html[data-card-style="dark-neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
   transform: scale(1.06);
 }
 
-html[data-card-style="dark-neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):active :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(0.93);
+html[data-card-style="dark-neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):is(:active, [data-btn-pressed="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  transform: translate3d(0, 1px, 0) scale(0.90);
 }
 
 /* Focus ring khả dụng chuẩn Accessibility cho mọi giao diện */
@@ -4713,8 +4885,16 @@ html[data-card-style] :is(
     .project-card-btn-primary,
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    .education-skill-chip,
+    a[role="button"],
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+    footer button:not(.no-theme-btn):not(:disabled),
+    [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled),
+    [data-btn-pressed="true"]
   ),
   html[data-card-style] :is(
     button.nav-pill .nav-pill-icon-badge,

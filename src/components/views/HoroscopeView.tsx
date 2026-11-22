@@ -44,7 +44,7 @@ import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 const HOROSCOPE_AVATAR_IMAGE_URL =
   'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794233300/T%E1%BB%AD_vi_avata.png';
 const HOROSCOPE_COMMENTARY_MP3_URL =
-  'https://res.cloudinary.com/q5tpzaxk/video/upload/v1794233344/Postcard_t%E1%BB%AD_vi.mp3';
+  'https://cdn.scena.ai/project/9626/b40b848d5a2ad108760073e8c64bd80f963850ab7e79c19af228c82a83f6419d.mp3';
 
 export interface HoroscopeViewProps {
   currentTheme?: string;
@@ -2370,7 +2370,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           ['--about-card-w' as any]: `${horoscopeCardWidth}px`,
           ['--about-side-inset' as any]: `${horoscopeSideInset}px`,
         }}
-        className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-hidden overflow-y-hidden no-scrollbar z-10 select-none box-border"
+        className="main-card relative w-full max-w-full min-w-0 h-full min-h-0 mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-hidden overflow-y-hidden no-scrollbar z-10 select-none box-border"
       >
         <div
           id="horoscope-cards-track"
@@ -2429,6 +2429,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   flex: `0 0 ${horoscopeCardWidth}px`,
                   height: '100%',
                   minHeight: '100%',
+                  maxHeight: '100%',
                   padding: '15px',
                   gap: '0px',
                   rowGap: '0px',

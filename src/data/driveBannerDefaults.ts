@@ -116,7 +116,8 @@ export const VIDEO_BANNER_CONFIG: Record<
   | 'systems'
   | 'services'
   | 'projects'
-  | 'skills',
+  | 'skills'
+  | 'aiAssistant',
   { videoId: string; title: string; previewUrl: string }
 > = {
   contact: {
@@ -170,6 +171,11 @@ export const VIDEO_BANNER_CONFIG: Record<
     previewUrl: 'https://cdn.scena.ai/project/10223/4acb98f87ccd8420e92440c96d0d0d1a21ecb4efb212fdee490e43811ae8128e.mp4',
   },
   skills: {
+    videoId: '1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx',
+    title: 'Video Banner Kỹ năng',
+    previewUrl: 'https://drive.google.com/file/d/1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx/preview',
+  },
+  aiAssistant: {
     videoId: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
     title: 'Video Banner AI hỗ trợ',
     previewUrl: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',

@@ -267,7 +267,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
 
   const handleVideo1Error = useCallback(() => {
     if (video1StageRef.current === 'custom') {
-      loadVideo1('proxy');
+      if (video1Id) loadVideo1('proxy');
     } else if (video1StageRef.current === 'proxy') {
       loadVideo1('uc');
     } else if (video1StageRef.current === 'uc') {
@@ -276,11 +276,11 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
       video1StageRef.current = 'iframe';
       setVideo1Stage('iframe');
     }
-  }, [loadVideo1]);
+  }, [loadVideo1, video1Id]);
 
   const handleVideo2Error = useCallback(() => {
     if (video2StageRef.current === 'custom') {
-      loadVideo2('proxy', isPlayingIntroRef.current);
+      if (video2Id) loadVideo2('proxy', isPlayingIntroRef.current);
     } else if (video2StageRef.current === 'proxy') {
       loadVideo2('uc', isPlayingIntroRef.current);
     } else if (video2StageRef.current === 'uc') {
@@ -292,7 +292,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
         setIsVideo2Ready(true);
       }
     }
-  }, [loadVideo2]);
+  }, [loadVideo2, video2Id]);
 
   const handlePlayIntro = useCallback(() => {
     isPlayingIntroRef.current = true;
@@ -312,7 +312,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
     const v2 = video2Ref.current;
     if (v2) {
       const targetSrc = getVideo2StreamUrl(video2StageRef.current, video2Id);
-      if (!v2.src || (!v2.src.includes(video2Id) && v2.src !== targetSrc)) {
+      if (!v2.src || (video2Id ? !v2.src.includes(video2Id) && v2.src !== targetSrc : v2.src !== targetSrc)) {
         v2.src = targetSrc;
       }
       v2.preload = 'auto';

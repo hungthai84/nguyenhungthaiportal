@@ -1,0 +1,772 @@
+/* ========================================================================= */
+/* THEME-SPECIFIC INTERACTIVE BUTTON EFFECTS                                 */
+/* Material-authentic hover, pointer-follow reveal, click pulse & tactile    */
+/* press mapped to every active [data-card-style] theme.                     */
+/* ========================================================================= */
+
+:where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]) {
+  position: relative;
+  isolation: isolate;
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms ease,
+    background-color 180ms ease,
+    filter 180ms ease !important;
+  will-change: transform;
+}
+
+/* Keyboard Focus Ring across all themes */
+:where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):focus-visible {
+  outline: 2px solid var(--color-focus-ring, var(--color-primary, #4973FF)) !important;
+  outline-offset: 2px !important;
+}
+
+/* Pointer-Reactive Surface Reveal Layer (contained within button radius) */
+:where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover::before {
+    opacity: 1;
+  }
+}
+
+/* Click Pulse Animation Layer for Theme-Specific Tap Shockwaves */
+@keyframes themeBtnClickPulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.84);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+}
+
+:where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+)[data-btn-ripple="true"]:not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  opacity: 1;
+  animation: themeBtnClickPulse 420ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Diagonal Specular Glint for Glass / Liquid / Prismatic / Bento Pills */
+:where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+):not([disabled]) {
+  overflow: hidden;
+}
+
+:where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+):not([disabled])::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 1;
+  transform: translate3d(-115%, 0, 0) skewX(-18deg);
+  transition:
+    transform 460ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 220ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:is(
+    [data-card-style="liquid-glass"],
+    [data-card-style="dark-liquid-glass"],
+    [data-card-style="multicolor-glass"],
+    [data-card-style="deep-ocean"],
+    [data-card-style="neumorphism-beyond"],
+    [data-card-style="cowhide-leather"],
+    [data-card-style="soft-indigo-fintech"],
+    [data-card-style="dark-soft-indigo-fintech"],
+    :not([data-card-style])
+  ) :where(
+    button.nav-pill,
+    .banner-control-pill,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    .education-skill-chip,
+    .radial-contact-pill
+  ):not([disabled]):hover::after {
+    opacity: 1;
+    transform: translate3d(120%, 0, 0) skewX(-18deg);
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+/* 1. NEUMORPHISM & BEYOND (Nổi Khối Kính Mờ — Matte Soft UI Tactile Press)  */
+/* ------------------------------------------------------------------------- */
+html:is([data-card-style="neumorphism-beyond"], :not([data-card-style])) :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(255, 255, 255, 0.56) 0%,
+    rgba(100, 182, 255, 0.16) 48%,
+    transparent 78%
+  );
+}
+
+html:is([data-card-style="neumorphism-beyond"], :not([data-card-style])) :where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+)::after {
+  background: linear-gradient(
+    112deg,
+    transparent 24%,
+    rgba(255, 255, 255, 0.44) 50%,
+    rgba(100, 182, 255, 0.18) 60%,
+    transparent 82%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:is([data-card-style="neumorphism-beyond"], :not([data-card-style])) :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -2px, 0) !important;
+    border-color: rgba(100, 182, 255, 0.72) !important;
+    box-shadow:
+      0 8px 18px rgba(148, 163, 184, 0.26),
+      3px 5px 12px rgba(163, 177, 198, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.56) !important;
+  }
+}
+
+html:is([data-card-style="neumorphism-beyond"], :not([data-card-style])) :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
+  transform: translate3d(0, 1px, 0) scale3d(0.975, 0.975, 1) !important;
+  box-shadow:
+    inset 3.5px 3.5px 7px rgba(163, 177, 198, 0.54),
+    inset -2.5px -2.5px 6px rgba(255, 255, 255, 0.62) !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 2. LIQUID GLASS (Sáng) & DARK LIQUID GLASS (Tối) — Optical Specular Sheen */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="liquid-glass"] :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    90px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(186, 230, 253, 0.24) 45%,
+    transparent 76%
+  );
+}
+
+html[data-card-style="dark-liquid-glass"] :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(186, 230, 253, 0.30) 0%,
+    rgba(56, 189, 248, 0.14) 46%,
+    transparent 76%
+  );
+}
+
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) :where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+)::after {
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.48) 50%,
+    transparent 80%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="liquid-glass"] :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -2px, 0) !important;
+    border-color: rgba(255, 255, 255, 0.98) !important;
+    box-shadow:
+      0 12px 26px -6px rgba(79, 70, 229, 0.24),
+      0 4px 12px -2px rgba(14, 165, 233, 0.18),
+      inset 0 1.5px 0 rgba(255, 255, 255, 1) !important;
+  }
+
+  html[data-card-style="dark-liquid-glass"] :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -2px, 0) !important;
+    border-color: rgba(125, 211, 252, 0.68) !important;
+    box-shadow:
+      0 14px 28px -6px rgba(2, 6, 23, 0.72),
+      0 0 20px rgba(56, 189, 248, 0.28),
+      inset 0 1px 0 rgba(226, 238, 255, 0.38) !important;
+  }
+}
+
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
+  transform: translate3d(0, 0, 0) scale3d(0.955, 0.955, 1) !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 3. MULTICOLOR GLASS — Prismatic Tri-Color Glow Lift & Elastic Frosted Press*/
+/* ------------------------------------------------------------------------- */
+html[data-card-style="multicolor-glass"] :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    105px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(56, 189, 248, 0.26) 0%,
+    rgba(192, 132, 252, 0.22) 38%,
+    rgba(244, 114, 182, 0.16) 64%,
+    transparent 82%
+  );
+}
+
+html[data-card-style="multicolor-glass"] :where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+)::after {
+  background: linear-gradient(
+    115deg,
+    transparent 15%,
+    rgba(56, 189, 248, 0.28) 38%,
+    rgba(192, 132, 252, 0.30) 54%,
+    rgba(244, 114, 182, 0.26) 70%,
+    transparent 85%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="multicolor-glass"] :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -2px, 0) !important;
+    border-color: rgba(167, 139, 250, 0.78) !important;
+    box-shadow:
+      0 10px 24px -5px rgba(139, 92, 246, 0.26),
+      0 4px 12px -3px rgba(6, 182, 212, 0.22),
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.96) !important;
+  }
+}
+
+html[data-card-style="multicolor-glass"] :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
+  transform: translate3d(0, 0, 0) scale3d(0.95, 0.95, 1) !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 4. COWHIDE LEATHER (Da Bò Thuộc) — Burnished Gold Stitch & Leather Deboss */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="cowhide-leather"] :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    90px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(253, 230, 138, 0.24) 0%,
+    rgba(217, 119, 6, 0.14) 50%,
+    transparent 80%
+  );
+}
+
+html[data-card-style="cowhide-leather"] :where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+)::after {
+  background: linear-gradient(
+    110deg,
+    transparent 25%,
+    rgba(253, 230, 138, 0.28) 50%,
+    transparent 75%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="cowhide-leather"] :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -1px, 0) !important;
+    border-color: rgba(253, 230, 138, 0.78) !important;
+    box-shadow:
+      0 8px 18px rgba(15, 7, 2, 0.56),
+      0 0 0 1px rgba(245, 158, 11, 0.38),
+      inset 0 1px 0 rgba(253, 230, 138, 0.34) !important;
+  }
+}
+
+html[data-card-style="cowhide-leather"] :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
+  transform: translate3d(0, 1.5px, 0) scale3d(0.982, 0.982, 1) !important;
+  box-shadow:
+    inset 0 3px 8px rgba(10, 4, 1, 0.72),
+    inset 0 -1px 0 rgba(245, 222, 179, 0.26) !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 5. DEEP OCEAN (Đại Dương Sâu) — Bioluminescent Sonar Rim & Buoyant Press  */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="deep-ocean"] :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(56, 189, 248, 0.30) 0%,
+    rgba(34, 211, 238, 0.14) 48%,
+    transparent 78%
+  );
+}
+
+html[data-card-style="deep-ocean"] :where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+)::after {
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(56, 189, 248, 0.34) 50%,
+    transparent 80%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="deep-ocean"] :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(56, 189, 248, 0.72) !important;
+    box-shadow:
+      0 10px 22px rgba(2, 6, 23, 0.66),
+      0 0 20px rgba(56, 189, 248, 0.34),
+      inset 0 1px 0 rgba(125, 211, 252, 0.36) !important;
+  }
+}
+
+html[data-card-style="deep-ocean"] :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
+  transform: translate3d(0, 0.5px, 0) scale3d(0.962, 0.962, 1) !important;
+  box-shadow:
+    inset 0 2px 10px rgba(2, 12, 27, 0.74),
+    0 0 14px rgba(34, 211, 238, 0.32) !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 7. SOFT INDIGO FINTECH (Light & Dark) — Crisp FinTech Lift & Press        */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="soft-indigo-fintech"] :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    92px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(94, 72, 232, 0.14) 0%,
+    rgba(165, 180, 252, 0.10) 48%,
+    transparent 78%
+  );
+}
+
+html[data-card-style="dark-soft-indigo-fintech"] :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(165, 180, 252, 0.24) 0%,
+    rgba(108, 76, 230, 0.14) 48%,
+    transparent 78%
+  );
+}
+
+html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"]) :where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+)::after {
+  background: linear-gradient(
+    112deg,
+    transparent 24%,
+    rgba(165, 180, 252, 0.28) 50%,
+    transparent 78%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="soft-indigo-fintech"] :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -2px, 0) !important;
+    border-color: rgba(94, 72, 232, 0.54) !important;
+    box-shadow:
+      0 10px 22px -5px rgba(94, 72, 232, 0.26),
+      inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+  }
+
+  html[data-card-style="dark-soft-indigo-fintech"] :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -2px, 0) !important;
+    border-color: rgba(165, 180, 252, 0.58) !important;
+    box-shadow:
+      0 12px 24px -5px rgba(108, 76, 230, 0.42),
+      inset 0 1px 0 rgba(212, 222, 255, 0.30) !important;
+  }
+}
+
+html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"]) :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
+  transform: translate3d(0, 0, 0) scale3d(0.972, 0.972, 1) !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 8. REDUCED MOTION SAFETY                                                  */
+/* ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):hover,
+  :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):active {
+    transform: none !important;
+  }
+
+  :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  )::before,
+  :where(
+    button.nav-pill,
+    .banner-control-pill,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    .education-skill-chip,
+    .radial-contact-pill
+  )::after {
+    display: none !important;
+  }
+}

@@ -91,24 +91,3 @@ export interface AdaptiveAccentState {
   activeAccent: AdaptiveAccentPalette | null;
 }
 
-export interface ThemeWallpaperPreset {
-  id: string;
-  name: string;
-  cardStyle: CardStyleMode;
-  wallpaper: {
-    id: string;
-    name: string;
-    type: 'image' | 'video' | 'css' | 'gradient' | 'webgl';
-    value: string;
-    bg?: string;
-    previewStyle?: React.CSSProperties;
-    gravityConfig?: any;
-    isCustom?: boolean;
-  };
-  blur: number;
-  dim: number;
-  adaptiveAccentEnabled: boolean;
-  isBuiltIn?: boolean;
-  createdAt: number;
-}
-

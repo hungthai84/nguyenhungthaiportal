@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { TABS_DATA } from '../../data/tabs';
-import { WeatherCard } from '../common/WeatherCard';
+import { WeatherWidget } from '../common/WeatherWidget';
 import { WebIcon } from '../ui/WebIcon';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { CARD_STYLE_GROUPS, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/config/ui/cardStyles';
@@ -532,7 +532,7 @@ export const Footer: React.FC<FooterProps> = ({
           paddingTop: '0px',
         }}
       >
-        <WeatherCard onShowNotification={onShowNotification} />
+        <WeatherWidget onShowNotification={onShowNotification} />
       </div>
 
       {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md (tạm ẩn trên desktop khi nút bên phải bung ra) */}
@@ -1081,7 +1081,7 @@ export const Footer: React.FC<FooterProps> = ({
                   </p>
                 </div>
                 <a
-                  href="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
+                  href="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
                   download="Nguyen_Hung_Thai_CV.pdf"
                   target="_blank"
                   rel="noopener noreferrer"

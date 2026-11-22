@@ -721,9 +721,10 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       src={selectedArticle.image}
                       alt={selectedArticle.title}
                       className="w-full h-full object-cover rounded-[14px] opacity-90 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
-                          'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069894/Qu%C3%A3n_l%C3%BD_d%E1%BB%B1_%C3%A1n.png';
+                          'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv';
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/45 to-transparent flex flex-col justify-end p-[15px]">

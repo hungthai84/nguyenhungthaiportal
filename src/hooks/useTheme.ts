@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import {
   UNIFIED_INTERFACE_THEMES,
   CARD_STYLE_PRESETS_LIST,
@@ -20,7 +19,6 @@ import {
 } from '../config/ui/themeDefaults';
 import { CardStyleMode, ColorSchemeMode, SurfaceDepthMode, ThemeMechanismMode } from '../config/ui/theme.types';
 import { useThemeContext } from '../context/ThemeContext';
-import { useThemeLegacy } from './useThemeLegacy';
 
 export {
   UNIFIED_INTERFACE_THEMES,
@@ -41,11 +39,5 @@ export {
 export type { CardStyleMode, ColorSchemeMode, SurfaceDepthMode, ThemeFamilyGroupMeta, ThemeMechanismMode };
 
 export function useTheme() {
-  try {
-    const ctx = useThemeContext();
-    return ctx;
-  } catch (e) {
-    // If used outside ThemeProvider fallback to legacy hook
-    return useThemeLegacy();
-  }
+  return useThemeContext();
 }

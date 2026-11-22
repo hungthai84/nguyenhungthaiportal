@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { MapLocation } from '../../data/about';
+import { MapLocation } from '../../data/aboutData';
 
 interface MapModalProps {
   location: MapLocation | null;

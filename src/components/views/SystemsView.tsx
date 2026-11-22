@@ -47,9 +47,9 @@ export interface SystemsViewProps {
 }
 
 const SYSTEM_FLOATING_IDLE_VIDEO_URL =
-  'https://drive.google.com/uc?export=download&id=1FHYWSXVPkWwTPU1UeSDjCwkwx_0ceB36';
+  'https://cdn.scena.ai/project/8606/581097478f9de72616d982e302e1c8d0aab6d66cbee040430c610424c0c72a44.mp4';
 const SYSTEM_FLOATING_INTRO_VIDEO_URL =
-  'https://drive.google.com/uc?export=download&id=1jZ_oty3--e-2c3LqifNPp3d73zXL6cVB';
+  'https://cdn.scena.ai/project/8606/ac120a105730c378447fd67f5e8b6aeb9557b5e4e8854ac2e21148d5316f780b.mp4';
 
 interface SystemTechSpecItem {
   database: string;
@@ -1424,7 +1424,16 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       borderColor: 'var(--border-card)',
                     }}
                   >
-                    <DualLayerVideoPlayer className="absolute inset-0 z-0 pointer-events-auto" />
+                    <DualLayerVideoPlayer
+                      video1Id=""
+                      video2Id=""
+                      video1Src={SYSTEM_FLOATING_IDLE_VIDEO_URL}
+                      video2Src={SYSTEM_FLOATING_INTRO_VIDEO_URL}
+                      autoPlayVideo1={true}
+                      muteVideo1={true}
+                      loopVideo1={true}
+                      className="absolute inset-0 z-0 pointer-events-none"
+                    />
                     <div
                       className={cn(
                         'absolute inset-0 rounded-full flex items-center justify-center transition-all duration-300',

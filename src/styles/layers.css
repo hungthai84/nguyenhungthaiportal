@@ -82,7 +82,7 @@ html:not([data-surface-depth="flat"]) :is(
 /* Level 2: Các card nằm trong Header, Main Card và Footer */
 :is(
   /* Cards trong Main Card */
-  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
+  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not([id$="-page-container"]):not([id$="-page-root"]),
   .bento-card:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
   .layered-card,
   .exp-bento-surface-card,
@@ -131,7 +131,7 @@ html:not([data-surface-depth="flat"]) :is(
 
 html:not([data-surface-depth="flat"]) :is(
   /* Cards trong Main Card */
-  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]),
+  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not([id$="-page-container"]):not([id$="-page-root"]),
   .bento-card:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
   .layered-card,
   .exp-bento-surface-card,
@@ -196,7 +196,7 @@ html:not([data-surface-depth="flat"]) :is(
 /* Hover state for Level 2 & Level 3 cards: no glow/flash on mouseover */
 @media (hover: hover) and (pointer: fine) {
   html:not([data-surface-depth="flat"]) :is(
-    [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not([id^="horoscope-card-"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#footer-theme-popup):not(#footer-lang-popup):not(.banner-dropdown-menu):not(:has(.banner-dropdown-menu)),
+    [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(#card-main-letter-content):not(#letter-sections-list):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not([id$="-page-container"]):not([id$="-page-root"]):not(#footer-theme-popup):not(#footer-lang-popup):not(.banner-dropdown-menu):not(:has(.banner-dropdown-menu)),
     .bento-card:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]):not(#footer-theme-popup):not(#footer-lang-popup):not(:has(.banner-dropdown-menu)),
     .layered-card,
     .exp-bento-surface-card,
@@ -299,7 +299,7 @@ html[data-surface-depth="flat"] :is(
 /* (#home-intro-card, #home-stats-card, #home-capabilities-card,             */
 /*  #home-achievements-card)                                                 */
 /* ========================================================================= */
-html[data-card-style]:not([data-card-style="liquid-glass"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="multicolor-glass"]):not([data-card-style="dark-neon-glass"]):not([data-card-style="light-deep-ocean"]):not([data-card-style="mica-plastic"]) :is(
+html[data-card-style]:not([data-card-style="liquid-glass"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="multicolor-glass"]):not([data-card-style="dark-neon-glass"]):not([data-card-style="light-deep-ocean"]) :is(
   .home-hero-card,
   #home-intro-card,
   #home-stats-card,
@@ -342,22 +342,6 @@ html[data-card-style="dark-liquid-glass"] :is(
   outline: none !important;
   color: #f8fafc !important;
   box-shadow: var(--lg-clear-shadow) !important;
-}
-
-html[data-card-style="mica-plastic"] :is(
-  .home-hero-card,
-  #home-intro-card,
-  #home-stats-card,
-  #home-capabilities-card,
-  #home-achievements-card
-) {
-  background: linear-gradient(142deg, rgba(252, 253, 255, 0.90) 0%, rgba(235, 242, 250, 0.86) 100%) !important;
-  backdrop-filter: blur(20px) saturate(126%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(126%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.92) !important;
-  border-radius: var(--radius-card, 16px) !important;
-  color: #15202e !important;
-  box-shadow: 0 12px 28px -6px rgba(30, 41, 59, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.96) !important;
 }
 
 html[data-card-style="cowhide-leather"] :is(

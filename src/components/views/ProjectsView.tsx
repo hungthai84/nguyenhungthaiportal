@@ -786,7 +786,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                           e.currentTarget.src = bannerInfo.fallbackUrl;
                         } else {
                           e.currentTarget.src =
-                            'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png';
+                            'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv';
                         }
                       }}
                       className="w-full h-full object-cover object-center rounded-[inherit] block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"

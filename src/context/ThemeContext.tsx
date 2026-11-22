@@ -33,7 +33,6 @@ import {
   ColorSchemeMode,
   GlassCustomization,
   SurfaceDepthMode,
-  ThemeWallpaperPreset,
   WallpaperOverlaySettings,
 } from '../config/ui/theme.types';
 import {
@@ -159,8 +158,6 @@ export interface ThemeContextType {
   setColorSchemeMode: (mode: ColorSchemeMode) => void;
   currentWallpaper: string;
   activeWallpaper: WallpaperPreset;
-  previewWallpaper: WallpaperPreset | null;
-  setPreviewWallpaper: (wp: WallpaperPreset | null) => void;
   setWallpaper: (wpOrBg: WallpaperPreset | string) => void;
   wallpaperOverlay: WallpaperOverlaySettings;
   updateWallpaperOverlay: (patch: Partial<WallpaperOverlaySettings>) => void;
@@ -168,7 +165,6 @@ export interface ThemeContextType {
   adaptiveAccentEnabled: boolean;
   setAdaptiveAccentEnabled: (enabled: boolean) => void;
   suggestedAccent: AdaptiveAccentPalette | null;
-  applyThemeWallpaperPreset: (preset: ThemeWallpaperPreset) => void;
   cardStyle: CardStyleMode;
   setCardStyle: (mode: CardStyleMode) => void;
   toggleLightDark: (targetDark?: boolean) => void;
@@ -303,8 +299,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     return getDefaultWallpaperForTheme(initialStyle);
   });
 
-  const [previewWallpaper, setPreviewWallpaper] = useState<WallpaperPreset | null>(null);
-
   const wallpaperOverlay = DEFAULT_WALLPAPER_OVERLAY;
   const adaptiveAccentEnabled = false;
 
@@ -398,7 +392,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     applyWallpaperOverlayCssVariables(wallpaperOverlay);
   }, [wallpaperOverlay]);
 
-  const effectiveAccentTarget = previewWallpaper || activeWallpaper;
+  const effectiveAccentTarget = activeWallpaper;
 
   useEffect(() => {
     let cancelled = false;
@@ -809,67 +803,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const resetWallpaperOverlay = useCallback(() => {}, []);
   const setAdaptiveAccentEnabled = useCallback((_enabled: boolean) => {}, []);
 
-  const applyThemeWallpaperPreset = useCallback((preset: ThemeWallpaperPreset) => {
-    const normalized = normalizeCardStyle(preset.cardStyle);
-    const nextDark = resolveCardStyleDark(normalized);
-    const resolvedScheme: ColorSchemeMode = nextDark ? 'dark' : 'light';
-    const wp: WallpaperPreset = {
-      ...preset.wallpaper,
-      previewStyle:
-        preset.wallpaper.previewStyle ||
-        (preset.wallpaper.type === 'css' || preset.wallpaper.type === 'gradient'
-          ? parseCssStringToStyle(preset.wallpaper.value || preset.wallpaper.bg || '')
-          : undefined),
-    };
-
-    cardStyleRef.current = normalized;
-    setCardStyleState(normalized);
-    setColorSchemeModeState(resolvedScheme);
-    activeWallpaperIdRef.current = wp.id;
-    setActiveWallpaper(wp);
-    setPreviewWallpaper(null);
-
-    try {
-      localStorage.setItem(CARD_STYLE_STORAGE_KEY, normalized);
-      localStorage.setItem(COLOR_SCHEME_MODE_STORAGE_KEY, resolvedScheme);
-      localStorage.setItem('hungthai_card_style_manual', '1');
-      localStorage.setItem(
-        nextDark ? 'hungthai_last_dark_style' : 'hungthai_last_light_style',
-        normalized
-      );
-      localStorage.setItem(WALLPAPER_MANUAL_STORAGE_KEY, '1');
-      localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(wp));
-      localStorage.setItem('theme_wallpaper', wp.value || wp.bg || '');
-      localStorage.removeItem(WALLPAPER_OVERLAY_STORAGE_KEY);
-      localStorage.removeItem(ADAPTIVE_ACCENT_STORAGE_KEY);
-    } catch {
-      // ignore
-    }
-
-    const mechanism = CARD_STYLES_MAP[normalized]?.mechanism || (nextDark ? 'dark' : 'light');
-    if (nextDark) {
-      document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute('data-theme', normalized);
-      document.documentElement.setAttribute('data-theme-mode', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.setAttribute('data-theme', normalized);
-      document.documentElement.setAttribute('data-theme-mode', 'light');
-    }
-    document.documentElement.setAttribute('data-theme-mechanism', mechanism);
-    document.documentElement.setAttribute('data-card-style', normalized);
-    document.documentElement.setAttribute('data-color-scheme-mode', resolvedScheme);
-    if (document.body) {
-      document.body.setAttribute('data-card-style', normalized);
-      document.body.setAttribute('data-theme-mechanism', mechanism);
-      document.body.setAttribute('data-color-scheme-mode', resolvedScheme);
-    }
-
-    window.dispatchEvent(new CustomEvent(CARD_STYLE_SYNC_EVENT, { detail: normalized }));
-    window.dispatchEvent(new CustomEvent(COLOR_SCHEME_MODE_SYNC_EVENT, { detail: resolvedScheme }));
-    window.dispatchEvent(new CustomEvent(WALLPAPER_SYNC_EVENT, { detail: wp }));
-  }, []);
-
   return (
     <ThemeContext.Provider
       value={{
@@ -878,8 +811,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setColorSchemeMode,
         currentWallpaper: activeWallpaper.value || activeWallpaper.bg || '',
         activeWallpaper,
-        previewWallpaper,
-        setPreviewWallpaper,
         setWallpaper,
         wallpaperOverlay,
         updateWallpaperOverlay,
@@ -887,7 +818,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         adaptiveAccentEnabled,
         setAdaptiveAccentEnabled,
         suggestedAccent,
-        applyThemeWallpaperPreset,
         cardStyle,
         setCardStyle,
         toggleLightDark,

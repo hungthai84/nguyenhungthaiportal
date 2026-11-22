@@ -841,9 +841,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         <Maximize2 className="w-3.5 h-3.5" />
                       </span>
 
-                      {/* Tầng 1: Trái (Tiêu đề 2 dòng: Hàng 1 Icon + Tiêu đề | Hàng 2 Tiêu đề) | Phải (Hình minh họa nổi bật + Halo) */}
+                      {/* Tầng 1: Trái (Tiêu đề 2 dòng + Logo doanh nghiệp bên dưới) | Phải (Hình minh họa nổi bật + Halo) */}
                       <div className="relative z-10 flex items-center justify-between gap-3 pt-0.5 pr-7 min-w-0">
-                        <div className="flex-1 min-w-0 flex flex-col gap-1">
+                        <div className="flex-1 min-w-0 flex flex-col gap-2">
                           <h3
                             className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 break-words"
                             data-card-title="true"
@@ -856,6 +856,35 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                               accentColor
                             )}
                           </h3>
+
+                          {(domain.companyLogos || []).length > 0 && (
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
+                                <div
+                                  key={partner.name || pIdx}
+                                  title={partner.name}
+                                  className="w-6 h-6 sm:w-7 sm:h-7 rounded-full overflow-hidden bg-white dark:bg-slate-800 border border-[var(--border-subcard)] flex items-center justify-center shrink-0 shadow-xs"
+                                >
+                                  <img
+                                    src={partner.logo}
+                                    alt={partner.name}
+                                    referrerPolicy="no-referrer"
+                                    className="w-full h-full object-cover rounded-full"
+                                    onError={(e) => {
+                                      if (
+                                        partner.fallbackLogo &&
+                                        e.currentTarget.src !== partner.fallbackLogo
+                                      ) {
+                                        e.currentTarget.src = partner.fallbackLogo;
+                                      } else {
+                                        e.currentTarget.style.display = 'none';
+                                      }
+                                    }}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
 
                         {/* Ảnh minh họa tách nền trên quầng sáng domain */}
@@ -907,8 +936,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         {summaryText}
                       </p>
 
-                      {/* Tầng 4: Footer Hashtags + Logo Doanh Nghiệp Tiêu Biểu */}
-                      <div className="service-divider relative z-10 pt-2 border-t border-[var(--border-subcard)] flex items-center justify-between gap-2 shrink-0 min-w-0">
+                      {/* Tầng 4: Footer Hashtags */}
+                      <div className="service-divider relative z-10 pt-2 border-t border-[var(--border-subcard)] flex items-center justify-start gap-2 shrink-0 min-w-0">
                         <div className="flex items-center gap-1.5 flex-wrap min-w-0 overflow-hidden">
                           {tagsList.map((tag) => (
                             <span
@@ -922,33 +951,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                             >
                               {tag}
                             </span>
-                          ))}
-                        </div>
-
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
-                            <div
-                              key={partner.name || pIdx}
-                              title={partner.name}
-                              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full overflow-hidden bg-white dark:bg-slate-800 border border-[var(--border-subcard)] flex items-center justify-center shrink-0 shadow-xs"
-                            >
-                              <img
-                                src={partner.logo}
-                                alt={partner.name}
-                                referrerPolicy="no-referrer"
-                                className="w-full h-full object-cover rounded-full"
-                                onError={(e) => {
-                                  if (
-                                    partner.fallbackLogo &&
-                                    e.currentTarget.src !== partner.fallbackLogo
-                                  ) {
-                                    e.currentTarget.src = partner.fallbackLogo;
-                                  } else {
-                                    e.currentTarget.style.display = 'none';
-                                  }
-                                }}
-                              />
-                            </div>
                           ))}
                         </div>
                       </div>

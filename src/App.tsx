@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
-import { Toast } from './components/common/Toast';
 import { MapModal } from './components/common/MapModal';
 import { BentoFocusModal } from './components/common/BentoFocusModal';
 import { MilestoneModal } from './components/common/MilestoneModal';
@@ -30,7 +29,7 @@ import { PdfView } from './components/views/PdfView';
 import { Modal } from './components/ui/Modal';
 import { useBannerVideo } from './context/BannerVideoContext';
 
-import { MapLocation } from './data/about';
+import { MapLocation } from './data/aboutData';
 import { ExperienceMilestone } from './data/experience';
 import { TABS_DATA, PAGE_NEON_COLORS } from './data/tabs';
 import { useTheme } from './hooks/useTheme';
@@ -50,7 +49,6 @@ import { DotGridWavesCanvas } from './components/ui/DotGridWavesCanvas';
 
 export default function App() {
   const [currentTabIndex, setCurrentTabIndex] = useState<number>(0);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const peripheralClearance = usePeripheralClearance(currentTabIndex !== 16);
   const { isStudioModalOpen, closeStudioModal, studioInitialPage } = useBannerVideo();
 
@@ -84,21 +82,14 @@ export default function App() {
     slide: number;
   } | null>(null);
 
-  const { isDark, cardStyle, activeWallpaper, previewWallpaper, setPreviewWallpaper, setWallpaper } = useTheme();
-  const displayWallpaper = previewWallpaper || activeWallpaper;
+  const { isDark, cardStyle, activeWallpaper, setWallpaper } = useTheme();
   const mainViewportRef = useRef<HTMLElement | null>(null);
   const [loadedWallpaperUrl, setLoadedWallpaperUrl] = useState<string>('');
   const wallpaperImgRef = useRef<HTMLImageElement | null>(null);
   const activeImageUrl =
-    displayWallpaper?.type === 'image' && displayWallpaper?.id !== 'none'
-      ? getCleanImageUrl(displayWallpaper.value || displayWallpaper.bg || '')
+    activeWallpaper?.type === 'image' && activeWallpaper?.id !== 'none'
+      ? getCleanImageUrl(activeWallpaper.value || activeWallpaper.bg || '')
       : '';
-
-  useEffect(() => {
-    if (currentTabIndex !== 14 && previewWallpaper) {
-      setPreviewWallpaper(null);
-    }
-  }, [currentTabIndex, previewWallpaper, setPreviewWallpaper]);
 
   useEffect(() => {
     if (!activeImageUrl) {
@@ -112,8 +103,107 @@ export default function App() {
 
   useGlobalHorizontalScroll();
 
-  // Phát âm thanh khi chọn click & khi chuyển trang trên toàn ứng dụng
+  // Phát âm thanh & hiệu ứng nút nhấn lún xuống khi bấm trên toàn ứng dụng
   useEffect(() => {
+    const BTN_MATCH_SELECTOR = [
+      'button:not(:disabled)',
+      'a[role="button"]',
+      '[role="button"]',
+      '.nav-pill',
+      '.banner-control-pill',
+      '.banner-primary-cta',
+      '.theme-capsule-btn',
+      '.theme-prev-next-btn',
+      '.nav-arrow-btn',
+      '.radial-contact-pill',
+      '.education-skill-chip',
+      '.edu-bento-action-btn',
+      '.sys-bento-action-btn',
+      '.swot-control-pill',
+      '.theme-back-to-top-btn',
+      '.btn-pill',
+      '.btn-liquid-action',
+      '.project-card-btn-primary',
+      '.project-card-btn-secondary',
+      '.exp-bento-rect-btn',
+      '[data-element-type="button"]',
+    ].join(', ');
+
+    const EXCLUDE_CARD_SELECTOR =
+      '.nav-pill-wrapper, .u306-ic, .themed-image-card, [id^="wallpaper-card-"], .memory-photo-item, .project-card, .education-course-card, [data-section-card="true"], [data-subcard="true"]';
+
+    const pressTimers = new WeakMap<HTMLElement, number>();
+    const rippleTimers = new WeakMap<HTMLElement, number>();
+    const pressStartTimes = new WeakMap<HTMLElement, number>();
+    const activePressedSet = new Set<HTMLElement>();
+
+    const findPressableButton = (target: EventTarget | null): HTMLElement | null => {
+      const el = target as HTMLElement | null;
+      if (!el || typeof el.closest !== 'function') return null;
+      const matched = el.closest(BTN_MATCH_SELECTOR) as HTMLElement | null;
+      if (!matched) return null;
+      if (matched.matches(EXCLUDE_CARD_SELECTOR) || matched.hasAttribute('disabled')) {
+        return null;
+      }
+      return matched;
+    };
+
+    const triggerPressDown = (btn: HTMLElement, clientX?: number, clientY?: number) => {
+      const prevPressTimer = pressTimers.get(btn);
+      if (prevPressTimer) window.clearTimeout(prevPressTimer);
+      const prevRippleTimer = rippleTimers.get(btn);
+      if (prevRippleTimer) window.clearTimeout(prevRippleTimer);
+
+      if (typeof clientX === 'number' && typeof clientY === 'number') {
+        const rect = btn.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+          btn.style.setProperty('--btn-mx', `${Math.round(clientX - rect.left)}px`);
+          btn.style.setProperty('--btn-my', `${Math.round(clientY - rect.top)}px`);
+        }
+      }
+
+      btn.setAttribute('data-btn-pressed', 'true');
+      btn.removeAttribute('data-btn-ripple');
+      void btn.offsetWidth;
+      btn.setAttribute('data-btn-ripple', 'true');
+      pressStartTimes.set(btn, performance.now());
+      activePressedSet.add(btn);
+
+      const rt = window.setTimeout(() => {
+        btn.removeAttribute('data-btn-ripple');
+      }, 420);
+      rippleTimers.set(btn, rt);
+    };
+
+    const releasePressedButtons = () => {
+      activePressedSet.forEach((btn) => {
+        const started = pressStartTimes.get(btn) || 0;
+        const elapsed = performance.now() - started;
+        const remaining = Math.max(0, 120 - elapsed);
+        const pt = window.setTimeout(() => {
+          btn.removeAttribute('data-btn-pressed');
+          activePressedSet.delete(btn);
+        }, remaining);
+        pressTimers.set(btn, pt);
+      });
+    };
+
+    const handleGlobalPointerDown = (e: PointerEvent) => {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      const btn = findPressableButton(e.target);
+      if (btn) {
+        triggerPressDown(btn, e.clientX, e.clientY);
+      }
+    };
+
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const btn = findPressableButton(e.target);
+      if (btn) {
+        triggerPressDown(btn);
+      }
+    };
+
     const handleGlobalClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
@@ -124,8 +214,21 @@ export default function App() {
         SoundEngine.playTap();
       }
     };
+
+    document.addEventListener('pointerdown', handleGlobalPointerDown, true);
+    window.addEventListener('pointerup', releasePressedButtons, true);
+    window.addEventListener('pointercancel', releasePressedButtons, true);
+    document.addEventListener('keydown', handleGlobalKeyDown, true);
+    document.addEventListener('keyup', releasePressedButtons, true);
     document.addEventListener('click', handleGlobalClick, true);
-    return () => document.removeEventListener('click', handleGlobalClick, true);
+    return () => {
+      document.removeEventListener('pointerdown', handleGlobalPointerDown, true);
+      window.removeEventListener('pointerup', releasePressedButtons, true);
+      window.removeEventListener('pointercancel', releasePressedButtons, true);
+      document.removeEventListener('keydown', handleGlobalKeyDown, true);
+      document.removeEventListener('keyup', releasePressedButtons, true);
+      document.removeEventListener('click', handleGlobalClick, true);
+    };
   }, []);
 
   const handleSelectTabWithSound = useCallback((nextIndex: number) => {
@@ -375,10 +478,7 @@ export default function App() {
     return () => observer.disconnect();
   }, [currentTabIndex]);
 
-  const showNotification = useCallback((_msg: string) => {
-    // Notifications disabled per user request
-    setToastMessage(null);
-  }, []);
+  const showNotification = useCallback((_msg: string) => {}, []);
 
   // Điều hướng Tới trang / Qua trang theo thứ tự sắp xếp trên Menu Icon; nếu trang có slide thì qua từng slide rồi mới tới trang kế tiếp
   const navigatePage = useCallback(
@@ -570,16 +670,16 @@ export default function App() {
 
         {/* Active Theme Texture / Custom Wallpaper (harmonized with Ambient Layers & Live Preview) */}
         {!(
-          displayWallpaper?.id === 'none' ||
-          (!displayWallpaper?.value &&
-            !displayWallpaper?.bg &&
-            (!displayWallpaper?.previewStyle || Object.keys(displayWallpaper.previewStyle).length === 0))
+          activeWallpaper?.id === 'none' ||
+          (!activeWallpaper?.value &&
+            !activeWallpaper?.bg &&
+            (!activeWallpaper?.previewStyle || Object.keys(activeWallpaper.previewStyle).length === 0))
         ) && (
           <div
             aria-hidden="true"
             className="absolute inset-0 w-full h-full pointer-events-none transition-all duration-300"
             style={{
-              ...(displayWallpaper.id?.startsWith('theme-bg-')
+              ...(activeWallpaper.id?.startsWith('theme-bg-')
                 ? { opacity: 'var(--ambient-wallpaper-opacity, 0.86)' }
                 : undefined),
               filter: 'blur(var(--wallpaper-bg-blur, 0px))',
@@ -587,17 +687,17 @@ export default function App() {
               transform: 'scale(var(--wallpaper-bg-scale, 1))',
             }}
           >
-            {displayWallpaper.type === 'video' ? (
-              (displayWallpaper.value || displayWallpaper.bg || '').includes('youtube.com') ||
-              (displayWallpaper.value || displayWallpaper.bg || '').includes('youtu.be') ? (
+            {activeWallpaper.type === 'video' ? (
+              (activeWallpaper.value || activeWallpaper.bg || '').includes('youtube.com') ||
+              (activeWallpaper.value || activeWallpaper.bg || '').includes('youtu.be') ? (
                 <div
                   className="w-full h-full relative overflow-hidden flex items-center justify-center bg-cover bg-center"
-                  style={displayWallpaper.previewStyle || {}}
+                  style={activeWallpaper.previewStyle || {}}
                 >
                   <iframe
-                    key={displayWallpaper.id + '-' + (displayWallpaper.value || displayWallpaper.bg)}
-                    src={displayWallpaper.value || displayWallpaper.bg}
-                    title={displayWallpaper.name}
+                    key={activeWallpaper.id + '-' + (activeWallpaper.value || activeWallpaper.bg)}
+                    src={activeWallpaper.value || activeWallpaper.bg}
+                    title={activeWallpaper.name}
                     className="w-[120vw] h-[120vh] min-w-[120vw] min-h-[120vh] border-0 pointer-events-none scale-125"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -605,8 +705,8 @@ export default function App() {
                 </div>
               ) : (
                 <video
-                  key={displayWallpaper.id + '-' + (displayWallpaper.value || displayWallpaper.bg)}
-                  src={displayWallpaper.value || displayWallpaper.bg}
+                  key={activeWallpaper.id + '-' + (activeWallpaper.value || activeWallpaper.bg)}
+                  src={activeWallpaper.value || activeWallpaper.bg}
                   autoPlay
                   loop
                   muted
@@ -623,10 +723,10 @@ export default function App() {
                   className="w-full h-full min-w-full min-h-full object-cover banner-video-sharp"
                 />
               )
-            ) : displayWallpaper.type === 'webgl' ? (
-              displayWallpaper.id === 'webgl-dot-grid-waves' ? (
+            ) : activeWallpaper.type === 'webgl' ? (
+              activeWallpaper.id === 'webgl-dot-grid-waves' ? (
                 <div
-                  key={displayWallpaper.id}
+                  key={activeWallpaper.id}
                   className="relative w-full h-full overflow-hidden"
                 >
                   <div
@@ -641,7 +741,7 @@ export default function App() {
                 </div>
               ) : (
                 (() => {
-                  const gConfig = displayWallpaper.gravityConfig;
+                  const gConfig = activeWallpaper.gravityConfig;
                   const paletteId = gConfig?.paletteId || 'autoMorph';
                   const morphOnPageChange = gConfig?.morphOnPageChange ?? true;
                   const activeSlide = pageSlides[currentTabIndex] ?? 0;
@@ -653,7 +753,7 @@ export default function App() {
                   );
                   return (
                     <div
-                      key={displayWallpaper.id}
+                      key={activeWallpaper.id}
                       className="relative w-full h-full overflow-hidden"
                     >
                       <div
@@ -676,23 +776,23 @@ export default function App() {
                   );
                 })()
               )
-            ) : displayWallpaper.type === 'css' || displayWallpaper.type === 'gradient' ? (
+            ) : activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient' ? (
               <div
-                key={displayWallpaper.id}
+                key={activeWallpaper.id}
                 className="w-full h-full transition-all duration-500"
                 style={
-                  displayWallpaper.previewStyle && Object.keys(displayWallpaper.previewStyle).length > 0
-                    ? displayWallpaper.previewStyle
-                    : parseCssStringToStyle(displayWallpaper.value || displayWallpaper.bg || '')
+                  activeWallpaper.previewStyle && Object.keys(activeWallpaper.previewStyle).length > 0
+                    ? activeWallpaper.previewStyle
+                    : parseCssStringToStyle(activeWallpaper.value || activeWallpaper.bg || '')
                 }
               />
             ) : (
               <div
-                key={displayWallpaper.id}
+                key={activeWallpaper.id}
                 className="relative w-full h-full overflow-hidden transition-all duration-500"
                 style={{
-                  background: displayWallpaper.previewStyle?.background
-                    ? String(displayWallpaper.previewStyle.background)
+                  background: activeWallpaper.previewStyle?.background
+                    ? String(activeWallpaper.previewStyle.background)
                     : 'transparent',
                 }}
               >
@@ -730,7 +830,7 @@ export default function App() {
         <div
           aria-hidden="true"
           className="ambient-layer-glow"
-          style={displayWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
+          style={activeWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
         >
           <span className="ambient-orb ambient-orb--1" />
           <span className="ambient-orb ambient-orb--2" />
@@ -742,7 +842,7 @@ export default function App() {
         <div
           aria-hidden="true"
           className="ambient-layer-abstract"
-          style={displayWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
+          style={activeWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
         >
           <span className="ambient-wave ambient-wave--1" />
           <span className="ambient-wave ambient-wave--2" />
@@ -817,8 +917,6 @@ export default function App() {
         >
           {renderActiveView()}
         </div>
-
-        <Toast message={toastMessage} />
       </main>
 
       {/* FOOTER: 10% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}

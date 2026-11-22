@@ -1,3 +1,5 @@
+import { DRIVE_ABOUT_VIDEOS, DRIVE_BANNER_VIDEOS } from '@/config/driveMediaLinks';
+
 export interface ProfileStatItem {
   id: string;
   iconName: string;
@@ -37,6 +39,13 @@ export interface DemographicItem {
 export interface PersonalInfoItem {
   id: string;
   [key: string]: any;
+}
+
+export interface MapLocation {
+  type: string;
+  title: string;
+  address: string;
+  query: string;
 }
 
 export const ABOUT_PROFILE_STATS: ProfileStatItem[] = [
@@ -280,7 +289,7 @@ export const ECOSYSTEM_BANNERS: EcosystemBannerItem[] = [
     id: 'about',
     title: 'Giới Thiệu',
     pageIndex: 2,
-    videoSrc: 'https://cdn.scena.ai/project/10223/f5d9a4cf1ce874ff8473d34cff75c13836b03aabf9a707004fcd2d9547b0725c.mp4',
+    videoSrc: DRIVE_ABOUT_VIDEOS.intro,
     badge: 'Chân Dung & Sứ Mệnh',
     desc: '22+ Năm thực chiến quản trị trải nghiệm khách hàng.',
     color: '#3b82f6',
@@ -289,7 +298,7 @@ export const ECOSYSTEM_BANNERS: EcosystemBannerItem[] = [
     id: 'education',
     title: 'Học Vấn',
     pageIndex: 5,
-    videoSrc: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
+    videoSrc: DRIVE_BANNER_VIDEOS.education,
     badge: '14 Bằng Cấp & Chứng Chỉ',
     desc: 'Cử nhân CNTT & Quản trị Kinh doanh, COPC, ITIL.',
     color: '#06b6d4',
@@ -298,7 +307,7 @@ export const ECOSYSTEM_BANNERS: EcosystemBannerItem[] = [
     id: 'experience',
     title: 'Kinh Nghiệm',
     pageIndex: 7,
-    videoSrc: 'https://cdn.scena.ai/project/10223/50cd00ea3adfb39fb5860c632402df091d620960b69aae65fd2bb08f4bea4fc6.mp4',
+    videoSrc: DRIVE_BANNER_VIDEOS.experience,
     badge: '2003 - 2026+ C-Level',
     desc: 'Hành trình dẫn dắt mạng lưới Call Center & Omni-channel.',
     color: '#8b5cf6',
@@ -307,7 +316,7 @@ export const ECOSYSTEM_BANNERS: EcosystemBannerItem[] = [
     id: 'projects',
     title: 'Dự Án',
     pageIndex: 6,
-    videoSrc: 'https://cdn.scena.ai/project/10223/cc106cb37b8d219cca59af9a71a4d7a8cd019515a3e9a8282d16909bb21d88b9.mp4',
+    videoSrc: DRIVE_BANNER_VIDEOS.services,
     badge: 'Kho 21 Dự Án Trọng Điểm',
     desc: 'Thiết kế SOP, tái cấu trúc tổ chức và tự động hóa AI.',
     color: '#10b981',
@@ -316,7 +325,7 @@ export const ECOSYSTEM_BANNERS: EcosystemBannerItem[] = [
     id: 'systems',
     title: 'Hệ Thống',
     pageIndex: 7,
-    videoSrc: 'https://cdn.scena.ai/project/10223/7bd12b39b9758378cc8f15b6169d42368b4778ad2f2f322b1ef8403c90268f24.mp4',
+    videoSrc: DRIVE_BANNER_VIDEOS.systems,
     badge: 'Cổng Bento 12 Hệ Thống',
     desc: 'SDP, ERP, CRM, HRM, OKR, BPM trên powerservice.one.',
     color: '#f59e0b',
@@ -325,7 +334,7 @@ export const ECOSYSTEM_BANNERS: EcosystemBannerItem[] = [
     id: 'horoscope',
     title: 'Tử Vi',
     pageIndex: 11,
-    videoSrc: 'https://cdn.scena.ai/project/10223/ddb11f6544a9a76e2b6c5946ee6805f53a61b1f57a3049bfba7856d2f52ee367.mp4',
+    videoSrc: DRIVE_BANNER_VIDEOS.horoscope,
     badge: 'Bát Trạch Quản Trị',
     desc: 'Ứng dụng thuật số và phong thủy điều hành nhân sự.',
     color: '#ec4899',
@@ -334,7 +343,7 @@ export const ECOSYSTEM_BANNERS: EcosystemBannerItem[] = [
     id: 'contact',
     title: 'Liên Hệ',
     pageIndex: 13,
-    videoSrc: 'https://cdn.scena.ai/project/10223/50b7b30031d4b9124af4948a069cdf530ca8f0942767f6e6b713c350cb8bd6b2.mp4',
+    videoSrc: DRIVE_BANNER_VIDEOS.contact,
     badge: 'Kết Nối Trực Tiếp',
     desc: 'Hotline, Zalo, Email và đặt lịch phỏng vấn C-Level.',
     color: '#ef4444',

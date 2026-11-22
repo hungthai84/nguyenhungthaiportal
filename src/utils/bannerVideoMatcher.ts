@@ -1,3 +1,13 @@
+import {
+  DRIVE_AVATARS,
+  DRIVE_EXPERIENCE_BANNERS,
+  DRIVE_EDUCATION_BANNERS,
+  DRIVE_MEMORIES,
+  DRIVE_PROJECT_BANNERS,
+  DRIVE_SERVICE_IMAGES,
+  DRIVE_SYSTEM_MEDIA,
+} from '@/config/driveMediaLinks';
+
 export type BannerPageKey =
   | 'home'
   | 'wallpaper'
@@ -67,8 +77,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Home Page Banner',
     expectedFilename: 'Trang chủ.mp4',
     keywords: ['home', 'trang-chu', 'main'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png',
+    posterUrl: DRIVE_AVATARS.hungThai,
     previewTitleVi: 'Nguyễn Hùng Thái · Lãnh Đạo Vận Hành CX',
     previewTitleEn: 'Nguyen Hung Thai · CX Operations Leader',
     previewSubtitleVi:
@@ -87,8 +96,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Wallpaper & Ambient Page Banner',
     expectedFilename: 'Hình nền.mp4',
     keywords: ['hinh-nen', 'wallpaper', 'wallpapers'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png',
+    posterUrl: DRIVE_AVATARS.hungThai,
     previewTitleVi: 'Hình Nền Động & Không Gian Trực Quan Sáng Tạo',
     previewTitleEn: 'Dynamic Wallpapers & Creative Visual Space',
     previewSubtitleVi:
@@ -107,8 +115,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Memories & Journey Banner',
     expectedFilename: 'Kỷ niệm.mp4',
     keywords: ['ky-niem', 'memories', 'hanh-trinh'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/K%E1%BB%B7_ni%E1%BB%87m.png',
+    posterUrl: DRIVE_MEMORIES.momo[0],
     previewTitleVi: 'Khoảnh Khắc Kỷ Niệm & Dấu Ấn Hành Trình',
     previewTitleEn: 'Memories & Career Milestones',
     previewSubtitleVi:
@@ -127,8 +134,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Work Experience Banner',
     expectedFilename: 'Kinh nghiệm.mp4',
     keywords: ['kinh-nghiem', 'experience', 'work'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png',
+    posterUrl: DRIVE_EXPERIENCE_BANNERS.momo,
     previewTitleVi: 'Kinh Nghiệm Điều Hành & Thực Chiến Đa Ngành',
     previewTitleEn: 'Executive Experience & Multi-Industry Leadership',
     previewSubtitleVi:
@@ -147,8 +153,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Education & Certifications Banner',
     expectedFilename: 'Học vấn.mp4',
     keywords: ['hoc-van', 'education', 'chung-chi'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042016/H%E1%BB%8Dc_v%E1%BA%A5n.png',
+    posterUrl: DRIVE_EDUCATION_BANNERS.seniorMgmt,
     previewTitleVi: 'Học Vấn, Bằng Cấp & Chứng Chỉ Quốc Tế',
     previewTitleEn: 'Education & Professional Certifications',
     previewSubtitleVi:
@@ -167,8 +172,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Services Overview Banner',
     expectedFilename: 'Dịch Vụ.mp4',
     keywords: ['dich-vu', 'service', 'services', 'solution'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png',
+    posterUrl: DRIVE_SERVICE_IMAGES.systemBuild,
     previewTitleVi: 'Hệ Sinh Thái 6 Lĩnh Vực Dịch Vụ Trọng Tâm',
     previewTitleEn: '6 Core Service Domains & CX Solutions',
     previewSubtitleVi:
@@ -187,8 +191,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Enterprise Systems Banner',
     expectedFilename: 'Hệ thống.mp4',
     keywords: ['he-thong', 'system', 'systems', 'platform'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591946/H%E1%BB%87_th%E1%BB%91ng.png',
+    posterUrl: DRIVE_SYSTEM_MEDIA.crm.image,
     previewTitleVi: 'Kiến Trúc 12 Hệ Thống Vận Hành & Power Service',
     previewTitleEn: '12 Enterprise Operating Systems & Power Service',
     previewSubtitleVi:
@@ -207,8 +210,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Interface & UI/UX Studio Banner',
     expectedFilename: 'Giao diện.mp4',
     keywords: ['giao-dien', 'interface', 'ui', 'ux', 'theme'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794041058/Gemini_Generated_Image_lpt3fplpt3fplpt3.png',
+    posterUrl: DRIVE_SYSTEM_MEDIA.biDashboard.image,
     previewTitleVi: 'Xưởng Giao Diện Glassmorphism & Hệ Thống Thiết Kế',
     previewTitleEn: 'Glassmorphism UI/UX & Appearance Studio',
     previewSubtitleVi:
@@ -227,8 +229,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Booking & Contact Banner',
     expectedFilename: 'Đặt lịch.mp4',
     keywords: ['dat-lich', 'lien-he', 'contact', 'booking'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591947/Li%C3%AAn_h%E1%BB%87_2.png',
+    posterUrl: DRIVE_AVATARS.hungThai,
     previewTitleVi: 'Đặt Lịch Hẹn & Kết Nối Hợp Tác Chiến Lược',
     previewTitleEn: 'Schedule Consultation & Strategic Partnership',
     previewSubtitleVi:
@@ -247,8 +248,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Horoscope & Utilities Banner',
     expectedFilename: 'Tử Vi.mp4',
     keywords: ['tu-vi', 'horoscope', 'tien-ich', 'utilities'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793591948/T%E1%BB%AD_vi.png',
+    posterUrl: DRIVE_AVATARS.hungThai,
     previewTitleVi: 'Bản Đồ Tử Vi, Ngũ Hành & Tiện Ích Lãnh Đạo',
     previewTitleEn: 'Horoscope, Five Elements & Executive Utilities',
     previewSubtitleVi:
@@ -267,8 +267,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'About Page Banner',
     expectedFilename: 'Giới thiệu.mp4',
     keywords: ['about', 'gioi-thieu', 'profile'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793550449/Avata_H%C3%B9ng_Th%C3%A1i.png',
+    posterUrl: DRIVE_AVATARS.hungThai,
     previewTitleVi: 'Chân Dung Chuyên Gia & Triết Lý Phụng Sự',
     previewTitleEn: 'Executive Profile & Service Philosophy',
     previewSubtitleVi:
@@ -287,8 +286,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Portfolio / Projects Page Banner',
     expectedFilename: 'Dự án.mp4',
     keywords: ['product', 'san-pham', 'portfolio', 'du-an'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1794035567/D%E1%BB%B1_%C3%A1n.png',
+    posterUrl: DRIVE_PROJECT_BANNERS['1.1'],
     previewTitleVi: 'Danh Mục Dự Án Thực Chiến & Hệ Sinh Thái Số',
     previewTitleEn: 'Flagship Projects & Digital Ecosystem Portfolio',
     previewSubtitleVi:
@@ -307,8 +305,7 @@ export const BANNER_PAGES: BannerPageMeta[] = [
     labelEn: 'Skills & SWOT Matrix Banner',
     expectedFilename: 'Kỷ năng.mp4',
     keywords: ['ky-nang', 'skills', 'swot'],
-    posterUrl:
-      'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793042092/K%E1%BB%B7_n%C4%83ng.png',
+    posterUrl: DRIVE_EDUCATION_BANNERS.dataAnalysis,
     previewTitleVi: 'Năng Lực Quản Trị & Ma Trận Kỹ Năng SWOT',
     previewTitleEn: 'Leadership Competencies & SWOT Skills Matrix',
     previewSubtitleVi:

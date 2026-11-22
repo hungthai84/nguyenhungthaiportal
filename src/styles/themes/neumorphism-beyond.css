@@ -33,7 +33,8 @@
 
 [data-theme="neumorphism-beyond"],
 html[data-card-style="neumorphism-beyond"],
-html[data-card-style="neumorphism-beyond"] body {
+html[data-card-style="neumorphism-beyond"] body,
+html:not([data-card-style]) {
   color-scheme: light;
   --ambient-wallpaper-opacity: 1;
 

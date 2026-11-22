@@ -1,7 +1,6 @@
 import { DOMAINS_DATA } from './domains';
 import { ABOUT_PROFILE_STATS, PERSONAL_DEMOGRAPHICS, SERVICE_PHILOSOPHY_VALUES } from './aboutData';
 import { CAREER_MILESTONES_DATA, CORE_VALUES_DATA } from './letterData';
-import { POWER_SYSTEMS_12, SYSTEM_CATEGORIES } from './systemsData';
 import { SYSTEMS_DATA } from './systems';
 import {
   LANGUAGES_DATA,
@@ -112,20 +111,7 @@ export function buildInstantViToEnMap(): Map<string, string> {
     registerPair(c.descVi, c.descEn);
   });
 
-  // Systems (12 modules + categories + features)
-  SYSTEM_CATEGORIES.forEach((cat) => {
-    registerPair(cat.vi, cat.en);
-  });
-
-  POWER_SYSTEMS_12.forEach((s) => {
-    registerPair(s.nameVi, s.nameEn);
-    registerPair(s.descVi, s.descEn);
-    registerPair(s.badgeVi, s.badgeEn);
-    if (Array.isArray(s.featuresVi) && Array.isArray(s.featuresEn)) {
-      s.featuresVi.forEach((fv, idx) => registerPair(fv, s.featuresEn[idx]));
-    }
-  });
-
+  // Systems (12 modules + features)
   SYSTEMS_DATA.forEach((s) => {
     registerPair(s.nameVi || s.name, s.nameEn);
     registerPair(s.descVi || s.description, s.descEn);

@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { ABOUT_PROFILE_STATS, PERSONAL_DEMOGRAPHICS, SERVICE_PHILOSOPHY_VALUES } from '@/data/about';
+import { ABOUT_PROFILE_STATS, PERSONAL_DEMOGRAPHICS, SERVICE_PHILOSOPHY_VALUES } from '@/data/aboutData';
 import { EDUCATION_COURSES } from '@/data/education';
 import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/domains';
 import { EXPERIENCE_MILESTONES } from '@/data/experience';
@@ -19,6 +19,7 @@ import { PROJECTS_DATA } from '@/data/projects';
 import { ENTERPRISE_SYSTEMS_LIST } from '@/data/systems';
 import { ExecutiveSummarySheet } from '@/components/views/ExecutiveSummarySheet';
 import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { DRIVE_AVATARS, DRIVE_BANNER_VIDEOS } from '@/config/driveMediaLinks';
 
 const SERVICE_ACCENT_COLORS: Record<string, string> = {
   cyan: '#0284c7',
@@ -285,8 +286,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           className="project-detail-banner-media no-print absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
           <BannerBackgroundVideo
-            src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
-            poster="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
+            src={DRIVE_BANNER_VIDEOS.experience}
+            poster={DRIVE_AVATARS.hungThai}
             alt="Banner Hồ sơ năng lực & CV Portfolio"
           />
         </div>
@@ -440,8 +441,9 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 className="relative w-44 h-44 sm:w-48 sm:h-48 overflow-hidden ring-4 ring-[var(--border-subcard)] shadow-xl"
               >
               <img
-                src="https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png"
+                src={DRIVE_AVATARS.hungThai}
                 alt="Nguyễn Hùng Thái - Chuyên Gia Vận Hành CSKH"
+                referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-top rounded-[inherit]"
                 loading="eager"
               />

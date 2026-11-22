@@ -277,7 +277,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     toggleTrackLightClass: 'bg-indigo-50/95 border-white/90',
     toggleThumbDarkClass: 'bg-gradient-to-br from-[#818CF8] to-[#F472B6] text-slate-950',
     toggleThumbLightClass: 'bg-gradient-to-br from-[#4F46E5] via-[#0EA5E9] to-[#EC4899] text-white',
-    demoVideoUrl: 'https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4',
+    demoVideoUrl: 'https://cdn.scena.ai/project/10223/13eee325b1e14c3b5496ca67e6bf5a3558a5ff156c17f40045f15f82d9e29391.mp4',
     gradientBars: [
       { label: 'Indigo', width: '94%', gradient: 'linear-gradient(90deg, #4F46E5, #818CF8)', glow: '0 0 10px rgba(79, 70, 229, 0.35)' },
       { label: 'Cyan', width: '82%', gradient: 'linear-gradient(90deg, #0284C7, #38BDF8)', glow: '0 0 10px rgba(14, 165, 233, 0.35)' },

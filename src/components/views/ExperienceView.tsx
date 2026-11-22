@@ -49,6 +49,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { saveMutedPref } from '@/utils/audioPreference';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
+import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 
 interface MilestoneLogoItem {
   src: string;
@@ -2014,29 +2015,51 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       : 'bg-white/82 border-white/80 text-slate-900'
                   )}
                 >
-                  {/* Banner Image Header (chỉ hiển thị ảnh công ty thật nếu có, không dùng link ảnh/video nền mặc định) */}
-                  {!bannerImgError && activeMilestone.bannerUrl && (
+                  {/* Banner Video / Image Header */}
+                  {activeMilestone.videoCard ? (
                     <div
                       className={cn(
-                        'exp-bento-hero-banner relative h-44 sm:h-52 w-full rounded-[var(--radius-banner,14px)] p-[5px] overflow-hidden shrink-0',
+                        'exp-bento-hero-banner relative h-48 sm:h-56 w-full rounded-[var(--radius-banner,14px)] overflow-hidden shrink-0',
                         isDarkSurface || isLeather ? 'bg-slate-900' : 'bg-slate-200'
                       )}
                     >
-                      <img
-                        src={activeMilestone.bannerUrl}
-                        alt={`Banner ${activeMilestone.company}`}
-                        referrerPolicy="no-referrer"
-                        onError={() => setBannerImgError(true)}
-                        style={{ borderRadius: 'calc(var(--radius-banner, 14px) - 5px)' }}
-                        className="w-full h-full object-cover object-center transition-opacity duration-700 opacity-100 brightness-105 contrast-105 saturate-105 block"
-                      />
-                      <div
-                        style={{ inset: '5px', borderRadius: 'calc(var(--radius-banner, 14px) - 5px)' }}
-                        className={cn(
-                          'absolute bg-gradient-to-b from-slate-950/24 via-transparent to-slate-950/12 pointer-events-none'
-                        )}
+                      <DualLayerVideoPlayer
+                        video1Id=""
+                        video2Id=""
+                        video1Src={activeMilestone.videoCard.idleUrl}
+                        video2Src={activeMilestone.videoCard.playUrl}
+                        autoPlayVideo1={true}
+                        muteVideo1={true}
+                        loopVideo1={true}
+                        capsuleVariant="about"
+                        className="w-full h-full z-0 pointer-events-auto"
                       />
                     </div>
+                  ) : (
+                    !bannerImgError &&
+                    activeMilestone.bannerUrl && (
+                      <div
+                        className={cn(
+                          'exp-bento-hero-banner relative h-44 sm:h-52 w-full rounded-[var(--radius-banner,14px)] p-[5px] overflow-hidden shrink-0',
+                          isDarkSurface || isLeather ? 'bg-slate-900' : 'bg-slate-200'
+                        )}
+                      >
+                        <img
+                          src={activeMilestone.bannerUrl}
+                          alt={`Banner ${activeMilestone.company}`}
+                          referrerPolicy="no-referrer"
+                          onError={() => setBannerImgError(true)}
+                          style={{ borderRadius: 'calc(var(--radius-banner, 14px) - 5px)' }}
+                          className="w-full h-full object-cover object-center transition-opacity duration-700 opacity-100 brightness-105 contrast-105 saturate-105 block"
+                        />
+                        <div
+                          style={{ inset: '5px', borderRadius: 'calc(var(--radius-banner, 14px) - 5px)' }}
+                          className={cn(
+                            'absolute bg-gradient-to-b from-slate-950/24 via-transparent to-slate-950/12 pointer-events-none'
+                          )}
+                        />
+                      </div>
+                    )
                   )}
 
                   {/* Company Content Body */}

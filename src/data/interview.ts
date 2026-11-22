@@ -1,22 +1,22 @@
 import { InterviewQuestion } from '@/types';
 
-export const INTERVIEW_VIDEO_1_ID = '1-XpJWJEyTq4PYh902i7FQbWYnpO17PvM';
-export const INTERVIEW_VIDEO_2_ID = '10oUM0icL2Q2SbDkS2phSskqqWm8DaIZf';
+export const INTERVIEW_VIDEO_1_ID = '';
+export const INTERVIEW_VIDEO_2_ID = '';
 
 export const INTERVIEW_VIDEO_1_STREAM_URL =
-  `/api/media/drive-video/${INTERVIEW_VIDEO_1_ID}`;
+  'https://cdn.scena.ai/project/9741/f7053626ae15c847304143dc6cf41f1fd2cf1611b27c30ff75ac9da6e47d005b.mp4';
 export const INTERVIEW_VIDEO_2_STREAM_URL =
-  `/api/media/drive-video/${INTERVIEW_VIDEO_2_ID}`;
+  'https://cdn.scena.ai/project/9741/021c21b2f677c4341e06c62c9432d06d251e22c83716e55b927633e254a67730.mp4';
 
 export const INTERVIEW_VIDEO_1_ALT_STREAM_URL =
-  `https://drive.usercontent.google.com/download?id=${INTERVIEW_VIDEO_1_ID}&export=download&confirm=t`;
+  'https://cdn.scena.ai/project/9741/f7053626ae15c847304143dc6cf41f1fd2cf1611b27c30ff75ac9da6e47d005b.mp4';
 export const INTERVIEW_VIDEO_2_ALT_STREAM_URL =
-  `https://drive.usercontent.google.com/download?id=${INTERVIEW_VIDEO_2_ID}&export=download&confirm=t`;
+  'https://cdn.scena.ai/project/9741/021c21b2f677c4341e06c62c9432d06d251e22c83716e55b927633e254a67730.mp4';
 
 export const INTERVIEW_VIDEO_1_URL =
-  `https://drive.google.com/file/d/${INTERVIEW_VIDEO_1_ID}/preview`;
+  'https://cdn.scena.ai/project/9741/f7053626ae15c847304143dc6cf41f1fd2cf1611b27c30ff75ac9da6e47d005b.mp4';
 export const INTERVIEW_VIDEO_2_URL =
-  `https://drive.google.com/file/d/${INTERVIEW_VIDEO_2_ID}/preview`;
+  'https://cdn.scena.ai/project/9741/021c21b2f677c4341e06c62c9432d06d251e22c83716e55b927633e254a67730.mp4';
 
 export const INTERVIEW_TABS = [
   { key: 'all', labelVi: 'Tất cả câu hỏi' },

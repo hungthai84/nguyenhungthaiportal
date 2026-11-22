@@ -18,7 +18,6 @@ export const WALLPAPER_MANUAL_STORAGE_KEY = 'hungthai_wallpaper_manual_v2';
 export const GLASS_CUSTOMIZATION_STORAGE_KEY = 'hungthai_glass_customization_v1';
 export const WALLPAPER_OVERLAY_STORAGE_KEY = 'hungthai_wallpaper_overlay_v1';
 export const ADAPTIVE_ACCENT_STORAGE_KEY = 'hungthai_adaptive_accent_v1';
-export const THEME_WALLPAPER_PRESETS_STORAGE_KEY = 'hungthai_theme_wallpaper_presets_v1';
 export const SURFACE_DEPTH_STORAGE_KEY = 'hungthai_surface_depth_v1';
 export const LAYER_DEPTH_STORAGE_KEY = 'hungthai_layer_depth_v1';
 export const AUTO_TIME_THEME_STORAGE_KEY = 'hungthai_auto_time_theme_v1';
@@ -121,10 +120,10 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   },
   'neumorphism-beyond': {
     id: 'neumorphism-beyond',
-    presetId: 'theme-bg-neumorphism-beyond',
-    label: 'Nền Nổi Khối Kính Mờ',
+    presetId: 'custom-wp-1788112774646',
+    label: 'Hình nền #32',
     themeMode: 'light',
-    imagePath: neumorphismBeyondWallpaper,
+    imagePath: 'https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg',
     fallbackGradient: 'linear-gradient(145deg, #EAEFF6 0%, #E6ECF4 55%, #DFE6F0 100%)',
     overlayBg: 'transparent',
   },

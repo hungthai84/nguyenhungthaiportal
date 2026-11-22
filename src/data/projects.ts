@@ -217,7 +217,7 @@ export function getProjectCloudinaryBanner(proj: ProjectData): {
   }
 
   const defaultFallback =
-    'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793069894/Qu%C3%A3n_l%C3%BD_d%E1%BB%B1_%C3%A1n.png';
+    'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv';
 
   return {
     primaryUrl: proj.image || proj.mindmap || defaultFallback,

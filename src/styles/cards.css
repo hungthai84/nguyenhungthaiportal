@@ -923,15 +923,16 @@ html[data-surface-depth="flat"] #el-p0-div-16 [role="tab"] {
     var(--liquid-rim-inset-hover, inset 0 1px 0 rgba(255, 255, 255, 0.75)) !important;
 }
 
-.theme-capsule-btn:not(#footer-nav-capsule):not(.video-play-btn):active {
-  transform: scale(0.975) translate3d(0, 0, 0);
+.theme-capsule-btn:not(#footer-nav-capsule):not(.video-play-btn):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1);
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease !important;
 }
 
 #app-footer #footer-nav-capsule #footer-prev-btn,
 #app-footer #footer-nav-capsule #footer-next-btn {
   min-width: 34px;
   min-height: 34px;
-  transition: background-color 180ms ease, box-shadow 180ms ease;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), background-color 180ms ease, box-shadow 180ms ease;
 }
 
 #app-footer #footer-nav-capsule #footer-prev-btn:hover,
@@ -939,9 +940,11 @@ html[data-surface-depth="flat"] #el-p0-div-16 [role="tab"] {
   transform: none;
 }
 
-#app-footer #footer-nav-capsule #footer-prev-btn:active,
-#app-footer #footer-nav-capsule #footer-next-btn:active {
-  transform: scale(0.94);
+#app-footer #footer-nav-capsule #footer-prev-btn:is(:active, [data-btn-pressed="true"]),
+#app-footer #footer-nav-capsule #footer-next-btn:is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 2.5px, 0) scale3d(0.91, 0.91, 1) !important;
+  box-shadow: inset 0 2.5px 6px rgba(15, 23, 42, 0.26) !important;
+  transition: transform 55ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 55ms ease !important;
 }
 
 /* GLOBAL CARD TITLE H3 FORMAT */
@@ -2084,13 +2087,13 @@ button:not(:disabled),
               color var(--motion-fast) var(--motion-ease);
 }
 
-button:active:not(:disabled),
-[data-element-type="button"]:active:not(:disabled),
-.btn-pill:active:not(:disabled),
-[role="button"]:active:not(:disabled) {
-  transform: translateY(2px) scale(0.97) !important;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.22), 0 0 0 rgba(0,0,0,0) !important;
-  transition: transform 90ms ease, box-shadow 90ms ease, background-color 90ms ease !important;
+button:not(:disabled):is(:active, [data-btn-pressed="true"]),
+[data-element-type="button"]:not(:disabled):is(:active, [data-btn-pressed="true"]),
+.btn-pill:not(:disabled):is(:active, [data-btn-pressed="true"]),
+[role="button"]:not(:disabled):not([data-section-card="true"]):not([data-subcard="true"]):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1) !important;
+  box-shadow: inset 0 3px 7px rgba(15, 23, 42, 0.28), 0 1px 2px rgba(15, 23, 42, 0.08) !important;
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, background-color 60ms ease, filter 60ms ease !important;
 }
 
 button:focus-visible,
@@ -3524,9 +3527,16 @@ html[data-card-style] .video-play-btn:focus-visible {
     inset 0 1.5px 1.5px rgba(255, 255, 255, 0.85) !important;
 }
 
-.video-play-btn:active,
-html[data-card-style] .video-play-btn:active {
-  filter: brightness(0.95) !important;
+.video-play-btn:is(:active, [data-btn-pressed="true"]),
+html[data-card-style] .video-play-btn:is(:active, [data-btn-pressed="true"]) {
+  filter: brightness(0.94) !important;
+  transform: translate3d(0, 2.5px, 0) scale3d(0.94, 0.94, 1) !important;
+  transition: transform 60ms ease, filter 60ms ease !important;
+}
+
+.video-play-btn--letter:is(:active, [data-btn-pressed="true"]),
+html[data-card-style] .video-play-btn--letter:is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(-50%, 2.5px, 0) scale3d(0.94, 0.94, 1) !important;
 }
 
 /* Running Chase Border Ring on Mouse Hover / Focus-Visible */

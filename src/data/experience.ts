@@ -645,8 +645,8 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     bannerUrl: "https://lh3.googleusercontent.com/d/158wilsTkcBzQ76BwuwOXnw_KahKuPHSD",
     memoryImg: "https://lh3.googleusercontent.com/d/158wilsTkcBzQ76BwuwOXnw_KahKuPHSD",
     videoCard: {
-      idleUrl: "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841270/Man_h%C3%ACnh_ch%E1%BB%9D_Job_2026.mp4",
-      playUrl: "https://res.cloudinary.com/q5tpzaxk/video/upload/v1793841266/Th%E1%BA%BB_Job_2026.mp4",
+      idleUrl: "https://cdn.scena.ai/project/9626/d97de7f6bb813019350838499ee0f3b11f711487c7d9961679f3a43d8a3bf7ff.mp4",
+      playUrl: "https://cdn.scena.ai/project/9626/a5b5bdf1659991c0c74510ddfc59b9d27a3c7478f17c711b0fc39c5e51cf43d2.mp4",
     },
     headcount: 150,
     scaleDesc: "Lãnh đạo cấp phòng ban (> 100 – 150+ nhân sự điều hành đa ca, đa kênh)",

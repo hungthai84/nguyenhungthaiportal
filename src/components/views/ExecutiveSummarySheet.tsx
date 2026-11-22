@@ -3,11 +3,13 @@
 import React, { useState } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { ABOUT_PROFILE_STATS, SERVICE_PHILOSOPHY_VALUES } from '@/data/about';
+import { ABOUT_PROFILE_STATS, SERVICE_PHILOSOPHY_VALUES } from '@/data/aboutData';
 import { DOMAINS_DATA } from '@/data/domains';
 import { EXPERIENCE_MILESTONES } from '@/data/experience';
 import { STRENGTHS_DATA, WEAKNESSES_DATA, OPPORTUNITIES_DATA, THREATS_DATA, LANGUAGES_DATA } from '@/data/skills';
 import { ENTERPRISE_SYSTEMS_LIST } from '@/data/systems';
+
+import { DRIVE_AVATARS } from '@/config/driveMediaLinks';
 
 export interface ExecutiveSummarySheetProps {
   onShowNotification?: (msg: string) => void;
@@ -15,8 +17,7 @@ export interface ExecutiveSummarySheetProps {
 
 type InfographicThemeStyle = 'light' | 'dark';
 
-const AVATAR_URL =
-  'https://res.cloudinary.com/q5tpzaxk/image/upload/v1793904186/Gemini_Generated_Image_o4fb9so4fb9so4fb.png';
+const AVATAR_URL = DRIVE_AVATARS.hungThai;
 
 function drawRoundedRect(
   ctx: CanvasRenderingContext2D,

@@ -22,7 +22,8 @@ import {
   DEFAULT_PUCK_VOICE_PERSONA,
   ENGLISH_PUCK_VOICE_PERSONA,
 } from '@/utils/speechVoice';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
+import { VideoBanner } from '@/components/common/VideoBanner';
+import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 
 export { TRI_NHAN_CATEGORIES } from '@/data/aiSampleQuestions';
 
@@ -487,12 +488,11 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         }}
       >
         <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0">
-          <BannerBackgroundVideo
-            id="ai-assistant-banner-video"
-            src="https://res.cloudinary.com/q5tpzaxk/video/upload/v1794027145/Banner.mp4"
-            alt="AI Hỗ Trợ • Trí Nhân"
+          <VideoBanner
+            videoId={getDefaultBannerVideoConfig('aiAssistant').videoId}
+            title={getDefaultBannerVideoConfig('aiAssistant').title}
             objectPosition="50% 18%"
-            className="transition-all duration-700 select-none pointer-events-none"
+            className="rounded-[inherit]"
           />
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />

@@ -413,9 +413,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   >
                     {/* Dual-Layer Video chuẩn Video card Giới thiệu (dùng màu capsule riêng của Trang chủ) */}
                     <DualLayerVideoPlayer
-                      video1Id=""
+                      video1Id="1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp"
                       video2Id=""
-                      video1Src="https://cdn.scena.ai/project/10169/eae59f7007421658e611c298c206755ca060c878d07087694c06935208b9d8f9.mp4"
                       video2Src="https://cdn.scena.ai/project/10169/0f6e39f01533134c70012f61be38d29126100c0300c9c0ea607adb305b5f7102.mp4"
                       autoPlayVideo1={true}
                       muteVideo1={true}

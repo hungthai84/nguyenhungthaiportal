@@ -600,9 +600,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   } | null>(null);
   const [wrapperMinHeight, setWrapperMinHeight] = useState<number | undefined>(undefined);
 
-  // Level 1 Controlled Card Demo Video (only runs on explicit Demo click) & Hover-Image Clean Video
+  // Level 1 Full-Card Video (triggered by clicking image or Demo button)
   const [activeCardDemoId, setActiveCardDemoId] = useState<string | null>(null);
-  const [hoveredImageSystemId, setHoveredImageSystemId] = useState<string | null>(null);
 
   // Level 2 Expanded Card Interactive Tools: Video Sound, Comparison Mode, QR Quick Access
   const [isExpandedVideoMuted, setIsExpandedVideoMuted] = useState<boolean>(true);
@@ -769,7 +768,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       SoundEngine.playTechChimeExpand();
       setIsCircleVideoPlaying(false);
       setActiveCardDemoId(null);
-      setHoveredImageSystemId(null);
       setViewMode('grid');
 
       const defaultConnections = SYSTEM_CONNECTIONS_MAP[sys.id] || ['sdp', 'crm'];
@@ -1710,7 +1708,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                 id="systems-cards-grid"
                 ref={cardsGridRef}
                 className={cn(
-                  'systems-cards-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr content-start items-stretch gap-[15px] w-full min-w-0',
+                  'systems-cards-grid card-grid w-full min-w-0',
                   isGridDimmed && 'grid-dimmed'
                 )}
               >
@@ -1758,13 +1756,28 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             ? meta.borderLight
                             : meta.borderDark,
                       }}
-                      className="system-card-tile system-item bento-card glass-card group relative rounded-[14px] p-[15px] box-border h-full w-full flex flex-col justify-between gap-2.5 text-left"
+                      className="system-card-tile system-item card-item bento-card glass-card group relative rounded-[14px] p-[15px] box-border h-full w-full flex flex-col justify-between gap-2.5 text-left"
                     >
-                      {/* Demo Video Overlay (Controlled via Explicit Button Only) */}
+                      {/* Full-Card Video Overlay (Hiển thị lắp đầy thẻ và không hiển thị tiêu đề hay thành phần khác) */}
                       {isDemoActive && item.videoUrl && (
                         <div
-                          onClick={(e) => e.stopPropagation()}
-                          className="absolute inset-0 z-30 rounded-[inherit] overflow-hidden bg-black flex flex-col justify-between"
+                          role="button"
+                          tabIndex={0}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            SoundEngine.playTap();
+                            setActiveCardDemoId(null);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setActiveCardDemoId(null);
+                            }
+                          }}
+                          title={isEn ? 'Click to return to card view' : 'Bấm vào video để quay lại thẻ'}
+                          aria-label={isEn ? `Close ${item.abbr} video` : `Đóng video ${item.abbr}`}
+                          className="absolute inset-0 z-30 w-full h-full rounded-[inherit] overflow-hidden bg-black cursor-pointer"
                         >
                           <video
                             src={item.videoUrl}
@@ -1794,57 +1807,34 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               v.loop = true;
                               if (v.paused) v.play().catch(() => {});
                             }}
-                            onError={(e) => {
-                              const v = e.currentTarget;
-                              const m = v.src.match(/[?&]id=([^&#]+)/i);
-                              if (m?.[1] && v.dataset.driveAltTried !== m[1]) {
-                                v.dataset.driveAltTried = m[1];
-                                v.src = `https://drive.usercontent.google.com/download?id=${m[1]}&export=download&confirm=t`;
-                                v.play().catch(() => {});
-                              }
-                            }}
                             onEnded={(e) => {
                               const v = e.currentTarget;
                               v.currentTime = 0;
                               v.play().catch(() => {});
                             }}
-                            style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
-                            className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp"
+                            style={{
+                              position: 'absolute',
+                              inset: 0,
+                              width: '100%',
+                              height: '100%',
+                              minWidth: '100%',
+                              minHeight: '100%',
+                              objectFit: 'cover',
+                              transform: 'translateZ(0) scale(1.01)',
+                              backfaceVisibility: 'hidden',
+                            }}
+                            className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp"
                           />
-                          <div className="absolute top-2.5 right-2.5 left-2.5 flex items-center justify-between gap-2 pointer-events-none">
-                            <span className="px-2.5 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-white text-[11px] font-bold border border-white/20">
-                              Demo · {item.abbr}
-                            </span>
-                            <div className="flex items-center gap-1.5 pointer-events-auto">
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setActiveCardDemoId(null);
-                                }}
-                                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-600/90 hover:bg-rose-500 text-white text-[11px] font-bold cursor-pointer shadow-md"
-                              >
-                                <Square className="w-2.5 h-2.5 fill-current" />
-                                <span>{isEn ? 'Stop' : 'Thoát Demo'}</span>
-                              </button>
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  openExpandedSystem(item, cardRefs.current[item.id]);
-                                }}
-                                className="w-7 h-7 rounded-full bg-white/20 hover:bg-white/35 backdrop-blur-md text-white flex items-center justify-center cursor-pointer"
-                                title={isEn ? 'Open full details' : 'Mở chi tiết'}
-                              >
-                                <Maximize2 className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          </div>
                         </div>
                       )}
 
                       {/* Top Row: Nhóm phân hệ + Tác vụ Demo & Mở rộng */}
-                      <div className="relative z-10 flex items-center justify-between gap-2 min-w-0">
+                      <div
+                        className={cn(
+                          'relative z-10 flex items-center justify-between gap-2 min-w-0 transition-opacity duration-200',
+                          isDemoActive && item.videoUrl && 'opacity-0 invisible pointer-events-none'
+                        )}
+                      >
                         <span
                           className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold border truncate max-w-[68%]"
                           style={{
@@ -1881,8 +1871,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 SoundEngine.playTap();
                                 setActiveCardDemoId(isDemoActive ? null : item.id);
                               }}
-                              title={isEn ? 'Play demo preview' : 'Xem Demo nhanh'}
-                              aria-label={isEn ? `Play demo ${item.abbr}` : `Phát Demo ${item.abbr}`}
+                              title={isEn ? 'Play full-card video' : 'Phát video toàn thẻ'}
+                              aria-label={isEn ? `Play video ${item.abbr}` : `Phát video ${item.abbr}`}
                               className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/85 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-primary)]/50 transition cursor-pointer"
                             >
                               <Play className="w-2.5 h-2.5 fill-current" />
@@ -1898,8 +1888,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         </div>
                       </div>
 
-                      {/* Middle Row: Tên viết tắt + Tên hệ thống + Mô tả nằm dưới tên hệ thống | Ảnh sạch không hiệu ứng/viền */}
-                      <div className="relative z-10 flex items-center justify-between gap-2.5 min-w-0">
+                      {/* Middle Row: Tên viết tắt + Tên hệ thống + Mô tả nằm dưới tên hệ thống | Click vào hình để phát video lấp đầy thẻ */}
+                      <div
+                        className={cn(
+                          'relative z-10 flex items-center justify-between gap-2.5 min-w-0 transition-opacity duration-200',
+                          isDemoActive && item.videoUrl && 'opacity-0 invisible pointer-events-none'
+                        )}
+                      >
                         <div className="flex-1 min-w-0 flex flex-col gap-1">
                           <div className="card-header-sync flex items-center gap-1.5 min-w-0" style={{ color: accentColor }}>
                             <WebIcon name={meta.iconName} className="w-4 h-4 shrink-0" style={{ color: accentColor }} />
@@ -1928,73 +1923,53 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         </div>
 
                         <div
-                          onMouseEnter={() => {
-                            if (item.videoUrl) setHoveredImageSystemId(item.id);
+                          role={item.videoUrl ? 'button' : undefined}
+                          tabIndex={item.videoUrl ? 0 : undefined}
+                          onClick={(e) => {
+                            if (!item.videoUrl) return;
+                            e.stopPropagation();
+                            SoundEngine.playTap();
+                            setActiveCardDemoId(item.id);
                           }}
-                          onMouseLeave={() => {
-                            setHoveredImageSystemId((prev) => (prev === item.id ? null : prev));
+                          onKeyDown={(e) => {
+                            if (!item.videoUrl) return;
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              SoundEngine.playTap();
+                              setActiveCardDemoId(item.id);
+                            }
                           }}
+                          title={
+                            item.videoUrl
+                              ? isEn
+                                ? 'Click image to play full-card video'
+                                : 'Bấm vào hình để xem video toàn thẻ'
+                              : localizedTitle
+                          }
+                          aria-label={
+                            item.videoUrl
+                              ? isEn
+                                ? `Play ${item.abbr} video`
+                                : `Xem video ${item.abbr}`
+                              : localizedTitle
+                          }
                           style={{ borderRadius: 'var(--radius-card, 14px)' }}
-                          className="relative w-[132px] h-[132px] sm:w-[144px] sm:h-[144px] shrink-0 flex items-center justify-center overflow-hidden border-0 ring-0 shadow-none rounded-[14px]"
-                        >
-                          {hoveredImageSystemId === item.id && item.videoUrl ? (
-                            <video
-                              src={item.videoUrl}
-                              autoPlay
-                              loop
-                              muted
-                              playsInline
-                              preload="auto"
-                              controls={false}
-                              disablePictureInPicture
-                              controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                              aria-hidden="true"
-                              tabIndex={-1}
-                              onLoadedMetadata={(e) => {
-                                const v = e.currentTarget;
-                                v.defaultMuted = true;
-                                v.muted = true;
-                                v.loop = true;
-                                v.controls = false;
-                                v.disablePictureInPicture = true;
-                                (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                              }}
-                              onCanPlay={(e) => {
-                                const v = e.currentTarget;
-                                v.defaultMuted = true;
-                                v.muted = true;
-                                v.loop = true;
-                                if (v.paused) v.play().catch(() => {});
-                              }}
-                              onError={(e) => {
-                                const v = e.currentTarget;
-                                const m = v.src.match(/[?&]id=([^&#]+)/i);
-                                if (m?.[1] && v.dataset.driveAltTried !== m[1]) {
-                                  v.dataset.driveAltTried = m[1];
-                                  v.src = `https://drive.usercontent.google.com/download?id=${m[1]}&export=download&confirm=t`;
-                                  v.play().catch(() => {});
-                                }
-                              }}
-                              onEnded={(e) => {
-                                const v = e.currentTarget;
-                                v.currentTime = 0;
-                                v.play().catch(() => {});
-                              }}
-                              style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
-                              className="relative z-20 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp pointer-events-none select-none border-0 shadow-none"
-                            />
-                          ) : (
-                            <img
-                              src={meta.illustrationSrc || item.imageUrl}
-                              alt={localizedTitle}
-                              referrerPolicy="no-referrer"
-                              loading="lazy"
-                              onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                              }}
-                              className="relative z-10 w-full h-full object-contain rounded-[inherit] select-none pointer-events-none border-0 ring-0 shadow-none"
-                            />
+                          className={cn(
+                            'relative w-[132px] h-[132px] sm:w-[144px] sm:h-[144px] shrink-0 flex items-center justify-center overflow-hidden border-0 ring-0 shadow-none rounded-[14px]',
+                            item.videoUrl && 'cursor-pointer'
                           )}
+                        >
+                          <img
+                            src={meta.illustrationSrc || item.imageUrl}
+                            alt={localizedTitle}
+                            referrerPolicy="no-referrer"
+                            loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                            className="relative z-10 w-full h-full object-contain rounded-[inherit] select-none pointer-events-none border-0 ring-0 shadow-none transition-transform duration-300 hover:scale-[1.03]"
+                          />
                         </div>
                       </div>
                     </article>

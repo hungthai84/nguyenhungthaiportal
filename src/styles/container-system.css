@@ -519,7 +519,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #systems-page-container .systems-cards-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 280px)), var(--card-max-width, 1fr))) !important;
     grid-auto-rows: 1fr !important;
     height: auto !important;
     flex: 0 0 auto !important;
@@ -528,7 +528,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #projects-grid.projects-responsive-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 260px)), var(--card-max-width, 1fr))) !important;
     grid-auto-rows: 1fr !important;
     align-items: stretch !important;
   }
@@ -652,9 +652,9 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     column-gap: 15px !important;
   }
 
-  /* Systems 2 columns — content-sized rows with equal height across all cards */
+  /* Systems auto-fit responsive columns based on available container width */
   #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
     grid-auto-rows: 1fr !important;
     height: auto !important;
     flex: 0 0 auto !important;
@@ -662,9 +662,9 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: stretch !important;
   }
 
-  /* Projects Responsive Grid Card View: 2 columns */
+  /* Projects auto-fit responsive columns */
   #projects-grid.projects-responsive-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 270px)), var(--card-max-width, 1fr))) !important;
     grid-auto-rows: 1fr !important;
     align-items: stretch !important;
   }
@@ -780,7 +780,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
     grid-auto-rows: 1fr !important;
     height: auto !important;
     flex: 0 0 auto !important;
@@ -788,9 +788,9 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: stretch !important;
   }
 
-  /* Projects Responsive Grid Card View: 3 columns */
+  /* Projects auto-fit responsive columns */
   #projects-grid.projects-responsive-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 270px)), var(--card-max-width, 1fr))) !important;
     grid-auto-rows: 1fr !important;
     align-items: stretch !important;
   }
@@ -905,7 +905,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
     grid-auto-rows: 1fr !important;
     height: auto !important;
     flex: 0 0 auto !important;
@@ -913,9 +913,9 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: stretch !important;
   }
 
-  /* Projects Responsive Grid Card View: auto-fill responsive columns on wide desktop */
+  /* Projects auto-fit responsive columns on wide desktop */
   #projects-grid.projects-responsive-grid {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 275px), 1fr)) !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 275px)), var(--card-max-width, 1fr))) !important;
     grid-auto-rows: 1fr !important;
     align-items: stretch !important;
   }

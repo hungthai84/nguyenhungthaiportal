@@ -732,7 +732,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           ) : (
           <div
             id="projects-grid"
-            className="projects-responsive-grid w-full min-w-0 items-stretch"
+            className="projects-responsive-grid card-grid w-full min-w-0 items-stretch"
             style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
           >
             {filteredProjects.map((proj, idx) => {
@@ -764,7 +764,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       document.getElementById('projects-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                   }}
-                  className="project-card education-course-card bento-card glass-card layered-card group relative h-full rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] border select-none transition-all duration-300 cursor-pointer font-play min-w-0"
+                  className="project-card education-course-card card-item bento-card glass-card layered-card group relative h-full rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] border select-none transition-all duration-300 cursor-pointer font-play min-w-0"
                   style={{
                     borderColor: `${cardColor}45`,
                     padding: '15px',

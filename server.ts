@@ -129,6 +129,8 @@ function markModelQuotaCooldown(model: string, cooldownMs: number, reason: strin
 }
 
 const ALLOWED_DRIVE_VIDEO_IDS = new Set<string>([
+  // Home Video 1
+  '1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp',
   // Interview Video 1 & 2
   '1-XpJWJEyTq4PYh902i7FQbWYnpO17PvM',
   '10oUM0icL2Q2SbDkS2phSskqqWm8DaIZf',

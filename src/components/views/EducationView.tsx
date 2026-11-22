@@ -632,7 +632,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         /* CHẾ ĐỘ LƯỚI (GRID VIEW) - RESPONSIVE GRID TỰ ĐỘNG THÍCH ỨNG Ở MỌI KÍCH THƯỚC MÀN HÌNH */
         <div
           id="education-courses-grid"
-          className="education-responsive-grid w-full min-w-0 items-stretch"
+          className="education-responsive-grid card-grid w-full min-w-0 items-stretch"
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
         >
           {filteredCourses.map((course, idx) => {
@@ -656,7 +656,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     handleOpenDetail(course);
                   }
                 }}
-                className="education-course-card bento-card glass-card layered-card group relative rounded-[14px] p-[10px] flex flex-col justify-between gap-[10px] border select-none transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play min-w-0"
+                className="education-course-card card-item bento-card glass-card layered-card group relative rounded-[14px] p-[10px] flex flex-col justify-between gap-[10px] border select-none transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play min-w-0"
                 style={{
                   borderColor: `${cardColor}45`,
                   padding: '10px',
